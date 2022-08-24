@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { alertaSAL2 } from '../helpers/alertaSAL2';
 
 import { getFormDataHeader, getHeaderInfo, getHeaderInitial } from '../helpers/tokenCreator';
 import { removeTokens } from './localStorage';
@@ -10,7 +11,14 @@ import { removeTokens } from './localStorage';
  */
 
 
+
+
 const handleResponse = (response: any) => {
+    
+    
+    if (response.status === 0) {
+        alertaSAL2()
+     }
 
     if (response.status === 401) {
        // removeTokens();
