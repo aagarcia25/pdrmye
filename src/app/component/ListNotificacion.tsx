@@ -15,30 +15,21 @@ import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import Layout from "../layout/Layout";
-import { colores } from '../component/styles';
+import {  messages } from '../component/styles';
+import { getUser } from "../services/localStorage";
+import { useEffect, useState } from "react";
+import { Notificaciones } from "../services/catalogosServices";
 
 
-const rows: GridRowsProp = [
-     { id: 1, col1: "Hello", col2: "World" },
-     { id: 2, col1: "DataGridPro", col2: "is Awesome" },
-     { id: 3, col1: "MUI", col2: "is Amazing" },
-     { id: 4, col1: "Hello", col2: "World" },
-     { id: 5, col1: "DataGridPro", col2: "is Awesome" },
-     { id: 6, col1: "MUI", col2: "is Amazing" },
-     { id: 7, col1: "Hello", col2: "World" },
-     { id: 8, col1: "DataGridPro", col2: "is Awesome" },
-     { id: 9, col1: "MUI", col2: "is Amazing" },
-     { id: 10, col1: "Hello", col2: "World" },
-     { id: 11, col1: "DataGridPro", col2: "is Awesome" },
-     { id: 12, col1: "MUI", col2: "is Amazing" },
-     { id: 13, col1: "Hello", col2: "World" },
-     { id: 14, col1: "DataGridPro", col2: "is Awesome" },
-     { id: 15, col1: "MUI", col2: "is Amazing" },
-];
 
 const columns: GridColDef[] = [
-  { field: "col1", headerName: "Columna 1", width: 150 },
-  { field: "col2", headerName: "columna 2", width: 150 },
+  { field: "id", headerName: "Identificador", width: 150   , description:messages.dataTableColum.id},
+  { field: "FechaCreacion", headerName: "Fecha Creación", width: 200 },
+  { field: "UMNAME", headerName: "Modificado por", width: 150 },
+  { field: "UCNAME", headerName: "Creado por", width: 150 },
+  { field: "Descripcion", headerName: "Descripción", width: 150 },
+  { field: "UDNAME", headerName: "Destinatario", width: 150 },
+ 
 ];
 
 const StyledGridOverlay = styled("div")(({ theme }) => ({
@@ -70,12 +61,36 @@ function CustomToolbar() {
   );
 }
 
+
 const ListNotificacion = () => {
+  const user = getUser();
+  const [notificacion, setNotificacion] = useState([]);
+
+  let data = ({
+    CHID: 1,
+    NUMOPERACION: 4,
+    DESCRIPCION: "",
+    DESTINATARIO: "",
+    MODIFICADOPOR: "",
+    CREADOPOR: "",
+    DELETED: ""
+   
+  })
+
+
+  useEffect(() => {
+    Notificaciones(data).then((res) => {
+      setNotificacion(res.RESPONSE);
+    });
+  }, []);
+
+
   return (
     <Layout>
     {/* <div style={{ height: 300, width: "100%" }}> */}
-    <div style={{ backgroundColor : colores.blanco}}>
+    <div style={{ height: 900, width: "100%" }} >
       <DataGrid
+        checkboxSelection
         pagination
         localeText={esES.components.MuiDataGrid.defaultProps.localeText}
         components={{
@@ -84,8 +99,9 @@ const ListNotificacion = () => {
           NoRowsOverlay: CustomNoRowsOverlay,
         }}
         rowsPerPageOptions={[5,10,20,50,100]}
-        rows={rows}
+        rows={notificacion}
         columns={columns}
+        
        // loading //agregar validacion cuando se esten cargando los registros
       />
     </div>

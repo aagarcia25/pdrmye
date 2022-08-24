@@ -4,22 +4,22 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
 
- 
+
 const MySwal = withReactContent(Swal)
- 
 
-export const alertaSAL2 = () => {
-  return (
-   
+const returnNotificacion = (title: string, text: string, tipo: number) => {
 
-    MySwal.fire({
-        title: 'Error de Red',
-        didOpen: () => {
-          MySwal.showLoading()
-        },
-      }).then(() => {
-        return MySwal.fire()
-      })
+    if (tipo == 1) {
+        MySwal.fire({
+            title: title,
+            text: text,
+        })
+    }
 
-  )
+}
+
+export const alertaSAL2 = (title: string, text: string, tipo: number) => {
+    return (
+        returnNotificacion(title, text, tipo)
+    )
 }

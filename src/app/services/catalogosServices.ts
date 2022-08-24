@@ -15,6 +15,6 @@ export const AjustesIndex = async (data: Iajustes) => {
     return await post(`${env_var.BASE_URL}`,'AjustesIndex',data);
 };
 
-export const Notificaciones = async (data: Inotificaciones) => {
+export const Notificaciones = async (data: any) => {
     return await post(`${env_var.BASE_URL}`,'notificaciones',data);
 };

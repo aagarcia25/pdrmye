@@ -17,7 +17,7 @@ const handleResponse = (response: any) => {
     
     
     if (response.status === 0) {
-        alertaSAL2()
+        alertaSAL2("Error de Red","error",1)
      }
 
     if (response.status === 401) {

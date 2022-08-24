@@ -33,3 +33,15 @@ export const pc = {
     box_xs: "none", 
     box_md: "flex"
   }  
+
+
+
+ export const messages = {
+    dataTableColum:{
+           id:"Representa el Identificador del registro",
+           fechaCreacion:"Representa la fecha de creación del registro",
+           modificadoPor:"Representa la ultima persona que modifico el registro",
+           creadoPor:"Representa la persona que creeo el Registro",
+           descripcion:"Descripción General del Registro"
+    }
+ } 
