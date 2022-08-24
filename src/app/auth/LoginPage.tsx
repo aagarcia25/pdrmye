@@ -1,10 +1,14 @@
 import React, { FormEvent} from "react";
 
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, InputAdornment, Typography } from "@mui/material";
 import logo from "../../assets/img/logopalacio.svg";
 import { useForm } from "../hooks/useForm";
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { authenticateUser, statusAuth } from "../store/authSlice/authSlice";
+//icons import
+import LoginIcon from '@mui/icons-material/Login';
+import MailIcon from '@mui/icons-material/Mail';
+import LockIcon from '@mui/icons-material/Lock';
 
 
 export const LoginPage = () => {
@@ -22,7 +26,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <Grid
+    <Grid className="Esteeselfondo"
       container
       spacing={0}
       direction="column"
@@ -58,9 +62,10 @@ export const LoginPage = () => {
           direction="column"
           justifyContent="flex-end"
           alignItems="center"
+          bgcolor="yellow"
         >
-          <Typography variant="h5" sx={{ mb: 1, alignContent: "center" }}>
-            Inicio de Sessión
+          <Typography variant="h5" sx={{ mb: 1, alignContent: "center"}}>
+            Ingresa para empezar con tú sesión
           </Typography>
         </Grid>
 
@@ -77,6 +82,13 @@ export const LoginPage = () => {
                 style={{  borderRadius: "40px" }}
                 value={email}
                 onChange={onChange}
+                InputProps={{
+                  endAdornment:(
+                      <InputAdornment position="end">
+                        <MailIcon/>
+                      </InputAdornment>
+                  )
+                }}
               />
             </Grid>
 
@@ -90,6 +102,13 @@ export const LoginPage = () => {
                 variant="filled" 
                 value={password}
                 onChange={onChange}
+                InputProps={{
+                  endAdornment:(
+                      <InputAdornment position="end">
+                        <LockIcon/>
+                      </InputAdornment>
+                  )
+                }}
               />
             </Grid>
 
@@ -102,13 +121,14 @@ export const LoginPage = () => {
                   variant="contained"
                   fullWidth
                 >
-                  Login
+                 <LoginIcon/> Iniciar sesión
                 </Button>
               </Grid>
             </Grid>
           </Grid>
         </form>
       </Grid>
+
     </Grid>
   );
 };
