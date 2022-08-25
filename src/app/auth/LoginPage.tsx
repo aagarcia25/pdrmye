@@ -1,14 +1,16 @@
 import React, { FormEvent} from "react";
-
-import { Box, Button, Grid, TextField, InputAdornment, Typography } from "@mui/material";
+import {Box, Button, Grid, TextField, InputAdornment, Typography} from "@mui/material";
 import logo from "../../assets/img/logopalacio.svg";
 import { useForm } from "../hooks/useForm";
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { authenticateUser, statusAuth } from "../store/authSlice/authSlice";
+import { createTheme } from '@mui/material/styles';
 //icons import
 import LoginIcon from '@mui/icons-material/Login';
 import MailIcon from '@mui/icons-material/Mail';
 import LockIcon from '@mui/icons-material/Lock';
+//images
+import ImageBackground from '../../assets/img/GOBIERNO_NL_LOGO-01.png';
 
 
 export const LoginPage = () => {
@@ -25,6 +27,24 @@ export const LoginPage = () => {
     dispatch(authenticateUser({ email, password }));
   };
 
+    const theme = createTheme({
+        palette: {
+            primary: {
+                light: '#b28900',
+                main: '#ffc400',
+                dark: '#ffcf33',
+                contrastText: '#b24d00',
+            },
+            secondary: {
+                light: '#ff7961',
+                main: '#f44336',
+                dark: '#ba000d',
+                contrastText: '#000',
+            },
+           common:{ black:'#000000'}
+        },
+    });
+
   return (
     <Grid className="Esteeselfondo"
       container
@@ -37,6 +57,7 @@ export const LoginPage = () => {
         backgroundColor: `{$theme.primary.light}`,
         padding: 4,
       }}
+
     >
       <Grid
         item
@@ -62,7 +83,9 @@ export const LoginPage = () => {
           direction="column"
           justifyContent="flex-end"
           alignItems="center"
-          bgcolor="yellow"
+          sx={{
+              backgroundColor: theme.palette.primary.main,
+          }}
         >
           <Typography variant="h5" sx={{ mb: 1, alignContent: "center"}}>
             Ingresa para empezar con tú sesión
@@ -85,7 +108,7 @@ export const LoginPage = () => {
                 InputProps={{
                   endAdornment:(
                       <InputAdornment position="end">
-                        <MailIcon/>
+                        <MailIcon style={{ color: theme.palette.primary.main }}/>
                       </InputAdornment>
                   )
                 }}
@@ -105,7 +128,7 @@ export const LoginPage = () => {
                 InputProps={{
                   endAdornment:(
                       <InputAdornment position="end">
-                        <LockIcon/>
+                        <LockIcon style={{ color: theme.palette.primary.main }}/>
                       </InputAdornment>
                   )
                 }}
@@ -115,13 +138,16 @@ export const LoginPage = () => {
             <Grid container spacing={2} sx={{ mb: 3, mt: 1 }}>
               <Grid item xs={12} sm={12}>
                 <Button
-                  color="primary"
+                    sx={{
+                        backgroundColor: theme.palette.primary.main,
+                        color: theme.palette.common.black
+                    }}
                   disabled={autenticate.isProcessingRequest}
                   type="submit"
                   variant="contained"
                   fullWidth
                 >
-                 <LoginIcon/> Iniciar sesión
+                 <LoginIcon style={{ color: "black" }}/> Iniciar sesión
                 </Button>
               </Grid>
             </Grid>
