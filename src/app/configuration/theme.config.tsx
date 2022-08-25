@@ -14,28 +14,28 @@ export enum themePalette {
 }
 
 const theme = createTheme({
-  // palette: {
-  //   mode: "light",
-  //   background: {
-  //     default: themePalette.BG,
-  //   },
-  //   primary: {
-  //     main: themePalette.BG_B,
-  //   },
-  // },
-  // typography: {
-  //   fontFamily: themePalette.FONT_GLOBAL,
-  // },
-  // components: {
-  //   MuiButton: {
-  //     defaultProps: {
-  //       style: {
-  //         textTransform: "none",
-          
-  //       },
-  //     },
-  //   },
-  // },
+   palette: {
+     mode: "light",
+     background: {
+       default: themePalette.BG,
+     },
+     primary: {
+       main: themePalette.BG_B,
+     },
+   },
+   typography: {
+     fontFamily: themePalette.FONT_GLOBAL,
+   },
+   components: {
+     MuiButton: {
+       defaultProps: {
+         style: {
+           textTransform: "none",
+        
+         },
+       },
+     },
+   },
 });
 
 export const ThemeConfig: React.FC<ThemeProp> = ({ children }) => {

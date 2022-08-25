@@ -5,7 +5,7 @@ import { post } from './apiService';
 
 
 
-export const calendarios = async (data: Icalendario) => {
+export const calendarios = async (data: any) => {
     return await post(`${env_var.BASE_URL}`,'calendarios',data);
 };
 

@@ -1,17 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { localizer } from '../helpers/calendarLocalizer';
 import { getMessagesES } from '../helpers/getMessages';
 import Layout from '../layout/Layout';
+import { calendarios } from '../services/calendarioService';
 
 const CalendarC = () => {
+
+
+  const [eventos, setEventos] = useState([]);
+
+
+
+  useEffect(() => {
+    calendarios({ NUMOPERACION: "4" ,CHUSER:"1"}).then((res) => {
+      setEventos(res.RESPONSE);
+    });
+  }, []);
+
+ 
+
+
+  
   return (
     <Layout>
     <Calendar
         culture='es'
         localizer={ localizer }
-       // events={ events }
+        events={ eventos }
        // defaultView={ lastView }
         startAccessor="start"
         endAccessor="end"
@@ -22,7 +39,7 @@ const CalendarC = () => {
      //     event: CalendarEvent
     //    }}
      //   onDoubleClickEvent={ onDoubleClick }
-      //  onSelectEvent={ onSelect }
+      // onSelectEvent={ onSelect }
       //  onView={ onViewChanged }
       />
 

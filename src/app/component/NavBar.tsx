@@ -25,6 +25,8 @@ import { useAppDispatch } from "../hooks/hooks";
 import { logoutUser } from "../store/authSlice/authSlice";
 import { MenuC } from "./MenuC";
 import { menusByIdUser } from "../services/menuService";
+import { calendarios } from "../services/calendarioService";
+import { Notificaciones } from "../services/catalogosServices";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -60,13 +62,45 @@ const NavBar = ({ children, drawerWidth, ...props }: Props) => {
 
   const [menu, setMenu] = useState([]);
 
+  //conteo de notificaciones
+
+  const [calen, setCalen] = useState(0);
+  const [notif, setNotif] = useState(0);
+
+
+  useEffect(() => {
+    calendarios({ NUMOPERACION: "5" , CHUSER:1 }).then((res) => {
+      let r = res.RESPONSE;
+      setCalen( r[0].count);
+      
+      
+    });
+  }, []);
+
+  useEffect(() => {
+    Notificaciones({ NUMOPERACION: "5" ,CHUSER:1}).then((res) => {
+      let r = res.RESPONSE;
+      setNotif( r[0].count);
+    });
+  }, []);
+
+
 
 
   useEffect(() => {
     menusByIdUser({ CHID: "1" }).then((res) => {
       setMenu(res.RESPONSE);
+     
     });
   }, []);
+
+
+
+
+
+
+
+
 
   function redir() {
     window.location.reload();
@@ -224,11 +258,11 @@ const NavBar = ({ children, drawerWidth, ...props }: Props) => {
             </IconButton> */}
             <IconButton
               size="large"
-              aria-label="show 17 new notifications"
+              aria-label=""
               color="primary"
               onClick={handleListNotificationOpen}
             >
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent= {notif}  color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -238,7 +272,7 @@ const NavBar = ({ children, drawerWidth, ...props }: Props) => {
               color="primary"
               onClick={handleCalendarOpen}
             >
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={calen} color="error">
                 <CalendarMonthIcon />
               </Badge>
             </IconButton>

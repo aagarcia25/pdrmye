@@ -24,6 +24,12 @@ const handleResponse = (response: any) => {
        // removeTokens();
     }
     if (response.data.status !== 'OK') {
+           
+        if(response.data.NUMCODE === 1){
+            alertaSAL2("Error",response.data.SRTMESSAGE,1);
+        }
+
+
         return response.data;
     }
     return response;

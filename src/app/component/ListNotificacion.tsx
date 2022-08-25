@@ -67,13 +67,14 @@ const ListNotificacion = () => {
   const [notificacion, setNotificacion] = useState([]);
 
   let data = ({
-    CHID: 1,
+    CHID: "",
     NUMOPERACION: 4,
     DESCRIPCION: "",
     DESTINATARIO: "",
     MODIFICADOPOR: "",
     CREADOPOR: "",
-    DELETED: ""
+    DELETED: "",
+    CHUSER:1
    
   })
 
