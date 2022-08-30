@@ -1,8 +1,12 @@
 import axios from 'axios';
-import { alertaSAL2 } from '../helpers/alertaSAL2';
 
 import { getFormDataHeader, getHeaderInfo, getHeaderInitial } from '../helpers/tokenCreator';
-import { removeTokens } from './localStorage';
+import { ApiResponse } from '../interfaces/response/ApiResponse';
+import { env_var } from '../environments/env';
+
+
+
+
 
 /**
  * MANEJO AUTOMATICO DE PETICIONES
@@ -14,85 +18,58 @@ import { removeTokens } from './localStorage';
 
 
 const handleResponse = (response: any) => {
-    
-    
     if (response.status === 0) {
-        alertaSAL2("Error de Red","error",1)
+       // alertaSAL2("Error de Red","error",1)
      }
 
     if (response.status === 401) {
        // removeTokens();
     }
-    if (response.data.status !== 'OK') {
-           
-        if(response.data.NUMCODE === 1){
-            alertaSAL2("Error",response.data.SRTMESSAGE,1);
-        }
-
-
+    if (response.data.status === 200) {
+          
         return response.data;
     }
     return response;
 }
 
-export const postEasy = async function (api: string ,url: string, body: any) {
+
+
+export const postEasy = async function (url: string, body: any) {
     let header = await getHeaderInitial();
     try {
-        let resp = await axios.post(api + url, body, header);
+       
+        let resp = await axios.post(`${env_var.BASE_URL}` + url, body, header);
         return handleResponse(resp);
-    
     } catch (err:any) {
         return handleResponse(err.response)
     }
 };
 
-export const post = async function (api: string ,url: string, body: any) {
+export const post = async function (url: string, body: any):Promise<ApiResponse> {
     let header = await getHeaderInfo();
     try {
-        let resp = await axios.post(api + url, body, header);
-       // console.log(resp);
+        let resp = await axios.post(`${env_var.BASE_URL}` + url, body, header);
         return handleResponse(resp);
-    
     } catch (err:any) {
         return handleResponse(err.response)
     }
 };
 
-export const get = async function (api: string ,url: any, params: any = {}) {
+export const get = async function (url: any, params: any = {}):Promise<ApiResponse> {
     let header = await getHeaderInfo();
     try {
-        let resp = await axios.get(api + url, { ...header, params });
+        let resp = await axios.get(`${env_var.BASE_URL}` + url, { ...header, params });
         return handleResponse(resp);
     } catch (err:any) {
         throw handleResponse(err.response)
     }
 };
 
-export const put = async function (api: string ,body: any, url: any) {
-    let header = await getHeaderInfo();
 
-    try {
-        let resp = await axios.put(api + url, body, header);
 
-        return handleResponse(resp);
-    } catch (err:any) {
-        throw handleResponse(err.response)
-    }
-};
 
-export const deleteApi = async function (api: string , url: any) {
-    let header = await getHeaderInfo();
 
-    try {
-        let resp = await axios.delete(api + url, header);
-
-        return handleResponse(resp);
-    } catch (err:any) {
-        throw handleResponse(err.response)
-    }
-};
-
-export const postImage = async function (api: string, url: string, body: any) {
+export const postImage = async function (api: string, url: string, body: any):Promise<ApiResponse> {
 
     let header = await getFormDataHeader();
     var formData = new FormData();

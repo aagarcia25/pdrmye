@@ -1,4 +1,5 @@
-import { getAccessToken } from '../services/localStorage';
+import { getAccessToken } from "./localStorage";
+
 
 
 export const getHeaderInitial = async function () {

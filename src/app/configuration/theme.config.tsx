@@ -10,7 +10,7 @@ export enum themePalette {
   BG = "#grey",
   LIME = "#ff4400",
   FONT_GLOBAL = "'JetBrains Mono', monospace",
-  BG_B = "#666",
+  BG_B = "#ff4400",
 }
 
 const theme = createTheme({
@@ -31,7 +31,7 @@ const theme = createTheme({
        defaultProps: {
          style: {
            textTransform: "none",
-        
+           borderRadius:"20px"
          },
        },
      },

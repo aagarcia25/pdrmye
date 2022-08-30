@@ -1,20 +1,21 @@
 
-import  Iumas from '../types/app.type';
-import  Iajustes from '../types/app.type';
-import  Inotificaciones from '../types/app.type';
-import { env_var } from '../configuration/env';
 import { post } from './apiService';
 
+export class CatalogosServices {
 
 
-export const umas = async (data: Iumas) => {
-    return await post(`${env_var.BASE_URL}`,'umas',data);
-};
+    public static async umas(data: any) {
+        return await post('umas', data);
+    }
 
-export const AjustesIndex = async (data: Iajustes) => {
-    return await post(`${env_var.BASE_URL}`,'AjustesIndex',data);
-};
 
-export const Notificaciones = async (data: any) => {
-    return await post(`${env_var.BASE_URL}`,'notificaciones',data);
-};
+    public static async AjustesIndex(data: any) {
+        return await post('AjustesIndex', data);
+    };
+
+    public static async Notificaciones(data: any) {
+        return await post('notificaciones', data);
+    };
+
+
+}

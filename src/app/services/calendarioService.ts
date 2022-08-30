@@ -1,15 +1,10 @@
+import { post } from "./apiService";
 
-import  Icalendario from '../types/app.type';
-import { env_var } from '../configuration/env';
-import { post } from './apiService';
+export class CalendarioService {
 
-
-
-export const calendarios = async (data: any) => {
-    return await post(`${env_var.BASE_URL}`,'calendarios',data);
-};
+    public static async calendarios(data: any) {
+        return await post('calendarios', data);
+    }
 
 
-
-
-
+}
