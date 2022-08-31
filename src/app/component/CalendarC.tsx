@@ -4,7 +4,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { localizer } from '../helpers/calendarLocalizer';
 import { getMessagesES } from '../helpers/getMessages';
 import Layout from '../layout/Layout';
-import { calendarios } from '../services/calendarioService';
+import { CalendarioService } from '../services/calendarioService';
 
 const CalendarC = () => {
 
@@ -14,7 +14,7 @@ const CalendarC = () => {
 
 
   useEffect(() => {
-    calendarios({ NUMOPERACION: "4" ,CHUSER:"1"}).then((res) => {
+    CalendarioService.calendarios ({ NUMOPERACION: "4" ,CHUSER:"1"}).then((res:any) => {
       setEventos(res.RESPONSE);
     });
   }, []);

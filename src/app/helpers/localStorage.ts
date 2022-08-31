@@ -15,5 +15,5 @@ export const setTokens = (authRes: any) => {
   export const getRefreshToken = () => localStorage.getItem('expires_at');
   
   export const isAuthenticated = (): boolean => {
-    return getAccessToken() ? true : false;
+    return getAccessToken() ? true : true;
   };

@@ -6,7 +6,12 @@ import { AuthRouter } from "./AuthRouter";
 import { AuthContext } from "../views/store/contexts/AuthContext";
 import { Eo404 } from "../views/components/Eo404";
 import HomePage from "../views/ahome/HomePage";
+//import {PDRMyE} from "../../PDRMyE";
 import { isAuthenticated } from "../helpers/localStorage";
+import Base from "../views/components/Inicio";
+import { Icv } from "../views/components/icv/Icv";
+import { Isn } from "../views/components/isn/Isn";
+
 /*
 interface Context {
   dispatchUser?: any;
@@ -26,8 +31,11 @@ export const AppRouter = () => {
  console.log(log);
   return (
       <Routes>
-        <Route path="/auth/*"   element={(log) ? <HomePage /> : <AuthRouter />} />
-        <Route path="/home"   element={(log) ? <HomePage /> : <AuthRouter />} />
+        <Route path="/auth/*"   element={   <AuthRouter />    } />
+        <Route path="/inicio"   element={(log) ? <Base /> : <AuthRouter />    } />
+        <Route path="home"   element={(log) ? <HomePage /> : <AuthRouter />} />
+        <Route path="/inicio/icv"   element={  <Icv />} />
+        <Route path="/inicio/isn"   element={  <Isn />} />
         <Route path="/*"      element={<Eo404/>} />
       </Routes>
   );

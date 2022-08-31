@@ -25,8 +25,8 @@ import { useAppDispatch } from "../hooks/hooks";
 import { logoutUser } from "../store/authSlice/authSlice";
 import { MenuC } from "./MenuC";
 import { menusByIdUser } from "../services/menuService";
-import { calendarios } from "../services/calendarioService";
-import { Notificaciones } from "../services/catalogosServices";
+import { CalendarioService } from "../services/calendarioService";
+import { CatalogosServices } from "../services/catalogosServices";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -69,7 +69,7 @@ const NavBar = ({ children, drawerWidth, ...props }: Props) => {
 
 
   useEffect(() => {
-    calendarios({ NUMOPERACION: "5" , CHUSER:1 }).then((res) => {
+    CalendarioService.calendarios({ NUMOPERACION: "5" , CHUSER:1 }).then((res) => {
       let r = res.RESPONSE;
       setCalen( r[0].count);
       
@@ -78,7 +78,7 @@ const NavBar = ({ children, drawerWidth, ...props }: Props) => {
   }, []);
 
   useEffect(() => {
-    Notificaciones({ NUMOPERACION: "5" ,CHUSER:1}).then((res) => {
+    CatalogosServices.Notificaciones({ NUMOPERACION: "5" ,CHUSER:1}).then((res) => {
       let r = res.RESPONSE;
       setNotif( r[0].count);
     });
@@ -89,7 +89,7 @@ const NavBar = ({ children, drawerWidth, ...props }: Props) => {
 
   useEffect(() => {
     menusByIdUser({ CHID: "1" }).then((res) => {
-      setMenu(res.RESPONSE);
+      //setMenu(res.RESPONSE);
      
     });
   }, []);

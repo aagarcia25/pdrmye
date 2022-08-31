@@ -7,16 +7,17 @@ import { post } from './apiService';
 
 
 export const menusByIdUser = async (data: any) => {
-    const response = await post(`${env_var.BASE_URL}`,'menusByIdUser',data);
+    
+    const response = await post('menusByIdUser',data);
     return response;
 };
 
 export const menusByIdFather = async (data: Iuser) => {
-    return await post(`${env_var.BASE_URL}`,'menusByIdFather',data);
+    return await post('menusByIdFather',data);
 };
 
 export const menus= async (data: ImenuOut) => {
-    return await post(`${env_var.BASE_URL}`,'menus',data);
+    return await post('menus',data);
 };
 
 

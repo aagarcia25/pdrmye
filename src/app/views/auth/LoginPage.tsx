@@ -1,196 +1,321 @@
-import React, {  useContext, useState } from "react";
-import { useNavigate  } from "react-router-dom";
-import {
-  Box,
-  Button,
-  Grid,
-  TextField,
-  InputAdornment,
-  Typography,
-  createTheme,
-  ThemeProvider,
-} from "@mui/material";
-import logo from "../../assets/img/logopalacio.svg";
-
-//icons import
-import LoginIcon from "@mui/icons-material/Login";
-import MailIcon from "@mui/icons-material/Mail";
-import LockIcon from "@mui/icons-material/Lock";
-
-
-
-import { AuthContext } from "../store/contexts/AuthContext";
-import { AuthService } from "../../services/AuthService";
-import { getUser, setTokens } from "../../helpers/localStorage";
-import { CatalogosServices } from "../../services/CatalogosServices";
-import { CalendarioService } from "../../services/CalendarioService";
-
-export const LoginPage = () => {
-
-  const theme = createTheme({
-    palette: {
-        primary: {
-         // light: '#fff',
-          main: '#666'
-        }
-    },
-    components:{
-      // nombre del componente
-       MuiButton: {
-        styleOverrides: {
-          root:{
-            borderRadius: 40,
-            color: '#fff!important',
-            backgroundcolor:'#666'
-          }
-        }
-      },
-      MuiTextField: {
-        styleOverrides: {
-          root:{
-            borderRadius: 40,
-            //color: '#fff!important',
-            //backgroundcolor:'#666'
-          }
-        }
-      }
-
-    }
-});
+import { Box, Button, Input, TextField, Typography } from "@mui/material";
+import { height } from "@mui/system";
+import React, { useEffect, useState } from "react";
+import logo from "../../assets/img/logo.svg";
+import "../../../../src/App.css";
+import { NavLink, useNavigate } from 'react-router-dom'
+import { AppRouter } from "../../router/AppRouter";
 
 
 
 
-  const { dispatchUser }: any = useContext(AuthContext);
-  const [auth, setAuth] = useState({ email: "", password: "" });
-  let navigate = useNavigate();
 
-  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
-    try {
-      e.preventDefault();
-      dispatchUser({type:"start"});
-      const resp = await AuthService.login(auth);
-      console.log(resp);
-      if (resp.status === 200) {
-        setTokens(resp.data);
-        let u = getUser();
-        //const respNotificacion = await CatalogosServices.Notificaciones({ NUMOPERACION: "5" , CHUSER:u.id });
-        //const respCalendario   = await CalendarioService.calendarios({ NUMOPERACION: "5" , CHUSER:u.id  });
-        dispatchUser({ type: "login", payload: resp.data });
-        navigate("/home");
-      }
-    } catch (error) {}
+export const Login = () => {
+  const navigate = useNavigate();
+const [usuario, setUsuario] = useState(
+    "Nombre de usuario o correo electrónico"
+  );
+  const [contrasena, setContrasena] = useState("Contraseña");
+
+  const [isFocused, setIsFocused] = useState(false);
+  const [btnBgColor, setBtnBgColor] = useState("#666666");
+  const [btnTxtColor, setBtnTxtColor] = useState("#fff");
+  const [userInputColor, setUserInputColor] = useState("#cccccc");
+  const [userInputTextColor, setUserInputTextColor] = useState("#fff");
+
+  const [contrasenaInputColor, setContrasenaInputColor] = useState("#cccccc");
+  const [contrasenaTextInputColor, setContrasenaTextInputColor] =
+    useState("#fff");
+
+  const onChangeUsuario = (v: string) => {
+  setUsuario(v);
   };
 
-  const handleChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
-    console.log(e.target.value);
-    setAuth({
-      ...auth,
-      [e.target.name]: e.target.value,
-    });
+  const onChangePassword = (v: string) => {
+    setContrasena(v);
+  };
+
+  const onFocusButton = () => {
+    setIsFocused(true);
+
+    setBtnBgColor("#fff");
+    setBtnTxtColor("#000");
+  };
+
+  const onFocusLeaveButton = () => {
+    setIsFocused(false);
+
+    setBtnBgColor("#666666");
+    setBtnTxtColor("#fff");
+  };
+
+  const onClickTxtUsuario = () => {
+    setUserInputColor("#fff");
+    setUserInputTextColor("#000");
+    if (usuario == "Nombre de usuario o correo electrónico") {
+    setUsuario("");
+    }
+  };
+
+  const onClickTxtContrasena = () => {
+    setContrasenaInputColor("#fff");
+    setContrasenaTextInputColor("#000");
+    if (contrasena == "Contraseña") {
+      setContrasena("");
+    }
+  };
+
+  const verifyUsuario = () => {
+    setUserInputColor("#cccccc");
+    setUserInputTextColor("#fff");
+
+    if (usuario == "") {
+     setUsuario("Nombre de usuario o correo electrónico");
+    }
+  };
+
+  const verifyContrasena = () => {
+    setContrasenaInputColor("#cccccc");
+    setContrasenaTextInputColor("#fff");
+    if (contrasena == "") {
+      setContrasena("Contraseña");
+    }
   };
 
   return (
-    <Grid
-      container
-      spacing={0}
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
+    <Box
       sx={{
-        minHeight: "100vh",
-        backgroundColor: `{$theme.primary.light}`,
-        padding: 4,
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <Grid
-        item
-        className="box-shadow"
-        xs={2}
+      <Box
         sx={{
-          backgroundColor: "white",
-          padding: 3,
-          borderRadius: 2,
+          width: "100%",
+          height: "50%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <Box sx={{}}>
-          <img src={logo} />
-        </Box>
-
-        <Grid
-          item
-          container
-          direction="column"
-          justifyContent="flex-end"
-          alignItems="center"
-          
+        <Box
+          sx={{
+            width: "30%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          <Typography variant="h5" sx={{ mb: 1, alignContent: "center" }}>
-            Ingresa para empezar con tú sesión
-          </Typography>
-        </Grid>
-
-        <form onSubmit={handleSubmit}>
-          <Grid container>
-            <Grid item xs={12} sx={{ mt: 2 }}>
-            <ThemeProvider theme={theme}>
-              <TextField
-                label="Usuario"
-                type="text"
-                placeholder="nombre.apellido"
-                fullWidth
-                variant="filled"
-                name="email"
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <MailIcon />
-                    </InputAdornment>
-                  ),
+          <Box
+            sx={{
+              width: "90%",
+              height: "90%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              sx={{
+                width: "100%",
+              }}
+            >
+              <Box
+                sx={{
+                  height: "20%",
+                  display: "flex",
+                  justifyContent: "center",
                 }}
-              />
-                </ThemeProvider>
-            </Grid>
+              >
+                <img src={logo} style={{ width: "11vw" }} />
+              </Box>
 
-            <Grid item xs={12} sx={{ mt: 2 }}>
-            <ThemeProvider theme={theme}>
-              <TextField
-                label="Contraseña"
-                type="password"
-                placeholder="Contraseña"
-                fullWidth
-                name="password"
-                variant="filled"
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <LockIcon />
-                    </InputAdornment>
-                  ),
+              <Box
+                sx={{
+                  mt: "3vh",
+                  display: "flex",
+                  justifyContent: "center",
                 }}
-              />
-              </ThemeProvider>
-            </Grid>
-
-            <Grid container spacing={2} sx={{ mb: 3, mt: 1 }}>
-              <Grid item xs={12} sm={12}>
-              <ThemeProvider theme={theme}>
-                <Button
-                  //disabled={autenticate.isProcessingRequest}
-                  type="submit"
-                  variant="contained"
-                  fullWidth
+              >
+                <Typography
+                  sx={{
+                    fontSize: "1.5vw",
+                    fontFamily: "MontserratBold",
+                    color: "#858180",
+                  }}
                 >
-                  <LoginIcon /> Iniciar sesión
+                  INICIA SESIÓN
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: ".8vw",
+                    fontFamily: "MontserratBold",
+                    color: "#858180",
+                  }}
+                >
+                  Ingresa tus datos de acceso:
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "15%",
+
+                  mt: "2vh",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "90%",
+                    height: "100%",
+                    borderRadius: 10,
+                    backgroundColor: userInputColor,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    border: 1,
+                    borderColor: "#cccccc",
+                  }}
+                >
+                  <Input
+                    disableUnderline
+                    value={usuario}
+                    onChange={(v) => onChangeUsuario(v.target.value)}
+                    sx={{
+                      width: "80%",
+                      color: userInputTextColor,
+                      fontFamily: "MontserratLight",
+                      fontSize: ".8vw",
+                    }}
+                    onClickCapture={() => onClickTxtUsuario()}
+                    onBlurCapture={() => verifyUsuario()}
+                  />
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "15%",
+
+                  mt: "2vh",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "90%",
+                    height: "100%",
+                    borderRadius: 10,
+                    backgroundColor: contrasenaInputColor,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    border: 1,
+                    borderColor: "#cccccc",
+                  }}
+                >
+                  <Input
+                    disableUnderline
+                    value={contrasena}
+                    onChange={(v) => onChangePassword(v.target.value)}
+                    type="password"
+                    sx={{
+                      width: "80%",
+                      color: contrasenaTextInputColor,
+                      fontFamily: "MontserratLight",
+                      fontSize: ".8vw",
+                    }}
+                    onClickCapture={() => onClickTxtContrasena()}
+                    onBlurCapture={() => verifyContrasena()}
+                  />
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  mt: "2vh",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                 
+                  onMouseOver={() => onFocusButton()}
+                  onMouseLeave={() => onFocusLeaveButton()}
+
+                  
+                  onClick={() => navigate('/inicio')} 
+
+                
+                
+
+
+                  sx={{
+                    backgroundColor: btnBgColor,
+                    color: btnTxtColor,
+                    borderRadius: 10,
+                    height: "5vh",
+                    width: "7vw",
+                    textTransform: "capitalize",
+                    fontFamily: "MontserratLight",
+                    fontSize: ".8vw",
+                  }}
+                >
+                  Ingresar
                 </Button>
-                </ThemeProvider>
-              </Grid>
-            </Grid>
-          </Grid>
-        </form>
-      </Grid>
-    </Grid>
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  mt: "2vh",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                  sx={{
+                    textTransform: "capitalize",
+                    fontFamily: "MontserratBold",
+                    fontSize: ".8vw",
+                    color: "#666666",
+                  }}
+                >
+                  ¿Olvidaste tu contraseña?
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+      <footer
+        style={{
+          position: "absolute",
+          bottom: 0,
+          backgroundColor: "#cccccc",
+          width: "100vw",
+          height: "5vh",
+          alignItems: "center",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        Footer
+      </footer>
+    </Box>
   );
 };

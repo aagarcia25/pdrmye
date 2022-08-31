@@ -13,7 +13,7 @@ export class CatalogosServices {
         return await post('AjustesIndex', data);
     };
 
-    public static async Notificaciones(data: any) {
+    public static async Notificaciones(data : any) {
         return await post('notificaciones', data);
     };
 

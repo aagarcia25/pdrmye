@@ -18,7 +18,8 @@ import Layout from "../layout/Layout";
 import {  messages } from '../component/styles';
 import { getUser } from "../services/localStorage";
 import { useEffect, useState } from "react";
-import { Notificaciones } from "../services/catalogosServices";
+import { CatalogosServices } from "../services/catalogosServices";
+
 
 
 
@@ -80,8 +81,8 @@ const ListNotificacion = () => {
 
 
   useEffect(() => {
-    Notificaciones(data).then((res) => {
-      setNotificacion(res.RESPONSE);
+    CatalogosServices.Notificaciones (data).then((res) => {
+    //  setNotificacion(res.RESPONSE);
     });
   }, []);
 
