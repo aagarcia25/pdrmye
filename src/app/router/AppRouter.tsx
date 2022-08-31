@@ -9,8 +9,8 @@ import HomePage from "../views/ahome/HomePage";
 //import {PDRMyE} from "../../PDRMyE";
 import { isAuthenticated } from "../helpers/localStorage";
 import Base from "../views/components/Inicio";
-import { Icv } from "../views/components/icv/Icv";
-import { Isn } from "../views/components/isn/Isn";
+import { Icv } from "../views/components/menu/icv/Icv";
+import { Isn } from "../views/components/menu/isn/Isn";
 
 /*
 interface Context {

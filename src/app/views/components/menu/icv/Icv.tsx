@@ -1,11 +1,11 @@
-import Base from "../../components/Inicio";
+import Inicio from "../../../components/Inicio";
 import React from 'react'
 
 export const Icv = () => {
   return (
-    <Base>
+    <Inicio>
     <div>Icv</div>
-    </Base>
+    </Inicio>
     
   )
 }

@@ -1,10 +1,10 @@
 import React from 'react'
-import Base from "../../components/Inicio";
+import Inicio from "../../../components/Inicio";
 
 export const Isn = () => {
   return (
-    <Base>
+    <Inicio>
     <div>Isn</div>
-    </Base>
+    </Inicio>
   )
 }

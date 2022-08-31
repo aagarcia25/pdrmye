@@ -17,7 +17,7 @@ import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputCompone
 import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
-import leon from '../../assets/img/leon1.png';
+import Logo from '../../assets/img/logo.svg';
 import ArticleIcon from '@mui/icons-material/Article';
 import Article from '@mui/icons-material/Article';
 import PersonAddDisabledIcon from '@mui/icons-material/PersonAddDisabled';
@@ -140,9 +140,9 @@ export default function Navigator(props: DrawerProps) {
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
-        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#909090' ,bgcolor: '#606060'}}>
-        <img src={leon} style={{ width: "1.5vw" }} />
-        <h3> {"  "+" "} PDRMyE</h3>
+        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#000000' ,bgcolor: '#FFFFFF'}}>
+        <img src={Logo} style={{ width: "15vw" }} />
+        
         </ListItem>
         <ListItem sx={{ ...item, ...itemCategory }}>
           <ListItemIcon>
