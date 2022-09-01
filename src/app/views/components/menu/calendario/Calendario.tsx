@@ -1,10 +1,10 @@
 import Inicio from "../../Inicio";
 import React from 'react'
 
-export const Fortamun = () => {
+export const Calendario = () => {
   return (
     <Inicio>
-    <div><div>   <h1>FORTAUM</h1>   </div></div>
+<div>   <h1>CALENDARIO</h1>   </div>
     </Inicio>
     
   )

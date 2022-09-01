@@ -106,19 +106,23 @@ Los contribuyentes deberán presentar las declaraciones de pagos provisionales s
   y no se trate de la primera declaración con esta característica.
  
 Los contribuyentes, para determinar los pagos provisionales a que se refiere el presente artículo, estarán a lo siguiente:
- 
-a)         No se considerarán los ingresos de fuente de riqueza ubicada en el extranjero que hayan sido objeto de retención por
- concepto de impuesto sobre la renta ni los ingresos atribuibles a sus establecimientos ubicados en el extranjero que estén sujetos 
- al pago del impuesto sobre la renta en el país donde se encuentren ubicados estos establecimientos.
- 
-b)         Los contribuyentes que estimen que el coeficiente de utilidad que deben aplicar para determinar los pagos provisionales 
-es superior al coeficiente de utilidad del ejercicio al que correspondan dichos pagos podrán, a partir del segundo semestre del
- ejercicio, solicitar autorización para aplicar un coeficiente menor. Cuando con motivo de la autorización resulte que los pagos 
- provisionales se hubieran cubierto en cantidad menor a la que les hubiera correspondido, se cubrirán recargos por la diferencia
-  entre los pagos realizados aplicando el coeficiente menor y los que les hubieran correspondido de no haber aplicado dicho 
-  coeficiente, mediante la declaración complementaria respectiva.
-  </blockquote>
+              <blockquote>
+              <strong>a) </strong>    No se considerarán los ingresos de fuente de riqueza ubicada en el extranjero que hayan sido objeto de retención por
+                concepto de impuesto sobre la renta ni los ingresos atribuibles a sus establecimientos ubicados en el extranjero que estén sujetos 
+                al pago del impuesto sobre la renta en el país donde se encuentren ubicados estos establecimientos.
+                </blockquote>
+                <blockquote>
 
+
+                <strong>B) </strong>     Los contribuyentes que estimen que el coeficiente de utilidad que deben aplicar para determinar los pagos provisionales 
+                es superior al coeficiente de utilidad del ejercicio al que correspondan dichos pagos podrán, a partir del segundo semestre del
+                 ejercicio, solicitar autorización para aplicar un coeficiente menor. Cuando con motivo de la autorización resulte que los pagos 
+                  provisionales se hubieran cubierto en cantidad menor a la que les hubiera correspondido, se cubrirán recargos por la diferencia
+                 entre los pagos realizados aplicando el coeficiente menor y los que les hubieran correspondido de no haber aplicado dicho 
+                 coeficiente, mediante la declaración complementaria respectiva.
+                </blockquote>
+
+                </blockquote>
  
 
 </div>  

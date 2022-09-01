@@ -33,28 +33,26 @@ const categories = [
   {
     id: 'Participaciones Estatales',
     children: [
-      { id: 'FOULT', icon: <Article />,  path:'/inicio/aportaciones/foult'},
-      { id: 'FODES', icon: <Article />, path:'/inicio/aportaciones/fodes'},
-      { id: 'FOSEGUM', icon: <Article />, path:'/inicio/aportaciones/fosegum'},
-      { id: 'FODEM', icon: <Article />, path:'/inicio/aportaciones/fodem'},
+      { id: 'ISN', icon: <Article />,  path:'/inicio/participaciones/isn'},
+      { id: 'ICV', icon: <Article />, path:'/inicio/participaciones/icv'},
 
               ],
   },
   {
     id: 'Participaciones Federales',
     children: [  
-      { id: 'ISN', icon: <Article />,  path:'/inicio/isn'},
-      { id: 'ISN', icon: <Article />,  path:'/inicio/isn'},
-      { id: 'ISN', icon: <Article />,  path:'/inicio/isn'},
-      { id: 'ISN', icon: <Article />,  path:'/inicio/isn'},
-      { id: 'ISN', icon: <Article />,  path:'/inicio/isn'},
-      { id: 'ISN', icon: <Article />,  path:'/inicio/isn'},
-      { id: 'ISN', icon: <Article />,  path:'/inicio/isn'},
-      { id: 'ISN', icon: <Article />,  path:'/inicio/isn'},
-      { id: 'ISN', icon: <Article />,  path:'/inicio/isn'},
-      { id: 'ISN', icon: <Article />,  path:'/inicio/isn'},
-      { id: 'ISN', icon: <Article />,  path:'/inicio/isn'},
-      { id: 'ISN', icon: <Article />,  path:'/inicio/isn'},  
+      { id: 'FPG', icon: <Article />,  path:'/inicio/participaciones/fpg'},
+      { id: 'FFM30', icon: <Article />,  path:'/inicio/participaciones/ffm30'},
+      { id: 'FFM70', icon: <Article />,  path:'/inicio/participaciones/ffm70'},
+      { id: 'IEPS', icon: <Article />,  path:'/inicio/participaciones/ieps'},
+      { id: 'FOFIR', icon: <Article />,  path:'/inicio/participaciones/fofir'},
+      { id: 'ISAN', icon: <Article />,  path:'/inicio/participaciones/isan'},
+      { id: 'FEXHI', icon: <Article />,  path:'/inicio/participaciones/fexhi'},
+      { id: 'COMP ISAN', icon: <Article />,  path:'/inicio/participaciones/comp-isan'},
+      { id: 'IEPSGyD', icon: <Article />,  path:'/inicio/participaciones/iepsgyd'},
+      { id: 'ISR', icon: <Article />,  path:'/inicio/participaciones/isr'},
+      { id: 'FEIEF', icon: <Article />,  path:'/inicio/participaciones/feief'},
+   
               ],
   },
   {
@@ -95,6 +93,7 @@ const categories = [
   {
     id: 'Calendario',
     children: [
+      { id: 'Calendario', icon: <Article />, path:'/inicio/calendario'},
     ],
   },
   {
