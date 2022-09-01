@@ -1,6 +1,7 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Grid from "@mui/material/Grid";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,14 +11,6 @@ import Badge from "@mui/material/Badge";
 import PersonIcon from "@mui/icons-material/Person";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { grey, red } from "@mui/material/colors";
-import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
-import SearchIcon from "@mui/icons-material/Search";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import Input from "@mui/material/Input";
-import { Box } from "@mui/system";
-import { OutlinedInput } from "@mui/material";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
@@ -36,7 +29,7 @@ export default function Header(props: HeaderProps) {
         elevation={0}
       >
         <Toolbar>
-          <Grid container spacing={2} alignItems="center">
+          <Grid container spacing={2} alignItems="center"> 
             <Grid sx={{ display: { sm: "none", xs: "block" } }} item>
               <IconButton
                 color="inherit"
@@ -49,73 +42,36 @@ export default function Header(props: HeaderProps) {
             </Grid>
             <Grid item xs />
             <Grid item>
-              <TextField
-                size="small"
-                id="outlined-basic"
-                placeholder="Ejemplo: Certificado de Autentificación"
-                variant="outlined"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              >
-              </TextField>
-            </Grid>
-            <Grid item>
-              <Typography color="#B08C55">Notario Titular</Typography>
-              <Typography color="grey">Raymundo Salazar</Typography>
-            </Grid>
-            <Grid item>
-              <IconButton  sx={{backgroundColor:"#B08C55", p: 0.5 }}>
-                <PersonIcon sx={{ color: "#ebebeb" }} fontSize="large" />
-              </IconButton>
-            </Grid>
-            <Grid item>
               <Tooltip title="Correo! • No hay correo">
                 <Badge
                   anchorOrigin={{
                     vertical: "bottom",
-                    horizontal: "right",
+                    horizontal: "left",
                   }}
                   badgeContent={4}
                   color="primary"
                 >
-                  <IconButton sx={{ backgroundColor: "#B08C55" }}>
-                    <LocalGroceryStoreIcon sx={{ color: "#ebebeb" }} />
-                  </IconButton>
+                  <IconButton color="inherit" sx={{ p: 0.5, backgroundColor:"#B08C55" }}>
+                <NotificationsNoneIcon fontSize="large" sx={{ color: "#ebebeb" }}/>
+              </IconButton>
                 </Badge>
               </Tooltip>
             </Grid>
             <Grid item>
-              <Badge
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                badgeContent={4}
-                color="primary"
-              >
-                <IconButton sx={{ backgroundColor: "#B08C55" }}>
-                  <DriveFileRenameOutlineIcon sx={{ color: "#ebebeb" }} />
-                </IconButton>
-              </Badge>
+              <IconButton color="inherit" sx={{ p: 0.5, backgroundColor:"#B08C55" }}>
+                <CalendarMonthIcon fontSize="large" sx={{ color: "#ebebeb" }}/>
+              </IconButton>
             </Grid>
             <Grid item>
-              <Badge
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                badgeContent={4}
-                color="primary"
-              >
-                <IconButton sx={{ backgroundColor:"#B08C55" }}>
-                  <NotificationsNoneIcon sx={{ color: "#ebebeb" }} />
-                </IconButton>
-              </Badge>
+              <Typography></Typography>
+            </Grid>
+            <Grid item>
+              <IconButton color="inherit" sx={{ p:1.0, backgroundColor:"#B08C55" }}>
+                <PersonIcon fontSize="large" sx={{ color: "#ebebeb" }}/>
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <Typography color="black">Cesar Rivera</Typography>
             </Grid>
           </Grid>
         </Toolbar>
