@@ -10,10 +10,11 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import Inicio from "../components/Inicio";
 
-export default function Content() {
+export default function Bienvenido() {
   return (
-    <Paper sx={{ maxWidth: 936, margin: 'auto', overflow: 'hidden' }}>
+    <Inicio>
 
 
 
@@ -69,6 +70,6 @@ export default function Content() {
       <Typography sx={{ my: 5, mx: 2 }} color="text.secondary" align="center">
       No users for this project yet
       </Typography>*/}
-    </Paper>
+     </Inicio>
   );
 }

@@ -15,14 +15,23 @@ import { useNavigate } from 'react-router-dom';
 
 import Folder from '../../../app/assets/img/add-carpeta.png';
 const categories = [
+
   {
+    id: 'Catálogos',
+    children: [
+      { id: 'Bienvenido', icon: <Article /> , path:'/bienvenido' }
+     
+    ],
+  },
+
+
+ {
     id: 'Catálogos',
     children: [
       { id: 'UMA', icon: <Article /> , path:'' }
      
     ],
   },
-  
   {
     id: 'Articulos',
     children: [
@@ -127,8 +136,8 @@ export default function Navigator(props: DrawerProps) {
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
-        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#111111' ,bgcolor: '#FFFFFF'}}>
-        <img src={Logo} style={{ width: "15vw" }} />
+        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22 , color: '#111111' ,bgcolor: '#FFFFFF'}}>
+        
         
         </ListItem>        
         <ListItem sx={{ ...item, ...itemCategory  ,color: '#111111' ,bgcolor: '#FFFFFF'}}>
@@ -137,9 +146,11 @@ export default function Navigator(props: DrawerProps) {
           </ListItemIcon>
           <ListItemText>
 
-          <Box bgcolor="#555555" display="flex"  borderRadius={1}  justifyContent="center" >
+          
+
+          <Box sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
         
-                
+          <img src={Logo} style={{ width: "10vw" }} />
                                  
                      
                   {/*}  <img src={Folder} width= "200wh" />
@@ -150,7 +161,12 @@ export default function Navigator(props: DrawerProps) {
               
 
           </Box>
+        
          
+
+
+
+
             
             </ListItemText>
         </ListItem>

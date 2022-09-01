@@ -5,6 +5,7 @@ import { AuthContext } from "../views/store/contexts/AuthContext";
 import { Eo404 } from "../views/components/Eo404";
 import HomePage from "../views/ahome/HomePage";
 import { Login } from "../views/auth/LoginPage";
+import Bienvenido from "../views/components/Bienvenido";
 
 import { isAuthenticated } from "../helpers/localStorage";
 import Base from "../views/components/Inicio";
@@ -43,9 +44,10 @@ export const AppRouter = () => {
  console.log(log);
   return (
       <Routes>
+        
         <Route path="/auth/*"   element={   <AuthRouter />    } />
         <Route path="/inicio"   element={(log) ? <Base /> : <AuthRouter />    } />
-        <Route path="home"   element={(log) ? <HomePage /> : <AuthRouter />} />
+        <Route path="/bienvenido"   element={(log) ? <Bienvenido /> : <AuthRouter />} />
         <Route path="/inicio/icv"   element={  <Icv />} />
         <Route path="/inicio/isn"   element={  <Isn />} />
         <Route path="/login"   element={  <Login />} />

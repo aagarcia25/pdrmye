@@ -6,9 +6,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Navigator from './Navigator';
-import Contenido from './Contenido';
 import Header from './Header';
 import { ReactNode } from 'react';
+import { AppRouter } from '../../router/AppRouter';
+import Bienvenido from './Bienvenido';
 
 function Copyright() {
   return (
@@ -22,6 +23,7 @@ function Copyright() {
     </Typography>
   );
 }
+
 
 let theme = createTheme({
   palette: {
@@ -205,12 +207,13 @@ export default function Paperbase({ children, ...props }: Props) {
         </Box>
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <Header onDrawerToggle={handleDrawerToggle} />
-          <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
+          <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: 'rgb(255, 155, 255)' }}>
 
-          {children}
-          
+
+            {children}
+
           </Box>
-          <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
+          <Box component="footer" sx={{ p: 2, bgcolor:'rgb(255, 255, 255)' }}>
             <Copyright />
           </Box>
         </Box>
