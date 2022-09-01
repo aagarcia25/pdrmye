@@ -65,12 +65,12 @@ export default function Header(props: HeaderProps) {
               </TextField>
             </Grid>
             <Grid item>
+              <Typography color="#B08C55">Notario Titular</Typography>
               <Typography color="grey">Raymundo Salazar</Typography>
-              <Typography color="black">Notario Titular</Typography>
             </Grid>
             <Grid item>
-              <IconButton color="inherit" sx={{ p: 0.5 }}>
-                <PersonIcon fontSize="large" />
+              <IconButton  sx={{backgroundColor:"#B08C55", p: 0.5 }}>
+                <PersonIcon sx={{ color: "#ebebeb" }} fontSize="large" />
               </IconButton>
             </Grid>
             <Grid item>
@@ -83,8 +83,8 @@ export default function Header(props: HeaderProps) {
                   badgeContent={4}
                   color="primary"
                 >
-                  <IconButton sx={{ backgroundColor: "#ebebeb" }}>
-                    <LocalGroceryStoreIcon sx={{ color: "#1a1a1a" }} />
+                  <IconButton sx={{ backgroundColor: "#B08C55" }}>
+                    <LocalGroceryStoreIcon sx={{ color: "#ebebeb" }} />
                   </IconButton>
                 </Badge>
               </Tooltip>
@@ -98,8 +98,8 @@ export default function Header(props: HeaderProps) {
                 badgeContent={4}
                 color="primary"
               >
-                <IconButton sx={{ backgroundColor: "#ebebeb" }}>
-                  <DriveFileRenameOutlineIcon sx={{ color: "#1a1a1a" }} />
+                <IconButton sx={{ backgroundColor: "#B08C55" }}>
+                  <DriveFileRenameOutlineIcon sx={{ color: "#ebebeb" }} />
                 </IconButton>
               </Badge>
             </Grid>
@@ -112,7 +112,7 @@ export default function Header(props: HeaderProps) {
                 badgeContent={4}
                 color="primary"
               >
-                <IconButton sx={{ backgroundColor: "#1a1a1a" }}>
+                <IconButton sx={{ backgroundColor:"#B08C55" }}>
                   <NotificationsNoneIcon sx={{ color: "#ebebeb" }} />
                 </IconButton>
               </Badge>
