@@ -1,6 +1,5 @@
 import React from 'react'
-import Inicio from "../../../components/Inicio";
-
+import Inicio from '../../../Inicio'
 export const Isn = () => {
   return (
     <Inicio>

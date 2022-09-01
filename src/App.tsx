@@ -5,7 +5,6 @@ import { AuthContext } from './app/views/store/contexts/AuthContext';
 import { AppRouter } from './app/router/AppRouter';
 import { authReducer } from './app/views/store/reducers/authReducer';
 import { getUser } from './app/helpers/localStorage';
-import Base from './app/views/components/Inicio';
 
 
 const init = () => {

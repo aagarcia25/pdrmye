@@ -1,4 +1,4 @@
-import Inicio from "../../../components/Inicio";
+import Inicio from "../../../Inicio";
 import React from 'react'
 
 export const Icv = () => {
