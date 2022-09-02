@@ -11,6 +11,7 @@ import Badge from "@mui/material/Badge";
 import PersonIcon from "@mui/icons-material/Person";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { grey, red } from "@mui/material/colors";
+import {COLOR} from "../../styles/colors";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
@@ -24,7 +25,7 @@ export default function Header(props: HeaderProps) {
   return (
     <React.Fragment>
       <AppBar
-        style={{ color: "#FFFFFF", backgroundColor: "#FFFFFF" }}
+        style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco }}
         position="sticky"
         elevation={0}
       >
@@ -48,26 +49,26 @@ export default function Header(props: HeaderProps) {
                     vertical: "bottom",
                     horizontal: "left",
                   }}
-                  badgeContent={4}
+                  badgeContent={666}
                   color="primary"
                 >
-                  <IconButton color="inherit" sx={{ p: 0.5, backgroundColor:"#B08C55" }}>
-                <NotificationsNoneIcon fontSize="large" sx={{ color: "#FFFFFF" }}/>
+                  <IconButton color="inherit" sx={{ p: 0.5, backgroundColor:COLOR.doradoNL }}>
+                <NotificationsNoneIcon fontSize="large" sx={{ color: COLOR.blanco }}/>
               </IconButton>
                 </Badge>
               </Tooltip>
             </Grid>
             <Grid item>
-              <IconButton color="inherit" sx={{ p: 0.5, backgroundColor:"#B08C55" }}>
-                <CalendarMonthIcon fontSize="large" sx={{ color: "#FFFFFF" }}/>
+              <IconButton color="inherit" sx={{ p: 0.5, backgroundColor:COLOR.doradoNL }}>
+                <CalendarMonthIcon fontSize="large" sx={{ color: COLOR.blanco }}/>
               </IconButton>
             </Grid>
             <Grid item>
               <Typography></Typography>
             </Grid>
             <Grid item>
-              <IconButton color="inherit" sx={{ p:1.0, backgroundColor:"#B08C55", paddingleft: '100px' }}>
-                <PersonIcon fontSize="large" sx={{ color: "#FFFFFF" }}/>
+              <IconButton color="inherit" sx={{ p:1.0, backgroundColor:COLOR.doradoNL }}>
+                <PersonIcon fontSize="large" sx={{ color: COLOR.blanco }}/>
               </IconButton>
             </Grid>
             <Grid item>

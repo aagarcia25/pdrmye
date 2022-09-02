@@ -12,6 +12,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import Inicio from "../components/Inicio";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import {COLOR} from "../../styles/colors";
 
 export default function Bienvenido() {
   return (
@@ -20,7 +21,7 @@ export default function Bienvenido() {
         sx={{
           width: "100%",
           height: "100%",
-          backgroundColor: "#FFFFFF",
+          backgroundColor: COLOR.blanco,
           justifyContent: "center",
           alignItems: "center",
           display:"flex"
@@ -30,7 +31,7 @@ export default function Bienvenido() {
           sx={{
             width: "75%",
             height: "60%",
-            backgroundColor: "#ccc",
+            backgroundColor: COLOR.grisTarjetaBienvenido,
             justifyContent: "center",
             display:"flex"
           }}
