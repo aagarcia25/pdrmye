@@ -24,7 +24,7 @@ export default function Header(props: HeaderProps) {
   return (
     <React.Fragment>
       <AppBar
-        style={{ color: grey[500], backgroundColor: grey[100] }}
+        style={{ color: "#FFFFFF", backgroundColor: "#FFFFFF" }}
         position="sticky"
         elevation={0}
       >
@@ -52,22 +52,22 @@ export default function Header(props: HeaderProps) {
                   color="primary"
                 >
                   <IconButton color="inherit" sx={{ p: 0.5, backgroundColor:"#B08C55" }}>
-                <NotificationsNoneIcon fontSize="large" sx={{ color: "#ebebeb" }}/>
+                <NotificationsNoneIcon fontSize="large" sx={{ color: "#FFFFFF" }}/>
               </IconButton>
                 </Badge>
               </Tooltip>
             </Grid>
             <Grid item>
               <IconButton color="inherit" sx={{ p: 0.5, backgroundColor:"#B08C55" }}>
-                <CalendarMonthIcon fontSize="large" sx={{ color: "#ebebeb" }}/>
+                <CalendarMonthIcon fontSize="large" sx={{ color: "#FFFFFF" }}/>
               </IconButton>
             </Grid>
             <Grid item>
               <Typography></Typography>
             </Grid>
             <Grid item>
-              <IconButton color="inherit" sx={{ p:1.0, backgroundColor:"#B08C55" }}>
-                <PersonIcon fontSize="large" sx={{ color: "#ebebeb" }}/>
+              <IconButton color="inherit" sx={{ p:1.0, backgroundColor:"#B08C55", paddingleft: '100px' }}>
+                <PersonIcon fontSize="large" sx={{ color: "#FFFFFF" }}/>
               </IconButton>
             </Grid>
             <Grid item>
