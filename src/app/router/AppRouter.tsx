@@ -43,11 +43,21 @@ export const AppRouter = () => {
  const log = isAuthenticated();
  console.log(log);
   return (
-      <Routes>
+
+
+
+
+
+
+
+        <Routes>
         
         <Route path="/auth/*"   element={   <AuthRouter />    } />
         <Route path="/inicio"   element={(log) ? <Base /> : <AuthRouter />    } />
         <Route path="/bienvenido"   element={(log) ? <Bienvenido /> : <AuthRouter />} />
+
+
+
         <Route path="/inicio/icv"   element={  <Icv />} />
         <Route path="/inicio/isn"   element={  <Isn />} />
         <Route path="/login"   element={  <Login />} />

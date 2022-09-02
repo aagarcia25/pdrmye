@@ -3,8 +3,9 @@ import React from 'react'
 
 export const Art14 = () => {
   return (
-    <Inicio>
-<div>   <h1> <strong>Artículo 14 </strong> </h1>  <h3>Pagos provisionales mensuales.</h3>  </div>
+<>
+<div>   
+  <h1> <strong>Artículo 14 </strong> </h1>  <h3>Pagos provisionales mensuales.</h3>  </div>
 
 <div>  
 Los contribuyentes efectuarán pagos provisionales mensuales a cuenta del impuesto del ejercicio, a más tardar el día 17 del mes
@@ -126,11 +127,11 @@ Los contribuyentes, para determinar los pagos provisionales a que se refiere el 
  
 
 </div>  
+</>
 
 
 
 
-    </Inicio>
     
   )
 }

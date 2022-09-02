@@ -5,7 +5,7 @@ import { AuthContext } from './app/views/store/contexts/AuthContext';
 import { AppRouter } from './app/router/AppRouter';
 import { authReducer } from './app/views/store/reducers/authReducer';
 import { getUser } from './app/helpers/localStorage';
-
+import Inicio from "./app/views/components/Inicio";
 
 const init = () => {
   let sessionUser: any = getUser();
@@ -23,12 +23,21 @@ const init = () => {
 function App() {
   const [user, dispatchUser] = useReducer(authReducer, {}, init);
   return (
+   
     <AuthContext.Provider value={{ user, dispatchUser }}>
-      <AppRouter />
       
+       <Inicio>
+      
+      
+      <AppRouter />
 
+    
+      
+  </Inicio>
 
-    </AuthContext.Provider>
+    </AuthContext.Provider> 
+    
+  
   );
 }
 
