@@ -13,6 +13,26 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { grey, red } from "@mui/material/colors";
 import {COLOR} from "../../styles/colors";
 
+
+import { Article } from "@mui/icons-material";
+
+
+const categories = [
+
+  {
+    id: 'Catálogos',
+    children: [
+      { id: 'Bienvenido', icon: <Article />, path: '/bienvenido' }
+
+    ],
+  },
+
+
+];
+
+
+
+
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
 interface HeaderProps {
@@ -59,8 +79,13 @@ export default function Header(props: HeaderProps) {
               </Tooltip>
             </Grid>
             <Grid item>
-              <IconButton color="inherit" sx={{ p: 0.5, backgroundColor:COLOR.doradoNL }}>
+            
+              <IconButton color="inherit" sx={{ p: 0.5, backgroundColor:COLOR.doradoNL }}
+              
+              
+              >
                 <CalendarMonthIcon fontSize="large" sx={{ color: COLOR.blanco }}/>
+                
               </IconButton>
             </Grid>
             <Grid item>

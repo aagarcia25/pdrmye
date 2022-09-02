@@ -27,13 +27,12 @@ function App() {
     <AuthContext.Provider value={{ user, dispatchUser }}>
       
        <Inicio>
-      
-      
       <AppRouter />
 
-    
+      </Inicio>
       
-  </Inicio>
+      
+ 
 
     </AuthContext.Provider> 
     

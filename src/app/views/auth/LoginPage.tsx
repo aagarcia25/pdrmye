@@ -1,10 +1,11 @@
 import { Box, Button, Input, TextField, Typography } from "@mui/material";
-import { height } from "@mui/system";
+
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/img/logo.svg";
 import "../../../../src/App.css";
 import { NavLink, useNavigate } from 'react-router-dom'
-import { AppRouter } from "../../router/AppRouter";
+
+
 
 
 
@@ -259,7 +260,7 @@ const [usuario, setUsuario] = useState(
                   onMouseLeave={() => onFocusLeaveButton()}
 
                   
-                  onClick={() => navigate('/inicio')} 
+                  onClick={() => navigate('../components/Inicio')} 
 
                 
                 
@@ -314,7 +315,7 @@ const [usuario, setUsuario] = useState(
           justifyContent: "center",
         }}
       >
-        Footer
+        Gobierno de Nuevo Leon
       </footer>
     </Box>
   );

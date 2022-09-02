@@ -11,88 +11,88 @@ import Article from '@mui/icons-material/Article';
 import PersonAddDisabled from '@mui/icons-material/PersonAddDisabled';
 import PeopleAlt from '@mui/icons-material/PeopleAlt';
 import { Reorder } from '@mui/icons-material';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
-import Folder from '../../../app/assets/img/add-carpeta.png';
-const categories = [
+
+export const categories = [
 
   {
     id: 'Catálogos',
     children: [
-      { id: 'Bienvenido', icon: <Article /> , path:'/bienvenido' }
-     
+      { id: 'Bienvenido', icon: <Article />, path: '/bienvenido' }
+
     ],
   },
 
 
- {
+  {
     id: 'Catálogos',
     children: [
-      { id: 'UMA', icon: <Article /> , path:'' }
-     
+      { id: 'UMA', icon: <Article />, path: '' }
+
     ],
   },
   {
     id: 'Articulos',
     children: [
-      { id: 'Art. 14 ', icon: <Article /> , path:'/inicio/articulos/art14' },
-     
+      { id: 'Art. 14 ', icon: <Article />, path: '/inicio/articulos/art14' },
+
     ],
   },
   {
     id: 'Participaciones Estatales',
     children: [
-      { id: 'ISN', icon: <Article />,  path:'/inicio/participaciones/isn'},
-      { id: 'ICV', icon: <Article />, path:'/inicio/participaciones/icv'},
+      { id: 'ISN', icon: <Article />, path: '/inicio/participaciones/isn' },
+      { id: 'ICV', icon: <Article />, path: '/inicio/participaciones/icv' },
 
-              ],
+    ],
   },
   {
     id: 'Participaciones Federales',
-    children: [  
-      { id: 'FPG', icon: <Article />,  path:'/inicio/participaciones/fpg'},
-      { id: 'FFM30', icon: <Article />,  path:'/inicio/participaciones/ffm30'},
-      { id: 'FFM70', icon: <Article />,  path:'/inicio/participaciones/ffm70'},
-      { id: 'IEPS', icon: <Article />,  path:'/inicio/participaciones/ieps'},
-      { id: 'FOFIR', icon: <Article />,  path:'/inicio/participaciones/fofir'},
-      { id: 'ISAN', icon: <Article />,  path:'/inicio/participaciones/isan'},
-      { id: 'FEXHI', icon: <Article />,  path:'/inicio/participaciones/fexhi'},
-      { id: 'COMP ISAN', icon: <Article />,  path:'/inicio/participaciones/comp-isan'},
-      { id: 'IEPSGyD', icon: <Article />,  path:'/inicio/participaciones/iepsgyd'},
-      { id: 'ISR', icon: <Article />,  path:'/inicio/participaciones/isr'},
-      { id: 'FEIEF', icon: <Article />,  path:'/inicio/participaciones/feief'},
-   
-              ],
+    children: [
+      { id: 'FPG', icon: <Article />, path: '/inicio/participaciones/fpg' },
+      { id: 'FFM30', icon: <Article />, path: '/inicio/participaciones/ffm30' },
+      { id: 'FFM70', icon: <Article />, path: '/inicio/participaciones/ffm70' },
+      { id: 'IEPS', icon: <Article />, path: '/inicio/participaciones/ieps' },
+      { id: 'FOFIR', icon: <Article />, path: '/inicio/participaciones/fofir' },
+      { id: 'ISAN', icon: <Article />, path: '/inicio/participaciones/isan' },
+      { id: 'FEXHI', icon: <Article />, path: '/inicio/participaciones/fexhi' },
+      { id: 'COMP ISAN', icon: <Article />, path: '/inicio/participaciones/comp-isan' },
+      { id: 'IEPSGyD', icon: <Article />, path: '/inicio/participaciones/iepsgyd' },
+      { id: 'ISR', icon: <Article />, path: '/inicio/participaciones/isr' },
+      { id: 'FEIEF', icon: <Article />, path: '/inicio/participaciones/feief' },
+
+    ],
   },
   {
     id: 'Aportaciones Estatales',
     children: [
-      { id: 'FOULT', icon: <Article />,  path:'/inicio/aportaciones/foult'},
-      { id: 'FODES', icon: <Article />, path:'/inicio/aportaciones/fodes'},
-      { id: 'FOSEGUM', icon: <Article />, path:'/inicio/aportaciones/fosegum'},
-      { id: 'FODEM', icon: <Article />, path:'/inicio/aportaciones/fodem'},
+      { id: 'FOULT', icon: <Article />, path: '/inicio/aportaciones/foult' },
+      { id: 'FODES', icon: <Article />, path: '/inicio/aportaciones/fodes' },
+      { id: 'FOSEGUM', icon: <Article />, path: '/inicio/aportaciones/fosegum' },
+      { id: 'FODEM', icon: <Article />, path: '/inicio/aportaciones/fodem' },
     ],
   },
   {
     id: 'Aportaciones Federales',
     children: [
-      { id: 'FORTAMUN', icon: <Reorder /> , path:'' },
-      { id: 'FISM', icon: <Reorder /> , path:''},
-              ],
+      { id: 'FORTAMUN', icon: <Reorder />, path: '' },
+      { id: 'FISM', icon: <Reorder />, path: '' },
+    ],
   },
   {
     id: 'SPEIs',
     children: [
-      
-     ],
+
+    ],
   },
   {
     id: 'Roles y Privilegios',
     children: [
-      { id: 'Roles de Usuario', icon: <PeopleAlt /> , path:''},
-      { id: 'Privilegios de Usuario', icon: <PersonAddDisabled />, path:'' },
-     
-               ],
+      { id: 'Roles de Usuario', icon: <PeopleAlt />, path: '' },
+      { id: 'Privilegios de Usuario', icon: <PersonAddDisabled />, path: '' },
+
+    ],
   },
   {
     id: 'Contacto Municipios',
@@ -102,7 +102,7 @@ const categories = [
   {
     id: 'Calendario',
     children: [
-      { id: 'Calendario', icon: <Article />, path:'/inicio/calendario'},
+      { id: 'Calendario', icon: <Article />, path: '/inicio/calendario' },
     ],
   },
   {
@@ -110,8 +110,8 @@ const categories = [
     children: [
     ],
   },
- 
-  
+
+
 ];
 
 const item = {
@@ -136,39 +136,21 @@ export default function Navigator(props: DrawerProps) {
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
-        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22 , color: '#111111' ,bgcolor: '#FFFFFF'}}>
-        
-        
-        </ListItem>        
-        <ListItem sx={{ ...item, ...itemCategory  ,color: '#111111' ,bgcolor: '#FFFFFF'}}>
+        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#111111', bgcolor: '#FFFFFF' }}>
+
+        </ListItem>
+        <ListItem sx={{ ...item, ...itemCategory, color: '#111111', bgcolor: '#FFFFFF' }}>
           <ListItemIcon>
-        
+
           </ListItemIcon>
           <ListItemText>
 
-          
+            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
 
-          <Box sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
-        
-          <img src={Logo} style={{ width: "10vw" }} />
-                                 
-                     
-                  {/*}  <img src={Folder} width= "200wh" />
-*/}
-                    
-                
+              <img src={Logo} style={{ width: "10vw" }} />
+            </Box>
 
-              
-
-          </Box>
-        
-         
-
-
-
-
-            
-            </ListItemText>
+          </ListItemText>
         </ListItem>
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
@@ -176,8 +158,8 @@ export default function Navigator(props: DrawerProps) {
               <ListItemText sx={{ color: '#777777' }}>{id}</ListItemText>
             </ListItem>
             {children.map(({ id: childId, icon, path }) => (
-              <ListItem disablePadding key={childId }>
-                <ListItemButton  sx={item } 
+              <ListItem disablePadding key={childId}>
+                <ListItemButton sx={item}
                   onClick={(event) => navigate(path)}
                 >
                   <ListItemIcon>{icon}</ListItemIcon>

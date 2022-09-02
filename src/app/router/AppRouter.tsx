@@ -4,7 +4,7 @@ import { AuthRouter } from "./AuthRouter";
 import { AuthContext } from "../views/store/contexts/AuthContext";
 import { Eo404 } from "../views/components/Eo404";
 import HomePage from "../views/ahome/HomePage";
-import { Login } from "../views/auth/LoginPage";
+import { LoginPage } from "../auth/LoginPage";
 import Bienvenido from "../views/components/Bienvenido";
 
 import { isAuthenticated } from "../helpers/localStorage";
@@ -60,7 +60,7 @@ export const AppRouter = () => {
 
         <Route path="/inicio/icv"   element={  <Icv />} />
         <Route path="/inicio/isn"   element={  <Isn />} />
-        <Route path="/login"   element={  <Login />} />
+        <Route path="/login"   element={  <LoginPage />} />
         <Route path="/inicio/aportaciones/foult"   element={  <Foult />} />
         <Route path="/inicio/aportaciones/fodes"      element={<Fodes/>} />
         <Route path="/inicio/aportaciones/fosegum"      element={<Fosegum/>} />
