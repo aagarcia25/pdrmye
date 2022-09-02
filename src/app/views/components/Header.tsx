@@ -12,17 +12,15 @@ import PersonIcon from "@mui/icons-material/Person";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { COLOR } from "../../styles/colors";
 import { Article } from "@mui/icons-material";
-import { Box } from "@mui/material";
-import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
-import Stack from "@mui/material/Stack";
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import LogoutIcon from '@mui/icons-material/Logout';
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import LogoutIcon from "@mui/icons-material/Logout";
+
 
 const categories = [
   {
@@ -74,6 +72,8 @@ export default function Header(props: HeaderProps) {
     prevOpen.current = open;
   }, [open]);
 
+  const [colorM, setColorM] = React.useState(COLOR.doradoNL);
+
   return (
     <React.Fragment>
       <AppBar
@@ -101,12 +101,12 @@ export default function Header(props: HeaderProps) {
                     vertical: "bottom",
                     horizontal: "left",
                   }}
-                  badgeContent={666}
+                  badgeContent={777}
                   color="primary"
                 >
                   <IconButton
                     color="inherit"
-                    sx={{ p: 0.5, backgroundColor: COLOR.doradoNL }}
+                    sx={{ p: 0.5, backgroundColor: COLOR.doradoNL, "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido } }}
                   >
                     <NotificationsNoneIcon
                       fontSize="large"
@@ -119,7 +119,7 @@ export default function Header(props: HeaderProps) {
             <Grid item>
               <IconButton
                 color="inherit"
-                sx={{ p: 0.5, backgroundColor: COLOR.doradoNL }}
+                sx={{ p: 0.5, backgroundColor: COLOR.doradoNL,"&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido } }}
               >
                 <CalendarMonthIcon
                   fontSize="large"
@@ -131,7 +131,7 @@ export default function Header(props: HeaderProps) {
               <Typography></Typography>
             </Grid>
             <Grid item>
-              <IconButton
+                 <IconButton
                 ref={anchorRef}
                 id="composition-button"
                 aria-controls={open ? "composition-menu" : undefined}
@@ -139,12 +139,14 @@ export default function Header(props: HeaderProps) {
                 aria-haspopup="true"
                 onClick={handleToggle}
                 color="inherit"
-                
-                sx={{ p: 1.0, backgroundColor: COLOR.doradoNL }}
-                
+                onMouseOver={() => setColorM("#aaa")}
+                onMouseLeave={() => setColorM("#ccc")}
+                sx={{ p: 1.0, backgroundColor: COLOR.doradoNL, "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido } }}
               >
                 <PersonIcon fontSize="large" sx={{ color: COLOR.blanco }} />
               </IconButton>
+              
+             
               <Popper
                 open={open}
                 anchorEl={anchorRef.current}
@@ -171,8 +173,14 @@ export default function Header(props: HeaderProps) {
                           aria-labelledby="composition-button"
                           onKeyDown={handleListKeyDown}
                         >
-                          <MenuItem onClick={handleClose}><ManageAccountsIcon sx={{color: COLOR.negro}}/>Configuración de perfil</MenuItem>
-                          <MenuItem onClick={handleClose}><LogoutIcon sx={{color: COLOR.negro}}/>Cerrar sesión</MenuItem>
+                          <MenuItem onClick={handleClose}>
+                            <ManageAccountsIcon sx={{ color: COLOR.negro }} />
+                            Configuración de perfil
+                          </MenuItem>
+                          <MenuItem onClick={handleClose}>
+                            <LogoutIcon sx={{ color: COLOR.negro }} />
+                            Cerrar sesión
+                          </MenuItem>
                         </MenuList>
                       </ClickAwayListener>
                     </Paper>
