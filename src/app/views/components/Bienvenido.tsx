@@ -14,88 +14,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { COLOR } from "../../styles/colors";
 import PersonIcon from "@mui/icons-material/Person";
+import PlantillaBienvenido from "./PlantillaBienvenido";
 
 export default function Bienvenido() {
   return (
-    <Box
-      sx={{
-        width: "100%",
-        height: "100%",
-        backgroundColor: COLOR.blanco,
-        justifyContent: "center",
-        alignItems: "center",
-        display: "flex",
-      }}
-    >
-      <Box
-        sx={{
-          width: "85%",
-          height: "60%",
-          backgroundColor: COLOR.grisTarjetaBienvenido,
-          justifyContent: "center",
-          alignItems: "center",
-          display: "flex",
-        }}
-      >
-        <Box
-          sx={{
-            justifyContent: "center",
-            textAlign: "center",
-            backgroundColor: COLOR.grisTarjetaBienvenido,
-            width: "40%",
-            height: "80%",
-          }}
-        >
-          <Box
-            sx={{
-              width: "100%",
-              height: "5%",
-            }}
-          ></Box>
-          <Box
-            sx={{
-              width: "100%",
-              height: "35%",
-            }}
-          >
-            <PersonIcon sx={{ width:"100%", height:"100%", color: COLOR.blanco }} />
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              height: "15%",
-            }}
-          >
-            <Typography variant="h2">BIENVENIDO</Typography>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              height: "15%",
-            }}
-          >
-            <Typography variant="h4">Cesar Rivera</Typography>
-          </Box>
-
-          <Box
-            sx={{
-              width: "100%",
-              height: "15%",
-              backgroundColor: COLOR.grisTarjetaBienvenido,
-            }}
-          ></Box>
-          <Box
-            sx={{
-              width: "100%",
-              height: "15%",
-            }}
-          >
-            <Typography variant="h6">
-              Última Conexión 27 de Julio del 2022
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+    //Traer los datos por name el nombre de la persona y lastConnection la última conexión del usuario
+    <PlantillaBienvenido id={1} name="Cesar Rivera" lastConnnection="Última Conexión 27 de Julio del 2022"/>
   );
 }
