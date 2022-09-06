@@ -4,12 +4,11 @@ import './App.css';
 import { AuthContext } from './app/views/store/contexts/AuthContext';
 import { AppRouter } from './app/router/AppRouter';
 import { authReducer } from './app/views/store/reducers/authReducer';
-import { getUser } from './app/helpers/localStorage';
-import Inicio from "./app/views/components/Inicio";
-import { isAuthenticated } from './app/helpers/localStorage';
-import { Routes , Route } from 'react-router-dom';
-import { AuthRouter } from './app/router/AuthRouter';
+import { getUser } from './app/services/localStorage';
+import { isAuthenticated } from './app/services/authenticationService';
 import { Login } from './app/views/auth/LoginPage';
+
+
 
 const init = () => {
   let sessionUser: any = getUser();

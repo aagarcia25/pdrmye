@@ -70,8 +70,8 @@ const NavBar = ({ children, drawerWidth, ...props }: Props) => {
 
   useEffect(() => {
     CalendarioService.calendarios({ NUMOPERACION: "5" , CHUSER:1 }).then((res) => {
-      let r = res.RESPONSE;
-      setCalen( r[0].count);
+     // let r = res.RESPONSE;
+     // setCalen( r[0].count);
       
       
     });
@@ -79,8 +79,8 @@ const NavBar = ({ children, drawerWidth, ...props }: Props) => {
 
   useEffect(() => {
     CatalogosServices.Notificaciones({ NUMOPERACION: "5" ,CHUSER:1}).then((res) => {
-      let r = res.RESPONSE;
-      setNotif( r[0].count);
+    //  let r = res.RESPONSE;
+    //  setNotif( r[0].count);
     });
   }, []);
 

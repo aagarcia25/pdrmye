@@ -28,7 +28,8 @@ export const categories = [
   {
     id: 'Catálogos',
     children: [
-      { id: 'UMA', icon: <Article />, path: '' }
+      { id: 'UMA', icon: <Article />, path: '' },
+      { id: 'Municipio Póblacion', icon: <Article />, path: '/inicio/catalogos/munpob' }
 
     ],
   },

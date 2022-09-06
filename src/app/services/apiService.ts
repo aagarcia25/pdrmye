@@ -18,49 +18,61 @@ import { env_var } from '../environments/env';
 
 
 const handleResponse = (response: any) => {
-    if (response.status === 0) {
-       // alertaSAL2("Error de Red","error",1)
-     }
+    console.log('response');
+    console.log(response);
+    let rs;
+   // if (response.status === 0) {
+        // alertaSAL2("Error de Red","error",1)
+   // }
 
-    if (response.status === 401) {
-       // removeTokens();
-    }
-    if (response.data.status === 200) {
-          
-        return response.data;
-    }
-    return response;
+  //  if (response.status === 401) {
+        // removeTokens();
+  //  }
+  //  if (response.data.status === 200) {
+
+        rs = {
+            RESPONSE: response.RESPONSE,
+            SUCCESS: true,
+            NUMCODE: response.NUMCODE,
+            STRMESSAGE: response.STRMESSAGE,
+        }
+
+
+   // }
+    console.log(rs);
+    return rs;
 }
-
 
 
 export const postEasy = async function (url: string, body: any) {
     let header = await getHeaderInitial();
     try {
-       
+
         let resp = await axios.post(`${env_var.BASE_URL}` + url, body, header);
         return handleResponse(resp);
-    } catch (err:any) {
+    } catch (err: any) {
         return handleResponse(err.response)
     }
 };
 
-export const post = async function (url: string, body: any):Promise<ApiResponse> {
+
+
+export const post = async function (url: string, body: any) {
     let header = await getHeaderInfo();
     try {
         let resp = await axios.post(`${env_var.BASE_URL}` + url, body, header);
-        return handleResponse(resp);
-    } catch (err:any) {
+        return handleResponse(resp.data);
+    } catch (err: any) {
         return handleResponse(err.response)
     }
 };
 
-export const get = async function (url: any, params: any = {}):Promise<ApiResponse> {
+export const get = async function (url: any, params: any = {}) {
     let header = await getHeaderInfo();
     try {
         let resp = await axios.get(`${env_var.BASE_URL}` + url, { ...header, params });
-        return handleResponse(resp);
-    } catch (err:any) {
+       // return handleResponse(resp);
+    } catch (err: any) {
         throw handleResponse(err.response)
     }
 };
@@ -69,7 +81,7 @@ export const get = async function (url: any, params: any = {}):Promise<ApiRespon
 
 
 
-export const postImage = async function (api: string, url: string, body: any):Promise<ApiResponse> {
+export const postImage = async function (api: string, url: string, body: any) {
 
     let header = await getFormDataHeader();
     var formData = new FormData();
@@ -77,7 +89,7 @@ export const postImage = async function (api: string, url: string, body: any):Pr
     try {
         let resp = await axios.put(api + url, formData, header);
         return handleResponse(resp);
-    } catch (err:any) {
+    } catch (err: any) {
         throw handleResponse(err.response)
     }
 

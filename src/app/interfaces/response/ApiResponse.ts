@@ -1,6 +1,7 @@
 export interface ApiResponse{
-   RESPONSE:any[],
+   RESPONSE: any,
    SUCCESS:boolean,
    NUMCODE:number,
    STRMESSAGE:string
 }
+

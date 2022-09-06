@@ -17,5 +17,9 @@ export class CatalogosServices {
         return await post('notificaciones', data);
     };
 
+    public static async munpoblacion(data : any) {
+        return await post('munpoblacion', data);
+    };
+
 
 }

@@ -8,9 +8,12 @@ import Inicio from "../views/components/Inicio";
 
 import {Login}  from "../views/auth/LoginPage";
 
+
 import {LoginPage}  from "../auth/LoginPage";
 import Bienvenido from "../views/components/Bienvenido";
-import { isAuthenticated } from "../helpers/localStorage";
+
+import Base from "../views/components/Inicio";
+
 import { Icv } from "../views/components/menu/participaciones/icv/Icv";
 import { Isn } from "../views/components/menu/participaciones/isn/Isn";
 import { Fpg } from "../views/components/menu/participaciones/fpg/Fpg";
@@ -38,6 +41,8 @@ import {Fortaum} from "../views/components/menu/aportaciones/fortaum/Fortaum";
 import {Fosegum} from "../views/components/menu/aportaciones/fosegum/Fosegum";
 import { Art14 } from "../views/components/menu/articulos/Art14";
 import { Calendario } from "../views/components/menu/calendario/Calendario";
+import { MunPoblacion } from "../views/components/menu/catalogos/MunPoblacion";
+import { isAuthenticated } from "../services/authenticationService";
 
 
 
@@ -76,7 +81,15 @@ export const AppRouter = () => {
         <Route path="/inicio/participaciones/ieps"      element={ (log) ? <Ieps />:<AuthRouter />} />
         <Route path="/inicio/participaciones/comp-isan"      element={ (log) ? <Compisan />:<AuthRouter />} />
         <Route path="/inicio/participaciones/iepsgyd"      element={ (log) ? <Iepsgyd />:<AuthRouter />} />
-       
+
+
+       {/* SECCION DE CATALOGOS */}
+        <Route path="/inicio/catalogos/munpob"      element={<MunPoblacion/>} />
+       {/* FIN SECCION DE CATALOGOS */}
+
+
+
+
       </Routes>
 
       </Inicio> 
