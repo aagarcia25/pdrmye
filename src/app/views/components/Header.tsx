@@ -20,20 +20,15 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
-
-
-const categories = [
-  {
-    id: "Catálogos",
-    children: [{ id: "Bienvenido", icon: <Article />, path: "/bienvenido" }],
-  },
-];
+import { useNavigate } from "react-router-dom";
+import { Login } from "../auth/LoginPage";
 
 interface HeaderProps {
   onDrawerToggle: () => void;
 }
 
 export default function Header(props: HeaderProps) {
+  const navigate = useNavigate;
   const { onDrawerToggle } = props;
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -72,7 +67,9 @@ export default function Header(props: HeaderProps) {
     prevOpen.current = open;
   }, [open]);
 
-  const [colorM, setColorM] = React.useState(COLOR.doradoNL);
+  function pathLogin(path: string) {
+    return path;
+  }
 
   return (
     <React.Fragment>
@@ -95,7 +92,7 @@ export default function Header(props: HeaderProps) {
             </Grid>
             <Grid item xs />
             <Grid item>
-              <Tooltip title="Correo! • No hay correo">
+              <Tooltip title="Bandeja de correo">
                 <Badge
                   anchorOrigin={{
                     vertical: "bottom",
@@ -106,7 +103,13 @@ export default function Header(props: HeaderProps) {
                 >
                   <IconButton
                     color="inherit"
-                    sx={{ p: 0.5, backgroundColor: COLOR.doradoNL, "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido } }}
+                    sx={{
+                      p: 0.5,
+                      backgroundColor: COLOR.doradoNL,
+                      "&:hover": {
+                        backgroundColor: COLOR.grisTarjetaBienvenido,
+                      },
+                    }}
                   >
                     <NotificationsNoneIcon
                       fontSize="large"
@@ -119,7 +122,11 @@ export default function Header(props: HeaderProps) {
             <Grid item>
               <IconButton
                 color="inherit"
-                sx={{ p: 0.5, backgroundColor: COLOR.doradoNL,"&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido } }}
+                sx={{
+                  p: 0.5,
+                  backgroundColor: COLOR.doradoNL,
+                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+                }}
               >
                 <CalendarMonthIcon
                   fontSize="large"
@@ -131,7 +138,7 @@ export default function Header(props: HeaderProps) {
               <Typography></Typography>
             </Grid>
             <Grid item>
-                 <IconButton
+              <IconButton
                 ref={anchorRef}
                 id="composition-button"
                 aria-controls={open ? "composition-menu" : undefined}
@@ -139,14 +146,15 @@ export default function Header(props: HeaderProps) {
                 aria-haspopup="true"
                 onClick={handleToggle}
                 color="inherit"
-                onMouseOver={() => setColorM("#aaa")}
-                onMouseLeave={() => setColorM("#ccc")}
-                sx={{ p: 1.0, backgroundColor: COLOR.doradoNL, "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido } }}
+                sx={{
+                  p: 1.0,
+                  backgroundColor: COLOR.doradoNL,
+                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+                }}
               >
                 <PersonIcon fontSize="large" sx={{ color: COLOR.blanco }} />
               </IconButton>
-              
-             
+
               <Popper
                 open={open}
                 anchorEl={anchorRef.current}
@@ -173,11 +181,17 @@ export default function Header(props: HeaderProps) {
                           aria-labelledby="composition-button"
                           onKeyDown={handleListKeyDown}
                         >
-                          <MenuItem onClick={handleClose}>
+                          <MenuItem
+                            onClick={() =>
+                              console.log("Clicked ManageAccounts")
+                            }
+                          >
                             <ManageAccountsIcon sx={{ color: COLOR.negro }} />
                             Configuración de perfil
                           </MenuItem>
-                          <MenuItem onClick={handleClose}>
+                          <MenuItem
+                            onClick={() => console.log("Clicked logout")}
+                          >
                             <LogoutIcon sx={{ color: COLOR.negro }} />
                             Cerrar sesión
                           </MenuItem>
