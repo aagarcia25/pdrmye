@@ -16,7 +16,10 @@ import {COLOR} from "../../styles/colors";
 
 export default function Bienvenido() {
   return (
+
     
+
+
       <Box
         sx={{
           width: "100%",
@@ -47,6 +50,7 @@ export default function Bienvenido() {
           </Grid>
         </Box>
       </Box>
-    
+
+
   );
 }
