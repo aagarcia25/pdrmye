@@ -4,13 +4,6 @@ import React, { useEffect, useState } from "react";
 import logo from "../../assets/img/logo.svg";
 import "../../../../src/App.css";
 import { NavLink, useNavigate } from 'react-router-dom'
-
-
-
-
-
-
-
 export const Login = () => {
   const navigate = useNavigate();
 const [usuario, setUsuario] = useState(
@@ -260,7 +253,7 @@ const [usuario, setUsuario] = useState(
                   onMouseLeave={() => onFocusLeaveButton()}
 
                   
-                  onClick={() => navigate('../components/Inicio')} 
+                  onClick={() => navigate('/bienvenido')} 
 
                 
                 

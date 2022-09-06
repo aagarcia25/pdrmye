@@ -4,11 +4,13 @@ import { AuthRouter } from "./AuthRouter";
 import { AuthContext } from "../views/store/contexts/AuthContext";
 import { Eo404 } from "../views/components/Eo404";
 import HomePage from "../views/ahome/HomePage";
-import { LoginPage } from "../auth/LoginPage";
-import Bienvenido from "../views/components/Bienvenido";
+import Inicio from "../views/components/Inicio";
 
+import {Login}  from "../views/auth/LoginPage";
+
+import {LoginPage}  from "../auth/LoginPage";
+import Bienvenido from "../views/components/Bienvenido";
 import { isAuthenticated } from "../helpers/localStorage";
-import Base from "../views/components/Inicio";
 import { Icv } from "../views/components/menu/participaciones/icv/Icv";
 import { Isn } from "../views/components/menu/participaciones/isn/Isn";
 import { Fpg } from "../views/components/menu/participaciones/fpg/Fpg";
@@ -32,7 +34,7 @@ import {Foult} from "../views/components/menu/aportaciones/foult/Foult";
 import {Fism} from "../views/components/menu/aportaciones/fism/Fism";
 import {Fodem} from "../views/components/menu/aportaciones/fodem/Fodem";
 import {Fodes} from "../views/components/menu/aportaciones/fodes/Fodes";
-import {Fortamun} from "../views/components/menu/aportaciones/fortamun/Fortamun";
+import {Fortaum} from "../views/components/menu/aportaciones/fortaum/Fortaum";
 import {Fosegum} from "../views/components/menu/aportaciones/fosegum/Fosegum";
 import { Art14 } from "../views/components/menu/articulos/Art14";
 import { Calendario } from "../views/components/menu/calendario/Calendario";
@@ -44,49 +46,39 @@ export const AppRouter = () => {
  console.log(log);
   return (
 
+    <Inicio> 
 
-
-
-
-
-
-        <Routes>
-        
-        <Route path="/auth/*"   element={   <AuthRouter />    } />
-        <Route path="/inicio"   element={(log) ? <Base /> : <AuthRouter />    } />
+     <Routes>
+        <Route path="/*"   element={ (log) ? <Eo404 />:  <AuthRouter />  } />
+        {/* <Route path="/auth/*"   element={ (log) ? <Bienvenido />:  <AuthRouter />    } /> */}
         <Route path="/bienvenido"   element={(log) ? <Bienvenido /> : <AuthRouter />} />
-
-
-
-        <Route path="/inicio/icv"   element={  <Icv />} />
-        <Route path="/inicio/isn"   element={  <Isn />} />
-        <Route path="/login"   element={  <LoginPage />} />
-        <Route path="/inicio/aportaciones/foult"   element={  <Foult />} />
-        <Route path="/inicio/aportaciones/fodes"      element={<Fodes/>} />
-        <Route path="/inicio/aportaciones/fosegum"      element={<Fosegum/>} />
-        <Route path="/inicio/aportaciones/fodem"      element={<Fodem />}/>
-        <Route path="/inicio/articulos/art14"      element={<Art14/>} />
-        <Route path="/inicio/calendario"      element={<Calendario/>} />
-        <Route path="/inicio/participaciones/feief"      element={<Feief/>} />
-        <Route path="/inicio/participaciones/fexhi"      element={<Fexhi/>} />
-        <Route path="/inicio/participaciones/ffm30"      element={<Ffm30/>} />
-        <Route path="/inicio/participaciones/ffm70"      element={<Ffm70/>} />
-        <Route path="/inicio/participaciones/fofir"      element={<Fofir/>} />
-        <Route path="/inicio/participaciones/fpg"      element={<Fpg/>} />
-        <Route path="/inicio/participaciones/icv"      element={<Icv/>} />
-        <Route path="/inicio/participaciones/iepsgyd"      element={<Iepsgyd/>} />
-        <Route path="/inicio/participaciones/isan"      element={<Isan/>} />
-        <Route path="/inicio/participaciones/isn"      element={<Isn/>} />
-        <Route path="/inicio/participaciones/isr"      element={<Isr/>} />
-        <Route path="/inicio/participaciones/ieps"      element={<Ieps/>} />
-        <Route path="/inicio/participaciones/comp-isan"      element={<Compisan/>} />
-        <Route path="/inicio/participaciones/iepsgyd"      element={<Iepsgyd/>} />
+        <Route path="/inicio/icv"   element={  (log) ? <Icv />:<AuthRouter />} />
+        <Route path="/inicio/isn"   element={  (log) ? <Isn />:<AuthRouter />} />
+        <Route path="/inicio/aportaciones/foult"   element={ (log) ? <Foult />:  <AuthRouter />} />
+        <Route path="/inicio/aportaciones/fism"      element={ (log) ? <Fism />:<AuthRouter />} />
+        <Route path="/inicio/aportaciones/fodes"      element={ (log) ? <Fodes />:<AuthRouter />} />
+        <Route path="/inicio/aportaciones/fosegum"      element={ (log) ? <Fosegum />:<AuthRouter />} />
+        <Route path="/inicio/aportaciones/fodem"      element={ (log) ? <Fodem />:<AuthRouter />} />
+        <Route path="/inicio/aportaciones/fortaum"      element={ (log) ? <Fortaum/>:<AuthRouter />} />
+        <Route path="/inicio/articulos/art14"      element={ (log) ? <Art14 />:<AuthRouter />} />
+        <Route path="/inicio/calendario"      element={ (log) ? <Calendario />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/feief"      element={ (log) ? <Feief />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/fexhi"      element={ (log) ? <Fexhi />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/ffm30"      element={ (log) ? <Ffm30 />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/ffm70"      element={ (log) ? <Ffm70 />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/fofir"      element={ (log) ? <Fofir />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/fpg"      element={ (log) ? <Fpg />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/icv"      element={ (log) ? <Icv />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/iepsgyd"      element={ (log) ? <Iepsgyd />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/isan"      element={ (log) ? <Isan />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/isn"      element={ (log) ? <Isn />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/isr"      element={ (log) ? <Isr />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/ieps"      element={ (log) ? <Ieps />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/comp-isan"      element={ (log) ? <Compisan />:<AuthRouter />} />
+        <Route path="/inicio/participaciones/iepsgyd"      element={ (log) ? <Iepsgyd />:<AuthRouter />} />
        
-     
-
-
-
-
       </Routes>
+
+      </Inicio> 
   );
 };

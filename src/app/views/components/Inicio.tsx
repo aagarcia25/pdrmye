@@ -188,7 +188,10 @@ export default function Inicio({ children, ...props }: Props) {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         <CssBaseline />
-        <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} >
+        <Box 
+                component="nav"
+                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+         >
           {isSmUp ? null : (
                 <Navigator
                 PaperProps={{ style: { width: drawerWidth } }}
@@ -203,9 +206,10 @@ export default function Inicio({ children, ...props }: Props) {
         </Box>
 
 
+
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <Header onDrawerToggle={handleDrawerToggle} />
-          <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: 'rgb(255, 155, 255)' }}>
+          <Box component="main"           sx={{ flex: 1, py: 6, px: 4, bgcolor: 'rgb(255, 155, 255)' }}>
 
 
             {children}

@@ -6,6 +6,10 @@ import { AppRouter } from './app/router/AppRouter';
 import { authReducer } from './app/views/store/reducers/authReducer';
 import { getUser } from './app/helpers/localStorage';
 import Inicio from "./app/views/components/Inicio";
+import { isAuthenticated } from './app/helpers/localStorage';
+import { Routes , Route } from 'react-router-dom';
+import { AuthRouter } from './app/router/AuthRouter';
+import { Login } from './app/views/auth/LoginPage';
 
 const init = () => {
   let sessionUser: any = getUser();
@@ -21,23 +25,21 @@ const init = () => {
 
 
 function App() {
+  const log = isAuthenticated();
   const [user, dispatchUser] = useReducer(authReducer, {}, init);
   return (
+
+          
+  <AuthContext.Provider value={{ user, dispatchUser }}>
+
+    {(log) ? <AppRouter />:<Login/> }
+
+  </AuthContext.Provider>
+
+        );
+
    
-    <AuthContext.Provider value={{ user, dispatchUser }}>
-      
-       <Inicio>
-      <AppRouter />
-
-      </Inicio>
-      
-      
  
-
-    </AuthContext.Provider> 
-    
-  
-  );
 }
 
 export default App;

@@ -33,7 +33,7 @@ const categories = [
 
 
 
-const lightColor = "rgba(255, 255, 255, 0.7)";
+const lightColor = "rgba(255, 255, 10, 0.7)";
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -51,12 +51,13 @@ export default function Header(props: HeaderProps) {
       >
         <Toolbar>
           <Grid container spacing={2} alignItems="center"> 
-            <Grid sx={{ display: { sm: "none", xs: "block" } }} item>
+            <Grid sx={{ display: { sm: "none", xs: "block" } , backgroundColor: COLOR.doradoNL }} item>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
                 onClick={onDrawerToggle}
                 edge="start"
+                
               >
                 <MenuIcon />
               </IconButton>

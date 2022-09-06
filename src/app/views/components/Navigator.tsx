@@ -76,8 +76,8 @@ export const categories = [
   {
     id: 'Aportaciones Federales',
     children: [
-      { id: 'FORTAMUN', icon: <Reorder />, path: '' },
-      { id: 'FISM', icon: <Reorder />, path: '' },
+      { id: 'FORTAUM', icon: <Reorder />, path: '/inicio/aportaciones/fortaum' },
+      { id: 'FISM', icon: <Reorder />, path: '/inicio/aportaciones/fism' },
     ],
   },
   {
