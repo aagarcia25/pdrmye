@@ -32,7 +32,7 @@ const CalendarC = () => {
        // defaultView={ lastView }
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 'calc( 90vh - 80px )' }}
+        style={{ height: 'calc( 80vh - 80px )' }}
         messages={ getMessagesES() }
       //  eventPropGetter={ eventStyleGetter }
      //   components={{

@@ -1,6 +1,4 @@
 import { getAccessToken } from './localStorage';
-import { env_var } from '../configuration/env';
-import Iauntenticacion from '../types/app.type';
 
 import { postEasy } from './apiService';
 

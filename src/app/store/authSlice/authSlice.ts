@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import AuthState from '../../types/Api_AdSisUs.type';
+import AuthState from '../../interfaces/Api_AdSisUs.type';
 import { removeTokens, setTokens } from '../../services/localStorage';
 import { authenticate } from '../../services/authenticationService';
 import { RootState } from '../store';

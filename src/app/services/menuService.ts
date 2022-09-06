@@ -1,7 +1,7 @@
 
-import  Iuser from '../types/Api_AdSisUs.type';
-import ImenuOut from '../types/Menus.type';
-import { env_var } from '../configuration/env';
+import  Iuser from '../interfaces/Api_AdSisUs.type';
+import  ImenuOut from '../interfaces/Menus.type';
+import { env_var } from '../environments/env';
 import { post } from './apiService';
 
 

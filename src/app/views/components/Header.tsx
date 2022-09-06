@@ -11,7 +11,6 @@ import Badge from "@mui/material/Badge";
 import PersonIcon from "@mui/icons-material/Person";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { COLOR } from "../../styles/colors";
-import { Article } from "@mui/icons-material";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
@@ -21,14 +20,17 @@ import MenuList from "@mui/material/MenuList";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
-import { Login } from "../auth/LoginPage";
+
 
 interface HeaderProps {
   onDrawerToggle: () => void;
 }
 
 export default function Header(props: HeaderProps) {
-  const navigate = useNavigate;
+ 
+  const navigate = useNavigate();
+  
+  
   const { onDrawerToggle } = props;
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -47,6 +49,16 @@ export default function Header(props: HeaderProps) {
 
     setOpen(false);
   };
+
+
+  
+
+ 
+
+  const onOpenCalendar = () => {
+    navigate("/Calendar");
+  };
+
 
   function handleListKeyDown(event: React.KeyboardEvent) {
     if (event.key === "Tab") {
@@ -91,6 +103,9 @@ export default function Header(props: HeaderProps) {
               </IconButton>
             </Grid>
             <Grid item xs />
+           
+           
+           
             <Grid item>
               <Tooltip title="Bandeja de correo">
                 <Badge
@@ -119,6 +134,10 @@ export default function Header(props: HeaderProps) {
                 </Badge>
               </Tooltip>
             </Grid>
+
+
+
+
             <Grid item>
               <IconButton
                 color="inherit"
@@ -127,16 +146,24 @@ export default function Header(props: HeaderProps) {
                   backgroundColor: COLOR.doradoNL,
                   "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                 }}
+                
               >
                 <CalendarMonthIcon
                   fontSize="large"
                   sx={{ color: COLOR.blanco }}
+                  onClick={onOpenCalendar}
                 />
               </IconButton>
             </Grid>
+           
+           
+           
             <Grid item>
               <Typography></Typography>
             </Grid>
+          
+          
+          
             <Grid item>
               <IconButton
                 ref={anchorRef}
@@ -202,9 +229,14 @@ export default function Header(props: HeaderProps) {
                 )}
               </Popper>
             </Grid>
+          
+          
             <Grid item>
               <Typography color="black">Cesar Rivera</Typography>
             </Grid>
+         
+         
+         
           </Grid>
         </Toolbar>
       </AppBar>
