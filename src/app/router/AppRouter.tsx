@@ -27,13 +27,14 @@ import { Fortaum } from "../views/components/menu/aportaciones/fortaum/Fortaum";
 import { Fosegum } from "../views/components/menu/aportaciones/fosegum/Fosegum";
 import { Art14 } from "../views/components/menu/articulos/Art14";
 import { Calendario } from "../views/components/menu/calendario/Calendario";
-import { MunPoblacion } from "../views/components/menu/catalogos/MunPoblacion";
+import { MunPoblacion } from "../views/components/menu/catalogos/MunPoblacion/MunPoblacion";
 import { isAuthenticated } from "../services/authenticationService";
 import CalendarC from "../views/components/CalendarC";
+import { ListNotification } from "../views/components/ListNotification";
 
 export const AppRouter = () => {
   const log = isAuthenticated();
-  console.log(log);
+  //console.log(log);
   return (
     <Inicio>
       <Routes>
@@ -141,6 +142,11 @@ export const AppRouter = () => {
         {/* SECCION DE CALENDARIO */}
         <Route path="/Calendar" element={<CalendarC />} />
         {/* FIN SECCION DE CALENDARIO */}
+
+          {/* SECCION DE NOTIFICACIONES */}
+          <Route path="/Notification" element={<ListNotification />} />
+        {/* FIN SECCION DE NOTIFICACIONES */}
+
       </Routes>
     </Inicio>
   );

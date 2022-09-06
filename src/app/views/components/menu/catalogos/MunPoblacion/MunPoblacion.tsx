@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
 import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
 
-import { CustomNoRowsOverlay } from '../CustomNoRowsOverlay'
-import { CustomToolbar } from '../CustomToolbar'
-import { getUser } from '../../../../services/localStorage'
-import { CatalogosServices } from '../../../../services/catalogosServices'
+import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
+import { CustomToolbar } from '../../CustomToolbar'
+import { getUser } from '../../../../../services/localStorage'
+import { CatalogosServices } from '../../../../../services/catalogosServices'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
-import { messages } from '../../../styles'
+import { messages } from '../../../../styles'
 
 export const MunPoblacion = () => {
   const user = getUser();

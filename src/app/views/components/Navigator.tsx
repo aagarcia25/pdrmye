@@ -28,8 +28,23 @@ export const categories = [
   {
     id: 'Catálogos',
     children: [
+
+      { id: 'Municipios', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Municipio Póblacion', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Municipio Facturación', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Municipio Pobreza Moderada', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Municipio Pobreza Extrema', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Municipio Póblacion Proyección', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Municipio Recaudación', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Municipio Territorio', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      
+      { id: 'Avisos', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Eventos', icon: <Article />, path: '/inicio/catalogos/munpob' },
+     
+      
+      { id: 'Tipo de Fondos', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Tasa de Interes', icon: <Article />, path: '/inicio/catalogos/munpob' },
       { id: 'UMA', icon: <Article />, path: '' },
-      { id: 'Municipio Póblacion', icon: <Article />, path: '/inicio/catalogos/munpob' }
 
     ],
   },

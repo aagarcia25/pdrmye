@@ -18,8 +18,8 @@ import { env_var } from '../environments/env';
 
 
 const handleResponse = (response: any) => {
-    console.log('response');
-    console.log(response);
+   // console.log('response');
+   // console.log(response);
     let rs;
    // if (response.status === 0) {
         // alertaSAL2("Error de Red","error",1)
@@ -39,7 +39,7 @@ const handleResponse = (response: any) => {
 
 
    // }
-    console.log(rs);
+    //console.log(rs);
     return rs;
 }
 
@@ -71,7 +71,7 @@ export const get = async function (url: any, params: any = {}) {
     let header = await getHeaderInfo();
     try {
         let resp = await axios.get(`${env_var.BASE_URL}` + url, { ...header, params });
-       // return handleResponse(resp);
+        return handleResponse(resp.data);
     } catch (err: any) {
         throw handleResponse(err.response)
     }

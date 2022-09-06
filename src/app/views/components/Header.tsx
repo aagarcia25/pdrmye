@@ -20,6 +20,8 @@ import MenuList from "@mui/material/MenuList";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
+import { CatalogosServices } from "../../services/catalogosServices";
+
 
 
 interface HeaderProps {
@@ -30,6 +32,10 @@ export default function Header(props: HeaderProps) {
  
   const navigate = useNavigate();
   
+  const [cnotif, setCnotif] = React.useState(0); 
+
+
+
   
   const { onDrawerToggle } = props;
   const [open, setOpen] = React.useState(false);
@@ -53,7 +59,9 @@ export default function Header(props: HeaderProps) {
 
   
 
- 
+ const onNotification = () =>{
+  navigate("/Notification");
+ }
 
   const onOpenCalendar = () => {
     navigate("/Calendar");
@@ -82,6 +90,38 @@ export default function Header(props: HeaderProps) {
   function pathLogin(path: string) {
     return path;
   }
+
+
+  let data = {
+    NUMOPERACION:5,
+    CHUSER:1
+  };
+
+  React.useEffect(() => {
+    CatalogosServices.Notificaciones(data).then((res) => {
+     let result = res.RESPONSE;
+     setCnotif(result[0].count);
+    });
+  }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <React.Fragment>
@@ -113,7 +153,7 @@ export default function Header(props: HeaderProps) {
                     vertical: "bottom",
                     horizontal: "left",
                   }}
-                  badgeContent={777}
+                  badgeContent={cnotif}
                   color="primary"
                 >
                   <IconButton
@@ -129,6 +169,7 @@ export default function Header(props: HeaderProps) {
                     <NotificationsNoneIcon
                       fontSize="large"
                       sx={{ color: COLOR.blanco }}
+                      onClick={onNotification}
                     />
                   </IconButton>
                 </Badge>
