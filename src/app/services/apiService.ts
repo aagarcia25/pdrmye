@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getFormDataHeader, getHeaderInfo, getHeaderInitial } from '../helpers/tokenCreator';
+import { getFormDataHeader, getHeaderInfo, getHeaderInitial } from './tokenCreator';
 import { ApiResponse } from '../interfaces/response/ApiResponse';
 import { env_var } from '../environments/env';
 

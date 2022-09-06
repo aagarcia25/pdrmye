@@ -31,7 +31,7 @@ export const categories = [
 
       { id: 'Municipios', icon: <Article />, path: '/inicio/catalogos/munpob' },
       { id: 'Municipio Póblacion', icon: <Article />, path: '/inicio/catalogos/munpob' },
-      { id: 'Municipio Facturación', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Municipio Facturación', icon: <Article />, path: '/inicio/catalogos/munfacturacion' },
       { id: 'Municipio Pobreza Moderada', icon: <Article />, path: '/inicio/catalogos/munpob' },
       { id: 'Municipio Pobreza Extrema', icon: <Article />, path: '/inicio/catalogos/munpob' },
       { id: 'Municipio Póblacion Proyección', icon: <Article />, path: '/inicio/catalogos/munpob' },

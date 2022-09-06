@@ -21,5 +21,8 @@ export class CatalogosServices {
         return await post('munpoblacion', data);
     };
 
+    public static async munfacturacion(data : any) {
+        return await post('munfacturacion', data);
+    };
 
 }
