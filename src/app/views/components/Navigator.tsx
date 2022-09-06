@@ -17,7 +17,7 @@ import { useNavigate, Link } from 'react-router-dom';
 export const categories = [
 
   {
-    id: 'Catálogos',
+    id: 'Inicio',
     children: [
       { id: 'Bienvenido', icon: <Article />, path: '/bienvenido' }
 

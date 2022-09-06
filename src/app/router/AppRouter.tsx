@@ -1,17 +1,9 @@
 import { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthRouter } from "./AuthRouter";
-import { AuthContext } from "../views/store/contexts/AuthContext";
 import { Eo404 } from "../views/components/Eo404";
-import HomePage from "../views/ahome/HomePage";
 import Inicio from "../views/components/Inicio";
-
-import { Login } from "../views/auth/LoginPage";
-
-import { LoginPage } from "../auth/LoginPage";
 import Bienvenido from "../views/components/Bienvenido";
-
-import Base from "../views/components/Inicio";
 
 import { Icv } from "../views/components/menu/participaciones/icv/Icv";
 import { Isn } from "../views/components/menu/participaciones/isn/Isn";
