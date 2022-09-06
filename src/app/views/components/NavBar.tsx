@@ -90,7 +90,7 @@ const NavBar = ({children,drawerWidth, ...props} : Props) => {
   };
   const handleCalendarOpen = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    console.log("Abri calendario ") ;
+    navigate("/calendario");
   };
   const handleDocumentOpen = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();

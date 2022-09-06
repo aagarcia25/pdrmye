@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Calendar } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { localizer } from '../helpers/calendarLocalizer';
-import { getMessagesES } from '../helpers/getMessages';
-import Layout from '../layout/Layout';
-import { CalendarioService } from '../services/calendarioService';
+import { localizer } from '../../helpers/calendarLocalizer';
+import { getMessagesES } from '../../helpers/getMessages';
+
+import { CalendarioService } from '../../services/calendarioService';
 
 const CalendarC = () => {
 
@@ -24,7 +24,7 @@ const CalendarC = () => {
 
   
   return (
-    <Layout>
+
     <Calendar
         culture='es'
         localizer={ localizer }
@@ -43,7 +43,7 @@ const CalendarC = () => {
       //  onView={ onViewChanged }
       />
 
-   </Layout>
+ 
    
   )
 }
