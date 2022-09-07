@@ -24,5 +24,21 @@ export class CatalogosServices {
     public static async munfacturacion(data : any) {
         return await post('munfacturacion', data);
     };
+    public static async munpobrezamod(data : any) {
+        return await post('munpobrezamod', data);
+    };
+    public static async munproyec(data : any) {
+        return await post('munproyec', data);
+    };
+    public static async munterritorio(data : any) {
+        return await post('munterritorio', data);
+    };
+    public static async munpobrezaext(data : any) {
+        return await post('munpobrezaext', data);
+    };
+
+    
+
+    
 
 }

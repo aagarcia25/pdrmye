@@ -14,6 +14,7 @@ import { Reorder } from '@mui/icons-material';
 import { useNavigate, Link } from 'react-router-dom';
 
 
+
 export const categories = [
 
   {
@@ -32,11 +33,11 @@ export const categories = [
       { id: 'Municipios', icon: <Article />, path: '/inicio/catalogos/munpob' },
       { id: 'Municipio Póblacion', icon: <Article />, path: '/inicio/catalogos/munpob' },
       { id: 'Municipio Facturación', icon: <Article />, path: '/inicio/catalogos/munfacturacion' },
-      { id: 'Municipio Pobreza Moderada', icon: <Article />, path: '/inicio/catalogos/munpob' },
-      { id: 'Municipio Pobreza Extrema', icon: <Article />, path: '/inicio/catalogos/munpob' },
-      { id: 'Municipio Póblacion Proyección', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Municipio Pobreza Moderada', icon: <Article />, path: '/inicio/catalogos/munpobmod' },
+      { id: 'Municipio Pobreza Extrema', icon: <Article />, path: '/inicio/catalogos/munpobrezaext' },
+      { id: 'Municipio Póblacion Proyección', icon: <Article />, path: '/inicio/catalogos/munproyec' },
       { id: 'Municipio Recaudación', icon: <Article />, path: '/inicio/catalogos/munpob' },
-      { id: 'Municipio Territorio', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Municipio Territorio', icon: <Article />, path: '/inicio/catalogos/munterritorio' },
       
       { id: 'Avisos', icon: <Article />, path: '/inicio/catalogos/munpob' },
       { id: 'Eventos', icon: <Article />, path: '/inicio/catalogos/munpob' },
