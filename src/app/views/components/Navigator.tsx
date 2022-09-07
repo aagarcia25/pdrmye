@@ -130,6 +130,45 @@ export const categories = [
     ],
   },
 
+  {
+    id: 'Organismos Paraestatales',
+    children: [
+      { id: '3% de ISN', icon: <Article />, path: '/bienvenido' },
+      { id: 'Pensiones Vitalicias', icon: <Article />, path: '/bienvenido' },
+      { id: 'Pago de 1 y 2 al Millar', icon: <Article />, path: '/bienvenido' },
+      { id: 'Gastos Extraordinario con Presupuesto Virtual', icon: <Article />, path: '/bienvenido' },
+      { id: 'Pago Virtual ICV', icon: <Article />, path: '/bienvenido' },
+    ],
+  },
+
+  {
+    id: 'Donativos ICV',
+    children: [
+      { id: 'Cruz Roja', icon: <Article />, path: '/bienvenido' },
+      { id: 'Bomberos', icon: <Article />, path: '/bienvenido' },
+    ],
+  },
+
+  {
+    id: 'Ayudas Sociales',
+    children: [
+      { id: 'Cruz Roja', icon: <Article />, path: '/bienvenido' },
+      { id: 'Bomberos', icon: <Article />, path: '/bienvenido' },
+    ],
+  },
+
+
+  {
+    id: 'Organismos',
+    children: [
+      { id: 'Servicios Personales', icon: <Article />, path: '/bienvenido' },
+      { id: 'Servicios Generales', icon: <Article />, path: '/bienvenido' },
+      { id: 'Programa Estatal de Inversion (PEI)', icon: <Article />, path: '/bienvenido' },
+      { id: 'Anticipos', icon: <Article />, path: '/bienvenido' },
+      { id: 'Gastos Extraodinarios', icon: <Article />, path: '/bienvenido' },
+    ],
+  },
+
 
 ];
 
