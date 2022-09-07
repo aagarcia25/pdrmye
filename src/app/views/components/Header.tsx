@@ -22,10 +22,10 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
 
-
-
 interface HeaderProps {
   onDrawerToggle: () => void;
+  name: string;
+  id:any;
 }
 
 export default function Header(props: HeaderProps) {
@@ -273,7 +273,7 @@ export default function Header(props: HeaderProps) {
           
           
             <Grid item>
-              <Typography color="black">Cesar Rivera</Typography>
+              <Typography color="black">{props.name}</Typography>
             </Grid>
          
          
