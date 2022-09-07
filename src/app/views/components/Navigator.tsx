@@ -42,7 +42,7 @@ export const categories = [
       { id: 'Municipio Recaudación', icon: <Article />, path: '/inicio/catalogos/munrecaudacion' },
       { id: 'Municipio Territorio', icon: <Article />, path: '/inicio/catalogos/munterritorio' },
       
-      { id: 'Avisos', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Avisos', icon: <Article />, path: '/inicio/catalogos/avisos' },
       { id: 'Eventos', icon: <Article />, path: '/inicio/catalogos/munpob' },
      
       
@@ -136,11 +136,11 @@ export const categories = [
 
 
 ];
-
+/////////////////////////////////// color de fuente children del menu 
 const item = {
   py: '2px',
   px: 3,
-  color: '#B08C55',
+  color: '#888888',
   '&:hover, &:focus': {
 
   },
@@ -150,7 +150,7 @@ const itemCategory = {
   boxShadow: '0 -1px 0 rgb(255,255,255,0.1) inset',
   py: 1.5,
   px: 3,
-  bgcolor: '#B08C55'
+  bgcolor: '#777777'
 };
 
 export default function Navigator(props: DrawerProps) {
@@ -159,21 +159,21 @@ export default function Navigator(props: DrawerProps) {
   return (
  
    
-    
+   
+   <Drawer variant="permanent" {...other  }>
+ <Box>
 
-    <Drawer variant="permanent" {...other  }>
-
-
-
- <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, width: "12vw"  }}>
+    <AppBar position="absolute" sx={{bgcolor: 'rgb(255, 255, 255)', zIndex: (theme) => theme.zIndex.drawer + 1, width: "100%"  }}>
       <Toolbar>
-      <img src={Logo} style={{ width: "max-content" }} />
+      <img src={Logo} style={{ width: '100%' }} />
         
       </Toolbar>
 
       
     </AppBar>
 
+   
+   
 
 
       <List disablePadding>
@@ -193,7 +193,7 @@ export default function Navigator(props: DrawerProps) {
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
             <ListItem sx={{ py: 2, px: 3 }}>
-              <ListItemText sx={{ color: '#777777' }}>{id}</ListItemText>
+              <ListItemText sx={{ color: '#555555' }}>{id}</ListItemText>
             </ListItem>
             {children.map(({ id: childId, icon, path }) => (
               <ListItem disablePadding key={childId}>
@@ -209,7 +209,8 @@ export default function Navigator(props: DrawerProps) {
           </Box>
         ))}
       </List>
+       </Box>
     </Drawer>
-    
+   
   );
 }

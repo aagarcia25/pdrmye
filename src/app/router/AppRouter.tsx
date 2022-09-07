@@ -39,6 +39,7 @@ import { MunPobrezaExtrema } from "../views/components/menu/catalogos/MunPobreza
 import { MunRecaudacion } from "../views/components/menu/catalogos/MunRecaudacion/MunRecaudacion";
 import { Umas } from "../views/components/menu/catalogos/Umas/Umas";
 import { Coeficientes } from "../views/components/menu/catalogos/Coeficientes/Coeficientes";
+import { Avisos } from "../views/components/menu/catalogos/Avisos/Avisos";
 
 
 
@@ -156,7 +157,7 @@ export const AppRouter = () => {
         <Route path="/inicio/catalogos/munrecaudacion" element={<MunRecaudacion />} />
         <Route path="/inicio/catalogos/umas" element={<Umas />} />
         <Route path="/inicio/catalogos/coeficientes" element={<Coeficientes />} />
-        
+        <Route path="/inicio/catalogos/avisos" element={<Avisos />} />
 
         
         

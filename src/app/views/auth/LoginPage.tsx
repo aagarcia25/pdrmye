@@ -137,7 +137,7 @@ const [usuario, setUsuario] = useState(
                 <Typography
                   sx={{
                     fontSize: "1.5vw",
-                    fontFamily: "MontserratBold",
+                    fontFamily: "Montserrat,sans-seri",
                     color: "#858180",
                   }}
                 >
@@ -266,7 +266,7 @@ const [usuario, setUsuario] = useState(
                     height: "5vh",
                     width: "7vw",
                     textTransform: "capitalize",
-                    fontFamily: "MontserratLight",
+                    fontFamily: "Montserrat,sans-seri",
                     fontSize: ".8vw",
                   }}
                 >
@@ -308,7 +308,7 @@ const [usuario, setUsuario] = useState(
           justifyContent: "center",
         }}
       >
-        Gobierno de Nuevo Leon
+2022 Aviso de Privacidad Contacto
       </footer>
     </Box>
   );

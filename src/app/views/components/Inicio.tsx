@@ -132,7 +132,7 @@ theme = {
       styleOverrides: {
         root: {
           '&.Mui-selected': {
-            color: '#4fc3f7',
+            color: '#rgb(255,255,255,0.15)',
           },
         },
       },
@@ -186,7 +186,7 @@ export default function Inicio({ children, ...props }: Props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+      <Box sx={{ display: 'flex', minHeight: '100vh' ,}}>
         <CssBaseline />
         <Box 
                 component="nav"
