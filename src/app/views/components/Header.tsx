@@ -196,14 +196,8 @@ export default function Header(props: HeaderProps) {
                 />
               </IconButton>
             </Grid>
-           
-           
-           
-            <Grid item>
-              <Typography></Typography>
-            </Grid>
           
-          
+          <Grid item></Grid>
           
             <Grid item>
               <IconButton
