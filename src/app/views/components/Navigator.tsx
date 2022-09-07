@@ -12,7 +12,10 @@ import PersonAddDisabled from '@mui/icons-material/PersonAddDisabled';
 import PeopleAlt from '@mui/icons-material/PeopleAlt';
 import { Reorder } from '@mui/icons-material';
 import { useNavigate, Link } from 'react-router-dom';
-
+import { flexbox } from '@mui/system';
+import AppBar from '@mui/material/AppBar';
+import CssBaseline from '@mui/material/CssBaseline';
+import Toolbar from '@mui/material/Toolbar';
 
 
 export const categories = [
@@ -46,6 +49,7 @@ export const categories = [
       { id: 'Tipo de Fondos', icon: <Article />, path: '/inicio/catalogos/munpob' },
       { id: 'Tasa de Interes', icon: <Article />, path: '/inicio/catalogos/munpob' },
       { id: 'UMAS', icon: <Article />, path: '/inicio/catalogos/umas' },
+      { id: 'Coeficientes', icon: <Article />, path: '/inicio/catalogos/coeficientes' },
 
     ],
   },
@@ -153,7 +157,25 @@ export default function Navigator(props: DrawerProps) {
   const { ...other } = props;
   const navigate = useNavigate();
   return (
-    <Drawer variant="permanent" {...other}>
+ 
+   
+    
+
+    <Drawer variant="permanent" {...other  }>
+
+
+
+ <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, width: "12vw"  }}>
+      <Toolbar>
+      <img src={Logo} style={{ width: "max-content" }} />
+        
+      </Toolbar>
+
+      
+    </AppBar>
+
+
+
       <List disablePadding>
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#111111', bgcolor: '#FFFFFF' }}>
 
@@ -164,10 +186,7 @@ export default function Navigator(props: DrawerProps) {
           </ListItemIcon>
           <ListItemText>
 
-            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
-
-              <img src={Logo} style={{ width: "10vw" }} />
-            </Box>
+         
 
           </ListItemText>
         </ListItem>
@@ -191,5 +210,6 @@ export default function Navigator(props: DrawerProps) {
         ))}
       </List>
     </Drawer>
+    
   );
 }
