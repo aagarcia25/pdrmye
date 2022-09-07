@@ -36,7 +36,8 @@ import { MunPobrezaModerada } from "../views/components/menu/catalogos/MunPobrez
 import { MunPobProyeccion } from "../views/components/menu/catalogos/MunPobProyeccion/MunPobProyeccion";
 import { MunTerritorio } from "../views/components/menu/catalogos/MunTerritorio/MunTerritorio";
 import { MunPobrezaExtrema } from "../views/components/menu/catalogos/MunPobrezaExtrema/MunPobrezaExtrema";
-
+import { MunRecaudacion } from "../views/components/menu/catalogos/MunRecaudacion/MunRecaudacion";
+import { Umas } from "../views/components/menu/catalogos/Umas/Umas";
 
 
 
@@ -151,6 +152,9 @@ export const AppRouter = () => {
         <Route path="/inicio/catalogos/munproyec" element={<MunPobProyeccion />} />
         <Route path="/inicio/catalogos/munterritorio" element={<MunTerritorio />} />
         <Route path="/inicio/catalogos/munpobrezaext" element={<MunPobrezaExtrema />} />
+        <Route path="/inicio/catalogos/munrecaudacion" element={<MunRecaudacion />} />
+        <Route path="/inicio/catalogos/umas" element={<Umas />} />
+        
         
 
         

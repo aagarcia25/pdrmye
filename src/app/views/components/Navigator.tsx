@@ -36,7 +36,7 @@ export const categories = [
       { id: 'Municipio Pobreza Moderada', icon: <Article />, path: '/inicio/catalogos/munpobmod' },
       { id: 'Municipio Pobreza Extrema', icon: <Article />, path: '/inicio/catalogos/munpobrezaext' },
       { id: 'Municipio Póblacion Proyección', icon: <Article />, path: '/inicio/catalogos/munproyec' },
-      { id: 'Municipio Recaudación', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Municipio Recaudación', icon: <Article />, path: '/inicio/catalogos/munrecaudacion' },
       { id: 'Municipio Territorio', icon: <Article />, path: '/inicio/catalogos/munterritorio' },
       
       { id: 'Avisos', icon: <Article />, path: '/inicio/catalogos/munpob' },
@@ -45,7 +45,7 @@ export const categories = [
       
       { id: 'Tipo de Fondos', icon: <Article />, path: '/inicio/catalogos/munpob' },
       { id: 'Tasa de Interes', icon: <Article />, path: '/inicio/catalogos/munpob' },
-      { id: 'UMA', icon: <Article />, path: '' },
+      { id: 'UMAS', icon: <Article />, path: '/inicio/catalogos/umas' },
 
     ],
   },

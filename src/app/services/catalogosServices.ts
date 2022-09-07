@@ -36,6 +36,11 @@ export class CatalogosServices {
     public static async munpobrezaext(data : any) {
         return await post('munpobrezaext', data);
     };
+    public static async munrecaudacion(data : any) {
+        return await post('munrecaudacion', data);
+    };
+   
+    
 
     
 
