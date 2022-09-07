@@ -208,7 +208,7 @@ export default function Inicio({ children, ...props }: Props) {
 
 
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <Header onDrawerToggle={handleDrawerToggle} />
+          <Header onDrawerToggle={handleDrawerToggle} name="Cesar Rivera" id={1}/>
           <Box component="main"           sx={{ flex: 1, py: 6, px: 4, bgcolor: 'rgb(255, 255, 255)' }}>
 
 
