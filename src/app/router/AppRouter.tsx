@@ -39,6 +39,7 @@ import { MunPobrezaExtrema } from "../views/components/menu/catalogos/MunPobreza
 import { MunRecaudacion } from "../views/components/menu/catalogos/MunRecaudacion/MunRecaudacion";
 import { Umas } from "../views/components/menu/catalogos/Umas/Umas";
 import { Coeficientes } from "../views/components/menu/catalogos/Coeficientes/Coeficientes";
+import { Perfil } from "../views/components/perfil/Perfil";
 
 
 
@@ -169,6 +170,10 @@ export const AppRouter = () => {
           {/* SECCION DE NOTIFICACIONES */}
           <Route path="/Notification" element={<ListNotification />} />
         {/* FIN SECCION DE NOTIFICACIONES */}
+
+        {/* SECCION DE PERFIL */}
+        <Route path="/perfil" element={<Perfil/>} />
+        {/* FIN SECCION DE PERFIL */}
 
       </Routes>
     </Inicio>
