@@ -39,7 +39,10 @@ export class CatalogosServices {
     public static async munrecaudacion(data : any) {
         return await post('munrecaudacion', data);
     };
-   
+    public static async coeficientes(data : any) {
+        return await post('coeficientes', data);
+    };
+    
     
 
     

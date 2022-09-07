@@ -38,6 +38,8 @@ import { MunTerritorio } from "../views/components/menu/catalogos/MunTerritorio/
 import { MunPobrezaExtrema } from "../views/components/menu/catalogos/MunPobrezaExtrema/MunPobrezaExtrema";
 import { MunRecaudacion } from "../views/components/menu/catalogos/MunRecaudacion/MunRecaudacion";
 import { Umas } from "../views/components/menu/catalogos/Umas/Umas";
+import { Coeficientes } from "../views/components/menu/catalogos/Coeficientes/Coeficientes";
+import { Perfil } from "../views/components/perfil/Perfil";
 
 
 
@@ -154,7 +156,7 @@ export const AppRouter = () => {
         <Route path="/inicio/catalogos/munpobrezaext" element={<MunPobrezaExtrema />} />
         <Route path="/inicio/catalogos/munrecaudacion" element={<MunRecaudacion />} />
         <Route path="/inicio/catalogos/umas" element={<Umas />} />
-        
+        <Route path="/inicio/catalogos/coeficientes" element={<Coeficientes />} />
         
 
         
@@ -168,6 +170,10 @@ export const AppRouter = () => {
           {/* SECCION DE NOTIFICACIONES */}
           <Route path="/Notification" element={<ListNotification />} />
         {/* FIN SECCION DE NOTIFICACIONES */}
+
+        {/* SECCION DE PERFIL */}
+        <Route path="/perfil" element={<Perfil/>} />
+        {/* FIN SECCION DE PERFIL */}
 
       </Routes>
     </Inicio>
