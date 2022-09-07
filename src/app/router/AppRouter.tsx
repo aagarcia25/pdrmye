@@ -38,6 +38,7 @@ import { MunTerritorio } from "../views/components/menu/catalogos/MunTerritorio/
 import { MunPobrezaExtrema } from "../views/components/menu/catalogos/MunPobrezaExtrema/MunPobrezaExtrema";
 import { MunRecaudacion } from "../views/components/menu/catalogos/MunRecaudacion/MunRecaudacion";
 import { Umas } from "../views/components/menu/catalogos/Umas/Umas";
+import { Perfil } from "../views/components/profile/Perfil";
 
 
 
@@ -168,6 +169,10 @@ export const AppRouter = () => {
           {/* SECCION DE NOTIFICACIONES */}
           <Route path="/Notification" element={<ListNotification />} />
         {/* FIN SECCION DE NOTIFICACIONES */}
+
+        {/* SECCION DE PERFIL */}
+        <Route path="/perfil" element={<Perfil />} />
+        {/* FIN SECCION DE PERFIL */}
 
       </Routes>
     </Inicio>
