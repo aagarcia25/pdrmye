@@ -25,7 +25,7 @@ import { Fodem } from "../views/components/menu/aportaciones/fodem/Fodem";
 import { Fodes } from "../views/components/menu/aportaciones/fodes/Fodes";
 import { Fortaum } from "../views/components/menu/aportaciones/fortaum/Fortaum";
 import { Fosegum } from "../views/components/menu/aportaciones/fosegum/Fosegum";
-import { Art14 } from "../views/components/menu/articulos/Art14";
+
 import { Calendario } from "../views/components/menu/calendario/Calendario";
 import { MunPoblacion } from "../views/components/menu/catalogos/MunPoblacion/MunPoblacion";
 import { isAuthenticated } from "../services/authenticationService";
@@ -39,7 +39,12 @@ import { MunPobrezaExtrema } from "../views/components/menu/catalogos/MunPobreza
 import { MunRecaudacion } from "../views/components/menu/catalogos/MunRecaudacion/MunRecaudacion";
 import { Umas } from "../views/components/menu/catalogos/Umas/Umas";
 import { Coeficientes } from "../views/components/menu/catalogos/Coeficientes/Coeficientes";
+
 import { Avisos } from "../views/components/menu/catalogos/Avisos/Avisos";
+
+import { Perfil } from "../views/components/perfil/Perfil";
+import { Art14f1 } from "../views/components/menu/articulos/Art14f1.tsx/Art14f1";
+
 
 
 
@@ -82,10 +87,7 @@ export const AppRouter = () => {
           path="/inicio/aportaciones/fortaum"
           element={log ? <Fortaum /> : <AuthRouter />}
         />
-        <Route
-          path="/inicio/articulos/art14"
-          element={log ? <Art14 /> : <AuthRouter />}
-        />
+       
         <Route
           path="/inicio/calendario"
           element={log ? <Calendario /> : <AuthRouter />}
@@ -170,6 +172,18 @@ export const AppRouter = () => {
           {/* SECCION DE NOTIFICACIONES */}
           <Route path="/Notification" element={<ListNotification />} />
         {/* FIN SECCION DE NOTIFICACIONES */}
+
+        {/* SECCION DE PERFIL */}
+        <Route path="/perfil" element={<Perfil/>} />
+        {/* FIN SECCION DE PERFIL */}
+
+
+        {/* SECCION DE ARTICULOS */}
+        <Route       path="/inicio/articulos/art14f1"  element={<Art14f1 />}/>
+        <Route       path="/inicio/articulos/art14f2"  element={<Art14f1 />}/>
+        <Route       path="/inicio/articulos/art14f3"  element={<Art14f1 />}/>
+        {/* FIN SECCION DE ARTICULOS */}
+        
 
       </Routes>
     </Inicio>

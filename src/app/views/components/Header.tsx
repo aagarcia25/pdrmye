@@ -63,10 +63,17 @@ export default function Header(props: HeaderProps) {
   navigate("/Notification");
  }
 
+ const onLogOut = () =>{
+  navigate("/");
+ }
+
   const onOpenCalendar = () => {
     navigate("/Calendar");
   };
 
+  const onConfigProfile = () => {
+    navigate("/perfil");
+  };
 
   function handleListKeyDown(event: React.KeyboardEvent) {
     if (event.key === "Tab") {
@@ -244,15 +251,13 @@ export default function Header(props: HeaderProps) {
                           onKeyDown={handleListKeyDown}
                         >
                           <MenuItem
-                            onClick={() =>
-                              console.log("Clicked ManageAccounts")
-                            }
+                            onClick={onConfigProfile}
                           >
                             <ManageAccountsIcon sx={{ color: COLOR.negro }} />
                             Configuración de perfil
                           </MenuItem>
                           <MenuItem
-                            onClick={() => console.log("Clicked logout")}
+                            onClick={onLogOut}
                           >
                             <LogoutIcon sx={{ color: COLOR.negro }} />
                             Cerrar sesión
