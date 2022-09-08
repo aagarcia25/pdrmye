@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
-import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
+import { DataGrid, esES, GridColDef, GridColTypeDef } from '@mui/x-data-grid'
 
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { CustomToolbar } from '../../CustomToolbar'
@@ -9,12 +9,22 @@ import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { messages } from '../../../../styles'
 
 export const TasaInteres = () => {
+
+  
     
+  const currencyFormatter = new Intl.NumberFormat('percent', {
+    style: 'percent',
+    //currency: 'MXN',
+    maximumFractionDigits: 2,
+    
+  });
 
-    const currency = function formatomoneda(){
-        return new Intl.NumberFormat('es-MX', {style: 'currency',currency: 'MXN', minimumFractionDigits: 4});
-    };
-
+  const porcentage: GridColTypeDef = {
+    type: 'number',
+    width: 130,
+    valueFormatter: ({ value }) =>  currencyFormatter.format(value/100),
+    cellClassName: 'font-tabular-nums',
+  };
 
 
 
@@ -27,8 +37,9 @@ export const TasaInteres = () => {
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150 , hide:true  , description:messages.dataTableColum.id},
-    { field: "Interes", headerName: "Tasa", width: 150 },
     { field: "Fecha", headerName: "Fecha", width: 150 },
+    { field: "Interes", headerName: "Tasa", width: 150,...porcentage },
+   
    
   
    
