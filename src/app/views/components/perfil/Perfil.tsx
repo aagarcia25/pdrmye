@@ -24,13 +24,13 @@ export function Perfil() {
           //Espacio para el Título
           width: "7%",
           height: "6%",
-          backgroundColor: COLOR.doradoNL,
+          backgroundColor: COLOR.grisTarjetaBienvenido,
         }}
       >
         <Typography
           sx={{
             //Perfil
-            color: COLOR.blanco,
+            color: COLOR.negro,
           }}
           variant="h3"
         >
@@ -51,7 +51,7 @@ export function Perfil() {
         <Box
           sx={{
             // Datos de Usuario
-            backgroundColor: COLOR.doradoNL,
+            
             width: "30%",
             height: "90%",
             borderColor: 'primary.main' ,
@@ -150,13 +150,13 @@ export function Perfil() {
             sx={{ //Header de Editar contenido
               width: "100%", 
               height: "10%",
-              backgroundColor: COLOR.doradoNL,
+              backgroundColor: COLOR.grisTarjetaBienvenido,
               display: "flex",
               alignItems: "center",
             }}
           ><Typography variant="h4" sx={{
             //Perfil
-            color: COLOR.blanco,
+            color: COLOR.negro,
           }}>Editar Información de Contacto</Typography>
             
           </Box>
