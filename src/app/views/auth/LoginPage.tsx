@@ -4,6 +4,9 @@ import React, { useEffect, useState } from "react";
 import logo from "../../assets/img/logo.svg";
 import "../../../../src/App.css";
 import { NavLink, useNavigate } from 'react-router-dom'
+
+
+
 export const Login = () => {
   const navigate = useNavigate();
 const [usuario, setUsuario] = useState(
@@ -193,9 +196,9 @@ const [usuario, setUsuario] = useState(
                       width: "80%",
                       color: userInputTextColor,
                       fontFamily: "MontserratLight",
-                      fontSize: ".8vw",
+                      fontSize: "1.2vw",
                     }}
-                  
+                    onClickCapture={() => onClickTxtUsuario()}
                     onBlurCapture={() => verifyUsuario()}
                   />
                 </Box>
@@ -232,7 +235,7 @@ const [usuario, setUsuario] = useState(
                       width: "80%",
                       color: contrasenaTextInputColor,
                       fontFamily: "MontserratLight",
-                      fontSize: ".8vw",
+                      fontSize: "1.2vw",
                     }}
                     onClickCapture={() => onClickTxtContrasena()}
                     onBlurCapture={() => verifyContrasena()}
@@ -308,7 +311,7 @@ const [usuario, setUsuario] = useState(
           justifyContent: "center",
         }}
       >
-2022 Aviso de Privacidad Contacto
+2022 Aviso de Privacidad Contacto PDRMyE
       </footer>
     </Box>
   );
