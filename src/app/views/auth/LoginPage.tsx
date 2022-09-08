@@ -195,7 +195,7 @@ const [usuario, setUsuario] = useState(
                       fontFamily: "MontserratLight",
                       fontSize: ".8vw",
                     }}
-                    onClickCapture={() => onClickTxtUsuario()}
+                  
                     onBlurCapture={() => verifyUsuario()}
                   />
                 </Box>

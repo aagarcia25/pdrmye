@@ -44,6 +44,8 @@ import { Avisos } from "../views/components/menu/catalogos/Avisos/Avisos";
 
 import { Perfil } from "../views/components/perfil/Perfil";
 import { Art14f1 } from "../views/components/menu/articulos/Art14f1.tsx/Art14f1";
+import { Eventos } from "../views/components/menu/catalogos/Eventos/Eventos";
+import { Departamentos } from "../views/components/menu/catalogos/Departamentos/Departamentos";
 
 
 
@@ -160,8 +162,8 @@ export const AppRouter = () => {
         <Route path="/inicio/catalogos/umas" element={<Umas />} />
         <Route path="/inicio/catalogos/coeficientes" element={<Coeficientes />} />
         <Route path="/inicio/catalogos/avisos" element={<Avisos />} />
-
-        
+        <Route path="/inicio/catalogos/eventos" element={<Eventos />} />
+        <Route path="/inicio/catalogos/departamentos" element={<Departamentos />} />
         
         {/* FIN SECCION DE CATALOGOS */}
 

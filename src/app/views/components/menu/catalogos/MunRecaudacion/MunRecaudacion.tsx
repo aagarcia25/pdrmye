@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
-import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
+import { DataGrid, esES, GridColDef, GridColTypeDef } from '@mui/x-data-grid'
 
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { CustomToolbar } from '../../CustomToolbar'
@@ -14,7 +14,18 @@ import { messages } from '../../../../styles'
 export const MunRecaudacion = () => {
     
 
+  const currencyFormatter = new Intl.NumberFormat('es-MX', {
+    style: 'currency',
+    currency: 'MXN',
     
+  });
+
+  const Moneda: GridColTypeDef = {
+    type: 'number',
+    width: 130,
+    valueFormatter: ({ value }) => currencyFormatter.format(value),
+    cellClassName: 'font-tabular-nums',
+  };
     
 
 
@@ -28,9 +39,9 @@ export const MunRecaudacion = () => {
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   , description:messages.dataTableColum.id},
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Recaudacion", headerName: "Recaudacion", width: 150 },
+    { field: "Nombre", headerName: "Municipio", width: 600 },
+    { field: "Anio", headerName: "Año", width: 100 },
+    { field: "Recaudacion", headerName: "Recaudacion", width: 150 ,...Moneda},
     
     {
       field: "acciones",

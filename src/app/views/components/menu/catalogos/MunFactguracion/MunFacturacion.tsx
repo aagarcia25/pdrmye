@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
-import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
+import { esES, GridColDef } from '@mui/x-data-grid'
+import { DataGrid, GridColTypeDef } from '@mui/x-data-grid';
 
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { CustomToolbar } from '../../CustomToolbar'
@@ -11,14 +12,27 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import { messages } from '../../../../styles'
 
+
+
+
+
+
+
 export const MunFacturacion = () => {
+
+
+  const currencyFormatter = new Intl.NumberFormat('es-MX', {
+    style: 'currency',
+    currency: 'MXN',
     
+  });
 
-    const currency = function formatomoneda(){
-        return new Intl.NumberFormat('es-MX', {style: 'currency',currency: 'MXN', minimumFractionDigits: 4});
-    };
-
-
+  const Moneda: GridColTypeDef = {
+    type: 'number',
+    width: 130,
+    valueFormatter: ({ value }) => currencyFormatter.format(value),
+    cellClassName: 'font-tabular-nums',
+  };
 
 
 
@@ -32,7 +46,7 @@ const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   , description:messages.dataTableColum.id},
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Facturacion", headerName: "Facturado", width: 150 },
+    { field: "Facturacion", headerName: "Facturado",width: 150, ...Moneda , align:'right' },
     {
       field: "acciones",
       headerName: "Acciones",
@@ -103,9 +117,6 @@ const columns: GridColDef[] = [
   };
 
   
-
-
-   
   
     let data = ({
       NUMOPERACION: 4,
@@ -123,14 +134,8 @@ const columns: GridColDef[] = [
       });
     }, []);
 
-
-
-
-
-
-  return (
-
-
+    
+  return(
     <div style={{ height: 600, width: "100%" }} >
         <DetailsModal />
     <ButtonAdd/>    

@@ -42,10 +42,15 @@ export class CatalogosServices {
     public static async coeficientes(data : any) {
         return await post('coeficientes', data);
     };
+    public static async eventos(data : any) {
+        return await post('eventos', data);
+    };
     public static async avisos(data : any) {
         return await post('avisos', data);
     };
-    
+    public static async departamentos(data : any) {
+        return await post('departamentos', data);
+    };
     
     
 

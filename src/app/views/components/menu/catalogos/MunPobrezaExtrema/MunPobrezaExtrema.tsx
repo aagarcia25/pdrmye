@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
-import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
+import { DataGrid, esES, GridColDef, GridColTypeDef } from '@mui/x-data-grid'
 
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { CustomToolbar } from '../../CustomToolbar'
@@ -13,6 +13,22 @@ import { messages } from '../../../../styles'
 
 export const MunPobrezaExtrema = () => {
     
+
+  const currencyFormatter = new Intl.NumberFormat('percent', {
+    style: 'percent',
+    //currency: 'MXN',
+    maximumFractionDigits: 4,
+    
+  });
+
+  const porcentage: GridColTypeDef = {
+    type: 'number',
+    width: 130,
+    valueFormatter: ({ value }) =>  currencyFormatter.format(value/100),
+    cellClassName: 'font-tabular-nums',
+  };
+
+
 
     
     
@@ -31,8 +47,8 @@ const columns: GridColDef[] = [
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "Anio", headerName: "Año", width: 150 },
     { field: "Personas", headerName: "Personas", width: 150 },
-    { field: "Porcentaje", headerName: "Porcentaje", width: 150 },
-    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 150 },
+    { field: "Porcentaje", headerName: "Porcentaje", width: 150,...porcentage },
+    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 150,...porcentage },
     {
       field: "acciones",
       headerName: "Acciones",

@@ -43,7 +43,8 @@ export const categories = [
       { id: 'Municipio Territorio', icon: <Article />, path: '/inicio/catalogos/munterritorio' },
       
       { id: 'Avisos', icon: <Article />, path: '/inicio/catalogos/avisos' },
-      { id: 'Eventos', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Eventos', icon: <Article />, path: '/inicio/catalogos/eventos' },
+      { id: 'Departamentos', icon: <Article />, path: '/inicio/catalogos/departamentos' },
      
       
       { id: 'Tipo de Fondos', icon: <Article />, path: '/inicio/catalogos/munpob' },

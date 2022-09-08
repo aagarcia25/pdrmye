@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
-import { DataGrid, esES, GridColDef, GridColTypeDef } from '@mui/x-data-grid'
+import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
 
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { CustomToolbar } from '../../CustomToolbar'
@@ -9,60 +9,38 @@ import { CatalogosServices } from '../../../../../services/catalogosServices'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
-import { messages } from '../../../../styles'
-import { PercentRounded } from '@mui/icons-material'
+import { Link, useNavigate, } from 'react-router-dom';
+import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 
-
-
-
-
-
-export const MunPobrezaModerada = () => {
-
-
-  const currencyFormatter = new Intl.NumberFormat('percent', {
-    style: 'percent',
-    //currency: 'MXN',
-    maximumFractionDigits: 4,
-    
-  });
-
-  const porcentage: GridColTypeDef = {
-    type: 'number',
-    width: 130,
-    valueFormatter: ({ value }) =>  currencyFormatter.format(value/100),
-    cellClassName: 'font-tabular-nums',
-  };
-
+export const Departamentos = () => {
     
 
-  
+    const navigate = useNavigate();
+    
+
+
+
+
 
   const user = getUser();
-  const [PobrezaModerada, setPobreza] = useState([]);
+  const [conDepartamentos, setDepartamentos] = useState([]);
 
   const [open, setOpen] = useState(false);
 
 const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", width: 150   , description:messages.dataTableColum.id},
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Total", headerName: "Total", width: 150 },
-    { field: "Porcentaje", headerName: "Porcentaje", width: 150,...porcentage},
-    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 150,...porcentage },
+   
+   
+    { field: "NombreCorto", headerName: "Nombre Corto", width: 100 },
+    { field: "Descripcion", headerName: "Descripcion", width: 600 },
+    { field: "Responsable", headerName: "Responsable", width: 150 },
+    
     {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Campo de Acciones",
-      sortable: false,
-      width: 200,
-      renderCell: (v) => {
+      field: "acciones", headerName: "Acciones", description: "Campo de Acciones",  sortable: false, width: 200, renderCell: (v) => {
         return (
           <Box>
-            <IconButton onClick={() => handleOpen(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleOpen(v)}>
+           
+                       <ModeEditOutlineIcon />
+            <IconButton >
               <DeleteForeverIcon />
             </IconButton>
           </Box>
@@ -71,6 +49,13 @@ const columns: GridColDef[] = [
     },
    
   ];
+  const Descargar = (v:any) =>{
+
+
+
+    
+  };
+
 
 
   const handleOpen = (v: any) => {
@@ -134,9 +119,9 @@ const columns: GridColDef[] = [
   
   
     useEffect(() => {
-      CatalogosServices.munpobrezamod (data).then((res) => {
+      CatalogosServices.departamentos(data).then((res) => {
       //  console.log(res);
-        setPobreza(res.RESPONSE);
+        setDepartamentos(res.RESPONSE);
       });
     }, []);
 
@@ -161,7 +146,7 @@ const columns: GridColDef[] = [
         NoRowsOverlay: CustomNoRowsOverlay,
       }}
       rowsPerPageOptions={[5,10,20,50,100]}
-      rows={PobrezaModerada}
+      rows={conDepartamentos}
       columns={columns}
       
      // loading //agregar validacion cuando se esten cargando los registros
@@ -171,3 +156,4 @@ const columns: GridColDef[] = [
   
   )
 }
+
