@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
 import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
-
+import logo from '../../../../../assets/img/logo.svg';
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { CustomToolbar } from '../../CustomToolbar'
 import { getUser } from '../../../../../services/localStorage'
@@ -11,103 +11,40 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import { Link, useNavigate, } from 'react-router-dom';
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
+import PanoramaIcon from '@mui/icons-material/Panorama';
+import { Verevento } from './VerEvento';
 
 
 export const Eventos = () => {
     
 
-    const navigate = useNavigate();
+ const navigate = useNavigate();
     
-
-
-
-
 
   const user = getUser();
   const [conEventos, setEventos] = useState([]);
 
   const [open, setOpen] = useState(false);
+  // const [imagen, setImagen]= useEffect();
 
 const columns: GridColDef[] = [
    
    
     { field: "Nombre", headerName: "Nombre", width: 200 },
-    { field: "Descripcion", headerName: "Descripcion", width: 200 },
+    { field: "Descripcion", headerName: "Descripcion", width: 600 },
     { field: "FechaInicio", headerName: "Fecha de Inicio", width: 150 },
     { field: "FechaFin", headerName: "Fecha de Finalizado", width: 100 },
-    { field: "Imagen" ,      headerName: "Imagen", width: 600 ,},
-    {
-      field: "acciones", headerName: "Acciones", description: "Campo de Acciones",  sortable: false, width: 200, renderCell: (v) => {
-        return (
-          <Box>
-           
-                       <ModeEditOutlineIcon />
-            <IconButton >
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
-        );
-      },
-    },
+    { field: "Imagen"  , headerName: "Imagen", width: 100 , renderCell:(params) => <img src={params.value} style={{ width: "2vw" }}  /> },
+
    
   ];
-  const Descargar = (v:any) =>{
-
-    
-  };
 
 
 
-  const handleOpen = (v: any) => {
-    //setSelectedId(v.row.lastName);
-
-    setOpen(true);
-  };
+  ;
 
   const handleClose = () => setOpen(false);
 
-  const ButtonAdd = () =>{
-    return (
-   <Box>
-     <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => handleOpen(1)}>
-           <AddIcon />
-      </IconButton>
-   </Box>
-    );
-  }
-
-
-  const DetailsModal = () => {
-    return (
-      <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Subscribe</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          To subscribe to this website, please enter your email address here. We
-          will send updates occasionally.
-        </DialogContentText>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Email Address"
-          type="email"
-          fullWidth
-          variant="standard"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose}>Subscribe</Button>
-      </DialogActions>
-    </Dialog>
-    );
-  };
-
-  
-
-
-   
   
     let data = ({
       NUMOPERACION: 4,
@@ -134,8 +71,8 @@ const columns: GridColDef[] = [
 
 
     <div style={{ height: 600, width: "100%" }} >
-        <DetailsModal />
-    <ButtonAdd/>    
+    
+     
     <DataGrid
       //checkboxSelection
       pagination

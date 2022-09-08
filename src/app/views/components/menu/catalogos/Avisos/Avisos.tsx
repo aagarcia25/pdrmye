@@ -11,7 +11,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import { Link, useNavigate, } from 'react-router-dom';
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
-import DescargarArchivo from './DescargarArchivo'
+//import DescargarArchivo from './DescargarArchivo';
 
 export const Avisos = () => {
     
@@ -34,15 +34,15 @@ const columns: GridColDef[] = [
     { field: "fechaInicio", headerName: "Fecha de Inicio", width: 200 },
     { field: "FechaFin", headerName: "Expiracion", width: 200 },
     { field: "Nombre", headerName: "Nombre", width: 150 },
-    { field: "Descripcion", headerName: "Descripcion", width: 400 },
-    { field: "", headerName: "Documento", width: 100, renderCell:DescargarArchivo},
+    { field: "Descripcion", headerName: "Descripcion", width: 100 },
+    { field: "Documento", headerName: "Documento", width: 500,  },
     {
       field: "acciones", headerName: "Acciones", description: "Campo de Acciones",  sortable: false, width: 200, renderCell: (v) => {
         return (
           <Box>
           
            
-            <IconButton   /*onClickCapture={() => DescargarArchivo}*/ >
+            <IconButton onClick={() => handleOpen(v)}>
               <DeleteForeverIcon />
             </IconButton>
           </Box>
@@ -54,8 +54,7 @@ const columns: GridColDef[] = [
   
   const handleOpen = (v: any) => {
     //setSelectedId(v.row.lastName);
-   
-            
+    
 
     setOpen(true);
   };

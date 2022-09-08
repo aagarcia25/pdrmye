@@ -30,7 +30,7 @@ function App() {
 
           
   <AuthContext.Provider value={{ user, dispatchUser }}>
-
+  
     {(log) ? <AppRouter />:<Login/> }
 
   </AuthContext.Provider>
