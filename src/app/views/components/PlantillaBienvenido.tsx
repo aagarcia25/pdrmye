@@ -29,7 +29,7 @@ export default function PlantillaBienvenido(props: UserProps) {
           height: "60%",
           backgroundColor: COLOR.grisTarjetaBienvenido,
           justifyContent: "center",
-          alignItems: "center",
+          
           display: "flex",
         }}
       >
@@ -38,8 +38,8 @@ export default function PlantillaBienvenido(props: UserProps) {
             justifyContent: "center",
             textAlign: "center",
             backgroundColor: COLOR.grisTarjetaBienvenido,
-            width: "40%",
-            height: "80%",
+            width: "45vw",
+            height: "40vh",
           }}
         >
           <Box
@@ -62,31 +62,25 @@ export default function PlantillaBienvenido(props: UserProps) {
               height: "15%",
             }}
           >
-            <Typography variant="h2">BIENVENIDO</Typography>
+            <Typography sx={{fontSize:"4.5vw"}}>BIENVENIDO</Typography>
           </Box>
           <Box
             sx={{
               width: "100%",
               height: "15%",
+              mt:2
             }}
           >
-            <Typography variant="h4">{props.name}</Typography>
+            <Typography sx={{fontSize:"3vw"}}>{props.name}</Typography>
           </Box>
 
           <Box
             sx={{
               width: "100%",
               height: "15%",
-              backgroundColor: COLOR.grisTarjetaBienvenido,
-            }}
-          ></Box>
-          <Box
-            sx={{
-              width: "100%",
-              height: "15%",
             }}
           >
-            <Typography variant="h6">
+            <Typography sx={{fontSize:"1vw", mt:4}}>
             {props.lastConnnection}
             </Typography>
           </Box>
