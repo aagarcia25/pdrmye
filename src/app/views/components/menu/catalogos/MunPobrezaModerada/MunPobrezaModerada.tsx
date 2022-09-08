@@ -3,40 +3,17 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import { DataGrid, esES, GridColDef, GridColTypeDef } from '@mui/x-data-grid'
 
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
-import { CustomToolbar } from '../../CustomToolbar'
+import { CustomToolbar, porcentage } from '../../CustomToolbar'
 import { getUser } from '../../../../../services/localStorage'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import { messages } from '../../../../styles'
-import { PercentRounded } from '@mui/icons-material'
-
-
-
 
 
 
 export const MunPobrezaModerada = () => {
-
-
-  const currencyFormatter = new Intl.NumberFormat('percent', {
-    style: 'percent',
-    //currency: 'MXN',
-    maximumFractionDigits: 4,
-    
-  });
-
-  const porcentage: GridColTypeDef = {
-    type: 'number',
-    width: 130,
-    valueFormatter: ({ value }) =>  currencyFormatter.format(value/100),
-    cellClassName: 'font-tabular-nums',
-  };
-
-    
-
-  
 
   const user = getUser();
   const [PobrezaModerada, setPobreza] = useState([]);

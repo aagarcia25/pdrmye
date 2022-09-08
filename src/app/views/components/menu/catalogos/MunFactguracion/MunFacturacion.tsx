@@ -1,52 +1,60 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
-import { esES, GridColDef } from '@mui/x-data-grid'
-import { DataGrid, GridColTypeDef } from '@mui/x-data-grid';
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControl,
+  IconButton,
+  InputLabel,
+  LinearProgress,
+  MenuItem,
+  Modal,
+  Select,
+  SelectProps,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { esES, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColTypeDef } from "@mui/x-data-grid";
 
-import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
-import { CustomToolbar } from '../../CustomToolbar'
-import { getUser } from '../../../../../services/localStorage'
-import { CatalogosServices } from '../../../../../services/catalogosServices'
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AddIcon from '@mui/icons-material/Add';
-import { messages } from '../../../../styles'
-
-
-
-
-
-
+import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
+import { CustomToolbar, Moneda } from "../../CustomToolbar";
+import { getUser } from "../../../../../services/localStorage";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import AddIcon from "@mui/icons-material/Add";
+import { messages } from "../../../../styles";
 
 export const MunFacturacion = () => {
-
-
-  const currencyFormatter = new Intl.NumberFormat('es-MX', {
-    style: 'currency',
-    currency: 'MXN',
-    
-  });
-
-  const Moneda: GridColTypeDef = {
-    type: 'number',
-    width: 130,
-    valueFormatter: ({ value }) => currencyFormatter.format(value),
-    cellClassName: 'font-tabular-nums',
-  };
-
-
-
+ 
 
   const user = getUser();
   const [Facturacion, setFacturacion] = useState([]);
 
   const [open, setOpen] = useState(false);
 
-const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", hide:true , width: 150   , description:messages.dataTableColum.id},
+  const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "Identificador",
+      hide: true,
+      width: 150,
+      description: messages.dataTableColum.id,
+    },
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Facturacion", headerName: "Facturado",width: 150, ...Moneda , align:'right' },
+    {
+      field: "Facturacion",
+      headerName: "Facturado",
+      width: 150,
+      ...Moneda,
+      align: "right",
+    },
     {
       field: "acciones",
       headerName: "Acciones",
@@ -66,9 +74,7 @@ const columns: GridColDef[] = [
         );
       },
     },
-   
   ];
-
 
   const handleOpen = (v: any) => {
     //setSelectedId(v.row.lastName);
@@ -78,84 +84,122 @@ const columns: GridColDef[] = [
 
   const handleClose = () => setOpen(false);
 
-  const ButtonAdd = () =>{
+  const ButtonAdd = () => {
     return (
-   <Box>
-     <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => handleOpen(1)}>
-           <AddIcon />
-      </IconButton>
-   </Box>
+      <Box>
+        <IconButton
+          color="primary"
+          aria-label="upload picture"
+          component="label"
+          onClick={() => handleOpen(1)}
+        >
+          <AddIcon />
+        </IconButton>
+      </Box>
     );
-  }
+  };
 
+  const handleFilterChange = React.useCallback<
+    NonNullable<SelectProps<number>["onChange"]>
+  >((event) => {
+    consulta(Number(event.target.value));
+  }, []);
+
+  const Filter = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "right",
+        }}
+      >
+        <FormControl variant="standard" sx={{
+            width: "5%",
+        }}>
+          <InputLabel>Año</InputLabel>
+          <Select<number> onChange={handleFilterChange}>
+            <MenuItem value={2020}>2020</MenuItem>
+            <MenuItem value={2021}>2021</MenuItem>
+            <MenuItem value={2022}>2022</MenuItem>
+          </Select>
+        </FormControl>
+
+
+
+        
+      </Box>
+    );
+  };
 
   const DetailsModal = () => {
     return (
       <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Subscribe</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          To subscribe to this website, please enter your email address here. We
-          will send updates occasionally.
-        </DialogContentText>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Email Address"
-          type="email"
-          fullWidth
-          variant="standard"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose}>Subscribe</Button>
-      </DialogActions>
-    </Dialog>
+        <DialogTitle>Subscribe</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To subscribe to this website, please enter your email address here.
+            We will send updates occasionally.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Subscribe</Button>
+        </DialogActions>
+      </Dialog>
     );
   };
 
-  
-  
-    let data = ({
+  const consulta = (anio: Number) => {
+    let data = {
       NUMOPERACION: 4,
       CHID: "",
-      NUMANIO: "",
+      ANIO: anio,
       NUMTOTALPOB: "",
-      CHUSER:1
-    })
-  
-  
-    useEffect(() => {
-      CatalogosServices.munfacturacion (data).then((res) => {
-        console.log(res);
-        setFacturacion(res.RESPONSE);
-      });
-    }, []);
+      CHUSER: 1,
+    };
 
-    
-  return(
-    <div style={{ height: 600, width: "100%" }} >
-        <DetailsModal />
-    <ButtonAdd/>    
-    <DataGrid
-      //checkboxSelection
-      pagination
-      localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-      components={{
-        Toolbar: CustomToolbar,
-        LoadingOverlay: LinearProgress ,
-        NoRowsOverlay: CustomNoRowsOverlay,
-      }}
-      rowsPerPageOptions={[5,10,20,50,100]}
-      rows={Facturacion}
-      columns={columns}
-      
-     // loading //agregar validacion cuando se esten cargando los registros
-    />
-  </div>
+    CatalogosServices.munfacturacion(data).then((res) => {
+      console.log(res);
+      setFacturacion(res.RESPONSE);
+    });
+  };
 
-  
-  )
-}
+
+
+  useEffect(() => {
+    consulta(2022);
+  }, []);
+
+
+  return (
+    <div style={{ height: 600, width: "100%" }}>
+      <DetailsModal />
+      <Filter />
+      <ButtonAdd />
+      <DataGrid
+        //checkboxSelection
+        pagination
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+        components={{
+          Toolbar: CustomToolbar,
+          LoadingOverlay: LinearProgress,
+          NoRowsOverlay: CustomNoRowsOverlay,
+        }}
+        rowsPerPageOptions={[5, 10, 20, 50, 100]}
+        rows={Facturacion}
+        columns={columns}
+
+        // loading //agregar validacion cuando se esten cargando los registros
+      />
+    </div>
+  );
+};
