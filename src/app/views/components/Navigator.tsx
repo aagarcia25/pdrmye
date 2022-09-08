@@ -33,7 +33,7 @@ export const categories = [
     id: 'Catálogos',
     children: [
 
-      { id: 'Municipios', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Municipios', icon: <Article />, path: '/inicio/catalogos/mun' },
       { id: 'Municipio Póblacion', icon: <Article />, path: '/inicio/catalogos/munpob' },
       { id: 'Municipio Facturación', icon: <Article />, path: '/inicio/catalogos/munfacturacion' },
       { id: 'Municipio Pobreza Moderada', icon: <Article />, path: '/inicio/catalogos/munpobmod' },
@@ -48,7 +48,7 @@ export const categories = [
      
       
       { id: 'Tipo de Fondos', icon: <Article />, path: '/inicio/catalogos/munpob' },
-      { id: 'Tasa de Interes', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Tasa de Interes', icon: <Article />, path: '/inicio/catalogos/tasa' },
       { id: 'UMAS', icon: <Article />, path: '/inicio/catalogos/umas' },
       { id: 'Coeficientes', icon: <Article />, path: '/inicio/catalogos/coeficientes' },
 

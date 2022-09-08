@@ -8,6 +8,9 @@ export class CatalogosServices {
         return await post('umas', data);
     }
 
+    public static async getTasainteres(data: any) {
+        return await post('getTasainteres', data);
+    };
 
     public static async AjustesIndex(data: any) {
         return await post('AjustesIndex', data);
@@ -48,9 +51,17 @@ export class CatalogosServices {
     public static async avisos(data : any) {
         return await post('avisos', data);
     };
+
     public static async departamentos(data : any) {
         return await post('departamentos', data);
     };
+
+
+    public static async municipios(data : any) {
+        return await post('municipios', data);
+    };
+    
+
     
     
 
