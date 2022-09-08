@@ -44,6 +44,8 @@ import { Avisos } from "../views/components/menu/catalogos/Avisos/Avisos";
 
 import { Perfil } from "../views/components/perfil/Perfil";
 import { Art14f1 } from "../views/components/menu/articulos/Art14f1.tsx/Art14f1";
+import { TasaInteres } from "../views/components/menu/catalogos/TasaInteres/TasaInteres";
+import { Municipios } from "../views/components/menu/catalogos/Municipios/Municipios";
 
 
 
@@ -150,6 +152,10 @@ export const AppRouter = () => {
         />
 
         {/* SECCION DE CATALOGOS */}
+
+        
+        <Route path="/inicio/catalogos/mun" element={<Municipios />} />
+        <Route path="/inicio/catalogos/tasa" element={<TasaInteres />} />
         <Route path="/inicio/catalogos/munpob" element={<MunPoblacion />} />
         <Route path="/inicio/catalogos/munfacturacion" element={<MunFacturacion />} />
         <Route path="/inicio/catalogos/munpobmod" element={<MunPobrezaModerada />} />
