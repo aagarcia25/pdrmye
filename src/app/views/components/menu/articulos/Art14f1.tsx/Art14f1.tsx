@@ -40,19 +40,18 @@ export const Art14f1 = () => {
     { field: "EstructuraT15", headerName: "15%", width: 150  ,description:"0.15(TE/∑TE)"},
     { field: "Coeficientecpt", headerName: "Coeficiente  Población Y Territorio", width: 250 ,description:"CEPT=0.85(PO/∑PO)+0.15(TE/∑TE)" },
     
-    /*{ field: "Nombre", headerName: "Personas En Pobreza 2015", width: 150 ,description:"PP2i" },
-    { field: "Nombre", headerName: "Personas En Pobreza 2020", width: 150  ,description:"PP1i"},
-    { field: "Nombre", headerName: "Carencias Promedio En Situacion De Pobreza 2015", width: 150 ,description:"CPP1i" },
-    { field: "Nombre", headerName: "Incidencia De La Pobreza 2015", width: 150 ,description:"ICPi=(PP1i/∑PP1i)" },
-    { field: "Nombre", headerName: "Intensidad De La Pobreza", width: 150  ,description:"IP=(ICPi*CPP!i)"},
-    { field: "Nombre", headerName: "Proporción De Intensidad De La Pobreza", width: 150 ,description:"IP/∑IP" },
-    { field: "Nombre", headerName: "Distribucion Del 85% Por Pobreza ", width: 150  ,description:"(0.85*IP/∑IP)(Monto)"},
-    { field: "Nombre", headerName: "Mejora En Pobreza Municipal", width: 150 ,description:"EP=PP2i/PP1i" },
-    { field: "Nombre", headerName: "Proporción De La Eficacia En Pobreza", width: 150  ,description:"EP/∑EP"},
-    { field: "Nombre", headerName: "Distribución Del 15% Por Eficacia De Pobreza ", width: 150  ,description:"(0.15*(EP/∑EP)(Monto)"},
-    { field: "Nombre", headerName: "Distribución Por Índice De Pobreza", width: 150  ,description:"DIPi"},
-    { field: "Nombre", headerName: "Coeficiente  Índice Municipal De Pobreza", width: 150  ,description:"CDPEi"},
-*/
+    { field: "a", headerName: "Población en Pobreza del Municipio i", width: 300 ,description:"PP2i" },
+    { field: "b", headerName: "Población en Pobreza del Municipio i", width: 300  ,description:"PP1i"},
+    { field: "c", headerName: "Incidencia de la pobreza en el Municipio i ", width: 300 ,description:"ICPi" },
+    { field: "d", headerName: "Carencias promedio en situación de pobreza 2020", width: 350 ,description:"CPP1i" },
+    { field: "e", headerName: "Intensidad de la pobreza en el Municipio i", width: 300  ,description:"IPi =CPP1i*ICPi"},
+    { field: "f", headerName: "Coeficiente Intensidad de la pobreza en el Municipio i", width: 350 ,description:"IPi/∑IPi" },
+    { field: "g", headerName: "Coeficiente Intensidad de la pobreza en el Municipio i 85%", width: 350  ,description:"80% * IPi/∑IPi"},
+    { field: "h", headerName: "Eficacia en la disminución de la pobreza del Municipio i", width: 350 ,description:"EPi =PP2i/PP1i" },
+    { field: "i", headerName: "Coeficiente de Eficacia en disminución de la pobreza del Municipio i", width: 300  ,description:"EPi/∑EPi"},
+    { field: "j", headerName: "15% Coeficiente de Eficacia", width: 200  ,description:"20% EPi/∑EPi"},
+    { field: "k", headerName: "Coeficiente  Índice Municipal De Pobreza", width: 300  ,description:"CIMP=0.85(CS2/∑CS2)+0.15(MS/∑MS)"},
+
     
 
    
