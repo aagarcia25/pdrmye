@@ -50,6 +50,7 @@ import { Departamentos } from "../views/components/menu/catalogos/Departamentos/
 
 import { TasaInteres } from "../views/components/menu/catalogos/TasaInteres/TasaInteres";
 import { Municipios } from "../views/components/menu/catalogos/Municipios/Municipios";
+import { Art14f2 } from "../views/components/menu/articulos/Art14f1.tsx/Art14f2";
 
 
 
@@ -191,7 +192,7 @@ export const AppRouter = () => {
 
         {/* SECCION DE ARTICULOS */}
         <Route       path="/inicio/articulos/art14f1"  element={<Art14f1 />}/>
-        <Route       path="/inicio/articulos/art14f2"  element={<Art14f1 />}/>
+        <Route       path="/inicio/articulos/art14f2"  element={<Art14f2 />}/>
         <Route       path="/inicio/articulos/art14f3"  element={<Art14f1 />}/>
         {/* FIN SECCION DE ARTICULOS */}
         
