@@ -38,7 +38,7 @@ export const MunRecaudacion = () => {
   const [open, setOpen] = useState(false);
 
 const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", width: 150   , description:messages.dataTableColum.id},
+    { field: "id", headerName: "Identificador", hide:true , width: 150   , description:messages.dataTableColum.id},
     { field: "Nombre", headerName: "Municipio", width: 600 },
     { field: "Anio", headerName: "Año", width: 100 },
     { field: "Recaudacion", headerName: "Recaudacion", width: 150 ,...Moneda},

@@ -29,7 +29,7 @@ export const Coeficientes = () => {
 const columns: GridColDef[] = [
    
    
-    { field: "id", headerName: "Id", width: 250 },
+    { field: "id", headerName: "Id", hide:true , width: 250 },
     { field: "Descripcion", headerName: "Descripcion", width: 700 },
     { field: "Vigente", headerName: "Vigente", width: 150 },
     
