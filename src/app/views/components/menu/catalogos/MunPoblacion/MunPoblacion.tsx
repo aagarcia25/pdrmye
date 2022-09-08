@@ -16,6 +16,11 @@ export const MunPoblacion = () => {
   const [poblacion, setPoblacion] = useState([]);
 
   const [open, setOpen] = useState(false);
+  const [modo, setModo] =useState("");
+  const [Municipio, setMunicipio]=useState("");
+  const [Año, setAño]=useState("");
+  const [NumPobladores, setNumPobladores]=useState("");
+  
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   , hide:true , description:messages.dataTableColum.id},
@@ -31,10 +36,10 @@ const columns: GridColDef[] = [
       renderCell: (v) => {
         return (
           <Box>
-            <IconButton onClick={() => handleOpen(v)}>
+            <IconButton onClick={() => handleEditar(v)}>
               <ModeEditOutlineIcon />
             </IconButton>
-            <IconButton onClick={() => handleOpen(v)}>
+            <IconButton onClick={() => handleBorrar(v)}>
               <DeleteForeverIcon />
             </IconButton>
           </Box>
@@ -45,18 +50,40 @@ const columns: GridColDef[] = [
   ];
 
 
-  const handleOpen = (v: any) => {
-    //setSelectedId(v.row.lastName);
+  const handleEditar = (v:any) => {
+ 
+ setModo("Editar");
+setMunicipio(v.row.Nombre);
+setAño(v.row.Anio);
+setNumPobladores(v.row.totalPob);
+
+
+
 
     setOpen(true);
   };
+  const handleBorrar = (v:any) => {
+  
+ setModo("Borrar");
+    setOpen(true);
+  };
+  const handleAgregar = (v:any) => {
+ 
+ setModo("Agregar");
+    setOpen(true);
+
+
+
+  };
+
+
 
   const handleClose = () => setOpen(false);
 
   const ButtonAdd = () =>{
     return (
    <Box>
-     <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => handleOpen(1)}>
+     <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => handleAgregar(1)}>
            <AddIcon />
       </IconButton>
    </Box>
@@ -64,28 +91,52 @@ const columns: GridColDef[] = [
   }
 
 
-  const DetailsModal = () => {
+  const EditarMunPoblacion = (params: any) => {
     return (
       <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Subscribe</DialogTitle>
+      <DialogTitle>{modo}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          To subscribe to this website, please enter your email address here. We
-          will send updates occasionally.
-        </DialogContentText>
+
+        <Box>
+      
         <TextField
           autoFocus
           margin="dense"
           id="name"
-          label="Email Address"
+          label="Municipio"
+          value={Municipio}
           type="email"
           fullWidth
           variant="standard"
         />
+        
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="Año"
+          value={Año}
+          type="email"
+          fullWidth
+          variant="standard"
+        />
+     
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="Poblacion Total"
+          value={NumPobladores}
+          type="email"
+          fullWidth
+          variant="standard"
+        />
+        </Box>
       </DialogContent>
+      
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose}>Subscribe</Button>
+        <Button onClick={handleClose}>Guardar</Button>
       </DialogActions>
     </Dialog>
     );
@@ -120,8 +171,8 @@ const columns: GridColDef[] = [
   return (
 
 
-    <div style={{ height: 600, width: "100%" }} >
-        <DetailsModal />
+    <div style={{ height: 600, width: '100%' }} >
+        <EditarMunPoblacion />
     <ButtonAdd/>    
     <DataGrid
       //checkboxSelection

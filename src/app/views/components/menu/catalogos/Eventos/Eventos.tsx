@@ -12,7 +12,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Link, useNavigate, } from 'react-router-dom';
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 import PanoramaIcon from '@mui/icons-material/Panorama';
-import { Verevento } from './VerEvento';
+
 
 
 export const Eventos = () => {
@@ -38,8 +38,6 @@ const columns: GridColDef[] = [
 
    
   ];
-
-
 
   ;
 

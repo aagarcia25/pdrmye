@@ -9,17 +9,12 @@ import { CatalogosServices } from '../../../../../services/catalogosServices'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
-import { Link, useNavigate, } from 'react-router-dom';
+
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 //import DescargarArchivo from './DescargarArchivo';
 
 export const Avisos = () => {
     
-
-    const navigate = useNavigate();
-    
-
-
 
 
 
@@ -33,15 +28,14 @@ const columns: GridColDef[] = [
    
     { field: "fechaInicio", headerName: "Fecha de Inicio", width: 200 },
     { field: "FechaFin", headerName: "Expiracion", width: 200 },
-    { field: "Nombre", headerName: "Nombre", width: 150 },
-    { field: "Descripcion", headerName: "Descripcion", width: 100 },
-    { field: "Documento", headerName: "Documento", width: 500,  },
+    { field: "Nombre", headerName: "Nombre", width: 100 },
+    { field: "Descripcion", headerName: "Descripcion", width:500 },
+    { field: "Documento", headerName: "Documento", width: 100, renderCell: (params) =><a href= {params.row.Documento}><BrowserUpdatedIcon /></a>, },
     {
-      field: "acciones", headerName: "Acciones", description: "Campo de Acciones",  sortable: false, width: 200, renderCell: (v) => {
+      field: "acciones", headerName: "Acciones", description: "Campo de Acciones",  sortable: false, width: 100, renderCell: (v) => {
         return (
           <Box>
-          
-           
+                    
             <IconButton onClick={() => handleOpen(v)}>
               <DeleteForeverIcon />
             </IconButton>
@@ -71,7 +65,6 @@ const columns: GridColDef[] = [
     );
   }
 
-
   const DetailsModal = () => {
     return (
       <Dialog open={open} onClose={handleClose}>
@@ -99,11 +92,6 @@ const columns: GridColDef[] = [
     );
   };
 
-  
-
-
-   
-  
     let data = ({
       NUMOPERACION: 4,
       CHID: "",
@@ -121,12 +109,7 @@ const columns: GridColDef[] = [
     }, []);
 
 
-
-
-
-
   return (
-
 
     <div style={{ height: 600, width: "100%" }} >
         <DetailsModal />
