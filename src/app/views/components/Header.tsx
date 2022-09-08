@@ -65,6 +65,7 @@ export default function Header(props: HeaderProps) {
 
  const onLogOut = () =>{
   navigate("/");
+  setOpen((prevOpen) => !prevOpen);
  }
 
   const onOpenCalendar = () => {
@@ -73,6 +74,7 @@ export default function Header(props: HeaderProps) {
 
   const onConfigProfile = () => {
     navigate("/perfil");
+    setOpen((prevOpen) => !prevOpen);
   };
 
   function handleListKeyDown(event: React.KeyboardEvent) {
@@ -139,7 +141,7 @@ export default function Header(props: HeaderProps) {
       >
         <Toolbar>
           <Grid container spacing={2} alignItems="center">
-            <Grid sx={{ display: { sm: "none", xs: "block",backgroundColor: COLOR.doradoNL } }} item>
+            <Grid sx={{ display: { sm: "none", xs: "block",backgroundColor: COLOR.negro } }} item>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -167,7 +169,7 @@ export default function Header(props: HeaderProps) {
                     color="inherit"
                     sx={{
                       p: 0.5,
-                      backgroundColor: COLOR.doradoNL,
+                      backgroundColor: COLOR.negro,
                       "&:hover": {
                         backgroundColor: COLOR.grisTarjetaBienvenido,
                       },
@@ -187,11 +189,12 @@ export default function Header(props: HeaderProps) {
 
 
             <Grid item>
+            <Tooltip title="Calendario">
               <IconButton
                 color="inherit"
                 sx={{
                   p: 0.5,
-                  backgroundColor: COLOR.doradoNL,
+                  backgroundColor: COLOR.negro,
                   "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                 }}
                 
@@ -202,6 +205,7 @@ export default function Header(props: HeaderProps) {
                   onClick={onOpenCalendar}
                 />
               </IconButton>
+              </Tooltip>
             </Grid>
           
           <Grid item></Grid>
@@ -217,13 +221,13 @@ export default function Header(props: HeaderProps) {
                 color="inherit"
                 sx={{
                   p: 1.0,
-                  backgroundColor: COLOR.doradoNL,
+                  backgroundColor: COLOR.negro,
                   "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                 }}
               >
                 <PersonIcon fontSize="large" sx={{ color: COLOR.blanco }} />
               </IconButton>
-
+              
               <Popper
                 open={open}
                 anchorEl={anchorRef.current}
@@ -268,6 +272,7 @@ export default function Header(props: HeaderProps) {
                   </Grow>
                 )}
               </Popper>
+              
             </Grid>
           
           
