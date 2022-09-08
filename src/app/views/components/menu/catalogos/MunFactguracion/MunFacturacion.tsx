@@ -43,7 +43,7 @@ export const MunFacturacion = () => {
   const [open, setOpen] = useState(false);
 
 const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", width: 150   , description:messages.dataTableColum.id},
+    { field: "id", headerName: "Identificador", hide:true , width: 150   , description:messages.dataTableColum.id},
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "Anio", headerName: "Año", width: 150 },
     { field: "Facturacion", headerName: "Facturado",width: 150, ...Moneda , align:'right' },

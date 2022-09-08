@@ -29,7 +29,7 @@ export const MunPobProyeccion = () => {
   const [open, setOpen] = useState(false);
 
 const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", width: 150   , description:messages.dataTableColum.id},
+    { field: "id", headerName: "Identificador", hide:true , width: 150   , description:messages.dataTableColum.id},
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "anio", headerName: "Año", width: 150 },
     { field: "Pob", headerName: "Poblacion", width: 150 },
