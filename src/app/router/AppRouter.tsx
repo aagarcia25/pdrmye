@@ -51,11 +51,7 @@ import { Departamentos } from "../views/components/menu/catalogos/Departamentos/
 import { TasaInteres } from "../views/components/menu/catalogos/TasaInteres/TasaInteres";
 import { Municipios } from "../views/components/menu/catalogos/Municipios/Municipios";
 import { Art14f2 } from "../views/components/menu/articulos/Art14f1.tsx/Art14f2";
-
-
-
-
-
+import { BloqueoSesion } from "../views/components/menu/bloqueoSesion/BloqueoSesion";
 
 export const AppRouter = () => {
   const log = isAuthenticated();
@@ -63,6 +59,9 @@ export const AppRouter = () => {
   return (
     <Inicio>
       <Routes>
+             
+             <Route path="/bloqueosesion" element={log?<Eo404/>:<BloqueoSesion />} />
+        
         <Route path="/*" element={log ? <Eo404 /> : <AuthRouter />} />
         {/* <Route path="/auth/*"   element={ (log) ? <Bienvenido />:  <AuthRouter />    } /> */}
         <Route
@@ -95,7 +94,7 @@ export const AppRouter = () => {
           path="/inicio/aportaciones/fortaum"
           element={log ? <Fortaum /> : <AuthRouter />}
         />
-       
+
         <Route
           path="/inicio/calendario"
           element={log ? <Calendario /> : <AuthRouter />}
@@ -159,44 +158,66 @@ export const AppRouter = () => {
 
         {/* SECCION DE CATALOGOS */}
 
-        
         <Route path="/inicio/catalogos/mun" element={<Municipios />} />
         <Route path="/inicio/catalogos/tasa" element={<TasaInteres />} />
         <Route path="/inicio/catalogos/munpob" element={<MunPoblacion />} />
-        <Route path="/inicio/catalogos/munfacturacion" element={<MunFacturacion />} />
-        <Route path="/inicio/catalogos/munpobmod" element={<MunPobrezaModerada />} />
-        <Route path="/inicio/catalogos/munproyec" element={<MunPobProyeccion />} />
-        <Route path="/inicio/catalogos/munterritorio" element={<MunTerritorio />} />
-        <Route path="/inicio/catalogos/munpobrezaext" element={<MunPobrezaExtrema />} />
-        <Route path="/inicio/catalogos/munrecaudacion" element={<MunRecaudacion />} />
+        <Route
+          path="/inicio/catalogos/munfacturacion"
+          element={<MunFacturacion />}
+        />
+        <Route
+          path="/inicio/catalogos/munpobmod"
+          element={<MunPobrezaModerada />}
+        />
+        <Route
+          path="/inicio/catalogos/munproyec"
+          element={<MunPobProyeccion />}
+        />
+        <Route
+          path="/inicio/catalogos/munterritorio"
+          element={<MunTerritorio />}
+        />
+        <Route
+          path="/inicio/catalogos/munpobrezaext"
+          element={<MunPobrezaExtrema />}
+        />
+        <Route
+          path="/inicio/catalogos/munrecaudacion"
+          element={<MunRecaudacion />}
+        />
         <Route path="/inicio/catalogos/umas" element={<Umas />} />
-        <Route path="/inicio/catalogos/coeficientes" element={<Coeficientes />} />
+        <Route
+          path="/inicio/catalogos/coeficientes"
+          element={<Coeficientes />}
+        />
         <Route path="/inicio/catalogos/avisos" element={<Avisos />} />
         <Route path="/inicio/catalogos/eventos" element={<Eventos />} />
-        <Route path="/inicio/catalogos/departamentos" element={<Departamentos />} />
-        
+        <Route
+          path="/inicio/catalogos/departamentos"
+          element={<Departamentos />}
+        />
+
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
         <Route path="/Calendar" element={<CalendarC />} />
         {/* FIN SECCION DE CALENDARIO */}
 
-          {/* SECCION DE NOTIFICACIONES */}
-          <Route path="/Notification" element={<ListNotification />} />
+        {/* SECCION DE NOTIFICACIONES */}
+        <Route path="/Notification" element={<ListNotification />} />
         {/* FIN SECCION DE NOTIFICACIONES */}
 
         {/* SECCION DE PERFIL */}
-        <Route path="/perfil" element={<Perfil/>} />
+        <Route path="/perfil" element={<Perfil />} />
         {/* FIN SECCION DE PERFIL */}
 
+   
 
         {/* SECCION DE ARTICULOS */}
-        <Route       path="/inicio/articulos/art14f1"  element={<Art14f1 />}/>
-        <Route       path="/inicio/articulos/art14f2"  element={<Art14f2 />}/>
-        <Route       path="/inicio/articulos/art14f3"  element={<Art14f1 />}/>
+        <Route path="/inicio/articulos/art14f1" element={<Art14f1 />} />
+        <Route path="/inicio/articulos/art14f2" element={<Art14f2 />} />
+        <Route path="/inicio/articulos/art14f3" element={<Art14f1 />} />
         {/* FIN SECCION DE ARTICULOS */}
-        
-
       </Routes>
     </Inicio>
   );
