@@ -66,9 +66,14 @@ export class CatalogosServices {
         return await post('anios', data);
     };
 
+    public static async descargaplantilla(data : any) {
+        return await post('descargaplantilla', data);
+    };
     
+    public static async migraData(data : any) {
+        return await post('migraData', data);
+    };
     
-
     
 
     

@@ -67,7 +67,7 @@ const columns: GridColDef[] = [
   const ButtonAdd = () =>{
     return (
    <Box>
-     <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => handleOpen(1)}>
+     <IconButton color="primary"  onClick={() => handleOpen(1)}>
            <AddIcon />
       </IconButton>
    </Box>

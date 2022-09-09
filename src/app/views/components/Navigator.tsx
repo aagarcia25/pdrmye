@@ -59,7 +59,7 @@ export const categories = [
     children: [
       { id: 'Art. 14 FI ', icon: <Article />, path: '/inicio/articulos/art14f1' },
       { id: 'Art. 14 FII', icon: <Article />, path: '/inicio/articulos/art14f2' },
-      { id: 'Art. 14 FII', icon: <Article />, path: '/inicio/articulos/art14f3' },
+      { id: 'Art. 14 FIII', icon: <Article />, path: '/inicio/articulos/art14f3' },
 
     ],
   },

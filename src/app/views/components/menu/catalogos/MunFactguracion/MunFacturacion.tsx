@@ -24,6 +24,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
 import Filtros from "../Utilerias/Filtros";
 import Buttons from "../Utilerias/Buttons";
+import Slider from "../../../Slider";
+import { Toast } from "../../../../../helpers/Toast";
+import { Alert, AlertD } from "../../../../../helpers/Alert";
 
 
 
@@ -31,8 +34,12 @@ import Buttons from "../Utilerias/Buttons";
 export const MunFacturacion = () => {
   const user = getUser();
   const [Facturacion, setFacturacion] = useState([]);
- 
+  const [plantilla, setPlantilla] = useState("");
   const [open, setOpen] = useState(false);
+  const [slideropen, setslideropen] = useState(false);
+
+
+
 
   const columns: GridColDef[] = [
     {
@@ -78,6 +85,22 @@ export const MunFacturacion = () => {
 
   const handleClose = () => setOpen(false);
 
+ 
+  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setslideropen(true);
+    let file = event?.target?.files?.[0] || '';
+    const formData = new FormData();
+    formData.append("inputfile",file,"inputfile");
+    formData.append("tipo","MunFacturacion");
+   
+    CatalogosServices.migraData(formData).then((res) => {
+      console.log(res);
+      setslideropen(false);
+    });
+
+
+
+  }
 
   const handleFilterChange = (event: SelectChangeEvent) => {
      console.log(event.target.value);
@@ -127,20 +150,46 @@ export const MunFacturacion = () => {
     CatalogosServices.munfacturacion(data).then((res) => {
       console.log(res);
       setFacturacion(res.RESPONSE);
+      Toast.fire({
+        icon: "success",
+        title: "Consulta Exitosamente",
+        });
+
+        AlertD.fire({
+          title: 'Error!',
+          text: 'Do you want to continue',
+          icon: 'error',
+        })
+
+
     });
   };
 
+  const downloadplantilla= ()=>{
+    let data = {
+      NUMOPERACION: "MUNICIPIO_FACTURACION",
+    };
+
+    CatalogosServices.descargaplantilla(data).then((res) => {
+      console.log(res);
+      setPlantilla(res.RESPONSE);
+    
+    });
+
+  };
 
 
   useEffect(() => {
     consulta(4, 2022, 0);
+    downloadplantilla();
   }, []);
 
   return (
     <div style={{ height: 600, width: "100%" }}>
+      <Slider open={slideropen} ></Slider>
       <DetailsModal />
       <Filtros handleFilterChange={handleFilterChange} />
-      <Buttons handleOpen={handleOpen} />
+      <Buttons handleOpen={handleOpen} url={plantilla} handleUpload={handleUpload} />
 
 
       <DataGrid
@@ -161,3 +210,5 @@ export const MunFacturacion = () => {
     </div>
   );
 };
+
+
