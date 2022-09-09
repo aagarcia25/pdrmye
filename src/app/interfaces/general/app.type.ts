@@ -1,24 +1,24 @@
-export default interface IRow {
+export  interface IRow {
     id?: number,
     col1?: string,
     col2?:string
   }
 
 
-  export default interface IColum {
+  export  interface IColum {
     field?:string,
     headerName?:string,
     width?:number
   }
 
 
- export default interface Iauntenticacion{
+ export  interface Iauntenticacion{
   user:string,
   password:string
 
  }
 
-export default interface Icalendario{
+export  interface Icalendario{
     CHID?:string,
     NUMOPERACION?:number,
     STRNOMBREEVENTO?:string,
@@ -27,7 +27,7 @@ export default interface Icalendario{
     CHUSER?:string
 }
 
-export default interface Iumas{
+export  interface Iumas{
     CHID?:string,
     NUMOPERACION?:number,
     NUMANIO?:string,
@@ -37,7 +37,7 @@ export default interface Iumas{
     CHUSER?:string
 }
 
-export default interface Iajustes{
+export  interface Iajustes{
     CHID?:string,
     NUMOPERACION?:number,
     DESCRIPCION?:string,
@@ -46,7 +46,7 @@ export default interface Iajustes{
     DELETED?:string
 }
 
-export default interface Inotificaciones{
+export  interface Inotificaciones{
     CHID?:string,
     NUMOPERACION?:number,
     DESCRIPCION?:string,
@@ -55,3 +55,5 @@ export default interface Inotificaciones{
     CREADOPOR?:string,
     DELETED?:string
 }
+
+

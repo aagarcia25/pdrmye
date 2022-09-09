@@ -7,16 +7,10 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  FormControl,
   IconButton,
-  InputLabel,
   LinearProgress,
-  MenuItem,
-  Modal,
-  Select,
-  SelectProps,
+  SelectChangeEvent,
   TextField,
-  Typography,
 } from "@mui/material";
 import { esES, GridColDef } from "@mui/x-data-grid";
 import { DataGrid, GridColTypeDef } from "@mui/x-data-grid";
@@ -27,15 +21,17 @@ import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import AddIcon from "@mui/icons-material/Add";
 import { messages } from "../../../../styles";
+import Filtros from "../Utilerias/Filtros";
+import Buttons from "../Utilerias/Buttons";
+
+
+
 
 export const MunFacturacion = () => {
- 
-
   const user = getUser();
   const [Facturacion, setFacturacion] = useState([]);
-
+ 
   const [open, setOpen] = useState(false);
 
   const columns: GridColDef[] = [
@@ -77,59 +73,16 @@ export const MunFacturacion = () => {
   ];
 
   const handleOpen = (v: any) => {
-    //setSelectedId(v.row.lastName);
-
     setOpen(true);
   };
 
   const handleClose = () => setOpen(false);
 
-  const ButtonAdd = () => {
-    return (
-      <Box>
-        <IconButton
-          color="primary"
-          aria-label="upload picture"
-          component="label"
-          onClick={() => handleOpen(1)}
-        >
-          <AddIcon />
-        </IconButton>
-      </Box>
-    );
-  };
 
-  const handleFilterChange = React.useCallback<
-    NonNullable<SelectProps<number>["onChange"]>
-  >((event) => {
-    consulta(Number(event.target.value));
-  }, []);
-
-  const Filter = () => {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "right",
-        }}
-      >
-        <FormControl variant="standard" sx={{
-            width: "5%",
-        }}>
-          <InputLabel>Año</InputLabel>
-          <Select<number> onChange={handleFilterChange}>
-            <MenuItem value={2020}>2020</MenuItem>
-            <MenuItem value={2021}>2021</MenuItem>
-            <MenuItem value={2022}>2022</MenuItem>
-          </Select>
-        </FormControl>
-
-
-
-        
-      </Box>
-    );
-  };
+  const handleFilterChange = (event: SelectChangeEvent) => {
+     console.log(event.target.value);
+    consulta(4, Number(event.target.value), 0);
+}
 
   const DetailsModal = () => {
     return (
@@ -158,10 +111,14 @@ export const MunFacturacion = () => {
     );
   };
 
-  const consulta = (anio: Number) => {
+  const consulta = (
+    numOperacion: Number,
+    anio: Number,
+    numpoblacion: Number
+  ) => {
     let data = {
-      NUMOPERACION: 4,
-      CHID: "",
+      NUMOPERACION: numOperacion,
+      CHID: "1",
       ANIO: anio,
       NUMTOTALPOB: "",
       CHUSER: 1,
@@ -176,15 +133,16 @@ export const MunFacturacion = () => {
 
 
   useEffect(() => {
-    consulta(2022);
+    consulta(4, 2022, 0);
   }, []);
-
 
   return (
     <div style={{ height: 600, width: "100%" }}>
       <DetailsModal />
-      <Filter />
-      <ButtonAdd />
+      <Filtros handleFilterChange={handleFilterChange} />
+      <Buttons handleOpen={handleOpen} />
+
+
       <DataGrid
         //checkboxSelection
         pagination

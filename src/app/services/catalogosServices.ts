@@ -62,6 +62,10 @@ export class CatalogosServices {
     };
     
 
+    public static async anios(data : any) {
+        return await post('anios', data);
+    };
+
     
     
 

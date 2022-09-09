@@ -51,7 +51,12 @@ import { Departamentos } from "../views/components/menu/catalogos/Departamentos/
 import { TasaInteres } from "../views/components/menu/catalogos/TasaInteres/TasaInteres";
 import { Municipios } from "../views/components/menu/catalogos/Municipios/Municipios";
 import { Art14f2 } from "../views/components/menu/articulos/Art14f1.tsx/Art14f2";
+<<<<<<< Updated upstream
 import { BloqueoSesion } from "../views/components/BloqueoSesion";
+=======
+import { BloqueoSesion } from "../views/components/menu/bloqueoSesion/BloqueoSesion";
+import Art14f3 from "../views/components/menu/articulos/Art14f3";
+>>>>>>> Stashed changes
 
 export const AppRouter = () => {
   const log = isAuthenticated();
@@ -216,7 +221,7 @@ export const AppRouter = () => {
         {/* SECCION DE ARTICULOS */}
         <Route path="/inicio/articulos/art14f1" element={<Art14f1 />} />
         <Route path="/inicio/articulos/art14f2" element={<Art14f2 />} />
-        <Route path="/inicio/articulos/art14f3" element={<Art14f1 />} />
+        <Route path="/inicio/articulos/art14f3" element={<Art14f3 />} />
         {/* FIN SECCION DE ARTICULOS */}
       </Routes>
     </Inicio>
