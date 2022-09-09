@@ -51,12 +51,9 @@ import { Departamentos } from "../views/components/menu/catalogos/Departamentos/
 import { TasaInteres } from "../views/components/menu/catalogos/TasaInteres/TasaInteres";
 import { Municipios } from "../views/components/menu/catalogos/Municipios/Municipios";
 import { Art14f2 } from "../views/components/menu/articulos/Art14f1.tsx/Art14f2";
-<<<<<<< Updated upstream
-import { BloqueoSesion } from "../views/components/BloqueoSesion";
-=======
-import { BloqueoSesion } from "../views/components/menu/bloqueoSesion/BloqueoSesion";
 import Art14f3 from "../views/components/menu/articulos/Art14f3";
->>>>>>> Stashed changes
+import { BloqueoSesion } from "../views/components/BloqueoSesion";
+
 
 export const AppRouter = () => {
   const log = isAuthenticated();
