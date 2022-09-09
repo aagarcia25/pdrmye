@@ -43,14 +43,14 @@ import { Coeficientes } from "../views/components/menu/catalogos/Coeficientes/Co
 import { Avisos } from "../views/components/menu/catalogos/Avisos/Avisos";
 
 import { Perfil } from "../views/components/perfil/Perfil";
-import { Art14f1 } from "../views/components/menu/articulos/Art14f1.tsx/Art14f1";
+import { Art14f1 } from "../views/components/menu/articulos/Art14f1";
 
 import { Eventos } from "../views/components/menu/catalogos/Eventos/Eventos";
 import { Departamentos } from "../views/components/menu/catalogos/Departamentos/Departamentos";
 
 import { TasaInteres } from "../views/components/menu/catalogos/TasaInteres/TasaInteres";
 import { Municipios } from "../views/components/menu/catalogos/Municipios/Municipios";
-import { Art14f2 } from "../views/components/menu/articulos/Art14f1.tsx/Art14f2";
+import { Art14f2 } from "../views/components/menu/articulos/Art14f2";
 import Art14f3 from "../views/components/menu/articulos/Art14f3";
 import { BloqueoSesion } from "../views/components/BloqueoSesion";
 
