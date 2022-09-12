@@ -15,37 +15,33 @@ import PersonIcon from "@mui/icons-material/Person";
 import SaveIcon from "@mui/icons-material/Save";
 import SearchIcon from "@mui/icons-material/Search";
 import UploadIcon from "@mui/icons-material/Upload";
+import { BorderBottom } from "@mui/icons-material";
 
 export function Perfil() {
-
   const theme = createTheme();
 
-  theme.typography.h3={
-    fontSize:'0.7rem',
+  theme.typography.h3 = {
+    fontSize: "0.7rem",
     backgroundColor: "white",
-    '@media (min-width:600px) ()':{
-        fontSize:'0.2rem',
+    "@media (min-width:600px) ()": {
+      fontSize: "0.2rem",
     },
-    [theme.breakpoints.up('xs')]:{
-      fontSize: '0.5rem',
+    [theme.breakpoints.up("xs")]: {
+      fontSize: "0.5rem",
     },
-    [theme.breakpoints.up('sm')]:{
-      fontSize: '0.4rem',
+    [theme.breakpoints.up("sm")]: {
+      fontSize: "0.4rem",
     },
-    [theme.breakpoints.up('md')]:{
-      fontSize: '0.8rem',
+    [theme.breakpoints.up("md")]: {
+      fontSize: "0.8rem",
     },
-    [theme.breakpoints.up('lg')]:{
-      fontSize: '1.0rem',
+    [theme.breakpoints.up("lg")]: {
+      fontSize: "1.0rem",
     },
-    [theme.breakpoints.up('xl')]:{
-      fontSize: '1.3rem',
-    }
-  }
-
-  const tamanioWidthTextField = "28vw";
-
-  const tamanioHeightTextField = "15vh";
+    [theme.breakpoints.up("xl")]: {
+      fontSize: "1.3rem",
+    },
+  };
 
   return (
     <Box
@@ -62,7 +58,7 @@ export function Perfil() {
         sx={{
           //Espacio para el Título
           width: "100%",
-          height: "5.5vh",
+          height: "4.5vh",
           backgroundColor: COLOR.grisTarjetaBienvenido,
           display: "flex",
           justifyContent: "center",
@@ -82,7 +78,7 @@ export function Perfil() {
       <Box
         sx={{
           //Fondo contenido
-          backgroundColor: COLOR.blanco,
+          bgcolor: COLOR.blanco,
           width: "100%",
           height: "85%",
           display: "flex",
@@ -96,10 +92,9 @@ export function Perfil() {
             // Datos de Usuario
 
             width: "45%",
-            height: "65vh",
-            borderColor: "primary.main",
-            border: 1,
-            borderBottom: 0,
+            height: "60vh",
+            borderColor: COLOR.negro,
+            
           }}
         >
           <Box
@@ -107,17 +102,21 @@ export function Perfil() {
               //Caja de foto y nombre
               backgroundColor: COLOR.blanco,
               width: "100%",
-              height: "15vh",
+              height: "20vh",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              border:1,
+              borderBottom:0,
             }}
           >
             <PersonIcon sx={{ fontSize: "8vw" }} />
             <ThemeProvider theme={theme}>
-            <Typography variant="h3" sx={{ fontWeight: "Bold", }}>Cesar Garza</Typography>
-          </ThemeProvider>
+              <Typography variant="h3" sx={{ fontWeight: "Bold" }}>
+                Cesar Garza
+              </Typography>
+            </ThemeProvider>
           </Box>
           <Box
             sx={{
@@ -128,13 +127,15 @@ export function Perfil() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              border:1,
+              borderTop:0,
             }}
           >
             <Box
               sx={{
                 backgroundColor: "white",
                 width: "90%",
-                height: "70%",
+                height: "90%",
                 //Cuadro de textos 1
               }}
             >
@@ -145,21 +146,29 @@ export function Perfil() {
                 }}
               />
               <Box sx={{ display: "flex", mt: 2 }}>
-              <ThemeProvider theme={theme}>
-                <Typography variant="h3"
-                  sx={{
-                    fontWeight: "Bold",
-                    /*fontSize: tamanioTypoCuadro1*/
-                    mr: 1,
-                  }}
-                >
-                  Area:
-                </Typography>
+                <ThemeProvider theme={theme}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      fontWeight: "Bold",
+                      /*fontSize: tamanioTypoCuadro1*/
+                      mr: 1,
+                    }}
+                  >
+                    Area:
+                  </Typography>
                 </ThemeProvider>
                 <ThemeProvider theme={theme}>
-                <Typography variant="h3" sx={{ /*fontSize: tamanioTypoCuadro1*/ }}>
-                  Coordinación de Planeación Hacendaria
-                </Typography>
+                  <Typography
+                    variant="h3"
+                    sx={
+                      {
+                        /*fontSize: tamanioTypoCuadro1*/
+                      }
+                    }
+                  >
+                    Coordinación de Planeación Hacendaria
+                  </Typography>
                 </ThemeProvider>
               </Box>
               <Divider
@@ -169,21 +178,29 @@ export function Perfil() {
                 }}
               />
               <Box sx={{ display: "flex", mt: 2 }}>
-              <ThemeProvider theme={theme}>
-                <Typography variant="h3"
-                  sx={{
-                    fontWeight: "Bold",
-                    /*fontSize: tamanioTypoCuadro1*/
-                    mr: 1,
-                  }}
-                >
-                  Puesto:
-                </Typography>
+                <ThemeProvider theme={theme}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      fontWeight: "Bold",
+                      /*fontSize: tamanioTypoCuadro1*/
+                      mr: 1,
+                    }}
+                  >
+                    Puesto:
+                  </Typography>
                 </ThemeProvider>
                 <ThemeProvider theme={theme}>
-                <Typography variant="h3" sx={{ /*fontSize: tamanioTypoCuadro1*/ }}>
-                  Coordinador
-                </Typography>
+                  <Typography
+                    variant="h3"
+                    sx={
+                      {
+                        /*fontSize: tamanioTypoCuadro1*/
+                      }
+                    }
+                  >
+                    Coordinador
+                  </Typography>
                 </ThemeProvider>
               </Box>
               <Divider
@@ -193,21 +210,29 @@ export function Perfil() {
                 }}
               />
               <Box sx={{ display: "flex", mt: 2 }}>
-              <ThemeProvider theme={theme}>
-                <Typography variant="h3"
-                  sx={{
-                    fontWeight: "Bold",
-                    /*fontSize: tamanioTypoCuadro1*/
-                    mr: 1,
-                  }}
-                >
-                  Perfil:
-                </Typography>
+                <ThemeProvider theme={theme}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      fontWeight: "Bold",
+                      /*fontSize: tamanioTypoCuadro1*/
+                      mr: 1,
+                    }}
+                  >
+                    Perfil:
+                  </Typography>
                 </ThemeProvider>
                 <ThemeProvider theme={theme}>
-                <Typography variant="h3" sx={{ /*fontSize: tamanioTypoCuadro1*/ }}>
-                  Usuario
-                </Typography>
+                  <Typography
+                    variant="h3"
+                    sx={
+                      {
+                        /*fontSize: tamanioTypoCuadro1*/
+                      }
+                    }
+                  >
+                    Usuario
+                  </Typography>
                 </ThemeProvider>
               </Box>
             </Box>
@@ -221,7 +246,6 @@ export function Perfil() {
             width: "53%",
             height: "55vh",
             border: 1,
-            borderBottom: 0,
             justifyContent: "center",
           }}
         >
@@ -237,89 +261,112 @@ export function Perfil() {
             }}
           >
             <ThemeProvider theme={theme}>
-            <Typography variant="h3"
-              sx={{
-                //Perfil
-                color: COLOR.negro,
-                /*fontSize: "2.1vw",*/
-                backgroundColor: COLOR.grisTarjetaBienvenido,
-              }}
-            >
-              Editar Información de Contacto
-            </Typography>
+              <Typography
+                variant="h3"
+                sx={{
+                  //Perfil
+                  color: COLOR.negro,
+                  /*fontSize: "2.1vw",*/
+                  backgroundColor: COLOR.grisTarjetaBienvenido,
+                }}
+              >
+                Editar Información de Contacto
+              </Typography>
             </ThemeProvider>
           </Box>
           <Box
             sx={{
               //Padre del espacio 3 después del vacío
               height: "90%",
-              width: "100%",
+              width: "85%",
               backgroundColor: COLOR.blanco,
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "start",
+              ml:1
             }}
           >
             <Box
               sx={{
-                height: "95%",
-                width: "95%",
+                height: "45vh",
+                width: "35vw",
                 backgroundColor: COLOR.blanco,
                 display: "flex",
                 flexDirection: "column",
-                alignItems:"center"
+                alignItems: "start",
               }}
             >
-              <TextField
-                sx={{ width: tamanioWidthTextField,height:tamanioHeightTextField, mt: 2,  }}
-                id="telefono"
-                label="Teléfono"
-                variant="outlined"
-              />
-
-              <TextField
-                sx={{ width: tamanioWidthTextField,height:tamanioHeightTextField, mt: 2 }}
-                id="area"
-                label="Area"
-                variant="outlined"
-              />
-
-              <TextField
-                sx={{ width: tamanioWidthTextField,height:tamanioHeightTextField, mt: 2 }}
-                id="ubicacion"
-                label="Ubicación"
-                variant="outlined"
-              />
               <ThemeProvider theme={theme}>
-              <Typography variant="h3"
-                sx={{
-                  mt: 3,
-                  /*fontSize: "1vw",*/
-                }}
-              >
-                Subir Foto:
-              </Typography>
+                <Typography variant="h3">Teléfono:</Typography>
               </ThemeProvider>
-              <TextField
-                sx={{ width: tamanioWidthTextField, mt: 1 }}
-                type="file"
-                id="archivo"
-                variant="outlined"
-              />
-              <Button
+              <Box sx={{
+                width:"20vw",
+                height:"3vh",
+                backgroundColor:COLOR.blanco,
+                borderRadius:1,
+                border:2,
+                borderColor: COLOR.grisTarjetaBienvenido,
+                display:"flex",
+                alignItems:"center"
+              }}>
+                <Input sx={{width:"19vw",ml:0.5,fontSize: ".9vw"}} disableUnderline placeholder="811-955-5555"></Input>
+                  </Box>
+              <ThemeProvider theme={theme}>
+                <Typography sx={{mt: 1,}} variant="h3">Area:</Typography>
+              </ThemeProvider>
+              <Box sx={{
+                width:"20vw",
+                height:"3vh",
+                backgroundColor:COLOR.blanco,
+                borderRadius:1,
+                border:2,
+                borderColor: COLOR.grisTarjetaBienvenido,
+                display:"flex",
+                alignItems:"center"
+              }}>
+              <Input sx={{width:"19vw",ml:0.5,fontSize: ".9vw"}} disableUnderline placeholder="Coordinación de Planeación Hacendaria"></Input>
+              </Box>
+              <ThemeProvider theme={theme}>
+                <Typography sx={{mt: 1,}} variant="h3">Ubicación:</Typography>
+              </ThemeProvider>
+              <Box sx={{
+                width:"20vw",
+                height:"3vh",
+                backgroundColor:COLOR.blanco,
+                borderRadius:1,
+                border:2,
+                borderColor: COLOR.grisTarjetaBienvenido,
+                display:"flex",
+                alignItems:"center"
+              }}>
+              <Input sx={{width:"19vw",ml:0.5,fontSize: ".9vw"}} disableUnderline placeholder="4to Piso"></Input>
+              </Box>
+              <ThemeProvider theme={theme}>
+                <Typography
+                  variant="h3"
                   sx={{
-                    color: COLOR.blanco,
-                    backgroundColor: COLOR.negro,
-                    mt: 3,
-                    fontSize: "1vw",
-                    "&:hover": {color: COLOR.negro, backgroundColor: COLOR.grisTarjetaBienvenido },
+                    mt: 2,
+                    /*fontSize: "1vw",*/
                   }}
                 >
-                  ACTUALIZAR
-                </Button>
-              <Box sx={{ width: "20%" }}>
-                
-              </Box>
+                  Cambiar Foto:
+                </Typography>
+              </ThemeProvider>
+              <Input sx={{width:"19vw",ml:0.5,fontSize: ".9vw"}} disableUnderline type="file"></Input>
+              <Button
+                sx={{
+                  color: COLOR.blanco,
+                  backgroundColor: COLOR.negro,
+                  mt: 2,
+                  fontSize: "0.8vw",
+                  "&:hover": {
+                    color: COLOR.negro,
+                    backgroundColor: COLOR.grisTarjetaBienvenido,
+                  },
+                }}
+              >
+                ACTUALIZAR
+              </Button>
             </Box>
           </Box>
         </Box>
