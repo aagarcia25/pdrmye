@@ -25,18 +25,17 @@ import { CatalogosServices } from "../../services/catalogosServices";
 interface HeaderProps {
   onDrawerToggle: () => void;
   name: string;
-  id:any;
+  id: any;
 }
 
 export default function Header(props: HeaderProps) {
- 
+  const btnPerson = "2.5vw";
+  const btnAll = "2.0vw";
+
   const navigate = useNavigate();
-  
-  const [cnotif, setCnotif] = React.useState(0); 
 
+  const [cnotif, setCnotif] = React.useState(0);
 
-
-  
   const { onDrawerToggle } = props;
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -56,17 +55,14 @@ export default function Header(props: HeaderProps) {
     setOpen(false);
   };
 
+  const onNotification = () => {
+    navigate("/Notification");
+  };
 
-  
-
- const onNotification = () =>{
-  navigate("/Notification");
- }
-
- const onLogOut = () =>{
-  navigate("/");
-  setOpen((prevOpen) => !prevOpen);
- }
+  const onLogOut = () => {
+    navigate("/");
+    setOpen((prevOpen) => !prevOpen);
+  };
 
   const onOpenCalendar = () => {
     navigate("/Calendar");
@@ -100,37 +96,17 @@ export default function Header(props: HeaderProps) {
     return path;
   }
 
-
   let data = {
-    NUMOPERACION:5,
-    CHUSER:1
+    NUMOPERACION: 5,
+    CHUSER: 1,
   };
 
   React.useEffect(() => {
     CatalogosServices.Notificaciones(data).then((res) => {
-     let result = res.RESPONSE;
-     setCnotif(result[0].count);
+      let result = res.RESPONSE;
+      setCnotif(result[0].count);
     });
   }, []);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   return (
     <React.Fragment>
@@ -141,7 +117,16 @@ export default function Header(props: HeaderProps) {
       >
         <Toolbar>
           <Grid container spacing={2} alignItems="center">
-            <Grid sx={{ display: { sm: "none", xs: "block",backgroundColor: COLOR.negro } }} item>
+            <Grid
+              sx={{
+                display: {
+                  sm: "none",
+                  xs: "block",
+                  backgroundColor: COLOR.negro,
+                },
+              }}
+              item
+            >
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -152,9 +137,7 @@ export default function Header(props: HeaderProps) {
               </IconButton>
             </Grid>
             <Grid item xs />
-           
-           
-           
+
             <Grid item>
               <Tooltip title="Bandeja de correo">
                 <Badge
@@ -168,7 +151,7 @@ export default function Header(props: HeaderProps) {
                   <IconButton
                     color="inherit"
                     sx={{
-                      p: 0.5,
+                      p: 0.8,
                       backgroundColor: COLOR.negro,
                       "&:hover": {
                         backgroundColor: COLOR.grisTarjetaBienvenido,
@@ -176,8 +159,10 @@ export default function Header(props: HeaderProps) {
                     }}
                   >
                     <NotificationsNoneIcon
-                      fontSize="large"
-                      sx={{ color: COLOR.blanco }}
+                      sx={{ color: COLOR.blanco, fontSize: btnAll,
+                      "&:hover":{
+                        color:COLOR.negro,
+                      } }}
                       onClick={onNotification}
                     />
                   </IconButton>
@@ -185,31 +170,29 @@ export default function Header(props: HeaderProps) {
               </Tooltip>
             </Grid>
 
-
-
-
             <Grid item>
-            <Tooltip title="Calendario">
-              <IconButton
-                color="inherit"
-                sx={{
-                  p: 0.5,
-                  backgroundColor: COLOR.negro,
-                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-                }}
-                
-              >
-                <CalendarMonthIcon
-                  fontSize="large"
-                  sx={{ color: COLOR.blanco }}
-                  onClick={onOpenCalendar}
-                />
-              </IconButton>
+              <Tooltip title="Calendario">
+                <IconButton
+                  color="inherit"
+                  sx={{
+                    p: 0.8,
+                    backgroundColor: COLOR.negro,
+                    "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+                  }}
+                >
+                  <CalendarMonthIcon
+                    sx={{ fontSize: btnAll, color: COLOR.blanco,
+                      "&:hover":{
+                        color:COLOR.negro,
+                      } }}
+                    onClick={onOpenCalendar}
+                  />
+                </IconButton>
               </Tooltip>
             </Grid>
-          
-          <Grid item></Grid>
-          
+
+            <Grid item></Grid>
+
             <Grid item>
               <IconButton
                 ref={anchorRef}
@@ -220,14 +203,18 @@ export default function Header(props: HeaderProps) {
                 onClick={handleToggle}
                 color="inherit"
                 sx={{
+                  fontSize: btnPerson,
                   p: 1.0,
                   backgroundColor: COLOR.negro,
                   "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                 }}
               >
-                <PersonIcon fontSize="large" sx={{ color: COLOR.blanco }} />
+                <PersonIcon sx={{ fontSize: btnPerson, color: COLOR.blanco,
+                "&:hover":{
+                  color:COLOR.negro,
+                } }} />
               </IconButton>
-              
+
               <Popper
                 open={open}
                 anchorEl={anchorRef.current}
@@ -254,15 +241,11 @@ export default function Header(props: HeaderProps) {
                           aria-labelledby="composition-button"
                           onKeyDown={handleListKeyDown}
                         >
-                          <MenuItem
-                            onClick={onConfigProfile}
-                          >
+                          <MenuItem onClick={onConfigProfile}>
                             <ManageAccountsIcon sx={{ color: COLOR.negro }} />
                             Configuración de perfil
                           </MenuItem>
-                          <MenuItem
-                            onClick={onLogOut}
-                          >
+                          <MenuItem onClick={onLogOut}>
                             <LogoutIcon sx={{ color: COLOR.negro }} />
                             Cerrar sesión
                           </MenuItem>
@@ -272,16 +255,11 @@ export default function Header(props: HeaderProps) {
                   </Grow>
                 )}
               </Popper>
-              
             </Grid>
-          
-          
+
             <Grid item>
               <Typography color="black">{props.name}</Typography>
             </Grid>
-         
-         
-         
           </Grid>
         </Toolbar>
       </AppBar>
