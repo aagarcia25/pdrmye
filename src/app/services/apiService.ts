@@ -32,7 +32,7 @@ const handleResponse = (response: any) => {
 
         rs = {
             RESPONSE: response.RESPONSE,
-            SUCCESS: true,
+            SUCCESS: response.SUCCESS,
             NUMCODE: response.NUMCODE,
             STRMESSAGE: response.STRMESSAGE,
         }

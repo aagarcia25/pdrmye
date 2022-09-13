@@ -74,8 +74,13 @@ export class CatalogosServices {
         return await post('migraData', data);
     };
     
-    
+    public static async meses(data : any) {
+        return await post('meses', data);
+    };
 
+    public static async Filtromunicipios(data : any) {
+        return await post('Filtromunicipios', data);
+    };
     
 
 }

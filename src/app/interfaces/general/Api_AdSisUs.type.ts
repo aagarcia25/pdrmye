@@ -27,3 +27,10 @@ export default interface Ianios{
     anio?:number
 
 }
+
+export default interface Imeses{
+  id?:number,
+  Descripcion?:string
+
+}
+

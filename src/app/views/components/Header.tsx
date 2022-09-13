@@ -157,13 +157,13 @@ export default function Header(props: HeaderProps) {
                         backgroundColor: COLOR.grisTarjetaBienvenido,
                       },
                     }}
+                    onClick={onNotification}
                   >
                     <NotificationsNoneIcon
                       sx={{ color: COLOR.blanco, fontSize: btnAll,
                       "&:hover":{
                         color:COLOR.negro,
                       } }}
-                      onClick={onNotification}
                     />
                   </IconButton>
                 </Badge>
@@ -179,13 +179,13 @@ export default function Header(props: HeaderProps) {
                     backgroundColor: COLOR.negro,
                     "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                   }}
+                  onClick={onOpenCalendar}
                 >
                   <CalendarMonthIcon
                     sx={{ fontSize: btnAll, color: COLOR.blanco,
                       "&:hover":{
                         color:COLOR.negro,
                       } }}
-                    onClick={onOpenCalendar}
                   />
                 </IconButton>
               </Tooltip>

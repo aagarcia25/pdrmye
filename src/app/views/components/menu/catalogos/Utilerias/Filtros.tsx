@@ -1,25 +1,35 @@
-import { Box, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
-import React, { ChangeEvent, ReactNode, useEffect, useState } from 'react'
-import { CatalogosServices } from '../../../../../services/catalogosServices';
+import { useEffect, useState } from "react";
+import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import Imeses from "../../../../../interfaces/general/Api_AdSisUs.type";
 import Ianios from "../../../../../interfaces/general/Api_AdSisUs.type";
 
-
 const Filtros = ({
-    handleFilterChange
-}:{
-    handleFilterChange: Function
-}
-   
-    
-) => {
- 
-const [anios, setAnios] = useState<Ianios[]>();
+  anioApply,
+  mesApply,
+  handleFilterChangeAnio,
+  handleFilterChangeMes,
+  valueFilterAnio,
+  valueFilterMes,
+}: {
+  anioApply: boolean;
+  mesApply: boolean;
+  handleFilterChangeAnio: Function;
+  handleFilterChangeMes: Function ;
+  valueFilterAnio: any;
+  valueFilterMes: any;
+}) => {
+  const [anios, setAnios] = useState<Ianios[]>();
+  const [meses, setMeses] = useState<Imeses[]>();
 
+  const mesesc = () => {
+    let data = {};
+    CatalogosServices.meses(data).then((res) => {
+      setMeses(res.RESPONSE);
+    });
+  };
 
-
-
-
-const aniosc = () => {
+  const aniosc = () => {
     let data = {};
     CatalogosServices.anios(data).then((res) => {
       setAnios(res.RESPONSE);
@@ -27,43 +37,71 @@ const aniosc = () => {
   };
 
   useEffect(() => {
+    mesesc();
     aniosc();
-  }, []); 
- 
-    return (
+  }, []);
+
+  return (
     <Box
-    sx={{
-      display: "flex",
-      justifyContent: "right",
-    }}
-     >
-    <FormControl
-      variant="standard"
       sx={{
-        width: "5%",
+        display: "flex",
+        justifyContent: "right",
+        spacing: "1",
       }}
     >
-      <InputLabel>Año</InputLabel>
-      <Select
-       onChange={(v) => handleFilterChange(v)}
-       value=""
-       label="Año"
+      {mesApply  ? (
+        <FormControl
+          variant="standard"
+          sx={{
+            width: "5%",
+          }}
         >
-        {anios?.map((item: Ianios) => {
-          return(
-          <MenuItem key={item.id} value={item.id}>{item.anio}</MenuItem>
-          );
-        })
-        }
-      </Select>
-    </FormControl>
+          <InputLabel>Mes</InputLabel>
+          <Select
+            onChange={(v) => handleFilterChangeMes(v)}
+            value={valueFilterMes}
+            label="Mes"
+          >
+            {meses?.map((item: Imeses) => {
+              return (
+                <MenuItem key={item.id} value={item.id}>
+                  {item.Descripcion}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+      ) : (
+        ""
+      )}
 
+      {anioApply ? (
+        <FormControl
+          variant="standard"
+          sx={{
+            width: "5%",
+          }}
+        >
+          <InputLabel>Año</InputLabel>
+          <Select
+            onChange={(v) => handleFilterChangeAnio(v)}
+            value={valueFilterAnio}
+            label="Año"
+          >
+            {anios?.map((item: Ianios) => {
+              return (
+                <MenuItem key={item.id} value={item.id}>
+                  {item.anio}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+      ) : (
+        ""
+      )}
+    </Box>
+  );
+};
 
-
-
-  </Box>
-);
-  
-}
-
-export default Filtros
+export default Filtros;
