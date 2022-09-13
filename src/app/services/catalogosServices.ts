@@ -81,6 +81,10 @@ export class CatalogosServices {
     public static async Filtromunicipios(data : any) {
         return await post('Filtromunicipios', data);
     };
+
+    public static async tipofondo(data : any) {
+        return await post('tipofondo', data);
+    };
     
 
 }

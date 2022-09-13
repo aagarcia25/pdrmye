@@ -53,6 +53,7 @@ import { Municipios } from "../views/components/menu/catalogos/Municipios/Munici
 import { Art14f2 } from "../views/components/menu/articulos/Art14f2";
 import Art14f3 from "../views/components/menu/articulos/Art14f3";
 import { BloqueoSesion } from "../views/components/BloqueoSesion";
+import TipoFondo from "../views/components/menu/catalogos/TipoFondo/TipoFondo";
 
 
 export const AppRouter = () => {
@@ -194,10 +195,8 @@ export const AppRouter = () => {
         />
         <Route path="/inicio/catalogos/avisos" element={<Avisos />} />
         <Route path="/inicio/catalogos/eventos" element={<Eventos />} />
-        <Route
-          path="/inicio/catalogos/departamentos"
-          element={<Departamentos />}
-        />
+        <Route  path="/inicio/catalogos/departamentos"      element={<Departamentos />}      />
+        <Route  path="/inicio/catalogos/tipoFondo"      element={<TipoFondo />}      />
 
         {/* FIN SECCION DE CATALOGOS */}
 

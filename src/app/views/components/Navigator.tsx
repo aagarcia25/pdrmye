@@ -47,7 +47,7 @@ export const categories = [
       { id: 'Departamentos', icon: <Article />, path: '/inicio/catalogos/departamentos' },
      
       
-      { id: 'Tipo de Fondos', icon: <Article />, path: '/inicio/catalogos/munpob' },
+      { id: 'Tipo de Fondos', icon: <Article />, path: '/inicio/catalogos/tipoFondo' },
       { id: 'Tasa de Interes', icon: <Article />, path: '/inicio/catalogos/tasa' },
       { id: 'UMAS', icon: <Article />, path: '/inicio/catalogos/umas' },
       { id: 'Coeficientes', icon: <Article />, path: '/inicio/catalogos/coeficientes' },
