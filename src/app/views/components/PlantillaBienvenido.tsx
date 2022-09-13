@@ -1,9 +1,8 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import {Typography, createTheme, ThemeProvider} from "@mui/material";
 import { COLOR } from "../../styles/colors";
 import PersonIcon from "@mui/icons-material/Person";
-
 interface UserProps{
   name: string;
   lastConnnection: string;
@@ -12,6 +11,75 @@ interface UserProps{
 }
 
 export default function PlantillaBienvenido(props: UserProps) {
+
+  const theme = createTheme();
+
+  theme.typography.h3 = {
+    fontSize: "0.7rem",
+    "@media (min-width:600px) ()": {
+      fontSize: "0.2rem",
+    },
+    [theme.breakpoints.up("xs")]: {
+      fontSize: "0.9rem",
+    },
+    [theme.breakpoints.up("sm")]: {
+      fontSize: "1.1rem",
+    },
+    [theme.breakpoints.up("md")]: {
+      fontSize: "1.4rem",
+    },
+    [theme.breakpoints.up("lg")]: {
+      fontSize: "1.7rem",
+    },
+    [theme.breakpoints.up("xl")]: {
+      fontSize: "1.9rem",
+    },
+  };
+
+  theme.typography.h2 = {
+    fontSize: "0.7rem",
+    "@media (min-width:600px) ()": {
+      fontSize: "0.2rem",
+    },
+    [theme.breakpoints.up("xs")]: {
+      fontSize: "1.4rem",
+    },
+    [theme.breakpoints.up("sm")]: {
+      fontSize: "1.7rem",
+    },
+    [theme.breakpoints.up("md")]: {
+      fontSize: "2.2rem",
+    },
+    [theme.breakpoints.up("lg")]: {
+      fontSize: "2.5rem",
+    },
+    [theme.breakpoints.up("xl")]: {
+      fontSize: "3rem",
+    },
+  };
+
+  theme.typography.h4 = {
+    fontSize: "0.7rem",
+    "@media (min-width:600px) ()": {
+      fontSize: "0.1rem",
+    },
+    [theme.breakpoints.up("xs")]: {
+      fontSize: "0.4rem",
+    },
+    [theme.breakpoints.up("sm")]: {
+      fontSize: "0.6rem",
+    },
+    [theme.breakpoints.up("md")]: {
+      fontSize: "0.8rem",
+    },
+    [theme.breakpoints.up("lg")]: {
+      fontSize: "1rem",
+    },
+    [theme.breakpoints.up("xl")]: {
+      fontSize: "1.2rem",
+    },
+  };
+
   return (
     <Box
       sx={{
@@ -37,7 +105,7 @@ export default function PlantillaBienvenido(props: UserProps) {
           sx={{
             justifyContent: "center",
             textAlign: "center",
-            backgroundColor: COLOR.grisTarjetaBienvenido,
+            
             width: "45vw",
             height: "40vh",
           }}
@@ -62,7 +130,9 @@ export default function PlantillaBienvenido(props: UserProps) {
               height: "15%",
             }}
           >
-            <Typography sx={{fontSize:"4.5vw"}}>BIENVENIDO</Typography>
+            <ThemeProvider theme={theme}>
+            <Typography variant="h2" >BIENVENIDO</Typography>
+            </ThemeProvider>
           </Box>
           <Box
             sx={{
@@ -71,7 +141,9 @@ export default function PlantillaBienvenido(props: UserProps) {
               mt:2
             }}
           >
-            <Typography sx={{fontSize:"3vw"}}>{props.name}</Typography>
+            <ThemeProvider theme={theme}>
+            <Typography variant="h3">{props.name}</Typography>
+            </ThemeProvider>
           </Box>
 
           <Box
@@ -80,9 +152,11 @@ export default function PlantillaBienvenido(props: UserProps) {
               height: "15%",
             }}
           >
-            <Typography sx={{fontSize:"1vw", mt:4}}>
+            <ThemeProvider theme={theme}>
+            <Typography variant="h4" sx={{mt:9}}>
             {props.lastConnnection}
             </Typography>
+            </ThemeProvider>
           </Box>
         </Box>
       </Box>
