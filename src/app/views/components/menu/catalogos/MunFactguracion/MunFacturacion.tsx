@@ -2,20 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import {
   Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControl,
   IconButton,
-  InputAdornment,
-  InputLabel,
   LinearProgress,
-  MenuItem,
-  Select,
   SelectChangeEvent,
-  TextField,
 } from "@mui/material";
 
 import { esES, GridColDef } from "@mui/x-data-grid";
@@ -23,10 +12,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
 import { CustomToolbar, Moneda } from "../../CustomToolbar";
 import {
-  getMunicipios,
   getUser,
-  setMunicipios,
-  validaLocalStorage,
 } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
@@ -39,129 +25,29 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
+import MunFacturacionModal from "./MunFacturacionModal";
 
 export const MunFacturacion = () => {
-  
-  
   const user = getUser();
 
-  const [tipoOperacion, setTipoOperacion]  = useState(0);
-  const [modo, setModo]                    = useState("");
-  const [Facturacion, setFacturacion]      = useState([]);
-  const [plantilla, setPlantilla]          = useState("");
-  const [open, setOpen]                    = useState(false);
-  const [slideropen, setslideropen]        = useState(false);
-  // CAMPOS DE LOS FORMULARIOS
-  const [id, setId]                        = useState("");
-  const [anio, setAnio]                    = useState("");
-  const [fac, setFac]                      = useState("");
-  const [idMunicipio, setIdmunicipio]      = useState("");
-  //valor del filtro municipio
-  const [values, setValues]                = useState<Imunicipio[]>();
-  const [filterAnio, setFilterAnio]        = useState("");
+
+  const [modo, setModo] = useState("");
+  const [open, setOpen] = useState(false);
+  const [tipoOperacion, setTipoOperacion] = useState(0);
+ 
+  const [data, setData] = useState({});
+
+
+  const [Facturacion, setFacturacion] = useState([]);
+  const [plantilla, setPlantilla] = useState("");
+  const [slideropen, setslideropen] = useState(false);
+
+
+  // VARIABLES PARA LOS FILTROS
+  const [filterAnio, setFilterAnio] = useState("");
 
   //funciones
-  const handleFilterMes = () => {
-   
-  };
-
-  const onChangeAnio = (v: string) => {
-    setAnio(v);
-  };
-
-  const onChangeFact = (v: string) => {
-    setFac(v);
-  };
-
-  const agregar = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Agregado!",
-        });
-
-        handleClose();
-
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
-
-  const editar = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Editado!",
-        });
-        handleClose();
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
-
-  const eliminar = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Eliminado!",
-        });
-        handleClose();
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
-
-  const consulta = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        setFacturacion(res.RESPONSE);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const municipiosc = () => {
-    let data = {};
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-    let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
-    setValues(m);
-  };
+  const handleFilterMes = () => {};
 
   const columns: GridColDef[] = [
     {
@@ -207,50 +93,28 @@ export const MunFacturacion = () => {
     },
   ];
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const handleOpen = (v: any) => {
+    setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
-    setTipoOperacion(1);
-    setId("");
-    setIdmunicipio("");
-    setAnio("");
-    setFac("");
+    setData("");
   };
 
   const handleEdit = (v: any) => {
+    console.log(v)
+    setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
-    setTipoOperacion(2);
-    setId(v.row.id);
-    setIdmunicipio(v.row.idmunicipio);
-    setAnio(v.row.Anio);
-    setFac(v.row.Facturacion);
+    setData(v);
   };
 
-  const handleSend = () => {
-    if (fac == "") {
-      Alert.fire({
-        title: "Error!",
-        text: "Favor de Completar los Campos",
-        icon: "error",
-      });
-    } else {
-      let data = {
-        NUMOPERACION: tipoOperacion,
-        CHID: id,
-        CHUSER: 1,
-        ANIO: anio,
-        IDMUNICIPIO: idMunicipio,
-        FACTURACION: fac,
-      };
-
-      handleRequest(data);
-    }
-  };
+ 
 
   const handleDelete = (v: any) => {
-
-
     Swal.fire({
       icon: "info",
       title: "Estas seguro de eliminar este registro?",
@@ -261,19 +125,31 @@ export const MunFacturacion = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         console.log(v);
-        setTipoOperacion(3);
-        setId(v.row.id);
-        setIdmunicipio(v.row.idmunicipio);
-        setAnio(v.row.Anio);
-        setFac(v.row.Facturacion);
 
         let data = {
-          NUMOPERACION: tipoOperacion,
-          CHID: id,
+          NUMOPERACION: 3,
+          CHID: v.row.id,
           CHUSER: 1,
         };
         console.log(data);
-        handleRequest(data);
+
+        CatalogosServices.munfacturacion(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Registro Eliminado!",
+            });
+
+
+          } else {
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
@@ -291,109 +167,31 @@ export const MunFacturacion = () => {
     });
   };
 
-  const handleFilterMunicipiosChange = (v: string) => {
-    setIdmunicipio(v);
+  const consulta = (data: any) => {
+    CatalogosServices.munfacturacion(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        setFacturacion(res.RESPONSE);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
   };
 
   const handleFilterChange = (event: SelectChangeEvent) => {
-    setTipoOperacion(4);
     setFilterAnio(event.target.value);
     let data = {
-      NUMOPERACION: tipoOperacion,
+      NUMOPERACION: 4,
       ANIO: event.target.value,
     };
-    handleRequest(data);
-  };
-
-  const DetailsModal = () => {
-    return (
-      <Dialog open={open}>
-        <DialogTitle>{modo}</DialogTitle>
-        <DialogContent>
-          <Box>
-            <FormControl variant="standard" fullWidth>
-              <InputLabel>Municipio</InputLabel>
-              <Select
-                required
-                onChange={(v) => handleFilterMunicipiosChange(v.target.value) }
-                value={idMunicipio}
-                label="Municipio"
-                inputProps={{
-                  readOnly: tipoOperacion == 1 ? false : true,
-                }}
-              >
-                {values?.map((item: Imunicipio) => {
-                  return (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.Nombre}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-
-            <TextField
-              required
-              margin="dense"
-              id="anio"
-              label="Año"
-              value={anio}
-              type="number"
-              fullWidth
-              variant="standard"
-              onChange={(v) => onChangeAnio(v.target.value)}
-              error={anio == "" ? true : false}
-              InputProps={{
-                readOnly: tipoOperacion == 1 ? false : true,
-                inputMode: "numeric",
-              }}
-            />
-
-            <TextField
-              margin="dense"
-              required
-              id="fac"
-              label="Facturación"
-              value={fac}
-              type="number"
-              fullWidth
-              variant="standard"
-              onChange={(v) => onChangeFact(v.target.value)}
-              error={fac == "" ? true : false}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">$</InputAdornment>
-                ),
-              }}
-            />
-          </Box>
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={() => handleSend}>Guardar</Button>
-          <Button onClick={() => handleClose}>Cancelar</Button>
-        </DialogActions>
-      </Dialog>
-    );
-  };
-
-  const handleRequest = (data: any) => {
-    setslideropen(true);
-    console.log(data);
-    if (tipoOperacion == 1) {
-      //AGREGAR
-      agregar(data);
-    } else if (tipoOperacion == 2) {
-      //EDITAR
-      editar(data);
-    } else if (tipoOperacion == 3) {
-      //ELIMINAR
-      eliminar(data);
-    } else if (tipoOperacion == 4) {
-      //CONSULTAR
-      consulta(data);
-    }
-    setslideropen(false);
+    consulta(data);
   };
 
   const downloadplantilla = () => {
@@ -406,15 +204,14 @@ export const MunFacturacion = () => {
     });
   };
 
-
-   useEffect(() => {
+  useEffect(() => {
     downloadplantilla();
-    municipiosc();
   }, []);
 
   return (
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
+
       <Filtros
         anioApply={true}
         mesApply={false}
@@ -423,7 +220,19 @@ export const MunFacturacion = () => {
         valueFilterAnio={filterAnio}
         valueFilterMes={""}
       />
-      <DetailsModal />
+
+      {open ? (
+        <MunFacturacionModal
+          open={open}
+          modo={modo}
+          handleClose={handleClose}
+          tipo={tipoOperacion}
+          dt={data}
+        />
+      ) : (
+        ""
+      )}
+
       <Buttons
         handleOpen={handleOpen}
         url={plantilla}
