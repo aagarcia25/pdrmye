@@ -13,7 +13,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 
-const TipoFondoModal = ({
+const CoeficientesModal = ({
   open,
   modo,
   handleClose,
@@ -26,19 +26,14 @@ const TipoFondoModal = ({
   handleClose: Function;
   dt: any;
 }) => {
-
-
-
-    // CAMPOS DE LOS FORMULARIOS
+  // CAMPOS DE LOS FORMULARIOS
   const user = getUser();
   const [id, setId] = useState("");
-  const [clave, setClave] = useState("");
+  const [vigente, setVigente] = useState("");
   const [descripcion, setDescripcion] = useState("");
 
-
-
   const agregar = (data: any) => {
-    CatalogosServices.tipofondo(data).then((res) => {
+    CatalogosServices.coeficientes(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -55,7 +50,7 @@ const TipoFondoModal = ({
   };
 
   const editar = (data: any) => {
-    CatalogosServices.tipofondo(data).then((res) => {
+    CatalogosServices.coeficientes(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -94,7 +89,7 @@ const TipoFondoModal = ({
         NUMOPERACION: tipo,
         CHID: id,
         CHUSER: 1,
-        CLAVE: clave,
+        VIGENTE: vigente,
         DESCRIPCION: descripcion,
       };
 
@@ -102,20 +97,15 @@ const TipoFondoModal = ({
     }
   };
 
-
   useEffect(() => {
-
-    if(dt === ''  ){
-        console.log(dt)
-    }else{
-        setId(dt?.row?.id)
-        setDescripcion(dt?.row?.Descripcion )
-        setClave(dt?.row?.Clave)
+    if (dt === "") {
+      console.log(dt);
+    } else {
+      setId(dt?.row?.id);
+      setDescripcion(dt?.row?.Descripcion);
+      setVigente(dt?.row?.Vigente);
     }
-   
   }, [dt]);
-
-
 
   return (
     <div>
@@ -123,19 +113,6 @@ const TipoFondoModal = ({
         <DialogTitle>{modo}</DialogTitle>
         <DialogContent>
           <Box>
-            <TextField
-              required
-              margin="dense"
-              id="clave"
-              label="Clave"
-              value={clave}
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(v) => setClave(v.target.value)}
-              error={clave == "" ? true : false}
-            />
-
             <TextField
               margin="dense"
               required
@@ -147,6 +124,19 @@ const TipoFondoModal = ({
               variant="standard"
               onChange={(v) => setDescripcion(v.target.value)}
               error={descripcion == "" ? true : false}
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="vigente"
+              label="Vigente"
+              value={vigente}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setVigente(v.target.value)}
+              error={vigente == "" ? true : false}
             />
           </Box>
         </DialogContent>
@@ -160,4 +150,4 @@ const TipoFondoModal = ({
   );
 };
 
-export default TipoFondoModal;
+export default CoeficientesModal;

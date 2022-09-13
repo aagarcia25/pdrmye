@@ -1,39 +1,46 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
-import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  IconButton,
+  LinearProgress,
+} from "@mui/material";
+import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
 
-import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
-import { CustomToolbar } from '../../CustomToolbar'
-import { getUser } from '../../../../../services/localStorage'
-import { CatalogosServices } from '../../../../../services/catalogosServices'
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AddIcon from '@mui/icons-material/Add';
-import { messages } from '../../../../styles'
+import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
+import { CustomToolbar } from "../../CustomToolbar";
+import { getUser } from "../../../../../services/localStorage";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import CoeficientesModal from "./CoeficientesModal";
+import { Toast } from "../../../../../helpers/Toast";
+import { Alert } from "../../../../../helpers/Alert";
+import Swal from "sweetalert2";
+import ButtonsAdd from "../Utilerias/ButtonsAdd";
 
 export const Coeficientes = () => {
-    
-
-    
-    
-
-
-
-
-
   const user = getUser();
-  const [conCoeficientes, setCoeficientes] = useState([]);
 
+
+  //   VALORES POR DEFAULT
+  const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
+  const [tipoOperacion, setTipoOperacion] = useState(0);
+  const [data, setData] = useState([]);
+  const [slideropen, setslideropen] = useState(false);
+  const [vrows, setVrows] = useState({});
 
-const columns: GridColDef[] = [
-   
-   
-    { field: "id", headerName: "Id", hide:true , width: 250 },
+
+
+
+
+
+
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "Id", hide: true, width: 250 },
     { field: "Descripcion", headerName: "Descripcion", width: 700 },
     { field: "Vigente", headerName: "Vigente", width: 150 },
-    
-   
+
     {
       field: "acciones",
       headerName: "Acciones",
@@ -43,115 +50,139 @@ const columns: GridColDef[] = [
       renderCell: (v) => {
         return (
           <Box>
-            <IconButton onClick={() => handleOpen(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleOpen(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <IconButton onClick={() => handleEdit(v)}>
+            <ModeEditOutlineIcon />
+          </IconButton>
+          <IconButton onClick={() => handleDelete(v)}>
+            <DeleteForeverIcon />
+          </IconButton>
+        </Box>
         );
       },
     },
-   
   ];
-  
+
+
+
+ 
+
+  const handleClose = () => {
+    setOpen(false);
+    let data = {
+        NUMOPERACION: 4
+      };
+      consulta(data);
+  };
+
   const handleOpen = (v: any) => {
-    //setSelectedId(v.row.lastName);
-
+    setTipoOperacion(1);
+    setModo("Agregar Registro");
     setOpen(true);
+    setVrows({});
   };
 
-  const handleClose = () => setOpen(false);
-
-  const ButtonAdd = () =>{
-    return (
-   <Box>
-     <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => handleOpen(1)}>
-           <AddIcon />
-      </IconButton>
-   </Box>
-    );
-  }
-
-
-  const DetailsModal = () => {
-    return (
-      <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Subscribe</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          To subscribe to this website, please enter your email address here. We
-          will send updates occasionally.
-        </DialogContentText>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Email Address"
-          type="email"
-          fullWidth
-          variant="standard"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose}>Subscribe</Button>
-      </DialogActions>
-    </Dialog>
-    );
-  };
-
-  
-
-
+  const handleEdit = (v: any) => {
+    console.log(v);
+    setTipoOperacion(2);
+    setModo("Editar Registro");
+    setOpen(true);
+    setVrows(v);
    
+  };
+
+
   
-    let data = ({
-      NUMOPERACION: 4,
-      CHID: "",
-      NUMANIO: "",
-      NUMTOTALPOB: "",
-      CHUSER:1
-    })
+  const handleDelete = (v: any) => {
+    Swal.fire({
+      icon: "info",
+      title: "Estas seguro de eliminar este registro?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Confirmar",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        let data = {
+          NUMOPERACION: 3,
+          CHID: v.row.id,
+          CHUSER: 1,
+        };
+        console.log(data);
+
+        CatalogosServices.tipofondo(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Registro Eliminado!",
+            });
+
+
+            let data = {
+                NUMOPERACION: 4
+              };
+              consulta(data);
+
+
+          } else {
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      } else if (result.isDenied) {
+        Swal.fire("No se realizaron cambios", "", "info");
+      }
+    });
+  };
+
   
+  const consulta = (data: any) => {
+    CatalogosServices.coeficientes(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        setData(res.RESPONSE);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
   
-    useEffect(() => {
-      CatalogosServices.coeficientes(data).then((res) => {
-      //  console.log(res);
-        setCoeficientes(res.RESPONSE);
-      });
-    }, []);
-
-
-
-
-
+  useEffect(() => {
+    let data = {
+      NUMOPERACION: 4
+    };
+    consulta(data);
+  }, []);
 
   return (
+    <div style={{ height: 600, width: "100%" }}>
+     
+      <ButtonsAdd handleOpen={handleOpen}></ButtonsAdd>
+      <CoeficientesModal open={open} modo={modo} tipo={tipoOperacion} handleClose={handleClose} dt={vrows}/> 
+      <DataGrid
+        pagination
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+        components={{
+          Toolbar: CustomToolbar,
+          LoadingOverlay: LinearProgress,
+          NoRowsOverlay: CustomNoRowsOverlay,
+        }}
+        rowsPerPageOptions={[5, 10, 20, 50, 100]}
+        rows={data}
+        columns={columns}
 
-
-    <div style={{ height: 600, width: "100%" }} >
-        <DetailsModal />
-    <ButtonAdd/>    
-    <DataGrid
-      //checkboxSelection
-      pagination
-      localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-      components={{
-        Toolbar: CustomToolbar,
-        LoadingOverlay: LinearProgress ,
-        NoRowsOverlay: CustomNoRowsOverlay,
-      }}
-      rowsPerPageOptions={[5,10,20,50,100]}
-      rows={conCoeficientes}
-      columns={columns}
-      
-     // loading //agregar validacion cuando se esten cargando los registros
-    />
-  </div>
-
-  
-  )
-}
-
+      />
+    </div>
+  );
+};
