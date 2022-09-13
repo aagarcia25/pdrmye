@@ -34,7 +34,6 @@ export const MunFacturacion = () => {
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
- 
   const [data, setData] = useState({});
 
 
@@ -113,7 +112,6 @@ export const MunFacturacion = () => {
   };
 
  
-
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
@@ -156,6 +154,8 @@ export const MunFacturacion = () => {
     });
   };
 
+
+
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     setslideropen(true);
     let file = event?.target?.files?.[0] || "";
@@ -184,6 +184,8 @@ export const MunFacturacion = () => {
       }
     });
   };
+
+
 
   const handleFilterChange = (event: SelectChangeEvent) => {
     setFilterAnio(event.target.value);
