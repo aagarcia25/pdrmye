@@ -11,6 +11,7 @@ import {
   SelectChangeEvent,
   MenuItem,
   Button,
+  IconButton,
 } from "@mui/material";
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -76,8 +77,8 @@ export const Ffm30 = () => {
     setstep(1);
   };
 
-  const handleClose = (v: any) =>{
-    setstep(0)
+  const handleClose = (v: any) => {
+    setstep(0);
   };
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -144,7 +145,11 @@ export const Ffm30 = () => {
           </Typography>
         </Grid>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "start" }}>
-          <Button onClick={handleClose} variant="outlined" startIcon={<ArrowBackIcon />}>
+          <Button
+            onClick={handleClose}
+            variant="outlined"
+            startIcon={<ArrowBackIcon />}
+          >
             Regresar
           </Button>
         </Grid>
@@ -209,14 +214,26 @@ export const Ffm30 = () => {
         <Grid item xs={6}>
           <Item hidden>Espacio5</Item>
         </Grid>
-        <Grid item xs={3} sx={{mt:3, display: "flex", justifyContent: "center" }}>
-          <Button
-            variant="outlined"
-            startIcon={<CalculateIcon sx={{color:COLOR.blanco}} fontSize="large" />}
-            sx={{bgcolor:COLOR.negro, color:COLOR.blanco}}
+        <Grid
+          item
+          xs={3}
+          sx={{ mt: 3, display: "flex", justifyContent: "center" }}
+        >
+          <IconButton
+            sx={{
+              borderRadius: 1,
+              border: 1,
+              bgcolor: COLOR.negro,
+              color: COLOR.blanco,
+              "&:hover": {
+                bgcolor: COLOR.blanco,
+                color: COLOR.negro,
+              },
+            }}
           >
+            <CalculateIcon />
             Calcular
-          </Button>
+          </IconButton>
         </Grid>
       </Grid>
     );
