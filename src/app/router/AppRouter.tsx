@@ -52,7 +52,7 @@ import { TasaInteres } from "../views/components/menu/catalogos/TasaInteres/Tasa
 import { Municipios } from "../views/components/menu/catalogos/Municipios/Municipios";
 import { Art14f2 } from "../views/components/menu/articulos/Art14f1.tsx/Art14f2";
 
-
+import { Pruebascroll } from "../../prueba";
 
 
 
@@ -64,6 +64,10 @@ export const AppRouter = () => {
     <Inicio>
       <Routes>
         <Route path="/*" element={log ? <Eo404 /> : <AuthRouter />} />
+    
+
+
+
         {/* <Route path="/auth/*"   element={ (log) ? <Bienvenido />:  <AuthRouter />    } /> */}
         <Route
           path="/bienvenido"
@@ -159,7 +163,9 @@ export const AppRouter = () => {
 
         {/* SECCION DE CATALOGOS */}
 
-        
+        <Route path="/pruebascroll" element={<Pruebascroll  />} />
+
+
         <Route path="/inicio/catalogos/mun" element={<Municipios />} />
         <Route path="/inicio/catalogos/tasa" element={<TasaInteres />} />
         <Route path="/inicio/catalogos/munpob" element={<MunPoblacion />} />

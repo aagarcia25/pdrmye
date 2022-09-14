@@ -10,12 +10,16 @@ import Logo from '../../assets/img/logo.svg';
 import Article from '@mui/icons-material/Article';
 import PersonAddDisabled from '@mui/icons-material/PersonAddDisabled';
 import PeopleAlt from '@mui/icons-material/PeopleAlt';
-import { Reorder } from '@mui/icons-material';
+import { ExpandLess, ExpandMore, Reorder } from '@mui/icons-material';
 import { useNavigate, Link } from 'react-router-dom';
 import { flexbox } from '@mui/system';
 import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
+import { Collapse, Container, Fade, makeStyles, Table, TableCell, TableRow, useScrollTrigger } from '@mui/material';
+import React from 'react';
+import Slide from '@mui/material/Slide';
+
 
 
 export const categories = [
@@ -41,6 +45,7 @@ export const categories = [
       { id: 'Municipio Póblacion Proyección', icon: <Article />, path: '/inicio/catalogos/munproyec' },
       { id: 'Municipio Recaudación', icon: <Article />, path: '/inicio/catalogos/munrecaudacion' },
       { id: 'Municipio Territorio', icon: <Article />, path: '/inicio/catalogos/munterritorio' },
+      { id: 'Prueca Scroll', icon: <Article />, path: '/pruebascroll' },
       
       { id: 'Avisos', icon: <Article />, path: '/inicio/catalogos/avisos' },
       { id: 'Eventos', icon: <Article />, path: '/inicio/catalogos/eventos' },
@@ -176,6 +181,21 @@ export const categories = [
 
 
 ];
+
+//////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////
+
+
+
 /////////////////////////////////// color de fuente children del menu 
 const item = {
   py: '2px',
@@ -193,64 +213,128 @@ const itemCategory = {
   bgcolor: '#777777'
 };
 
-export default function Navigator(props: DrawerProps) {
+export default function Navigator(props: DrawerProps,logoFijo: any) {
+
+
+
+const [openModule, setOpenModule] = React.useState(false);
   const { ...other } = props;
   const navigate = useNavigate();
   return (
  
-   
-   
-   <Drawer variant="permanent" {...other  }>
- <Box>
+    
+   <Drawer variant="permanent" {...other  }{...logoFijo}  rootElement >
 
-    <AppBar position="absolute" sx={{bgcolor: 'rgb(255, 255, 255)', zIndex: (theme) => theme.zIndex.drawer + 1, width: "100%"  }}>
+
+ 
+
+ 
+    <AppBar position="static" sx={{bgcolor: 'rgb(255, 255, 255)', zIndex: (theme) => theme.zIndex.drawer + 1, width: "100%"  }}>
       <Toolbar>
+
       <img src={Logo} style={{ width: '100%' }} />
         
       </Toolbar>
 
-      
     </AppBar>
 
+
+    {categories.map(({ id, children }) => (
+ <Box key={id} sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', }}>
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ </Box>
+  
+
+
+
+
+
+
+
+))}
+
+    
+  
+      <List >
+      
    
-   
-
-
-      <List disablePadding>
-        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#111111', bgcolor: '#FFFFFF' }}>
-
-        </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory, color: '#111111', bgcolor: '#FFFFFF' }}>
-          <ListItemIcon>
-
-          </ListItemIcon>
-          <ListItemText>
-
-         
-
-          </ListItemText>
-        </ListItem>
         {categories.map(({ id, children }) => (
-          <Box key={id} sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
-            <ListItem sx={{ py: 2, px: 3 }}>
-              <ListItemText sx={{ color: '#555555' }}>{id}</ListItemText>
-            </ListItem>
-            {children.map(({ id: childId, icon, path }) => (
-              <ListItem disablePadding key={childId}>
+
+          <Box key={id} sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', }}>
+
+              <ListItem sx={{ py: 2, px: 3 }}>
+              <ListItemButton 
+          //    onClick={() => setOpenModule(!openModule)}
+              
+              >
+              {/* {openModule ? <ExpandLess /> : <ExpandMore />} */}
+
+                <ListItemText sx={{ color: '#555555' }}>{id}</ListItemText>
+               
+       
+              </ListItemButton>
+             
+               
+              </ListItem>
+
+
+
+{/* <Collapse in={openModule} timeout="auto" unmountOnExit> */}
+             
+                {children.map(({ id: childId, icon, path }) => (
+
+
+
+                  <ListItem disablePadding key={childId}>
+                
                 <ListItemButton sx={item}
                   onClick={(event) => navigate(path)}
-                >
+                  
+                  >
+
                   <ListItemIcon>{icon}</ListItemIcon>
+
                   <ListItemText>{childId}</ListItemText>
+
                 </ListItemButton>
+
               </ListItem>
-            ))}
+
+
+                ))}
+                {/* </Collapse> */}
+
+
             <Divider sx={{ mt: 2 }} />
+
+
           </Box>
         ))}
+
+
+
+
       </List>
-       </Box>
+      
+
+  
     </Drawer>
-   
+  
+
+
+    
   );
+  
 }
+
+

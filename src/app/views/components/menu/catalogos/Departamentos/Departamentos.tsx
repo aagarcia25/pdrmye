@@ -91,7 +91,7 @@ const columns: GridColDef[] = [
           margin="dense"
           id="name"
           label="Email Address"
-          type="email"
+          type="text"
           fullWidth
           variant="standard"
         />

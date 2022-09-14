@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Input, LinearProgress, Modal, TextField, Typography } from '@mui/material'
 import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
-
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { CustomToolbar } from '../../CustomToolbar'
 import { getUser } from '../../../../../services/localStorage'
@@ -11,7 +10,14 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import { messages } from '../../../../styles'
 
+
+
 export const MunPoblacion = () => {
+
+ 
+
+
+
   const user = getUser();
   const [poblacion, setPoblacion] = useState([]);
 
@@ -19,8 +25,26 @@ export const MunPoblacion = () => {
   const [modo, setModo] =useState("");
   const [Municipio, setMunicipio]=useState("");
   const [Año, setAño]=useState("");
-  const [NumPobladores, setNumPobladores]=useState("");
-  
+  const [NumPobladores, setNumPobladores]=useState();
+  const [NuevoNumPobladores, setNuevoNumPobladores]=useState('');
+
+
+
+
+  const onChangeNumPobladores= (v:React.ChangeEvent<HTMLInputElement>) => {
+    const enteredName = v.target.value;
+    setNuevoNumPobladores(enteredName);
+
+
+
+
+    console.log("set nuevo numero de pobladores" , enteredName);
+    console.log("v target name ", v.target.name);
+    console.log("nuevo numero de pobladores ", NumPobladores);
+    console.log("valor de pobladorere" ,v.target.value);
+
+    };
+
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   , hide:true , description:messages.dataTableColum.id},
@@ -37,6 +61,7 @@ const columns: GridColDef[] = [
         return (
           <Box>
             <IconButton onClick={() => handleEditar(v)}>
+              
               <ModeEditOutlineIcon />
             </IconButton>
             <IconButton onClick={() => handleBorrar(v)}>
@@ -50,32 +75,32 @@ const columns: GridColDef[] = [
   ];
 
 
-  const handleEditar = (v:any) => {
- 
- setModo("Editar");
-setMunicipio(v.row.Nombre);
-setAño(v.row.Anio);
-setNumPobladores(v.row.totalPob);
 
 
+  const handleEditar = (v:any) => { 
 
-
-    setOpen(true);
+  console.log(NumPobladores)
+  setModo("Guardar Cambios");
+  setMunicipio(v.row.Nombre);
+  setAño(v.row.Anio);
+  setNumPobladores(v.row.totalPob);
+  setOpen(true);
   };
+
   const handleBorrar = (v:any) => {
   
- setModo("Borrar");
-    setOpen(true);
+  setModo("Borrar");
+  setOpen(true);
   };
+  
   const handleAgregar = (v:any) => {
  
- setModo("Agregar");
-    setOpen(true);
+  setModo("Agregar");
+  setOpen(true);
 
 
 
   };
-
 
 
   const handleClose = () => setOpen(false);
@@ -90,55 +115,51 @@ setNumPobladores(v.row.totalPob);
     );
   }
 
-
+ 
   const EditarMunPoblacion = (params: any) => {
     return (
-      <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>{modo}</DialogTitle>
-      <DialogContent>
+      <Dialog open={open} onClose={handleClose} >
+      <Box >
+      <DialogTitle >{modo}   {Municipio}</DialogTitle>
 
-        <Box>
-      
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Municipio"
-          value={Municipio}
-          type="email"
-          fullWidth
-          variant="standard"
-        />
-        
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Año"
-          value={Año}
-          type="email"
-          fullWidth
-          variant="standard"
-        />
+      {/* <AdmDatos/> */}
+ 
+
+     <DialogContent>Año: {Año}</DialogContent>
+     <div>
+
+   
+     </div>
+
+     <DialogContentText>
+     <DialogContent>Pobladores:  {NumPobladores}</DialogContent>
+    
+     </DialogContentText>
+    
+
+    
+    <TextField 
+    id="filled-multiline-static"
+    label="Pobladores"
+    
+    name="Pobladores"
+    onChange={onChangeNumPobladores}
+    margin="normal"
+    focused={true}
+
+/>  
      
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Poblacion Total"
-          value={NumPobladores}
-          type="email"
-          fullWidth
-          variant="standard"
-        />
-        </Box>
-      </DialogContent>
-      
+     {/* <AdmDatos toggle={handleClose}/> */}
+
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose}>Guardar</Button>
+        <Button onClick={handleClose}> {modo} </Button>
+        <Button onClick={ handleClose }>Cancel</Button>
+     
       </DialogActions>
+      </Box>
     </Dialog>
+     
+    
     );
   };
 
@@ -194,3 +215,7 @@ setNumPobladores(v.row.totalPob);
   
   )
 }
+function setQuery(enteredName: any) {
+  throw new Error('Function not implemented.')
+}
+
