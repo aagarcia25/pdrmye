@@ -165,9 +165,9 @@ const MunFacturacionModal = ({
               onChange={(v) => setIdmunicipio(v.target.value)}
               value={idMunicipio}
               label="Municipio"
-            //   inputProps={{
-            //     readOnly: tipoOperacion == 1 ? false : true,
-            //   }}
+               inputProps={{
+                 readOnly: tipo == 1 ? false : true,
+              }}
             >
               {values?.map((item: Imunicipio) => {
                 return (
@@ -190,10 +190,10 @@ const MunFacturacionModal = ({
             variant="standard"
             onChange={(v) => setAnio(v.target.value)}
             error={anio == "" ? true : false}
-            // InputProps={{
-            //   readOnly: tipoOperacion == 1 ? false : true,
-            //   inputMode: "numeric",
-            // }}
+             InputProps={{
+               readOnly: tipo == 1 ? false : true,
+               inputMode: "numeric",
+             }}
           />
 
           <TextField
