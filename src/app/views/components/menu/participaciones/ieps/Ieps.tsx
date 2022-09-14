@@ -18,9 +18,14 @@ import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCal
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
 
 export const Ieps = () => {
+  const user = getUser();
+
   const [step, setstep] = useState(0);
 
   const [periodo, setPeriodo] = useState("1");
+
+  const [Facturacion, setFacturacion] = useState([]);
+
   const periodoData = [
     {
       id: 1,
@@ -80,9 +85,6 @@ export const Ieps = () => {
       minimumFractionDigits: 4,
     });
   };
-
-  const user = getUser();
-  const [Facturacion, setFacturacion] = useState([]);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   ,hide: true},
