@@ -104,7 +104,6 @@ export const MunFacturacion = () => {
   };
 
   const handleOpen = (v: any) => {
-    console.log('cerrando');
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
@@ -112,9 +111,6 @@ export const MunFacturacion = () => {
   };
 
   const handleEdit = (v: any) => {
-
-    console.log('cerrando');
-    console.log(v)
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);

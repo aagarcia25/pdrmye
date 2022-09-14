@@ -86,8 +86,6 @@
      
      
        const handleEditar = (v:any) => { 
-     
-     
        console.log(v)
        setTipoOperacion(2);
        setModo("Editar Registro");
