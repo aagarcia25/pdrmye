@@ -1,31 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Grid,
-  Input,
   LinearProgress,
-  Paper,
-  TextField,
-  Typography,
-  Select,
   SelectChangeEvent,
   MenuItem,
-  Button,
-  IconButton,
 } from "@mui/material";
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
 import { CustomToolbar } from "../../CustomToolbar";
 import { getUser } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { ArticulosServices } from "../../../../../services/ArticulosServices";
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
-import { styled } from "@mui/material/styles";
-import CalculateIcon from "@mui/icons-material/Calculate";
-import { COLOR } from "../../../../../styles/colors";
 import { Titulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import { BtnRegresar } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
 import { SubTitulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/SubTitulo";
@@ -91,14 +77,6 @@ export const Ffm30 = () => {
   const handleChange = (event: SelectChangeEvent) => {
     setPeriodo(event.target.value);
   };
-
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
