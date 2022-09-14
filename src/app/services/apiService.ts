@@ -73,12 +73,25 @@ export const get = async function (url: any, params: any = {}) {
         let resp = await axios.get(`${env_var.BASE_URL}` + url, { ...header, params });
         return handleResponse(resp.data);
     } catch (err: any) {
-        throw handleResponse(err.response)
+        return handleResponse(err.response)
     }
 };
 
 
 
+
+
+export const postDocument= async function ( url: string, body: FormData) {
+
+    let header = await getFormDataHeader();
+    try {
+        let resp = await axios.post(`${env_var.BASE_URL}` + url, body, header);
+        return handleResponse(resp.data);
+    } catch (err: any) {
+        return handleResponse(err.response)
+    }
+
+};
 
 
 export const postImage = async function (api: string, url: string, body: any) {
@@ -88,7 +101,7 @@ export const postImage = async function (api: string, url: string, body: any) {
     formData.append('file', body);
     try {
         let resp = await axios.put(api + url, formData, header);
-        return handleResponse(resp);
+        return handleResponse(resp.data);
     } catch (err: any) {
         throw handleResponse(err.response)
     }

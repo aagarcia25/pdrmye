@@ -1,5 +1,5 @@
 import { Box, ToggleButtonGroup, Tooltip, ToggleButton, IconButton } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import AddIcon from "@mui/icons-material/Add";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
@@ -13,6 +13,16 @@ const Buttons = ({
   url: string;
   handleUpload:Function;
 }) => {
+
+  
+  useEffect(() => {
+  
+    
+   
+  }, []);
+
+
+
   return (
     <Box sx={{}}>
       <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
@@ -37,7 +47,7 @@ const Buttons = ({
               aria-label="upload picture"
               component="label"
             >
-              <input hidden accept="*" type="file" onChange={(v) =>handleUpload(v)} />
+              <input hidden accept="*" type="file" value="" onChange={(v) =>handleUpload(v)} />
               <DriveFolderUploadIcon />
             </IconButton>
           </ToggleButton>
