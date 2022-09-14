@@ -111,7 +111,7 @@ export const Ieps = () => {
   const Details = () => {
     return (
       <Grid container spacing={3}>
-        <Titulo name="Fondo Fomento Municipal 70%"></Titulo>
+        <Titulo name="Impuesto Especial sobre Producción y Servicios"></Titulo>
         <BtnRegresar onClick={handleClose}/>
         <SubTitulo/>
         <FormTextField id={1} text="Año" inputPlaceholder="2022"/>
