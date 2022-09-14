@@ -87,4 +87,12 @@ export class CatalogosServices {
     };
     
 
+    public static async inflacionMes(data : any) {
+        return await post('inflacionMes', data);
+    };
+
+    public static async inflacionAnio(data : any) {
+        return await post('inflacionAnio', data);
+    };
+
 }

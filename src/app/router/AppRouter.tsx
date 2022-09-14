@@ -61,6 +61,8 @@ import { Art14f2 } from "../views/components/menu/articulos/Art14f2";
 import Art14f3 from "../views/components/menu/articulos/Art14f3";
 import { BloqueoSesion } from "../views/components/BloqueoSesion";
 import TipoFondo from "../views/components/menu/catalogos/TipoFondo/TipoFondo";
+import InflacionMes from "../views/components/menu/catalogos/InflacionMes/InflacionMes";
+import InflacionAnio from "../views/components/menu/catalogos/InflacionAnio/InflacionAnio";
 
 
 export const AppRouter = () => {
@@ -213,6 +215,9 @@ export const AppRouter = () => {
         <Route path="/inicio/catalogos/eventos" element={<Eventos />} />
         <Route  path="/inicio/catalogos/departamentos"      element={<Departamentos />}      />
         <Route  path="/inicio/catalogos/tipoFondo"      element={<TipoFondo />}      />
+
+        <Route  path="/inicio/catalogos/inflacionMes"      element={<InflacionMes />}      />
+        <Route  path="/inicio/catalogos/inflacionAnio"      element={<InflacionAnio />}      />
 
         {/* FIN SECCION DE CATALOGOS */}
 

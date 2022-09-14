@@ -55,6 +55,8 @@ export const categories = [
       { id: 'Tasa de Interes', icon: <Article />, path: '/inicio/catalogos/tasa' },
       { id: 'UMAS', icon: <Article />, path: '/inicio/catalogos/umas' },
       { id: 'Coeficientes', icon: <Article />, path: '/inicio/catalogos/coeficientes' },
+      { id: 'Inflación Mes', icon: <Article />, path: '/inicio/catalogos/inflacionMes' },
+      { id: 'Inflación Anio', icon: <Article />, path: '/inicio/catalogos/inflacionAnio' },
 
     ],
   },
