@@ -272,7 +272,7 @@ export default function Navigator(props: DrawerProps) {
 
               <ListItem disablePadding key={childId}>
                  <Collapse in={open} timeout="auto" unmountOnExit>
-                <ListItemButton sx={item}
+                <ListItemButton key={childId} sx={item}
                   onClick={(event) => navigate(path)}
                 >
                   <ListItemIcon>{icon}</ListItemIcon>
