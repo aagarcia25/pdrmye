@@ -219,7 +219,7 @@ const [openModule, setOpenModule] = React.useState(false);
   return (
  
     
-   <Drawer variant="permanent" {...other  }{...logoFijo}  rootElement >
+   <Drawer variant="permanent" {...other  }{...logoFijo}   >
 
     <AppBar position="static" sx={{bgcolor: 'rgb(255, 255, 255)', zIndex: (theme) => theme.zIndex.drawer + 1, width: "100%"  }}>
       <Toolbar>

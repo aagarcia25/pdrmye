@@ -93,6 +93,7 @@ export const MunFacturacion = () => {
   ];
 
   const handleClose = () => {
+    console.log('cerrando');
     setOpen(false);
     let data = {
       NUMOPERACION: 4,
@@ -174,7 +175,6 @@ export const MunFacturacion = () => {
     formData.append("inputfile", file, "inputfile.xlsx");
     formData.append("tipo", "MunFacturacion");
     CatalogosServices.migraData(formData).then((res) => {
-     console.log(res)
       setslideropen(false);
       if (res.SUCCESS) {
         Toast.fire({
