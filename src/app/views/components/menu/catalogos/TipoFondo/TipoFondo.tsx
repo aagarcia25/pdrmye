@@ -4,7 +4,6 @@ import {
   Box,
   IconButton,
   LinearProgress,
-  SelectChangeEvent,
 } from "@mui/material";
 
 import { esES, GridColDef } from "@mui/x-data-grid";
@@ -18,35 +17,28 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
-import Filtros from "../Utilerias/Filtros";
-import Buttons from "../Utilerias/Buttons";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
+import TipoFondoModal from "./TipoFondoModal";
+import ButtonsAdd from "../Utilerias/ButtonsAdd";
 
-import MunFacturacionModal from "./MunFacturacionModal";
-
-export const MunFacturacion = () => {
+const TipoFondo = () => {
   const user = getUser();
 
-
+//   VALORES POR DEFAULT
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
-  const [data, setData] = useState({});
-
-
-  const [Facturacion, setFacturacion] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
+  const [data, setData] = useState([]);
   const [slideropen, setslideropen] = useState(false);
+  const [vrows, setVrows] = useState({});
 
 
-  // VARIABLES PARA LOS FILTROS
-  const [filterAnio, setFilterAnio] = useState("");
 
-  //funciones
-  const handleFilterMes = () => {};
+
+  
 
   const columns: GridColDef[] = [
     {
@@ -57,20 +49,11 @@ export const MunFacturacion = () => {
       description: messages.dataTableColum.id,
     },
     {
-      field: "idmunicipio",
-      headerName: "idmunicipio",
-      hide: true,
-      width: 150,
+      field: "Clave",
+      headerName: "Clave",
+      width: 100,
     },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    {
-      field: "Facturacion",
-      headerName: "Facturado",
-      width: 150,
-      ...Moneda,
-      align: "right",
-    },
+    { field: "Descripcion", headerName: "Descripcion", width: 350 },
     {
       field: "acciones",
       headerName: "Acciones",
@@ -94,24 +77,30 @@ export const MunFacturacion = () => {
 
   const handleClose = () => {
     setOpen(false);
+    let data = {
+        NUMOPERACION: 4
+      };
+      consulta(data);
   };
 
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
-    setData("");
+    setVrows({});
   };
 
   const handleEdit = (v: any) => {
-    console.log(v)
+    console.log(v);
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
-    setData(v);
+    setVrows(v);
+   
   };
 
- 
+
+
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
@@ -122,7 +111,6 @@ export const MunFacturacion = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
 
         let data = {
           NUMOPERACION: 3,
@@ -131,12 +119,18 @@ export const MunFacturacion = () => {
         };
         console.log(data);
 
-        CatalogosServices.munfacturacion(data).then((res) => {
+        CatalogosServices.tipofondo(data).then((res) => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
               title: "Registro Eliminado!",
             });
+
+
+            let data = {
+                NUMOPERACION: 4
+              };
+              consulta(data);
 
 
           } else {
@@ -147,7 +141,6 @@ export const MunFacturacion = () => {
             });
           }
         });
-
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
@@ -156,25 +149,16 @@ export const MunFacturacion = () => {
 
 
 
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile");
-    formData.append("tipo", "MunFacturacion");
-    CatalogosServices.migraData(formData).then((res) => {
-      setslideropen(false);
-    });
-  };
+
 
   const consulta = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
+    CatalogosServices.tipofondo(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        setFacturacion(res.RESPONSE);
+        setData(res.RESPONSE);
       } else {
         Alert.fire({
           title: "Error!",
@@ -187,62 +171,29 @@ export const MunFacturacion = () => {
 
 
 
-  const handleFilterChange = (event: SelectChangeEvent) => {
-    setFilterAnio(event.target.value);
-    let data = {
-      NUMOPERACION: 4,
-      ANIO: event.target.value,
-    };
-    consulta(data);
-  };
-
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_FACTURACION",
-    };
-
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
 
   useEffect(() => {
-    downloadplantilla();
+    let data = {
+        NUMOPERACION: 4
+      };
+      consulta(data);
   }, []);
+
+
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-      <Slider open={slideropen}></Slider>
-
-      <Filtros
-        anioApply={true}
-        mesApply={false}
-        handleFilterChangeAnio={handleFilterChange}
-        handleFilterChangeMes={handleFilterMes}
-        valueFilterAnio={filterAnio}
-        valueFilterMes={""}
-      />
+        <Slider open={slideropen}></Slider>
 
       {open ? (
-        <MunFacturacionModal
-          open={open}
-          modo={modo}
-          handleClose={handleClose}
-          tipo={tipoOperacion}
-          dt={data}
-        />
+        <TipoFondoModal open={open} modo={modo} tipo={tipoOperacion} handleClose={handleClose} dt={vrows} />
       ) : (
         ""
       )}
 
-      <Buttons
-        handleOpen={handleOpen}
-        url={plantilla}
-        handleUpload={handleUpload}
-      />
+      <ButtonsAdd handleOpen={handleOpen} />
 
       <DataGrid
-        //checkboxSelection
         pagination
         localeText={esES.components.MuiDataGrid.defaultProps.localeText}
         components={{
@@ -251,11 +202,11 @@ export const MunFacturacion = () => {
           NoRowsOverlay: CustomNoRowsOverlay,
         }}
         rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={Facturacion}
+        rows={data}
         columns={columns}
-
-        // loading //agregar validacion cuando se esten cargando los registros
       />
     </div>
   );
 };
+
+export default TipoFondo;

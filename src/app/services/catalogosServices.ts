@@ -62,11 +62,29 @@ export class CatalogosServices {
     };
     
 
-    
-    
+    public static async anios(data : any) {
+        return await post('anios', data);
+    };
 
+    public static async descargaplantilla(data : any) {
+        return await post('descargaplantilla', data);
+    };
     
+    public static async migraData(data : any) {
+        return await post('migraData', data);
+    };
+    
+    public static async meses(data : any) {
+        return await post('meses', data);
+    };
 
+    public static async Filtromunicipios(data : any) {
+        return await post('Filtromunicipios', data);
+    };
+
+    public static async tipofondo(data : any) {
+        return await post('tipofondo', data);
+    };
     
 
 }

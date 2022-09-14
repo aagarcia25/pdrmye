@@ -223,9 +223,7 @@ export default function Inicio({ children,  }: Props ) {
             {children}
 
           </Box>
-          <Box component="footer" sx={{ p: 2, bgcolor:'rgb(255, 255, 255)' }}>
-            <Copyright />
-          </Box>
+          
         </Box>
       </Box>
     </ThemeProvider>
