@@ -129,6 +129,8 @@ export default function Header(props: HeaderProps) {
 
 
 
+const lightColor = "rgba(255, 255, 255, 0.7)";
+
 
 
 
@@ -140,8 +142,11 @@ export default function Header(props: HeaderProps) {
         elevation={0}
       >
         <Toolbar>
+
           <Grid container spacing={2} alignItems="center">
             <Grid sx={{ display: { sm: "none", xs: "block",backgroundColor: COLOR.negro } }} item>
+
+
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
