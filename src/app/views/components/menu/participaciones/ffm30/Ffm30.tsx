@@ -191,7 +191,7 @@ export const Ffm30 = () => {
         <SubTitulo />
         <FormTextField id={1} text="Año" inputPlaceholder="2022" />
         <FormSelectedField
-          id={2}
+          id={1}
           text="Mes"
           value={mes}
           onChange={handleChangeMes}
