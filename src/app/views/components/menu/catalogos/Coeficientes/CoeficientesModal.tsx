@@ -6,6 +6,8 @@ import {
   TextField,
   DialogActions,
   Button,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
@@ -29,8 +31,16 @@ const CoeficientesModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const user = getUser();
   const [id, setId] = useState("");
-  const [vigente, setVigente] = useState("");
+  const [vigente, setVigente] = useState(false);
   const [descripcion, setDescripcion] = useState("");
+  const [checked, setChecked] = useState(true);
+
+
+
+  const handleChangeVigencia = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+    setVigente(event.target.checked);
+  };
 
   const agregar = (data: any) => {
     CatalogosServices.coeficientes(data).then((res) => {
@@ -103,7 +113,14 @@ const CoeficientesModal = ({
     } else {
       setId(dt?.row?.id);
       setDescripcion(dt?.row?.Descripcion);
-      setVigente(dt?.row?.Vigente);
+      if(dt?.row?.Vigente == "1"){
+        setChecked(true);
+        setVigente(true);
+      }else{
+        setChecked(false);
+        setVigente(false);
+      }
+     
     }
   }, [dt]);
 
@@ -126,18 +143,19 @@ const CoeficientesModal = ({
               error={descripcion == "" ? true : false}
             />
 
-            <TextField
-              required
-              margin="dense"
-              id="vigente"
-              label="Vigente"
+
+            <FormControlLabel
               value={vigente}
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(v) => setVigente(v.target.value)}
-              error={vigente == "" ? true : false}
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={handleChangeVigencia}
+                />
+              }
+              label="Vigente"
             />
+
+
           </Box>
         </DialogContent>
 
