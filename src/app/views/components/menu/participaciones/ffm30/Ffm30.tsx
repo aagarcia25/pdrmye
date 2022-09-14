@@ -153,7 +153,7 @@ export const Ffm30 = () => {
         <FormTextField id={2} text="Mes" inputPlaceholder="DICIEMBRE"/>
         <FormTextField id={3} text="Monto" inputPlaceholder="1,200,199"/>
         <FormSelectedField id={1} text="Periodo" value={periodo} onChange={handleChange} items={periodoMenuItems}/>
-        <BtnCalcular/>
+        <BtnCalcular onClick={handleClose}/>
       </Grid>
     );
   };
