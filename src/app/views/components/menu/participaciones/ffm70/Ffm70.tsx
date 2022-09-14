@@ -18,9 +18,14 @@ import { FormSelectedField } from "../../catalogos/Utilerias/AgregarCalculoUtil/
 import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCalcular";
 
 export const Ffm70 = () => {
+  const user = getUser();
+  
   const [step, setstep] = useState(0);
 
   const [periodo, setPeriodo] = useState("1");
+
+  const [Facturacion, setFacturacion] = useState([]);
+
   const periodoData = [
     {
       id: 1,
@@ -80,9 +85,7 @@ export const Ffm70 = () => {
       minimumFractionDigits: 4,
     });
   };
-
-  const user = getUser();
-  const [Facturacion, setFacturacion] = useState([]);
+  
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   ,hide: true},
