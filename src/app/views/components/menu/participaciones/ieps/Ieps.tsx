@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, LinearProgress, MenuItem, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  LinearProgress,
+  MenuItem,
+  SelectChangeEvent,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
 
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
@@ -20,11 +28,13 @@ import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
 export const Ieps = () => {
   const user = getUser();
 
+  const [Facturacion, setFacturacion] = useState([]);
+
   const [step, setstep] = useState(0);
 
   const [periodo, setPeriodo] = useState("1");
 
-  const [Facturacion, setFacturacion] = useState([]);
+  const [mes, setMes] = useState("1");
 
   const periodoData = [
     {
@@ -61,8 +71,62 @@ export const Ieps = () => {
     },
   ];
 
-
   const periodoMenuItems = periodoData.map((item) => (
+    <MenuItem value={item.id}>{item.valor}</MenuItem>
+  ));
+
+  const mesData = [
+    {
+      id: 1,
+      valor: "ENERO",
+    },
+    {
+      id: 2,
+      valor: "FEBREEO",
+    },
+    {
+      id: 3,
+      valor: "MARZO",
+    },
+    {
+      id: 4,
+      valor: "ABRIL",
+    },
+    {
+      id: 5,
+      valor: "MAYO",
+    },
+    {
+      id: 6,
+      valor: "JUNIO",
+    },
+    {
+      id: 7,
+      valor: "JULIO",
+    },
+    {
+      id: 8,
+      valor: "AGOSTO",
+    },
+    {
+      id: 9,
+      valor: "SEPTIEMBRE",
+    },
+    {
+      id: 10,
+      valor: "OCTUBRE",
+    },
+    {
+      id: 11,
+      valor: "NOVIEMBRE",
+    },
+    {
+      id: 12,
+      valor: "DICIEMBRE",
+    },
+  ];
+
+  const mesMenuItems = mesData.map((item) => (
     <MenuItem value={item.id}>{item.valor}</MenuItem>
   ));
 
@@ -78,6 +142,10 @@ export const Ieps = () => {
     setPeriodo(event.target.value);
   };
 
+  const handleChangeMes = (event: SelectChangeEvent) => {
+    setMes(event.target.value);
+  };
+
   const currency = function formatomoneda() {
     return new Intl.NumberFormat("es-MX", {
       style: "currency",
@@ -87,12 +155,31 @@ export const Ieps = () => {
   };
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", width: 150   ,hide: true},
-    { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
-    { field: "Recaudacion", headerName: "Año", width: 150 ,description:"BGt-2"},
-    { field: "Recaudacion", headerName: "Mes", width: 150 ,description:"RPt-1"},
-    { field: "Proporcion", headerName: "Monto", width: 200 ,description:"P=RP/BG" },
-   
+    { field: "id", headerName: "Identificador", width: 150, hide: true },
+    {
+      field: "Municipio",
+      headerName: "Municipio",
+      width: 150,
+      description: "Nombre del Municipio",
+    },
+    {
+      field: "Recaudacion",
+      headerName: "Año",
+      width: 150,
+      description: "BGt-2",
+    },
+    {
+      field: "Recaudacion",
+      headerName: "Mes",
+      width: 150,
+      description: "RPt-1",
+    },
+    {
+      field: "Proporcion",
+      headerName: "Monto",
+      width: 200,
+      description: "P=RP/BG",
+    },
   ];
 
   let data = {
@@ -114,13 +201,25 @@ export const Ieps = () => {
     return (
       <Grid container spacing={3}>
         <Titulo name="Impuesto Especial sobre Producción y Servicios"></Titulo>
-        <BtnRegresar onClick={handleClose}/>
-        <SubTitulo/>
-        <FormTextField id={1} text="Año" inputPlaceholder="2022"/>
-        <FormTextField id={2} text="Mes" inputPlaceholder="DICIEMBRE"/>
-        <FormTextField id={3} text="Monto" inputPlaceholder="1,200,199"/>
-        <FormSelectedField id={1} text="Periodo" value={periodo} onChange={handleChange} items={periodoMenuItems}/>
-        <BtnCalcular onClick={handleClose}/>
+        <BtnRegresar onClick={handleClose} />
+        <SubTitulo />
+        <FormTextField id={1} text="Año" inputPlaceholder="2022" />
+        <FormSelectedField
+          id={1}
+          text="Mes"
+          value={mes}
+          onChange={handleChangeMes}
+          items={mesMenuItems}
+        />
+        <FormTextField id={2} text="Monto" inputPlaceholder="1,200,199" />
+        <FormSelectedField
+          id={2}
+          text="Periodo"
+          value={periodo}
+          onChange={handleChange}
+          items={periodoMenuItems}
+        />
+        <BtnCalcular onClick={handleClose} />
       </Grid>
     );
   };
