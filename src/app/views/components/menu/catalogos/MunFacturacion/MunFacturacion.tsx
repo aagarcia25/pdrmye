@@ -93,7 +93,14 @@ export const MunFacturacion = () => {
   ];
 
   const handleClose = () => {
+    console.log('cerrando');
     setOpen(false);
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: filterAnio,
+    };
+    consulta(data);
+
   };
 
   const handleOpen = (v: any) => {
@@ -104,7 +111,6 @@ export const MunFacturacion = () => {
   };
 
   const handleEdit = (v: any) => {
-    console.log(v)
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
@@ -138,6 +144,11 @@ export const MunFacturacion = () => {
               title: "Registro Eliminado!",
             });
 
+            let data = {
+              NUMOPERACION: 4,
+              ANIO: filterAnio,
+            };
+            consulta(data);
 
           } else {
             Alert.fire({
@@ -160,10 +171,25 @@ export const MunFacturacion = () => {
     setslideropen(true);
     let file = event?.target?.files?.[0] || "";
     const formData = new FormData();
-    formData.append("inputfile", file, "inputfile");
+    formData.append("inputfile", file, "inputfile.xlsx");
     formData.append("tipo", "MunFacturacion");
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Carga Exitosa!",
+        });
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+
+     
+
     });
   };
 
