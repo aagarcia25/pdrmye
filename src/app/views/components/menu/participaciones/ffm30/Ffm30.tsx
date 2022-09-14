@@ -21,11 +21,15 @@ import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCal
 
 export const Ffm30 = () => {
   const user = getUser();
+
   const [Facturacion, setFacturacion] = useState([]);
 
   const [step, setstep] = useState(0);
 
   const [periodo, setPeriodo] = useState("1");
+
+  const [mes, setMes] = useState("1");
+
   const periodoData = [
     {
       id: 1,
@@ -61,8 +65,62 @@ export const Ffm30 = () => {
     },
   ];
 
-
   const periodoMenuItems = periodoData.map((item) => (
+    <MenuItem value={item.id}>{item.valor}</MenuItem>
+  ));
+
+  const mesData = [
+    {
+      id: 1,
+      valor: "ENERO",
+    },
+    {
+      id: 2,
+      valor: "FEBREEO",
+    },
+    {
+      id: 3,
+      valor: "MARZO",
+    },
+    {
+      id: 4,
+      valor: "ABRIL",
+    },
+    {
+      id: 5,
+      valor: "MAYO",
+    },
+    {
+      id: 6,
+      valor: "JUNIO",
+    },
+    {
+      id: 7,
+      valor: "JULIO",
+    },
+    {
+      id: 8,
+      valor: "AGOSTO",
+    },
+    {
+      id: 9,
+      valor: "SEPTIEMBRE",
+    },
+    {
+      id: 10,
+      valor: "OCTUBRE",
+    },
+    {
+      id: 11,
+      valor: "NOVIEMBRE",
+    },
+    {
+      id: 12,
+      valor: "DICIEMBRE",
+    },
+  ];
+
+  const mesMenuItems = mesData.map((item) => (
     <MenuItem value={item.id}>{item.valor}</MenuItem>
   ));
 
@@ -76,6 +134,10 @@ export const Ffm30 = () => {
 
   const handleChange = (event: SelectChangeEvent) => {
     setPeriodo(event.target.value);
+  };
+
+  const handleChangeMes = (event: SelectChangeEvent) => {
+    setMes(event.target.value);
   };
 
   const columns: GridColDef[] = [
@@ -123,15 +185,27 @@ export const Ffm30 = () => {
 
   const Details = () => {
     return (
-      <Grid container spacing={2}>
+      <Grid container spacing={3}>
         <Titulo name="Fondo Fomento Municipal 30%"></Titulo>
-        <BtnRegresar onClick={handleClose}/>
-        <SubTitulo/>
-        <FormTextField id={1} text="Año" inputPlaceholder="2022"/>
-        <FormTextField id={2} text="Mes" inputPlaceholder="DICIEMBRE"/>
-        <FormTextField id={3} text="Monto" inputPlaceholder="1,200,199"/>
-        <FormSelectedField id={1} text="Periodo" value={periodo} onChange={handleChange} items={periodoMenuItems}/>
-        <BtnCalcular onClick={handleClose}/>
+        <BtnRegresar onClick={handleClose} />
+        <SubTitulo />
+        <FormTextField id={1} text="Año" inputPlaceholder="2022" />
+        <FormSelectedField
+          id={1}
+          text="Mes"
+          value={mes}
+          onChange={handleChangeMes}
+          items={mesMenuItems}
+        />
+        <FormTextField id={2} text="Monto" inputPlaceholder="1,200,199" />
+        <FormSelectedField
+          id={2}
+          text="Periodo"
+          value={periodo}
+          onChange={handleChange}
+          items={periodoMenuItems}
+        />
+        <BtnCalcular onClick={handleClose} />
       </Grid>
     );
   };
