@@ -94,6 +94,12 @@ export const MunFacturacion = () => {
 
   const handleClose = () => {
     setOpen(false);
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: filterAnio,
+    };
+    consulta(data);
+
   };
 
   const handleOpen = (v: any) => {
@@ -138,6 +144,11 @@ export const MunFacturacion = () => {
               title: "Registro Eliminado!",
             });
 
+            let data = {
+              NUMOPERACION: 4,
+              ANIO: filterAnio,
+            };
+            consulta(data);
 
           } else {
             Alert.fire({

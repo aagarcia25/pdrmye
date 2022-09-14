@@ -121,7 +121,7 @@ export const Coeficientes = () => {
         };
         console.log(data);
 
-        CatalogosServices.tipofondo(data).then((res) => {
+        CatalogosServices.coeficientes(data).then((res) => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
