@@ -43,6 +43,12 @@
        
        const columns: GridColDef[] = [
          { field: "id", headerName: "Identificador", width: 150   , hide:true , description:messages.dataTableColum.id},
+         {
+          field: "idmunicipio",
+          headerName: "idmunicipio",
+          hide: true,
+          width: 150,
+        },
          { field: "Nombre", headerName: "Municipio", width: 150 },
          { field: "Anio", headerName: "Año", width: 150 },
          { field: "totalPob", headerName: "Total Población", width: 150 },
@@ -144,7 +150,7 @@
          setslideropen(true);
          let file = event?.target?.files?.[0] || "";
          const formData = new FormData();
-         formData.append("inputfile", file, "inputfile");
+         formData.append("inputfile", file, "inputfile.xlxs");
          formData.append("tipo", "MunPoblacion");
          CatalogosServices.migraData(formData).then((res) => {
            setslideropen(false);
@@ -180,17 +186,13 @@
      
      
        const handleFilterChange = (event: SelectChangeEvent) => {
-         //setFilterAnio(event.target.value);
-         
-         let data = {
+        setFilterAnio(event.target.value);
+        let data = {
           NUMOPERACION: 4,
-          NUMANIO: event.target.value,
-           
-         };
-         console.log(event.target.value +'valor de event');
-          
-         consulta(data);
-       };
+          ANIO: event.target.value,
+        };
+        consulta(data);
+      };
      
        const downloadplantilla = () => {
          let data = {

@@ -13,14 +13,15 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-
+import {  porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import MunPoblacionModal from "../MunPoblacion/MunPoblacionModal";
 
-const MunFacturacionModal = ({
+const MunPobrezaModeradaModal = ({
   open,
   modo,
   handleClose,
@@ -40,8 +41,10 @@ const MunFacturacionModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
-  const [fac, setFac] = useState("");
-  const [idMunicipio, setIdmunicipio] = useState("");
+  const [poblacion, setPoblacion] = useState("");
+  const [porcentaje, setPorcentage] = useState("");
+  const [carenciaProm, setCarenciaProm] = useState("");
+  const [IdMunicipio, setIdMunicipio] = useState("");
  
   const [values, setValues] = useState<Imunicipio[]>();
  
@@ -64,7 +67,7 @@ const MunFacturacionModal = ({
  
 
   const handleSend = () => {
-    if (fac == "") {
+    if (poblacion == "") {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -76,8 +79,12 @@ const MunFacturacionModal = ({
         CHID: id,
         CHUSER: 1,
         ANIO: anio,
-        IDMUNICIPIO: idMunicipio,
-        FACTURACION: fac,
+        IDMUNICIPIO: IdMunicipio,
+        TOTAL: poblacion,
+        PORCENTAJE : porcentaje,
+        CARENCIAPROMEDIO : carenciaProm,
+
+        
       };
 
       handleRequest(data);
@@ -100,7 +107,7 @@ const MunFacturacionModal = ({
 
 
   const agregar = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
+    CatalogosServices.munpobrezamod(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -118,7 +125,7 @@ const MunFacturacionModal = ({
   };
 
   const editar = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
+    CatalogosServices.munpobrezamod(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -140,15 +147,20 @@ const MunFacturacionModal = ({
     municipiosc();
 
     if(dt === ''  ){
-       
+        console.log(dt)
        
     }else{
         setId(dt?.row?.id)
         setAnio(dt?.row?.Anio)
-        setFac(dt?.row?.Facturacion)
-        setIdmunicipio(dt?.row?.idmunicipio)
-      
+        setPoblacion(dt?.row?.Total)
+        setIdMunicipio(dt?.row?.idmunicipio)
+        setPorcentage(dt?.row?.Porcentaje)
+        setCarenciaProm(dt?.row?.CarenciaProm)
 
+
+
+
+        console.log(dt.row)
     }
    
   }, [dt]);
@@ -164,12 +176,12 @@ const MunFacturacionModal = ({
             <InputLabel>Municipio</InputLabel>
             <Select
               required
-              onChange={(v) => setIdmunicipio(v.target.value)}
-              value={idMunicipio}
+              onChange={(v) => setIdMunicipio(v.target.value)}
+              value={IdMunicipio}
               label="Municipio"
-               inputProps={{
-                 readOnly: tipo == 1 ? false : true,
-              }}
+            inputProps={{
+            readOnly: tipo == 1 ? false : true,
+             }}
             >
               {values?.map((item: Imunicipio) => {
                 return (
@@ -193,25 +205,63 @@ const MunFacturacionModal = ({
             onChange={(v) => setAnio(v.target.value)}
             error={anio == "" ? true : false}
              InputProps={{
-               readOnly: tipo == 1 ? false : true,
-               inputMode: "numeric",
+            readOnly: tipo == 1 ? false : true,
+       
              }}
           />
 
           <TextField
             margin="dense"
             required
-            id="fac"
-            label="Facturación"
-            value={fac}
+            id="pob"
+            label="Poblacion"
+            value={poblacion}
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setFac(v.target.value)}
-            error={fac == "" ? true : false}
+            onChange={(v) => setPoblacion(v.target.value)}
+            error={poblacion == "" ? true : false}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
+                <InputAdornment position="start"></InputAdornment>
+              ),
+            }}
+          />
+           <TextField
+           
+            margin="dense"
+            required
+            id="porPob"
+            label="Porcentaje"
+            
+            value={porcentaje}
+            type="number"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setPorcentage(v.target.value)}
+            error={porcentaje == "" ? true : false}
+            InputProps={{
+                endAdornment: (
+                <InputAdornment position="end">%</InputAdornment>
+              ),...porcentage
+            }}
+          />
+           <TextField
+         
+            margin="dense"
+            required
+            id="fac"
+            
+            label="Carencia Promedio"
+            value={ carenciaProm }
+            type="percent"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setCarenciaProm(v.target.value)}
+            error={carenciaProm == "" ? true : false}
+            InputProps={{
+                endAdornment: (
+                <InputAdornment position="end">%</InputAdornment>
               ),
             }}
           />
@@ -226,4 +276,4 @@ const MunFacturacionModal = ({
   );
 };
 
-export default MunFacturacionModal;
+export default MunPobrezaModeradaModal;

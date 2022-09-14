@@ -40,7 +40,7 @@ const MunPoblacionModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
-  const [fac, setFac] = useState("");
+  const [poblacion, setPoblacion] = useState("");
   const [idPoblacion, setIdPoblacion] = useState("");
  
   const [values, setValues] = useState<Imunicipio[]>();
@@ -64,7 +64,7 @@ const MunPoblacionModal = ({
  
 
   const handleSend = () => {
-    if (fac == "") {
+    if (poblacion == "") {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -77,7 +77,7 @@ const MunPoblacionModal = ({
         CHUSER: 1,
         ANIO: anio,
         idPoblacion: idPoblacion,
-        FACTURACION: fac,
+        TOTALPOBLACION: poblacion,
       };
 
       handleRequest(data);
@@ -100,7 +100,7 @@ const MunPoblacionModal = ({
 
 
   const agregar = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
+    CatalogosServices.munpoblacion(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -118,7 +118,7 @@ const MunPoblacionModal = ({
   };
 
   const editar = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
+    CatalogosServices.munpoblacion(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -145,8 +145,9 @@ const MunPoblacionModal = ({
     }else{
         setId(dt?.row?.id)
         setAnio(dt?.row?.Anio)
-        setFac(dt?.row?.Facturacion)
+        setPoblacion(dt?.row?.totalPob)
         setIdPoblacion(dt?.row?.idmunicipio)
+        console.log(dt.row)
     }
    
   }, [dt]);
@@ -165,9 +166,9 @@ const MunPoblacionModal = ({
               onChange={(v) => setIdPoblacion(v.target.value)}
               value={idPoblacion}
               label="Municipio"
-            //   inputProps={{
-            //     readOnly: tipoOperacion == 1 ? false : true,
-            //   }}
+            inputProps={{
+            readOnly: tipo == 1 ? false : true,
+             }}
             >
               {values?.map((item: Imunicipio) => {
                 return (
@@ -190,26 +191,26 @@ const MunPoblacionModal = ({
             variant="standard"
             onChange={(v) => setAnio(v.target.value)}
             error={anio == "" ? true : false}
-            // InputProps={{
-            //   readOnly: tipoOperacion == 1 ? false : true,
-            //   inputMode: "numeric",
-            // }}
+             InputProps={{
+            readOnly: tipo == 1 ? false : true,
+       
+             }}
           />
 
           <TextField
             margin="dense"
             required
             id="fac"
-            label="Facturación"
-            value={fac}
+            label="Poblacion"
+            value={poblacion}
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setFac(v.target.value)}
-            error={fac == "" ? true : false}
+            onChange={(v) => setPoblacion(v.target.value)}
+            error={poblacion == "" ? true : false}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
+                <InputAdornment position="start"></InputAdornment>
               ),
             }}
           />

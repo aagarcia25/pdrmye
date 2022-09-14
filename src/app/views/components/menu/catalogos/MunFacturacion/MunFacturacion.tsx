@@ -68,7 +68,6 @@ export const MunFacturacion = () => {
       field: "Facturacion",
       headerName: "Facturado",
       width: 150,
-      ...Moneda,
       align: "right",
     },
     {
