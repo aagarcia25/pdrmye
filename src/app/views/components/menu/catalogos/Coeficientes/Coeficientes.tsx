@@ -39,7 +39,17 @@ export const Coeficientes = () => {
   const columns: GridColDef[] = [
     { field: "id", headerName: "Id", hide: true, width: 250 },
     { field: "Descripcion", headerName: "Descripcion", width: 700 },
-    { field: "Vigente", headerName: "Vigente", width: 150 },
+    { field: "Vigente", 
+      headerName: "Vigente",
+      width: 150 ,
+      renderCell: (v) => {
+      return (
+        <Box>
+        {v.row.Vigente == 1 ?          'Vigente' : 'No Vigente'      }
+        </Box>
+      );
+    },
+    },
 
     {
       field: "acciones",
@@ -75,10 +85,11 @@ export const Coeficientes = () => {
   };
 
   const handleOpen = (v: any) => {
+    setVrows({});
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
-    setVrows({});
+   
   };
 
   const handleEdit = (v: any) => {
@@ -110,7 +121,7 @@ export const Coeficientes = () => {
         };
         console.log(data);
 
-        CatalogosServices.tipofondo(data).then((res) => {
+        CatalogosServices.coeficientes(data).then((res) => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",

@@ -20,7 +20,7 @@ import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipio
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 
-const MunFacturacionModal = ({
+const MunPoblacionModal = ({
   open,
   modo,
   handleClose,
@@ -41,7 +41,7 @@ const MunFacturacionModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [fac, setFac] = useState("");
-  const [idMunicipio, setIdmunicipio] = useState("");
+  const [idPoblacion, setIdPoblacion] = useState("");
  
   const [values, setValues] = useState<Imunicipio[]>();
  
@@ -76,7 +76,7 @@ const MunFacturacionModal = ({
         CHID: id,
         CHUSER: 1,
         ANIO: anio,
-        IDMUNICIPIO: idMunicipio,
+        idPoblacion: idPoblacion,
         FACTURACION: fac,
       };
 
@@ -146,7 +146,7 @@ const MunFacturacionModal = ({
         setId(dt?.row?.id)
         setAnio(dt?.row?.Anio)
         setFac(dt?.row?.Facturacion)
-        setIdmunicipio(dt?.row?.idmunicipio)
+        setIdPoblacion(dt?.row?.idmunicipio)
     }
    
   }, [dt]);
@@ -162,12 +162,12 @@ const MunFacturacionModal = ({
             <InputLabel>Municipio</InputLabel>
             <Select
               required
-              onChange={(v) => setIdmunicipio(v.target.value)}
-              value={idMunicipio}
+              onChange={(v) => setIdPoblacion(v.target.value)}
+              value={idPoblacion}
               label="Municipio"
-               inputProps={{
-                 readOnly: tipo == 1 ? false : true,
-              }}
+            //   inputProps={{
+            //     readOnly: tipoOperacion == 1 ? false : true,
+            //   }}
             >
               {values?.map((item: Imunicipio) => {
                 return (
@@ -190,10 +190,10 @@ const MunFacturacionModal = ({
             variant="standard"
             onChange={(v) => setAnio(v.target.value)}
             error={anio == "" ? true : false}
-             InputProps={{
-               readOnly: tipo == 1 ? false : true,
-               inputMode: "numeric",
-             }}
+            // InputProps={{
+            //   readOnly: tipoOperacion == 1 ? false : true,
+            //   inputMode: "numeric",
+            // }}
           />
 
           <TextField
@@ -224,4 +224,4 @@ const MunFacturacionModal = ({
   );
 };
 
-export default MunFacturacionModal;
+export default MunPoblacionModal;

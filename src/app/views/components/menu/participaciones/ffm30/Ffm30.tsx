@@ -1,31 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Grid,
-  Input,
   LinearProgress,
-  Paper,
-  TextField,
-  Typography,
-  Select,
   SelectChangeEvent,
   MenuItem,
-  Button,
-  IconButton,
 } from "@mui/material";
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
 import { CustomToolbar } from "../../CustomToolbar";
 import { getUser } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { ArticulosServices } from "../../../../../services/ArticulosServices";
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
-import { styled } from "@mui/material/styles";
-import CalculateIcon from "@mui/icons-material/Calculate";
-import { COLOR } from "../../../../../styles/colors";
+import { Titulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
+import { BtnRegresar } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
+import { SubTitulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/SubTitulo";
+import { FormTextField } from "../../catalogos/Utilerias/AgregarCalculoUtil/FormTextField";
+import { FormSelectedField } from "../../catalogos/Utilerias/AgregarCalculoUtil/FormSelectField";
+import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCalcular";
 
 export const Ffm30 = () => {
   const user = getUser();
@@ -33,8 +25,8 @@ export const Ffm30 = () => {
 
   const [step, setstep] = useState(0);
 
-  const [calculo, setCalculo] = useState("1");
-  const calculoData = [
+  const [periodo, setPeriodo] = useState("1");
+  const periodoData = [
     {
       id: 1,
       valor: "MENSUAL",
@@ -69,7 +61,8 @@ export const Ffm30 = () => {
     },
   ];
 
-  const calculoMenuItems = calculoData.map((item) => (
+
+  const periodoMenuItems = periodoData.map((item) => (
     <MenuItem value={item.id}>{item.valor}</MenuItem>
   ));
 
@@ -82,16 +75,8 @@ export const Ffm30 = () => {
   };
 
   const handleChange = (event: SelectChangeEvent) => {
-    setCalculo(event.target.value);
+    setPeriodo(event.target.value);
   };
-
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
@@ -139,102 +124,14 @@ export const Ffm30 = () => {
   const Details = () => {
     return (
       <Grid container spacing={2}>
-        <Grid item xs={8}>
-          <Typography sx={{ mb: 3, fontWeight: "Bold" }}>
-            Fondo Fomento Municipal 30%
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sx={{ display: "flex", justifyContent: "start" }}>
-          <Button
-            onClick={handleClose}
-            variant="outlined"
-            startIcon={<ArrowBackIcon />}
-          >
-            Regresar
-          </Button>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          sx={{ mb: 5, display: "flex", justifyContent: "start" }}
-        >
-          <Typography sx={{ ml: 20, fontWeight: "Bold" }}>
-            Ingrese año y mes de carga
-          </Typography>
-        </Grid>
-        <Grid item xs={3} sx={{ display: "flex", justifyContent: "center" }}>
-          <Typography sx={{ fontWeight: "Bold" }}>Año:</Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Input placeholder="2022"></Input>
-        </Grid>
-        <Grid item xs={6}>
-          <Item hidden>Fin de anio</Item>
-        </Grid>
-        <Grid item xs={3} sx={{ display: "flex", justifyContent: "center" }}>
-          <Typography sx={{ fontWeight: "Bold" }}>Mes:</Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Input placeholder="DICIEMBRE"></Input>
-        </Grid>
-        <Grid item xs={6}>
-          <Item hidden>Fin de mes</Item>
-        </Grid>
-        <Grid item xs={3} sx={{ display: "flex", justifyContent: "center" }}>
-          <Typography sx={{ fontWeight: "Bold" }}>Monto:</Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Input placeholder="1,200,300"></Input>
-        </Grid>
-        <Grid item xs={6}>
-          <Item hidden>Fin de monto</Item>
-        </Grid>
-        <Grid
-          item
-          xs={3}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Typography sx={{ fontWeight: "Bold" }}>Cálculo:</Typography>
-        </Grid>
-        <Grid item xs={1.6} sx={{}}>
-          <Select
-            fullWidth
-            value={calculo}
-            onChange={handleChange}
-            displayEmpty
-            inputProps={{ "aria-label": "Without label" }}
-          >
-            {calculoMenuItems}
-          </Select>
-        </Grid>
-        <Grid item xs={6}>
-          <Item hidden>Espacio5</Item>
-        </Grid>
-        <Grid
-          item
-          xs={3}
-          sx={{ mt: 3, display: "flex", justifyContent: "center" }}
-        >
-          <IconButton
-            sx={{
-              borderRadius: 1,
-              border: 1,
-              bgcolor: COLOR.negro,
-              color: COLOR.blanco,
-              "&:hover": {
-                bgcolor: COLOR.blanco,
-                color: COLOR.negro,
-              },
-            }}
-          >
-            <CalculateIcon />
-            Calcular
-          </IconButton>
-        </Grid>
+        <Titulo name="Fondo Fomento Municipal 30%"></Titulo>
+        <BtnRegresar onClick={handleClose}/>
+        <SubTitulo/>
+        <FormTextField id={1} text="Año" inputPlaceholder="2022"/>
+        <FormTextField id={2} text="Mes" inputPlaceholder="DICIEMBRE"/>
+        <FormTextField id={3} text="Monto" inputPlaceholder="1,200,199"/>
+        <FormSelectedField id={1} text="Periodo" value={periodo} onChange={handleChange} items={periodoMenuItems}/>
+        <BtnCalcular onClick={handleClose}/>
       </Grid>
     );
   };

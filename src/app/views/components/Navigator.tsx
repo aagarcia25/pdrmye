@@ -1,5 +1,6 @@
 import Divider from '@mui/material/Divider';
-import Drawer, { DrawerProps } from '@mui/material/Drawer';
+import Drawer, 
+{ DrawerProps } from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
@@ -10,17 +11,15 @@ import Logo from '../../assets/img/logo.svg';
 import Article from '@mui/icons-material/Article';
 import PersonAddDisabled from '@mui/icons-material/PersonAddDisabled';
 import PeopleAlt from '@mui/icons-material/PeopleAlt';
-import { ExpandLess, ExpandMore, Reorder } from '@mui/icons-material';
+import { Reorder } from '@mui/icons-material';
 import { useNavigate, Link } from 'react-router-dom';
-import { flexbox } from '@mui/system';
 import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
-import { Collapse, Container, Fade, makeStyles, Table, TableCell, TableRow, useScrollTrigger } from '@mui/material';
 import React from 'react';
-import Slide from '@mui/material/Slide';
-
-
+import { useState } from 'react';
+import { Collapse } from '@mui/material';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export const categories = [
 
@@ -182,17 +181,6 @@ export const categories = [
 
 ];
 
-//////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////
 
 
 
@@ -220,15 +208,19 @@ export default function Navigator(props: DrawerProps,logoFijo: any) {
 const [openModule, setOpenModule] = React.useState(false);
   const { ...other } = props;
   const navigate = useNavigate();
+
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
   return (
  
     
    <Drawer variant="permanent" {...other  }{...logoFijo}  rootElement >
 
-
- 
-
- 
     <AppBar position="static" sx={{bgcolor: 'rgb(255, 255, 255)', zIndex: (theme) => theme.zIndex.drawer + 1, width: "100%"  }}>
       <Toolbar>
 
@@ -243,61 +235,43 @@ const [openModule, setOpenModule] = React.useState(false);
  <Box key={id} sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', }}>
 
 
-
-
-
-
- 
- 
- 
- 
- 
  </Box>
   
 
-
-
-
-
-
-
 ))}
 
-    
-  
-      <List >
-      
-   
-        {categories.map(({ id, children }) => (
+      <List disablePadding>
+        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#111111', bgcolor: '#FFFFFF' }}>
 
-          <Box key={id} sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', }}>
+        </ListItem>
+        <ListItem sx={{ ...item, ...itemCategory, color: '#111111', bgcolor: '#FFFFFF' }}>
+          <ListItemIcon>
+          </ListItemIcon>
+          <ListItemText>
+          </ListItemText>
+        </ListItem>
 
-              <ListItem sx={{ py: 2, px: 3 }}>
-              <ListItemButton 
-          //    onClick={() => setOpenModule(!openModule)}
-              
-              >
-              {/* {openModule ? <ExpandLess /> : <ExpandMore />} */}
-
-                <ListItemText sx={{ color: '#555555' }}>{id}</ListItemText>
-               
        
-              </ListItemButton>
-             
-               
-              </ListItem>
+        {categories.map(({ id, children }) => (
+          <Box key={id} sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
+            
+            
+            
+            <ListItem  onClick={handleClick} sx={{ py: 2, px: 3 }}>
+              <ListItemText sx={{ color: '#555555' }} >{id}</ListItemText>
+              {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </ListItem>
 
 
 
-{/* <Collapse in={openModule} timeout="auto" unmountOnExit> */}
-             
-                {children.map(({ id: childId, icon, path }) => (
 
+            {children.map(({ id: childId, icon, path }) => (
+              
 
+              <ListItem disablePadding key={childId}>
+                 <Collapse in={open} timeout="auto" unmountOnExit>
+                <ListItemButton key={childId} sx={item}
 
-                  <ListItem disablePadding key={childId}>
-                
-                <ListItemButton sx={item}
                   onClick={(event) => navigate(path)}
                   
                   >
@@ -307,31 +281,17 @@ const [openModule, setOpenModule] = React.useState(false);
                   <ListItemText>{childId}</ListItemText>
 
                 </ListItemButton>
-
+                </Collapse>
               </ListItem>
-
-
-                ))}
-                {/* </Collapse> */}
-
+            ))}
 
             <Divider sx={{ mt: 2 }} />
-
-
           </Box>
         ))}
 
-
-
-
       </List>
       
-
-  
     </Drawer>
-  
-
-
     
   );
   
