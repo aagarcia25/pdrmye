@@ -16,7 +16,10 @@ import { flexbox } from '@mui/system';
 import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
-
+import { useState } from 'react';
+import { Collapse } from '@mui/material';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export const categories = [
 
@@ -196,6 +199,16 @@ const itemCategory = {
 export default function Navigator(props: DrawerProps) {
   const { ...other } = props;
   const navigate = useNavigate();
+
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
+
+
   return (
  
    
@@ -217,9 +230,14 @@ export default function Navigator(props: DrawerProps) {
 
 
       <List disablePadding>
+       
+       
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#111111', bgcolor: '#FFFFFF' }}>
 
         </ListItem>
+
+
+
         <ListItem sx={{ ...item, ...itemCategory, color: '#111111', bgcolor: '#FFFFFF' }}>
           <ListItemIcon>
 
@@ -230,24 +248,51 @@ export default function Navigator(props: DrawerProps) {
 
           </ListItemText>
         </ListItem>
+
+
+
+
+
+       
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
-            <ListItem sx={{ py: 2, px: 3 }}>
-              <ListItemText sx={{ color: '#555555' }}>{id}</ListItemText>
+            
+            
+            
+            <ListItem  onClick={handleClick} sx={{ py: 2, px: 3 }}>
+              <ListItemText sx={{ color: '#555555' }} >{id}</ListItemText>
+              {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
             </ListItem>
+
+
+
+
             {children.map(({ id: childId, icon, path }) => (
+              
+
               <ListItem disablePadding key={childId}>
+                 <Collapse in={open} timeout="auto" unmountOnExit>
                 <ListItemButton sx={item}
                   onClick={(event) => navigate(path)}
                 >
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText>{childId}</ListItemText>
                 </ListItemButton>
+
+                </Collapse>
               </ListItem>
             ))}
+
+
+
+
+
+
             <Divider sx={{ mt: 2 }} />
           </Box>
+          
         ))}
+       
       </List>
        </Box>
     </Drawer>
