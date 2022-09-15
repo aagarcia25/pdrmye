@@ -99,5 +99,9 @@ export class CatalogosServices {
         return await post('fondos', data);
     };
 
+    public static async crecimientoAnio(data : any) {
+        return await post('crecimientoAnio', data);
+    };
+
 
 }

@@ -56,7 +56,8 @@ export const categories = [
       { id: 'UMAS', icon: <Article />, path: '/inicio/catalogos/umas' },
       { id: 'Coeficientes', icon: <Article />, path: '/inicio/catalogos/coeficientes' },
       { id: 'Inflación Mes', icon: <Article />, path: '/inicio/catalogos/inflacionMes' },
-      { id: 'Inflación Anio', icon: <Article />, path: '/inicio/catalogos/inflacionAnio' },
+      { id: 'Inflación Año', icon: <Article />, path: '/inicio/catalogos/inflacionAnio' },
+      { id: 'Crecimiento Año', icon: <Article />, path: '/inicio/catalogos/crecimientoAnio' },
 
       { id: 'Administración de Fondos', icon: <Article />, path: '/inicio/catalogos/fondos' },
 

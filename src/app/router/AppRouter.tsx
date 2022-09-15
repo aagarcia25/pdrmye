@@ -64,6 +64,7 @@ import TipoFondo from "../views/components/menu/catalogos/TipoFondo/TipoFondo";
 import InflacionMes from "../views/components/menu/catalogos/InflacionMes/InflacionMes";
 import InflacionAnio from "../views/components/menu/catalogos/InflacionAnio/InflacionAnio";
 import Fondos from "../views/components/menu/catalogos/Fondos/Fondos";
+import CrecimientoAnio from "../views/components/menu/catalogos/CrecimientoAnio/CrecimientoAnio";
 
 
 export const AppRouter = () => {
@@ -220,8 +221,7 @@ export const AppRouter = () => {
         <Route  path="/inicio/catalogos/inflacionMes"      element={<InflacionMes />}      />
         <Route  path="/inicio/catalogos/inflacionAnio"      element={<InflacionAnio />}      />
         <Route  path="/inicio/catalogos/fondos"      element={<Fondos />}      />
-
-
+        <Route  path="/inicio/catalogos/crecimientoAnio"      element={<CrecimientoAnio />}      />
         
         {/* FIN SECCION DE CATALOGOS */}
 
