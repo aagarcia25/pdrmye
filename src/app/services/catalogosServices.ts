@@ -95,4 +95,9 @@ export class CatalogosServices {
         return await post('inflacionAnio', data);
     };
 
+    public static async fondos(data : any) {
+        return await post('fondos', data);
+    };
+
+
 }

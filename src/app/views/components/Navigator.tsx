@@ -58,6 +58,8 @@ export const categories = [
       { id: 'Inflación Mes', icon: <Article />, path: '/inicio/catalogos/inflacionMes' },
       { id: 'Inflación Anio', icon: <Article />, path: '/inicio/catalogos/inflacionAnio' },
 
+      { id: 'Administración de Fondos', icon: <Article />, path: '/inicio/catalogos/fondos' },
+
     ],
   },
   {

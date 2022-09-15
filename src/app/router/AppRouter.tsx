@@ -63,6 +63,7 @@ import { BloqueoSesion } from "../views/components/BloqueoSesion";
 import TipoFondo from "../views/components/menu/catalogos/TipoFondo/TipoFondo";
 import InflacionMes from "../views/components/menu/catalogos/InflacionMes/InflacionMes";
 import InflacionAnio from "../views/components/menu/catalogos/InflacionAnio/InflacionAnio";
+import Fondos from "../views/components/menu/catalogos/Fondos/Fondos";
 
 
 export const AppRouter = () => {
@@ -218,7 +219,10 @@ export const AppRouter = () => {
 
         <Route  path="/inicio/catalogos/inflacionMes"      element={<InflacionMes />}      />
         <Route  path="/inicio/catalogos/inflacionAnio"      element={<InflacionAnio />}      />
+        <Route  path="/inicio/catalogos/fondos"      element={<Fondos />}      />
 
+
+        
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
