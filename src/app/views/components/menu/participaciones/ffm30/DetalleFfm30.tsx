@@ -19,7 +19,7 @@ import ButtonsBack from "../../catalogos/Utilerias/ButtonsBack";
 //    id? :  string
 //   }
 
-const DetalleFgp = () => {
+const DetalleFfm30 = () => {
 
     const user = getUser();
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ const DetalleFgp = () => {
     const [data, setData] = useState([]);
 
     const handleBack = (v: any) => {
-      navigate(`/inicio/participaciones/fpg`)
+      navigate(`/inicio/participaciones/ffm30`)
     };
 
     
@@ -51,15 +51,18 @@ const DetalleFgp = () => {
           }
         });
       };
-         
+    
+     
     const columns: GridColDef[] = [
-      { field: "id", headerName: "Identificador", width: 150   ,hide: true},
-      { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
-      { field: "Recaudacion", headerName: "Año", width: 150 ,description:"BGt-2"},
-      { field: "Recaudacion", headerName: "Mes", width: 150 ,description:"RPt-1"},
-      { field: "Proporcion", headerName: "Monto", width: 200 ,description:"P=RP/BG" },
+        { field: "id", headerName: "Identificador", width: 150   ,hide: true},
+        { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
+        { field: "Recaudacion", headerName: "Año", width: 150 ,description:"BGt-2"},
+        { field: "Recaudacion", headerName: "Mes", width: 150 ,description:"RPt-1"},
+        { field: "Proporcion", headerName: "Monto", width: 200 ,description:"P=RP/BG" },
       ];
     
+
+
       let params = useParams();
       useEffect(() => {
         consulta({IDCALCULOTOTAL: params.id})
@@ -91,4 +94,4 @@ const DetalleFgp = () => {
   )
 }
 
-export default DetalleFgp
+export default DetalleFfm30

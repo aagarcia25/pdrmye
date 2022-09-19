@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from "react";
 import {
   Box,
@@ -9,21 +7,12 @@ import {
   MenuItem,
   IconButton,
   Tooltip,
-  Select,
-  FormControl,
-  InputLabel,
 } from "@mui/material";
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
 import { currencyFormatter, CustomToolbar } from "../../CustomToolbar";
 import { getUser } from "../../../../../services/localStorage";
-import { ArticulosServices } from "../../../../../services/ArticulosServices";
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
-import { Titulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
-import { BtnRegresar } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
-import { SubTitulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/SubTitulo";
-import { FormTextField } from "../../catalogos/Utilerias/AgregarCalculoUtil/FormTextField";
-import { FormSelectedField } from "../../catalogos/Utilerias/AgregarCalculoUtil/FormSelectField";
 import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCalcular";
 import { calculosServices } from "../../../../../services/calculosServices";
 import { Toast } from "../../../../../helpers/Toast";
@@ -100,7 +89,7 @@ export const Fpg = () => {
     setstep(0);
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChangePeriodo = (event: SelectChangeEvent) => {
     setPeriodo(event.target.value);
   };
 
