@@ -24,7 +24,7 @@ import MunPobrezaModeradaModal from './MunPobrezaModeradaModal'
 
 export const MunPobrezaModerada = () => {
 
-  const user = getUser();
+
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -33,7 +33,7 @@ export const MunPobrezaModerada = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
 
-  const [PobrezaModerada, setPobreza] = useState([]);
+
 
  // VARIABLES PARA LOS FILTROS
  const [filterAnio, setFilterAnio] = useState("");
@@ -150,7 +150,7 @@ const columns: GridColDef[] = [
       let file = event?.target?.files?.[0] || "";
       const formData = new FormData();
       formData.append("inputfile", file, "inputfile.xlxs");
-      formData.append("tipo", "MunPoblacionMod");
+      formData.append("tipo", "MunPobrezaMod");
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
       });
@@ -201,7 +201,7 @@ const columns: GridColDef[] = [
     };
     const downloadplantilla = () => {
       let data = {
-        NUMOPERACION: "MUNICIPIO_POBREZA_,MODERADA",
+        NUMOPERACION: "MUNICIPIO_POBREZA_MODERADA",
        
       };
   

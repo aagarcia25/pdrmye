@@ -19,9 +19,9 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import MunPoblacionModal from "../MunPoblacion/MunPoblacionModal";
 
-
-const MunPobrezaModeradaModal = ({
+const MunPobrezaExtremaModal = ({
   open,
   modo,
   handleClose,
@@ -45,7 +45,6 @@ const MunPobrezaModeradaModal = ({
   const [porcentaje, setPorcentage] = useState("");
   const [carenciaProm, setCarenciaProm] = useState("");
   const [IdMunicipio, setIdMunicipio] = useState("");
- 
   const [values, setValues] = useState<Imunicipio[]>();
  
  
@@ -63,7 +62,6 @@ const MunPobrezaModeradaModal = ({
   };
 
 
- 
  
 
   const handleSend = () => {
@@ -107,7 +105,7 @@ const MunPobrezaModeradaModal = ({
 
 
   const agregar = (data: any) => {
-    CatalogosServices.munpobrezamod(data).then((res) => {
+    CatalogosServices.munpobrezaext(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -125,7 +123,7 @@ const MunPobrezaModeradaModal = ({
   };
 
   const editar = (data: any) => {
-    CatalogosServices.munpobrezamod(data).then((res) => {
+    CatalogosServices.munpobrezaext(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -147,12 +145,12 @@ const MunPobrezaModeradaModal = ({
     municipiosc();
 
     if(dt === ''  ){
-    
+        console.log(dt)
        
     }else{
         setId(dt?.row?.id)
         setAnio(dt?.row?.Anio)
-        setPoblacion(dt?.row?.Total)
+        setPoblacion(dt?.row?.Personas)
         setIdMunicipio(dt?.row?.idmunicipio)
         setPorcentage(dt?.row?.Porcentaje)
         setCarenciaProm(dt?.row?.CarenciaProm)
@@ -160,7 +158,7 @@ const MunPobrezaModeradaModal = ({
 
 
 
-      
+   
     }
    
   }, [dt]);
@@ -276,4 +274,4 @@ const MunPobrezaModeradaModal = ({
   );
 };
 
-export default MunPobrezaModeradaModal;
+export default MunPobrezaExtremaModal;
