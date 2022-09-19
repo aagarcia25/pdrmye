@@ -20,10 +20,8 @@ import { Isr } from "../views/components/menu/participaciones/isr/Isr";
 import { Feief } from "../views/components/menu/participaciones/feief/Feief";
 
 import { Foult } from "../views/components/menu/aportaciones/foult/Foult";
-import { Fism } from "../views/components/menu/aportaciones/fism/Fism";
 import { Fodem } from "../views/components/menu/aportaciones/fodem/Fodem";
 import { Fodes } from "../views/components/menu/aportaciones/fodes/Fodes";
-import { Fortaum } from "../views/components/menu/aportaciones/fortaum/Fortaum";
 import { Fosegum } from "../views/components/menu/aportaciones/fosegum/Fosegum";
 
 import { Calendario } from "../views/components/menu/calendario/Calendario";
@@ -66,6 +64,9 @@ import InflacionAnio from "../views/components/menu/catalogos/InflacionAnio/Infl
 import Fondos from "../views/components/menu/catalogos/Fondos/Fondos";
 import CrecimientoAnio from "../views/components/menu/catalogos/CrecimientoAnio/CrecimientoAnio";
 import DetalleFgp from "../views/components/menu/participaciones/fpg/DetalleFgp";
+import Fism from "../views/components/menu/aportaciones/fism/Fism";
+import Fortaum from "../views/components/menu/aportaciones/fortaum/Fortaum";
+import DetalleFortamun from "../views/components/menu/aportaciones/fortaum/DetalleFortamun";
 
 
 export const AppRouter = () => {
@@ -93,10 +94,7 @@ export const AppRouter = () => {
           path="/inicio/aportaciones/foult"
           element={log ? <Foult /> : <AuthRouter />}
         />
-        <Route
-          path="/inicio/aportaciones/fism"
-          element={log ? <Fism /> : <AuthRouter />}
-        />
+       
         <Route
           path="/inicio/aportaciones/fodes"
           element={log ? <Fodes /> : <AuthRouter />}
@@ -109,10 +107,7 @@ export const AppRouter = () => {
           path="/inicio/aportaciones/fodem"
           element={log ? <Fodem /> : <AuthRouter />}
         />
-        <Route
-          path="/inicio/aportaciones/fortaum"
-          element={log ? <Fortaum /> : <AuthRouter />}
-        />
+        
 
         <Route
           path="/inicio/calendario"
@@ -251,7 +246,11 @@ export const AppRouter = () => {
 
 
 
-
+        {/* SECCION APORTACIONES FEDERALES */}
+        <Route path="/inicio/aportaciones/fism"    element={log ? <Fism /> : <AuthRouter />} />
+        <Route path="/inicio/aportaciones/fortaum" element={log ? <Fortaum /> : <AuthRouter />} />
+        <Route path="/inicio/aportaciones/fortaum/:id" element={log ? <DetalleFortamun /> : <AuthRouter />} />
+        {/* FIN SECCION APORTACIONES FEDERALES */}
 
       </Routes>
     </Inicio>

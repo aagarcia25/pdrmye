@@ -113,12 +113,7 @@ export const categories = [
       { id: 'FISM', icon: <Reorder />, path: '/inicio/aportaciones/fism' },
     ],
   },
-  {
-    id: 'SPEIs',
-    children: [
-
-    ],
-  },
+  
   {
     id: 'Roles y Privilegios',
     children: [
@@ -132,12 +127,7 @@ export const categories = [
     children: [
     ],
   },
-  {
-    id: 'Calendario',
-    children: [
-      { id: 'Calendario', icon: <Article />, path: '/inicio/calendario' },
-    ],
-  },
+
   {
     id: 'Generador de Estadisticas',
     children: [
@@ -182,6 +172,60 @@ export const categories = [
       { id: 'Gastos Extraodinarios', icon: <Article />, path: '/bienvenido' },
     ],
   },
+
+
+  // MUNICIPIOS
+  {
+    id: 'Municipios',
+    children: [
+      { id: 'Mis Cuentas', icon: <Article />, path: '/bienvenido' },
+      { id: 'Solicitud de Recursos', icon: <Article />, path: '/bienvenido' },
+      { id: 'Recepción de Recursos', icon: <Article />, path: '/bienvenido' },
+    ],
+  },
+
+ // DAMOP
+ 
+
+
+ {
+  id: 'DAMOP',
+  children: [],
+},
+ 
+ {
+  id: 'Participaciones',
+  children: [
+    { id: 'Anticipo de Participaciones', icon: <Article />, path: '/bienvenido' },
+    { id: 'Participaciones Federales', icon: <Article />, path: '/bienvenido' },
+    { id: 'Participaciones Estatales', icon: <Article />, path: '/bienvenido' },
+  ],
+},
+
+
+
+
+
+{
+  id: 'Aportaciones Federales',
+  children: [
+    { id: 'FISM', icon: <Article />, path: '/bienvenido' },
+    { id: 'FORTAMUN', icon: <Article />, path: '/bienvenido' },
+  ],
+},
+
+{
+  id: 'Aportaciones Estatales',
+  children: [
+    { id: 'FONDO DE DESARROLLO MUNICIPAL', icon: <Article />, path: '/bienvenido' },
+    { id: 'FONDO DE ULTRACRECIMIENTO MUNICIPAL', icon: <Article />, path: '/bienvenido' },
+    { id: 'FONDOS DESCENTRALIZADOS', icon: <Article />, path: '/bienvenido' },
+    { id: 'FONDO DE SEGURIDAD PARA LOS MUNICIPIOS', icon: <Article />, path: '/bienvenido' },
+  ],
+},
+
+
+
 
 
 ];
