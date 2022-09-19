@@ -150,7 +150,7 @@ const columns: GridColDef[] = [
       let file = event?.target?.files?.[0] || "";
       const formData = new FormData();
       formData.append("inputfile", file, "inputfile.xlxs");
-      formData.append("tipo", "MunPobrezaExtrema");
+      formData.append("tipo", "MunPobrezaExt");
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
       });

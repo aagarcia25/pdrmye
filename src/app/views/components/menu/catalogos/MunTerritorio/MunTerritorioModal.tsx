@@ -13,14 +13,15 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-
+import {  porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 
-const MunFacturacionModal = ({
+
+const MunTerritorioModal = ({
   open,
   modo,
   handleClose,
@@ -40,9 +41,10 @@ const MunFacturacionModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
-  const [fac, setRecaudacion] = useState("");
-  const [idMunicipio, setIdmunicipio] = useState("");
- 
+  const [territorio, setTerritorio] = useState("");
+
+
+  const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
  
  
@@ -61,10 +63,9 @@ const MunFacturacionModal = ({
 
 
  
- 
 
   const handleSend = () => {
-    if (fac == "") {
+    if (territorio == "") {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -76,8 +77,11 @@ const MunFacturacionModal = ({
         CHID: id,
         CHUSER: 1,
         ANIO: anio,
-        IDMUNICIPIO: idMunicipio,
-        FACTURACION: fac,
+        IDMUNICIPIO: IdMunicipio,
+        KM2: territorio,
+ 
+
+        
       };
 
       handleRequest(data);
@@ -100,7 +104,7 @@ const MunFacturacionModal = ({
 
 
   const agregar = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
+    CatalogosServices.munterritorio(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -118,7 +122,7 @@ const MunFacturacionModal = ({
   };
 
   const editar = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
+    CatalogosServices.munterritorio(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -140,18 +144,23 @@ const MunFacturacionModal = ({
     municipiosc();
 
     if(dt === ''  ){
-       
+        console.log(dt)
        
     }else{
         setId(dt?.row?.id)
         setAnio(dt?.row?.Anio)
-        setRecaudacion(dt?.row?.Facturacion)
-        setIdmunicipio(dt?.row?.idmunicipio)
-      
-
-    }
+        setTerritorio(dt?.row?.Km2)
+        setIdMunicipio(dt?.row?.idmunicipio)
    
-  }, [dt]);
+   
+
+        console.log(dt)
+
+
+   
+    }
+   console.log(dt)
+  }, [dt] );
 
 
 
@@ -164,12 +173,12 @@ const MunFacturacionModal = ({
             <InputLabel>Municipio</InputLabel>
             <Select
               required
-              onChange={(v) => setIdmunicipio(v.target.value)}
-              value={idMunicipio}
+              onChange={(v) => setIdMunicipio(v.target.value)}
+              value={IdMunicipio}
               label="Municipio"
-               inputProps={{
-                 readOnly: tipo == 1 ? false : true,
-              }}
+            inputProps={{
+            readOnly: tipo == 1 ? false : true,
+             }}
             >
               {values?.map((item: Imunicipio) => {
                 return (
@@ -181,40 +190,26 @@ const MunFacturacionModal = ({
             </Select>
           </FormControl>
 
-          <TextField
-            required
-            margin="dense"
-            id="anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
-             InputProps={{
-               readOnly: tipo == 1 ? false : true,
-               inputMode: "numeric",
-             }}
-          />
-
+     
           <TextField
             margin="dense"
             required
-            id="fac"
-            label="Facturación"
-            value={fac}
+            id="pob"
+            label="Recaudacion"
+            value={territorio}
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setRecaudacion(v.target.value)}
-            error={fac == "" ? true : false}
+            onChange={(v) => setTerritorio(v.target.value)}
+            error={territorio == "" ? true : false}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
+                <InputAdornment position="start"></InputAdornment>
               ),
             }}
           />
+         
+         
         </Box>
       </DialogContent>
 
@@ -226,4 +221,4 @@ const MunFacturacionModal = ({
   );
 };
 
-export default MunFacturacionModal;
+export default MunTerritorioModal;

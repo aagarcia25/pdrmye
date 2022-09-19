@@ -12,20 +12,20 @@ import AddIcon from '@mui/icons-material/Add';
 import { Link, useNavigate, } from 'react-router-dom';
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 import PanoramaIcon from '@mui/icons-material/Panorama';
+import EventosModal from './EventosModal';
 
 
 
 export const Eventos = () => {
     
+  const [modo, setModo] = useState("");
+  const [open, setOpen] = useState(false);
+  const [tipoOperacion, setTipoOperacion] = useState(0);
+  const [data, setData] = useState({});
 
- const navigate = useNavigate();
-    
-
-  const user = getUser();
   const [conEventos, setEventos] = useState([]);
 
-  const [open, setOpen] = useState(false);
-  // const [imagen, setImagen]= useEffect();
+
 
 const columns: GridColDef[] = [
    
@@ -34,27 +34,46 @@ const columns: GridColDef[] = [
     { field: "Descripcion", headerName: "Descripcion", width: 600 },
     { field: "FechaInicio", headerName: "Fecha de Inicio", width: 150 },
     { field: "FechaFin", headerName: "Fecha de Finalizado", width: 100 },
-    { field: "Imagen"  , headerName: "Imagen", width: 100 , renderCell:(params) => <img src={params.value} style={{ width: "2vw" }}  /> },
+    { field: "Imagen"  , headerName: "Imagen", width: 100  ,  
+    
+    renderCell:(v) =>{
+       return (
+
+      <Box>
+      <IconButton onClick={() => handleVisualizar(v)}>
+      <img    id="imagen" src={v.row.Imagen}  style={{ width: "2vw" }} 
+         />
+     
+        </IconButton>
+      </Box>
+    );
+  
+  },
+  },
 
    
   ];
 
-  ;
+  
+
+  const handleVisualizar = (v: any) => {
+    setTipoOperacion(2);
+    setModo("Evento");
+    setOpen(true);
+    setData(v);
+  };
 
   const handleClose = () => setOpen(false);
 
   
-    let data = ({
+    let dat = ({
       NUMOPERACION: 4,
-      CHID: "",
-      NUMANIO: "",
-      NUMTOTALPOB: "",
       CHUSER:1
     })
   
   
     useEffect(() => {
-      CatalogosServices.eventos(data).then((res) => {
+      CatalogosServices.eventos(dat).then((res) => {
       //  console.log(res);
         setEventos(res.RESPONSE);
       });
@@ -86,6 +105,18 @@ const columns: GridColDef[] = [
       
      // loading //agregar validacion cuando se esten cargando los registros
     />
+
+{open ? (
+        <EventosModal
+          open={open}
+          modo={modo}
+          handleClose={handleClose}
+          tipo={tipoOperacion}
+          dt={data}
+        />
+      ) : (
+        ""
+      )}
   </div>
 
   

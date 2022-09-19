@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import {
   Dialog,
@@ -13,20 +14,22 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-
+import {  porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 
-const MunFacturacionModal = ({
+
+const EventosModal = ({
   open,
   modo,
   handleClose,
   tipo,
   dt
 }: {
+    
   open: boolean;
   modo: string;
   tipo:number;
@@ -40,9 +43,10 @@ const MunFacturacionModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
-  const [fac, setRecaudacion] = useState("");
-  const [idMunicipio, setIdmunicipio] = useState("");
- 
+  const [Imagen, setImagen] = useState("");
+
+
+  const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
  
  
@@ -61,10 +65,9 @@ const MunFacturacionModal = ({
 
 
  
- 
 
   const handleSend = () => {
-    if (fac == "") {
+    if (Imagen == "") {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -76,8 +79,11 @@ const MunFacturacionModal = ({
         CHID: id,
         CHUSER: 1,
         ANIO: anio,
-        IDMUNICIPIO: idMunicipio,
-        FACTURACION: fac,
+        IDMUNICIPIO: IdMunicipio,
+        KM2: Imagen,
+ 
+
+        
       };
 
       handleRequest(data);
@@ -100,7 +106,7 @@ const MunFacturacionModal = ({
 
 
   const agregar = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
+    CatalogosServices.eventos(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -118,7 +124,7 @@ const MunFacturacionModal = ({
   };
 
   const editar = (data: any) => {
-    CatalogosServices.munfacturacion(data).then((res) => {
+    CatalogosServices.eventos(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -140,18 +146,23 @@ const MunFacturacionModal = ({
     municipiosc();
 
     if(dt === ''  ){
-       
+        console.log(dt)
        
     }else{
         setId(dt?.row?.id)
         setAnio(dt?.row?.Anio)
-        setRecaudacion(dt?.row?.Facturacion)
-        setIdmunicipio(dt?.row?.idmunicipio)
-      
-
-    }
+        setImagen(dt?.row?.Imagen)
+        setIdMunicipio(dt?.row?.idmunicipio)
    
-  }, [dt]);
+   
+
+        console.log(dt)
+
+
+   
+    }
+   console.log(dt)
+  }, [dt] );
 
 
 
@@ -160,61 +171,8 @@ const MunFacturacionModal = ({
       <DialogTitle>{modo}</DialogTitle>
       <DialogContent>
         <Box>
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Municipio</InputLabel>
-            <Select
-              required
-              onChange={(v) => setIdmunicipio(v.target.value)}
-              value={idMunicipio}
-              label="Municipio"
-               inputProps={{
-                 readOnly: tipo == 1 ? false : true,
-              }}
-            >
-              {values?.map((item: Imunicipio) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Nombre}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-
-          <TextField
-            required
-            margin="dense"
-            id="anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
-             InputProps={{
-               readOnly: tipo == 1 ? false : true,
-               inputMode: "numeric",
-             }}
-          />
-
-          <TextField
-            margin="dense"
-            required
-            id="fac"
-            label="Facturación"
-            value={fac}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setRecaudacion(v.target.value)}
-            error={fac == "" ? true : false}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
-              ),
-            }}
-          />
+          <img id="imagen" src={Imagen}/>
+         
         </Box>
       </DialogContent>
 
@@ -226,4 +184,4 @@ const MunFacturacionModal = ({
   );
 };
 
-export default MunFacturacionModal;
+export default EventosModal;
