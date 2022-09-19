@@ -22,15 +22,6 @@ export default interface Iuser{
   CHID?:string
 }
 
-export default interface Ianios{
-    id?:number,
-    anio?:number
 
-}
 
-export default interface Imeses{
-  id?:number,
-  Descripcion?:string
-
-}
 

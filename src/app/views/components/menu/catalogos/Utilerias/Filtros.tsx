@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import Imeses from "../../../../../interfaces/general/Api_AdSisUs.type";
-import Ianios from "../../../../../interfaces/general/Api_AdSisUs.type";
+import Imeses from "../../../../../interfaces/filtros/meses";
+import Ianios from "../../../../../interfaces/filtros/anios";
 
 const Filtros = ({
   anioApply,

@@ -9,6 +9,9 @@ import {
   MenuItem,
   IconButton,
   Tooltip,
+  Select,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
@@ -27,6 +30,8 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import InfoIcon from '@mui/icons-material/Info';
 import { useNavigate } from "react-router-dom";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import Imeses from "../../../../../interfaces/filtros/meses";
 
 export const Fpg = () => {
 
@@ -40,6 +45,8 @@ export const Fpg = () => {
   const [periodo, setPeriodo] = useState("1");
   const [mes, setMes] = useState("1");
 
+  const [fondo, setFondo] = useState("FGP");
+  const [meses, setMeses] = useState<Imeses[]>();
   const periodoData = [
     {
       id: 1,
@@ -75,62 +82,13 @@ export const Fpg = () => {
     },
   ];
 
+  const mesesc = () => {
+    let data = {};
+    CatalogosServices.meses(data).then((res) => {
+      setMeses(res.RESPONSE);
+    });
+  };
   const periodoMenuItems = periodoData.map((item) => (
-    <MenuItem value={item.id}>{item.valor}</MenuItem>
-  ));
-
-  const mesData = [
-    {
-      id: 1,
-      valor: "ENERO",
-    },
-    {
-      id: 2,
-      valor: "FEBREEO",
-    },
-    {
-      id: 3,
-      valor: "MARZO",
-    },
-    {
-      id: 4,
-      valor: "ABRIL",
-    },
-    {
-      id: 5,
-      valor: "MAYO",
-    },
-    {
-      id: 6,
-      valor: "JUNIO",
-    },
-    {
-      id: 7,
-      valor: "JULIO",
-    },
-    {
-      id: 8,
-      valor: "AGOSTO",
-    },
-    {
-      id: 9,
-      valor: "SEPTIEMBRE",
-    },
-    {
-      id: 10,
-      valor: "OCTUBRE",
-    },
-    {
-      id: 11,
-      valor: "NOVIEMBRE",
-    },
-    {
-      id: 12,
-      valor: "DICIEMBRE",
-    },
-  ];
-
-  const mesMenuItems = mesData.map((item) => (
     <MenuItem value={item.id}>{item.valor}</MenuItem>
   ));
 
@@ -242,33 +200,15 @@ export const Fpg = () => {
 
 
   useEffect(() => {
-   consulta({FONDO: 'FGP' })
+    mesesc();
+   consulta({FONDO: fondo})
   }, []);
 
 
   
-  const Details = () => {
+  const AgregarCalculo = () => {
     return (
       <Grid container spacing={3}>
-        <Titulo name="Fondo Fomento Municipal 30%"></Titulo>
-        <BtnRegresar onClick={handleClose} />
-        <SubTitulo />
-        <FormTextField id={1} text="Año" inputPlaceholder="2022" />
-        <FormSelectedField
-          id={1}
-          text="Mes"
-          value={mes}
-          onChange={handleChangeMes}
-          items={mesMenuItems}
-        />
-        <FormTextField id={2} text="Monto" inputPlaceholder="1,200,199" />
-        <FormSelectedField
-          id={2}
-          text="Periodo"
-          value={periodo}
-          onChange={handleChange}
-          items={periodoMenuItems}
-        />
         <BtnCalcular onClick={handleClose} />
       </Grid>
     );
@@ -296,7 +236,7 @@ export const Fpg = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <Details />
+          <AgregarCalculo />
         </div>
       </Box>
     </>
