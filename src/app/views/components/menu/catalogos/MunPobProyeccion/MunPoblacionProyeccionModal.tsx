@@ -21,7 +21,7 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 
 
-const MunPobrezaExtremaModal = ({
+const MunPoblacionProyeccionModal = ({
   open,
   modo,
   handleClose,
@@ -42,8 +42,8 @@ const MunPobrezaExtremaModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [poblacion, setPoblacion] = useState("");
-  const [porcentaje, setPorcentage] = useState("");
-  const [carenciaProm, setCarenciaProm] = useState("");
+
+
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
  
@@ -78,9 +78,8 @@ const MunPobrezaExtremaModal = ({
         CHUSER: 1,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
-        TOTAL: poblacion,
-        PORCENTAJE : porcentaje,
-        CARENCIAPROMEDIO : carenciaProm,
+        POB: poblacion,
+ 
 
         
       };
@@ -105,7 +104,7 @@ const MunPobrezaExtremaModal = ({
 
 
   const agregar = (data: any) => {
-    CatalogosServices.munpobrezaext(data).then((res) => {
+    CatalogosServices.munproyec(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -123,7 +122,7 @@ const MunPobrezaExtremaModal = ({
   };
 
   const editar = (data: any) => {
-    CatalogosServices.munpobrezaext(data).then((res) => {
+    CatalogosServices.munproyec(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -149,13 +148,13 @@ const MunPobrezaExtremaModal = ({
        
     }else{
         setId(dt?.row?.id)
-        setAnio(dt?.row?.Anio)
-        setPoblacion(dt?.row?.Personas)
+        setAnio(dt?.row?.anio)
+        setPoblacion(dt?.row?.Pob)
         setIdMunicipio(dt?.row?.idmunicipio)
-        setPorcentage(dt?.row?.Porcentaje)
-        setCarenciaProm(dt?.row?.CarenciaProm)
+   
+   
 
-
+        console.log(dt)
 
 
    
@@ -225,44 +224,8 @@ const MunPobrezaExtremaModal = ({
               ),
             }}
           />
-           <TextField
-           
-            margin="dense"
-            required
-            id="porPob"
-            label="Porcentaje"
-            
-            value={porcentaje}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setPorcentage(v.target.value)}
-            error={porcentaje == "" ? true : false}
-            InputProps={{
-                endAdornment: (
-                <InputAdornment position="end">%</InputAdornment>
-              ),...porcentage
-            }}
-          />
-           <TextField
          
-            margin="dense"
-            required
-            id="fac"
-            
-            label="Carencia Promedio"
-            value={ carenciaProm }
-            type="percent"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setCarenciaProm(v.target.value)}
-            error={carenciaProm == "" ? true : false}
-            InputProps={{
-                endAdornment: (
-                <InputAdornment position="end">%</InputAdornment>
-              ),
-            }}
-          />
+         
         </Box>
       </DialogContent>
 
@@ -274,4 +237,4 @@ const MunPobrezaExtremaModal = ({
   );
 };
 
-export default MunPobrezaExtremaModal;
+export default MunPoblacionProyeccionModal;

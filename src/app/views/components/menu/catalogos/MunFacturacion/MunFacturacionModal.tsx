@@ -220,7 +220,7 @@ const MunFacturacionModal = ({
 
       <DialogActions>
         <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cancelar</Button>
+        <Button onClick={() => handleClose()}>Cerrar</Button>
       </DialogActions>
     </Dialog>
   );
