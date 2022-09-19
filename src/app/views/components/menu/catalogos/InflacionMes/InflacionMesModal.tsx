@@ -17,8 +17,8 @@ import {
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
-import Imeses from "../../../../../interfaces/general/Api_AdSisUs.type";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+import Imeses from "../../../../../interfaces/filtros/meses";
 
 
 
