@@ -126,7 +126,12 @@ const columns: GridColDef[] = [
                 icon: "success",
                 title: "Registro Eliminado!",
               });
-  
+              
+              let data = {
+                NUMOPERACION: 4,
+                ANIO: filterAnio,
+              };
+              consulta(data);
   
             } else {
               Alert.fire({

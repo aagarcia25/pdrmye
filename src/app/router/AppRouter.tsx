@@ -65,6 +65,7 @@ import InflacionMes from "../views/components/menu/catalogos/InflacionMes/Inflac
 import InflacionAnio from "../views/components/menu/catalogos/InflacionAnio/InflacionAnio";
 import Fondos from "../views/components/menu/catalogos/Fondos/Fondos";
 import CrecimientoAnio from "../views/components/menu/catalogos/CrecimientoAnio/CrecimientoAnio";
+import DetalleFgp from "../views/components/menu/participaciones/fpg/DetalleFgp";
 
 
 export const AppRouter = () => {
@@ -133,10 +134,7 @@ export const AppRouter = () => {
           path="/inicio/participaciones/ffm70"
           element={log ? <Ffm70 /> : <AuthRouter />}
         />
-        <Route
-          path="/inicio/participaciones/fofir"
-          element={log ? <Fofir /> : <AuthRouter />}
-        />
+      
         <Route
           path="/inicio/participaciones/fpg"
           element={log ? <Fpg /> : <AuthRouter />}
@@ -244,6 +242,17 @@ export const AppRouter = () => {
         <Route path="/inicio/articulos/art14f2" element={<Art14f2 />} />
         <Route path="/inicio/articulos/art14f3" element={<Art14f3 />} />
         {/* FIN SECCION DE ARTICULOS */}
+
+
+        {/* SECCION PARTICIPACIONES FEDERALES */}
+        <Route path="/inicio/participaciones/fpg" element={log ? <Fpg /> : <AuthRouter />} />
+        <Route path="/inicio/participaciones/fpgd/:id" element={log ? <DetalleFgp /> : <AuthRouter />} />
+        {/* FIN SECCION PARTICIPACIONES FEDERALES */}
+
+
+
+
+
       </Routes>
     </Inicio>
   );

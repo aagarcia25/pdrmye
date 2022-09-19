@@ -1,161 +1,306 @@
 
-import React, { useEffect, useState } from "react";
-import { AppBar, Box, Button, LinearProgress, Step, StepButton, StepLabel, Stepper, Tab, Tabs, TextField, Typography, useTheme } from "@mui/material";
+
+import { useEffect, useState } from "react";
+import {
+  Box,
+  Grid,
+  LinearProgress,
+  SelectChangeEvent,
+  MenuItem,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
-
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar } from "../../CustomToolbar";
+import { currencyFormatter, CustomToolbar } from "../../CustomToolbar";
 import { getUser } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { ArticulosServices } from "../../../../../services/ArticulosServices";
-
-
-
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  dir?: string;
-  index: number;
-  value: number;
-}
-
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
-  };
-}
-
-
-
-
+import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
+import { Titulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
+import { BtnRegresar } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
+import { SubTitulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/SubTitulo";
+import { FormTextField } from "../../catalogos/Utilerias/AgregarCalculoUtil/FormTextField";
+import { FormSelectedField } from "../../catalogos/Utilerias/AgregarCalculoUtil/FormSelectField";
+import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCalcular";
+import { calculosServices } from "../../../../../services/calculosServices";
+import { Toast } from "../../../../../helpers/Toast";
+import { Alert } from "../../../../../helpers/Alert";
+import InfoIcon from '@mui/icons-material/Info';
+import { useNavigate } from "react-router-dom";
 
 export const Fpg = () => {
 
 
-  
-
-  const currency = function formatomoneda() {
-    return new Intl.NumberFormat("es-MX", {
-      style: "currency",
-      currency: "MXN",
-      minimumFractionDigits: 4,
-    });
-  };
-
   const user = getUser();
-  const [Facturacion, setFacturacion] = useState([]);
 
-  const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", width: 150   ,hide: true},
-    { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
-    { field: "Recaudacion", headerName: "Año", width: 150 ,description:"BGt-2"},
-    { field: "Recaudacion", headerName: "Mes", width: 150 ,description:"RPt-1"},
-    { field: "Proporcion", headerName: "Monto", width: 200 ,description:"P=RP/BG" },
-   
+  const navigate = useNavigate();
+
+  const [data, setdata] = useState([]);
+  const [step, setstep] = useState(0);
+  const [periodo, setPeriodo] = useState("1");
+  const [mes, setMes] = useState("1");
+
+  const periodoData = [
+    {
+      id: 1,
+      valor: "MENSUAL",
+    },
+    {
+      id: 2,
+      valor: "AJUSTE",
+    },
+    {
+      id: 3,
+      valor: "1er AJUSTE CUATRIMESTRAL",
+    },
+    {
+      id: 4,
+      valor: "2do AJUSTE CUATRIMESTRAL",
+    },
+    {
+      id: 5,
+      valor: "3er AJUSTE CUATRIMESTRAL",
+    },
+    {
+      id: 6,
+      valor: "AJUSTE DEFINITIVO",
+    },
+    {
+      id: 7,
+      valor: "COMPENSACIONES FEIEF",
+    },
+    {
+      id: 8,
+      valor: "RETENCIONES FEIEF",
+    },
   ];
 
-  let data = {
-    NUMOPERACION: 4,
-    CHID: "",
-    NUMANIO: "",
-    NUMTOTALPOB: "",
-    CHUSER: 1,
+  const periodoMenuItems = periodoData.map((item) => (
+    <MenuItem value={item.id}>{item.valor}</MenuItem>
+  ));
+
+  const mesData = [
+    {
+      id: 1,
+      valor: "ENERO",
+    },
+    {
+      id: 2,
+      valor: "FEBREEO",
+    },
+    {
+      id: 3,
+      valor: "MARZO",
+    },
+    {
+      id: 4,
+      valor: "ABRIL",
+    },
+    {
+      id: 5,
+      valor: "MAYO",
+    },
+    {
+      id: 6,
+      valor: "JUNIO",
+    },
+    {
+      id: 7,
+      valor: "JULIO",
+    },
+    {
+      id: 8,
+      valor: "AGOSTO",
+    },
+    {
+      id: 9,
+      valor: "SEPTIEMBRE",
+    },
+    {
+      id: 10,
+      valor: "OCTUBRE",
+    },
+    {
+      id: 11,
+      valor: "NOVIEMBRE",
+    },
+    {
+      id: 12,
+      valor: "DICIEMBRE",
+    },
+  ];
+
+  const mesMenuItems = mesData.map((item) => (
+    <MenuItem value={item.id}>{item.valor}</MenuItem>
+  ));
+
+  const handleOpen = (v: any) => {
+    setstep(1);
   };
 
-  useEffect(() => {
-    ArticulosServices.articulof1(data).then((res) => {
-      console.log(res);
-      setFacturacion(res.RESPONSE);
+  const handleClose = (v: any) => {
+    setstep(0);
+  };
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setPeriodo(event.target.value);
+  };
+
+  const handleChangeMes = (event: SelectChangeEvent) => {
+    setMes(event.target.value);
+  };
+
+
+
+  const handleEdit = (v: any) => {
+    console.log(v)
+    navigate(`/inicio/participaciones/fpgd/${v.row.id}`)
+  };
+
+
+
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "Identificador", width: 150, hide: true },
+    {
+      field: "Clave",
+      headerName: "Clave",
+      width: 150,
+      description: "Clave Fondo",
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripcion",
+      width: 300,
+      description: "Descripcion del Fondo",
+    },
+    {
+      field: "Anio",
+      headerName: "Anio",
+      width: 150,
+      description: "Año",
+    },
+    {
+      field: "Mes",
+      headerName: "Mes",
+      width: 200,
+      description: "Mes",
+    },
+    {
+      field: "Total",
+      headerName: "Total",
+      width: 200,
+      description: "Total",
+      ...currencyFormatter
+    },
+
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Ver detalle de Cálculo",
+      sortable: false,
+      width: 100,
+      renderCell: (v) => {
+        return (
+          <Box>
+            <Tooltip title="Ver detalle de Cálculo">
+            <IconButton onClick={() => handleEdit(v)}>
+              <InfoIcon />
+            </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
+
+
+  ];
+
+
+
+
+  const consulta = (data: any) => {
+    calculosServices.calculosInfo(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        setdata(res.RESPONSE);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
     });
+
+  };
+
+
+
+
+
+  useEffect(() => {
+   consulta({FONDO: 'FGP' })
   }, []);
 
 
-
-const [value, setValue] = useState(0);
-
-const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-  setValue(newValue);
-};
-
+  
+  const Details = () => {
+    return (
+      <Grid container spacing={3}>
+        <Titulo name="Fondo Fomento Municipal 30%"></Titulo>
+        <BtnRegresar onClick={handleClose} />
+        <SubTitulo />
+        <FormTextField id={1} text="Año" inputPlaceholder="2022" />
+        <FormSelectedField
+          id={1}
+          text="Mes"
+          value={mes}
+          onChange={handleChangeMes}
+          items={mesMenuItems}
+        />
+        <FormTextField id={2} text="Monto" inputPlaceholder="1,200,199" />
+        <FormSelectedField
+          id={2}
+          text="Periodo"
+          value={periodo}
+          onChange={handleChange}
+          items={periodoMenuItems}
+        />
+        <BtnCalcular onClick={handleClose} />
+      </Grid>
+    );
+  };
 
   return (
-
-
-
-
-    <Box sx={{ }}>
-      <AppBar position="static">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="secondary"
-          textColor="inherit"
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab label="Generar Cálculo" {...a11yProps(0)} />
-          <Tab label="Visualizar Cálculo" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
-     
-        <TabPanel value={value} index={0} >
-          Generar Cálculo
-        </TabPanel>
-        <TabPanel value={value} index={1} >
-
+    <>
+      <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-       
-       <DataGrid
-        //checkboxSelection
-        pagination
-        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-        components={{
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={Facturacion}
-        columns={columns}
-
-        // loading //agregar validacion cuando se esten cargando los registros
-      />
-
-    </div>
-
-
-
-
-        </TabPanel>
-       
-      
-    </Box>
-
-  
- 
+          <ButtonsCalculo handleOpen={handleOpen} />
+          <DataGrid
+            //checkboxSelection
+            pagination
+            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+            components={{
+              Toolbar: CustomToolbar,
+              LoadingOverlay: LinearProgress,
+              NoRowsOverlay: CustomNoRowsOverlay,
+            }}
+            rowsPerPageOptions={[5, 10, 20, 50, 100]}
+            rows={data}
+            columns={columns}
+          />
+        </div>
+      </Box>
+      <Box sx={{ display: step == 1 ? "block" : "none" }}>
+        <div style={{ height: 600, width: "100%" }}>
+          <Details />
+        </div>
+      </Box>
+    </>
   );
 };
+
+
