@@ -11,6 +11,8 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import { calculosServices } from '../../../../../services/calculosServices'
 import { useParams } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import ButtonsBack from "../../catalogos/Utilerias/ButtonsBack";
 
 
 //interface Props{
@@ -20,12 +22,16 @@ import { useParams } from 'react-router-dom'
 const DetalleFgp = () => {
 
     const user = getUser();
+    const navigate = useNavigate();
     const [modo, setModo] = useState("");
     const [open, setOpen] = useState(false);
     const [slideropen, setslideropen] = useState(false);
     const [vrows, setVrows] = useState({});
     const [data, setData] = useState([]);
 
+    const handleBack = (v: any) => {
+      navigate(`/inicio/participaciones/fpg`)
+    };
 
     
     const consulta = (data: any) => {
@@ -88,6 +94,7 @@ const DetalleFgp = () => {
     <div>
       <Box >
         <div style={{ height: 600, width: "100%" }}>
+        <ButtonsBack handleOpen={handleBack} />
           <DataGrid
             //checkboxSelection
             pagination

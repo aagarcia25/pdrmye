@@ -92,61 +92,6 @@ export const Fpg = () => {
     <MenuItem value={item.id}>{item.valor}</MenuItem>
   ));
 
-  const mesData = [
-    {
-      id: 1,
-      valor: "ENERO",
-    },
-    {
-      id: 2,
-      valor: "FEBREEO",
-    },
-    {
-      id: 3,
-      valor: "MARZO",
-    },
-    {
-      id: 4,
-      valor: "ABRIL",
-    },
-    {
-      id: 5,
-      valor: "MAYO",
-    },
-    {
-      id: 6,
-      valor: "JUNIO",
-    },
-    {
-      id: 7,
-      valor: "JULIO",
-    },
-    {
-      id: 8,
-      valor: "AGOSTO",
-    },
-    {
-      id: 9,
-      valor: "SEPTIEMBRE",
-    },
-    {
-      id: 10,
-      valor: "OCTUBRE",
-    },
-    {
-      id: 11,
-      valor: "NOVIEMBRE",
-    },
-    {
-      id: 12,
-      valor: "DICIEMBRE",
-    },
-  ];
-
-  const mesMenuItems = mesData.map((item) => (
-    <MenuItem value={item.id}>{item.valor}</MenuItem>
-  ));
-
   const handleOpen = (v: any) => {
     setstep(1);
   };
@@ -261,42 +206,9 @@ export const Fpg = () => {
 
 
   
-  const Details = () => {
+  const AgregarCalculo = () => {
     return (
       <Grid container spacing={3}>
-        <Titulo name="Fondo Fomento Municipal 30%"></Titulo>
-        <BtnRegresar onClick={handleClose} />
-        <SubTitulo />
-        <FormTextField id={1} text="Año" inputPlaceholder="2022" />
-        <FormControl variant="standard" fullWidth>
-            <InputLabel>Mes</InputLabel>
-            <Select
-              required
-              onChange={(v) => setMes(v.target.value)}
-              value={mes}
-              label="Mes"
-              // inputProps={{
-              //   readOnly: tipo == 1 ? false : true,
-              // }}
-            >
-              {meses?.map((item: Imeses) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Descripcion}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-
-        <FormTextField id={2} text="Monto" inputPlaceholder="1,200,199" />
-        <FormSelectedField
-          id={2}
-          text="Periodo"
-          value={periodo}
-          onChange={handleChange}
-          items={periodoMenuItems}
-        />
         <BtnCalcular onClick={handleClose} />
       </Grid>
     );
@@ -324,7 +236,7 @@ export const Fpg = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <Details />
+          <AgregarCalculo />
         </div>
       </Box>
     </>
