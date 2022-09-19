@@ -63,10 +63,23 @@ import InflacionMes from "../views/components/menu/catalogos/InflacionMes/Inflac
 import InflacionAnio from "../views/components/menu/catalogos/InflacionAnio/InflacionAnio";
 import Fondos from "../views/components/menu/catalogos/Fondos/Fondos";
 import CrecimientoAnio from "../views/components/menu/catalogos/CrecimientoAnio/CrecimientoAnio";
-import DetalleFgp from "../views/components/menu/participaciones/fpg/DetalleFgp";
+
 import Fism from "../views/components/menu/aportaciones/fism/Fism";
 import Fortaum from "../views/components/menu/aportaciones/fortaum/Fortaum";
 import DetalleFortamun from "../views/components/menu/aportaciones/fortaum/DetalleFortamun";
+import DetalleFgp from "../views/components/menu/participaciones/fpg/DetalleFgp";
+import DetalleCompisan from "../views/components/menu/participaciones/comp-isan/DetalleCompisan";
+import DetalleFeief from "../views/components/menu/participaciones/feief/DetalleFeief";
+import DetalleFexhi  from "../views/components/menu/participaciones/fexhi/DetalleFexhi";
+import DetalleFfm30 from "../views/components/menu/participaciones/ffm30/DetalleFfm30";
+import DetalleFofir from "../views/components/menu/participaciones/fofir/DetalleFofir";
+import DetalleFfm70 from "../views/components/menu/participaciones/ffm70/DetalleFfm70";
+import DetalleIcv from "../views/components/menu/participaciones/icv/DetalleIcv";
+import DetalleIeps from "../views/components/menu/participaciones/ieps/DetalleIeps";
+import DetalleIepsgyd from "../views/components/menu/participaciones/iepsgyd/DetalleIepsgyd";
+import DetalleIsan from "../views/components/menu/participaciones/isan/DetalleIsan";
+import DetalleIsn from "../views/components/menu/participaciones/isn/DetalleIsn";
+import DetalleIsr from "../views/components/menu/participaciones/isr/DetalleIsr";
 
 
 export const AppRouter = () => {
@@ -113,22 +126,6 @@ export const AppRouter = () => {
           path="/inicio/calendario"
           element={log ? <Calendario /> : <AuthRouter />}
         />
-        <Route
-          path="/inicio/participaciones/feief"
-          element={log ? <Feief /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/participaciones/fexhi"
-          element={log ? <Fexhi /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/participaciones/ffm30"
-          element={log ? <Ffm30 /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/participaciones/ffm70"
-          element={log ? <Ffm70 /> : <AuthRouter />}
-        />
       
         <Route
           path="/inicio/participaciones/fpg"
@@ -158,10 +155,7 @@ export const AppRouter = () => {
           path="/inicio/participaciones/ieps"
           element={log ? <Ieps /> : <AuthRouter />}
         />
-        <Route
-          path="/inicio/participaciones/comp-isan"
-          element={log ? <Compisan /> : <AuthRouter />}
-        />
+        
         <Route
           path="/inicio/participaciones/iepsgyd"
           element={log ? <Iepsgyd /> : <AuthRouter />}
@@ -242,6 +236,42 @@ export const AppRouter = () => {
         {/* SECCION PARTICIPACIONES FEDERALES */}
         <Route path="/inicio/participaciones/fpg" element={log ? <Fpg /> : <AuthRouter />} />
         <Route path="/inicio/participaciones/fpgd/:id" element={log ? <DetalleFgp /> : <AuthRouter />} />
+
+        <Route path="/inicio/participaciones/comp-isan" element={log ? <Compisan /> : <AuthRouter />} />
+        <Route path="/inicio/participaciones/comp-isand/:id" element={log ? <DetalleCompisan /> : <AuthRouter />}/>
+
+        <Route path="/inicio/participaciones/feief" element={log ? <Feief /> : <AuthRouter />}/>
+        <Route path="/inicio/participaciones/feiefd/:id" element={log ? <DetalleFeief /> : <AuthRouter />}/>
+
+        <Route path="/inicio/participaciones/fexhi" element={log ? <Fexhi /> : <AuthRouter />}/>
+        <Route path="/inicio/participaciones/fexhid/:id" element={log ? <DetalleFexhi /> : <AuthRouter />}/>
+
+        <Route path="/inicio/participaciones/ffm30" element={log ? <Ffm30 /> : <AuthRouter />}/>
+        <Route path="/inicio/participaciones/ffm30d/:id" element={log ? <DetalleFfm30 /> : <AuthRouter />}/>
+
+        <Route path="/inicio/participaciones/ffm70" element={log ? <Ffm70 /> : <AuthRouter />}/>
+        <Route path="/inicio/participaciones/ffm70d/:id" element={log ? <DetalleFfm70 /> : <AuthRouter />}/>
+
+        <Route path="/inicio/participaciones/fofir" element={log ? <Fofir /> : <AuthRouter />}/>
+        <Route path="/inicio/participaciones/fofird/:id" element={log ? <DetalleFofir /> : <AuthRouter />}/>
+
+        <Route path="/inicio/participaciones/icv" element={log ? <Icv /> : <AuthRouter />}/>
+        <Route path="/inicio/participaciones/icvd/:id" element={log ? <DetalleIcv /> : <AuthRouter />}/>
+
+        <Route path="/inicio/participaciones/ieps" element={log ? <Ieps /> : <AuthRouter />}/>
+        <Route path="/inicio/participaciones/iepsd/:id" element={log ? <DetalleIeps /> : <AuthRouter />}/>
+
+        <Route path="/inicio/participaciones/iepsgyd" element={log ? <Iepsgyd /> : <AuthRouter />}/>
+        <Route path="/inicio/participaciones/iepsgydd/:id" element={log ? <DetalleIepsgyd /> : <AuthRouter />}/>
+
+        <Route path="/inicio/participaciones/isan" element={log ? <Isan /> : <AuthRouter />}/>
+        <Route path="/inicio/participaciones/isand/:id" element={log ? <DetalleIsan /> : <AuthRouter />}/>
+
+        <Route path="/inicio/participaciones/isn" element={log ? <Isn /> : <AuthRouter />}/>
+        <Route path="/inicio/participaciones/isnd/:id" element={log ? <DetalleIsn /> : <AuthRouter />}/>
+
+        <Route path="/inicio/participaciones/isr" element={log ? <Isr /> : <AuthRouter />}/>
+        <Route path="/inicio/participaciones/isrd/:id" element={log ? <DetalleIsr /> : <AuthRouter />}/>
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
 
