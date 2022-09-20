@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar } from "../../CustomToolbar";
+import { currencyFormatter, CustomToolbar } from "../../CustomToolbar";
 import { getUser } from "../../../../../services/localStorage";
 import { ArticulosServices } from "../../../../../services/ArticulosServices";
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
@@ -34,10 +34,8 @@ export const Ffm30 = () => {
   const [periodo, setPeriodo] = useState("1");
   const [mes, setMes] = useState("1");
 
-  const [fondo, setFondo] = useState("ffm30");
+  const [fondo, setFondo] = useState("FFM30");
   const [meses, setMeses] = useState<Imeses[]>();
-
-  const [Facturacion, setFacturacion] = useState([]);
 
   const mesesc = () => {
     let data = {};
@@ -70,28 +68,35 @@ export const Ffm30 = () => {
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
     {
-      field: "Municipio",
-      headerName: "Municipio",
+      field: "Clave",
+      headerName: "Clave",
       width: 150,
-      description: "Nombre del Municipio",
+      description: "Clave Fondo",
     },
     {
-      field: "Recaudacion",
-      headerName: "Año",
-      width: 150,
-      description: "BGt-2",
+      field: "Descripcion",
+      headerName: "Descripcion",
+      width: 300,
+      description: "Descripcion del Fondo",
     },
     {
-      field: "Recaudacion",
+      field: "Anio",
+      headerName: "Anio",
+      width: 150,
+      description: "Año",
+    },
+    {
+      field: "Mes",
       headerName: "Mes",
-      width: 150,
-      description: "RPt-1",
+      width: 200,
+      description: "Mes",
     },
     {
-      field: "Proporcion",
-      headerName: "Monto",
+      field: "Total",
+      headerName: "Total",
       width: 200,
-      description: "P=RP/BG",
+      description: "Total",
+      ...currencyFormatter
     },
     {
       field: "acciones",
@@ -134,10 +139,7 @@ export const Ffm30 = () => {
   useEffect(() => {
     mesesc();
     consulta({ FONDO: fondo });
-    ArticulosServices.articulof1(data).then((res) => {
-      console.log(res);
-      setFacturacion(res.RESPONSE);
-    });
+    
   }, []);
 
   const AgregarCalculo = () => {
@@ -163,7 +165,7 @@ export const Ffm30 = () => {
             NoRowsOverlay: CustomNoRowsOverlay,
           }}
           rowsPerPageOptions={[5, 10, 20, 50, 100]}
-          rows={Facturacion}
+          rows={data}
           columns={columns}
         />
       </div>

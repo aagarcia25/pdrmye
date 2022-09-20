@@ -3,7 +3,7 @@ import { Box, Grid, IconButton, LinearProgress, SelectChangeEvent, TextField, To
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
 
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar } from "../../CustomToolbar";
+import { currencyFormatter, CustomToolbar } from "../../CustomToolbar";
 import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
@@ -31,8 +31,6 @@ export const Isr = () => {
 
   const [fondo, setFondo] = useState("ISR");
   const [meses, setMeses] = useState<Imeses[]>();
-
-  const [Facturacion, setFacturacion] = useState([]);
 
   const currency = function formatomoneda() {
     return new Intl.NumberFormat("es-MX", {
@@ -71,11 +69,38 @@ export const Isr = () => {
   };
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", width: 150   ,hide: true},
-    { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
-    { field: "Recaudacion", headerName: "Año", width: 150 ,description:"BGt-2"},
-    { field: "Recaudacion", headerName: "Mes", width: 150 ,description:"RPt-1"},
-    { field: "Proporcion", headerName: "Monto", width: 200 ,description:"P=RP/BG" },
+    { field: "id", headerName: "Identificador", width: 150, hide: true },
+    {
+      field: "Clave",
+      headerName: "Clave",
+      width: 150,
+      description: "Clave Fondo",
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripcion",
+      width: 300,
+      description: "Descripcion del Fondo",
+    },
+    {
+      field: "Anio",
+      headerName: "Anio",
+      width: 150,
+      description: "Año",
+    },
+    {
+      field: "Mes",
+      headerName: "Mes",
+      width: 200,
+      description: "Mes",
+    },
+    {
+      field: "Total",
+      headerName: "Total",
+      width: 200,
+      description: "Total",
+      ...currencyFormatter
+    },
     {
       field: "acciones",
       headerName: "Acciones",
@@ -117,10 +142,6 @@ export const Isr = () => {
   useEffect(() => {
     mesesc();
     consulta({ FONDO: fondo });
-    ArticulosServices.articulof1(data).then((res) => {
-      console.log(res);
-      setFacturacion(res.RESPONSE);
-    });
   }, []);
 
   const AgregarCalculo = () => {
@@ -146,7 +167,7 @@ export const Isr = () => {
             NoRowsOverlay: CustomNoRowsOverlay,
           }}
           rowsPerPageOptions={[5, 10, 20, 50, 100]}
-          rows={Facturacion}
+          rows={data}
           columns={columns}
         />
       </div>

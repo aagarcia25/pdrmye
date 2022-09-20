@@ -13,7 +13,7 @@ import {
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
 
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar } from "../../CustomToolbar";
+import { currencyFormatter, CustomToolbar } from "../../CustomToolbar";
 import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
@@ -35,7 +35,6 @@ export const Compisan = () => {
 
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
-  const [Facturacion, setFacturacion] = useState([]);
   const [periodo, setPeriodo] = useState("1");
   const [mes, setMes] = useState("1");
 
@@ -81,28 +80,35 @@ export const Compisan = () => {
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
     {
-      field: "Municipio",
-      headerName: "Municipio",
+      field: "Clave",
+      headerName: "Clave",
       width: 150,
-      description: "Nombre del Municipio",
+      description: "Clave Fondo",
     },
     {
-      field: "Recaudacion",
-      headerName: "Año",
-      width: 150,
-      description: "BGt-2",
+      field: "Descripcion",
+      headerName: "Descripcion",
+      width: 300,
+      description: "Descripcion del Fondo",
     },
     {
-      field: "Recaudacion",
+      field: "Anio",
+      headerName: "Anio",
+      width: 150,
+      description: "Año",
+    },
+    {
+      field: "Mes",
       headerName: "Mes",
-      width: 150,
-      description: "RPt-1",
+      width: 200,
+      description: "Mes",
     },
     {
-      field: "Proporcion",
-      headerName: "Monto",
+      field: "Total",
+      headerName: "Total",
       width: 200,
-      description: "P=RP/BG",
+      description: "Total",
+      ...currencyFormatter
     },
     {
       field: "acciones",
@@ -145,10 +151,6 @@ export const Compisan = () => {
   useEffect(() => {
     mesesc();
     consulta({ FONDO: fondo });
-    ArticulosServices.articulof1(data).then((res) => {
-      console.log(res);
-      setFacturacion(res.RESPONSE);
-    });
   }, []);
 
   const AgregarCalculo = () => {
@@ -174,7 +176,7 @@ export const Compisan = () => {
               NoRowsOverlay: CustomNoRowsOverlay,
             }}
             rowsPerPageOptions={[5, 10, 20, 50, 100]}
-            rows={Facturacion}
+            rows={data}
             columns={columns}
           />
         </div>
