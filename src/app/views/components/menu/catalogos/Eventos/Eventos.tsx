@@ -13,18 +13,21 @@ import { Link, useNavigate, } from 'react-router-dom';
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 import PanoramaIcon from '@mui/icons-material/Panorama';
 import EventosModal from './EventosModal';
-
-
+import Buttons from '../Utilerias/Buttons';
+import { Toast } from "../../../../../helpers/Toast";
+import { Alert } from "../../../../../helpers/Alert";
+import Slider from "../../../Slider";
 
 export const Eventos = () => {
     
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
+  const [nuevoEvento, setNuevoEvento] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
-
+  const [plantilla, setPlantilla] = useState("");
   const [conEventos, setEventos] = useState([]);
-
+  const [slideropen, setslideropen] = useState(false);
 
 
 const columns: GridColDef[] = [
@@ -41,8 +44,7 @@ const columns: GridColDef[] = [
 
       <Box>
       <IconButton onClick={() => handleVisualizar(v)}>
-      <img    id="imagen" src={v.row.Imagen}  style={{ width: "2vw" }} 
-         />
+      <img    id="imagen" src={v.row.Imagen}  style={{ width: "2vw" }}   />
      
         </IconButton>
       </Box>
@@ -55,12 +57,45 @@ const columns: GridColDef[] = [
   ];
 
   
+  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setslideropen(true);
+    let file = event?.target?.files?.[0] || "";
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlsx");
+    formData.append("tipo", "MunFacturacion");
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Carga Exitosa!",
+        });
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+
+     
+
+    });
+  };
+  const handleNuevoRegistro = (v: any) => {
+    setTipoOperacion(1);
+    setModo("Agregar Evento");
+    setOpen(true);
+    setData(v);
+    setNuevoEvento(true);
+  };
 
   const handleVisualizar = (v: any) => {
     setTipoOperacion(2);
     setModo("Evento");
     setOpen(true);
-    setData(v);
+    setData(
+      v);
   };
 
   const handleClose = () => setOpen(false);
@@ -89,7 +124,11 @@ const columns: GridColDef[] = [
 
     <div style={{ height: 600, width: "100%" }} >
     
-     
+    <Buttons
+        handleOpen={handleNuevoRegistro}
+        url={plantilla}
+        handleUpload={handleUpload}
+      />
     <DataGrid
       //checkboxSelection
       pagination
@@ -112,11 +151,15 @@ const columns: GridColDef[] = [
           modo={modo}
           handleClose={handleClose}
           tipo={tipoOperacion}
+          nuevoEvento={nuevoEvento}
           dt={data}
+
         />
       ) : (
         ""
       )}
+
+
   </div>
 
   

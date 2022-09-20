@@ -13,8 +13,6 @@ import {
   InputAdornment,
   DialogActions,
   Button,
-  DialogContentText,
-  IconButton,
 } from "@mui/material";
 import {  porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
@@ -22,15 +20,13 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
-import { PhotoCamera } from "@mui/icons-material";
 
 
-const EventosModal = ({
+const AvisosModal = ({
   open,
   modo,
   handleClose,
   tipo,
-  nuevoEvento,
   dt
 }: {
     
@@ -38,18 +34,24 @@ const EventosModal = ({
   modo: string;
   tipo:number;
   handleClose:Function,
-  nuevoEvento:boolean;
   dt:any
 }) => {
 
 
 
+    const [tipoOperacion, setTipoOperacion] = useState(0);
+    const [data, setData] = useState({});
+  
+  
+    const [Facturacion, setFacturacion] = useState([]);
+    const [plantilla, setPlantilla] = useState("");
+    const [slideropen, setslideropen] = useState(false)
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [imagen, setImagen] = useState("");
-  const [slideropen, setslideropen] = useState(false);
+  const [anio, setAnio] = useState("");
+  const [Avisos, setAvisos] = useState("");
+
 
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
@@ -69,34 +71,10 @@ const EventosModal = ({
   };
 
 
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "MunFacturacion");
-    CatalogosServices.migraData(formData).then((res) => {
-      setslideropen(false);
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        });
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-
-     
-
-    });
-  };
+ 
 
   const handleSend = () => {
-    if (imagen == "") {
+    if (Avisos == "") {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -107,9 +85,9 @@ const EventosModal = ({
         NUMOPERACION: tipo,
         CHID: id,
         CHUSER: 1,
-      
+        ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
-        KM2: imagen,
+        KM2: Avisos,
  
 
         
@@ -135,7 +113,7 @@ const EventosModal = ({
 
 
   const agregar = (data: any) => {
-    CatalogosServices.eventos(data).then((res) => {
+    CatalogosServices.avisos(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -152,8 +130,9 @@ const EventosModal = ({
     });
   };
 
+
   const editar = (data: any) => {
-    CatalogosServices.eventos(data).then((res) => {
+    CatalogosServices.avisos(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -179,8 +158,8 @@ const EventosModal = ({
        
     }else{
         setId(dt?.row?.id)
-        setDescripcion(dt?.row?.Descripcion)
-        setImagen(dt?.row?.Imagen)
+        setAnio(dt?.row?.Anio)
+        setAvisos(dt?.row?.Documento)
         setIdMunicipio(dt?.row?.idmunicipio)
    
    
@@ -196,47 +175,21 @@ const EventosModal = ({
 
 
   return (
-    <Dialog open={open} >
+    <Dialog open={open}>
       <DialogTitle>{modo}</DialogTitle>
-    
-      <DialogContent  >
-       
-          <img id="imagen" src={imagen} style={{ width: "100%" }}/>
+      <DialogContent>
+        <Box>
+        <a href= {Avisos}>descargar</a>,
          
+        </Box>
       </DialogContent>
-      <TextField
-            required
-            margin="dense"
-            id="anio"
-           // label=
-            value ={descripcion}
-        
-            type="string"
-            fullWidth
-            variant="standard"
-            
-        
-             InputProps={{
-               readOnly: true,
-          
-             }}
-          />
-   
- 
+
       <DialogActions>
-
-   
-
-<IconButton disabled  color="primary" aria-label="upload picture" component="label">
-  <input hidden accept="image/*" type="file" />
-  <PhotoCamera  />
-</IconButton>
-      <Button onClick={() => handleClose()}>Guardar</Button>
-      <Button onClick={() => handleClose()}>Cerrar</Button>
-     
+        <Button onClick={() => handleSend()}>Guardar</Button>
+        <Button onClick={() => handleClose()}>Cerrar</Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default EventosModal;
+export default AvisosModal;

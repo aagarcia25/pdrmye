@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Link, Modal, TextField, Typography } from '@mui/material'
 import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
 
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
@@ -11,11 +11,23 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
+import AvisosModal from './AvisosModal'
 //import DescargarArchivo from './DescargarArchivo';
 
 export const Avisos = () => {
     
 
+
+
+  const [modo, setModo] = useState("");
+
+  const [tipoOperacion, setTipoOperacion] = useState(0);
+  const [data, setData] = useState({});
+
+
+  const [Facturacion, setFacturacion] = useState([]);
+  const [plantilla, setPlantilla] = useState("");
+  const [slideropen, setslideropen] = useState(false)
 
 
   const user = getUser();
@@ -30,15 +42,20 @@ const columns: GridColDef[] = [
     { field: "FechaFin", headerName: "Expiracion", width: 200 },
     { field: "Nombre", headerName: "Nombre", width: 100 },
     { field: "Descripcion", headerName: "Descripcion", width:500 },
-    { field: "Documento", headerName: "Documento", width: 100, renderCell: (params) =><a href= {params.row.Documento}><BrowserUpdatedIcon /></a>, },
+    { field: "Documento", headerName: "Documento", width: 100, renderCell: (v) => { return (
+      <Box>
+                    
+      <IconButton onClick={() => handleVisualizar(v)}>
+      <BrowserUpdatedIcon />
+      </IconButton>
+    </Box>
+    );}},
     {
       field: "acciones", headerName: "Acciones", description: "Campo de Acciones",  sortable: false, width: 100, renderCell: (v) => {
         return (
           <Box>
                     
-            <IconButton onClick={() => handleOpen(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
+          
           </Box>
         );
       },
@@ -46,11 +63,11 @@ const columns: GridColDef[] = [
    
   ];
   
-  const handleOpen = (v: any) => {
-    //setSelectedId(v.row.lastName);
-    
-
+  const handleVisualizar = (v: any) => {
+    setTipoOperacion(2);
+    setModo("Editar Registro");
     setOpen(true);
+    setData(v);
   };
 
   const handleClose = () => setOpen(false);
@@ -58,41 +75,14 @@ const columns: GridColDef[] = [
   const ButtonAdd = () =>{
     return (
    <Box>
-     <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => handleOpen(1)}>
-           <AddIcon />
-      </IconButton>
+
    </Box>
     );
   }
 
-  const DetailsModal = () => {
-    return (
-      <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Subscribe</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          To subscribe to this website, please enter your email address here. We
-          will send updates occasionally.
-        </DialogContentText>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Email Address"
-          type="email"
-          fullWidth
-          variant="standard"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose}>Subscribe</Button>
-      </DialogActions>
-    </Dialog>
-    );
-  };
 
-    let data = ({
+
+    let dat = ({
       NUMOPERACION: 4,
       CHID: "",
       NUMANIO: "",
@@ -102,7 +92,7 @@ const columns: GridColDef[] = [
   
   
     useEffect(() => {
-      CatalogosServices.avisos(data).then((res) => {
+      CatalogosServices.avisos(dat).then((res) => {
       //  console.log(res);
         setAvisos(res.RESPONSE);
       });
@@ -110,10 +100,23 @@ const columns: GridColDef[] = [
 
 
   return (
+    
 
     <div style={{ height: 600, width: "100%" }} >
-        <DetailsModal />
+   
     <ButtonAdd/>    
+    
+    {open ? (
+        <AvisosModal
+          open={open}
+          modo={modo}
+          handleClose={handleClose}
+          tipo={tipoOperacion}
+          dt={data}
+        />
+      ) : (
+        ""
+      )}
     <DataGrid
       //checkboxSelection
       pagination
