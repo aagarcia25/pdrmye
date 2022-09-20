@@ -17,6 +17,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCalcular";
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
+import AgregarCalculoForm from "../Utilerias/AgregarCalculoForm";
 
 export const Isr = () => {
 
@@ -144,14 +145,6 @@ export const Isr = () => {
     consulta({ FONDO: fondo });
   }, []);
 
-  const AgregarCalculo = () => {
-    return (
-      <Grid container spacing={3}>
-        <BtnCalcular onClick={handleClose} />
-      </Grid>
-    );
-  };
-
   return (
     <>
     <Box sx={{ display: step == 0 ? "block" : "none" }}>
@@ -174,7 +167,7 @@ export const Isr = () => {
     </Box>
     <Box sx={{ display: step == 1 ? "block" : "none" }}>
       <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculo />
+      <AgregarCalculoForm titulo="ISR Bienes Inmuebles" />
       </div>
     </Box>
   </>

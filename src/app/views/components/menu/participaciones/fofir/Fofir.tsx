@@ -17,6 +17,7 @@ import { calculosServices } from "../../../../../services/calculosServices";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCalcular";
+import AgregarCalculoForm from "../Utilerias/AgregarCalculoForm";
 
 export const Fofir = () => {
 
@@ -144,14 +145,6 @@ export const Fofir = () => {
     consulta({ FONDO: fondo });
   }, []);
 
-  const AgregarCalculo = () => {
-    return (
-      <Grid container spacing={3}>
-        <BtnCalcular onClick={handleClose} />
-      </Grid>
-    );
-  };
-
   return (
     <>
     <Box sx={{ display: step == 0 ? "block" : "none" }}>
@@ -174,7 +167,7 @@ export const Fofir = () => {
     </Box>
     <Box sx={{ display: step == 1 ? "block" : "none" }}>
       <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculo />
+      <AgregarCalculoForm titulo="Fondo de Fiscalización y Recaudación " />
       </div>
     </Box>
   </>

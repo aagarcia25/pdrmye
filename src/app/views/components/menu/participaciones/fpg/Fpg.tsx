@@ -21,6 +21,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import Imeses from "../../../../../interfaces/filtros/meses";
+import AgregarCalculoForm from "../Utilerias/AgregarCalculoForm";
 
 export const Fpg = () => {
 
@@ -194,15 +195,6 @@ export const Fpg = () => {
   }, []);
 
 
-  
-  const AgregarCalculo = () => {
-    return (
-      <Grid container spacing={3}>
-        <BtnCalcular onClick={handleClose} />
-      </Grid>
-    );
-  };
-
   return (
     <>
       <Box sx={{ display: step == 0 ? "block" : "none" }}>
@@ -225,7 +217,7 @@ export const Fpg = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <AgregarCalculo />
+        <AgregarCalculoForm titulo="Fondo General de Participaciones" />
         </div>
       </Box>
     </>

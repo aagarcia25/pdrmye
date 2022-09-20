@@ -17,6 +17,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCalcular";
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
+import AgregarCalculoForm from "../Utilerias/AgregarCalculoForm";
 
 export const Fexhi = () => {
 
@@ -174,7 +175,7 @@ export const Fexhi = () => {
     </Box>
     <Box sx={{ display: step == 1 ? "block" : "none" }}>
       <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculo />
+        <AgregarCalculoForm titulo="FEXHI" />
       </div>
     </Box>
   </>

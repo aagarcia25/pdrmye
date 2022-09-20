@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import Imeses from "../../../../../interfaces/filtros/meses";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import InfoIcon from '@mui/icons-material/Info';
+import AgregarCalculoForm from "../Utilerias/AgregarCalculoForm";
 
 export const Ffm30 = () => {
   
@@ -142,14 +143,6 @@ export const Ffm30 = () => {
     
   }, []);
 
-  const AgregarCalculo = () => {
-    return (
-      <Grid container spacing={3}>
-        <BtnCalcular onClick={handleClose} />
-      </Grid>
-    );
-  };
-
   return (
     <>
     <Box sx={{ display: step == 0 ? "block" : "none" }}>
@@ -172,7 +165,7 @@ export const Ffm30 = () => {
     </Box>
     <Box sx={{ display: step == 1 ? "block" : "none" }}>
       <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculo />
+        <AgregarCalculoForm titulo="Fondo Fomento Municipal 30%" />
       </div>
     </Box>
   </>
