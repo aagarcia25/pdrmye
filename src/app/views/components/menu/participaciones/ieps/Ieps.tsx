@@ -167,7 +167,7 @@ export const Ieps = () => {
     </Box>
     <Box sx={{ display: step == 1 ? "block" : "none" }}>
       <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculoForm titulo="Impuesto Especial sobre Producción y Servicios" />
+        <AgregarCalculoForm titulo="Impuesto Especial sobre Producción y Servicios" onClickBack={handleClose} />
       </div>
     </Box>
   </>

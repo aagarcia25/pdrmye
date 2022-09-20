@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, IconButton, LinearProgress, SelectChangeEvent, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Input, LinearProgress, SelectChangeEvent, Tooltip, Typography } from "@mui/material";
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
 
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
 import { currencyFormatter, CustomToolbar } from "../../CustomToolbar";
 import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import InfoIcon from '@mui/icons-material/Info';
-import { ArticulosServices } from "../../../../../services/ArticulosServices";
 import { useNavigate } from "react-router-dom";
 import Imeses from "../../../../../interfaces/filtros/meses";
 import { calculosServices } from "../../../../../services/calculosServices";
@@ -17,6 +14,12 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCalcular";
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
+import { Titulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
+import { SubTitulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/SubTitulo";
+import { AnioReadOnly } from "../../catalogos/Utilerias/AgregarCalculoUtil/AnioReadOnly";
+import SelectMes from "../Utilerias/SelectMes";
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import { BtnRegresar } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
 
 export const Icv = () => {
 
@@ -67,6 +70,8 @@ export const Icv = () => {
     console.log(v);
     navigate(`/inicio/participaciones/icvd/${v.row.id}`);
   };
+
+  const onClickBtnCalculator = () => {};
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
@@ -144,14 +149,32 @@ export const Icv = () => {
     consulta({ FONDO: fondo });
     
   }, []);
+     
 
-  const AgregarCalculo = () => {
-    return (
-      <Grid container spacing={3}>
-        <BtnCalcular onClick={handleClose} />
-      </Grid>
-    );
-  };
+const AgregarCalculoForm = () => {
+
+    
+
+  return (
+    <Grid container spacing={3}>
+        <Titulo name="Impuesto de Control Vehicular" />
+        <BtnRegresar onClick={handleClose}/>
+        <SubTitulo />
+        <AnioReadOnly />
+        <SelectMes/> 
+        <Grid item xs={1}></Grid> 
+        <Grid item xs={4} sx={{ mt:2, display: "flex", justifyContent: "center" }}>
+          <Typography sx={{ fontWeight: "Bold" }}>Carga de Información:</Typography>
+        </Grid>
+        <Grid item xs={2} sx={{ display: "flex", justifyContent: "start" }}>
+          <IconButton><FileUploadIcon fontSize="large"/></IconButton>
+        </Grid>
+        <Grid item xs={5}></Grid>
+      <BtnCalcular onClick={onClickBtnCalculator} />
+    </Grid>
+  );
+};  
+  
 
   return (
     <>
@@ -175,7 +198,7 @@ export const Icv = () => {
     </Box>
     <Box sx={{ display: step == 1 ? "block" : "none" }}>
       <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculo />
+        <AgregarCalculoForm />
       </div>
     </Box>
   </>

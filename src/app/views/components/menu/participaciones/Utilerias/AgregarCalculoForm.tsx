@@ -4,6 +4,7 @@ import Imeses from "../../../../../interfaces/filtros/meses";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { AnioReadOnly } from "../../catalogos/Utilerias/AgregarCalculoUtil/AnioReadOnly";
 import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCalcular";
+import { BtnRegresar } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
 import { FormTextField } from "../../catalogos/Utilerias/AgregarCalculoUtil/FormTextField";
 import { SubTitulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/SubTitulo";
 import { Titulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
@@ -12,15 +13,18 @@ import SelectPeriodo from "./SelectPeriodo";
 
 const AgregarCalculoForm = ({
   titulo,
+  onClickBack,
 }: {
   titulo: string;
+  onClickBack: Function;
 }) => {
 
     const onClickBtnCalculator = () => {};
 
   return (
     <Grid container spacing={3}>
-        <Titulo name={titulo} />
+        <Titulo name={titulo}/>
+        <BtnRegresar onClick={onClickBack}/>
         <SubTitulo />
         <AnioReadOnly />
         <SelectMes/>  

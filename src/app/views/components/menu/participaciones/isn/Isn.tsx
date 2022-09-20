@@ -168,7 +168,7 @@ export const Isn = () => {
     </Box>
     <Box sx={{ display: step == 1 ? "block" : "none" }}>
       <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculoForm titulo="Impuesto sobre Nómina" />
+        <AgregarCalculoForm titulo="Impuesto sobre Nómina" onClickBack={handleClose}/>
       </div>
     </Box>
   </>

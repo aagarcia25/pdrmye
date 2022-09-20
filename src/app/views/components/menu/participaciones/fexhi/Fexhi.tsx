@@ -175,7 +175,7 @@ export const Fexhi = () => {
     </Box>
     <Box sx={{ display: step == 1 ? "block" : "none" }}>
       <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculoForm titulo="FEXHI" />
+        <AgregarCalculoForm titulo="FEXHI" onClickBack={handleClose}/>
       </div>
     </Box>
   </>

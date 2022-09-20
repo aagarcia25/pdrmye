@@ -165,7 +165,7 @@ export const Ffm30 = () => {
     </Box>
     <Box sx={{ display: step == 1 ? "block" : "none" }}>
       <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculoForm titulo="Fondo Fomento Municipal 30%" />
+        <AgregarCalculoForm titulo="Fondo Fomento Municipal 30%" onClickBack={handleClose}/>
       </div>
     </Box>
   </>

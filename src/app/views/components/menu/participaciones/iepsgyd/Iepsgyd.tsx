@@ -167,7 +167,7 @@ export const Iepsgyd = () => {
     </Box>
     <Box sx={{ display: step == 1 ? "block" : "none" }}>
       <div style={{ height: 600, width: "100%" }}>
-      <AgregarCalculoForm titulo="Impuesto sobre la Venta Final de Gasolinas y Diesel" />
+      <AgregarCalculoForm titulo="Impuesto sobre la Venta Final de Gasolinas y Diesel" onClickBack={handleClose} />
       </div>
     </Box>
   </>

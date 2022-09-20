@@ -167,7 +167,7 @@ export const Isr = () => {
     </Box>
     <Box sx={{ display: step == 1 ? "block" : "none" }}>
       <div style={{ height: 600, width: "100%" }}>
-      <AgregarCalculoForm titulo="ISR Bienes Inmuebles" />
+      <AgregarCalculoForm titulo="ISR Bienes Inmuebles" onClickBack={handleClose}/>
       </div>
     </Box>
   </>

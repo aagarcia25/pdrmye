@@ -167,7 +167,7 @@ export const Fofir = () => {
     </Box>
     <Box sx={{ display: step == 1 ? "block" : "none" }}>
       <div style={{ height: 600, width: "100%" }}>
-      <AgregarCalculoForm titulo="Fondo de Fiscalización y Recaudación " />
+      <AgregarCalculoForm titulo="Fondo de Fiscalización y Recaudación" onClickBack={handleClose} />
       </div>
     </Box>
   </>

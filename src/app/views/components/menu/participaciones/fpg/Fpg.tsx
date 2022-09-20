@@ -217,7 +217,7 @@ export const Fpg = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculoForm titulo="Fondo General de Participaciones" />
+        <AgregarCalculoForm titulo="Fondo General de Participaciones" onClickBack={handleClose}/>
         </div>
       </Box>
     </>

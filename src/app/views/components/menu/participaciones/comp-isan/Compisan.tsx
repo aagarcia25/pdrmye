@@ -176,7 +176,7 @@ export const Compisan = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculoForm titulo="Fondo de Compensación del Impuesto sobre Automóviles Nuevos" />
+        <AgregarCalculoForm titulo="Fondo de Compensación del Impuesto sobre Automóviles Nuevos" onClickBack={handleClose} />
         </div>
       </Box>
     </>

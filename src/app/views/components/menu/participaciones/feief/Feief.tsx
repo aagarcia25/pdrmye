@@ -168,7 +168,7 @@ export const Feief = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <AgregarCalculoForm titulo="Estabilización de los Ingresos de las Entidades Federativas" />
+          <AgregarCalculoForm titulo="Estabilización de los Ingresos de las Entidades Federativas" onClickBack={handleClose}/>
         </div>
       </Box>
     </>
