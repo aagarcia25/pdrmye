@@ -3,18 +3,11 @@ import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
-  DialogContent,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
-  InputAdornment,
-  DialogActions,
   Button,
-  DialogContentText,
   IconButton,
+  Input,
 } from "@mui/material";
 import {  porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
@@ -23,6 +16,9 @@ import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipio
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { PhotoCamera } from "@mui/icons-material";
+
+
+
 
 
 const EventosModal = ({
@@ -49,12 +45,15 @@ const EventosModal = ({
   const [id, setId] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [imagen, setImagen] = useState("");
+  const [inicioEvento, setInicioEvento] = useState("");
+  const [finEvento, setFinEvento] = useState("");
+  const [fechaActual, setFechaActual] = useState(Date());
   const [slideropen, setslideropen] = useState(false);
 
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
  
- 
+
 
   
   const municipiosc = () => {
@@ -117,6 +116,15 @@ const EventosModal = ({
 
       handleRequest(data);
     }
+  };
+
+  const handleFechaInicio = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInicioEvento(event.target.value);
+  };
+
+
+  const handleFechaFin = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFinEvento(event.target.value);
   };
 
 
@@ -183,10 +191,12 @@ const EventosModal = ({
         setImagen(dt?.row?.Imagen)
         setIdMunicipio(dt?.row?.idmunicipio)
    
-   
+       
+        {console.log(finEvento)}
 
         console.log(dt)
-
+   
+console.log(fechaActual.toLocaleString())
 
    
     }
@@ -196,47 +206,95 @@ const EventosModal = ({
 
 
   return (
+
+
     <Dialog open={open} >
-      <DialogTitle>{modo}</DialogTitle>
-    
-      <DialogContent  >
+    <DialogTitle>{modo}</DialogTitle>
+   
+ { (nuevoEvento=== true)?
+
+   <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',   }}>
+
+
+          <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
        
-          <img id="imagen" src={imagen} style={{ width: "100%" }}/>
-         
-      </DialogContent>
+       <TextField
+        id="datetime-finaliza"
+        required
+        label="Fin"
+        type="datetime-local"
+     
+        onChange={handleFechaFin}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      
+      />
       <TextField
+        id="datetime-inicia"
+        required
+        label="Inicio"
+        type="datetime-local"
+        defaultValue="2022-09-21T15:20"
+        onChange={handleFechaInicio}
+        InputLabelProps={{
+          shrink: true,
+        }}
+        
+      />
+
+
+          <IconButton  color="primary" aria-label="upload picture" component="label">
+          <input hidden accept="image/*" type="file" />
+          < PhotoCamera/>
+          </IconButton>
+          </Box>
+ 
+           <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
+            <Button onClick={() => handleClose()}>Guardar</Button>
+            <Button onClick={() => handleClose()}>Cerrar</Button>
+            </Box>
+
+
+  </Box>
+  
+  : 
+     <Box  >
+        <Box >
+        <img id="imagen" src={imagen} style={{ width: "100%" }}/>
+        </Box>
+
+     <TextField
             required
             margin="dense"
             id="anio"
-           // label=
             value ={descripcion}
         
             type="string"
             fullWidth
             variant="standard"
-            
-        
-             InputProps={{
-               readOnly: true,
+         
+            InputProps={{
+            readOnly: true,
           
              }}
-          />
-   
- 
-      <DialogActions>
+          />  
+                <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
 
-   
+                <Button onClick={() => handleClose()}>Cerrar</Button>
+                </Box>           
+    </Box>
+ } 
 
-<IconButton disabled  color="primary" aria-label="upload picture" component="label">
-  <input hidden accept="image/*" type="file" />
-  <PhotoCamera  />
-</IconButton>
-      <Button onClick={() => handleClose()}>Guardar</Button>
-      <Button onClick={() => handleClose()}>Cerrar</Button>
-     
-      </DialogActions>
+
     </Dialog>
+  
   );
 };
 
 export default EventosModal;
+
+function dayjs(arg0: string): any {
+  throw new Error("Function not implemented.");
+}
+

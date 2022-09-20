@@ -94,8 +94,8 @@ const columns: GridColDef[] = [
     setTipoOperacion(2);
     setModo("Evento");
     setOpen(true);
-    setData(
-      v);
+    setData(v);
+    setNuevoEvento(false);
   };
 
   const handleClose = () => setOpen(false);
