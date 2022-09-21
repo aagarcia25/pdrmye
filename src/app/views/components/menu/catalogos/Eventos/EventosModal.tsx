@@ -99,6 +99,7 @@ console.log("carga de imagen "+ newImage)
     formData.append("DESCRIPCION", descripcion);
     formData.append("FECHAINICIO", inicioEvento);
     formData.append("FECHAFIN", finEvento);
+    formData.append("CHUSER", "1");
 
 
     console.log(formData);
@@ -289,6 +290,8 @@ console.log("carga de imagen "+ newImage)
             type="string"
             fullWidth
             variant="standard"
+            onChange={(v) => setNameEvent(v.target.value)}
+            
          
             
           />

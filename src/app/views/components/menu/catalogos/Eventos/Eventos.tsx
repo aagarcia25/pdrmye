@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material'
 import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
 import logo from '../../../../../assets/img/logo.svg';
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
@@ -86,7 +86,7 @@ const columns: GridColDef[] = [
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
-    setData(v);
+    //setData(v);
     setNuevoEvento(true);
   };
 
@@ -124,11 +124,22 @@ const columns: GridColDef[] = [
 
     <div style={{ height: 600, width: "100%" }} >
     
-    <Buttons
-        handleOpen={handleNuevoRegistro}
-        url={plantilla}
-        handleUpload={handleUpload}
-      />
+   
+    <Box sx={{}}>
+      <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+        <Tooltip title="Agregar Registro">
+          <ToggleButton value="check" onClick={() => handleNuevoRegistro(1)}>
+            <AddIcon />
+          </ToggleButton>
+        </Tooltip>
+
+      
+
+
+
+        
+      </ToggleButtonGroup>
+    </Box>
     <DataGrid
       //checkboxSelection
       pagination
