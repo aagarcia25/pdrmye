@@ -270,8 +270,8 @@ const [openModule, setOpenModule] = React.useState(false);
     
    <Drawer variant="permanent" {...other  }{...logoFijo}   >
 
-    <AppBar position="static" sx={{bgcolor: 'rgb(255, 255, 255)', zIndex: (theme) => theme.zIndex.drawer + 1, width: "100%"  }}>
-      <Toolbar>
+    <AppBar position="sticky" sx={{bgcolor: 'rgb(255, 255, 255)',  width: "100%" , }}>
+      <Toolbar >
 
       <img src={Logo} style={{ width: '100%' }} />
         

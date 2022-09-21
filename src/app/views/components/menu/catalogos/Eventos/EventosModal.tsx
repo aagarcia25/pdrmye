@@ -42,12 +42,16 @@ const EventosModal = ({
 
 
   // CAMPOS DE LOS FORMULARIOS
+  const today = new Date();
+  const year = today.getFullYear();
+
+
   const [id, setId] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [imagen, setImagen] = useState("");
   const [inicioEvento, setInicioEvento] = useState("");
   const [finEvento, setFinEvento] = useState("");
-  const [fechaActual, setFechaActual] = useState(Date());
+  const [fechaActual, setFechaActual] = useState(year);
   const [slideropen, setslideropen] = useState(false);
 
   const [IdMunicipio, setIdMunicipio] = useState("");
@@ -235,7 +239,8 @@ console.log(fechaActual.toLocaleString())
         required
         label="Inicio"
         type="datetime-local"
-        defaultValue="2022-09-21T15:20"
+        defaultValue={Date()}
+        //minValue= {Date()}
         onChange={handleFechaInicio}
         InputLabelProps={{
           shrink: true,
