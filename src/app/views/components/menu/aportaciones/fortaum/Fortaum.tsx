@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, LinearProgress } from "@mui/material";
+import { Box, Grid, IconButton, LinearProgress, Tooltip } from "@mui/material";
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
 import { currencyFormatter, CustomToolbar } from "../../CustomToolbar";
@@ -11,6 +11,8 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
 import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCalcular";
+import InfoIcon from "@mui/icons-material/Info";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
 
 const Fortaum = () => {
   const user = getUser();
@@ -22,9 +24,13 @@ const Fortaum = () => {
   const [data, setData] = useState([]);
 
   const [fondo, setFondo] = useState("FORTAMUN");
+  const [idfondo,setIdFondo] = useState("");
   const [step, setstep] = useState(0);
 
-
+  const handleEdit = (v: any) => {
+    console.log(v);
+    navigate(`/inicio/aportaciones/fortaum/${v.row.id}`);
+  };
 
   const consulta = (data: any) => {
     calculosServices.calculosInfodetalle(data).then((res) => {
@@ -44,23 +50,33 @@ const Fortaum = () => {
     });
   };
 
+  const getidfondo = () => {
+    let data = {
+      NUMOPERACION: 5,
+      CLAVE: fondo,
+    };
+    CatalogosServices.fondos(data).then((res) => {
+      setIdFondo(res.RESPONSE.id);
+    });
+  };
+
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
     {
-      field: "ClaveEstado",
-      headerName: "ClaveEstado",
+      field: "Clave",
+      headerName: "Clave",
       width: 150,
-      description: "Clave de Estado",
+      description: "Clave Fondo",
     },
     {
-      field: "Nombre",
-      headerName: "Municipio",
+      field: "Descripcion",
+      headerName: "Descripcion",
       width: 300,
-      description: "Municipio",
+      description: "Descripcion del Fondo",
     },
 
     {
-      field: "anio",
+      field: "Anio",
       headerName: "Año",
       width: 300,
       description: "Año",
@@ -73,12 +89,30 @@ const Fortaum = () => {
       description: "Total",
       ...currencyFormatter,
     },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Ver detalle de Cálculo",
+      sortable: false,
+      width: 100,
+      renderCell: (v) => {
+        return (
+          <Box>
+            <Tooltip title="Ver detalle de Cálculo">
+              <IconButton onClick={() => handleEdit(v)}>
+                <InfoIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
   ];
 
   useEffect(() => {
     consulta({ FONDO: fondo });
+    getidfondo();
   }, []);
-
 
   const handleOpen = (v: any) => {
     setstep(1);
@@ -96,12 +130,11 @@ const Fortaum = () => {
     );
   };
 
-  
   return (
     <div>
-       <Box sx={{ display: step == 0 ? "block" : "none" }}>
+      <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-        <ButtonsCalculo handleOpen={handleOpen} />
+          <ButtonsCalculo handleOpen={handleOpen} />
           <DataGrid
             //checkboxSelection
             pagination
