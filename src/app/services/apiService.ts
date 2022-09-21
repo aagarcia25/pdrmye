@@ -1,12 +1,7 @@
 import axios from 'axios';
 
 import { getFormDataHeader, getHeaderInfo, getHeaderInitial } from './tokenCreator';
-import { ApiResponse } from '../interfaces/response/ApiResponse';
 import { env_var } from '../environments/env';
-
-
-
-
 
 /**
  * MANEJO AUTOMATICO DE PETICIONES
@@ -14,32 +9,14 @@ import { env_var } from '../environments/env';
  * ADOLFO ANGEL GARCIA 10/08/2022
  */
 
-
-
-
 const handleResponse = (response: any) => {
-   // console.log('response');
-   // console.log(response);
     let rs;
-   // if (response.status === 0) {
-        // alertaSAL2("Error de Red","error",1)
-   // }
-
-  //  if (response.status === 401) {
-        // removeTokens();
-  //  }
-  //  if (response.data.status === 200) {
-
         rs = {
             RESPONSE: response.RESPONSE,
             SUCCESS: response.SUCCESS,
             NUMCODE: response.NUMCODE,
             STRMESSAGE: response.STRMESSAGE,
         }
-
-
-   // }
-    //console.log(rs);
     return rs;
 }
 

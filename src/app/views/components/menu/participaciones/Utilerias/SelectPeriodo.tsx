@@ -1,22 +1,24 @@
 import { Grid, MenuItem, Select, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Iajustes } from "../../../../../interfaces/general/app.type";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+
 
 const SelectPeriodo = ({}: {}) => {
   const [periodo, setPeriodo] = useState("");
-  const [periodos, setPeriodos] = useState<Iajustes[]>();
+  const [periodos, setPeriodos] = useState([]);
+
 
   const ajustesc = () => {
-    let data = {};
+    let data = { NUMOPERACION: 4 };
     CatalogosServices.AjustesIndex(data).then((res) => {
-      setPeriodos(res.RESPONSE);
+      setPeriodos(res.RESPONSE || "");
     });
   };
 
   useEffect(() => {
     ajustesc();
   }, []);
+
 
   return (
     <>
@@ -29,7 +31,7 @@ const SelectPeriodo = ({}: {}) => {
           alignItems: "center",
         }}
       >
-        <Typography sx={{ fontWeight: "Bold" }}>Mes:</Typography>
+        <Typography sx={{ fontWeight: "Bold" }}>Periodo:</Typography>
       </Grid>
       <Grid item xs={1.6} sx={{}}>
         <Select
@@ -40,13 +42,13 @@ const SelectPeriodo = ({}: {}) => {
           //   readOnly: tipo == 1 ? false : true,
           // }}
         >
-         {/*} {periodos?.map((item: Iajustes) => {
+          {periodos?.map((item: any) => {
             return (
               <MenuItem key={item.id} value={item.id}>
                 {item.Descripcion}
               </MenuItem>
             );
-          })}{*/}
+          })}
         </Select>
       </Grid>
       <Grid item xs={6}></Grid>

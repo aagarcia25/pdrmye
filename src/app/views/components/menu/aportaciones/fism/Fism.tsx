@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, IconButton, LinearProgress } from '@mui/material'
+import { Box, Grid, IconButton, LinearProgress, Tooltip } from '@mui/material'
 import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { currencyFormatter, CustomToolbar } from '../../CustomToolbar'
@@ -10,6 +10,10 @@ import { calculosServices } from '../../../../../services/calculosServices'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 import ButtonsBack from "../../catalogos/Utilerias/ButtonsBack";
+import InfoIcon from '@mui/icons-material/Info';
+import ButtonsCalculo from '../../catalogos/Utilerias/ButtonsCalculo'
+import { BtnCalcular } from '../../catalogos/Utilerias/AgregarCalculoUtil/BtnCalcular'
+import { CatalogosServices } from '../../../../../services/catalogosServices'
 
 
 
@@ -24,10 +28,35 @@ const Fism = () => {
     const [data, setData] = useState([]);
 
    
+    const [fondo, setFondo] = useState("FISM");
+    const [idfondo,setIdFondo] = useState("");
+    const [step, setstep] = useState(0);
 
-    
+
+    const handleOpen = (v: any) => {
+      setstep(1);
+    };
+  
+    const handleClose = (v: any) => {
+      setstep(0);
+    };
+  
+   const handleEdit = (v: any) => {
+      console.log(v)
+      navigate(`/inicio/aportaciones/fism/${v.row.id}`)
+    };
+  
+    const getidfondo = () => {
+      let data = {
+        NUMOPERACION: 5,
+        CLAVE: fondo,
+      };
+      CatalogosServices.fondos(data).then((res) => {
+        setIdFondo(res.RESPONSE.id);
+      });
+    };
     const consulta = (data: any) => {
-        calculosServices.calculosInfodetalle(data).then((res) => {
+        calculosServices.calculosInfo(data).then((res) => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
@@ -48,98 +77,23 @@ const Fism = () => {
     const columns: GridColDef[] = [
         { field: "id", headerName: "Identificador", width: 150, hide: true },
         {
-          field: "ClaveEstado",
-          headerName: "ClaveEstado",
+          field: "Clave",
+          headerName: "Clave",
           width: 150,
-          description: "Clave de Estado",
+          description: "Clave Fondo",
         },
         {
-          field: "Nombre",
-          headerName: "Municipio",
+          field: "Descripcion",
+          headerName: "Descripcion",
           width: 300,
-          description: "Municipio",
+          description: "Descripcion del Fondo",
         },
-
         {
-          field: "enero",
-          headerName: "Enero",
-          width: 300,
-          description: "Enero",
-          ...currencyFormatter
+          field: "Anio",
+          headerName: "Anio",
+          width: 150,
+          description: "Año",
         },
-
-        {
-          field: "febrero",
-          headerName: "Febrero",
-          width: 300,
-          description: "Febrero",
-          ...currencyFormatter
-        },
-
-        {
-          field: "marzo",
-          headerName: "Marzo",
-          width: 300,
-          description: "Marzo",
-          ...currencyFormatter
-        },
-
-        {
-          field: "abril",
-          headerName: "Abril",
-          width: 300,
-          description: "Abril",
-          ...currencyFormatter
-        },
-
-        {
-          field: "mayo",
-          headerName: "Mayo",
-          width: 300,
-          description: "Mayo",
-          ...currencyFormatter
-        },
-
-        {
-          field: "junio",
-          headerName: "Junio",
-          width: 300,
-          description: "Junio",
-          ...currencyFormatter
-        },
-
-        {
-          field: "julio",
-          headerName: "Julio",
-          width: 300,
-          description: "Julio",
-          ...currencyFormatter
-        },
-
-        {
-          field: "agosto",
-          headerName: "Agosto",
-          width: 300,
-          description: "Agosto",
-          ...currencyFormatter
-        },
-
-        {
-          field: "septiembre",
-          headerName: "Septiembre",
-          width: 300,
-          description: "Septiembre",
-          ...currencyFormatter
-        },
-
-        {
-          field: "octubre",
-          headerName: "Octubre",
-          width: 300,
-          description: "Octubre",
-          ...currencyFormatter
-        },
-
         {
           field: "Total",
           headerName: "Total",
@@ -148,23 +102,53 @@ const Fism = () => {
           ...currencyFormatter
         },
     
-      
+        {
+          field: "acciones",
+          headerName: "Acciones",
+          description: "Ver detalle de Cálculo",
+          sortable: false,
+          width: 100,
+          renderCell: (v) => {
+            return (
+              <Box>
+                <Tooltip title="Ver detalle de Cálculo">
+                <IconButton onClick={() => handleEdit(v)}>
+                  <InfoIcon />
+                </IconButton>
+                </Tooltip>
+              </Box>
+            );
+          },
+        },
+    
     
     
       ];
     
 
 
-      let params = useParams();
+      const AgregarCalculo = () => {
+        return (
+          <Grid container spacing={3}>
+            <BtnCalcular onClick={handleClose} />
+          </Grid>
+        );
+      };
+
+
       useEffect(() => {
-        consulta({IDCALCULOTOTAL: params.id})
+        consulta({ FONDO: fondo });
+        getidfondo();
       }, []);
+
+      
 
 
   return (
     <div>
-      <Box >
+       <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
+        <ButtonsCalculo handleOpen={handleOpen} />
           <DataGrid
             //checkboxSelection
             pagination
@@ -180,7 +164,11 @@ const Fism = () => {
           />
         </div>
       </Box>
-     
+      <Box sx={{ display: step == 1 ? "block" : "none" }}>
+        <div style={{ height: 600, width: "100%" }}>
+          <AgregarCalculo />
+        </div>
+      </Box>
     </div>
   )
 }

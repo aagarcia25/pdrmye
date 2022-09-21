@@ -37,50 +37,17 @@ export const Fpg = () => {
 
   const [fondo, setFondo] = useState("FGP");
   const [meses, setMeses] = useState<Imeses[]>();
-  const periodoData = [
-    {
-      id: 1,
-      valor: "MENSUAL",
-    },
-    {
-      id: 2,
-      valor: "AJUSTE",
-    },
-    {
-      id: 3,
-      valor: "1er AJUSTE CUATRIMESTRAL",
-    },
-    {
-      id: 4,
-      valor: "2do AJUSTE CUATRIMESTRAL",
-    },
-    {
-      id: 5,
-      valor: "3er AJUSTE CUATRIMESTRAL",
-    },
-    {
-      id: 6,
-      valor: "AJUSTE DEFINITIVO",
-    },
-    {
-      id: 7,
-      valor: "COMPENSACIONES FEIEF",
-    },
-    {
-      id: 8,
-      valor: "RETENCIONES FEIEF",
-    },
-  ];
-
+  
+  
+  
+  
   const mesesc = () => {
     let data = {};
     CatalogosServices.meses(data).then((res) => {
       setMeses(res.RESPONSE);
     });
   };
-  const periodoMenuItems = periodoData.map((item) => (
-    <MenuItem value={item.id}>{item.valor}</MenuItem>
-  ));
+ 
 
   const handleOpen = (v: any) => {
     setstep(1);

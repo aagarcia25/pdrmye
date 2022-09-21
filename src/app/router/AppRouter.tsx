@@ -80,6 +80,7 @@ import DetalleIepsgyd from "../views/components/menu/participaciones/iepsgyd/Det
 import DetalleIsan from "../views/components/menu/participaciones/isan/DetalleIsan";
 import DetalleIsn from "../views/components/menu/participaciones/isn/DetalleIsn";
 import DetalleIsr from "../views/components/menu/participaciones/isr/DetalleIsr";
+import DetalleFism from "../views/components/menu/aportaciones/fism/DetalleFism";
 
 
 export const AppRouter = () => {
@@ -89,14 +90,13 @@ export const AppRouter = () => {
     <Inicio>
       <Routes>
              
-             <Route path="/bloqueosesion" element={log?<Eo404/>:<BloqueoSesion />} />
+        <Route path="/bloqueosesion" element={log?<Eo404/>:<BloqueoSesion />} />
         
         <Route path="/*" element={log ? <Eo404 /> : <AuthRouter />} />
     
 
 
 
-        {/* <Route path="/auth/*"   element={ (log) ? <Bienvenido />:  <AuthRouter />    } /> */}
         <Route
           path="/bienvenido"
           element={log ? <Bienvenido /> : <AuthRouter />}
@@ -278,6 +278,8 @@ export const AppRouter = () => {
 
         {/* SECCION APORTACIONES FEDERALES */}
         <Route path="/inicio/aportaciones/fism"    element={log ? <Fism /> : <AuthRouter />} />
+        <Route path="/inicio/aportaciones/fism/:id" element={log ? <DetalleFism /> : <AuthRouter />} />
+
         <Route path="/inicio/aportaciones/fortaum" element={log ? <Fortaum /> : <AuthRouter />} />
         <Route path="/inicio/aportaciones/fortaum/:id" element={log ? <DetalleFortamun /> : <AuthRouter />} />
         {/* FIN SECCION APORTACIONES FEDERALES */}
