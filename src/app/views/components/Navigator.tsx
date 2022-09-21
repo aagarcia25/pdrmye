@@ -224,14 +224,7 @@ export const categories = [
   ],
 },
 
-
-
-
-
 ];
-
-
-
 
 /////////////////////////////////// color de fuente children del menu 
 const item = {
@@ -268,53 +261,31 @@ const [openModule, setOpenModule] = React.useState(false);
   return (
  
     
-   <Drawer variant="permanent" {...other  }{...logoFijo}   >
-
+   <Drawer variant="permanent" {...other  }{...logoFijo}>
     <AppBar position="sticky" sx={{bgcolor: 'rgb(255, 255, 255)',  width: "100%" , }}>
       <Toolbar >
-
       <img src={Logo} style={{ width: '100%' }} />
-        
       </Toolbar>
-
     </AppBar>
-
-
     {categories.map(({ id, children }) => (
  <Box key={id} sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', }}>
 
-
  </Box>
   
-
 ))}
-
       <List disablePadding>
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#111111', bgcolor: '#FFFFFF' }}>
 
         </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory, color: '#111111', bgcolor: '#FFFFFF' }}>
-          <ListItemIcon>
-          </ListItemIcon>
-          <ListItemText>
-          </ListItemText>
-        </ListItem>
-
-       
+     
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
-            
-            
-            
+
             <ListItem  onClick={handleClick} sx={{ py: 2, px: 3 }}>
               <ListItemText sx={{ color: '#555555' }} >{id}</ListItemText>
               {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
             </ListItem>
-
-
-
-
-            {children.map(({ id: childId, icon, path }) => (
+              {children.map(({ id: childId, icon, path }) => (
               
 
               <ListItem disablePadding key={childId}>

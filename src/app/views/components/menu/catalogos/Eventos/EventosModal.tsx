@@ -15,7 +15,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
-import { PhotoCamera } from "@mui/icons-material";
+import { Label, PhotoCamera } from "@mui/icons-material";
 
 
 
@@ -42,24 +42,40 @@ const EventosModal = ({
 
 
   // CAMPOS DE LOS FORMULARIOS
-  const today = new Date();
-  const year = today.getFullYear();
-
-
+  const today = new Date().toISOString();
   const [id, setId] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [imagen, setImagen] = useState("");
-  const [inicioEvento, setInicioEvento] = useState("");
+  const [nameNewImage, setNameNewImage] = useState("");
+  const [nameEvent, setNameEvent] = useState("");
+  const [newImage, setNewImage] = useState(Object);
   const [finEvento, setFinEvento] = useState("");
-  const [fechaActual, setFechaActual] = useState(year);
+  const [image, setImage] = useState("");
+  
   const [slideropen, setslideropen] = useState(false);
-
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
- 
+  var hoy = new Date()
+  var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2) ;
+  var hora = ('0' + hoy.getHours()).slice(-2) + ':' + ('0' + hoy.getMinutes()).slice(-2);
+  var fechaInicioEvento:"";
+  var Fecha_min = fecha +'T'+ hora;
+  const [inicioEventoMin, setInicioEventoMin] = useState(Fecha_min);
+  const [inicioEvento, setInicioEvento] = useState( Fecha_min);
 
 
-  
+
+
+  const testeoVariables = () => {
+    console.log("inicio de evento seteado    "+inicioEvento)
+    console.log("fin de evento   "+finEvento)
+    console.log("det"+ dt)
+  console.log("fecha y hora  minimo     "+inicioEventoMin);
+console.log("carga de imagen "+ newImage)
+
+  }
+
+
+
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -72,13 +88,22 @@ const EventosModal = ({
   };
 
 
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = () => {
     setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
+    
     const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "MunFacturacion");
-    CatalogosServices.migraData(formData).then((res) => {
+    formData.append("IMAGEN", newImage, nameNewImage);
+    formData.append("NUMOPERACION", "1");
+    formData.append("CHID", "");
+    formData.append("NOMBRE", nameEvent);
+    formData.append("DESCRIPCION", descripcion);
+    formData.append("FECHAINICIO", inicioEvento);
+    formData.append("FECHAFIN", finEvento);
+
+
+    console.log(formData);
+
+    CatalogosServices.eventos(formData).then((res) => {
       setslideropen(false);
       if (res.SUCCESS) {
         Toast.fire({
@@ -98,37 +123,22 @@ const EventosModal = ({
     });
   };
 
-  const handleSend = () => {
-    if (imagen == "") {
-      Alert.fire({
-        title: "Error!",
-        text: "Favor de Completar los Campos",
-        icon: "error",
-      });
-    } else {
-      let data = {
-        NUMOPERACION: tipo,
-        CHID: id,
-        CHUSER: 1,
-      
-        IDMUNICIPIO: IdMunicipio,
-        KM2: imagen,
- 
-
-        
-      };
-
-      handleRequest(data);
-    }
-  };
 
   const handleFechaInicio = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInicioEvento(event.target.value);
+    setInicioEvento(event.target.value.toString());
   };
 
 
   const handleFechaFin = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFinEvento(event.target.value);
+    setFinEvento(event.target.value.toString());
+  };
+  const handleNewImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let file = event?.target?.files?.[0] || "";
+    let nameImageNew= event?.target?.files?.[0].name|| "";
+
+    setNameNewImage(nameImageNew);
+    setNewImage(file);
+    console.log(newImage)
   };
 
 
@@ -143,8 +153,6 @@ const EventosModal = ({
       editar(data);
     }
   };
-
-
 
   const agregar = (data: any) => {
     CatalogosServices.eventos(data).then((res) => {
@@ -192,15 +200,15 @@ const EventosModal = ({
     }else{
         setId(dt?.row?.id)
         setDescripcion(dt?.row?.Descripcion)
-        setImagen(dt?.row?.Imagen)
+        setImage(dt?.row?.Imagen)
         setIdMunicipio(dt?.row?.idmunicipio)
    
        
-        {console.log(finEvento)}
-
+        console.log("inicio de evento seteado"+inicioEvento)
+        console.log(finEvento)
         console.log(dt)
    
-console.log(fechaActual.toLocaleString())
+      console.log("fecha y hora "+inicioEventoMin);
 
    
     }
@@ -221,43 +229,87 @@ console.log(fechaActual.toLocaleString())
 
 
           <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
-       
-       <TextField
-        id="datetime-finaliza"
-        required
-        label="Fin"
-        type="datetime-local"
-     
-        onChange={handleFechaFin}
-        InputLabelProps={{
-          shrink: true,
-        }}
       
-      />
-      <TextField
+                <Box>
+                
+                 <IconButton  color="primary" aria-label="upload picture" component="label" >
+                 Cargar Imagen
+                 <input required hidden accept="image/*" type="file"
+                  onChange={(v) =>handleNewImage(v)}
+                                 
+                 />
+                 < PhotoCamera/>
+                  </IconButton>
+                  </Box>
+
+
+
+            <Box sx={{alignItems:"center"}}>
+        <label >Fin de evento</label>
+          <input
+            id="datetime-finaliza"
+        required      
+        type="datetime-local"
+        defaultValue={inicioEventoMin}
+        min = {inicioEvento}
+        onChange={handleFechaFin}
+           
+          />
+           </Box>
+
+
+             <Box>
+        <label >Inicio de evento </label>
+        <input
+
         id="datetime-inicia"
         required
-        label="Inicio"
         type="datetime-local"
-        defaultValue={Date()}
-        //minValue= {Date()}
+        defaultValue={inicioEventoMin}
+        min = {inicioEventoMin}  
+        max = {finEvento}     
         onChange={handleFechaInicio}
-        InputLabelProps={{
-          shrink: true,
-        }}
+     
         
-      />
+              />
+            </Box>
 
+           
 
-          <IconButton  color="primary" aria-label="upload picture" component="label">
-          <input hidden accept="image/*" type="file" />
-          < PhotoCamera/>
-          </IconButton>
           </Box>
  
-           <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
-            <Button onClick={() => handleClose()}>Guardar</Button>
-            <Button onClick={() => handleClose()}>Cerrar</Button>
+ 
+
+            <TextField
+            required
+            margin="dense"
+            id="anio"
+            //value ={descripcion}
+            label="Nombre"
+            type="string"
+            fullWidth
+            variant="standard"
+         
+            
+          />
+          <TextField
+            required
+            margin="dense"
+            id="anio"
+            //value ={descripcion}
+             label ="Descripcion"
+            type="string"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setDescripcion(v.target.value)}
+         
+           
+          />
+
+
+            <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
+            <Button onClick={() => handleUpload() } >Guardar</Button>
+            <Button onClick={() => handleClose()}  >Cancelar</Button>
             </Box>
 
 
@@ -266,7 +318,7 @@ console.log(fechaActual.toLocaleString())
   : 
      <Box  >
         <Box >
-        <img id="imagen" src={imagen} style={{ width: "100%" }}/>
+        <img id="imagen" src={image} style={{ width: "100%" }}/>
         </Box>
 
      <TextField
@@ -286,7 +338,7 @@ console.log(fechaActual.toLocaleString())
           />  
                 <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
 
-                <Button onClick={() => handleClose()}>Cerrar</Button>
+                <Button onClick={() => handleClose() }>Cerrar</Button>
                 </Box>           
     </Box>
  } 
@@ -298,8 +350,4 @@ console.log(fechaActual.toLocaleString())
 };
 
 export default EventosModal;
-
-function dayjs(arg0: string): any {
-  throw new Error("Function not implemented.");
-}
 
