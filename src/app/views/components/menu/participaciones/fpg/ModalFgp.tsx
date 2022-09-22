@@ -23,14 +23,12 @@ import Slider from "../../../Slider";
 
 const ModalFgp = ({
   titulo,
-  onClickBack
+  onClickBack,
 }: {
   titulo: string;
   onClickBack: Function;
 }) => {
-
-
-  const user: RESPONSE =  JSON.parse(String(getUser()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const [slideropen, setslideropen] = useState(false);
   const [mes, setMes] = useState("");
   const [monto, setMonto] = useState("");
@@ -39,13 +37,7 @@ const ModalFgp = ({
   const [meses, setMeses] = useState<Imeses[]>();
   let year: number = new Date().getFullYear();
 
-
-
-
-
-
   const handleSend = () => {
-
     if (monto == "") {
       Alert.fire({
         title: "Error!",
@@ -53,7 +45,6 @@ const ModalFgp = ({
         icon: "error",
       });
     } else {
-
       let data = {
         CHUSER: user.id,
         NUMOPERACION: 1,
@@ -91,18 +82,12 @@ const ModalFgp = ({
     });
   };
 
-
-
   const ajustesc = () => {
     let data = { NUMOPERACION: 4 };
     CatalogosServices.AjustesIndex(data).then((res) => {
       setPeriodos(res.RESPONSE || "");
     });
   };
-
-
-
-
 
   useEffect(() => {
     // SE ESTABLECE EL TIEMPO EN ESPERA PARA QUE SE CARGEN DE FORMA CORRECTA LOS COMPONENTES
@@ -111,144 +96,135 @@ const ModalFgp = ({
       mesesc();
       ajustesc();
       setslideropen(false);
-    }, 3000)
-    
-   
+    }, 3000);
   }, []);
-
-
 
   return (
     <div>
-    <Slider open={slideropen}></Slider>
-    <Grid container spacing={3}>
-      <Titulo name={titulo} />
-      <BtnRegresar onClick={onClickBack} />
-      <SubTitulo />
+      <Slider open={slideropen}></Slider>
+      <Grid container spacing={3}>
+        <Titulo name={titulo} />
+        <BtnRegresar onClick={onClickBack} />
+        <SubTitulo />
 
-      <Grid
-        item
-        xs={6}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Typography sx={{ fontWeight: "Bold" }}>Año:</Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <Input id="anio" fullWidth readOnly defaultValue={year}></Input>
-      </Grid>
-
-      <Grid
-        item
-        xs={6}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Typography sx={{ fontWeight: "Bold" }}>Mes:</Typography>
-      </Grid>
-
-
-      <Grid item xs={6} sx={{}}>
-
-
-        <Select
-          fullWidth
-          id="mes"
-          value={mes}
-          required
-          onChange={(v) => setMes(v.target.value)}
-        >
-          {meses?.map((item: Imeses) => {
-            return (
-              <MenuItem key={item.id} value={item.id}>
-                {item.Descripcion}
-              </MenuItem>
-            );
-          })}
-        </Select>
-
-
-      </Grid>
-
-      <Grid
-        item
-        xs={6}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Typography sx={{ fontWeight: "Bold" }}>Monto:</Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <Input
-          required
-          fullWidth
-          placeholder="1500000*"
-          id="monto"
-          onChange={(v) => setMonto(v.target.value)}
-          error={monto == "" ? true : false}
-          type="number"
-        ></Input>
-      </Grid>
-
-      <Grid
-        item
-        xs={6}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Typography sx={{ fontWeight: "Bold" }}>Periodo:</Typography>
-      </Grid>
-      <Grid item xs={6} sx={{}}>
-        <Select
-          fullWidth
-          id="periodo"
-          required
-          onChange={(v) => setPeriodo(v.target.value)}
-          value={periodo}
-        >
-          {periodos?.map((item: any) => {
-            return (
-              <MenuItem key={item.id} value={item.id}>
-                {item.Descripcion}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </Grid>
-
-      <Grid
-        item
-        xs={12}
-        sx={{ mt: 3, display: "flex", justifyContent: "center" }}
-      >
-        <IconButton
-          onClick={handleSend}
+        <Grid
+          item
+          xs={6}
           sx={{
-            borderRadius: 1,
-            border: 1,
-            bgcolor: COLOR.negro,
-            color: COLOR.blanco,
-            "&:hover": {
-              bgcolor: COLOR.grisTarjetaBienvenido,
-              color: COLOR.negro,
-            },
+            display: "flex",
+            justifyContent: "right",
           }}
         >
-          <CalculateIcon />
-          Calcular
-        </IconButton>
+          <Typography sx={{ fontWeight: "Bold" }}>Año:</Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Input id="anio" fullWidth readOnly defaultValue={year}></Input>
+        </Grid>
+
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            justifyContent: "right",
+            alignItems: "center",
+          }}
+        >
+          <Typography sx={{ fontWeight: "Bold" }}>Mes:</Typography>
+        </Grid>
+
+        <Grid item xs={4} sx={{}}>
+          <Select
+            fullWidth
+            id="mes"
+            value={mes}
+            required
+            onChange={(v) => setMes(v.target.value)}
+          >
+            {meses?.map((item: Imeses) => {
+              return (
+                <MenuItem key={item.id} value={item.id}>
+                  {item.Descripcion}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </Grid>
+
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            justifyContent: "right",
+          }}
+        >
+          <Typography sx={{ fontWeight: "Bold" }}>Monto:</Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Input
+            required
+            fullWidth
+            placeholder="1500000*"
+            id="monto"
+            onChange={(v) => setMonto(v.target.value)}
+            error={monto == "" ? true : false}
+            type="number"
+          ></Input>
+        </Grid>
+
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            justifyContent: "right",
+            alignItems: "center",
+          }}
+        >
+          <Typography sx={{ fontWeight: "Bold" }}>Periodo:</Typography>
+        </Grid>
+        <Grid item xs={4} sx={{}}>
+          <Select
+            fullWidth
+            id="periodo"
+            required
+            onChange={(v) => setPeriodo(v.target.value)}
+            value={periodo}
+          >
+            {periodos?.map((item: any) => {
+              return (
+                <MenuItem key={item.id} value={item.id}>
+                  {item.Descripcion}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          sx={{ mt: 3, display: "flex", justifyContent: "center" }}
+        >
+          <IconButton
+            onClick={handleSend}
+            sx={{
+              borderRadius: 1,
+              border: 1,
+              bgcolor: COLOR.negro,
+              color: COLOR.blanco,
+              "&:hover": {
+                bgcolor: COLOR.grisTarjetaBienvenido,
+                color: COLOR.negro,
+              },
+            }}
+          >
+            <CalculateIcon />
+            Calcular
+          </IconButton>
+        </Grid>
       </Grid>
-    </Grid>
     </div>
   );
 };
