@@ -53,7 +53,7 @@ import { calculosServices } from "../../../../../services/calculosServices";
         let data = {
             CHUSER: 1,
             NUMOPERACION: 1,
-            IDESTATUS:1,
+            IDESTATUS:'30ec276f-2b14-11ed-afdb-040300000000',
             CLAVEFONDO:"FGP",
             ANIO:year,
             MES:mes,
@@ -98,6 +98,8 @@ import { calculosServices } from "../../../../../services/calculosServices";
         setPeriodos(res.RESPONSE || "");
       });
     };
+
+    
   
     useEffect(() => {
       mesesc();
