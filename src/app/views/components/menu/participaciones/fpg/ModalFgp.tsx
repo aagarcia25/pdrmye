@@ -128,7 +128,7 @@ const ModalFgp = ({
 
       <Grid
         item
-        xs={3}
+        xs={6}
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -136,14 +136,13 @@ const ModalFgp = ({
       >
         <Typography sx={{ fontWeight: "Bold" }}>Año:</Typography>
       </Grid>
-      <Grid item xs={3}>
-        <Input id="anio" readOnly defaultValue={year}></Input>
+      <Grid item xs={6}>
+        <Input id="anio" fullWidth readOnly defaultValue={year}></Input>
       </Grid>
-      <Grid item xs={6}></Grid>
 
       <Grid
         item
-        xs={3}
+        xs={6}
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -154,10 +153,11 @@ const ModalFgp = ({
       </Grid>
 
 
-      <Grid item xs={1.6} sx={{}}>
+      <Grid item xs={6} sx={{}}>
 
 
         <Select
+          fullWidth
           id="mes"
           value={mes}
           required
@@ -175,12 +175,9 @@ const ModalFgp = ({
 
       </Grid>
 
-
-      <Grid item xs={6}></Grid>
-
       <Grid
         item
-        xs={3}
+        xs={6}
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -188,9 +185,10 @@ const ModalFgp = ({
       >
         <Typography sx={{ fontWeight: "Bold" }}>Monto:</Typography>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={6}>
         <Input
           required
+          fullWidth
           placeholder="1500000*"
           id="monto"
           onChange={(v) => setMonto(v.target.value)}
@@ -198,11 +196,10 @@ const ModalFgp = ({
           type="number"
         ></Input>
       </Grid>
-      <Grid item xs={6}></Grid>
 
       <Grid
         item
-        xs={3}
+        xs={6}
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -211,8 +208,9 @@ const ModalFgp = ({
       >
         <Typography sx={{ fontWeight: "Bold" }}>Periodo:</Typography>
       </Grid>
-      <Grid item xs={1.6} sx={{}}>
+      <Grid item xs={6} sx={{}}>
         <Select
+          fullWidth
           id="periodo"
           required
           onChange={(v) => setPeriodo(v.target.value)}
@@ -227,11 +225,10 @@ const ModalFgp = ({
           })}
         </Select>
       </Grid>
-      <Grid item xs={6}></Grid>
 
       <Grid
         item
-        xs={3}
+        xs={12}
         sx={{ mt: 3, display: "flex", justifyContent: "center" }}
       >
         <IconButton
