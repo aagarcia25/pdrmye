@@ -35,7 +35,6 @@ export const categories = [
   {
     id: 'Catálogos',
     children: [
-
       { id: 'Municipios', icon: <Article />, path: '/inicio/catalogos/mun' },
       { id: 'Municipio Póblacion', icon: <Article />, path: '/inicio/catalogos/munpob' },
       { id: 'Municipio Facturación', icon: <Article />, path: '/inicio/catalogos/munfacturacion' },
@@ -44,12 +43,9 @@ export const categories = [
       { id: 'Municipio Póblacion Proyección', icon: <Article />, path: '/inicio/catalogos/munproyec' },
       { id: 'Municipio Recaudación', icon: <Article />, path: '/inicio/catalogos/munrecaudacion' },
       { id: 'Municipio Territorio', icon: <Article />, path: '/inicio/catalogos/munterritorio' },
-      
       { id: 'Avisos', icon: <Article />, path: '/inicio/catalogos/avisos' },
       { id: 'Eventos', icon: <Article />, path: '/inicio/catalogos/eventos' },
       { id: 'Departamentos', icon: <Article />, path: '/inicio/catalogos/departamentos' },
-     
-      
       { id: 'Tipo de Fondos', icon: <Article />, path: '/inicio/catalogos/tipoFondo' },
       { id: 'Tasa de Interes', icon: <Article />, path: '/inicio/catalogos/tasa' },
       { id: 'UMAS', icon: <Article />, path: '/inicio/catalogos/umas' },
@@ -57,31 +53,32 @@ export const categories = [
       { id: 'Inflación Mes', icon: <Article />, path: '/inicio/catalogos/inflacionMes' },
       { id: 'Inflación Año', icon: <Article />, path: '/inicio/catalogos/inflacionAnio' },
       { id: 'Crecimiento Año', icon: <Article />, path: '/inicio/catalogos/crecimientoAnio' },
-
       { id: 'Administración de Fondos', icon: <Article />, path: '/inicio/catalogos/fondos' },
-
     ],
   },
+
   {
     id: 'Articulos',
     children: [
       { id: 'Art. 14 FI ', icon: <Article />, path: '/inicio/articulos/art14f1' },
       { id: 'Art. 14 FII', icon: <Article />, path: '/inicio/articulos/art14f2' },
       { id: 'Art. 14 FIII', icon: <Article />, path: '/inicio/articulos/art14f3' },
-
     ],
   },
+
+
   {
     id: 'Participaciones Estatales',
     children: [
       { id: 'ISN', icon: <Article />, path: '/inicio/participaciones/isn' },
       { id: 'ICV', icon: <Article />, path: '/inicio/participaciones/icv' },
-
     ],
   },
+
   {
     id: 'Participaciones Federales',
     children: [
+      { id: 'Anticipo de Participaciones', icon: <Article />, path: '/bienvenido' },
       { id: 'FPG', icon: <Article />, path: '/inicio/participaciones/fpg' },
       { id: 'FFM30', icon: <Article />, path: '/inicio/participaciones/ffm30' },
       { id: 'FFM70', icon: <Article />, path: '/inicio/participaciones/ffm70' },
@@ -93,7 +90,6 @@ export const categories = [
       { id: 'IEPSGyD', icon: <Article />, path: '/inicio/participaciones/iepsgyd' },
       { id: 'ISR', icon: <Article />, path: '/inicio/participaciones/isr' },
       { id: 'FEIEF', icon: <Article />, path: '/inicio/participaciones/feief' },
-
     ],
   },
   {
@@ -113,6 +109,7 @@ export const categories = [
     ],
   },
   
+
   {
     id: 'Roles y Privilegios',
     children: [
@@ -121,6 +118,7 @@ export const categories = [
 
     ],
   },
+
   {
     id: 'Contacto Municipios',
     children: [
@@ -183,47 +181,24 @@ export const categories = [
     ],
   },
 
- // DAMOP
+
  
 
 
- {
-  id: 'DAMOP',
-  children: [],
-},
- 
- {
-  id: 'Participaciones',
-  children: [
-    { id: 'Anticipo de Participaciones', icon: <Article />, path: '/bienvenido' },
-    { id: 'Participaciones Federales', icon: <Article />, path: '/bienvenido' },
-    { id: 'Participaciones Estatales', icon: <Article />, path: '/bienvenido' },
-  ],
-},
 
 
 
 
 
-{
-  id: 'Aportaciones Federales',
-  children: [
-    { id: 'FISM', icon: <Article />, path: '/bienvenido' },
-    { id: 'FORTAMUN', icon: <Article />, path: '/bienvenido' },
-  ],
-},
 
-{
-  id: 'Aportaciones Estatales',
-  children: [
-    { id: 'FONDO DE DESARROLLO MUNICIPAL', icon: <Article />, path: '/bienvenido' },
-    { id: 'FONDO DE ULTRACRECIMIENTO MUNICIPAL', icon: <Article />, path: '/bienvenido' },
-    { id: 'FONDOS DESCENTRALIZADOS', icon: <Article />, path: '/bienvenido' },
-    { id: 'FONDO DE SEGURIDAD PARA LOS MUNICIPIOS', icon: <Article />, path: '/bienvenido' },
-  ],
-},
+
+
 
 ];
+
+
+
+
 
 /////////////////////////////////// color de fuente children del menu 
 const item = {

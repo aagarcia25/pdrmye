@@ -3,9 +3,7 @@ import {
   Button,
   createTheme,
   Divider,
-  Fab,
   Input,
-  TextField,
   ThemeProvider,
   Typography,
 } from "@mui/material";
@@ -16,8 +14,15 @@ import SaveIcon from "@mui/icons-material/Save";
 import SearchIcon from "@mui/icons-material/Search";
 import UploadIcon from "@mui/icons-material/Upload";
 import { BorderBottom } from "@mui/icons-material";
+import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { getUser } from "../../../services/localStorage";
 
 export function Perfil() {
+
+
+  const user: RESPONSE =  JSON.parse(String(getUser()));
+
+  
   const theme = createTheme();
 
   theme.typography.h3 = {
@@ -114,7 +119,7 @@ export function Perfil() {
             <PersonIcon sx={{ fontSize: "8vw" }} />
             <ThemeProvider theme={theme}>
               <Typography variant="h3" sx={{ fontWeight: "Bold" }}>
-                Cesar Garza
+              {user.Nombre + ' ' + user.ApellidoPaterno + ' '+ user.ApellidoMaterno}
               </Typography>
             </ThemeProvider>
           </Box>
@@ -374,3 +379,5 @@ export function Perfil() {
     </Box>
   );
 }
+
+

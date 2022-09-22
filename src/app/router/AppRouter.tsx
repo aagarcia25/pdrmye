@@ -86,70 +86,14 @@ export const AppRouter = () => {
              
         
         <Route path="/*" element={log ? <Eo404 /> : <AuthRouter />} />
+        <Route path="/"  element={log ? <Bienvenido /> : <AuthRouter />}     />
 
-        <Route
-          path="/bienvenido"
-          element={log ? <Bienvenido /> : <AuthRouter />}
-        />
-        <Route path="/inicio/icv" element={log ? <Icv /> : <AuthRouter />} />
-        <Route path="/inicio/isn" element={log ? <Isn /> : <AuthRouter />} />
-        <Route
-          path="/inicio/aportaciones/foult"
-          element={log ? <Foult /> : <AuthRouter />}
-        />
-       
-        <Route
-          path="/inicio/aportaciones/fodes"
-          element={log ? <Fodes /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/aportaciones/fosegum"
-          element={log ? <Fosegum /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/aportaciones/fodem"
-          element={log ? <Fodem /> : <AuthRouter />}
-        />
-        
 
-        <Route
-          path="/inicio/calendario2"
-          element={log ? <Calendario /> : <AuthRouter />}
-        />
-      
-        <Route
-          path="/inicio/participaciones/fpg"
-          element={log ? <Fpg /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/participaciones/icv"
-          element={log ? <Icv /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/participaciones/iepsgyd"
-          element={log ? <Iepsgyd /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/participaciones/isan"
-          element={log ? <Isan /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/participaciones/isn"
-          element={log ? <Isn /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/participaciones/isr"
-          element={log ? <Isr /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/participaciones/ieps"
-          element={log ? <Ieps /> : <AuthRouter />}
-        />
-        
-        <Route
-          path="/inicio/participaciones/iepsgyd"
-          element={log ? <Iepsgyd /> : <AuthRouter />}
-        />
+
+
+
+
+     
 
         {/* SECCION DE CATALOGOS */}
 
@@ -157,47 +101,25 @@ export const AppRouter = () => {
 
 
 
-        <Route path="/inicio/catalogos/mun" element={<Municipios />} />
-        <Route path="/inicio/catalogos/tasa" element={<TasaInteres />} />
-        <Route path="/inicio/catalogos/munpob" element={<MunPoblacion />} />
-        <Route
-          path="/inicio/catalogos/munfacturacion"
-          element={<MunFacturacion />}
-        />
-        <Route
-          path="/inicio/catalogos/munpobmod"
-          element={<MunPobrezaModerada />}
-        />
-        <Route
-          path="/inicio/catalogos/munproyec"
-          element={<MunPobProyeccion />}
-        />
-        <Route
-          path="/inicio/catalogos/munterritorio"
-          element={<MunTerritorio />}
-        />
-        <Route
-          path="/inicio/catalogos/munpobrezaext"
-          element={<MunPobrezaExtrema />}
-        />
-        <Route
-          path="/inicio/catalogos/munrecaudacion"
-          element={<MunRecaudacion />}
-        />
-        <Route path="/inicio/catalogos/umas" element={<Umas />} />
-        <Route
-          path="/inicio/catalogos/coeficientes"
-          element={<Coeficientes />}
-        />
-        <Route path="/inicio/catalogos/avisos" element={<Avisos />} />
-        <Route path="/inicio/catalogos/eventos" element={<Eventos />} />
-        <Route  path="/inicio/catalogos/departamentos"      element={<Departamentos />}      />
-        <Route  path="/inicio/catalogos/tipoFondo"      element={<TipoFondo />}      />
-
-        <Route  path="/inicio/catalogos/inflacionMes"      element={<InflacionMes />}      />
-        <Route  path="/inicio/catalogos/inflacionAnio"      element={<InflacionAnio />}      />
-        <Route  path="/inicio/catalogos/fondos"      element={<Fondos />}      />
-        <Route  path="/inicio/catalogos/crecimientoAnio"      element={<CrecimientoAnio />}      />
+        <Route path="/inicio/catalogos/mun"                        element={<Municipios />} />
+        <Route path="/inicio/catalogos/tasa"                       element={<TasaInteres />} />
+        <Route path="/inicio/catalogos/munpob"                     element={<MunPoblacion />} />
+        <Route path="/inicio/catalogos/munfacturacion"             element={<MunFacturacion />}        />
+        <Route path="/inicio/catalogos/munpobmod"                  element={<MunPobrezaModerada />}        />
+        <Route path="/inicio/catalogos/munproyec"                  element={<MunPobProyeccion />}        />
+        <Route path="/inicio/catalogos/munterritorio"              element={<MunTerritorio />}        />
+        <Route path="/inicio/catalogos/munpobrezaext"              element={<MunPobrezaExtrema />}        />
+        <Route path="/inicio/catalogos/munrecaudacion"             element={<MunRecaudacion />}        />
+        <Route path="/inicio/catalogos/umas"                       element={<Umas />} />
+        <Route path="/inicio/catalogos/coeficientes"               element={<Coeficientes />}        />
+        <Route path="/inicio/catalogos/avisos"                     element={<Avisos />} />
+        <Route path="/inicio/catalogos/eventos"                    element={<Eventos />} />
+        <Route path="/inicio/catalogos/departamentos"              element={<Departamentos />}      />
+        <Route path="/inicio/catalogos/tipoFondo"                  element={<TipoFondo />}      />
+        <Route  path="/inicio/catalogos/inflacionMes"              element={<InflacionMes />}      />
+        <Route  path="/inicio/catalogos/inflacionAnio"             element={<InflacionAnio />}      />
+        <Route  path="/inicio/catalogos/fondos"                    element={<Fondos />}      />
+        <Route  path="/inicio/catalogos/crecimientoAnio"           element={<CrecimientoAnio />}      />
         
         {/* FIN SECCION DE CATALOGOS */}
 
@@ -212,8 +134,6 @@ export const AppRouter = () => {
         {/* SECCION DE PERFIL */}
         <Route path="/perfil" element={<Perfil />} />
         {/* FIN SECCION DE PERFIL */}
-
-   
 
         {/* SECCION DE ARTICULOS */}
         <Route path="/inicio/articulos/art14f1" element={<Art14f1 />} />
@@ -263,7 +183,10 @@ export const AppRouter = () => {
         <Route path="/inicio/participaciones/isrd/:id" element={log ? <DetalleIsr /> : <AuthRouter />}/>
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
-
+        {/* SECCION PARTICIPACIONES ESTATALES */}
+        <Route path="/inicio/icv" element={log ? <Icv /> : <AuthRouter />} />
+        <Route path="/inicio/isn" element={log ? <Isn /> : <AuthRouter />} />
+        {/* FIN PARTICIPACIONES FEDERALES */}
 
         {/* SECCION APORTACIONES FEDERALES */}
         <Route path="/inicio/aportaciones/fism"    element={log ? <Fism /> : <AuthRouter />} />
@@ -272,6 +195,15 @@ export const AppRouter = () => {
         <Route path="/inicio/aportaciones/fortaum" element={log ? <Fortaum /> : <AuthRouter />} />
         <Route path="/inicio/aportaciones/fortaum/:id" element={log ? <DetalleFortamun /> : <AuthRouter />} />
         {/* FIN SECCION APORTACIONES FEDERALES */}
+
+       
+        {/* SECCION APORTACIONES ESTATALES */}
+        <Route path="/inicio/aportaciones/foult"  element={log ? <Foult /> : <AuthRouter />}        />
+        <Route          path="/inicio/aportaciones/fodes"          element={log ? <Fodes /> : <AuthRouter />}        />
+        <Route          path="/inicio/aportaciones/fosegum"          element={log ? <Fosegum /> : <AuthRouter />}        />
+        <Route          path="/inicio/aportaciones/fodem"          element={log ? <Fodem /> : <AuthRouter />}        />
+        {/* FIN PARTICIPACIONES ESTATALES */}
+       
 
       </Routes>
     </Inicio>
