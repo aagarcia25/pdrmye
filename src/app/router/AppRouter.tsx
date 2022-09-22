@@ -90,7 +90,7 @@ export const AppRouter = () => {
     <Inicio>
       <Routes>
              
-        <Route path="/bloqueosesion" element={log?<Eo404/>:<BloqueoSesion />} />
+        {/* <Route path="/bloqueosesion" element={log?<Eo404/>:<BloqueoSesion />} /> */}
         
         <Route path="/*" element={log ? <Eo404 /> : <AuthRouter />} />
     
@@ -123,7 +123,7 @@ export const AppRouter = () => {
         
 
         <Route
-          path="/inicio/calendario"
+          path="/inicio/calendario2"
           element={log ? <Calendario /> : <AuthRouter />}
         />
       
@@ -213,7 +213,7 @@ export const AppRouter = () => {
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
-        <Route path="/Calendar" element={<CalendarC />} />
+        <Route path="/Calendario" element={<CalendarC />} />
         {/* FIN SECCION DE CALENDARIO */}
 
         {/* SECCION DE NOTIFICACIONES */}

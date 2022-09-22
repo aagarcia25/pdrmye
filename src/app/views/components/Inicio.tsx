@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import Navigator from './Navigator';
 import Header from './Header';
 import { ReactNode } from 'react';
+import { getUser } from '../../services/localStorage';
+import { RESPONSE, UserInfo } from '../../interfaces/user/UserInfo';
 
 
 function Copyright() {
@@ -181,6 +183,9 @@ export default function Inicio({ children,  }: Props ) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
 
+  const user: RESPONSE =  JSON.parse(String(getUser()));
+
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -191,8 +196,6 @@ export default function Inicio({ children,  }: Props ) {
       
       sx={{ display: 'flex', minHeight: '100vh' ,}}>
         <CssBaseline />
-      
-        
         <Box 
                 component="nav"
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } ,}}
@@ -216,7 +219,7 @@ export default function Inicio({ children,  }: Props ) {
 
 
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column',}}>
-          <Header onDrawerToggle={handleDrawerToggle} name="Cesar Rivera" id={1}/>
+          <Header onDrawerToggle={handleDrawerToggle} name={user.Nombre + ' ' + user.ApellidoPaterno + ' '+ user.ApellidoMaterno} id={1}/>
           <Box component="main"           sx={{ flex: 1, py: 6, px: 4, bgcolor: 'rgb(255, 255, 255)' }}>
 
 

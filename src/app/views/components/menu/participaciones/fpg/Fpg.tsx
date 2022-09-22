@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import Imeses from "../../../../../interfaces/filtros/meses";
 import AgregarCalculoForm from "../Utilerias/AgregarCalculoForm";
+import ModalFgp from "./ModalFgp";
 
 export const Fpg = () => {
 
@@ -38,9 +39,6 @@ export const Fpg = () => {
   const [fondo, setFondo] = useState("FGP");
   const [meses, setMeses] = useState<Imeses[]>();
   
-  
-  
-  
   const mesesc = () => {
     let data = {};
     CatalogosServices.meses(data).then((res) => {
@@ -56,15 +54,6 @@ export const Fpg = () => {
   const handleClose = (v: any) => {
     setstep(0);
   };
-
-  const handleChangePeriodo = (event: SelectChangeEvent) => {
-    setPeriodo(event.target.value);
-  };
-
-  const handleChangeMes = (event: SelectChangeEvent) => {
-    setMes(event.target.value);
-  };
-
 
 
   const handleEdit = (v: any) => {
@@ -152,10 +141,6 @@ export const Fpg = () => {
 
   };
 
-
-
-
-
   useEffect(() => {
     mesesc();
    consulta({FONDO: fondo})
@@ -184,7 +169,7 @@ export const Fpg = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculoForm titulo="Fondo General de Participaciones" onClickBack={handleClose}/>
+        <ModalFgp titulo="Fondo General de Participaciones" onClickBack={handleClose} handleClose={()=>{}} dt={data}/>
         </div>
       </Box>
     </>

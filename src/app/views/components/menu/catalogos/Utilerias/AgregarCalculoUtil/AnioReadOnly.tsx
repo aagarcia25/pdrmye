@@ -9,7 +9,7 @@ export function AnioReadOnly(){
           <Typography sx={{ fontWeight: "Bold" }}>Año:</Typography>
         </Grid>
         <Grid item xs={3}>
-          <Input readOnly defaultValue={year}></Input>
+          <Input id="anio" readOnly defaultValue={year}></Input>
         </Grid>
         <Grid item xs={6}></Grid>
       </>
