@@ -65,7 +65,7 @@ export default function Header(props: HeaderProps) {
   };
 
   const onOpenCalendar = () => {
-    navigate("/Calendar");
+    navigate("/Calendario");
   };
 
   const onConfigProfile = () => {

@@ -213,7 +213,7 @@ export const AppRouter = () => {
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
-        <Route path="/Calendar" element={<CalendarC />} />
+        <Route path="/Calendario" element={<CalendarC />} />
         {/* FIN SECCION DE CALENDARIO */}
 
         {/* SECCION DE NOTIFICACIONES */}
