@@ -23,14 +23,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export const categories = [
 
-  {
-    id: 'Inicio',
-    children: [
-      { id: 'Bienvenido', icon: <Article />, path: '/bienvenido' }
-
-    ],
-  },
-
+ 
 
   {
     id: 'Catálogos',
@@ -222,15 +215,12 @@ export default function Navigator(props: DrawerProps,logoFijo: any) {
 
 
 const [openModule, setOpenModule] = React.useState(false);
+
+
   const { ...other } = props;
   const navigate = useNavigate();
 
 
-  const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
 
   return (
  
@@ -255,15 +245,15 @@ const [openModule, setOpenModule] = React.useState(false);
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
 
-            <ListItem  onClick={handleClick} sx={{ py: 2, px: 3 }}>
+            <ListItem  sx={{ py: 2, px: 3 }}>
               <ListItemText sx={{ color: '#555555' }} >{id}</ListItemText>
-              {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            
             </ListItem>
               {children.map(({ id: childId, icon, path }) => (
               
 
               <ListItem disablePadding key={childId}>
-                 <Collapse in={open} timeout="auto" unmountOnExit>
+                
                 <ListItemButton key={childId} sx={item}
 
                   onClick={(event) => navigate(path)}
@@ -275,7 +265,7 @@ const [openModule, setOpenModule] = React.useState(false);
                   <ListItemText>{childId}</ListItemText>
 
                 </ListItemButton>
-                </Collapse>
+              
               </ListItem>
             ))}
 

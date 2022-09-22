@@ -20,6 +20,7 @@ import { AnioReadOnly } from "../../catalogos/Utilerias/AgregarCalculoUtil/AnioR
 import SelectMes from "../Utilerias/SelectMes";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { BtnRegresar } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
+import ModalIcv from "./ModalIcv";
 
 export const Icv = () => {
 
@@ -29,27 +30,14 @@ export const Icv = () => {
 
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
-  const [periodo, setPeriodo] = useState("1");
-  const [mes, setMes] = useState("1");
 
   const [fondo, setFondo] = useState("ICV");
+  const [nombreFondo, setNombreFondo] = useState("ICV");
+
   const [meses, setMeses] = useState<Imeses[]>();
 
-  const currency = function formatomoneda() {
-    return new Intl.NumberFormat("es-MX", {
-      style: "currency",
-      currency: "MXN",
-      minimumFractionDigits: 4,
-    });
-  };
 
-  const mesesc = () => {
-    let data = {};
-    CatalogosServices.meses(data).then((res) => {
-      setMeses(res.RESPONSE);
-    });
-  };
-
+  
   const handleOpen = (v: any) => {
     setstep(1);
   };
@@ -58,16 +46,9 @@ export const Icv = () => {
     setstep(0);
   };
 
-  const handleChangePeriodo = (event: SelectChangeEvent) => {
-    setPeriodo(event.target.value);
-  };
+  
 
-  const handleChangeMes = (event: SelectChangeEvent) => {
-    setMes(event.target.value);
-  };
-
-  const handleEdit = (v: any) => {
-    console.log(v);
+  const handleView = (v: any) => {
     navigate(`/inicio/participaciones/icvd/${v.row.id}`);
   };
 
@@ -116,7 +97,7 @@ export const Icv = () => {
         return (
           <Box>
             <Tooltip title="Ver detalle de Cálculo">
-            <IconButton onClick={() => handleEdit(v)}>
+            <IconButton onClick={() => handleView(v)}>
               <InfoIcon />
             </IconButton>
             </Tooltip>
@@ -145,63 +126,39 @@ export const Icv = () => {
   };
 
   useEffect(() => {
-    mesesc();
     consulta({ FONDO: fondo });
     
   }, []);
      
 
-const AgregarCalculoForm = () => {
 
-    
 
-  return (
-    <Grid container spacing={3}>
-        <Titulo name="Impuesto de Control Vehicular" />
-        <BtnRegresar onClick={handleClose}/>
-        <SubTitulo />
-        <AnioReadOnly />
-        <SelectMes/> 
-        <Grid item xs={1}></Grid> 
-        <Grid item xs={4} sx={{ mt:2, display: "flex", justifyContent: "center" }}>
-          <Typography sx={{ fontWeight: "Bold" }}>Carga de Información:</Typography>
-        </Grid>
-        <Grid item xs={2} sx={{ display: "flex", justifyContent: "start" }}>
-          <IconButton><FileUploadIcon fontSize="large"/></IconButton>
-        </Grid>
-        <Grid item xs={5}></Grid>
-      <BtnCalcular onClick={onClickBtnCalculator} />
-    </Grid>
-  );
-};  
-  
-
+ 
   return (
     <>
-    <Box sx={{ display: step == 0 ? "block" : "none" }}>
-      <div style={{ height: 600, width: "100%" }}>
-        <ButtonsCalculo handleOpen={handleOpen} />
-        <DataGrid
-          //checkboxSelection
-          pagination
-          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-          components={{
-            Toolbar: CustomToolbar,
-            LoadingOverlay: LinearProgress,
-            NoRowsOverlay: CustomNoRowsOverlay,
-          }}
-          rowsPerPageOptions={[5, 10, 20, 50, 100]}
-          rows={data}
-          columns={columns}
-        />
-      </div>
-    </Box>
-    <Box sx={{ display: step == 1 ? "block" : "none" }}>
-      <div style={{ height: 600, width: "100%" }}>
-        <AgregarCalculoForm />
-      </div>
-    </Box>
-  </>
+      <Box sx={{ display: step == 0 ? "block" : "none" }}>
+        <div style={{ height: 600, width: "100%" }}>
+          <ButtonsCalculo handleOpen={handleOpen} />
+          <DataGrid
+            pagination
+            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+            components={{
+              Toolbar: CustomToolbar,
+              LoadingOverlay: LinearProgress,
+              NoRowsOverlay: CustomNoRowsOverlay,
+            }}
+            rowsPerPageOptions={[5, 10, 20, 50, 100]}
+            rows={data}
+            columns={columns}
+          />
+        </div>
+      </Box>
+      <Box sx={{ display: step == 1 ? "block" : "none" }}>
+        <div style={{ height: 600, width: "100%" }}>
+        <ModalIcv titulo={nombreFondo} onClickBack={handleClose} />
+        </div>
+      </Box>
+    </>
   );
 };
 
