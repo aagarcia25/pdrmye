@@ -6,7 +6,21 @@ import { env_var } from '../environments/env';
 
 
 
+export const postSingle = async function (url: string, body: any) {
+    try {
+        let resp = await axios.post(`${env_var.BASE_URL_EXT}` + url, body,
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
 
+        );
+        return resp;
+    } catch (err: any) {
+        return err.response
+    }
+};
 
 export const post = async function (url: string, body: any, token: string) {
 
@@ -21,7 +35,7 @@ export const post = async function (url: string, body: any, token: string) {
             }
 
         );
-        return resp.data;
+        return resp;
     } catch (err: any) {
         return err.response
     }

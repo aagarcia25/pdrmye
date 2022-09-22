@@ -90,7 +90,7 @@ export const AppRouter = () => {
     <Inicio>
       <Routes>
              
-        <Route path="/bloqueosesion" element={log?<Eo404/>:<BloqueoSesion />} />
+        {/* <Route path="/bloqueosesion" element={log?<Eo404/>:<BloqueoSesion />} /> */}
         
         <Route path="/*" element={log ? <Eo404 /> : <AuthRouter />} />
     

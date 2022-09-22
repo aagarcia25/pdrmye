@@ -1,10 +1,30 @@
-import { Box, InputAdornment, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { COLOR } from "../../styles/colors";
 import PersonIcon from "@mui/icons-material/Person";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { Link } from "react-router-dom";
+import { Fingerprint } from "@mui/icons-material";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { getUser } from "../../services/localStorage";
+import { useState } from "react";
 
-export function BloqueoSesion() {
+export function BloqueoSesion({
+  handlePassword,
+}: {
+  handlePassword: Function;
+}) {
+
+
+  const [password, setPassword] = useState("");
+  const user: RESPONSE =  JSON.parse(String(getUser()));
+
+
+  
   return (
     <Box
       sx={{
@@ -32,26 +52,44 @@ export function BloqueoSesion() {
             alignItems: "center",
           }}
         >
-          <Typography sx={{fontSize: "3vw" }}>Cesar Rivera</Typography>
+          <Typography sx={{ fontSize: "3vw" }}>{user.Nombre + ' ' + user.ApellidoPaterno + ' '+ user.ApellidoMaterno}</Typography>
           <TextField
             sx={{
               width: "50vw",
               height: "5vh",
             }}
+            type="password"
+            onChange={(v) => setPassword(v.target.value)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
                   <PersonIcon />
                 </InputAdornment>
               ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <ArrowRightAltIcon />
-                </InputAdornment>
-              ),
             }}
             placeholder="Contraseña"
           ></TextField>
+
+
+
+
+          
+          <Box
+            sx={{
+              //width: "100vw",
+              //height: "100vh",
+              marginTop : 3,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <IconButton aria-label="fingerprint" color="secondary" onClick={() => handlePassword(password) }>
+              <Fingerprint />
+            </IconButton>
+          </Box>
+
+
 
           <Typography sx={{ mt: 3, fontSize: "2vw" }}>
             Ingrese su contraseña para recobrar su sesión.
@@ -62,9 +100,12 @@ export function BloqueoSesion() {
           <Box>
             <Typography sx={{ mt: 1, fontSize: "1.8vw" }}>
               Haz click{" "}
-              <Link to="/">
-                {"aquí"}
-              </Link>{" "}
+              <Button
+                href="http://10.200.4.106/"
+                sx={{ mt: 1, fontSize: "1.6vw" }}
+              >
+                aquí
+              </Button>
               para iniciar sesión con un Usuario diferente.
             </Typography>
           </Box>

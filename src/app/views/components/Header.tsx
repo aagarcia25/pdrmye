@@ -60,8 +60,8 @@ export default function Header(props: HeaderProps) {
   };
 
   const onLogOut = () => {
-    navigate("/");
-    setOpen((prevOpen) => !prevOpen);
+    localStorage.clear();
+    window.location.replace("http://10.200.4.106/");
   };
 
   const onOpenCalendar = () => {
