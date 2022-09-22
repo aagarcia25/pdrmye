@@ -123,7 +123,7 @@ export const AppRouter = () => {
         
 
         <Route
-          path="/inicio/calendario"
+          path="/inicio/calendario2"
           element={log ? <Calendario /> : <AuthRouter />}
         />
       
