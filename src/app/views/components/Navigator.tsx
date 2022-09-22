@@ -44,7 +44,6 @@ export const categories = [
       { id: 'Municipio Póblacion Proyección', icon: <Article />, path: '/inicio/catalogos/munproyec' },
       { id: 'Municipio Recaudación', icon: <Article />, path: '/inicio/catalogos/munrecaudacion' },
       { id: 'Municipio Territorio', icon: <Article />, path: '/inicio/catalogos/munterritorio' },
-      { id: 'Prueca Scroll', icon: <Article />, path: '/pruebascroll' },
       
       { id: 'Avisos', icon: <Article />, path: '/inicio/catalogos/avisos' },
       { id: 'Eventos', icon: <Article />, path: '/inicio/catalogos/eventos' },

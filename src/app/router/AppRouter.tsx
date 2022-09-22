@@ -49,7 +49,6 @@ import { Departamentos } from "../views/components/menu/catalogos/Departamentos/
 import { TasaInteres } from "../views/components/menu/catalogos/TasaInteres/TasaInteres";
 import { Municipios } from "../views/components/menu/catalogos/Municipios/Municipios";
 
-import { Pruebascroll } from "../../prueba";
 
 import { Art14f2 } from "../views/components/menu/articulos/Art14f2";
 import Art14f3 from "../views/components/menu/articulos/Art14f3";
@@ -155,7 +154,6 @@ export const AppRouter = () => {
         {/* SECCION DE CATALOGOS */}
 
 
-        <Route path="/pruebascroll" element={<Pruebascroll  />} />
 
 
 
