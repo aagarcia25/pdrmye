@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -16,10 +16,9 @@ import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipio
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { Label, PhotoCamera } from "@mui/icons-material";
-
-
-
-
+import { devNull } from "os";
+import { style } from "@mui/system";
+import "../Eventos/globals.css";
 
 const EventosModal = ({
   open,
@@ -38,10 +37,7 @@ const EventosModal = ({
   dt:any
 }) => {
 
-
-
-
-  // CAMPOS DE LOS FORMULARIOS
+ // CAMPOS DE LOS FORMULARIOS
   const today = new Date().toISOString();
   const [id, setId] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -61,8 +57,21 @@ const EventosModal = ({
   var Fecha_min = fecha +'T'+ hora;
   const [inicioEventoMin, setInicioEventoMin] = useState(Fecha_min);
   const [inicioEvento, setInicioEvento] = useState( Fecha_min);
+////////////////////////////////
+const [preview, setPreview]=useState<string>();
+const [NewImagePreview, setNewImagePreviw] =useState<File>();
+const [cleanUpFile, setCleanUpFile] =useState<File>();
+const [cleanUp, setCleanUp] =useState<boolean>(false);
+const fileInputRef = useRef<HTMLInputElement>();
 
 
+
+
+
+
+
+
+//////////////////////////////////
 
 
   const testeoVariables = () => {
@@ -71,6 +80,7 @@ const EventosModal = ({
     console.log("det"+ dt)
   console.log("fecha y hora  minimo     "+inicioEventoMin);
 console.log("carga de imagen "+ newImage)
+console.log("nombre de imagen para cargar     "+ nameNewImage)
 
   }
 
@@ -86,7 +96,6 @@ console.log("carga de imagen "+ newImage)
     let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
     setValues(m);
   };
-
 
   const handleUpload = () => {
     setslideropen(true);
@@ -124,23 +133,51 @@ console.log("carga de imagen "+ newImage)
     });
   };
 
-
   const handleFechaInicio = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInicioEvento(event.target.value.toString());
   };
 
-
   const handleFechaFin = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFinEvento(event.target.value.toString());
   };
-  const handleNewImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let file = event?.target?.files?.[0] || "";
-    let nameImageNew= event?.target?.files?.[0].name|| "";
+  const handleNewImage = (event:any) => {
 
+    let file = event.target.files[0];
+
+    if (event.target.files[0]===""){
+
+      
+    }
+    else {
+    let nameImageNew= event.target.files[0].name||"";
+    
     setNameNewImage(nameImageNew);
+
+    }
+    /////////////////////////////
+
+if (file && file.type.substr (0,5)=== "image"){
+
+  setNewImagePreviw(file);
+  setCleanUp(true);
+  setNewImage(null);
+
+}    /////////////////////////
+
+   
     setNewImage(file);
     console.log(newImage)
+
   };
+const handleCleanUpImage =()=>{
+
+  setCleanUp(false);
+  setNameNewImage("");
+
+
+}
+
+
 
 
   const handleRequest = (data: any) => {
@@ -190,9 +227,7 @@ console.log("carga de imagen "+ newImage)
     });
   };
 
- 
-
-  useEffect(() => {
+    useEffect(() => {
     municipiosc();
 
     if(dt === ''  ){
@@ -204,20 +239,25 @@ console.log("carga de imagen "+ newImage)
         setImage(dt?.row?.Imagen)
         setIdMunicipio(dt?.row?.idmunicipio)
    
-       
-        console.log("inicio de evento seteado"+inicioEvento)
-        console.log(finEvento)
-        console.log(dt)
-   
-      console.log("fecha y hora "+inicioEventoMin);
-
-   
     }
-   console.log(dt)
+ 
   }, [dt] );
 
-
-
+  useEffect(()=>{
+    if (NewImagePreview){
+    
+      const reader = new FileReader();
+      reader.onloadend =()=>{
+        setPreview (reader.result as string);
+      };
+      reader.readAsDataURL (NewImagePreview);
+    }
+    else{
+      setPreview("");
+      }
+    }, [NewImagePreview]);
+    
+    
   return (
 
 
@@ -226,23 +266,40 @@ console.log("carga de imagen "+ newImage)
    
  { (nuevoEvento=== true)?
 
+
+
    <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',   }}>
 
 
           <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
-      
-                <Box>
+                <div >
                 
-                 <IconButton  color="primary" aria-label="upload picture" component="label" >
-                 Cargar Imagen
-                 <input required hidden accept="image/*" type="file"
-                  onChange={(v) =>handleNewImage(v)}
-                                 
-                 />
-                 < PhotoCamera/>
-                  </IconButton>
-                  </Box>
+                <Box>  
+              
+                {(cleanUp)?
+                <img src={preview} />
+                :
+                ""               
+                }
 
+              <IconButton color="primary" aria-label="upload picture" component="label">
+                 <input                
+                type= "file"
+                hidden
+                 accept ="image/*"
+                onChange={(event) =>{ 
+                  
+                                   
+                                   
+                  handleNewImage(event)  } } />
+                 
+     
+                <PhotoCamera/>
+                </IconButton>
+                  
+               
+                  </Box>
+                  </div>
 
 
             <Box sx={{alignItems:"center"}}>
@@ -262,7 +319,6 @@ console.log("carga de imagen "+ newImage)
              <Box>
         <label >Inicio de evento </label>
         <input
-
         id="datetime-inicia"
         required
         type="datetime-local"
@@ -312,6 +368,7 @@ console.log("carga de imagen "+ newImage)
 
             <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
             <Button onClick={() => handleUpload() } >Guardar</Button>
+            <Button onClick={() => testeoVariables() } >test</Button>
             <Button onClick={() => handleClose()}  >Cancelar</Button>
             </Box>
 
@@ -351,6 +408,9 @@ console.log("carga de imagen "+ newImage)
   
   );
 };
+
+
+
 
 export default EventosModal;
 
