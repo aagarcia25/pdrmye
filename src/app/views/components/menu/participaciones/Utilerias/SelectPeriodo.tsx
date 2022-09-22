@@ -35,6 +35,7 @@ const SelectPeriodo = ({}: {}) => {
       </Grid>
       <Grid item xs={1.6} sx={{}}>
         <Select
+          id="periodo"
           required
           onChange={(v) => setPeriodo(v.target.value)}
           value={periodo}

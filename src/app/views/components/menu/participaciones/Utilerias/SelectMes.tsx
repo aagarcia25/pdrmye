@@ -1,4 +1,4 @@
-import { Grid, MenuItem, Select, Typography } from "@mui/material";
+import { FormHelperText, Grid, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Imeses from "../../../../../interfaces/filtros/meses";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -6,6 +6,10 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 const SelectMes = ({}: {}) => {
   const [mes, setMes] = useState("");
   const [meses, setMeses] = useState<Imeses[]>();
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setMes(event.target.value);
+  }
 
   const mesesc = () => {
     let data = {};
@@ -33,6 +37,7 @@ const SelectMes = ({}: {}) => {
       </Grid>
       <Grid item xs={1.6} sx={{}}>
         <Select
+          id="mes"
           required
           onChange={(v) => setMes(v.target.value)}
           value={mes}
@@ -48,6 +53,8 @@ const SelectMes = ({}: {}) => {
             );
           })}
         </Select>
+        
+        
       </Grid>
       <Grid item xs={6}></Grid>
     </>
