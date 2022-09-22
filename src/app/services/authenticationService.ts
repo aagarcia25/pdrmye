@@ -7,5 +7,5 @@ export const authenticate = async (data: any) => {
 };
 
 export const isAuthenticated = (): boolean => {
-  return getAccessToken() ? true : true;
+  return getAccessToken() ? true : false;
 };

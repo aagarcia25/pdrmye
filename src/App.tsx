@@ -27,10 +27,10 @@ import { UserInfo } from "./app/interfaces/user/UserInfo";
 
 function App() {
 
-
-
-  //const log = true; //isAuthenticated();
   const [log, setLog] = useState(false);
+  const logeado = isAuthenticated();
+
+
   const registerUser = (rs: UserDetail) => {
     let data = {
       NUMOPERACION: 1,
@@ -63,6 +63,7 @@ function App() {
   const verificatoken = (token: string) => {
     // SE VALIDA EL TOKEN
     UserServices.verify({}, token).then((res) => {
+
       if (res.status == 200) {
         setLog(true);
         //SE OBTIENE LA INFORMACION DE DETALLE DEL USUARIO
@@ -71,7 +72,7 @@ function App() {
       } else if (res.status == 401) {
 
         Swal.fire({
-          title: res.data.msg,
+          title:'Mensaje: ' + res.data.msg,
           showDenyButton: false,
           showCancelButton: false,
           confirmButtonText: "Aceptar",
@@ -98,10 +99,7 @@ function App() {
   const [isIdle, setIsIdle] = useState(false);
 
   const handleOnActive = (v: string) => {
-    console.log("PAssword");
-    console.log(v);
     const user: UserReponse = JSON.parse(String(getPU()));
-
     let data = {
       NombreUsuario: user.NombreUsuario,
       Contrasena: v,
@@ -142,33 +140,45 @@ function App() {
   });
 
   useEffect(() => {
-    if (String(jwt) != null && String(jwt) != "") {
-      verificatoken(String(jwt));
-    } else {
-      Swal.fire({
-        title: "Token no valido",
-        showDenyButton: false,
-        showCancelButton: false,
-        confirmButtonText: "Aceptar",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.replace("http://10.200.4.106/");
-        }
-      });
-    }
+
+   
+    if(!logeado){
+      if (String(jwt) != null && String(jwt) != "") {
+        verificatoken(String(jwt));
+      } else {
+        Swal.fire({
+          title: "Token no valido",
+          showDenyButton: false,
+          showCancelButton: false,
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.replace("http://10.200.4.106/");
+          }
+        });
+      }
+  
+   }
+   
+
+
+
+
   }, [log]);
+
+
+
 
   return (
     <div>
       {isIdle ? (
         <BloqueoSesion handlePassword={handleOnActive} />
-      ) : log ? (
+      ) : logeado ? (
         <AppRouter />
       ) : (
         <Validacion />
       )}
 
-      {/* {log ? <AppRouter /> : <Validacion />} */}
     </div>
   );
 }

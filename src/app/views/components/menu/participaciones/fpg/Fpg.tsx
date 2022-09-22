@@ -1,51 +1,29 @@
 import { useEffect, useState } from "react";
 import {
   Box,
-  Grid,
   LinearProgress,
-  SelectChangeEvent,
-  MenuItem,
   IconButton,
   Tooltip,
 } from "@mui/material";
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
 import { currencyFormatter, CustomToolbar } from "../../CustomToolbar";
-import { getUser } from "../../../../../services/localStorage";
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
-import { BtnCalcular } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnCalcular";
 import { calculosServices } from "../../../../../services/calculosServices";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import InfoIcon from '@mui/icons-material/Info';
 import { useNavigate } from "react-router-dom";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import Imeses from "../../../../../interfaces/filtros/meses";
-import AgregarCalculoForm from "../Utilerias/AgregarCalculoForm";
 import ModalFgp from "./ModalFgp";
 
 export const Fpg = () => {
 
-
-  const user = getUser();
-
+  
   const navigate = useNavigate();
-
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
-  const [periodo, setPeriodo] = useState("1");
-  const [mes, setMes] = useState("1");
-
   const [fondo, setFondo] = useState("FGP");
-  const [meses, setMeses] = useState<Imeses[]>();
-  
-  const mesesc = () => {
-    let data = {};
-    CatalogosServices.meses(data).then((res) => {
-      setMeses(res.RESPONSE);
-    });
-  };
- 
+  const [nombreFondo, setNombreFondo] = useState("Fondo General de Participaciones");
 
   const handleOpen = (v: any) => {
     setstep(1);
@@ -55,13 +33,9 @@ export const Fpg = () => {
     setstep(0);
   };
 
-
-  const handleEdit = (v: any) => {
-    console.log(v)
+  const handleView = (v: any) => {
     navigate(`/inicio/participaciones/fpgd/${v.row.id}`)
   };
-
-
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
@@ -107,7 +81,7 @@ export const Fpg = () => {
         return (
           <Box>
             <Tooltip title="Ver detalle de Cálculo">
-            <IconButton onClick={() => handleEdit(v)}>
+            <IconButton onClick={() => handleView(v)}>
               <InfoIcon />
             </IconButton>
             </Tooltip>
@@ -118,8 +92,6 @@ export const Fpg = () => {
 
 
   ];
-
-
 
 
   const consulta = (data: any) => {
@@ -141,8 +113,8 @@ export const Fpg = () => {
 
   };
 
+
   useEffect(() => {
-    mesesc();
    consulta({FONDO: fondo})
   }, []);
 
@@ -153,7 +125,6 @@ export const Fpg = () => {
         <div style={{ height: 600, width: "100%" }}>
           <ButtonsCalculo handleOpen={handleOpen} />
           <DataGrid
-            //checkboxSelection
             pagination
             localeText={esES.components.MuiDataGrid.defaultProps.localeText}
             components={{
@@ -169,7 +140,7 @@ export const Fpg = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-        <ModalFgp titulo="Fondo General de Participaciones" onClickBack={handleClose} handleClose={()=>{}} dt={data}/>
+        <ModalFgp titulo={nombreFondo} onClickBack={handleClose} />
         </div>
       </Box>
     </>

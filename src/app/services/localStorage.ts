@@ -11,7 +11,7 @@ export const removeTokens = () => {
   localStorage.removeItem('access_token');
   localStorage.removeItem('expires_at');
 };
-export const getAccessToken = () => localStorage.getItem('access_token');
+export const getAccessToken = () => localStorage.getItem('user');
 
 export const setUser = (user: any) => localStorage.setItem('user', JSON.stringify(user));
 export const getUser = () => localStorage.getItem('user');

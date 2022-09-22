@@ -49,15 +49,10 @@ import { Departamentos } from "../views/components/menu/catalogos/Departamentos/
 import { TasaInteres } from "../views/components/menu/catalogos/TasaInteres/TasaInteres";
 import { Municipios } from "../views/components/menu/catalogos/Municipios/Municipios";
 
-
-
 import { Pruebascroll } from "../../prueba";
-
-
 
 import { Art14f2 } from "../views/components/menu/articulos/Art14f2";
 import Art14f3 from "../views/components/menu/articulos/Art14f3";
-import { BloqueoSesion } from "../views/components/BloqueoSesion";
 import TipoFondo from "../views/components/menu/catalogos/TipoFondo/TipoFondo";
 import InflacionMes from "../views/components/menu/catalogos/InflacionMes/InflacionMes";
 import InflacionAnio from "../views/components/menu/catalogos/InflacionAnio/InflacionAnio";
@@ -90,12 +85,8 @@ export const AppRouter = () => {
     <Inicio>
       <Routes>
              
-        {/* <Route path="/bloqueosesion" element={log?<Eo404/>:<BloqueoSesion />} /> */}
         
         <Route path="/*" element={log ? <Eo404 /> : <AuthRouter />} />
-    
-
-
 
         <Route
           path="/bienvenido"

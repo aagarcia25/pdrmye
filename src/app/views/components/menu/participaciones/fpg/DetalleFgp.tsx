@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Details } from '@mui/icons-material'
-import { Box, IconButton, LinearProgress } from '@mui/material'
+import { Box,  LinearProgress } from '@mui/material'
 import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { currencyFormatter, CustomToolbar } from '../../CustomToolbar'
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { getUser } from '../../../../../services/localStorage'
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import { calculosServices } from '../../../../../services/calculosServices'
@@ -15,24 +11,13 @@ import { useNavigate } from "react-router-dom";
 import ButtonsBack from "../../catalogos/Utilerias/ButtonsBack";
 
 
-//interface Props{
-//    id? :  string
-//   }
 
 const DetalleFgp = () => {
-
-    const user = getUser();
     const navigate = useNavigate();
-    const [modo, setModo] = useState("");
-    const [open, setOpen] = useState(false);
-    const [slideropen, setslideropen] = useState(false);
-    const [vrows, setVrows] = useState({});
     const [data, setData] = useState([]);
-
     const handleBack = (v: any) => {
       navigate(`/inicio/participaciones/fpg`)
     };
-
     
     const consulta = (data: any) => {
         calculosServices.calculosInfodetalle(data).then((res) => {
@@ -54,10 +39,9 @@ const DetalleFgp = () => {
          
     const columns: GridColDef[] = [
       { field: "id", headerName: "Identificador", width: 150   ,hide: true},
-      { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
-      { field: "Recaudacion", headerName: "Año", width: 150 ,description:"BGt-2"},
-      { field: "Recaudacion", headerName: "Mes", width: 150 ,description:"RPt-1"},
-      { field: "Proporcion", headerName: "Monto", width: 200 ,description:"P=RP/BG" },
+      { field: "ClaveEstado", headerName: "ID", width: 150 , description:"Identificador del Municipio"},
+      { field: "Nombre", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
+      { field: "Total", headerName: "Año", width: 150 ,description:"Total"},
       ];
     
       let params = useParams();
@@ -66,13 +50,13 @@ const DetalleFgp = () => {
       }, []);
 
 
+
   return (
     <div>
       <Box >
         <div style={{ height: 600, width: "100%" }}>
         <ButtonsBack handleOpen={handleBack} />
           <DataGrid
-            //checkboxSelection
             pagination
             localeText={esES.components.MuiDataGrid.defaultProps.localeText}
             components={{

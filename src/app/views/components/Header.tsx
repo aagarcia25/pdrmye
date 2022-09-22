@@ -238,7 +238,6 @@ const lightColor = "rgba(255, 255, 255, 0.7)";
 
               <Popper
                 open={open}
-                anchorEl={anchorRef.current}
                 role={undefined}
                 placement="bottom-start"
                 transition
