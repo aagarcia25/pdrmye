@@ -77,7 +77,11 @@ const columns: GridColDef[] = [
 
        
   const handleClose = () => {
-       
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: filterAnio,
+    };
+    consulta(data); 
     setOpen(false);
   }
   

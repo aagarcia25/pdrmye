@@ -79,8 +79,9 @@ const MunFacturacionModal = ({
         IDMUNICIPIO: idMunicipio,
         FACTURACION: fac,
       };
-
+     
       handleRequest(data);
+      handleClose();
     }
   };
 

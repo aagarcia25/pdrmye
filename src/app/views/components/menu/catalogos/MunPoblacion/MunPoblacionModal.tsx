@@ -79,8 +79,9 @@ const MunPoblacionModal = ({
         idPoblacion: idPoblacion,
         TOTALPOBLACION: poblacion,
       };
-
+     
       handleRequest(data);
+      handleClose();
     }
   };
 
@@ -219,7 +220,7 @@ const MunPoblacionModal = ({
 
       <DialogActions>
         <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cancelar</Button>
+        <Button onClick={() => handleClose()}>Cerrar</Button>
       </DialogActions>
     </Dialog>
   );

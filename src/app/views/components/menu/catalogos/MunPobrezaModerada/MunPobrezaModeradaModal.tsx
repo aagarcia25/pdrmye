@@ -88,6 +88,7 @@ const MunPobrezaModeradaModal = ({
       };
 
       handleRequest(data);
+      handleClose();
     }
   };
 
@@ -270,7 +271,7 @@ const MunPobrezaModeradaModal = ({
 
       <DialogActions>
         <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cancelar</Button>
+        <Button onClick={() => handleClose()}>Cerrar</Button>
       </DialogActions>
     </Dialog>
   );

@@ -98,15 +98,40 @@ const columns: GridColDef[] = [
     setNuevoEvento(false);
   };
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    console.log('cerrando');
+    setOpen(false);
+    let data = {
+      NUMOPERACION: 4,
+      CHUSER:1,
+    };
+    consulta(data);
 
-  
+  };
+
+
     let dat = ({
       NUMOPERACION: 4,
       CHUSER:1
     })
-  
-  
+
+    const consulta = (data: any) => {
+      CatalogosServices.munfacturacion(data).then((res) => {
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "Consulta Exitosa!",
+          });
+          setEventos(res.RESPONSE);
+        } else {
+          Alert.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
+      });
+    };
     useEffect(() => {
       CatalogosServices.eventos(dat).then((res) => {
       //  console.log(res);

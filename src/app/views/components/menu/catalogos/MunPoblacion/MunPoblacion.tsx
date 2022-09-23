@@ -75,12 +75,16 @@
         
        ];
      
-       
        const handleClose = () => {
-       
-       setOpen(false);
-     }
-     
+        console.log('cerrando');
+      
+        let data = {
+          NUMOPERACION: 4,
+          ANIO: filterAnio,
+        };
+        consulta(data);
+        setOpen(false);
+      };
      
      const handleOpen = (v: any) => {
        setTipoOperacion(1);
@@ -118,6 +122,7 @@
                CHUSER: 1,
              };
              console.log(data);
+           
      
              CatalogosServices.munpoblacion(data).then((res) => {
                if (res.SUCCESS) {
@@ -135,6 +140,12 @@
                  });
                }
              });
+             
+             let dat = {
+              NUMOPERACION: 4,
+              ANIO: filterAnio,
+            };
+            consulta(dat);
      
            } else if (result.isDenied) {
              Swal.fire("No se realizaron cambios", "", "info");
@@ -142,6 +153,7 @@
      
            
          });
+     
        };
        
      

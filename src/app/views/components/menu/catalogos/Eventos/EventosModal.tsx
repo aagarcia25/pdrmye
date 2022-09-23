@@ -65,12 +65,6 @@ const [cleanUp, setCleanUp] =useState<boolean>(false);
 const fileInputRef = useRef<HTMLInputElement>();
 
 
-
-
-
-
-
-
 //////////////////////////////////
 
 
@@ -84,8 +78,6 @@ console.log("nombre de imagen para cargar     "+ nameNewImage)
 
   }
 
-
-
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -98,7 +90,7 @@ console.log("nombre de imagen para cargar     "+ nameNewImage)
   };
 
   const handleUpload = () => {
-    setslideropen(true);
+      setslideropen(true);
     
     const formData = new FormData();
     formData.append("IMAGEN", newImage, nameNewImage);
@@ -112,6 +104,9 @@ console.log("nombre de imagen para cargar     "+ nameNewImage)
 
 
     console.log(formData);
+    console.log("nombre extraido de imagen name   "+nameNewImage);
+    
+
 
     CatalogosServices.eventos(formData).then((res) => {
       setslideropen(false);
@@ -142,18 +137,15 @@ console.log("nombre de imagen para cargar     "+ nameNewImage)
   };
   const handleNewImage = (event:any) => {
 
-    let file = event.target.files[0];
-
-    if (event.target.files[0]===""){
-
-      
+    let file = event.target!.files[0]!;
+    ///// SE VALIDA SI NO SE CARGO ARCHIVO EN EL INPUT PARA PODER EXTRAER EL NOMBRE
+    if (event.target.files.length===0){
+    }else{
+      setNameNewImage (event.target!.files[0]!.name);
     }
-    else {
-    let nameImageNew= event.target.files[0].name||"";
     
-    setNameNewImage(nameImageNew);
+    console.log(event.target);
 
-    }
     /////////////////////////////
 
 if (file && file.type.substr (0,5)=== "image"){
@@ -164,21 +156,10 @@ if (file && file.type.substr (0,5)=== "image"){
 
 }    /////////////////////////
 
-   
     setNewImage(file);
     console.log(newImage)
 
   };
-const handleCleanUpImage =()=>{
-
-  setCleanUp(false);
-  setNameNewImage("");
-
-
-}
-
-
-
 
   const handleRequest = (data: any) => {
     console.log(data);
@@ -250,10 +231,10 @@ const handleCleanUpImage =()=>{
       reader.onloadend =()=>{
         setPreview (reader.result as string);
       };
-      reader.readAsDataURL (NewImagePreview);
+      reader.readAsDataURL (NewImagePreview!);
     }
     else{
-      setPreview("");
+      setPreview("o");
       }
     }, [NewImagePreview]);
     
@@ -284,16 +265,15 @@ const handleCleanUpImage =()=>{
 
               <IconButton color="primary" aria-label="upload picture" component="label">
                  <input                
-                type= "file"
+                required                
+                type="file"
                 hidden
-                 accept ="image/*"
-                onChange={(event) =>{ 
-                  
-                                   
-                                   
+                accept="image/*"
+                
+           
+                onChange={(event) =>{         
                   handleNewImage(event)  } } />
-                 
-     
+
                 <PhotoCamera/>
                 </IconButton>
                   
