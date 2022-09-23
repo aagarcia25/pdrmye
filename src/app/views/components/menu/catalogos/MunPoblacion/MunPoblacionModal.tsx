@@ -19,6 +19,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { municipiosc } from "../../../../../share/loadMunicipios";
 
 const MunPoblacionModal = ({
   open,
@@ -42,25 +43,7 @@ const MunPoblacionModal = ({
   const [anio, setAnio] = useState("");
   const [poblacion, setPoblacion] = useState("");
   const [idPoblacion, setIdPoblacion] = useState("");
- 
   const [values, setValues] = useState<Imunicipio[]>();
- 
- 
-
-  
-  const municipiosc = () => {
-    let data = {};
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-    let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
-    setValues(m);
-  };
-
-
- 
  
 
   const handleSend = () => {
@@ -138,8 +121,7 @@ const MunPoblacionModal = ({
  
 
   useEffect(() => {
-    municipiosc();
-
+    setValues(municipiosc());
     if(dt === ''  ){
         console.log(dt)
        

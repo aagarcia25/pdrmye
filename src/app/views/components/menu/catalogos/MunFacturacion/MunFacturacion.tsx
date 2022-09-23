@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 import {
-  Box,
-  IconButton,
-  LinearProgress,
   SelectChangeEvent,
 } from "@mui/material";
 
-import { esES, GridColDef } from "@mui/x-data-grid";
-import { DataGrid } from "@mui/x-data-grid";
-import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar, Moneda } from "../../CustomToolbar";
+import {  GridColDef } from "@mui/x-data-grid";
 import {
   getUser,
 } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
 import Filtros from "../Utilerias/Filtros";
 import Buttons from "../Utilerias/Buttons";
@@ -26,6 +18,8 @@ import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 
 import MunFacturacionModal from "./MunFacturacionModal";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import AccionesGrid from "../../../AccionesGrid";
 
 export const MunFacturacion = () => {
   const user = getUser();
@@ -78,14 +72,7 @@ export const MunFacturacion = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEdit(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <AccionesGrid handleEditar={handleEdit} handleBorrar={handleDelete} v={v} update={false} pdelete={false} />
         );
       },
     },
@@ -266,21 +253,11 @@ export const MunFacturacion = () => {
         handleUpload={handleUpload}
       />
 
-      <DataGrid
-        //checkboxSelection
-        pagination
-        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-        components={{
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={Facturacion}
-        columns={columns}
 
-        // loading //agregar validacion cuando se esten cargando los registros
-      />
+<MUIXDataGrid
+              columns={columns}
+              rows={Facturacion}
+            />
     </div>
   );
 };

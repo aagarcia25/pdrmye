@@ -52,13 +52,7 @@ const MunPobrezaModeradaModal = ({
 
   
   const municipiosc = () => {
-    let data = {};
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-    let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
+    let m: Imunicipio[] = JSON.parse(String(getMunicipios()));
     setValues(m);
   };
 

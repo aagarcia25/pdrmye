@@ -7,9 +7,10 @@ import { getMessagesES } from "../../helpers/getMessages";
 
 import { CalendarioService } from "../../services/calendarioService";
 import moment from "moment";
+import { calendario, eventoc, RESPONSE } from "../../interfaces/calendario/calendario";
 
 const CalendarC = () => {
-  const [eventos, setEventos] = useState([]);
+  const [eventos, setEventos] = useState<eventoc[]>();
 
   const location = momentLocalizer(moment);
 
@@ -40,7 +41,24 @@ const CalendarC = () => {
   useEffect(() => {
     CalendarioService.calendarios({ NUMOPERACION: "4", CHUSER: "1" }).then(
       (res: any) => {
-        setEventos(res.RESPONSE);
+        
+        const even: calendario = res;
+        //setEventos(even.RESPONSE);
+        let eveitem: eventoc[] = [];
+        even.RESPONSE.map((item: RESPONSE) => {
+        
+          let it = {
+            id: item.id,
+            title: item.NombreEvento,
+            allDay: true,
+            start: new Date(item.InicioEvento),
+            end: new Date(item.FinEvento),
+          }
+          eveitem.push(it)
+        });
+        console.log(eveitem);
+        setEventos(eveitem);
+
       }
     );
   }, []);
@@ -49,7 +67,7 @@ const CalendarC = () => {
     <Calendar
       culture="es"
       localizer={localizer}
-      events={pruebaEventos}
+      events={eventos}
       showAllEvents
       // defaultView={ lastView }
       startAccessor="start"

@@ -66,7 +66,7 @@ const AvisosModal = ({
         setMunicipios(res.RESPONSE);
       });
     }
-    let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
+    let m: Imunicipio[] = JSON.parse(String(getMunicipios()));
     setValues(m);
   };
 

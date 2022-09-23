@@ -24,7 +24,7 @@ const Buttons = ({
 
 
   return (
-    <Box sx={{}}>
+    <Box sx={{alignItems: "center",}}>
       <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
         <Tooltip title="Agregar Registro">
           <ToggleButton value="check" onClick={() => handleOpen(1)}>

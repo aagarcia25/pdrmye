@@ -23,20 +23,15 @@ export const getPermisos = () => localStorage.getItem('permisos');
 export const setRoles = (roles: any) => localStorage.setItem('roles', JSON.stringify(roles));
 export const getRoles = () => localStorage.getItem('roles');
 // MENUS
-export const setMenus = (menus: any) => localStorage.setItem('permisos', JSON.stringify(menus));
+export const setMenus = (menus: any) => localStorage.setItem('menus', JSON.stringify(menus));
 export const getMenus = () => localStorage.getItem('menus');
-
-
-
-
-
 
 
 
 export const getRefreshToken = () => localStorage.getItem('expires_at');
 
 export const isAuthenticated = (): boolean => {
-  return getAccessToken() ? true : true;
+  return getAccessToken() ? true : false;
 };
 
 export const validaLocalStorage = (name: string): boolean => {
@@ -61,3 +56,6 @@ export const getPU = ( ) => {
 }
 
 
+export const getItem = (item:string ) => {
+  return localStorage.getItem(item);
+ }
