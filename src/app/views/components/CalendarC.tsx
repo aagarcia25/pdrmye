@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Calendar } from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { render } from "react-dom";
 import { localizer } from "../../helpers/calendarLocalizer";
 import { getMessagesES } from "../../helpers/getMessages";
 
 import { CalendarioService } from "../../services/calendarioService";
+import moment from "moment";
 
 const CalendarC = () => {
   const [eventos, setEventos] = useState([]);
+
+  const location = momentLocalizer(moment);
 
   const pruebaEventos = [
     {
@@ -19,7 +22,7 @@ const CalendarC = () => {
     },
     {
       id: 2,
-      title: "titulo",
+      title: "rompe",
       start: "2022-09-14T10:00:00",
       end: "2022-09-14T12:00:00",
     },
