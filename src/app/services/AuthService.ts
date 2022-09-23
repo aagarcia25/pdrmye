@@ -12,6 +12,16 @@ export class AuthService {
         return await post('Usuariosindex', data);
     }
 
+    public static async permisosindex(data: any) {
+        return await post('permisosindex', data);
+    }
+
+    public static async rolesindex(data: any) {
+        return await post('rolesindex', data);
+    }
+
+
+    
 
 
 }

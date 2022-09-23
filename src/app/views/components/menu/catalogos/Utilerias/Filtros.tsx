@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
 import Imeses from "../../../../../interfaces/filtros/meses";
 import Ianios from "../../../../../interfaces/filtros/anios";
+import { fanios } from "../../../../../share/loadAnios";
+import { fmeses } from "../../../../../share/loadMeses";
 
 const Filtros = ({
   anioApply,
@@ -22,23 +23,9 @@ const Filtros = ({
   const [anios, setAnios] = useState<Ianios[]>();
   const [meses, setMeses] = useState<Imeses[]>();
 
-  const mesesc = () => {
-    let data = {};
-    CatalogosServices.meses(data).then((res) => {
-      setMeses(res.RESPONSE);
-    });
-  };
-
-  const aniosc = () => {
-    let data = {};
-    CatalogosServices.anios(data).then((res) => {
-      setAnios(res.RESPONSE);
-    });
-  };
-
   useEffect(() => {
-    mesesc();
-    aniosc();
+    setMeses(fmeses);
+    setAnios(fanios());
   }, []);
 
   return (

@@ -106,8 +106,9 @@ export const categories = [
   {
     id: 'Roles y Privilegios',
     children: [
-      { id: 'Roles de Usuario', icon: <PeopleAlt />, path: '' },
-      { id: 'Privilegios de Usuario', icon: <PersonAddDisabled />, path: '' },
+      { id: 'Usuarios',               icon: <PeopleAlt />,         path: '/inicio/usuario'  },
+      { id: 'Roles de Usuario',       icon: <PeopleAlt />,         path: '/inicio/roles'    },
+      { id: 'Privilegios de Usuario', icon: <PersonAddDisabled />, path: '/inicio/permisos' },
 
     ],
   },

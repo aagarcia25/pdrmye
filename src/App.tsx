@@ -8,10 +8,12 @@ import {
   getPU,
   getUser,
   setMenus,
+  setMunicipios,
   setPermisos,
   setPU,
   setRoles,
   setUser,
+  validaLocalStorage,
 } from "./app/services/localStorage";
 import { isAuthenticated } from "./app/services/authenticationService";
 import Validacion from "./app/views/components/Validacion";
@@ -24,6 +26,7 @@ import { AuthService } from "./app/services/AuthService";
 import { UserReponse } from "./app/interfaces/user/UserReponse";
 import { UserDetail } from "./app/interfaces/user/UserDetail";
 import { UserInfo } from "./app/interfaces/user/UserInfo";
+import { CatalogosServices } from "./app/services/catalogosServices";
 
 function App() {
 
@@ -31,6 +34,37 @@ function App() {
   const logeado = isAuthenticated();
 
 
+  const loadAnios = () => {
+    let data = {};
+    if (!validaLocalStorage("Anios")) {
+      CatalogosServices.anios(data).then((res) => {
+        localStorage.setItem('Anios', JSON.stringify(res.RESPONSE));
+      });
+    }
+  };
+
+  
+  const loadMeses = () => {
+    let data = {};
+    if (!validaLocalStorage("Meses")) {
+      CatalogosServices.meses(data).then((res) => {
+        localStorage.setItem('Meses', JSON.stringify(res.RESPONSE));
+      });
+    }
+  };
+
+  const loadMunicipios = () => {
+    let data = {};
+    if (!validaLocalStorage("FiltroMunicipios")) {
+      CatalogosServices.Filtromunicipios(data).then((res) => {
+        setMunicipios(res.RESPONSE);
+      });
+    }
+  };
+
+
+
+  
   const registerUser = (rs: UserDetail) => {
     let data = {
       NUMOPERACION: 1,
@@ -78,8 +112,8 @@ function App() {
           confirmButtonText: "Aceptar",
         }).then((result) => {
           if (result.isConfirmed) {
-           // localStorage.clear();
-           // window.location.replace("http://10.200.4.106/");
+            localStorage.clear();
+            window.location.replace("http://10.200.4.106/");
           }
         });
       }
@@ -140,6 +174,13 @@ function App() {
   });
 
   useEffect(() => {
+
+    setTimeout(() => {
+      console.log('validando municipios')
+      loadMunicipios();
+      loadMeses();
+      loadAnios();
+    }, 2000)
 
    
     if(!logeado){

@@ -1,30 +1,42 @@
 
      import React, { useEffect, useState } from 'react'
-     import { Box, Button, Dialog, DialogActions, 
-       DialogContent, DialogContentText, DialogTitle, IconButton, 
-       Input, LinearProgress, Modal, SelectChangeEvent, TextField, Typography } from '@mui/material'
-     import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
-     import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
-     import { CustomToolbar } from '../../CustomToolbar'
-     import { getUser } from '../../../../../services/localStorage'
+     import { Box, IconButton, SelectChangeEvent } from '@mui/material'
+     import { GridColDef } from '@mui/x-data-grid'
+     import { getPermisos, getUser } from '../../../../../services/localStorage'
      import { CatalogosServices } from '../../../../../services/catalogosServices'
      import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
      import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-     import AddIcon from '@mui/icons-material/Add';
      import { messages } from '../../../../styles'
      import Swal from 'sweetalert2'
      import { Toast } from '../../../../../helpers/Toast'
      import { Alert } from "../../../../../helpers/Alert";
      import Filtros from '../Utilerias/Filtros'
      import Slider from "../../../Slider";
-     import MunFacturacionModal from '../MunFacturacion/MunFacturacionModal'
      import Buttons from '../Utilerias/Buttons'
      import MunPoblacionModal from './MunPoblacionModal'
+     import MUIXDataGrid from '../../../MUIXDataGrid'
+import AccionesGrid from '../../../AccionesGrid'
+import { PERMISO } from '../../../../../interfaces/user/UserInfo'
+   
      
-     
-     
+const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+
+
      export const MunPoblacion = () => {
      
+
+
+
+      const [eliminar, setEliminar] = useState(false);
+      const [update, setUpdate] = useState(false);
+
+
+
+
+
+
+
+
        const user = getUser();
        const [modo, setModo] = useState("");
        const [open, setOpen] = useState(false);
@@ -52,29 +64,23 @@
          { field: "Nombre", headerName: "Municipio", width: 150 },
          { field: "Anio", headerName: "Año", width: 150 },
          { field: "totalPob", headerName: "Total Población", width: 150 },
+         
          {
            field: "acciones",
            headerName: "Acciones",
            description: "Campo de Acciones",
            sortable: false,
            width: 200,
-           renderCell: (v) => {
+           renderCell: (v: any) => {
              return (
-               <Box>
-                 <IconButton onClick={() => handleEditar(v)}>
-                   
-                   <ModeEditOutlineIcon />
-                 </IconButton>
-                 <IconButton onClick={() => handleBorrar(v)}>
-                   <DeleteForeverIcon />
-                 </IconButton>
-               </Box>
+              <AccionesGrid handleEditar={handleEditar} handleBorrar={handleBorrar} v={v} update={update} pdelete={eliminar}/>
              );
            },
          },
         
        ];
      
+
        const handleClose = () => {
         console.log('cerrando');
       
@@ -85,6 +91,11 @@
         consulta(data);
         setOpen(false);
       };
+
+       
+  
+     
+
      
      const handleOpen = (v: any) => {
        setTipoOperacion(1);
@@ -218,6 +229,33 @@
      
        useEffect(() => {
          downloadplantilla();
+
+
+
+
+         permisos.map((item: PERMISO) => {
+          console.log(item.Menu +' --' + item.Permiso);
+        
+          if(item.Menu =='munpob'){
+            if(item.Permiso =='Editar'){
+              setUpdate(true);
+            }
+
+            if(item.Permiso =='Eliminar'){
+              setEliminar(true);
+            }
+        
+          }
+        
+          
+        
+        });
+
+
+
+
+
+
        }, []);
      
      
@@ -225,10 +263,8 @@
      
        return (
      
-     
          <div style={{ height: 600, width: "100%" }}>
            <Slider open={slideropen}></Slider>
-     
            <Filtros
              anioApply={true}
              mesApply={false}
@@ -256,21 +292,11 @@
              handleUpload={handleAgregar}
            />
      
-           <DataGrid
-             //checkboxSelection
-             pagination
-             localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-             components={{
-               Toolbar: CustomToolbar,
-               LoadingOverlay: LinearProgress,
-               NoRowsOverlay: CustomNoRowsOverlay,
-             }}
-             rowsPerPageOptions={[5, 10, 20, 50, 100]}
-             rows={Poblacion}
-             columns={columns}
-     
-             // loading //agregar validacion cuando se esten cargando los registros
-           />
+            <MUIXDataGrid
+              columns={columns}
+              rows={Poblacion}
+            />
+
          </div>
      
        
