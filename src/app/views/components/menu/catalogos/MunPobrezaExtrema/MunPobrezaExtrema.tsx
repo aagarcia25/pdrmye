@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, SelectChangeEvent,  TextField, Typography } from '@mui/material'
-import { DataGrid, esES, GridColDef, GridColTypeDef } from '@mui/x-data-grid'
+import { Box,  IconButton, LinearProgress, Modal, SelectChangeEvent,  } from '@mui/material'
+import { DataGrid, esES, GridColDef, } from '@mui/x-data-grid'
 
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { CustomToolbar, porcentage } from '../../CustomToolbar'
-import { getUser } from '../../../../../services/localStorage'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AddIcon from '@mui/icons-material/Add';
 import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
@@ -73,8 +71,15 @@ const columns: GridColDef[] = [
 
        
   const handleClose = () => {
-       
     setOpen(false);
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: filterAnio,
+    };
+    consulta(data);
+
+    
+
   }
   
 
@@ -84,7 +89,7 @@ const columns: GridColDef[] = [
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
-    setData("");
+    setData(v);
   };
   
 
@@ -94,6 +99,12 @@ const columns: GridColDef[] = [
     setModo("Editar Registro");
     setOpen(true);
     setData(v);
+
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: filterAnio,
+    };
+    consulta(data);
     };
 
     const handleBorrar = (v:any) => {

@@ -78,7 +78,7 @@ const MunPobrezaExtremaModal = ({
         CHUSER: 1,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
-        TOTAL: poblacion,
+        PERSONAS: poblacion,
         PORCENTAJE : porcentaje,
         CARENCIAPROMEDIO : carenciaProm,
 
@@ -86,10 +86,20 @@ const MunPobrezaExtremaModal = ({
       };
 
       handleRequest(data);
+      handleClose();
     }
   };
 
+const handleTest=()=>{
 
+  console.log("Tipo de operacion "+ tipo);
+  console.log("modo de operacion "+modo) ; 
+
+
+
+
+
+}
   const handleRequest = (data: any) => {
     console.log(data);
     if (tipo == 1) {
@@ -168,6 +178,8 @@ const MunPobrezaExtremaModal = ({
   return (
     <Dialog open={open}>
       <DialogTitle>{modo}</DialogTitle>
+
+      if
       <DialogContent>
         <Box>
           <FormControl variant="standard" fullWidth>
@@ -191,6 +203,7 @@ const MunPobrezaExtremaModal = ({
             </Select>
           </FormControl>
 
+          {(modo==="Agregar Registro")?
           <TextField
             required
             margin="dense"
@@ -207,7 +220,25 @@ const MunPobrezaExtremaModal = ({
        
              }}
           />
-
+          :
+          <TextField
+            required
+            margin="dense"
+            id="anio"
+            label="Año"
+            value={anio}
+            type="number"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setAnio(v.target.value)}
+            error={anio == "" ? true : false}
+             InputProps={{
+            readOnly: tipo == 1 ? false : true,
+       
+             }}
+          />
+}
+          
           <TextField
             margin="dense"
             required
@@ -269,6 +300,7 @@ const MunPobrezaExtremaModal = ({
       <DialogActions>
         <Button onClick={() => handleSend()}>Guardar</Button>
         <Button onClick={() => handleClose()}>Cerrar</Button>
+        <Button onClick={() => handleTest()}>Test</Button>
       </DialogActions>
     </Dialog>
   );

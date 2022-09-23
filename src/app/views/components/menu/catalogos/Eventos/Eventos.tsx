@@ -16,7 +16,9 @@ import EventosModal from './EventosModal';
 import Buttons from '../Utilerias/Buttons';
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
-import Slider from "../../../Slider";
+
+import "../Eventos/globals.css";
+
 
 export const Eventos = () => {
     
@@ -44,7 +46,7 @@ const columns: GridColDef[] = [
 
       <Box>
       <IconButton onClick={() => handleVisualizar(v)}>
-      <img    id="imagen" src={v.row.Imagen}  style={{ width: "2vw" }}   />
+      <img    id="imagen" src={v.row.Imagen}  style={{ width: "2vw" ,objectFit:"scale-down"}}   />
      
         </IconButton>
       </Box>
@@ -116,7 +118,7 @@ const columns: GridColDef[] = [
     })
 
     const consulta = (data: any) => {
-      CatalogosServices.munfacturacion(data).then((res) => {
+      CatalogosServices.eventos(data).then((res) => {
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",

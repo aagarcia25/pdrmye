@@ -8,6 +8,7 @@ import {
   Button,
   IconButton,
   Input,
+  Container,
 } from "@mui/material";
 import {  porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
@@ -60,9 +61,8 @@ const EventosModal = ({
 ////////////////////////////////
 const [preview, setPreview]=useState<string>();
 const [NewImagePreview, setNewImagePreviw] =useState<File>();
-const [cleanUpFile, setCleanUpFile] =useState<File>();
 const [cleanUp, setCleanUp] =useState<boolean>(false);
-const fileInputRef = useRef<HTMLInputElement>();
+
 
 
 //////////////////////////////////
@@ -252,13 +252,18 @@ if (file && file.type.substr (0,5)=== "image"){
    <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',   }}>
 
 
-          <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
+          <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex',}}>
                 <div >
                 
                 <Box>  
-              
+
+
+                           
                 {(cleanUp)?
-                <img src={preview} />
+                <Box>  
+                <img src={preview} style={{objectFit:"scale-down"}} />
+                </Box> 
+
                 :
                 ""               
                 }
@@ -356,9 +361,13 @@ if (file && file.type.substr (0,5)=== "image"){
   </Box>
   
   : 
+
+  <Container maxWidth="sm">
+
+
      <Box  >
         <Box >
-        <img id="imagen" src={image} style={{ width: "100%" }}/>
+        <img id="imagen" src={image} style={{ width: '100%' ,height: '100%' ,objectFit:"scale-down" }}/>
         </Box>
 
      <TextField
@@ -381,6 +390,7 @@ if (file && file.type.substr (0,5)=== "image"){
                 <Button onClick={() => handleClose() }>Cerrar</Button>
                 </Box>           
     </Box>
+    </Container>
  } 
 
 
