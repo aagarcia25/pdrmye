@@ -16,6 +16,7 @@ import EventosModal from './EventosModal';
 import Buttons from '../Utilerias/Buttons';
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
+import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
 import "../Eventos/globals.css";
 
@@ -156,15 +157,9 @@ const columns: GridColDef[] = [
       <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
         <Tooltip title="Agregar Registro">
           <ToggleButton value="check" onClick={() => handleNuevoRegistro(1)}>
-            <AddIcon />
+            <AddCircleTwoToneIcon />
           </ToggleButton>
         </Tooltip>
-
-      
-
-
-
-        
       </ToggleButtonGroup>
     </Box>
     <DataGrid

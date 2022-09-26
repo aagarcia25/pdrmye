@@ -9,6 +9,7 @@ import {
   IconButton,
   Input,
   Container,
+  Tooltip,
 } from "@mui/material";
 import {  porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
@@ -20,6 +21,9 @@ import { Label, PhotoCamera } from "@mui/icons-material";
 import { devNull } from "os";
 import { style } from "@mui/system";
 import "../Eventos/globals.css";
+import TodayIcon from '@mui/icons-material/Today';
+import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
+
 
 const EventosModal = ({
   open,
@@ -42,6 +46,7 @@ const EventosModal = ({
   const today = new Date().toISOString();
   const [id, setId] = useState("");
   const [descripcion, setDescripcion] = useState("");
+  const [description, setDescription] = useState("");
   const [nameNewImage, setNameNewImage] = useState("");
   const [nameEvent, setNameEvent] = useState("");
   const [newImage, setNewImage] = useState(Object);
@@ -75,7 +80,9 @@ const [cleanUp, setCleanUp] =useState<boolean>(false);
   console.log("fecha y hora  minimo     "+inicioEventoMin);
 console.log("carga de imagen "+ newImage)
 console.log("nombre de imagen para cargar     "+ nameNewImage)
-
+console.log("nombre "+ nameEvent)
+console.log("DEscripcion  "+descripcion )
+console.log("DEscription  "+ description)
   }
 
   const municipiosc = () => {
@@ -85,7 +92,7 @@ console.log("nombre de imagen para cargar     "+ nameNewImage)
         setMunicipios(res.RESPONSE);
       });
     }
-    let m: Imunicipio[] = JSON.parse(String(getMunicipios()));
+    let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
     setValues(m);
   };
 
@@ -126,6 +133,7 @@ console.log("nombre de imagen para cargar     "+ nameNewImage)
      
 
     });
+    handleClose();
   };
 
   const handleFechaInicio = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -243,81 +251,130 @@ if (file && file.type.substr (0,5)=== "image"){
 
 
     <Dialog open={open} >
+
+      <Box sx={{ bgcolor:'rgb(222, 225, 225)', display: 'flex',justifyContent: 'center', }}>
     <DialogTitle>{modo}</DialogTitle>
+     </Box>
    
  { (nuevoEvento=== true)?
 
 
 
-   <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',   }}>
+   <Box  sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', }}>
 
-
-          <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex',}}>
-                <div >
+{
+  //////////empiezan debajo del titulo
+}
+          <Box  sx={{width: '100%',}}>
+             
                 
-                <Box>  
-
-
-                           
-                {(cleanUp)?
-                <Box>  
-                <img src={preview} style={{objectFit:"scale-down"}} />
-                </Box> 
-
-                :
-                ""               
-                }
-
-              <IconButton color="primary" aria-label="upload picture" component="label">
-                 <input                
+                <Box sx={{  
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  p: 1,
+                  m: 1,
+                  bgcolor: 'background.paper',
+                  borderRadius: 1, }}>  
+                
+                {(cleanUp)?"":
+                <Box>
+                <IconButton aria-label="upload picture" component="label">
+                <input                
                 required                
                 type="file"
                 hidden
-                accept="image/*"
-                
-           
+                accept="image/*" 
                 onChange={(event) =>{         
-                  handleNewImage(event)  } } />
-
+                handleNewImage(event)  } } />
                 <PhotoCamera/>
                 </IconButton>
+                </Box>
+                }
+
+                {(cleanUp)?
+
+                <Box>
+                    <Box> 
+                    <img src={preview} className="rounded-corners" style={{objectFit:"scale-down",width: '100%', }} />
+                    </Box> 
+                    <Box> 
+                   <IconButton component="label">
+                    <input                
+                    required                
+                    type="file"
+                    hidden
+                    accept="image/*"
+                    onChange={(event) =>{         
+                    handleNewImage(event)  } } />
+                    <PhotoCamera/>
+                    </IconButton>
+                    </Box> 
+                    </Box> 
+
+                   :"" }  
+                   
+              </Box>
+
                   
-               
-                  </Box>
-                  </div>
 
 
-            <Box sx={{alignItems:"center"}}>
-        <label >Fin de evento</label>
-          <input
-            id="datetime-finaliza"
-        required      
-        type="datetime-local"
-        defaultValue={inicioEventoMin}
-        min = {inicioEvento}
-        onChange={handleFechaFin}
-           
-          />
-           </Box>
+            <Box sx={{ 
+          justifyContent: 'center',
+          p: 1,
+          m: 1,
+          bgcolor: 'background.paper',
+          borderRadius: 1,
+        }}>
+            <Box sx={{ justifyContent: 'center',}}>
 
+               <Box  >
+              <label>Inicio de evento </label>
+              </Box>
+          
 
-             <Box>
-        <label >Inicio de evento </label>
-        <input
-        id="datetime-inicia"
-        required
-        type="datetime-local"
-        defaultValue={inicioEventoMin}
-        min = {inicioEventoMin}  
-        max = {finEvento}     
-        onChange={handleFechaInicio}
-     
-        
+              <Box>
+
+             
+              <input
+              id="datetime-inicia"              
+              required            
+              type="datetime-local"
+              defaultValue={inicioEventoMin}
+              min = {inicioEventoMin}  
+              max = {finEvento}     
+              onChange={handleFechaInicio}   
               />
+            
+            
+              </Box>
+
+            </Box >
+
+              <Box sx={{justifyContent: 'center', }}>
+
+              <Box>
+              <label >Fin de evento</label>
+              </Box>
+
+              <Box>
+              <input
+              id="datetime-finaliza"
+              required      
+              type="datetime-local"
+              defaultValue={inicioEventoMin}
+              min = {inicioEvento}
+              onChange={handleFechaFin}
+               />
+               </Box>
+
+               </Box>
+                    
             </Box>
 
-           
-
+           {////////////// fin de botones
+}
           </Box>
  
  
@@ -345,7 +402,7 @@ if (file && file.type.substr (0,5)=== "image"){
             type="string"
             fullWidth
             variant="standard"
-            onChange={(v) => setDescripcion(v.target.value)}
+            onChange={(v) => setDescription(v.target.value)}
          
            
           />
@@ -354,7 +411,7 @@ if (file && file.type.substr (0,5)=== "image"){
             <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
             <Button onClick={() => handleUpload() } >Guardar</Button>
             <Button onClick={() => testeoVariables() } >test</Button>
-            <Button onClick={() => handleClose()}  >Cancelar</Button>
+            <Button onClick={() => handleClose()}  >Cerrar</Button>
             </Box>
 
 
@@ -375,7 +432,7 @@ if (file && file.type.substr (0,5)=== "image"){
             margin="dense"
             id="anio"
             value ={descripcion}
-        
+        disabled
             type="string"
             fullWidth
             variant="standard"

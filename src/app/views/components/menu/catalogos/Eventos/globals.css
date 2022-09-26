@@ -3,6 +3,13 @@ img
 width: 200px;
 height: 200px;
 cursor: pointer;
-object-fit: "fill";
+object-fit: "scale-down";
+border-radius: 40px 40px 0 0;;
+
 
 }
+
+img.rounded-corners {
+    border-radius: 40px;
+  }
+
