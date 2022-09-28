@@ -35,6 +35,7 @@
         ROLES: ROLE[];
         MENUS: MENU[];
         PERMISOS: PERMISO[];
+        tipo?: any;
     }
 
     export interface UserInfo {

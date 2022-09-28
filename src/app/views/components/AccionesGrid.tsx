@@ -1,4 +1,4 @@
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
@@ -7,32 +7,33 @@ const AccionesGrid = ({
   handleBorrar,
   v,
   update,
-  pdelete
+  pdelete,
 }: {
   handleEditar: Function;
   handleBorrar: Function;
   v: any;
-  update :boolean;
-  pdelete:boolean;
- 
+  update: boolean;
+  pdelete: boolean;
 }) => {
-  
-
   return (
     <div>
       <Box>
         {update ? (
-          <IconButton color="info" onClick={() => handleEditar(v)}>
-            <ModeEditOutlineIcon />
-          </IconButton>
+          <Tooltip title={"Editar Registro"}>
+            <IconButton color="info" onClick={() => handleEditar(v)}>
+              <ModeEditOutlineIcon />
+            </IconButton>
+          </Tooltip>
         ) : (
           ""
         )}
 
         {pdelete ? (
-          <IconButton color="error" onClick={() => handleBorrar(v)}>
-            <DeleteForeverIcon />
-          </IconButton>
+          <Tooltip title={"Eliminar Registro"}>
+            <IconButton color="error" onClick={() => handleBorrar(v)}>
+              <DeleteForeverIcon />
+            </IconButton>
+          </Tooltip>
         ) : (
           ""
         )}

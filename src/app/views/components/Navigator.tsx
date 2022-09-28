@@ -16,15 +16,22 @@ import { useNavigate, Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import React from 'react';
-import { useState } from 'react';
-import { Collapse } from '@mui/material';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MenuIcon from '@mui/icons-material/Menu';
+import BoyIcon from '@mui/icons-material/Boy';
 
 export const categories = [
 
  
+  {
+    id: 'Roles y Privilegios',
+    children: [
+      { id: 'Usuarios',               icon: <PeopleAlt />,         path: '/inicio/usuario'  },
+      { id: 'Roles de Usuario',       icon: <BoyIcon />,           path: '/inicio/roles'    },
+      { id: 'Menus',                  icon: <MenuIcon />,          path: '/inicio/menus'    },
+      { id: 'Privilegios de Usuario', icon: <PersonAddDisabled />, path: '/inicio/permisos' },
 
+    ],
+  },
   {
     id: 'Catálogos',
     children: [
@@ -103,52 +110,17 @@ export const categories = [
   },
   
 
-  {
-    id: 'Roles y Privilegios',
-    children: [
-      { id: 'Usuarios',               icon: <PeopleAlt />,         path: '/inicio/usuario'  },
-      { id: 'Roles de Usuario',       icon: <PeopleAlt />,         path: '/inicio/roles'    },
-      { id: 'Privilegios de Usuario', icon: <PersonAddDisabled />, path: '/inicio/permisos' },
+ 
 
-    ],
-  },
+  
 
-  {
-    id: 'Contacto Municipios',
-    children: [
-    ],
-  },
-
-  {
-    id: 'Generador de Estadisticas',
-    children: [
-    ],
-  },
-
+  
   {
     id: 'Organismos Paraestatales',
     children: [
-      { id: '3% de ISN', icon: <Article />, path: '/bienvenido' },
-      { id: 'Pensiones Vitalicias', icon: <Article />, path: '/bienvenido' },
-      { id: 'Pago de 1 y 2 al Millar', icon: <Article />, path: '/bienvenido' },
-      { id: 'Gastos Extraordinario con Presupuesto Virtual', icon: <Article />, path: '/bienvenido' },
-      { id: 'Pago Virtual ICV', icon: <Article />, path: '/bienvenido' },
-    ],
-  },
-
-  {
-    id: 'Donativos ICV',
-    children: [
-      { id: 'Cruz Roja', icon: <Article />, path: '/bienvenido' },
-      { id: 'Bomberos', icon: <Article />, path: '/bienvenido' },
-    ],
-  },
-
-  {
-    id: 'Ayudas Sociales',
-    children: [
-      { id: 'Cruz Roja', icon: <Article />, path: '/bienvenido' },
-      { id: 'Bomberos', icon: <Article />, path: '/bienvenido' },
+      { id: 'Solicitudes Estatales', icon: <Article />, path: '/inicio/org/solicitudes' },
+      { id: 'Solicitudes Federales', icon: <Article />, path: '/inicio/org/solicitudes' },
+      { id: 'Pensiones Vitalicias', icon: <Article />, path: '/inicio/pensionesvitalicias' },
     ],
   },
 
@@ -156,11 +128,7 @@ export const categories = [
   {
     id: 'Organismos',
     children: [
-      { id: 'Servicios Personales', icon: <Article />, path: '/bienvenido' },
-      { id: 'Servicios Generales', icon: <Article />, path: '/bienvenido' },
-      { id: 'Programa Estatal de Inversion (PEI)', icon: <Article />, path: '/bienvenido' },
-      { id: 'Anticipos', icon: <Article />, path: '/bienvenido' },
-      { id: 'Gastos Extraodinarios', icon: <Article />, path: '/bienvenido' },
+      { id: 'Solicitudes Estatales', icon: <Article />, path: '/inicio/org/solicitudes' },
     ],
   },
 
@@ -175,7 +143,13 @@ export const categories = [
     ],
   },
 
-
+  {
+    id: 'Contacto',
+    children: [
+      { id: 'Contacto Municipios', icon: <Article />, path: '/inicio/contactomunicipio' },
+      { id: 'Contacto Organismos', icon: <Article />, path: '/inicio/contactoorganismos' },
+    ],
+  },
  
 
 

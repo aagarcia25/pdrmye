@@ -1,32 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useReducer } from "react";
-import "./App.css";
-import { AuthContext } from "./app/views/store/contexts/AuthContext";
-import { AppRouter } from "./app/router/AppRouter";
-import { authReducer } from "./app/views/store/reducers/authReducer";
-import {
-  getPU,
-  getUser,
-  setMenus,
-  setMunicipios,
-  setPermisos,
-  setPU,
-  setRoles,
-  setUser,
-  validaLocalStorage,
-} from "./app/services/localStorage";
-import { isAuthenticated } from "./app/services/authenticationService";
-import Validacion from "./app/views/components/Validacion";
-import { useLocation, useParams } from "react-router-dom";
-import { UserServices } from "./app/services/UserServices";
+import { useLocation } from "react-router";
 import Swal from "sweetalert2";
-import { BloqueoSesion } from "./app/views/components/BloqueoSesion";
-import { useIdleTimer } from "react-idle-timer";
-import { AuthService } from "./app/services/AuthService";
-import { UserReponse } from "./app/interfaces/user/UserReponse";
 import { UserDetail } from "./app/interfaces/user/UserDetail";
 import { UserInfo } from "./app/interfaces/user/UserInfo";
+import { UserReponse } from "./app/interfaces/user/UserReponse";
+import { AppRouter } from "./app/router/AppRouter";
+import { AuthService } from "./app/services/AuthService";
 import { CatalogosServices } from "./app/services/catalogosServices";
+import { getPU, isAuthenticated, setMenus, setMunicipios, setPermisos, setPU, setRoles, setUser, validaLocalStorage } from "./app/services/localStorage";
+import { UserServices } from "./app/services/UserServices";
+import { BloqueoSesion } from "./app/views/components/BloqueoSesion";
+import Validacion from "./app/views/components/Validacion";
+import { useIdleTimer } from 'react-idle-timer'
 
 function App() {
 
