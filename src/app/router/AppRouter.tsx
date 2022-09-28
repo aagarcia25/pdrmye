@@ -29,7 +29,6 @@ import { isAuthenticated } from '../services/authenticationService';
 import CalendarC from '../views/components/CalendarC';
 import { ListNotification } from '../views/components/ListNotification';
 import { MunFacturacion } from '../views/components/menu/catalogos/MunFacturacion/MunFacturacion';
-import { MunPobrezaModerada } from '../views/components/menu/catalogos/MunPobrezaModerada/MunPobrezaModerada';
 import { MunPobProyeccion } from '../views/components/menu/catalogos/MunPobProyeccion/MunPobProyeccion';
 import { MunTerritorio } from '../views/components/menu/catalogos/MunTerritorio/MunTerritorio';
 import { MunPobrezaExtrema } from '../views/components/menu/catalogos/MunPobrezaExtrema/MunPobrezaExtrema';
@@ -112,7 +111,6 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/tasa'                       element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob'                     element={<MunPoblacion />} />
         <Route path='/inicio/catalogos/munfacturacion'             element={<MunFacturacion />}        />
-        <Route path='/inicio/catalogos/munpobmod'                  element={<MunPobrezaModerada />}        />
         <Route path='/inicio/catalogos/munproyec'                  element={<MunPobProyeccion />}        />
         <Route path='/inicio/catalogos/munterritorio'              element={<MunTerritorio />}        />
         <Route path='/inicio/catalogos/munpobrezaext'              element={<MunPobrezaExtrema />}        />

@@ -1,45 +1,112 @@
-import React, { useState } from 'react'
-import { messages } from '../../../styles';
-import MUIXDataGrid from '../../MUIXDataGrid';
+import { AccountCircle } from "@mui/icons-material";
+import { FormControl, Grid, Input, InputAdornment, InputLabel, TextField } from "@mui/material";
+import { Box } from "@mui/system";
+import React, { useState } from "react";
+import { messages } from "../../../styles";
+import ButtonsAdd from "../../menu/catalogos/Utilerias/ButtonsAdd";
+import MUIXDataGrid from "../../MUIXDataGrid";
 
 const PensionesVitalicias = () => {
+  const [data, setData] = useState([]);
+  const [step, setStep] = useState(0);
 
-    const [data, setData] = useState([]);
+  const columns = [
+    {
+      field: "id",
+      headerName: "Identificador",
+      width: 150,
+      hide: true,
+      description: messages.dataTableColum.id,
+    },
+    { field: "Nombre", headerName: "Nombre Persona", width: 150 },
+    { field: "Anio", headerName: "Año", width: 150 },
+    { field: "Mes", headerName: "Mes", width: 150 },
+    { field: "Importe", headerName: "Importe", width: 150 },
+  ];
 
-
-    const columns = [
-        { field: "id", headerName: "Identificador", width: 150   , hide:true , description:messages.dataTableColum.id},
-        { field: "Nombre", headerName: "Nombre Persona", width: 150 },
-        { field: "Anio", headerName: "Año", width: 150 },
-        { field: "Enero", headerName: "Enero", width: 150 },
-        { field: "Febrero", headerName: "Febrero", width: 150 },
-        { field: "Marzo", headerName: "Marzo", width: 150 },
-        { field: "Abril", headerName: "Abril", width: 150 },
-        { field: "Mayo", headerName: "Mayo", width: 150 },
-        { field: "Junio", headerName: "Junio", width: 150 },
-        { field: "Julio", headerName: "Julio", width: 150 },
-        { field: "Agosto", headerName: "Agosto", width: 150 },
-        { field: "Septiembre", headerName: "Septiembre", width: 150 },
-        { field: "Octubre", headerName: "Octubre", width: 150 },
-        { field: "Noviembre", headerName: "Noviembre", width: 150 },
-        { field: "Diciembre", headerName: "Diciembre", width: 150 },
-       
-        
-      
-       
-      ];
-    
-
-
+  const handleOpen = () => {
+    setStep(1);
+  };
 
   return (
     <div>
-      <MUIXDataGrid
-              columns={columns}
-              rows={data}
-            />
-    </div>
-  )
-}
+      <Box sx={{ display: step == 1 ? "block" : "none" }}>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid
+            container
+            spacing={{ xs: 2, md: 3 }}
+            columns={{ xs: 4, sm: 8, md: 12 }}
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+          >
 
-export default PensionesVitalicias
+
+
+            <Grid item xs={2} sm={4} md={4}>
+             
+            </Grid>
+
+            <Grid item xs={2} sm={4} md={4} >
+             
+             
+              <FormControl variant="standard">
+                <InputLabel htmlFor="input-with-icon-adornment">
+                  With a start adornment
+                </InputLabel>
+                <Input
+                  id="input-with-icon-adornment"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+
+
+
+             
+
+            </Grid>
+
+            <Grid item xs={2} sm={4} md={4}>
+             
+            </Grid>
+
+            <Grid item xs={2} sm={4} md={4}>
+             
+            </Grid>
+
+            <Grid item xs={2} sm={4} md={4} >
+             
+              <FormControl variant="standard">
+                <InputLabel htmlFor="input-with-icon-adornment">
+                  With a start adornment
+                </InputLabel>
+                <Input
+                  id="input-with-icon-adornment"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={2} sm={4} md={4}>
+             
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+      <Box sx={{ display: step == 0 ? "block" : "none" }}>
+        <ButtonsAdd handleOpen={handleOpen}></ButtonsAdd>
+        <MUIXDataGrid columns={columns} rows={data} />
+      </Box>
+    </div>
+  );
+};
+
+export default PensionesVitalicias;

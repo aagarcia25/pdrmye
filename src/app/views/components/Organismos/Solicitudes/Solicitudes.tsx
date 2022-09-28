@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import ButtonsAdd from '../../menu/catalogos/Utilerias/ButtonsAdd';
 import MUIXDataGrid from '../../MUIXDataGrid';
 
 const Solicitudes = () => {
@@ -22,10 +23,14 @@ const Solicitudes = () => {
         { field: "Diciembre", headerName: "Diciembre", width: 150 },
       ];
     
-
+      const handleOpen = () => {
+        
+       
+      };
 
   return (
     <div>
+       <ButtonsAdd handleOpen={handleOpen}></ButtonsAdd>
         <MUIXDataGrid
               columns={columns}
               rows={data}
