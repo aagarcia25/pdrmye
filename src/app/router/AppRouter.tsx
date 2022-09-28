@@ -24,7 +24,6 @@ import { Fodem } from '../views/components/menu/aportaciones/fodem/Fodem';
 import { Fodes } from '../views/components/menu/aportaciones/fodes/Fodes';
 import { Fosegum } from '../views/components/menu/aportaciones/fosegum/Fosegum';
 
-import { Calendario } from '../views/components/menu/calendario/Calendario';
 import { MunPoblacion } from '../views/components/menu/catalogos/MunPoblacion/MunPoblacion';
 import { isAuthenticated } from '../services/authenticationService';
 import CalendarC from '../views/components/CalendarC';
@@ -79,6 +78,10 @@ import Usuarios from '../views/components/menu/usuarios/Usuarios/Usuarios';
 import Roles from '../views/components/menu/usuarios/Roles/Roles';
 import Permisos from '../views/components/menu/usuarios/Permisos/Permisos';
 import Menus from '../views/components/menu/usuarios/Menus/Menus';
+import PensionesVitalicias from '../views/components/Organismos/PensionesVitalicias/PensionesVitalicias';
+import Solicitudes from '../views/components/Organismos/Solicitudes/Solicitudes';
+import ContactoMunicipios from '../views/components/Municipios/ContactoMunicipios';
+import ContactoOrganismos from '../views/components/Organismos/contactoOrganismos/ContactoOrganismos';
 
 
 export const AppRouter = () => {
@@ -120,10 +123,10 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/eventos'                    element={<Eventos />} />
         <Route path='/inicio/catalogos/departamentos'              element={<Departamentos />}      />
         <Route path='/inicio/catalogos/tipoFondo'                  element={<TipoFondo />}      />
-        <Route  path='/inicio/catalogos/inflacionMes'              element={<InflacionMes />}      />
-        <Route  path='/inicio/catalogos/inflacionAnio'             element={<InflacionAnio />}      />
-        <Route  path='/inicio/catalogos/fondos'                    element={<Fondos />}      />
-        <Route  path='/inicio/catalogos/crecimientoAnio'           element={<CrecimientoAnio />}      />
+        <Route path='/inicio/catalogos/inflacionMes'               element={<InflacionMes />}      />
+        <Route path='/inicio/catalogos/inflacionAnio'              element={<InflacionAnio />}      />
+        <Route path='/inicio/catalogos/fondos'                     element={<Fondos />}      />
+        <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
         
         {/* FIN SECCION DE CATALOGOS */}
 
@@ -214,6 +217,18 @@ export const AppRouter = () => {
        <Route path='/inicio/menus'     element={log ? <Menus /> : <AuthRouter />} />
        <Route path='/inicio/permisos'  element={log ? <Permisos /> : <AuthRouter />} />
        {/* FIN SECCION USUARIOS, ROLES, PERMISOS */}
+
+       {/* SECCION ORGANISMOS */}
+       <Route path='/inicio/pensionesvitalicias'  element={log ? <PensionesVitalicias /> : <AuthRouter />} />
+       <Route path='/inicio/org/solicitudes'  element={log ? <Solicitudes /> : <AuthRouter />} />
+       <Route path='/inicio/contactoorganismos'  element={log ? <ContactoOrganismos /> : <AuthRouter />} />
+       
+       {/* FIN DE SECCION DE ORGANISMOS */}
+       {/* SECCION MUNICIPIOS */}
+       <Route path='/inicio/contactomunicipio'  element={log ? <ContactoMunicipios /> : <AuthRouter />} />
+       {/* SECCION MUNICIPIOS */}
+
+
       </Routes>
     </Inicio>
   );

@@ -8,7 +8,6 @@ import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import AddIcon from "@mui/icons-material/Add";
 import { messages } from "../../../../styles";
 
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
@@ -42,7 +41,7 @@ const Fondos = () => {
       headerName: "Aplica Cálculo",
       width: 120,
       renderCell: (v) => {
-        return <Box>{v.row.AplicaCalculo == 1 ? "SI" : "No"}</Box>;
+        return <Box>{v.row.AplicaCalculo === 1 ? "SI" : "No"}</Box>;
       },
     },
     {
@@ -50,7 +49,7 @@ const Fondos = () => {
       headerName: "Vigente",
       width: 100,
       renderCell: (v) => {
-        return <Box>{v.row.Vigente == 1 ? "SI" : "No"}</Box>;
+        return <Box>{v.row.Vigente === 1 ? "SI" : "No"}</Box>;
       },
     },
     {
@@ -59,7 +58,7 @@ const Fondos = () => {
       width: 100,
 
       renderCell: (v) => {
-        return <Box>{v.row.Estatal == 1 ? "SI" : "No"}</Box>;
+        return <Box>{v.row.Estatal === 1 ? "SI" : "No"}</Box>;
       },
     },
     {
@@ -67,7 +66,7 @@ const Fondos = () => {
       headerName: "Federal",
       width: 100,
       renderCell: (v) => {
-        return <Box>{v.row.Federal == 1 ? "SI" : "No"}</Box>;
+        return <Box>{v.row.Federal === 1 ? "SI" : "No"}</Box>;
       },
     },
     { field: "idtipo", headerName: "idtipo", width: 150, hide: true },
