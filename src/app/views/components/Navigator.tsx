@@ -20,6 +20,7 @@ import { useState } from 'react';
 import { Collapse } from '@mui/material';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export const categories = [
 
@@ -108,6 +109,7 @@ export const categories = [
     children: [
       { id: 'Usuarios',               icon: <PeopleAlt />,         path: '/inicio/usuario'  },
       { id: 'Roles de Usuario',       icon: <PeopleAlt />,         path: '/inicio/roles'    },
+      { id: 'Menus',                  icon: <MenuIcon />,          path: '/inicio/menus'    },
       { id: 'Privilegios de Usuario', icon: <PersonAddDisabled />, path: '/inicio/permisos' },
 
     ],

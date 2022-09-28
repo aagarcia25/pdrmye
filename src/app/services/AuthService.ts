@@ -20,8 +20,31 @@ export class AuthService {
         return await post('rolesindex', data);
     }
 
-
     
+    public static async rolesrel(data: any) {
+        return await post('rolesrel', data);
+    }
 
+    public static async usuarioRol(data: any) {
+        return await post('usuarioRol', data);
+    }
+
+    public static async menusindex(data: any) {
+        return await post('menusindex', data);
+    }
+
+    public static async menuPermisosRel(data: any) {
+        return await post('menuPermisosRel', data);
+    }
+
+
+    public static async menuPermisosSinRel(data: any) {
+        return await post('menuPermisosSinRel', data);
+    }
+
+    public static async menuPermisosRelacionar(data: any) {
+        return await post('menuPermisosRelacionar', data);
+    }
+    
 
 }

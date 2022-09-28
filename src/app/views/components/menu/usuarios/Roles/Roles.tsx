@@ -1,33 +1,45 @@
+import { IconButton, Tooltip } from "@mui/material";
+import { Box } from "@mui/system";
+import { GridColDef } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
+import { Alert } from "../../../../../helpers/Alert";
+import { Toast } from "../../../../../helpers/Toast";
+import { AuthService } from "../../../../../services/AuthService";
+import { messages } from "../../../../styles";
+import AccionesGrid from "../../../AccionesGrid";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
-import { IconButton, Tooltip } from '@mui/material';
-import { Box } from '@mui/system';
-import { GridColDef } from '@mui/x-data-grid';
-import React, { useEffect, useState } from 'react'
-import { Alert } from '../../../../../helpers/Alert';
-import { Toast } from '../../../../../helpers/Toast';
-import { AuthService } from '../../../../../services/AuthService';
-import { messages } from '../../../../styles';
-import AccionesGrid from '../../../AccionesGrid';
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-
-
-import MUIXDataGrid from '../../../MUIXDataGrid';
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import RolesMenu from "./RolesMenu";
 
 const Roles = () => {
+  const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [id, setId] = useState("");
 
-    const [data, setData] = useState([]);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleView = (v: any) => {
+    setId(v.row.id);
+    setOpen(true);
 
-    const handleEdit = (v: any) => {
-        /* setTipoOperacion(2);
+    /* setTipoOperacion(2);
+       setModo("Editar Registro");
+       setOpen(true);
+       setData(v);*/
+  };
+
+  const handleEdit = (v: any) => {
+    /* setTipoOperacion(2);
          setModo("Editar Registro");
          setOpen(true);
          setData(v);*/
-       };
-     
-      
-       const handleDelete = (v: any) => {
-       /*  Swal.fire({
+  };
+
+  const handleDelete = (v: any) => {
+    /*  Swal.fire({
            icon: "info",
            title: "Estas seguro de eliminar este registro?",
            showDenyButton: true,
@@ -71,83 +83,81 @@ const Roles = () => {
              Swal.fire("No se realizaron cambios", "", "info");
            }
          });*/
-       };
- 
- 
-     const columns: GridColDef[] = [
-         {
-           field: "id",
-           headerName: "Identificador",
-           hide: true,
-           width: 150,
-           description: messages.dataTableColum.id,
-         },
-         {
-           field: "Nombre",
-           headerName: "Rol",
-           width: 150,
-         },
-         { field: "Descripcion", headerName: "Descripcion", width: 450 },
-         {
-           field: "acciones",
-           headerName: "Acciones",
-           description: "Campo de Acciones",
-           sortable: false,
-           width: 100,
-           renderCell: (v) => {
-             return (
-              <Box>
-              <Tooltip title={"Ver Menús Relaciados al Rol"}>
-              <IconButton onClick={() => handleEdit(v)}>
+  };
+
+  const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "Identificador",
+      hide: true,
+      width: 150,
+      description: messages.dataTableColum.id,
+    },
+    {
+      field: "Nombre",
+      headerName: "Rol",
+      width: 150,
+    },
+    { field: "Descripcion", headerName: "Descripcion", width: 450 },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 100,
+      renderCell: (v) => {
+        return (
+          <Box>
+            <Tooltip title={"Ver Menús Relaciados al Rol"}>
+              <IconButton onClick={() => handleView(v)}>
                 <RemoveRedEyeIcon />
               </IconButton>
-              </Tooltip>
+            </Tooltip>
 
-              <Tooltip title={"Relacionar Menú"}>
+            <Tooltip title={"Relacionar Menú"}>
               <IconButton onClick={() => handleDelete(v)}>
-                <AccountTreeIcon  />
+                <AccountTreeIcon />
               </IconButton>
-              </Tooltip>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
+  ];
 
-            </Box>
-             );
-           },
-         },
-       ];
-
-
-       const consulta = (data: any) => {
-        AuthService.rolesindex(data).then((res) => {
-          if (res.SUCCESS) {
-            Toast.fire({
-              icon: "success",
-              title: "Consulta Exitosa!",
-            });
-            setData(res.RESPONSE);
-          } else {
-            Alert.fire({
-              title: "Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
-            });
-          }
+  const consulta = (data: any) => {
+    AuthService.rolesindex(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
         });
-      };
-    
-    
-      useEffect(() => {
-        consulta({NUMOPERACION:4});
-      }, []); 
+        setData(res.RESPONSE);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
 
+  useEffect(() => {
+    consulta({ NUMOPERACION: 4 });
+  }, []);
 
   return (
     <div>
-       <MUIXDataGrid
-              columns={columns}
-              rows={data}
-            />
-    </div>
-  )
-}
+      {open ? (
+        <RolesMenu open={open} handleClose={handleClose} id={id}></RolesMenu>
+      ) : (
+        ""
+      )}
 
-export default Roles
+      <MUIXDataGrid columns={columns} rows={data} />
+    </div>
+  );
+};
+
+export default Roles;

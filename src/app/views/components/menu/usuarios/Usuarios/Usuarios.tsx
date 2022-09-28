@@ -1,3 +1,5 @@
+import { Tooltip, IconButton } from '@mui/material';
+import { Box } from '@mui/system';
 import { GridColDef } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react'
 import { Alert } from '../../../../../helpers/Alert';
@@ -7,13 +9,35 @@ import { messages } from '../../../../styles';
 import AccionesGrid from '../../../AccionesGrid';
 import MUIXDataGrid from '../../../MUIXDataGrid';
 
+import DeviceHubIcon from '@mui/icons-material/DeviceHub';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import RolesRelModal from './RolesRelModal';
+
 const Usuarios = () => {
 
 
     const [data, setData] = useState([]);
-
+    const [open, setOpen] = useState(false);
+    const [id, setId] = useState("");
 
     
+    const handleClose = () => {
+      setOpen(false);
+    };
+    
+    const handleView = (v: any) => {
+      setId(v.row.id);
+      setOpen(true);
+     };
+
+
+     const handleRel = (v: any) => {
+      /* setTipoOperacion(2);
+       setModo("Editar Registro");
+       setOpen(true);
+       setData(v);*/
+     };
+     
 
     const handleEdit = (v: any) => {
        /* setTipoOperacion(2);
@@ -83,7 +107,7 @@ const Usuarios = () => {
         { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
         { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
         { field: "NombreUsuario",  headerName:  "Usuario",        width: 150   },
-        { field: "CorreoElectronico", headerName: "Correo Electronico", width: 150 },
+        { field: "CorreoElectronico", headerName: "Correo Electronico", width: 200 },
         
         {
           field: "acciones",
@@ -93,7 +117,19 @@ const Usuarios = () => {
           width: 200,
           renderCell: (v) => {
             return (
-              <AccionesGrid handleEditar={handleEdit} handleBorrar={handleDelete} v={v} update={false} pdelete={false} />
+              <Box>
+              <Tooltip title={"Ver Roles Relaciados al Usuario"}>
+                <IconButton onClick={() => handleView(v)}>
+                  <DeviceHubIcon />
+                </IconButton>
+              </Tooltip>
+  
+              <Tooltip title={"Relacionar Rol"}>
+                <IconButton onClick={() => handleRel(v)}>
+                  <AccountBoxIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
             );
           },
         },
@@ -126,7 +162,11 @@ const Usuarios = () => {
   }, []);
   return (
     <div>
-      
+       {open ? (
+        <RolesRelModal open={open} handleClose={handleClose} id={id}></RolesRelModal>
+      ) : (
+        ""
+      )}
       <MUIXDataGrid
               columns={columns}
               rows={data}

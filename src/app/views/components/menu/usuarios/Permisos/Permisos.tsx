@@ -6,19 +6,37 @@ import { AuthService } from '../../../../../services/AuthService';
 import { messages } from '../../../../styles';
 import AccionesGrid from '../../../AccionesGrid';
 import MUIXDataGrid from '../../../MUIXDataGrid';
+import ButtonsAdd from '../../catalogos/Utilerias/ButtonsAdd';
+import PermisosModal from './PermisosModal';
 
 const Permisos = () => {
 
     const [data, setData] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [modo, setModo] = useState("");
+    const [tipoOperacion, setTipoOperacion] = useState(0);
+    const [vrows, setVrows] = useState({});
 
 
+    const handleClose = () => {
+      setOpen(false);
+    };
 
-    const handleEdit = (v: any) => {
-        /* setTipoOperacion(2);
+    const handleOpen = (v: any) => {
+      setTipoOperacion(1);
+      setModo("Agregar Registro");
+      setVrows("");
+      setOpen(true);
+    };
+
+  
+
+    const handleEditar = (v: any) => {
+         setTipoOperacion(2);
          setModo("Editar Registro");
+         setVrows(v);
          setOpen(true);
-         setData(v);*/
-       };
+    };
      
       
        const handleDelete = (v: any) => {
@@ -89,10 +107,16 @@ const Permisos = () => {
            headerName: "Acciones",
            description: "Campo de Acciones",
            sortable: false,
-           width: 200,
+           width: 100,
            renderCell: (v) => {
              return (
-               <AccionesGrid handleEditar={handleEdit} handleBorrar={handleDelete} v={v} update={false} pdelete={false} />
+               <AccionesGrid 
+               handleEditar={handleEditar}
+                handleBorrar={handleDelete} 
+                v={v} 
+                update={true} 
+                pdelete={true}
+                 />
              );
            },
          },
@@ -124,6 +148,19 @@ const Permisos = () => {
   }, []);
   return (
     <div>
+
+{open ? (
+      <PermisosModal
+        open={open}
+        modo={modo}
+        tipo={tipoOperacion}
+        handleClose={handleClose}
+        dt={vrows}
+      />
+    ) : (
+      ""
+    )}
+<ButtonsAdd handleOpen={handleOpen} />
        <MUIXDataGrid
               columns={columns}
               rows={data}

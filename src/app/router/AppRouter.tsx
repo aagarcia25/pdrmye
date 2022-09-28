@@ -78,6 +78,7 @@ import DetalleFism from '../views/components/menu/aportaciones/fism/DetalleFism'
 import Usuarios from '../views/components/menu/usuarios/Usuarios/Usuarios';
 import Roles from '../views/components/menu/usuarios/Roles/Roles';
 import Permisos from '../views/components/menu/usuarios/Permisos/Permisos';
+import Menus from '../views/components/menu/usuarios/Menus/Menus';
 
 
 export const AppRouter = () => {
@@ -210,6 +211,7 @@ export const AppRouter = () => {
        {/* SECCION USUARIOS, ROLES, PERMISOS */}
        <Route path='/inicio/usuario'   element={log ? <Usuarios /> : <AuthRouter />} />
        <Route path='/inicio/roles'     element={log ? <Roles /> : <AuthRouter />} />
+       <Route path='/inicio/menus'     element={log ? <Menus /> : <AuthRouter />} />
        <Route path='/inicio/permisos'  element={log ? <Permisos /> : <AuthRouter />} />
        {/* FIN SECCION USUARIOS, ROLES, PERMISOS */}
       </Routes>
