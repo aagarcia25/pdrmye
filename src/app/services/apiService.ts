@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { getFormDataHeader, getHeaderInfo, getHeaderInitial } from '../helpers/tokenCreator';
-import { removeTokens } from './localStorage';
+import { getFormDataHeader, getHeaderInfo, getHeaderInitial } from './tokenCreator';
+import { env_var } from '../environments/env';
 
 /**
  * MANEJO AUTOMATICO DE PETICIONES
@@ -9,74 +9,67 @@ import { removeTokens } from './localStorage';
  * ADOLFO ANGEL GARCIA 10/08/2022
  */
 
-
 const handleResponse = (response: any) => {
-
-    if (response.status === 401) {
-       // removeTokens();
-    }
-    if (response.data.status !== 'OK') {
-        return response.data;
-    }
-    return response;
+    let rs;
+        rs = {
+            RESPONSE: response.RESPONSE,
+            SUCCESS: response.SUCCESS,
+            NUMCODE: response.NUMCODE,
+            STRMESSAGE: response.STRMESSAGE,
+        }
+    return rs;
 }
 
-export const postEasy = async function (api: string ,url: string, body: any) {
+
+export const postEasy = async function (url: string, body: any) {
     let header = await getHeaderInitial();
     try {
-        let resp = await axios.post(api + url, body, header);
+
+        let resp = await axios.post(`${env_var.BASE_URL}` + url, body, header);
         return handleResponse(resp);
-    
-    } catch (err:any) {
+    } catch (err: any) {
         return handleResponse(err.response)
     }
 };
 
-export const post = async function (api: string ,url: string, body: any) {
+
+
+export const post = async function (url: string, body: any) {
     let header = await getHeaderInfo();
     try {
-        let resp = await axios.post(api + url, body, header);
-       // console.log(resp);
-        return handleResponse(resp);
-    
-    } catch (err:any) {
+        let resp = await axios.post(`${env_var.BASE_URL}` + url, body, header);
+        return handleResponse(resp.data);
+    } catch (err: any) {
         return handleResponse(err.response)
     }
 };
 
-export const get = async function (api: string ,url: any, params: any = {}) {
+export const get = async function (url: any, params: any = {}) {
     let header = await getHeaderInfo();
     try {
-        let resp = await axios.get(api + url, { ...header, params });
-        return handleResponse(resp);
-    } catch (err:any) {
-        throw handleResponse(err.response)
+        let resp = await axios.get(`${env_var.BASE_URL}` + url, { ...header, params });
+        return handleResponse(resp.data);
+    } catch (err: any) {
+        return handleResponse(err.response)
     }
 };
 
-export const put = async function (api: string ,body: any, url: any) {
-    let header = await getHeaderInfo();
 
+
+
+
+export const postDocument= async function ( url: string, body: FormData) {
+
+    let header = await getFormDataHeader();
     try {
-        let resp = await axios.put(api + url, body, header);
-
-        return handleResponse(resp);
-    } catch (err:any) {
-        throw handleResponse(err.response)
+        let resp = await axios.post(`${env_var.BASE_URL}` + url, body, header);
+        return handleResponse(resp.data);
+    } catch (err: any) {
+        return handleResponse(err.response)
     }
+
 };
 
-export const deleteApi = async function (api: string , url: any) {
-    let header = await getHeaderInfo();
-
-    try {
-        let resp = await axios.delete(api + url, header);
-
-        return handleResponse(resp);
-    } catch (err:any) {
-        throw handleResponse(err.response)
-    }
-};
 
 export const postImage = async function (api: string, url: string, body: any) {
 
@@ -85,8 +78,8 @@ export const postImage = async function (api: string, url: string, body: any) {
     formData.append('file', body);
     try {
         let resp = await axios.put(api + url, formData, header);
-        return handleResponse(resp);
-    } catch (err:any) {
+        return handleResponse(resp.data);
+    } catch (err: any) {
         throw handleResponse(err.response)
     }
 
