@@ -17,8 +17,12 @@ import Buttons from '../Utilerias/Buttons';
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
+import Swal from "sweetalert2";
+import AccionesGrid from "../../../AccionesGrid";
 
 import "../Eventos/globals.css";
+import { FileDownload } from '@mui/icons-material';
+
 
 
 export const Eventos = () => {
@@ -37,9 +41,11 @@ const columns: GridColDef[] = [
    
    
     { field: "Nombre", headerName: "Nombre", width: 200 },
-    { field: "Descripcion", headerName: "Descripcion", width: 600 },
-    { field: "FechaInicio", headerName: "Fecha de Inicio", width: 150 },
-    { field: "FechaFin", headerName: "Fecha de Finalizado", width: 100 },
+    { field: "Descripcion", headerName: "Descripcion", width: 200, description: 'Descripcion', resizable: true,
+    
+  },
+    { field: "FechaInicio", headerName: "Fecha de Inicio", width: 200 },
+    { field: "FechaFin", headerName: "Fecha de Finalizado", width: 200 },
     { field: "Imagen"  , headerName: "Imagen", width: 100  ,  
     
     renderCell:(v) =>{
@@ -55,36 +61,88 @@ const columns: GridColDef[] = [
   
   },
   },
-
+  {
+    field: "acciones",
+    headerName: "Acciones",
+    description: "Campo de Acciones",
+    sortable: false,
+    width: 200,
+    renderCell: (v) => {
+      return (
+        <Box>
+          <IconButton onClick={() => handleEditar(v)}>
+            <ModeEditOutlineIcon />
+          </IconButton>
+          <IconButton onClick={() => handleBorrar(v)}>
+            <DeleteForeverIcon />
+          </IconButton>
+        </Box>
+      );
+    },
+  },
+ 
    
   ];
 
-  
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "MunFacturacion");
-    CatalogosServices.migraData(formData).then((res) => {
-      setslideropen(false);
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        });
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+  const handleEditar = (v:any) => { 
+    console.log(v)
+    setTipoOperacion(2);
+    setModo("Editar");
+    setOpen(true);
+    setData(v);
+    };
 
+
+    const handleBorrar = (v:any) => {
      
+      Swal.fire({
+        icon: "info",
+        title: "Estas seguro de eliminar este registro?",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          console.log(v);
+  
+          let data = {
+            NUMOPERACION: 3,
+            CHID: v.row.id,
+            CHUSER: 1,
+          };
+          console.log(data);
+  
+          CatalogosServices.eventos(data).then((res) => {
+            if (res.SUCCESS) {
+              Toast.fire({
+                icon: "success",
+                title: "Registro Eliminado!",
+              });
+  
+              let data = {
+                NUMOPERACION: 4,
+                
+              };
+              consulta(data);
+            } else {
+              Alert.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+  
+        } else if (result.isDenied) {
+          Swal.fire("No se realizaron cambios", "", "info");
+        }
+  
+        
+      });
+    };
 
-    });
-  };
+
   const handleNuevoRegistro = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
@@ -135,17 +193,13 @@ const columns: GridColDef[] = [
         }
       });
     };
+    
     useEffect(() => {
       CatalogosServices.eventos(dat).then((res) => {
       //  console.log(res);
         setEventos(res.RESPONSE);
       });
     }, []);
-
-
-
-
-
 
   return (
 
@@ -184,7 +238,7 @@ const columns: GridColDef[] = [
           modo={modo}
           handleClose={handleClose}
           tipo={tipoOperacion}
-          nuevoEvento={nuevoEvento}
+          handleEditar={handleEditar}
           dt={data}
 
         />

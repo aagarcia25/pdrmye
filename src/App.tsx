@@ -212,14 +212,18 @@ function App() {
 
   return (
     <div>
-      {isIdle ? (
+     
+     {isIdle ? (
         <BloqueoSesion handlePassword={handleOnActive} />
       ) : logeado ? (
+        
         <AppRouter />
+     
+     
       ) : (
         <Validacion />
       )}
-
+    
     </div>
   );
 }

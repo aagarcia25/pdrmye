@@ -250,12 +250,7 @@ const handleTest=()=>{
             variant="standard"
             onChange={(v) => setPoblacion(v.target.value)}
             error={poblacion == "" ? true : false}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start"></InputAdornment>
-              ),
-            }}
-          />
+            />
            <TextField
            
             margin="dense"
