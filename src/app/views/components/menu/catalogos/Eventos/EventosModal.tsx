@@ -5,29 +5,17 @@ import {
   DialogTitle,
   Box,
   TextField,
-  Button,
   IconButton,
-  Input,
   Container,
-  Tooltip,
   FormLabel,
-} from "@mui/material";
-import { porcentage } from '../../CustomToolbar'
+  } from "@mui/material";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
-import { FullscreenExitSharp, Label, PhotoCamera } from "@mui/icons-material";
-import { devNull } from "os";
-import { style } from "@mui/system";
+import { Label, PhotoCamera, Preview } from "@mui/icons-material";
 import "../Eventos/globals.css";
-import TodayIcon from '@mui/icons-material/Today';
-import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
-import { eventNames } from "process";
-import { alignProperty } from "@mui/material/styles/cssUtils";
-import { toDate } from "date-fns/esm";
-import { TransitionProps } from "@mui/material/transitions";
 
 
 const EventosModal = ({
@@ -51,16 +39,17 @@ const EventosModal = ({
  
   // CAMPOS DE LOS FORMULARIOS
  
-  const today = new Date().toISOString();
+
   const [id, setId] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [description, setDescription] = useState("");
+  const [newDescripcion, setNewDescripcion] = useState("");
   const [nameNewImage, setNameNewImage] = useState("");
   const [newNameEvent, setNewNameEvent] = useState("");
   const [nameEvent, setNameEvent] = useState("");
   const [newImage, setNewImage] = useState(Object);
+  const [finEventoMax, setFinEventoMax] = useState("2100-09-30 13:16:00");
   const [finEvento, setFinEvento] = useState("");
-  const [image, setImage] = useState("");
+  const [urlImage, setUrlImage] = useState("");
   const [modoModal, setModoModal] = useState(modo);
   const [slideropen, setslideropen] = useState(false);
   const [IdMunicipio, setIdMunicipio] = useState("");
@@ -69,14 +58,11 @@ const EventosModal = ({
   var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2);
   var hora = ('0' + hoy.getHours()).slice(-2) + ':' + ('0' + hoy.getMinutes()).slice(-2);
   var Fecha_min = fecha + 'T' + hora;
-  const [editarInicioEvent, setEditarInicioEvento] = useState("");
-  const [editarFinEvento, setEditarFinEvento] = useState("");
   const [inicioEventoMin, setInicioEventoMin] = useState(Fecha_min);
-  const [inicioEvento, setInicioEvento] = useState(Fecha_min)
+  const [inicioEvento, setInicioEvento] = useState("")
 
-  const [errorEmpty, setErrorEmpty] = React.useState('');
   ////////////////////////////////
-  const [preview, setPreview] = useState<string>();
+  const [previewImage, setPreviewImage] = useState<string>();
   const [NewImagePreview, setNewImagePreviw] = useState<File>();
   const [cleanUp, setCleanUp] = useState<boolean>(false);
   const [editImage, setEditImage] = useState<boolean>(false);
@@ -87,22 +73,16 @@ const EventosModal = ({
 
 
   const testeoVariables = () => {
-    console.log("inicio de evento seteado    " + inicioEvento)
+    console.log("inicio de evento   " + inicioEvento)
     console.log("fin de evento   " + finEvento)
-    console.log("det    " + dt)
-    console.log("fecha y hora  minimo     " + inicioEventoMin);
-    console.log("carga de imagen   " + newImage)
-    console.log("nombre de imagen para cargar     " + nameNewImage)
-    console.log("nombre   " + newNameEvent)
-    console.log("DEscripcion  " + descripcion)
-    console.log("DEscription  " + description)
-    console.log("error de empty     " + errorEmpty)
-    console.log("fecha de inicio evento minimo convertida  " + Date.parse(inicioEventoMin) + " sin convertir  " + inicioEventoMin)
-    console.log("fecha de inicio evento " + Date.parse(editarInicioEvent) + "   sin convertir " + editarInicioEvent)
-
-    console.log("inicio de evento al editar  " + editarInicioEvent)
-    console.log("fin de evento al editar     " + String(editarFinEvento))
-
+    console.log("noombre de evento    " + nameEvent)
+    console.log("detalles de evento   " + descripcion);
+    console.log("imagen   " + urlImage)
+    console.log("nuevo usl de imagen   "+ previewImage)
+    console.log("hoy   "+ hoy.getFullYear())
+    console.log("fecha de hoy   "+ Fecha_min)
+    console.log("numero de operacion  "+tipo)
+   
   }
 
   const municipiosc = () => {
@@ -121,11 +101,11 @@ const EventosModal = ({
     setslideropen(true);
 
     const formData = new FormData();
-    formData.append("IMAGEN", newImage, nameNewImage);
+    (editImage)?formData.append("IMAGEN", newImage, nameNewImage):formData.append("IMAGEN","");    
     formData.append("NUMOPERACION", String(tipo));
-    formData.append("CHID", "");
-    formData.append("NOMBRE", newNameEvent);
-    formData.append("DESCRIPCION", description);
+    formData.append("CHID", id);
+    formData.append("NOMBRE", nameEvent);
+    formData.append("DESCRIPCION", descripcion);
     formData.append("FECHAINICIO", inicioEvento);
     formData.append("FECHAFIN", finEvento);
     formData.append("CHUSER", "1");
@@ -152,8 +132,10 @@ const EventosModal = ({
 
 
     });
+   
     handleClose();
   };
+
   const handleFechaInicio = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInicioEvento(event.target.value.toString());
 
@@ -198,30 +180,6 @@ const EventosModal = ({
       editar(data);
     }
   };
-  const handleSend = () => {
-    if (nameEvent === "" || descripcion === "") {
-      Alert.fire({
-        title: "Error!",
-        text: "Favor de Completar los Campos",
-        icon: "error",
-      });
-    } else {
-      let data = {
-        NUMOPERACION: tipo,
-        CHID: id,
-        CHUSER: 1,
-        NOMBRE: newNameEvent,
-        DESCRIPCION: description,
-        IMAGEN: newImage,
-        FECHAINICIO: inicioEvento,
-        FECHAFIN: finEvento,
-
-      };
-
-      handleRequest(data);
-      handleClose();
-    }
-  };
   const agregar = (data: any) => {
     CatalogosServices.eventos(data).then((res) => {
       if (res.SUCCESS) {
@@ -261,15 +219,16 @@ const EventosModal = ({
 
     if (dt === '') {
       console.log(dt)
-
     } else {
       setId(dt?.row?.id)
       setDescripcion(dt?.row?.Descripcion)
-      setImage(dt?.row?.Imagen)
+      setUrlImage(dt?.row?.Imagen)
       setIdMunicipio(dt?.row?.idmunicipio)
       setNameEvent(dt?.row?.Nombre)
-      setEditarInicioEvento(dt?.row?.FechaInicio)
-      setEditarFinEvento(dt?.row?.FechaFin)
+      setInicioEvento(dt?.row?.FechaInicio)
+      setFinEvento(dt?.row?.FechaFin)
+
+      
     }
 
   }, [dt]);
@@ -279,12 +238,12 @@ const EventosModal = ({
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreview(reader.result as string);
+        setPreviewImage(reader.result as string);
       };
       reader.readAsDataURL(NewImagePreview!);
     }
     else {
-      setPreview("o");
+      setPreviewImage("o");
     }
   }, [NewImagePreview]);
 
@@ -302,7 +261,7 @@ const EventosModal = ({
         {/// se setea el modo del modal para ver el tipo de el evento
         }
 
-        <DialogTitle>{modo}</DialogTitle>
+        <DialogTitle>{modoModal}</DialogTitle>
 
       </Box>
 
@@ -315,7 +274,7 @@ const EventosModal = ({
 
             //// imagen carga y previsualizacion
           }
-          <Box sx={{ width: '100%', flexDirection: 'column', }}>
+          <Box sx={{ width: '100%', }}>
 
             <Box sx={{
               display: 'flex',
@@ -327,14 +286,16 @@ const EventosModal = ({
               bgcolor: 'background.paper',
               borderRadius: 1,
             }}>
-              <Box>
+              <Box   sx={{display: 'flex', width: '100%', justifyContent: 'center', }}>
               {(cleanUp) ?
-                  <Box>
-                    <img src={preview} className="rounded-corners" style={{ objectFit: "scale-down", width: '100%', }} />
+                  <Box 
+                    >
+                    <img src={previewImage} style={{ objectFit: "scale-down", width: '100%', }} />
                   </Box>
-                  : ""}
-                <Box>
-                  <IconButton aria-label="upload picture" component="label">
+                  : ""}                              
+              </Box>
+              <Box>
+                  <IconButton aria-label="upload picture" component="label" size="large" >
                     <input
                       required
                       type="file"
@@ -345,8 +306,7 @@ const EventosModal = ({
                       }} />
                     <PhotoCamera />
                   </IconButton>
-                </Box>               
-              </Box>
+                </Box> 
             </Box>
 
           </Box>
@@ -369,7 +329,7 @@ const EventosModal = ({
               <Box>
 
                 <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                  <label>Inicio de evento </label>
+                  <FormLabel focused>Inicio </FormLabel>
                 </Box>
 
                 <Box>
@@ -379,24 +339,23 @@ const EventosModal = ({
                     type="datetime-local"
                     defaultValue={inicioEventoMin}
                     min={inicioEventoMin}
-                    max={finEvento}
+                    max={finEventoMax}
                     onChange={handleFechaInicio}
                   />
 
                 </Box>
               </Box>
-              <Box>  {"  " }</Box>
+          
               <Box sx={{ justifyContent: 'center', }}>
                 <Box>
                   <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                    <label >Fin de evento</label>
+                  <FormLabel focused>Fin</FormLabel>
                   </Box>
                   <Box>
                     <input
                       id="datetime-finaliza"
                       required
                       type="datetime-local"
-                      defaultValue={inicioEventoMin}
                       min={inicioEvento}
                       onChange={handleFechaFin}
                     />
@@ -415,42 +374,43 @@ const EventosModal = ({
           <Box>
 
          
-
+          <FormLabel focused>Nombre</FormLabel>
                 <TextField
                   required
                   multiline
                   margin="dense"
                   id="anio"
                   //value nombre de evento
-                  label="Nombre"
+                 
                   type="string"
                   fullWidth
                   variant="standard"
-                  onChange={(v) => setNewNameEvent(v.target.value)}
-                  error={newNameEvent == "" ? true : false}
-
-
-
+                  onChange={(v) => setNameEvent(v.target.value)}
+                  error={nameEvent == "" ? true : false}
                 />
+                 <FormLabel focused>Descripcion</FormLabel>
                 <TextField
                   multiline
                   required
                   margin="dense"
                   id="anio"
-                  //value ={descripcion}
-                  label="Descripcion"
+                  
                   type="string"
                   fullWidth
                   variant="standard"
-                  onChange={(v) => setDescription(v.target.value)}
-                  error={description == "" ? true : false}
+                  onChange={(v) => setDescripcion(v.target.value)}
+                  error={descripcion == "" ? true : false}
 
                 />
               </Box>
 
               <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
-                <Button onClick={() => handleUpload()} >Guardar</Button>
-                <Button onClick={() => handleClose()}  >Cerrar</Button>
+               
+              <button  className="button cerrar" onClick={() => handleClose()}  >Cerrar</button>
+               <button className= "guardar" onClick={() => handleUpload()} >Guardar</button>
+          
+          
+               
               </Box>
 
 
@@ -463,28 +423,32 @@ const EventosModal = ({
           <Box  >
 
             <Box >
-              <img id="imagen" src={image} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
+              <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
             </Box>
 
             <Box>
-
+            <Box
+             sx={{ bgcolor: 'rgb(222, 225, 225)'}}>
+              <h4>Nombre</h4>  
+            </Box>
 
             <FormLabel
              focused
-             filled
-             >
-             <h4>Nombre</h4>            
-            {nameEvent}
+             filled             
+             >                        
+            {"Nombre "+nameEvent}
             </FormLabel>
-              
+
+            <Box
+             sx={{ bgcolor: 'rgb(222, 225, 225)'}}>
+              <h4>Descripcion</h4>  
+            </Box>              
             <FormLabel
              focused
-             filled
-             >
-             <h3>Descripcion</h3>            
+             filled           
+             >                     
             {descripcion}
-            </FormLabel>
-           
+            </FormLabel>           
             </Box>
 
             <Box 
@@ -495,17 +459,19 @@ const EventosModal = ({
             <FormLabel
              focused
              filled
+         
              >
              <h3>Inicio</h3>            
-            {editarInicioEvent}
+            {inicioEvento}           
+            
             </FormLabel>
 
              <FormLabel
              focused
              filled
              >
-             <h3>Inicio</h3>            
-            {editarFinEvento}
+             <h3>Fin</h3>            
+            {finEvento}
             </FormLabel>
           
             </Box>
@@ -513,8 +479,9 @@ const EventosModal = ({
 
             <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
 
-              <Button onClick={() => handleClose()}>Cerrar</Button>
-              <Button onClick={() => setModoModal("Editar")}>Editar</Button>
+              <button  className= "cerrar" onClick={() => handleClose()}>Cerrar</button>
+              <button className= "editar" onClick={() => setModoModal("Editar")}>Editar</button>
+        
             </Box>
           </Box>
         </Container>
@@ -523,12 +490,13 @@ const EventosModal = ({
 
       {(modoModal === "Editar") ?
 
+        ///// editar evento hora inicio fin y foto        
 
-        ///// editar evento hora inicio fin y foto   
+        (Date.parse(inicioEventoMin) >= Date.parse(inicioEvento)) ?
 
-
-        (Date.parse(inicioEventoMin) >= Date.parse(editarInicioEvent)) ?
+        ////// SI EL EVENTO YA INICIO NO DEJA EDITARLO
         <Container maxWidth="sm" >
+           
           <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'column', }}>
 
             <Box>
@@ -547,20 +515,31 @@ const EventosModal = ({
                 }} />
             </Box>
             <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }} >
-              <Button onClick={() => handleClose()}  >Cerrar</Button>
-
+              <button className="cerrar" onClick={() => handleClose()}  >Cerrar</button>
+            
             </Box>
           </Box>
            </Container>
           :
+          /////   EDITAR EVENTO SI ESTE AUN NO FINALIZA Y/O INICIA
           <Container maxWidth="sm">
           <Box>
             {/// input de infomacion 
             }
-            <Box>
-              <IconButton aria-label="upload picture" component="label">
+           
+            {(editImage) ?
+              <Box>
+                <img id="imagen" src={previewImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
+              </Box>
+              : 
+              <Box>
+                <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
+              </Box>
+            }
+             <Box>
+              <IconButton aria-label="upload picture" component="label" size="large">
                 <input
-                  required
+                  required                  
                   type="file"
                   hidden
                   accept="image/*"
@@ -570,15 +549,45 @@ const EventosModal = ({
                 <PhotoCamera />
               </IconButton>
             </Box>
-            {(editImage) ?
-              <Box>
-                <img id="imagen" src={preview} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
-              </Box>
-              :
-              <Box>
-                <img id="imagen" src={image} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
-              </Box>
-            }
+
+            <Box>
+            <Box
+             sx={{ bgcolor: 'rgb(222, 225, 225)'}}>
+              <h4>Nombre</h4>  
+            </Box>
+
+              <TextField
+                  required
+                  multiline
+                  defaultValue={nameEvent}
+                  margin="dense"
+                  id="anio"
+                  type="string"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNameEvent(v.target.value)}
+                  error={nameEvent == "" ? true : false}
+                />
+
+            <Box
+             sx={{ bgcolor: 'rgb(222, 225, 225)'}}>
+              <h4>Descripcion</h4>  
+            </Box>              
+            <TextField
+                  multiline
+                  required
+                  margin="dense"
+                  id="anio"
+                  defaultValue={descripcion}
+                  label="Descripcion"
+                  type="string"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setDescripcion(v.target.value)}
+                  error={descripcion == "" ? true : false}
+
+                />          
+            </Box>
 
 
             <Box sx={{
@@ -602,7 +611,7 @@ const EventosModal = ({
                     id="datetime-inicia"
                     required
                     type="datetime-local"
-                    defaultValue={editarInicioEvent}
+                    defaultValue={inicioEvento}
                     min={inicioEventoMin}
                     max={finEvento}
                     onChange={handleFechaInicio}
@@ -624,8 +633,8 @@ const EventosModal = ({
                     id="datetime-local"
                     required
                     type="datetime-local"
-                    defaultValue={editarFinEvento}
-                    min={inicioEvento}
+                    defaultValue={finEvento}
+                    
                     onChange={handleFechaFin}
                   />
                 </Box>
@@ -634,47 +643,16 @@ const EventosModal = ({
 
             </Box>
 
-            <Box>
-              <Box>
-                <TextField
-                  margin="dense"
-                  required
-                  multiline
-                  id="pob"
-                  label="Nombre"
-                  value={nameEvent}
-                  type="string"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setNameEvent(v.target.value)}
-                  error={nameEvent == "" ? true : false}
-                />
-              </Box>
-
-
-              <Box>
-                <TextField
-                  margin="dense"
-                  required
-                  id="pob"
-                  label="Descripcion"
-                  value={descripcion}
-                  type="string"
-                  fullWidth
-                  multiline
-                  variant="standard"
-                  onChange={(v) => setDescripcion(v.target.value)}
-                  error={descripcion == "" ? true : false}
-                />
-              </Box>
-            </Box>
+           
 
             {////// botones 
             }
 
             <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
-              <Button onClick={() => handleSend()} >Guardar</Button>
-              <Button onClick={() => handleClose()}  >Cerrar</Button>
+              <button className="cerrar" onClick={() => handleClose()}  >Cerrar</button>
+              <button className= "guardar" onClick={() => handleUpload()} >Guardar</button>
+      
+              
 
             </Box>
           </Box>

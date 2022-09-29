@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material'
 import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
+import { messages } from '../../../../styles'
 import logo from '../../../../../assets/img/logo.svg';
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { CustomToolbar } from '../../CustomToolbar'
@@ -29,17 +30,18 @@ export const Eventos = () => {
     
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
+  const [EditImage, setEditImage] = useState(false);
   const [nuevoEvento, setNuevoEvento] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [plantilla, setPlantilla] = useState("");
   const [conEventos, setEventos] = useState([]);
-  const [slideropen, setslideropen] = useState(false);
+
 
 
 const columns: GridColDef[] = [
    
-   
+  { field: "id", headerName: "Identificador", hide:true , width: 150   , description:messages.dataTableColum.id},
     { field: "Nombre", headerName: "Nombre", width: 200 },
     { field: "Descripcion", headerName: "Descripcion", width: 200, description: 'Descripcion', resizable: true,
     

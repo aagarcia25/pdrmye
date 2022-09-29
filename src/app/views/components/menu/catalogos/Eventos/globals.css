@@ -4,8 +4,8 @@ width: 200px;
 height: 200px;
 cursor: pointer;
 object-fit: "scale-down";
-border-radius: 40px 40px 0 0;;
-
+border-radius: 40px 40px 40px 40px;;
+border-radius: 40px;
 
 }
 
@@ -13,3 +13,32 @@ img.rounded-corners {
     border-radius: 40px;
   }
 
+  button{
+    background-color: white;   
+    padding: 5px 12px;
+    border-radius: 10px;
+    font-size: 15px;
+    border: 2px solid hsl(120, 3%, 57%); 
+    transition-duration: 0.2s;
+    cursor: pointer;
+  
+
+  }
+
+  button:hover {
+    background-color: hsl(130, 3%, 63%); 
+    color: white;
+  }
+
+  .cerrar:hover{
+    background-color:#f44336; 
+    color: white;
+  }
+  .editar:hover{
+    background-color:hsl(206, 49%, 56%); 
+    color: white;
+  }
+  .guardar:hover{
+    background-color:hsl(126, 86%, 31%); 
+    color: white;
+  }
