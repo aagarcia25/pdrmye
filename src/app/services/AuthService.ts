@@ -25,6 +25,10 @@ export class AuthService {
         return await post('rolesrel', data);
     }
 
+    public static async rolesSinrel(data: any) {
+        return await post('rolesSinrel', data);
+    }
+
     public static async usuarioRol(data: any) {
         return await post('usuarioRol', data);
     }

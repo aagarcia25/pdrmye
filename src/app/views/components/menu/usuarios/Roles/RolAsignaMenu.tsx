@@ -11,8 +11,7 @@ import MUIXDataGridSimple from '../../../MUIXDataGridSimple';
 
 
 
-
-const RolesMenu = ({
+const RolAsignaMenu = ({
     id,
     open,
     handleClose,
@@ -173,4 +172,5 @@ const RolesMenu = ({
   )
 }
 
-export default RolesMenu
+export default RolAsignaMenu
+

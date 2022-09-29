@@ -104,9 +104,6 @@ export const AppRouter = () => {
         {/* SECCION DE CATALOGOS */}
 
 
-
-
-
         <Route path='/inicio/catalogos/mun'                        element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa'                       element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob'                     element={<MunPoblacion />} />

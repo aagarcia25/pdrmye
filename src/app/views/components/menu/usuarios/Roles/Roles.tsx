@@ -12,15 +12,19 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import RolesMenu from "./RolesMenu";
+import RolAsignaMenu from "./RolAsignaMenu";
 
 const Roles = () => {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openAsignaRol, setOpenAsignaRol] = useState(false);
   const [id, setId] = useState("");
 
   const handleClose = () => {
     setOpen(false);
+    setOpenAsignaRol(false);
   };
+
   const handleView = (v: any) => {
     setId(v.row.id);
     setOpen(true);
@@ -151,6 +155,16 @@ const Roles = () => {
     <div>
       {open ? (
         <RolesMenu open={open} handleClose={handleClose} id={id}></RolesMenu>
+      ) : (
+        ""
+      )}
+
+      {openAsignaRol ? (
+        <RolAsignaMenu
+          open={openAsignaRol}
+          handleClose={handleClose}
+          id={id}
+        ></RolAsignaMenu>
       ) : (
         ""
       )}
