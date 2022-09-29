@@ -124,10 +124,10 @@ const CalendarCModal = ({
       console.log(dt);
     } else {
       setId(dt?.row?.id);
-      setNombreEvento(dt?.row?.nombreEvento);
-      setInicioEvento(dt?.row?.inicioEvento);
-      setFinEvento(dt?.row?.finEvento);
-      setDepartamento(dt?.row?.departamento);
+      setNombreEvento(dt?.title);
+      //setInicioEvento(dt?.row?.inicioEvento);
+      //setFinEvento(dt?.row?.finEvento);
+      //setDepartamento(dt?.row?.departamento);
     }
   }, [dt]);
 

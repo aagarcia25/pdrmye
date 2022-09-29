@@ -32,9 +32,10 @@ const CalendarC = () => {
 
   const today = new Date();
 
-  const onSelectEvent = () => {
-    
-    alert("event selected");
+  const onSelectEvent = (v: any) => {
+    console.log(v);
+    setVrows(v);
+    setOpen(true);
   };
 
   const handleSelectSlot = () => {
@@ -139,7 +140,7 @@ const CalendarC = () => {
           height: "calc( 80vh - 80px )",
         }}
         messages={getMessagesES()}
-        onSelectEvent={onSelectEvent}
+        onSelectEvent={(v)=>onSelectEvent(v)}
         onSelectSlot={SelectSlot}
         selectable
         popup

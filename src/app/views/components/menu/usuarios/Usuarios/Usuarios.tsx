@@ -1,54 +1,49 @@
-import { Tooltip, IconButton } from '@mui/material';
-import { Box } from '@mui/system';
-import { GridColDef } from '@mui/x-data-grid';
-import React, { useEffect, useState } from 'react'
-import { Alert } from '../../../../../helpers/Alert';
-import { Toast } from '../../../../../helpers/Toast';
-import { AuthService } from '../../../../../services/AuthService';
-import { messages } from '../../../../styles';
-import AccionesGrid from '../../../AccionesGrid';
-import MUIXDataGrid from '../../../MUIXDataGrid';
+import { Tooltip, IconButton } from "@mui/material";
+import { Box } from "@mui/system";
+import { GridColDef } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
+import { Alert } from "../../../../../helpers/Alert";
+import { Toast } from "../../../../../helpers/Toast";
+import { AuthService } from "../../../../../services/AuthService";
+import { messages } from "../../../../styles";
+import AccionesGrid from "../../../AccionesGrid";
+import MUIXDataGrid from "../../../MUIXDataGrid";
 
-import DeviceHubIcon from '@mui/icons-material/DeviceHub';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import RolesRelModal from './RolesRelModal';
+import DeviceHubIcon from "@mui/icons-material/DeviceHub";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import RolesRelModal from "./RolesRelModal";
+import RolesSinRel from "./RolesSinRel";
 
 const Usuarios = () => {
+  const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [openSinRel, setOpenSinRel] = useState(false);
+  const [id, setId] = useState("");
 
+  const handleClose = () => {
+    setOpen(false);
+    setOpenSinRel(false);
+  };
 
-    const [data, setData] = useState([]);
-    const [open, setOpen] = useState(false);
-    const [id, setId] = useState("");
+  const handleView = (v: any) => {
+    setId(v.row.id);
+    setOpen(true);
+  };
 
-    
-    const handleClose = () => {
-      setOpen(false);
-    };
-    
-    const handleView = (v: any) => {
-      setId(v.row.id);
-      setOpen(true);
-     };
+  const handleRel = (v: any) => {
+    setId(v.row.id);
+    setOpenSinRel(true);
+  };
 
-
-     const handleRel = (v: any) => {
-      /* setTipoOperacion(2);
-       setModo("Editar Registro");
-       setOpen(true);
-       setData(v);*/
-     };
-     
-
-    const handleEdit = (v: any) => {
-       /* setTipoOperacion(2);
+  const handleEdit = (v: any) => {
+    /* setTipoOperacion(2);
         setModo("Editar Registro");
         setOpen(true);
         setData(v);*/
-      };
-    
-     
-      const handleDelete = (v: any) => {
-      /*  Swal.fire({
+  };
+
+  const handleDelete = (v: any) => {
+    /*  Swal.fire({
           icon: "info",
           title: "Estas seguro de eliminar este registro?",
           showDenyButton: true,
@@ -92,53 +87,54 @@ const Usuarios = () => {
             Swal.fire("No se realizaron cambios", "", "info");
           }
         });*/
-      };
+  };
 
+  const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "Identificador",
+      hide: true,
+      width: 150,
+      description: messages.dataTableColum.id,
+    },
+    { field: "Nombre", headerName: "Nombre", width: 150 },
+    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
+    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
+    { field: "NombreUsuario", headerName: "Usuario", width: 150 },
+    {
+      field: "CorreoElectronico",
+      headerName: "Correo Electronico",
+      width: 200,
+    },
+    { field: "Tipo", headerName: "Tipo", width: 200 },
 
-    const columns: GridColDef[] = [
-        {
-          field: "id",
-          headerName: "Identificador",
-          hide: true,
-          width: 150,
-          description: messages.dataTableColum.id,
-        },
-        { field: "Nombre", headerName: "Nombre", width: 150,},
-        { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
-        { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
-        { field: "NombreUsuario",  headerName:  "Usuario",        width: 150   },
-        { field: "CorreoElectronico", headerName: "Correo Electronico", width: 200 },
-        
-        {
-          field: "acciones",
-          headerName: "Acciones",
-          description: "Campo de Acciones",
-          sortable: false,
-          width: 200,
-          renderCell: (v) => {
-            return (
-              <Box>
-              <Tooltip title={"Ver Roles Relaciados al Usuario"}>
-                <IconButton onClick={() => handleView(v)}>
-                  <DeviceHubIcon />
-                </IconButton>
-              </Tooltip>
-  
-              <Tooltip title={"Relacionar Rol"}>
-                <IconButton onClick={() => handleRel(v)}>
-                  <AccountBoxIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            );
-          },
-        },
-      ];
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 200,
+      renderCell: (v) => {
+        return (
+          <Box>
+            <Tooltip title={"Ver Roles Relaciados al Usuario"}>
+              <IconButton onClick={() => handleView(v)}>
+                <DeviceHubIcon />
+              </IconButton>
+            </Tooltip>
 
-      
+            <Tooltip title={"Relacionar Rol"}>
+              <IconButton onClick={() => handleRel(v)}>
+                <AccountBoxIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
+  ];
 
-
- const consulta = (data: any) => {
+  const consulta = (data: any) => {
     AuthService.adminUser(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -156,23 +152,36 @@ const Usuarios = () => {
     });
   };
 
-
   useEffect(() => {
-    consulta({NUMOPERACION:4});
+    consulta({ NUMOPERACION: 4 });
   }, []);
   return (
     <div>
-       {open ? (
-        <RolesRelModal open={open} handleClose={handleClose} id={id}></RolesRelModal>
+      {open ? (
+        <RolesRelModal
+          key={Math.random()}
+          open={open}
+          handleClose={handleClose}
+          id={id}
+        ></RolesRelModal>
       ) : (
         ""
       )}
-      <MUIXDataGrid
-              columns={columns}
-              rows={data}
-            />
-    </div>
-  )
-}
 
-export default Usuarios
+      {openSinRel ? (
+        <RolesSinRel
+          key={Math.random()}
+          open={openSinRel}
+          handleClose={handleClose}
+          id={id}
+        ></RolesSinRel>
+      ) : (
+        ""
+      )}
+
+      <MUIXDataGrid columns={columns} rows={data} />
+    </div>
+  );
+};
+
+export default Usuarios;

@@ -8,7 +8,7 @@ import MUIXDataGridSimple from '../../../MUIXDataGridSimple';
 
 
 
-const RolesRelModal = ({
+const RolesSinRel = ({
     id,
     open,
     handleClose,
@@ -25,7 +25,7 @@ const RolesRelModal = ({
     const [data, setData] = useState([]);
 
     const consulta = (data: any) => {
-        AuthService.usuarioRol(data).then((res) => {
+        AuthService.rolessinrelacionar(data).then((res) => {
             setData(res.RESPONSE);
         });
       };
@@ -33,10 +33,10 @@ const RolesRelModal = ({
       
       const handleChange = (v: any) => {
         let data={
-          TIPO:2,
-          IDROL  : v.row.id,
-          IDUSUARIO    : id
-      }
+            TIPO:1,
+            IDROL  : v.row.id,
+            IDUSUARIO    : id
+        }
         AuthService.RelacionarUsuarioRol(data).then((res) => {
             setData(res.RESPONSE);
             if (res.SUCCESS) {
@@ -71,7 +71,7 @@ const RolesRelModal = ({
           sortable: false,
           width: 10,
           renderCell: (v) => {
-            return <Checkbox defaultChecked  onChange={() => handleChange(v) } />;
+            return <Checkbox   onChange={() => handleChange(v) } />;
           },
         },
         { field: "Nombre", headerName: "Nombre", width: 200 },
@@ -117,7 +117,7 @@ const RolesRelModal = ({
                   color: "#808080",
                 }}
               >
-                Roles Relacionados al Usuario
+                Relacionar  Roles a Usuario
               </Typography>
             </Box>
 
@@ -131,7 +131,7 @@ const RolesRelModal = ({
                   color: "#4db6ac",
                 }}
               >
-                Para Eliminar la Relación solo Desmarcar la Casilla
+                Para Relacionar el Rol al usuario solo marque la Casilla
               </Typography>
             </Box>
 
@@ -175,4 +175,4 @@ const RolesRelModal = ({
   
   )
 }
-export default RolesRelModal
+export default RolesSinRel

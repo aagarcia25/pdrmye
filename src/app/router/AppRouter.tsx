@@ -86,6 +86,8 @@ import ContactoOrganismos from '../views/components/Organismos/contactoOrganismo
 export const AppRouter = () => {
   const log = isAuthenticated();
   //console.log(log);
+
+  
   return (
     <Inicio>
       <Routes>
@@ -95,15 +97,7 @@ export const AppRouter = () => {
         <Route path='/'  element={log ? <Bienvenido /> : <AuthRouter />}     />
 
 
-
-
-
-
-     
-
         {/* SECCION DE CATALOGOS */}
-
-
         <Route path='/inicio/catalogos/mun'                        element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa'                       element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob'                     element={<MunPoblacion />} />
@@ -122,7 +116,6 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/inflacionAnio'              element={<InflacionAnio />}      />
         <Route path='/inicio/catalogos/fondos'                     element={<Fondos />}      />
         <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
-        
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
