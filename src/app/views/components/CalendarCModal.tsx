@@ -5,17 +5,28 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   FormControl,
+  FormControlLabel,
+  FormGroup,
+  IconButton,
+  Input,
   InputLabel,
   MenuItem,
   Select,
+  Switch,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Alert } from "../../helpers/Alert";
 import { Toast } from "../../helpers/Toast";
 import { eventoc } from "../../interfaces/calendario/calendario";
 import { CalendarioService } from "../../services/calendarioService";
+import { CatalogosServices } from "../../services/catalogosServices";
+import moment from "moment";
+import { Label } from "@mui/icons-material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const CalendarCModal = ({
   open,
@@ -23,18 +34,19 @@ const CalendarCModal = ({
   handleClose,
   tipo,
   dt,
+  handleDelete,
 }: {
   open: boolean;
   modo: string;
   tipo: number;
   handleClose: Function;
   dt: any;
+  handleDelete: Function;
 }) => {
   const [eventos, setEventos] = useState("");
   //Campos
   const [id, setId] = useState("");
   const [nombreEvento, setNombreEvento] = useState("");
-  const [inicioEvento, setInicioEvento] = useState("");
   const [finEvento, setFinEvento] = useState("");
   const [departamento, setDepartamento] = useState("");
 
@@ -42,12 +54,30 @@ const CalendarCModal = ({
 
   //Usandose en select departamentos
   const [departamentos, setDepartamentos] = useState("");
-  
+  const [inicioEvento, setInicioEvento] = useState("");
+
+  const hoy = new Date();
+  let fecha =
+    hoy.getFullYear() +
+    "-" +
+    ("0" + (hoy.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + hoy.getDate()).slice(-2);
+  let hora =
+    ("0" + hoy.getHours()).slice(-2) + ":" + ("0" + hoy.getMinutes()).slice(-2);
 
   const eventosc = () => {
     let data = {};
     CalendarioService.calendarios(data).then((res) => {
       setEventos(res.RESPONSE);
+    });
+  };
+
+  const departamentosc = () => {
+    let data = {};
+    CatalogosServices.departamentos(data).then((res) => {
+      //  console.log(res);
+      setDepartamentos(res.RESPONSE);
     });
   };
 
@@ -63,9 +93,12 @@ const CalendarCModal = ({
         NUMOPERACION: tipo,
         CHID: id,
         CHUSER: 1,
-        DEPARTAMENTO: id,
-        MES: inicioEvento,
-        INFLACION: finEvento,
+        DELETED: 0,
+        NOMBREEVENTO: nombreEvento,
+        INICIOEVENTO: inicioEvento,
+        FINEVENTO: finEvento,
+        ASIGNADOA: 1,
+        DEPARTAMENTO: "511732b0-2b01-11ed-afdb-040300000000",
       };
 
       handleRequest(data);
@@ -119,15 +152,17 @@ const CalendarCModal = ({
 
   useEffect(() => {
     eventosc();
+    departamentosc();
 
     if (dt === "") {
       console.log(dt);
     } else {
       setId(dt?.row?.id);
+
       setNombreEvento(dt?.title);
       //setInicioEvento(dt?.row?.inicioEvento);
       //setFinEvento(dt?.row?.finEvento);
-      //setDepartamento(dt?.row?.departamento);
+
     }
   }, [dt]);
 
@@ -135,12 +170,12 @@ const CalendarCModal = ({
     <Dialog open={open}>
       <DialogTitle>{modo}</DialogTitle>
       <DialogContent>
-        <Box>
+        <Box sx={{ padding: 2 }}>
+          <Typography>Título del Evento*</Typography>
           <TextField
             required
             margin="dense"
             id="nombreEvento"
-            label="Título del Evento"
             value={nombreEvento}
             fullWidth
             variant="standard"
@@ -151,36 +186,43 @@ const CalendarCModal = ({
               inputMode: "numeric",
             }}
           />
-        
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Departamento</InputLabel>
-            <Select
-              required
-              onChange={(v) => setDepartamento(v.target.value)}
-              value={departamento}
-              label="Mes"
-              // inputProps={{
-              //   readOnly: tipo == 1 ? false : true,
-              // }}
 
-              /*
-              Poner fuera de este abajo, departamentos ocuopa llamar a los existentes
-               {departamentos?.map((item: any) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Descripcion}
-                  </MenuItem>
-                );
-              })}
-              */
-            >
-             
-            </Select>
-          </FormControl>
+          <Typography>Fecha de inicio del evento*</Typography>
+
+          <Input
+            fullWidth
+            id="inicioEvento"
+            required
+            type="datetime-local"
+            onChange={(v) => setInicioEvento(v.target.value.toString())}
+            error={inicioEvento == "" ? true : false}
+          />
+          <Typography>Fecha de fin del evento*</Typography>
+          <Input
+            fullWidth
+            id="finEvento"
+            required
+            type="datetime-local"
+            onChange={(v) => setFinEvento(v.target.value.toString())}
+            error={finEvento == "" ? true : false}
+          />
+
+          <FormGroup>
+            <FormControlLabel
+              sx={{ width: "0vw" }}
+              control={<Switch />}
+              label="¿Repetir?"
+            />
+          </FormGroup>
         </Box>
       </DialogContent>
 
+      <Divider />
+
       <DialogActions>
+        <Button sx={{mr:5}} onClick={() => handleDelete()} startIcon={<DeleteIcon />}>
+          Borrar
+        </Button>
         <Button onClick={() => handleSend()}>Guardar</Button>
         <Button onClick={() => handleClose()}>Cancelar</Button>
       </DialogActions>

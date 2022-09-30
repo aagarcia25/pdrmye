@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { localizer } from "../../helpers/calendarLocalizer";
@@ -27,15 +27,17 @@ const CalendarC = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
 
   const [vrows, setVrows] = useState({});
+  
   const [data, setData] = useState([]);
 
-
   const today = new Date();
+
 
   const onSelectEvent = (v: any) => {
     console.log(v);
     setVrows(v);
     setOpen(true);
+
   };
 
   const handleSelectSlot = () => {
@@ -49,40 +51,33 @@ const CalendarC = () => {
 
   const onClickAgregarEvento =() =>{
     setTipoOperacion(1);
-    setModo("Agregar Registro");
+    setModo("Agregar Evento");
     setOpen(true);
     setVrows("");
   }
 
   const handleClose = () => {
     setOpen(false);
-    consulta({NUMOPERACION: 4 })
+    consulta({NUMOPERACION: 4 });
 
+  };
+
+  const handleDelete = () => {
+
+  };
+
+  const handleEdit = (v: any) => {
+    console.log(v);
+    setTipoOperacion(2);
+    setModo("Editar Evento");
+    setOpen(true);
+    setVrows(v);
   };
 
   const consulta = (data: any) => {
     CalendarioService.calendarios(data).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        setData(res.RESPONSE);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
-
-  useEffect(() => {
-    CalendarioService.calendarios({ NUMOPERACION: "4", CHUSER: "1" }).then(
-      (res: any) => {
         const even: calendario = res;
-        //setEventos(even.RESPONSE);
         let eveitem: eventoc[] = [];
         even.RESPONSE.map((item: RESPONSE) => {
           let it = {
@@ -94,10 +89,24 @@ const CalendarC = () => {
           };
           eveitem.push(it);
         });
-        console.log(eveitem);
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
         setEventos(eveitem);
+      } else{
+        Alert.fire({
+        title: "Error!",
+        text: res.STRMESSAGE,
+        icon: "error",
+        });
+      }
       }
     );
+  };
+
+  useEffect(() => {
+    consulta({NUMOPERACION: 4 });
   }, []);
 
   return (
@@ -109,6 +118,7 @@ const CalendarC = () => {
         tipo={tipoOperacion}
         handleClose={handleClose}
         dt={vrows}
+        handleDelete={handleClose}
       />
     ) : (
       ""
@@ -140,7 +150,9 @@ const CalendarC = () => {
           height: "calc( 80vh - 80px )",
         }}
         messages={getMessagesES()}
+
         onSelectEvent={(v)=>onSelectEvent(v)}
+
         onSelectSlot={SelectSlot}
         selectable
         popup
@@ -153,7 +165,6 @@ const CalendarC = () => {
         min={
           new Date(today.getFullYear(), today.getMonth(), today.getDate(), 9)
         }
-        // end time 5:00pm
         max={
           new Date(today.getFullYear(), today.getMonth(), today.getDate(), 18)
         }
