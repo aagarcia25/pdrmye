@@ -42,3 +42,8 @@ img.rounded-corners {
     background-color:hsl(126, 86%, 31%); 
     color: white;
   }
+
+  .descargar:hover{
+    background-color:hsl(206, 49%, 56%); 
+    color: white;
+  }

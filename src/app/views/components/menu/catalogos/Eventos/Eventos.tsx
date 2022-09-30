@@ -1,28 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Box, IconButton, LinearProgress,ToggleButton, ToggleButtonGroup, Tooltip, } from '@mui/material'
 import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
 import { messages } from '../../../../styles'
-import logo from '../../../../../assets/img/logo.svg';
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { CustomToolbar } from '../../CustomToolbar'
-import { getUser } from '../../../../../services/localStorage'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AddIcon from '@mui/icons-material/Add';
-import { Link, useNavigate, } from 'react-router-dom';
-import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
-import PanoramaIcon from '@mui/icons-material/Panorama';
 import EventosModal from './EventosModal';
-import Buttons from '../Utilerias/Buttons';
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import Swal from "sweetalert2";
-import AccionesGrid from "../../../AccionesGrid";
 
-import "../Eventos/globals.css";
-import { FileDownload } from '@mui/icons-material';
+import "../../../../../styles/globals.css";
 
 
 
@@ -30,15 +21,9 @@ export const Eventos = () => {
     
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
-  const [EditImage, setEditImage] = useState(false);
-  const [nuevoEvento, setNuevoEvento] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
-  const [plantilla, setPlantilla] = useState("");
   const [conEventos, setEventos] = useState([]);
-
-
-
 const columns: GridColDef[] = [
    
   { field: "id", headerName: "Identificador", hide:true , width: 150   , description:messages.dataTableColum.id},
@@ -150,7 +135,7 @@ const columns: GridColDef[] = [
     setModo("Agregar Evento");
     setOpen(true);
     //setData(v);
-    setNuevoEvento(true);
+   
   };
 
   const handleVisualizar = (v: any) => {
@@ -158,7 +143,7 @@ const columns: GridColDef[] = [
     setModo("Evento");
     setOpen(true);
     setData(v);
-    setNuevoEvento(false);
+   
   };
 
   const handleClose = () => {
@@ -240,7 +225,6 @@ const columns: GridColDef[] = [
           modo={modo}
           handleClose={handleClose}
           tipo={tipoOperacion}
-          handleEditar={handleEditar}
           dt={data}
 
         />

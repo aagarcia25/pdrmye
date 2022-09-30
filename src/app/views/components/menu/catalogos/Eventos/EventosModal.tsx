@@ -15,7 +15,7 @@ import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipio
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { Label, PhotoCamera, Preview } from "@mui/icons-material";
-import "../Eventos/globals.css";
+import "../../../../../styles/globals.css";
 
 
 const EventosModal = ({
@@ -23,7 +23,7 @@ const EventosModal = ({
   modo,
   handleClose,
   tipo,
-  handleEditar,
+ 
   dt
 }: {
 
@@ -31,7 +31,7 @@ const EventosModal = ({
   modo: string;
   tipo: number;
   handleClose: Function,
-  handleEditar: Function;
+  
   dt: any
 }) => {
 
@@ -42,11 +42,11 @@ const EventosModal = ({
 
   const [id, setId] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [newDescripcion, setNewDescripcion] = useState("");
+
   const [nameNewImage, setNameNewImage] = useState("");
-  const [newNameEvent, setNewNameEvent] = useState("");
-  const [nameEvent, setNameEvent] = useState("");
   const [newImage, setNewImage] = useState(Object);
+  const [nameEvent, setNameEvent] = useState("");
+ 
   const [finEventoMax, setFinEventoMax] = useState("2100-09-30 13:16:00");
   const [finEvento, setFinEvento] = useState("");
   const [urlImage, setUrlImage] = useState("");
@@ -176,7 +176,6 @@ const EventosModal = ({
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-
       editar(data);
     }
   };
@@ -258,7 +257,8 @@ const EventosModal = ({
 
 <Container maxWidth="sm" >
       <Box sx={{ bgcolor: 'rgb(222, 225, 225)', display: 'flex', justifyContent: 'center', }}>
-        {/// se setea el modo del modal para ver el tipo de el evento
+
+        {/// se setea el modo en modoModal para saber el modo de evento
         }
 
         <DialogTitle>{modoModal}</DialogTitle>
@@ -428,7 +428,7 @@ const EventosModal = ({
 
             <Box>
             <Box
-             sx={{ bgcolor: 'rgb(222, 225, 225)'}}>
+             sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius:'5px'}}>
               <h4>Nombre</h4>  
             </Box>
 
@@ -440,7 +440,7 @@ const EventosModal = ({
             </FormLabel>
 
             <Box
-             sx={{ bgcolor: 'rgb(222, 225, 225)'}}>
+             sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius:'5px'}}>
               <h4>Descripcion</h4>  
             </Box>              
             <FormLabel
@@ -459,6 +459,7 @@ const EventosModal = ({
             <FormLabel
              focused
              filled
+             sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius:'5px' }}
          
              >
              <h3>Inicio</h3>            
@@ -469,6 +470,7 @@ const EventosModal = ({
              <FormLabel
              focused
              filled
+             sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius:'5px' }}
              >
              <h3>Fin</h3>            
             {finEvento}
@@ -523,7 +525,7 @@ const EventosModal = ({
           :
           /////   EDITAR EVENTO SI ESTE AUN NO FINALIZA Y/O INICIA
           <Container maxWidth="sm">
-          <Box>
+          
             {/// input de infomacion 
             }
            
@@ -579,7 +581,6 @@ const EventosModal = ({
                   margin="dense"
                   id="anio"
                   defaultValue={descripcion}
-                  label="Descripcion"
                   type="string"
                   fullWidth
                   variant="standard"
@@ -590,13 +591,9 @@ const EventosModal = ({
             </Box>
 
 
-            <Box sx={{
-              justifyContent: 'center',
-              p: 1,
-              m: 1,
-              bgcolor: 'background.paper',
-              borderRadius: 1,
-            }}>
+            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+            p: 1,
+            m: 1,}}>
               <Box sx={{ justifyContent: 'center', }}>
 
                 <Box  >
@@ -655,7 +652,7 @@ const EventosModal = ({
               
 
             </Box>
-          </Box>
+          
             </Container>
 
         //////////evento finalizado                     
@@ -665,9 +662,6 @@ const EventosModal = ({
 
   );
 };
-
-
-
 
 export default EventosModal;
 
