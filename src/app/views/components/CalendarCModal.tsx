@@ -56,6 +56,11 @@ const CalendarCModal = ({
   const [departamentos, setDepartamentos] = useState("");
   const [inicioEvento, setInicioEvento] = useState("");
 
+  console.log("id", id);
+  console.log("nombreEvento", nombreEvento);
+  console.log("inicioEvento", inicioEvento);
+  console.log("finEvnto", finEvento);
+
   const hoy = new Date();
   let fecha =
     hoy.getFullYear() +
@@ -65,6 +70,7 @@ const CalendarCModal = ({
     ("0" + hoy.getDate()).slice(-2);
   let hora =
     ("0" + hoy.getHours()).slice(-2) + ":" + ("0" + hoy.getMinutes()).slice(-2);
+  var Fecha_min = fecha + "T" + hora;
 
   const eventosc = () => {
     let data = {};
@@ -93,7 +99,7 @@ const CalendarCModal = ({
         NUMOPERACION: tipo,
         CHID: id,
         CHUSER: 1,
-        DELETED: 0,
+        MODIFICADOPOR: 1,
         NOMBREEVENTO: nombreEvento,
         INICIOEVENTO: inicioEvento,
         FINEVENTO: finEvento,
@@ -155,14 +161,12 @@ const CalendarCModal = ({
     departamentosc();
 
     if (dt === "") {
-      console.log(dt);
+      console.log("Modal dt", dt);
     } else {
-      setId(dt?.row?.id);
-
+      setId(dt?.id);
       setNombreEvento(dt?.title);
-      //setInicioEvento(dt?.row?.inicioEvento);
-      //setFinEvento(dt?.row?.finEvento);
-
+      setInicioEvento(moment(dt?.start).format("YYYY-MM-DDTkk:mm"));
+      setFinEvento(moment(dt?.end).format("YYYY-MM-DDTkk:mm"));
     }
   }, [dt]);
 
@@ -181,10 +185,7 @@ const CalendarCModal = ({
             variant="standard"
             onChange={(v) => setNombreEvento(v.target.value)}
             error={nombreEvento == "" ? true : false}
-            InputProps={{
-              readOnly: tipo == 1 ? false : true,
-              inputMode: "numeric",
-            }}
+            InputProps={{}}
           />
 
           <Typography>Fecha de inicio del evento*</Typography>
@@ -194,6 +195,7 @@ const CalendarCModal = ({
             id="inicioEvento"
             required
             type="datetime-local"
+            value={inicioEvento}
             onChange={(v) => setInicioEvento(v.target.value.toString())}
             error={inicioEvento == "" ? true : false}
           />
@@ -202,6 +204,7 @@ const CalendarCModal = ({
             fullWidth
             id="finEvento"
             required
+            value={finEvento}
             type="datetime-local"
             onChange={(v) => setFinEvento(v.target.value.toString())}
             error={finEvento == "" ? true : false}
@@ -220,7 +223,11 @@ const CalendarCModal = ({
       <Divider />
 
       <DialogActions>
-        <Button sx={{mr:5}} onClick={() => handleDelete()} startIcon={<DeleteIcon />}>
+        <Button
+          sx={{ mr: 5 }}
+          onClick={() => handleDelete()}
+          startIcon={<DeleteIcon />}
+        >
           Borrar
         </Button>
         <Button onClick={() => handleSend()}>Guardar</Button>
