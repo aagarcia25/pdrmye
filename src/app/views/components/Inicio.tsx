@@ -61,7 +61,7 @@ function Copyright() {
      MuiDrawer: {
        styleOverrides: {
          paper: {
-           backgroundColor: '#081627',
+           backgroundColor: '#ffffff',
          },
        },
      },

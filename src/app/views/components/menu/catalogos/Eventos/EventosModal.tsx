@@ -111,8 +111,7 @@ const EventosModal = ({
     formData.append("CHUSER", "1");
 
 
-    console.log(formData);
-    console.log("nombre extraido de imagen name   " + nameNewImage);
+
 
     CatalogosServices.eventos(formData).then((res) => {
       setslideropen(false);
@@ -152,7 +151,8 @@ const EventosModal = ({
       setNameNewImage(event.target!.files[0]!.name);
     }
 
-    console.log(event.target);
+
+    
 
     /////////////////////////////
 
@@ -166,11 +166,11 @@ const EventosModal = ({
     }    /////////////////////////
 
     setNewImage(file);
-    console.log(newImage)
+ 
 
   };
   const handleRequest = (data: any) => {
-    console.log(data);
+   
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -216,9 +216,9 @@ const EventosModal = ({
   useEffect(() => {
     municipiosc();
 
-    if (dt === '') {
-      console.log(dt)
-    } else {
+    if (dt === '') {    
+
+     } else {
       setId(dt?.row?.id)
       setDescripcion(dt?.row?.Descripcion)
       setUrlImage(dt?.row?.Imagen)
@@ -258,7 +258,7 @@ const EventosModal = ({
 <Container maxWidth="sm" >
       <Box sx={{ bgcolor: 'rgb(222, 225, 225)', display: 'flex', justifyContent: 'center', }}>
 
-        {/// se setea el modo en modoModal para saber el modo de evento
+        {/// se setea el modo en modoModal para ver el tipo de el evento
         }
 
         <DialogTitle>{modoModal}</DialogTitle>

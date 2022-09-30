@@ -14,6 +14,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import AvisosModal from './AvisosModal'
 
 import Swal from "sweetalert2";
@@ -25,15 +26,9 @@ export const Avisos = () => {
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
-  const [Facturacion, setFacturacion] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
-  const [slideropen, setslideropen] = useState(false)
-  const user = getUser();
   const [conAvisos, setAvisos] = useState([]);
-
   const [open, setOpen] = useState(false);
-
-const columns: GridColDef[] = [
+  const columns: GridColDef[] = [
    
   { field: "id", headerName: "Identificador", hide:true , width: 150   , description:messages.dataTableColum.id},
     { field: "fechaInicio", headerName: "Fecha de Inicio", width: 200 },
@@ -44,7 +39,7 @@ const columns: GridColDef[] = [
       <Box>
                     
       <IconButton onClick={() => handleVisualizar(v)}>
-      <BrowserUpdatedIcon />
+      <VisibilityIcon />
       </IconButton>
     </Box>
     );}},
@@ -67,6 +62,7 @@ const columns: GridColDef[] = [
         );
       },
     },
+    { field: "NombreDocumento", headerName: "NombreDocumento", hide:true , width: 150   ,},
   ];
 
 
