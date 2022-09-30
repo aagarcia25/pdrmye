@@ -1,11 +1,181 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  DialogActions,
+  Button,
+} from "@mui/material";
+import { Box } from "@mui/system";
+import { Alert } from "../../../../../helpers/Alert";
+import { Toast } from "../../../../../helpers/Toast";
+import { AuthService } from "../../../../../services/AuthService";
 
-const UsuariosModal = () => {
+const UsuariosModal = ({
+  open,
+  handleClose,
+  tipo,
+  dt,
+}: {
+  open: boolean;
+  tipo: number;
+  handleClose: Function;
+  dt: any;
+}) => {
+
+
+
+  const [id, setId] = useState("");
+  const [Nombre, setNombre] = useState("");
+  const [ApellidoPaterno, setApellidoPaterno] = useState("");
+  const [ApellidoMaterno, setApellidoMaterno] = useState("");
+  const [NombreUsuario, setNombreUsuario] = useState("");
+  const [CorreoElectronico, setCorreoElectronico] = useState("");
+
+  const handleSend = () => {
+    if ( 
+        Nombre == "" || 
+        ApellidoPaterno == ""|| 
+        ApellidoMaterno == ""|| 
+        NombreUsuario == ""|| 
+        CorreoElectronico == ""
+        ) {
+      Alert.fire({
+        title: "Error!",
+        text: "Favor de Completar los Campos",
+        icon: "error",
+      });
+    } else {
+      let data = {
+        NUMOPERACION: tipo,
+        CHUSER:1,
+        CHID:id,
+        NOMBRE:Nombre,
+        AP:ApellidoPaterno,
+        AM:ApellidoMaterno,
+        NUSER:NombreUsuario,
+        CORREO:CorreoElectronico
+      };
+      handleRequest(data);
+    }
+  };
+
+  const handleRequest = (data: any) => {
+    console.log(data);
+      AuthService.permisosindex(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: tipo == 1 ? "Registro Agregado!" : "Registro Editado!" ,
+        });
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
+  useEffect(() => {
+    console.log(dt);
+
+    if (dt === "") {
+      console.log(dt);
+    } else {
+      setId(dt?.row?.id);
+      setNombre(dt?.row?.Nombre);
+      setApellidoPaterno(dt?.row?.ApellidoPaterno);
+      setApellidoMaterno(dt?.row?.ApellidoMaterno);
+      setNombreUsuario(dt?.row?.NombreUsuario);
+      setCorreoElectronico(dt?.row?.CorreoElectronico);
+    }
+  }, [dt]);
+
   return (
     <div>
-      
-    </div>
-  )
-}
+      <Dialog open={open}>
+        <DialogTitle>
+          {tipo == 1 ? "Nuevo Registro" : "Editar Registro"}
+        </DialogTitle>
+        <DialogContent>
+          <Box>
+            <TextField
+              required
+              margin="dense"
+              id="nombre"
+              label="Nombre"
+              value={Nombre}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setNombre(v.target.value)}
+              error={Nombre == "" ? true : false}
+            />
 
-export default UsuariosModal
+            <TextField
+              required
+              margin="dense"
+              id="ApellidoPaterno"
+              label="Apellido Paterno"
+              value={ApellidoPaterno}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setApellidoPaterno(v.target.value)}
+              error={ApellidoPaterno == "" ? true : false}
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="ApellidoMaterno"
+              label="Apellido Materno"
+              value={ApellidoMaterno}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setApellidoMaterno(v.target.value)}
+              error={ApellidoMaterno == "" ? true : false}
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="NombreUsuario"
+              label="Nombre Usuario"
+              value={NombreUsuario}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setNombreUsuario(v.target.value)}
+              error={NombreUsuario == "" ? true : false}
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="CorreoElectronico"
+              label="Correo Electronico"
+              value={CorreoElectronico}
+              type="mail"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setCorreoElectronico(v.target.value)}
+              error={CorreoElectronico == "" ? true : false}
+            />
+          </Box>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={() => handleSend()}>Guardar</Button>
+          <Button onClick={() => handleClose()}>Cancelar</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+};
+
+export default UsuariosModal;

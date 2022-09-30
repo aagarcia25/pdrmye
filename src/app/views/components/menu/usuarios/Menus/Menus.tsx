@@ -58,6 +58,7 @@ const Menus = () => {
     setOpen(false);
     setOpenRel(false);
     setOpenModal(false);
+    consulta({ NUMOPERACION: 4 });
   };
 
  
@@ -213,7 +214,7 @@ const Menus = () => {
                   open={openModal}
                   handleClose={handleClose}
                   id={id} 
-                  modo={modo}        ></MenuModal>
+                  tipo={tipoOperacion}        ></MenuModal>
       ) : (
         ""
       )}

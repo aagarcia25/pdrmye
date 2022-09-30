@@ -20,6 +20,7 @@ import Swal from "sweetalert2";
 import MunFacturacionModal from "./MunFacturacionModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import AccionesGrid from "../../../AccionesGrid";
+import { currencyFormatter } from "../../CustomToolbar";
 
 export const MunFacturacion = () => {
   const user = getUser();
@@ -64,6 +65,7 @@ export const MunFacturacion = () => {
       headerName: "Facturado",
       width: 150,
       align: "right",
+      ...currencyFormatter
     },
     {
       field: "acciones",
@@ -73,7 +75,7 @@ export const MunFacturacion = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <AccionesGrid handleEditar={handleEdit} handleBorrar={handleDelete} v={v} update={false} pdelete={false} />
+          <AccionesGrid handleEditar={handleEdit} handleBorrar={handleDelete} v={v} update={true} pdelete={true} />
         );
       },
     },

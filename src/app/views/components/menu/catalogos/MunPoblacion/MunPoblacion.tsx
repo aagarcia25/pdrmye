@@ -61,6 +61,7 @@ const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
           hide: true,
           width: 150,
         },
+         { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
          { field: "Nombre", headerName: "Municipio", width: 150 },
          { field: "Anio", headerName: "Año", width: 150 },
          { field: "totalPob", headerName: "Total Población", width: 150 },
