@@ -1,29 +1,26 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  LinearProgress,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Box, LinearProgress, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
 import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { currencyFormatter, CustomToolbar } from "../../CustomToolbar";
+import { currencyFormatter, CustomToolbar, Moneda } from "../../CustomToolbar";
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
 import { calculosServices } from "../../../../../services/calculosServices";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
-import InfoIcon from '@mui/icons-material/Info';
-import { useNavigate } from "react-router-dom";
+import InfoIcon from "@mui/icons-material/Info";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+
 import ModalFgp from "./ModalFgp";
 
 export const Fpg = () => {
-
-  
   const navigate = useNavigate();
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
   const [fondo, setFondo] = useState("FGP");
-  const [nombreFondo, setNombreFondo] = useState("Fondo General de Participaciones");
+  const [nombreFondo, setNombreFondo] = useState(
+    "Fondo General de Participaciones"
+  );
 
   const handleOpen = (v: any) => {
     setstep(1);
@@ -34,7 +31,7 @@ export const Fpg = () => {
   };
 
   const handleView = (v: any) => {
-    navigate(`/inicio/participaciones/fpgd/${v.row.id}`)
+    navigate(`/inicio/participaciones/fpgd/${v.row.id}`);
   };
 
   const columns: GridColDef[] = [
@@ -68,7 +65,7 @@ export const Fpg = () => {
       headerName: "Total",
       width: 200,
       description: "Total",
-      ...currencyFormatter
+      ...Moneda,
     },
 
     {
@@ -81,18 +78,21 @@ export const Fpg = () => {
         return (
           <Box>
             <Tooltip title="Ver detalle de Cálculo">
-            <IconButton onClick={() => handleView(v)}>
-              <InfoIcon />
-            </IconButton>
+              <IconButton onClick={() => handleView(v)}>
+                <InfoIcon />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Agregar Ajuste">
+              <IconButton onClick={() => handleView(v)}>
+                <AttachMoneyIcon />
+              </IconButton>
             </Tooltip>
           </Box>
         );
       },
     },
-
-
   ];
-
 
   const consulta = (data: any) => {
     calculosServices.calculosInfo(data).then((res) => {
@@ -110,14 +110,11 @@ export const Fpg = () => {
         });
       }
     });
-
   };
 
-
   useEffect(() => {
-   consulta({FONDO: fondo})
+    consulta({ FONDO: fondo });
   }, []);
-
 
   return (
     <>
@@ -140,11 +137,9 @@ export const Fpg = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-        <ModalFgp titulo={nombreFondo} onClickBack={handleClose} />
+          <ModalFgp titulo={nombreFondo} onClickBack={handleClose} />
         </div>
       </Box>
     </>
   );
 };
-
-

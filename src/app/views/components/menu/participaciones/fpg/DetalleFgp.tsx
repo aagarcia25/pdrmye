@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { Box,  LinearProgress } from '@mui/material'
-import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
-import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
-import { currencyFormatter, CustomToolbar } from '../../CustomToolbar'
+import { useParams } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+
+import { Box } from '@mui/material'
+import { Moneda } from '../../CustomToolbar'
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import { calculosServices } from '../../../../../services/calculosServices'
-import { useParams } from 'react-router-dom'
-import { useNavigate } from "react-router-dom";
 import ButtonsBack from "../../catalogos/Utilerias/ButtonsBack";
+import MUIXDataGrid from '../../../MUIXDataGrid'
 
 
 
 const DetalleFgp = () => {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
+    
     const handleBack = (v: any) => {
       navigate(`/inicio/participaciones/fpg`)
     };
@@ -37,11 +38,21 @@ const DetalleFgp = () => {
         });
       };
          
-    const columns: GridColDef[] = [
+    const columns= [
       { field: "id", headerName: "Identificador", width: 150   ,hide: true},
-      { field: "ClaveEstado", headerName: "ID", width: 150 , description:"Identificador del Municipio"},
+      { field: "ClaveEstado", headerName: "Clave Estado", width: 150 , description:"Identificador del Municipio"},
       { field: "Nombre", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
-      { field: "Total", headerName: "Año", width: 150 ,description:"Total"},
+      { field: "Mensual", headerName: "Importe", width: 150 ,description:"Importe" ,...Moneda},
+      { field: "PrimerAjuste", headerName: "Primer Ajuste", width: 150 ,description:"Importe" ,...Moneda},
+      { field: "SegundoAjuste", headerName: "Segundo Ajuste", width: 150 ,description:"Importe" ,...Moneda},
+      { field: "TercerAjuste", headerName: "Tercer Ajuste", width: 150 ,description:"Importe" ,...Moneda},
+      { field: "CuartoAjuste", headerName: "Cuarto Ajuste", width: 150 ,description:"Importe" ,...Moneda},
+      { field: "AjusteAnual", headerName: "Ajuste Anual", width: 150 ,description:"Importe" ,...Moneda},
+      { field: "AjusteSemestral", headerName: "Ajuste Semestral", width: 150 ,description:"Importe" ,...Moneda},
+      { field: "AjusteDefinitivo", headerName: "Ajuste Definitivo", width: 150 ,description:"Importe" ,...Moneda},
+      { field: "CompensacionFEIF", headerName: "Compensación FEIF", width: 150 ,description:"Compensación FEIF",...Moneda},
+      { field: "RetencionFEIF", headerName: "Retención FEIF", width: 150 ,description:"Retención FEIF",...Moneda},
+      { field: "total", headerName: "Total", width: 150 ,description:"Total",...Moneda},
       ];
     
       let params = useParams();
@@ -54,21 +65,8 @@ const DetalleFgp = () => {
   return (
     <div>
       <Box >
-        <div style={{ height: 600, width: "100%" }}>
-        <ButtonsBack handleOpen={handleBack} />
-          <DataGrid
-            pagination
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-            components={{
-              Toolbar: CustomToolbar,
-              LoadingOverlay: LinearProgress,
-              NoRowsOverlay: CustomNoRowsOverlay,
-            }}
-            rowsPerPageOptions={[5, 10, 20, 50, 100]}
-            rows={data}
-            columns={columns}
-          />
-        </div>
+           <ButtonsBack handleOpen={handleBack} />
+           <MUIXDataGrid columns={columns} rows={data} />
       </Box>
      
     </div>

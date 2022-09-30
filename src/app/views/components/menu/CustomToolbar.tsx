@@ -13,9 +13,9 @@ export function CustomToolbar() {
 
 
 
-  export const currencyFormatter = new Intl.NumberFormat("es-MX", {
+  export const currencyFormatter = new Intl.NumberFormat("es-US", {
     style: "currency",
-    currency: "MXN",
+    currency: "USD",
   });
 
   export const Moneda: GridColTypeDef = {

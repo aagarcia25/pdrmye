@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Link, Modal, TextField, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material'
-import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
+import { Box,  IconButton,  ToggleButton, ToggleButtonGroup, Tooltip,  } from '@mui/material'
 import { messages } from '../../../../styles'
-import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
-import { CustomToolbar } from '../../CustomToolbar'
-import { getUser } from '../../../../../services/localStorage'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AddIcon from '@mui/icons-material/Add';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
-
-import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AvisosModal from './AvisosModal'
-
 import Swal from "sweetalert2";
+import MUIXDataGrid from '../../../MUIXDataGrid'
+import { GridColDef } from '@mui/x-data-grid';
+
 export const Avisos = () => {
     
 
@@ -30,7 +25,7 @@ export const Avisos = () => {
   const [open, setOpen] = useState(false);
   const columns: GridColDef[] = [
    
-  { field: "id", headerName: "Identificador", hide:true , width: 150   , description:messages.dataTableColum.id},
+    { field: "id", headerName: "Identificador", hide:true , width: 150   , description:messages.dataTableColum.id},
     { field: "fechaInicio", headerName: "Fecha de Inicio", width: 200 },
     { field: "FechaFin", headerName: "Expiracion", width: 200 },
     { field: "Nombre", headerName: "Nombre", width: 100 },
@@ -213,21 +208,8 @@ export const Avisos = () => {
         </Tooltip>
       </ToggleButtonGroup>
     </Box>
-    <DataGrid
-      //checkboxSelection
-      pagination
-      localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-      components={{
-        Toolbar: CustomToolbar,
-        LoadingOverlay: LinearProgress ,
-        NoRowsOverlay: CustomNoRowsOverlay,
-      }}
-      rowsPerPageOptions={[5,10,20,50,100]}
-      rows={conAvisos}
-      columns={columns}
-      
-     // loading //agregar validacion cuando se esten cargando los registros
-    />
+
+    <MUIXDataGrid columns={columns} rows={conAvisos} />
   </div>
 
   
