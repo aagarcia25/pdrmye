@@ -3,23 +3,13 @@ import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
-  DialogContent,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
-  InputAdornment,
-  DialogActions,
-  Button,
   Container,
   IconButton,
   FormLabel,
-  Link,
 } from "@mui/material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
@@ -32,7 +22,6 @@ import PdfLogo from '../../../../../../app/assets/img/PDF_file_icon.svg'
 import PptxLogo from '../../../../../../app/assets/img/pptx_Logo.png'
 import xlsxLogo from '../../../../../../app/assets/img/xlsx_Logo.png'
 import docxLogo from '../../../../../../app/assets/img/docx_Logo.png'
-import { url } from "inspector";
 import "../../../../../styles/globals.css";
 const AvisosModal = ({
   open,
@@ -48,15 +37,11 @@ const AvisosModal = ({
   handleClose: Function,
   dt: any
 }) => {
-
-
-
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   ////////////////////////////
   const [cleanUp, setCleanUp] = useState<boolean>(false);
   const [previewDoc, setPreviewDoc] = useState<string>();
-
   var hoy = new Date()
   var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2);
   var hora = ('0' + hoy.getHours()).slice(-2) + ':' + ('0' + hoy.getMinutes()).slice(-2);
@@ -74,22 +59,14 @@ const AvisosModal = ({
   const [modoModal, setModoModal] = useState(modo);
   const [urlDoc, setUrlDoc] = useState("");
   const [nameDocDownload, setNameDocDownload] = useState("");
-
   ////////////////////////////
-
   const [slideropen, setslideropen] = useState(false)
-
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [Avisos, setAvisos] = useState("");
-
-
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
-
-
-
 
   const municipiosc = () => {
     let data = {};
@@ -102,18 +79,10 @@ const AvisosModal = ({
     setValues(m);
   };
 
-  const extraerNombreDocumento = () => {
-
-  }
-
-
-
-
   const handleUpload = () => {
 
 
     setslideropen(true);
-
 
     const formData = new FormData();
     (editDoc) ? formData.append("DOCUMENTO", newDoc, nameNewDoc) : formData.append("DOCUMENTO", "");
@@ -125,18 +94,16 @@ const AvisosModal = ({
     formData.append("FECHAFIN", finEvento);
     formData.append("CHUSER", "1");
 
-
-
-    console.log(formData);
-    console.log("nombre extraido de imagen name   " + nameNewDoc);
-
     CatalogosServices.avisos(formData).then((res) => {
       setslideropen(false);
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
           title: "Carga Exitosa!",
-        });
+        }
+        
+        
+        );
       } else {
         Alert.fire({
           title: "Error!",
@@ -144,8 +111,6 @@ const AvisosModal = ({
           icon: "error",
         });
       }
-
-
 
     });
     handleClose();
@@ -212,6 +177,7 @@ const AvisosModal = ({
     console.log(newDoc)
 
   };
+
   const agregar = (data: any) => {
     CatalogosServices.avisos(data).then((res) => {
       if (res.SUCCESS) {
@@ -250,13 +216,9 @@ const AvisosModal = ({
   useEffect(() => {
 
     municipiosc();
-    extraerNombreDocumento();
     if (dt === '') {
-      console.log(dt)
-
-
+    
     } else {
-
       setId(dt?.row?.id);
       setIdMunicipio(dt?.row?.idmunicipio);
       setUrlDoc(dt?.row?.Documento);
@@ -264,17 +226,8 @@ const AvisosModal = ({
       setInicioEvento(dt?.row?.fechaInicio);
       setNameAviso(dt?.row?.Nombre);
       setDescripcion(dt?.row?.Descripcion);
-      console.log(dt)
       setNameDocDownload(dt?.row?.NombreDocumento)
-
-
     }
-
-
-    console.log(dt)
-
-
-
   }, [dt]);
 
   ////previsualizar imagen
@@ -294,7 +247,7 @@ const AvisosModal = ({
 
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} keepMounted>
       <DialogTitle>{modoModal}</DialogTitle>
 
 
@@ -302,11 +255,10 @@ const AvisosModal = ({
         <Container maxWidth="sm" >
           <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', }}>
 
-            {
-              //////////empiezan debajo del titulo
-
+            { //////////empiezan debajo del titulo
               //// imagen carga y previsualizacion
             }
+
             <Box sx={{ width: '100%', }}>
 
               <Box sx={{
@@ -474,13 +426,8 @@ const AvisosModal = ({
 
               <button className="button cerrar" onClick={() => handleClose()}  >Cerrar</button>
               <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
-              <button className="guardar" onClick={() => testeoVariables()} >TEST</button>
-
-
-
 
             </Box>
-
 
           </Box>
         </Container>
@@ -537,6 +484,9 @@ const AvisosModal = ({
               }
 
             </Box>
+
+
+
 
             <Box>
               <Box>
@@ -631,7 +581,6 @@ const AvisosModal = ({
             <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
 
               <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
-              <button className="cerrar" onClick={() => testeoVariables()}>test</button>
               <button className="editar" onClick={() => setModoModal("Editar")}>Editar</button>
 
             </Box>

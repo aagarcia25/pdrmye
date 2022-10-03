@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 
 import { CustomToolbar } from "./menu/CustomToolbar";
 
@@ -25,35 +25,38 @@ import { CustomNoRowsOverlay } from "./menu/CustomNoRowsOverlay";
 import { messages } from "../styles";
 import { getUser } from "../../services/localStorage";
 import { CatalogosServices } from "../../services/catalogosServices";
+import MUIXDataGrid from "./MUIXDataGrid";
+import ListNotificationsModal from "./ListNotificationsModal";
+
 
 export const ListNotification = () => {
+
+  
+
   const user = getUser();
   const [notificacion, setNotificacion] = useState([]);
+  const [modo, setModo] = useState("");
+  const [tipoOperacion, setTipoOperacion] = useState(0);
+  const [data, setData] = useState({});
 
   const [open, setOpen] = useState(false);
 
   const columns: GridColDef[] = [
-    {
-      field: "id",
-      headerName: "Identificador",
-      width: 150,
-      description: messages.dataTableColum.id,
-    },
-    { field: "Descripcion", headerName: "Mensage", width: 300 },
-
-    {
-      field: "acciones",
+    {field: "id", headerName: "Identificador", width: 150, hide:true},
+    { field: "Descripcion", headerName: "Mensage", width: 300, resizable:true},
+    { field: "Visto", headerName: "Leido", width: 300,},
+    { field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 200,      
       renderCell: (v) => {
         return (
           <Box>
             <IconButton onClick={() => handleOpen(v)}>
               <VisibilityIcon />
             </IconButton>
-            <IconButton onClick={() => handleOpen(v)}>
+            <IconButton onClick={() => handleClose()}>
               <DeleteForeverIcon />
             </IconButton>
           </Box>
@@ -63,56 +66,16 @@ export const ListNotification = () => {
   ];
 
   const handleOpen = (v: any) => {
-    //setSelectedId(v.row.lastName);
-
+    setTipoOperacion(2);
+    setModo("Aviso");
     setOpen(true);
+    setData(v);
   };
 
   const handleClose = () => setOpen(false);
 
-  const ButtonAdd = () => {
-    return (
-      <Box>
-        <IconButton
-          color="primary"
-          aria-label="upload picture"
-          component="label"
-          onClick={() => handleOpen(1)}
-        >
-          <AddIcon />
-        </IconButton>
-      </Box>
-    );
-  };
 
-  const DetailsModal = () => {
-    return (
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
-        </DialogActions>
-      </Dialog>
-    );
-  };
-
-  let data = {
+   let dat = {
     NUMOPERACION:4,
     CHID:1,
     DESCRIPCION:'',
@@ -125,30 +88,42 @@ export const ListNotification = () => {
   };
 
   useEffect(() => {
-    CatalogosServices.Notificaciones(data).then((res) => {
+    CatalogosServices.Notificaciones(dat).then((res) => {
       setNotificacion(res.RESPONSE);
     });
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
-      <DetailsModal />
-      <ButtonAdd />
-      <DataGrid
-        //checkboxSelection
-        pagination
-        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-        components={{
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={notificacion}
-        columns={columns}
-
-        // loading //agregar validacion cuando se esten cargando los registros
+    <div style={{ height: 600, width: "100%" }} >
+    {open ? (
+      <ListNotificationsModal
+        open={open}
+        modo={modo}
+        handleClose={handleClose}
+        tipo={tipoOperacion}
+        dt={data}
       />
-    </div>
+    ) : (
+      ""
+    )}
+
+    
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'content-position',
+      p: 1,
+      m: 1,
+      bgcolor: 'background.paper',
+      borderRadius: 2,
+    }} >
+    <Box sx={{ height: 600, width: "900px", borderRadius: 3}}>
+      <MUIXDataGrid 
+      columns={columns} rows={notificacion} />
+      </Box>
+
+
+   </Box>
+   </div>
   );
 };
+

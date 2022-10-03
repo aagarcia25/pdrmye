@@ -15,6 +15,7 @@ import Filtros from '../Utilerias/Filtros'
 import MunPobrezaModal from './MunPobrezaModal'
 import Buttons from '../Utilerias/Buttons'
 import Slider from "../../../Slider";
+import MUIXDataGrid from '../../../MUIXDataGrid'
 
 export const MunPobreza = () => {
 
@@ -23,7 +24,7 @@ export const MunPobreza = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
-  const [Poblacion, setPoblacion] = useState([]);
+  const [dataMunPobreza, setDataMunPobreza] = useState([]);
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
 
@@ -181,7 +182,7 @@ const columns: GridColDef[] = [
             title: "Consulta Exitosa!",
           });
      
-          setPoblacion(res.RESPONSE); 
+          setDataMunPobreza(res.RESPONSE); 
           
         } else {
           Alert.fire({
@@ -260,22 +261,9 @@ const columns: GridColDef[] = [
       url={plantilla}
       handleUpload={handleAgregar}
     />
+      <MUIXDataGrid columns={columns} rows={dataMunPobreza} />
 
-    <DataGrid
-      //checkboxSelection
-      pagination
-      localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-      components={{
-        Toolbar: CustomToolbar,
-        LoadingOverlay: LinearProgress,
-        NoRowsOverlay: CustomNoRowsOverlay,
-      }}
-      rowsPerPageOptions={[5, 10, 20, 50, 100]}
-      rows={Poblacion}
-      columns={columns}
-
-      // loading //agregar validacion cuando se esten cargando los registros
-    />
+   
   </div>
 
 

@@ -1,37 +1,28 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
-  LinearProgress,
 } from "@mui/material";
-import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
-
-import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar } from "../../CustomToolbar";
-import { getUser } from "../../../../../services/localStorage";
+import { GridColDef } from "@mui/x-data-grid";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import AddIcon from "@mui/icons-material/Add";
 import { messages } from "../../../../styles";
-
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import CrecimietoModal from "./CrecimietoModal";
+import MUIXDataGrid from "../../../MUIXDataGrid";
 
 
 const CrecimientoAnio = () => {
-    const user = getUser();
+
     const [modo, setModo] = useState("");
     const [open, setOpen] = useState(false);
     const [tipoOperacion, setTipoOperacion] = useState(0);
-   
-    const [slideropen, setslideropen] = useState(false);
     const [vrows, setVrows] = useState({});
-    const [data, setData] = useState([]);
-  
+    const [dataCrecimientoAnio, setDataCrecimientoAnio] = useState([]);
   
     const columns: GridColDef[] = [
       {
@@ -136,7 +127,7 @@ const CrecimientoAnio = () => {
             icon: "success",
             title: "Consulta Exitosa!",
           });
-          setData(res.RESPONSE);
+          setDataCrecimientoAnio(res.RESPONSE);
         } else {
           Alert.fire({
             title: "Error!",
@@ -169,22 +160,8 @@ const CrecimientoAnio = () => {
       )}
   
       <ButtonsAdd handleOpen={handleOpen} />
-  
-      <DataGrid
-        //checkboxSelection
-        pagination
-        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-        components={{
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={data}
-        columns={columns}
-  
-        // loading //agregar validacion cuando se esten cargando los registros
-      />
+      <MUIXDataGrid columns={columns} rows={dataCrecimientoAnio} />
+
     </div>
     )
 }
