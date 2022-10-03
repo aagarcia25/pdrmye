@@ -146,7 +146,7 @@ export const Fpg = () => {
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
    
-  }, []);
+  }, [params.fondo]);
 
 
 

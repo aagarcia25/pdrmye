@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Modal, TextField, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material'
 import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
+import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
 import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
 import { CustomToolbar } from '../../CustomToolbar'
@@ -10,6 +11,7 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import { messages } from '../../../../styles'
+import MUIXDataGrid from '../../../MUIXDataGrid';
 
 export const Municipios = () => {
     
@@ -22,7 +24,7 @@ export const Municipios = () => {
 
 
   const user = getUser();
-  const [MunicipioRecaudacion, setMunRecaudacion] = useState([]);
+  const [Municipio, setMunicipio] = useState([]);
 
   const [open, setOpen] = useState(false);
 
@@ -123,7 +125,7 @@ const columns: GridColDef[] = [
     useEffect(() => {
       CatalogosServices.municipios(data).then((res) => {
       //  console.log(res);
-        setMunRecaudacion(res.RESPONSE);
+        setMunicipio(res.RESPONSE);
       });
     }, []);
 
@@ -136,23 +138,14 @@ const columns: GridColDef[] = [
 
 
     <div style={{ height: 600, width: "100%" }} >
-        <DetailsModal />
-    <ButtonAdd/>    
-    <DataGrid
-      //checkboxSelection
-      pagination
-      localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-      components={{
-        Toolbar: CustomToolbar,
-        LoadingOverlay: LinearProgress ,
-        NoRowsOverlay: CustomNoRowsOverlay,
-      }}
-      rowsPerPageOptions={[5,10,20,50,100]}
-      rows={MunicipioRecaudacion}
-      columns={columns}
+     <Box>
+    
+    </Box>
+
+    <MUIXDataGrid columns={columns} rows={Municipio} />
       
-     // loading //agregar validacion cuando se esten cargando los registros
-    />
+    
+   
   </div>
 
   

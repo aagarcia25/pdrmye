@@ -4,7 +4,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 
-import {  GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import {
   getUser,
 } from "../../../../../services/localStorage";
@@ -16,7 +16,6 @@ import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
-
 import MunFacturacionModal from "./MunFacturacionModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import AccionesGrid from "../../../AccionesGrid";
@@ -24,14 +23,10 @@ import { currencyFormatter } from "../../CustomToolbar";
 
 export const MunFacturacion = () => {
   const user = getUser();
-
-
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
-
-
   const [Facturacion, setFacturacion] = useState([]);
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
@@ -41,7 +36,7 @@ export const MunFacturacion = () => {
   const [filterAnio, setFilterAnio] = useState("");
 
   //funciones
-  const handleFilterMes = () => {};
+  const handleFilterMes = () => { };
 
   const columns: GridColDef[] = [
     {
@@ -106,7 +101,7 @@ export const MunFacturacion = () => {
     setData(v);
   };
 
- 
+
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
@@ -177,7 +172,7 @@ export const MunFacturacion = () => {
         });
       }
 
-     
+
 
     });
   };
@@ -256,11 +251,7 @@ export const MunFacturacion = () => {
         handleUpload={handleUpload}
       />
 
-
-<MUIXDataGrid
-              columns={columns}
-              rows={Facturacion}
-            />
+      <MUIXDataGrid columns={columns} rows={Facturacion} />
     </div>
   );
 };
