@@ -42,7 +42,6 @@ const MunPobrezaModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [poblacion, setPoblacion] = useState("");
-  const [porcentaje, setPorcentage] = useState("");
   const [carenciaProm, setCarenciaProm] = useState("");
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
@@ -78,8 +77,7 @@ const MunPobrezaModal = ({
         CHUSER: 1,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
-        PERSONAS: poblacion,
-        PORCENTAJE : porcentaje,
+        TOTAL: poblacion,
         CARENCIAPROMEDIO : carenciaProm,
 
         
@@ -160,9 +158,8 @@ const handleTest=()=>{
     }else{
         setId(dt?.row?.id)
         setAnio(dt?.row?.Anio)
-        setPoblacion(dt?.row?.Personas)
+        setPoblacion(dt?.row?.Total)
         setIdMunicipio(dt?.row?.idmunicipio)
-        setPorcentage(dt?.row?.Porcentaje)
         setCarenciaProm(dt?.row?.CarenciaProm)
 
 
@@ -251,25 +248,7 @@ const handleTest=()=>{
             onChange={(v) => setPoblacion(v.target.value)}
             error={poblacion == "" ? true : false}
             />
-           <TextField
            
-            margin="dense"
-            required
-            id="porPob"
-            label="Porcentaje"
-            
-            value={porcentaje}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setPorcentage(v.target.value)}
-            error={porcentaje == "" ? true : false}
-            InputProps={{
-                endAdornment: (
-                <InputAdornment position="end">%</InputAdornment>
-              ),...porcentage
-            }}
-          />
            <TextField
          
             margin="dense"

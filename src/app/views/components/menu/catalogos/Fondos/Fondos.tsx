@@ -1,30 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { Box, IconButton, LinearProgress } from "@mui/material";
-import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
-
-import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar } from "../../CustomToolbar";
+import { useEffect, useState } from "react";
+import { Box, IconButton } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
 import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
-
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import FondosModal from "./FondosModal";
+import MUIXDataGrid from "../../../MUIXDataGrid";
 
 const Fondos = () => {
-  const user = getUser();
+  
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
 
-  const [slideropen, setslideropen] = useState(false);
   const [vrows, setVrows] = useState({});
-  const [data, setData] = useState([]);
+  const [fondos, setFondos] = useState([]);
 
   const columns: GridColDef[] = [
     {
@@ -161,7 +157,7 @@ const Fondos = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        setData(res.RESPONSE);
+        setFondos(res.RESPONSE);
       } else {
         Alert.fire({
           title: "Error!",
@@ -191,22 +187,9 @@ const Fondos = () => {
       )}
 
       <ButtonsAdd handleOpen={handleOpen} />
+      <MUIXDataGrid columns={columns} rows={fondos} />
 
-      <DataGrid
-        //checkboxSelection
-        pagination
-        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-        components={{
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={data}
-        columns={columns}
 
-        // loading //agregar validacion cuando se esten cargando los registros
-      />
     </div>
   );
 };

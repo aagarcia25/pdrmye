@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
-  LinearProgress,
 } from "@mui/material";
-import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
-
-import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar } from "../../CustomToolbar";
+import { GridColDef } from "@mui/x-data-grid";
 import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
@@ -17,6 +13,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import MUIXDataGrid from "../../../MUIXDataGrid";
 
 export const Coeficientes = () => {
   const user = getUser();
@@ -26,29 +23,25 @@ export const Coeficientes = () => {
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
-  const [data, setData] = useState([]);
+  const [dataCoeficientes, setDataCoeficientes] = useState([]);
   const [slideropen, setslideropen] = useState(false);
   const [vrows, setVrows] = useState({});
-
-
-
-
-
 
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Id", hide: true, width: 250 },
     { field: "Descripcion", headerName: "Descripcion", width: 700 },
-    { field: "Vigente", 
+    {
+      field: "Vigente",
       headerName: "Vigente",
-      width: 150 ,
+      width: 150,
       renderCell: (v) => {
-      return (
-        <Box>
-        {v.row.Vigente == 1 ?          'Vigente' : 'No Vigente'      }
-        </Box>
-      );
-    },
+        return (
+          <Box>
+            {v.row.Vigente == 1 ? 'Vigente' : 'No Vigente'}
+          </Box>
+        );
+      },
     },
 
     {
@@ -60,28 +53,24 @@ export const Coeficientes = () => {
       renderCell: (v) => {
         return (
           <Box>
-          <IconButton onClick={() => handleEdit(v)}>
-            <ModeEditOutlineIcon />
-          </IconButton>
-          <IconButton onClick={() => handleDelete(v)}>
-            <DeleteForeverIcon />
-          </IconButton>
-        </Box>
+            <IconButton onClick={() => handleEdit(v)}>
+              <ModeEditOutlineIcon />
+            </IconButton>
+            <IconButton onClick={() => handleDelete(v)}>
+              <DeleteForeverIcon />
+            </IconButton>
+          </Box>
         );
       },
     },
   ];
 
-
-
- 
-
   const handleClose = () => {
     setOpen(false);
     let data = {
-        NUMOPERACION: 4
-      };
-      consulta(data);
+      NUMOPERACION: 4
+    };
+    consulta(data);
   };
 
   const handleOpen = (v: any) => {
@@ -89,7 +78,7 @@ export const Coeficientes = () => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
-   
+
   };
 
   const handleEdit = (v: any) => {
@@ -98,11 +87,9 @@ export const Coeficientes = () => {
     setModo("Editar Registro");
     setOpen(true);
     setVrows(v);
-   
+
   };
 
-
-  
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
@@ -130,9 +117,9 @@ export const Coeficientes = () => {
 
 
             let data = {
-                NUMOPERACION: 4
-              };
-              consulta(data);
+              NUMOPERACION: 4
+            };
+            consulta(data);
 
 
           } else {
@@ -149,7 +136,7 @@ export const Coeficientes = () => {
     });
   };
 
-  
+
   const consulta = (data: any) => {
     CatalogosServices.coeficientes(data).then((res) => {
       if (res.SUCCESS) {
@@ -157,7 +144,7 @@ export const Coeficientes = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        setData(res.RESPONSE);
+        setDataCoeficientes(res.RESPONSE);
       } else {
         Alert.fire({
           title: "Error!",
@@ -168,7 +155,7 @@ export const Coeficientes = () => {
     });
   };
 
-  
+
   useEffect(() => {
     let data = {
       NUMOPERACION: 4
@@ -178,22 +165,12 @@ export const Coeficientes = () => {
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-     
-      <ButtonsAdd handleOpen={handleOpen}></ButtonsAdd>
-      <CoeficientesModal open={open} modo={modo} tipo={tipoOperacion} handleClose={handleClose} dt={vrows}/> 
-      <DataGrid
-        pagination
-        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-        components={{
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={data}
-        columns={columns}
 
-      />
+      <ButtonsAdd handleOpen={handleOpen}></ButtonsAdd>
+      <CoeficientesModal open={open} modo={modo} tipo={tipoOperacion} handleClose={handleClose} dt={vrows} />
+
+      <MUIXDataGrid columns={columns} rows={dataCoeficientes} />
+
     </div>
   );
 };

@@ -3,17 +3,10 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
-  LinearProgress,
   SelectChangeEvent,
 } from "@mui/material";
-
-import { esES, GridColDef } from "@mui/x-data-grid";
-import { DataGrid } from "@mui/x-data-grid";
-import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar, Moneda } from "../../CustomToolbar";
-import {
-  getUser,
-} from "../../../../../services/localStorage";
+import { GridColDef } from "@mui/x-data-grid";
+import { Moneda } from "../../CustomToolbar";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -25,19 +18,15 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import MunRecaudacionModal from "./MunRecaudacionModal";
+import MUIXDataGrid from "../../../MUIXDataGrid";
 
 
 export const MunRecaudacion = () => {
-   
-  const user = getUser();
-
 
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
-
-
   const [Facturacion, setFacturacion] = useState([]);
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
@@ -47,11 +36,11 @@ export const MunRecaudacion = () => {
   const [filterAnio, setFilterAnio] = useState("");
 
   //funciones
-  const handleFilterMes = () => {};
+  const handleFilterMes = () => { };
 
 
-const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", hide:true , width: 150   , description:messages.dataTableColum.id},
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
     {
       field: "idmunicipio",
       headerName: "idmunicipio",
@@ -60,8 +49,8 @@ const columns: GridColDef[] = [
     },
     { field: "Nombre", headerName: "Municipio", width: 600 },
     { field: "Anio", headerName: "Año", width: 100 },
-    { field: "Recaudacion", headerName: "Recaudacion", width: 150 ,...Moneda},
-    
+    { field: "Recaudacion", headerName: "Recaudacion", width: 150, ...Moneda },
+
     {
       field: "acciones",
       headerName: "Acciones",
@@ -81,7 +70,7 @@ const columns: GridColDef[] = [
         );
       },
     },
-   
+
   ];
 
   const handleClose = () => {
@@ -109,7 +98,7 @@ const columns: GridColDef[] = [
     setData(v);
   };
 
- 
+
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
@@ -180,7 +169,7 @@ const columns: GridColDef[] = [
         });
       }
 
-     
+
 
     });
   };
@@ -258,22 +247,8 @@ const columns: GridColDef[] = [
         url={plantilla}
         handleUpload={handleUpload}
       />
+      <MUIXDataGrid columns={columns} rows={Facturacion} />
 
-      <DataGrid
-        //checkboxSelection
-        pagination
-        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-        components={{
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={Facturacion}
-        columns={columns}
-
-        // loading //agregar validacion cuando se esten cargando los registros
-      />
     </div>
   );
 };
