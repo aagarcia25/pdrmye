@@ -52,6 +52,7 @@ export const MunTerritorio = () => {
       hide: true,
       width: 150,
     },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 }, 
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "Km2", headerName: "Area", width: 150 },
     {
