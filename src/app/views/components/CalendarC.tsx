@@ -19,6 +19,7 @@ import CalendarCModal from "./CalendarCModal";
 import Swal from "sweetalert2";
 import { AnyMxRecord } from "dns";
 
+
 const CalendarC = () => {
   const user = getUser();
 
@@ -28,7 +29,15 @@ const CalendarC = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
 
-  const [vrows, setVrows] = useState({});
+
+
+  const [vrows, setVrows] = useState({
+    id:"",
+    title:"",
+    allDay:false,
+    start: new Date(),
+    end: new Date(),
+  });
 
   const [data, setData] = useState([]);
 
@@ -53,7 +62,7 @@ const CalendarC = () => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
-    setVrows("");
+    setVrows(null!);
   };
 
   const handleClose = () => {
@@ -71,12 +80,13 @@ const CalendarC = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(vrows);
-        
+        console.log("Vrows id",vrows.id);
+        console.log("Tipo de dato de Vrows",typeof(vrows));
         setVrows(v);
+        console.log("Values confirmed",v);
         let data = {
           NUMOPERACION: 3,
-          CHID: 1,
+          CHID: vrows.id,
           CHUSER: 1,
         };
 
@@ -89,7 +99,7 @@ const CalendarC = () => {
               title: "Registro Eliminado!",
             });
 
-            consulta({ NUMOPERACION: 4 });
+            handleClose();
           } else {
             Alert.fire({
               title: "Error!",

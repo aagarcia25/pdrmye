@@ -225,6 +225,7 @@ const CalendarCModal = ({
       <DialogActions>
         <Button
           sx={{ mr: 5 }}
+          hidden={tipo == 2 ? false : true}
           onClick={() => handleDelete()}
           startIcon={<DeleteIcon />}
         >
