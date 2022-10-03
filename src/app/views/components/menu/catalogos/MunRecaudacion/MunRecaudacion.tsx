@@ -58,7 +58,8 @@ const columns: GridColDef[] = [
       hide: true,
       width: 150,
     },
-    { field: "Nombre", headerName: "Municipio", width: 600 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },    
+    { field: "Nombre", headerName: "Municipio", width: 400 },
     { field: "Anio", headerName: "Año", width: 100 },
     { field: "Recaudacion", headerName: "Recaudacion", width: 150 ,...Moneda},
     
