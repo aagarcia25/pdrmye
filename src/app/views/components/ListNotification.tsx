@@ -23,13 +23,15 @@ import AddIcon from "@mui/icons-material/Add";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { CustomNoRowsOverlay } from "./menu/CustomNoRowsOverlay";
 import { messages } from "../styles";
-import { getUser } from "../../services/localStorage";
+import { getPU, getUser } from "../../services/localStorage";
 import { CatalogosServices } from "../../services/catalogosServices";
+import { UserReponse } from "../../interfaces/user/UserReponse";
 
 export const ListNotification = () => {
-  const user = getUser();
-  const [notificacion, setNotificacion] = useState([]);
+  
 
+  const user: UserReponse = JSON.parse(String(getPU()));
+  const [notificacion, setNotificacion] = useState([]);
   const [open, setOpen] = useState(false);
 
   const columns: GridColDef[] = [
@@ -50,7 +52,7 @@ export const ListNotification = () => {
       renderCell: (v) => {
         return (
           <Box>
-            <IconButton onClick={() => handleOpen(v)}>
+            <IconButton onClick={() => changeView(v)}>
               <VisibilityIcon />
             </IconButton>
             <IconButton onClick={() => handleOpen(v)}>
@@ -67,6 +69,19 @@ export const ListNotification = () => {
 
     setOpen(true);
   };
+
+
+  const changeView = (v: any) => {
+    let data = {
+      NUMOPERACION:6,
+      CHID:v.row.id,
+      CHUSER:user.IdUsuario
+    };
+    CatalogosServices.Notificaciones(data).then((res) => {
+      setNotificacion(res.RESPONSE);
+    });
+  };
+
 
   const handleClose = () => setOpen(false);
 
@@ -112,6 +127,8 @@ export const ListNotification = () => {
     );
   };
 
+
+  
   let data = {
     NUMOPERACION:4,
     CHID:1,
@@ -120,7 +137,7 @@ export const ListNotification = () => {
     MODIFICADOPOR:1,
     CREADOPOR:1,
     DELETED:'',
-    CHUSER:1
+    CHUSER:user.IdUsuario
 
   };
 

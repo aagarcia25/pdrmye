@@ -16,7 +16,14 @@ export class calculosServices {
         return await post('CalculoPrincipalindex', data);
     }
 
+    public static async getColumns(data: any) {
+        return await post('getColumns', data);
+    }
+
+    public static async fondoInfo(data: any) {
+        return await post('fondoInfo', data);
+    }
     
-   
+    
 
 }

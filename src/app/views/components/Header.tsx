@@ -21,6 +21,8 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
+import { UserReponse } from "../../interfaces/user/UserReponse";
+import { getPU } from "../../services/localStorage";
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -96,9 +98,10 @@ export default function Header(props: HeaderProps) {
     return path;
   }
 
+  const user: UserReponse = JSON.parse(String(getPU()));
   let data = {
     NUMOPERACION: 5,
-    CHUSER: 1,
+    CHUSER: user.IdUsuario,
   };
 
   React.useEffect(() => {

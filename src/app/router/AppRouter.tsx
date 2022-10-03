@@ -140,10 +140,13 @@ export const AppRouter = () => {
 
 
         {/* SECCION PARTICIPACIONES FEDERALES */}
-        <Route path='/inicio/participaciones/fpg' element={log ? <Fpg /> : <AuthRouter />} />
-        <Route path='/inicio/participaciones/fpgd/:id' element={log ? <DetalleFgp /> : <AuthRouter />} />
+        
+        
+        
+        <Route path='/inicio/participaciones/:fondo' element={log ? <Fpg /> : <AuthRouter />} />
+        <Route path='/inicio/participaciones/:fondo/:id/' element={log ? <DetalleFgp /> : <AuthRouter />} />
 
-        <Route path='/inicio/participaciones/comp-isan' element={log ? <Compisan /> : <AuthRouter />} />
+        {/* <Route path='/inicio/participaciones/comp-isan' element={log ? <Compisan /> : <AuthRouter />} />
         <Route path='/inicio/participaciones/comp-isand/:id' element={log ? <DetalleCompisan /> : <AuthRouter />}/>
 
         <Route path='/inicio/participaciones/feief' element={log ? <Feief /> : <AuthRouter />}/>
@@ -177,7 +180,7 @@ export const AppRouter = () => {
         <Route path='/inicio/participaciones/isnd/:id' element={log ? <DetalleIsn /> : <AuthRouter />}/>
 
         <Route path='/inicio/participaciones/isr' element={log ? <Isr /> : <AuthRouter />}/>
-        <Route path='/inicio/participaciones/isrd/:id' element={log ? <DetalleIsr /> : <AuthRouter />}/>
+        <Route path='/inicio/participaciones/isrd/:id' element={log ? <DetalleIsr /> : <AuthRouter />}/> */}
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
         {/* SECCION PARTICIPACIONES ESTATALES */}

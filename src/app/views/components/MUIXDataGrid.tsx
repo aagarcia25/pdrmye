@@ -17,6 +17,7 @@ export default function MUIXDataGrid(props: any) {
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           columns={props.columns}
           rows={props.rows}
+          density="compact"
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick 
           sx={{ fontFamily: "MontserratMedium" }}

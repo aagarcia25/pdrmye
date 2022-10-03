@@ -1,26 +1,28 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Box, LinearProgress, IconButton, Tooltip } from "@mui/material";
-import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
-import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { currencyFormatter, CustomToolbar, Moneda } from "../../CustomToolbar";
+import { useNavigate,useParams } from "react-router-dom";
+import { Box,  IconButton, Tooltip } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import { Moneda } from "../../CustomToolbar";
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
 import { calculosServices } from "../../../../../services/calculosServices";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-
+import InsightsIcon from '@mui/icons-material/Insights';
 import ModalFgp from "./ModalFgp";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import { fondoinfo } from "../../../../../interfaces/calculos/fondoinfo";
+
 
 export const Fpg = () => {
   const navigate = useNavigate();
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
-  const [fondo, setFondo] = useState("FGP");
-  const [nombreFondo, setNombreFondo] = useState(
-    "Fondo General de Participaciones"
-  );
+
+  const [fondo, setFondo] = useState("");
+  const [nombreFondo, setNombreFondo] = useState("");
+
 
   const handleOpen = (v: any) => {
     setstep(1);
@@ -31,7 +33,7 @@ export const Fpg = () => {
   };
 
   const handleView = (v: any) => {
-    navigate(`/inicio/participaciones/fpgd/${v.row.id}`);
+    navigate(`/inicio/participaciones/${fondo}/${v.row.id}`);
   };
 
   const columns: GridColDef[] = [
@@ -73,7 +75,7 @@ export const Fpg = () => {
       headerName: "Acciones",
       description: "Ver detalle de Cálculo",
       sortable: false,
-      width: 100,
+      width: 150,
       renderCell: (v) => {
         return (
           <Box>
@@ -88,11 +90,37 @@ export const Fpg = () => {
                 <AttachMoneyIcon />
               </IconButton>
             </Tooltip>
+
+            <Tooltip title="Ver Trazabilidad">
+              <IconButton onClick={() => handleView(v)}>
+                <InsightsIcon />
+              </IconButton>
+            </Tooltip>
+
+
+            
           </Box>
         );
       },
     },
   ];
+
+  const consultafondo = (data: any) => {
+    calculosServices.fondoInfo(data).then((res) => {
+      if (res.SUCCESS) {
+        const obj : fondoinfo[] = res.RESPONSE;
+       
+        setFondo(obj[0].Clave);
+        setNombreFondo(obj[0].Descripcion);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
 
   const consulta = (data: any) => {
     calculosServices.calculosInfo(data).then((res) => {
@@ -112,27 +140,22 @@ export const Fpg = () => {
     });
   };
 
+  let params = useParams();
+
   useEffect(() => {
-    consulta({ FONDO: fondo });
+    consultafondo({ FONDO: params.fondo });
+    consulta({ FONDO: params.fondo });
+   
   }, []);
+
+
 
   return (
     <>
       <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
           <ButtonsCalculo handleOpen={handleOpen} />
-          <DataGrid
-            pagination
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-            components={{
-              Toolbar: CustomToolbar,
-              LoadingOverlay: LinearProgress,
-              NoRowsOverlay: CustomNoRowsOverlay,
-            }}
-            rowsPerPageOptions={[5, 10, 20, 50, 100]}
-            rows={data}
-            columns={columns}
-          />
+          <MUIXDataGrid columns={columns} rows={data} />
         </div>
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
