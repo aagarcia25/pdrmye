@@ -16,6 +16,9 @@ import { Button, Grid } from "@mui/material";
 import { Toast } from "../../helpers/Toast";
 import { Alert } from "../../helpers/Alert";
 import CalendarCModal from "./CalendarCModal";
+import Swal from "sweetalert2";
+import { AnyMxRecord } from "dns";
+
 
 const CalendarC = () => {
   const user = getUser();
@@ -26,18 +29,24 @@ const CalendarC = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
 
-  const [vrows, setVrows] = useState({});
-  
+
+
+  const [vrows, setVrows] = useState({
+    id:"",
+    title:"",
+    allDay:false,
+    start: new Date(),
+    end: new Date(),
+  });
+
   const [data, setData] = useState([]);
+
+  const [id, setId] = useState("");
 
   const today = new Date();
 
-
   const onSelectEvent = (v: any) => {
-    console.log(v);
-    setVrows(v);
-    setOpen(true);
-
+    handleEdit(v);
   };
 
   const handleSelectSlot = () => {
@@ -49,29 +58,68 @@ const CalendarC = () => {
     validaLocalStorage(start);
   };
 
-  const onClickAgregarEvento =() =>{
+  const onClickAgregarEvento = () => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
-    setVrows("");
-  }
+    setVrows(null!);
+  };
 
   const handleClose = () => {
     setOpen(false);
-    consulta({NUMOPERACION: 4 });
-
+    consulta({ NUMOPERACION: 4 });
   };
 
-  const handleDelete = () => {
+  const handleDelete = (v: any) => {
+    Swal.fire({
+      icon: "info",
+      title: "Estas seguro de eliminar este evento?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Confirmar",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("Vrows id",vrows.id);
+        console.log("Tipo de dato de Vrows",typeof(vrows));
+        setVrows(v);
+        console.log("Values confirmed",v);
+        let data = {
+          NUMOPERACION: 3,
+          CHID: vrows.id,
+          CHUSER: 1,
+        };
 
+        console.log("data",data);
+
+        CalendarioService.calendarios(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Registro Eliminado!",
+            });
+
+            handleClose();
+          } else {
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      } else if (result.isDenied) {
+        Swal.fire("No se realizaron cambios", "", "info");
+      }
+    });
   };
 
   const handleEdit = (v: any) => {
     console.log(v);
     setTipoOperacion(2);
     setModo("Editar Evento");
-    setOpen(true);
     setVrows(v);
+    setOpen(true);
   };
 
   const consulta = (data: any) => {
@@ -94,46 +142,49 @@ const CalendarC = () => {
           title: "Consulta Exitosa!",
         });
         setEventos(eveitem);
-      } else{
+      } else {
         Alert.fire({
-        title: "Error!",
-        text: res.STRMESSAGE,
-        icon: "error",
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
         });
       }
-      }
-    );
+    });
   };
 
   useEffect(() => {
-    consulta({NUMOPERACION: 4 });
+    consulta({ NUMOPERACION: 4 });
   }, []);
 
   return (
     <>
-    {open ? (
-      <CalendarCModal
-        open={open}
-        modo={modo}
-        tipo={tipoOperacion}
-        handleClose={handleClose}
-        dt={vrows}
-        handleDelete={handleClose}
-      />
-    ) : (
-      ""
-    )}
-      <Grid container spacing={1} >
+      {open ? (
+        <CalendarCModal
+          open={open}
+          modo={modo}
+          tipo={tipoOperacion}
+          handleClose={handleClose}
+          dt={vrows}
+          handleDelete={handleDelete}
+        />
+      ) : (
+        ""
+      )}
+      <Grid container spacing={1}>
         <Grid
           item
           xs={12}
           sx={{
-            mb:1,
+            mb: 1,
             display: "flex",
             justifyContent: "right",
           }}
         >
-          <Button onClick={onClickAgregarEvento} variant="contained" startIcon={<AddIcon/>}>
+          <Button
+            onClick={onClickAgregarEvento}
+            variant="contained"
+            startIcon={<AddIcon />}
+          >
             Agregar Evento
           </Button>
         </Grid>
@@ -150,9 +201,7 @@ const CalendarC = () => {
           height: "calc( 80vh - 80px )",
         }}
         messages={getMessagesES()}
-
-        onSelectEvent={(v)=>onSelectEvent(v)}
-
+        onSelectEvent={(v) => onSelectEvent(v)}
         onSelectSlot={SelectSlot}
         selectable
         popup
