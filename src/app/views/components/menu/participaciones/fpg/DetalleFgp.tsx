@@ -26,6 +26,7 @@ const DetalleFgp = () => {
   const [aa, setAa] = useState(false);
   const [rf, setRf] = useState(false);
   const [cf, setCf] = useState(false);
+  const [ae, setAe] = useState(false);
 
   const handleBack = (v: any) => {
     navigate(`/inicio/participaciones/${fondo}`);
@@ -67,6 +68,9 @@ const DetalleFgp = () => {
               break;
             case 9:
               setCf(true);
+              break;
+            case 10:
+              setAe(true);
               break;
             default:
               break;
@@ -127,7 +131,7 @@ const DetalleFgp = () => {
       ...Moneda,
     },
     {
-      hide:pa?false:true,
+      hide: pa ? false : true,
       field: "PrimerAjuste",
       headerName: "Primer Ajuste",
       width: 150,
@@ -135,7 +139,7 @@ const DetalleFgp = () => {
       ...Moneda,
     },
     {
-      hide:sa?false:true,
+      hide: sa ? false : true,
       field: "SegundoAjuste",
       headerName: "Segundo Ajuste",
       width: 150,
@@ -143,7 +147,7 @@ const DetalleFgp = () => {
       ...Moneda,
     },
     {
-      hide:ta?false:true,
+      hide: ta ? false : true,
       field: "TercerAjuste",
       headerName: "Tercer Ajuste",
       width: 150,
@@ -151,7 +155,7 @@ const DetalleFgp = () => {
       ...Moneda,
     },
     {
-      hide:ca?false:true,
+      hide: ca ? false : true,
       field: "CuartoAjuste",
       headerName: "Cuarto Ajuste",
       width: 150,
@@ -159,7 +163,7 @@ const DetalleFgp = () => {
       ...Moneda,
     },
     {
-      hide:ad?false:true,
+      hide: ad ? false : true,
       field: "AjusteAnual",
       headerName: "Ajuste Anual",
       width: 150,
@@ -167,7 +171,7 @@ const DetalleFgp = () => {
       ...Moneda,
     },
     {
-      hide:as?false:true,
+      hide: as ? false : true,
       field: "AjusteSemestral",
       headerName: "Ajuste Semestral",
       width: 150,
@@ -175,7 +179,7 @@ const DetalleFgp = () => {
       ...Moneda,
     },
     {
-      hide:aa?false:true,
+      hide: aa ? false : true,
       field: "AjusteDefinitivo",
       headerName: "Ajuste Definitivo",
       width: 150,
@@ -183,7 +187,15 @@ const DetalleFgp = () => {
       ...Moneda,
     },
     {
-      hide:rf?false:true,
+      hide: ae ? false : true,
+      field: "AjusteEstatal",
+      headerName: "Ajuste Estatal",
+      width: 150,
+      description: "Importe",
+      ...Moneda,
+    },
+    {
+      hide: rf ? false : true,
       field: "CompensacionFEIF",
       headerName: "Compensación FEIF",
       width: 150,
@@ -191,7 +203,7 @@ const DetalleFgp = () => {
       ...Moneda,
     },
     {
-      hide:cf?false:true,
+      hide: cf ? false : true,
       field: "RetencionFEIF",
       headerName: "Retención FEIF",
       width: 150,
@@ -209,7 +221,6 @@ const DetalleFgp = () => {
 
   let params = useParams();
   useEffect(() => {
-   
     setFondo(String(params.fondo));
     setTimeout(() => {
       columnas({ IDCALCULOTOTAL: params.id });

@@ -44,6 +44,7 @@ export const MunPobProyeccion = () => {
       hide: true,
       width: 150,
     },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },     
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "anio", headerName: "Año", width: 150 },
     { field: "Pob", headerName: "Poblacion", width: 150 },

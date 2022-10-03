@@ -13,15 +13,25 @@ import InsightsIcon from '@mui/icons-material/Insights';
 import ModalFgp from "./ModalFgp";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { fondoinfo } from "../../../../../interfaces/calculos/fondoinfo";
+import Trazabilidad from "./Trazabilidad";
 
 
 export const Fpg = () => {
   const navigate = useNavigate();
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
-
+  const [openTrazabilidad,       setOpenTrazabilidad] = useState(false);
   const [fondo, setFondo] = useState("");
   const [nombreFondo, setNombreFondo] = useState("");
+
+
+  
+  const closeTraz = (v: any) => {
+    setOpenTrazabilidad(false);
+  };
+  const handleTraz = (v: any) => {
+    setOpenTrazabilidad(true);
+  };
 
 
   const handleOpen = (v: any) => {
@@ -92,7 +102,7 @@ export const Fpg = () => {
             </Tooltip>
 
             <Tooltip title="Ver Trazabilidad">
-              <IconButton onClick={() => handleView(v)}>
+              <IconButton onClick={() => handleTraz(v)}>
                 <InsightsIcon />
               </IconButton>
             </Tooltip>
@@ -152,6 +162,15 @@ export const Fpg = () => {
 
   return (
     <>
+     {openTrazabilidad ? (
+        <Trazabilidad
+                  open={openTrazabilidad}
+                  handleClose={closeTraz}
+                       ></Trazabilidad>
+      ) : (
+        ""
+      )}
+
       <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
           <ButtonsCalculo handleOpen={handleOpen} />
