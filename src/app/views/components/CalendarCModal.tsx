@@ -49,6 +49,7 @@ const CalendarCModal = ({
   const [nombreEvento, setNombreEvento] = useState("");
   const [finEvento, setFinEvento] = useState("");
   const [departamento, setDepartamento] = useState("");
+  const [eventoRepetitivo , setEventoRepetitivo] = useState(Boolean);
 
   const [values, setValues] = useState<eventoc[]>();
 
@@ -59,8 +60,9 @@ const CalendarCModal = ({
   console.log("id", id);
   console.log("nombreEvento", nombreEvento);
   console.log("inicioEvento", inicioEvento);
-  console.log("finEvnto", finEvento);
+  console.log("finEvento", finEvento);
 
+ 
   const hoy = new Date();
   let fecha =
     hoy.getFullYear() +
@@ -184,7 +186,7 @@ const CalendarCModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setNombreEvento(v.target.value)}
-            error={nombreEvento == "" ? true : false}
+            error={nombreEvento == null ? true : false}
             InputProps={{}}
           />
 
@@ -213,7 +215,10 @@ const CalendarCModal = ({
           <FormGroup>
             <FormControlLabel
               sx={{ width: "0vw" }}
-              control={<Switch />}
+              control={<Switch 
+              id="repetitivoEvento"
+              onChange={()=>{}}
+              />}
               label="¿Repetir?"
             />
           </FormGroup>
@@ -225,7 +230,7 @@ const CalendarCModal = ({
       <DialogActions>
         <Button
           sx={{ mr: 5 }}
-          hidden={tipo == 2 ? false : true}
+          disabled={tipo == 2 ? false : true}
           onClick={() => handleDelete()}
           startIcon={<DeleteIcon />}
         >

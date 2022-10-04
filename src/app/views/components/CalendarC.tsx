@@ -18,6 +18,7 @@ import { Alert } from "../../helpers/Alert";
 import CalendarCModal from "./CalendarCModal";
 import Swal from "sweetalert2";
 import { AnyMxRecord } from "dns";
+import moment from "moment";
 
 
 const CalendarC = () => {
@@ -35,8 +36,8 @@ const CalendarC = () => {
     id:"",
     title:"",
     allDay:false,
-    start: new Date(),
-    end: new Date(),
+    start: "",
+    end: "",
   });
 
   const [data, setData] = useState([]);
@@ -55,14 +56,21 @@ const CalendarC = () => {
 
   const SelectSlot = ({ start, end }: { start: any; end: any }) => {
     console.log("Selected", start, end);
-    validaLocalStorage(start);
+    const inicio = moment(start).format("YYYY-MM-DDTkk:mm");
+    const fin = moment(end).format("YYYY-MM-DDTkk:mm");
+    console.log("Formato selected", inicio, fin);
+    setTipoOperacion(1);
+    setModo("Agregar Evento");
+    setOpen(true);
+    setVrows({id: "", title: "", allDay: false, start:inicio, end:fin});
+    console.log("SelectSlot vrow",vrows);
   };
 
   const onClickAgregarEvento = () => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
-    setVrows(null!);
+    setVrows({id: "", title: "", allDay: false, start:moment(new Date()).format("YYYY-MM-DDTkk:mm") , end:moment(new Date()).format("YYYY-MM-DDTkk:mm")});
   };
 
   const handleClose = () => {
@@ -80,17 +88,12 @@ const CalendarC = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("Vrows id",vrows.id);
-        console.log("Tipo de dato de Vrows",typeof(vrows));
         setVrows(v);
-        console.log("Values confirmed",v);
         let data = {
           NUMOPERACION: 3,
           CHID: vrows.id,
           CHUSER: 1,
         };
-
-        console.log("data",data);
 
         CalendarioService.calendarios(data).then((res) => {
           if (res.SUCCESS) {
@@ -202,7 +205,7 @@ const CalendarC = () => {
         }}
         messages={getMessagesES()}
         onSelectEvent={(v) => onSelectEvent(v)}
-        onSelectSlot={SelectSlot}
+        onSelectSlot={(v) => SelectSlot(v)}
         selectable
         popup
         //  eventPropGetter={ eventStyleGetter }
