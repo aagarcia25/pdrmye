@@ -58,6 +58,7 @@ import PensionesVitalicias from '../views/components/Organismos/PensionesVitalic
 import Solicitudes from '../views/components/Organismos/Solicitudes/Solicitudes';
 import ContactoMunicipios from '../views/components/Municipios/ContactoMunicipios';
 import ContactoOrganismos from '../views/components/Organismos/contactoOrganismos/ContactoOrganismos';
+import CFuenteFinanciamiento from '../views/components/menu/catalogos/CFuenteFinanciamiento/CFuenteFinanciamiento';
 
 
 export const AppRouter = () => {
@@ -151,6 +152,7 @@ export const AppRouter = () => {
        <Route path='/inicio/pensionesvitalicias'  element={log ? <PensionesVitalicias /> : <AuthRouter />} />
        <Route path='/inicio/org/solicitudes'  element={log ? <Solicitudes /> : <AuthRouter />} />
        <Route path='/inicio/contactoorganismos'  element={log ? <ContactoOrganismos /> : <AuthRouter />} />
+       <Route path='/inicio/ff'  element={log ? <CFuenteFinanciamiento /> : <AuthRouter />} />
        
        {/* FIN DE SECCION DE ORGANISMOS */}
        {/* SECCION MUNICIPIOS */}
