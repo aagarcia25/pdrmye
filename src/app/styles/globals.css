@@ -137,5 +137,8 @@ button.notificaciones-generico {
   background-color: hsl(0, 87%, 53%);
   color: white;
 }
-
+.cerrar-mensaje:hover {
+  background-color: hsl(0, 87%, 53%);
+  color: white;
+}
 
