@@ -47,7 +47,7 @@ const AvisosModal = ({
   var hora = ('0' + hoy.getHours()).slice(-2) + ':' + ('0' + hoy.getMinutes()).slice(-2);
   var Fecha_min = fecha + 'T' + hora;
   const [inicioEventoMin, setInicioEventoMin] = useState(Fecha_min);
-  const [inicioEvento, setInicioEvento] = useState("")
+  const [inicioEvento, setInicioEvento] = useState(inicioEventoMin);
   const [finEvento, setFinEvento] = useState("");
   const [finEventoMax, setFinEventoMax] = useState("2100-09-30 13:16:00");
   const [descripcion, setDescripcion] = useState("");
@@ -80,10 +80,7 @@ const AvisosModal = ({
   };
 
   const handleUpload = () => {
-
-
     setslideropen(true);
-
     const formData = new FormData();
     (editDoc) ? formData.append("DOCUMENTO", newDoc, nameNewDoc) : formData.append("DOCUMENTO", "");
     formData.append("NUMOPERACION", String(tipo));
@@ -117,7 +114,7 @@ const AvisosModal = ({
   };
 
   const testeoVariables = () => {
-    //console.log("inicio de evento   " + inicioEvento);
+    console.log("inicio de evento   " + inicioEvento);
     //console.log("fin de evento   " + finEvento);
     //console.log("noombre de evento    " + nameAviso);
     ///console.log("fecha de hoy   " + Fecha_min);
@@ -355,7 +352,7 @@ const AvisosModal = ({
                       id="datetime-local"
                       required
                       type="datetime-local"
-                      defaultValue={inicioEventoMin}
+                      
                       min={inicioEventoMin}
                       max={finEventoMax}
                       onChange={handleFechaInicio}
@@ -426,6 +423,7 @@ const AvisosModal = ({
 
               <button className="button cerrar" onClick={() => handleClose()}  >Cerrar</button>
               <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
+             
 
             </Box>
 
