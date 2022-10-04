@@ -20,6 +20,8 @@ import { calculosServices } from "../../../../../services/calculosServices";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
 import Slider from "../../../Slider";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 
 const ModalFgp = ({
   titulo,
@@ -34,7 +36,19 @@ const ModalFgp = ({
   const [monto, setMonto] = useState("");
   const [periodo, setPeriodo] = useState("");
   const [periodos, setPeriodos] = useState([]);
-  const [meses, setMeses] = useState<Imeses[]>();
+
+
+  const [meses, setMeses] = useState<SelectValues[]>([]);
+
+
+
+
+  const handleSelectMes = (v : any) => {
+   console.log(v)
+  };
+
+
+
   let year: number = new Date().getFullYear();
 
   const handleSend = () => {
@@ -76,8 +90,10 @@ const ModalFgp = ({
   };
 
   const mesesc = () => {
-    let data = {};
-    CatalogosServices.meses(data).then((res) => {
+    let data = {
+      NUMOPERACION:2
+     };
+    CatalogosServices.SelectIndex(data).then((res) => {
       setMeses(res.RESPONSE);
     });
   };
@@ -134,21 +150,7 @@ const ModalFgp = ({
         </Grid>
 
         <Grid item xs={4} sx={{}}>
-          <Select
-            fullWidth
-            id="mes"
-            value={mes}
-            required
-            onChange={(v) => setMes(v.target.value)}
-          >
-            {meses?.map((item: Imeses) => {
-              return (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.Descripcion}
-                </MenuItem>
-              );
-            })}
-          </Select>
+        <SelectFrag options={meses} onInputChange={handleSelectMes}></SelectFrag>
         </Grid>
 
         <Grid

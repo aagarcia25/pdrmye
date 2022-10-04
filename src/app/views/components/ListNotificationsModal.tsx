@@ -19,6 +19,8 @@ import { Toast } from "../../helpers/Toast";
 import { Alert } from "../../helpers/Alert";
 import SendIcon from '@mui/icons-material/Send';
 import { Imunicipio } from "../../interfaces/municipios/FilterMunicipios";
+import SelectFrag from "./Fragmentos/Select/SelectFrag";
+import SelectValues from "../../interfaces/Select/SelectValues";
 
 
 
@@ -43,6 +45,10 @@ const ListNotificationsModal = ({
   const [mensaje, setMensaje] = useState("");
   const [id, setId] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
+  const [usuarioSelect, setUsuarioSelect]=useState<SelectValues[]>([]);
+
+
+
 
   const names = [
     'Oliver Hansen',
@@ -125,9 +131,29 @@ console.log("id  "+ id);
     });
   };
 
+  const loadSelectUser = () => {
+   let data = {
+    NUMOPERACION:1
+   };
+    CatalogosServices.SelectIndex(data).then((res) => {
+      if (res.SUCCESS) {
+        setUsuarioSelect(res.RESPONSE);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
+  const handleSelectUser = (e :any) => {
+   console.log(e);
+  };
 
   useEffect(() => {
-
+    loadSelectUser();
     if (dt === '') {
 
     } else {
@@ -231,6 +257,25 @@ console.log("id  "+ id);
 
 
           </Box>
+
+          <Box
+            sx={{
+              height: "120px",
+              justifyContent: 'space-between',
+              position: 'relative',
+              flexDirection: 'column',
+              top: 10, left: 7, width: "95%",
+              display: 'flex',
+              borderRadius: 1
+            }}>
+
+
+          <SelectFrag options={usuarioSelect} onInputChange={handleSelectUser}></SelectFrag>
+
+
+          </Box>
+
+
 
           <Box sx={{
             width: "98%",

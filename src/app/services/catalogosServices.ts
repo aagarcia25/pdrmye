@@ -103,5 +103,10 @@ export class CatalogosServices {
         return await post('crecimientoAnio', data);
     };
 
+    public static async SelectIndex(data : any) {
+        return await post('SelectIndex', data);
+    };
+
+    
 
 }
