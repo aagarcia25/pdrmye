@@ -23,25 +23,12 @@ import moment from "moment";
 
 const CalendarC = () => {
   const user = getUser();
-
   const [eventos, setEventos] = useState<eventoc[]>();
-
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
-
-
-
-  const [vrows, setVrows] = useState({
-    id:"",
-    title:"",
-    allDay:false,
-    start: "",
-    end: "",
-  });
-
+  const [vrows,           setVrows] = useState({});
   const [data, setData] = useState([]);
-
   const [id, setId] = useState("");
 
   const today = new Date();
@@ -55,22 +42,35 @@ const CalendarC = () => {
   };
 
   const SelectSlot = ({ start, end }: { start: any; end: any }) => {
-    console.log("Selected", start, end);
-    const inicio = moment(start).format("YYYY-MM-DDTkk:mm");
-    const fin = moment(end).format("YYYY-MM-DDTkk:mm");
-    console.log("Formato selected", inicio, fin);
+
+
+    var inicio = new Date(start)
+    var fechainicio = inicio.getFullYear() + '-' + ('0' + (inicio.getMonth() + 1)).slice(-2) + '-' + ('0' + inicio.getDate()).slice(-2);
+    var horainicio = ('0' + inicio.getHours()).slice(-2) + ':' + ('0' + inicio.getMinutes()).slice(-2);
+    var Fecha_inicio = fechainicio + 'T' + horainicio;
+
+
+    var fin = new Date(end)
+    var fechafin = fin.getFullYear() + '-' + ('0' + (fin.getMonth() + 1)).slice(-2) + '-' + ('0' + fin.getDate()).slice(-2);
+    var horafin = ('0' + fin.getHours()).slice(-2) + ':' + ('0' + fin.getMinutes()).slice(-2);
+    var Fecha_fin = fechafin + 'T' + horafin;
+
+
+
+    
+    setVrows({ start:Fecha_inicio   , end: Fecha_fin});
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
-    setVrows({id: "", title: "", allDay: false, start:inicio, end:fin});
     console.log("SelectSlot vrow",vrows);
+
   };
 
   const onClickAgregarEvento = () => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
-    setVrows({id: "", title: "", allDay: false, start:moment(new Date()).format("YYYY-MM-DDTkk:mm") , end:moment(new Date()).format("YYYY-MM-DDTkk:mm")});
+    setVrows("");
   };
 
   const handleClose = () => {
@@ -78,7 +78,7 @@ const CalendarC = () => {
     consulta({ NUMOPERACION: 4 });
   };
 
-  const handleDelete = (v: any) => {
+  const handleDelete = () => {
     Swal.fire({
       icon: "info",
       title: "Estas seguro de eliminar este evento?",
@@ -88,10 +88,9 @@ const CalendarC = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        setVrows(v);
         let data = {
           NUMOPERACION: 3,
-          CHID: vrows.id,
+          CHID: id,
           CHUSER: 1,
         };
 
@@ -119,6 +118,7 @@ const CalendarC = () => {
 
   const handleEdit = (v: any) => {
     console.log(v);
+    setId(v.id);
     setTipoOperacion(2);
     setModo("Editar Evento");
     setVrows(v);
@@ -208,12 +208,6 @@ const CalendarC = () => {
         onSelectSlot={(v) => SelectSlot(v)}
         selectable
         popup
-        //  eventPropGetter={ eventStyleGetter }
-        //   components={{
-        //     event: CalendarEvent
-        //    }}
-        //  onView={ onViewChanged }
-        //TODO No se ven los eventos por vista semana o día
         min={
           new Date(today.getFullYear(), today.getMonth(), today.getDate(), 9)
         }

@@ -43,36 +43,40 @@ const CalendarCModal = ({
   dt: any;
   handleDelete: Function;
 }) => {
+
+
+  var hoy = new Date()
+  var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2);
+  var hora = ('0' + hoy.getHours()).slice(-2) + ':' + ('0' + hoy.getMinutes()).slice(-2);
+  var Fecha_min = fecha + 'T' + hora;
+
+
+
+
   const [eventos, setEventos] = useState("");
   //Campos
   const [id, setId] = useState("");
   const [nombreEvento, setNombreEvento] = useState("");
-  const [finEvento, setFinEvento] = useState("");
+  const [finEvento, setFinEvento] = useState(Fecha_min);
+  const [inicioEvento, setInicioEvento] = useState(Fecha_min);
   const [departamento, setDepartamento] = useState("");
   const [eventoRepetitivo , setEventoRepetitivo] = useState(Boolean);
-
   const [values, setValues] = useState<eventoc[]>();
-
   //Usandose en select departamentos
   const [departamentos, setDepartamentos] = useState("");
-  const [inicioEvento, setInicioEvento] = useState("");
 
-  console.log("id", id);
-  console.log("nombreEvento", nombreEvento);
-  console.log("inicioEvento", inicioEvento);
-  console.log("finEvento", finEvento);
+  //console.log("id", id);
+  //console.log("nombreEvento", nombreEvento);
+  //console.log("inicioEvento", inicioEvento);
+  //console.log("finEvento", finEvento);
 
  
-  const hoy = new Date();
-  let fecha =
-    hoy.getFullYear() +
-    "-" +
-    ("0" + (hoy.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + hoy.getDate()).slice(-2);
-  let hora =
-    ("0" + hoy.getHours()).slice(-2) + ":" + ("0" + hoy.getMinutes()).slice(-2);
-  var Fecha_min = fecha + "T" + hora;
+  
+
+
+
+
+
 
   const eventosc = () => {
     let data = {};
@@ -114,7 +118,7 @@ const CalendarCModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
+    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -167,8 +171,17 @@ const CalendarCModal = ({
     } else {
       setId(dt?.id);
       setNombreEvento(dt?.title);
-      setInicioEvento(moment(dt?.start).format("YYYY-MM-DDTkk:mm"));
-      setFinEvento(moment(dt?.end).format("YYYY-MM-DDTkk:mm"));
+      if(dt?.id){
+        setInicioEvento(moment(dt?.start).format("YYYY-MM-DDTkk:mm"));
+        setFinEvento(moment(dt?.end).format("YYYY-MM-DDTkk:mm"));
+      }else{
+        setInicioEvento(dt?.start);
+        setFinEvento(dt?.end);
+      }
+      
+
+      
+
     }
   }, [dt]);
 
