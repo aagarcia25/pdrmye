@@ -379,9 +379,6 @@ const EventosModal = ({
                   required
                   multiline
                   margin="dense"
-                  id="anio"
-                  //value nombre de evento
-                 
                   type="string"
                   fullWidth
                   variant="standard"

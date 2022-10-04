@@ -49,39 +49,40 @@ const ListNotificationsModal = ({
   const [chuserDestin, setChuserDestin] = useState("");
 
   const [personName, setPersonName] = React.useState<string[]>([]);
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
 
 
-  const testeoVariables = () => {
-    //console.log("inicio de evento   " + inicioEvento);
-    //console.log("fin de evento   " + finEvento);
-    //console.log("noombre de evento    " + nameAviso);
-    ///console.log("fecha de hoy   " + Fecha_min);
-    console.log("datos de dt  " + String(dt?.row?.Descripcion) + " ---- " + dt?.row?.Encabezado);
-    console.log("id  " + id);
+
+
+  const handleViewChange = () => {
+
+    let data = {
+      
+      NUMOPERACION: tipo,
+      CHUSER: user.IdUsuario,
+      CHID:id,
+      
+    
+    
+    };
+         CatalogosServices.Notificaciones(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Registro Agregado!",
+            });
+    
+          } else {
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+     handleClose();
 
 
   }
-  const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
-      //AGREGAR
-      agregar(data);
-    } else if (tipo == 2) {
-      //EDITAR
-
-      editar(data);
-    }
-  };
-
 
   const handleUpload = () => {
     let data = {
@@ -340,7 +341,7 @@ const ListNotificationsModal = ({
               </Box>
               <Box>
                 <button className="cerrar-mensaje" color="error"
-                  onClick={() => handleClose()}>
+                  onClick={() => handleViewChange()}>
                   <CloseIcon />
                 </button>
 

@@ -72,7 +72,7 @@ export const ListNotification = () => {
   };
 
   const viewMessageModal = (v: any) => {  
-
+    setTipoOperacion(6);
     setModo("ViewMessage");
     setOpen(true);
     setData(v);
@@ -93,6 +93,17 @@ export const ListNotification = () => {
       setNotificacion(res.RESPONSE);
     }); 
   };
+
+  
+  const viewMessageSend = () => {  
+    let dat = {
+      NUMOPERACION: 9, 
+      CHUSER: user.IdUsuario  
+    };  
+    CatalogosServices.Notificaciones(dat).then((res) => {
+      setNotificacion(res.RESPONSE);
+    }); 
+  };
   const viewMessage = () => {  
     let dat = {
       NUMOPERACION: 8, 
@@ -107,8 +118,18 @@ export const ListNotification = () => {
 
 
 
-  const handleClose = () => setOpen(false); 
-
+  const handleClose = () => {
+    let dat = {
+      NUMOPERACION: 8, 
+      CHUSER: user.IdUsuario  
+    };  
+    CatalogosServices.Notificaciones(dat).then((res) => {
+      setNotificacion(res.RESPONSE);
+    });  
+    
+    
+    setOpen(false); 
+  }
 
   let dat = {
     NUMOPERACION: numOperacion,    
@@ -167,7 +188,8 @@ export const ListNotification = () => {
             borderRadius: 1
           }}>
 
-            <Button className="notificaciones-generico" color="success" startIcon={<SendIcon />}>
+            <Button className="notificaciones-generico" color="success" startIcon={<SendIcon />}
+            onClick={() => viewMessageSend()}>
               Enviados</Button>
 
             <Button className="notificaciones-generico" color="success" startIcon={<InboxIcon />}
