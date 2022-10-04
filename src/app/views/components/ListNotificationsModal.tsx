@@ -4,14 +4,11 @@ import {
   Dialog,
   Box,
   FormLabel,
-  InputLabel,
   Input,
-  Select,
-  OutlinedInput,
-  MenuItem,
   SelectChangeEvent,
-  FormControl,
   Button,
+  InputLabel,
+  TextField,
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { CatalogosServices } from "../../services/catalogosServices";
@@ -21,6 +18,8 @@ import SendIcon from '@mui/icons-material/Send';
 import { Imunicipio } from "../../interfaces/municipios/FilterMunicipios";
 import SelectFrag from "./Fragmentos/Select/SelectFrag";
 import SelectValues from "../../interfaces/Select/SelectValues";
+import { UserReponse } from "../../interfaces/user/UserReponse";
+import { getPU } from "../../services/localStorage";
 
 
 
@@ -41,27 +40,14 @@ const ListNotificationsModal = ({
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   ////////////////////////////
+  const user: UserReponse = JSON.parse(String(getPU()));
   const [encabezado, setEncabezado] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [id, setId] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
-  const [usuarioSelect, setUsuarioSelect]=useState<SelectValues[]>([]);
+  const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
+  const [chuserDestin, setChuserDestin] = useState("");
 
-
-
-
-  const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-  ];
   const [personName, setPersonName] = React.useState<string[]>([]);
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -79,9 +65,9 @@ const ListNotificationsModal = ({
     //console.log("fin de evento   " + finEvento);
     //console.log("noombre de evento    " + nameAviso);
     ///console.log("fecha de hoy   " + Fecha_min);
-    console.log("datos de dt  " + String(dt?.row?.Descripcion) + " ---- " +dt?.row?.Encabezado);
-console.log("id  "+ id);
-    
+    console.log("datos de dt  " + String(dt?.row?.Descripcion) + " ---- " + dt?.row?.Encabezado);
+    console.log("id  " + id);
+
 
   }
   const handleRequest = (data: any) => {
@@ -96,6 +82,36 @@ console.log("id  "+ id);
     }
   };
 
+
+  const handleUpload = () => {
+    let data = {
+      NUMOPERACION: 1,
+      CHUSER: user.IdUsuario,
+      DELETED:0,
+      VISTO:0,
+      ENCABEZADO: encabezado,
+      DESCRIPCION: mensaje ,
+      DESTINATARIO: chuserDestin, 
+    };
+    CatalogosServices.Notificaciones(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Registro Agregado!",
+        });
+
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+ handleClose();
+
+
+  }
   const agregar = (data: any) => {
     CatalogosServices.avisos(data).then((res) => {
       if (res.SUCCESS) {
@@ -132,9 +148,10 @@ console.log("id  "+ id);
   };
 
   const loadSelectUser = () => {
-   let data = {
-    NUMOPERACION:1
-   };
+    let data = {
+      NUMOPERACION: 1,
+      CHUSER: user.IdUsuario
+    };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (res.SUCCESS) {
         setUsuarioSelect(res.RESPONSE);
@@ -148,8 +165,10 @@ console.log("id  "+ id);
     });
   };
 
-  const handleSelectUser = (e :any) => {
-   console.log(e);
+  const handleSelectUser = (e: any) => {
+
+    setChuserDestin(e.value);
+    console.log(e.value);
   };
 
   useEffect(() => {
@@ -185,202 +204,175 @@ console.log("id  "+ id);
         borderRadius: 1
       }}>
 
-        {(modo==="NewMessage")?
-        <Box>
-        <Box sx={{
-          height: "100%",
-          justifyContent: 'space-between',
-          position: 'relative',
-          flexDirection: 'column',
-
-          display: 'flex',
-          borderRadius: 1
-        }}>
-          <Box sx={{
-
-            display: 'flex',
-            justifyContent: 'space-between',
-            position: 'relative',
-
-            borderRadius: 1,
-
-          }}>
+        {(modo === "NewMessage") ?
+          <Box>
             <Box sx={{
-              position: 'relative',
-              flexDirection: 'column',
-              top: 1, left: 20,
-              borderRadius: 1
-            }}>
-              <FormLabel
-                focused
-              > <h3> Nuevo Mensaje</h3>
-              </FormLabel>
-            </Box>
-            <Box>
-              <button className="cerrar-nuevo-mensaje" color="error"
-                onClick={() => handleClose()}>
-                <CloseIcon />
-              </button>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              height: "120px",
+              height: "100%",
               justifyContent: 'space-between',
               position: 'relative',
               flexDirection: 'column',
-              top: 10, left: 7, width: "95%",
-              display: 'flex',
               borderRadius: 1
             }}>
+              <Box sx={{
+
+                display: 'flex',
+                justifyContent: 'space-between',
+                position: 'relative',
+
+                borderRadius: 1,
+
+              }}>
+                <Box sx={{
+                  position: 'relative',
+                  flexDirection: 'column',
+                  top: 1, left: 20,
+                  borderRadius: 1
+                }}>
+                  <FormLabel
+                    focused
+                  > <h3> Nuevo Mensaje</h3>
+                  </FormLabel>
+                </Box>
+                <Box>
+                  <button className="cerrar-nuevo-mensaje" color="error"
+                    onClick={() => handleClose()}>
+                    <CloseIcon />
+                  </button>
+                </Box>
+              </Box>
 
 
-            <FormControl sx={{ m: 1, width: "100%" }}>
-              <InputLabel >Para</InputLabel>
-              <Select
-                multiple
-                value={personName}
-                onChange={handleChange}
-                input={<OutlinedInput label="Para" />}
-              >
-                {names.map((name) => (
-                  <MenuItem
-                    key={name}
-                    value={name}
+              <Box
+                sx={{
+                  height: "120px",
+                  justifyContent: 'space-between',
+                  position: 'relative',
+                  flexDirection: 'column',
+                  top: 10, left: 7, width: "95%",
+                  display: 'flex',
+                  borderRadius: 1
+                }}>
 
-                  >
-                    {name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <SelectFrag options={usuarioSelect} onInputChange={handleSelectUser}></SelectFrag>
 
 
-          </Box>
-
-          <Box
-            sx={{
-              height: "120px",
-              justifyContent: 'space-between',
-              position: 'relative',
-              flexDirection: 'column',
-              top: 10, left: 7, width: "95%",
-              display: 'flex',
-              borderRadius: 1
-            }}>
-
-
-          <SelectFrag options={usuarioSelect} onInputChange={handleSelectUser}></SelectFrag>
-
-
-          </Box>
+              </Box>
 
 
 
-          <Box sx={{
-            width: "98%",
-            position: 'relative',
-                        
-            left: 5,
-            flexDirection: 'column',
-            borderRadius: 1,
-            bgcolor: "rgb(245,245,245)",
-            borderColor: "rgb(255,240,225)",
-          }}>
-            <Input
-              multiline
-              placeholder="Mensaje"
-              sx={{ m: 1, width: "95%", height: "150px" }} />
-          </Box>
+              <Box sx={{
+                width: "98%",
+                position: 'relative',
+                left: 5,
+                flexDirection: 'column',
 
 
-        </Box>
-                    {////// boton de enviar mensaje nuevo
-}
-        <Box sx={{  display: 'flex',
-        flexDirection: 'row-reverse',}}   >
+              }}>
+                <TextField
+                required
+                type="string"
+                  multiline
+                  label="Asunto"
+                  onChange={(v) => setEncabezado(v.target.value)}
+                  error={encabezado == "" ? true : false}
+                  sx={{ m: 1, width: "95%" }} />
 
 
-           <Box sx={{  width: "18%",
-          
-}} >
-          <Button    
-          className="enviar-mensaje" color="success" variant="contained" endIcon={<SendIcon />}
-            onClick={() => handleClose()}>
-            Enviar</Button>
-        
+                <TextField
+                  required
+                  type="string"
+                  multiline
+                  label="Mensaje"
+                  onChange={(v) => setMensaje(v.target.value)}
+                  error={mensaje == "" ? true : false}
+                  sx={{ m: 1, width: "95%", }} />
+              </Box>
+
+
+
+              {////// boton de enviar mensaje nuevo
+              }
+              <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'row-reverse',  }} >
+
+                <Box sx={{ width: "18%", }} >
+                  <Button
+                    className="enviar-mensaje" color="success" variant="contained" endIcon={<SendIcon />}
+                    onClick={() => handleUpload()}>
+                    Enviar</Button>
+
+                </Box>
+              </Box>
             </Box>
-        </Box>
 
-      </Box> 
-      :""
+          </Box>
+          : ""
         }
 
-         {(modo==="ViewMessage")?
-         <Box sx={{
-          height: "100%",
-          justifyContent: 'space-between',
-          position: 'relative',
-          flexDirection: 'column',
-
-          display: 'flex',
-          borderRadius: 1
-        }}>
+        {(modo === "ViewMessage") ?
           <Box sx={{
-
-            display: 'flex',
+            height: "100%",
             justifyContent: 'space-between',
             position: 'relative',
+            flexDirection: 'column',
 
-            borderRadius: 1,
-
+            display: 'flex',
+            borderRadius: 1
           }}>
             <Box sx={{
+
+              display: 'flex',
+              justifyContent: 'space-between',
               position: 'relative',
+
+              borderRadius: 1,
+
+            }}>
+              <Box sx={{
+                position: 'relative',
+                flexDirection: 'column',
+                top: 1, left: 20,
+                borderRadius: 1
+              }}>
+                <FormLabel
+                  focused
+                > <h2> {encabezado} </h2>
+                </FormLabel>
+              </Box>
+              <Box>
+                <button className="cerrar-mensaje" color="error"
+                  onClick={() => handleClose()}>
+                  <CloseIcon />
+                </button>
+
+
+              </Box>
+            </Box>
+
+            <Box sx={{
+              width: "98%",
+              position: 'relative',
+
+              left: 5,
               flexDirection: 'column',
-              top: 1, left: 20,
-              borderRadius: 1
+              borderRadius: 1,
+              bgcolor: "rgb(245,245,245)",
+              borderColor: "rgb(255,240,225)",
             }}>
               <FormLabel
                 focused
-              > <h2> {encabezado} </h2>
+                sx={{ m: 1, width: "95%", height: "150px" }}>
+                {mensaje}
               </FormLabel>
             </Box>
-            <Box>
-              <button className="cerrar-mensaje" color="error"
-                onClick={() => handleClose()}>
-                <CloseIcon />
-              </button>
-            
-          
-            </Box>
-          </Box>       
 
-          <Box sx={{
-            width: "98%",
-            position: 'relative',
-                        
-            left: 5,
-            flexDirection: 'column',
-            borderRadius: 1,
-            bgcolor: "rgb(245,245,245)",
-            borderColor: "rgb(255,240,225)",
-          }}>
-            <FormLabel
-              focused
-              sx={{ m: 1, width: "95%", height: "150px" }}>
-                {mensaje}
-                </FormLabel>
+
           </Box>
+          :
+          ""
+        }
 
 
-        </Box>
-         :
-         ""
-      }
 
-
-        
       </Box>
     </Dialog>
 
