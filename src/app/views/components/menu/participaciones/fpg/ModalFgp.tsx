@@ -43,8 +43,8 @@ const ModalFgp = ({
 
 
 
-  const handleSelectMes = (v : any) => {
-   console.log(v)
+  const handleSelectMes = (v : SelectValues) => {
+   console.log(v?.value)
   };
 
 
