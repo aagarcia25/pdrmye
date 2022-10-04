@@ -30,15 +30,15 @@ export const Municipios = () => {
 
 const columns: GridColDef[] = [
     { field: "id",hide:true, headerName: "Identificador", width: 150   , description:messages.dataTableColum.id},
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 120 },
     { field: "Nombre", headerName: "Municipio", width: 250 },
    
-    { field: "ClaveMun", headerName: "Clave Municipio", width: 150 },
+    //{ field: "ClaveMun", headerName: "Clave Municipio", width: 150 },
     { field: "MAM", headerName: "Área Metropolitana", width: 150 },
-    { field: "Descentralizado", headerName: "Descentralizado", width: 100 },
+    { field: "Descentralizado", headerName: "Descentralizado", width: 120 },
     { field: "NombreCorto", headerName: "Nombre Corto", width: 250 },
-    { field: "OrdenSFTGNL", headerName: "Orden SFTGNL", width: 100 },
-    { field: "ClaveSIREGOB", headerName: "Clave SIREGOB", width: 100 },
+    { field: "OrdenSFTGNL", headerName: "Orden SFTGNL", width: 120 },
+    { field: "ClaveSIREGOB", headerName: "Clave SIREGOB", width: 120 },
     
     {
       field: "acciones",

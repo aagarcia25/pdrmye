@@ -204,14 +204,14 @@ export default function Inicio({ children,  }: Props ) {
          >
           
           
-           isSmUp ? null : ( 
+     
                  <Navigator
                 PaperProps={{ style: { width: drawerWidth } }}
                 
                   variant="temporary"
                   open={mobileOpen}
                   onClose={handleDrawerToggle}  />
-                            )
+                            
            
             <Navigator
             PaperProps={{ style: { width: drawerWidth } }}
