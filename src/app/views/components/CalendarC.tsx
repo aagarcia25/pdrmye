@@ -71,6 +71,7 @@ const CalendarC = () => {
     setModo("Agregar Evento");
     setOpen(true);
     setVrows("");
+    console.log(modo);
   };
 
   const handleClose = () => {
