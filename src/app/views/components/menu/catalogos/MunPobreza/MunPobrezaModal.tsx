@@ -88,16 +88,7 @@ const MunPobrezaModal = ({
     }
   };
 
-const handleTest=()=>{
-
-  console.log("Tipo de operacion "+ tipo);
-  console.log("modo de operacion "+modo) ; 
-
-
-
-
-
-}
+  
   const handleRequest = (data: any) => {
     console.log(data);
     if (tipo == 1) {
@@ -274,7 +265,7 @@ const handleTest=()=>{
       <DialogActions>
         <Button onClick={() => handleSend()}>Guardar</Button>
         <Button onClick={() => handleClose()}>Cerrar</Button>
-        <Button onClick={() => handleTest()}>Test</Button>
+
       </DialogActions>
     </Dialog>
   );

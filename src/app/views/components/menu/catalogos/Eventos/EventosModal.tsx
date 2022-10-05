@@ -7,14 +7,14 @@ import {
   TextField,
   IconButton,
   Container,
-  FormLabel,
+  
   } from "@mui/material";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
-import { Label, PhotoCamera, Preview } from "@mui/icons-material";
+import { PhotoCamera, Preview } from "@mui/icons-material";
 import "../../../../../styles/globals.css";
 
 
@@ -261,7 +261,7 @@ const EventosModal = ({
         {/// se setea el modo en modoModal para ver el tipo de el evento
         }
 
-        <DialogTitle>{modoModal}</DialogTitle>
+        <label className="Titulo">{modoModal}</label>
 
       </Box>
 
@@ -329,7 +329,7 @@ const EventosModal = ({
               <Box>
 
                 <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                  <FormLabel focused>Inicio </FormLabel>
+                  <label >Inicio </label>
                 </Box>
 
                 <Box>
@@ -351,7 +351,7 @@ const EventosModal = ({
               <Box sx={{ justifyContent: 'center', }}>
                 <Box>
                   <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                  <FormLabel focused>Fin</FormLabel>
+                  <label >Fin</label>
                   </Box>
                   <Box>
                     <input
@@ -376,7 +376,7 @@ const EventosModal = ({
           <Box>
 
          
-          <FormLabel focused>Nombre</FormLabel>
+          <label >Nombre</label>
                 <TextField
                   required
                   multiline
@@ -387,7 +387,8 @@ const EventosModal = ({
                   onChange={(v) => setNameEvent(v.target.value)}
                   error={nameEvent == "" ? true : false}
                 />
-                 <FormLabel focused>Descripcion</FormLabel>
+                 <label 
+                 >Descripcion</label>
                 <TextField
                   multiline
                   required
@@ -431,23 +432,17 @@ const EventosModal = ({
               <h4>Nombre</h4>  
             </Box>
 
-            <FormLabel
-             focused
-             filled             
-             >                        
+            <label>                        
             {"Nombre "+nameEvent}
-            </FormLabel>
+            </label>
 
             <Box
              sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius:'5px'}}>
               <h4>Descripcion</h4>  
             </Box>              
-            <FormLabel
-             focused
-             filled           
-             >                     
+            <label>                     
             {descripcion}
-            </FormLabel>           
+            </label>           
             </Box>
 
             <Box 
@@ -455,25 +450,16 @@ const EventosModal = ({
             p: 1,
             m: 1,}}>
 
-            <FormLabel
-             focused
-             filled
-             sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius:'5px' }}
-         
-             >
+            <label>
              <h3>Inicio</h3>            
             {inicioEvento}           
             
-            </FormLabel>
+            </label>
 
-             <FormLabel
-             focused
-             filled
-             sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius:'5px' }}
-             >
+             <label  >
              <h3>Fin</h3>            
             {finEvento}
-            </FormLabel>
+            </label>
           
             </Box>
 
@@ -554,7 +540,7 @@ const EventosModal = ({
             <Box>
             <Box
              sx={{ bgcolor: 'rgb(222, 225, 225)'}}>
-              <h4>Nombre</h4>  
+              <label>Nombre</label>  
             </Box>
 
               <TextField
@@ -572,7 +558,7 @@ const EventosModal = ({
 
             <Box
              sx={{ bgcolor: 'rgb(222, 225, 225)'}}>
-              <h4>Descripcion</h4>  
+              <label>Descripcion</label>  
             </Box>              
             <TextField
                   multiline
