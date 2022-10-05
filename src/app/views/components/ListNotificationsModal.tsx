@@ -3,13 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   Dialog,
   Box,
-  FormLabel,
-  Input,
-  SelectChangeEvent,
   Button,
-  InputLabel,
-  TextField,
-  TextareaAutosize,
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { CatalogosServices } from "../../services/catalogosServices";
@@ -21,6 +15,9 @@ import SelectFrag from "./Fragmentos/Select/SelectFrag";
 import SelectValues from "../../interfaces/Select/SelectValues";
 import { UserReponse } from "../../interfaces/user/UserReponse";
 import { getPU } from "../../services/localStorage";
+import "../../styles/globals.css";
+
+
 
 
 
@@ -44,6 +41,8 @@ const ListNotificationsModal = ({
   const user: UserReponse = JSON.parse(String(getPU()));
   const [encabezado, setEncabezado] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [newEncabezado, setNewEncabezado] = useState("");
+  const [newNensaje, setNewMensaje] = useState("");
   const [id, setId] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
@@ -88,8 +87,8 @@ const ListNotificationsModal = ({
       CHUSER: user.IdUsuario,
       DELETED: 0,
       VISTO: 0,
-      ENCABEZADO: encabezado,
-      DESCRIPCION: mensaje,
+      ENCABEZADO: newEncabezado,
+      DESCRIPCION: newNensaje,
       DESTINATARIO: chuserDestin,
     };
     CatalogosServices.Notificaciones(data).then((res) => {
@@ -210,10 +209,7 @@ const ListNotificationsModal = ({
                   top: 1, left: 20,
                   borderRadius: 1
                 }}>
-                  <FormLabel
-                    focused
-                  > <h3> Nuevo Mensaje</h3>
-                  </FormLabel>
+                  <label> <h3> Nuevo Mensaje</h3> </label>
                 </Box>
                 <Box>
                   <button className="cerrar-nuevo-mensaje" color="error"
@@ -235,9 +231,7 @@ const ListNotificationsModal = ({
                   borderRadius: 1
                 }}>
 
-                <FormLabel focused>
-                  Para..
-                </FormLabel>
+                <label> Para..</label>
 
                 <SelectFrag options={usuarioSelect} onInputChange={handleSelectUser}></SelectFrag>
               </Box>
@@ -246,7 +240,6 @@ const ListNotificationsModal = ({
 
               <Box sx={{
                 height: "90%",
-
                 width: "98%",
                 justifyContent: 'space-between',
                 position: 'relative',
@@ -256,17 +249,15 @@ const ListNotificationsModal = ({
               }}>
                 <Box
                   sx={{
-                    width: "90%",
+                    width: "100%",
                     height: "60%",
                   }}>
-                  <FormLabel focused>
-                    Encabezado..
-                  </FormLabel>
+                  <label > Asunto.. </label>
                   <textarea
                     required
                     spellCheck='true'
                     rows={2}
-                    onChange={(v) => setEncabezado(v.target.value)}
+                    onChange={(v) => setNewEncabezado(v.target.value)}
                     style={{ width: "100%", borderRadius: 12, }} />
                 </Box>
                 <Box
@@ -283,14 +274,14 @@ const ListNotificationsModal = ({
                     width: "100%",
                     bgcolor: "rgb(246,246,246)",
                   }}>
-                  <FormLabel focused>
+                  <label >
                     Mensaje..
-                  </FormLabel>
+                  </label>
                   <textarea
                     required
                     spellCheck='true'
                     rows={20}
-                    onChange={(v) => setMensaje(v.target.value)}
+                    onChange={(v) => setNewMensaje(v.target.value)}
                     style={{ width: "100%", borderRadius: 15, }} />
                 </Box>
               </Box>
@@ -299,9 +290,9 @@ const ListNotificationsModal = ({
 
               {////// boton de enviar mensaje nuevo
               }
-              <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'row-reverse', }} >
+              <Box sx={{ position: 'relative',right:5,top:-3, display: 'flex', flexDirection: 'row-reverse', }} >
 
-                <Box sx={{ width: "18%", }} >
+                <Box sx={{ width: "18%",  }} >
                   <Button
                     className="enviar-mensaje" color="success" variant="contained" endIcon={<SendIcon />}
                     onClick={() => handleUpload()}>
@@ -341,20 +332,20 @@ const ListNotificationsModal = ({
                 top: 1, left: 20,
                 borderRadius: 1
               }}>
-                <FormLabel focused>
-                <h3>Encabezado</h3>
-              </FormLabel>
-              <textarea
-                value={encabezado}
-                readOnly
-                rows={2}
-                onChange={(v) => setMensaje(v.target.value)}
-                style={{ width: "100%", borderRadius: 15, }} />
+                <label >
+                  <h3>Asunto</h3>
+                </label>
+                <textarea
+                  value={encabezado}
+                  readOnly
+                  rows={2}
+                  onChange={(v) => setMensaje(v.target.value)}
+                  style={{ width: "100%", borderRadius: 15, }} />
 
-                <FormLabel
-                  focused
-                > <h2> {} </h2>
-                </FormLabel>
+                <label
+
+                > <h2> { } </h2>
+                </label>
               </Box>
               <Box>
                 <button className="cerrar-mensaje" color="error"
@@ -368,7 +359,7 @@ const ListNotificationsModal = ({
             </Box>
 
             <Box sx={{
-              width: "93%",
+              width: "91%",
               position: 'relative',
 
               left: 20,
@@ -377,9 +368,9 @@ const ListNotificationsModal = ({
               bgcolor: "rgb(245,245,245)",
               borderColor: "rgb(255,240,225)",
             }}>
-              <FormLabel focused>
-              <h3>Mensaje.. </h3>
-              </FormLabel>
+              <label >
+                <h3>Mensaje.. </h3>
+              </label>
               <textarea
                 value={mensaje}
                 readOnly
@@ -410,7 +401,6 @@ const ListNotificationsModal = ({
               display: 'flex',
               justifyContent: 'space-between',
               position: 'relative',
-
               borderRadius: 1,
 
             }}>
@@ -418,18 +408,18 @@ const ListNotificationsModal = ({
                 position: 'relative',
                 flexDirection: 'column',
                 top: 1, left: 20,
+                width: "100%",
                 borderRadius: 1
               }}>
-               <FormLabel focused>
-                <h3>Encabezado</h3>
-              </FormLabel>
-              <textarea
-              
-                value={encabezado}
-                readOnly
-                rows={2}
-                onChange={(v) => setMensaje(v.target.value)}
-                style={{ width: "100%", borderRadius: 15, }} />
+                <label >
+                  <h3>Asunto</h3>
+                </label>
+                <textarea
+
+                  value={encabezado}
+                  readOnly
+                  rows={2}
+                  style={{ width: "100%", borderRadius: 15, }} />
               </Box>
               <Box>
                 <button className="cerrar-mensaje" color="error"
@@ -442,24 +432,24 @@ const ListNotificationsModal = ({
             </Box>
 
             <Box sx={{
-              width: "98%",
+              width: "91%",
               position: 'relative',
 
-              left: 5,
+              left: 20,
               flexDirection: 'column',
               borderRadius: 1,
               bgcolor: "rgb(245,245,245)",
               borderColor: "rgb(255,240,225)",
             }}>
-                <FormLabel focused>
+              <label >
                 <h3>Mensaje</h3>
-              </FormLabel>
+              </label>
               <textarea
                 value={mensaje}
                 readOnly
                 rows={20}
                 style={{ width: "100%", borderRadius: 15, }} />
-         
+
             </Box>
 
 
@@ -489,20 +479,20 @@ const ListNotificationsModal = ({
 
             }}>
               <Box sx={{
-                 width: "100%",
+                width: "100%",
                 position: 'relative',
                 flexDirection: 'column',
                 top: 1, left: 20,
                 borderRadius: 1
               }}>
-                <FormLabel focused>
-                <h3>Encabezado</h3>
-              </FormLabel>
-              <textarea
-                value={encabezado}
-                readOnly
-                rows={2}                
-                style={{ width: "100%", borderRadius: 15, }} />
+                <label >
+                  <h3>Asunto</h3>
+                </label>
+                <textarea
+                  value={encabezado}
+                  readOnly
+                  rows={2}
+                  style={{ width: "100%", borderRadius: 15, }} />
 
               </Box>
               <Box>
@@ -516,24 +506,24 @@ const ListNotificationsModal = ({
             </Box>
 
             <Box sx={{
-              width: "98%",
+              width: "91%",
               position: 'relative',
-              left: 5,
+              left: 20,
               flexDirection: 'column',
               borderRadius: 1,
               bgcolor: "rgb(245,245,245)",
               borderColor: "rgb(255,240,225)",
             }}>
-               <FormLabel focused>
+              <label >
                 <h3>Mensaje</h3>
-              </FormLabel>
+              </label>
               <textarea
                 value={mensaje}
                 readOnly
                 rows={20}
                 onChange={(v) => setMensaje(v.target.value)}
                 style={{ width: "100%", borderRadius: 15, }} />
-           
+
             </Box>
 
 
@@ -541,8 +531,6 @@ const ListNotificationsModal = ({
           :
           ""
         }
-
-
 
       </Box>
     </Dialog>

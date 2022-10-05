@@ -150,9 +150,15 @@ textarea {
   font-size: 0.875rem;
   text-transform: capitalize;
   font-family: "Public Sans", MontserratMedium;
+}
 
-
-
-
+label{
+  resize: none;
+  text-decoration: none;
+  font-weight: 700;
+  line-height: 1.71429;
+  font-size: 0.875rem;
+  text-transform: capitalize;
+  font-family: "Public Sans", MontserratMedium;
 
 }
