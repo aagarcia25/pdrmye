@@ -7,8 +7,7 @@ import {
   TextField,
   Container,
   IconButton,
-  FormLabel,
-  Input,
+ 
 } from "@mui/material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
@@ -306,7 +305,7 @@ const AvisosModal = ({
                             </Box>}
 
                   <Box>
-                    <FormLabel focused>{nameNewDoc}</FormLabel>
+                    <label >{nameNewDoc}</label>
                   </Box>
                 </Box>
                 <Box>
@@ -345,7 +344,7 @@ const AvisosModal = ({
                 <Box>
 
                   <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                    <FormLabel focused>Inicio </FormLabel>
+                    <label >Inicio </label>
                   </Box>
 
                   <Box>
@@ -365,7 +364,7 @@ const AvisosModal = ({
                 <Box sx={{ justifyContent: 'center', }}>
                   <Box>
                     <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                      <FormLabel focused>Fin</FormLabel>
+                      <label >Fin</label>
                     </Box>
                     <Box>
                       <input
@@ -390,7 +389,7 @@ const AvisosModal = ({
             <Box>
 
 
-              <FormLabel focused>Nombre</FormLabel>
+              <label >Nombre</label>
               <TextField
                 required
                 multiline
@@ -404,7 +403,7 @@ const AvisosModal = ({
                 onChange={(v) => setNameAviso(v.target.value)}
                 error={nameAviso == "" ? true : false}
               />
-              <FormLabel focused>Descripcion</FormLabel>
+              <label >Descripcion</label>
               <TextField
                 multiline
                 required
@@ -489,12 +488,9 @@ const AvisosModal = ({
 
             <Box>
               <Box>
-                <FormLabel
-                  focused
-                  filled
-                >
+                <label >
                   {nameDocDownload}
-                </FormLabel>
+                </label>
 
               </Box>
               {(urlDoc.slice(-4) === ".pdf" || urlDoc.slice(-4) === ".PDF" || urlDoc.slice(-4) === ".bpm" || urlDoc.slice(-4) === ".BPM" ||
@@ -528,23 +524,17 @@ const AvisosModal = ({
                 <h4>Nombre</h4>
               </Box>
 
-              <FormLabel
-                focused
-                filled
-              >
+              <label >
                 {nameAviso}
-              </FormLabel>
+              </label>
 
               <Box
                 sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '5px' }}>
                 <h4>Descripcion</h4>
               </Box>
-              <FormLabel
-                focused
-                filled
-              >
+              <label>
                 {descripcion}
-              </FormLabel>
+              </label>
             </Box>
 
             <Box
@@ -554,25 +544,16 @@ const AvisosModal = ({
                 m: 1,
               }}>
 
-              <FormLabel
-                focused
-                filled
-                sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '5px' }}
-
-              >
+              <label >
                 <h3>Inicio</h3>
                 {inicioEvento}
 
-              </FormLabel>
+              </label>
 
-              <FormLabel
-                focused
-                filled
-                sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '5px' }}
-              >
+              <label>
                 <h3>Fin</h3>
                 {finEvento}
-              </FormLabel>
+              </label>
 
             </Box>
 

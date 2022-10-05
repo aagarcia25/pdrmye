@@ -21,6 +21,7 @@ button {
   border: 2px solid hsl(120, 3%, 57%);
   transition-duration: 0.2s;
   cursor: pointer;
+  font-family: "Public Sans", MontserratMedium;
 
 
 }
@@ -157,8 +158,18 @@ label{
   text-decoration: none;
   font-weight: 700;
   line-height: 1.71429;
-  font-size: 0.875rem;
+  font-size: 2;
   text-transform: capitalize;
   font-family: "Public Sans", MontserratMedium;
 
 }
+label.Titulo{
+  resize: none;
+  text-decoration: none;
+  line-height: 1.71429;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  font-family: "Public Sans", MontserratMedium;
+
+}
+

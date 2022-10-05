@@ -90,16 +90,6 @@ const MunPobrezaExtremaModal = ({
     }
   };
 
-const handleTest=()=>{
-
-  console.log("Tipo de operacion "+ tipo);
-  console.log("modo de operacion "+modo) ; 
-
-
-
-
-
-}
   const handleRequest = (data: any) => {
     console.log(data);
     if (tipo == 1) {
@@ -179,7 +169,6 @@ const handleTest=()=>{
     <Dialog open={open}>
       <DialogTitle>{modo}</DialogTitle>
 
-      if
       <DialogContent>
         <Box>
           <FormControl variant="standard" fullWidth>
@@ -243,7 +232,7 @@ const handleTest=()=>{
             margin="dense"
             required
             id="pob"
-            label="Poblacion"
+            label="Total"
             value={poblacion}
             type="number"
             fullWidth
@@ -251,25 +240,7 @@ const handleTest=()=>{
             onChange={(v) => setPoblacion(v.target.value)}
             error={poblacion == "" ? true : false}
             />
-           <TextField
-           
-            margin="dense"
-            required
-            id="porPob"
-            label="Porcentaje"
-            
-            value={porcentaje}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setPorcentage(v.target.value)}
-            error={porcentaje == "" ? true : false}
-            InputProps={{
-                endAdornment: (
-                <InputAdornment position="end">%</InputAdornment>
-              ),...porcentage
-            }}
-          />
+          
            <TextField
          
             margin="dense"
@@ -295,8 +266,7 @@ const handleTest=()=>{
       <DialogActions>
         <Button onClick={() => handleSend()}>Guardar</Button>
         <Button onClick={() => handleClose()}>Cerrar</Button>
-        <Button onClick={() => handleTest()}>Test</Button>
-      </DialogActions>
+            </DialogActions>
     </Dialog>
   );
 };
