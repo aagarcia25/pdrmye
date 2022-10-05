@@ -256,7 +256,7 @@ const EventosModal = ({
     >
 
 <Container maxWidth="sm" >
-      <Box sx={{ bgcolor: 'rgb(222, 225, 225)', display: 'flex', justifyContent: 'center', }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', }}>
 
         {/// se setea el modo en modoModal para ver el tipo de el evento
         }

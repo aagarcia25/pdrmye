@@ -245,12 +245,16 @@ const AvisosModal = ({
 
   return (
     <Dialog open={open} keepMounted>
-      <DialogTitle>{modoModal}</DialogTitle>
+   
 
 
       {(modoModal === "Agregar Aviso") ?
         <Container maxWidth="sm" >
           <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', }}>
+          <Box
+          sx={{ display: 'flex', justifyContent: 'center',}}>
+            <label className="Titulo">{modoModal}</label>
+          </Box>
 
             { //////////empiezan debajo del titulo
               //// imagen carga y previsualizacion

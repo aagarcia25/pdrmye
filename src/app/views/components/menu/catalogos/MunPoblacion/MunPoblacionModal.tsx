@@ -138,10 +138,14 @@ const MunPoblacionModal = ({
 
 
   return (
-    <Dialog open={open}>
-      <DialogTitle>{modo}</DialogTitle>
+    <Dialog open={open}>      
       <DialogContent>
         <Box>
+          <Box
+          sx={{ display: 'flex', justifyContent: 'center',}}>
+            <label className="Titulo">{modo}</label>
+          </Box>
+        
           <FormControl variant="standard" fullWidth>
             <InputLabel>Municipio</InputLabel>
             <Select
@@ -201,8 +205,8 @@ const MunPoblacionModal = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cerrar</Button>
+        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
+        <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
       </DialogActions>
     </Dialog>
   );

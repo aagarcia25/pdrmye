@@ -155,9 +155,13 @@ const UmasModel = ({
 
   return (
     <Dialog open={open}>
-      <DialogTitle>{modo}</DialogTitle>
+   
       <DialogContent>
         <Box>
+        <Box
+          sx={{ display: 'flex', justifyContent: 'center',}}>
+            <label className="Titulo">{modo}</label>
+          </Box>
           <FormControl variant="standard" fullWidth>
             <InputLabel>Municipio</InputLabel>
             <Select
@@ -217,8 +221,8 @@ const UmasModel = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cancelar</Button>
+        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
+        <button className="cerrar" onClick={() => handleClose()}>Cancelar</button>
       </DialogActions>
     </Dialog>
   );
