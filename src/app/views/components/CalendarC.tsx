@@ -55,16 +55,12 @@ const CalendarC = () => {
     var fechainicio = inicio.getFullYear() + '-' + ('0' + (inicio.getMonth() + 1)).slice(-2) + '-' + ('0' + inicio.getDate()).slice(-2);
     var horainicio = ('0' + inicio.getHours()).slice(-2) + ':' + ('0' + inicio.getMinutes()).slice(-2);
     var Fecha_inicio = fechainicio + 'T' + horainicio;
-    console.log(start, "no se compara con", Fecha_inicio);
-    
 
     var fin = new Date(end)
     var fechafin = fin.getFullYear() + '-' + ('0' + (fin.getMonth() + 1)).slice(-2) + '-' + ('0' + fin.getDate()).slice(-2);
     var horafin = ('0' + fin.getHours()).slice(-2) + ':' + ('0' + fin.getMinutes()).slice(-2);
     var Fecha_fin = fechafin + 'T' + horafin;
-    console.log(fin, "no se compara con", Fecha_fin);
-
-
+    
     
     setVrows({ start:Fecha_inicio   , end: Fecha_fin});
     setTipoOperacion(1);
@@ -154,6 +150,13 @@ const CalendarC = () => {
     });
   };
 
+  
+
+  const moviendoEventos = (v: any)   =>{
+    console.log(v);
+    
+  }
+
   useEffect(() => {
     consulta({ NUMOPERACION: 4 });
   }, []);
@@ -206,7 +209,7 @@ const CalendarC = () => {
         onSelectEvent={(v) => onSelectEvent(v)}
         onSelectSlot={(v) => SelectSlot(v)}
         selectable
-        popup
+        popup={true}
         min={
           new Date(today.getFullYear(), today.getMonth(), today.getDate(), 9)
         }

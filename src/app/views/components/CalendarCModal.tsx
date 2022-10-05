@@ -101,6 +101,7 @@ const CalendarCModal = ({
         text: "La fecha fin del evento no puede ser antes de la fecha inicio.",
         icon: "error",
       });
+      setFinEvento(inicioEvento);
     }
     else {
       let data = {
@@ -121,7 +122,6 @@ const CalendarCModal = ({
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -185,10 +185,6 @@ const CalendarCModal = ({
       setId(dt?.id);
       setNombreEvento(dt?.title);
       if (dt?.id) {
-        console.log("start sin FORMATEADO", dt?.start);
-
-        console.log("end sin FORMATEADO", dt?.end);
-        console.log("FORMATEADO POR QUE EXISTE ID");
 
         var inicio = new Date(dt?.start);
         var fechainicio =
@@ -202,7 +198,6 @@ const CalendarCModal = ({
           ":" +
           ("0" + inicio.getMinutes()).slice(-2);
         var Fecha_inicio = fechainicio + "T" + horainicio;
-        console.log(inicio, "no se compara con", Fecha_inicio);
 
         var fin = new Date(dt?.end);
         var fechafin =
@@ -216,7 +211,6 @@ const CalendarCModal = ({
           ":" +
           ("0" + fin.getMinutes()).slice(-2);
         var Fecha_fin = fechafin + "T" + horafin;
-        console.log(fin, "no se compara con", Fecha_fin);
 
         setInicioEvento(Fecha_inicio);
         setFinEvento(Fecha_fin);
@@ -313,7 +307,7 @@ const CalendarCModal = ({
                   type="datetime-local"
                   value={inicioEvento}
                   inputProps={{
-                    inputProps: { min: inicioEventoMin, max: finEvento },
+                    inputProps: { min: inicioEventoMin, max: finEventoMax },
                   }}
                   onChange={handleFechaInicio}
                   error={inicioEvento == "" ? true : false}
@@ -326,7 +320,10 @@ const CalendarCModal = ({
                   value={finEvento}
                   type="datetime-local"
                   onChange={handleFechaFin}
-                  error={finEvento == "" ? true : false}
+                  error={finEvento <= inicioEvento ? true : false}
+                  inputProps={{
+                    inputProps: { min: inicioEvento, max: finEventoMax },
+                  }}
                 />
 
                 <FormGroup>
