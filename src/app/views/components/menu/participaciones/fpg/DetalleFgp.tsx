@@ -27,6 +27,7 @@ const DetalleFgp = () => {
   const [rf, setRf] = useState(false);
   const [cf, setCf] = useState(false);
   const [ae, setAe] = useState(false);
+  const [af, setAf] = useState(false);
 
   const handleBack = (v: any) => {
     navigate(`/inicio/participaciones/${fondo}`);
@@ -71,6 +72,9 @@ const DetalleFgp = () => {
               break;
             case 10:
               setAe(true);
+              break;
+            case 11:
+              setAf(true);
               break;
             default:
               break;
@@ -208,6 +212,14 @@ const DetalleFgp = () => {
       headerName: "Retención FEIF",
       width: 150,
       description: "Retención FEIF",
+      ...Moneda,
+    },
+    {
+      hide: af ? false : true,
+      field: "AjusteFofir",
+      headerName: "Ajuste FOFIR",
+      width: 150,
+      description: "Ajuste FOFIR",
       ...Moneda,
     },
     {
