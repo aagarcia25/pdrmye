@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Container,
   Dialog,
   DialogActions,
   DialogContent,
@@ -43,47 +44,39 @@ const CalendarCModal = ({
   dt: any;
   handleDelete: Function;
 }) => {
+  var hoy = new Date();
+  var fecha =
+    hoy.getFullYear() +
+    "-" +
+    ("0" + (hoy.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + hoy.getDate()).slice(-2);
+  var hora =
+    ("0" + hoy.getHours()).slice(-2) + ":" + ("0" + hoy.getMinutes()).slice(-2);
+  var Fecha_min = fecha + "T" + hora;
+  //MIN Y MAX DE FECHAS
+  const [inicioEventoMin, setInicioEventoMin] = useState(Fecha_min);
+  const [finEventoMax, setFinEventoMax] = useState("2100-09-30 13:16:00");
 
-
-  var hoy = new Date()
-  var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2);
-  var hora = ('0' + hoy.getHours()).slice(-2) + ':' + ('0' + hoy.getMinutes()).slice(-2);
-  var Fecha_min = fecha + 'T' + hora;
-
-
-
-
-  const [eventos, setEventos] = useState("");
-  //Campos
+  //CAMPOS
   const [id, setId] = useState("");
   const [nombreEvento, setNombreEvento] = useState("");
   const [finEvento, setFinEvento] = useState(Fecha_min);
   const [inicioEvento, setInicioEvento] = useState(Fecha_min);
   const [departamento, setDepartamento] = useState("");
-  const [eventoRepetitivo , setEventoRepetitivo] = useState(Boolean);
+  const [eventoRepetitivo, setEventoRepetitivo] = useState(Boolean);
   const [values, setValues] = useState<eventoc[]>();
   //Usandose en select departamentos
   const [departamentos, setDepartamentos] = useState("");
 
-  //console.log("id", id);
-  //console.log("nombreEvento", nombreEvento);
-  //console.log("inicioEvento", inicioEvento);
-  //console.log("finEvento", finEvento);
+  const [modoModal, setModoModal] = useState(modo);
 
- 
-  
-
-
-
-
-
-
-  const eventosc = () => {
-    let data = {};
-    CalendarioService.calendarios(data).then((res) => {
-      setEventos(res.RESPONSE);
-    });
-  };
+  console.log("Carácteres de id", id);
+  console.log("Nombre de nombreEvento", nombreEvento);
+  console.log("Fecha de inicioEvento", inicioEvento);
+  console.log("Fecha de finEvento", finEvento);
+  console.log("Fecha de hoy con formato", inicioEventoMin);
+  console.log(modoModal);
 
   const departamentosc = () => {
     let data = {};
@@ -94,13 +87,22 @@ const CalendarCModal = ({
   };
 
   const handleSend = () => {
-    if (nombreEvento == "" || inicioEvento == "" || finEvento == "") {
+    if (nombreEvento == null || nombreEvento == "") {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
-    } else {
+      
+    }
+    if (finEvento <= inicioEvento){
+        Alert.fire({
+        title: "Error!",
+        text: "La fecha fin del evento no puede ser antes de la fecha inicio.",
+        icon: "error",
+      });
+    }
+    else {
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
@@ -114,6 +116,7 @@ const CalendarCModal = ({
       };
 
       handleRequest(data);
+      handleClose();
     }
   };
 
@@ -135,6 +138,7 @@ const CalendarCModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
+        handleClose();
       } else {
         Alert.fire({
           title: "Error!",
@@ -152,6 +156,7 @@ const CalendarCModal = ({
           icon: "success",
           title: "Registro Editado!",
         });
+        handleClose();
       } else {
         Alert.fire({
           title: "Error!",
@@ -162,8 +167,16 @@ const CalendarCModal = ({
     });
   };
 
+  const handleFechaInicio = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInicioEvento(event.target.value.toString());
+  };
+
+  const handleFechaFin = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFinEvento(event.target.value.toString());
+  };
+
   useEffect(() => {
-    eventosc();
+    
     departamentosc();
 
     if (dt === "") {
@@ -171,87 +184,270 @@ const CalendarCModal = ({
     } else {
       setId(dt?.id);
       setNombreEvento(dt?.title);
-      if(dt?.id){
-        setInicioEvento(moment(dt?.start).format("YYYY-MM-DDTkk:mm"));
-        setFinEvento(moment(dt?.end).format("YYYY-MM-DDTkk:mm"));
-      }else{
+      if (dt?.id) {
+        console.log("start sin FORMATEADO", dt?.start);
+
+        console.log("end sin FORMATEADO", dt?.end);
+        console.log("FORMATEADO POR QUE EXISTE ID");
+
+        var inicio = new Date(dt?.start);
+        var fechainicio =
+          inicio.getFullYear() +
+          "-" +
+          ("0" + (inicio.getMonth() + 1)).slice(-2) +
+          "-" +
+          ("0" + inicio.getDate()).slice(-2);
+        var horainicio =
+          ("0" + inicio.getHours()).slice(-2) +
+          ":" +
+          ("0" + inicio.getMinutes()).slice(-2);
+        var Fecha_inicio = fechainicio + "T" + horainicio;
+        console.log(inicio, "no se compara con", Fecha_inicio);
+
+        var fin = new Date(dt?.end);
+        var fechafin =
+          fin.getFullYear() +
+          "-" +
+          ("0" + (fin.getMonth() + 1)).slice(-2) +
+          "-" +
+          ("0" + fin.getDate()).slice(-2);
+        var horafin =
+          ("0" + fin.getHours()).slice(-2) +
+          ":" +
+          ("0" + fin.getMinutes()).slice(-2);
+        var Fecha_fin = fechafin + "T" + horafin;
+        console.log(fin, "no se compara con", Fecha_fin);
+
+        setInicioEvento(Fecha_inicio);
+        setFinEvento(Fecha_fin);
+      } else {
         setInicioEvento(dt?.start);
         setFinEvento(dt?.end);
       }
-      
-
-      
-
     }
   }, [dt]);
 
   return (
     <Dialog open={open}>
-      <DialogTitle>{modo}</DialogTitle>
-      <DialogContent>
-        <Box sx={{ padding: 2 }}>
-          <Typography>Título del Evento*</Typography>
-          <TextField
-            required
-            margin="dense"
-            id="nombreEvento"
-            value={nombreEvento}
-            fullWidth
-            variant="standard"
-            onChange={(v) => setNombreEvento(v.target.value)}
-            error={nombreEvento == null ? true : false}
-            InputProps={{}}
-          />
+      <Container maxWidth="sm"></Container>
+      {modoModal == "Editar Evento" ? (
+        Date.parse(inicioEventoMin) > Date.parse(inicioEvento) ? (
+          <Container maxWidth="sm">
+             <DialogTitle>Evento pasado</DialogTitle>
+            <DialogContent>
+              <Box sx={{ padding: 2 }}>
+                <Typography>Título del Evento</Typography>
+                <TextField
+                  margin="dense"
+                  id="nombreEvento"
+                  value={nombreEvento}
+                  fullWidth
+                  variant="standard"
+                  InputProps={{ readOnly: true }}
+                />
 
-          <Typography>Fecha de inicio del evento*</Typography>
+                <Typography>Fecha de inicio del evento</Typography>
 
-          <Input
-            fullWidth
-            id="inicioEvento"
-            required
-            type="datetime-local"
-            value={inicioEvento}
-            onChange={(v) => setInicioEvento(v.target.value.toString())}
-            error={inicioEvento == "" ? true : false}
-          />
-          <Typography>Fecha de fin del evento*</Typography>
-          <Input
-            fullWidth
-            id="finEvento"
-            required
-            value={finEvento}
-            type="datetime-local"
-            onChange={(v) => setFinEvento(v.target.value.toString())}
-            error={finEvento == "" ? true : false}
-          />
+                <Input
+                  fullWidth
+                  id="inicioEvento"
+                  required
+                  type="datetime-local"
+                  value={inicioEvento}
+                  inputProps={{
+                    inputProps: { readOnly: true },
+                  }}
+                />
+                <Typography>Fecha de fin del evento</Typography>
+                <Input
+                  fullWidth
+                  id="finEvento"
+                  required
+                  value={finEvento}
+                  type="datetime-local"
+                  inputProps={{
+                    inputProps: { readOnly: true },
+                  }}
+                />
 
-          <FormGroup>
-            <FormControlLabel
-              sx={{ width: "0vw" }}
-              control={<Switch 
-              id="repetitivoEvento"
-              onChange={()=>{}}
-              />}
-              label="¿Repetir?"
-            />
-          </FormGroup>
-        </Box>
-      </DialogContent>
+                <FormGroup>
+                  <FormControlLabel
+                    sx={{ width: "0vw" }}
+                    control={<Switch id="repetitivoEvento" disabled />}
+                    label="¿Repetir?"
+                  />
+                </FormGroup>
+              </Box>
+            </DialogContent>
 
-      <Divider />
+            <Divider />
 
-      <DialogActions>
-        <Button
-          sx={{ mr: 5 }}
-          disabled={tipo == 2 ? false : true}
-          onClick={() => handleDelete()}
-          startIcon={<DeleteIcon />}
-        >
-          Borrar
-        </Button>
-        <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cancelar</Button>
-      </DialogActions>
+            <DialogActions>
+              <Button onClick={() => handleClose()}>Cerrar</Button>
+            </DialogActions>
+          </Container>
+        ) : (
+          <Container maxWidth="sm">
+            <DialogTitle>{modoModal}</DialogTitle>
+            <DialogContent>
+              <Box sx={{ padding: 2 }}>
+                <Typography>Título del Evento*</Typography>
+                <TextField
+                  required
+                  margin="dense"
+                  id="nombreEvento"
+                  value={nombreEvento}
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNombreEvento(v.target.value)}
+                  error={nombreEvento == null ? true : false}
+                  InputProps={{}}
+                />
+
+                <Typography>Fecha de inicio del evento*</Typography>
+
+                <Input
+                  fullWidth
+                  id="inicioEvento"
+                  required
+                  type="datetime-local"
+                  value={inicioEvento}
+                  inputProps={{
+                    inputProps: { min: inicioEventoMin, max: finEvento },
+                  }}
+                  onChange={handleFechaInicio}
+                  error={inicioEvento == "" ? true : false}
+                />
+                <Typography>Fecha de fin del evento*</Typography>
+                <Input
+                  fullWidth
+                  id="finEvento"
+                  required
+                  value={finEvento}
+                  type="datetime-local"
+                  onChange={handleFechaFin}
+                  error={finEvento == "" ? true : false}
+                />
+
+                <FormGroup>
+                  <FormControlLabel
+                    sx={{ width: "0vw" }}
+                    control={
+                      <Switch id="repetitivoEvento" onChange={() => {}} />
+                    }
+                    label="¿Repetir?"
+                  />
+                </FormGroup>
+              </Box>
+            </DialogContent>
+
+            <Divider />
+
+            <DialogActions>
+              <Button
+                sx={{ mr: 5 }}
+                onClick={() => handleDelete()}
+                startIcon={<DeleteIcon />}
+              >
+                Borrar
+              </Button>
+              <Button onClick={() => handleSend()}>Guardar</Button>
+              <Button onClick={() => handleClose()}>Cancelar</Button>
+            </DialogActions>
+          </Container>
+        )
+      ) : (
+        ""
+      )}
+
+      {modoModal == "Agregar Evento" ? (
+        Date.parse(inicioEventoMin) > Date.parse(inicioEvento) ? (
+          ////// SI EL EVENTO YA INICIO NO DEJA Agregar y solo muestra ReadOnly
+          <Container maxWidth="sm">
+            <DialogTitle>Aviso</DialogTitle>
+            <DialogContent>
+              <Box sx={{ padding: 2 }}>
+                <Typography>
+                  No puedes agregar un evento pasado, sólo a futuro.
+                </Typography>
+              </Box>
+            </DialogContent>
+
+            <Divider />
+
+            <DialogActions>
+              <Button onClick={() => handleClose()}>Cerrar</Button>
+            </DialogActions>
+          </Container>
+        ) : (
+          <Container maxWidth="sm">
+            <DialogTitle>{modoModal}</DialogTitle>
+            <DialogContent>
+              <Box sx={{ padding: 2 }}>
+                <Typography>Título del Evento*</Typography>
+                <TextField
+                  required
+                  margin="dense"
+                  id="nombreEvento"
+                  value={nombreEvento}
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNombreEvento(v.target.value)}
+                  error={nombreEvento == null ? true : false}
+                  InputProps={{}}
+                />
+
+                <Typography>Fecha de inicio del evento*</Typography>
+
+                <Input
+                  fullWidth
+                  id="inicioEvento"
+                  required
+                  type="datetime-local"
+                  value={inicioEvento}
+                  inputProps={{
+                    inputProps: { min: inicioEventoMin, max: finEvento },
+                  }}
+                  onChange={handleFechaInicio}
+                  error={inicioEvento == "" ? true : false}
+                />
+                <Typography>Fecha de fin del evento*</Typography>
+                <Input
+                  fullWidth
+                  id="finEvento"
+                  required
+                  value={finEvento}
+                  type="datetime-local"
+                  inputProps={{
+                    inputProps: { min: inicioEvento, max: finEventoMax },
+                  }}
+                  onChange={handleFechaFin}
+                  error={finEvento <= inicioEvento ? true : false}
+                />
+
+                <FormGroup>
+                  <FormControlLabel
+                    sx={{ width: "0vw" }}
+                    control={
+                      <Switch id="repetitivoEvento" onChange={() => {}} />
+                    }
+                    label="¿Repetir?"
+                  />
+                </FormGroup>
+              </Box>
+            </DialogContent>
+
+            <Divider />
+
+            <DialogActions>
+              <Button onClick={() => handleSend()}>Guardar</Button>
+              <Button onClick={() => handleClose()}>Cancelar</Button>
+            </DialogActions>
+          </Container>
+        )
+      ) : (
+        ""
+      )}
     </Dialog>
   );
 };

@@ -33,8 +33,16 @@ const CalendarC = () => {
 
   const today = new Date();
 
+  console.log("modo", modo);
+
   const onSelectEvent = (v: any) => {
-    handleEdit(v);
+
+    console.log(v);
+    setId(v.id);
+    setTipoOperacion(2);
+    setModo("Editar Evento");
+    setVrows(v);
+    setOpen(true);
   };
 
   const handleSelectSlot = () => {
@@ -42,19 +50,19 @@ const CalendarC = () => {
   };
 
   const SelectSlot = ({ start, end }: { start: any; end: any }) => {
-
-
+    
     var inicio = new Date(start)
     var fechainicio = inicio.getFullYear() + '-' + ('0' + (inicio.getMonth() + 1)).slice(-2) + '-' + ('0' + inicio.getDate()).slice(-2);
     var horainicio = ('0' + inicio.getHours()).slice(-2) + ':' + ('0' + inicio.getMinutes()).slice(-2);
     var Fecha_inicio = fechainicio + 'T' + horainicio;
-
+    console.log(start, "no se compara con", Fecha_inicio);
+    
 
     var fin = new Date(end)
     var fechafin = fin.getFullYear() + '-' + ('0' + (fin.getMonth() + 1)).slice(-2) + '-' + ('0' + fin.getDate()).slice(-2);
     var horafin = ('0' + fin.getHours()).slice(-2) + ':' + ('0' + fin.getMinutes()).slice(-2);
     var Fecha_fin = fechafin + 'T' + horafin;
-
+    console.log(fin, "no se compara con", Fecha_fin);
 
 
     
@@ -62,7 +70,7 @@ const CalendarC = () => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
-    console.log("SelectSlot vrow",vrows);
+    console.log("SelectSlot fecha inicio",Fecha_inicio, " Fecha fin ", Fecha_fin);
 
   };
 
@@ -71,7 +79,6 @@ const CalendarC = () => {
     setModo("Agregar Evento");
     setOpen(true);
     setVrows("");
-    console.log(modo);
   };
 
   const handleClose = () => {
@@ -115,15 +122,6 @@ const CalendarC = () => {
         Swal.fire("No se realizaron cambios", "", "info");
       }
     });
-  };
-
-  const handleEdit = (v: any) => {
-    console.log(v);
-    setId(v.id);
-    setTipoOperacion(2);
-    setModo("Editar Evento");
-    setVrows(v);
-    setOpen(true);
   };
 
   const consulta = (data: any) => {
