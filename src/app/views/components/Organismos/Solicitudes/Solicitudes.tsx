@@ -1,35 +1,49 @@
 import React, { useState } from 'react'
 import ButtonsAdd from '../../menu/catalogos/Utilerias/ButtonsAdd';
 import MUIXDataGrid from '../../MUIXDataGrid';
+import SolicitudesIns from './SolicitudesIns';
 
 const Solicitudes = () => {
     const [data, setData] = useState([]);
+    const [id,              setId] = useState("");
+    const [open,            setOpen] = useState(false);
+    const [tipoOperacion,   setTipoOperacion] = useState(0);
 
     const columns = [
         { field: "id", headerName: "Identificador", width: 150   , hide:true },
-        { field: "Nombre", headerName: "Nombre Persona", width: 150 },
-        { field: "Anio", headerName: "Año", width: 150 },
-        { field: "Enero", headerName: "Enero", width: 150 },
-        { field: "Febrero", headerName: "Febrero", width: 150 },
-        { field: "Marzo", headerName: "Marzo", width: 150 },
-        { field: "Abril", headerName: "Abril", width: 150 },
-        { field: "Mayo", headerName: "Mayo", width: 150 },
-        { field: "Junio", headerName: "Junio", width: 150 },
-        { field: "Julio", headerName: "Julio", width: 150 },
-        { field: "Agosto", headerName: "Agosto", width: 150 },
-        { field: "Septiembre", headerName: "Septiembre", width: 150 },
-        { field: "Octubre", headerName: "Octubre", width: 150 },
-        { field: "Noviembre", headerName: "Noviembre", width: 150 },
-        { field: "Diciembre", headerName: "Diciembre", width: 150 },
+        { field: "fecha", headerName: "Fecha", width: 150 },
+        { field: "Estatus", headerName: "Estatus", width: 150 },
+        { field: "tipo", headerName: "Tipo", width: 150 },
+        { field: "Partida", headerName: "Partida", width: 150 },
+        { field: "Total", headerName: "Total", width: 150 },
+       
+       
       ];
     
+      const handleClose = () => {
+        setOpen(false);
+      };
+
+      
       const handleOpen = () => {
-        
+        setOpen(true);
        
       };
 
   return (
     <div>
+
+{open ? (
+        <SolicitudesIns
+          open={open}
+          handleClose={handleClose}
+          id={id} 
+          tipo={1}        ></SolicitudesIns>
+      ) : (
+        ""
+      )}
+
+
        <ButtonsAdd handleOpen={handleOpen}></ButtonsAdd>
         <MUIXDataGrid
               columns={columns}

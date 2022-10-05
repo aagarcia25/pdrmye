@@ -1,3 +1,4 @@
+import { Box } from '@mui/system';
 import { GridColDef } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react'
 import { Alert } from '../../../../../helpers/Alert';
@@ -68,6 +69,7 @@ const CFuenteFinanciamiento = () => {
       ];
     
     
+      
       useEffect(() => {
         consulta({ NUMOPERACION: 4 });
       }, []);
@@ -75,6 +77,7 @@ const CFuenteFinanciamiento = () => {
     
     return (
     <div>
+        <Box sx={{margin:2}}>Catálogo de Fuentes de Financiamiento</Box>
        <MUIXDataGrid
               columns={columns}
               rows={data}

@@ -67,7 +67,7 @@ button.nuevo-mensaje {
   line-height: 1.71429;
   font-size: 0.875rem;
   text-transform: capitalize;
-  font-family: "Public Sans", sans-serif;
+  font-family: "Public Sans", MontserratMedium;
   min-width: 64px;
   padding: 6px 16px;
   border-radius: 8px;
@@ -88,7 +88,7 @@ button.enviar-mensaje {
   line-height: 1.71429;
   font-size: 0.875rem;
   text-transform: capitalize;
-  font-family: "Public Sans", sans-serif;
+  font-family: "Public Sans", MontserratMedium;
   min-width: 64px;
   padding: 6px 16px;
   border-radius: 8px;
@@ -117,7 +117,7 @@ button.notificaciones-generico {
   line-height: 1.71429;
   font-size: 0.875rem;
   text-transform: capitalize;
-  font-family: "Public Sans", sans-serif;
+  font-family: "Public Sans", MontserratMedium;
   min-width: 64px;
   padding: 6px 16px;
   border-radius: 8px;
@@ -149,7 +149,7 @@ textarea {
   line-height: 1.71429;
   font-size: 0.875rem;
   text-transform: capitalize;
-  font-family: "Public Sans", sans-serif;
+  font-family: "Public Sans", MontserratMedium;
 
 
 

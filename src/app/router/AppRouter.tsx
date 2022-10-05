@@ -59,6 +59,8 @@ import Solicitudes from '../views/components/Organismos/Solicitudes/Solicitudes'
 import ContactoMunicipios from '../views/components/Municipios/ContactoMunicipios';
 import ContactoOrganismos from '../views/components/Organismos/contactoOrganismos/ContactoOrganismos';
 import CFuenteFinanciamiento from '../views/components/menu/catalogos/CFuenteFinanciamiento/CFuenteFinanciamiento';
+import Presupuesto from '../views/components/Organismos/Presupuesto/Presupuesto';
+import Nomina from '../views/components/Organismos/Nomina/Nomina';
 
 
 export const AppRouter = () => {
@@ -153,6 +155,8 @@ export const AppRouter = () => {
        <Route path='/inicio/org/solicitudes'  element={log ? <Solicitudes /> : <AuthRouter />} />
        <Route path='/inicio/contactoorganismos'  element={log ? <ContactoOrganismos /> : <AuthRouter />} />
        <Route path='/inicio/ff'  element={log ? <CFuenteFinanciamiento /> : <AuthRouter />} />
+       <Route path='/inicio/presupuesto'  element={log ? <Presupuesto /> : <AuthRouter />} />
+       <Route path='/inicio/nomina'  element={log ? <Nomina /> : <AuthRouter />} />
        
        {/* FIN DE SECCION DE ORGANISMOS */}
        {/* SECCION MUNICIPIOS */}
