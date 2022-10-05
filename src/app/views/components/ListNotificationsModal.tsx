@@ -9,6 +9,7 @@ import {
   Button,
   InputLabel,
   TextField,
+  TextareaAutosize,
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { CatalogosServices } from "../../services/catalogosServices";
@@ -56,43 +57,10 @@ const ListNotificationsModal = ({
   const handleViewChange = () => {
 
     let data = {
-      
       NUMOPERACION: tipo,
       CHUSER: user.IdUsuario,
-      CHID:id,
-      
-    
-    
-    };
-         CatalogosServices.Notificaciones(data).then((res) => {
-          if (res.SUCCESS) {
-            Toast.fire({
-              icon: "success",
-              title: "Registro Agregado!",
-            });
-    
-          } else {
-            Alert.fire({
-              title: "Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
-            });
-          }
-        });
-     handleClose();
+      CHID: id,
 
-
-  }
-
-  const handleUpload = () => {
-    let data = {
-      NUMOPERACION: 1,
-      CHUSER: user.IdUsuario,
-      DELETED:0,
-      VISTO:0,
-      ENCABEZADO: encabezado,
-      DESCRIPCION: mensaje ,
-      DESTINATARIO: chuserDestin, 
     };
     CatalogosServices.Notificaciones(data).then((res) => {
       if (res.SUCCESS) {
@@ -109,12 +77,22 @@ const ListNotificationsModal = ({
         });
       }
     });
- handleClose();
+    handleClose("8");
 
 
   }
-  const agregar = (data: any) => {
-    CatalogosServices.avisos(data).then((res) => {
+
+  const handleUpload = () => {
+    let data = {
+      NUMOPERACION: 1,
+      CHUSER: user.IdUsuario,
+      DELETED: 0,
+      VISTO: 0,
+      ENCABEZADO: encabezado,
+      DESCRIPCION: mensaje,
+      DESTINATARIO: chuserDestin,
+    };
+    CatalogosServices.Notificaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -129,15 +107,18 @@ const ListNotificationsModal = ({
         });
       }
     });
-  };
+    handleClose("9");
 
-  const editar = (data: any) => {
+
+  }
+  const agregar = (data: any) => {
     CatalogosServices.avisos(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "Registro Agregado!",
         });
+
       } else {
         Alert.fire({
           title: "Error!",
@@ -167,12 +148,12 @@ const ListNotificationsModal = ({
   };
 
   const handleSelectUser = (e: any) => {
-
     setChuserDestin(e.value);
-    console.log(e.value);
+
   };
 
   useEffect(() => {
+    console.log("modo en list notificaciones modal  " + modo);
     loadSelectUser();
     if (dt === '') {
 
@@ -215,15 +196,15 @@ const ListNotificationsModal = ({
               borderRadius: 1
             }}>
               <Box sx={{
-
+                bgcolor: "rgb(246,246,246)",
                 display: 'flex',
                 justifyContent: 'space-between',
                 position: 'relative',
-
                 borderRadius: 1,
 
               }}>
                 <Box sx={{
+
                   position: 'relative',
                   flexDirection: 'column',
                   top: 1, left: 20,
@@ -236,7 +217,7 @@ const ListNotificationsModal = ({
                 </Box>
                 <Box>
                   <button className="cerrar-nuevo-mensaje" color="error"
-                    onClick={() => handleClose()}>
+                    onClick={() => handleClose("cerrar")}>
                     <CloseIcon />
                   </button>
                 </Box>
@@ -245,8 +226,8 @@ const ListNotificationsModal = ({
 
               <Box
                 sx={{
-                  height: "120px",
-                  justifyContent: 'space-between',
+
+                  height: "100px",
                   position: 'relative',
                   flexDirection: 'column',
                   top: 10, left: 7, width: "95%",
@@ -254,46 +235,71 @@ const ListNotificationsModal = ({
                   borderRadius: 1
                 }}>
 
+                <FormLabel focused>
+                  Para..
+                </FormLabel>
+
                 <SelectFrag options={usuarioSelect} onInputChange={handleSelectUser}></SelectFrag>
-
-
               </Box>
 
 
 
               <Box sx={{
+                height: "90%",
+
                 width: "98%",
+                justifyContent: 'space-between',
                 position: 'relative',
                 left: 5,
+                display: 'flex',
                 flexDirection: 'column',
-
-
               }}>
-                <TextField
-                required
-                type="string"
-                  multiline
-                  label="Asunto"
-                  onChange={(v) => setEncabezado(v.target.value)}
-                  error={encabezado == "" ? true : false}
-                  sx={{ m: 1, width: "95%" }} />
+                <Box
+                  sx={{
+                    width: "90%",
+                    height: "60%",
+                  }}>
+                  <FormLabel focused>
+                    Encabezado..
+                  </FormLabel>
+                  <textarea
+                    required
+                    spellCheck='true'
+                    rows={2}
+                    onChange={(v) => setEncabezado(v.target.value)}
+                    style={{ width: "100%", borderRadius: 12, }} />
+                </Box>
+                <Box
+                  sx={{
+                    width: "90%",
+                    height: "10px",
+                  }}>
 
-
-                <TextField
-                  required
-                  type="string"
-                  multiline
-                  label="Mensaje"
-                  onChange={(v) => setMensaje(v.target.value)}
-                  error={mensaje == "" ? true : false}
-                  sx={{ m: 1, width: "95%", }} />
+                </Box>
+                <Box
+                  sx={{
+                    borderRadius: 2,
+                    height: "98%",
+                    width: "100%",
+                    bgcolor: "rgb(246,246,246)",
+                  }}>
+                  <FormLabel focused>
+                    Mensaje..
+                  </FormLabel>
+                  <textarea
+                    required
+                    spellCheck='true'
+                    rows={20}
+                    onChange={(v) => setMensaje(v.target.value)}
+                    style={{ width: "100%", borderRadius: 15, }} />
+                </Box>
               </Box>
 
 
 
               {////// boton de enviar mensaje nuevo
               }
-              <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'row-reverse',  }} >
+              <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'row-reverse', }} >
 
                 <Box sx={{ width: "18%", }} >
                   <Button
@@ -329,19 +335,105 @@ const ListNotificationsModal = ({
 
             }}>
               <Box sx={{
+                width: "100%",
                 position: 'relative',
                 flexDirection: 'column',
                 top: 1, left: 20,
                 borderRadius: 1
               }}>
+                <FormLabel focused>
+                <h3>Encabezado</h3>
+              </FormLabel>
+              <textarea
+                value={encabezado}
+                readOnly
+                rows={2}
+                onChange={(v) => setMensaje(v.target.value)}
+                style={{ width: "100%", borderRadius: 15, }} />
+
                 <FormLabel
                   focused
-                > <h2> {encabezado} </h2>
+                > <h2> {} </h2>
                 </FormLabel>
               </Box>
               <Box>
                 <button className="cerrar-mensaje" color="error"
-                  onClick={() => handleViewChange()}>
+                  onClick={() =>
+                    handleViewChange()}>
+                  <CloseIcon />
+                </button>
+
+
+              </Box>
+            </Box>
+
+            <Box sx={{
+              width: "93%",
+              position: 'relative',
+
+              left: 20,
+              flexDirection: 'column',
+              borderRadius: 1,
+              bgcolor: "rgb(245,245,245)",
+              borderColor: "rgb(255,240,225)",
+            }}>
+              <FormLabel focused>
+              <h3>Mensaje.. </h3>
+              </FormLabel>
+              <textarea
+                value={mensaje}
+                readOnly
+                rows={20}
+                onChange={(v) => setMensaje(v.target.value)}
+                style={{ width: "100%", borderRadius: 15, }} />
+
+            </Box>
+
+
+          </Box>
+          :
+          ""
+        }
+
+        {(modo === "viewMessageReading") ?
+          <Box sx={{
+            height: "100%",
+            justifyContent: 'space-between',
+            position: 'relative',
+            flexDirection: 'column',
+
+            display: 'flex',
+            borderRadius: 1
+          }}>
+            <Box sx={{
+
+              display: 'flex',
+              justifyContent: 'space-between',
+              position: 'relative',
+
+              borderRadius: 1,
+
+            }}>
+              <Box sx={{
+                position: 'relative',
+                flexDirection: 'column',
+                top: 1, left: 20,
+                borderRadius: 1
+              }}>
+               <FormLabel focused>
+                <h3>Encabezado</h3>
+              </FormLabel>
+              <textarea
+              
+                value={encabezado}
+                readOnly
+                rows={2}
+                onChange={(v) => setMensaje(v.target.value)}
+                style={{ width: "100%", borderRadius: 15, }} />
+              </Box>
+              <Box>
+                <button className="cerrar-mensaje" color="error"
+                  onClick={() => handleClose("7")}>
                   <CloseIcon />
                 </button>
 
@@ -359,11 +451,89 @@ const ListNotificationsModal = ({
               bgcolor: "rgb(245,245,245)",
               borderColor: "rgb(255,240,225)",
             }}>
-              <FormLabel
-                focused
-                sx={{ m: 1, width: "95%", height: "150px" }}>
-                {mensaje}
+                <FormLabel focused>
+                <h3>Mensaje</h3>
               </FormLabel>
+              <textarea
+                value={mensaje}
+                readOnly
+                rows={20}
+                style={{ width: "100%", borderRadius: 15, }} />
+         
+            </Box>
+
+
+          </Box>
+          :
+          ""
+        }
+
+
+        {(modo === "MessageSend") ?
+          <Box sx={{
+            height: "100%",
+            justifyContent: 'space-between',
+            position: 'relative',
+            flexDirection: 'column',
+
+            display: 'flex',
+            borderRadius: 1
+          }}>
+            <Box sx={{
+
+              display: 'flex',
+              justifyContent: 'space-between',
+              position: 'relative',
+
+              borderRadius: 1,
+
+            }}>
+              <Box sx={{
+                 width: "100%",
+                position: 'relative',
+                flexDirection: 'column',
+                top: 1, left: 20,
+                borderRadius: 1
+              }}>
+                <FormLabel focused>
+                <h3>Encabezado</h3>
+              </FormLabel>
+              <textarea
+                value={encabezado}
+                readOnly
+                rows={2}                
+                style={{ width: "100%", borderRadius: 15, }} />
+
+              </Box>
+              <Box>
+                <button className="cerrar-mensaje" color="error"
+                  onClick={() => handleClose("9")}>
+                  <CloseIcon />
+                </button>
+
+
+              </Box>
+            </Box>
+
+            <Box sx={{
+              width: "98%",
+              position: 'relative',
+              left: 5,
+              flexDirection: 'column',
+              borderRadius: 1,
+              bgcolor: "rgb(245,245,245)",
+              borderColor: "rgb(255,240,225)",
+            }}>
+               <FormLabel focused>
+                <h3>Mensaje</h3>
+              </FormLabel>
+              <textarea
+                value={mensaje}
+                readOnly
+                rows={20}
+                onChange={(v) => setMensaje(v.target.value)}
+                style={{ width: "100%", borderRadius: 15, }} />
+           
             </Box>
 
 

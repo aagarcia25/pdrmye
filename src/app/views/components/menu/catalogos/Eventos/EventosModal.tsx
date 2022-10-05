@@ -67,8 +67,7 @@ const EventosModal = ({
   const [cleanUp, setCleanUp] = useState<boolean>(false);
   const [editImage, setEditImage] = useState<boolean>(false);
 
-  ///setInicioEvento (inicioEventoMin);
-
+  //setInicioEvento(Fecha_min);
   //////////////////////////////////
 
 
@@ -215,6 +214,7 @@ const EventosModal = ({
 
   useEffect(() => {
     municipiosc();
+    
 
     if (dt === '') {    
 
@@ -337,11 +337,13 @@ const EventosModal = ({
                     id="datetime-local"
                     required
                     type="datetime-local"
-                    defaultValue={inicioEventoMin}
+                    
                     min={inicioEventoMin}
                     max={finEventoMax}
                     onChange={handleFechaInicio}
                   />
+
+
 
                 </Box>
               </Box>
@@ -503,7 +505,7 @@ const EventosModal = ({
               <TextField
                 margin="dense"
                 multiline
-                value=" El evento ya Inicio y/o Finalizo"
+                value=" El evento ya Inicio y/o Finalizo no se puede editar"
                 type="string"
                 fullWidth
                 variant="outlined"
@@ -628,7 +630,7 @@ const EventosModal = ({
                     required
                     type="datetime-local"
                     defaultValue={finEvento}
-                    
+                    min={inicioEvento}
                     onChange={handleFechaFin}
                   />
                 </Box>
