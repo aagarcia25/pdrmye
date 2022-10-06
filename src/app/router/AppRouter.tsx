@@ -24,32 +24,20 @@ import { MunPobreza } from '../views/components/menu/catalogos/MunPobreza/MunPob
 import { MunRecaudacion } from '../views/components/menu/catalogos/MunRecaudacion/MunRecaudacion';
 import { Umas } from '../views/components/menu/catalogos/Umas/Umas';
 import { Coeficientes } from '../views/components/menu/catalogos/Coeficientes/Coeficientes';
-
 import { Avisos } from '../views/components/menu/catalogos/Avisos/Avisos';
-
 import { Perfil } from '../views/components/perfil/Perfil';
-import { Art14f1 } from '../views/components/menu/articulos/Art14f1';
-
 import { Eventos } from '../views/components/menu/catalogos/Eventos/Eventos';
 import { Departamentos } from '../views/components/menu/catalogos/Departamentos/Departamentos';
-
 import { TasaInteres } from '../views/components/menu/catalogos/TasaInteres/TasaInteres';
 import { Municipios } from '../views/components/menu/catalogos/Municipios/Municipios';
 
 
-import { Art14f2 } from '../views/components/menu/articulos/Art14f2';
-import Art14f3 from '../views/components/menu/articulos/Art14f3';
 import TipoFondo from '../views/components/menu/catalogos/TipoFondo/TipoFondo';
 import InflacionMes from '../views/components/menu/catalogos/InflacionMes/InflacionMes';
 import InflacionAnio from '../views/components/menu/catalogos/InflacionAnio/InflacionAnio';
 import Fondos from '../views/components/menu/catalogos/Fondos/Fondos';
 import CrecimientoAnio from '../views/components/menu/catalogos/CrecimientoAnio/CrecimientoAnio';
-
-import Fism from '../views/components/menu/aportaciones/fism/Fism';
-import Fortaum from '../views/components/menu/aportaciones/fortaum/Fortaum';
-import DetalleFortamun from '../views/components/menu/aportaciones/fortaum/DetalleFortamun';
 import DetalleFgp from '../views/components/menu/participaciones/fpg/DetalleFgp';
-import DetalleFism from '../views/components/menu/aportaciones/fism/DetalleFism';
 import Usuarios from '../views/components/menu/usuarios/Usuarios/Usuarios';
 import Roles from '../views/components/menu/usuarios/Roles/Roles';
 import Permisos from '../views/components/menu/usuarios/Permisos/Permisos';
@@ -61,6 +49,7 @@ import ContactoOrganismos from '../views/components/Organismos/contactoOrganismo
 import CFuenteFinanciamiento from '../views/components/menu/catalogos/CFuenteFinanciamiento/CFuenteFinanciamiento';
 import Presupuesto from '../views/components/Organismos/Presupuesto/Presupuesto';
 import Nomina from '../views/components/Organismos/Nomina/Nomina';
+import { Art14f } from '../views/components/menu/articulos/Art14f';
 
 
 export const AppRouter = () => {
@@ -112,9 +101,7 @@ export const AppRouter = () => {
         {/* FIN SECCION DE PERFIL */}
 
         {/* SECCION DE ARTICULOS */}
-        <Route path='/inicio/articulos/art14f1' element={<Art14f1 />} />
-        <Route path='/inicio/articulos/art14f2' element={<Art14f2 />} />
-        <Route path='/inicio/articulos/art14f3' element={<Art14f3 />} />
+        <Route path='/inicio/articulos/art14f/:tipo' element={<Art14f />} />
         {/* FIN SECCION DE ARTICULOS */}
 
 
@@ -125,17 +112,6 @@ export const AppRouter = () => {
 
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
-       
-
-        {/* SECCION APORTACIONES FEDERALES */}
-        <Route path='/inicio/aportaciones/fism'    element={log ? <Fism /> : <AuthRouter />} />
-        <Route path='/inicio/aportaciones/fism/:id' element={log ? <DetalleFism /> : <AuthRouter />} />
-
-        <Route path='/inicio/aportaciones/fortaum' element={log ? <Fortaum /> : <AuthRouter />} />
-        <Route path='/inicio/aportaciones/fortaum/:id' element={log ? <DetalleFortamun /> : <AuthRouter />} />
-        {/* FIN SECCION APORTACIONES FEDERALES */}
-
-       
         {/* SECCION APORTACIONES ESTATALES */}
         <Route path='/inicio/aportaciones/foult'   element={log ? <Foult /> : <AuthRouter />}        />
         <Route path='/inicio/aportaciones/fodes'   element={log ? <Fodes /> : <AuthRouter />}        />

@@ -1,36 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Box, LinearProgress, TextField, Typography } from "@mui/material";
-import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
-
-import { CustomNoRowsOverlay } from "../CustomNoRowsOverlay";
-import { CustomToolbar } from "../CustomToolbar";
+import { useParams } from "react-router";
+import {GridColDef } from "@mui/x-data-grid";
+import {  Moneda } from "../CustomToolbar";
 import { getUser } from "../../../../services/localStorage";
-import { CatalogosServices } from "../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { ArticulosServices } from "../../../../services/ArticulosServices";
+import MUIXDataGrid from "../../MUIXDataGrid";
 
-export const Art14f1 = () => {
 
-
-  const currency = function formatomoneda() {
-    return new Intl.NumberFormat("es-MX", {
-      style: "currency",
-      currency: "MXN",
-      minimumFractionDigits: 4,
-    });
-  };
+export const Art14f = () => {
 
   const user = getUser();
-  const [Facturacion, setFacturacion] = useState([]);
+  const [data, setData] = useState([]);
 
-  const columns: GridColDef[] = [
+  let columns:GridColDef[]=[];
+
+
+  const columnsArticulo14f1: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   ,hide: true},
     { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
-    { field: "Facturacion", headerName: "Facturación", width: 150 ,description:"BGt-2"},
-    { field: "Recaudacion", headerName: "Recaudación", width: 150 ,description:"RPt-1"},
+    
+    { field: "Facturacion", headerName: "Facturación", width: 150 ,description:"BGt-2",...Moneda},
+    { field: "Recaudacion", headerName: "Recaudación", width: 150 ,description:"RPt-1",...Moneda},
     { field: "Proporcion", headerName: "Proporcion De Recaudación", width: 200 ,description:"P=RP/BG" },
-    { field: "Ponderado", headerName: "Recaudación Ponderado Por Eficiencia", width: 280 ,description:"ER=P*RP" },
+    { field: "Ponderado", headerName: "Recaudación Ponderado Por Eficiencia", width: 280 ,description:"ER=P*RP" ,...Moneda},
     { field: "Coeficiente", headerName: "Coeficiente Efectividad Rec Predial", width: 250  ,description:"CER= ER/∑ER"},
     { field: "Poblacion", headerName: "Población", width: 150  ,description:"PO"},
     { field: "EstructuraP", headerName: "Estructura  %", width: 150  ,description:"POi/∑POi"},
@@ -57,38 +49,56 @@ export const Art14f1 = () => {
    
   ];
 
-  let data = {
-    NUMOPERACION: 4,
-    CHID: "",
-    NUMANIO: "",
-    NUMTOTALPOB: "",
-    CHUSER: 1,
+
+  const columnsArticulo14f2: GridColDef[] = [
+    { field: "id", headerName: "Identificador", width: 150   ,hide: true},
+    { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
+    { field: "a", headerName: "Poblacion", width: 150 ,description:"PO"},
+    { field: "b", headerName: "Coeficiente Población", width: 150 ,description:"POi/∑POi "},
+    { field: "c", headerName: "Proyección de Póblacion", width: 200 ,description:"PC" },
+    { field: "d", headerName: "Coeficiente Proyeccion de Población", width: 280 ,description:"PC/∑PC" },
+  ];
+
+
+  const columnsArticulo14f3: GridColDef[] = [
+    { field: "id", headerName: "Identificador", width: 150   ,hide: true},
+    { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
+    { field: "a", headerName: "Poblacion", width: 150 ,description:"PO"},
+    { field: "b", headerName: "Coeficiente Población", width: 150 ,description:"POi/∑POi "},
+    { field: "c", headerName: "Proyección de Póblacion", width: 200 ,description:"PC" },
+    { field: "d", headerName: "Coeficiente Proyeccion de Población", width: 280 ,description:"PC/∑PC" },
+  ];
+
+
+  const loaddata = (tipo : Number) => {
+    let data = {
+      NUMOPERACION: 4,
+      TIPO:tipo
+    };
+   
+    ArticulosServices.articulof1(data).then((res) => {
+      setData(res.RESPONSE);
+    });
+
   };
 
+
+  let params = useParams();
   useEffect(() => {
-    ArticulosServices.articulof1(data).then((res) => {
-      console.log(res);
-      setFacturacion(res.RESPONSE);
-    });
-  }, []);
+    console.log(params.tipo)
+    loaddata(Number(params.tipo));
+
+  }, [params.tipo]);
 
   return (
+    
     <div style={{ height: 600, width: "100%" }}>
-      <DataGrid
-        //checkboxSelection
-        pagination
-        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-        components={{
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={Facturacion}
-        columns={columns}
+       <MUIXDataGrid columns={
+        Number(params.tipo) == 1 ? columnsArticulo14f1 : (Number(params.tipo) == 2 ? columnsArticulo14f2 : ( Number(params.tipo) == 3 ?columnsArticulo14f3 :[])  )
+      
+      } rows={data} />
 
-        // loading //agregar validacion cuando se esten cargando los registros
-      />
+      
     </div>
   );
 };
