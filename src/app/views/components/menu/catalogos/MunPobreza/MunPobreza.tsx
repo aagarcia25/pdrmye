@@ -71,7 +71,13 @@ const columns: GridColDef[] = [
   ];
 
        
-  const handleClose = () => {
+  const handleClose = (v:string) => {
+console.log("valor de v  "+v)
+
+    if(v=="close"){
+      setOpen(false)
+    }
+    if (v=="save"){
     setOpen(false);
     let data = {
       NUMOPERACION: 4,
@@ -79,7 +85,7 @@ const columns: GridColDef[] = [
     };
     consulta(data);
 
-    
+  }
 
   }
   

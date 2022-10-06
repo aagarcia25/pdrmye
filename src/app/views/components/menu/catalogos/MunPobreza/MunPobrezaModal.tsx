@@ -35,20 +35,14 @@ const MunPobrezaModal = ({
   dt:any
 }) => {
 
-
-
-
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState("");
-  const [poblacion, setPoblacion] = useState("");
-  const [carenciaProm, setCarenciaProm] = useState("");
-  const [IdMunicipio, setIdMunicipio] = useState("");
+  const [anio, setAnio] = useState<number>();
+  const [poblacion, setPoblacion] = useState<number>();
+  const [carenciaProm, setCarenciaProm] = useState<number>();
+  const [IdMunicipio, setIdMunicipio] = useState <object>();
   const [values, setValues] = useState<Imunicipio[]>();
- 
- 
-
-  
+   
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -58,13 +52,10 @@ const MunPobrezaModal = ({
     }
     let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
     setValues(m);
-  };
-
-
- 
+  }; 
 
   const handleSend = () => {
-    if (poblacion == "") {
+    if (IdMunicipio==null||poblacion == null||anio==null||carenciaProm==null||poblacion == 0||anio==0||carenciaProm==0) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -84,7 +75,7 @@ const MunPobrezaModal = ({
       };
 
       handleRequest(data);
-      handleClose();
+      handleClose("save");
     }
   };
 
@@ -178,9 +169,10 @@ const MunPobrezaModal = ({
             <InputLabel>Municipio</InputLabel>
             <Select
               required
-              onChange={(v) => setIdMunicipio(v.target.value)}
+              onChange={(v) => setIdMunicipio(Object(v.target.value))}
               value={IdMunicipio}
               label="Municipio"
+              error={IdMunicipio == null ? true : false}
             inputProps={{
             readOnly: tipo == 1 ? false : true,
              }}
@@ -205,8 +197,8 @@ const MunPobrezaModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
+            onChange={(v) => setAnio(Number(v.target.value))}
+            error={anio == null ? true : false}
              InputProps={{
             readOnly: tipo == 1 ? false : true,
        
@@ -222,8 +214,8 @@ const MunPobrezaModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
+            onChange={(v) => setAnio(Number(v.target.value))}
+            error={anio == null ? true : false}
              InputProps={{
             readOnly: tipo == 1 ? false : true,
        
@@ -240,8 +232,8 @@ const MunPobrezaModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setPoblacion(v.target.value)}
-            error={poblacion == "" ? true : false}
+            onChange={(v) => setPoblacion(Number(v.target.value))}
+            error={poblacion == null ? true : false}
             />
            
            <TextField
@@ -255,8 +247,8 @@ const MunPobrezaModal = ({
             type="percent"
             fullWidth
             variant="standard"
-            onChange={(v) => setCarenciaProm(v.target.value)}
-            error={carenciaProm == "" ? true : false}
+            onChange={(v) => setCarenciaProm(Number(v.target.value))}
+            error={carenciaProm == null ? true : false}
             InputProps={{
                 endAdornment: (
                 <InputAdornment position="end">%</InputAdornment>
@@ -268,7 +260,7 @@ const MunPobrezaModal = ({
 
       <DialogActions>
         <button  className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button    className="cerrar" onClick={() => handleClose()}>Cerrar</button>
+        <button    className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
 
       </DialogActions>
     </Dialog>
