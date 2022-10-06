@@ -1,4 +1,5 @@
 import {
+  Box,
   Grid,
   IconButton,
   Input,
@@ -43,8 +44,8 @@ const ModalFgp = ({
 
 
 
-  const handleSelectMes = (v : SelectValues) => {
-   console.log(v?.value)
+  const handleSelectMes = (v: SelectValues) => {
+    console.log(v?.value)
   };
 
 
@@ -91,8 +92,8 @@ const ModalFgp = ({
 
   const mesesc = () => {
     let data = {
-      NUMOPERACION:2
-     };
+      NUMOPERACION: 2
+    };
     CatalogosServices.SelectIndex(data).then((res) => {
       setMeses(res.RESPONSE);
     });
@@ -118,14 +119,58 @@ const ModalFgp = ({
   return (
     <div>
       <Slider open={slideropen}></Slider>
-      <Grid container spacing={3}>
-        <Titulo name={titulo} />
+      <Grid
+        container spacing={2}
+        sx={{ justifyContent: "center",
+        bgcolor:"rgb(230,230,230)" }} >
+
+        <Grid item xs={12}>
+        <Box 
+        
+        sx={{
+         bgcolor: "#656565",
+         display: "flex",
+         justifyContent: "center",
+         
+       }}>
+          <Titulo name={titulo} />
+        </Box>
+        
+        </Grid>
+      </Grid>
+
+      <Grid
+        container spacing={1}
+        sx={{  }} >
+
+        <Grid item xs={3} md={2.1} lg={2.5}>
         <BtnRegresar onClick={onClickBack} />
+        </Grid>
+      </Grid>
+
+
+      <Grid
+        container spacing={1}
+        sx={{ justifyContent: "center", }} >
+
+        <Grid item xs={7} md={2.1} lg={2.5}>
+          
         <SubTitulo />
+        </Grid>
+      </Grid>
+    
+
+      <Grid container spacing={6}
+        sx={{
+          bgcolor: "rgb(250,250,250)",
+          borderRadius: 3
+        }}
+      >   
+   
 
         <Grid
           item
-          xs={6}
+          xs={5}
           sx={{
             display: "flex",
             justifyContent: "right",
@@ -133,13 +178,17 @@ const ModalFgp = ({
         >
           <Typography sx={{ fontWeight: "Bold" }}>Año:</Typography>
         </Grid>
-        <Grid item xs={4}>
-          <Input id="anio" fullWidth readOnly defaultValue={year}></Input>
+        <Grid 
+        item xs={6}        
+        sx={{
+           display: "flex",
+            justifyContent: "left",}}>
+          <Input id="anio" readOnly defaultValue={year}></Input>
         </Grid>
 
         <Grid
           item
-          xs={6}
+          xs={5}
           sx={{
             display: "flex",
             justifyContent: "right",
@@ -149,24 +198,31 @@ const ModalFgp = ({
           <Typography sx={{ fontWeight: "Bold" }}>Mes:</Typography>
         </Grid>
 
-        <Grid item xs={4} sx={{}}>
-        <SelectFrag options={meses} onInputChange={handleSelectMes} placeholder={"Seleccione el Mes"}></SelectFrag>
+        <Grid item xs={5} md={6} lg={6} sx={{}}>
+        <Box sx={{
+         
+            display: "flex",
+            justifyContent: "left",
+            alignItems: "center",
+          }}>
+          <SelectFrag options={meses} onInputChange={handleSelectMes} placeholder={"Seleccione el Mes"}></SelectFrag>
+          </Box>
         </Grid>
 
         <Grid
           item
-          xs={6}
+          xs={5} md={5} lg={5}
           sx={{
             display: "flex",
             justifyContent: "right",
           }}
-        >
+        > 
           <Typography sx={{ fontWeight: "Bold" }}>Monto:</Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} md={6}>
           <Input
             required
-            fullWidth
+            
             placeholder="1500000*"
             id="monto"
             onChange={(v) => setMonto(v.target.value)}
@@ -175,6 +231,7 @@ const ModalFgp = ({
           ></Input>
         </Grid>
 
+        {/* 
         <Grid
           item
           xs={6}
@@ -186,6 +243,7 @@ const ModalFgp = ({
         >
           <Typography sx={{ fontWeight: "Bold" }}>Periodo:</Typography>
         </Grid>
+
         <Grid item xs={4} sx={{}}>
           <Select
             fullWidth
@@ -203,6 +261,7 @@ const ModalFgp = ({
             })}
           </Select>
         </Grid>
+        */}
 
         <Grid
           item

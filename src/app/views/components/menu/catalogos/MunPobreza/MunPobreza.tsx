@@ -200,23 +200,15 @@ console.log("valor de v  "+v)
       });
     };
      
-    const handleFilterChange = (event: SelectChangeEvent) => {
-      console.log('valor de event en handle  filter'+event);
-      console.log("setFilterAnio  "+ event);
-      
+    const handleFilterChange = (event: any) => {          
       let data = {
        NUMOPERACION: 4,
-       ANIO: event.target.value,
-        
-      };
-      console.log("valor de data  "+ data.ANIO );
-       
-      setFilterAnio(data.ANIO);
-      console.log(event.target.value +'valor de event');
-      console.log("valor de data  "+ data.ANIO );
-       
+       ANIO: event.value,        
+      };      
+      setFilterAnio(event.value);  
       consulta(data);
     };
+    
     const downloadplantilla = () => {
       let data = {
         NUMOPERACION: "MUNICIPIO_POBREZA",

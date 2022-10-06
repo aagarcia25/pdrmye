@@ -172,4 +172,15 @@ label.Titulo{
   font-family: "Public Sans", MontserratMedium;
 
 }
+label.titulo-FPG{
+  resize: none;
+  text-decoration: none;
+  line-height: 1.2;
+  font-size: 1.3rem;
+  text-transform: capitalize;
+  font-family: "Public Sans", MontserratMedium;
+
+}
+
+
 

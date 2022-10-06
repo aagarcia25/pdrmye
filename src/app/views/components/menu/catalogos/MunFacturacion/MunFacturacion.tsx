@@ -204,11 +204,11 @@ export const MunFacturacion = () => {
 
 
 
-  const handleFilterChange = (event: SelectChangeEvent) => {
-    setFilterAnio(event.target.value);
+  const handleFilterChange = (event: any) => {
+    setFilterAnio(event.value);
     let data = {
       NUMOPERACION: 4,
-      ANIO: event.target.value,
+      ANIO: event.value,
     };
     consulta(data);
   };

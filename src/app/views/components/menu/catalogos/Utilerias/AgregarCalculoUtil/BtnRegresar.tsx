@@ -11,8 +11,9 @@ export function BtnRegresar(props: BtnRegresarProps) {
     <Grid item xs={12} sx={{ display: "flex", justifyContent: "start" }}>
       <Button
         onClick={props.onClick}
-        variant="outlined"
+        variant="contained"
         startIcon={<ArrowBackIcon />}
+        color="primary"
       >
         Regresar
       </Button>

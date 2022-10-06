@@ -63,13 +63,13 @@ export const Fpg = () => {
     {
       field: "Anio",
       headerName: "Anio",
-      width: 150,
+      width: 60,
       description: "Año",
     },
     {
       field: "Mes",
       headerName: "Mes",
-      width: 200,
+      width: 90,
       description: "Mes",
     },
     {
@@ -88,6 +88,7 @@ export const Fpg = () => {
       width: 150,
       renderCell: (v) => {
         return (
+
           <Box>
             <Tooltip title="Ver detalle de Cálculo">
               <IconButton onClick={() => handleView(v)}>
