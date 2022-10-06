@@ -23,6 +23,9 @@ export const Fpg = () => {
   const [openTrazabilidad,       setOpenTrazabilidad] = useState(false);
   const [fondo, setFondo] = useState("");
   const [nombreFondo, setNombreFondo] = useState("");
+  const [modo, setModo] = useState<string>("");
+  const [datos, setDatos] = useState<object>([]);
+  
 
 
   
@@ -35,11 +38,21 @@ export const Fpg = () => {
 
 
   const handleOpen = (v: any) => {
+    setModo("calculo");
     setstep(1);
-  };
+    
+  }
 
   const handleClose = (v: any) => {
     setstep(0);
+  };  
+
+  const handleAjuste = (v: any) => {
+    setModo("ajuste");
+    setDatos(v.row);
+    setstep(1);
+    console.log(datos)
+    console.log(modo)
   };
 
   const handleView = (v: any) => {
@@ -97,7 +110,7 @@ export const Fpg = () => {
             </Tooltip>
 
             <Tooltip title="Agregar Ajuste">
-              <IconButton onClick={() => handleView(v)}>
+              <IconButton onClick={() => handleAjuste(v)}>
                 <AttachMoneyIcon />
               </IconButton>
             </Tooltip>
@@ -180,7 +193,7 @@ export const Fpg = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <ModalFgp titulo={nombreFondo} onClickBack={handleClose} />
+          <ModalFgp titulo={nombreFondo} onClickBack={handleClose} modo={modo} datos={datos} />
         </div>
       </Box>
     </>

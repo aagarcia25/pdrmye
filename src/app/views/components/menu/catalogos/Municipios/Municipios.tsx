@@ -24,7 +24,7 @@ export const Municipios = () => {
 
 
   const user = getUser();
-  const [Municipio, setMunicipio] = useState([]);
+  const [Municipio, setMunicipio] = useState<object>([]);
 
   const [open, setOpen] = useState(false);
 

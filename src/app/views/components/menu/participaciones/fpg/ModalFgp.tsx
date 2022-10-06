@@ -27,14 +27,19 @@ import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 const ModalFgp = ({
   titulo,
   onClickBack,
+  modo,
+  datos
 }: {
   titulo: string;
   onClickBack: Function;
+  modo: string;
+  datos: any;
 }) => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [slideropen, setslideropen] = useState(false);
   const [mes, setMes] = useState("");
-  const [monto, setMonto] = useState("");
+  const [monto, setMonto] = useState<number>();
+  const [anio, setAnio] = useState<number>();
   const [periodo, setPeriodo] = useState("");
   const [periodos, setPeriodos] = useState([]);
 
@@ -53,7 +58,7 @@ const ModalFgp = ({
   let year: number = new Date().getFullYear();
 
   const handleSend = () => {
-    if (monto == "") {
+    if (monto == null || anio) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -108,12 +113,17 @@ const ModalFgp = ({
 
   useEffect(() => {
     // SE ESTABLECE EL TIEMPO EN ESPERA PARA QUE SE CARGEN DE FORMA CORRECTA LOS COMPONENTES
-    setslideropen(true);
+    setMes(datos.Mes);
+    setAnio(datos.Anio);
+console.log(datos?.Anio);
+
     setTimeout(() => {
       mesesc();
       ajustesc();
       setslideropen(false);
     }, 3000);
+    setslideropen(true);
+
   }, []);
 
   return (
@@ -121,168 +131,283 @@ const ModalFgp = ({
       <Slider open={slideropen}></Slider>
       <Grid
         container spacing={1}
-        sx={{  }} >
+        sx={{}} >
 
         <Grid item xs={3} md={2.1} lg={2.5}>
-        <BtnRegresar onClick={onClickBack} />
+          <BtnRegresar onClick={onClickBack} />
         </Grid>
       </Grid>
 
       <Grid
         container spacing={2}
-        sx={{ justifyContent: "center",
-       }} >
+        sx={{
+          justifyContent: "center",
+        }} >
 
         <Grid item xs={12}>
-        <Box 
-        
-        sx={{
-         
-         display: "flex",
-         justifyContent: "center",
-         
-       }}>
-          <Titulo name={titulo} />
-        </Box>
-        
-        </Grid>
-      </Grid>
+          <Box
 
-   
-
-
-      <Grid
-        container spacing={1}
-        sx={{ justifyContent: "center", }} >
-
-        <Grid item xs={7} md={2.1} lg={2.5}>
-          
-        <SubTitulo />
-        </Grid>
-      </Grid>
-    
-
-      <Grid container spacing={6}>   
-   
-
-        <Grid
-          item
-          xs={5}
-          sx={{
-            display: "flex",
-            justifyContent: "right",
-          }}
-        >
-          <Typography sx={{ fontWeight: "Bold" }}>Año:</Typography>
-        </Grid>
-        <Grid 
-        item xs={6}        
-        sx={{
-           display: "flex",
-            justifyContent: "left",}}>
-          <Input id="anio" readOnly defaultValue={year}></Input>
-        </Grid>
-
-        <Grid
-          item
-          xs={5}
-          sx={{
-            display: "flex",
-            justifyContent: "right",
-            alignItems: "center",
-          }}
-        >
-          <Typography sx={{ fontWeight: "Bold" }}>Mes:</Typography>
-        </Grid>
-
-        <Grid item xs={5} md={6} lg={6} sx={{}}>
-        <Box sx={{
-         
-            display: "flex",
-            justifyContent: "left",
-            alignItems: "center",
-          }}>
-          <SelectFrag options={meses} onInputChange={handleSelectMes} placeholder={"Seleccione el Mes"}></SelectFrag>
-          </Box>
-        </Grid>
-
-        <Grid
-          item
-          xs={5} md={5} lg={5}
-          sx={{
-            display: "flex",
-            justifyContent: "right",
-          }}
-        > 
-          <Typography sx={{ fontWeight: "Bold" }}>Monto:</Typography>
-        </Grid>
-        <Grid item xs={6} md={6}>
-          <Input
-            required
-            
-            placeholder="1500000*"
-            id="monto"
-            onChange={(v) => setMonto(v.target.value)}
-            error={monto == "" ? true : false}
-            type="number"
-          ></Input>
-        </Grid>
-
-        {/* 
-        <Grid
-          item
-          xs={6}
-          sx={{
-            display: "flex",
-            justifyContent: "right",
-            alignItems: "center",
-          }}
-        >
-          <Typography sx={{ fontWeight: "Bold" }}>Periodo:</Typography>
-        </Grid>
-
-        <Grid item xs={4} sx={{}}>
-          <Select
-            fullWidth
-            id="periodo"
-            required
-            onChange={(v) => setPeriodo(v.target.value)}
-            value={periodo}
-          >
-            {periodos?.map((item: any) => {
-              return (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.Descripcion}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </Grid>
-        */}
-
-        <Grid
-          item
-          xs={12}
-          sx={{ mt: 3, display: "flex", justifyContent: "center" }}
-        >
-          <IconButton
-            onClick={handleSend}
             sx={{
-              borderRadius: 1,
-              border: 1,
-              bgcolor: COLOR.negro,
-              color: COLOR.blanco,
-              "&:hover": {
-                bgcolor: COLOR.grisTarjetaBienvenido,
-                color: COLOR.negro,
-              },
-            }}
-          >
-            <CalculateIcon />
-            Calcular
-          </IconButton>
+
+              display: "flex",
+              justifyContent: "center",
+
+            }}>
+            <Titulo name={titulo} />
+          </Box>
+
         </Grid>
       </Grid>
+
+
+
+      {(modo == "ajuste") ?
+        <Box>
+          <Grid
+            container spacing={1}
+            sx={{ justifyContent: "center", }} >
+
+            <Grid item xs={7} md={2.1} lg={2.5}>
+
+              <label className="subtitulo">Ingrese monto y periodo <br/><br/><br/></label>
+            </Grid>
+          </Grid>
+
+
+          <Grid container spacing={6}>
+
+
+            <Grid
+              item
+              xs={5}
+              sx={{
+                display: "flex",
+                justifyContent: "right",
+              }}
+            >
+              <Typography sx={{ fontWeight: "Bold" }}>Año:</Typography>
+            </Grid>
+            <Grid
+              item xs={6}
+              sx={{
+                display: "flex",
+                justifyContent: "left",
+              }}>
+              <label > {anio}</label>
+            </Grid>
+
+            <Grid
+              item
+              xs={5}
+              sx={{
+                display: "flex",
+                justifyContent: "right",
+                alignItems: "center",
+              }}
+            >
+              <Typography sx={{ fontWeight: "Bold" }}>Mes:</Typography>
+            </Grid>
+
+            <Grid item xs={5} md={6} lg={6} sx={{}}>
+              <Box sx={{
+
+                display: "flex",
+                justifyContent: "left",
+                alignItems: "center",
+              }}>
+                <label className="">{mes}</label>
+              </Box>
+            </Grid>
+
+            <Grid
+              item
+              xs={5} md={5} lg={5}
+              sx={{
+                display: "flex",
+                justifyContent: "right",
+              }}
+            >
+              <Typography sx={{ fontWeight: "Bold" }}>Monto:</Typography>
+            </Grid>
+            <Grid item xs={6} md={6}>
+              <Input
+
+                placeholder="1500000*"
+                id="monto"
+                onChange={(v) => setMonto(Number(v.target.value))}
+                error={monto == null ? true : false}
+                type="number"
+              ></Input>
+            </Grid>
+
+            
+      <Grid
+        item
+        xs={6}
+        sx={{
+          display: "flex",
+          justifyContent: "right",
+          alignItems: "center",
+        }}
+      >
+        <Typography sx={{ fontWeight: "Bold" }}>Periodo:</Typography>
+      </Grid>
+
+      <Grid item xs={4} sx={{}}>
+        <Select
+          fullWidth
+          id="periodo"
+          required
+          onChange={(v) => setPeriodo(v.target.value)}
+          value={periodo}
+        >
+          {periodos?.map((item: any) => {
+            return (
+              <MenuItem key={item.id} value={item.id}>
+                {item.Descripcion}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </Grid>
+      
+
+            <Grid
+              item
+              xs={12}
+              sx={{ mt: 3, display: "flex", justifyContent: "center" }}
+            >
+              <IconButton
+                onClick={handleSend}
+                sx={{
+                  borderRadius: 1,
+                  border: 1,
+                  bgcolor: COLOR.negro,
+                  color: COLOR.blanco,
+                  "&:hover": {
+                    bgcolor: COLOR.grisTarjetaBienvenido,
+                    color: COLOR.negro,
+                  },
+                }}
+              >
+                <CalculateIcon />
+                Calcular
+              </IconButton>
+            </Grid>
+          </Grid>
+        </Box>
+
+
+        : ""}
+
+
+      {(modo == "calculo") ?
+        <Box>
+          <Grid
+            container spacing={1}
+            sx={{ justifyContent: "center", }} >
+
+            <Grid item xs={7} md={2.1} lg={2.5}>
+
+              <SubTitulo />
+            </Grid>
+          </Grid>
+
+
+          <Grid container spacing={6}>
+
+
+            <Grid
+              item
+              xs={5}
+              sx={{
+                display: "flex",
+                justifyContent: "right",
+              }}
+            >
+              <Typography sx={{ fontWeight: "Bold" }}>Año:</Typography>
+            </Grid>
+            <Grid
+              item xs={6}
+              sx={{
+                display: "flex",
+                justifyContent: "left",
+              }}>
+              <Input id="anio" readOnly defaultValue={year}></Input>
+            </Grid>
+
+            <Grid
+              item
+              xs={5}
+              sx={{
+                display: "flex",
+                justifyContent: "right",
+                alignItems: "center",
+              }}
+            >
+              <Typography sx={{ fontWeight: "Bold" }}>Mes:</Typography>
+            </Grid>
+
+            <Grid item xs={5} md={6} lg={6} sx={{}}>
+              <Box sx={{
+
+                display: "flex",
+                justifyContent: "left",
+                alignItems: "center",
+              }}>
+                <SelectFrag options={meses} onInputChange={handleSelectMes} placeholder={"Seleccione el Mes"}></SelectFrag>
+              </Box>
+            </Grid>
+
+            <Grid
+              item
+              xs={5} md={5} lg={5}
+              sx={{
+                display: "flex",
+                justifyContent: "right",
+              }}
+            >
+              <Typography sx={{ fontWeight: "Bold" }}>Monto:</Typography>
+            </Grid>
+            <Grid item xs={6} md={6}>
+              <Input
+                required
+
+                placeholder="1500000*"
+                id="monto"
+                onChange={(v) => setMonto(Number(v.target.value))}
+                error={monto == null ? true : false}
+                type="number"
+              ></Input>
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              sx={{ mt: 3, display: "flex", justifyContent: "center" }}
+            >
+              <IconButton
+                onClick={handleSend}
+                sx={{
+                  borderRadius: 1,
+                  border: 1,
+                  bgcolor: COLOR.negro,
+                  color: COLOR.blanco,
+                  "&:hover": {
+                    bgcolor: COLOR.grisTarjetaBienvenido,
+                    color: COLOR.negro,
+                  },
+                }}
+              >
+                <CalculateIcon />
+                Calcular
+              </IconButton>
+            </Grid>
+          </Grid>
+        </Box>
+        :
+        ""
+      }
     </div>
   );
 };
