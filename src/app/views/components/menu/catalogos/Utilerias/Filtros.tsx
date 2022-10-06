@@ -4,6 +4,8 @@ import Imeses from "../../../../../interfaces/filtros/meses";
 import Ianios from "../../../../../interfaces/filtros/anios";
 import { fanios } from "../../../../../share/loadAnios";
 import { fmeses } from "../../../../../share/loadMeses";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 
 const Filtros = ({
   anioApply,
@@ -20,13 +22,17 @@ const Filtros = ({
   valueFilterAnio: any;
   valueFilterMes: any;
 }) => {
-  const [anios, setAnios] = useState<Ianios[]>();
+  const [anios, setAnios] = useState<SelectValues[]>([]);
   const [meses, setMeses] = useState<Imeses[]>();
 
   useEffect(() => {
     setMeses(fmeses);
     setAnios(fanios());
   }, []);
+
+
+
+
 
   return (
     <Box
@@ -66,23 +72,10 @@ const Filtros = ({
         <FormControl
           variant="standard"
           sx={{
-            width: "5%",
+            width: "10%",
           }}
         >
-          <InputLabel>Año</InputLabel>
-          <Select
-            onChange={(v) => handleFilterChangeAnio(v)}
-            value={valueFilterAnio}
-            label="Año"
-          >
-            {anios?.map((item: Ianios) => {
-              return (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.anio}
-                </MenuItem>
-              );
-            })}
-          </Select>
+          <SelectFrag options={anios} onInputChange={handleFilterChangeAnio}></SelectFrag>
         </FormControl>
       ) : (
         ""

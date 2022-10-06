@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  Box,
-  IconButton,
-  SelectChangeEvent,
-} from "@mui/material";
+import { Box, Grid, IconButton, SelectChangeEvent } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { Moneda } from "../../CustomToolbar";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -19,10 +15,11 @@ import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import MunRecaudacionModal from "./MunRecaudacionModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { fanios } from "../../../../../share/loadAnios";
 
 export const MunRecaudacion = () => {
-
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -31,23 +28,27 @@ export const MunRecaudacion = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
 
-
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
-
+  const [anios, setAnios] = useState<SelectValues[]>([]);
   //funciones
-  const handleFilterMes = () => { };
-
+  const handleFilterMes = () => {};
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
+    {
+      field: "id",
+      headerName: "Identificador",
+      hide: true,
+      width: 150,
+      description: messages.dataTableColum.id,
+    },
     {
       field: "idmunicipio",
       headerName: "idmunicipio",
       hide: true,
       width: 150,
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },    
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", width: 400 },
     { field: "Anio", headerName: "Año", width: 100 },
     { field: "Recaudacion", headerName: "Recaudacion", width: 150, ...Moneda },
@@ -71,14 +72,13 @@ export const MunRecaudacion = () => {
         );
       },
     },
-
   ];
 
-  const handleClose = (v:string) => {
-    console.log('cerrando');
-    if (v === "close"){
+  const handleClose = (v: string) => {
+    console.log("cerrando");
+    if (v === "close") {
       setOpen(false);
-    } else if (v === "save"){
+    } else if (v === "save") {
       setOpen(false);
       let data = {
         NUMOPERACION: 4,
@@ -86,8 +86,6 @@ export const MunRecaudacion = () => {
       };
       consulta(data);
     }
-   
-
   };
 
   const handleOpen = (v: any) => {
@@ -103,7 +101,6 @@ export const MunRecaudacion = () => {
     setOpen(true);
     setData(v);
   };
-
 
   const handleDelete = (v: any) => {
     Swal.fire({
@@ -136,7 +133,6 @@ export const MunRecaudacion = () => {
               ANIO: filterAnio,
             };
             consulta(data);
-
           } else {
             Alert.fire({
               title: "Error!",
@@ -145,14 +141,11 @@ export const MunRecaudacion = () => {
             });
           }
         });
-
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
     });
   };
-
-
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     setslideropen(true);
@@ -174,9 +167,6 @@ export const MunRecaudacion = () => {
           icon: "error",
         });
       }
-
-
-
     });
   };
 
@@ -198,13 +188,12 @@ export const MunRecaudacion = () => {
     });
   };
 
-
-
-  const handleFilterChange = (event: SelectChangeEvent) => {
-    setFilterAnio(event.target.value);
+  const handleFilterChange = (event: any) => {
+    console.log(event);
+    setFilterAnio(event.value);
     let data = {
       NUMOPERACION: 4,
-      ANIO: event.target.value,
+      ANIO: event.value,
     };
     consulta(data);
   };
@@ -220,6 +209,7 @@ export const MunRecaudacion = () => {
   };
 
   useEffect(() => {
+    setAnios(fanios());
     downloadplantilla();
   }, []);
 
@@ -227,14 +217,64 @@ export const MunRecaudacion = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Filtros
-        anioApply={true}
-        mesApply={false}
-        handleFilterChangeAnio={handleFilterChange}
-        handleFilterChangeMes={handleFilterMes}
-        valueFilterAnio={filterAnio}
-        valueFilterMes={""}
-      />
+      <Box>
+        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 1, sm: 4, md: 12,lg:12 }}>
+        <Grid item xs={1} sm={1} md={1}>
+        tes
+         </Grid>
+         <Grid item xs={1} sm={1} md={1}>
+         tes
+         </Grid>
+         <Grid item xs={1} sm={1} md={1}>
+         tes
+         </Grid>
+         <Grid item xs={1} sm={1} md={1}>
+         tes
+         </Grid>
+         <Grid item xs={1} sm={1} md={1}>
+         tes
+         </Grid>
+          <Grid item xs={1} sm={1} md={1}>
+          tes
+          </Grid>
+          <Grid item xs={1} sm={1} md={1}>
+          tes
+          </Grid>
+
+          <Grid item xs={1} sm={1} md={1}>
+          tes
+          </Grid>
+
+          <Grid item xs={1} sm={1} md={1}>
+          tes
+          </Grid>
+
+          <Grid item xs={1} sm={1} md={1}>
+          tes
+          </Grid>
+          <Grid item xs={1} sm={1} md={1}>
+
+         
+          <SelectFrag
+          options={anios}
+          onInputChange={handleFilterChange}
+        ></SelectFrag>
+
+
+
+          </Grid>
+
+          <Grid item xs={1} sm={1} md={1}>
+          <SelectFrag
+          options={anios}
+          onInputChange={handleFilterChange}
+           ></SelectFrag>
+          </Grid>
+         
+        </Grid>
+
+       
+      </Box>
 
       {open ? (
         <MunRecaudacionModal
@@ -254,7 +294,6 @@ export const MunRecaudacion = () => {
         handleUpload={handleUpload}
       />
       <MUIXDataGrid columns={columns} rows={Facturacion} />
-
     </div>
   );
 };

@@ -7,33 +7,40 @@ import { UserReponse } from "./app/interfaces/user/UserReponse";
 import { AppRouter } from "./app/router/AppRouter";
 import { AuthService } from "./app/services/AuthService";
 import { CatalogosServices } from "./app/services/catalogosServices";
-import { getPU, isAuthenticated, setMenus, setMunicipios, setPermisos, setPU, setRoles, setUser, validaLocalStorage } from "./app/services/localStorage";
+import {
+  getPU,
+  isAuthenticated,
+  setMenus,
+  setMunicipios,
+  setPermisos,
+  setPU,
+  setRoles,
+  setUser,
+  validaLocalStorage,
+} from "./app/services/localStorage";
 import { UserServices } from "./app/services/UserServices";
 import { BloqueoSesion } from "./app/views/components/BloqueoSesion";
 import Validacion from "./app/views/components/Validacion";
-import { useIdleTimer } from 'react-idle-timer'
+import { useIdleTimer } from "react-idle-timer";
 
 function App() {
-
   const [log, setLog] = useState(false);
   const logeado = isAuthenticated();
 
-
   const loadAnios = () => {
-    let data = {};
+    let data = { NUMOPERACION : 4 };
     if (!validaLocalStorage("Anios")) {
-      CatalogosServices.anios(data).then((res) => {
-        localStorage.setItem('Anios', JSON.stringify(res.RESPONSE));
+      CatalogosServices.SelectIndex(data).then((res) => {
+        localStorage.setItem("Anios", JSON.stringify(res.RESPONSE));
       });
     }
   };
 
-  
   const loadMeses = () => {
     let data = {};
     if (!validaLocalStorage("Meses")) {
       CatalogosServices.meses(data).then((res) => {
-        localStorage.setItem('Meses', JSON.stringify(res.RESPONSE));
+        localStorage.setItem("Meses", JSON.stringify(res.RESPONSE));
       });
     }
   };
@@ -47,9 +54,6 @@ function App() {
     }
   };
 
-
-
-  
   const registerUser = (rs: UserDetail) => {
     let data = {
       NUMOPERACION: 1,
@@ -82,16 +86,14 @@ function App() {
   const verificatoken = (token: string) => {
     // SE VALIDA EL TOKEN
     UserServices.verify({}, token).then((res) => {
-
       if (res.status == 200) {
         setLog(true);
         //SE OBTIENE LA INFORMACION DE DETALLE DEL USUARIO
         setPU(res.data.data);
         validaUser(token);
       } else if (res.status == 401) {
-
         Swal.fire({
-          title:'Mensaje: ' + res.data.msg,
+          title: "Mensaje: " + res.data.msg,
           showDenyButton: false,
           showCancelButton: false,
           confirmButtonText: "Aceptar",
@@ -108,12 +110,8 @@ function App() {
   const query = new URLSearchParams(useLocation().search);
   const jwt = query.get("jwt");
 
-
-
-
   //cambiar a 5 minutos
   const timeout = 600000;
- 
 
   const [isIdle, setIsIdle] = useState(false);
 
@@ -159,16 +157,14 @@ function App() {
   });
 
   useEffect(() => {
-
     setTimeout(() => {
-      console.log('validando municipios')
+      console.log("validando municipios");
       loadMunicipios();
       loadMeses();
       loadAnios();
-    }, 2000)
+    }, 2000);
 
-   
-    if(!logeado){
+    if (!logeado) {
       if (String(jwt) != null && String(jwt) != "") {
         verificatoken(String(jwt));
       } else {
@@ -183,32 +179,18 @@ function App() {
           }
         });
       }
-  
-   }
-   
-
-
-
-
+    }
   }, [log]);
-
-
-
 
   return (
     <div>
-     
-     {isIdle ? (
+      {isIdle ? (
         <BloqueoSesion handlePassword={handleOnActive} />
       ) : logeado ? (
-        
         <AppRouter />
-     
-     
       ) : (
         <Validacion />
       )}
-    
     </div>
   );
 }

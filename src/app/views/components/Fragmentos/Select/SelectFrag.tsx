@@ -4,10 +4,12 @@ import SelectValues from '../../../../interfaces/Select/SelectValues'
 
 const SelectFrag = ({
   options,
-  onInputChange
+  onInputChange,
+  placeholder,
 }:{
   options:SelectValues[],
-  onInputChange:Function
+  onInputChange:Function,
+  placeholder:string
 }) => {
 
    
@@ -20,6 +22,7 @@ const SelectFrag = ({
      options={options} 
      isClearable={true}
      onChange={(v)=>onInputChange(v)}
+     placeholder={placeholder}
      />  
     </div>
   )
