@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import { Box } from "@mui/material";
+import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 import { Moneda } from "../../CustomToolbar";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
@@ -11,6 +11,13 @@ import ButtonsBack from "../../catalogos/Utilerias/ButtonsBack";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { columnasCal } from "../../../../../interfaces/calculos/columnasCal";
 import Slider from "../../../Slider";
+
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SendIcon from '@mui/icons-material/Send';
+import InsightsIcon from '@mui/icons-material/Insights';
+import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
+
 
 const DetalleFgp = () => {
   const navigate = useNavigate();
@@ -244,7 +251,35 @@ const DetalleFgp = () => {
     <div>
       <Box>
         <Slider open={openSlider}></Slider>
-        <ButtonsBack handleOpen={handleBack} />
+        <Box sx={{}}>
+          <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+            <Tooltip title="Regresar">
+              <ToggleButton value="check" onClick={() => handleBack(1)}>
+                <ArrowBackIcon />
+              </ToggleButton>
+            </Tooltip>
+            <Tooltip title="Autorizar">
+              <ToggleButton value="check" onClick={() => handleBack(1)}>
+                <DoneAllIcon />
+              </ToggleButton>
+            </Tooltip>
+            <Tooltip title="Cancelar">
+              <ToggleButton value="check" onClick={() => handleBack(1)}>
+                <CancelPresentationIcon />
+              </ToggleButton>
+            </Tooltip>
+            <Tooltip title="Enviar">
+              <ToggleButton value="check" onClick={() => handleBack(1)}>
+                <SendIcon />
+              </ToggleButton>
+            </Tooltip>
+            <Tooltip title="Ver Trazabilidad">
+              <ToggleButton value="check" onClick={() => handleBack(1)}>
+                <InsightsIcon />
+              </ToggleButton>
+            </Tooltip>
+          </ToggleButtonGroup>
+        </Box>
         <MUIXDataGrid columns={columns} rows={data} />
       </Box>
     </div>
