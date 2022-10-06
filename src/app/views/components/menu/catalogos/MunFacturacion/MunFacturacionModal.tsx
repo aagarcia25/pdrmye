@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   Box,
   FormControl,
@@ -11,7 +10,6 @@ import {
   TextField,
   InputAdornment,
   DialogActions,
-  Button,
 } from "@mui/material";
 
 import { Alert } from "../../../../../helpers/Alert";
@@ -29,25 +27,18 @@ const MunFacturacionModal = ({
 }: {
   open: boolean;
   modo: string;
-  tipo:number;
-  handleClose:Function,
-  dt:any
+  tipo: number;
+  handleClose: Function,
+  dt: any
 }) => {
-
-
-
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState("");
-  const [fac, setRecaudacion] = useState("");
-  const [idMunicipio, setIdmunicipio] = useState("");
- 
+  const [anio, setAnio] = useState <number>();
+  const [fac, setRecaudacion] = useState<number>();
+  const [idMunicipio, setIdmunicipio] = useState <object>();
   const [values, setValues] = useState<Imunicipio[]>();
- 
- 
 
-  
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -60,11 +51,11 @@ const MunFacturacionModal = ({
   };
 
 
- 
- 
+
+
 
   const handleSend = () => {
-    if (fac == "") {
+    if (fac == null|| anio == null || idMunicipio== null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -79,9 +70,9 @@ const MunFacturacionModal = ({
         IDMUNICIPIO: idMunicipio,
         FACTURACION: fac,
       };
-     
+
       handleRequest(data);
-      handleClose();
+      handleClose("save");
     }
   };
 
@@ -93,7 +84,7 @@ const MunFacturacionModal = ({
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-      
+
       editar(data);
     }
   };
@@ -135,45 +126,45 @@ const MunFacturacionModal = ({
     });
   };
 
- 
+
 
   useEffect(() => {
     municipiosc();
 
-    if(dt === ''  ){
-       
-       
-    }else{
-        setId(dt?.row?.id)
-        setAnio(dt?.row?.Anio)
-        setRecaudacion(dt?.row?.Facturacion)
-        setIdmunicipio(dt?.row?.idmunicipio)
-      
+    if (dt === '') {
+
+
+    } else {
+      setId(dt?.row?.id)
+      setAnio(dt?.row?.Anio)
+      setRecaudacion(dt?.row?.Facturacion)
+      setIdmunicipio(dt?.row?.idmunicipio)
+
 
     }
-   
+
   }, [dt]);
 
 
 
   return (
     <Dialog open={open}>
-    
+
       <DialogContent>
         <Box>
-        <Box
-          sx={{ display: 'flex', justifyContent: 'center',}}>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'center', }}>
             <label className="Titulo">{modo}</label>
           </Box>
           <FormControl variant="standard" fullWidth>
             <InputLabel>Municipio</InputLabel>
             <Select
               required
-              onChange={(v) => setIdmunicipio(v.target.value)}
+              onChange={(v) => setIdmunicipio( Object(v.target.value))}
               value={idMunicipio}
               label="Municipio"
-               inputProps={{
-                 readOnly: tipo == 1 ? false : true,
+              inputProps={{
+                readOnly: tipo == 1 ? false : true,
               }}
             >
               {values?.map((item: Imunicipio) => {
@@ -195,12 +186,12 @@ const MunFacturacionModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
-             InputProps={{
-               readOnly: tipo == 1 ? false : true,
-               inputMode: "numeric",
-             }}
+            onChange={(v) => setAnio(Number(v.target.value))}
+            error={anio == null ? true : false}
+            InputProps={{
+              readOnly: tipo == 1 ? false : true,
+              inputMode: "numeric",
+            }}
           />
 
           <TextField
@@ -212,8 +203,8 @@ const MunFacturacionModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setRecaudacion(v.target.value)}
-            error={fac == "" ? true : false}
+            onChange={(v) => setRecaudacion(Number(v.target.value))}
+            error={fac == null ? true : false}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
@@ -225,7 +216,7 @@ const MunFacturacionModal = ({
 
       <DialogActions>
         <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
+        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
       </DialogActions>
     </Dialog>
   );

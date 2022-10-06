@@ -76,14 +76,21 @@ export const MunFacturacion = () => {
     },
   ];
 
-  const handleClose = () => {
-    console.log('cerrando');
-    setOpen(false);
-    let data = {
-      NUMOPERACION: 4,
-      ANIO: filterAnio,
-    };
-    consulta(data);
+  const handleClose = (v: string) => {
+   
+    if (v === "close") {
+      setOpen(false);
+    }
+    else if(v === "save") {
+      setOpen(false);
+      let data = {
+        NUMOPERACION: 4,
+        ANIO: filterAnio,
+      };
+      consulta(data);
+
+    }
+
 
   };
 

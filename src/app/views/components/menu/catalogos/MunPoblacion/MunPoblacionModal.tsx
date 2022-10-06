@@ -40,14 +40,14 @@ const MunPoblacionModal = ({
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState("");
-  const [poblacion, setPoblacion] = useState("");
-  const [idPoblacion, setIdPoblacion] = useState("");
+  const [anio, setAnio] = useState<number>();
+  const [poblacion, setPoblacion] = useState<number>();
+  const [idPoblacion, setIdPoblacion] = useState<object>();
   const [values, setValues] = useState<Imunicipio[]>();
  
 
   const handleSend = () => {
-    if (poblacion == "") {
+    if (poblacion == null|| idPoblacion==null||anio==null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -64,7 +64,7 @@ const MunPoblacionModal = ({
       };
      
       handleRequest(data);
-      handleClose();
+      handleClose("guardar");
     }
   };
 
@@ -150,7 +150,7 @@ const MunPoblacionModal = ({
             <InputLabel>Municipio</InputLabel>
             <Select
               required
-              onChange={(v) => setIdPoblacion(v.target.value)}
+              onChange={(v) => setIdPoblacion(Object(v.target.value))}
               value={idPoblacion}
               label="Municipio"
             inputProps={{
@@ -176,8 +176,8 @@ const MunPoblacionModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
+            onChange={(v) => setAnio(Number(v.target.value))}
+            error={anio == null ? true : false}
              InputProps={{
             readOnly: tipo == 1 ? false : true,
        
@@ -193,8 +193,8 @@ const MunPoblacionModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setPoblacion(v.target.value)}
-            error={poblacion == "" ? true : false}
+            onChange={(v) => setPoblacion(Number(v.target.value))}
+            error={poblacion == null ? true : false}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start"></InputAdornment>
@@ -206,7 +206,7 @@ const MunPoblacionModal = ({
 
       <DialogActions>
         <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
+        <button className="cerrar" onClick={() => handleClose("cerrar")}>Cerrar</button>
       </DialogActions>
     </Dialog>
   );

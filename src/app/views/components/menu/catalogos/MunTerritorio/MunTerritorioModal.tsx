@@ -41,10 +41,10 @@ const MunTerritorioModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
-  const [territorio, setTerritorio] = useState("");
+  const [territorio, setTerritorio] = useState<number>();
 
 
-  const [IdMunicipio, setIdMunicipio] = useState("");
+  const [IdMunicipio, setIdMunicipio] = useState<object>();
   const [values, setValues] = useState<Imunicipio[]>();
  
  
@@ -65,7 +65,7 @@ const MunTerritorioModal = ({
  
 
   const handleSend = () => {
-    if (territorio == "") {
+    if (territorio == null||IdMunicipio==null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -85,6 +85,7 @@ const MunTerritorioModal = ({
       };
 
       handleRequest(data);
+      handleClose ("save");
     }
   };
 
@@ -177,9 +178,10 @@ const MunTerritorioModal = ({
             <InputLabel>Municipio</InputLabel>
             <Select
               required
-              onChange={(v) => setIdMunicipio(v.target.value)}
+              onChange={(v) => setIdMunicipio(Object(v.target.value))}
               value={IdMunicipio}
               label="Municipio"
+              error={IdMunicipio == null ? true : false}
             inputProps={{
             readOnly: tipo == 1 ? false : true,
              }}
@@ -199,13 +201,13 @@ const MunTerritorioModal = ({
             margin="dense"
             required
             id="pob"
-            label="Recaudacion"
+            label="Area"
             value={territorio}
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setTerritorio(v.target.value)}
-            error={territorio == "" ? true : false}
+            onChange={(v) => setTerritorio(Number(v.target.value))}
+            error={territorio == null ? true : false}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start"></InputAdornment>
@@ -219,7 +221,7 @@ const MunTerritorioModal = ({
 
       <DialogActions>
         <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
+        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
       </DialogActions>
     </Dialog>
   );

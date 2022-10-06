@@ -74,14 +74,19 @@ export const MunRecaudacion = () => {
 
   ];
 
-  const handleClose = () => {
+  const handleClose = (v:string) => {
     console.log('cerrando');
-    setOpen(false);
-    let data = {
-      NUMOPERACION: 4,
-      ANIO: filterAnio,
-    };
-    consulta(data);
+    if (v === "close"){
+      setOpen(false);
+    } else if (v === "save"){
+      setOpen(false);
+      let data = {
+        NUMOPERACION: 4,
+        ANIO: filterAnio,
+      };
+      consulta(data);
+    }
+   
 
   };
 

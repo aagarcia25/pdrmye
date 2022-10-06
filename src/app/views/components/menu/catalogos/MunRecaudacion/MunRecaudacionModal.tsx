@@ -40,14 +40,10 @@ const MunRecaudacionModal = ({
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState("");
-  const [recaudacion, setRecaudacion] = useState("");
-
-
-  const [IdMunicipio, setIdMunicipio] = useState("");
-  const [values, setValues] = useState<Imunicipio[]>();
- 
- 
+  const [anio, setAnio] = useState<number>();
+  const [recaudacion, setRecaudacion] = useState<number>();
+  const [IdMunicipio, setIdMunicipio] = useState <object>();
+  const [values, setValues] = useState<Imunicipio[]>(); 
 
   
   const municipiosc = () => {
@@ -65,7 +61,7 @@ const MunRecaudacionModal = ({
  
 
   const handleSend = () => {
-    if (recaudacion == "") {
+    if (recaudacion == null || anio == null ||IdMunicipio==null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -85,6 +81,7 @@ const MunRecaudacionModal = ({
       };
 
       handleRequest(data);
+      handleClose("save");
     }
   };
 
@@ -177,9 +174,10 @@ const MunRecaudacionModal = ({
             <InputLabel>Municipio</InputLabel>
             <Select
               required
-              onChange={(v) => setIdMunicipio(v.target.value)}
+              onChange={(v) => setIdMunicipio(Object(v.target.value))}
               value={IdMunicipio}
               label="Municipio"
+              error={IdMunicipio == null? true : false}
             inputProps={{
             readOnly: tipo == 1 ? false : true,
              }}
@@ -203,7 +201,8 @@ const MunRecaudacionModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
+            error={anio == null? true : false}
+            onChange={(v) => setAnio(Number(v.target.value))}
            
           />
 
@@ -216,8 +215,8 @@ const MunRecaudacionModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setRecaudacion(v.target.value)}
-            error={recaudacion == "" ? true : false}
+            onChange={(v) => setRecaudacion(Number(v.target.value))}
+            error={recaudacion == null ? true : false}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start"></InputAdornment>
@@ -231,7 +230,7 @@ const MunRecaudacionModal = ({
 
       <DialogActions>
         <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
+        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
       </DialogActions>
     </Dialog>
   );

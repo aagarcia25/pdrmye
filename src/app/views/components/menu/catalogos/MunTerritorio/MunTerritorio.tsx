@@ -77,15 +77,22 @@ export const MunTerritorio = () => {
 
   ];
 
-  const handleClose = () => {
-    console.log('cerrando');
-    setOpen(false);
+  const handleClose = (v:string) => {
+    if (v== "close"){
+      setOpen(false);
+    }
+    else if (v == "save"){
+      setOpen(false);
     let data = {
       NUMOPERACION: 4,
 
     };
     consulta(data);
 
+    }
+    console.log('cerrando');
+
+    
   };
 
   const handleOpen = (v: any) => {
