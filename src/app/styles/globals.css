@@ -182,5 +182,17 @@ label.titulo-FPG{
 
 }
 
+label.subtitulo{
+  resize: none;
+  text-decoration: none;
+  line-height: 1.2;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  font-family: "Public Sans", MontserratMedium;
+
+}
+
+
+
 
 

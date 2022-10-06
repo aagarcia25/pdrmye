@@ -120,15 +120,24 @@ const ModalFgp = ({
     <div>
       <Slider open={slideropen}></Slider>
       <Grid
+        container spacing={1}
+        sx={{  }} >
+
+        <Grid item xs={3} md={2.1} lg={2.5}>
+        <BtnRegresar onClick={onClickBack} />
+        </Grid>
+      </Grid>
+
+      <Grid
         container spacing={2}
         sx={{ justifyContent: "center",
-        bgcolor:"rgb(230,230,230)" }} >
+       }} >
 
         <Grid item xs={12}>
         <Box 
         
         sx={{
-         bgcolor: "#656565",
+         
          display: "flex",
          justifyContent: "center",
          
@@ -139,14 +148,7 @@ const ModalFgp = ({
         </Grid>
       </Grid>
 
-      <Grid
-        container spacing={1}
-        sx={{  }} >
-
-        <Grid item xs={3} md={2.1} lg={2.5}>
-        <BtnRegresar onClick={onClickBack} />
-        </Grid>
-      </Grid>
+   
 
 
       <Grid
@@ -160,12 +162,7 @@ const ModalFgp = ({
       </Grid>
     
 
-      <Grid container spacing={6}
-        sx={{
-          bgcolor: "rgb(250,250,250)",
-          borderRadius: 3
-        }}
-      >   
+      <Grid container spacing={6}>   
    
 
         <Grid
