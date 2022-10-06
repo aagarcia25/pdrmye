@@ -32,10 +32,14 @@ const SolicitudesIns = ({
   const [openSlider, setOpenSlider] = useState(false);
 
   const options = [
-    { value: "GO",label: "SERVICIOS PERSONALES (NÓMINA)"},
-    { value: "GO",label: "SERVICIOS GENERALES (GASTOS DE OPERACIÓN)"},
-    { value: "GO",label: "PROGRAMA ESTATAL DE INVERSIÓN (PEI)"},
-    { value: "GO",label: "PAGO DE ANTICIPOS (PRESTAMOS)"},
+    { value: "GO",label: "GASTOS EXTRAORDINARIOS"},
+    { value: "GO",label: "PAGO DE 3% DE ISN"},
+    { value: "GO",label: "PAGO DE PENSIONES VITALICIAS"},
+    { value: "GO",label: "PAGO DE DONATIVOS ICV A CRUZ ROJA Y BOMBEROS"},
+    { value: "GO",label: "PAGO DE AYUDAS SOCIALES A INSTITUCIONES SIN FINES DE LUCRO (CRUZ ROJA Y BOMBEROS)"},
+    { value: "GO",label: "PAGO DE 1 Y 2 AL MILLAR"},
+    { value: "GO",label: "GASTOS EXTRAORDINARIOS CON PRESUPUESTO VIRTUAL"},
+    { value: "GO",label: "PAGO VIRTUAL ICV"},
 
   ];
 
