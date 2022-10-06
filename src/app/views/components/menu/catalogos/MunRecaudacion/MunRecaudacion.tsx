@@ -220,45 +220,43 @@ export const MunRecaudacion = () => {
       <Box>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 1, sm: 4, md: 12,lg:12 }}>
         <Grid item xs={1} sm={1} md={1}>
-        tes
+       
          </Grid>
          <Grid item xs={1} sm={1} md={1}>
-         tes
+     
          </Grid>
          <Grid item xs={1} sm={1} md={1}>
-         tes
+        
          </Grid>
          <Grid item xs={1} sm={1} md={1}>
-         tes
+        
          </Grid>
          <Grid item xs={1} sm={1} md={1}>
-         tes
+       
          </Grid>
           <Grid item xs={1} sm={1} md={1}>
-          tes
+       
           </Grid>
           <Grid item xs={1} sm={1} md={1}>
-          tes
-          </Grid>
-
-          <Grid item xs={1} sm={1} md={1}>
-          tes
+        
           </Grid>
 
           <Grid item xs={1} sm={1} md={1}>
-          tes
+        
           </Grid>
 
           <Grid item xs={1} sm={1} md={1}>
-          tes
+         
+          </Grid>
+
+          <Grid item xs={1} sm={1} md={1}>
+          
           </Grid>
           <Grid item xs={1} sm={1} md={1}>
 
          
-          <SelectFrag
-          options={anios}
-          onInputChange={handleFilterChange}
-        ></SelectFrag>
+         
+        
 
 
 
@@ -266,9 +264,8 @@ export const MunRecaudacion = () => {
 
           <Grid item xs={1} sm={1} md={1}>
           <SelectFrag
-          options={anios}
-          onInputChange={handleFilterChange}
-           ></SelectFrag>
+              options={anios}
+              onInputChange={handleFilterChange} placeholder={"Seleccione Año"}           ></SelectFrag>
           </Grid>
          
         </Grid>

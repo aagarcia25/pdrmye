@@ -75,7 +75,7 @@ const Filtros = ({
             width: "10%",
           }}
         >
-          <SelectFrag options={anios} onInputChange={handleFilterChangeAnio}></SelectFrag>
+          <SelectFrag options={anios} onInputChange={handleFilterChangeAnio} placeholder={"Sleccione Año"}></SelectFrag>
         </FormControl>
       ) : (
         ""
