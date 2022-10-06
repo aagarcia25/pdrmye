@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate,useParams } from "react-router-dom";
-import { Box,  IconButton, Tooltip } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { Moneda } from "../../CustomToolbar";
 import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
@@ -20,15 +20,15 @@ export const Fpg = () => {
   const navigate = useNavigate();
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
-  const [openTrazabilidad,       setOpenTrazabilidad] = useState(false);
+  const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [fondo, setFondo] = useState("");
   const [nombreFondo, setNombreFondo] = useState("");
   const [modo, setModo] = useState<string>("");
-  const [datos, setDatos] = useState<object>([]);
-  
+  const [anio, setAnio] = useState<number>(0);
+  const [mes, setMes] = useState<string>("");
 
+ 
 
-  
   const closeTraz = (v: any) => {
     setOpenTrazabilidad(false);
   };
@@ -40,19 +40,19 @@ export const Fpg = () => {
   const handleOpen = (v: any) => {
     setModo("calculo");
     setstep(1);
-    
+
   }
 
   const handleClose = (v: any) => {
     setstep(0);
-  };  
+  };
 
   const handleAjuste = (v: any) => {
     setModo("ajuste");
-    setDatos(v.row);
+    setAnio(Number(v.row.Anio));
+    setMes(v.row.Mes);
     setstep(1);
-    console.log(datos)
-    console.log(modo)
+
   };
 
   const handleView = (v: any) => {
@@ -122,7 +122,7 @@ export const Fpg = () => {
             </Tooltip>
 
 
-            
+
           </Box>
         );
       },
@@ -132,8 +132,8 @@ export const Fpg = () => {
   const consultafondo = (data: any) => {
     calculosServices.fondoInfo(data).then((res) => {
       if (res.SUCCESS) {
-        const obj : fondoinfo[] = res.RESPONSE;
-       
+        const obj: fondoinfo[] = res.RESPONSE;
+
         setFondo(obj[0].Clave);
         setNombreFondo(obj[0].Descripcion);
       } else {
@@ -169,18 +169,18 @@ export const Fpg = () => {
   useEffect(() => {
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
-   
+
   }, [params.fondo]);
 
 
 
   return (
     <>
-     {openTrazabilidad ? (
+      {openTrazabilidad ? (
         <Trazabilidad
-                  open={openTrazabilidad}
-                  handleClose={closeTraz}
-                       ></Trazabilidad>
+          open={openTrazabilidad}
+          handleClose={closeTraz}
+        ></Trazabilidad>
       ) : (
         ""
       )}
@@ -193,7 +193,7 @@ export const Fpg = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <ModalFgp titulo={nombreFondo} onClickBack={handleClose} modo={modo} datos={datos} />
+          <ModalFgp titulo={nombreFondo} onClickBack={handleClose} modo={modo} anio={anio} mes={mes}/>
         </div>
       </Box>
     </>

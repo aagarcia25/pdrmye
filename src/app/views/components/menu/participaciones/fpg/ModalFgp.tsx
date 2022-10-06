@@ -28,34 +28,30 @@ const ModalFgp = ({
   titulo,
   onClickBack,
   modo,
-  datos
+  anio,
+  mes
 }: {
   titulo: string;
   onClickBack: Function;
   modo: string;
-  datos: any;
+  anio: number;
+  mes: string;
 }) => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [slideropen, setslideropen] = useState(false);
-  const [mes, setMes] = useState("");
   const [monto, setMonto] = useState<number>();
-  const [anio, setAnio] = useState<number>();
-  const [periodo, setPeriodo] = useState("");
-  const [periodos, setPeriodos] = useState([]);
-
-
   const [meses, setMeses] = useState<SelectValues[]>([]);
+  const [ajustes, setAjustes] = useState<SelectValues[]>([]);
+  let year: number = new Date().getFullYear();
 
 
 
 
   const handleSelectMes = (v: SelectValues) => {
-    console.log(v?.value)
+  };
+  const handleSelectAjuste = (v: SelectValues) => {
   };
 
-
-
-  let year: number = new Date().getFullYear();
 
   const handleSend = () => {
     if (monto == null || anio) {
@@ -104,22 +100,23 @@ const ModalFgp = ({
     });
   };
 
-  const ajustesc = () => {
-    let data = { NUMOPERACION: 4 };
-    CatalogosServices.AjustesIndex(data).then((res) => {
-      setPeriodos(res.RESPONSE || "");
+  const ajusteesc = () => {
+    let data = {
+      NUMOPERACION: 3
+    };
+    CatalogosServices.SelectIndex(data).then((res) => {
+      setAjustes(res.RESPONSE);
     });
   };
 
+
+
   useEffect(() => {
     // SE ESTABLECE EL TIEMPO EN ESPERA PARA QUE SE CARGEN DE FORMA CORRECTA LOS COMPONENTES
-    setMes(datos.Mes);
-    setAnio(datos.Anio);
-console.log(datos?.Anio);
 
     setTimeout(() => {
       mesesc();
-      ajustesc();
+      ajusteesc();
       setslideropen(false);
     }, 3000);
     setslideropen(true);
@@ -129,33 +126,17 @@ console.log(datos?.Anio);
   return (
     <div>
       <Slider open={slideropen}></Slider>
-      <Grid
-        container spacing={1}
-        sx={{}} >
-
+      <Grid container spacing={1} sx={{}} >
         <Grid item xs={3} md={2.1} lg={2.5}>
           <BtnRegresar onClick={onClickBack} />
         </Grid>
       </Grid>
 
-      <Grid
-        container spacing={2}
-        sx={{
-          justifyContent: "center",
-        }} >
-
+      <Grid container spacing={2} sx={{ justifyContent: "center", }} >
         <Grid item xs={12}>
-          <Box
-
-            sx={{
-
-              display: "flex",
-              justifyContent: "center",
-
-            }}>
+          <Box sx={{ display: "flex", justifyContent: "center", }}>
             <Titulo name={titulo} />
           </Box>
-
         </Grid>
       </Grid>
 
@@ -169,7 +150,7 @@ console.log(datos?.Anio);
 
             <Grid item xs={7} md={2.1} lg={2.5}>
 
-              <label className="subtitulo">Ingrese monto y periodo <br/><br/><br/></label>
+              <label className="subtitulo">Ingrese monto y periodo <br /><br /><br /></label>
             </Grid>
           </Grid>
 
@@ -240,37 +221,26 @@ console.log(datos?.Anio);
               ></Input>
             </Grid>
 
-            
-      <Grid
-        item
-        xs={6}
-        sx={{
-          display: "flex",
-          justifyContent: "right",
-          alignItems: "center",
-        }}
-      >
-        <Typography sx={{ fontWeight: "Bold" }}>Periodo:</Typography>
-      </Grid>
+            <Grid
+              item
+              xs={5} md={5} lg={5}
+              sx={{
+                display: "flex",
+                justifyContent: "right",
+              }}
+            >
+              <Typography sx={{ fontWeight: "Bold" }}>Periodo:</Typography>
+            </Grid>
 
-      <Grid item xs={4} sx={{}}>
-        <Select
-          fullWidth
-          id="periodo"
-          required
-          onChange={(v) => setPeriodo(v.target.value)}
-          value={periodo}
-        >
-          {periodos?.map((item: any) => {
-            return (
-              <MenuItem key={item.id} value={item.id}>
-                {item.Descripcion}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </Grid>
-      
+            <Grid item xs={5} md={6} lg={6} >
+              <Box sx={{
+                display: "flex",
+                alignItems: "center",
+              }}>
+                <SelectFrag options={ajustes} onInputChange={handleSelectAjuste} placeholder={"Seleccione el Ajuste"}></SelectFrag>
+              </Box>
+            </Grid>
+
 
             <Grid
               item
@@ -296,10 +266,7 @@ console.log(datos?.Anio);
             </Grid>
           </Grid>
         </Box>
-
-
         : ""}
-
 
       {(modo == "calculo") ?
         <Box>
