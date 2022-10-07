@@ -99,6 +99,7 @@ export const Municipios = () => {
     },
   ];
 
+  
  
 
   const handleOpen = (v: any) => {
@@ -213,13 +214,13 @@ export const Municipios = () => {
   };
 
   useEffect(() => {
+    console.log("");
     let data = {
       NUMOPERACION: 4,
     };
 
     CatalogosServices.municipios(data).then((res) => {
 
-    //  console.log(res);
 
       setMunicipio(res.RESPONSE);
 
@@ -249,7 +250,7 @@ export const Municipios = () => {
         handleUpload={handleUpload}
       />
 
-      <MUIXDataGrid columns={columns} rows={municipio} />
+      <MUIXDataGrid sx={{}} columns={columns} rows={municipio} />
     </div>
   );
 };

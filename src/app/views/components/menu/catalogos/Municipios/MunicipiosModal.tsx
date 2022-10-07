@@ -60,11 +60,11 @@ const MunFacturacionModal = ({
   
   
 
-  const [checkedMam, setCheckedMam] = useState(false);
-  const [checkedDescentralizado, setCheckedDescentralizado] = useState(false);
-  const [checkedArtF1, setCheckedArtF1] = useState(false);
-  const [checkedArtF2, setCheckedArtF2] = useState(false);
-  const [checkedArtF3, setCheckedArtF3] = useState(false);
+  const [checkedMam, setCheckedMam] = useState(dt?.row?.MAM === 1 ? true : false);
+  const [checkedDescentralizado, setCheckedDescentralizado] = useState(dt?.row?.Descentralizado === 1 ? true : false);
+  const [checkedArtF1, setCheckedArtF1] = useState(dt?.row?.ArtF1 === '1' ? true : false);
+  const [checkedArtF2, setCheckedArtF2] = useState(dt?.row?.ArtF2 === '1' ? true : false);
+  const [checkedArtF3, setCheckedArtF3] = useState(dt?.row?.ArtF3 === '1' ? true : false);
 
   //Consola de campos
   console.log("---------------------------------------");
@@ -85,8 +85,6 @@ const MunFacturacionModal = ({
 
   const textoDeAfirmacion = "SI";
   const textoDeNegacion = "NO";
-
-  const [values, setValues] = useState<Imunicipio[]>();
 
   const toggleCheckedMam = () => {
     setCheckedMam((prev) => !prev);
@@ -183,17 +181,15 @@ const MunFacturacionModal = ({
     console.log(data);
     if (tipo == 1) {
       //AGREGAR
+      console.log("A AGREGAR");
       agregar(data);
-      setCheckedMam(false);
+      
     } else if (tipo == 2) {
       //EDITAR
+      console.log("A EDITAR");
 
       editar(data);
-      if (mam == "0") {
-        setCheckedMam(false);
-      } else {
-        setCheckedMam(true);
-      }
+      
     }
   };
 
@@ -298,7 +294,6 @@ const MunFacturacionModal = ({
               control={
                 <Switch
                   checked={checkedMam}
-                  value={mam}
                   onChange={toggleCheckedMam}
                   color="default"
                 />
@@ -313,7 +308,6 @@ const MunFacturacionModal = ({
               control={
                 <Switch
                   checked={checkedDescentralizado}
-                  value={descentralizado}
                   onChange={toggleCheckedDescentralizado}
                   color="default"
                 />
@@ -383,7 +377,6 @@ const MunFacturacionModal = ({
               control={
                 <Switch
                   checked={checkedArtF1}
-                  value={artF1}
                   onChange={toggleCheckedArtF1}
                   color="default"
                 />
@@ -398,7 +391,6 @@ const MunFacturacionModal = ({
               control={
                 <Switch
                   checked={checkedArtF2}
-                  value={artF2}
                   onChange={toggleCheckedArtF2}
                   color="default"
                 />
@@ -413,7 +405,6 @@ const MunFacturacionModal = ({
               control={
                 <Switch
                   checked={checkedArtF3}
-                  value={artF3}
                   onChange={toggleCheckedArtF3}
                   color="default"
                 />
