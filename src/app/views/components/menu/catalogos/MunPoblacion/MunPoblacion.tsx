@@ -283,7 +283,6 @@ export const MunPoblacion = () => {
       ) : (
         ""
       )}
-
       <Buttons
         handleOpen={handleOpen}
         url={plantilla}

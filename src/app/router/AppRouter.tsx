@@ -48,8 +48,8 @@ import Presupuesto from '../views/components/Organismos/Presupuesto/Presupuesto'
 import Nomina from '../views/components/Organismos/Nomina/Nomina';
 import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
-import { Fondo } from '../views/components/menu/aportaciones/fondo/Fondo';
-import DetalleFondo from '../views/components/menu/aportaciones/fondo/DetalleFondo';
+import { Fondo } from '../views/components/menu/aportaciones/Fondo';
+import DetalleFondo from '../views/components/menu/aportaciones/DetalleFondo';
 
 
 

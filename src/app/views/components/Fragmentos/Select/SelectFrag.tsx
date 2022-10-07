@@ -3,10 +3,12 @@ import Select from 'react-select'
 import SelectValues from '../../../../interfaces/Select/SelectValues'
 
 const SelectFrag = ({
+
   options,
   onInputChange,
   placeholder,
 }:{
+  
   options:SelectValues[],
   onInputChange:Function,
   placeholder:string

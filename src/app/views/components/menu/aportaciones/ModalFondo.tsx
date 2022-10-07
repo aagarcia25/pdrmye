@@ -1,30 +1,27 @@
 import {
   Box,
-  Dialog,
   Grid,
   IconButton,
   Input,
-  MenuItem,
-  Select,
-  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
-import { Toast } from "../../../../../helpers/Toast";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { BtnRegresar } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
-import { SubTitulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/SubTitulo";
-import { Titulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
+import { Alert } from "../../../../helpers/Alert";
+import { Toast } from "../../../../helpers/Toast";
+import { CatalogosServices } from "../../../../services/catalogosServices";
+import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
+import { SubTitulo } from "../catalogos/Utilerias/AgregarCalculoUtil/SubTitulo";
+import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import CalculateIcon from "@mui/icons-material/Calculate";
-import { COLOR } from "../../../../../styles/colors";
-import { calculosServices } from "../../../../../services/calculosServices";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getUser } from "../../../../../services/localStorage";
-import Slider from "../../../Slider";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import { COLOR } from "../../../../styles/colors";
+import { calculosServices } from "../../../../services/calculosServices";
+import { RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../services/localStorage";
+import Slider from "../../Slider";
+import SelectValues from "../../../../interfaces/Select/SelectValues";
+import SelectFrag from "../../Fragmentos/Select/SelectFrag";
+import { useParams } from "react-router-dom";
 
-const ModalFgp = ({
+const ModalFondo = ({
   titulo,
   onClickBack,
   modo,
@@ -110,10 +107,11 @@ const ModalFgp = ({
   };
 
 
+  let params = useParams();
 
   useEffect(() => {
     // SE ESTABLECE EL TIEMPO EN ESPERA PARA QUE SE CARGEN DE FORMA CORRECTA LOS COMPONENTES
-
+console.log(params)
     setTimeout(() => {
       mesesc();
       ajusteesc();
@@ -238,7 +236,7 @@ const ModalFgp = ({
                 display: "flex",
                 alignItems: "center",
               }}>
-                <SelectFrag options={ajustes} onInputChange={handleSelectAjuste} placeholder={"Seleccione el Ajuste"}></SelectFrag>
+                <SelectFrag  options={ajustes} onInputChange={handleSelectAjuste} placeholder={"Seleccione el Ajuste"}></SelectFrag>
               </Box>
             </Grid>
 
@@ -385,4 +383,4 @@ const ModalFgp = ({
   );
 };
 
-export default ModalFgp;
+export default ModalFondo;

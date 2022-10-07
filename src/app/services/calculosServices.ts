@@ -1,8 +1,6 @@
-
-import { post, postDocument } from './apiService';
+import { post} from './apiService';
 
 export class calculosServices {
-
 
     public static async calculosInfo(data: any) {
         return await post('calculosInfo', data);

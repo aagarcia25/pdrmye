@@ -2,18 +2,20 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { Moneda } from "../../CustomToolbar";
-import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
-import { calculosServices } from "../../../../../services/calculosServices";
-import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { Moneda } from "../CustomToolbar";
+import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
+import { calculosServices } from "../../../../services/calculosServices";
+import { Toast } from "../../../../helpers/Toast";
+import { Alert } from "../../../../helpers/Alert";
 import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InsightsIcon from '@mui/icons-material/Insights';
-import ModalFgp from "./ModalFondo";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import { fondoinfo } from "../../../../../interfaces/calculos/fondoinfo";
-import Trazabilidad from "../../../Trazabilidad";
+
+import MUIXDataGrid from "../../MUIXDataGrid";
+import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
+import Trazabilidad from "../../Trazabilidad";
+import ModalFondo from "../aportaciones/ModalFondo";
+
 
 
 export const Fondo = () => {
@@ -42,11 +44,11 @@ export const Fondo = () => {
   const handleClose = (v: any) => {
     setstep(0);
   };
-  const handleAjuste = (v: any) => {
+  const handleAjuste = (v: any) => {     
     setModo("ajuste");
     setAnio(Number(v.row.Anio));
     setMes(v.row.Mes);
-    setstep(1);
+    setstep(1); 
   };
 
   const handleView = (v: any) => {
@@ -104,7 +106,11 @@ export const Fondo = () => {
             </Tooltip>
 
             <Tooltip title="Agregar Ajuste">
-              <IconButton onClick={() => handleAjuste(v)}>
+              <IconButton 
+              onClick={() => handleAjuste(v)}
+              disabled ={(String(v.row.Clave)=="FISM"||String(v.row.Clave)=="FORTAMUN")}
+              
+              >
                 <AttachMoneyIcon />
               </IconButton>
             </Tooltip>
@@ -187,7 +193,7 @@ export const Fondo = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <ModalFgp titulo={nombreFondo} onClickBack={handleClose} modo={modo} anio={anio} mes={mes}/>
+          <ModalFondo titulo={nombreFondo} onClickBack={handleClose} modo={modo} anio={anio} mes={mes}/>
         </div>
       </Box>
     </>
