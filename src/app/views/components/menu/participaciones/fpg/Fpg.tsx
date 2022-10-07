@@ -13,7 +13,7 @@ import InsightsIcon from '@mui/icons-material/Insights';
 import ModalFgp from "./ModalFgp";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { fondoinfo } from "../../../../../interfaces/calculos/fondoinfo";
-import Trazabilidad from "./Trazabilidad";
+import Trazabilidad from "../../../Trazabilidad";
 
 
 export const Fpg = () => {

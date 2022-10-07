@@ -18,7 +18,7 @@ import {
   Box,
 } from "@mui/material";
 
-import Slider from "../../../Slider";
+import Slider from "./Slider";
 
 const Trazabilidad = ({
   open,
