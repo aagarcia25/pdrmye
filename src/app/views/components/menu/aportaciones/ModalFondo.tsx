@@ -111,7 +111,7 @@ const ModalFondo = ({
 
   useEffect(() => {
     // SE ESTABLECE EL TIEMPO EN ESPERA PARA QUE SE CARGEN DE FORMA CORRECTA LOS COMPONENTES
-console.log(params)
+    console.log(params)
     setTimeout(() => {
       mesesc();
       ajusteesc();
@@ -123,7 +123,7 @@ console.log(params)
 
   return (
     <div>
-     
+
       <Slider open={slideropen} ></Slider>
       <Grid container spacing={1} sx={{}} >
         <Grid item xs={3} md={2.1} lg={2.5}>
@@ -185,7 +185,7 @@ console.log(params)
                 alignItems: "center",
               }}
             >
-             <label className="contenido">Mes:</label>
+              <label className="contenido">Mes:</label>
             </Grid>
 
             <Grid item xs={5} md={6} lg={6} sx={{}}>
@@ -236,7 +236,7 @@ console.log(params)
                 display: "flex",
                 alignItems: "center",
               }}>
-                <SelectFrag  options={ajustes} onInputChange={handleSelectAjuste} placeholder={"Seleccione el Ajuste"}></SelectFrag>
+                <SelectFrag options={ajustes} onInputChange={handleSelectAjuste} placeholder={"Seleccione el Ajuste"}></SelectFrag>
               </Box>
             </Grid>
 
@@ -247,7 +247,7 @@ console.log(params)
               sx={{ mt: 3, display: "flex", justifyContent: "center" }}
             >
               <IconButton
-              className="contenido"
+                className="contenido"
                 onClick={handleSend}
                 sx={{
                   borderRadius: 1,
@@ -257,7 +257,7 @@ console.log(params)
                   "&:hover": {
                     bgcolor: COLOR.grisTarjetaBienvenido,
                     color: COLOR.negro,
-                    fontFamily:'MontserratMedium',
+                    fontFamily: 'MontserratMedium',
                   },
                 }}
               >
@@ -293,7 +293,7 @@ console.log(params)
                 justifyContent: "right",
               }}
             >
-               <label className="contenido">Año:</label>
+              <label className="contenido">Año:</label>
             </Grid>
             <Grid
               item xs={6}
@@ -303,17 +303,21 @@ console.log(params)
               }}>
               <label className="contenido">{year}</label>
             </Grid>
-
-            <Grid
+            {
+              (String(params.fondo) == "FISM" || (String(params.fondo) == "FORTAMUN")) ?
+              <Box              
+              >
+              <Grid
               item
               xs={5}
               sx={{
+                bgcolor: "rgb(255, 245, 255)",
                 display: "flex",
                 justifyContent: "right",
                 alignItems: "center",
               }}
             >
-              <label className="contenido">Mes:</label>
+              <label className="contenido"></label>
             </Grid>
 
             <Grid item xs={5} md={6} lg={6} sx={{}}>
@@ -323,9 +327,47 @@ console.log(params)
                 justifyContent: "left",
                 alignItems: "center",
               }}>
-                <SelectFrag options={meses} onInputChange={handleSelectMes} placeholder={"Seleccione el Mes"}></SelectFrag>
+              
               </Box>
             </Grid>
+            </Box>
+                :
+                <Grid sx={{
+
+               
+                }}
+                
+                container >
+                  <Grid
+                    item
+                    xs={5}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "right",
+                      alignItems: "center",
+                    }}
+                  >
+                    <label className="contenido">Mes:</label>
+                  </Grid>
+
+                  <Grid item xs={5} md={6} lg={6}
+                  sx={{
+
+                  
+                  }}>
+                    <Box sx={{
+                      
+                      p:3,
+                      display: "flex",
+                      justifyContent: "left",
+                      alignItems: "center",
+                    }}>
+                      <SelectFrag options={meses} onInputChange={handleSelectMes} placeholder={"Seleccione el Mes"}></SelectFrag>
+                    </Box>
+                  </Grid>
+                </Grid>
+            }
+
 
             <Grid
               item
@@ -335,11 +377,11 @@ console.log(params)
                 justifyContent: "right",
               }}
             >
-             <label className="contenido">Monto:</label>
+              <label className="contenido">Monto:</label>
             </Grid>
             <Grid item xs={6} md={6}>
               <Input
-              sx={{ fontWeight: "MontserratMedium" }}
+                sx={{ fontWeight: "MontserratMedium" }}
                 required
 
                 placeholder="1500000*"
@@ -377,7 +419,7 @@ console.log(params)
         :
         ""
       }
-     
+
     </div>
 
   );
