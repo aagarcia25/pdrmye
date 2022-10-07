@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {GridColDef } from "@mui/x-data-grid";
 import {  Moneda } from "../CustomToolbar";
 import { getUser } from "../../../../services/localStorage";
 import { ArticulosServices } from "../../../../services/ArticulosServices";
 import MUIXDataGrid from "../../MUIXDataGrid";
+import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 
 export const Art14f = () => {
-
+  const navigate = useNavigate();
   const user = getUser();
   const [data, setData] = useState([]);
+  const [tipo, setTipo] = useState<Number>(0);
 
   let columns:GridColDef[]=[];
+
+  const handleBack = (v: any) => {
+    navigate(`/inicio/articulos/art14f/${tipo}`);
+  };
+
 
 
   const columnsArticulo14f1: GridColDef[] = [
@@ -63,10 +71,22 @@ export const Art14f = () => {
   const columnsArticulo14f3: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   ,hide: true},
     { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
-    { field: "a", headerName: "Poblacion", width: 150 ,description:"PO"},
-    { field: "b", headerName: "Coeficiente Población", width: 150 ,description:"POi/∑POi "},
-    { field: "c", headerName: "Proyección de Póblacion", width: 200 ,description:"PC" },
-    { field: "d", headerName: "Coeficiente Proyeccion de Población", width: 280 ,description:"PC/∑PC" },
+    
+    
+    { field: "a", headerName: "Facturación", width: 150 ,description:"PO"},
+    { field: "b", headerName: "Recaudación", width: 150 ,description:"POi/∑POi "},
+    { field: "c", headerName: "Eficiencia Recaudatoria", width: 200 ,description:"PC" },
+    { field: "d", headerName: "Coeficiente Eficiencia Recaudatoria", width: 280 ,description:"PC/∑PC" },
+
+    { field: "b", headerName: "Recaudación", width: 150 ,description:"POi/∑POi "},
+    { field: "b", headerName: "Recaudación", width: 150 ,description:"POi/∑POi "},
+    { field: "b", headerName: "Recaudación", width: 150 ,description:"POi/∑POi "},
+    { field: "b", headerName: "Recaudación", width: 150 ,description:"POi/∑POi "},
+    { field: "b", headerName: "Recaudación", width: 150 ,description:"POi/∑POi "},
+
+
+
+
   ];
 
 
@@ -75,7 +95,7 @@ export const Art14f = () => {
       NUMOPERACION: 4,
       TIPO:tipo
     };
-   
+    setTipo(tipo);
     ArticulosServices.articulof1(data).then((res) => {
       setData(res.RESPONSE);
     });
@@ -92,6 +112,16 @@ export const Art14f = () => {
 
   return (
     
+    <Box sx={{}}>
+    <Box sx={{}}>
+    <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+      <Tooltip title="Regresar">
+        <ToggleButton value="check" onClick={() => handleBack(1)}>
+          <ArrowBackIcon />
+        </ToggleButton>
+      </Tooltip>
+    </ToggleButtonGroup>
+  </Box>
     <div style={{ height: 600, width: "100%" }}>
        <MUIXDataGrid columns={
         Number(params.tipo) == 1 ? columnsArticulo14f1 : (Number(params.tipo) == 2 ? columnsArticulo14f2 : ( Number(params.tipo) == 3 ?columnsArticulo14f3 :[])  )
@@ -100,5 +130,6 @@ export const Art14f = () => {
 
       
     </div>
+    </Box>
   );
 };

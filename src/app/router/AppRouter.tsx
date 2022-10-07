@@ -50,6 +50,7 @@ import CFuenteFinanciamiento from '../views/components/menu/catalogos/CFuenteFin
 import Presupuesto from '../views/components/Organismos/Presupuesto/Presupuesto';
 import Nomina from '../views/components/Organismos/Nomina/Nomina';
 import { Art14f } from '../views/components/menu/articulos/Art14f';
+import Art14fP from '../views/components/menu/articulos/Art14fP';
 
 
 export const AppRouter = () => {
@@ -101,7 +102,8 @@ export const AppRouter = () => {
         {/* FIN SECCION DE PERFIL */}
 
         {/* SECCION DE ARTICULOS */}
-        <Route path='/inicio/articulos/art14f/:tipo' element={<Art14f />} />
+        <Route path='/inicio/articulos/art14f/:tipo' element={<Art14fP />} />
+        <Route path='/inicio/articulos/art14d/:tipo' element={<Art14f />} />
         {/* FIN SECCION DE ARTICULOS */}
 
 
