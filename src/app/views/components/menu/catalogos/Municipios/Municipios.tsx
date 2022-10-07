@@ -40,7 +40,6 @@ export const Municipios = () => {
   const [municipio, setMunicipio] = useState([]);
   const user = getUser();
 
-
   const [modo, setModo] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -48,7 +47,6 @@ export const Municipios = () => {
   const [data, setData] = useState({});
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
- 
 
   console.log("Municipio :", municipio);
   console.log("modo :", modo);
@@ -70,15 +68,50 @@ export const Municipios = () => {
     { field: "Nombre", headerName: "Municipio", width: 250 },
 
     //{ field: "ClaveMun", headerName: "Clave Municipio", width: 150 },
-    { field: "MAM", headerName: "Área Metropolitana", width: 150 },
-    { field: "Descentralizado", headerName: "Descentralizado", width: 120 },
+    {
+      field: "MAM",
+      headerName: "Área Metropolitana",
+      width: 150,
+      renderCell: (v) => {
+        return v.row.MAM === 1 ? "SI" : "NO";
+      },
+    },
+    {
+      field: "Descentralizado",
+      headerName: "Descentralizado",
+      width: 120,
+      renderCell: (v) => {
+        return v.row.Descentralizado === 1 ? "SI" : "NO";
+      },
+    },
     { field: "NombreCorto", headerName: "Nombre Corto", width: 250 },
     { field: "OrdenSFTGNL", headerName: "Orden SFTGNL", width: 120 },
     { field: "ClaveSIREGOB", headerName: "Clave SIREGOB", width: 120 },
     { field: "ClaveINEGI", headerName: "Clave INEGI", width: 120 },
-    { field: "ArtF1", headerName: "ARTF1", width: 120 },
-    { field: "ArtF2", headerName: "ARTF2", width: 120 },
-    { field: "ArtF3", headerName: "ARTF3", width: 120 },
+    {
+      field: "ArtF1",
+      headerName: "ARTF1",
+      width: 120,
+      renderCell: (v) => {
+        return v.row.ArtF1 === "1" ? "SI" : "NO";
+      },
+    },
+    {
+      field: "ArtF2",
+      headerName: "ARTF2",
+      width: 120,
+      renderCell: (v) => {
+        return v.row.ArtF2 === "1" ? "SI" : "NO";
+      },
+    },
+    {
+      field: "ArtF3",
+      headerName: "ARTF3",
+      width: 120,
+      renderCell: (v) => {
+        return v.row.ArtF3 === "1" ? "SI" : "NO";
+      },
+    },
     {
       field: "acciones",
       headerName: "Acciones",
@@ -99,9 +132,6 @@ export const Municipios = () => {
     },
   ];
 
-  
- 
-
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
@@ -110,8 +140,8 @@ export const Municipios = () => {
   };
 
   const handleClose = () => {
-   setOpen(false);
-    consulta({ NUMOPERACION: 4 })
+    setOpen(false);
+    consulta({ NUMOPERACION: 4 });
   };
 
   const handleEdit = (v: any) => {
@@ -186,9 +216,6 @@ export const Municipios = () => {
           icon: "error",
         });
       }
-
-
-
     });
   };
 
@@ -214,18 +241,14 @@ export const Municipios = () => {
   };
 
   useEffect(() => {
-    console.log("");
+    console.log();
     let data = {
       NUMOPERACION: 4,
     };
 
     CatalogosServices.municipios(data).then((res) => {
-
-
       setMunicipio(res.RESPONSE);
-
     });
-
   }, []);
 
   return (
