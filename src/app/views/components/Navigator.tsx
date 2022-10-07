@@ -111,8 +111,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                       </Collapse>
                       );
                     })
-                 }
-               
+                 }            
 
 
                 </div>
@@ -133,80 +132,6 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
         })
             
         }
-
-
-
-
-
-
-
-           
-
-
-
-
-           
-
-
-
-
-
-
-
-
-
-
-            {/* <ListItemButton key={Math.random()}   onClick={handleClick}>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-              {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-
-            <Collapse key={Math.random()}   in={open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <StarBorder />
-                  </ListItemIcon>
-                  <ListItemText primary="Starred" />
-                </ListItemButton>
-              </List>
-            </Collapse> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* 
-            <ListItemButton key={Math.random()}  onClick={handleClick}>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-              {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <StarBorder />
-                  </ListItemIcon>
-                  <ListItemText primary="Starred" />
-                </ListItemButton>
-              </List>
-            </Collapse> */}
-
 
           </List>
         </div>

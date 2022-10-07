@@ -7,10 +7,7 @@ import Bienvenido from '../views/components/Bienvenido';
 
 import { Fpg } from '../views/components/menu/participaciones/fpg/Fpg';
 
-import { Foult } from '../views/components/menu/aportaciones/foult/Foult';
-import { Fodem } from '../views/components/menu/aportaciones/fodem/Fodem';
-import { Fodes } from '../views/components/menu/aportaciones/fodes/Fodes';
-import { Fosegum } from '../views/components/menu/aportaciones/fosegum/Fosegum';
+
 
 import { MunPoblacion } from '../views/components/menu/catalogos/MunPoblacion/MunPoblacion';
 import { isAuthenticated } from '../services/authenticationService';
@@ -51,6 +48,8 @@ import Presupuesto from '../views/components/Organismos/Presupuesto/Presupuesto'
 import Nomina from '../views/components/Organismos/Nomina/Nomina';
 import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
+import { Fondo } from '../views/components/menu/aportaciones/fondo/Fondo';
+
 
 
 export const AppRouter = () => {
@@ -115,11 +114,15 @@ export const AppRouter = () => {
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
         {/* SECCION APORTACIONES ESTATALES */}
-        <Route path='/inicio/aportaciones/foult'   element={log ? <Foult /> : <AuthRouter />}        />
-        <Route path='/inicio/aportaciones/fodes'   element={log ? <Fodes /> : <AuthRouter />}        />
+        <Route path='/inicio/aportaciones/:fondo'      element={log ? <Fondo /> : <AuthRouter />}/>
+        <Route path='/inicio/aportaciones/:fondo/:id/'  element={log ? <Fondo /> : <AuthRouter />}/>
+       
+        {/* <Route path='/inicio/aportaciones/fodes'   element={log ? <Fodes /> : <AuthRouter />}        /> 
         <Route path='/inicio/aportaciones/fosegum' element={log ? <Fosegum /> : <AuthRouter />}        />
         <Route path='/inicio/aportaciones/fodem'   element={log ? <Fodem /> : <AuthRouter />}        />
-        {/* FIN PARTICIPACIONES ESTATALES */}
+
+
+        *FIN PARTICIPACIONES ESTATALES */}
        
        {/* SECCION USUARIOS, ROLES, PERMISOS */}
        <Route path='/inicio/usuario'   element={log ? <Usuarios /> : <AuthRouter />} />
