@@ -1,5 +1,6 @@
 import {
   Box,
+  Dialog,
   Grid,
   IconButton,
   Input,
@@ -125,7 +126,8 @@ const ModalFgp = ({
 
   return (
     <div>
-      <Slider open={slideropen}></Slider>
+     
+      <Slider open={slideropen} ></Slider>
       <Grid container spacing={1} sx={{}} >
         <Grid item xs={3} md={2.1} lg={2.5}>
           <BtnRegresar onClick={onClickBack} />
@@ -166,7 +168,7 @@ const ModalFgp = ({
                 justifyContent: "right",
               }}
             >
-              <Typography sx={{ fontWeight: "Bold" }}>Año:</Typography>
+              <label className="contenido">Año:</label>
             </Grid>
             <Grid
               item xs={6}
@@ -174,7 +176,7 @@ const ModalFgp = ({
                 display: "flex",
                 justifyContent: "left",
               }}>
-              <label > {anio}</label>
+              <label className="contenido"> {anio}</label>
             </Grid>
 
             <Grid
@@ -186,7 +188,7 @@ const ModalFgp = ({
                 alignItems: "center",
               }}
             >
-              <Typography sx={{ fontWeight: "Bold" }}>Mes:</Typography>
+             <label className="contenido">Mes:</label>
             </Grid>
 
             <Grid item xs={5} md={6} lg={6} sx={{}}>
@@ -196,7 +198,7 @@ const ModalFgp = ({
                 justifyContent: "left",
                 alignItems: "center",
               }}>
-                <label className="">{mes}</label>
+                <label className="contenido">{mes}</label>
               </Box>
             </Grid>
 
@@ -208,7 +210,7 @@ const ModalFgp = ({
                 justifyContent: "right",
               }}
             >
-              <Typography sx={{ fontWeight: "Bold" }}>Monto:</Typography>
+              <label className="contenido">Monto:</label>
             </Grid>
             <Grid item xs={6} md={6}>
               <Input
@@ -229,7 +231,7 @@ const ModalFgp = ({
                 justifyContent: "right",
               }}
             >
-              <Typography sx={{ fontWeight: "Bold" }}>Periodo:</Typography>
+              <label className="contenido">Periodo:</label>
             </Grid>
 
             <Grid item xs={5} md={6} lg={6} >
@@ -248,6 +250,7 @@ const ModalFgp = ({
               sx={{ mt: 3, display: "flex", justifyContent: "center" }}
             >
               <IconButton
+              className="contenido"
                 onClick={handleSend}
                 sx={{
                   borderRadius: 1,
@@ -257,6 +260,7 @@ const ModalFgp = ({
                   "&:hover": {
                     bgcolor: COLOR.grisTarjetaBienvenido,
                     color: COLOR.negro,
+                    fontFamily:'MontserratMedium',
                   },
                 }}
               >
@@ -292,7 +296,7 @@ const ModalFgp = ({
                 justifyContent: "right",
               }}
             >
-              <Typography sx={{ fontWeight: "Bold" }}>Año:</Typography>
+               <label className="contenido">Año:</label>
             </Grid>
             <Grid
               item xs={6}
@@ -300,7 +304,7 @@ const ModalFgp = ({
                 display: "flex",
                 justifyContent: "left",
               }}>
-              <Input id="anio" readOnly defaultValue={year}></Input>
+              <label className="contenido">{year}</label>
             </Grid>
 
             <Grid
@@ -312,7 +316,7 @@ const ModalFgp = ({
                 alignItems: "center",
               }}
             >
-              <Typography sx={{ fontWeight: "Bold" }}>Mes:</Typography>
+              <label className="contenido">Mes:</label>
             </Grid>
 
             <Grid item xs={5} md={6} lg={6} sx={{}}>
@@ -334,10 +338,11 @@ const ModalFgp = ({
                 justifyContent: "right",
               }}
             >
-              <Typography sx={{ fontWeight: "Bold" }}>Monto:</Typography>
+             <label className="contenido">Monto:</label>
             </Grid>
             <Grid item xs={6} md={6}>
               <Input
+              sx={{ fontWeight: "MontserratMedium" }}
                 required
 
                 placeholder="1500000*"
@@ -375,7 +380,9 @@ const ModalFgp = ({
         :
         ""
       }
+     
     </div>
+
   );
 };
 

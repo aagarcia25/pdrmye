@@ -191,7 +191,22 @@ label.subtitulo{
   font-family: "Public Sans", MontserratMedium;
 
 }
+label.contenido{
+  resize: none;
+  text-decoration: none;
+  line-height: 1.2;
+  font-size: 1.1rem;
+  text-transform: capitalize;
+  font-family: "Public Sans", MontserratMedium;
 
+}
+
+.IconButton{
+  line-height: 1.2;
+  font-size: 1.1rem;
+  text-transform: capitalize;
+  font-family: "Public Sans", MontserratMedium;
+}
 
 
 
