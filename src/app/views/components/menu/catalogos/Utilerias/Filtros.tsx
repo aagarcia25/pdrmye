@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import Imeses from "../../../../../interfaces/filtros/meses";
-import Ianios from "../../../../../interfaces/filtros/anios";
 import { fanios } from "../../../../../share/loadAnios";
 import { fmeses } from "../../../../../share/loadMeses";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
@@ -23,10 +21,10 @@ const Filtros = ({
   valueFilterMes: any;
 }) => {
   const [anios, setAnios] = useState<SelectValues[]>([]);
-  const [meses, setMeses] = useState<Imeses[]>();
+  const [meses, setMeses] = useState<SelectValues[]>([]);
 
   useEffect(() => {
-    setMeses(fmeses);
+    setMeses(fmeses());
     setAnios(fanios());
   }, []);
 
@@ -46,23 +44,10 @@ const Filtros = ({
         <FormControl
           variant="standard"
           sx={{
-            width: "5%",
+            width: "10%",
           }}
         >
-          <InputLabel>Mes</InputLabel>
-          <Select
-            onChange={(v) => handleFilterChangeMes(v)}
-            value={valueFilterMes}
-            label="Mes"
-          >
-            {meses?.map((item: Imeses) => {
-              return (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.Descripcion}
-                </MenuItem>
-              );
-            })}
-          </Select>
+         <SelectFrag options={meses} onInputChange={handleFilterChangeMes} placeholder={"Seleccione Mes"}></SelectFrag>
         </FormControl>
       ) : (
         ""
@@ -75,7 +60,7 @@ const Filtros = ({
             width: "10%",
           }}
         >
-          <SelectFrag options={anios} onInputChange={handleFilterChangeAnio} placeholder={"Sleccione Año"}></SelectFrag>
+          <SelectFrag options={anios} onInputChange={handleFilterChangeAnio} placeholder={"Seleccione Año"}></SelectFrag>
         </FormControl>
       ) : (
         ""

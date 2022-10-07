@@ -5,7 +5,7 @@ import { Eo404 } from '../views/components/Eo404';
 import Inicio from '../views/components/Inicio';
 import Bienvenido from '../views/components/Bienvenido';
 
-import { Fpg } from '../views/components/menu/participaciones/fpg/Fpg';
+import { Fpg } from '../views/components/menu/participaciones/Fpg';
 
 
 
@@ -34,7 +34,7 @@ import InflacionMes from '../views/components/menu/catalogos/InflacionMes/Inflac
 import InflacionAnio from '../views/components/menu/catalogos/InflacionAnio/InflacionAnio';
 import Fondos from '../views/components/menu/catalogos/Fondos/Fondos';
 import CrecimientoAnio from '../views/components/menu/catalogos/CrecimientoAnio/CrecimientoAnio';
-import DetalleFgp from '../views/components/menu/participaciones/fpg/DetalleFgp';
+import DetalleFgp from '../views/components/menu/participaciones/DetalleFgp';
 import Usuarios from '../views/components/menu/usuarios/Usuarios/Usuarios';
 import Roles from '../views/components/menu/usuarios/Roles/Roles';
 import Permisos from '../views/components/menu/usuarios/Permisos/Permisos';
@@ -49,6 +49,7 @@ import Nomina from '../views/components/Organismos/Nomina/Nomina';
 import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
 import { Fondo } from '../views/components/menu/aportaciones/fondo/Fondo';
+import DetalleFondo from '../views/components/menu/aportaciones/fondo/DetalleFondo';
 
 
 
@@ -64,8 +65,6 @@ export const AppRouter = () => {
         
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
         <Route path='/'  element={log ? <Bienvenido /> : <AuthRouter />}     />
-
-
         {/* SECCION DE CATALOGOS */}
         <Route path='/inicio/catalogos/mun'                        element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa'                       element={<TasaInteres />} />
@@ -115,7 +114,7 @@ export const AppRouter = () => {
 
         {/* SECCION APORTACIONES ESTATALES */}
         <Route path='/inicio/aportaciones/:fondo'      element={log ? <Fondo /> : <AuthRouter />}/>
-        <Route path='/inicio/aportaciones/:fondo/:id/'  element={log ? <Fondo /> : <AuthRouter />}/>
+        <Route path='/inicio/aportaciones/:fondo/:id/'  element={log ? <DetalleFondo /> : <AuthRouter />}/>
        
         {/* <Route path='/inicio/aportaciones/fodes'   element={log ? <Fodes /> : <AuthRouter />}        /> 
         <Route path='/inicio/aportaciones/fosegum' element={log ? <Fosegum /> : <AuthRouter />}        />

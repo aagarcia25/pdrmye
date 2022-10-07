@@ -2,18 +2,18 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { Moneda } from "../../CustomToolbar";
-import ButtonsCalculo from "../../catalogos/Utilerias/ButtonsCalculo";
-import { calculosServices } from "../../../../../services/calculosServices";
-import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { Moneda } from "../CustomToolbar";
+import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
+import { calculosServices } from "../../../../services/calculosServices";
+import { Toast } from "../../../../helpers/Toast";
+import { Alert } from "../../../../helpers/Alert";
 import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InsightsIcon from '@mui/icons-material/Insights';
 import ModalFgp from "./ModalFgp";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import { fondoinfo } from "../../../../../interfaces/calculos/fondoinfo";
-import Trazabilidad from "../../../Trazabilidad";
+import MUIXDataGrid from "../../MUIXDataGrid";
+import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
+import Trazabilidad from "../../Trazabilidad";
 
 
 export const Fpg = () => {
@@ -193,7 +193,7 @@ export const Fpg = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <ModalFgp titulo={nombreFondo} onClickBack={handleClose} modo={modo} anio={anio} mes={mes}/>
+          <ModalFgp clave={fondo} titulo={nombreFondo} onClickBack={handleClose} modo={modo} anio={anio} mes={mes}/>
         </div>
       </Box>
     </>

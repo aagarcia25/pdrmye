@@ -3,14 +3,14 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
-import { Moneda } from "../../CustomToolbar";
-import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
-import { calculosServices } from "../../../../../services/calculosServices";
-import ButtonsBack from "../../catalogos/Utilerias/ButtonsBack";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import { columnasCal } from "../../../../../interfaces/calculos/columnasCal";
-import Slider from "../../../Slider";
+import { Moneda } from "../CustomToolbar";
+import { Toast } from "../../../../helpers/Toast";
+import { Alert } from "../../../../helpers/Alert";
+import { calculosServices } from "../../../../services/calculosServices";
+import ButtonsBack from "../catalogos/Utilerias/ButtonsBack";
+import MUIXDataGrid from "../../MUIXDataGrid";
+import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
+import Slider from "../../Slider";
 
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";

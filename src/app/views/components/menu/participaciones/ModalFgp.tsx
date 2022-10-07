@@ -9,29 +9,32 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
-import { Toast } from "../../../../../helpers/Toast";
-import Imeses from "../../../../../interfaces/filtros/meses";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { BtnRegresar } from "../../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
-import { SubTitulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/SubTitulo";
-import { Titulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
+import { Alert } from "../../../../helpers/Alert";
+import { Toast } from "../../../../helpers/Toast";
+import { CatalogosServices } from "../../../../services/catalogosServices";
+import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
+import { SubTitulo } from "../catalogos/Utilerias/AgregarCalculoUtil/SubTitulo";
+import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import CalculateIcon from "@mui/icons-material/Calculate";
-import { COLOR } from "../../../../../styles/colors";
-import { calculosServices } from "../../../../../services/calculosServices";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getUser } from "../../../../../services/localStorage";
-import Slider from "../../../Slider";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import { COLOR } from "../../../../styles/colors";
+import { calculosServices } from "../../../../services/calculosServices";
+import { RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../services/localStorage";
+import Slider from "../../Slider";
+import SelectValues from "../../../../interfaces/Select/SelectValues";
+import SelectFrag from "../../Fragmentos/Select/SelectFrag";
+import { fmeses } from "../../../../share/loadMeses";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 const ModalFgp = ({
+  clave,
   titulo,
   onClickBack,
   modo,
   anio,
-  mes
+  mes,
 }: {
+  clave: string;
   titulo: string;
   onClickBack: Function;
   modo: string;
@@ -43,16 +46,21 @@ const ModalFgp = ({
   const [monto, setMonto] = useState<number>();
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [ajustes, setAjustes] = useState<SelectValues[]>([]);
+  const [nameNewDoc, setNameNewDoc] = useState("");
+
   let year: number = new Date().getFullYear();
 
+  const handleSelectMes = (v: SelectValues) => {};
+  const handleSelectAjuste = (v: SelectValues) => {};
 
-
-
-  const handleSelectMes = (v: SelectValues) => {
+  const handleNewFile = (event: any) => {
+    let file = event.target!.files[0]!;
+    ///// SE VALIDA SI NO SE CARGO ARCHIVO EN EL INPUT PARA PODER EXTRAER EL NOMBRE
+    if (event.target.files.length === 0) {
+    } else {
+      setNameNewDoc(event.target!.files[0]!.name);
+    }
   };
-  const handleSelectAjuste = (v: SelectValues) => {
-  };
-
 
   const handleSend = () => {
     if (monto == null || anio) {
@@ -92,74 +100,56 @@ const ModalFgp = ({
     });
   };
 
-  const mesesc = () => {
-    let data = {
-      NUMOPERACION: 2
-    };
-    CatalogosServices.SelectIndex(data).then((res) => {
-      setMeses(res.RESPONSE);
-    });
-  };
-
   const ajusteesc = () => {
     let data = {
-      NUMOPERACION: 3
+      NUMOPERACION: 3,
     };
     CatalogosServices.SelectIndex(data).then((res) => {
       setAjustes(res.RESPONSE);
     });
   };
 
-
-
   useEffect(() => {
     // SE ESTABLECE EL TIEMPO EN ESPERA PARA QUE SE CARGEN DE FORMA CORRECTA LOS COMPONENTES
-
+    setNameNewDoc("");
     setTimeout(() => {
-      mesesc();
+      setMeses(fmeses);
       ajusteesc();
       setslideropen(false);
     }, 3000);
     setslideropen(true);
-
   }, []);
 
   return (
     <div>
-     
-      <Slider open={slideropen} ></Slider>
-      <Grid container spacing={1} sx={{}} >
+      <Slider open={slideropen}></Slider>
+      <Grid container spacing={1} sx={{}}>
         <Grid item xs={3} md={2.1} lg={2.5}>
           <BtnRegresar onClick={onClickBack} />
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} sx={{ justifyContent: "center", }} >
+      <Grid container spacing={2} sx={{ justifyContent: "center" }}>
         <Grid item xs={12}>
-          <Box sx={{ display: "flex", justifyContent: "center", }}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Titulo name={titulo} />
           </Box>
         </Grid>
       </Grid>
 
-
-
-      {(modo == "ajuste") ?
+      {modo == "ajuste" ? (
         <Box>
-          <Grid
-            container spacing={1}
-            sx={{ justifyContent: "center", }} >
-
+          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={7} md={2.1} lg={2.5}>
-
-              <label className="subtitulo">Ingrese monto y periodo <br /><br /><br /></label>
+              <label className="subtitulo">
+                Ingrese monto y periodo <br />
+                <br />
+                <br />
+              </label>
             </Grid>
           </Grid>
 
-
           <Grid container spacing={6}>
-
-
             <Grid
               item
               xs={5}
@@ -171,11 +161,13 @@ const ModalFgp = ({
               <label className="contenido">Año:</label>
             </Grid>
             <Grid
-              item xs={6}
+              item
+              xs={6}
               sx={{
                 display: "flex",
                 justifyContent: "left",
-              }}>
+              }}
+            >
               <label className="contenido"> {anio}</label>
             </Grid>
 
@@ -188,23 +180,26 @@ const ModalFgp = ({
                 alignItems: "center",
               }}
             >
-             <label className="contenido">Mes:</label>
+              <label className="contenido">Mes:</label>
             </Grid>
 
             <Grid item xs={5} md={6} lg={6} sx={{}}>
-              <Box sx={{
-
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center",
-              }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "left",
+                  alignItems: "center",
+                }}
+              >
                 <label className="contenido">{mes}</label>
               </Box>
             </Grid>
 
             <Grid
               item
-              xs={5} md={5} lg={5}
+              xs={5}
+              md={5}
+              lg={5}
               sx={{
                 display: "flex",
                 justifyContent: "right",
@@ -214,7 +209,6 @@ const ModalFgp = ({
             </Grid>
             <Grid item xs={6} md={6}>
               <Input
-
                 placeholder="1500000*"
                 id="monto"
                 onChange={(v) => setMonto(Number(v.target.value))}
@@ -225,7 +219,9 @@ const ModalFgp = ({
 
             <Grid
               item
-              xs={5} md={5} lg={5}
+              xs={5}
+              md={5}
+              lg={5}
               sx={{
                 display: "flex",
                 justifyContent: "right",
@@ -234,15 +230,20 @@ const ModalFgp = ({
               <label className="contenido">Periodo:</label>
             </Grid>
 
-            <Grid item xs={5} md={6} lg={6} >
-              <Box sx={{
-                display: "flex",
-                alignItems: "center",
-              }}>
-                <SelectFrag options={ajustes} onInputChange={handleSelectAjuste} placeholder={"Seleccione el Ajuste"}></SelectFrag>
+            <Grid item xs={5} md={6} lg={6}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <SelectFrag
+                  options={ajustes}
+                  onInputChange={handleSelectAjuste}
+                  placeholder={"Seleccione el Ajuste"}
+                ></SelectFrag>
               </Box>
             </Grid>
-
 
             <Grid
               item
@@ -250,7 +251,7 @@ const ModalFgp = ({
               sx={{ mt: 3, display: "flex", justifyContent: "center" }}
             >
               <IconButton
-              className="contenido"
+                className="contenido"
                 onClick={handleSend}
                 sx={{
                   borderRadius: 1,
@@ -260,7 +261,7 @@ const ModalFgp = ({
                   "&:hover": {
                     bgcolor: COLOR.grisTarjetaBienvenido,
                     color: COLOR.negro,
-                    fontFamily:'MontserratMedium',
+                    fontFamily: "MontserratMedium",
                   },
                 }}
               >
@@ -270,24 +271,19 @@ const ModalFgp = ({
             </Grid>
           </Grid>
         </Box>
-        : ""}
+      ) : (
+        ""
+      )}
 
-      {(modo == "calculo") ?
+      {modo == "calculo" ? (
         <Box>
-          <Grid
-            container spacing={1}
-            sx={{ justifyContent: "center", }} >
-
+          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={7} md={2.1} lg={2.5}>
-
               <SubTitulo />
             </Grid>
           </Grid>
 
-
           <Grid container spacing={6}>
-
-
             <Grid
               item
               xs={5}
@@ -296,14 +292,16 @@ const ModalFgp = ({
                 justifyContent: "right",
               }}
             >
-               <label className="contenido">Año:</label>
+              <label className="contenido">Año:</label>
             </Grid>
             <Grid
-              item xs={6}
+              item
+              xs={6}
               sx={{
                 display: "flex",
                 justifyContent: "left",
-              }}>
+              }}
+            >
               <label className="contenido">{year}</label>
             </Grid>
 
@@ -320,31 +318,77 @@ const ModalFgp = ({
             </Grid>
 
             <Grid item xs={5} md={6} lg={6} sx={{}}>
-              <Box sx={{
-
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center",
-              }}>
-                <SelectFrag options={meses} onInputChange={handleSelectMes} placeholder={"Seleccione el Mes"}></SelectFrag>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "left",
+                  alignItems: "center",
+                }}
+              >
+                <SelectFrag
+                  options={meses}
+                  onInputChange={handleSelectMes}
+                  placeholder={"Seleccione el Mes"}
+                ></SelectFrag>
               </Box>
             </Grid>
 
-            <Grid
+            
+
+            {clave === "ICV" ? (
+              <>
+                <Grid
+                  item
+                  xs={5}
+                  md={5}
+                  lg={5}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "right",
+                  }}
+                >
+                  <label className="contenido">Cargar Archivo:</label>
+                </Grid>
+                <Grid item xs={6} md={6}>
+                  <IconButton
+                    aria-label="upload picture"
+                    component="label"
+                    size="large"
+                  >
+                    <input
+                      required
+                      type="file"
+                      hidden
+                      onChange={(event) => {
+                        handleNewFile(event);
+                      }}
+                    />
+                    <UploadFileIcon />
+                  </IconButton>
+
+                  <Box>
+                    <label>{nameNewDoc}</label>
+                  </Box>
+                </Grid>
+              </>
+            ) : (
+              <>
+              <Grid
               item
-              xs={5} md={5} lg={5}
+              xs={5}
+              md={5}
+              lg={5}
               sx={{
                 display: "flex",
                 justifyContent: "right",
               }}
             >
-             <label className="contenido">Monto:</label>
+              <label className="contenido">Monto:</label>
             </Grid>
             <Grid item xs={6} md={6}>
               <Input
-              sx={{ fontWeight: "MontserratMedium" }}
+                sx={{ fontWeight: "MontserratMedium" }}
                 required
-
                 placeholder="1500000*"
                 id="monto"
                 onChange={(v) => setMonto(Number(v.target.value))}
@@ -352,6 +396,8 @@ const ModalFgp = ({
                 type="number"
               ></Input>
             </Grid>
+              </>
+            )}
 
             <Grid
               item
@@ -377,12 +423,10 @@ const ModalFgp = ({
             </Grid>
           </Grid>
         </Box>
-        :
+      ) : (
         ""
-      }
-     
+      )}
     </div>
-
   );
 };
 

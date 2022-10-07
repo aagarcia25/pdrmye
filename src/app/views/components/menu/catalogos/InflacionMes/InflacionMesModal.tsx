@@ -16,9 +16,10 @@ import {
 
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import Imeses from "../../../../../interfaces/filtros/meses";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { fmeses } from "../../../../../share/loadMeses";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 
 
 
@@ -41,13 +42,13 @@ const InflacionMesModal = ({
   const [mes, setMes] = useState("");
   const [inflacion, setInflacion] = useState("");
 
-  const [meses, setMeses] = useState<Imeses[]>();
+  const [meses, setMeses] = useState<SelectValues[]>([]);
 
-  const mesesc = () => {
-    let data = {};
-    CatalogosServices.meses(data).then((res) => {
-      setMeses(res.RESPONSE);
-    });
+
+
+
+  const handleSelectMes = (data: any) => {
+  
   };
 
   const handleSend = () => {
@@ -117,7 +118,7 @@ const InflacionMesModal = ({
   };
 
   useEffect(() => {
-    mesesc();
+    setMeses(fmeses());
 
     if (dt === "") {
       console.log(dt);
@@ -150,27 +151,12 @@ const InflacionMesModal = ({
               inputMode: "numeric",
             }}
           />
-
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Mes</InputLabel>
-            <Select
-              required
-              onChange={(v) => setMes(v.target.value)}
-              value={mes}
-              label="Mes"
-              // inputProps={{
-              //   readOnly: tipo == 1 ? false : true,
-              // }}
-            >
-              {meses?.map((item: Imeses) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Descripcion}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+  
+   <SelectFrag
+                  options={meses}
+                  onInputChange={handleSelectMes}
+                  placeholder={"Seleccione el Mes"}
+                ></SelectFrag>
 
           <TextField
             margin="dense"

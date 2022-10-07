@@ -37,9 +37,9 @@ function App() {
   };
 
   const loadMeses = () => {
-    let data = {};
+    let data = { NUMOPERACION : 2 };
     if (!validaLocalStorage("Meses")) {
-      CatalogosServices.meses(data).then((res) => {
+      CatalogosServices.SelectIndex(data).then((res) => {
         localStorage.setItem("Meses", JSON.stringify(res.RESPONSE));
       });
     }

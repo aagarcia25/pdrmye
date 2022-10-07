@@ -19,7 +19,7 @@ import InsightsIcon from '@mui/icons-material/Insights';
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 
 
-const DetalleFgp = () => {
+const DetalleFondo = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [fondo, setFondo] = useState("");
@@ -37,7 +37,7 @@ const DetalleFgp = () => {
   const [af, setAf] = useState(false);
 
   const handleBack = (v: any) => {
-    navigate(`/inicio/participaciones/${fondo}`);
+    navigate(`/inicio/aportaciones/${fondo}`);
   };
 
   const columnas = (data: any) => {
@@ -286,4 +286,4 @@ const DetalleFgp = () => {
   );
 };
 
-export default DetalleFgp;
+export default DetalleFondo;
