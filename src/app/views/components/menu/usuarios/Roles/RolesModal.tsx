@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
   InputAdornment,
   DialogActions,
-  Button,
 } from "@mui/material";
 
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { municipiosc } from "../../../../../share/loadMunicipios";
+import { AuthService } from "../../../../../services/AuthService";
+import { UserReponse } from "../../../../../interfaces/user/UserReponse";
+import { getPU } from "../../../../../services/localStorage";
 
-const MunPoblacionModal = ({
+
+
+
+const RolesModal = ({
   open,
   modo,
   handleClose,
@@ -34,19 +33,18 @@ const MunPoblacionModal = ({
   dt:any
 }) => {
 
-
-
-
   // CAMPOS DE LOS FORMULARIOS
-  const [id, setId] = useState("");
-  const [anio, setAnio] = useState<number>();
-  const [poblacion, setPoblacion] = useState<number>();
-  const [idPoblacion, setIdPoblacion] = useState<object>();
+  const [id, setId] = useState("");  
+  const user: UserReponse = JSON.parse(String(getPU()));
+  const [chuser, setChuser] = useState<string>(String());
+  const [nombre, setNombre] = useState<string>();
+  const [descripcion, setDescripcion] = useState<string>();
   const [values, setValues] = useState<Imunicipio[]>();
  
 
   const handleSend = () => {
-    if (poblacion == null|| idPoblacion==null||anio==null) {
+
+    if (nombre==null||descripcion==null|| nombre==""||descripcion=="") {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -55,15 +53,15 @@ const MunPoblacionModal = ({
     } else {
       let data = {
         NUMOPERACION: tipo,
-        CHID: id,
-        CHUSER: 1,
-        ANIO: anio,
-        idPoblacion: idPoblacion,
-        TOTALPOBLACION: poblacion,
+        CHUSER: user.IdUsuario,
+        NOMBRE: nombre,
+        DESCRIPCION: descripcion,
+        
+      
       };
      
       handleRequest(data);
-      handleClose("guardar");
+      handleClose("saved");
     }
   };
 
@@ -80,10 +78,14 @@ const MunPoblacionModal = ({
     }
   };
 
+  const handleTeste = () => {
+    console.log(user.IdUsuario);
+  
+  };
 
 
   const agregar = (data: any) => {
-    CatalogosServices.munpoblacion(data).then((res) => {
+    AuthService.rolesindex(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -120,15 +122,15 @@ const MunPoblacionModal = ({
  
 
   useEffect(() => {
-    setValues(municipiosc());
+   
     if(dt === ''  ){
         console.log(dt)
        
     }else{
         setId(dt?.row?.id)
-        setAnio(dt?.row?.Anio)
-        setPoblacion(dt?.row?.totalPob)
-        setIdPoblacion(dt?.row?.idmunicipio)
+        setChuser(dt?.row?.Anio)
+        setNombre(dt?.row?.totalPob)
+        setDescripcion(dt?.row?.idmunicipio)
         console.log(dt.row)
     }
    
@@ -145,38 +147,18 @@ const MunPoblacionModal = ({
             <label className="Titulo">{modo}</label>
           </Box>
         
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Municipio</InputLabel>
-            <Select
-              required
-              onChange={(v) => setIdPoblacion(Object(v.target.value))}
-              value={idPoblacion}
-              label="Municipio"
-            inputProps={{
-            readOnly: tipo == 1 ? false : true,
-             }}
-            >
-              {values?.map((item: Imunicipio) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Nombre}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
 
           <TextField
             required
             margin="dense"
             id="anio"
-            label="Año"
-            value={anio}
-            type="number"
+            label="Nombre"
+            value={nombre}
+           
             fullWidth
             variant="standard"
-            onChange={(v) => setAnio(Number(v.target.value))}
-            error={anio == null ? true : false}
+            onChange={(v) => setNombre(String(v.target.value))}
+            error={nombre == null ? true : false}
              InputProps={{
             readOnly: tipo == 1 ? false : true,
        
@@ -187,13 +169,13 @@ const MunPoblacionModal = ({
             margin="dense"
             required
             id="fac"
-            label="Poblacion"
-            value={poblacion}
-            type="number"
+            label="Descripcion"
+            value={descripcion}
+            multiline
             fullWidth
             variant="standard"
-            onChange={(v) => setPoblacion(Number(v.target.value))}
-            error={poblacion == null ? true : false}
+            onChange={(v) => setDescripcion(String(v.target.value))}
+            error={descripcion == null ? true : false}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start"></InputAdornment>
@@ -211,4 +193,4 @@ const MunPoblacionModal = ({
   );
 };
 
-export default MunPoblacionModal;
+export default RolesModal;

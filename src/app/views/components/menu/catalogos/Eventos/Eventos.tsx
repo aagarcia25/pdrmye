@@ -18,8 +18,9 @@ import ButtonsAdd from '../Utilerias/ButtonsAdd'
 
 export const Eventos = () => {
 
-  const [modo, setModo] = useState("");
+
   const [open, setOpen] = useState(false);
+  const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [conEventos, setEventos] = useState([]);

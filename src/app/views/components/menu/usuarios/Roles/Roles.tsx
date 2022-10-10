@@ -13,16 +13,25 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import RolesMenu from "./RolesMenu";
 import RolAsignaMenu from "./RolAsignaMenu";
+import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
+import RolesModal from "./RolesModal";
 
 const Roles = () => {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openRolesModalAdd, setOpenRolesModalAdd] = useState(false);
   const [openAsignaRol, setOpenAsignaRol] = useState(false);
   const [id, setId] = useState("");
+  const [modo, setModo] = useState("");
+  const [tipoOperacion, setTipoOperacion] = useState(0);
 
-  const handleClose = () => {
+  const handleClose = (v:string) => {
     setOpen(false);
     setOpenAsignaRol(false);
+    setOpenRolesModalAdd(false);
+    {if(v==="saved")
+    consulta({ NUMOPERACION: 4 });
+    }
   };
 
   const handleView = (v: any) => {
@@ -33,6 +42,13 @@ const Roles = () => {
        setModo("Editar Registro");
        setOpen(true);
        setData(v);*/
+  };
+  const handleNuevoRegistro = () => {
+    setTipoOperacion(1);
+    setModo("Agregar Rol");
+    setOpenRolesModalAdd(true);
+    //setData(v);
+
   };
 
   const handleEdit = (v: any) => {
@@ -158,6 +174,14 @@ const Roles = () => {
       ) : (
         ""
       )}
+            {openRolesModalAdd ? <RolesModal
+        open={openRolesModalAdd}
+        modo={modo}
+        handleClose={handleClose}
+        tipo={tipoOperacion}
+        dt={data}
+      />
+        : ""}
 
       {openAsignaRol ? (
         <RolAsignaMenu
@@ -168,7 +192,7 @@ const Roles = () => {
       ) : (
         ""
       )}
-
+      <ButtonsAdd handleOpen={handleNuevoRegistro} />
       <MUIXDataGrid columns={columns} rows={data} />
     </div>
   );
