@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import {
+  Box,
   SelectChangeEvent,
 } from "@mui/material";
 
@@ -20,6 +21,11 @@ import MunFacturacionModal from "./MunFacturacionModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import AccionesGrid from "../../../AccionesGrid";
 import { currencyFormatter } from "../../CustomToolbar";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import { fanios } from "../../../../../share/loadAnios";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+
+
 
 export const MunFacturacion = () => {
   const user = getUser();
@@ -30,6 +36,8 @@ export const MunFacturacion = () => {
   const [Facturacion, setFacturacion] = useState([]);
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
+  const [anios, setAnios] = useState<SelectValues[]>([]);
+  
 
 
   // VARIABLES PARA LOS FILTROS
@@ -224,6 +232,7 @@ export const MunFacturacion = () => {
   };
 
   useEffect(() => {
+    setAnios(fanios());
     downloadplantilla();
   }, []);
 
@@ -231,14 +240,13 @@ export const MunFacturacion = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Filtros
-        anioApply={true}
-        mesApply={false}
-        handleFilterChangeAnio={handleFilterChange}
-        handleFilterChangeMes={handleFilterMes}
-        valueFilterAnio={filterAnio}
-        valueFilterMes={""}
-      />
+      <Box  
+         sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
+            <SelectFrag 
+            options={anios} 
+            onInputChange={handleFilterChange} 
+            placeholder={"Seleccione Año"}/>
+            </Box>
 
       {open ? (
         <MunFacturacionModal

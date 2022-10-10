@@ -13,6 +13,9 @@ import Buttons from '../Utilerias/Buttons'
 import Slider from "../../../Slider";
 import MunPoblacionProyeccionModal from '../MunPobProyeccion/MunPoblacionProyeccionModal';
 import MUIXDataGrid from '../../../MUIXDataGrid'
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import { fanios } from "../../../../../share/loadAnios";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
 export const MunPobProyeccion = () => {
@@ -24,18 +27,12 @@ export const MunPobProyeccion = () => {
   const [Poblacion, setPoblacion] = useState([]);
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
-
-
+  const [anios, setAnios] = useState<SelectValues[]>([]);
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
   //funciones
-  const handleFilterMes = () => { };
-
-
-
-  ;
-
+  
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
     {
@@ -209,6 +206,7 @@ export const MunPobProyeccion = () => {
 
 
   useEffect(() => {
+    setAnios(fanios());
     downloadplantilla();
   }, []);
 
@@ -220,14 +218,14 @@ export const MunPobProyeccion = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Filtros
-        anioApply={true}
-        mesApply={false}
-        handleFilterChangeAnio={handleFilterChange}
-        handleFilterChangeMes={handleFilterMes}
-        valueFilterAnio={filterAnio}
-        valueFilterMes={""}
-      />
+      <Box  
+         sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
+            <SelectFrag 
+            options={anios} 
+            onInputChange={handleFilterChange} 
+            placeholder={"Seleccione Año"}/>
+            </Box>
+
 
       {open ? (
         <MunPoblacionProyeccionModal

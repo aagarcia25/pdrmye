@@ -12,6 +12,7 @@ import AvisosModal from './AvisosModal'
 import Swal from "sweetalert2";
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import { GridColDef } from '@mui/x-data-grid';
+import ButtonsAdd from '../Utilerias/ButtonsAdd';
 
 
 export const Avisos = () => {
@@ -199,15 +200,8 @@ export const Avisos = () => {
         ""
       )}
       <Box>
-        <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-          <Tooltip title="Agregar Registro">
-            <ToggleButton value="check" onClick={() => handleNuevoRegistro(1)}>
-              <AddCircleTwoToneIcon />
-            </ToggleButton>
-          </Tooltip>
-        </ToggleButtonGroup>
-      </Box>
-
+       </Box>
+      <ButtonsAdd handleOpen={handleNuevoRegistro} />
       <MUIXDataGrid columns={columns} rows={conAvisos} />
     </div>
 

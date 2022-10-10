@@ -32,7 +32,7 @@ export const MunRecaudacion = () => {
   const [filterAnio, setFilterAnio] = useState("");
   const [anios, setAnios] = useState<SelectValues[]>([]);
   //funciones
-  const handleFilterMes = () => {};
+  const handleFilterMes = () => { };
 
   const columns: GridColDef[] = [
     {
@@ -215,63 +215,16 @@ export const MunRecaudacion = () => {
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-      <Slider open={slideropen}></Slider>
+      <Slider open={slideropen}></Slider>  
+   
+        <Box  
+         sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
+            <SelectFrag 
+            options={anios} 
+            onInputChange={handleFilterChange} 
+            placeholder={"Seleccione Año"}/>
+            </Box>
 
-      <Box>
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 1, sm: 4, md: 12,lg:12 }}>
-        <Grid item xs={1} sm={1} md={1}>
-       
-         </Grid>
-         <Grid item xs={1} sm={1} md={1}>
-     
-         </Grid>
-         <Grid item xs={1} sm={1} md={1}>
-        
-         </Grid>
-         <Grid item xs={1} sm={1} md={1}>
-        
-         </Grid>
-         <Grid item xs={1} sm={1} md={1}>
-       
-         </Grid>
-          <Grid item xs={1} sm={1} md={1}>
-       
-          </Grid>
-          <Grid item xs={1} sm={1} md={1}>
-        
-          </Grid>
-
-          <Grid item xs={1} sm={1} md={1}>
-        
-          </Grid>
-
-          <Grid item xs={1} sm={1} md={1}>
-         
-          </Grid>
-
-          <Grid item xs={1} sm={1} md={1}>
-          
-          </Grid>
-          <Grid item xs={1} sm={1} md={1}>
-
-         
-         
-        
-
-
-
-          </Grid>
-
-          <Grid item xs={1} sm={1} md={1}>
-          <SelectFrag
-              options={anios}
-              onInputChange={handleFilterChange} placeholder={"Seleccione Año"}           ></SelectFrag>
-          </Grid>
-         
-        </Grid>
-
-       
-      </Box>
 
       {open ? (
         <MunRecaudacionModal

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react'
-import { SelectChangeEvent } from '@mui/material'
+import { Box, SelectChangeEvent } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { getPermisos, getUser } from '../../../../../services/localStorage'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -13,8 +13,12 @@ import Slider from "../../../Slider";
 import Buttons from '../Utilerias/Buttons'
 import MunPoblacionModal from './MunPoblacionModal'
 import MUIXDataGrid from '../../../MUIXDataGrid'
+
 import AccionesGrid from '../../../AccionesGrid'
 import { PERMISO } from '../../../../../interfaces/user/UserInfo'
+import SelectFrag from '../../../Fragmentos/Select/SelectFrag'
+import { fanios } from "../../../../../share/loadAnios";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
 const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -34,6 +38,7 @@ export const MunPoblacion = () => {
   const [Poblacion, setPoblacion] = useState([]);
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
+  const [anios, setAnios] = useState<SelectValues[]>([]);
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
   //funciones
@@ -227,6 +232,7 @@ export const MunPoblacion = () => {
 
   useEffect(() => {
     downloadplantilla();
+    setAnios(fanios());
 
 
 
@@ -238,22 +244,12 @@ export const MunPoblacion = () => {
         if (item.Permiso == 'Editar') {
           setUpdate(true);
         }
-
         if (item.Permiso == 'Eliminar') {
           setEliminar(true);
         }
 
       }
-
-
-
     });
-
-
-
-
-
-
   }, []);
 
 
@@ -263,14 +259,16 @@ export const MunPoblacion = () => {
 
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
-      <Filtros
-        anioApply={true}
-        mesApply={false}
-        handleFilterChangeAnio={handleFilterChange}
-        handleFilterChangeMes={handleFilterMes}
-        valueFilterAnio={filterAnio}
-        valueFilterMes={""}
-      />
+
+      <Box  
+         sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
+            <SelectFrag 
+            options={anios} 
+            onInputChange={handleFilterChange} 
+            placeholder={"Seleccione Año"}/>
+            </Box>
+
+      
 
       {open ? (
         <MunPoblacionModal

@@ -12,6 +12,7 @@ import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import Swal from "sweetalert2";
 import "../../../../../styles/globals.css";
 import MUIXDataGrid from '../../../MUIXDataGrid'
+import ButtonsAdd from '../Utilerias/ButtonsAdd'
 
 
 
@@ -130,7 +131,7 @@ export const Eventos = () => {
   };
 
 
-  const handleNuevoRegistro = (v: any) => {
+  const handleNuevoRegistro = () => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
@@ -203,14 +204,9 @@ export const Eventos = () => {
         : ""}
 
       <Box sx={{}}>
-        <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-          <Tooltip title="Agregar Registro">
-            <ToggleButton value="check" onClick={() => handleNuevoRegistro(1)}>
-              <AddCircleTwoToneIcon />
-            </ToggleButton>
-          </Tooltip>
-        </ToggleButtonGroup>
+       
       </Box>
+      <ButtonsAdd handleOpen={handleNuevoRegistro} />
       <MUIXDataGrid columns={columns} rows={conEventos} />
 
 
