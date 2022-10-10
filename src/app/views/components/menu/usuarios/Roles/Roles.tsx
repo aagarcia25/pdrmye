@@ -12,27 +12,33 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import RolesMenu from "./RolesMenu";
-
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import RolesModal from "./RolesModal";
 import RolesAsignaPermisos from "./RolesAsignarPermisos";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { UserReponse } from "../../../../../interfaces/user/UserReponse";
+import { getPU } from "../../../../../services/localStorage";
+import EditIcon from '@mui/icons-material/Edit';
 
 const Roles = () => {
   const [data, setData] = useState([]);
-  const [openRel,         setOpenRel] = useState(false);
+  const [openRel, setOpenRel] = useState(false);
   const [open, setOpen] = useState(false);
   const [openRolesModalAdd, setOpenRolesModalAdd] = useState(false);
   const [openAsignaRol, setOpenAsignaRol] = useState(false);
   const [id, setId] = useState("");
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
+  const user: UserReponse = JSON.parse(String(getPU()));
 
-  const handleClose = (v:string) => {
+  const handleClose = (v: string) => {
     setOpen(false);
     setOpenRolesModalAdd(false);
     setOpenRel(false);
-    {if(v==="saved")
-    consulta({ NUMOPERACION: 4 });
+    {
+      if (v === "saved")
+        consulta({ NUMOPERACION: 4 });
     }
   };
 
@@ -42,80 +48,54 @@ const Roles = () => {
 
   };
   const handleTeste = (v: any) => {
-    console.log(v.row.id);
+    console.log(v.row);
+
+  };
+  const eliminar = (v:any) => {
+    console.log((user.IdUsuario));
+    let data = {
+      NUMOPERACION: 3,
+      CHUSER: user.IdUsuario  ,
+      CHID: String(v.row.id),
+
+            
     
-  };  
+    };
+    AuthService.rolesindex(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Rol Eliminado!",
+        });
+        consulta({ NUMOPERACION: 4 });
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
 
   const handleView = (v: any) => {
     setId(v.id);
     setOpen(true);
 
-    /* setTipoOperacion(2);
-       setModo("Editar Registro");
-       setOpen(true);
-       setData(v);*/
   };
   const handleNuevoRegistro = () => {
     setTipoOperacion(1);
     setModo("Agregar Rol");
     setOpenRolesModalAdd(true);
-    //setData(v);
-
   };
 
-  const handleEdit = (v: any) => {
-    /* setTipoOperacion(2);
-         setModo("Editar Registro");
-         setOpen(true);
-         setData(v);*/
+  const handleEditarRegistro = (v:any) => {
+    setTipoOperacion(2);
+    setModo("Editar Rol");
+    setOpenRolesModalAdd(true);
   };
 
-  const handleDelete = (v: any) => {
-    /*  Swal.fire({
-           icon: "info",
-           title: "Estas seguro de eliminar este registro?",
-           showDenyButton: true,
-           showCancelButton: false,
-           confirmButtonText: "Confirmar",
-           denyButtonText: `Cancelar`,
-         }).then((result) => {
-           if (result.isConfirmed) {
-             console.log(v);
-     
-             let data = {
-               NUMOPERACION: 3,
-               CHID: v.row.id,
-               CHUSER: 1,
-             };
-             console.log(data);
-     
-             CatalogosServices.munfacturacion(data).then((res) => {
-               if (res.SUCCESS) {
-                 Toast.fire({
-                   icon: "success",
-                   title: "Registro Eliminado!",
-                 });
-     
-                 let data = {
-                   NUMOPERACION: 4,
-                   ANIO: filterAnio,
-                 };
-                 consulta(data);
-     
-               } else {
-                 Alert.fire({
-                   title: "Error!",
-                   text: res.STRMESSAGE,
-                   icon: "error",
-                 });
-               }
-             });
-     
-           } else if (result.isDenied) {
-             Swal.fire("No se realizaron cambios", "", "info");
-           }
-         });*/
-  };
+
 
   const columns: GridColDef[] = [
     {
@@ -151,11 +131,18 @@ const Roles = () => {
                 <AccountTreeIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Relacionar teste"}>
-              <IconButton onClick={() => handleTeste(v)}>
-                <AccountTreeIcon />
+            
+            <Tooltip title={"Relacionar Menú"}>
+              <IconButton onClick={() => handleEditarRegistro(v)}>
+                <EditIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title={"Relacionar Menú"}>
+              <IconButton onClick={() => eliminar(v)}>
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+
           </Box>
         );
       },
@@ -186,7 +173,7 @@ const Roles = () => {
 
   return (
     <div>
-         {openRel ? (
+      {openRel ? (
         <RolesAsignaPermisos
           open={openRel}
           handleClose={handleClose}
@@ -200,7 +187,7 @@ const Roles = () => {
       ) : (
         ""
       )}
-            {openRolesModalAdd ? <RolesModal
+      {openRolesModalAdd ? <RolesModal
         open={openRolesModalAdd}
         modo={modo}
         handleClose={handleClose}
@@ -209,7 +196,7 @@ const Roles = () => {
       />
         : ""}
 
-     
+
       <ButtonsAdd handleOpen={handleNuevoRegistro} />
       <MUIXDataGrid columns={columns} rows={data} />
     </div>

@@ -34,13 +34,10 @@ const RolesModal = ({
 }) => {
 
   // CAMPOS DE LOS FORMULARIOS
-  const [id, setId] = useState("");  
-  const user: UserReponse = JSON.parse(String(getPU()));
-  const [chuser, setChuser] = useState<string>(String());
-  const [nombre, setNombre] = useState<string>();
-  const [descripcion, setDescripcion] = useState<string>();
-  const [values, setValues] = useState<Imunicipio[]>();
  
+  const user: UserReponse = JSON.parse(String(getPU()));
+  const [nombre, setNombre] = useState<string>();
+  const [descripcion, setDescripcion] = useState<string>(); 
 
   const handleSend = () => {
 
@@ -55,8 +52,7 @@ const RolesModal = ({
         NUMOPERACION: tipo,
         CHUSER: user.IdUsuario,
         NOMBRE: nombre,
-        DESCRIPCION: descripcion,
-        
+        DESCRIPCION: descripcion,       
       
       };
      
@@ -65,25 +61,14 @@ const RolesModal = ({
     }
   };
 
-
-  const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
-      //AGREGAR
-      agregar(data);
-    } else if (tipo == 2) {
-      //EDITAR
-      
-      editar(data);
-    }
+  const handleRequest = (data: any) => {  
+      agregar(data); 
   };
 
   const handleTeste = () => {
     console.log(user.IdUsuario);
   
   };
-
-
   const agregar = (data: any) => {
     AuthService.rolesindex(data).then((res) => {
       if (res.SUCCESS) {
@@ -101,34 +86,12 @@ const RolesModal = ({
       }
     });
   };
-
-  const editar = (data: any) => {
-    CatalogosServices.munpoblacion(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Editado!",
-        });
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
-
- 
-
   useEffect(() => {
    
     if(dt === ''  ){
         console.log(dt)
        
-    }else{
-        setId(dt?.row?.id)
-        setChuser(dt?.row?.Anio)
+    }else{  
         setNombre(dt?.row?.totalPob)
         setDescripcion(dt?.row?.idmunicipio)
         console.log(dt.row)

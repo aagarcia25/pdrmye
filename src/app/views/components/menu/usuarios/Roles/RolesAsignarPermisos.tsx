@@ -25,6 +25,7 @@ const RolesAsignaPermisos = ({
 
     const handleChange = (v: any) => {
         let data = {
+            TIPO:1,
             IDROL: id,
             IDMENU: v.id
         }

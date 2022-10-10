@@ -29,15 +29,16 @@ const RolesMenu = ({
 
   const handleChange = (v: any) => {
     let data = {
-      CHID: v.row.id,
-      IDMENU: id
+      TIPO:2,
+      IDROL: id,
+      IDMENU: v.id
     }
-    AuthService.rolesrel(data).then((res) => {
+    AuthService.rolespermisorelacionar (data).then((res) => {
       setData(res.RESPONSE);
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Permiso Relacionado!",
+          title: "Menu Eliminado!",
         });
         consulta({ CHID: id });
       } else {
@@ -69,14 +70,14 @@ const RolesMenu = ({
         return <Checkbox onChange={() => handleChange(v)} />;
       },
     },
-    { field: "Descripcion", headerName: "Menu", width: 300 },
+    { field: "MENU", headerName: "Menu", width: 300 },
 
   ];
 
 
 
   const consulta = (data: any) => {
-    AuthService.rolesrel(data).then((res) => {
+    AuthService.menurelacionadosalrol(data).then((res) => {
       setData(res.RESPONSE);
     });
   };

@@ -62,6 +62,9 @@ export class AuthService {
     public static async menusinrelacionararol(data: any) {
         return await post('menusinrelacionararol', data);
     }
+    public static async menurelacionadosalrol(data: any) {
+        return await post('menurelacionadosalrol', data);
+    }
     
     
 
