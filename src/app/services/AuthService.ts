@@ -28,6 +28,9 @@ export class AuthService {
     public static async rolessinrelacionar(data: any) {
         return await post('rolessinrelacionar', data);
     }
+    public static async rolespermisorelacionar(data: any) {
+        return await post('rolespermisorelacionar', data);
+    }
 
     public static async usuarioRol(data: any) {
         return await post('usuarioRol', data);
@@ -56,6 +59,10 @@ export class AuthService {
     public static async menuPermisosRelacionar(data: any) {
         return await post('menuPermisosRelacionar', data);
     }
+    public static async menusinrelacionararol(data: any) {
+        return await post('menusinrelacionararol', data);
+    }
+    
     
 
 }

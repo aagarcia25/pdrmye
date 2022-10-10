@@ -12,12 +12,14 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import RolesMenu from "./RolesMenu";
-import RolAsignaMenu from "./RolAsignaMenu";
+
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import RolesModal from "./RolesModal";
+import RolesAsignaPermisos from "./RolesAsignarPermisos";
 
 const Roles = () => {
   const [data, setData] = useState([]);
+  const [openRel,         setOpenRel] = useState(false);
   const [open, setOpen] = useState(false);
   const [openRolesModalAdd, setOpenRolesModalAdd] = useState(false);
   const [openAsignaRol, setOpenAsignaRol] = useState(false);
@@ -27,15 +29,25 @@ const Roles = () => {
 
   const handleClose = (v:string) => {
     setOpen(false);
-    setOpenAsignaRol(false);
     setOpenRolesModalAdd(false);
+    setOpenRel(false);
     {if(v==="saved")
     consulta({ NUMOPERACION: 4 });
     }
   };
 
-  const handleView = (v: any) => {
+  const handleRel = (v: any) => {
     setId(v.row.id);
+    setOpenRel(true);
+
+  };
+  const handleTeste = (v: any) => {
+    console.log(v.row.id);
+    
+  };  
+
+  const handleView = (v: any) => {
+    setId(v.id);
     setOpen(true);
 
     /* setTipoOperacion(2);
@@ -124,7 +136,7 @@ const Roles = () => {
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 100,
+      width: 200,
       renderCell: (v) => {
         return (
           <Box>
@@ -135,7 +147,12 @@ const Roles = () => {
             </Tooltip>
 
             <Tooltip title={"Relacionar Menú"}>
-              <IconButton onClick={() => handleDelete(v)}>
+              <IconButton onClick={() => handleRel(v)}>
+                <AccountTreeIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={"Relacionar teste"}>
+              <IconButton onClick={() => handleTeste(v)}>
                 <AccountTreeIcon />
               </IconButton>
             </Tooltip>
@@ -169,6 +186,15 @@ const Roles = () => {
 
   return (
     <div>
+         {openRel ? (
+        <RolesAsignaPermisos
+          open={openRel}
+          handleClose={handleClose}
+          id={id}
+        ></RolesAsignaPermisos>
+      ) : (
+        ""
+      )}
       {open ? (
         <RolesMenu open={open} handleClose={handleClose} id={id}></RolesMenu>
       ) : (
@@ -183,15 +209,7 @@ const Roles = () => {
       />
         : ""}
 
-      {openAsignaRol ? (
-        <RolAsignaMenu
-          open={openAsignaRol}
-          handleClose={handleClose}
-          id={id}
-        ></RolAsignaMenu>
-      ) : (
-        ""
-      )}
+     
       <ButtonsAdd handleOpen={handleNuevoRegistro} />
       <MUIXDataGrid columns={columns} rows={data} />
     </div>
