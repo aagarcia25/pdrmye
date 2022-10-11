@@ -20,7 +20,7 @@ const SelectFrag = ({
   return (
     <div>
      <Select 
-     
+     defaultValue={options[0]}
      options={options} 
      isClearable={true}
      onChange={(v)=>onInputChange(v)}

@@ -21,6 +21,10 @@ export class calculosServices {
     public static async fondoInfo(data: any) {
         return await post('fondoInfo', data);
     }
+
+    public static async trazabilidad(data: any) {
+        return await post('trazabilidad', data);
+    }
     
     
 

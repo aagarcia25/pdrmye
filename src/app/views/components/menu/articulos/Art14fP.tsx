@@ -15,15 +15,20 @@ import InfoIcon from "@mui/icons-material/Info";
 import AutoModeIcon from "@mui/icons-material/AutoMode";
 import { UserReponse } from "../../../../interfaces/user/UserReponse";
 import Swal from "sweetalert2";
+import Slider from "../../Slider";
 
 export const Art14fP = () => {
   const navigate = useNavigate();
+  const [slideropen, setslideropen] = useState(false);
   const user: UserReponse = JSON.parse(String(getPU()));
   const [data, setData] = useState([]);
   const [tipo, setTipo] = useState<Number>(0);
 
+
+
+
   const handleView = (v: any) => {
-    navigate(`/inicio/articulos/art14d/${tipo}`);
+    navigate(`/inicio/articulos/art14d/${tipo}/${v.row.id}`);
   };
 
   const handleVersion = () => {
@@ -31,6 +36,9 @@ export const Art14fP = () => {
     let data = {
       CLAVE: tipo,
       CHUSER: user.IdUsuario,
+      P_ANIO: 2022,
+      P_IMPORTE: 12,
+      
     };
 
     Swal.fire({
@@ -40,10 +48,13 @@ export const Art14fP = () => {
       showCancelButton: false,
       confirmButtonText: "Aceptar",
     }).then((result) => {
+
       if (result.isConfirmed) {
+        setslideropen(true);
         ArticulosServices.generarVersion(data).then((res) => {
           console.log(res);
           loaddata(tipo);
+          setslideropen(false);
         });
       }
     });
@@ -99,6 +110,7 @@ export const Art14fP = () => {
 
   return (
     <>
+     <Slider open={slideropen} ></Slider>
       <Box sx={{
        
       }}>

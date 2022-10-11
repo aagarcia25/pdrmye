@@ -63,7 +63,10 @@ export default function Header(props: HeaderProps) {
 
   const onLogOut = () => {
     localStorage.clear();
-    window.location.replace("http://10.200.4.106/");
+    var ventana = window.self;
+    ventana.opener = window.self;
+    ventana.close();
+   // window.location.replace("http://10.200.4.106/");
   };
 
   const onOpenCalendar = () => {
@@ -110,20 +113,6 @@ export default function Header(props: HeaderProps) {
       setCnotif(result[0].count);
     });
   }, []);
-
-
-
-
-
-
-
-
-
-
-
-
-const lightColor = "rgba(255, 255, 255, 0.7)";
-
 
 
 

@@ -4,13 +4,8 @@ import { AuthRouter } from './AuthRouter';
 import { Eo404 } from '../views/components/Eo404';
 import Inicio from '../views/components/Inicio';
 import Bienvenido from '../views/components/Bienvenido';
-
 import { Fpg } from '../views/components/menu/participaciones/Fpg';
-
-
-
 import { MunPoblacion } from '../views/components/menu/catalogos/MunPoblacion/MunPoblacion';
-import { isAuthenticated } from '../services/authenticationService';
 import CalendarC from '../views/components/CalendarC';
 import { ListNotification } from '../views/components/ListNotification';
 import { MunFacturacion } from '../views/components/menu/catalogos/MunFacturacion/MunFacturacion';
@@ -27,8 +22,6 @@ import { Eventos } from '../views/components/menu/catalogos/Eventos/Eventos';
 import { Departamentos } from '../views/components/menu/catalogos/Departamentos/Departamentos';
 import { TasaInteres } from '../views/components/menu/catalogos/TasaInteres/TasaInteres';
 import { Municipios } from '../views/components/menu/catalogos/Municipios/Municipios';
-
-
 import TipoFondo from '../views/components/menu/catalogos/TipoFondo/TipoFondo';
 import InflacionMes from '../views/components/menu/catalogos/InflacionMes/InflacionMes';
 import InflacionAnio from '../views/components/menu/catalogos/InflacionAnio/InflacionAnio';
@@ -50,19 +43,18 @@ import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
 import { Fondo } from '../views/components/menu/aportaciones/Fondo';
 import DetalleFondo from '../views/components/menu/aportaciones/DetalleFondo';
+import {  islogin } from '../services/localStorage';
 
 
 
 export const AppRouter = () => {
-  const log = isAuthenticated();
-  //console.log(log);
+  const log = islogin();
+  
 
   
   return (
     <Inicio>
       <Routes>
-             
-        
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
         <Route path='/'  element={log ? <Bienvenido /> : <AuthRouter />}     />
         {/* SECCION DE CATALOGOS */}
@@ -101,27 +93,18 @@ export const AppRouter = () => {
 
         {/* SECCION DE ARTICULOS */}
         <Route path='/inicio/articulos/art14f/:tipo' element={<Art14fP />} />
-        <Route path='/inicio/articulos/art14d/:tipo' element={<Art14f />} />
+        <Route path='/inicio/articulos/art14d/:tipo/:id' element={<Art14f />} />
         {/* FIN SECCION DE ARTICULOS */}
 
 
         {/* SECCION PARTICIPACIONES FEDERALES Y ESTATALES */}
-        
         <Route path='/inicio/participaciones/:fondo' element={log ? <Fpg /> : <AuthRouter />} />
         <Route path='/inicio/participaciones/:fondo/:id/' element={log ? <DetalleFgp /> : <AuthRouter />} />
-
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
         {/* SECCION APORTACIONES ESTATALES */}
         <Route path='/inicio/aportaciones/:fondo'      element={log ? <Fondo /> : <AuthRouter />}/>
         <Route path='/inicio/aportaciones/:fondo/:id/'  element={log ? <DetalleFondo /> : <AuthRouter />}/>
-       
-        {/* <Route path='/inicio/aportaciones/fodes'   element={log ? <Fodes /> : <AuthRouter />}        /> 
-        <Route path='/inicio/aportaciones/fosegum' element={log ? <Fosegum /> : <AuthRouter />}        />
-        <Route path='/inicio/aportaciones/fodem'   element={log ? <Fodem /> : <AuthRouter />}        />
-
-
-        *FIN PARTICIPACIONES ESTATALES */}
        
        {/* SECCION USUARIOS, ROLES, PERMISOS */}
        <Route path='/inicio/usuario'   element={log ? <Usuarios /> : <AuthRouter />} />
@@ -137,12 +120,10 @@ export const AppRouter = () => {
        <Route path='/inicio/ff'  element={log ? <CFuenteFinanciamiento /> : <AuthRouter />} />
        <Route path='/inicio/presupuesto'  element={log ? <Presupuesto /> : <AuthRouter />} />
        <Route path='/inicio/nomina'  element={log ? <Nomina /> : <AuthRouter />} />
-       
        {/* FIN DE SECCION DE ORGANISMOS */}
        {/* SECCION MUNICIPIOS */}
        <Route path='/inicio/contactomunicipio'  element={log ? <ContactoMunicipios /> : <AuthRouter />} />
        {/* SECCION MUNICIPIOS */}
-
 
       </Routes>
     </Inicio>

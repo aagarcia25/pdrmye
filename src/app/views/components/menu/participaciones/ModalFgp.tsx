@@ -25,8 +25,11 @@ import SelectValues from "../../../../interfaces/Select/SelectValues";
 import SelectFrag from "../../Fragmentos/Select/SelectFrag";
 import { fmeses } from "../../../../share/loadMeses";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { useParams } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const ModalFgp = ({
+  step,
   clave,
   titulo,
   onClickBack,
@@ -34,6 +37,7 @@ const ModalFgp = ({
   anio,
   mes,
 }: {
+  step:number;
   clave: string;
   titulo: string;
   onClickBack: Function;
@@ -41,20 +45,32 @@ const ModalFgp = ({
   anio: number;
   mes: string;
 }) => {
+  const navigate = useNavigate();
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [slideropen, setslideropen] = useState(false);
   const [monto, setMonto] = useState<number>();
   const [meses, setMeses] = useState<SelectValues[]>([]);
+  const [meselect, setMeselect] = useState("");
+
+
   const [ajustes, setAjustes] = useState<SelectValues[]>([]);
   const [nameNewDoc, setNameNewDoc] = useState("");
 
   let year: number = new Date().getFullYear();
 
-  const handleSelectMes = (v: SelectValues) => {};
+  const handleSelectMes = (v: SelectValues) => {
+    setMeselect(String(v.value));
+  };
   const handleSelectAjuste = (v: SelectValues) => {};
+  
+  const [file, setFile] = useState(Object);
+  
+  
+
+
 
   const handleNewFile = (event: any) => {
-    let file = event.target!.files[0]!;
+    setFile(event?.target?.files?.[0] || "");
     ///// SE VALIDA SI NO SE CARGO ARCHIVO EN EL INPUT PARA PODER EXTRAER EL NOMBRE
     if (event.target.files.length === 0) {
     } else {
@@ -62,8 +78,86 @@ const ModalFgp = ({
     }
   };
 
+
+  const isrinmuebles = ()=>{
+    setslideropen(true);
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlsx");
+    formData.append("tipo", "ISRINMUEBLES");
+    formData.append("CHUSER", user.id);
+    formData.append("ANIO", String(year));
+    formData.append("MES", meselect);
+    formData.append("IMPORTE", String(monto));
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Carga Exitosa!",
+        });
+
+        onClickBack();
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+
+
+
+    });
+
+
+  }
+
+
+  const icv = ()=>{
+    setslideropen(true);
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlsx");
+    formData.append("tipo", "RefrendosICV");
+    formData.append("CHUSER", user.id);
+    formData.append("ANIO", String(year));
+    formData.append("MES", meselect);
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Carga Exitosa!",
+        });
+
+        onClickBack();
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+
+
+
+    });
+
+
+  }
+
+
+
   const handleSend = () => {
-    if (monto == null || anio) {
+
+
+    if(clave ==='ICV'){
+      icv();
+    }else if(clave ==='ISR INMUEBLES'){
+      isrinmuebles();
+    }
+
+
+   /* if (monto == null || anio) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -80,7 +174,16 @@ const ModalFgp = ({
         ANIOPOBLACION: 2020,
       };
       agregar(data);
-    }
+    }*/
+
+
+
+
+
+
+
+
+
   };
 
   const agregar = (data: any) => {
@@ -109,16 +212,20 @@ const ModalFgp = ({
     });
   };
 
+
   useEffect(() => {
     // SE ESTABLECE EL TIEMPO EN ESPERA PARA QUE SE CARGEN DE FORMA CORRECTA LOS COMPONENTES
     setNameNewDoc("");
     setTimeout(() => {
-      setMeses(fmeses);
+      setslideropen(true);
+      setMeses(fmeses());
       ajusteesc();
       setslideropen(false);
     }, 3000);
-    setslideropen(true);
-  }, []);
+  
+  }, [step]);
+
+
 
   return (
     <div>
@@ -334,45 +441,8 @@ const ModalFgp = ({
             </Grid>
 
             
-
-            {clave === "ICV" ? (
-              <>
-                <Grid
-                  item
-                  xs={5}
-                  md={5}
-                  lg={5}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "right",
-                  }}
-                >
-                  <label className="contenido">Cargar Archivo:</label>
-                </Grid>
-                <Grid item xs={6} md={6}>
-                  <IconButton
-                    aria-label="upload picture"
-                    component="label"
-                    size="large"
-                  >
-                    <input
-                      required
-                      type="file"
-                      hidden
-                      onChange={(event) => {
-                        handleNewFile(event);
-                      }}
-                    />
-                    <UploadFileIcon />
-                  </IconButton>
-
-                  <Box>
-                    <label>{nameNewDoc}</label>
-                  </Box>
-                </Grid>
-              </>
-            ) : (
-              <>
+            {clave !== "ICV"  ? (
+            <>
               <Grid
               item
               xs={5}
@@ -397,6 +467,52 @@ const ModalFgp = ({
               ></Input>
             </Grid>
               </>
+            ):""
+            }
+
+
+
+
+            {clave === "ICV" || clave === "ISR INMUEBLES" ? (
+              <>
+                <Grid
+                  item
+                  xs={5}
+                  md={5}
+                  lg={5}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "right",
+                  }}
+                >
+                  <label className="contenido">Cargar Archivo:</label>
+                </Grid>
+                <Grid item xs={6} md={6}>
+                  <IconButton
+                    aria-label="upload picture"
+                    component="label"
+                    size="large"
+                  >
+                    <input
+                      id="ICV"
+                      required
+                      type="file"
+                      hidden
+                      onChange={(event) => {
+                        handleNewFile(event);
+                      }}
+                    />
+                    <UploadFileIcon />
+                  </IconButton>
+
+                  <Box>
+                    <label>{nameNewDoc}</label>
+                  </Box>
+                </Grid>
+              </>
+            ) : (
+              ""
+              
             )}
 
             <Grid

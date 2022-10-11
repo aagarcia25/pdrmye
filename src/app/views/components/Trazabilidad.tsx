@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   TimelineItem,
@@ -19,15 +19,56 @@ import {
 } from "@mui/material";
 
 import Slider from "./Slider";
+import { Toast } from "../../helpers/Toast";
+import { calculosServices } from "../../services/calculosServices";
+import { Alert } from "../../helpers/Alert";
 
 const Trazabilidad = ({
+  id,
   open,
   handleClose,
 }: {
+  id:string;
   open: boolean;
   handleClose: Function;
 }) => {
   const [openSlider, setOpenSlider] = useState(false);
+  const [data, setdata] = useState([]);
+
+  const consulta = () => {
+    setOpenSlider(true);
+    let data={
+      CHID:id
+    }
+    calculosServices.trazabilidad(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        setdata(res.RESPONSE);
+        setOpenSlider(false);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+        setOpenSlider(false);
+      }
+    });
+  };
+
+
+
+
+  useEffect(() => {
+   console.log(id);
+   consulta();
+  }, [id]);
+
+
+
 
   return (
     <div>
@@ -56,92 +97,7 @@ const Trazabilidad = ({
                     <TimelineContent>Eat</TimelineContent>
                   </TimelineItem>
 
-                  <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
-                      09:30 am
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                      <TimelineDot />
-                      <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent>Eat</TimelineContent>
-                  </TimelineItem>
-
-                  <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
-                      09:30 am
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                      <TimelineDot />
-                      <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent>Eat</TimelineContent>
-                  </TimelineItem>
-
-                  <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
-                      09:30 am
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                      <TimelineDot />
-                      <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent>Eat</TimelineContent>
-                  </TimelineItem>
-
-                  <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
-                      09:30 am
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                      <TimelineDot />
-                      <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent>Eat</TimelineContent>
-                  </TimelineItem>
-
-                  <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
-                      09:30 am
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                      <TimelineDot />
-                      <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent>Eat</TimelineContent>
-                  </TimelineItem>
-
-
-                  <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
-                      10:00 am
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                      <TimelineDot />
-                      <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent>Code</TimelineContent>
-                  </TimelineItem>
-                  <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
-                      12:00 am
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                      <TimelineDot />
-                      <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent>Sleep</TimelineContent>
-                  </TimelineItem>
-                  <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
-                      9:00 am
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                      <TimelineDot />
-                      <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent>Repeat</TimelineContent>
-                  </TimelineItem>
+                
                 </Timeline>
             
                

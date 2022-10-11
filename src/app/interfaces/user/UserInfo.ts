@@ -15,7 +15,7 @@
     }
 
     export interface RESPONSE {
-        id: number;
+        id: string;
         deleted: string;
         UltimaActualizacion: string;
         FechaCreacion: string;

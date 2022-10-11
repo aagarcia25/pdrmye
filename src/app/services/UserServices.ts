@@ -21,7 +21,10 @@ export class UserServices {
     }
     
 
-   
+    public static async signup(data: any) {
+        return await postSingle('sign-up', data);
+    }
+    
 
 
 

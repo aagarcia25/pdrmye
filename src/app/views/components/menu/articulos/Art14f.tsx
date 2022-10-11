@@ -7,10 +7,12 @@ import { ArticulosServices } from "../../../../services/ArticulosServices";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Slider from "../../Slider";
 
 
 export const Art14f = () => {
   const navigate = useNavigate();
+  const [slideropen, setslideropen] = useState(false);
   const user = getUser();
   const [data, setData] = useState([]);
   const [tipo, setTipo] = useState<Number>(0);
@@ -60,29 +62,27 @@ export const Art14f = () => {
 
   const columnsArticulo14f2: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   ,hide: true},
-    { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
-    { field: "a", headerName: "Poblacion", width: 150 ,description:"PO"},
-    { field: "b", headerName: "Coeficiente Población", width: 150 ,description:"POi/∑POi "},
-    { field: "c", headerName: "Proyección de Póblacion", width: 200 ,description:"PC" },
-    { field: "d", headerName: "Coeficiente Proyeccion de Población", width: 280 ,description:"PC/∑PC" },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 150 , description:""},
+    { field: "Nombre", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
+    { field: "Poblacion", headerName: "Población", width: 150 ,description:"PO"},
+    { field: "Coeficientepoblacion", headerName: "Coeficiente Población", width: 150 ,description:"POi/∑POi "},
+    { field: "Proyeccion", headerName: "Proyección de Póblacion", width: 200 ,description:"PC" },
+    { field: "Coeficienteproyeccion", headerName: "Coeficiente Proyeccion de Población", width: 280 ,description:"PC/∑PC" },
   ];
 
 
   const columnsArticulo14f3: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   ,hide: true},
-    { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
-    
-    
-    { field: "a", headerName: "Facturación", width: 150 ,description:"PO"},
-    { field: "b", headerName: "Recaudación", width: 150 ,description:"POi/∑POi "},
-    { field: "c", headerName: "Eficiencia Recaudatoria", width: 200 ,description:"PC" },
-    { field: "d", headerName: "Coeficiente Eficiencia Recaudatoria", width: 280 ,description:"PC/∑PC" },
-
-    { field: "b", headerName: "Recaudación", width: 150 ,description:"POi/∑POi "},
-    { field: "b", headerName: "Recaudación", width: 150 ,description:"POi/∑POi "},
-    { field: "b", headerName: "Recaudación", width: 150 ,description:"POi/∑POi "},
-    { field: "b", headerName: "Recaudación", width: 150 ,description:"POi/∑POi "},
-    { field: "b", headerName: "Recaudación", width: 150 ,description:"POi/∑POi "},
+    { field: "Nombre", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
+    { field: "Facturacion1", headerName: "Facturación", width: 150 ,description:"BGt-1"},
+    { field: "Recaudacion1", headerName: "Recaudación (Ri,t-1)", width: 150 ,description:"Ri,t-1 "},
+    { field: "EficienciaRecaudatoria", headerName: "Eficiencia Recaudatoria", width: 300 ,description:"ERt-1 = Ri,t-1 / BGi,t-1" },
+    { field: "CoeficienteEficienciaRecaudatoria", headerName: "Coeficiente Eficiencia Recaudatoria", width: 300 ,description:"CERi,t = ERi,t-1 /∑ERi,t-1" },
+    { field: "Recaudacion2", headerName: "Recaudación (Ri,t-2)", width: 300 ,description:"Ri,t-2"},
+    { field: "Tasa1", headerName: "Tasa de Crecimiento", width: 300 ,description:"CRi,t=(Ri,t-1/Ri,t-2)- 1 "},
+    { field: "Tasa2", headerName: "Tasa>0", width: 150 ,description:" "},
+    { field: "CoeficienteCrecimientoRecaudacion", headerName: "Coeficiente Crecimiento Recaudación", width: 300 ,description:"CCRi,t=CRi,t /∑CRi,t"},
+    { field: "CoeficienteimpuestoPredial", headerName: "Coeficiente por Monto de Recaudación Impuesto Predial", width: 300 ,description:"REi,t = Ri,t-1 /∑Ri,t-1"},
 
 
 
@@ -90,14 +90,16 @@ export const Art14f = () => {
   ];
 
 
-  const loaddata = (tipo : Number) => {
+  const loaddata = (tipo : Number , idc: string) => {
+    setslideropen(true);
     let data = {
       NUMOPERACION: 4,
-      TIPO:tipo
+      ID:idc
     };
     setTipo(tipo);
     ArticulosServices.articulof1(data).then((res) => {
       setData(res.RESPONSE);
+      setslideropen(false);
     });
 
   };
@@ -105,14 +107,14 @@ export const Art14f = () => {
 
   let params = useParams();
   useEffect(() => {
-    console.log(params.tipo)
-    loaddata(Number(params.tipo));
+    loaddata(Number(params.tipo),String(params.id));
 
-  }, [params.tipo]);
+  }, [params.tipo,params.id]);
 
   return (
     
     <Box sx={{}}>
+       <Slider open={slideropen} ></Slider>
     <Box sx={{}}>
     <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
       <Tooltip title="Regresar">

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import Swal from "sweetalert2";
-import { UserDetail } from "./app/interfaces/user/UserDetail";
 import { UserInfo } from "./app/interfaces/user/UserInfo";
 import { UserReponse } from "./app/interfaces/user/UserReponse";
 import { AppRouter } from "./app/router/AppRouter";
@@ -9,12 +8,14 @@ import { AuthService } from "./app/services/AuthService";
 import { CatalogosServices } from "./app/services/catalogosServices";
 import {
   getPU,
-  isAuthenticated,
+  islogin,
+  setlogin,
   setMenus,
   setMunicipios,
   setPermisos,
   setPU,
   setRoles,
+  setToken,
   setUser,
   validaLocalStorage,
 } from "./app/services/localStorage";
@@ -22,13 +23,20 @@ import { UserServices } from "./app/services/UserServices";
 import { BloqueoSesion } from "./app/views/components/BloqueoSesion";
 import Validacion from "./app/views/components/Validacion";
 import { useIdleTimer } from "react-idle-timer";
+import Slider from "./app/views/components/Slider";
 
 function App() {
-  const [log, setLog] = useState(false);
-  const logeado = isAuthenticated();
+ 
+  //cambiar a 5 minutos
+  const timeout = 600000;
+  const [isIdle, setIsIdle] = useState(false);
+  const query = new URLSearchParams(useLocation().search);
+  const jwt = query.get("jwt");
+  const [openSlider, setOpenSlider] = useState(false);
+  const [acceso, setAcceso] = useState(false);
 
   const loadAnios = () => {
-    let data = { NUMOPERACION : 4 };
+    let data = { NUMOPERACION: 4 };
     if (!validaLocalStorage("Anios")) {
       CatalogosServices.SelectIndex(data).then((res) => {
         localStorage.setItem("Anios", JSON.stringify(res.RESPONSE));
@@ -37,7 +45,7 @@ function App() {
   };
 
   const loadMeses = () => {
-    let data = { NUMOPERACION : 2 };
+    let data = { NUMOPERACION: 2 };
     if (!validaLocalStorage("Meses")) {
       CatalogosServices.SelectIndex(data).then((res) => {
         localStorage.setItem("Meses", JSON.stringify(res.RESPONSE));
@@ -54,15 +62,10 @@ function App() {
     }
   };
 
-  const registerUser = (rs: UserDetail) => {
+  const buscaUsuario = (id: string) => {
     let data = {
       NUMOPERACION: 1,
-      ID: rs.Id,
-      NOMBRE: rs.Nombre,
-      AP: rs.ApellidoPaterno,
-      AM: rs.ApellidoMaterno,
-      NUSER: rs.NombreUsuario,
-      CORREO: rs.CorreoElectronico,
+      ID: id,
     };
     AuthService.adminUser(data).then((res2) => {
       const us: UserInfo = res2;
@@ -73,25 +76,20 @@ function App() {
     });
   };
 
-  const validaUser = (token: string) => {
-    const user: UserReponse = JSON.parse(String(getPU()));
-    UserServices.userDetail({ IdUsuario: user.IdUsuario }, token).then(
-      (res1) => {
-        const userd: UserDetail = res1.data.data;
-        registerUser(userd);
-      }
-    );
-  };
-
   const verificatoken = (token: string) => {
     // SE VALIDA EL TOKEN
+    setToken(jwt);
     UserServices.verify({}, token).then((res) => {
       if (res.status == 200) {
-        setLog(true);
+        setlogin(true);
+        setAcceso(true);
         //SE OBTIENE LA INFORMACION DE DETALLE DEL USUARIO
         setPU(res.data.data);
-        validaUser(token);
+        const user: UserReponse = JSON.parse(String(getPU()));
+        buscaUsuario(user.IdUsuario);
       } else if (res.status == 401) {
+        setlogin(false);
+        setAcceso(false);
         Swal.fire({
           title: "Mensaje: " + res.data.msg,
           showDenyButton: false,
@@ -106,14 +104,6 @@ function App() {
       }
     });
   };
-
-  const query = new URLSearchParams(useLocation().search);
-  const jwt = query.get("jwt");
-
-  //cambiar a 5 minutos
-  const timeout = 600000;
-
-  const [isIdle, setIsIdle] = useState(false);
 
   const handleOnActive = (v: string) => {
     const user: UserReponse = JSON.parse(String(getPU()));
@@ -144,29 +134,24 @@ function App() {
 
   const handleOnIdle = () => setIsIdle(true);
 
-  const {
-    reset,
-    pause,
-    resume,
-    getRemainingTime,
-    getLastActiveTime,
-    getElapsedTime,
-  } = useIdleTimer({
+  const {} = useIdleTimer({
     timeout,
     onIdle: handleOnIdle,
   });
 
   useEffect(() => {
-    setTimeout(() => {
-      console.log("validando municipios");
-      loadMunicipios();
-      loadMeses();
-      loadAnios();
-    }, 2000);
-
-    if (!logeado) {
+    //setTimeout(() => {
+   
+    
       if (String(jwt) != null && String(jwt) != "") {
         verificatoken(String(jwt));
+
+        console.log("validando municipios");
+        loadMunicipios();
+        loadMeses();
+        loadAnios();
+        setOpenSlider(false);
+
       } else {
         Swal.fire({
           title: "Token no valido",
@@ -179,20 +164,29 @@ function App() {
           }
         });
       }
-    }
-  }, [log]);
+   
+
+    // }, 2000);
+  }, []);
+
+
 
   return (
     <div>
+      <Slider open={openSlider}></Slider>
       {isIdle ? (
         <BloqueoSesion handlePassword={handleOnActive} />
-      ) : logeado ? (
+      ) : acceso ? (
         <AppRouter />
       ) : (
         <Validacion />
       )}
     </div>
   );
+
+
+
+
 }
 
 export default App;

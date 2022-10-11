@@ -9,14 +9,12 @@ import { Toast } from "../../../../helpers/Toast";
 import { Alert } from "../../../../helpers/Alert";
 import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import InsightsIcon from '@mui/icons-material/Insights';
+import InsightsIcon from "@mui/icons-material/Insights";
 
 import MUIXDataGrid from "../../MUIXDataGrid";
 import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
 import Trazabilidad from "../../Trazabilidad";
 import ModalFondo from "../aportaciones/ModalFondo";
-
-
 
 export const Fondo = () => {
   const navigate = useNavigate();
@@ -28,13 +26,13 @@ export const Fondo = () => {
   const [modo, setModo] = useState<string>("");
   const [anio, setAnio] = useState<number>(0);
   const [mes, setMes] = useState<string>("");
-
- 
+  const [idtrazabilidad,setIdtrazabilidad]=useState("");
 
   const closeTraz = (v: any) => {
     setOpenTrazabilidad(false);
   };
   const handleTraz = (v: any) => {
+    setIdtrazabilidad(v.row.id);
     setOpenTrazabilidad(true);
   };
   const handleOpen = (v: any) => {
@@ -44,11 +42,11 @@ export const Fondo = () => {
   const handleClose = (v: any) => {
     setstep(0);
   };
-  const handleAjuste = (v: any) => {     
+  const handleAjuste = (v: any) => {
     setModo("ajuste");
     setAnio(Number(v.row.Anio));
     setMes(v.row.Mes);
-    setstep(1); 
+    setstep(1);
   };
 
   const handleView = (v: any) => {
@@ -97,7 +95,6 @@ export const Fondo = () => {
       width: 150,
       renderCell: (v) => {
         return (
-
           <Box>
             <Tooltip title="Ver detalle de Cálculo">
               <IconButton onClick={() => handleView(v)}>
@@ -106,10 +103,12 @@ export const Fondo = () => {
             </Tooltip>
 
             <Tooltip title="Agregar Ajuste">
-              <IconButton 
-              onClick={() => handleAjuste(v)}
-              disabled ={(String(v.row.Clave)=="FISM"||String(v.row.Clave)=="FORTAMUN")}
-              
+              <IconButton
+                onClick={() => handleAjuste(v)}
+                disabled={
+                  String(v.row.Clave) == "FISM" ||
+                  String(v.row.Clave) == "FORTAMUN"
+                }
               >
                 <AttachMoneyIcon />
               </IconButton>
@@ -120,9 +119,6 @@ export const Fondo = () => {
                 <InsightsIcon />
               </IconButton>
             </Tooltip>
-
-
-
           </Box>
         );
       },
@@ -169,10 +165,7 @@ export const Fondo = () => {
   useEffect(() => {
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
-
   }, [params.fondo]);
-
-
 
   return (
     <>
@@ -180,6 +173,7 @@ export const Fondo = () => {
         <Trazabilidad
           open={openTrazabilidad}
           handleClose={closeTraz}
+          id={idtrazabilidad}
         ></Trazabilidad>
       ) : (
         ""
@@ -193,7 +187,13 @@ export const Fondo = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <ModalFondo titulo={nombreFondo} onClickBack={handleClose} modo={modo} anio={anio} mes={mes}/>
+          <ModalFondo
+            titulo={nombreFondo}
+            onClickBack={handleClose}
+            modo={modo}
+            anio={anio}
+            mes={mes}
+          />
         </div>
       </Box>
     </>

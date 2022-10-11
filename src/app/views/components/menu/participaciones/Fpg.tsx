@@ -9,15 +9,16 @@ import { Toast } from "../../../../helpers/Toast";
 import { Alert } from "../../../../helpers/Alert";
 import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import InsightsIcon from '@mui/icons-material/Insights';
+import InsightsIcon from "@mui/icons-material/Insights";
 import ModalFgp from "./ModalFgp";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
 import Trazabilidad from "../../Trazabilidad";
-
+import Slider from "../../Slider";
 
 export const Fpg = () => {
   const navigate = useNavigate();
+  const [slideropen, setslideropen] = useState(false);
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
@@ -26,24 +27,23 @@ export const Fpg = () => {
   const [modo, setModo] = useState<string>("");
   const [anio, setAnio] = useState<number>(0);
   const [mes, setMes] = useState<string>("");
-
- 
+  const [idtrazabilidad, setIdtrazabilidad] = useState("");
 
   const closeTraz = (v: any) => {
     setOpenTrazabilidad(false);
   };
   const handleTraz = (v: any) => {
+    setIdtrazabilidad(v.row.id);
     setOpenTrazabilidad(true);
   };
-
 
   const handleOpen = (v: any) => {
     setModo("calculo");
     setstep(1);
-
-  }
+  };
 
   const handleClose = (v: any) => {
+    consulta({ FONDO: fondo });
     setstep(0);
   };
 
@@ -52,7 +52,6 @@ export const Fpg = () => {
     setAnio(Number(v.row.Anio));
     setMes(v.row.Mes);
     setstep(1);
-
   };
 
   const handleView = (v: any) => {
@@ -92,6 +91,12 @@ export const Fpg = () => {
       description: "Total",
       ...Moneda,
     },
+    {
+      field: "estatus",
+      headerName: "Estatus",
+      width: 200,
+      description: "Estatus",
+    },
 
     {
       field: "acciones",
@@ -101,7 +106,6 @@ export const Fpg = () => {
       width: 150,
       renderCell: (v) => {
         return (
-
           <Box>
             <Tooltip title="Ver detalle de Cálculo">
               <IconButton onClick={() => handleView(v)}>
@@ -120,9 +124,6 @@ export const Fpg = () => {
                 <InsightsIcon />
               </IconButton>
             </Tooltip>
-
-
-
           </Box>
         );
       },
@@ -147,6 +148,7 @@ export const Fpg = () => {
   };
 
   const consulta = (data: any) => {
+    setslideropen(true);
     calculosServices.calculosInfo(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -154,12 +156,14 @@ export const Fpg = () => {
           title: "Consulta Exitosa!",
         });
         setdata(res.RESPONSE);
+        setslideropen(false);
       } else {
         Alert.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
+        setslideropen(false);
       }
     });
   };
@@ -169,17 +173,16 @@ export const Fpg = () => {
   useEffect(() => {
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
-
   }, [params.fondo]);
-
-
 
   return (
     <>
+      <Slider open={slideropen}></Slider>
       {openTrazabilidad ? (
         <Trazabilidad
           open={openTrazabilidad}
           handleClose={closeTraz}
+          id={idtrazabilidad}
         ></Trazabilidad>
       ) : (
         ""
@@ -193,7 +196,15 @@ export const Fpg = () => {
       </Box>
       <Box sx={{ display: step == 1 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <ModalFgp clave={fondo} titulo={nombreFondo} onClickBack={handleClose} modo={modo} anio={anio} mes={mes}/>
+          <ModalFgp
+            step={step}
+            clave={fondo}
+            titulo={nombreFondo}
+            onClickBack={handleClose}
+            modo={modo}
+            anio={anio}
+            mes={mes}
+          />
         </div>
       </Box>
     </>
