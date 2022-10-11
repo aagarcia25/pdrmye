@@ -4,19 +4,23 @@ import React, { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
+import { UserReponse } from "../../../../../interfaces/user/UserReponse";
 import { AuthService } from "../../../../../services/AuthService";
+import { getPU } from "../../../../../services/localStorage";
 import Slider from "../../../Slider";
 
 const MenuModal = ({
-  id,
+
   open,
   tipo,
   handleClose,
+  vrows
 }: {
-  id: string;
+ 
   open: boolean;
   tipo: number;
   handleClose: Function;
+  vrows:any;
 }) => {
 
 
@@ -26,15 +30,16 @@ const MenuModal = ({
   const [MenuPadre, setMenuPadre] = useState("");
   const [Path, setPath] = useState("");
   const [Nivel, setNivel] = useState("");
+  const [id, setId] = useState("");
   const [Orden, setOrden] = useState("");
   const [values, setValues] =useState<any[]>([]);
+  const user: UserReponse = JSON.parse(String(getPU()));
   
   const handleSend = () => {
     if ( 
       Menu == "" || 
       Descripcion == ""|| 
-      Path == ""|| 
-      Nivel == ""
+      Path == ""
         ) {
       Alert.fire({
         title: "Error!",
@@ -44,7 +49,7 @@ const MenuModal = ({
     } else {
       let data = {
         NUMOPERACION: tipo,
-        CHUSER:1,
+        CHUSER:user.IdUsuario,
         CHID:id,
         MENU:Menu,
         DESCRIPCION:Descripcion,
@@ -65,6 +70,7 @@ const MenuModal = ({
           icon: "success",
           title: tipo == 1 ? "Registro Agregado!" : "Registro Editado!" ,
         });
+        handleClose();
       } else {
         Alert.fire({
           title: "Error!",
@@ -89,10 +95,27 @@ const MenuModal = ({
     });
   };
 
-
   useEffect(() => {
     consulta({ NUMOPERACION: 4 });
-  }, []);
+    if(vrows === ''  ){
+      console.log(vrows)
+     
+  }else{
+    setMenu(vrows?.row?.Menu)
+    setDescripcion(vrows?.row?.Descripcion)
+    setMenuPadre(vrows?.row?.MenuPadre)
+    setPath(vrows?.row?.Path)
+    setNivel(vrows?.row?.Nivel)
+    setOrden(vrows?.row?.Orden) 
+    setId(vrows?.row?.id)
+ 
+
+      console.log(vrows)
+
+
+ 
+  }
+  }, [vrows]);
 
 
   return (
@@ -100,9 +123,12 @@ const MenuModal = ({
       <Slider open={openSlider}></Slider>
       <Box>
       <Dialog open={open}>
-        <DialogTitle>
-          {tipo == 1 ? "Nuevo Registro" : "Editar Registro"}
-        </DialogTitle>
+      <Box
+          sx={{ display: 'flex', justifyContent: 'center',}}>
+    
+      <label className="Titulo">{tipo == 1 ? "Nuevo Registro" : "Editar Registro"}
+        </label>
+        </Box>
         <DialogContent>
           <Box>
             <TextField
@@ -176,7 +202,7 @@ const MenuModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setNivel(v.target.value)}
-              error={Nivel == "" ? true : false}
+              error={Nivel == null ? true : false}
             />
 
            <TextField
@@ -197,8 +223,8 @@ const MenuModal = ({
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={() => handleSend()}>Guardar</Button>
-          <Button onClick={() => handleClose()}>Cancelar</Button>
+          <button className="guardar" onClick={() => handleSend()}>Guardar</button>
+          <button className="cerrar" onClick={() => handleClose()}>Cancelar</button>
         </DialogActions>
       </Dialog>
       </Box>

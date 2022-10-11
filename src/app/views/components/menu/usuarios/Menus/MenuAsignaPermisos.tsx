@@ -11,11 +11,11 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 
 const MenuAsignaPermisos = ({
-  id,
+  dt,
   open,
   handleClose,
 }: {
-  id: string;
+  dt: any;
   open: boolean;
   handleClose: Function;
 }) => {
@@ -26,7 +26,7 @@ const MenuAsignaPermisos = ({
   const handleChange = (v: any) => {
     let data={
         IDPERMISO : v.row.id,
-        IDMENU    : id
+        IDMENU    : dt?.row?.id 
     }
     AuthService.menuPermisosRelacionar(data).then((res) => {
         setData(res.RESPONSE);
@@ -35,7 +35,7 @@ const MenuAsignaPermisos = ({
                 icon: "success",
                 title: "Permiso Relacionado!",
               });  
-              consulta({ CHID: id });
+              consulta({ CHID: dt?.row?.id  });
         }else{
             Alert.fire({
                 title: "Error!",
@@ -83,7 +83,7 @@ const MenuAsignaPermisos = ({
   };
 
   useEffect(() => {
-    consulta({ CHID: id });
+    consulta({ CHID: dt?.row?.id });
   }, []);
 
   return (

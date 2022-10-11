@@ -13,6 +13,8 @@ import Swal from "sweetalert2";
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import { GridColDef } from '@mui/x-data-grid';
 import ButtonsAdd from '../Utilerias/ButtonsAdd';
+import { UserReponse } from '../../../../../interfaces/user/UserReponse';
+import { getPU } from '../../../../../services/localStorage';
 
 
 export const Avisos = () => {
@@ -22,6 +24,7 @@ export const Avisos = () => {
   const [data, setData] = useState({});
   const [conAvisos, setAvisos] = useState([]);
   const [open, setOpen] = useState(false);
+  const user: UserReponse = JSON.parse(String(getPU()));
   const columns: GridColDef[] = [
 
     { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
@@ -67,7 +70,7 @@ export const Avisos = () => {
 
 
   const handleEditar = (v: any) => {
-    console.log(v)
+
     setTipoOperacion(2);
     setModo("Editar");
     setOpen(true);
@@ -84,14 +87,12 @@ export const Avisos = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
-
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER:String(user.IdUsuario)
         };
-        console.log(data);
+
 
         CatalogosServices.avisos(data).then((res) => {
           if (res.SUCCESS) {
@@ -140,13 +141,16 @@ export const Avisos = () => {
 
 
 
-  const handleClose = () => {
-    console.log('cerrando');
-    let data = {
-      NUMOPERACION: 4,
-      CHUSER: 1,
-    };
-    consulta(data);
+  const handleClose = (v:string) => {
+if(v=="save"){
+  let data = {
+    NUMOPERACION: 4,
+    CHUSER: String(user.IdUsuario),
+  };
+  consulta(data);
+
+}
+
     setOpen(false);
 
   };
@@ -172,15 +176,16 @@ export const Avisos = () => {
 
   let dat = ({
     NUMOPERACION: 4,
-    CHUSER: 1
+    CHUSER:String(user.IdUsuario)
   })
 
 
   useEffect(() => {
+ 
     CatalogosServices.avisos(dat).then((res) => {
-      //  console.log(res);
       setAvisos(res.RESPONSE);
     });
+
   }, []);
 
 
@@ -200,7 +205,7 @@ export const Avisos = () => {
         ""
       )}
       <Box>
-       </Box>
+      </Box>
       <ButtonsAdd handleOpen={handleNuevoRegistro} />
       <MUIXDataGrid columns={columns} rows={conAvisos} />
     </div>

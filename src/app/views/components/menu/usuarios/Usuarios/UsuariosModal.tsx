@@ -97,9 +97,12 @@ const UsuariosModal = ({
   return (
     <div>
       <Dialog open={open}>
-        <DialogTitle>
-          {tipo == 1 ? "Nuevo Registro" : "Editar Registro"}
-        </DialogTitle>
+      <Box
+          sx={{ display: 'flex', justifyContent: 'center',}}>
+      <label className="Titulo"> {tipo == 1 ? "Nuevo Registro" : "Editar Registro"}
+      </label>
+      </Box>
+       
         <DialogContent>
           <Box>
             <TextField
@@ -170,8 +173,8 @@ const UsuariosModal = ({
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={() => handleSend()}>Guardar</Button>
-          <Button onClick={() => handleClose()}>Cancelar</Button>
+        <button className="guardar" onClick={() =>  handleSend()}>Guardar</button>
+        <button className="cerrar" onClick={() =>handleClose()}>Cancelar</button>
         </DialogActions>
       </Dialog>
     </div>

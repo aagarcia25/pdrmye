@@ -90,8 +90,6 @@ const RolesAsignaPermisos = ({
 
     return (
         <div>
-
-
             <Slider open={openSlider} ></Slider>
             <Box >
                 <Modal open={open}>

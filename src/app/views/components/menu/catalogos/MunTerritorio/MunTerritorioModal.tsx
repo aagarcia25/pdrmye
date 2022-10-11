@@ -18,7 +18,8 @@ import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getPU, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { UserReponse } from "../../../../../interfaces/user/UserReponse";
 
 
 const MunTerritorioModal = ({
@@ -43,7 +44,7 @@ const MunTerritorioModal = ({
   const [anio, setAnio] = useState("");
   const [territorio, setTerritorio] = useState<number>();
 
-
+  const user: UserReponse = JSON.parse(String(getPU()));
   const [IdMunicipio, setIdMunicipio] = useState<object>();
   const [values, setValues] = useState<Imunicipio[]>();
  
@@ -75,7 +76,7 @@ const MunTerritorioModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.IdUsuario,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         KM2: territorio,

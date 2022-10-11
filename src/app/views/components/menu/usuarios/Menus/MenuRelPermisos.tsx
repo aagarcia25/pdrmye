@@ -16,11 +16,11 @@ import React, { useEffect, useState } from "react";
 import { AuthService } from "../../../../../services/AuthService";
 
 const MenuRelPermisos = ({
-  id,
+  dt,
   open,
   handleClose,
 }: {
-  id: string;
+  dt: any;
   open: boolean;
   handleClose: Function;
 }) => {
@@ -33,7 +33,8 @@ const MenuRelPermisos = ({
   };
 
   useEffect(() => {
-    consulta({ CHID: id });
+    
+    consulta({ CHID: dt?.row?.id });
   }, []);
 
   return (

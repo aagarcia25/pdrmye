@@ -104,7 +104,7 @@ const RolesMenu = ({
             borderRadius: 3,
           }}
         >
-          <Grid md={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+          <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
             <Typography
               sx={{
                 textAlign: "center",
@@ -117,7 +117,7 @@ const RolesMenu = ({
             </Typography>
           </Grid>
 
-          <Grid md={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+          <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
             <Typography
               sx={{
                 textAlign: "left",
@@ -131,7 +131,7 @@ const RolesMenu = ({
           </Grid>
 
 
-          <Grid md={12}
+          <Grid sm={12}
             sx={{
               mt: "2vh",
               width: "100%",
@@ -148,15 +148,14 @@ const RolesMenu = ({
           </Grid>
 
 
-          <Grid md={12}
+          <Grid sm={12}
             sx={{
 
               display: "flex",
               alignItems: "right",
               justifyContent: "right",
               mt: "2vh",
-              // mr: "5vw",
-              // ml: "5vw",
+           
             }}
           >
             <Button

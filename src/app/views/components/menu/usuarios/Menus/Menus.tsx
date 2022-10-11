@@ -13,43 +13,48 @@ import MenuRelPermisos from "./MenuRelPermisos";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import MenuAsignaPermisos from "./MenuAsignaPermisos";
 import MenuModal from "./MenuModal";
+import { UserReponse } from "../../../../../interfaces/user/UserReponse";
+import { getPU } from "../../../../../services/localStorage";
+import Swal from "sweetalert2";
+import { CalendarioService } from "../../../../../services/calendarioService";
 
 const Menus = () => {
-  const [id,              setId] = useState("");
-  const [data,            setData] = useState([]);
-  const [open,            setOpen] = useState(false);
-  const [openRel,         setOpenRel] = useState(false);
-  const [openModal,       setOpenModal] = useState(false);
-  const [modo,            setModo] = useState("");
-  const [tipoOperacion,   setTipoOperacion] = useState(0);
-  const [vrows,           setVrows] = useState({});
+  const [dt, setDt] = useState([]);
+  const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [openRel, setOpenRel] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [modo, setModo] = useState("");
+  const [tipoOperacion, setTipoOperacion] = useState(0);
+  const [vrows, setVrows] = useState({});
+  const user: UserReponse = JSON.parse(String(getPU()));
 
 
 
-  
+
   const handleOpenModal = () => {
-           setTipoOperacion(1);
-           setModo("Insertar Registro");
-           setVrows("");
-           setOpenModal(true);
+    setTipoOperacion(1);
+    setModo("Insertar Registro");
+    setVrows("");
+    setOpenModal(true);
   };
 
   const handleEditar = (v: any) => {
     setTipoOperacion(2);
     setModo("Editar Registro");
     setVrows(v);
-    setOpen(true);
+    setOpenModal(true);
   };
 
 
   const handleRel = (v: any) => {
-    setId(v.row.id);
+    setDt(v);
     setOpenRel(true);
 
   };
 
   const handleViewPermisos = (v: any) => {
-    setId(v.row.id);
+    setDt(v);
     setOpen(true);
   };
 
@@ -61,12 +66,12 @@ const Menus = () => {
     consulta({ NUMOPERACION: 4 });
   };
 
- 
 
-  
+
+
 
   const handleDelete = (v: any) => {
-    /*  Swal.fire({
+    Swal.fire({
         icon: "info",
         title: "Estas seguro de eliminar este registro?",
         showDenyButton: true,
@@ -80,23 +85,17 @@ const Menus = () => {
           let data = {
             NUMOPERACION: 3,
             CHID: v.row.id,
-            CHUSER: 1,
+            CHUSER:user.IdUsuario,
           };
-          console.log(data);
-  
-          CatalogosServices.munfacturacion(data).then((res) => {
+          console.log(data);  
+          AuthService.menusindex(data).then((res) => {
             if (res.SUCCESS) {
               Toast.fire({
                 icon: "success",
                 title: "Registro Eliminado!",
               });
   
-              let data = {
-                NUMOPERACION: 4,
-                ANIO: filterAnio,
-              };
-              consulta(data);
-  
+              handleClose();
             } else {
               Alert.fire({
                 title: "Error!",
@@ -105,11 +104,12 @@ const Menus = () => {
               });
             }
           });
+ 
   
         } else if (result.isDenied) {
           Swal.fire("No se realizaron cambios", "", "info");
         }
-      });*/
+      });
   };
 
   const columns: GridColDef[] = [
@@ -169,6 +169,7 @@ const Menus = () => {
           title: "Consulta Exitosa!",
         });
         setData(res.RESPONSE);
+
       } else {
         Alert.fire({
           title: "Error!",
@@ -187,34 +188,35 @@ const Menus = () => {
     <div>
 
 
-        
+
       {open ? (
         <MenuRelPermisos
           open={open}
           handleClose={handleClose}
-          id={id}
+          dt={dt}
         ></MenuRelPermisos>
       ) : (
         ""
       )}
 
 
-     {openRel ? (
+      {openRel ? (
         <MenuAsignaPermisos
           open={openRel}
           handleClose={handleClose}
-          id={id}
+          dt={dt}
         ></MenuAsignaPermisos>
       ) : (
         ""
       )}
 
-    {openModal ? (
+      {openModal ? (
         <MenuModal
-                  open={openModal}
-                  handleClose={handleClose}
-                  id={id} 
-                  tipo={tipoOperacion}        ></MenuModal>
+          open={openModal}
+          handleClose={handleClose}
+          tipo={tipoOperacion}
+          vrows={vrows}
+        ></MenuModal>
       ) : (
         ""
       )}

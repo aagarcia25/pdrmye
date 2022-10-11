@@ -15,7 +15,7 @@ import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getPU, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 
 import imagenGenerica from '../../../../../../app/assets/img/archivoImagen.jpg'
 import PdfLogo from '../../../../../../app/assets/img/PDF_file_icon.svg'
@@ -23,6 +23,7 @@ import PptxLogo from '../../../../../../app/assets/img/pptx_Logo.png'
 import xlsxLogo from '../../../../../../app/assets/img/xlsx_Logo.png'
 import docxLogo from '../../../../../../app/assets/img/docx_Logo.png'
 import "../../../../../styles/globals.css";
+import { UserReponse } from "../../../../../interfaces/user/UserReponse";
 const AvisosModal = ({
   open,
   modo,
@@ -67,6 +68,7 @@ const AvisosModal = ({
   const [Avisos, setAvisos] = useState("");
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
+  const user: UserReponse = JSON.parse(String(getPU()));
 
   const municipiosc = () => {
     let data = {};
@@ -89,7 +91,7 @@ const AvisosModal = ({
     formData.append("DESCRIPCION", descripcion);
     formData.append("FECHAINICIO", inicioEvento);
     formData.append("FECHAFIN", finEvento);
-    formData.append("CHUSER", "1");
+    formData.append("CHUSER", String(user.IdUsuario));
 
     CatalogosServices.avisos(formData).then((res) => {
       setslideropen(false);
@@ -110,34 +112,10 @@ const AvisosModal = ({
       }
 
     });
-    handleClose();
+    handleClose("save");
   };
 
-  const testeoVariables = () => {
-    console.log("inicio de evento   " + inicioEvento);
-    //console.log("fin de evento   " + finEvento);
-    //console.log("noombre de evento    " + nameAviso);
-    ///console.log("fecha de hoy   " + Fecha_min);
-    //console.log("numero de operacion  " + tipo); 
-    console.log("SE AÑADE DOCUMENTO   " + editDoc);
-    console.log("url doc total caracteres    " + urlDoc.length);
-    console.log("url doc en string1  " + urlDoc);
-    console.log("url doc en string 2    " + urlDoc.search("AVISOS"));
-    console.log("url doc en string  3  " + urlDoc.slice((urlDoc.search("AVISOS") + 7), urlDoc.length));
-    console.log("nombre de descarga archivo  " + nameDocDownload)
-
-  }
-  const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
-      //AGREGAR
-      agregar(data);
-    } else if (tipo == 2) {
-      //EDITAR
-
-      editar(data);
-    }
-  };
+  
 
   const handleFechaInicio = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInicioEvento(event.target.value.toString());
@@ -156,65 +134,35 @@ const AvisosModal = ({
       setNameNewDoc(event.target!.files[0]!.name);
       setEditDoc(true);
     }
-
-    console.log(event.target);
-
     /////////////////////////////
-
     if (file && file.type.substr(0, 5) === "image") {
-
       setNewDocPreviw(file);
       setCleanUp(true);
       setEditDoc(true);
       setNewDoc(null);
-
     }    /////////////////////////
-
     setNewDoc(file);
-    console.log(newDoc)
 
   };
+  const testeoVariables = () => {
+    console.log("inicio de evento   " + inicioEvento);
+    //console.log("fin de evento   " + finEvento);
+    //console.log("noombre de evento    " + nameAviso);
+   console.log("modo   " + modoModal);
+    console.log("nameDocDownload   " + nameDocDownload); 
+    console.log("SE AÑADE DOCUMENTO   " + editDoc);
+    console.log("url doc total caracteres    " + urlDoc.length);
+    console.log("url doc en string1  " + urlDoc);
+    console.log("url doc en string 2    " + urlDoc.search("AVISOS"));
+    console.log("url doc en string  3  " + urlDoc.slice((urlDoc.search("AVISOS") + 7), urlDoc.length));
+    console.log("nombre de descarga archivo  " + nameDocDownload)
 
-  const agregar = (data: any) => {
-    CatalogosServices.avisos(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Agregado!",
-        });
-
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
-
-  const editar = (data: any) => {
-    CatalogosServices.avisos(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Editado!",
-        });
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
+  }
 
   useEffect(() => {
-
+ 
     municipiosc();
-    if (dt === '') {
-    
+    if (dt === '') {    
     } else {
       setId(dt?.row?.id);
       setIdMunicipio(dt?.row?.idmunicipio);
@@ -488,8 +436,6 @@ const AvisosModal = ({
             </Box>
 
 
-
-
             <Box>
               <Box>
                 <label >
@@ -628,6 +574,12 @@ const AvisosModal = ({
                 <UploadFileIcon />
               </IconButton>
             </Box>
+            <Box>
+                <label >
+                {(nameNewDoc)? nameNewDoc: nameDocDownload}
+                </label>
+
+              </Box>
 
             <Box>
               <Box
@@ -725,7 +677,7 @@ const AvisosModal = ({
             }
 
             <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
-              <button className="cerrar" onClick={() => handleClose()}  >Cerrar</button>
+              <button className="cerrar" onClick={() => handleClose()}  >Cerrar</button>            
               <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
 
 

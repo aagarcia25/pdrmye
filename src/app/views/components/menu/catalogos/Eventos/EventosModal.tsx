@@ -584,11 +584,7 @@ const EventosModal = ({
                 <Box  >
                   <label>Inicio de evento </label>
                 </Box>
-
-
                 <Box>
-
-
                   <input
                     id="datetime-inicia"
                     required
@@ -598,10 +594,7 @@ const EventosModal = ({
                     max={finEvento}
                     onChange={handleFechaInicio}
                   />
-
-
                 </Box>
-
               </Box >
 
               <Box sx={{ justifyContent: 'center', }}>

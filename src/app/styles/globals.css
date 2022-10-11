@@ -18,7 +18,7 @@ button {
   padding: 5px 12px;
   border-radius: 10px;
   font-size: 15px;
-  border: 2px solid hsl(120, 3%, 57%);
+  border: 2px solid hsl(0, 2%, 95%);
   transition-duration: 0.2s;
   cursor: pointer;
   font-family: "Public Sans", MontserratMedium;
@@ -37,7 +37,7 @@ button:hover {
 }
 
 .editar:hover {
-  background-color: hsl(126, 86%, 31%);
+  background-color: hsl(208, 84%, 71%);
   color: white;
 }
 
