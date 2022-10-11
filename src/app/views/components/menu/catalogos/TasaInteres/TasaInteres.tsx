@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
-import { LinearProgress } from '@mui/material'
-import { DataGrid, esES, GridColDef, GridColTypeDef } from '@mui/x-data-grid'
-import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
-import { CustomToolbar } from '../../CustomToolbar'
+import { GridColDef, GridColTypeDef } from '@mui/x-data-grid'
 import { getUser } from '../../../../../services/localStorage'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { messages } from '../../../../styles'
 import MUIXDataGrid from '../../../MUIXDataGrid'
+import { RESPONSE } from '../../../../../interfaces/user/UserInfo'
 
 export const TasaInteres = () => {
 
@@ -25,11 +23,9 @@ export const TasaInteres = () => {
     valueFormatter: ({ value }) => currencyFormatter.format(value / 100),
     cellClassName: 'font-tabular-nums',
   };
-  const user = getUser();
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const [tasa, setTasa] = useState([]);
-
   const [open, setOpen] = useState(false);
-
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true, description: messages.dataTableColum.id },
     { field: "Fecha", headerName: "Fecha", width: 150 },
@@ -43,7 +39,7 @@ export const TasaInteres = () => {
     CHID: "",
     NUMANIO: "",
     NUMTOTALPOB: "",
-    CHUSER: 1
+    CHUSER: user.id
   })
 
 

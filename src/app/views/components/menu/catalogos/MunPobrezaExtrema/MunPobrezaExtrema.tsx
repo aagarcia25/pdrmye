@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, IconButton, SelectChangeEvent, } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import { GridColDef, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -9,14 +9,15 @@ import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { Alert } from "../../../../../helpers/Alert";
-import Filtros from '../Utilerias/Filtros'
-import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
 import Buttons from '../Utilerias/Buttons'
 import Slider from "../../../Slider";
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { getUser } from '../../../../../services/localStorage'
+import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
 
 export const MunPobrezaExtrema = () => {
 
@@ -29,7 +30,8 @@ export const MunPobrezaExtrema = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
-  
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
 
 
@@ -83,15 +85,10 @@ export const MunPobrezaExtrema = () => {
       ANIO: filterAnio,
     };
     consulta(data);
-    }
-    
-
+    }  
 
 
   }
-
-
-
 
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
@@ -131,7 +128,7 @@ export const MunPobrezaExtrema = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 

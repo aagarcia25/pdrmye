@@ -1,5 +1,5 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import { useEffect, useState } from "react";
+import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { localizer } from "../../helpers/calendarLocalizer";
 import { getMessagesES } from "../../helpers/getMessages";
@@ -10,27 +10,25 @@ import {
   eventoc,
   RESPONSE,
 } from "../../interfaces/calendario/calendario";
-import { previousDay } from "date-fns";
-import { getUser, validaLocalStorage } from "../../services/localStorage";
+import { getUser } from "../../services/localStorage";
 import { Button, Grid } from "@mui/material";
 import { Toast } from "../../helpers/Toast";
 import { Alert } from "../../helpers/Alert";
 import CalendarCModal from "./CalendarCModal";
 import Swal from "sweetalert2";
-import { AnyMxRecord } from "dns";
-import moment from "moment";
+import { UserReponse } from "../../interfaces/user/UserReponse";
 
 
 const CalendarC = () => {
-  const user = getUser();
+
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const [eventos, setEventos] = useState<eventoc[]>();
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
-  const [vrows,           setVrows] = useState({});
+  const [vrows, setVrows] = useState({});
   const [data, setData] = useState([]);
   const [id, setId] = useState("");
-
   const today = new Date();
 
   console.log("modo", modo);
@@ -45,12 +43,8 @@ const CalendarC = () => {
     setOpen(true);
   };
 
-  const handleSelectSlot = () => {
-    console.log("Slot clicked");
-  };
-
   const SelectSlot = ({ start, end }: { start: any; end: any }) => {
-    
+
     var inicio = new Date(start)
     var fechainicio = inicio.getFullYear() + '-' + ('0' + (inicio.getMonth() + 1)).slice(-2) + '-' + ('0' + inicio.getDate()).slice(-2);
     var horainicio = ('0' + inicio.getHours()).slice(-2) + ':' + ('0' + inicio.getMinutes()).slice(-2);
@@ -60,13 +54,13 @@ const CalendarC = () => {
     var fechafin = fin.getFullYear() + '-' + ('0' + (fin.getMonth() + 1)).slice(-2) + '-' + ('0' + fin.getDate()).slice(-2);
     var horafin = ('0' + fin.getHours()).slice(-2) + ':' + ('0' + fin.getMinutes()).slice(-2);
     var Fecha_fin = fechafin + 'T' + horafin;
-    
-    
-    setVrows({ start:Fecha_inicio   , end: Fecha_fin});
+
+
+    setVrows({ start: Fecha_inicio, end: Fecha_fin });
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
-    console.log("SelectSlot fecha inicio",Fecha_inicio, " Fecha fin ", Fecha_fin);
+    console.log("SelectSlot fecha inicio", Fecha_inicio, " Fecha fin ", Fecha_fin);
 
   };
 
@@ -95,7 +89,7 @@ const CalendarC = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
 
         CalendarioService.calendarios(data).then((res) => {
@@ -150,11 +144,11 @@ const CalendarC = () => {
     });
   };
 
-  
 
-  const moviendoEventos = (v: any)   =>{
+
+  const moviendoEventos = (v: any) => {
     console.log(v);
-    
+
   }
 
   useEffect(() => {

@@ -35,10 +35,11 @@ import { Toast } from "../../../../../helpers/Toast";
 import MunicipiosModal from "./MunicipiosModal";
 import Buttons from "../Utilerias/Buttons";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { UserReponse } from "../../../../../interfaces/user/UserReponse";
 
 export const Municipios = () => {
   const [municipio, setMunicipio] = useState([]);
-  const user = getUser();
+
 
   const [modo, setModo] = useState("");
 
@@ -47,14 +48,10 @@ export const Municipios = () => {
   const [data, setData] = useState({});
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
-  console.log("Municipio :", municipio);
-  console.log("modo :", modo);
-  console.log("open :", open);
-  console.log("tipoOperacion :", tipoOperacion);
-  console.log("data :", data);
-  console.log("plantilla :", plantilla);
-  console.log("slideropen :", slideropen);
+
+
 
   const columns: GridColDef[] = [
     {
@@ -167,7 +164,7 @@ export const Municipios = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id,
+          CHUSER: user.id
         };
         console.log(data);
 

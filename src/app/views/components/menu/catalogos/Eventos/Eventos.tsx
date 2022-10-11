@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box, IconButton, ToggleButton, ToggleButtonGroup, Tooltip, } from '@mui/material'
+import { Box, IconButton, } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { messages } from '../../../../styles'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -8,11 +8,12 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EventosModal from './EventosModal';
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
-import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import Swal from "sweetalert2";
 import "../../../../../styles/globals.css";
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import ButtonsAdd from '../Utilerias/ButtonsAdd'
+import { getUser } from '../../../../../services/localStorage'
+import { RESPONSE } from '../../../../../interfaces/user/UserInfo'
 
 
 
@@ -24,6 +25,8 @@ export const Eventos = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [conEventos, setEventos] = useState([]);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
   const columns: GridColDef[] = [
 
     { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
@@ -98,7 +101,7 @@ export const Eventos = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 
@@ -153,7 +156,7 @@ export const Eventos = () => {
     setOpen(false);
     let data = {
       NUMOPERACION: 4,
-      CHUSER: 1,
+      CHUSER: user.id
     };
     consulta(data);
 
@@ -162,7 +165,7 @@ export const Eventos = () => {
 
   let dat = ({
     NUMOPERACION: 4,
-    CHUSER: 1
+    CHUSER: user.id
   })
 
   const consulta = (data: any) => {

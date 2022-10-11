@@ -19,6 +19,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import Slider from "../../../Slider";
@@ -37,7 +38,6 @@ const FondosModal = ({
   dt: any;
 }) => {
   const [TipofondoSelect, setTipoFondoSelect] = useState([]);
-  const user = getUser();
   const [id, setId] = useState("");
   const [Clave, setClave] = useState("");
   const [Descripcion, setDescripcion] = useState("");
@@ -47,6 +47,7 @@ const FondosModal = ({
   const [Federal, setFederal] = useState(false);
   const [Tipofondo, setTipoFondo] = useState("");
   const [value, setValue] = React.useState("");
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
   const [slideropen, setslideropen] = useState(false);
 
@@ -137,7 +138,7 @@ const FondosModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         CLAVE: Clave,
         DESCRIPCION: Descripcion,
         APLICACALCULO: AplicaCalculo,

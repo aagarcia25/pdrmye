@@ -52,7 +52,7 @@ const Usuarios = () => {
           let data = {
             NUMOPERACION: 3,
             CHID: v.row.id,
-            CHUSER: 1,
+            CHUSER: user.id
           };
           console.log(data);
   

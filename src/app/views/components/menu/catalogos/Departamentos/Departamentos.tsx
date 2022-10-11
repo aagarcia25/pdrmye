@@ -6,22 +6,22 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import MUIXDataGrid from '../../../MUIXDataGrid'
+import { getUser } from '../../../../../services/localStorage';
+import { RESPONSE } from '../../../../../interfaces/user/UserInfo';
 
 export const Departamentos = () => {
 
 
 
   const [conDepartamentos, setDepartamentos] = useState([]);
-
   const [open, setOpen] = useState(false);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
   const columns: GridColDef[] = [
-
-
     { field: "NombreCorto", headerName: "Nombre Corto", width: 100 },
     { field: "Descripcion", headerName: "Descripcion", width: 600 },
     { field: "Responsable", headerName: "Responsable", width: 150 },
-
     {
       field: "acciones", headerName: "Acciones", description: "Campo de Acciones", sortable: false, width: 200, renderCell: (v) => {
         return (
@@ -37,12 +37,6 @@ export const Departamentos = () => {
     },
 
   ];
-  const Descargar = (v: any) => {
-
-
-  };
-
-
 
   const handleOpen = (v: any) => {
     //setSelectedId(v.row.lastName);
@@ -96,7 +90,7 @@ export const Departamentos = () => {
     CHID: "",
     NUMANIO: "",
     NUMTOTALPOB: "",
-    CHUSER: 1
+    CHUSER: user.id
   })
 
 

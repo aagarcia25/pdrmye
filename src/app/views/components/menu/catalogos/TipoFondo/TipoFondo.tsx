@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
-
-import {
-  Box,
-  IconButton,
-} from "@mui/material";
-
+import { Box, IconButton, } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import {
-  getUser,
-} from "../../../../../services/localStorage";
+import { getUser, } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -20,6 +13,7 @@ import Swal from "sweetalert2";
 import TipoFondoModal from "./TipoFondoModal";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const TipoFondo = () => {
 
@@ -30,14 +24,7 @@ const TipoFondo = () => {
   const [dataTipoFondo, setDataTipoFondo] = useState([]);
   const [slideropen, setslideropen] = useState(false);
   const [vrows, setVrows] = useState({});
-
-
-
-  
-
-
-
-
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
   const columns: GridColDef[] = [
@@ -115,7 +102,7 @@ const TipoFondo = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 

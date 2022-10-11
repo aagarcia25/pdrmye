@@ -14,6 +14,8 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import InflacionMesModal from "./InflacionMesModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import { getUser } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 
@@ -24,6 +26,8 @@ const InflacionMes = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0); 
   const [vrows, setVrows] = useState({});
   const [dataInflacionMes, setDataInflacionMes] = useState([]);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -94,7 +98,7 @@ const InflacionMes = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 

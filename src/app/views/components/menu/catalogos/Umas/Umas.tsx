@@ -11,6 +11,8 @@ import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../../services/localStorage";
 
 
 
@@ -18,8 +20,10 @@ export const Umas = () => {
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
-   const [vrows, setVrows] = useState({});
+  const [vrows, setVrows] = useState({});
   const [conUmas, setUmas] = useState([]);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
   const columns: GridColDef[] = [
     {
@@ -91,7 +95,7 @@ export const Umas = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 

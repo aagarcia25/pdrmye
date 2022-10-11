@@ -1,12 +1,8 @@
 import {
   Box,
-  Dialog,
   Grid,
   IconButton,
   Input,
-  MenuItem,
-  Select,
-  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Alert } from "../../../../helpers/Alert";
@@ -25,7 +21,6 @@ import SelectValues from "../../../../interfaces/Select/SelectValues";
 import SelectFrag from "../../Fragmentos/Select/SelectFrag";
 import { fmeses } from "../../../../share/loadMeses";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 
 const ModalFgp = ({
@@ -37,7 +32,7 @@ const ModalFgp = ({
   anio,
   mes,
 }: {
-  step:number;
+  step: number;
   clave: string;
   titulo: string;
   onClickBack: Function;
@@ -51,21 +46,19 @@ const ModalFgp = ({
   const [monto, setMonto] = useState<number>();
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [meselect, setMeselect] = useState("");
-
-
   const [ajustes, setAjustes] = useState<SelectValues[]>([]);
   const [nameNewDoc, setNameNewDoc] = useState("");
 
   let year: number = new Date().getFullYear();
-
+  
   const handleSelectMes = (v: SelectValues) => {
     setMeselect(String(v.value));
   };
-  const handleSelectAjuste = (v: SelectValues) => {};
-  
+  const handleSelectAjuste = (v: SelectValues) => { };
+
   const [file, setFile] = useState(Object);
-  
-  
+
+
 
 
 
@@ -79,7 +72,7 @@ const ModalFgp = ({
   };
 
 
-  const isrinmuebles = ()=>{
+  const isrinmuebles = () => {
     setslideropen(true);
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlsx");
@@ -113,7 +106,7 @@ const ModalFgp = ({
   }
 
 
-  const icv = ()=>{
+  const icv = () => {
     setslideropen(true);
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlsx");
@@ -150,31 +143,31 @@ const ModalFgp = ({
   const handleSend = () => {
 
 
-    if(clave ==='ICV'){
+    if (clave === 'ICV') {
       icv();
-    }else if(clave ==='ISR INMUEBLES'){
+    } else if (clave === 'ISR INMUEBLES') {
       isrinmuebles();
     }
 
 
-   /* if (monto == null || anio) {
-      Alert.fire({
-        title: "Error!",
-        text: "Favor de Completar los Campos",
-        icon: "error",
-      });
-    } else {
-      let data = {
-        CHUSER: user.id,
-        NUMOPERACION: 1,
-        IDESTATUS: "30ec276f-2b14-11ed-afdb-040300000000",
-        CLAVEFONDO: "FGP",
-        ANIO: year,
-        MES: mes,
-        ANIOPOBLACION: 2020,
-      };
-      agregar(data);
-    }*/
+    /* if (monto == null || anio) {
+       Alert.fire({
+         title: "Error!",
+         text: "Favor de Completar los Campos",
+         icon: "error",
+       });
+     } else {
+       let data = {
+           CHUSER: user.id
+         NUMOPERACION: 1,
+         IDESTATUS: "30ec276f-2b14-11ed-afdb-040300000000",
+         CLAVEFONDO: "FGP",
+         ANIO: year,
+         MES: mes,
+         ANIOPOBLACION: 2020,
+       };
+       agregar(data);
+     }*/
 
 
 
@@ -222,7 +215,7 @@ const ModalFgp = ({
       ajusteesc();
       setslideropen(false);
     }, 3000);
-  
+
   }, [step]);
 
 
@@ -440,34 +433,34 @@ const ModalFgp = ({
               </Box>
             </Grid>
 
-            
-            {clave !== "ICV"  ? (
-            <>
-              <Grid
-              item
-              xs={5}
-              md={5}
-              lg={5}
-              sx={{
-                display: "flex",
-                justifyContent: "right",
-              }}
-            >
-              <label className="contenido">Monto:</label>
-            </Grid>
-            <Grid item xs={6} md={6}>
-              <Input
-                sx={{ fontWeight: "MontserratMedium" }}
-                required
-                placeholder="1500000*"
-                id="monto"
-                onChange={(v) => setMonto(Number(v.target.value))}
-                error={monto == null ? true : false}
-                type="number"
-              ></Input>
-            </Grid>
+
+            {clave !== "ICV" ? (
+              <>
+                <Grid
+                  item
+                  xs={5}
+                  md={5}
+                  lg={5}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "right",
+                  }}
+                >
+                  <label className="contenido">Monto:</label>
+                </Grid>
+                <Grid item xs={6} md={6}>
+                  <Input
+                    sx={{ fontWeight: "MontserratMedium" }}
+                    required
+                    placeholder="1500000*"
+                    id="monto"
+                    onChange={(v) => setMonto(Number(v.target.value))}
+                    error={monto == null ? true : false}
+                    type="number"
+                  ></Input>
+                </Grid>
               </>
-            ):""
+            ) : ""
             }
 
 
@@ -512,7 +505,7 @@ const ModalFgp = ({
               </>
             ) : (
               ""
-              
+
             )}
 
             <Grid

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   Box,
   FormControl,
@@ -11,14 +10,13 @@ import {
   TextField,
   InputAdornment,
   DialogActions,
-  Button,
 } from "@mui/material";
-import {  porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 const MunPobrezaExtremaModal = ({
@@ -30,9 +28,9 @@ const MunPobrezaExtremaModal = ({
 }: {
   open: boolean;
   modo: string;
-  tipo:number;
-  handleClose:Function,
-  dt:any
+  tipo: number;
+  handleClose: Function,
+  dt: any
 }) => {
 
 
@@ -46,10 +44,11 @@ const MunPobrezaExtremaModal = ({
   const [carenciaProm, setCarenciaProm] = useState<number>();
   const [IdMunicipio, setIdMunicipio] = useState<object>();
   const [values, setValues] = useState<Imunicipio[]>();
- 
- 
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
-  
+
+
+
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -62,10 +61,10 @@ const MunPobrezaExtremaModal = ({
   };
 
 
- 
+
 
   const handleSend = () => {
-    if (poblacion == null || anio == null || carenciaProm == null || IdMunicipio==null) {
+    if (poblacion == null || anio == null || carenciaProm == null || IdMunicipio == null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -75,14 +74,14 @@ const MunPobrezaExtremaModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         PERSONAS: poblacion,
-        PORCENTAJE : porcentaje,
-        CARENCIAPROMEDIO : carenciaProm,
+        PORCENTAJE: porcentaje,
+        CARENCIAPROMEDIO: carenciaProm,
 
-        
+
       };
 
       handleRequest(data);
@@ -97,7 +96,7 @@ const MunPobrezaExtremaModal = ({
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-      
+
       editar(data);
     }
   };
@@ -139,28 +138,28 @@ const MunPobrezaExtremaModal = ({
     });
   };
 
- 
+
 
   useEffect(() => {
     municipiosc();
 
-    if(dt === ''  ){
-        console.log(dt)
-       
-    }else{
-        setId(dt?.row?.id)
-        setAnio(dt?.row?.Anio)
-        setPoblacion(dt?.row?.Personas)
-        setIdMunicipio(dt?.row?.idmunicipio)
-        setPorcentage(dt?.row?.Porcentaje)
-        setCarenciaProm(dt?.row?.CarenciaProm)
+    if (dt === '') {
+      console.log(dt)
 
-      
+    } else {
+      setId(dt?.row?.id)
+      setAnio(dt?.row?.Anio)
+      setPoblacion(dt?.row?.Personas)
+      setIdMunicipio(dt?.row?.idmunicipio)
+      setPorcentage(dt?.row?.Porcentaje)
+      setCarenciaProm(dt?.row?.CarenciaProm)
 
 
-   
+
+
+
     }
-   
+
   }, [dt]);
 
 
@@ -168,12 +167,12 @@ const MunPobrezaExtremaModal = ({
   return (
     <Dialog open={open}>
 
-     
+
 
       <DialogContent>
         <Box>
-        <Box
-          sx={{ display: 'flex', justifyContent: 'center',}}>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'center', }}>
             <label className="Titulo">{modo}</label>
           </Box>
           <FormControl variant="standard" fullWidth>
@@ -183,9 +182,9 @@ const MunPobrezaExtremaModal = ({
               onChange={(v) => setIdMunicipio(Object(v.target.value))}
               value={IdMunicipio}
               label="Municipio"
-            inputProps={{
-            readOnly: tipo == 1 ? false : true,
-             }}
+              inputProps={{
+                readOnly: tipo == 1 ? false : true,
+              }}
             >
               {values?.map((item: Imunicipio) => {
                 return (
@@ -197,42 +196,42 @@ const MunPobrezaExtremaModal = ({
             </Select>
           </FormControl>
 
-          {(modo==="Agregar Registro")?
-          <TextField
-            required
-            margin="dense"
-            id="anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(Number(v.target.value))}
-            error={anio == null ? true : false}
-             InputProps={{
-            readOnly: tipo == 1 ? false : true,
-       
-             }}
-          />
-          :
-          <TextField
-            required
-            margin="dense"
-            id="anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(Number(v.target.value))}
-            error={anio == null ? true : false}
-             InputProps={{
-            readOnly: tipo == 1 ? false : true,
-       
-             }}
-          />
-}
-          
+          {(modo === "Agregar Registro") ?
+            <TextField
+              required
+              margin="dense"
+              id="anio"
+              label="Año"
+              value={anio}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setAnio(Number(v.target.value))}
+              error={anio == null ? true : false}
+              InputProps={{
+                readOnly: tipo == 1 ? false : true,
+
+              }}
+            />
+            :
+            <TextField
+              required
+              margin="dense"
+              id="anio"
+              label="Año"
+              value={anio}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setAnio(Number(v.target.value))}
+              error={anio == null ? true : false}
+              InputProps={{
+                readOnly: tipo == 1 ? false : true,
+
+              }}
+            />
+          }
+
           <TextField
             margin="dense"
             required
@@ -244,23 +243,23 @@ const MunPobrezaExtremaModal = ({
             variant="standard"
             onChange={(v) => setPoblacion(Number(v.target.value))}
             error={poblacion == null ? true : false}
-            />
-          
-           <TextField
-         
+          />
+
+          <TextField
+
             margin="dense"
             required
             id="fac"
-            
+
             label="Carencia Promedio"
-            value={ carenciaProm }
+            value={carenciaProm}
             type="percent"
             fullWidth
             variant="standard"
             onChange={(v) => setCarenciaProm(Number(v.target.value))}
             error={carenciaProm == null ? true : false}
             InputProps={{
-                endAdornment: (
+              endAdornment: (
                 <InputAdornment position="end">%</InputAdornment>
               ),
             }}
@@ -271,7 +270,7 @@ const MunPobrezaExtremaModal = ({
       <DialogActions>
         <button className="guardar" onClick={() => handleSend()}>Guardar</button>
         <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
-            </DialogActions>
+      </DialogActions>
     </Dialog>
   );
 };

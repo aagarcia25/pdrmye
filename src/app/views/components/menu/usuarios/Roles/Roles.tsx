@@ -1,12 +1,11 @@
 import { IconButton, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import { useEffect,  useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { messages } from "../../../../styles";
-import AccionesGrid from "../../../AccionesGrid";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
@@ -16,10 +15,9 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import RolesModal from "./RolesModal";
 import RolesAsignaPermisos from "./RolesAsignarPermisos";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { UserReponse } from "../../../../../interfaces/user/UserReponse";
-import { getPU } from "../../../../../services/localStorage";
 import EditIcon from '@mui/icons-material/Edit';
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../../services/localStorage";
 
 const Roles = () => {
   const [data, setData] = useState([]);
@@ -31,7 +29,7 @@ const Roles = () => {
   const [id, setId] = useState("");
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
-  const user: UserReponse = JSON.parse(String(getPU()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
   const handleClose = (v: string) => {
     setOpen(false);
@@ -53,10 +51,10 @@ const Roles = () => {
 
   };
   const eliminar = (v: any) => {
-   
+
     let data = {
       NUMOPERACION: 3,
-      CHUSER: user.IdUsuario,
+      CHUSER: user.id,
       CHID: String(v.row.id),
 
 
@@ -206,3 +204,7 @@ const Roles = () => {
 };
 
 export default Roles;
+function setOpenRel(arg0: boolean) {
+  throw new Error("Function not implemented.");
+}
+

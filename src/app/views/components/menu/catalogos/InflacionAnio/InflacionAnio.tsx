@@ -15,6 +15,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import InflacionAnioModal from "./InflacionAnioModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 const InflacionAnio = () => {
@@ -24,6 +25,7 @@ const InflacionAnio = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const [dataInflacionAnio, setDataInflacionAnio] = useState([]);
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
   const columns: GridColDef[] = [
@@ -94,7 +96,7 @@ const InflacionAnio = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 

@@ -15,7 +15,7 @@ import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getPU, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 
 import imagenGenerica from '../../../../../../app/assets/img/archivoImagen.jpg'
 import PdfLogo from '../../../../../../app/assets/img/PDF_file_icon.svg'
@@ -24,6 +24,7 @@ import xlsxLogo from '../../../../../../app/assets/img/xlsx_Logo.png'
 import docxLogo from '../../../../../../app/assets/img/docx_Logo.png'
 import "../../../../../styles/globals.css";
 import { UserReponse } from "../../../../../interfaces/user/UserReponse";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 const AvisosModal = ({
   open,
   modo,
@@ -68,7 +69,7 @@ const AvisosModal = ({
   const [Avisos, setAvisos] = useState("");
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
-  const user: UserReponse = JSON.parse(String(getPU()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
   const municipiosc = () => {
     let data = {};
@@ -91,7 +92,7 @@ const AvisosModal = ({
     formData.append("DESCRIPCION", descripcion);
     formData.append("FECHAINICIO", inicioEvento);
     formData.append("FECHAFIN", finEvento);
-    formData.append("CHUSER", String(user.IdUsuario));
+    formData.append("CHUSER", String(user.id));
 
     CatalogosServices.avisos(formData).then((res) => {
       setslideropen(false);

@@ -13,8 +13,8 @@ import Swal from "sweetalert2";
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import { GridColDef } from '@mui/x-data-grid';
 import ButtonsAdd from '../Utilerias/ButtonsAdd';
-import { UserReponse } from '../../../../../interfaces/user/UserReponse';
-import { getPU } from '../../../../../services/localStorage';
+import { getUser } from '../../../../../services/localStorage';
+import { RESPONSE } from '../../../../../interfaces/user/UserInfo';
 
 
 export const Avisos = () => {
@@ -24,7 +24,7 @@ export const Avisos = () => {
   const [data, setData] = useState({});
   const [conAvisos, setAvisos] = useState([]);
   const [open, setOpen] = useState(false);
-  const user: UserReponse = JSON.parse(String(getPU()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const columns: GridColDef[] = [
 
     { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
@@ -90,7 +90,7 @@ export const Avisos = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER:String(user.IdUsuario)
+          CHUSER:String(user.id)
         };
 
 
@@ -145,7 +145,7 @@ export const Avisos = () => {
 if(v=="save"){
   let data = {
     NUMOPERACION: 4,
-    CHUSER: String(user.IdUsuario),
+    CHUSER: String(user.id),
   };
   consulta(data);
 
@@ -176,7 +176,7 @@ if(v=="save"){
 
   let dat = ({
     NUMOPERACION: 4,
-    CHUSER:String(user.IdUsuario)
+    CHUSER:String(user.id)
   })
 
 

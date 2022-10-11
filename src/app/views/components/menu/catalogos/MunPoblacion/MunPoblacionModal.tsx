@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   Box,
   FormControl,
@@ -11,7 +10,6 @@ import {
   TextField,
   InputAdornment,
   DialogActions,
-  Button,
 } from "@mui/material";
 
 import { Alert } from "../../../../../helpers/Alert";
@@ -19,6 +17,8 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { municipiosc } from "../../../../../share/loadMunicipios";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../../services/localStorage";
 
 const MunPoblacionModal = ({
   open,
@@ -43,7 +43,8 @@ const MunPoblacionModal = ({
   const [poblacion, setPoblacion] = useState<number>();
   const [idPoblacion, setIdPoblacion] = useState<object>();
   const [values, setValues] = useState<Imunicipio[]>();
- 
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
   const handleSend = () => {
     if (poblacion == null|| idPoblacion==null||anio==null) {
@@ -56,7 +57,7 @@ const MunPoblacionModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         ANIO: anio,
         idPoblacion: idPoblacion,
         TOTALPOBLACION: poblacion,

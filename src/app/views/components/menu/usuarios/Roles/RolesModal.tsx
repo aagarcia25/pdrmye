@@ -10,11 +10,10 @@ import {
 
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { AuthService } from "../../../../../services/AuthService";
 import { UserReponse } from "../../../../../interfaces/user/UserReponse";
-import { getPU } from "../../../../../services/localStorage";
+import { getPU, getUser } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 
@@ -35,7 +34,7 @@ const RolesModal = ({
 
     // CAMPOS DE LOS FORMULARIOS
 
-    const user: UserReponse = JSON.parse(String(getPU()));
+    const user: RESPONSE = JSON.parse(String(getUser()));
     const [nombre, setNombre] = useState<string>();
     const [descripcion, setDescripcion] = useState<string>();
     const [id, setId] = useState<string>();
@@ -53,7 +52,7 @@ const RolesModal = ({
             } else {
                 let data = {
                     NUMOPERACION: tipo,
-                    CHUSER: user.IdUsuario,
+                    CHUSER: user.id,
                     NOMBRE: nombre,
                     DESCRIPCION: descripcion,
                 };
@@ -74,7 +73,7 @@ const RolesModal = ({
                 let data = {
                     NUMOPERACION: tipo,
                     CHID: id,
-                    CHUSER: user.IdUsuario,
+                    CHUSER: user.id,
                     NOMBRE: nombre,
                     DESCRIPCION: descripcion,
                 };
@@ -93,7 +92,7 @@ const RolesModal = ({
     };
 
     const handleTeste = () => {
-        console.log(user.IdUsuario);
+        console.log(user.id);
 
     };
     const agregar = (data: any) => {
@@ -119,13 +118,13 @@ const RolesModal = ({
 
 
         if (dt === '') {
-         
+
 
         } else {
             setNombre(dt?.row?.Nombre)
             setDescripcion(dt?.row?.Descripcion)
             setId(dt?.row?.id)
-        
+
 
             if (modo == "Agregar Rol") {
 

@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-
-import { Box, Grid, IconButton, SelectChangeEvent } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { Moneda } from "../../CustomToolbar";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
-import Filtros from "../Utilerias/Filtros";
 import Buttons from "../Utilerias/Buttons";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
@@ -18,6 +16,8 @@ import MUIXDataGrid from "../../../MUIXDataGrid";
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { fanios } from "../../../../../share/loadAnios";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../../services/localStorage";
 
 export const MunRecaudacion = () => {
   const [modo, setModo] = useState("");
@@ -27,6 +27,8 @@ export const MunRecaudacion = () => {
   const [Facturacion, setFacturacion] = useState([]);
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
@@ -117,7 +119,7 @@ export const MunRecaudacion = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 
@@ -215,15 +217,15 @@ export const MunRecaudacion = () => {
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-      <Slider open={slideropen}></Slider>  
-   
-        <Box  
-         sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
-            <SelectFrag 
-            options={anios} 
-            onInputChange={handleFilterChange} 
-            placeholder={"Seleccione Año"}/>
-            </Box>
+      <Slider open={slideropen}></Slider>
+
+      <Box
+        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
+        <SelectFrag
+          options={anios}
+          onInputChange={handleFilterChange}
+          placeholder={"Seleccione Año"} />
+      </Box>
 
 
       {open ? (

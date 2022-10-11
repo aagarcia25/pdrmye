@@ -1,6 +1,6 @@
 import { Tooltip, IconButton } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
@@ -13,10 +13,9 @@ import MenuRelPermisos from "./MenuRelPermisos";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import MenuAsignaPermisos from "./MenuAsignaPermisos";
 import MenuModal from "./MenuModal";
-import { UserReponse } from "../../../../../interfaces/user/UserReponse";
-import { getPU } from "../../../../../services/localStorage";
+import { getUser } from "../../../../../services/localStorage";
 import Swal from "sweetalert2";
-import { CalendarioService } from "../../../../../services/calendarioService";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const Menus = () => {
   const [dt, setDt] = useState([]);
@@ -27,7 +26,7 @@ const Menus = () => {
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
-  const user: UserReponse = JSON.parse(String(getPU()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
 
@@ -85,7 +84,7 @@ const Menus = () => {
           let data = {
             NUMOPERACION: 3,
             CHID: v.row.id,
-            CHUSER:user.IdUsuario,
+            CHUSER:user.id,
           };
           console.log(data);  
           AuthService.menusindex(data).then((res) => {

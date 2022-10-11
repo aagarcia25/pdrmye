@@ -24,11 +24,12 @@ import { currencyFormatter } from "../../CustomToolbar";
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 
 export const MunFacturacion = () => {
-  const user = getUser();
+
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -37,7 +38,8 @@ export const MunFacturacion = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
-  
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
 
   // VARIABLES PARA LOS FILTROS
@@ -132,7 +134,7 @@ export const MunFacturacion = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 

@@ -13,12 +13,12 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import {  porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 const MunPoblacionProyeccionModal = ({
@@ -42,8 +42,7 @@ const MunPoblacionProyeccionModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [poblacion, setPoblacion] = useState("");
-
-
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
  
@@ -75,7 +74,7 @@ const MunPoblacionProyeccionModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         POB: poblacion,

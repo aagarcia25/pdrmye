@@ -21,8 +21,8 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
-import { UserReponse } from "../../interfaces/user/UserReponse";
-import { getPU } from "../../services/localStorage";
+import { getUser } from "../../services/localStorage";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -33,15 +33,13 @@ interface HeaderProps {
 export default function Header(props: HeaderProps) {
   const btnPerson = "2.5vw";
   const btnAll = "2.0vw";
-
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const navigate = useNavigate();
-
   const [cnotif, setCnotif] = React.useState(0);
-
   const { onDrawerToggle } = props;
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
-
+  
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -101,10 +99,10 @@ export default function Header(props: HeaderProps) {
     return path;
   }
 
-  const user: UserReponse = JSON.parse(String(getPU()));
+ 
   let data = {
     NUMOPERACION: 5,
-    CHUSER: user.IdUsuario,
+    CHUSER: user.id,
   };
 
   React.useEffect(() => {

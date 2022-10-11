@@ -12,13 +12,14 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import FondosModal from "./FondosModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const Fondos = () => {
   
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
-
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const [vrows, setVrows] = useState({});
   const [fondos, setFondos] = useState([]);
 
@@ -124,7 +125,7 @@ const Fondos = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 

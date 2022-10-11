@@ -59,7 +59,7 @@ const ModalFondo = ({
       });
     } else {
       let data = {
-        CHUSER: user.id,
+          CHUSER: user.id,
         NUMOPERACION: 1,
         IDESTATUS: "30ec276f-2b14-11ed-afdb-040300000000",
         CLAVEFONDO: "FGP",

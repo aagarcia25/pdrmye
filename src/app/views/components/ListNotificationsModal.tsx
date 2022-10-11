@@ -13,13 +13,9 @@ import SendIcon from '@mui/icons-material/Send';
 import { Imunicipio } from "../../interfaces/municipios/FilterMunicipios";
 import SelectFrag from "./Fragmentos/Select/SelectFrag";
 import SelectValues from "../../interfaces/Select/SelectValues";
-import { UserReponse } from "../../interfaces/user/UserReponse";
-import { getPU } from "../../services/localStorage";
+import {getUser } from "../../services/localStorage";
 import "../../styles/globals.css";
-
-
-
-
+import { RESPONSE } from "../../interfaces/user/UserInfo";
 
 const ListNotificationsModal = ({
   open,
@@ -38,7 +34,7 @@ const ListNotificationsModal = ({
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   ////////////////////////////
-  const user: UserReponse = JSON.parse(String(getPU()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const [encabezado, setEncabezado] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [newEncabezado, setNewEncabezado] = useState("");
@@ -57,7 +53,7 @@ const ListNotificationsModal = ({
 
     let data = {
       NUMOPERACION: tipo,
-      CHUSER: user.IdUsuario,
+      CHUSER: user.id,
       CHID: id,
 
     };
@@ -84,7 +80,7 @@ const ListNotificationsModal = ({
   const handleUpload = () => {
     let data = {
       NUMOPERACION: 1,
-      CHUSER: user.IdUsuario,
+      CHUSER: user.id,
       DELETED: 0,
       VISTO: 0,
       ENCABEZADO: newEncabezado,
@@ -110,28 +106,11 @@ const ListNotificationsModal = ({
 
 
   }
-  const agregar = (data: any) => {
-    CatalogosServices.avisos(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Agregado!",
-        });
-
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
 
   const loadSelectUser = () => {
     let data = {
       NUMOPERACION: 1,
-      CHUSER: user.IdUsuario
+      CHUSER: user.id
     };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (res.SUCCESS) {

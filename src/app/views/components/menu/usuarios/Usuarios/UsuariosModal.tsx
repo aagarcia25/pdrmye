@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   TextField,
   DialogActions,
-  Button,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../../services/localStorage";
 
 const UsuariosModal = ({
   open,
@@ -32,15 +32,17 @@ const UsuariosModal = ({
   const [ApellidoMaterno, setApellidoMaterno] = useState("");
   const [NombreUsuario, setNombreUsuario] = useState("");
   const [CorreoElectronico, setCorreoElectronico] = useState("");
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
   const handleSend = () => {
-    if ( 
-        Nombre == "" || 
-        ApellidoPaterno == ""|| 
-        ApellidoMaterno == ""|| 
-        NombreUsuario == ""|| 
-        CorreoElectronico == ""
-        ) {
+    if (
+      Nombre == "" ||
+      ApellidoPaterno == "" ||
+      ApellidoMaterno == "" ||
+      NombreUsuario == "" ||
+      CorreoElectronico == ""
+    ) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -49,13 +51,13 @@ const UsuariosModal = ({
     } else {
       let data = {
         NUMOPERACION: tipo,
-        CHUSER:1,
-        CHID:id,
-        NOMBRE:Nombre,
-        AP:ApellidoPaterno,
-        AM:ApellidoMaterno,
-        NUSER:NombreUsuario,
-        CORREO:CorreoElectronico
+        CHUSER: user.id,
+        CHID: id,
+        NOMBRE: Nombre,
+        AP: ApellidoPaterno,
+        AM: ApellidoMaterno,
+        NUSER: NombreUsuario,
+        CORREO: CorreoElectronico
       };
       handleRequest(data);
     }
@@ -63,11 +65,11 @@ const UsuariosModal = ({
 
   const handleRequest = (data: any) => {
     console.log(data);
-      AuthService.permisosindex(data).then((res) => {
+    AuthService.permisosindex(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: tipo == 1 ? "Registro Agregado!" : "Registro Editado!" ,
+          title: tipo == 1 ? "Registro Agregado!" : "Registro Editado!",
         });
       } else {
         Alert.fire({
@@ -97,12 +99,12 @@ const UsuariosModal = ({
   return (
     <div>
       <Dialog open={open}>
-      <Box
-          sx={{ display: 'flex', justifyContent: 'center',}}>
-      <label className="Titulo"> {tipo == 1 ? "Nuevo Registro" : "Editar Registro"}
-      </label>
-      </Box>
-       
+        <Box
+          sx={{ display: 'flex', justifyContent: 'center', }}>
+          <label className="Titulo"> {tipo == 1 ? "Nuevo Registro" : "Editar Registro"}
+          </label>
+        </Box>
+
         <DialogContent>
           <Box>
             <TextField
@@ -173,8 +175,8 @@ const UsuariosModal = ({
         </DialogContent>
 
         <DialogActions>
-        <button className="guardar" onClick={() =>  handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() =>handleClose()}>Cancelar</button>
+          <button className="guardar" onClick={() => handleSend()}>Guardar</button>
+          <button className="cerrar" onClick={() => handleClose()}>Cancelar</button>
         </DialogActions>
       </Dialog>
     </div>

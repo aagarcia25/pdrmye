@@ -13,6 +13,8 @@ import {
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getUser } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const CrecimietoModal = ({
   open,
@@ -31,6 +33,8 @@ const CrecimietoModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [crecimiento, setCrecimiento] = useState("");
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
   const handleSend = () => {
     if (anio == "" || crecimiento == "") {
@@ -43,7 +47,7 @@ const CrecimietoModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: "1",
+         CHUSER: user.id,
         ANIO: anio,
         CRECIMIENTO: crecimiento,
       };

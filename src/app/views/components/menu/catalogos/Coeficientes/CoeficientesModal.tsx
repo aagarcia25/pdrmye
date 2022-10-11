@@ -12,6 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 
@@ -29,11 +30,12 @@ const CoeficientesModal = ({
   dt: any;
 }) => {
   // CAMPOS DE LOS FORMULARIOS
-  const user = getUser();
+  
   const [id, setId] = useState("");
   const [vigente, setVigente] = useState(false);
   const [descripcion, setDescripcion] = useState("");
   const [checked, setChecked] = useState(true);
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
 
@@ -98,7 +100,7 @@ const CoeficientesModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         VIGENTE: vigente,
         DESCRIPCION: descripcion,
       };
@@ -113,14 +115,14 @@ const CoeficientesModal = ({
     } else {
       setId(dt?.row?.id);
       setDescripcion(dt?.row?.Descripcion);
-      if(dt?.row?.Vigente == "1"){
+      if (dt?.row?.Vigente == "1") {
         setChecked(true);
         setVigente(true);
-      }else{
+      } else {
         setChecked(false);
         setVigente(false);
       }
-     
+
     }
   }, [dt]);
 

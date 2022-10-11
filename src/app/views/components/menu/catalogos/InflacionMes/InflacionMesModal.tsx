@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
   InputAdornment,
   DialogActions,
@@ -20,6 +16,8 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { fmeses } from "../../../../../share/loadMeses";
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import { getUser } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 
@@ -41,6 +39,7 @@ const InflacionMesModal = ({
   const [anio, setAnio] = useState("");
   const [mes, setMes] = useState("");
   const [inflacion, setInflacion] = useState("");
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
   const [meses, setMeses] = useState<SelectValues[]>([]);
 
@@ -62,7 +61,7 @@ const InflacionMesModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         ANIO: anio,
         MES: mes,
         INFLACION: inflacion,

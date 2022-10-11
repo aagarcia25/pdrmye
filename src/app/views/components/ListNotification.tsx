@@ -5,18 +5,16 @@ import {
   IconButton,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { getPU } from "../../services/localStorage";
+import { getUser } from "../../services/localStorage";
 import { CatalogosServices } from "../../services/catalogosServices";
 import MUIXDataGrid from "./MUIXDataGrid";
-import { UserReponse } from "../../interfaces/user/UserReponse";
 import AddIcon from '@mui/icons-material/Add';
 import SendIcon from '@mui/icons-material/Send';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import InboxIcon from '@mui/icons-material/Inbox';
 import ListNotificationsModal from "./ListNotificationsModal";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
 
 
 export const ListNotification = () => {
@@ -25,7 +23,7 @@ export const ListNotification = () => {
   const [data, setData] = useState({});
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState<number>(8);
-  const user: UserReponse = JSON.parse(String(getPU()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const [open, setOpen] = useState(false);
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
@@ -80,7 +78,7 @@ export const ListNotification = () => {
     setTipoOperacion(v);
     let dat = {
       NUMOPERACION: v,
-      CHUSER: user.IdUsuario
+      CHUSER: user.id
     };
     CatalogosServices.Notificaciones(dat).then((res) => {
       setNotificacion(res.RESPONSE);
@@ -88,27 +86,24 @@ export const ListNotification = () => {
 
   };
 
-
   const viewMessageSend = (v: number) => {
     setTipoOperacion(v);
     setModo("MessageSend");
     let data = {
       NUMOPERACION: v,
-      CHUSER: user.IdUsuario
+      CHUSER: user.id
     };
     CatalogosServices.Notificaciones(data).then((res) => {
       setNotificacion(res.RESPONSE);
     });
   };
 
-
-
   const viewMessage = (v: number) => {
     setTipoOperacion(v)
     setModo("ViewMessage");
     let dat = {
       NUMOPERACION: v,
-      CHUSER: user.IdUsuario
+      CHUSER: user.id
     };
     CatalogosServices.Notificaciones(dat).then((res) => {
       setNotificacion(res.RESPONSE);
@@ -123,7 +118,6 @@ export const ListNotification = () => {
 
   }
 
-
   const handleClose = (v: string) => {
     //// console.log("valor de v  "+ v)
     if (v === "9") {
@@ -135,7 +129,7 @@ export const ListNotification = () => {
 else {
     let dat = {
       NUMOPERACION: Number(v),
-      CHUSER: user.IdUsuario
+      CHUSER: user.id
     };
     CatalogosServices.Notificaciones(dat).then((res) => {
       setNotificacion(res.RESPONSE);
@@ -149,7 +143,7 @@ else {
 
     let dat = {
       NUMOPERACION: 8,
-      CHUSER: user.IdUsuario,
+      CHUSER: user.id
     };
 
     CatalogosServices.Notificaciones(dat).then((res) => {

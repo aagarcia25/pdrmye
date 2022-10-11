@@ -1,6 +1,5 @@
-
 import React, { useEffect, useState } from 'react'
-import { Box, SelectChangeEvent } from '@mui/material'
+import { Box } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { getPermisos, getUser } from '../../../../../services/localStorage'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -8,21 +7,19 @@ import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { Alert } from "../../../../../helpers/Alert";
-import Filtros from '../Utilerias/Filtros'
 import Slider from "../../../Slider";
 import Buttons from '../Utilerias/Buttons'
 import MunPoblacionModal from './MunPoblacionModal'
 import MUIXDataGrid from '../../../MUIXDataGrid'
-
 import AccionesGrid from '../../../AccionesGrid'
-import { PERMISO } from '../../../../../interfaces/user/UserInfo'
+import { PERMISO, RESPONSE} from '../../../../../interfaces/user/UserInfo'
 import SelectFrag from '../../../Fragmentos/Select/SelectFrag'
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
 const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-
+const user: RESPONSE = JSON.parse(String(getUser()));
 
 export const MunPoblacion = () => {
 
@@ -30,7 +27,6 @@ export const MunPoblacion = () => {
 
   const [eliminar, setEliminar] = useState(false);
   const [update, setUpdate] = useState(false);
-  const user = getUser();
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -39,6 +35,7 @@ export const MunPoblacion = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
+
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
   //funciones
@@ -94,11 +91,6 @@ export const MunPoblacion = () => {
 
   };
 
-
-
-
-
-
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
@@ -132,7 +124,7 @@ export const MunPoblacion = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 

@@ -14,6 +14,8 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import CrecimietoModal from "./CrecimietoModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import { getUser } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 const CrecimientoAnio = () => {
@@ -23,7 +25,7 @@ const CrecimientoAnio = () => {
     const [tipoOperacion, setTipoOperacion] = useState(0);
     const [vrows, setVrows] = useState({});
     const [dataCrecimientoAnio, setDataCrecimientoAnio] = useState([]);
-  
+    const user: RESPONSE = JSON.parse(String(getUser()));
     const columns: GridColDef[] = [
       {
         field: "id",
@@ -92,7 +94,7 @@ const CrecimientoAnio = () => {
           let data = {
             NUMOPERACION: 3,
             CHID: v.row.id,
-            CHUSER: 1,
+            CHUSER: user.id,
           };
           console.log(data);
   

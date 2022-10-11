@@ -13,6 +13,8 @@ import {
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getUser } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const InflacionAnioModal = ({
   open,
@@ -31,6 +33,8 @@ const InflacionAnioModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [inflacion, setInflacion] = useState("");
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
   const handleSend = () => {
     if (anio == "" || inflacion == "") {
@@ -43,7 +47,7 @@ const InflacionAnioModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         ANIO: anio,
         INFLACION: inflacion,
       };

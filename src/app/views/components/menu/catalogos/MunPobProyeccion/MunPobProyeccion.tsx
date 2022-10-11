@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, IconButton, SelectChangeEvent } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
@@ -8,7 +8,6 @@ import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { Alert } from "../../../../../helpers/Alert";
-import Filtros from '../Utilerias/Filtros'
 import Buttons from '../Utilerias/Buttons'
 import Slider from "../../../Slider";
 import MunPoblacionProyeccionModal from '../MunPobProyeccion/MunPoblacionProyeccionModal';
@@ -16,6 +15,8 @@ import MUIXDataGrid from '../../../MUIXDataGrid'
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { getUser } from '../../../../../services/localStorage';
 
 
 export const MunPobProyeccion = () => {
@@ -28,6 +29,8 @@ export const MunPobProyeccion = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
@@ -113,7 +116,7 @@ export const MunPobProyeccion = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 

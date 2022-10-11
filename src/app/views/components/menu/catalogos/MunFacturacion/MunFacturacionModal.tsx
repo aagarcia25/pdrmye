@@ -14,9 +14,10 @@ import {
 
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
+import { Imunicipio} from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const MunFacturacionModal = ({
   open,
@@ -38,6 +39,7 @@ const MunFacturacionModal = ({
   const [fac, setRecaudacion] = useState<number>();
   const [idMunicipio, setIdmunicipio] = useState <object>();
   const [values, setValues] = useState<Imunicipio[]>();
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
   const municipiosc = () => {
     let data = {};
@@ -65,7 +67,7 @@ const MunFacturacionModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         ANIO: anio,
         IDMUNICIPIO: idMunicipio,
         FACTURACION: fac,

@@ -19,6 +19,8 @@ import MUIXDataGrid from '../../../MUIXDataGrid'
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { getUser } from '../../../../../services/localStorage'
 
 export const MunPobreza = () => {
 
@@ -31,6 +33,8 @@ export const MunPobreza = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
 
 
@@ -88,14 +92,9 @@ console.log("valor de v  "+v)
       ANIO: filterAnio,
     };
     consulta(data);
-
   }
 
   }
-  
-
-
-
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
@@ -134,7 +133,7 @@ console.log("valor de v  "+v)
           let data = {
             NUMOPERACION: 3,
             CHID: v.row.id,
-            CHUSER: 1,
+            CHUSER: user.id
           };
           console.log(data);
   

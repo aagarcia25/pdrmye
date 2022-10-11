@@ -7,14 +7,9 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  FormControl,
   FormControlLabel,
   FormGroup,
-  IconButton,
   Input,
-  InputLabel,
-  MenuItem,
-  Select,
   Switch,
   TextField,
   Typography,
@@ -25,9 +20,10 @@ import { Toast } from "../../helpers/Toast";
 import { eventoc } from "../../interfaces/calendario/calendario";
 import { CalendarioService } from "../../services/calendarioService";
 import { CatalogosServices } from "../../services/catalogosServices";
-import moment from "moment";
-import { Label } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { UserReponse } from "../../interfaces/user/UserReponse";
+import { getUser } from "../../services/localStorage";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
 
 const CalendarCModal = ({
   open,
@@ -60,7 +56,8 @@ const CalendarCModal = ({
 
   //CAMPOS
   const [id, setId] = useState("");
-  const [nombreEvento, setNombreEvento] = useState("");
+  const user: RESPONSE = JSON.parse(String(getUser()));
+   const [nombreEvento, setNombreEvento] = useState("");
   const [finEvento, setFinEvento] = useState(Fecha_min);
   const [inicioEvento, setInicioEvento] = useState(Fecha_min);
   const [departamento, setDepartamento] = useState("");
@@ -71,12 +68,6 @@ const CalendarCModal = ({
 
   const [modoModal, setModoModal] = useState(modo);
 
-  console.log("Carácteres de id", id);
-  console.log("Nombre de nombreEvento", nombreEvento);
-  console.log("Fecha de inicioEvento", inicioEvento);
-  console.log("Fecha de finEvento", finEvento);
-  console.log("Fecha de hoy con formato", inicioEventoMin);
-  console.log(modoModal);
 
   const departamentosc = () => {
     let data = {};
@@ -107,7 +98,7 @@ const CalendarCModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         MODIFICADOPOR: 1,
         NOMBREEVENTO: nombreEvento,
         INICIOEVENTO: inicioEvento,

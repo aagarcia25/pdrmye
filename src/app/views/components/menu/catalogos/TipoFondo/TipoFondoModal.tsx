@@ -7,9 +7,10 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 
@@ -29,11 +30,11 @@ const TipoFondoModal = ({
 
 
 
-    // CAMPOS DE LOS FORMULARIOS
-  const user = getUser();
+  // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [clave, setClave] = useState("");
   const [descripcion, setDescripcion] = useState("");
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
 
@@ -93,7 +94,7 @@ const TipoFondoModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         CLAVE: clave,
         DESCRIPCION: descripcion,
       };
@@ -105,14 +106,14 @@ const TipoFondoModal = ({
 
   useEffect(() => {
 
-    if(dt === ''  ){
-        console.log(dt)
-    }else{
-        setId(dt?.row?.id)
-        setDescripcion(dt?.row?.Descripcion )
-        setClave(dt?.row?.Clave)
+    if (dt === '') {
+      console.log(dt)
+    } else {
+      setId(dt?.row?.id)
+      setDescripcion(dt?.row?.Descripcion)
+      setClave(dt?.row?.Clave)
     }
-   
+
   }, [dt]);
 
 

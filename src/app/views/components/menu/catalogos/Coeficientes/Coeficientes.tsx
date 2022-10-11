@@ -14,9 +14,10 @@ import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 export const Coeficientes = () => {
-  const user = getUser();
+
 
 
   //   VALORES POR DEFAULT
@@ -26,6 +27,7 @@ export const Coeficientes = () => {
   const [dataCoeficientes, setDataCoeficientes] = useState([]);
   const [slideropen, setslideropen] = useState(false);
   const [vrows, setVrows] = useState({});
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
   const columns: GridColDef[] = [
@@ -104,7 +106,7 @@ export const Coeficientes = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 

@@ -22,11 +22,6 @@ import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import {
-  getMunicipios,
-  setMunicipios,
-  validaLocalStorage,
-} from "../../../../../services/localStorage";
 
 const MunFacturacionModal = ({
   open,
@@ -54,7 +49,7 @@ const MunFacturacionModal = ({
   const [artF1, setArtF1] = useState("");
   const [artF2, setArtF2] = useState("");
   const [artF3, setArtF3] = useState("");
-
+  const user: RESPONSE = JSON.parse(String(getUser()));
   //Valores de chequeo de los Switch
 
   
@@ -65,23 +60,6 @@ const MunFacturacionModal = ({
   const [checkedArtF1, setCheckedArtF1] = useState(dt?.row?.ArtF1 === '1' ? true : false);
   const [checkedArtF2, setCheckedArtF2] = useState(dt?.row?.ArtF2 === '1' ? true : false);
   const [checkedArtF3, setCheckedArtF3] = useState(dt?.row?.ArtF3 === '1' ? true : false);
-
-  //Consola de campos
-  console.log("---------------------------------------");
-  console.log("CAMPOS DE FORMULARIO");
-  console.log("id: ", id);
-  console.log("nombre: ", nombre);
-  console.log("claveEstado: ", claveEstado);
-  console.log("MAM: ", mam);
-  console.log("descentralizado: ", descentralizado);
-  console.log("nombreCorto: ", nombreCorto);
-  console.log("ordenSFTGNL: ", ordenSFTGNL);
-  console.log("claveSIREGOB: ", claveSIREGOB);
-  console.log("claveINEGI: ", claveINEGI);
-  console.log("artF1: ", artF1);
-  console.log("artF2: ", artF2);
-  console.log("artF3: ", artF3);
-  console.log("---------------------------------------");
 
   const textoDeAfirmacion = "SI";
   const textoDeNegacion = "NO";
@@ -151,11 +129,11 @@ const MunFacturacionModal = ({
         icon: "error",
       });
     } else {
-      const user: RESPONSE = JSON.parse(String(getUser()));
+      
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+          CHUSER: user.id,
         NOMBRE: nombre,
         CLAVEESTADO: claveEstado,
         MAM: mam,

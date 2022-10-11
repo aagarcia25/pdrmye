@@ -1,19 +1,26 @@
 import {
   Box,
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { AuthService } from "../../../../../services/AuthService";
+import { GridColDef } from '@mui/x-data-grid';
+import { Toast } from "../../../../../helpers/Toast";
+import { Alert } from "../../../../../helpers/Alert";
+
 
 const MenuRelPermisos = ({
   dt,
@@ -32,6 +39,53 @@ const MenuRelPermisos = ({
     });
   };
 
+  const handleChange = (v: any) => {
+    let data = {
+      TIPO:2,     
+      IDMENU: v.id
+    }
+    AuthService.rolespermisorelacionar (data).then((res) => {
+      setData(res.RESPONSE);
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Menu Eliminado!",
+        });
+        consulta({ CHID: v.id });
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
+
+  const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "Identificador",
+      hide: true,
+      width: 10,
+    },
+    {
+      field: "acciones",
+      headerName: "",
+      description: "Relacionar Menus",
+      sortable: false,
+      width: 10,
+      renderCell: (v) => {
+        return <Checkbox onChange={() => handleChange(v)} />;
+      },
+    },
+    { field: "MENU", headerName: "Menu", width: 300 },
+
+  ];
+
+
+
   useEffect(() => {
     
     consulta({ CHID: dt?.row?.id });
@@ -39,9 +93,35 @@ const MenuRelPermisos = ({
 
   return (
     <div>
-      <Dialog open={open} maxWidth="lg">
-        <DialogTitle>Permisos Relacionados al Menú</DialogTitle>
+      <Dialog open={open} maxWidth="lg">    
+    
         <DialogContent>
+
+        <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+            <Typography
+              sx={{
+                textAlign: "center",
+                fontFamily: "MontserratBold",
+                fontSize: "2vw",
+                color: "#454545",
+              }}
+            >
+              Permisos Relacionados al Menú
+            </Typography>
+          </Grid>
+
+          <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+            <Typography
+              sx={{
+                textAlign: "left",
+                fontFamily: "MontserratMedium",
+                fontSize: "1.5vw",
+                color: "#808080",
+              }}
+            >
+              Para Eliminar el menú solo Marcar la Casilla
+            </Typography>
+          </Grid>
           <Box>
             <TableContainer>
               <Table

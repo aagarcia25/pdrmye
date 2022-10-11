@@ -13,13 +13,14 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import {  porcentage } from '../../CustomToolbar'
+import { porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getPU, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getPU, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { UserReponse } from "../../../../../interfaces/user/UserReponse";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 const MunTerritorioModal = ({
@@ -31,9 +32,9 @@ const MunTerritorioModal = ({
 }: {
   open: boolean;
   modo: string;
-  tipo:number;
-  handleClose:Function,
-  dt:any
+  tipo: number;
+  handleClose: Function,
+  dt: any
 }) => {
 
 
@@ -43,14 +44,13 @@ const MunTerritorioModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [territorio, setTerritorio] = useState<number>();
-
-  const user: UserReponse = JSON.parse(String(getPU()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const [IdMunicipio, setIdMunicipio] = useState<object>();
   const [values, setValues] = useState<Imunicipio[]>();
- 
- 
 
-  
+
+
+
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -63,10 +63,10 @@ const MunTerritorioModal = ({
   };
 
 
- 
+
 
   const handleSend = () => {
-    if (territorio == null||IdMunicipio==null) {
+    if (territorio == null || IdMunicipio == null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -76,17 +76,17 @@ const MunTerritorioModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.IdUsuario,
+        CHUSER: user.id,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         KM2: territorio,
- 
 
-        
+
+
       };
 
       handleRequest(data);
-      handleClose ("save");
+      handleClose("save");
     }
   };
 
@@ -98,7 +98,7 @@ const MunTerritorioModal = ({
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-      
+
       editar(data);
     }
   };
@@ -140,39 +140,39 @@ const MunTerritorioModal = ({
     });
   };
 
- 
+
 
   useEffect(() => {
     municipiosc();
 
-    if(dt === ''  ){
-        console.log(dt)
-       
-    }else{
-        setId(dt?.row?.id)
-        setAnio(dt?.row?.Anio)
-        setTerritorio(dt?.row?.Km2)
-        setIdMunicipio(dt?.row?.idmunicipio)
-   
-   
+    if (dt === '') {
+      console.log(dt)
 
-        console.log(dt)
+    } else {
+      setId(dt?.row?.id)
+      setAnio(dt?.row?.Anio)
+      setTerritorio(dt?.row?.Km2)
+      setIdMunicipio(dt?.row?.idmunicipio)
 
 
-   
+
+      console.log(dt)
+
+
+
     }
-   console.log(dt)
-  }, [dt] );
+    console.log(dt)
+  }, [dt]);
 
 
 
   return (
     <Dialog open={open}>
-   
+
       <DialogContent>
         <Box>
-        <Box
-          sx={{ display: 'flex', justifyContent: 'center',}}>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'center', }}>
             <label className="Titulo">{modo}</label>
           </Box>
           <FormControl variant="standard" fullWidth>
@@ -183,9 +183,9 @@ const MunTerritorioModal = ({
               value={IdMunicipio}
               label="Municipio"
               error={IdMunicipio == null ? true : false}
-            inputProps={{
-            readOnly: tipo == 1 ? false : true,
-             }}
+              inputProps={{
+                readOnly: tipo == 1 ? false : true,
+              }}
             >
               {values?.map((item: Imunicipio) => {
                 return (
@@ -197,7 +197,7 @@ const MunTerritorioModal = ({
             </Select>
           </FormControl>
 
-     
+
           <TextField
             margin="dense"
             required
@@ -215,8 +215,8 @@ const MunTerritorioModal = ({
               ),
             }}
           />
-         
-         
+
+
         </Box>
       </DialogContent>
 

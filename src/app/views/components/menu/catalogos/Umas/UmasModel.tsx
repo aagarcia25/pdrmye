@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   Box,
   FormControl,
@@ -11,14 +10,14 @@ import {
   TextField,
   InputAdornment,
   DialogActions,
-  Button,
 } from "@mui/material";
 
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const UmasModel = ({
   open,
@@ -29,12 +28,10 @@ const UmasModel = ({
 }: {
   open: boolean;
   modo: string;
-  tipo:number;
-  handleClose:Function,
-  dt:any
+  tipo: number;
+  handleClose: Function,
+  dt: any
 }) => {
-
-
 
 
   // CAMPOS DE LOS FORMULARIOS
@@ -42,12 +39,12 @@ const UmasModel = ({
   const [anio, setAnio] = useState("");
   const [fac, setFac] = useState("");
   const [idMunicipio, setIdmunicipio] = useState("");
- 
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const [values, setValues] = useState<Imunicipio[]>();
- 
- 
 
-  
+
+
+
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -60,9 +57,6 @@ const UmasModel = ({
   };
 
 
- 
- 
-
   const handleSend = () => {
     if (fac == "") {
       Alert.fire({
@@ -74,7 +68,7 @@ const UmasModel = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         ANIO: anio,
         IDMUNICIPIO: idMunicipio,
         FACTURACION: fac,
@@ -92,7 +86,7 @@ const UmasModel = ({
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-      
+
       editar(data);
     }
   };
@@ -134,32 +128,32 @@ const UmasModel = ({
     });
   };
 
- 
+
 
   useEffect(() => {
     municipiosc();
 
-    if(dt === ''  ){
-        console.log(dt)
-       
-    }else{
-        setId(dt?.row?.id)
-        setAnio(dt?.row?.Anio)
-        setFac(dt?.row?.Facturacion)
-        setIdmunicipio(dt?.row?.idmunicipio)
+    if (dt === '') {
+      console.log(dt)
+
+    } else {
+      setId(dt?.row?.id)
+      setAnio(dt?.row?.Anio)
+      setFac(dt?.row?.Facturacion)
+      setIdmunicipio(dt?.row?.idmunicipio)
     }
-   
+
   }, [dt]);
 
 
 
   return (
     <Dialog open={open}>
-   
+
       <DialogContent>
         <Box>
-        <Box
-          sx={{ display: 'flex', justifyContent: 'center',}}>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'center', }}>
             <label className="Titulo">{modo}</label>
           </Box>
           <FormControl variant="standard" fullWidth>
@@ -169,8 +163,8 @@ const UmasModel = ({
               onChange={(v) => setIdmunicipio(v.target.value)}
               value={idMunicipio}
               label="Municipio"
-               inputProps={{
-                 readOnly: tipo == 1 ? false : true,
+              inputProps={{
+                readOnly: tipo == 1 ? false : true,
               }}
             >
               {values?.map((item: Imunicipio) => {
@@ -194,10 +188,10 @@ const UmasModel = ({
             variant="standard"
             onChange={(v) => setAnio(v.target.value)}
             error={anio == "" ? true : false}
-             InputProps={{
-               readOnly: tipo == 1 ? false : true,
-               inputMode: "numeric",
-             }}
+            InputProps={{
+              readOnly: tipo == 1 ? false : true,
+              inputMode: "numeric",
+            }}
           />
 
           <TextField

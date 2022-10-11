@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
-
 import {
   Box,
   IconButton,
 } from "@mui/material";
-
 import { GridColDef } from "@mui/x-data-grid";
-
-import {
-  getUser,
-} from "../../../../../services/localStorage";
+import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -21,12 +16,11 @@ import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import MunTerritorioModal from "./MunTerritorioModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 
 export const MunTerritorio = () => {
-  const user = getUser();
-
 
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
@@ -35,6 +29,7 @@ export const MunTerritorio = () => {
   const [territorio, setTerritorio] = useState([]);
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
   // VARIABLES PARA LOS FILTROS
@@ -52,7 +47,7 @@ export const MunTerritorio = () => {
       hide: true,
       width: 150,
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 }, 
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "Km2", headerName: "Area", width: 150 },
     {
@@ -77,22 +72,22 @@ export const MunTerritorio = () => {
 
   ];
 
-  const handleClose = (v:string) => {
-    if (v== "close"){
+  const handleClose = (v: string) => {
+    if (v == "close") {
       setOpen(false);
     }
-    else if (v == "save"){
+    else if (v == "save") {
       setOpen(false);
-    let data = {
-      NUMOPERACION: 4,
+      let data = {
+        NUMOPERACION: 4,
 
-    };
-    consulta(data);
+      };
+      consulta(data);
 
     }
     console.log('cerrando');
 
-    
+
   };
 
   const handleOpen = (v: any) => {
@@ -125,7 +120,7 @@ export const MunTerritorio = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 
@@ -224,7 +219,7 @@ export const MunTerritorio = () => {
 
   let dat = ({
     NUMOPERACION: 4,
-    CHUSER: 1
+    CHUSER: user.id
   })
   useEffect(() => {
     CatalogosServices.munterritorio(dat).then((res) => {

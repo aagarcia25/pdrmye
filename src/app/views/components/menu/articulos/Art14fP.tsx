@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { GridColDef } from "@mui/x-data-grid";
-import { getPU } from "../../../../services/localStorage";
+import { getUser } from "../../../../services/localStorage";
 import { ArticulosServices } from "../../../../services/ArticulosServices";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import {
@@ -13,14 +13,14 @@ import {
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import AutoModeIcon from "@mui/icons-material/AutoMode";
-import { UserReponse } from "../../../../interfaces/user/UserReponse";
 import Swal from "sweetalert2";
 import Slider from "../../Slider";
+import { RESPONSE } from "../../../../interfaces/user/UserInfo";
 
 export const Art14fP = () => {
   const navigate = useNavigate();
   const [slideropen, setslideropen] = useState(false);
-  const user: UserReponse = JSON.parse(String(getPU()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const [data, setData] = useState([]);
   const [tipo, setTipo] = useState<Number>(0);
 
@@ -35,7 +35,7 @@ export const Art14fP = () => {
     console.log("Se generara una nueva version del calculo");
     let data = {
       CLAVE: tipo,
-      CHUSER: user.IdUsuario,
+      CHUSER: user.id,
       P_ANIO: 2022,
       P_IMPORTE: 12,
       
