@@ -23,31 +23,38 @@ const MenuAsignaPermisos = ({
 
   const [openSlider, setOpenSlider] = useState(false);
 
-  const handleChange = (v: any) => {
-    let data={
-        IDPERMISO : v.row.id,
-        IDMENU    : dt?.row?.id 
-    }
-    AuthService.menuPermisosRelacionar(data).then((res) => {
-        setData(res.RESPONSE);
-        if (res.SUCCESS) {
-            Toast.fire({
-                icon: "success",
-                title: "Permiso Relacionado!",
-              });  
-              consulta({ CHID: dt?.row?.id  });
-        }else{
-            Alert.fire({
-                title: "Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              }); 
-        }
+
+  const consulta = (data: any) => {
+    setOpenSlider(true);
+    AuthService.menuPermisosSinRel(data).then((res) => {
+      setData(res.RESPONSE);
+      setOpenSlider(false);
     });
 
+  };
 
-
-
+  const handleChange = (v: any) => {
+    let data = {
+      TIPO: 1,
+      IDPERMISO: v.row.id,
+      IDMENU: dt?.row?.id
+    }
+    AuthService.menuPermisosRelacionar(data).then((res) => {
+      setData(res.RESPONSE);
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Permiso Relacionado!",
+        });
+        consulta({ CHID: dt?.row?.id });
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
 
   };
 
@@ -66,21 +73,14 @@ const MenuAsignaPermisos = ({
       sortable: false,
       width: 10,
       renderCell: (v) => {
-        return <Checkbox onChange={() => handleChange(v) } />;
+        return <Checkbox onChange={() => handleChange(v)} />;
       },
     },
     { field: "Permiso", headerName: "Permiso", width: 100 },
     { field: "Descripcion", headerName: "Descripcion", width: 250 },
   ];
 
-  const consulta = (data: any) => {
-    setOpenSlider(true);
-    AuthService.menuPermisosSinRel(data).then((res) => {
-      setData(res.RESPONSE);
-      setOpenSlider(false);
-    });
-    
-  };
+
 
   useEffect(() => {
     consulta({ CHID: dt?.row?.id });
@@ -88,9 +88,9 @@ const MenuAsignaPermisos = ({
 
   return (
     <div>
-    
-    
-    <Slider open={openSlider} ></Slider>
+
+
+      <Slider open={openSlider} ></Slider>
       <Box>
         <Modal open={open}>
           <Box

@@ -25,7 +25,7 @@ const RolesAsignaPermisos = ({
 
     const handleChange = (v: any) => {
         let data = {
-            TIPO:1,
+            TIPO: 1,
             IDROL: id,
             IDMENU: v.id
         }
@@ -154,13 +154,11 @@ const RolesAsignaPermisos = ({
 
                         <Grid md={12}
                             sx={{
-
                                 display: "flex",
                                 alignItems: "right",
                                 justifyContent: "right",
                                 mt: "2vh",
-                                // mr: "5vw",
-                                // ml: "5vw",
+
                             }}
                         >
                             <Button

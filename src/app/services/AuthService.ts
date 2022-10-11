@@ -48,7 +48,7 @@ export class AuthService {
     }
 
     public static async menuPermisosRel(data: any) {
-        return await post('menuPermisosRel', data);
+       return await post('menuPermisosRel', data);
     }
 
 

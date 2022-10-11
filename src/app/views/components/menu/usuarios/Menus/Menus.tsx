@@ -19,6 +19,8 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const Menus = () => {
   const [dt, setDt] = useState([]);
+  
+  const [id, setId] = useState<string>("");
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [openRel, setOpenRel] = useState(false);
@@ -53,7 +55,8 @@ const Menus = () => {
   };
 
   const handleViewPermisos = (v: any) => {
-    setDt(v);
+    
+    setId(v.row.id);
     setOpen(true);
   };
 
@@ -64,7 +67,6 @@ const Menus = () => {
     setOpenModal(false);
     consulta({ NUMOPERACION: 4 });
   };
-
 
 
 

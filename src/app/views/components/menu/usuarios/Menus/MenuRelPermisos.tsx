@@ -2,24 +2,17 @@ import {
   Box,
   Button,
   Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Modal,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthService } from "../../../../../services/AuthService";
 import { GridColDef } from '@mui/x-data-grid';
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
+import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
+import Slider from "../../../Slider";
 
 
 const MenuRelPermisos = ({
@@ -32,26 +25,32 @@ const MenuRelPermisos = ({
   handleClose: Function;
 }) => {
   const [data, setData] = useState([]);
+  const [openSlider, setOpenSlider] = useState(false);
 
   const consulta = (data: any) => {
+    setOpenSlider(true);
     AuthService.menuPermisosRel(data).then((res) => {
       setData(res.RESPONSE);
+      setOpenSlider(false);
     });
+
   };
+
 
   const handleChange = (v: any) => {
     let data = {
-      TIPO:2,     
-      IDMENU: v.id
+      TIPO:2,
+      IDPERMISO: v.row.id,
+      IDMENU: dt?.row?.id
     }
-    AuthService.rolespermisorelacionar (data).then((res) => {
+    AuthService.menuPermisosRelacionar(data).then((res) => {
       setData(res.RESPONSE);
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
           title: "Menu Eliminado!",
         });
-        consulta({ CHID: v.id });
+        consulta({CHID: dt?.row?.id });
       } else {
         Alert.fire({
           title: "Error!",
@@ -80,81 +79,96 @@ const MenuRelPermisos = ({
         return <Checkbox onChange={() => handleChange(v)} />;
       },
     },
-    { field: "MENU", headerName: "Menu", width: 300 },
+    { field: "Permiso", headerName: "Permiso", width: 300 },
+    { field: "Descripcion", headerName: "Descripcion", width: 300 },
 
   ];
 
 
 
   useEffect(() => {
-    
     consulta({ CHID: dt?.row?.id });
   }, []);
 
   return (
     <div>
-      <Dialog open={open} maxWidth="lg">    
-    
-        <DialogContent>
-
-        <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-            <Typography
-              sx={{
-                textAlign: "center",
-                fontFamily: "MontserratBold",
-                fontSize: "2vw",
-                color: "#454545",
-              }}
-            >
-              Permisos Relacionados al Menú
-            </Typography>
-          </Grid>
-
-          <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-            <Typography
-              sx={{
-                textAlign: "left",
-                fontFamily: "MontserratMedium",
-                fontSize: "1.5vw",
-                color: "#808080",
-              }}
-            >
-              Para Eliminar el menú solo Marcar la Casilla
-            </Typography>
-          </Grid>
-          <Box>
-            <TableContainer>
-              <Table
-                sx={{ minWidth: 650 }}
-                size="small"
-                aria-label="a dense table"
+      <Slider open={openSlider} ></Slider>
+      <Box >
+        <Modal open={open}>
+          <Grid
+            container
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "50vw",
+              height: "60vh",
+              bgcolor: "rgb(255,255,255)",
+              boxShadow: 50,
+              p: 2,
+              borderRadius: 3,
+            }}
+          >
+            <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  fontFamily: "MontserratBold",
+                  fontSize: "2vw",
+                  color: "#454545",
+                }}
               >
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Rol</TableCell>
-                    <TableCell align="left">Descripción</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {data.map((row: any) => (
-                    <TableRow
-                      key={row.id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell align="left">{row.Permiso}</TableCell>
-                      <TableCell align="left">{row.Descripcion}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
-        </DialogContent>
+                Permisos Relacionados al Menúvdv
+              </Typography>
+            </Grid>
 
-        <DialogActions>
-          <Button onClick={() => handleClose()}>Cerrar</Button>
-        </DialogActions>
-      </Dialog>
+            <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{
+                  textAlign: "left",
+                  fontFamily: "MontserratMedium",
+                  fontSize: "1.5vw",
+                  color: "#808080",
+                }}
+              >
+                Para Eliminar el menú solo Marcar la Casilla
+              </Typography>
+            </Grid>
+            <Grid sm={12}
+              sx={{
+                mt: "2vh",
+                width: "100%",
+                height: "60%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row",
+
+              }}
+            >
+
+              <MUIXDataGridSimple columns={columns} rows={data} />
+            </Grid>
+            <Grid md={12}
+              sx={{
+                display: "flex",
+                alignItems: "right",
+                justifyContent: "right",
+                mt: "2vh",
+
+              }}
+            >
+              <Button
+                sx={{ color: "#000", fontFamily: "MontserratMedium" }}
+                onClick={() => handleClose()}
+              >
+                Salir
+              </Button>
+            </Grid>
+          </Grid>
+        </Modal>
+      </Box>
     </div>
   );
 };
