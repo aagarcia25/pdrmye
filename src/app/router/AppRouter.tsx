@@ -43,20 +43,21 @@ import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
 import { Fondo } from '../views/components/menu/aportaciones/Fondo';
 import DetalleFondo from '../views/components/menu/aportaciones/DetalleFondo';
-import {  islogin } from '../services/localStorage';
+import {  getUser, islogin } from '../services/localStorage';
+import { RESPONSE } from '../interfaces/user/UserInfo';
 
 
 
 export const AppRouter = () => {
   const log = islogin();
-  
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
   
   return (
     <Inicio>
       <Routes>
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
-        <Route path='/'  element={log ? <Bienvenido /> : <AuthRouter />}     />
+        <Route path='/'  element={log ? <Bienvenido user={user} /> : <AuthRouter />}     />
         {/* SECCION DE CATALOGOS */}
         <Route path='/inicio/catalogos/mun'                        element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa'                       element={<TasaInteres />} />

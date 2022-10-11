@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router";
 import Swal from "sweetalert2";
 import { UserInfo } from "./app/interfaces/user/UserInfo";
@@ -67,7 +67,10 @@ function App() {
       NUMOPERACION: 1,
       ID: id,
     };
+    console.log("BUSCANDO USUARIO")
     AuthService.adminUser(data).then((res2) => {
+      console.log("RESPUESTA DE BUSCANDO USUARIO")
+      console.log(res2)
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
       setPermisos(us.RESPONSE.PERMISOS);
@@ -79,13 +82,17 @@ function App() {
   const verificatoken = (token: string) => {
     // SE VALIDA EL TOKEN
     setToken(jwt);
+    console.log("verificando")
     UserServices.verify({}, token).then((res) => {
+      console.log(res)
       if (res.status == 200) {
         setlogin(true);
         setAcceso(true);
         //SE OBTIENE LA INFORMACION DE DETALLE DEL USUARIO
         setPU(res.data.data);
         const user: UserReponse = JSON.parse(String(getPU()));
+        console.log('BUSCANDO USUARIO')
+        console.log(user.IdUsuario)
         buscaUsuario(user.IdUsuario);
       } else if (res.status == 401) {
         setlogin(false);
@@ -139,11 +146,12 @@ function App() {
     onIdle: handleOnIdle,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     //setTimeout(() => {
    
     
       if (String(jwt) != null && String(jwt) != "") {
+        console.log("verificando token");
         verificatoken(String(jwt));
 
         console.log("validando municipios");

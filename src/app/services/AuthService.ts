@@ -8,8 +8,8 @@ export class AuthService {
     }
 
 
-    public static async adminUser(data: any) {
-        return await post('Usuariosindex', data);
+    public static  adminUser(data: any) {
+        return  post('Usuariosindex', data);
     }
 
     public static async permisosindex(data: any) {

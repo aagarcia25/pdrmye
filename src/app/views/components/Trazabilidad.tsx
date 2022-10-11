@@ -16,37 +16,41 @@ import {
   DialogActions,
   Button,
   Box,
+  Typography,
 } from "@mui/material";
 
 import Slider from "./Slider";
 import { Toast } from "../../helpers/Toast";
 import { calculosServices } from "../../services/calculosServices";
 import { Alert } from "../../helpers/Alert";
+import { Itrazabilidad } from "../../interfaces/calculos/Itrazabilidad";
 
 const Trazabilidad = ({
   id,
   open,
   handleClose,
 }: {
-  id:string;
+  id: string;
   open: boolean;
   handleClose: Function;
 }) => {
   const [openSlider, setOpenSlider] = useState(false);
-  const [data, setdata] = useState([]);
+  const [data, setdata] = useState<Itrazabilidad[]>([]);
 
   const consulta = () => {
     setOpenSlider(true);
-    let data={
-      CHID:id
-    }
+    let data = {
+      CHID: id,
+    };
     calculosServices.trazabilidad(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        setdata(res.RESPONSE);
+
+        const obj: Itrazabilidad[] = res.RESPONSE;
+        setdata(obj);
         setOpenSlider(false);
       } else {
         Alert.fire({
@@ -59,50 +63,43 @@ const Trazabilidad = ({
     });
   };
 
-
-
-
   useEffect(() => {
-   console.log(id);
-   consulta();
+    console.log(id);
+    consulta();
   }, [id]);
-
-
-
 
   return (
     <div>
       <Slider open={openSlider}></Slider>
       <Box>
-        <Dialog 
-        open={open}
-        fullWidth={open}
-        >
+        <Dialog open={open} fullWidth={open}>
           <DialogTitle>Trazabilidad</DialogTitle>
           <DialogContent>
-           
-             
 
-             <Timeline position="alternate">
-
-
+          <Timeline position="alternate">
+            {data.map((it) => {
+              return (
+              
                   <TimelineItem>
                     <TimelineOppositeContent color="text.secondary">
-                      09:30 am
+                    {it.FechaCreacion}
                     </TimelineOppositeContent>
                     <TimelineSeparator>
                       <TimelineDot />
                       <TimelineConnector />
                     </TimelineSeparator>
-                    <TimelineContent>Eat</TimelineContent>
+                    <TimelineContent sx={{ py: "12px", px: 2 }}>
+                      <Typography variant="h6" component="span">
+                      {it.Nombre}
+                      </Typography>
+                      <Typography>{it.Descripcion}</Typography>
+                    </TimelineContent>
                   </TimelineItem>
+              
+              );
+            })}
 
-                
-                </Timeline>
-            
-               
-            
-       
+          </Timeline>
           </DialogContent>
 
           <DialogActions>
