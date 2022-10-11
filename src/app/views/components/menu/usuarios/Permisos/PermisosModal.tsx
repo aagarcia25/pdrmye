@@ -3,7 +3,9 @@ import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react'
 import { Alert } from '../../../../../helpers/Alert';
 import { Toast } from '../../../../../helpers/Toast';
+import { RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { AuthService } from '../../../../../services/AuthService';
+import { getUser } from '../../../../../services/localStorage';
 
 
 
@@ -26,7 +28,7 @@ const PermisosModal = ({
   const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");
   const [descripcion, setdescripcion] = useState("");
-
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
 
@@ -42,7 +44,7 @@ const PermisosModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         PERMISO: nombre,
         DESCRIPCION: descripcion,
       };

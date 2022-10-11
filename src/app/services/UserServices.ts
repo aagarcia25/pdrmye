@@ -1,10 +1,6 @@
 import { post, postSingle } from "./apiServiceExt";
 
 
-
-
-
-
 export class UserServices {
 
 
@@ -24,9 +20,17 @@ export class UserServices {
     public static async signup(data: any) {
         return await postSingle('sign-up', data);
     }
+
+
+    public static async linkuserapp(data: any,token :string) {
+        return await post('link-userapp', data,token);
+    }
     
+    public static async apps(data: any,token :string) {
+        return await post('apps', data,token);
+    }
 
-
+    
 
 
 }
