@@ -23,6 +23,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 const Roles = () => {
   const [data, setData] = useState([]);
+  const [dt, setDt] = useState([]);
   const [openRel, setOpenRel] = useState(false);
   const [open, setOpen] = useState(false);
   const [openRolesModalAdd, setOpenRolesModalAdd] = useState(false);
@@ -51,15 +52,15 @@ const Roles = () => {
     console.log(v.row);
 
   };
-  const eliminar = (v:any) => {
-    console.log((user.IdUsuario));
+  const eliminar = (v: any) => {
+   
     let data = {
       NUMOPERACION: 3,
-      CHUSER: user.IdUsuario  ,
+      CHUSER: user.IdUsuario,
       CHID: String(v.row.id),
 
-            
-    
+
+
     };
     AuthService.rolesindex(data).then((res) => {
       if (res.SUCCESS) {
@@ -89,10 +90,11 @@ const Roles = () => {
     setOpenRolesModalAdd(true);
   };
 
-  const handleEditarRegistro = (v:any) => {
+  const handleEditarRegistro = (v: any) => {
     setTipoOperacion(2);
     setModo("Editar Rol");
     setOpenRolesModalAdd(true);
+    setDt(v);
   };
 
 
@@ -131,8 +133,8 @@ const Roles = () => {
                 <AccountTreeIcon />
               </IconButton>
             </Tooltip>
-            
-            <Tooltip title={"Relacionar Menú"}>
+
+            <Tooltip title={"Editar Menú"}>
               <IconButton onClick={() => handleEditarRegistro(v)}>
                 <EditIcon />
               </IconButton>
@@ -192,7 +194,7 @@ const Roles = () => {
         modo={modo}
         handleClose={handleClose}
         tipo={tipoOperacion}
-        dt={data}
+        dt={dt}
       />
         : ""}
 
