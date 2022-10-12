@@ -113,7 +113,7 @@ const RolesMenu = ({
                 color: "#454545",
               }}
             >
-              Relacionar Menus a Usuario
+              Relacion Menú a Rol
             </Typography>
           </Grid>
 

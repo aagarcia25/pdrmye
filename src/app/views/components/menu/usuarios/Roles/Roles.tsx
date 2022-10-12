@@ -120,24 +120,24 @@ const Roles = () => {
       renderCell: (v) => {
         return (
           <Box>
-            <Tooltip title={"Ver Menús Relaciados al Rol"}>
+            <Tooltip title={"Ver y Eliminar menus de el Rol"}>
               <IconButton onClick={() => handleView(v)}>
                 <RemoveRedEyeIcon />
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Relacionar Menú"}>
+            <Tooltip title={"Ver opciones de menu dsiponibles y asignarlas al Rol"}>
               <IconButton onClick={() => handleRel(v)}>
                 <AccountTreeIcon />
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Editar Menú"}>
+            <Tooltip title={"Editar Descripcion del Rol"}>
               <IconButton onClick={() => handleEditarRegistro(v)}>
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Relacionar Menú"}>
+            <Tooltip title={"Eliminar Rol"}>
               <IconButton onClick={() => eliminar(v)}>
                 <DeleteForeverIcon />
               </IconButton>

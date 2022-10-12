@@ -119,7 +119,7 @@ const MenuRelPermisos = ({
                   color: "#454545",
                 }}
               >
-                Permisos Relacionados al Menúvdv
+                Permisos Relacionados al Menú
               </Typography>
             </Grid>
 
@@ -132,7 +132,7 @@ const MenuRelPermisos = ({
                   color: "#808080",
                 }}
               >
-                Para Eliminar el menú solo Marcar la Casilla
+                Para Eliminar el Permiso solo Marcar la Casilla
               </Typography>
             </Grid>
             <Grid sm={12}
@@ -159,12 +159,12 @@ const MenuRelPermisos = ({
 
               }}
             >
-              <Button
-                sx={{ color: "#000", fontFamily: "MontserratMedium" }}
+               <button
+                className="cerrar"
                 onClick={() => handleClose()}
               >
                 Salir
-              </Button>
+              </button>
             </Grid>
           </Grid>
         </Modal>

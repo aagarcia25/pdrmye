@@ -117,7 +117,7 @@ const RolesAsignaPermisos = ({
                                     color: "#454545",
                                 }}
                             >
-                                Relacionar Menu a Visualizar a Usuario:
+                                Relacionar Menú a Rol
                             </Typography>
                         </Grid>
 
@@ -130,7 +130,7 @@ const RolesAsignaPermisos = ({
                                     color: "#808080",
                                 }}
                             >
-                                Para Relacionar el Menu solo Marca la Casilla
+                                Para Relacionar el Menú solo Marca la Casilla
                             </Typography>
 
                         </Grid>

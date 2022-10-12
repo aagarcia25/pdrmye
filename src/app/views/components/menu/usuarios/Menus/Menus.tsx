@@ -56,7 +56,7 @@ const Menus = () => {
 
   const handleViewPermisos = (v: any) => {
     
-    setId(v.row.id);
+    setDt(v);
     setOpen(true);
   };
 
