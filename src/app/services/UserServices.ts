@@ -17,8 +17,8 @@ export class UserServices {
     }
     
 
-    public static async signup(data: any) {
-        return await postSingle('sign-up', data);
+    public static async signup(data: any,token :string) {
+        return await post('sign-up', data,token);
     }
 
 

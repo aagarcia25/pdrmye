@@ -26,13 +26,13 @@ const Usuarios = () => {
   const [id, setId] = useState("");
 
   const handleOpen = () => {
-    setTipoOperacion(1);
+    setTipoOperacion(3);
     setRow("");
     setOpenNew(true);
   };
 
   const handleEdit = (v: any) => {
-    setTipoOperacion(2);
+    setTipoOperacion(5);
     setRow(v);
     setOpenNew(true);
   };

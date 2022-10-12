@@ -20,15 +20,18 @@ import Slider from "../../Slider";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import SelectFrag from "../../Fragmentos/Select/SelectFrag";
 import { useParams } from "react-router-dom";
+import { fmeses } from "../../../../share/loadMeses";
 
 const ModalFondo = ({
   titulo,
+  clave,
   onClickBack,
   modo,
   anio,
   mes
 }: {
   titulo: string;
+  clave: string;
   onClickBack: Function;
   modo: string;
   anio: number;
@@ -42,12 +45,20 @@ const ModalFondo = ({
   let year: number = new Date().getFullYear();
 
 
+  const [mesSeleccionado, setMesSeleccionado] = useState("");
 
 
   const handleSelectMes = (v: SelectValues) => {
+    console.log(v)
+    setMesSeleccionado(v.value);
   };
   const handleSelectAjuste = (v: SelectValues) => {
+
   };
+
+
+
+
 
 
   const handleSend = () => {
@@ -57,22 +68,27 @@ const ModalFondo = ({
         text: "Favor de Completar los Campos",
         icon: "error",
       });
+
     } else {
+
       let data = {
-          CHUSER: user.id,
-        NUMOPERACION: 1,
-        IDESTATUS: "30ec276f-2b14-11ed-afdb-040300000000",
-        CLAVEFONDO: "FGP",
+        CLAVE:clave,
+        CHUSER: user.id,
+        IMPORTE: monto,
         ANIO: year,
-        MES: mes,
-        ANIOPOBLACION: 2020,
+        MES: mesSeleccionado,
       };
       agregar(data);
     }
+
+
+
+
   };
 
   const agregar = (data: any) => {
-    calculosServices.CalculoPrincipalindex(data).then((res) => {
+    console.log(data);
+ /*   calculosServices.calcula(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -85,17 +101,12 @@ const ModalFondo = ({
           icon: "error",
         });
       }
-    });
+    });*/
   };
 
-  const mesesc = () => {
-    let data = {
-      NUMOPERACION: 2
-    };
-    CatalogosServices.SelectIndex(data).then((res) => {
-      setMeses(res.RESPONSE);
-    });
-  };
+
+
+ 
 
   const ajusteesc = () => {
     let data = {
@@ -113,11 +124,12 @@ const ModalFondo = ({
     // SE ESTABLECE EL TIEMPO EN ESPERA PARA QUE SE CARGEN DE FORMA CORRECTA LOS COMPONENTES
     console.log(params)
     setTimeout(() => {
-      mesesc();
+      setslideropen(true);
+      setMeses(fmeses());
       ajusteesc();
       setslideropen(false);
     }, 3000);
-    setslideropen(true);
+  
 
   }, []);
 

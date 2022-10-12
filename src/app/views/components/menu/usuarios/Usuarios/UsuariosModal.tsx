@@ -10,7 +10,7 @@ import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getUser } from "../../../../../services/localStorage";
+import { getToken, getUser } from "../../../../../services/localStorage";
 
 const UsuariosModal = ({
   open,
@@ -33,8 +33,9 @@ const UsuariosModal = ({
   const [NombreUsuario, setNombreUsuario] = useState("");
   const [CorreoElectronico, setCorreoElectronico] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const token = JSON.parse(String(getToken()));
 
-
+  
   const handleSend = () => {
     if (
       Nombre == "" ||

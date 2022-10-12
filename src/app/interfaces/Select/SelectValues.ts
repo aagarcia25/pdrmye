@@ -1,4 +1,4 @@
 export default interface SelectValues{
-    value?:string,
-    label?:string
+    value:string,
+    label:string
 }

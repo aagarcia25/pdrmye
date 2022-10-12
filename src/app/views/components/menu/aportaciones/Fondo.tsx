@@ -192,8 +192,9 @@ export const Fondo = () => {
             onClickBack={handleClose}
             modo={modo}
             anio={anio}
-            mes={mes}
-          />
+            mes={mes} 
+            clave={fondo} 
+            />
         </div>
       </Box>
     </>
