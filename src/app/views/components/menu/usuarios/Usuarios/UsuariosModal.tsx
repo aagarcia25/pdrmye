@@ -11,7 +11,9 @@ import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getToken, getUser } from "../../../../../services/localStorage";
-
+import validator from 'validator';
+import { UserServices } from "../../../../../services/UserServices";
+import { Token } from "@mui/icons-material";
 const UsuariosModal = ({
   open,
   handleClose,
@@ -26,32 +28,48 @@ const UsuariosModal = ({
 
 
 
-  const [id, setId] = useState("");
-  const [Nombre, setNombre] = useState("");
-  const [ApellidoPaterno, setApellidoPaterno] = useState("");
-  const [ApellidoMaterno, setApellidoMaterno] = useState("");
-  const [NombreUsuario, setNombreUsuario] = useState("");
-  const [CorreoElectronico, setCorreoElectronico] = useState("");
+  const [id, setId] = useState<string>();
+  const [Nombre, setNombre] = useState<string>();
+  const [ApellidoPaterno, setApellidoPaterno] = useState<string>();
+  const [ApellidoMaterno, setApellidoMaterno] = useState<string>();
+  const [NombreUsuario, setNombreUsuario] = useState<string>();
+  const [CorreoElectronico, setCorreoElectronico] = useState<string>();
+  const [emailValid, setEmailValid] = useState<boolean>();
   const user: RESPONSE = JSON.parse(String(getUser()));
   const token = JSON.parse(String(getToken()));
+  const [emailError, setEmailError] = useState('')
+
+
+  const validateEmail = (e:any) => {
+    var email = e.target.value
+  setCorreoElectronico (email);
+    if (validator.isEmail(email)) {
+      setEmailError('Email Valido')
+      setEmailValid(true);
+    } else {
+      setEmailError('Ingrese Email Valido')
+      setEmailValid(false);
+    }
+  }
 
   
   const handleSend = () => {
     if (
-      Nombre == "" ||
-      ApellidoPaterno == "" ||
-      ApellidoMaterno == "" ||
-      NombreUsuario == "" ||
-      CorreoElectronico == ""
+      Nombre == null ||
+      ApellidoPaterno == null ||
+      ApellidoMaterno == null ||
+      NombreUsuario == null ||
+      CorreoElectronico == null||
+      emailValid==false
     ) {
       Alert.fire({
         title: "Error!",
-        text: "Favor de Completar los Campos",
+        text: "Verificar los campos",
         icon: "error",
       });
     } else {
       let data = {
-        NUMOPERACION: tipo,
+        /*NUMOPERACION: tipo,
         CHUSER: user.id,
         CHID: id,
         NOMBRE: Nombre,
@@ -59,18 +77,29 @@ const UsuariosModal = ({
         AM: ApellidoMaterno,
         NUSER: NombreUsuario,
         CORREO: CorreoElectronico
+*/
+        Nombre: Nombre,
+        ApellidoPaterno:ApellidoPaterno ,
+        ApellidoMaterno: ApellidoMaterno,
+        NombreUsuario: NombreUsuario,
+        CorreoElectronico: CorreoElectronico,
+        IdUsuarioModificador: user.id,
+        
+
       };
       handleRequest(data);
     }
   };
 
+
+
   const handleRequest = (data: any) => {
     console.log(data);
-    AuthService.permisosindex(data).then((res) => {
+    UserServices.signup(data , String(Token)).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: tipo == 1 ? "Registro Agregado!" : "Registro Editado!",
+          title: tipo == 3 ? "Registro Agregado!" : "Registro Editado!",
         });
       } else {
         Alert.fire({
@@ -102,7 +131,7 @@ const UsuariosModal = ({
       <Dialog open={open}>
         <Box
           sx={{ display: 'flex', justifyContent: 'center', }}>
-          <label className="Titulo"> {tipo == 1 ? "Nuevo Registro" : "Editar Registro"}
+          <label className="Titulo"> {tipo == 3 ? "Nuevo Registro" : "Editar Registro"}
           </label>
         </Box>
 
@@ -118,7 +147,7 @@ const UsuariosModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setNombre(v.target.value)}
-              error={Nombre == "" ? true : false}
+              error={Nombre == null ? true : false}
             />
 
             <TextField
@@ -131,7 +160,7 @@ const UsuariosModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setApellidoPaterno(v.target.value)}
-              error={ApellidoPaterno == "" ? true : false}
+              error={ApellidoPaterno == null ? true : false}
             />
 
             <TextField
@@ -144,7 +173,7 @@ const UsuariosModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setApellidoMaterno(v.target.value)}
-              error={ApellidoMaterno == "" ? true : false}
+              error={ApellidoMaterno == null ? true : false}
             />
 
             <TextField
@@ -157,7 +186,7 @@ const UsuariosModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setNombreUsuario(v.target.value)}
-              error={NombreUsuario == "" ? true : false}
+              error={NombreUsuario == null ? true : false}
             />
 
             <TextField
@@ -165,19 +194,19 @@ const UsuariosModal = ({
               margin="dense"
               id="CorreoElectronico"
               label="Correo Electronico"
-              value={CorreoElectronico}
-              type="mail"
               fullWidth
+              value={CorreoElectronico}
               variant="standard"
-              onChange={(v) => setCorreoElectronico(v.target.value)}
-              error={CorreoElectronico == "" ? true : false}
+              onChange={(e) => validateEmail(e)}
+              error={emailValid==false||CorreoElectronico==null}
             />
+            <label>{emailError}</label>
           </Box>
         </DialogContent>
 
         <DialogActions>
-          <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-          <button className="cerrar" onClick={() => handleClose()}>Cancelar</button>
+          <button className="guardar" onClick={() => handleSend()}>Guardar</button>      
+          <button className="cerrar" onClick={() => handleClose()}>Cancelar</button>   
         </DialogActions>
       </Dialog>
     </div>
