@@ -45,7 +45,7 @@ const ModalFondo = ({
   let year: number = new Date().getFullYear();
 
 
-  const [mesSeleccionado, setMesSeleccionado] = useState("");
+  const [mesSeleccionado, setMesSeleccionado] = useState("0");
 
 
   const handleSelectMes = (v: SelectValues) => {
@@ -88,7 +88,7 @@ const ModalFondo = ({
 
   const agregar = (data: any) => {
     console.log(data);
- /*   calculosServices.calcula(data).then((res) => {
+    calculosServices.calcula(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -101,7 +101,7 @@ const ModalFondo = ({
           icon: "error",
         });
       }
-    });*/
+    });
   };
 
 

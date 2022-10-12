@@ -40,6 +40,7 @@ export const Fondo = () => {
     setstep(1);
   };
   const handleClose = (v: any) => {
+    consulta({ FONDO: fondo });
     setstep(0);
   };
   const handleAjuste = (v: any) => {
