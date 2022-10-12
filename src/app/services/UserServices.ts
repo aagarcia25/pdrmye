@@ -1,3 +1,4 @@
+import { get } from "./apiServiceExt";
 import { post, postSingle } from "./apiServiceExt";
 
 
@@ -26,8 +27,8 @@ export class UserServices {
         return await post('link-userapp', data,token);
     }
     
-    public static async apps(data: any,token :string) {
-        return await post('apps', data,token);
+    public static async apps(token :string) {
+        return await get('apps',token);
     }
 
     

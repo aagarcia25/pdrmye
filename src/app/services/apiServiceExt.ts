@@ -1,10 +1,5 @@
 import axios from 'axios';
-
-
 import { env_var } from '../environments/env';
-
-
-
 
 export const postSingle = async function (url: string, body: any) {
     try {
@@ -25,6 +20,7 @@ export const postSingle = async function (url: string, body: any) {
 export const post = async function (url: string, body: any, token: string) {
 
     try {
+        console.log(token)
         let resp = await axios.post(`${env_var.BASE_URL_EXT}` + url, body,
             {
                 headers: {
@@ -35,12 +31,33 @@ export const post = async function (url: string, body: any, token: string) {
             }
 
         );
+        
         return resp;
     } catch (err: any) {
         return err.response
     }
 };
 
+export const get = async function (url: string, token: string) {
+
+    try {
+        console.log(token)
+        let resp = await axios.get(`${env_var.BASE_URL_EXT}` + url,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                   
+                }
+            }
+
+        );
+        
+        return resp;
+    } catch (err: any) {
+        return err.response
+    }
+};
 
 
 
