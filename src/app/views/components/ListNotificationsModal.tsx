@@ -13,7 +13,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { Imunicipio } from "../../interfaces/municipios/FilterMunicipios";
 import SelectFrag from "./Fragmentos/Select/SelectFrag";
 import SelectValues from "../../interfaces/Select/SelectValues";
-import {getUser } from "../../services/localStorage";
+import { getUser } from "../../services/localStorage";
 import "../../styles/globals.css";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 
@@ -79,41 +79,41 @@ const ListNotificationsModal = ({
 
   const handleUpload = () => {
 
-    if(newEncabezado ==null||  newNensaje==null  ||chuserDestin==null )  {
+    if (newEncabezado == null || newNensaje == null || chuserDestin == null) {
       Alert.fire({
         title: "Verificar!",
         text: "Verificar los campos!",
         icon: "warning",
       });
     }
-else {
-    let data = {
-      NUMOPERACION: 1,
-      CHUSER: user.id,
-      DELETED: 0,
-      VISTO: 0,
-      ENCABEZADO: newEncabezado,
-      DESCRIPCION: newNensaje,
-      DESTINATARIO: chuserDestin,
-    };
-    CatalogosServices.Notificaciones(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Agregado!",
-        });
+    else {
+      let data = {
+        NUMOPERACION: 1,
+        CHUSER: user.id,
+        DELETED: 0,
+        VISTO: 0,
+        ENCABEZADO: newEncabezado,
+        DESCRIPCION: newNensaje,
+        DESTINATARIO: chuserDestin,
+      };
+      CatalogosServices.Notificaciones(data).then((res) => {
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "Registro Agregado!",
+          });
 
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-    handleClose("9");
-  
-  }
+        } else {
+          Alert.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
+      });
+      handleClose("9");
+
+    }
   }
 
   const loadSelectUser = () => {
@@ -278,9 +278,9 @@ else {
 
               {////// boton de enviar mensaje nuevo
               }
-              <Box sx={{ position: 'relative',right:5,top:-3, display: 'flex', flexDirection: 'row-reverse', }} >
+              <Box sx={{ position: 'relative', right: 5, top: -3, display: 'flex', flexDirection: 'row-reverse', }} >
 
-                <Box sx={{ width: "18%",  }} >
+                <Box sx={{ width: "18%", }} >
                   <Button
                     className="enviar-mensaje" color="success" variant="contained" endIcon={<SendIcon />}
                     onClick={() => handleUpload()}>

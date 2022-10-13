@@ -31,6 +31,7 @@ const UsuariosModal = ({
 
 
 
+  const [idNuevoUsuario, setIdNuevoUsuario] = useState<string>();
   const [id, setId] = useState<string>();
   const [Nombre, setNombre] = useState<string>();
   const [ApellidoPaterno, setApellidoPaterno] = useState<string>();
@@ -38,7 +39,7 @@ const UsuariosModal = ({
   const [NombreUsuario, setNombreUsuario] = useState<string>();
   const [CorreoElectronico, setCorreoElectronico] = useState<string>();
   const [emailValid, setEmailValid] = useState<boolean>();
-  const [res, setRes] = useState<any>();
+  const [response, setResponse] = useState<any>();
   const user: RESPONSE = JSON.parse(String(getUser()));
   const token = JSON.parse(String(getToken()));
   const [emailError, setEmailError] = useState('')
@@ -61,7 +62,7 @@ const UsuariosModal = ({
   const testeo = () => {
     console.log(token)
 
-    console.log(res)
+    console.log(response)
     let data = {
       NUMOPERACION: 1,
       NOMBRE: "AppName"
@@ -69,18 +70,21 @@ const UsuariosModal = ({
     ParametroServices.ParametroGeneralesIndex(data).then((rest) => {
       console.log(rest.RESPONSE);
       setParamsGenerales(rest.RESPONSE);
+
+      UserServices.apps(token).then((res) => {
+        console.log(res.data.data)
+        setApps(res.data.data);
+        apps?.map((item) => {
+          if(item?.Nombre===paramsGenerales[0]?.Valor){
+          console.log(item.Id + "  " + item.Nombre)
+          console.log("id de usuario crreado  "+idNuevoUsuario)
+          }
+        });
+      });
  
     });
 
-    UserServices.apps(token).then((res) => {
-      console.log(res.data.data)
-      setApps(res.data.data);
-      apps?.map((item) => {
-        if(item?.Nombre===paramsGenerales[0]?.Valor){
-        console.log(item.Id + "  " + item.Nombre)
-        }
-      });
-    });
+
   }
 
   const handleSend = () => {
@@ -99,15 +103,6 @@ const UsuariosModal = ({
       });
     } else {
       let data = {
-        /*NUMOPERACION: tipo,
-        CHUSER: user.id,
-        CHID: id,
-        NOMBRE: Nombre,
-        AP: ApellidoPaterno,
-        AM: ApellidoMaterno,
-        NUSER: NombreUsuario,
-        CORREO: CorreoElectronico
-*/
         Nombre: Nombre,
         ApellidoPaterno: ApellidoPaterno,
         ApellidoMaterno: ApellidoMaterno,
@@ -125,15 +120,41 @@ const UsuariosModal = ({
 
   const handleRequest = (data: any) => {
     console.log(data);
-    UserServices.signup(data, token).then((res) => {
-      setRes(res);
-      console.log(res)
-      if (res.status == 201) {
+    UserServices.signup(data, token).then((resUser) => {
+      setResponse(resUser);      
+   
+      if (resUser.status == 201) {
+
+        let data = {
+          NUMOPERACION: 1,
+          NOMBRE: "AppName"
+        }
+        ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
+          console.log(restApp.RESPONSE);
+          setParamsGenerales(restApp.RESPONSE);
+    
+          UserServices.apps(token).then((resAppLogin) => {
+            console.log(resAppLogin.data.data)
+            setApps(resAppLogin.data.data);
+            apps?.map((item) => {
+              if(item?.Nombre===restApp.RESPONSE[0]?.Valor){
+              console.log(item.Id + "  " + item.Nombre)
+              console.log("id de usuario crreado  "+idNuevoUsuario)
+              }
+            });
+          });
+     
+        });
+
+   
+
+        console.log("id nuevo usuario   "+resUser.data.IdUsuario);
+        console.log(idNuevoUsuario);
 
         let dat = {
           NUMOPERACION: tipo,
           CHUSER: user.id,
-          CHID: res.data.IdUsuario,
+          CHID: resUser.data.IdUsuario,
           NOMBRE: Nombre,
           AP: ApellidoPaterno,
           AM: ApellidoMaterno,
@@ -149,17 +170,17 @@ const UsuariosModal = ({
               icon: "success",
               title: tipo == 3 ? "¡Registro exitoso!" : ""
             });
-            handleClose();
+            
           }
 
 
 
         });
 
-      } else if (res.status == 409) {
+      } else if (resUser.status == 409) {
         Alert.fire({
           title: "Error!",
-          text: res.data.msg,
+          text: resUser.data.msg,
           icon: "error",
         });
       }

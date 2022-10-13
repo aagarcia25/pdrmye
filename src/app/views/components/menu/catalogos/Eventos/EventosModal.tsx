@@ -1,8 +1,7 @@
 
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   Box,
   TextField,
   IconButton,
@@ -14,7 +13,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
-import { PhotoCamera, Preview } from "@mui/icons-material";
+import { PhotoCamera } from "@mui/icons-material";
 import "../../../../../styles/globals.css";
 
 
