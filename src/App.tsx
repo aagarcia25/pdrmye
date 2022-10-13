@@ -73,11 +73,23 @@ function App() {
       console.log(res2);
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
-      setPermisos(us.RESPONSE.PERMISOS);
-      setRoles(us.RESPONSE.ROLES);
-      setMenus(us.RESPONSE.MENUS);
-      setlogin(true);
-      setAcceso(true);
+      console.log(us.RESPONSE.ROLES.length);
+      if(us.RESPONSE.ROLES.length !==0){
+        setRoles(us.RESPONSE.ROLES);
+        setPermisos(us.RESPONSE.PERMISOS);
+        setMenus(us.RESPONSE.MENUS);
+        loadMunicipios();
+        loadMeses();
+        loadAnios();
+        setOpenSlider(false);
+        setlogin(true);
+        setAcceso(true);
+      }
+    
+
+
+
+
     });
   };
 
@@ -168,10 +180,7 @@ function App() {
       if (String(jwt) != null && String(jwt) != "") {
         console.log("verificando token");
         verificatoken(String(jwt));
-        loadMunicipios();
-        loadMeses();
-        loadAnios();
-        setOpenSlider(false);
+       
       } else {
         Swal.fire({
           title: "Token no valido",
