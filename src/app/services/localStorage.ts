@@ -1,7 +1,11 @@
 import { UserReponse } from "../interfaces/user/UserReponse";
 
 
-
+//BLOQUEO DE PANTALLA
+export const setBloqueo = (is: Boolean) => localStorage.setItem('BLOQUEADO',JSON.stringify(is) );
+export const getBloqueo = (): boolean => {
+  return localStorage.getItem('BLOQUEADO') ===  'true' ? true : false;
+};
 //TOKEN
 export const setToken = (user: any) => localStorage.setItem('token', JSON.stringify(user));
 export const getToken = () => localStorage.getItem('token');

@@ -7,8 +7,9 @@ import { AppRouter } from "./app/router/AppRouter";
 import { AuthService } from "./app/services/AuthService";
 import { CatalogosServices } from "./app/services/catalogosServices";
 import {
+  getBloqueo,
   getPU,
-  islogin,
+  setBloqueo,
   setlogin,
   setMenus,
   setMunicipios,
@@ -54,9 +55,8 @@ function App() {
   };
 
   const loadMunicipios = () => {
-    let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
+      CatalogosServices.Filtromunicipios({}).then((res) => {
         setMunicipios(res.RESPONSE);
       });
     }
@@ -67,10 +67,7 @@ function App() {
       NUMOPERACION: 1,
       ID: id,
     };
-    console.log("BUSCANDO USUARIO")
     AuthService.adminUser(data).then((res2) => {
-      console.log("RESPUESTA DE BUSCANDO USUARIO")
-      console.log(res2)
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
       setPermisos(us.RESPONSE.PERMISOS);
@@ -123,6 +120,7 @@ function App() {
       if (res.status == 200) {
         //SE OBTIENE LA INFORMACION DE DETALLE DEL USUARIO
         setIsIdle(false);
+        setBloqueo(false);
       } else if (res.status == 401) {
         Swal.fire({
           title: res.data.msg,
@@ -139,27 +137,35 @@ function App() {
     });
   };
 
-  const handleOnIdle = () => setIsIdle(true);
+  const handleOnIdle = () => {
+    setBloqueo(true);
+    setIsIdle(true);
+  }
 
   const {} = useIdleTimer({
     timeout,
     onIdle: handleOnIdle,
   });
 
+  function isbloqueado(): boolean {
+    let resul = false;
+    if (getBloqueo()){
+        resul = true;
+    }else{
+        resul = isIdle;
+    }
+    return resul;
+  }
+
+
   useLayoutEffect(() => {
-    //setTimeout(() => {
-   
-    
       if (String(jwt) != null && String(jwt) != "") {
         console.log("verificando token");
         verificatoken(String(jwt));
-
-        console.log("validando municipios");
         loadMunicipios();
         loadMeses();
         loadAnios();
         setOpenSlider(false);
-
       } else {
         Swal.fire({
           title: "Token no valido",
@@ -172,9 +178,7 @@ function App() {
           }
         });
       }
-   
 
-    // }, 2000);
   }, []);
 
 
@@ -182,7 +186,7 @@ function App() {
   return (
     <div>
       <Slider open={openSlider}></Slider>
-      {isIdle ? (
+      {isbloqueado() ? (
         <BloqueoSesion handlePassword={handleOnActive} />
       ) : acceso ? (
         <AppRouter />
