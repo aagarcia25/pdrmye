@@ -35,14 +35,14 @@ const ListNotificationsModal = ({
   const [data, setData] = useState({});
   ////////////////////////////
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [encabezado, setEncabezado] = useState("");
-  const [mensaje, setMensaje] = useState("");
-  const [newEncabezado, setNewEncabezado] = useState("");
-  const [newNensaje, setNewMensaje] = useState("");
-  const [id, setId] = useState("");
+  const [encabezado, setEncabezado] = useState<string>();
+  const [mensaje, setMensaje] = useState<string>();
+  const [newEncabezado, setNewEncabezado] = useState<string>();
+  const [newNensaje, setNewMensaje] = useState<string>()
+  const [id, setId] = useState<string>();
   const [values, setValues] = useState<Imunicipio[]>();
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
-  const [chuserDestin, setChuserDestin] = useState("");
+  const [chuserDestin, setChuserDestin] = useState<string>();
 
   const [personName, setPersonName] = React.useState<string[]>([]);
 
