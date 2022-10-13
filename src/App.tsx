@@ -55,8 +55,9 @@ function App() {
   };
 
   const loadMunicipios = () => {
+    let data = { NUMOPERACION: 5 };
     if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios({}).then((res) => {
+      CatalogosServices.SelectIndex(data).then((res) => {
         setMunicipios(res.RESPONSE);
       });
     }
@@ -68,11 +69,15 @@ function App() {
       ID: id,
     };
     AuthService.adminUser(data).then((res2) => {
+      console.log('Respuesta de usuario');
+      console.log(res2);
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
       setPermisos(us.RESPONSE.PERMISOS);
       setRoles(us.RESPONSE.ROLES);
       setMenus(us.RESPONSE.MENUS);
+      setlogin(true);
+      setAcceso(true);
     });
   };
 
@@ -83,14 +88,13 @@ function App() {
     UserServices.verify({}, token).then((res) => {
       console.log(res)
       if (res.status == 200) {
-        setlogin(true);
-        setAcceso(true);
         //SE OBTIENE LA INFORMACION DE DETALLE DEL USUARIO
         setPU(res.data.data);
         const user: UserReponse = JSON.parse(String(getPU()));
         console.log('BUSCANDO USUARIO')
         console.log(user.IdUsuario)
         buscaUsuario(user.IdUsuario);
+       
       } else if (res.status == 401) {
         setlogin(false);
         setAcceso(false);
@@ -159,6 +163,8 @@ function App() {
 
 
   useLayoutEffect(() => {
+
+    setTimeout(() => {
       if (String(jwt) != null && String(jwt) != "") {
         console.log("verificando token");
         verificatoken(String(jwt));
@@ -178,6 +184,7 @@ function App() {
           }
         });
       }
+    }, 2000);
 
   }, []);
 

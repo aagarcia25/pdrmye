@@ -4,32 +4,28 @@ import Divider from "@mui/material/Divider";
 import Drawer, { DrawerProps } from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Box from "@mui/material/Box";
-import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Logo from "../../assets/img/logo.svg";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { Collapse, ListSubheader } from "@mui/material";
+import { Collapse } from "@mui/material";
 import { getMenus } from "../../services/localStorage";
 import { menus } from "../../interfaces/menu/menu";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
 import SendIcon from "@mui/icons-material/Send";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import StarBorder from "@mui/icons-material/StarBorder";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-const list: menus[] = JSON.parse(String(getMenus()));
-console.log(list);
+
 
 export default function Navigator(props: DrawerProps, logoFijo: any) {
   const { ...other } = props;
   const navigate = useNavigate();
  
-
+  const list: menus[] = JSON.parse(String(getMenus()));
+  console.log(list);
 
   const [open, setOpen] = React.useState(true);
 
