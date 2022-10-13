@@ -78,6 +78,15 @@ const ListNotificationsModal = ({
   }
 
   const handleUpload = () => {
+
+    if(newEncabezado ==null||  newNensaje==null  ||chuserDestin==null )  {
+      Alert.fire({
+        title: "Verificar!",
+        text: "Verificar los campos!",
+        icon: "warning",
+      });
+    }
+else {
     let data = {
       NUMOPERACION: 1,
       CHUSER: user.id,
@@ -103,8 +112,8 @@ const ListNotificationsModal = ({
       }
     });
     handleClose("9");
-
-
+  
+  }
   }
 
   const loadSelectUser = () => {
