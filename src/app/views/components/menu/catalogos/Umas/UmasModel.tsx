@@ -40,21 +40,11 @@ const UmasModel = ({
   const [fac, setFac] = useState("");
   const [idMunicipio, setIdmunicipio] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [values, setValues] = useState<Imunicipio[]>();
 
 
 
 
-  const municipiosc = () => {
-    let data = {};
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-    let m: Imunicipio[] = JSON.parse(String(getMunicipios()));
-    setValues(m);
-  };
+  
 
 
   const handleSend = () => {
@@ -131,7 +121,7 @@ const UmasModel = ({
 
 
   useEffect(() => {
-    municipiosc();
+  
 
     if (dt === '') {
       console.log(dt)
@@ -156,26 +146,7 @@ const UmasModel = ({
             sx={{ display: 'flex', justifyContent: 'center', }}>
             <label className="Titulo">{modo}</label>
           </Box>
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Municipio</InputLabel>
-            <Select
-              required
-              onChange={(v) => setIdmunicipio(v.target.value)}
-              value={idMunicipio}
-              label="Municipio"
-              inputProps={{
-                readOnly: tipo == 1 ? false : true,
-              }}
-            >
-              {values?.map((item: Imunicipio) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Nombre}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+         
 
           <TextField
             required

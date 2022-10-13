@@ -170,6 +170,7 @@ function Copyright() {
 
 interface Props {
   children?: ReactNode;
+  user:RESPONSE;
 }
 
 
@@ -179,11 +180,11 @@ const drawerWidth = 300;
 
 
 
-export default function Inicio({ children,  }: Props ) {
+export default function Inicio({ children,user,  }: Props ) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
 
-  const user: RESPONSE =  JSON.parse(String(getUser()));
+  //const user: RESPONSE =  JSON.parse(String(getUser()));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

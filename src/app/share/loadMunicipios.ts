@@ -1,9 +1,9 @@
-import { Imunicipio } from "../interfaces/municipios/FilterMunicipios";
+import SelectValues from "../interfaces/Select/SelectValues";
 import { getMunicipios } from "../services/localStorage";
 
 
 
 export const municipiosc =  function () {
-    let m: Imunicipio[] = JSON.parse(String(getMunicipios()));
+    let m: SelectValues[] = JSON.parse(String(getMunicipios()));
     return m;
 };

@@ -82,6 +82,9 @@ const AvisosModal = ({
     setValues(m);
   };
 
+
+
+  
   const handleUpload = () => {
     setslideropen(true);
     const formData = new FormData();

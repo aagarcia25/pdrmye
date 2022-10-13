@@ -54,7 +54,7 @@ export const AppRouter = () => {
 
   
   return (
-    <Inicio>
+    <Inicio user={user}>
       <Routes>
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
         <Route path='/'  element={log ? <Bienvenido user={user} /> : <AuthRouter />}     />
