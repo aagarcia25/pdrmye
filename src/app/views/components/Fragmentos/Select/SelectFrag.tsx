@@ -22,7 +22,8 @@ const SelectFrag = ({
      <Select 
      defaultValue={options[0]}
      options={options} 
-     isClearable={true}
+     isClearable
+     isSearchable
      onChange={(v)=>onInputChange(v)}
      placeholder={placeholder}
      />  
