@@ -26,6 +26,14 @@ const SelectFrag = ({
      isSearchable
      onChange={(v)=>onInputChange(v)}
      placeholder={placeholder}
+     styles={{
+      menu: (base) => ({
+        position: 'fixed',
+        
+        zIndex: 500,
+        ...base
+      })
+    }}
      />  
     </div>
   )

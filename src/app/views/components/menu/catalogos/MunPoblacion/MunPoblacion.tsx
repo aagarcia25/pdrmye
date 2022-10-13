@@ -39,9 +39,6 @@ export const MunPoblacion = () => {
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
   //funciones
-  const handleFilterMes = () => { };
-
-
 
 
   const columns: GridColDef[] = [
@@ -94,7 +91,7 @@ export const MunPoblacion = () => {
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
-    setOpen(true);
+    setOpen(false);
     setData("");
   };
 

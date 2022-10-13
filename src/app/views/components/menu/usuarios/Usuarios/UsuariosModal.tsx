@@ -59,33 +59,7 @@ const UsuariosModal = ({
       setEmailValid(false);
     }
   }
-  const testeo = () => {
-    console.log(token)
 
-    console.log(response)
-    let data = {
-      NUMOPERACION: 1,
-      NOMBRE: "AppName"
-    }
-    ParametroServices.ParametroGeneralesIndex(data).then((rest) => {
-      console.log(rest.RESPONSE);
-      setParamsGenerales(rest.RESPONSE);
-
-      UserServices.apps(token).then((res) => {
-        console.log(res.data.data)
-        setApps(res.data.data);
-        apps?.map((item) => {
-          if(item?.Nombre===paramsGenerales[0]?.Valor){
-          console.log(item.Id + "  " + item.Nombre)
-          console.log("id de usuario crreado  "+idNuevoUsuario)
-          }
-        });
-      });
- 
-    });
-
-
-  }
 
   const handleSend = () => {
     if (
@@ -109,8 +83,6 @@ const UsuariosModal = ({
         NombreUsuario: NombreUsuario,
         CorreoElectronico: CorreoElectronico,
         IdUsuarioModificador: user.id,
-
-
       };
       handleRequest(data);
     }
@@ -121,8 +93,8 @@ const UsuariosModal = ({
   const handleRequest = (data: any) => {
     console.log(data);
     UserServices.signup(data, token).then((resUser) => {
-      setResponse(resUser);      
-   
+      setResponse(resUser);
+
       if (resUser.status == 201) {
 
         let data = {
@@ -131,53 +103,59 @@ const UsuariosModal = ({
         }
         ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
           console.log(restApp.RESPONSE);
-          setParamsGenerales(restApp.RESPONSE);
-    
+
           UserServices.apps(token).then((resAppLogin) => {
             console.log(resAppLogin.data.data)
-            setApps(resAppLogin.data.data);
-            apps?.map((item) => {
-              if(item?.Nombre===restApp.RESPONSE[0]?.Valor){
-              console.log(item.Id + "  " + item.Nombre)
-              console.log("id de usuario crreado  "+idNuevoUsuario)
+        
+            resAppLogin.data.data.map((item:any) => {
+              if (item?.Nombre === restApp.RESPONSE[0]?.Valor) {
+                console.log(item.Id + "  " + item.Nombre)
+                console.log("id de usuario crreado  " + resUser.data.IdUsuario)
+
+                let dat = {
+                  NUMOPERACION: tipo,
+                  CHUSER: user.id,
+                  CHID: resUser.data.IdUsuario,
+                  NOMBRE: Nombre,
+                  AP: ApellidoPaterno,
+                  AM: ApellidoMaterno,
+                  NUSER: NombreUsuario,
+                  CORREO: CorreoElectronico
+
+                };
+
+                AuthService.adminUser(dat).then((res) => {
+                  console.log(res)
+                  if (res.SUCCESS) {
+
+                    let datLink = {
+                      IdUsuario: resUser.data.IdUsuario,
+                      IdApp: item.Id,
+
+                    };
+                    UserServices.linkuserapp(datLink, token).then((resLink) => {
+                      console.log(resLink.SUCESS+" respiesta de login  ------")
+
+                      if (resLink.status == 201) {
+                        Toast.fire({
+                          icon: "success",
+                          title: tipo == 3 ? "¡Registro exitoso!" : ""
+                        });
+
+                      }
+
+                    });
+                  }
+                });
               }
             });
           });
-     
-        });
-
-   
-
-        console.log("id nuevo usuario   "+resUser.data.IdUsuario);
-        console.log(idNuevoUsuario);
-
-        let dat = {
-          NUMOPERACION: tipo,
-          CHUSER: user.id,
-          CHID: resUser.data.IdUsuario,
-          NOMBRE: Nombre,
-          AP: ApellidoPaterno,
-          AM: ApellidoMaterno,
-          NUSER: NombreUsuario,
-          CORREO: CorreoElectronico
-
-        };
-
-        AuthService.adminUser(dat).then((res) => {
-          console.log(res)
-          if (res.SUCCESS) {
-            Toast.fire({
-              icon: "success",
-              title: tipo == 3 ? "¡Registro exitoso!" : ""
-            });
-            
-          }
-
-
 
         });
 
-      } else if (resUser.status == 409) {
+      }
+
+      else if (resUser.status == 409) {
         Alert.fire({
           title: "Error!",
           text: resUser.data.msg,
@@ -283,7 +261,7 @@ const UsuariosModal = ({
         <DialogActions>
           <button className="guardar" onClick={() => handleSend()}>Guardar</button>
           <button className="cerrar" onClick={() => handleClose()}>Cancelar</button>
-          <button className="cerrar" onClick={() => testeo()}>testeo</button>
+
         </DialogActions>
       </Dialog>
     </div>

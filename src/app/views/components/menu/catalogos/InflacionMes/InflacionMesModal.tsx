@@ -14,10 +14,10 @@ import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { fmeses } from "../../../../../share/loadMeses";
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { municipiosc } from "../../../../../share/loadMunicipios";
 
 
 
@@ -35,10 +35,10 @@ const InflacionMesModal = ({
   dt: any;
 }) => {
   // CAMPOS DE LOS FORMULARIOS
-  const [id, setId] = useState("");
-  const [anio, setAnio] = useState("");
-  const [mes, setMes] = useState("");
-  const [inflacion, setInflacion] = useState("");
+  const [id, setId] = useState<string>();
+  const [anio, setAnio] = useState<number>();
+  const [mes, setMes] = useState<string>();
+  const [inflacion, setInflacion] = useState<number>();
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const [meses, setMeses] = useState<SelectValues[]>([]);
@@ -47,15 +47,15 @@ const InflacionMesModal = ({
 
 
   const handleSelectMes = (data: any) => {
-  
+
   };
 
   const handleSend = () => {
-    if (mes == "" || inflacion == "" || anio == "") {
+    if (mes == null || inflacion == null || anio == null) {
       Alert.fire({
-        title: "Error!",
-        text: "Favor de Completar los Campos",
-        icon: "error",
+        title: "Uno o mas campos vacios!",
+        text: "revisar los Campos",
+        icon: "warning",
       });
     } else {
       let data = {
@@ -117,7 +117,7 @@ const InflacionMesModal = ({
   };
 
   useEffect(() => {
-    setMeses(fmeses());
+    setMeses(municipiosc());
 
     if (dt === "") {
       console.log(dt);
@@ -143,19 +143,19 @@ const InflacionMesModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
+            onChange={(v) => setAnio(Number(v.target.value))}
+            error={anio == null ? true : false}
             InputProps={{
               readOnly: tipo == 1 ? false : true,
               inputMode: "numeric",
             }}
           />
-  
-   <SelectFrag
-                  options={meses}
-                  onInputChange={handleSelectMes}
-                  placeholder={"Seleccione el Mes"}
-                ></SelectFrag>
+
+          <SelectFrag
+            options={meses}
+            onInputChange={handleSelectMes}
+            placeholder={"Seleccione el Mes"}
+          ></SelectFrag>
 
           <TextField
             margin="dense"
@@ -166,8 +166,8 @@ const InflacionMesModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setInflacion(v.target.value)}
-            error={inflacion == "" ? true : false}
+            onChange={(v) => setInflacion(Number(v.target.value))}
+            error={inflacion == null ? true : false}
             InputProps={{
               endAdornment: <InputAdornment position="start">%</InputAdornment>,
             }}
@@ -176,8 +176,8 @@ const InflacionMesModal = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cancelar</Button>
+        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
+        <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
       </DialogActions>
     </Dialog>
   );
