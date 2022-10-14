@@ -220,10 +220,11 @@ export default function Header(props: HeaderProps) {
                   "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                 }}
               >
-                <PersonIcon sx={{ fontSize: btnPerson, color: COLOR.blanco,
+                {/* <PersonIcon sx={{ fontSize: btnPerson, color: COLOR.blanco,
                 "&:hover":{
                   color:COLOR.negro,
-                } }} />
+                } }} /> */}
+                <img style={{ width: "10vw", height: "10vh" }} src={user.RutaFoto} />
               </IconButton>
 
               <Popper
