@@ -16,7 +16,12 @@ import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import {
+  getMunicipios,
+  getUser,
+  setMunicipios,
+  validaLocalStorage,
+} from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const UmasModel = ({
@@ -24,31 +29,33 @@ const UmasModel = ({
   modo,
   handleClose,
   tipo,
-  dt
+  dt,
 }: {
   open: boolean;
   modo: string;
   tipo: number;
-  handleClose: Function,
-  dt: any
+  handleClose: Function;
+  dt: any;
 }) => {
-
-
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
-  const [fac, setFac] = useState("");
-  const [idMunicipio, setIdmunicipio] = useState("");
+  const [diario, setDiario] = useState("");
+  const [mensual, setMensual] = useState("");
+  const [anual, setAnual] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-
-
-
-  
-
+  console.log("---------Impresión de CAMPOS------");
+  console.log("id: ", id);
+  console.log("anio: ", anio);
+  console.log("diario: ", diario);
+  console.log("mensual: ", mensual);
+  console.log("anual: ", anual);
+  console.log("user: ", user);
+  console.log("---------FIN-de-Impresión de CAMPOS------");
 
   const handleSend = () => {
-    if (fac == "") {
+    if (!diario || !anio || !mensual || !anual) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -60,14 +67,14 @@ const UmasModel = ({
         CHID: id,
         CHUSER: user.id,
         ANIO: anio,
-        IDMUNICIPIO: idMunicipio,
-        FACTURACION: fac,
+        DIARIO: diario,
+        MENSUAL: mensual,
+        ANUAL: anual
       };
 
       handleRequest(data);
     }
   };
-
 
   const handleRequest = (data: any) => {
     console.log(data);
@@ -81,8 +88,6 @@ const UmasModel = ({
     }
   };
 
-
-
   const agregar = (data: any) => {
     CatalogosServices.umas(data).then((res) => {
       if (res.SUCCESS) {
@@ -90,7 +95,6 @@ const UmasModel = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-
       } else {
         Alert.fire({
           title: "Error!",
@@ -118,40 +122,30 @@ const UmasModel = ({
     });
   };
 
-
-
   useEffect(() => {
-  
-
-    if (dt === '') {
-      console.log(dt)
-
+    if (dt === "") {
+      console.log(dt);
     } else {
-      setId(dt?.row?.id)
-      setAnio(dt?.row?.Anio)
-      setFac(dt?.row?.Facturacion)
-      setIdmunicipio(dt?.row?.idmunicipio)
+      setId(dt?.row?.id);
+      setAnio(dt?.row?.Anio);
+      setDiario(dt?.row?.Diario);
+      setMensual(dt?.row?.Mensual);
+      setAnual(dt?.row?.Anual);
     }
-
   }, [dt]);
-
-
 
   return (
     <Dialog open={open}>
-
       <DialogContent>
         <Box>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
             <label className="Titulo">{modo}</label>
           </Box>
-         
 
           <TextField
             required
             margin="dense"
-            id="anio"
+            id="Anio"
             label="Año"
             value={anio}
             type="number"
@@ -166,28 +160,62 @@ const UmasModel = ({
           />
 
           <TextField
-            margin="dense"
             required
-            id="fac"
-            label="Facturación"
-            value={fac}
+            margin="dense"
+            id="Diario"
+            label="Diario"
+            value={diario}
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setFac(v.target.value)}
-            error={fac == "" ? true : false}
+            onChange={(v) => setDiario(v.target.value)}
+            error={diario == "" ? true : false}
             InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
-              ),
+              inputMode: "decimal",
+            }}
+          />
+
+          <TextField
+            required
+            margin="dense"
+            id="Mensual"
+            label="Mensual"
+            value={mensual}
+            type="number"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setMensual(v.target.value)}
+            error={mensual == "" ? true : false}
+            InputProps={{
+              inputMode: "numeric",
+            }}
+          />
+
+          <TextField
+            required
+            margin="dense"
+            id="Anual"
+            label="Anual"
+            value={anual}
+            type="number"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setAnual(v.target.value)}
+            error={anual == "" ? true : false}
+            InputProps={{
+              inputMode: "numeric",
             }}
           />
         </Box>
       </DialogContent>
 
       <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose()}>Cancelar</button>
+        <button className="guardar" onClick={() => handleSend()}>
+          Guardar
+        </button>
+        <button className="cerrar" onClick={() => handleClose()}>
+          Cancelar
+        </button>
       </DialogActions>
     </Dialog>
   );
