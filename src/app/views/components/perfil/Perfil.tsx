@@ -53,10 +53,6 @@ export const Perfil = () => {
 
   let st;
 
-  if (stXl) {
-    st = stXl;
-  }
-
   useEffect(() => {
     //SE AGREGAN LOS MENUS EN BLANCO PARA QUE NO SE AUTOSELECCIONEN
     //setBorderBottomColorMenu2("white");
