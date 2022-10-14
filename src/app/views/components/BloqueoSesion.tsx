@@ -11,7 +11,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import { Fingerprint } from "@mui/icons-material";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { getUser } from "../../services/localStorage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function BloqueoSesion({
   handlePassword,
@@ -23,7 +23,12 @@ export function BloqueoSesion({
   const [password, setPassword] = useState("");
   const user: RESPONSE =  JSON.parse(String(getUser()));
 
-
+  useEffect(() => {
+    
+    
+     
+  }, [])
+  
   
   return (
     <Box
@@ -52,7 +57,7 @@ export function BloqueoSesion({
             alignItems: "center",
           }}
         >
-          <Typography sx={{ fontSize: "3vw" }}>{user?.Nombre + ' ' + user?.ApellidoPaterno + ' '+ user?.ApellidoMaterno}</Typography>
+          <Typography sx={{ fontSize: "3vw" }}>{user.Nombre + ' ' + user.ApellidoPaterno + ' '+ user.ApellidoMaterno}</Typography>
           <TextField
             sx={{
               width: "50vw",
