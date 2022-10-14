@@ -176,7 +176,7 @@ function App() {
 
   useLayoutEffect(() => {
 
-    setTimeout(() => {
+    //setTimeout(() => {
       if (String(jwt) != null && String(jwt) != "") {
         console.log("verificando token");
         verificatoken(String(jwt));
@@ -193,7 +193,7 @@ function App() {
           }
         });
       }
-    }, 2000);
+    //}, 2000);
 
   }, []);
 

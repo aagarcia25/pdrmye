@@ -184,7 +184,6 @@ export default function Inicio({ children,user,  }: Props ) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
 
-  //const user: RESPONSE =  JSON.parse(String(getUser()));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
