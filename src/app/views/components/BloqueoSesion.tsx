@@ -52,7 +52,7 @@ export function BloqueoSesion({
             alignItems: "center",
           }}
         >
-          <Typography sx={{ fontSize: "3vw" }}>{user.Nombre + ' ' + user.ApellidoPaterno + ' '+ user.ApellidoMaterno}</Typography>
+          <Typography sx={{ fontSize: "3vw" }}>{user?.Nombre + ' ' + user?.ApellidoPaterno + ' '+ user?.ApellidoMaterno}</Typography>
           <TextField
             sx={{
               width: "50vw",
