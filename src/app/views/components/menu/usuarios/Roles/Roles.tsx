@@ -1,7 +1,7 @@
 import { IconButton, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
-import { useEffect,  useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
@@ -14,7 +14,7 @@ import RolesMenu from "./RolesMenu";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import RolesModal from "./RolesModal";
-import RolesAsignaPermisos from "./RolesAsignarPermisos";
+import AsignarMenuRol from "./AsignarMenuRol";
 import EditIcon from '@mui/icons-material/Edit';
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
@@ -31,10 +31,12 @@ const Roles = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  const handleClose = (v: string) => {
+  const handleClose = (v:string) => {
+
     setOpen(false);
-    setOpenRolesModalAdd(false);
     setOpenRel(false);
+    setOpenRolesModalAdd(false);
+
     {
       if (v === "saved")
         consulta({ NUMOPERACION: 4 });
@@ -174,16 +176,18 @@ const Roles = () => {
   return (
     <div>
       {openRel ? (
-        <RolesAsignaPermisos
+        <AsignarMenuRol
           open={openRel}
           handleClose={handleClose}
           id={id}
-        ></RolesAsignaPermisos>
+        ></AsignarMenuRol>
       ) : (
         ""
       )}
       {open ? (
-        <RolesMenu open={open} handleClose={handleClose} id={id}></RolesMenu>
+        <RolesMenu open={open}
+          handleClose={handleClose}
+          id={id}></RolesMenu>
       ) : (
         ""
       )}

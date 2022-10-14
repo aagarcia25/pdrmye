@@ -10,7 +10,7 @@ import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 
-const RolesAsignaPermisos = ({
+const AsignarMenuRol = ({
     id,
     open,
     handleClose,
@@ -175,4 +175,4 @@ const RolesAsignaPermisos = ({
     );
 };
 
-export default RolesAsignaPermisos;
+export default AsignarMenuRol;

@@ -74,7 +74,7 @@ function App() {
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
       console.log(us.RESPONSE.ROLES.length);
-      if(us.RESPONSE.ROLES.length !==0){
+     if(us.RESPONSE.ROLES.length !==0){
         setRoles(us.RESPONSE.ROLES);
         setPermisos(us.RESPONSE.PERMISOS);
         setMenus(us.RESPONSE.MENUS);

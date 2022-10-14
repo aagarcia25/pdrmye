@@ -13,10 +13,7 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getToken, getUser } from "../../../../../services/localStorage";
 import validator from 'validator';
 import { UserServices } from "../../../../../services/UserServices";
-import { Token } from "@mui/icons-material";
-import { Apps } from "../../../../../interfaces/user/Apps";
 import { ParametroServices } from "../../../../../services/ParametroServices";
-import { ParametrosGenerales } from "../../../../../interfaces/parametros/ParametrosGenerales";
 const UsuariosModal = ({
   open,
   handleClose,
@@ -39,12 +36,9 @@ const UsuariosModal = ({
   const [NombreUsuario, setNombreUsuario] = useState<string>();
   const [CorreoElectronico, setCorreoElectronico] = useState<string>();
   const [emailValid, setEmailValid] = useState<boolean>();
-  const [response, setResponse] = useState<any>();
   const user: RESPONSE = JSON.parse(String(getUser()));
   const token = JSON.parse(String(getToken()));
   const [emailError, setEmailError] = useState('')
-  const [apps, setApps] = useState<Apps[]>();
-  const [paramsGenerales, setParamsGenerales] = useState<ParametrosGenerales[]>([]);
 
 
 
@@ -93,8 +87,7 @@ const UsuariosModal = ({
   const handleRequest = (data: any) => {
     console.log(data);
     UserServices.signup(data, token).then((resUser) => {
-      setResponse(resUser);
-
+   
       if (resUser.status == 201) {
 
         let data = {

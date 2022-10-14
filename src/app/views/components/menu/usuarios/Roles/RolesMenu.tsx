@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Modal, Checkbox, Typography, Grid } from '@mui/material';
-import { Box } from '@mui/system';
+import { Button, Modal, Checkbox, Typography, Grid, Tooltip, IconButton } from '@mui/material';
 import { AuthService } from '../../../../../services/AuthService';
 import { Toast } from '../../../../../helpers/Toast';
 import { Alert } from '../../../../../helpers/Alert';
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { GridColDef } from '@mui/x-data-grid';
 import MUIXDataGridSimple from '../../../MUIXDataGridSimple';
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import AsignarPermisoRol from './AsignarPermisoRol';
+import EliminarPermisosRol from './EliminarPermisosRol';
 
 
 
@@ -25,15 +28,41 @@ const RolesMenu = ({
 
 
   const [data, setData] = useState([]);
+  const [dt, setDt] = useState([]);
+  const [openRel, setOpenRel] = useState(false);
+  const [openPerRel, setOpenPerRel] = useState(false);
 
+  const handleRel = (v: any) => {
+    setDt(v);
+    setOpenRel(true);
+
+  };
+
+  const handleViewPermisos = (v: any) => {
+
+    setDt(v);
+    setOpenPerRel(true);
+   
+  };
+
+  const handleCloseAsignar = (v:string) => {
+
+    setOpenPerRel(false);
+    setOpenRel(false);  
+
+    {
+      if (v === "saved")
+        consulta({ NUMOPERACION: 4 });
+    }
+  };
 
   const handleChange = (v: any) => {
     let data = {
-      TIPO:2,
+      TIPO: 2,
       IDROL: id,
       IDMENU: v.id
     }
-    AuthService.rolespermisorelacionar (data).then((res) => {
+    AuthService.rolespermisorelacionar(data).then((res) => {
       setData(res.RESPONSE);
       if (res.SUCCESS) {
         Toast.fire({
@@ -71,6 +100,35 @@ const RolesMenu = ({
       },
     },
     { field: "MENU", headerName: "Menu", width: 300 },
+    {
+      field: "Permisos",
+      headerName: "Permisos",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 200,
+      renderCell: (v) => {
+        return (
+          <>
+            <Tooltip title={"Ver Permisos Relaciados al Menú"}>
+              <IconButton onClick={() => handleViewPermisos(v)}>
+                <RemoveRedEyeIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={"Relacionar Permiso a Rol"}>
+              <IconButton onClick={() => handleRel(v)}>
+                <AccountTreeIcon />
+              </IconButton>
+            </Tooltip>
+
+
+
+
+
+          </>
+        );
+      },
+    },
+
 
   ];
 
@@ -88,6 +146,32 @@ const RolesMenu = ({
 
   return (
     <div>
+
+
+      {openRel ? (
+        <AsignarPermisoRol
+          open={openRel}
+          handleCloseAsignar={handleCloseAsignar}
+          handleClose={handleClose}
+          dt={dt}
+        ></AsignarPermisoRol>
+      ) : (
+        ""
+      )}
+
+{openPerRel ? (
+        <EliminarPermisosRol
+          open={openPerRel}
+          handleCloseAsignar={handleCloseAsignar}
+          handleClose={handleClose}
+          dt={dt}
+        ></EliminarPermisosRol>
+      ) : (
+        ""
+      )}
+
+
+      
       <Modal open={open}>
         <Grid
           container
@@ -155,7 +239,7 @@ const RolesMenu = ({
               alignItems: "right",
               justifyContent: "right",
               mt: "2vh",
-           
+
             }}
           >
             <Button

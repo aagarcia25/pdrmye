@@ -1,4 +1,3 @@
-import { Tooltip, IconButton } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
@@ -8,10 +7,7 @@ import { messages } from "../../../../styles";
 import AccionesGrid from "../../../AccionesGrid";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import MenuRelPermisos from "./MenuRelPermisos";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import MenuAsignaPermisos from "./MenuAsignaPermisos";
 import MenuModal from "./MenuModal";
 import { getUser } from "../../../../../services/localStorage";
 import Swal from "sweetalert2";
@@ -19,7 +15,7 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const Menus = () => {
   const [dt, setDt] = useState([]);
-  
+
   const [id, setId] = useState<string>("");
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
@@ -54,14 +50,11 @@ const Menus = () => {
 
   };
 
-  const handleViewPermisos = (v: any) => {
-    
-    setDt(v);
-    setOpen(true);
-  };
 
 
-  const handleClose = () => {
+
+  const handleClose = () => {   
+
     setOpen(false);
     setOpenRel(false);
     setOpenModal(false);
@@ -73,44 +66,44 @@ const Menus = () => {
 
   const handleDelete = (v: any) => {
     Swal.fire({
-        icon: "info",
-        title: "Estas seguro de eliminar este registro?",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Confirmar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          console.log(v);
-  
-          let data = {
-            NUMOPERACION: 3,
-            CHID: v.row.id,
-            CHUSER:user.id,
-          };
-          console.log(data);  
-          AuthService.menusindex(data).then((res) => {
-            if (res.SUCCESS) {
-              Toast.fire({
-                icon: "success",
-                title: "Registro Eliminado!",
-              });
-  
-              handleClose();
-            } else {
-              Alert.fire({
-                title: "Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              });
-            }
-          });
- 
-  
-        } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
-        }
-      });
+      icon: "info",
+      title: "Estas seguro de eliminar este registro?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Confirmar",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(v);
+
+        let data = {
+          NUMOPERACION: 3,
+          CHID: v.row.id,
+          CHUSER: user.id,
+        };
+        console.log(data);
+        AuthService.menusindex(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Registro Eliminado!",
+            });
+
+            handleClose();
+          } else {
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+
+
+      } else if (result.isDenied) {
+        Swal.fire("No se realizaron cambios", "", "info");
+      }
+    });
   };
 
   const columns: GridColDef[] = [
@@ -145,17 +138,8 @@ const Menus = () => {
               pdelete={true}
             />
 
-            <Tooltip title={"Ver Permisos Relaciados al Menpu"}>
-              <IconButton onClick={() => handleViewPermisos(v)}>
-                <RemoveRedEyeIcon />
-              </IconButton>
-            </Tooltip>
+          
 
-            <Tooltip title={"Relacionar Menú"}>
-              <IconButton onClick={() => handleRel(v)}>
-                <AccountTreeIcon />
-              </IconButton>
-            </Tooltip>
           </>
         );
       },
@@ -199,7 +183,7 @@ const Menus = () => {
       ) : (
         ""
       )}
-
+      {/*
 
       {openRel ? (
         <MenuAsignaPermisos
@@ -210,7 +194,7 @@ const Menus = () => {
       ) : (
         ""
       )}
-
+*/}
       {openModal ? (
         <MenuModal
           open={openModal}
