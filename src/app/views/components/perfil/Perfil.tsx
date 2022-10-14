@@ -1,383 +1,721 @@
 import {
-  Box,
+  Avatar,
   Button,
   createTheme,
-  Divider,
-  Input,
+  Grid,
+  TextField,
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { COLOR } from "../../../styles/colors";
-import PersonIcon from "@mui/icons-material/Person";
-import SaveIcon from "@mui/icons-material/Save";
-import SearchIcon from "@mui/icons-material/Search";
-import UploadIcon from "@mui/icons-material/Upload";
-import { BorderBottom } from "@mui/icons-material";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getUser } from "../../../services/localStorage";
+import { Box } from "@mui/system";
+import { useEffect, useState } from "react";
+import { stXl } from "../../../styles/stResponsive/Perfil/st";
 
-export function Perfil() {
+export const Perfil = () => {
+  const [borderBottomColorMenu1, setBorderBottomColorMenu1] = useState("");
+  const [borderBottomColorMenu2, setBorderBottomColorMenu2] = useState("");
 
+  //CAMPOS EN USO DE USUARIO
+  const [nombre, setNombre] = useState("");
+  const [nombreUsuario, setNombreUsuario] = useState("");
+  const [apellidoPaterno, setApellidoPaterno] = useState("");
+  const [apellidoMaterno, setApellidoMaterno] = useState("");
+  const [correoElectronico, setCorreoElectronico] = useState(
+    ""
+  );
+  const [telefono, setTelefono] = useState("");
+  const [rutaFoto, setRutaFoto] = useState("");
+  const [puesto, setPuesto] = useState("");
+  const [ubicacion, setUbicacion] = useState("");
+  const [tipo, setTipo] = useState("");
+  const [departamento, setDepartamento] = useState("");
 
-  const user: RESPONSE =  JSON.parse(String(getUser()));
+  const [departamentos, setDepartamentos] = useState("");
 
-  
-  const theme = createTheme();
+  const onClickMenu1 = () => {
+    if (borderBottomColorMenu1 == "#5048E5") {
+    } else {
+      setBorderBottomColorMenu1("#5048E5");
+      setBorderBottomColorMenu2("white");
 
-  theme.typography.h3 = {
-    fontSize: "0.7rem",
-    backgroundColor: "white",
-    "@media (min-width:600px) ()": {
-      fontSize: "0.2rem",
-    },
-    [theme.breakpoints.up("xs")]: {
-      fontSize: "0.5rem",
-    },
-    [theme.breakpoints.up("sm")]: {
-      fontSize: "0.4rem",
-    },
-    [theme.breakpoints.up("md")]: {
-      fontSize: "0.8rem",
-    },
-    [theme.breakpoints.up("lg")]: {
-      fontSize: "1.0rem",
-    },
-    [theme.breakpoints.up("xl")]: {
-      fontSize: "1.3rem",
-    },
+      console.log("Menu1");
+    }
   };
 
+  const onClickMenu2 = () => {
+    if (borderBottomColorMenu2 == "#5048E5") {
+    } else {
+      setBorderBottomColorMenu2("#5048E5");
+      setBorderBottomColorMenu1("white");
+      console.log("Menu2");
+    }
+  };
+
+  let st;
+
+  if (stXl) {
+    st = stXl;
+  }
+
+  useEffect(() => {
+    //SE AGREGAN LOS MENUS EN BLANCO PARA QUE NO SE AUTOSELECCIONEN
+    //setBorderBottomColorMenu2("white");
+    //Llamar al componente que iria en menu 1 para que lo precargué
+  }, []);
+
   return (
-    <Box
-      sx={{
-        //Fondo
-        backgroundColor: COLOR.blanco,
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Box
-        sx={{
-          //Espacio para el Título
-          width: "100%",
-          height: "4.5vh",
-          backgroundColor: COLOR.grisTarjetaBienvenido,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Typography
-          sx={{
-            //Perfil
-            color: COLOR.negro,
-            fontSize: "3vh",
-          }}
-        >
-          Perfil
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          //Fondo contenido
-          bgcolor: COLOR.blanco,
-          width: "100%",
-          height: "85%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "top",
-          mt: 3,
-        }}
-      >
+    <Box sx={{width: "100%",
+    height: "100%",
+    backgroundColor: "white",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"}}>
+      <Box sx={{ width: "80%", height: "80%", 
+      // backgroundColor: "blue"
+       }}>
         <Box
           sx={{
-            // Datos de Usuario
-
-            width: "45%",
-            height: "60vh",
-            borderColor: COLOR.negro,
-            
+            width: "100%",
+            height: "15%",
+            //backgroundColor: "skyblue",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <Box
             sx={{
-              //Caja de foto y nombre
-              backgroundColor: COLOR.blanco,
               width: "100%",
-              height: "20vh",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              border:1,
-              borderBottom:0,
+              height: "50%",
             }}
           >
-            <PersonIcon sx={{ fontSize: "8vw" }} />
-            <ThemeProvider theme={theme}>
-              <Typography variant="h3" sx={{ fontWeight: "Bold" }}>
-              {user.Nombre + ' ' + user.ApellidoPaterno + ' '+ user.ApellidoMaterno}
-              </Typography>
-            </ThemeProvider>
+            <Typography sx={{ fontSize: "2.5vw", fontWeight: "bold" }}>
+              Perfil
+            </Typography>
           </Box>
           <Box
             sx={{
-              //cuadro que contiene al cuadro de textos 1
-              backgroundColor: COLOR.blanco,
               width: "100%",
-              height: "80%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              border:1,
-              borderTop:0,
+              height: "50%",
             }}
-          >
-            <Box
-              sx={{
-                backgroundColor: "white",
-                width: "90%",
-                height: "90%",
-                //Cuadro de textos 1
-              }}
-            >
-              <Divider
-                sx={{
-                  mt: 2,
-                  backgroundColor: COLOR.grisDivisionEntreElementos,
-                }}
-              />
-              <Box sx={{ display: "flex", mt: 2 }}>
-                <ThemeProvider theme={theme}>
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      fontWeight: "Bold",
-                      /*fontSize: tamanioTypoCuadro1*/
-                      mr: 1,
-                    }}
-                  >
-                    Area:
-                  </Typography>
-                </ThemeProvider>
-                <ThemeProvider theme={theme}>
-                  <Typography
-                    variant="h3"
-                    sx={
-                      {
-                        /*fontSize: tamanioTypoCuadro1*/
-                      }
-                    }
-                  >
-                    Coordinación de Planeación Hacendaria
-                  </Typography>
-                </ThemeProvider>
-              </Box>
-              <Divider
-                sx={{
-                  mt: 2,
-                  backgroundColor: COLOR.grisDivisionEntreElementos,
-                }}
-              />
-              <Box sx={{ display: "flex", mt: 2 }}>
-                <ThemeProvider theme={theme}>
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      fontWeight: "Bold",
-                      /*fontSize: tamanioTypoCuadro1*/
-                      mr: 1,
-                    }}
-                  >
-                    Puesto:
-                  </Typography>
-                </ThemeProvider>
-                <ThemeProvider theme={theme}>
-                  <Typography
-                    variant="h3"
-                    sx={
-                      {
-                        /*fontSize: tamanioTypoCuadro1*/
-                      }
-                    }
-                  >
-                    Coordinador
-                  </Typography>
-                </ThemeProvider>
-              </Box>
-              <Divider
-                sx={{
-                  mt: 2,
-                  backgroundColor: COLOR.grisDivisionEntreElementos,
-                }}
-              />
-              <Box sx={{ display: "flex", mt: 2 }}>
-                <ThemeProvider theme={theme}>
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      fontWeight: "Bold",
-                      /*fontSize: tamanioTypoCuadro1*/
-                      mr: 1,
-                    }}
-                  >
-                    Perfil:
-                  </Typography>
-                </ThemeProvider>
-                <ThemeProvider theme={theme}>
-                  <Typography
-                    variant="h3"
-                    sx={
-                      {
-                        /*fontSize: tamanioTypoCuadro1*/
-                      }
-                    }
-                  >
-                    Usuario
-                  </Typography>
-                </ThemeProvider>
-              </Box>
-            </Box>
-          </Box>
+          ></Box>
         </Box>
         <Box
           sx={{
-            ml: 2,
-            //Editar informacion
-            backgroundColor: COLOR.blanco,
-            width: "53%",
-            height: "55vh",
-            border: 1,
-            justifyContent: "center",
+            width: "100%",
+            height: "82%",
+            // backgroundColor: "green"
           }}
         >
           <Box
             sx={{
-              //Header de Editar contenido
+              //CARD #1
               width: "100%",
-              height: "10%",
-              backgroundColor: COLOR.grisTarjetaBienvenido,
+              height: "50%",
+              // backgroundColor: "aquamarine",
+              borderRadius: 2,
+              boxShadow: 2,
+              mt: 1,
               display: "flex",
-              alignItems: "center",
               justifyContent: "center",
-            }}
-          >
-            <ThemeProvider theme={theme}>
-              <Typography
-                variant="h3"
-                sx={{
-                  //Perfil
-                  color: COLOR.negro,
-                  /*fontSize: "2.1vw",*/
-                  backgroundColor: COLOR.grisTarjetaBienvenido,
-                }}
-              >
-                Editar Información de Contacto
-              </Typography>
-            </ThemeProvider>
-          </Box>
-          <Box
-            sx={{
-              //Padre del espacio 3 después del vacío
-              height: "90%",
-              width: "85%",
-              backgroundColor: COLOR.blanco,
-              display: "flex",
               alignItems: "center",
-              justifyContent: "start",
-              ml:1
             }}
           >
             <Box
               sx={{
-                height: "45vh",
-                width: "35vw",
-                backgroundColor: COLOR.blanco,
+                //CARD CONTENT
+                width: "95%",
+                height: "90%",
+                //backgroundColor: "red",
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "start",
               }}
             >
-              <ThemeProvider theme={theme}>
-                <Typography variant="h3">Teléfono:</Typography>
-              </ThemeProvider>
-              <Box sx={{
-                width:"20vw",
-                height:"3vh",
-                backgroundColor:COLOR.blanco,
-                borderRadius:1,
-                border:2,
-                borderColor: COLOR.grisTarjetaBienvenido,
-                display:"flex",
-                alignItems:"center"
-              }}>
-                <Input sx={{width:"19vw",ml:0.5,fontSize: ".9vw"}} disableUnderline placeholder="811-955-5555"></Input>
-                  </Box>
-              <ThemeProvider theme={theme}>
-                <Typography sx={{mt: 1,}} variant="h3">Area:</Typography>
-              </ThemeProvider>
-              <Box sx={{
-                width:"20vw",
-                height:"3vh",
-                backgroundColor:COLOR.blanco,
-                borderRadius:1,
-                border:2,
-                borderColor: COLOR.grisTarjetaBienvenido,
-                display:"flex",
-                alignItems:"center"
-              }}>
-              <Input sx={{width:"19vw",ml:0.5,fontSize: ".9vw"}} disableUnderline placeholder="Coordinación de Planeación Hacendaria"></Input>
-              </Box>
-              <ThemeProvider theme={theme}>
-                <Typography sx={{mt: 1,}} variant="h3">Ubicación:</Typography>
-              </ThemeProvider>
-              <Box sx={{
-                width:"20vw",
-                height:"3vh",
-                backgroundColor:COLOR.blanco,
-                borderRadius:1,
-                border:2,
-                borderColor: COLOR.grisTarjetaBienvenido,
-                display:"flex",
-                alignItems:"center"
-              }}>
-              <Input sx={{width:"19vw",ml:0.5,fontSize: ".9vw"}} disableUnderline placeholder="4to Piso"></Input>
-              </Box>
-              <ThemeProvider theme={theme}>
-                <Typography
-                  variant="h3"
-                  sx={{
-                    mt: 2,
-                    /*fontSize: "1vw",*/
-                  }}
-                >
-                  Cambiar Foto:
-                </Typography>
-              </ThemeProvider>
-              <Input sx={{width:"19vw",ml:0.5,fontSize: ".9vw"}} disableUnderline type="file"></Input>
-              <Button
+              <Box
                 sx={{
-                  color: COLOR.blanco,
-                  backgroundColor: COLOR.negro,
-                  mt: 2,
-                  fontSize: "0.8vw",
-                  "&:hover": {
-                    color: COLOR.negro,
-                    backgroundColor: COLOR.grisTarjetaBienvenido,
-                  },
+                  width: "25%",
+                  height: "100%",
+                  // backgroundColor: "yellow"
                 }}
               >
-                ACTUALIZAR
-              </Button>
+                <Grid container>
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{
+                      //Anio
+                      display: "flex",
+                      justifyContent: "start",
+                      // backgroundColor: "white",
+                    }}
+                  >
+                    <Typography sx={{ fontSize: "1.3vw", fontWeight: "Bold" }}>
+                      Información Personal
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Box>
+              <Box
+                sx={{ width: "75%", height: "100%", 
+               // backgroundColor: "orange"
+               }}
+              >
+                <Box
+                  sx={{
+                    //Foto y botón
+                    width: "100%",
+                    height: "25%",
+                    // backgroundColor: "red",
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Grid container>
+                    <Grid
+                      item
+                      xs={1.5}
+                      sx={{
+                        //Anio
+                        display: "flex",
+                        justifyContent: "start",
+                        // backgroundColor: "violet",
+                      }}
+                    >
+                      <Avatar
+                        alt={nombre}
+                        src="/static/images/avatar/1.jpg"
+                        sx={{ width: "3vw", height: "5vh" }}
+                      />
+                    </Grid>
+                    <Grid
+                      item //Botón Cambiar
+                      xs={1}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        // backgroundColor: "white",
+                      }}
+                    >
+                      <Button
+                        sx={{
+                          width: "2vw",
+                          height: "3vh",
+                          backgroundColor: "white",
+                          borderColor: borderBottomColorMenu2,
+                          borderRadius: 1,
+                          color: "#5048E5",
+                          "&:hover": {
+                            color: "#5048E5",
+                            backgroundColor: "#eeebf5",
+                          },
+                        }}
+                      >
+                        <Typography sx={{ fontSize: "3" }}>Cambiar</Typography>
+                      </Button>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={9.5}
+                      sx={{
+                        //Anio
+                        display: "flex",
+                        justifyContent: "end",
+                        // backgroundColor: "pink",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography sx={{ fontWeight: "Bold" }}>
+                        Tipo de usuario: {tipo}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: "75%",
+                    //  backgroundColor: "brown",
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "90%",
+                      height: "100%",
+                      //   backgroundColor: "green",
+                    }}
+                  >
+                    <TextField
+                      required
+                      margin="dense"
+                      id="Nombre"
+                      label="Nombre"
+                      value={nombre}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      onChange={(v) => setNombre(v.target.value)}
+                      error={nombre == "" ? true : false}
+                      sx={{
+                        height: "3vh",
+                        mb: 1.4,
+                      }}
+                    />
+                    <TextField
+                      required
+                      margin="dense"
+                      id="ApellidoPaterno"
+                      label="Apellido Paterno"
+                      value={apellidoPaterno}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      onChange={(v) => setApellidoPaterno(v.target.value)}
+                      error={apellidoPaterno == "" ? true : false}
+                      sx={{
+                        height: "3vh",
+                        mb: 1.4,
+                      }}
+                    />
+                    <TextField
+                      required
+                      margin="dense"
+                      id="ApellidoMaterno"
+                      label="Apellido Materno"
+                      value={apellidoMaterno}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      onChange={(v) => setApellidoMaterno(v.target.value)}
+                      error={apellidoMaterno == "" ? true : false}
+                      sx={{
+                        height: "3vh",
+                      }}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      width: "10%",
+                      height: "100%",
+                      //  backgroundColor: "orange",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Grid container>
+                      <Grid
+                        item
+                        xs={12}
+                        sx={{
+                          height: "5.3vh",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                         // backgroundColor: "blue",
+                        }}
+                      >
+                        <Button
+                          sx={{
+                            width: "2vw",
+                            height: "2.5vh",
+                            backgroundColor: "white",
+                            borderColor: borderBottomColorMenu2,
+                            borderRadius: 1,
+                            color: "#5048E5",
+                            mt: 1,
+                            "&:hover": {
+                              color: "#5048E5",
+                              backgroundColor: "#eeebf5",
+                            },
+                          }}
+                        >
+                          Editar
+                        </Button>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        sx={{
+                          height: "4.8vh",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        //  backgroundColor: "yellow",
+                        }}
+                      >
+                        <Button
+                          sx={{
+                            width: "2vw",
+                            height: "2.5vh",
+                            backgroundColor: "white",
+                            borderColor: borderBottomColorMenu2,
+                            borderRadius: 1,
+                            color: "#5048E5",
+                            mt: 1,
+                            "&:hover": {
+                              color: "#5048E5",
+                              backgroundColor: "#eeebf5",
+                            },
+                          }}
+                        >
+                          Editar
+                        </Button>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        sx={{
+                          height: "5vh",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                         // backgroundColor: "blue",
+                        }}
+                      >
+                        <Button
+                          sx={{
+                            width: "2vw",
+                            height: "2.5vh",
+                            backgroundColor: "white",
+                            borderColor: borderBottomColorMenu2,
+                            borderRadius: 1,
+                            color: "#5048E5",
+                            mt: 1,
+                            "&:hover": {
+                              color: "#5048E5",
+                              backgroundColor: "#eeebf5",
+                            },
+                          }}
+                        >
+                          Editar
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              //CARD #2
+              width: "100%",
+              height: "50%",
+              // backgroundColor: "aquamarine",
+              borderRadius: 2,
+              boxShadow: 2,
+              mt: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                //CARD CONTENT
+                width: "95%",
+                height: "90%",
+                //  backgroundColor: "red",
+                display: "flex",
+              }}
+            >
+              <Box
+                sx={{
+                  //Subtitle
+                  width: "25%",
+                  height: "100%",
+                  //  backgroundColor: "yellow",
+                }}
+              >
+                <Typography sx={{ fontSize: "1.3vw", fontWeight: "Bold" }}>
+                  Contacto y ubicación
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  //Content
+                  width: "75%",
+                  height: "100%",
+                  //  backgroundColor: "orange",
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+              >
+                <Box
+                  sx={{
+                    // Todos los Textfields
+                    width: "90%",
+                    height: "100%",
+                    //  backgroundColor: "purple",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      //Textfields Email/Tellphone
+                      width: "100%",
+                      height: "25%",
+                      display: "flex",
+                      flexDirection: "row",
+                      //  backgrounColor:"blue"
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        //Textfields correo
+                        width: "48%",
+                        height: "100%",
+                        //  backgroundColor: "red",
+                      }}
+                    >
+                      <TextField
+                        required
+                        margin="dense"
+                        id="CorreoElectronico"
+                        label="Correo Eléctronico"
+                        value={correoElectronico}
+                        type="email"
+                        fullWidth
+                        variant="outlined"
+                        onChange={(v) => setCorreoElectronico(v.target.value)}
+                        error={correoElectronico == "" ? true : false}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        //Espacio entre Correo y telefono
+                        width: "4%",
+                        height: "100%",
+                        // backgroundColor: "gray",
+                      }}
+                    ></Box>
+                    <Box
+                      sx={{
+                        //Textfield tellphone box
+                        width: "48%",
+                        height: "100%",
+                        //  backgroundColor: "white",
+                      }}
+                    >
+                      <TextField
+                        required
+                        margin="dense"
+                        id="Telefono"
+                        label="Teléfono"
+                        value={telefono}
+                        type="number"
+                        fullWidth
+                        variant="outlined"
+                        onChange={(v) => setTelefono(v.target.value)}
+                        error={telefono == "" ? true : false}
+                      />
+                    </Box>
+                  </Box>
+                  <Box
+                    sx={{
+                      //Textfields Ubicación y Puesto
+                      width: "100%",
+                      height: "25%",
+                      display: "flex",
+                      flexDirection: "row",
+                      // backgrounColor:"blue"
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        //Textfields ubicacion
+                        width: "48%",
+                        height: "100%",
+                        backgroundColor: "white",
+                      }}
+                    >
+                      <TextField
+                        required
+                        margin="dense"
+                        id="Ubicacion"
+                        label="Ubicación"
+                        value={ubicacion}
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        onChange={(v) => setUbicacion(v.target.value)}
+                        error={ubicacion == "" ? true : false}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        //Espacio entre Ubicación y Puesto
+                        width: "4%",
+                        height: "100%",
+                        // backgroundColor: "gray",
+                      }}
+                    ></Box>
+                    <Box
+                      sx={{
+                        //Textfield puesto box
+                        width: "48%",
+                        height: "100%",
+                        // backgroundColor: "red",
+                      }}
+                    >
+                      <TextField
+                        required
+                        margin="dense"
+                        id="Puesto"
+                        label="Puesto"
+                        value={puesto}
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        onChange={(v) => setPuesto(v.target.value)}
+                        error={puesto == "" ? true : false}
+                      />
+                    </Box>
+                  </Box>
+                  <Box
+                    sx={{
+                      //Textfields Ubicación y Puesto
+                      width: "100%",
+                      height: "25%",
+                      display: "flex",
+                      flexDirection: "row",
+                      //  backgrounColor:"blue"
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        //Textfields ubicacion
+                        width: "100%",
+                        height: "100%",
+                       // backgroundColor: "pink",
+                      }}
+                    >
+                      <TextField
+                        required
+                        margin="dense"
+                        id="Departamento"
+                        label="Departamento"
+                        value={departamento}
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        onChange={(v) => setDepartamento(v.target.value)}
+                        error={departamento == "" ? true : false}
+                      />
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Box
+                  sx={{
+                    //Buttons Card 2
+                    width: "10%",
+                    height: "100%",
+                    //  backgroundColor: "orange",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Grid container>
+                    <Grid
+                      item
+                      xs={12}
+                      sx={{
+                        height: "6.2vh",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        //  backgroundColor: "blue",
+                      }}
+                    >
+                      <Button
+                        sx={{
+                          width: "2vw",
+                          height: "2.5vh",
+                          backgroundColor: "white",
+                          borderColor: borderBottomColorMenu2,
+                          borderRadius: 1,
+                          color: "#5048E5",
+                          mt: 1,
+                          "&:hover": {
+                            color: "#5048E5",
+                            backgroundColor: "#eeebf5",
+                          },
+                        }}
+                      >
+                        Editar
+                      </Button>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      sx={{
+                        height: "6.2vh",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        // backgroundColor: "yellow",
+                      }}
+                    >
+                      <Button
+                        sx={{
+                          width: "2vw",
+                          height: "2.5vh",
+                          backgroundColor: "white",
+                          borderColor: borderBottomColorMenu2,
+                          borderRadius: 1,
+                          color: "#5048E5",
+                          mt: 1,
+                          "&:hover": {
+                            color: "#5048E5",
+                            backgroundColor: "#eeebf5",
+                          },
+                        }}
+                      >
+                        Editar
+                      </Button>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      sx={{
+                        height: "6.2vh",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        // backgroundColor: "blue",
+                      }}
+                    >
+                      <Button
+                        sx={{
+                          width: "2vw",
+                          height: "2.5vh",
+                          backgroundColor: "white",
+                          borderColor: borderBottomColorMenu2,
+                          borderRadius: 1,
+                          color: "#5048E5",
+                          mt: 1,
+                          "&:hover": {
+                            color: "#5048E5",
+                            backgroundColor: "#eeebf5",
+                          },
+                        }}
+                      >
+                        Editar
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Box>
             </Box>
           </Box>
         </Box>
       </Box>
     </Box>
   );
-}
-
-
+};
