@@ -25,7 +25,6 @@ const Roles = () => {
   const [openRel, setOpenRel] = useState(false);
   const [open, setOpen] = useState(false);
   const [openRolesModalAdd, setOpenRolesModalAdd] = useState(false);
-  const [openAsignaRol, setOpenAsignaRol] = useState(false);
   const [id, setId] = useState("");
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -82,6 +81,8 @@ const Roles = () => {
   const handleView = (v: any) => {
     setId(v.id);
     setOpen(true);
+   
+   
 
   };
   const handleNuevoRegistro = () => {
@@ -153,6 +154,7 @@ const Roles = () => {
 
   const consulta = (data: any) => {
     AuthService.rolesindex(data).then((res) => {
+      console.log(res)
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",

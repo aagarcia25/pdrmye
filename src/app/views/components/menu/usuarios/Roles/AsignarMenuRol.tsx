@@ -85,7 +85,7 @@ const AsignarMenuRol = ({
     };
 
     useEffect(() => {
-        consulta({ CHID: id });
+        consulta({ CHID: id  });
     }, []);
 
     return (

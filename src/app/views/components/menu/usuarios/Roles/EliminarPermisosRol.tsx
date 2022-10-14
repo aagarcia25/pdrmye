@@ -92,7 +92,7 @@ const EliminarPermisosRol = ({
 
 
   useEffect(() => {
-    consulta({ CHID: dt?.row?.id });
+    consulta({ CHID: dt?.row?.id , IDROL:id, });
   }, []);
 
   return (
