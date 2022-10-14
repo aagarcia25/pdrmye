@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
-import { stXl } from "../../../styles/stResponsive/Perfil/st";
+
 
 export const Perfil = () => {
   const [borderBottomColorMenu1, setBorderBottomColorMenu1] = useState("");
