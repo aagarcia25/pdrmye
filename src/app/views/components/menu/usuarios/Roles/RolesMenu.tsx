@@ -150,6 +150,7 @@ const RolesMenu = ({
 
       {openRel ? (
         <AsignarPermisoRol
+          id={id}
           open={openRel}
           handleCloseAsignar={handleCloseAsignar}
           handleClose={handleClose}
@@ -161,6 +162,7 @@ const RolesMenu = ({
 
 {openPerRel ? (
         <EliminarPermisosRol
+        id={id}
           open={openPerRel}
           handleCloseAsignar={handleCloseAsignar}
           handleClose={handleClose}

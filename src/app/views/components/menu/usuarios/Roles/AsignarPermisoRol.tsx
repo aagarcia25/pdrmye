@@ -15,11 +15,13 @@ import {
   
   
   const AsignarPermisoRol = ({
+    id,
     dt,
     open,
     handleCloseAsignar,
     handleClose,
   }: {
+    id:string;
     dt: any;
     open: boolean;
     handleCloseAsignar: Function;
@@ -40,9 +42,10 @@ import {
   
     const handleChange = (v: any) => {
       let data = {
-        TIPO:2,
+        TIPO:1,
         IDPERMISO: v.row.id,
-        IDMENU: dt?.row?.id
+        IDMENU: dt?.row?.id,
+        IDROL:id,
       }
       AuthService.menuPermisosRelacionar(data).then((res) => {
         setData(res.RESPONSE);

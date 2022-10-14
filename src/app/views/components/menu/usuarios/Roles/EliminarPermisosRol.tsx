@@ -16,11 +16,13 @@ import Slider from "../../../Slider";
 
 
 const EliminarPermisosRol = ({
+  id,
   dt,
   open,
   handleClose,
   handleCloseAsignar,
 }: {
+  id:string;
   dt: any;
   open: boolean;
   handleClose: Function;
@@ -43,7 +45,8 @@ const EliminarPermisosRol = ({
     let data = {
       TIPO:2,
       IDPERMISO: v.row.id,
-      IDMENU: dt?.row?.id
+      IDMENU: dt?.row?.id,
+      IDROL:id,
     }
     AuthService.menuPermisosRelacionar(data).then((res) => {
       setData(res.RESPONSE);
