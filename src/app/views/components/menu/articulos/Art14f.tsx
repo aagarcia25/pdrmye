@@ -100,6 +100,11 @@ export const Art14f = () => {
     { field: "CoeficienteCrecimientoRecaudacion", headerName: "Coeficiente Crecimiento Recaudación", width: 300 ,description:"CCRi,t=CRi,t /∑CRi,t"},
     { field: "CoeficienteimpuestoPredial", headerName: "Coeficiente por Monto de Recaudación Impuesto Predial", width: 300 ,description:"REi,t = Ri,t-1 /∑Ri,t-1"},
 
+    { field: "A1_1", headerName: "Distribución por Eficiencia en la Recaudación", width: 300 ,description:"50%"},
+    { field: "A1_2", headerName: "Distribución Crecimiento Recaudación", width: 300 ,description:"30%"},
+    { field: "A1_3", headerName: "Distribución por Recaudación", width: 300 ,description:"20%"},
+    { field: "A1_4", headerName: "Estimacion 30%", width: 300 ,description:"50%*CERi,t+20%*REi,t+30%*CCRi,t"},
+    { field: "A1_5_COF", headerName: "Coeficiente de Participación", width: 300 ,description:""},
 
 
 
