@@ -10,7 +10,6 @@ import {
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 
-
 export const Perfil = () => {
   const [borderBottomColorMenu1, setBorderBottomColorMenu1] = useState("");
   const [borderBottomColorMenu2, setBorderBottomColorMenu2] = useState("");
@@ -20,9 +19,7 @@ export const Perfil = () => {
   const [nombreUsuario, setNombreUsuario] = useState("");
   const [apellidoPaterno, setApellidoPaterno] = useState("");
   const [apellidoMaterno, setApellidoMaterno] = useState("");
-  const [correoElectronico, setCorreoElectronico] = useState(
-    ""
-  );
+  const [correoElectronico, setCorreoElectronico] = useState("");
   const [telefono, setTelefono] = useState("");
   const [rutaFoto, setRutaFoto] = useState("");
   const [puesto, setPuesto] = useState("");
@@ -32,22 +29,62 @@ export const Perfil = () => {
 
   const [departamentos, setDepartamentos] = useState("");
 
-  const onClickMenu1 = () => {
-    if (borderBottomColorMenu1 == "#5048E5") {
-    } else {
-      setBorderBottomColorMenu1("#5048E5");
-      setBorderBottomColorMenu2("white");
+  //CARD 1
+  const [botonEdicionNombre, setBotonEdicionNombre] = useState("Editar");
+  const [botonEdicionApellidoPaterno, setBotonEdicionApellidoPaterno] =
+    useState("Editar");
+  const [botonEdicionApellidoMaterno, setBotonEdicionApellidoMaterno] =
+    useState("Editar");
 
-      console.log("Menu1");
+  //CARD 2
+  const [botonEdicionCorreoElecYTelefono, setBotonEdicionCorreoElecYTelefono] =
+    useState("Editar");
+  const [botonEdicionubicacionYPuesto, setBotonEdicionubicacionYPuesto] =
+    useState("Editar");
+  const [botonEdicionDepartamento, setBotonEdicionDepartamento] =
+    useState("Editar");
+
+  //PRIMER CARD FUNCIONES
+  const onClickEditarNombre = () => {
+    setBotonEdicionNombre("Guardar");
+    if (botonEdicionNombre === "Guardar") {
+      setBotonEdicionNombre("Editar");
     }
   };
 
-  const onClickMenu2 = () => {
-    if (borderBottomColorMenu2 == "#5048E5") {
-    } else {
-      setBorderBottomColorMenu2("#5048E5");
-      setBorderBottomColorMenu1("white");
-      console.log("Menu2");
+  const onClickEditarApellidoPaterno = () => {
+    setBotonEdicionApellidoPaterno("Guardar");
+    if (botonEdicionApellidoPaterno === "Guardar") {
+      setBotonEdicionApellidoPaterno("Editar");
+    }
+  };
+
+  const onClickEditarApellidoMaterno = () => {
+    setBotonEdicionApellidoMaterno("Guardar");
+    if (botonEdicionApellidoMaterno === "Guardar") {
+      setBotonEdicionApellidoMaterno("Editar");
+    }
+  };
+
+  //SEGUNDA CARD FUNCIONES
+  const onClickEditarCorreoElecYTelefono = () => {
+    setBotonEdicionCorreoElecYTelefono("Guardar");
+    if (botonEdicionCorreoElecYTelefono === "Guardar") {
+      setBotonEdicionCorreoElecYTelefono("Editar");
+    }
+  };
+
+  const onClickEditarUbicacionYPuesto = () => {
+    setBotonEdicionubicacionYPuesto("Guardar");
+    if (botonEdicionubicacionYPuesto === "Guardar") {
+      setBotonEdicionubicacionYPuesto("Editar");
+    }
+  };
+
+  const onClickEditarDepartamento = () => {
+    setBotonEdicionDepartamento("Guardar");
+    if (botonEdicionDepartamento === "Guardar") {
+      setBotonEdicionDepartamento("Editar");
     }
   };
 
@@ -60,17 +97,24 @@ export const Perfil = () => {
   }, []);
 
   return (
-    <Box sx={{
-      //Principal
-      width: "100%",
-    height: "100%",
-    backgroundColor: "white",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"}}>
-      <Box sx={{ width: "80%", height: "80%", 
-      // backgroundColor: "blue"
-       }}>
+    <Box
+      sx={{
+        //Principal
+        width: "100%",
+        height: "100%",
+        backgroundColor: "white",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Box
+        sx={{
+          width: "80%",
+          height: "80%",
+          // backgroundColor: "blue"
+        }}
+      >
         <Box
           sx={{
             //EspacioTitulo
@@ -86,11 +130,16 @@ export const Perfil = () => {
               //Titulo
               width: "100%",
               height: "50%",
-              backgroundColor: "skyblue",
+              //  backgroundColor: "skyblue",
             }}
           >
-            <Typography sx={{ //Tamaño
-               fontSize: "2.5vw", fontWeight: "bold" }}>
+            <Typography
+              sx={{
+                //Tamaño
+                fontSize: "2.5vw",
+                fontWeight: "bold",
+              }}
+            >
               Perfil
             </Typography>
           </Box>
@@ -104,8 +153,8 @@ export const Perfil = () => {
         <Box
           sx={{
             width: "100%",
-            height: "82%",
-            // backgroundColor: "green"
+            height: "100%",
+            //  backgroundColor: "green"
           }}
         >
           <Box
@@ -113,7 +162,7 @@ export const Perfil = () => {
               //CARD #1
               width: "100%",
               height: "50%",
-              // backgroundColor: "aquamarine",
+              //  backgroundColor: "aquamarine",
               borderRadius: 2,
               boxShadow: 2,
               mt: 1,
@@ -156,9 +205,11 @@ export const Perfil = () => {
                 </Grid>
               </Box>
               <Box
-                sx={{ width: "75%", height: "100%", 
-               // backgroundColor: "orange"
-               }}
+                sx={{
+                  width: "75%",
+                  height: "100%",
+                  // backgroundColor: "orange"
+                }}
               >
                 <Box
                   sx={{
@@ -246,10 +297,11 @@ export const Perfil = () => {
                     sx={{
                       width: "90%",
                       height: "100%",
-                       //  backgroundColor: "green",
+                      //  backgroundColor: "green",
                     }}
                   >
                     <TextField
+                      disabled={botonEdicionNombre === "Editar" ? true : false}
                       required
                       margin="dense"
                       id="Nombre"
@@ -257,15 +309,12 @@ export const Perfil = () => {
                       value={nombre}
                       type="text"
                       fullWidth
-                      variant="standard"
+                      variant="outlined"
                       onChange={(v) => setNombre(v.target.value)}
                       error={nombre == "" ? true : false}
-                      sx={{
-                        height: "3vh",
-                        mb: 1.9,
-                      }}
                     />
                     <TextField
+                      disabled={botonEdicionApellidoPaterno === "Editar" ? true : false}
                       required
                       margin="dense"
                       id="ApellidoPaterno"
@@ -273,15 +322,12 @@ export const Perfil = () => {
                       value={apellidoPaterno}
                       type="text"
                       fullWidth
-                      variant="standard"
+                      variant="outlined"
                       onChange={(v) => setApellidoPaterno(v.target.value)}
                       error={apellidoPaterno == "" ? true : false}
-                      sx={{
-                        height: "3vh",
-                        mb: 1.9,
-                      }}
                     />
                     <TextField
+                      disabled={botonEdicionApellidoMaterno === "Editar" ? true : false}
                       required
                       margin="dense"
                       id="ApellidoMaterno"
@@ -289,12 +335,9 @@ export const Perfil = () => {
                       value={apellidoMaterno}
                       type="text"
                       fullWidth
-                      variant="standard"
+                      variant="outlined"
                       onChange={(v) => setApellidoMaterno(v.target.value)}
                       error={apellidoMaterno == "" ? true : false}
-                      sx={{
-                        height: "3vh",
-                      }}
                     />
                   </Box>
                   <Box
@@ -316,10 +359,13 @@ export const Perfil = () => {
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
-                         // backgroundColor: "blue",
+                          mt:0.3,
+                          mb:2.3,
+                          // backgroundColor: "blue",
                         }}
                       >
                         <Button
+                          onClick={onClickEditarNombre}
                           sx={{
                             width: "2vw",
                             height: "2.5vh",
@@ -334,7 +380,7 @@ export const Perfil = () => {
                             },
                           }}
                         >
-                          Editar
+                          {botonEdicionNombre}
                         </Button>
                       </Grid>
                       <Grid
@@ -345,10 +391,12 @@ export const Perfil = () => {
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
-                        //  backgroundColor: "yellow",
+                          mb:2.3
+                          //  backgroundColor: "yellow",
                         }}
                       >
                         <Button
+                        onClick={onClickEditarApellidoPaterno}
                           sx={{
                             width: "2vw",
                             height: "2.5vh",
@@ -363,9 +411,10 @@ export const Perfil = () => {
                             },
                           }}
                         >
-                          Editar
+                          {botonEdicionApellidoPaterno}
                         </Button>
                       </Grid>
+                      
                       <Grid
                         item
                         xs={12}
@@ -374,10 +423,11 @@ export const Perfil = () => {
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
-                         // backgroundColor: "blue",
+                          // backgroundColor: "blue",
                         }}
                       >
                         <Button
+                          onClick={onClickEditarApellidoMaterno}
                           sx={{
                             width: "2vw",
                             height: "2.5vh",
@@ -392,7 +442,7 @@ export const Perfil = () => {
                             },
                           }}
                         >
-                          Editar
+                          {botonEdicionApellidoMaterno}
                         </Button>
                       </Grid>
                     </Grid>
@@ -463,8 +513,8 @@ export const Perfil = () => {
                       height: "25%",
                       display: "flex",
                       flexDirection: "row",
-                        backgrounColor:"blue",
-                        mb:1
+                      backgrounColor: "blue",
+                      mb: 1,
                     }}
                   >
                     <Box
@@ -473,10 +523,10 @@ export const Perfil = () => {
                         width: "48%",
                         height: "100%",
                         //  backgroundColor: "red",
-                        
                       }}
                     >
                       <TextField
+                      disabled={botonEdicionCorreoElecYTelefono === "Editar" ? true : false}
                         required
                         margin="dense"
                         id="CorreoElectronico"
@@ -506,6 +556,7 @@ export const Perfil = () => {
                       }}
                     >
                       <TextField
+                      disabled={botonEdicionCorreoElecYTelefono === "Editar" ? true : false}
                         required
                         margin="dense"
                         id="Telefono"
@@ -527,7 +578,7 @@ export const Perfil = () => {
                       display: "flex",
                       flexDirection: "row",
                       // backgrounColor:"blue"
-                      mb:1
+                      mb: 1,
                     }}
                   >
                     <Box
@@ -539,6 +590,7 @@ export const Perfil = () => {
                       }}
                     >
                       <TextField
+                        disabled={botonEdicionubicacionYPuesto === "Editar" ? true : false}
                         required
                         margin="dense"
                         id="Ubicacion"
@@ -568,6 +620,7 @@ export const Perfil = () => {
                       }}
                     >
                       <TextField
+                        disabled={botonEdicionubicacionYPuesto === "Editar" ? true : false}
                         required
                         margin="dense"
                         id="Puesto"
@@ -583,7 +636,7 @@ export const Perfil = () => {
                   </Box>
                   <Box
                     sx={{
-                      //Textfields Ubicación y Puesto
+                      //Textfield Departamento
                       width: "100%",
                       height: "25%",
                       display: "flex",
@@ -596,10 +649,11 @@ export const Perfil = () => {
                         //Textfields ubicacion
                         width: "100%",
                         height: "100%",
-                       // backgroundColor: "pink",
+                        // backgroundColor: "pink",
                       }}
                     >
                       <TextField
+                      disabled={botonEdicionDepartamento === "Editar" ? true : false}
                         required
                         margin="dense"
                         id="Departamento"
@@ -635,10 +689,13 @@ export const Perfil = () => {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
+                        mb:2,
+                        mt:0.3,
                         //  backgroundColor: "blue",
                       }}
                     >
                       <Button
+                      onClick={onClickEditarCorreoElecYTelefono}
                         sx={{
                           width: "2vw",
                           height: "2.5vh",
@@ -653,7 +710,7 @@ export const Perfil = () => {
                           },
                         }}
                       >
-                        Editar
+                        {botonEdicionCorreoElecYTelefono}
                       </Button>
                     </Grid>
                     <Grid
@@ -664,10 +721,12 @@ export const Perfil = () => {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
+                        mb:2
                         // backgroundColor: "yellow",
                       }}
                     >
                       <Button
+                      onClick={onClickEditarUbicacionYPuesto}
                         sx={{
                           width: "2vw",
                           height: "2.5vh",
@@ -682,7 +741,7 @@ export const Perfil = () => {
                           },
                         }}
                       >
-                        Editar
+                        {botonEdicionubicacionYPuesto}
                       </Button>
                     </Grid>
                     <Grid
@@ -697,6 +756,7 @@ export const Perfil = () => {
                       }}
                     >
                       <Button
+                      onClick={onClickEditarDepartamento}
                         sx={{
                           width: "2vw",
                           height: "2.5vh",
@@ -711,7 +771,7 @@ export const Perfil = () => {
                           },
                         }}
                       >
-                        Editar
+                        {botonEdicionDepartamento}
                       </Button>
                     </Grid>
                   </Grid>
