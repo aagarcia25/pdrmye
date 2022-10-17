@@ -18,6 +18,7 @@ import Slider from "../../Slider";
 import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { getPermisos } from "../../../../services/localStorage";
 import DetalleFondo from "../aportaciones/DetalleFondo";
+import DetalleFgp from "./DetalleFgp";
 
 export const Fpg = () => {
   const navigate = useNavigate();
@@ -232,7 +233,7 @@ export const Fpg = () => {
           />
 
           {openDetalles ?
-            <DetalleFondo
+            <DetalleFgp
               openDetalles={openDetalles}
               nombreFondo={nombreFondo}
               idDetalle={idDetalle}

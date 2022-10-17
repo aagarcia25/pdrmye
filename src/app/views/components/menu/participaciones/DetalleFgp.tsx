@@ -1,34 +1,55 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
+import { Box, Dialog, Grid } from "@mui/material";
 import { Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
 import { Alert } from "../../../../helpers/Alert";
 import { calculosServices } from "../../../../services/calculosServices";
-import ButtonsBack from "../catalogos/Utilerias/ButtonsBack";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
 import Slider from "../../Slider";
 
 
-import { getMenus, getPermisos } from "../../../../services/localStorage";
+import { getPermisos } from "../../../../services/localStorage";
 import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import BotonesOpciones from "../../componentes/BotonesOpciones";
+import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 
 
-const DetalleFgp = () => {
+const DetalleFgp = ({
+  openDetalles,
+  idDetalle,
+  nombreFondo,
+  handleClose,
+  clave,
+  estatus,
+  anio,
+  mes,
+  handleTras,
+  fondo
+
+}: {
+  openDetalles: Boolean;
+  idDetalle: String;
+  nombreFondo: String;
+  handleClose: Function;
+  clave: string;
+  estatus: string;
+  anio: number;
+  mes: string;
+  handleTras: Function;
+  fondo: string;
+
+}) => {
+
+
+
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [fondo, setFondo] = useState("");
+
   ////////////////////////
-
-  const handleTras = (v: string) => {
-    setIdtrazabilidad(v);
-    setOpenTrazabilidad(true);
-};
-
 
   const [autorizar, setAutorizar] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
@@ -38,7 +59,6 @@ const DetalleFgp = () => {
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
 
   const [idtrazabilidad, setIdtrazabilidad] = useState("");
-
 
   //////////////////
   const [openSlider, setOpenSlider] = useState(false);
@@ -59,21 +79,6 @@ const DetalleFgp = () => {
     setOpenTrazabilidad(true);
   };
 
-
-  const handleAccion = (v: any) => {
-
-    if (v == 1) {
-      navigate(`/inicio/participaciones/${fondo}`);
-    } else
-      if (v == 2) {
-      }
-    if (v == 3) {
-    }
-    if (v == 4) {
-    }
-    if (v == 5) {
-    }
-  };
 
   const columnas = (data: any) => {
     setOpenSlider(true);
@@ -276,28 +281,98 @@ const DetalleFgp = () => {
   let params = useParams();
   useEffect(() => {
 
-    setFondo(String(params.fondo));
+
+    permisos.map((item: PERMISO) => {
+
+      console.log("fondo  " + clave + "  estatus " + estatus);
+
+      if (String(item.ControlInterno) === String(clave)) {
+        console.log(clave + "  " + "  " + item.Permiso)
+
+        if (String(item.Permiso) == "Autorizar" && estatus != "CERRADO") {
+          setAutorizar(true);
+          console.log("autoriza  " + autorizar);
+        }
+
+        if (String(item.Permiso) == "Cancelar" && estatus != "CERRADO") {
+          setCancelar(true);
+          console.log("cancela  " + cancelar);
+        }
+
+        if (String(item.Permiso) == "Ver Trazabilidad") {
+          setVerTrazabilidad(true);
+          console.log("ver trazabilidad  " + verTrazabilidad);
+        }
+
+        if (String(item.Permiso) == "Enviar" && estatus != "CERRADO") {
+          setEnviar(true);
+          console.log("enviar  " + enviar);
+        }
+      }
+
+
+
+    });
+
+
+
     setTimeout(() => {
-      columnas({ IDCALCULOTOTAL: params.id });
-      consulta({ IDCALCULOTOTAL: params.id });
+      columnas({ IDCALCULOTOTAL: idDetalle });
+      consulta({ IDCALCULOTOTAL: idDetalle });
     }, 2000);
   }, []);
 
   return (
     <div>
       <Box>
-        <Slider open={openSlider}></Slider>
+        <Dialog open={Boolean(openDetalles)} fullScreen={true} >
+          <Slider open={openSlider}></Slider>
+          <Grid container spacing={2} sx={{ justifyContent: "center", }} >
+            <Grid item xs={12}>
+              <Box sx={{ display: "flex", justifyContent: "center", bgcolor: "rgb(245,245,245)" }}>
+                <Titulo name={String(nombreFondo)} />
+              </Box>
+            </Grid>
+          </Grid>
+          <Grid
+            container spacing={1}
+            sx={{ display: "flex", justifyContent: "center", }} >
 
-        <BotonesOpciones 
-          handleAccion={handleAccion}
-          autorizar={autorizar}
-          cancelar={cancelar}
-          verTrazabilidad={verTrazabilidad}
-          enviar={enviar}
-          handleTras={handleTras} 
-          idDetalle={""} />
+            <Grid item xs={1} sx={{ alignItems: "center", }} >
 
-        <MUIXDataGrid columns={columns} rows={data} />
+              <label className="subtitulo">{anio}<br /><br /><br /></label>
+            </Grid>
+          </Grid>
+          <Grid
+            container spacing={1}
+            sx={{ justifyContent: "center", width: "100%" }} >
+
+            <Grid item xs={1} >
+
+              <label className="subtitulo">{mes} <br /><br /><br /></label>
+            </Grid>
+          </Grid>
+          <Grid
+            container spacing={1}
+            sx={{ justifyContent: "center", width: '100%' }} >
+
+            <Grid item xs={7} md={8} lg={8} sx={{ justifyContent: "center", width: '100%' }}>
+              <BotonesOpciones
+                handleAccion={handleClose}
+                autorizar={autorizar}
+                cancelar={cancelar}
+                verTrazabilidad={verTrazabilidad}
+                enviar={enviar}
+                handleTras={handleTras}
+                idDetalle={String(idDetalle)}
+
+              />
+
+              <MUIXDataGrid columns={columns} rows={data} />
+
+            </Grid>
+          </Grid>
+        </Dialog>
       </Box>
     </div>
   );
