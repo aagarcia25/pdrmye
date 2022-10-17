@@ -105,9 +105,6 @@ export default function Header(props: HeaderProps) {
     CHUSER: user.id,
   };
 
-  console.log("user foto", user.RutaFoto);
-  console.log("personIcon", PersonIcon);
-
   React.useEffect(() => {
     CatalogosServices.Notificaciones(data).then((res) => {
       let result = res.RESPONSE;
@@ -172,10 +169,6 @@ export default function Header(props: HeaderProps) {
                     "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                   }}
                 >
-                  {/* <PersonIcon sx={{ fontSize: btnPerson, color: COLOR.blanco,
-                "&:hover":{
-                  color:COLOR.negro,
-                } }} /> */}
                   {user.RutaFoto ? (
                     <img
                       style={{ width: "3vw", height: "7vh" }}

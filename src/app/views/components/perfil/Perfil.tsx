@@ -9,16 +9,17 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
+import { getUser } from "../../../services/localStorage";
+import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import PersonIcon from "@mui/icons-material/Person";
 
 export const Perfil = () => {
-  const [borderBottomColorMenu1, setBorderBottomColorMenu1] = useState("");
-  const [borderBottomColorMenu2, setBorderBottomColorMenu2] = useState("");
-
+  const user: RESPONSE = JSON.parse(String(getUser()));
   //CAMPOS EN USO DE USUARIO
-  const [nombre, setNombre] = useState("");
-  const [nombreUsuario, setNombreUsuario] = useState("");
-  const [apellidoPaterno, setApellidoPaterno] = useState("");
-  const [apellidoMaterno, setApellidoMaterno] = useState("");
+  const [nombre, setNombre] = useState(user.Nombre);
+  const [nombreUsuario, setNombreUsuario] = useState(user.NombreUsuario);
+  const [apellidoPaterno, setApellidoPaterno] = useState(user.ApellidoPaterno);
+  const [apellidoMaterno, setApellidoMaterno] = useState(user.ApellidoMaterno);
   const [correoElectronico, setCorreoElectronico] = useState("");
   const [telefono, setTelefono] = useState("");
   const [rutaFoto, setRutaFoto] = useState("");
@@ -30,71 +31,34 @@ export const Perfil = () => {
   const [departamentos, setDepartamentos] = useState("");
 
   //CARD 1
-  const [botonEdicionNombre, setBotonEdicionNombre] = useState("Editar");
-  const [botonEdicionApellidoPaterno, setBotonEdicionApellidoPaterno] =
-    useState("Editar");
-  const [botonEdicionApellidoMaterno, setBotonEdicionApellidoMaterno] =
-    useState("Editar");
-
-  //CARD 2
-  const [botonEdicionCorreoElecYTelefono, setBotonEdicionCorreoElecYTelefono] =
-    useState("Editar");
-  const [botonEdicionubicacionYPuesto, setBotonEdicionubicacionYPuesto] =
-    useState("Editar");
-  const [botonEdicionDepartamento, setBotonEdicionDepartamento] =
-    useState("Editar");
+  const [botonEdicionFoto, setBotonEdicionFoto] = useState("Editar");
+  const [botonEdicionTodo, setBotonEdicionTodo] = useState("Editar");
 
   //PRIMER CARD FUNCIONES
-  const onClickEditarNombre = () => {
-    setBotonEdicionNombre("Guardar");
-    if (botonEdicionNombre === "Guardar") {
-      setBotonEdicionNombre("Editar");
+  const onClickEditarFoto = () => {
+    setBotonEdicionFoto("Guardar");
+    // PERMITIR ABRIR ARCHIVOS Y SELECCIONAR UNO EL CUAL
+    // LE MANDARÁ UN NUVO VALOR A LA IMAGEN QUE ESTA A
+    // LA IZQUIERDA DE GUARDAR
+    // HACER CONDICIÓON PARA MOSTRAR LA NUEVA IMAGEN
+    // APARECER UN NUEVO BOTÓN QUE PONGA CANCELAR
+    // Y CON ESE PAUSAR ACCIÓN DE MODIFICADO
+    if (botonEdicionFoto === "Guardar") {
+      setBotonEdicionFoto("Editar");
+      // MANDAR TIPO OPERACION 2
     }
   };
 
-  const onClickEditarApellidoPaterno = () => {
-    setBotonEdicionApellidoPaterno("Guardar");
-    if (botonEdicionApellidoPaterno === "Guardar") {
-      setBotonEdicionApellidoPaterno("Editar");
-    }
-  };
-
-  const onClickEditarApellidoMaterno = () => {
-    setBotonEdicionApellidoMaterno("Guardar");
-    if (botonEdicionApellidoMaterno === "Guardar") {
-      setBotonEdicionApellidoMaterno("Editar");
-    }
-  };
-
-  //SEGUNDA CARD FUNCIONES
-  const onClickEditarCorreoElecYTelefono = () => {
-    setBotonEdicionCorreoElecYTelefono("Guardar");
-    if (botonEdicionCorreoElecYTelefono === "Guardar") {
-      setBotonEdicionCorreoElecYTelefono("Editar");
-    }
-  };
-
-  const onClickEditarUbicacionYPuesto = () => {
-    setBotonEdicionubicacionYPuesto("Guardar");
-    if (botonEdicionubicacionYPuesto === "Guardar") {
-      setBotonEdicionubicacionYPuesto("Editar");
-    }
-  };
-
-  const onClickEditarDepartamento = () => {
-    setBotonEdicionDepartamento("Guardar");
-    if (botonEdicionDepartamento === "Guardar") {
-      setBotonEdicionDepartamento("Editar");
+  const onClickEditarTodo = () => {
+    setBotonEdicionTodo("Guardar");
+    if (botonEdicionTodo === "Guardar") {
+      setBotonEdicionTodo("Editar");
     }
   };
 
   let st;
 
-  useEffect(() => {
-    //SE AGREGAN LOS MENUS EN BLANCO PARA QUE NO SE AUTOSELECCIONEN
-    //setBorderBottomColorMenu2("white");
-    //Llamar al componente que iria en menu 1 para que lo precargué
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Box
@@ -233,11 +197,20 @@ export const Perfil = () => {
                         // backgroundColor: "violet",
                       }}
                     >
-                      <Avatar
-                        alt={nombre}
-                        src="/static/images/avatar/1.jpg"
-                        sx={{ width: "3vw", height: "5vh" }}
-                      />
+                      {user.RutaFoto ? (
+                        <img
+                          style={{ width: "3vw", height: "7vh" }}
+                          src={user.RutaFoto}
+                        />
+                      ) : (
+                        <PersonIcon
+                          sx={{
+                            width: "3vw",
+                            height: "7vh",
+                            border: 1,
+                          }}
+                        />
+                      )}
                     </Grid>
                     <Grid
                       item //Botón Cambiar
@@ -250,11 +223,12 @@ export const Perfil = () => {
                       }}
                     >
                       <Button
+                        onClick={onClickEditarFoto}
                         sx={{
                           width: "2vw",
                           height: "3vh",
                           backgroundColor: "white",
-                          borderColor: borderBottomColorMenu2,
+                          borderColor: "#5048E7",
                           borderRadius: 1,
                           color: "#5048E5",
                           "&:hover": {
@@ -263,7 +237,9 @@ export const Perfil = () => {
                           },
                         }}
                       >
-                        <Typography sx={{ fontSize: "3" }}>Cambiar</Typography>
+                        <Typography sx={{ fontSize: "3" }}>
+                          {botonEdicionFoto}
+                        </Typography>
                       </Button>
                     </Grid>
                     <Grid
@@ -278,7 +254,9 @@ export const Perfil = () => {
                       }}
                     >
                       <Typography sx={{ fontWeight: "Bold" }}>
-                        Tipo de usuario: {tipo}
+                        Tipo de usuario: {tipo
+                        //VER COMO TRAER EL ROL DEL USUARIO!!!
+                        }
                       </Typography>
                     </Grid>
                   </Grid>
@@ -301,7 +279,7 @@ export const Perfil = () => {
                     }}
                   >
                     <TextField
-                      disabled={botonEdicionNombre === "Editar" ? true : false}
+                      disabled={botonEdicionTodo === "Editar" ? true : false}
                       required
                       margin="dense"
                       id="Nombre"
@@ -314,7 +292,7 @@ export const Perfil = () => {
                       error={nombre == "" ? true : false}
                     />
                     <TextField
-                      disabled={botonEdicionApellidoPaterno === "Editar" ? true : false}
+                      disabled={botonEdicionTodo === "Editar" ? true : false}
                       required
                       margin="dense"
                       id="ApellidoPaterno"
@@ -327,7 +305,7 @@ export const Perfil = () => {
                       error={apellidoPaterno == "" ? true : false}
                     />
                     <TextField
-                      disabled={botonEdicionApellidoMaterno === "Editar" ? true : false}
+                      disabled={botonEdicionTodo === "Editar" ? true : false}
                       required
                       margin="dense"
                       id="ApellidoMaterno"
@@ -350,102 +328,17 @@ export const Perfil = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Grid container>
-                      <Grid
-                        item
-                        xs={12}
-                        sx={{
-                          height: "5.3vh",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          mt:0.3,
-                          mb:2.3,
-                          // backgroundColor: "blue",
-                        }}
-                      >
-                        <Button
-                          onClick={onClickEditarNombre}
-                          sx={{
-                            width: "2vw",
-                            height: "2.5vh",
-                            backgroundColor: "white",
-                            borderColor: borderBottomColorMenu2,
-                            borderRadius: 1,
-                            color: "#5048E5",
-                            mt: 1,
-                            "&:hover": {
-                              color: "#5048E5",
-                              backgroundColor: "#eeebf5",
-                            },
-                          }}
-                        >
-                          {botonEdicionNombre}
-                        </Button>
-                      </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        sx={{
-                          height: "4.8vh",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          mb:2.3
-                          //  backgroundColor: "yellow",
-                        }}
-                      >
-                        <Button
-                        onClick={onClickEditarApellidoPaterno}
-                          sx={{
-                            width: "2vw",
-                            height: "2.5vh",
-                            backgroundColor: "white",
-                            borderColor: borderBottomColorMenu2,
-                            borderRadius: 1,
-                            color: "#5048E5",
-                            mt: 1,
-                            "&:hover": {
-                              color: "#5048E5",
-                              backgroundColor: "#eeebf5",
-                            },
-                          }}
-                        >
-                          {botonEdicionApellidoPaterno}
-                        </Button>
-                      </Grid>
-                      
-                      <Grid
-                        item
-                        xs={12}
-                        sx={{
-                          height: "5vh",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          // backgroundColor: "blue",
-                        }}
-                      >
-                        <Button
-                          onClick={onClickEditarApellidoMaterno}
-                          sx={{
-                            width: "2vw",
-                            height: "2.5vh",
-                            backgroundColor: "white",
-                            borderColor: borderBottomColorMenu2,
-                            borderRadius: 1,
-                            color: "#5048E5",
-                            mt: 1,
-                            "&:hover": {
-                              color: "#5048E5",
-                              backgroundColor: "#eeebf5",
-                            },
-                          }}
-                        >
-                          {botonEdicionApellidoMaterno}
-                        </Button>
-                      </Grid>
-                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      sx={{
+                        height: "5vh",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        // backgroundColor: "blue",
+                      }}
+                    ></Grid>
                   </Box>
                 </Box>
               </Box>
@@ -526,7 +419,7 @@ export const Perfil = () => {
                       }}
                     >
                       <TextField
-                      disabled={botonEdicionCorreoElecYTelefono === "Editar" ? true : false}
+                        disabled={botonEdicionTodo === "Editar" ? true : false}
                         required
                         margin="dense"
                         id="CorreoElectronico"
@@ -556,7 +449,7 @@ export const Perfil = () => {
                       }}
                     >
                       <TextField
-                      disabled={botonEdicionCorreoElecYTelefono === "Editar" ? true : false}
+                        disabled={botonEdicionTodo === "Editar" ? true : false}
                         required
                         margin="dense"
                         id="Telefono"
@@ -577,7 +470,7 @@ export const Perfil = () => {
                       height: "25%",
                       display: "flex",
                       flexDirection: "row",
-                      // backgrounColor:"blue"
+                      // backgrounColor:"blue",
                       mb: 1,
                     }}
                   >
@@ -586,11 +479,11 @@ export const Perfil = () => {
                         //Textfields ubicacion
                         width: "48%",
                         height: "100%",
-                        backgroundColor: "white",
+                        //  backgroundColor: "white",
                       }}
                     >
                       <TextField
-                        disabled={botonEdicionubicacionYPuesto === "Editar" ? true : false}
+                        disabled={botonEdicionTodo === "Editar" ? true : false}
                         required
                         margin="dense"
                         id="Ubicacion"
@@ -620,7 +513,7 @@ export const Perfil = () => {
                       }}
                     >
                       <TextField
-                        disabled={botonEdicionubicacionYPuesto === "Editar" ? true : false}
+                        disabled={botonEdicionTodo === "Editar" ? true : false}
                         required
                         margin="dense"
                         id="Puesto"
@@ -653,7 +546,7 @@ export const Perfil = () => {
                       }}
                     >
                       <TextField
-                      disabled={botonEdicionDepartamento === "Editar" ? true : false}
+                        disabled={botonEdicionTodo === "Editar" ? true : false}
                         required
                         margin="dense"
                         id="Departamento"
@@ -667,115 +560,36 @@ export const Perfil = () => {
                       />
                     </Box>
                   </Box>
+                  <Box sx={{
+                  width:"100%",
+                  height:"13%",
+                //  backgroundColor:"red",
+                  display:"flex",
+                  justifyContent:"center",
+                  alignItems:"end"
+                }}>
+                  <Button
+                  onClick={onClickEditarTodo}
+                  sx={{
+                    width: "2vw",
+                    height: "3vh",
+                    backgroundColor: "white",
+                    borderColor: "#5048E7",
+                    borderRadius: 1,
+                    color: "#5048E5",
+                    "&:hover": {
+                      color: "#5048E5",
+                      backgroundColor: "#eeebf5",
+                    },
+                  }}
+                  > <Typography sx={{ fontSize: "3" }}>
+                  {botonEdicionTodo}
+                </Typography></Button>
+                </Box>
                 </Box>
 
-                <Box
-                  sx={{
-                    //Buttons Card 2
-                    width: "10%",
-                    height: "100%",
-                    //  backgroundColor: "orange",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Grid container>
-                    <Grid
-                      item
-                      xs={12}
-                      sx={{
-                        height: "6.2vh",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        mb:2,
-                        mt:0.3,
-                        //  backgroundColor: "blue",
-                      }}
-                    >
-                      <Button
-                      onClick={onClickEditarCorreoElecYTelefono}
-                        sx={{
-                          width: "2vw",
-                          height: "2.5vh",
-                          backgroundColor: "white",
-                          borderColor: borderBottomColorMenu2,
-                          borderRadius: 1,
-                          color: "#5048E5",
-                          mt: 1,
-                          "&:hover": {
-                            color: "#5048E5",
-                            backgroundColor: "#eeebf5",
-                          },
-                        }}
-                      >
-                        {botonEdicionCorreoElecYTelefono}
-                      </Button>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      sx={{
-                        height: "6.2vh",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        mb:2
-                        // backgroundColor: "yellow",
-                      }}
-                    >
-                      <Button
-                      onClick={onClickEditarUbicacionYPuesto}
-                        sx={{
-                          width: "2vw",
-                          height: "2.5vh",
-                          backgroundColor: "white",
-                          borderColor: borderBottomColorMenu2,
-                          borderRadius: 1,
-                          color: "#5048E5",
-                          mt: 1,
-                          "&:hover": {
-                            color: "#5048E5",
-                            backgroundColor: "#eeebf5",
-                          },
-                        }}
-                      >
-                        {botonEdicionubicacionYPuesto}
-                      </Button>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      sx={{
-                        height: "6.2vh",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        // backgroundColor: "blue",
-                      }}
-                    >
-                      <Button
-                      onClick={onClickEditarDepartamento}
-                        sx={{
-                          width: "2vw",
-                          height: "2.5vh",
-                          backgroundColor: "white",
-                          borderColor: borderBottomColorMenu2,
-                          borderRadius: 1,
-                          color: "#5048E5",
-                          mt: 1,
-                          "&:hover": {
-                            color: "#5048E5",
-                            backgroundColor: "#eeebf5",
-                          },
-                        }}
-                      >
-                        {botonEdicionDepartamento}
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Box>
+                
+               
               </Box>
             </Box>
           </Box>
