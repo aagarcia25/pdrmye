@@ -27,34 +27,37 @@ export const Art14f = () => {
 
   const columnsArticulo14f1: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   ,hide: true},
-    { field: "Municipio", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
-    
-    { field: "Facturacion", headerName: "Facturación", width: 150 ,description:"BGt-2",...Moneda},
-    { field: "Recaudacion", headerName: "Recaudación", width: 150 ,description:"RPt-1",...Moneda},
-    { field: "Proporcion", headerName: "Proporcion De Recaudación", width: 200 ,description:"P=RP/BG" },
-    { field: "Ponderado", headerName: "Recaudación Ponderado Por Eficiencia", width: 280 ,description:"ER=P*RP" ,...Moneda},
-    { field: "Coeficiente", headerName: "Coeficiente Efectividad Rec Predial", width: 250  ,description:"CER= ER/∑ER"},
+    { field: "Nombre", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
+    { field: "Facturacion1", headerName: "Facturación", width: 150 ,description:"BGt-2",...Moneda},
+    { field: "Recaudacion1", headerName: "Recaudación", width: 150 ,description:"RPt-1",...Moneda},
+    { field: "ProporcionRecaudacion", headerName: "Proporcion De Recaudación", width: 200 ,description:"P=RP/BG" },
+    { field: "RecaudacionPonderada", headerName: "Recaudación Ponderado Por Eficiencia", width: 280 ,description:"ER=P*RP" ,...Moneda},
+    { field: "CoeficienteEfectividadReca", headerName: "Coeficiente Efectividad Rec Predial", width: 250  ,description:"CER= ER/∑ER"},
     { field: "Poblacion", headerName: "Población", width: 150  ,description:"PO"},
-    { field: "EstructuraP", headerName: "Estructura  %", width: 150  ,description:"POi/∑POi"},
-    { field: "EstructuraP85", headerName: "85%", width: 150  ,description:"0.85(PO/∑PO)" },
-    { field: "Km", headerName: "Territorio (Km2)", width: 150  ,description:"TE"},
-    { field: "EstructuraT", headerName: "Estructura %", width: 150  ,description:"TEi/∑TEi "},
-    { field: "EstructuraT15", headerName: "15%", width: 150  ,description:"0.15(TE/∑TE)"},
-    { field: "Coeficientecpt", headerName: "Coeficiente  Población Y Territorio", width: 250 ,description:"CEPT=0.85(PO/∑PO)+0.15(TE/∑TE)" },
-    
-    { field: "a", headerName: "Población en Pobreza del Municipio i", width: 300 ,description:"PP2i" },
-    { field: "b", headerName: "Población en Pobreza del Municipio i", width: 300  ,description:"PP1i"},
-    { field: "c", headerName: "Incidencia de la pobreza en el Municipio i ", width: 300 ,description:"ICPi" },
-    { field: "d", headerName: "Carencias promedio en situación de pobreza 2020", width: 350 ,description:"CPP1i" },
-    { field: "e", headerName: "Intensidad de la pobreza en el Municipio i", width: 300  ,description:"IPi =CPP1i*ICPi"},
-    { field: "f", headerName: "Coeficiente Intensidad de la pobreza en el Municipio i", width: 350 ,description:"IPi/∑IPi" },
-    { field: "g", headerName: "Coeficiente Intensidad de la pobreza en el Municipio i 85%", width: 350  ,description:"80% * IPi/∑IPi"},
-    { field: "h", headerName: "Eficacia en la disminución de la pobreza del Municipio i", width: 350 ,description:"EPi =PP2i/PP1i" },
-    { field: "i", headerName: "Coeficiente de Eficacia en disminución de la pobreza del Municipio i", width: 300  ,description:"EPi/∑EPi"},
-    { field: "j", headerName: "15% Coeficiente de Eficacia", width: 200  ,description:"20% EPi/∑EPi"},
-    { field: "k", headerName: "Coeficiente  Índice Municipal De Pobreza", width: 300  ,description:"CIMP=0.85(CS2/∑CS2)+0.15(MS/∑MS)"},
+    { field: "EstructuraPoblacion1", headerName: "Estructura  %", width: 150  ,description:"POi/∑POi"},
+    { field: "EstructuraPoblacion2", headerName: "85%", width: 150  ,description:"0.85(PO/∑PO)" },
+    { field: "Territorio", headerName: "Territorio (Km2)", width: 150  ,description:"TE"},
+    { field: "EstructuraTerritorio1", headerName: "Estructura %", width: 150  ,description:"TEi/∑TEi "},
+    { field: "EstructuraTerritorio2", headerName: "15%", width: 150  ,description:"0.15(TE/∑TE)"},
+    { field: "CoeficienteTerritorio", headerName: "Coeficiente  Población Y Territorio", width: 250 ,description:"CEPT=0.85(PO/∑PO)+0.15(TE/∑TE)" },
+    { field: "Pobreza1", headerName: "Personas en Pobreza", width: 300 ,description:"PP2i" },
+    { field: "Pobreza2", headerName: "Personas en Pobreza", width: 300  ,description:"PP1i"},
+    { field: "Carencia1", headerName: "Carencias promedio en situación de pobreza", width: 350 ,description:"CPP1i" },
+    { field: "Incidencia", headerName: "Incidencia de la Pobreza", width: 300  ,description:"ICPi=(PP1i/∑PP1i)"},
+    { field: "Intensidad", headerName: "Intensidad de la Pobreza", width: 350 ,description:"IP=(ICPi*CPP!i)" },
+    { field: "ProporcionIntensidad", headerName: "Proporción de Intensidad de la Pobreza", width: 350  ,description:"IP/∑IP"},
+    { field: "DisPobreza", headerName: "Distribución del 85% por Pobreza", width: 350 ,description:"(0.85*IP/∑IP)(Monto)" },
+    { field: "MejoraPobreza", headerName: "Mejora en Pobreza Municipal", width: 300  ,description:"EP=PP2i/PP1i"},
+    { field: "ProporcionPobreza", headerName: "Proporción de la Eficacia en Pobreza", width: 200  ,description:"EP/∑EP"},
+    { field: "DisEficacia", headerName: "Distribución del 15 % por Eficacia de Pobreza", width: 300  ,description:"(0.15*(EP/∑EP)(Monto)"},
+    { field: "DisPobreza15", headerName: "Distribución por Indice de Pobreza", width: 300  ,description:"DIPi"},
+    { field: "CoeficientePobreza", headerName: "Coeficiente  Índice Municipal De Pobreza", width: 300  ,description:"CDPEi"},
+    { field: "A1_1", headerName: "Distribución por Efectividad Recaudacion Predial", width: 300  ,description:"CER*50%"},
+    { field: "A1_2", headerName: "Distribución por Poblacion y Territorio", width: 300  ,description:"CEPT*25%"},
+    { field: "A1_3", headerName: "Distribución por Índice de Pobreza", width: 300  ,description:"CIMP*25%"},
+    { field: "A1_4", headerName: "Monto OBS + Estim. de Participaciones", width: 300  ,description:"MAE1=(CEPT*25%)+(CIMP*25%)+(CER*50%)"},
+    { field: "A1_5_COF", headerName: "Coeficiente de Participación", width: 300  ,description:"CEP= MAE1/∑MAE1"},
 
-    
 
    
   ];
@@ -68,6 +71,19 @@ export const Art14f = () => {
     { field: "Coeficientepoblacion", headerName: "Coeficiente Población", width: 150 ,description:"POi/∑POi "},
     { field: "Proyeccion", headerName: "Proyección de Póblacion", width: 200 ,description:"PC" },
     { field: "Coeficienteproyeccion", headerName: "Coeficiente Proyeccion de Población", width: 280 ,description:"PC/∑PC" },
+
+    { field: "A2_1",     headerName: "Coeficiente de Participación", width: 280 ,description:"CEP= MAE1/∑MAE1" },
+    { field: "A2_2",     headerName: "Distribución por Población", width: 280 ,description:"PO*35%" },
+    { field: "A2_3",     headerName: "Distribución por Proyección de Población", width: 280 ,description:"PC*35%" },
+    { field: "A2_4",     headerName: "Distribución por Coeficiente", width: 280 ,description:"CEP*30%" },
+    { field: "A2_5",     headerName: "Monto Observado", width: 280 ,description:"MAE2=(PI*35%)+(PC*35%)+(CD*30%)" },
+    { field: "A2_6_COF", headerName: "Coeficiente de Participación", width: 280 ,description:"CEG=MAE2/∑MAE2" },
+
+
+
+
+
+
   ];
 
 
@@ -108,8 +124,9 @@ export const Art14f = () => {
   let params = useParams();
   useEffect(() => {
     loaddata(Number(params.tipo),String(params.id));
-
   }, [params.tipo,params.id]);
+
+
 
   return (
     

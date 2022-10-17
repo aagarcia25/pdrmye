@@ -26,6 +26,12 @@ export default function MUIXDataGrid(props: any) {
             LoadingOverlay: LinearProgress,
             NoRowsOverlay: CustomNoRowsOverlay,
           }}
+          componentsProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
         />
       </ThemeProvider>
     </div>

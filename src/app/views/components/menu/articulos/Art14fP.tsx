@@ -13,52 +13,31 @@ import {
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import AutoModeIcon from "@mui/icons-material/AutoMode";
-import Swal from "sweetalert2";
 import Slider from "../../Slider";
 import { RESPONSE } from "../../../../interfaces/user/UserInfo";
+import Art14m from "./Art14m";
 
 export const Art14fP = () => {
   const navigate = useNavigate();
+  const [step, setstep] = useState(0);
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [data, setData] = useState([]);
   const [tipo, setTipo] = useState<Number>(0);
 
 
-
+  const handleBack = (v: any) => {
+    loaddata(tipo);
+    setstep(0);
+  };
 
   const handleView = (v: any) => {
     navigate(`/inicio/articulos/art14d/${tipo}/${v.row.id}`);
   };
 
   const handleVersion = () => {
-    console.log("Se generara una nueva version del calculo");
-    let data = {
-      CLAVE: tipo,
-      CHUSER: user.id,
-      P_ANIO: 2022,
-      P_IMPORTE: 12,
-      
-    };
-
-    Swal.fire({
-      icon: 'info',
-      title: "Se Generar una nueva versión del Articulo ",
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: "Aceptar",
-    }).then((result) => {
-
-      if (result.isConfirmed) {
-        setslideropen(true);
-        ArticulosServices.generarVersion(data).then((res) => {
-          console.log(res);
-          loaddata(tipo);
-          setslideropen(false);
-        });
-      }
-    });
-  };
+    setstep(1);
+  }
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
@@ -111,9 +90,9 @@ export const Art14fP = () => {
   return (
     <>
      <Slider open={slideropen} ></Slider>
-      <Box sx={{
-       
-      }}>
+    
+     <Box sx={{ display: step == 0 ? "block" : "none" }}>
+      <Box >
         <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
           <Tooltip title="Generar Nueva Versión">
             <ToggleButton value="check" onClick={() => handleVersion()}>
@@ -125,6 +104,14 @@ export const Art14fP = () => {
       <div style={{ height: 600, width: "100%" }}>
         <MUIXDataGrid columns={columns} rows={data} />
       </div>
+      </Box>
+      <Box sx={{ display: step == 1 ? "block" : "none" }}>
+       <Art14m titulo={
+       tipo == 1 ? "Articulo 14 F I" : ( tipo == 2 ? "Articulo 14 F II" : ( tipo == 3 ? "Articulo 14 F III" :"")  )
+       } onClickBack={handleBack} tipo={tipo}></Art14m>
+      </Box>
+
+
     </>
   );
 };
