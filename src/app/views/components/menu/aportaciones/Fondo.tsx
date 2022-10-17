@@ -27,6 +27,7 @@ export const Fondo = () => {
 
   const [fondo, setFondo] = useState("");
   const [clave, setClave] = useState("");
+  const [estatus, setEstatus] = useState("");
   const [nombreFondo, setNombreFondo] = useState("");
   const [modo, setModo] = useState<string>("");
   const [anio, setAnio] = useState<number>(0);
@@ -43,6 +44,10 @@ export const Fondo = () => {
   const handleTraz = (v: any) => {
     setIdtrazabilidad(v.row.id);
     setOpenTrazabilidad(true);
+  }
+    const handleTras = (v: string) => {
+      setIdtrazabilidad(v);
+      setOpenTrazabilidad(true);
   };
   const handleOpen = (v: any) => {
     setModo("calculo");
@@ -52,6 +57,8 @@ export const Fondo = () => {
     consulta({ FONDO: fondo });
     setstep(0);
     setOpenDetalles(false);
+    setOpenTrazabilidad(false);
+
   };
   const handleDetalle = (v: any) => {    
  
@@ -62,6 +69,7 @@ export const Fondo = () => {
     setstep(2);
     setOpenDetalles(true);
     setAnio(Number(v.row.Anio));
+    setEstatus(v.row.estatus);
 
 
   };
@@ -229,15 +237,16 @@ export const Fondo = () => {
 
       {openDetalles ?
         <DetalleFondo
-        openDetalles={openDetalles}
+          openDetalles={openDetalles}
           nombreFondo={nombreFondo}
           idDetalle={idDetalle}
           handleClose={handleClose}
-          clave={clave}          
+          handleTras={handleTras}
+          clave={clave}
           anio={anio}
           mes={mes}
           fondo={fondo}
-        />
+           estatus={estatus}        />
         : ""}
 
     </>

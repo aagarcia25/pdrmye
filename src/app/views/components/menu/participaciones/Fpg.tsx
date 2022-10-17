@@ -32,17 +32,11 @@ export const Fpg = () => {
   const [idtrazabilidad, setIdtrazabilidad] = useState("");
   const [openDetalles, setOpenDetalles] = useState(false);
   const [clave, setClave] = useState("");
+  const [estatus, setEstatus] = useState("");
+
   const [nombreFondo, setNombreFondo] = useState("");
   const [idDetalle, setIdDetalle] = useState("");
 
-  ///////////////////////////////////
-
-  const [autorizar, setAutorizar] = useState<boolean>(false);
-  const [cancelar, setCancelar] = useState<boolean>(false);
-  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-  const [enviar, setEnviar] = useState<boolean>(false);
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  ///////////////////////////////////////
   const closeTraz = (v: any) => {
     setOpenTrazabilidad(false);
   };
@@ -50,6 +44,11 @@ export const Fpg = () => {
     setIdtrazabilidad(v.row.id);
     setOpenTrazabilidad(true);
   };
+
+  const handleTras = (v: string) => {
+    setIdtrazabilidad(v);
+    setOpenTrazabilidad(true);
+};
 
   const handleOpen = (v: any) => {
     setModo("calculo");
@@ -77,6 +76,8 @@ export const Fpg = () => {
     setstep(2);
     setOpenDetalles(true);
     setAnio(Number(v.row.Anio));
+    setEstatus(v.row.estatus);
+
   };
 
   const columns: GridColDef[] = [
@@ -240,7 +241,8 @@ export const Fpg = () => {
               anio={anio}
               mes={mes}
               fondo={fondo}
-            />
+              estatus={estatus}
+              handleTras={handleTras}            />
             : ""}
         </div>
       </Box>

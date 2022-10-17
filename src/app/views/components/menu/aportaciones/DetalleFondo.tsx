@@ -20,8 +20,10 @@ const DetalleFondo = ({
   nombreFondo,
   handleClose,
   clave,
+  estatus,
   anio,
   mes,
+  handleTras,
   fondo
 
 }: {
@@ -30,8 +32,10 @@ const DetalleFondo = ({
   nombreFondo: String;
   handleClose: Function;
   clave: string;
+  estatus: string;
   anio: number;
   mes: string;
+  handleTras: Function;
   fondo: string;
 
 }) => {
@@ -262,36 +266,37 @@ const DetalleFondo = ({
   ];
 
   useEffect(() => {
-    
-    permisos.map((item: PERMISO) => {
-   
-      console.log("fondo  " + clave);
-      if (String(item.ControlInterno) === String(clave)) {
-        console.log(clave + "  " + "  "+item.Permiso)
 
-        if (String(item.Permiso) == "Autorizar") {
+    permisos.map((item: PERMISO) => {
+
+      console.log("fondo  " + clave + "  estatus " + estatus);
+
+      if (String(item.ControlInterno) === String(clave)) {
+        console.log(clave + "  " + "  " + item.Permiso)
+
+        if (String(item.Permiso) == "Autorizar" && estatus != "CERRADO") {
           setAutorizar(true);
-          console.log("autoriza  "+autorizar);
+          console.log("autoriza  " + autorizar);
         }
 
-        if (String(item.Permiso) == "Cancelar") {
+        if (String(item.Permiso) == "Cancelar" && estatus != "CERRADO") {
           setCancelar(true);
-          console.log("cancela  "+cancelar);
+          console.log("cancela  " + cancelar);
         }
 
         if (String(item.Permiso) == "Ver Trazabilidad") {
-          setVerTrazabilidad(true);    
-          console.log("ver trazabilidad  "+verTrazabilidad);      
-        } 
+          setVerTrazabilidad(true);
+          console.log("ver trazabilidad  " + verTrazabilidad);
+        }
 
-        if (String(item.Permiso) == "Enviar") {
+        if (String(item.Permiso) == "Enviar" && estatus != "CERRADO") {
           setEnviar(true);
-          console.log("enviar  "+enviar );
+          console.log("enviar  " + enviar);
         }
       }
 
 
-       
+
     });
 
 
@@ -340,7 +345,16 @@ const DetalleFondo = ({
             sx={{ justifyContent: "center", width: '100%' }} >
 
             <Grid item xs={7} md={8} lg={8} sx={{ justifyContent: "center", width: '100%' }}>
-              <BotonesOpciones handleAccion={handleClose} autorizar={autorizar} cancelar={cancelar} verTrazabilidad={verTrazabilidad} enviar={enviar} />
+              <BotonesOpciones
+                handleAccion={handleClose}
+                autorizar={autorizar}
+                cancelar={cancelar}
+                verTrazabilidad={verTrazabilidad}
+                enviar={enviar}
+                handleTras={handleTras}
+                idDetalle={String(idDetalle)}
+                
+                />
 
               <MUIXDataGrid columns={columns} rows={data} />
 

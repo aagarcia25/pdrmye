@@ -14,7 +14,9 @@ const BotonesOpciones = ({
     autorizar,
     cancelar,
     verTrazabilidad,
-    enviar
+    enviar,
+    handleTras,
+    idDetalle
 
 }: {
     handleAccion: Function;
@@ -22,6 +24,8 @@ const BotonesOpciones = ({
     cancelar: boolean;
     verTrazabilidad: boolean;
     enviar: boolean;
+    handleTras:Function;
+    idDetalle:string;
 
 
 
@@ -66,7 +70,8 @@ const BotonesOpciones = ({
                     {(verTrazabilidad) ?
 
                         <Tooltip title="Ver Trazabilidad">
-                            <ToggleButton value="check" onClick={() => handleAccion(5)}>
+                            <ToggleButton value="check" onClick={() => handleTras(String(idDetalle))}>
+                              
                                 <InsightsIcon />
                             </ToggleButton>
                         </Tooltip>

@@ -24,11 +24,21 @@ const DetalleFgp = () => {
   const [fondo, setFondo] = useState("");
   ////////////////////////
 
+  const handleTras = (v: string) => {
+    setIdtrazabilidad(v);
+    setOpenTrazabilidad(true);
+};
+
+
   const [autorizar, setAutorizar] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [enviar, setEnviar] = useState<boolean>(false);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
+
+  const [idtrazabilidad, setIdtrazabilidad] = useState("");
+
 
   //////////////////
   const [openSlider, setOpenSlider] = useState(false);
@@ -43,6 +53,11 @@ const DetalleFgp = () => {
   const [cf, setCf] = useState(false);
   const [ae, setAe] = useState(false);
   const [af, setAf] = useState(false);
+
+  const handleTraz = (v: any) => {
+    setIdtrazabilidad(v.row.id);
+    setOpenTrazabilidad(true);
+  };
 
 
   const handleAccion = (v: any) => {
@@ -273,7 +288,14 @@ const DetalleFgp = () => {
       <Box>
         <Slider open={openSlider}></Slider>
 
-        <BotonesOpciones handleAccion={handleAccion} autorizar={autorizar} cancelar={cancelar} verTrazabilidad={verTrazabilidad} enviar={enviar} />
+        <BotonesOpciones 
+          handleAccion={handleAccion}
+          autorizar={autorizar}
+          cancelar={cancelar}
+          verTrazabilidad={verTrazabilidad}
+          enviar={enviar}
+          handleTras={handleTras} 
+          idDetalle={""} />
 
         <MUIXDataGrid columns={columns} rows={data} />
       </Box>
