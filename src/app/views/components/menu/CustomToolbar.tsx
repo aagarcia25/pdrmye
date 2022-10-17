@@ -7,7 +7,7 @@ export function CustomToolbar() {
         <GridToolbarFilterButton />
         <GridToolbarDensitySelector />
         <GridToolbarExport />
-        <GridToolbar/>
+      
       </GridToolbarContainer>
     );
   }

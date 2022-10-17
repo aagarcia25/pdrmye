@@ -107,6 +107,12 @@ export const Fondo = () => {
       description: "Total",
       ...Moneda,
     },
+    {
+      field: "estatus",
+      headerName: "Estatus",
+      width: 200,
+      description: "Estatus",
+    },
 
     {
       field: "acciones",
