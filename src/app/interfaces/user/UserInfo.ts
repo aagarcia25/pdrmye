@@ -10,7 +10,7 @@
     }
 
     export interface PERMISO {
-        Menu: string;
+        ControlInterno: string;
         Permiso: string;
     }
 

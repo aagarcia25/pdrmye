@@ -15,6 +15,9 @@ import MUIXDataGrid from "../../MUIXDataGrid";
 import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
 import Trazabilidad from "../../Trazabilidad";
 import Slider from "../../Slider";
+import { PERMISO } from "../../../../interfaces/user/UserInfo";
+import { getPermisos } from "../../../../services/localStorage";
+import DetalleFondo from "../aportaciones/DetalleFondo";
 
 export const Fpg = () => {
   const navigate = useNavigate();
@@ -23,12 +26,23 @@ export const Fpg = () => {
   const [step, setstep] = useState(0);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [fondo, setFondo] = useState("");
-  const [nombreFondo, setNombreFondo] = useState("");
   const [modo, setModo] = useState<string>("");
   const [anio, setAnio] = useState<number>(0);
   const [mes, setMes] = useState<string>("");
   const [idtrazabilidad, setIdtrazabilidad] = useState("");
+  const [openDetalles, setOpenDetalles] = useState(false);
+  const [clave, setClave] = useState("");
+  const [nombreFondo, setNombreFondo] = useState("");
+  const [idDetalle, setIdDetalle] = useState("");
 
+  ///////////////////////////////////
+
+  const [autorizar, setAutorizar] = useState<boolean>(false);
+  const [cancelar, setCancelar] = useState<boolean>(false);
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+  const [enviar, setEnviar] = useState<boolean>(false);
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  ///////////////////////////////////////
   const closeTraz = (v: any) => {
     setOpenTrazabilidad(false);
   };
@@ -45,6 +59,7 @@ export const Fpg = () => {
   const handleClose = (v: any) => {
     consulta({ FONDO: fondo });
     setstep(0);
+    setOpenDetalles(false);
   };
 
   const handleAjuste = (v: any) => {
@@ -55,7 +70,13 @@ export const Fpg = () => {
   };
 
   const handleView = (v: any) => {
-    navigate(`/inicio/participaciones/${fondo}/${v.row.id}`);
+
+    setClave(v.row.Clave)
+    setIdDetalle(String(v.row.id));
+    setMes(v.row.Mes);
+    setstep(2);
+    setOpenDetalles(true);
+    setAnio(Number(v.row.Anio));
   };
 
   const columns: GridColDef[] = [
@@ -171,6 +192,9 @@ export const Fpg = () => {
   let params = useParams();
 
   useEffect(() => {
+
+
+
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
   }, [params.fondo]);
@@ -205,6 +229,19 @@ export const Fpg = () => {
             anio={anio}
             mes={mes}
           />
+
+          {openDetalles ?
+            <DetalleFondo
+              openDetalles={openDetalles}
+              nombreFondo={nombreFondo}
+              idDetalle={idDetalle}
+              handleClose={handleClose}
+              clave={clave}
+              anio={anio}
+              mes={mes}
+              fondo={fondo}
+            />
+            : ""}
         </div>
       </Box>
     </>

@@ -12,17 +12,25 @@ import MUIXDataGrid from "../../MUIXDataGrid";
 import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
 import Slider from "../../Slider";
 
-import DoneAllIcon from '@mui/icons-material/DoneAll';
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SendIcon from '@mui/icons-material/Send';
-import InsightsIcon from '@mui/icons-material/Insights';
-import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
+
+import { getMenus, getPermisos } from "../../../../services/localStorage";
+import { PERMISO } from "../../../../interfaces/user/UserInfo";
+import BotonesOpciones from "../../componentes/BotonesOpciones";
 
 
 const DetalleFgp = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [fondo, setFondo] = useState("");
+  ////////////////////////
+
+  const [autorizar, setAutorizar] = useState<boolean>(false);
+  const [cancelar, setCancelar] = useState<boolean>(false);
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+  const [enviar, setEnviar] = useState<boolean>(false);
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+
+  //////////////////
   const [openSlider, setOpenSlider] = useState(false);
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
@@ -36,8 +44,20 @@ const DetalleFgp = () => {
   const [ae, setAe] = useState(false);
   const [af, setAf] = useState(false);
 
-  const handleBack = (v: any) => {
-    navigate(`/inicio/participaciones/${fondo}`);
+
+  const handleAccion = (v: any) => {
+
+    if (v == 1) {
+      navigate(`/inicio/participaciones/${fondo}`);
+    } else
+      if (v == 2) {
+      }
+    if (v == 3) {
+    }
+    if (v == 4) {
+    }
+    if (v == 5) {
+    }
   };
 
   const columnas = (data: any) => {
@@ -240,6 +260,7 @@ const DetalleFgp = () => {
 
   let params = useParams();
   useEffect(() => {
+
     setFondo(String(params.fondo));
     setTimeout(() => {
       columnas({ IDCALCULOTOTAL: params.id });
@@ -251,35 +272,9 @@ const DetalleFgp = () => {
     <div>
       <Box>
         <Slider open={openSlider}></Slider>
-        <Box sx={{}}>
-          <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-            <Tooltip title="Regresar">
-              <ToggleButton value="check" onClick={() => handleBack(1)}>
-                <ArrowBackIcon />
-              </ToggleButton>
-            </Tooltip>
-            <Tooltip title="Autorizar">
-              <ToggleButton value="check" onClick={() => handleBack(1)}>
-                <DoneAllIcon />
-              </ToggleButton>
-            </Tooltip>
-            <Tooltip title="Cancelar">
-              <ToggleButton value="check" onClick={() => handleBack(1)}>
-                <CancelPresentationIcon />
-              </ToggleButton>
-            </Tooltip>
-            <Tooltip title="Enviar">
-              <ToggleButton value="check" onClick={() => handleBack(1)}>
-                <SendIcon />
-              </ToggleButton>
-            </Tooltip>
-            <Tooltip title="Ver Trazabilidad">
-              <ToggleButton value="check" onClick={() => handleBack(1)}>
-                <InsightsIcon />
-              </ToggleButton>
-            </Tooltip>
-          </ToggleButtonGroup>
-        </Box>
+
+        <BotonesOpciones handleAccion={handleAccion} autorizar={autorizar} cancelar={cancelar} verTrazabilidad={verTrazabilidad} enviar={enviar} />
+
         <MUIXDataGrid columns={columns} rows={data} />
       </Box>
     </div>

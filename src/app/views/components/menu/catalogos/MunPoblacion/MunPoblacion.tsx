@@ -227,9 +227,9 @@ export const MunPoblacion = () => {
 
 
     permisos.map((item: PERMISO) => {
-      console.log(item.Menu + ' --' + item.Permiso);
+      console.log(item.ControlInterno + ' --' + item.Permiso);
 
-      if (item.Menu == 'munpob') {
+      if (item.ControlInterno == 'MUNPOB') {
         if (item.Permiso == 'Editar') {
           setUpdate(true);
         }

@@ -1,28 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
+import { Box, Dialog, Grid } from "@mui/material";
 import { Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
 import { Alert } from "../../../../helpers/Alert";
 import { calculosServices } from "../../../../services/calculosServices";
-import ButtonsBack from "../catalogos/Utilerias/ButtonsBack";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
 import Slider from "../../Slider";
-
-import DoneAllIcon from '@mui/icons-material/DoneAll';
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SendIcon from '@mui/icons-material/Send';
-import InsightsIcon from '@mui/icons-material/Insights';
-import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
+import BotonesOpciones from "../../componentes/BotonesOpciones";
+import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
+import { PERMISO } from "../../../../interfaces/user/UserInfo";
+import { getPermisos } from "../../../../services/localStorage";
 
 
-const DetalleFondo = () => {
+const DetalleFondo = ({
+  openDetalles,
+  idDetalle,
+  nombreFondo,
+  handleClose,
+  clave,
+  anio,
+  mes,
+  fondo
+
+}: {
+  openDetalles: Boolean;
+  idDetalle: String;
+  nombreFondo: String;
+  handleClose: Function;
+  clave: string;
+  anio: number;
+  mes: string;
+  fondo: string;
+
+}) => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [fondo, setFondo] = useState("");
+
   const [openSlider, setOpenSlider] = useState(false);
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
@@ -36,9 +51,16 @@ const DetalleFondo = () => {
   const [ae, setAe] = useState(false);
   const [af, setAf] = useState(false);
 
-  const handleBack = (v: any) => {
-    navigate(`/inicio/aportaciones/${fondo}`);
-  };
+  const [slideropen, setslideropen] = useState(false);
+
+
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [autorizar, setAutorizar] = useState<boolean>(false);
+  const [cancelar, setCancelar] = useState<boolean>(false);
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+  const [enviar, setEnviar] = useState<boolean>(false);
+
+
 
   const columnas = (data: any) => {
     setOpenSlider(true);
@@ -46,7 +68,7 @@ const DetalleFondo = () => {
       if (res.SUCCESS) {
         const cl: columnasCal[] = res.RESPONSE;
         cl.map((item) => {
-          console.log("items key  "+item.keys);
+          console.log("items key  " + item.keys);
           switch (item.keys) {
             case 0:
               break;
@@ -99,6 +121,7 @@ const DetalleFondo = () => {
     });
   };
 
+
   const consulta = (data: any) => {
     setOpenSlider(true);
     calculosServices.calculosInfodetalle(data).then((res) => {
@@ -131,7 +154,7 @@ const DetalleFondo = () => {
     {
       field: "Nombre",
       headerName: "Municipio",
-      width: 150,
+      width: 200,
       description: "Nombre del Municipio",
     },
     {
@@ -232,55 +255,99 @@ const DetalleFondo = () => {
     {
       field: "total",
       headerName: "Total",
-      width: 150,
+      width: 200,
       description: "Total",
       ...Moneda,
     },
   ];
 
-  let params = useParams();
   useEffect(() => {
-    setFondo(String(params.fondo));
+    
+    permisos.map((item: PERMISO) => {
+   
+      console.log("fondo  " + clave);
+      if (String(item.ControlInterno) === String(clave)) {
+        console.log(clave + "  " + "  "+item.Permiso)
+
+        if (String(item.Permiso) == "Autorizar") {
+          setAutorizar(true);
+          console.log("autoriza  "+autorizar);
+        }
+
+        if (String(item.Permiso) == "Cancelar") {
+          setCancelar(true);
+          console.log("cancela  "+cancelar);
+        }
+
+        if (String(item.Permiso) == "Ver Trazabilidad") {
+          setVerTrazabilidad(true);    
+          console.log("ver trazabilidad  "+verTrazabilidad);      
+        } 
+
+        if (String(item.Permiso) == "Enviar") {
+          setEnviar(true);
+          console.log("enviar  "+enviar );
+        }
+      }
+
+
+       
+    });
+
+
     setTimeout(() => {
-      columnas({ IDCALCULOTOTAL: params.id });
-      consulta({ IDCALCULOTOTAL: params.id });
+      columnas({ IDCALCULOTOTAL: idDetalle });
+      consulta({ IDCALCULOTOTAL: idDetalle });
     }, 2000);
   }, []);
 
   return (
-    <div>
+    <div style={{ height: 600, width: "80%" }}>
       <Box>
+
         <Slider open={openSlider}></Slider>
-        <Box sx={{}}>
-          <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-            <Tooltip title="Regresar">
-              <ToggleButton value="check" onClick={() => handleBack(1)}>
-                <ArrowBackIcon />
-              </ToggleButton>
-            </Tooltip>
-            <Tooltip title="Autorizar">
-              <ToggleButton value="check" onClick={() => handleBack(1)}>
-                <DoneAllIcon />
-              </ToggleButton>
-            </Tooltip>
-            <Tooltip title="Cancelar">
-              <ToggleButton value="check" onClick={() => handleBack(1)}>
-                <CancelPresentationIcon />
-              </ToggleButton>
-            </Tooltip>
-            <Tooltip title="Enviar">
-              <ToggleButton value="check" onClick={() => handleBack(1)}>
-                <SendIcon />
-              </ToggleButton>
-            </Tooltip>
-            <Tooltip title="Ver Trazabilidad">
-              <ToggleButton value="check" onClick={() => handleBack(1)}>
-                <InsightsIcon />
-              </ToggleButton>
-            </Tooltip>
-          </ToggleButtonGroup>
-        </Box>
-        <MUIXDataGrid columns={columns} rows={data} />
+
+
+        <Dialog open={Boolean(openDetalles)} fullScreen={true} >
+
+          <Grid container spacing={2} sx={{ justifyContent: "center", }} >
+            <Grid item xs={12}>
+              <Box sx={{ display: "flex", justifyContent: "center", bgcolor: "rgb(245,245,245)" }}>
+                <Titulo name={String(nombreFondo)} />
+              </Box>
+            </Grid>
+          </Grid>
+          <Grid
+            container spacing={1}
+            sx={{ display: "flex", justifyContent: "center", }} >
+
+            <Grid item xs={1} sx={{ alignItems: "center", }} >
+
+              <label className="subtitulo">{anio}<br /><br /><br /></label>
+            </Grid>
+          </Grid>
+          <Grid
+            container spacing={1}
+            sx={{ justifyContent: "center", width: "100%" }} >
+
+            <Grid item xs={1} >
+
+              <label className="subtitulo">{mes} <br /><br /><br /></label>
+            </Grid>
+          </Grid>
+          <Grid
+            container spacing={1}
+            sx={{ justifyContent: "center", width: '100%' }} >
+
+            <Grid item xs={7} md={8} lg={8} sx={{ justifyContent: "center", width: '100%' }}>
+              <BotonesOpciones handleAccion={handleClose} autorizar={autorizar} cancelar={cancelar} verTrazabilidad={verTrazabilidad} enviar={enviar} />
+
+              <MUIXDataGrid columns={columns} rows={data} />
+
+            </Grid>
+          </Grid>
+
+        </Dialog>
       </Box>
     </div>
   );

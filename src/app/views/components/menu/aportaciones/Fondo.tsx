@@ -10,23 +10,32 @@ import { Alert } from "../../../../helpers/Alert";
 import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InsightsIcon from "@mui/icons-material/Insights";
-
 import MUIXDataGrid from "../../MUIXDataGrid";
 import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
 import Trazabilidad from "../../Trazabilidad";
 import ModalFondo from "../aportaciones/ModalFondo";
+import DetalleFondo from "./DetalleFondo";
+import { PERMISO } from "../../../../interfaces/user/UserInfo";
+import { getPermisos } from "../../../../services/localStorage";
 
 export const Fondo = () => {
   const navigate = useNavigate();
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
+  const [openDetalles, setOpenDetalles] = useState(false);
+
   const [fondo, setFondo] = useState("");
+  const [clave, setClave] = useState("");
   const [nombreFondo, setNombreFondo] = useState("");
   const [modo, setModo] = useState<string>("");
   const [anio, setAnio] = useState<number>(0);
   const [mes, setMes] = useState<string>("");
-  const [idtrazabilidad,setIdtrazabilidad]=useState("");
+  const [idtrazabilidad, setIdtrazabilidad] = useState("");
+  const [idDetalle, setIdDetalle] = useState("");
+
+
+
 
   const closeTraz = (v: any) => {
     setOpenTrazabilidad(false);
@@ -42,7 +51,21 @@ export const Fondo = () => {
   const handleClose = (v: any) => {
     consulta({ FONDO: fondo });
     setstep(0);
+    setOpenDetalles(false);
   };
+  const handleDetalle = (v: any) => {    
+ 
+ 
+    setClave(v.row.Clave)
+    setIdDetalle(String(v.row.id));
+    setMes(v.row.Mes);
+    setstep(2);
+    setOpenDetalles(true);
+    setAnio(Number(v.row.Anio));
+
+
+  };
+
   const handleAjuste = (v: any) => {
     setModo("ajuste");
     setAnio(Number(v.row.Anio));
@@ -50,11 +73,8 @@ export const Fondo = () => {
     setstep(1);
   };
 
-  const handleView = (v: any) => {
-    navigate(`/inicio/aportaciones/${fondo}/${v.row.id}`);
-  };
-
   const columns: GridColDef[] = [
+    
     { field: "id", headerName: "Identificador", width: 150, hide: true },
     {
       field: "Clave",
@@ -98,7 +118,7 @@ export const Fondo = () => {
         return (
           <Box>
             <Tooltip title="Ver detalle de Cálculo">
-              <IconButton onClick={() => handleView(v)}>
+              <IconButton onClick={() => handleDetalle(v)}>
                 <InfoIcon />
               </IconButton>
             </Tooltip>
@@ -166,6 +186,8 @@ export const Fondo = () => {
   useEffect(() => {
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
+
+   
   }, [params.fondo]);
 
   return (
@@ -193,11 +215,25 @@ export const Fondo = () => {
             onClickBack={handleClose}
             modo={modo}
             anio={anio}
-            mes={mes} 
-            clave={fondo} 
-            />
+            mes={mes}
+            clave={fondo}
+          />
         </div>
       </Box>
+
+      {openDetalles ?
+        <DetalleFondo
+        openDetalles={openDetalles}
+          nombreFondo={nombreFondo}
+          idDetalle={idDetalle}
+          handleClose={handleClose}
+          clave={clave}          
+          anio={anio}
+          mes={mes}
+          fondo={fondo}
+        />
+        : ""}
+
     </>
   );
 };
