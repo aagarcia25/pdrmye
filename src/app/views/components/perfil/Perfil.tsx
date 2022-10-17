@@ -60,7 +60,9 @@ export const Perfil = () => {
   }, []);
 
   return (
-    <Box sx={{width: "100%",
+    <Box sx={{
+      //Principal
+      width: "100%",
     height: "100%",
     backgroundColor: "white",
     display: "flex",
@@ -71,6 +73,7 @@ export const Perfil = () => {
        }}>
         <Box
           sx={{
+            //EspacioTitulo
             width: "100%",
             height: "15%",
             //backgroundColor: "skyblue",
@@ -80,11 +83,14 @@ export const Perfil = () => {
         >
           <Box
             sx={{
+              //Titulo
               width: "100%",
               height: "50%",
+              backgroundColor: "skyblue",
             }}
           >
-            <Typography sx={{ fontSize: "2.5vw", fontWeight: "bold" }}>
+            <Typography sx={{ //Tamaño
+               fontSize: "2.5vw", fontWeight: "bold" }}>
               Perfil
             </Typography>
           </Box>
@@ -240,7 +246,7 @@ export const Perfil = () => {
                     sx={{
                       width: "90%",
                       height: "100%",
-                      //   backgroundColor: "green",
+                       //  backgroundColor: "green",
                     }}
                   >
                     <TextField
@@ -256,7 +262,7 @@ export const Perfil = () => {
                       error={nombre == "" ? true : false}
                       sx={{
                         height: "3vh",
-                        mb: 1.4,
+                        mb: 1.9,
                       }}
                     />
                     <TextField
@@ -272,7 +278,7 @@ export const Perfil = () => {
                       error={apellidoPaterno == "" ? true : false}
                       sx={{
                         height: "3vh",
-                        mb: 1.4,
+                        mb: 1.9,
                       }}
                     />
                     <TextField
@@ -457,7 +463,8 @@ export const Perfil = () => {
                       height: "25%",
                       display: "flex",
                       flexDirection: "row",
-                      //  backgrounColor:"blue"
+                        backgrounColor:"blue",
+                        mb:1
                     }}
                   >
                     <Box
@@ -466,6 +473,7 @@ export const Perfil = () => {
                         width: "48%",
                         height: "100%",
                         //  backgroundColor: "red",
+                        
                       }}
                     >
                       <TextField
@@ -519,6 +527,7 @@ export const Perfil = () => {
                       display: "flex",
                       flexDirection: "row",
                       // backgrounColor:"blue"
+                      mb:1
                     }}
                   >
                     <Box
