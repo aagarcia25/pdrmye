@@ -11,6 +11,7 @@ export default function MUIXDataGridSimple(props: any) {
   return (
       <ThemeProvider theme={theme}>
         <DataGrid
+          density="compact"
           disableSelectionOnClick 
           rowsPerPageOptions={[5]}
           pageSize={5}

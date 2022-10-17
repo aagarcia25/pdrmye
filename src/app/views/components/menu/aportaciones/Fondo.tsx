@@ -85,7 +85,7 @@ export const Fondo = () => {
     {
       field: "Descripcion",
       headerName: "Descripcion",
-      width: 300,
+      width: 450,
       description: "Descripcion del Fondo",
     },
     {
