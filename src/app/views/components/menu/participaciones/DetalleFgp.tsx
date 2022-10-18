@@ -171,7 +171,7 @@ const DetalleFgp = ({
     {
       field: "Nombre",
       headerName: "Municipio",
-      width: 150,
+      width: 250,
       description: "Nombre del Municipio",
     },
     {
