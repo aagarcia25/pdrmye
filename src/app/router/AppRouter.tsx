@@ -45,6 +45,7 @@ import { Fondo } from '../views/components/menu/aportaciones/Fondo';
 import DetalleFondo from '../views/components/menu/aportaciones/DetalleFondo';
 import {  getUser, islogin } from '../services/localStorage';
 import { RESPONSE } from '../interfaces/user/UserInfo';
+import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
 
 
 
@@ -78,6 +79,10 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/inflacionAnio'              element={<InflacionAnio />}      />
         <Route path='/inicio/catalogos/fondos'                     element={<Fondos />}      />
         <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
+        
+        {/*SECCION DE PARAMETROS GENERALES */}
+       <Route path='/inicio/catalogos/parametrosgenerales'  element={log ? <ParametrosGenerales /> : <AuthRouter />} />
+       {/* FIN DE SECCION DE PARAMETROS GENERALES */}
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
@@ -127,6 +132,7 @@ export const AppRouter = () => {
        <Route path='/inicio/contactomunicipio'  element={log ? <ContactoMunicipios /> : <AuthRouter />} />
        {/* SECCION MUNICIPIOS */}
 
+       
       </Routes>
     </Inicio>
   );
