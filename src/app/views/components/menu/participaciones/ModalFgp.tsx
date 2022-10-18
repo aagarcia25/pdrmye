@@ -72,6 +72,39 @@ const ModalFgp = ({
   };
 
 
+  const isrnomina = () => {
+    setslideropen(true);
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlsx");
+    formData.append("tipo", "ISRNOMINA");
+    formData.append("CHUSER", user.id);
+    formData.append("ANIO", String(year));
+    formData.append("MES", meselect);
+    formData.append("IMPORTE", '0');
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Carga Exitosa!",
+        });
+
+        onClickBack();
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+
+
+
+    });
+
+
+  }
+
   const isrinmuebles = () => {
     setslideropen(true);
     const formData = new FormData();
@@ -147,6 +180,8 @@ const ModalFgp = ({
       icv();
     } else if (clave === 'ISR INMUEBLES') {
       isrinmuebles();
+    } else if (clave === 'ISR NOMINA') {
+      isrnomina();
     }
 
 
@@ -432,7 +467,7 @@ const ModalFgp = ({
             </Grid>
 
 
-            {clave !== "ICV" ? (
+            {clave !== "ICV" && clave !== "ISR NOMINA" ? (
               <>
                 <Grid
                   item
@@ -464,7 +499,7 @@ const ModalFgp = ({
 
 
 
-            {clave === "ICV" || clave === "ISR INMUEBLES" ? (
+            {clave === "ICV" || clave === "ISR INMUEBLES" || clave==="ISR NOMINA" ? (
               <>
                 <Grid
                   item

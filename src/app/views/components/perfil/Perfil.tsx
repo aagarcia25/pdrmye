@@ -1,10 +1,9 @@
 import {
   Avatar,
   Button,
-  createTheme,
+
   Grid,
   TextField,
-  ThemeProvider,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -16,6 +15,8 @@ import PersonIcon from "@mui/icons-material/Person";
 export const Perfil = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   //CAMPOS EN USO DE USUARIO
+  console.log(user.Nombre);
+
   const [nombre, setNombre] = useState(user.Nombre);
   const [nombreUsuario, setNombreUsuario] = useState(user.NombreUsuario);
   const [apellidoPaterno, setApellidoPaterno] = useState(user.ApellidoPaterno);
@@ -26,13 +27,15 @@ export const Perfil = () => {
   const [puesto, setPuesto] = useState("");
   const [ubicacion, setUbicacion] = useState("");
   const [tipo, setTipo] = useState("");
-  const [departamento, setDepartamento] = useState("");
 
+  const [departamento, setDepartamento] = useState("");
   const [departamentos, setDepartamentos] = useState("");
 
   //CARD 1
   const [botonEdicionFoto, setBotonEdicionFoto] = useState("Editar");
   const [botonEdicionTodo, setBotonEdicionTodo] = useState("Editar");
+
+  user.Nombre=nombre;
 
   //PRIMER CARD FUNCIONES
   const onClickEditarFoto = () => {
@@ -45,14 +48,16 @@ export const Perfil = () => {
     // Y CON ESE PAUSAR ACCIÓN DE MODIFICADO
     if (botonEdicionFoto === "Guardar") {
       setBotonEdicionFoto("Editar");
-      // MANDAR TIPO OPERACION 2
+      // MANDAR TIPO OPERACION 2, revisar municipios para su creación
     }
   };
 
   const onClickEditarTodo = () => {
     setBotonEdicionTodo("Guardar");
+    //Avisos de que faltan algunos campos y avisar que sus compañeros no los podrán observar
     if (botonEdicionTodo === "Guardar") {
       setBotonEdicionTodo("Editar");
+      
     }
   };
 
