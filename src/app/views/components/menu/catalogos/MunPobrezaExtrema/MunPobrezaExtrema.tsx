@@ -239,9 +239,9 @@ export const MunPobrezaExtrema = () => {
       <Box  
          sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
             <SelectFrag 
-            options={anios} 
-            onInputChange={handleFilterChange} 
-            placeholder={"Seleccione Año"}/>
+          options={anios}
+          onInputChange={handleFilterChange}
+          placeholder={"Seleccione Año"} label={""} id={""}/>
             </Box>
 
       {open ? (

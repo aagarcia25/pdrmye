@@ -31,9 +31,9 @@ const MunPobrezaModal = ({
 }: {
   open: boolean;
   modo: string;
-  tipo:number;
-  handleClose:Function,
-  dt:any
+  tipo: number;
+  handleClose: Function,
+  dt: any
 }) => {
 
   // CAMPOS DE LOS FORMULARIOS
@@ -41,15 +41,18 @@ const MunPobrezaModal = ({
   const [anio, setAnio] = useState<number>();
   const [poblacion, setPoblacion] = useState<number>();
   const [carenciaProm, setCarenciaProm] = useState<number>();
-  const [IdMunicipio, setIdMunicipio] = useState <object>();
+  const [IdMunicipio, setIdMunicipio] = useState<string>();
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [mun, setMun] = useState<SelectValues[]>([]);
+  const [municipios, setMunicipios] = useState<SelectValues[]>([]);
+  const [mun, setMun] = useState<string>();
 
-   
- 
+
+
+
+
 
   const handleSend = () => {
-    if (IdMunicipio==null||poblacion == null||anio==null||carenciaProm==null||poblacion == 0||anio==0||carenciaProm==0) {
+    if (IdMunicipio == null || poblacion == null || anio == null || carenciaProm == null || poblacion == 0 || anio == 0 || carenciaProm == 0) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -63,9 +66,9 @@ const MunPobrezaModal = ({
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         TOTAL: poblacion,
-        CARENCIAPROMEDIO : carenciaProm,
+        CARENCIAPROMEDIO: carenciaProm,
 
-        
+
       };
 
       handleRequest(data);
@@ -73,7 +76,7 @@ const MunPobrezaModal = ({
     }
   };
 
-  
+
   const handleRequest = (data: any) => {
     console.log(data);
     if (tipo == 1) {
@@ -81,14 +84,14 @@ const MunPobrezaModal = ({
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-      
+
       editar(data);
     }
   };
 
-  
-  const handleFilterChange = (event:SelectValues) => { 
-    setMunicipios(event.value); 
+
+  const handleFilterChange = (event: SelectValues) => {
+    setIdMunicipio(event.value);
   };
 
 
@@ -128,119 +131,92 @@ const MunPobrezaModal = ({
     });
   };
 
- 
+
 
   useEffect(() => {
-    setMun(municipiosc());
+    setMunicipios(municipiosc());
 
-    if(dt === ''  ){
-        console.log(dt)
-       
-    }else{
-        setId(dt?.row?.id)
-        setAnio(dt?.row?.Anio)
-        setPoblacion(dt?.row?.Total)
-        setIdMunicipio(dt?.row?.idmunicipio)
-        setCarenciaProm(dt?.row?.CarenciaProm)
+    if (dt === '') {
+      console.log(dt)
+
+    } else {
+      setId(dt?.row?.id)
+      setAnio(dt?.row?.Anio)
+      setPoblacion(dt?.row?.Total)
+      setIdMunicipio(dt?.row?.idmunicipio)
+      setCarenciaProm(dt?.row?.CarenciaProm)
+      setMun(dt?.row?.Nombre)
 
 
 
 
-   
+
     }
-   
+
   }, [dt]);
 
 
 
   return (
     <Dialog open={open}>
-     
 
-   
+
+
       <DialogContent>
         <Box>
-        <Box
-          sx={{ display: 'flex', justifyContent: 'center',}}>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'center', }}>
             <label className="Titulo">{modo}</label>
           </Box>
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Municipio</InputLabel> 
-          </FormControl>
+
 
 
           <FormControl variant="standard" fullWidth>
             <InputLabel>Municipio</InputLabel>
-            <SelectFrag 
-            options={mun} 
-            onInputChange={handleFilterChange} 
-            placeholder={"Seleccione Municipio"}/>
+            <SelectFrag
+              options={municipios}
+              onInputChange={handleFilterChange}
+              placeholder={"Seleccione Municipio"}
+              label={String(mun)} id={"mun"} />
           </FormControl>
 
-          {(modo==="Agregar Registro")?
-          <TextField
-            required
-            margin="dense"
-            id="anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(Number(v.target.value))}
-            error={anio == null ? true : false}
-             InputProps={{
-            readOnly: tipo == 1 ? false : true,
-       
-             }}
-          />
-          :
-          <TextField
-            required
-            margin="dense"
-            id="anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(Number(v.target.value))}
-            error={anio == null ? true : false}
-             InputProps={{
-            readOnly: tipo == 1 ? false : true,
-       
-             }}
-          />
-}
-          
+          <Box>
+            <label >  <br /> Año <br />{anio}</label>
+          </Box>
+
+          <Box>
+            <label > <br /> Poblacion <br /></label>
+          </Box>
+
           <TextField
             margin="dense"
             required
             id="pob"
-            label="Poblacion"
             value={poblacion}
             type="number"
             fullWidth
             variant="standard"
             onChange={(v) => setPoblacion(Number(v.target.value))}
             error={poblacion == null ? true : false}
-            />
-           
-           <TextField
-         
+          />
+
+
+          <Box>
+            <label > Carencia Promedio <br /></label>
+          </Box>
+          <TextField
+
             margin="dense"
             required
             id="fac"
-            
-            label="Carencia Promedio"
-            value={ carenciaProm }
+            value={carenciaProm}
             type="percent"
             fullWidth
             variant="standard"
             onChange={(v) => setCarenciaProm(Number(v.target.value))}
             error={carenciaProm == null ? true : false}
             InputProps={{
-                endAdornment: (
+              endAdornment: (
                 <InputAdornment position="end">%</InputAdornment>
               ),
             }}
@@ -249,8 +225,8 @@ const MunPobrezaModal = ({
       </DialogContent>
 
       <DialogActions>
-        <button  className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button    className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
+        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
+        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
 
       </DialogActions>
     </Dialog>

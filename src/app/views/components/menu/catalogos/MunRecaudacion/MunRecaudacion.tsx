@@ -190,14 +190,16 @@ export const MunRecaudacion = () => {
     });
   };
 
-  const handleFilterChange = (event: any) => {
-    console.log(event);
-    setFilterAnio(event.value);
+  const handleFilterChange = (v: string) => {
+
+    setFilterAnio(v);
     let data = {
       NUMOPERACION: 4,
-      ANIO: event.value,
+      ANIO: v,
     };
+    if (v != "") {
     consulta(data);
+    }
   };
 
   const downloadplantilla = () => {
@@ -224,7 +226,7 @@ export const MunRecaudacion = () => {
         <SelectFrag
           options={anios}
           onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} />
+          placeholder={"Seleccione Año"} label={""} id={""} />
       </Box>
 
 

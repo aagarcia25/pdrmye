@@ -50,7 +50,7 @@ const ModalFgp = ({
   const [nameNewDoc, setNameNewDoc] = useState("");
 
   let year: number = new Date().getFullYear();
-  
+
   const handleSelectMes = (v: SelectValues) => {
     setMeselect(String(v.value));
   };
@@ -375,8 +375,7 @@ const ModalFgp = ({
                 <SelectFrag
                   options={ajustes}
                   onInputChange={handleSelectAjuste}
-                  placeholder={"Seleccione el Ajuste"}
-                ></SelectFrag>
+                  placeholder={"Seleccione el Ajuste"} label={""} id={""}                ></SelectFrag>
               </Box>
             </Grid>
 
@@ -463,8 +462,7 @@ const ModalFgp = ({
                 <SelectFrag
                   options={meses}
                   onInputChange={handleSelectMes}
-                  placeholder={"Seleccione el Mes"}
-                ></SelectFrag>
+                  placeholder={"Seleccione el Mes"} label={""} id={""}                ></SelectFrag>
               </Box>
             </Grid>
 
