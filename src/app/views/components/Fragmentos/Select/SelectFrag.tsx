@@ -22,7 +22,7 @@ const SelectFrag = ({
      isClearable={true}
      isSearchable={true}
      backspaceRemovesValue={true}
-     onChange={(v)=>onInputChange(v)}
+     onChange={(v)=> (v==null)?"":onInputChange(v)}
      placeholder={placeholder}
      styles={{
       menu: (base) => ({

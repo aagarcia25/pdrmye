@@ -41,7 +41,7 @@ const MunPobrezaModal = ({
   const [anio, setAnio] = useState<number>();
   const [poblacion, setPoblacion] = useState<number>();
   const [carenciaProm, setCarenciaProm] = useState<number>();
-  const [IdMunicipio, setIdMunicipio] = useState <string>();
+  const [IdMunicipio, setIdMunicipio] = useState <object>();
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [mun, setMun] = useState<SelectValues[]>([]);
 
@@ -87,9 +87,8 @@ const MunPobrezaModal = ({
   };
 
   
-  const handleFilterChange = (v:SelectValues) => { 
-    console.log(v.value)
-    setIdMunicipio(String(v.value)); 
+  const handleFilterChange = (event:SelectValues) => { 
+    setMunicipios(event.value); 
   };
 
 
