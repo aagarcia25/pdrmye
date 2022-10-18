@@ -10,12 +10,12 @@
     }
 
     export interface PERMISO {
-        Menu: string;
+        ControlInterno: string;
         Permiso: string;
     }
 
     export interface RESPONSE {
-        id: number;
+        id: string;
         deleted: string;
         UltimaActualizacion: string;
         FechaCreacion: string;
@@ -35,6 +35,7 @@
         ROLES: ROLE[];
         MENUS: MENU[];
         PERMISOS: PERMISO[];
+        tipo?: any;
     }
 
     export interface UserInfo {

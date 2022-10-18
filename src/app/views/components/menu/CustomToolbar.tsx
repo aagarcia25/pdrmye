@@ -1,4 +1,4 @@
-import { GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton, GridToolbarDensitySelector, GridToolbarExport, GridColTypeDef } from "@mui/x-data-grid";
+import { GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton, GridToolbarDensitySelector, GridToolbarExport, GridColTypeDef, GridToolbar } from "@mui/x-data-grid";
 
 export function CustomToolbar() {
     return (
@@ -7,15 +7,16 @@ export function CustomToolbar() {
         <GridToolbarFilterButton />
         <GridToolbarDensitySelector />
         <GridToolbarExport />
+      
       </GridToolbarContainer>
     );
   }
 
 
 
-  export const currencyFormatter = new Intl.NumberFormat("es-MX", {
+  export const currencyFormatter = new Intl.NumberFormat("es-US", {
     style: "currency",
-    currency: "MXN",
+    currency: "USD",
   });
 
   export const Moneda: GridColTypeDef = {

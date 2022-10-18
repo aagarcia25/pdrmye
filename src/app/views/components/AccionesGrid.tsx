@@ -13,6 +13,7 @@ const AccionesGrid = ({
   handleBorrar: Function;
   v: any;
   update: boolean;
+
   pdelete: boolean;
 }) => {
   return (

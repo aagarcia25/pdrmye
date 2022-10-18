@@ -13,12 +13,14 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import {  porcentage } from '../../CustomToolbar'
+import { porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getPU, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { UserReponse } from "../../../../../interfaces/user/UserReponse";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 const MunTerritorioModal = ({
@@ -30,9 +32,9 @@ const MunTerritorioModal = ({
 }: {
   open: boolean;
   modo: string;
-  tipo:number;
-  handleClose:Function,
-  dt:any
+  tipo: number;
+  handleClose: Function,
+  dt: any
 }) => {
 
 
@@ -41,15 +43,14 @@ const MunTerritorioModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
-  const [territorio, setTerritorio] = useState("");
-
-
-  const [IdMunicipio, setIdMunicipio] = useState("");
+  const [territorio, setTerritorio] = useState<number>();
+  const user: RESPONSE = JSON.parse(String(getUser()));
+  const [IdMunicipio, setIdMunicipio] = useState<object>();
   const [values, setValues] = useState<Imunicipio[]>();
- 
- 
 
-  
+
+
+
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -62,10 +63,10 @@ const MunTerritorioModal = ({
   };
 
 
- 
+
 
   const handleSend = () => {
-    if (territorio == "") {
+    if (territorio == null || IdMunicipio == null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -75,16 +76,17 @@ const MunTerritorioModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         KM2: territorio,
- 
 
-        
+
+
       };
 
       handleRequest(data);
+      handleClose("save");
     }
   };
 
@@ -96,7 +98,7 @@ const MunTerritorioModal = ({
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-      
+
       editar(data);
     }
   };
@@ -138,47 +140,52 @@ const MunTerritorioModal = ({
     });
   };
 
- 
+
 
   useEffect(() => {
     municipiosc();
 
-    if(dt === ''  ){
-        console.log(dt)
-       
-    }else{
-        setId(dt?.row?.id)
-        setAnio(dt?.row?.Anio)
-        setTerritorio(dt?.row?.Km2)
-        setIdMunicipio(dt?.row?.idmunicipio)
-   
-   
+    if (dt === '') {
+      console.log(dt)
 
-        console.log(dt)
+    } else {
+      setId(dt?.row?.id)
+      setAnio(dt?.row?.Anio)
+      setTerritorio(dt?.row?.Km2)
+      setIdMunicipio(dt?.row?.idmunicipio)
 
 
-   
+
+      console.log(dt)
+
+
+
     }
-   console.log(dt)
-  }, [dt] );
+    console.log(dt)
+  }, [dt]);
 
 
 
   return (
     <Dialog open={open}>
-      <DialogTitle>{modo}</DialogTitle>
+
       <DialogContent>
         <Box>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'center', }}>
+            <label className="Titulo">{modo}</label>
+          </Box>
           <FormControl variant="standard" fullWidth>
             <InputLabel>Municipio</InputLabel>
             <Select
               required
-              onChange={(v) => setIdMunicipio(v.target.value)}
+              onChange={(v) => setIdMunicipio(Object(v.target.value))}
               value={IdMunicipio}
               label="Municipio"
-            inputProps={{
-            readOnly: tipo == 1 ? false : true,
-             }}
+              error={IdMunicipio == null ? true : false}
+              inputProps={{
+                readOnly: tipo == 1 ? false : true,
+              }}
             >
               {values?.map((item: Imunicipio) => {
                 return (
@@ -190,32 +197,32 @@ const MunTerritorioModal = ({
             </Select>
           </FormControl>
 
-     
+
           <TextField
             margin="dense"
             required
             id="pob"
-            label="Recaudacion"
+            label="Area"
             value={territorio}
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setTerritorio(v.target.value)}
-            error={territorio == "" ? true : false}
+            onChange={(v) => setTerritorio(Number(v.target.value))}
+            error={territorio == null ? true : false}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start"></InputAdornment>
               ),
             }}
           />
-         
-         
+
+
         </Box>
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cerrar</Button>
+        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
+        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
       </DialogActions>
     </Dialog>
   );

@@ -1,31 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Box, IconButton, LinearProgress } from "@mui/material";
-import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
-
-import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar } from "../../CustomToolbar";
+import { useEffect, useState } from "react";
+import { Box, IconButton } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
 import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import AddIcon from "@mui/icons-material/Add";
 import { messages } from "../../../../styles";
-
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import FondosModal from "./FondosModal";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const Fondos = () => {
-  const user = getUser();
+  
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
-
-  const [slideropen, setslideropen] = useState(false);
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const [vrows, setVrows] = useState({});
-  const [data, setData] = useState([]);
+  const [fondos, setFondos] = useState([]);
 
   const columns: GridColDef[] = [
     {
@@ -42,7 +38,7 @@ const Fondos = () => {
       headerName: "Aplica Cálculo",
       width: 120,
       renderCell: (v) => {
-        return <Box>{v.row.AplicaCalculo == 1 ? "SI" : "No"}</Box>;
+        return <Box>{v.row.AplicaCalculo === 1 ? "SI" : "No"}</Box>;
       },
     },
     {
@@ -50,7 +46,7 @@ const Fondos = () => {
       headerName: "Vigente",
       width: 100,
       renderCell: (v) => {
-        return <Box>{v.row.Vigente == 1 ? "SI" : "No"}</Box>;
+        return <Box>{v.row.Vigente === 1 ? "SI" : "No"}</Box>;
       },
     },
     {
@@ -59,7 +55,7 @@ const Fondos = () => {
       width: 100,
 
       renderCell: (v) => {
-        return <Box>{v.row.Estatal == 1 ? "SI" : "No"}</Box>;
+        return <Box>{v.row.Estatal === 1 ? "SI" : "No"}</Box>;
       },
     },
     {
@@ -67,7 +63,7 @@ const Fondos = () => {
       headerName: "Federal",
       width: 100,
       renderCell: (v) => {
-        return <Box>{v.row.Federal == 1 ? "SI" : "No"}</Box>;
+        return <Box>{v.row.Federal === 1 ? "SI" : "No"}</Box>;
       },
     },
     { field: "idtipo", headerName: "idtipo", width: 150, hide: true },
@@ -129,7 +125,7 @@ const Fondos = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 
@@ -162,7 +158,7 @@ const Fondos = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        setData(res.RESPONSE);
+        setFondos(res.RESPONSE);
       } else {
         Alert.fire({
           title: "Error!",
@@ -192,22 +188,9 @@ const Fondos = () => {
       )}
 
       <ButtonsAdd handleOpen={handleOpen} />
+      <MUIXDataGrid columns={columns} rows={fondos} />
 
-      <DataGrid
-        //checkboxSelection
-        pagination
-        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-        components={{
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={data}
-        columns={columns}
 
-        // loading //agregar validacion cuando se esten cargando los registros
-      />
     </div>
   );
 };

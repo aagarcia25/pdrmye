@@ -1,8 +1,6 @@
-
-import { post, postDocument } from './apiService';
+import { post} from './apiService';
 
 export class calculosServices {
-
 
     public static async calculosInfo(data: any) {
         return await post('calculosInfo', data);
@@ -16,7 +14,22 @@ export class calculosServices {
         return await post('CalculoPrincipalindex', data);
     }
 
+    public static async getColumns(data: any) {
+        return await post('getColumns', data);
+    }
+
+    public static async fondoInfo(data: any) {
+        return await post('fondoInfo', data);
+    }
+
+    public static async trazabilidad(data: any) {
+        return await post('trazabilidad', data);
+    }
+
+    public static async calcula(data: any) {
+        return await post('calcula', data);
+    }
     
-   
+    
 
 }

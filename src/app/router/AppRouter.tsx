@@ -4,115 +4,70 @@ import { AuthRouter } from './AuthRouter';
 import { Eo404 } from '../views/components/Eo404';
 import Inicio from '../views/components/Inicio';
 import Bienvenido from '../views/components/Bienvenido';
-
-import { Icv } from '../views/components/menu/participaciones/icv/Icv';
-import { Isn } from '../views/components/menu/participaciones/isn/Isn';
-import { Fpg } from '../views/components/menu/participaciones/fpg/Fpg';
-import { Ffm30 } from '../views/components/menu/participaciones/ffm30/Ffm30';
-import { Ffm70 } from '../views/components/menu/participaciones/ffm70/Ffm70';
-import { Ieps } from '../views/components/menu/participaciones/ieps/Ieps';
-import { Fofir } from '../views/components/menu/participaciones/fofir/Fofir';
-import { Isan } from '../views/components/menu/participaciones/isan/Isan';
-import { Fexhi } from '../views/components/menu/participaciones/fexhi/Fexhi';
-import { Compisan } from '../views/components/menu/participaciones/comp-isan/Compisan';
-import { Iepsgyd } from '../views/components/menu/participaciones/iepsgyd/Iepsgyd';
-import { Isr } from '../views/components/menu/participaciones/isr/Isr';
-import { Feief } from '../views/components/menu/participaciones/feief/Feief';
-
-import { Foult } from '../views/components/menu/aportaciones/foult/Foult';
-import { Fodem } from '../views/components/menu/aportaciones/fodem/Fodem';
-import { Fodes } from '../views/components/menu/aportaciones/fodes/Fodes';
-import { Fosegum } from '../views/components/menu/aportaciones/fosegum/Fosegum';
-
-import { Calendario } from '../views/components/menu/calendario/Calendario';
+import { Fpg } from '../views/components/menu/participaciones/Fpg';
 import { MunPoblacion } from '../views/components/menu/catalogos/MunPoblacion/MunPoblacion';
-import { isAuthenticated } from '../services/authenticationService';
 import CalendarC from '../views/components/CalendarC';
 import { ListNotification } from '../views/components/ListNotification';
 import { MunFacturacion } from '../views/components/menu/catalogos/MunFacturacion/MunFacturacion';
-import { MunPobrezaModerada } from '../views/components/menu/catalogos/MunPobrezaModerada/MunPobrezaModerada';
 import { MunPobProyeccion } from '../views/components/menu/catalogos/MunPobProyeccion/MunPobProyeccion';
 import { MunTerritorio } from '../views/components/menu/catalogos/MunTerritorio/MunTerritorio';
 import { MunPobrezaExtrema } from '../views/components/menu/catalogos/MunPobrezaExtrema/MunPobrezaExtrema';
+import { MunPobreza } from '../views/components/menu/catalogos/MunPobreza/MunPobreza';
 import { MunRecaudacion } from '../views/components/menu/catalogos/MunRecaudacion/MunRecaudacion';
 import { Umas } from '../views/components/menu/catalogos/Umas/Umas';
 import { Coeficientes } from '../views/components/menu/catalogos/Coeficientes/Coeficientes';
-
 import { Avisos } from '../views/components/menu/catalogos/Avisos/Avisos';
-
 import { Perfil } from '../views/components/perfil/Perfil';
-import { Art14f1 } from '../views/components/menu/articulos/Art14f1';
-
 import { Eventos } from '../views/components/menu/catalogos/Eventos/Eventos';
 import { Departamentos } from '../views/components/menu/catalogos/Departamentos/Departamentos';
-
 import { TasaInteres } from '../views/components/menu/catalogos/TasaInteres/TasaInteres';
 import { Municipios } from '../views/components/menu/catalogos/Municipios/Municipios';
-
-
-import { Art14f2 } from '../views/components/menu/articulos/Art14f2';
-import Art14f3 from '../views/components/menu/articulos/Art14f3';
 import TipoFondo from '../views/components/menu/catalogos/TipoFondo/TipoFondo';
 import InflacionMes from '../views/components/menu/catalogos/InflacionMes/InflacionMes';
 import InflacionAnio from '../views/components/menu/catalogos/InflacionAnio/InflacionAnio';
 import Fondos from '../views/components/menu/catalogos/Fondos/Fondos';
 import CrecimientoAnio from '../views/components/menu/catalogos/CrecimientoAnio/CrecimientoAnio';
-
-import Fism from '../views/components/menu/aportaciones/fism/Fism';
-import Fortaum from '../views/components/menu/aportaciones/fortaum/Fortaum';
-import DetalleFortamun from '../views/components/menu/aportaciones/fortaum/DetalleFortamun';
-import DetalleFgp from '../views/components/menu/participaciones/fpg/DetalleFgp';
-import DetalleCompisan from '../views/components/menu/participaciones/comp-isan/DetalleCompisan';
-import DetalleFeief from '../views/components/menu/participaciones/feief/DetalleFeief';
-import DetalleFexhi  from '../views/components/menu/participaciones/fexhi/DetalleFexhi';
-import DetalleFfm30 from '../views/components/menu/participaciones/ffm30/DetalleFfm30';
-import DetalleFofir from '../views/components/menu/participaciones/fofir/DetalleFofir';
-import DetalleFfm70 from '../views/components/menu/participaciones/ffm70/DetalleFfm70';
-import DetalleIcv from '../views/components/menu/participaciones/icv/DetalleIcv';
-import DetalleIeps from '../views/components/menu/participaciones/ieps/DetalleIeps';
-import DetalleIepsgyd from '../views/components/menu/participaciones/iepsgyd/DetalleIepsgyd';
-import DetalleIsan from '../views/components/menu/participaciones/isan/DetalleIsan';
-import DetalleIsn from '../views/components/menu/participaciones/isn/DetalleIsn';
-import DetalleIsr from '../views/components/menu/participaciones/isr/DetalleIsr';
-import DetalleFism from '../views/components/menu/aportaciones/fism/DetalleFism';
+import DetalleFgp from '../views/components/menu/participaciones/DetalleFgp';
 import Usuarios from '../views/components/menu/usuarios/Usuarios/Usuarios';
 import Roles from '../views/components/menu/usuarios/Roles/Roles';
 import Permisos from '../views/components/menu/usuarios/Permisos/Permisos';
 import Menus from '../views/components/menu/usuarios/Menus/Menus';
+import PensionesVitalicias from '../views/components/Organismos/PensionesVitalicias/PensionesVitalicias';
+import Solicitudes from '../views/components/Organismos/Solicitudes/Solicitudes';
+import ContactoMunicipios from '../views/components/Municipios/ContactoMunicipios';
+import ContactoOrganismos from '../views/components/Organismos/contactoOrganismos/ContactoOrganismos';
+import CFuenteFinanciamiento from '../views/components/menu/catalogos/CFuenteFinanciamiento/CFuenteFinanciamiento';
+import Presupuesto from '../views/components/Organismos/Presupuesto/Presupuesto';
+import Nomina from '../views/components/Organismos/Nomina/Nomina';
+import { Art14f } from '../views/components/menu/articulos/Art14f';
+import Art14fP from '../views/components/menu/articulos/Art14fP';
+import { Fondo } from '../views/components/menu/aportaciones/Fondo';
+import DetalleFondo from '../views/components/menu/aportaciones/DetalleFondo';
+import {  getUser, islogin } from '../services/localStorage';
+import { RESPONSE } from '../interfaces/user/UserInfo';
+import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
+
 
 
 export const AppRouter = () => {
-  const log = isAuthenticated();
-  //console.log(log);
+  const log = islogin();
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
+  
   return (
-    <Inicio>
+    <Inicio user={user}>
       <Routes>
-             
-        
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
-        <Route path='/'  element={log ? <Bienvenido /> : <AuthRouter />}     />
-
-
-
-
-
-
-     
-
+        <Route path='/'  element={log ? <Bienvenido user={user} /> : <AuthRouter />}     />
         {/* SECCION DE CATALOGOS */}
-
-
-
-
-
         <Route path='/inicio/catalogos/mun'                        element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa'                       element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob'                     element={<MunPoblacion />} />
         <Route path='/inicio/catalogos/munfacturacion'             element={<MunFacturacion />}        />
-        <Route path='/inicio/catalogos/munpobmod'                  element={<MunPobrezaModerada />}        />
         <Route path='/inicio/catalogos/munproyec'                  element={<MunPobProyeccion />}        />
         <Route path='/inicio/catalogos/munterritorio'              element={<MunTerritorio />}        />
-        <Route path='/inicio/catalogos/munpobrezaext'              element={<MunPobrezaExtrema />}        />
+        <Route path='/inicio/catalogos/munpobrezaext'              element={<MunPobrezaExtrema />}     />
+        <Route path='/inicio/catalogos/munpobreza'                 element={<MunPobreza />}     />
         <Route path='/inicio/catalogos/munrecaudacion'             element={<MunRecaudacion />}        />
         <Route path='/inicio/catalogos/umas'                       element={<Umas />} />
         <Route path='/inicio/catalogos/coeficientes'               element={<Coeficientes />}        />
@@ -120,11 +75,14 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/eventos'                    element={<Eventos />} />
         <Route path='/inicio/catalogos/departamentos'              element={<Departamentos />}      />
         <Route path='/inicio/catalogos/tipoFondo'                  element={<TipoFondo />}      />
-        <Route  path='/inicio/catalogos/inflacionMes'              element={<InflacionMes />}      />
-        <Route  path='/inicio/catalogos/inflacionAnio'             element={<InflacionAnio />}      />
-        <Route  path='/inicio/catalogos/fondos'                    element={<Fondos />}      />
-        <Route  path='/inicio/catalogos/crecimientoAnio'           element={<CrecimientoAnio />}      />
+        <Route path='/inicio/catalogos/inflacionMes'               element={<InflacionMes />}      />
+        <Route path='/inicio/catalogos/inflacionAnio'              element={<InflacionAnio />}      />
+        <Route path='/inicio/catalogos/fondos'                     element={<Fondos />}      />
+        <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
         
+        {/*SECCION DE PARAMETROS GENERALES */}
+       <Route path='/inicio/catalogos/parametrosgenerales'  element={log ? <ParametrosGenerales /> : <AuthRouter />} />
+       {/* FIN DE SECCION DE PARAMETROS GENERALES */}
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
@@ -140,80 +98,41 @@ export const AppRouter = () => {
         {/* FIN SECCION DE PERFIL */}
 
         {/* SECCION DE ARTICULOS */}
-        <Route path='/inicio/articulos/art14f1' element={<Art14f1 />} />
-        <Route path='/inicio/articulos/art14f2' element={<Art14f2 />} />
-        <Route path='/inicio/articulos/art14f3' element={<Art14f3 />} />
+        <Route path='/inicio/articulos/art14f/:tipo' element={<Art14fP />} />
+        <Route path='/inicio/articulos/art14d/:tipo/:id' element={<Art14f />} />
         {/* FIN SECCION DE ARTICULOS */}
 
 
-        {/* SECCION PARTICIPACIONES FEDERALES */}
-        <Route path='/inicio/participaciones/fpg' element={log ? <Fpg /> : <AuthRouter />} />
-        <Route path='/inicio/participaciones/fpgd/:id' element={log ? <DetalleFgp /> : <AuthRouter />} />
-
-        <Route path='/inicio/participaciones/comp-isan' element={log ? <Compisan /> : <AuthRouter />} />
-        <Route path='/inicio/participaciones/comp-isand/:id' element={log ? <DetalleCompisan /> : <AuthRouter />}/>
-
-        <Route path='/inicio/participaciones/feief' element={log ? <Feief /> : <AuthRouter />}/>
-        <Route path='/inicio/participaciones/feiefd/:id' element={log ? <DetalleFeief /> : <AuthRouter />}/>
-
-        <Route path='/inicio/participaciones/fexhi' element={log ? <Fexhi /> : <AuthRouter />}/>
-        <Route path='/inicio/participaciones/fexhid/:id' element={log ? <DetalleFexhi /> : <AuthRouter />}/>
-
-        <Route path='/inicio/participaciones/ffm30' element={log ? <Ffm30 /> : <AuthRouter />}/>
-        <Route path='/inicio/participaciones/ffm30d/:id' element={log ? <DetalleFfm30 /> : <AuthRouter />}/>
-
-        <Route path='/inicio/participaciones/ffm70' element={log ? <Ffm70 /> : <AuthRouter />}/>
-        <Route path='/inicio/participaciones/ffm70d/:id' element={log ? <DetalleFfm70 /> : <AuthRouter />}/>
-
-        <Route path='/inicio/participaciones/fofir' element={log ? <Fofir /> : <AuthRouter />}/>
-        <Route path='/inicio/participaciones/fofird/:id' element={log ? <DetalleFofir /> : <AuthRouter />}/>
-
-        <Route path='/inicio/participaciones/icv' element={log ? <Icv /> : <AuthRouter />}/>
-        <Route path='/inicio/participaciones/icvd/:id' element={log ? <DetalleIcv /> : <AuthRouter />}/>
-
-        <Route path='/inicio/participaciones/ieps' element={log ? <Ieps /> : <AuthRouter />}/>
-        <Route path='/inicio/participaciones/iepsd/:id' element={log ? <DetalleIeps /> : <AuthRouter />}/>
-
-        <Route path='/inicio/participaciones/iepsgyd' element={log ? <Iepsgyd /> : <AuthRouter />}/>
-        <Route path='/inicio/participaciones/iepsgydd/:id' element={log ? <DetalleIepsgyd /> : <AuthRouter />}/>
-
-        <Route path='/inicio/participaciones/isan' element={log ? <Isan /> : <AuthRouter />}/>
-        <Route path='/inicio/participaciones/isand/:id' element={log ? <DetalleIsan /> : <AuthRouter />}/>
-
-        <Route path='/inicio/participaciones/isn' element={log ? <Isn /> : <AuthRouter />}/>
-        <Route path='/inicio/participaciones/isnd/:id' element={log ? <DetalleIsn /> : <AuthRouter />}/>
-
-        <Route path='/inicio/participaciones/isr' element={log ? <Isr /> : <AuthRouter />}/>
-        <Route path='/inicio/participaciones/isrd/:id' element={log ? <DetalleIsr /> : <AuthRouter />}/>
+        {/* SECCION PARTICIPACIONES FEDERALES Y ESTATALES */}
+        <Route path='/inicio/participaciones/:fondo' element={log ? <Fpg /> : <AuthRouter />} />
+       
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
-        {/* SECCION PARTICIPACIONES ESTATALES */}
-        <Route path='/inicio/icv' element={log ? <Icv /> : <AuthRouter />} />
-        <Route path='/inicio/isn' element={log ? <Isn /> : <AuthRouter />} />
-        {/* FIN PARTICIPACIONES FEDERALES */}
-
-        {/* SECCION APORTACIONES FEDERALES */}
-        <Route path='/inicio/aportaciones/fism'    element={log ? <Fism /> : <AuthRouter />} />
-        <Route path='/inicio/aportaciones/fism/:id' element={log ? <DetalleFism /> : <AuthRouter />} />
-
-        <Route path='/inicio/aportaciones/fortaum' element={log ? <Fortaum /> : <AuthRouter />} />
-        <Route path='/inicio/aportaciones/fortaum/:id' element={log ? <DetalleFortamun /> : <AuthRouter />} />
-        {/* FIN SECCION APORTACIONES FEDERALES */}
-
-       
         {/* SECCION APORTACIONES ESTATALES */}
-        <Route path='/inicio/aportaciones/foult'   element={log ? <Foult /> : <AuthRouter />}        />
-        <Route path='/inicio/aportaciones/fodes'   element={log ? <Fodes /> : <AuthRouter />}        />
-        <Route path='/inicio/aportaciones/fosegum' element={log ? <Fosegum /> : <AuthRouter />}        />
-        <Route path='/inicio/aportaciones/fodem'   element={log ? <Fodem /> : <AuthRouter />}        />
-        {/* FIN PARTICIPACIONES ESTATALES */}
-       
+        <Route path='/inicio/aportaciones/:fondo'     element={log ? <Fondo /> : <AuthRouter />}/>
+        
+        {/*<Route path='/inicio/aportaciones/:fondo/:id/'  element={log ? <DetalleFondo /> : <AuthRouter />}/> */}
+      
        {/* SECCION USUARIOS, ROLES, PERMISOS */}
        <Route path='/inicio/usuario'   element={log ? <Usuarios /> : <AuthRouter />} />
        <Route path='/inicio/roles'     element={log ? <Roles /> : <AuthRouter />} />
        <Route path='/inicio/menus'     element={log ? <Menus /> : <AuthRouter />} />
        <Route path='/inicio/permisos'  element={log ? <Permisos /> : <AuthRouter />} />
        {/* FIN SECCION USUARIOS, ROLES, PERMISOS */}
+
+       {/* SECCION ORGANISMOS */}
+       <Route path='/inicio/pensionesvitalicias'  element={log ? <PensionesVitalicias /> : <AuthRouter />} />
+       <Route path='/inicio/org/solicitudes'  element={log ? <Solicitudes /> : <AuthRouter />} />
+       <Route path='/inicio/contactoorganismos'  element={log ? <ContactoOrganismos /> : <AuthRouter />} />
+       <Route path='/inicio/ff'  element={log ? <CFuenteFinanciamiento /> : <AuthRouter />} />
+       <Route path='/inicio/presupuesto'  element={log ? <Presupuesto /> : <AuthRouter />} />
+       <Route path='/inicio/nomina'  element={log ? <Nomina /> : <AuthRouter />} />
+       {/* FIN DE SECCION DE ORGANISMOS */}
+       {/* SECCION MUNICIPIOS */}
+       <Route path='/inicio/contactomunicipio'  element={log ? <ContactoMunicipios /> : <AuthRouter />} />
+       {/* SECCION MUNICIPIOS */}
+
+       
       </Routes>
     </Inicio>
   );

@@ -6,8 +6,8 @@ interface TituloProps {
 
 export function Titulo(props: TituloProps) {
   return (
-    <Grid item xs={8}>
-      <Typography sx={{ mb: 3, fontWeight: "Bold" }}>{props.name}</Typography>
-    </Grid>
+  
+      <label className="titulo-FPG"><h2>{props.name}</h2></label>
+  
   );
 }

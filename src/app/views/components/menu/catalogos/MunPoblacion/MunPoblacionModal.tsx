@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   Box,
   FormControl,
   InputLabel,
-  Select,
-  MenuItem,
   TextField,
   InputAdornment,
   DialogActions,
-  Button,
 } from "@mui/material";
 
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { municipiosc } from "../../../../../share/loadMunicipios";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../../services/localStorage";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 const MunPoblacionModal = ({
   open,
@@ -40,14 +38,21 @@ const MunPoblacionModal = ({
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState("");
-  const [poblacion, setPoblacion] = useState("");
-  const [idPoblacion, setIdPoblacion] = useState("");
-  const [values, setValues] = useState<Imunicipio[]>();
- 
+  const [anio, setAnio] = useState<number>();
+  const [poblacion, setPoblacion] = useState<number>();
+  const [municipios, setMunicipios] = useState<SelectValues[]>([]);
+  const [munSeleccionado, setMunSeleccionado] = useState<string>();
+
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
+  const handleSelectMes = (v: SelectValues) => {
+    console.log(v)
+    setMunSeleccionado(v.value);
+  };
+
 
   const handleSend = () => {
-    if (poblacion == "") {
+    if (poblacion == null|| munSeleccionado==null||anio==null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -57,14 +62,14 @@ const MunPoblacionModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         ANIO: anio,
-        idPoblacion: idPoblacion,
+        IDMUNICIPIO: munSeleccionado,
         TOTALPOBLACION: poblacion,
       };
      
       handleRequest(data);
-      handleClose();
+      handleClose("guardar");
     }
   };
 
@@ -121,7 +126,8 @@ const MunPoblacionModal = ({
  
 
   useEffect(() => {
-    setValues(municipiosc());
+    setMunicipios(municipiosc());
+
     if(dt === ''  ){
         console.log(dt)
        
@@ -129,7 +135,7 @@ const MunPoblacionModal = ({
         setId(dt?.row?.id)
         setAnio(dt?.row?.Anio)
         setPoblacion(dt?.row?.totalPob)
-        setIdPoblacion(dt?.row?.idmunicipio)
+        setMunSeleccionado(dt?.row?.idmunicipio)
         console.log(dt.row)
     }
    
@@ -138,29 +144,19 @@ const MunPoblacionModal = ({
 
 
   return (
-    <Dialog open={open}>
-      <DialogTitle>{modo}</DialogTitle>
+    <Dialog open={open}>      
       <DialogContent>
         <Box>
+          <Box
+          sx={{ display: 'flex', justifyContent: 'center',}}>
+            <label className="Titulo">{modo}</label>
+          </Box>
+        
           <FormControl variant="standard" fullWidth>
             <InputLabel>Municipio</InputLabel>
-            <Select
-              required
-              onChange={(v) => setIdPoblacion(v.target.value)}
-              value={idPoblacion}
-              label="Municipio"
-            inputProps={{
-            readOnly: tipo == 1 ? false : true,
-             }}
-            >
-              {values?.map((item: Imunicipio) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Nombre}
-                  </MenuItem>
-                );
-              })}
-            </Select>
+
+      <SelectFrag options={municipios} onInputChange={handleSelectMes} placeholder={"Seleccione el Municipio"}></SelectFrag>
+      
           </FormControl>
 
           <TextField
@@ -172,8 +168,8 @@ const MunPoblacionModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
+            onChange={(v) => setAnio(Number(v.target.value))}
+            error={anio == null ? true : false}
              InputProps={{
             readOnly: tipo == 1 ? false : true,
        
@@ -189,8 +185,8 @@ const MunPoblacionModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setPoblacion(v.target.value)}
-            error={poblacion == "" ? true : false}
+            onChange={(v) => setPoblacion(Number(v.target.value))}
+            error={poblacion == null ? true : false}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start"></InputAdornment>
@@ -201,8 +197,8 @@ const MunPoblacionModal = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cerrar</Button>
+        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
+        <button className="cerrar" onClick={() => handleClose("cerrar")}>Cerrar</button>
       </DialogActions>
     </Dialog>
   );

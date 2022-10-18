@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import {
+  Box,
   SelectChangeEvent,
 } from "@mui/material";
 
-import {  GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import {
   getUser,
 } from "../../../../../services/localStorage";
@@ -16,31 +17,36 @@ import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
-
 import MunFacturacionModal from "./MunFacturacionModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import AccionesGrid from "../../../AccionesGrid";
+import { currencyFormatter } from "../../CustomToolbar";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import { fanios } from "../../../../../share/loadAnios";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+
+
 
 export const MunFacturacion = () => {
-  const user = getUser();
-
 
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
-
-
   const [Facturacion, setFacturacion] = useState([]);
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
+  const [anios, setAnios] = useState<SelectValues[]>([]);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
 
   //funciones
-  const handleFilterMes = () => {};
+  const handleFilterMes = () => { };
 
   const columns: GridColDef[] = [
     {
@@ -56,13 +62,15 @@ export const MunFacturacion = () => {
       hide: true,
       width: 150,
     },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", width: 220 },
     { field: "Anio", headerName: "Año", width: 150 },
     {
       field: "Facturacion",
       headerName: "Facturado",
       width: 150,
       align: "right",
+      ...currencyFormatter
     },
     {
       field: "acciones",
@@ -72,20 +80,27 @@ export const MunFacturacion = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <AccionesGrid handleEditar={handleEdit} handleBorrar={handleDelete} v={v} update={false} pdelete={false} />
+          <AccionesGrid handleEditar={handleEdit} handleBorrar={handleDelete} v={v} update={true} pdelete={true} />
         );
       },
     },
   ];
 
-  const handleClose = () => {
-    console.log('cerrando');
-    setOpen(false);
-    let data = {
-      NUMOPERACION: 4,
-      ANIO: filterAnio,
-    };
-    consulta(data);
+  const handleClose = (v: string) => {
+   
+    if (v === "close") {
+      setOpen(false);
+    }
+    else if(v === "save") {
+      setOpen(false);
+      let data = {
+        NUMOPERACION: 4,
+        ANIO: filterAnio,
+      };
+      consulta(data);
+
+    }
+
 
   };
 
@@ -103,7 +118,7 @@ export const MunFacturacion = () => {
     setData(v);
   };
 
- 
+
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
@@ -119,7 +134,7 @@ export const MunFacturacion = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 
@@ -174,7 +189,7 @@ export const MunFacturacion = () => {
         });
       }
 
-     
+
 
     });
   };
@@ -199,11 +214,11 @@ export const MunFacturacion = () => {
 
 
 
-  const handleFilterChange = (event: SelectChangeEvent) => {
-    setFilterAnio(event.target.value);
+  const handleFilterChange = (event: any) => {
+    setFilterAnio(event.value);
     let data = {
       NUMOPERACION: 4,
-      ANIO: event.target.value,
+      ANIO: event.value,
     };
     consulta(data);
   };
@@ -219,6 +234,7 @@ export const MunFacturacion = () => {
   };
 
   useEffect(() => {
+    setAnios(fanios());
     downloadplantilla();
   }, []);
 
@@ -226,14 +242,13 @@ export const MunFacturacion = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Filtros
-        anioApply={true}
-        mesApply={false}
-        handleFilterChangeAnio={handleFilterChange}
-        handleFilterChangeMes={handleFilterMes}
-        valueFilterAnio={filterAnio}
-        valueFilterMes={""}
-      />
+      <Box  
+         sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
+            <SelectFrag 
+            options={anios} 
+            onInputChange={handleFilterChange} 
+            placeholder={"Seleccione Año"}/>
+            </Box>
 
       {open ? (
         <MunFacturacionModal
@@ -253,11 +268,7 @@ export const MunFacturacion = () => {
         handleUpload={handleUpload}
       />
 
-
-<MUIXDataGrid
-              columns={columns}
-              rows={Facturacion}
-            />
+      <MUIXDataGrid columns={columns} rows={Facturacion} />
     </div>
   );
 };

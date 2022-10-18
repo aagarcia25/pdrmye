@@ -8,8 +8,8 @@ export class AuthService {
     }
 
 
-    public static async adminUser(data: any) {
-        return await post('Usuariosindex', data);
+    public static  adminUser(data: any) {
+        return  post('Usuariosindex', data);
     }
 
     public static async permisosindex(data: any) {
@@ -25,16 +25,30 @@ export class AuthService {
         return await post('rolesrel', data);
     }
 
+    public static async rolessinrelacionar(data: any) {
+        return await post('rolessinrelacionar', data);
+    }
+    public static async rolespermisorelacionar(data: any) {
+        return await post('rolespermisorelacionar', data);
+    }
+
     public static async usuarioRol(data: any) {
         return await post('usuarioRol', data);
     }
+
+
+    public static async RelacionarUsuarioRol(data: any) {
+        return await post('RelacionarUsuarioRol', data);
+    }
+
+    
 
     public static async menusindex(data: any) {
         return await post('menusindex', data);
     }
 
     public static async menuPermisosRel(data: any) {
-        return await post('menuPermisosRel', data);
+       return await post('menuPermisosRel', data);
     }
 
 
@@ -45,6 +59,13 @@ export class AuthService {
     public static async menuPermisosRelacionar(data: any) {
         return await post('menuPermisosRelacionar', data);
     }
+    public static async menusinrelacionararol(data: any) {
+        return await post('menusinrelacionararol', data);
+    }
+    public static async menurelacionadosalrol(data: any) {
+        return await post('menurelacionadosalrol', data);
+    }
+    
     
 
 }

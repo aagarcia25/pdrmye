@@ -27,8 +27,8 @@ export class CatalogosServices {
     public static async munfacturacion(data : any) {
         return await post('munfacturacion', data);
     };
-    public static async munpobrezamod(data : any) {
-        return await post('munpobrezamod', data);
+    public static async munpobreza(data : any) {
+        return await post('munpobreza', data);
     };
     public static async munproyec(data : any) {
         return await post('munproyec', data);
@@ -103,5 +103,10 @@ export class CatalogosServices {
         return await post('crecimientoAnio', data);
     };
 
+    public static async SelectIndex(data : any) {
+        return await post('SelectIndex', data);
+    };
+
+    
 
 }

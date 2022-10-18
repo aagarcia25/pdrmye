@@ -1,28 +1,20 @@
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   Box,
   TextField,
-  Button,
   IconButton,
-  Input,
   Container,
-  Tooltip,
-} from "@mui/material";
-import {  porcentage } from '../../CustomToolbar'
+  
+  } from "@mui/material";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
-import { Label, PhotoCamera } from "@mui/icons-material";
-import { devNull } from "os";
-import { style } from "@mui/system";
-import "../Eventos/globals.css";
-import TodayIcon from '@mui/icons-material/Today';
-import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
+import { PhotoCamera } from "@mui/icons-material";
+import "../../../../../styles/globals.css";
 
 
 const EventosModal = ({
@@ -30,59 +22,65 @@ const EventosModal = ({
   modo,
   handleClose,
   tipo,
-  nuevoEvento,
+ 
   dt
 }: {
-    
+
   open: boolean;
   modo: string;
-  tipo:number;
-  handleClose:Function,
-  nuevoEvento:boolean;
-  dt:any
+  tipo: number;
+  handleClose: Function,
+  
+  dt: any
 }) => {
 
- // CAMPOS DE LOS FORMULARIOS
-  const today = new Date().toISOString();
+  //////// trassicion
+ 
+  // CAMPOS DE LOS FORMULARIOS
+ 
+
   const [id, setId] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [description, setDescription] = useState("");
+
   const [nameNewImage, setNameNewImage] = useState("");
-  const [nameEvent, setNameEvent] = useState("");
   const [newImage, setNewImage] = useState(Object);
+  const [nameEvent, setNameEvent] = useState("");
+ 
+  const [finEventoMax, setFinEventoMax] = useState("2100-09-30 13:16:00");
   const [finEvento, setFinEvento] = useState("");
-  const [image, setImage] = useState("");
-  
+  const [urlImage, setUrlImage] = useState("");
+  const [modoModal, setModoModal] = useState(modo);
   const [slideropen, setslideropen] = useState(false);
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
   var hoy = new Date()
-  var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2) ;
+  var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2);
   var hora = ('0' + hoy.getHours()).slice(-2) + ':' + ('0' + hoy.getMinutes()).slice(-2);
-  var fechaInicioEvento:"";
-  var Fecha_min = fecha +'T'+ hora;
+  var Fecha_min = fecha + 'T' + hora;
   const [inicioEventoMin, setInicioEventoMin] = useState(Fecha_min);
-  const [inicioEvento, setInicioEvento] = useState( Fecha_min);
-////////////////////////////////
-const [preview, setPreview]=useState<string>();
-const [NewImagePreview, setNewImagePreviw] =useState<File>();
-const [cleanUp, setCleanUp] =useState<boolean>(false);
+  const [inicioEvento, setInicioEvento] = useState("")
 
+  ////////////////////////////////
+  const [previewImage, setPreviewImage] = useState<string>();
+  const [NewImagePreview, setNewImagePreviw] = useState<File>();
+  const [cleanUp, setCleanUp] = useState<boolean>(false);
+  const [editImage, setEditImage] = useState<boolean>(false);
 
-
-//////////////////////////////////
+  //setInicioEvento(Fecha_min);
+  //////////////////////////////////
 
 
   const testeoVariables = () => {
-    console.log("inicio de evento seteado    "+inicioEvento)
-    console.log("fin de evento   "+finEvento)
-    console.log("det"+ dt)
-  console.log("fecha y hora  minimo     "+inicioEventoMin);
-console.log("carga de imagen "+ newImage)
-console.log("nombre de imagen para cargar     "+ nameNewImage)
-console.log("nombre "+ nameEvent)
-console.log("DEscripcion  "+descripcion )
-console.log("DEscription  "+ description)
+    console.log("inicio de evento   " + inicioEvento)
+    console.log("fin de evento   " + finEvento)
+    console.log("noombre de evento    " + nameEvent)
+    console.log("detalles de evento   " + descripcion);
+    console.log("imagen   " + urlImage)
+    console.log("nuevo usl de imagen   "+ previewImage)
+    console.log("hoy   "+ hoy.getFullYear())
+    console.log("fecha de hoy   "+ Fecha_min)
+    console.log("numero de operacion  "+tipo)
+   
   }
 
   const municipiosc = () => {
@@ -97,12 +95,13 @@ console.log("DEscription  "+ description)
   };
 
   const handleUpload = () => {
-      setslideropen(true);
-    
+
+    setslideropen(true);
+
     const formData = new FormData();
-    formData.append("IMAGEN", newImage, nameNewImage);
-    formData.append("NUMOPERACION", "1");
-    formData.append("CHID", "");
+    (editImage)?formData.append("IMAGEN", newImage, nameNewImage):formData.append("IMAGEN","");    
+    formData.append("NUMOPERACION", String(tipo));
+    formData.append("CHID", id);
     formData.append("NOMBRE", nameEvent);
     formData.append("DESCRIPCION", descripcion);
     formData.append("FECHAINICIO", inicioEvento);
@@ -110,9 +109,6 @@ console.log("DEscription  "+ description)
     formData.append("CHUSER", "1");
 
 
-    console.log(formData);
-    console.log("nombre extraido de imagen name   "+nameNewImage);
-    
 
 
     CatalogosServices.eventos(formData).then((res) => {
@@ -130,57 +126,57 @@ console.log("DEscription  "+ description)
         });
       }
 
-     
+
 
     });
+   
     handleClose();
   };
 
   const handleFechaInicio = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInicioEvento(event.target.value.toString());
-  };
 
+  };
   const handleFechaFin = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFinEvento(event.target.value.toString());
   };
-  const handleNewImage = (event:any) => {
+  const handleNewImage = (event: any) => {
 
     let file = event.target!.files[0]!;
     ///// SE VALIDA SI NO SE CARGO ARCHIVO EN EL INPUT PARA PODER EXTRAER EL NOMBRE
-    if (event.target.files.length===0){
-    }else{
-      setNameNewImage (event.target!.files[0]!.name);
+    if (event.target.files.length === 0) {
+    } else {
+      setNameNewImage(event.target!.files[0]!.name);
     }
+
+
     
-    console.log(event.target);
 
     /////////////////////////////
 
-if (file && file.type.substr (0,5)=== "image"){
+    if (file && file.type.substr(0, 5) === "image") {
 
-  setNewImagePreviw(file);
-  setCleanUp(true);
-  setNewImage(null);
+      setNewImagePreviw(file);
+      setCleanUp(true);
+      setEditImage(true);
+      setNewImage(null);
 
-}    /////////////////////////
+    }    /////////////////////////
 
     setNewImage(file);
-    console.log(newImage)
+ 
 
   };
-
   const handleRequest = (data: any) => {
-    console.log(data);
+   
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-      
       editar(data);
     }
   };
-
   const agregar = (data: any) => {
     CatalogosServices.eventos(data).then((res) => {
       if (res.SUCCESS) {
@@ -198,7 +194,6 @@ if (file && file.type.substr (0,5)=== "image"){
       }
     });
   };
-
   const editar = (data: any) => {
     CatalogosServices.eventos(data).then((res) => {
       if (res.SUCCESS) {
@@ -216,248 +211,434 @@ if (file && file.type.substr (0,5)=== "image"){
     });
   };
 
-    useEffect(() => {
+  useEffect(() => {
     municipiosc();
-
-    if(dt === ''  ){
-        console.log(dt)
-       
-    }else{
-        setId(dt?.row?.id)
-        setDescripcion(dt?.row?.Descripcion)
-        setImage(dt?.row?.Imagen)
-        setIdMunicipio(dt?.row?.idmunicipio)
-   
-    }
- 
-  }, [dt] );
-
-  useEffect(()=>{
-    if (NewImagePreview){
     
+
+    if (dt === '') {    
+
+     } else {
+      setId(dt?.row?.id)
+      setDescripcion(dt?.row?.Descripcion)
+      setUrlImage(dt?.row?.Imagen)
+      setIdMunicipio(dt?.row?.idmunicipio)
+      setNameEvent(dt?.row?.Nombre)
+      setInicioEvento(dt?.row?.FechaInicio)
+      setFinEvento(dt?.row?.FechaFin)
+
+      
+    }
+
+  }, [dt]);
+
+  useEffect(() => {
+    if (NewImagePreview) {
+
       const reader = new FileReader();
-      reader.onloadend =()=>{
-        setPreview (reader.result as string);
+      reader.onloadend = () => {
+        setPreviewImage(reader.result as string);
       };
-      reader.readAsDataURL (NewImagePreview!);
+      reader.readAsDataURL(NewImagePreview!);
     }
-    else{
-      setPreview("o");
-      }
-    }, [NewImagePreview]);
-    
-    
+    else {
+      setPreviewImage("o");
+    }
+  }, [NewImagePreview]);
+
+
   return (
 
 
-    <Dialog open={open} >
+    <Dialog 
+    open={open}  
+    
+    >
 
-      <Box sx={{ bgcolor:'rgb(222, 225, 225)', display: 'flex',justifyContent: 'center', }}>
-    <DialogTitle>{modo}</DialogTitle>
-     </Box>
-   
- { (nuevoEvento=== true)?
+<Container maxWidth="sm" >
+      <Box sx={{ display: 'flex', justifyContent: 'center', }}>
 
+        {/// se setea el modo en modoModal para ver el tipo de el evento
+        }
 
+        <label className="Titulo">{modoModal}</label>
 
-   <Box  sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', }}>
+      </Box>
 
-{
-  //////////empiezan debajo del titulo
-}
-          <Box  sx={{width: '100%',}}>
-             
-                
-                <Box sx={{  
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  p: 1,
-                  m: 1,
-                  bgcolor: 'background.paper',
-                  borderRadius: 1, }}>  
-                
-                {(cleanUp)?"":
-                <Box>
-                <IconButton aria-label="upload picture" component="label">
-                <input                
-                required                
-                type="file"
-                hidden
-                accept="image/*" 
-                onChange={(event) =>{         
-                handleNewImage(event)  } } />
-                <PhotoCamera/>
-                </IconButton>
-                </Box>
-                }
+      {(modoModal === "Agregar Evento") ?
+      <Container maxWidth="sm" >
+        <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', }}>
 
-                {(cleanUp)?
+          {
+            //////////empiezan debajo del titulo
 
-                <Box>
-                    <Box> 
-                    <img src={preview} className="rounded-corners" style={{objectFit:"scale-down",width: '100%', }} />
-                    </Box> 
-                    <Box> 
-                   <IconButton component="label">
-                    <input                
-                    required                
-                    type="file"
-                    hidden
-                    accept="image/*"
-                    onChange={(event) =>{         
-                    handleNewImage(event)  } } />
-                    <PhotoCamera/>
-                    </IconButton>
-                    </Box> 
-                    </Box> 
+            //// imagen carga y previsualizacion
+          }
+          <Box sx={{ width: '100%', }}>
 
-                   :"" }  
-                   
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              p: 1,
+              m: 1,
+              bgcolor: 'background.paper',
+              borderRadius: 1,
+            }}>
+              <Box   sx={{display: 'flex', width: '100%', justifyContent: 'center', }}>
+              {(cleanUp) ?
+                  <Box 
+                    >
+                    <img src={previewImage} style={{ objectFit: "scale-down", width: '100%', }} />
+                  </Box>
+                  : ""}                              
               </Box>
-
-                  
-
-
-            <Box sx={{ 
-          justifyContent: 'center',
-          p: 1,
-          m: 1,
-          bgcolor: 'background.paper',
-          borderRadius: 1,
-        }}>
-            <Box sx={{ justifyContent: 'center',}}>
-
-               <Box  >
-              <label>Inicio de evento </label>
-              </Box>
-          
-
               <Box>
-
-             
-              <input
-              id="datetime-inicia"              
-              required            
-              type="datetime-local"
-              defaultValue={inicioEventoMin}
-              min = {inicioEventoMin}  
-              max = {finEvento}     
-              onChange={handleFechaInicio}   
-              />
-            
-            
-              </Box>
-
-            </Box >
-
-              <Box sx={{justifyContent: 'center', }}>
-
-              <Box>
-              <label >Fin de evento</label>
-              </Box>
-
-              <Box>
-              <input
-              id="datetime-finaliza"
-              required      
-              type="datetime-local"
-              defaultValue={inicioEventoMin}
-              min = {inicioEvento}
-              onChange={handleFechaFin}
-               />
-               </Box>
-
-               </Box>
-                    
+                  <IconButton aria-label="upload picture" component="label" size="large" >
+                    <input
+                      required
+                      type="file"
+                      hidden
+                      accept="image/*"
+                      onChange={(event) => {
+                        handleNewImage(event)
+                      }} />
+                    <PhotoCamera />
+                  </IconButton>
+                </Box> 
             </Box>
 
-           {////////////// fin de botones
-}
           </Box>
- 
- 
 
-            <TextField
-            required
-            margin="dense"
-            id="anio"
-            //value ={descripcion}
-            label="Nombre"
-            type="string"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setNameEvent(v.target.value)}
-            
+          {
+            //////////
+
+            //// inicio y fin de evento
+          }
+          <Box sx={{           
+            p: 1,
+            m: 1,
+            bgcolor: 'background.paper',
+            borderRadius: 1,
+          }}>
+
+            <Box  sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+            p: 1,
+            m: 1,}}>
+              <Box>
+
+                <Box sx={{ justifyContent: 'center', display: 'flex', }} >
+                  <label >Inicio </label>
+                </Box>
+
+                <Box>
+                  <input
+                    id="datetime-local"
+                    required
+                    type="datetime-local"
+                    
+                    min={inicioEventoMin}
+                    max={finEventoMax}
+                    onChange={handleFechaInicio}
+                  />
+
+
+
+                </Box>
+              </Box>
+          
+              <Box sx={{ justifyContent: 'center', }}>
+                <Box>
+                  <Box sx={{ justifyContent: 'center', display: 'flex', }} >
+                  <label >Fin</label>
+                  </Box>
+                  <Box>
+                    <input
+                      id="datetime-finaliza"
+                      required
+                      type="datetime-local"
+                      min={inicioEvento}
+                      onChange={handleFechaFin}
+                    />
+                  </Box>
+
+                </Box>
+
+              </Box>            
+            </Box>
+          </Box>
+          {
+            //////////
+
+            //// añadir nombre y descripcion
+          }
+          <Box>
+
          
+          <label >Nombre</label>
+                <TextField
+                  required
+                  multiline
+                  margin="dense"
+                  type="string"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNameEvent(v.target.value)}
+                  error={nameEvent == "" ? true : false}
+                />
+                 <label 
+                 >Descripcion</label>
+                <TextField
+                  multiline
+                  required
+                  margin="dense"
+                  id="anio"
+                  
+                  type="string"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setDescripcion(v.target.value)}
+                  error={descripcion == "" ? true : false}
+
+                />
+              </Box>
+
+              <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
+               
+              <button  className="button cerrar" onClick={() => handleClose()}  >Cerrar</button>
+               <button className= "guardar" onClick={() => handleUpload()} >Guardar</button>
+          
+          
+               
+              </Box>
+
+
+        </Box>
+        </Container>
+        : ""}
+
+      {(modoModal === "Evento") ?
+        <Container maxWidth="sm" >
+          <Box  >
+
+            <Box >
+              <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
+            </Box>
+
+            <Box>
+            <Box
+             sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius:'5px'}}>
+              <h4>Nombre</h4>  
+            </Box>
+
+            <label>                        
+            {"Nombre "+nameEvent}
+            </label>
+
+            <Box
+             sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius:'5px'}}>
+              <h4>Descripcion</h4>  
+            </Box>              
+            <label>                     
+            {descripcion}
+            </label>           
+            </Box>
+
+            <Box 
+            sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+            p: 1,
+            m: 1,}}>
+
+            <label>
+             <h3>Inicio</h3>            
+            {inicioEvento}           
             
-          />
-          <TextField
-            required
-            margin="dense"
-            id="anio"
-            //value ={descripcion}
-             label ="Descripcion"
-            type="string"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setDescription(v.target.value)}
-         
-           
-          />
+            </label>
 
-
-            <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
-            <Button onClick={() => handleUpload() } >Guardar</Button>
-            <Button onClick={() => testeoVariables() } >test</Button>
-            <Button onClick={() => handleClose()}  >Cerrar</Button>
+             <label  >
+             <h3>Fin</h3>            
+            {finEvento}
+            </label>
+          
             </Box>
 
 
-  </Box>
-  
-  : 
+            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
 
-  <Container maxWidth="sm">
+              <button  className= "cerrar" onClick={() => handleClose()}>Cerrar</button>
+              <button className= "editar" onClick={() => setModoModal("Editar")}>Editar</button>
+        
+            </Box>
+          </Box>
+        </Container>
+        : ""
+      }
 
+      {(modoModal === "Editar") ?
 
-     <Box  >
-        <Box >
-        <img id="imagen" src={image} style={{ width: '100%' ,height: '100%' ,objectFit:"scale-down" }}/>
-        </Box>
+        ///// editar evento hora inicio fin y foto        
 
-     <TextField
-            required
-            margin="dense"
-            id="anio"
-            value ={descripcion}
-        disabled
-            type="string"
-            fullWidth
-            variant="standard"
-         
-            InputProps={{
-            readOnly: true,
+        (Date.parse(inicioEventoMin) >= Date.parse(inicioEvento)) ?
+
+        ////// SI EL EVENTO YA INICIO NO DEJA EDITARLO
+        <Container maxWidth="sm" >
+           
+          <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'column', }}>
+
+            <Box>
+
+              <TextField
+                margin="dense"
+                multiline
+                value=" El evento ya Inicio y/o Finalizo no se puede editar"
+                type="string"
+                fullWidth
+                variant="outlined"
+                color="warning"
+                focused
+                InputProps={{
+                  readOnly: true,
+                }} />
+            </Box>
+            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }} >
+              <button className="cerrar" onClick={() => handleClose()}  >Cerrar</button>
+            
+            </Box>
+          </Box>
+           </Container>
+          :
+          /////   EDITAR EVENTO SI ESTE AUN NO FINALIZA Y/O INICIA
+          <Container maxWidth="sm">
           
-             }}
-          />  
-                <Box  sx={{ bgcolor: 'rgb(255, 255, 255)',width: '100%', display: 'flex', flexDirection: 'row-reverse',}}>
+            {/// input de infomacion 
+            }
+           
+            {(editImage) ?
+              <Box>
+                <img id="imagen" src={previewImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
+              </Box>
+              : 
+              <Box>
+                <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
+              </Box>
+            }
+             <Box>
+              <IconButton aria-label="upload picture" component="label" size="large">
+                <input
+                  required                  
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={(event) => {
+                    handleNewImage(event)
+                  }} />
+                <PhotoCamera />
+              </IconButton>
+            </Box>
 
-                <Button onClick={() => handleClose() }>Cerrar</Button>
-                </Box>           
-    </Box>
-    </Container>
- } 
+            <Box>
+            <Box
+             sx={{ bgcolor: 'rgb(222, 225, 225)'}}>
+              <label>Nombre</label>  
+            </Box>
+
+              <TextField
+                  required
+                  multiline
+                  defaultValue={nameEvent}
+                  margin="dense"
+                  id="anio"
+                  type="string"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNameEvent(v.target.value)}
+                  error={nameEvent == "" ? true : false}
+                />
+
+            <Box
+             sx={{ bgcolor: 'rgb(222, 225, 225)'}}>
+              <label>Descripcion</label>  
+            </Box>              
+            <TextField
+                  multiline
+                  required
+                  margin="dense"
+                  id="anio"
+                  defaultValue={descripcion}
+                  type="string"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setDescripcion(v.target.value)}
+                  error={descripcion == "" ? true : false}
+
+                />          
+            </Box>
 
 
+            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+            p: 1,
+            m: 1,}}>
+              <Box sx={{ justifyContent: 'center', }}>
+
+                <Box  >
+                  <label>Inicio de evento </label>
+                </Box>
+                <Box>
+                  <input
+                    id="datetime-inicia"
+                    required
+                    type="datetime-local"
+                    defaultValue={inicioEvento}
+                    min={inicioEventoMin}
+                    max={finEvento}
+                    onChange={handleFechaInicio}
+                  />
+                </Box>
+              </Box >
+
+              <Box sx={{ justifyContent: 'center', }}>
+
+                <Box>
+                  <label >Fin de evento</label>
+                </Box>
+
+                <Box>
+                  <input
+                    id="datetime-local"
+                    required
+                    type="datetime-local"
+                    defaultValue={finEvento}
+                    min={inicioEvento}
+                    onChange={handleFechaFin}
+                  />
+                </Box>
+
+              </Box>
+
+            </Box>
+
+           
+
+            {////// botones 
+            }
+
+            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
+              <button className="cerrar" onClick={() => handleClose()}  >Cerrar</button>
+              <button className= "guardar" onClick={() => handleUpload()} >Guardar</button>
+      
+              
+
+            </Box>
+          
+            </Container>
+
+        //////////evento finalizado                     
+        : ""}
+</Container>
     </Dialog>
-  
+
   );
 };
-
-
-
 
 export default EventosModal;
 

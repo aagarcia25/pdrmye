@@ -21,6 +21,8 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
+import { getUser } from "../../services/localStorage";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -30,12 +32,11 @@ interface HeaderProps {
 
 export default function Header(props: HeaderProps) {
   const btnPerson = "2.5vw";
-  const btnAll = "2.0vw";
+  const btnAll = "3.0vw";
 
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const navigate = useNavigate();
-
   const [cnotif, setCnotif] = React.useState(0);
-
   const { onDrawerToggle } = props;
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -61,7 +62,10 @@ export default function Header(props: HeaderProps) {
 
   const onLogOut = () => {
     localStorage.clear();
-    window.location.replace("http://10.200.4.106/");
+    var ventana = window.self;
+    ventana.opener = window.self;
+    ventana.close();
+    // window.location.replace("http://10.200.4.106/");
   };
 
   const onOpenCalendar = () => {
@@ -98,7 +102,7 @@ export default function Header(props: HeaderProps) {
 
   let data = {
     NUMOPERACION: 5,
-    CHUSER: 1,
+    CHUSER: user.id,
   };
 
   React.useEffect(() => {
@@ -108,23 +112,6 @@ export default function Header(props: HeaderProps) {
     });
   }, []);
 
-
-
-
-
-
-
-
-
-
-
-
-const lightColor = "rgba(255, 255, 255, 0.7)";
-
-
-
-
-
   return (
     <React.Fragment>
       <AppBar
@@ -133,10 +120,7 @@ const lightColor = "rgba(255, 255, 255, 0.7)";
         elevation={0}
       >
         <Toolbar>
-
           <Grid container spacing={2} alignItems="center">
-
-
             <Grid
               sx={{
                 display: {
@@ -147,7 +131,6 @@ const lightColor = "rgba(255, 255, 255, 0.7)";
               }}
               item
             >
-
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -160,82 +143,43 @@ const lightColor = "rgba(255, 255, 255, 0.7)";
             <Grid item xs />
 
             <Grid item>
-              <Tooltip title="Bandeja de correo">
-                <Badge
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  badgeContent={cnotif}
-                  color="primary"
-                >
-                  <IconButton
-                    color="inherit"
-                    sx={{
-                      p: 0.8,
-                      backgroundColor: COLOR.negro,
-                      "&:hover": {
-                        backgroundColor: COLOR.grisTarjetaBienvenido,
-                      },
-                    }}
-                    onClick={onNotification}
-                  >
-                    <NotificationsNoneIcon
-                      sx={{ color: COLOR.blanco, fontSize: btnAll,
-                      "&:hover":{
-                        color:COLOR.negro,
-                      } }}
-                    />
-                  </IconButton>
-                </Badge>
-              </Tooltip>
+              <Typography variant="h6" color="black">
+                {props.name}
+              </Typography>
             </Grid>
 
             <Grid item>
-              <Tooltip title="Calendario">
+              <Tooltip title="Haz click para ver más">
                 <IconButton
+                  ref={anchorRef}
+                  id="composition-button"
+                  aria-controls={open ? "composition-menu" : undefined}
+                  aria-expanded={open ? "true" : undefined}
+                  aria-haspopup="true"
+                  onClick={handleToggle}
                   color="inherit"
                   sx={{
-                    p: 0.8,
+                    width: "3.8vw",
+                    height: "7vh",
+                    fontSize: btnPerson,
+                    p: 0.1,
+                    border: 4,
+                    borderColor: COLOR.negro,
                     backgroundColor: COLOR.negro,
                     "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                   }}
-                  onClick={onOpenCalendar}
                 >
-                  <CalendarMonthIcon
-                    sx={{ fontSize: btnAll, color: COLOR.blanco,
-                      "&:hover":{
-                        color:COLOR.negro,
-                      } }}
-                  />
+                  {user.RutaFoto ? (
+                    <img
+                      style={{ width: "3vw", height: "7vh" }}
+                      src={user.RutaFoto}
+                    />
+                  ) : (
+                    <PersonIcon sx={{ width: "3vw", height: "7vh",
+                    "&:hover":{color:COLOR.negro}}} />
+                  )}
                 </IconButton>
               </Tooltip>
-            </Grid>
-
-            <Grid item></Grid>
-
-            <Grid item>
-              <IconButton
-                ref={anchorRef}
-                id="composition-button"
-                aria-controls={open ? "composition-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleToggle}
-                color="inherit"
-                sx={{
-                  fontSize: btnPerson,
-                  p: 1.0,
-                  backgroundColor: COLOR.negro,
-                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-                }}
-              >
-                <PersonIcon sx={{ fontSize: btnPerson, color: COLOR.blanco,
-                "&:hover":{
-                  color:COLOR.negro,
-                } }} />
-              </IconButton>
-
               <Popper
                 open={open}
                 anchorEl={anchorRef.current}
@@ -279,7 +223,62 @@ const lightColor = "rgba(255, 255, 255, 0.7)";
             </Grid>
 
             <Grid item>
-              <Typography color="black">{props.name}</Typography>
+              <Tooltip title="Bandeja de correo">
+                <Badge
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  badgeContent={cnotif}
+                  color="primary"
+                >
+                  <IconButton
+                    color="inherit"
+                    sx={{
+                      mt: 0.1,
+                      backgroundColor: COLOR.negro,
+                      "&:hover": {
+                        backgroundColor: COLOR.grisTarjetaBienvenido,
+                      },
+                    }}
+                    onClick={onNotification}
+                  >
+                    <NotificationsNoneIcon
+                      sx={{
+                        color: COLOR.blanco,
+                        fontSize: btnAll,
+                        "&:hover": {
+                          color: COLOR.negro,
+                        },
+                      }}
+                    />
+                  </IconButton>
+                </Badge>
+              </Tooltip>
+            </Grid>
+
+            <Grid item>
+              <Tooltip title="Calendario">
+                <IconButton
+                  color="inherit"
+                  sx={{
+                    mt: 0.1,
+                    backgroundColor: COLOR.negro,
+                    "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+                  }}
+                  onClick={onOpenCalendar}
+                >
+                  <CalendarMonthIcon
+                    sx={{
+                      fontSize: btnAll,
+                      color: COLOR.blanco,
+                      "&:hover": {
+                        color: COLOR.negro,
+                      },
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
             </Grid>
           </Grid>
         </Toolbar>

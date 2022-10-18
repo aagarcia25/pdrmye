@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Modal, Typography, Button, Checkbox } from "@mui/material";
+import { Modal, Typography, Button, Checkbox, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { AuthService } from "../../../../../services/AuthService";
@@ -11,11 +11,11 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 
 const MenuAsignaPermisos = ({
-  id,
+  dt,
   open,
   handleClose,
 }: {
-  id: string;
+  dt: any;
   open: boolean;
   handleClose: Function;
 }) => {
@@ -23,31 +23,38 @@ const MenuAsignaPermisos = ({
 
   const [openSlider, setOpenSlider] = useState(false);
 
-  const handleChange = (v: any) => {
-    let data={
-        IDPERMISO : v.row.id,
-        IDMENU    : id
-    }
-    AuthService.menuPermisosRelacionar(data).then((res) => {
-        setData(res.RESPONSE);
-        if (res.SUCCESS) {
-            Toast.fire({
-                icon: "success",
-                title: "Permiso Relacionado!",
-              });  
-              consulta({ CHID: id });
-        }else{
-            Alert.fire({
-                title: "Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              }); 
-        }
+
+  const consulta = (data: any) => {
+    setOpenSlider(true);
+    AuthService.menuPermisosSinRel(data).then((res) => {
+      setData(res.RESPONSE);
+      setOpenSlider(false);
     });
 
+  };
 
-
-
+  const handleChange = (v: any) => {
+    let data = {
+      TIPO: 1,
+      IDPERMISO: v.row.id,
+      IDMENU: dt?.row?.id
+    }
+    AuthService.menuPermisosRelacionar(data).then((res) => {
+      setData(res.RESPONSE);
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Permiso Relacionado!",
+        });
+        consulta({ CHID: dt?.row?.id });
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
 
   };
 
@@ -66,115 +73,98 @@ const MenuAsignaPermisos = ({
       sortable: false,
       width: 10,
       renderCell: (v) => {
-        return <Checkbox onChange={() => handleChange(v) } />;
+        return <Checkbox onChange={() => handleChange(v)} />;
       },
     },
     { field: "Permiso", headerName: "Permiso", width: 100 },
     { field: "Descripcion", headerName: "Descripcion", width: 250 },
   ];
 
-  const consulta = (data: any) => {
-    setOpenSlider(true);
-    AuthService.menuPermisosSinRel(data).then((res) => {
-      setData(res.RESPONSE);
-      setOpenSlider(false);
-    });
-    
-  };
+
 
   useEffect(() => {
-    consulta({ CHID: id });
+    consulta({ CHID: dt?.row?.id });
   }, []);
 
   return (
     <div>
-    
-    
-    <Slider open={openSlider} ></Slider>
-      <Box>
+
+
+      <Slider open={openSlider} ></Slider>
+      <Box >
         <Modal open={open}>
-          <Box
+          <Grid
+            container
             sx={{
               position: "absolute",
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              width: "30vw",
-              height: "50vh",
-              bgcolor: "background.paper",
+              width: "50vw",
+              height: "60vh",
+              bgcolor: "rgb(255,255,255)",
               boxShadow: 50,
               p: 2,
               borderRadius: 3,
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+            <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
               <Typography
                 sx={{
                   textAlign: "center",
                   fontFamily: "MontserratBold",
-                  fontSize: "1vw",
-                  color: "#808080",
+                  fontSize: "2vw",
+                  color: "#454545",
                 }}
               >
-                Relacionar Permisos a Menú
+                Permisos Disponibles Para Relacionar a Menú
               </Typography>
-            </Box>
+            </Grid>
 
-            <Box sx={{ mt: "3vh" }}>
+            <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
               <Typography
                 sx={{
-                  mt: "1vh",
                   textAlign: "left",
                   fontFamily: "MontserratMedium",
-                  fontSize: ".8vw",
-                  color: "#4db6ac",
+                  fontSize: "1.5vw",
+                  color: "#808080",
                 }}
               >
                 Para Relacionar el Permiso solo Marca la Casilla
               </Typography>
-            </Box>
-
-            <Box
+            </Grid>
+            <Grid sm={12}
               sx={{
                 mt: "2vh",
                 width: "100%",
-                height: "30vh",
+                height: "60%",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "row",
-                flexWrap: "wrap",
+
               }}
             >
-              <Box sx={{ height: "100%", width: "80%" }}>
-                <MUIXDataGridSimple columns={columns} rows={data} />
-              </Box>
-            </Box>
 
-            <Box
+              <MUIXDataGridSimple columns={columns} rows={data} />
+            </Grid>
+            <Grid md={12}
               sx={{
                 display: "flex",
                 alignItems: "right",
                 justifyContent: "right",
                 mt: "2vh",
-                // mr: "5vw",
-                // ml: "5vw",
+
               }}
             >
-              <Button
-                sx={{ color: "#000", fontFamily: "MontserratMedium" }}
+              <button
+                className="cerrar"
                 onClick={() => handleClose()}
               >
                 Salir
-              </Button>
-            </Box>
-          </Box>
+              </button>
+            </Grid>
+          </Grid>
         </Modal>
       </Box>
     </div>

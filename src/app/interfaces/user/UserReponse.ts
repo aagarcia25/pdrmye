@@ -1,5 +1,5 @@
 export interface UserReponse{
-    IdUsuario?:string,
+    IdUsuario:string,
     NombreUsuario:string,
     exp:string,
     iat?:string

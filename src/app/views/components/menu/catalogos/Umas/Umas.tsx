@@ -1,45 +1,29 @@
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  LinearProgress,
-  Modal,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
-
-import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar } from "../../CustomToolbar";
-import { getUser } from "../../../../../services/localStorage";
+import { useEffect, useState } from "react";
+import { Box, IconButton, } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import AddIcon from "@mui/icons-material/Add";
 import { messages } from "../../../../styles";
 import UmasModel from "./UmasModel";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../../services/localStorage";
 
 
 
 export const Umas = () => {
-  const user = getUser();
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
- 
-  const [slideropen, setslideropen] = useState(false);
   const [vrows, setVrows] = useState({});
   const [conUmas, setUmas] = useState([]);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
 
   const columns: GridColDef[] = [
     {
@@ -77,7 +61,7 @@ export const Umas = () => {
 
   const handleClose = () => {
     setOpen(false);
-    consulta({NUMOPERACION: 4 })
+    consulta({ NUMOPERACION: 4 })
 
   };
 
@@ -111,7 +95,7 @@ export const Umas = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 
@@ -122,7 +106,7 @@ export const Umas = () => {
               title: "Registro Eliminado!",
             });
 
-            consulta({NUMOPERACION: 4 });
+            consulta({ NUMOPERACION: 4 });
 
           } else {
             Alert.fire({
@@ -161,7 +145,7 @@ export const Umas = () => {
 
 
   useEffect(() => {
-    consulta({NUMOPERACION: 4 })
+    consulta({ NUMOPERACION: 4 })
   }, []);
 
 
@@ -181,22 +165,9 @@ export const Umas = () => {
       )}
 
       <ButtonsAdd handleOpen={handleOpen} />
+      <MUIXDataGrid columns={columns} rows={conUmas} />
 
-      <DataGrid
-        //checkboxSelection
-        pagination
-        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-        components={{
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={conUmas}
-        columns={columns}
 
-        // loading //agregar validacion cuando se esten cargando los registros
-      />
     </div>
   );
 };

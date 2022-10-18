@@ -1,46 +1,35 @@
 import React, { useEffect, useState } from "react";
-
 import {
   Box,
   IconButton,
-  LinearProgress,
-  SelectChangeEvent,
 } from "@mui/material";
-
-import { esES, GridColDef } from "@mui/x-data-grid";
-import { DataGrid } from "@mui/x-data-grid";
-import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar, Moneda } from "../../CustomToolbar";
-import {
-  getUser,
-} from "../../../../../services/localStorage";
+import { GridColDef } from "@mui/x-data-grid";
+import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
-import Filtros from "../Utilerias/Filtros";
 import Buttons from "../Utilerias/Buttons";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import MunTerritorioModal from "./MunTerritorioModal";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 
 export const MunTerritorio = () => {
-  const user = getUser();
-
 
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
-
-
   const [territorio, setTerritorio] = useState([]);
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
   // VARIABLES PARA LOS FILTROS
@@ -50,14 +39,15 @@ export const MunTerritorio = () => {
 
 
 
-const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador",  hide:true ,width: 150   , description:messages.dataTableColum.id},
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
     {
       field: "idmunicipio",
       headerName: "idmunicipio",
       hide: true,
       width: 150,
     },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "Km2", headerName: "Area", width: 150 },
     {
@@ -79,17 +69,24 @@ const columns: GridColDef[] = [
         );
       },
     },
-   
+
   ];
 
-  const handleClose = () => {
+  const handleClose = (v: string) => {
+    if (v == "close") {
+      setOpen(false);
+    }
+    else if (v == "save") {
+      setOpen(false);
+      let data = {
+        NUMOPERACION: 4,
+
+      };
+      consulta(data);
+
+    }
     console.log('cerrando');
-    setOpen(false);
-    let data = {
-      NUMOPERACION: 4,
-     
-    };
-    consulta(data);
+
 
   };
 
@@ -107,7 +104,7 @@ const columns: GridColDef[] = [
     setData(v);
   };
 
- 
+
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
@@ -123,7 +120,7 @@ const columns: GridColDef[] = [
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 
@@ -136,7 +133,7 @@ const columns: GridColDef[] = [
 
             let data = {
               NUMOPERACION: 4,
-              
+
             };
             consulta(data);
 
@@ -178,7 +175,7 @@ const columns: GridColDef[] = [
         });
       }
 
-     
+
 
     });
   };
@@ -222,11 +219,10 @@ const columns: GridColDef[] = [
 
   let dat = ({
     NUMOPERACION: 4,
-    CHUSER:1
+    CHUSER: user.id
   })
   useEffect(() => {
     CatalogosServices.munterritorio(dat).then((res) => {
-    //  console.log(res);
       setTerritorio(res.RESPONSE);
     });
   }, []);
@@ -236,7 +232,7 @@ const columns: GridColDef[] = [
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-     
+
 
       {open ? (
         <MunTerritorioModal
@@ -255,22 +251,8 @@ const columns: GridColDef[] = [
         url={plantilla}
         handleUpload={handleUpload}
       />
+      <MUIXDataGrid columns={columns} rows={territorio} />
 
-      <DataGrid
-        //checkboxSelection
-        pagination
-        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-        components={{
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={territorio}
-        columns={columns}
-
-        // loading //agregar validacion cuando se esten cargando los registros
-      />
     </div>
   );
 };

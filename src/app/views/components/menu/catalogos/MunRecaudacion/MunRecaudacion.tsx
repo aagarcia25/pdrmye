@@ -1,67 +1,60 @@
 import React, { useEffect, useState } from "react";
-
-import {
-  Box,
-  IconButton,
-  LinearProgress,
-  SelectChangeEvent,
-} from "@mui/material";
-
-import { esES, GridColDef } from "@mui/x-data-grid";
-import { DataGrid } from "@mui/x-data-grid";
-import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar, Moneda } from "../../CustomToolbar";
-import {
-  getUser,
-} from "../../../../../services/localStorage";
+import { Box, IconButton } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import { Moneda } from "../../CustomToolbar";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
-import Filtros from "../Utilerias/Filtros";
 import Buttons from "../Utilerias/Buttons";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import MunRecaudacionModal from "./MunRecaudacionModal";
-
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { fanios } from "../../../../../share/loadAnios";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../../services/localStorage";
 
 export const MunRecaudacion = () => {
-   
-  const user = getUser();
-
-
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
-
-
   const [Facturacion, setFacturacion] = useState([]);
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
-
+  const [anios, setAnios] = useState<SelectValues[]>([]);
   //funciones
-  const handleFilterMes = () => {};
+  const handleFilterMes = () => { };
 
-
-const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", hide:true , width: 150   , description:messages.dataTableColum.id},
+  const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "Identificador",
+      hide: true,
+      width: 150,
+      description: messages.dataTableColum.id,
+    },
     {
       field: "idmunicipio",
       headerName: "idmunicipio",
       hide: true,
       width: 150,
     },
-    { field: "Nombre", headerName: "Municipio", width: 600 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", width: 400 },
     { field: "Anio", headerName: "Año", width: 100 },
-    { field: "Recaudacion", headerName: "Recaudacion", width: 150 ,...Moneda},
-    
+    { field: "Recaudacion", headerName: "Recaudacion", width: 150, ...Moneda },
+
     {
       field: "acciones",
       headerName: "Acciones",
@@ -81,18 +74,20 @@ const columns: GridColDef[] = [
         );
       },
     },
-   
   ];
 
-  const handleClose = () => {
-    console.log('cerrando');
-    setOpen(false);
-    let data = {
-      NUMOPERACION: 4,
-      ANIO: filterAnio,
-    };
-    consulta(data);
-
+  const handleClose = (v: string) => {
+    console.log("cerrando");
+    if (v === "close") {
+      setOpen(false);
+    } else if (v === "save") {
+      setOpen(false);
+      let data = {
+        NUMOPERACION: 4,
+        ANIO: filterAnio,
+      };
+      consulta(data);
+    }
   };
 
   const handleOpen = (v: any) => {
@@ -109,7 +104,6 @@ const columns: GridColDef[] = [
     setData(v);
   };
 
- 
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
@@ -125,7 +119,7 @@ const columns: GridColDef[] = [
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: 1,
+          CHUSER: user.id
         };
         console.log(data);
 
@@ -141,7 +135,6 @@ const columns: GridColDef[] = [
               ANIO: filterAnio,
             };
             consulta(data);
-
           } else {
             Alert.fire({
               title: "Error!",
@@ -150,14 +143,11 @@ const columns: GridColDef[] = [
             });
           }
         });
-
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
     });
   };
-
-
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     setslideropen(true);
@@ -179,9 +169,6 @@ const columns: GridColDef[] = [
           icon: "error",
         });
       }
-
-     
-
     });
   };
 
@@ -203,13 +190,12 @@ const columns: GridColDef[] = [
     });
   };
 
-
-
-  const handleFilterChange = (event: SelectChangeEvent) => {
-    setFilterAnio(event.target.value);
+  const handleFilterChange = (event: any) => {
+    console.log(event);
+    setFilterAnio(event.value);
     let data = {
       NUMOPERACION: 4,
-      ANIO: event.target.value,
+      ANIO: event.value,
     };
     consulta(data);
   };
@@ -225,6 +211,7 @@ const columns: GridColDef[] = [
   };
 
   useEffect(() => {
+    setAnios(fanios());
     downloadplantilla();
   }, []);
 
@@ -232,14 +219,14 @@ const columns: GridColDef[] = [
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Filtros
-        anioApply={true}
-        mesApply={false}
-        handleFilterChangeAnio={handleFilterChange}
-        handleFilterChangeMes={handleFilterMes}
-        valueFilterAnio={filterAnio}
-        valueFilterMes={""}
-      />
+      <Box
+        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
+        <SelectFrag
+          options={anios}
+          onInputChange={handleFilterChange}
+          placeholder={"Seleccione Año"} />
+      </Box>
+
 
       {open ? (
         <MunRecaudacionModal
@@ -258,22 +245,7 @@ const columns: GridColDef[] = [
         url={plantilla}
         handleUpload={handleUpload}
       />
-
-      <DataGrid
-        //checkboxSelection
-        pagination
-        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-        components={{
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-        rows={Facturacion}
-        columns={columns}
-
-        // loading //agregar validacion cuando se esten cargando los registros
-      />
+      <MUIXDataGrid columns={columns} rows={Facturacion} />
     </div>
   );
 };

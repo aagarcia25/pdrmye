@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import Imeses from "../../../../../interfaces/filtros/meses";
-import Ianios from "../../../../../interfaces/filtros/anios";
 import { fanios } from "../../../../../share/loadAnios";
 import { fmeses } from "../../../../../share/loadMeses";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 
 const Filtros = ({
   anioApply,
@@ -20,13 +20,17 @@ const Filtros = ({
   valueFilterAnio: any;
   valueFilterMes: any;
 }) => {
-  const [anios, setAnios] = useState<Ianios[]>();
-  const [meses, setMeses] = useState<Imeses[]>();
+  const [anios, setAnios] = useState<SelectValues[]>([]);
+  const [meses, setMeses] = useState<SelectValues[]>([]);
 
   useEffect(() => {
-    setMeses(fmeses);
+    setMeses(fmeses());
     setAnios(fanios());
   }, []);
+
+
+
+
 
   return (
     <Box
@@ -40,23 +44,10 @@ const Filtros = ({
         <FormControl
           variant="standard"
           sx={{
-            width: "5%",
+            width: "10%",
           }}
         >
-          <InputLabel>Mes</InputLabel>
-          <Select
-            onChange={(v) => handleFilterChangeMes(v)}
-            value={valueFilterMes}
-            label="Mes"
-          >
-            {meses?.map((item: Imeses) => {
-              return (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.Descripcion}
-                </MenuItem>
-              );
-            })}
-          </Select>
+         <SelectFrag options={meses} onInputChange={handleFilterChangeMes} placeholder={"Seleccione Mes"}></SelectFrag>
         </FormControl>
       ) : (
         ""
@@ -66,23 +57,10 @@ const Filtros = ({
         <FormControl
           variant="standard"
           sx={{
-            width: "5%",
+            width: "10%",
           }}
         >
-          <InputLabel>Año</InputLabel>
-          <Select
-            onChange={(v) => handleFilterChangeAnio(v)}
-            value={valueFilterAnio}
-            label="Año"
-          >
-            {anios?.map((item: Ianios) => {
-              return (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.anio}
-                </MenuItem>
-              );
-            })}
-          </Select>
+          <SelectFrag options={anios} onInputChange={handleFilterChangeAnio} placeholder={"Seleccione Año"}></SelectFrag>
         </FormControl>
       ) : (
         ""

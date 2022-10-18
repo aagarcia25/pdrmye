@@ -11,7 +11,7 @@ const ButtonsAdd = ({
   return (
     <Box sx={{}}>
       <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-        <Tooltip title="Agregar Registro">
+        <Tooltip title="Agregar">
           <ToggleButton value="check" onClick={() => handleOpen(1)}>
             <AddIcon />
           </ToggleButton>

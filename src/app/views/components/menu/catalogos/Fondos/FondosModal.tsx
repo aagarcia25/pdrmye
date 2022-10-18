@@ -10,15 +10,16 @@ import {
   Grid,
   Radio,
   FormControl,
-  FormLabel,
   RadioGroup,
   InputLabel,
   MenuItem,
   Select,
+  FormLabel,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import Slider from "../../../Slider";
@@ -37,16 +38,16 @@ const FondosModal = ({
   dt: any;
 }) => {
   const [TipofondoSelect, setTipoFondoSelect] = useState([]);
-  const user = getUser();
   const [id, setId] = useState("");
-  const [Clave, setClave] = useState("");
-  const [Descripcion, setDescripcion] = useState("");
+  const [Clave, setClave] = useState<string>();
+  const [Descripcion, setDescripcion] = useState<string>();
   const [AplicaCalculo, setAplicaCalculo] = useState(false);
   const [Vigente, setVigente] = useState(false);
   const [Estatal, setEstatal] = useState(false);
   const [Federal, setFederal] = useState(false);
   const [Tipofondo, setTipoFondo] = useState("");
   const [value, setValue] = React.useState("");
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
   const [slideropen, setslideropen] = useState(false);
 
@@ -127,17 +128,17 @@ const FondosModal = ({
   };
 
   const handleSend = () => {
-    if (Clave == "" || Descripcion == "") {
+    if (Clave == null || Descripcion == null ){
       Alert.fire({
-        title: "Error!",
+        title: "",
         text: "Favor de Completar los Campos",
-        icon: "error",
+        icon: "warning",
       });
     } else {
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         CLAVE: Clave,
         DESCRIPCION: Descripcion,
         APLICACALCULO: AplicaCalculo,
@@ -154,8 +155,8 @@ const FondosModal = ({
   useEffect(() => {
    
     tipos();
+    setslideropen(true);
 
-    setslideropen(true)
     setTimeout(() => {
     
       if (dt === "") {
@@ -232,7 +233,7 @@ const FondosModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setDescripcion(v.target.value)}
-                error={Descripcion == "" ? true : false}
+                error={Descripcion == null ? true : false}
               />
             </Grid>
 
@@ -302,8 +303,8 @@ const FondosModal = ({
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleSend()}>Guardar</Button>
-          <Button onClick={() => handleClose()}>Cancelar</Button>
+          <button className="guardar" onClick={() => handleSend()}>Guardar</button>
+          <button className="cerrar" onClick={() => handleClose()}>Cancelar</button>
         </DialogActions>
       </Dialog>
     </div>

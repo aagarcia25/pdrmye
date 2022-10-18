@@ -82,5 +82,12 @@ export const postImage = async function (api: string, url: string, body: any) {
     } catch (err: any) {
         throw handleResponse(err.response)
     }
-
 };
+
+   
+
+
+
+
+
+

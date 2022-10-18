@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   Box,
   FormControl,
@@ -11,60 +10,52 @@ import {
   TextField,
   InputAdornment,
   DialogActions,
-  Button,
 } from "@mui/material";
 
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import {
+  getMunicipios,
+  getUser,
+  setMunicipios,
+  validaLocalStorage,
+} from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const UmasModel = ({
   open,
   modo,
   handleClose,
   tipo,
-  dt
+  dt,
 }: {
   open: boolean;
   modo: string;
-  tipo:number;
-  handleClose:Function,
-  dt:any
+  tipo: number;
+  handleClose: Function;
+  dt: any;
 }) => {
-
-
-
-
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
-  const [fac, setFac] = useState("");
-  const [idMunicipio, setIdmunicipio] = useState("");
- 
-  const [values, setValues] = useState<Imunicipio[]>();
- 
- 
+  const [diario, setDiario] = useState("");
+  const [mensual, setMensual] = useState("");
+  const [anual, setAnual] = useState("");
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
-  
-  const municipiosc = () => {
-    let data = {};
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-    let m: Imunicipio[] = JSON.parse(String(getMunicipios()));
-    setValues(m);
-  };
-
-
- 
- 
+  console.log("---------Impresión de CAMPOS------");
+  console.log("id: ", id);
+  console.log("anio: ", anio);
+  console.log("diario: ", diario);
+  console.log("mensual: ", mensual);
+  console.log("anual: ", anual);
+  console.log("user: ", user);
+  console.log("---------FIN-de-Impresión de CAMPOS------");
 
   const handleSend = () => {
-    if (fac == "") {
+    if (!diario || !anio || !mensual || !anual) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -74,16 +65,16 @@ const UmasModel = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         ANIO: anio,
-        IDMUNICIPIO: idMunicipio,
-        FACTURACION: fac,
+        DIARIO: diario,
+        MENSUAL: mensual,
+        ANUAL: anual
       };
 
       handleRequest(data);
     }
   };
-
 
   const handleRequest = (data: any) => {
     console.log(data);
@@ -92,12 +83,10 @@ const UmasModel = ({
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-      
+
       editar(data);
     }
   };
-
-
 
   const agregar = (data: any) => {
     CatalogosServices.umas(data).then((res) => {
@@ -106,7 +95,6 @@ const UmasModel = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-
       } else {
         Alert.fire({
           title: "Error!",
@@ -134,55 +122,30 @@ const UmasModel = ({
     });
   };
 
- 
-
   useEffect(() => {
-    municipiosc();
-
-    if(dt === ''  ){
-        console.log(dt)
-       
-    }else{
-        setId(dt?.row?.id)
-        setAnio(dt?.row?.Anio)
-        setFac(dt?.row?.Facturacion)
-        setIdmunicipio(dt?.row?.idmunicipio)
+    if (dt === "") {
+      console.log(dt);
+    } else {
+      setId(dt?.row?.id);
+      setAnio(dt?.row?.Anio);
+      setDiario(dt?.row?.Diario);
+      setMensual(dt?.row?.Mensual);
+      setAnual(dt?.row?.Anual);
     }
-   
   }, [dt]);
-
-
 
   return (
     <Dialog open={open}>
-      <DialogTitle>{modo}</DialogTitle>
       <DialogContent>
         <Box>
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Municipio</InputLabel>
-            <Select
-              required
-              onChange={(v) => setIdmunicipio(v.target.value)}
-              value={idMunicipio}
-              label="Municipio"
-               inputProps={{
-                 readOnly: tipo == 1 ? false : true,
-              }}
-            >
-              {values?.map((item: Imunicipio) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Nombre}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <label className="Titulo">{modo}</label>
+          </Box>
 
           <TextField
             required
             margin="dense"
-            id="anio"
+            id="Anio"
             label="Año"
             value={anio}
             type="number"
@@ -190,35 +153,69 @@ const UmasModel = ({
             variant="standard"
             onChange={(v) => setAnio(v.target.value)}
             error={anio == "" ? true : false}
-             InputProps={{
-               readOnly: tipo == 1 ? false : true,
-               inputMode: "numeric",
-             }}
+            InputProps={{
+              readOnly: tipo == 1 ? false : true,
+              inputMode: "numeric",
+            }}
           />
 
           <TextField
-            margin="dense"
             required
-            id="fac"
-            label="Facturación"
-            value={fac}
+            margin="dense"
+            id="Diario"
+            label="Diario"
+            value={diario}
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setFac(v.target.value)}
-            error={fac == "" ? true : false}
+            onChange={(v) => setDiario(v.target.value)}
+            error={diario == "" ? true : false}
             InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
-              ),
+              inputMode: "decimal",
+            }}
+          />
+
+          <TextField
+            required
+            margin="dense"
+            id="Mensual"
+            label="Mensual"
+            value={mensual}
+            type="number"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setMensual(v.target.value)}
+            error={mensual == "" ? true : false}
+            InputProps={{
+              inputMode: "numeric",
+            }}
+          />
+
+          <TextField
+            required
+            margin="dense"
+            id="Anual"
+            label="Anual"
+            value={anual}
+            type="number"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setAnual(v.target.value)}
+            error={anual == "" ? true : false}
+            InputProps={{
+              inputMode: "numeric",
             }}
           />
         </Box>
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cancelar</Button>
+        <button className="guardar" onClick={() => handleSend()}>
+          Guardar
+        </button>
+        <button className="cerrar" onClick={() => handleClose()}>
+          Cancelar
+        </button>
       </DialogActions>
     </Dialog>
   );

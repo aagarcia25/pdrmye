@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   Box,
   FormControl,
@@ -11,14 +10,13 @@ import {
   TextField,
   InputAdornment,
   DialogActions,
-  Button,
 } from "@mui/material";
-import {  porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
 const MunRecaudacionModal = ({
@@ -30,9 +28,9 @@ const MunRecaudacionModal = ({
 }: {
   open: boolean;
   modo: string;
-  tipo:number;
-  handleClose:Function,
-  dt:any
+  tipo: number;
+  handleClose: Function,
+  dt: any
 }) => {
 
 
@@ -40,16 +38,13 @@ const MunRecaudacionModal = ({
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState("");
-  const [recaudacion, setRecaudacion] = useState("");
-
-
-  const [IdMunicipio, setIdMunicipio] = useState("");
+  const [anio, setAnio] = useState<number>();
+  const [recaudacion, setRecaudacion] = useState<number>();
+  const [IdMunicipio, setIdMunicipio] = useState<object>();
   const [values, setValues] = useState<Imunicipio[]>();
- 
- 
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
-  
+
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -62,10 +57,10 @@ const MunRecaudacionModal = ({
   };
 
 
- 
+
 
   const handleSend = () => {
-    if (recaudacion == "") {
+    if (recaudacion == null || anio == null || IdMunicipio == null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -75,16 +70,17 @@ const MunRecaudacionModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: 1,
+        CHUSER: user.id,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         RECAUDACION: recaudacion,
- 
 
-        
+
+
       };
 
       handleRequest(data);
+      handleClose("save");
     }
   };
 
@@ -96,7 +92,7 @@ const MunRecaudacionModal = ({
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-      
+
       editar(data);
     }
   };
@@ -138,47 +134,52 @@ const MunRecaudacionModal = ({
     });
   };
 
- 
+
 
   useEffect(() => {
     municipiosc();
 
-    if(dt === ''  ){
-        console.log(dt)
-       
-    }else{
-        setId(dt?.row?.id)
-        setAnio(dt?.row?.Anio)
-        setRecaudacion(dt?.row?.Recaudacion)
-        setIdMunicipio(dt?.row?.idmunicipio)
-   
-   
+    if (dt === '') {
+      console.log(dt)
 
-        console.log(dt)
+    } else {
+      setId(dt?.row?.id)
+      setAnio(dt?.row?.Anio)
+      setRecaudacion(dt?.row?.Recaudacion)
+      setIdMunicipio(dt?.row?.idmunicipio)
 
 
-   
+
+      console.log(dt)
+
+
+
     }
-   
+
   }, [dt]);
 
 
 
   return (
     <Dialog open={open}>
-      <DialogTitle>{modo}</DialogTitle>
+
       <DialogContent>
         <Box>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'center', }}>
+            <label className="Titulo">{modo}</label>
+          </Box>
           <FormControl variant="standard" fullWidth>
             <InputLabel>Municipio</InputLabel>
             <Select
               required
-              onChange={(v) => setIdMunicipio(v.target.value)}
+              onChange={(v) => setIdMunicipio(Object(v.target.value))}
               value={IdMunicipio}
               label="Municipio"
-            inputProps={{
-            readOnly: tipo == 1 ? false : true,
-             }}
+              error={IdMunicipio == null ? true : false}
+              inputProps={{
+                readOnly: tipo == 1 ? false : true,
+              }}
             >
               {values?.map((item: Imunicipio) => {
                 return (
@@ -199,8 +200,9 @@ const MunRecaudacionModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-           
+            error={anio == null ? true : false}
+            onChange={(v) => setAnio(Number(v.target.value))}
+
           />
 
           <TextField
@@ -212,22 +214,22 @@ const MunRecaudacionModal = ({
             type="number"
             fullWidth
             variant="standard"
-            onChange={(v) => setRecaudacion(v.target.value)}
-            error={recaudacion == "" ? true : false}
+            onChange={(v) => setRecaudacion(Number(v.target.value))}
+            error={recaudacion == null ? true : false}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start"></InputAdornment>
               ),
             }}
           />
-         
-         
+
+
         </Box>
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cerrar</Button>
+        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
+        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
       </DialogActions>
     </Dialog>
   );
