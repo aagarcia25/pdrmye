@@ -1,4 +1,11 @@
-import { Box, Dialog, DialogActions, DialogContent, TextField } from "@mui/material";
+import {
+  Box,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  TextField,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
@@ -25,8 +32,16 @@ export const ParametrosGeneralesModal = ({
   const [valor, setValor] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
+  //IMPRESIONES DE CAMPOS
+  console.log("---------Impresión de CAMPOS------");
+  console.log("id", id);
+  console.log("nombre", nombre);
+  console.log("valor", valor);
+  console.log("user", user);
+  console.log("---------FIN-de-Impresión de CAMPOS------");
+
   const handleSend = () => {
-    if (nombre || valor) {
+    if (nombre === null || valor === null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -34,15 +49,11 @@ export const ParametrosGeneralesModal = ({
       });
     } else {
       let data = {
+        CHID:id,
         NUMOPERACION: tipo,
-        CHID: id,
-        CHUSER: user.id,
         NOMBRE: nombre,
         VALOR: valor,
-        DELETED: 0,
       };
-      console.log("user props", user);
-      console.log("user id", user.id);
       console.log("data de modal", data);
       handleRequest(data);
       handleClose();
@@ -53,12 +64,9 @@ export const ParametrosGeneralesModal = ({
     console.log(data);
     if (tipo == 1) {
       //AGREGAR
-      console.log("A AGREGAR");
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-      console.log("A EDITAR");
-
       editar(data);
     }
   };
@@ -89,14 +97,12 @@ export const ParametrosGeneralesModal = ({
           icon: "success",
           title: "Registro Editado!",
         });
-        console.log("Sé pudo editar");
       } else {
         Alert.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        console.log("No se pudo editar");
       }
     });
   };
@@ -118,10 +124,12 @@ export const ParametrosGeneralesModal = ({
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <label className="Titulo">{modo}</label>
           </Box>
-          <TextField
+          {(modo === "Agregar Registro") ?
+            <Container maxWidth="sm">
+                <TextField
             required
             margin="dense"
-            id="nombre"
+            id="Nombre"
             label="Nombre"
             value={nombre}
             type="text"
@@ -134,7 +142,7 @@ export const ParametrosGeneralesModal = ({
           <TextField
             required
             margin="dense"
-            id="valor"
+            id="Valor"
             label="Valor"
             value={valor}
             type="text"
@@ -144,6 +152,42 @@ export const ParametrosGeneralesModal = ({
             error={valor ? true : false}
             InputProps={{}}
           />
+            </Container>
+          : ""
+          }
+
+{(modo === "Editar Registro") ?
+            <Container maxWidth="sm">
+                <TextField
+                disabled
+            required
+            margin="dense"
+            id="Nombre"
+            label="Nombre"
+            value={nombre}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setNombre(v.target.value)}
+            InputProps={{}}
+          />
+          <TextField
+            required
+            margin="dense"
+            id="Valor"
+            label="Valor"
+            value={valor}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setValor(v.target.value)}
+            error={valor ? true : false}
+            InputProps={{}}
+          />
+            </Container>
+          : ""
+          }
+          
         </Box>
       </DialogContent>
       <DialogActions>
