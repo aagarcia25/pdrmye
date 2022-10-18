@@ -81,7 +81,7 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
         
         {/*SECCION DE PARAMETROS GENERALES */}
-       <Route path='/inicio/catalogos/parametrosgenerales'  element={log ? <ParametrosGenerales /> : <AuthRouter />} />
+       <Route path='/inicio/catalogos/parametrosgenerales'  element={<ParametrosGenerales />} />
        {/* FIN DE SECCION DE PARAMETROS GENERALES */}
         {/* FIN SECCION DE CATALOGOS */}
 
