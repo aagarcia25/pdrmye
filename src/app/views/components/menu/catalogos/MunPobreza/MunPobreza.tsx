@@ -203,24 +203,24 @@ export const MunPobreza = () => {
     });
   };
 
-  const handleFilterChange = (event: any) => {
-    if (event == null) {
+  const handleFilterChange = (v: string) => {
+    if (v == null) {
       let data = {
         NUMOPERACION: 4,
         
       };
       setFilterAnio("");
-  
-
-
     } else {
 
       let data = {
         NUMOPERACION: 4,
-        ANIO: event.value,
+        ANIO: v,
       };
-      setFilterAnio(event.value);
+      setFilterAnio(v);
+
+      if (v != "") {
       consulta(data);
+      }
     }
   };
 
@@ -254,7 +254,7 @@ export const MunPobreza = () => {
         <SelectFrag
           options={anios}
           onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} />
+          placeholder={"Seleccione Año"} label={''} id={''} />
       </Box>
 
       {open ? (

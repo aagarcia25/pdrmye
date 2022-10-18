@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -6,8 +6,6 @@ import {
   Box,
   FormControl,
   InputLabel,
-  Select,
-  MenuItem,
   TextField,
   InputAdornment,
   DialogActions,
@@ -15,9 +13,8 @@ import {
 } from "@mui/material";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
@@ -47,6 +44,7 @@ const MunPoblacionProyeccionModal = ({
   const [poblacion, setPoblacion] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [IdMunicipio, setIdMunicipio] = useState("");
+  const [municipio, setMunicipio] = useState("");
   const [mun, setMun] = useState<SelectValues[]>([]);
  
  
@@ -79,9 +77,8 @@ const MunPoblacionProyeccionModal = ({
     }
   };
 
-  const handleFilterChange = (event:SelectValues) => {
- 
-    setMunicipios(event.value);
+  const handleFilterChange = (event:SelectValues) => { 
+    setIdMunicipio(event.value);
  
   };
 
@@ -148,7 +145,7 @@ const MunPoblacionProyeccionModal = ({
         setAnio(dt?.row?.anio)
         setPoblacion(dt?.row?.Pob)
         setIdMunicipio(dt?.row?.idmunicipio)
-   
+        setMunicipio(dt?.row?.Nombre)
    
 
         console.log(dt)
@@ -167,35 +164,23 @@ const MunPoblacionProyeccionModal = ({
       <DialogContent>
         <Box>
           <FormControl variant="standard" fullWidth>
-            <InputLabel>Municipio</InputLabel>
-            <SelectFrag 
-            options={mun} 
-            onInputChange={handleFilterChange} 
-            placeholder={"Seleccione Municipio"}/>
-          </FormControl>
+    
+            <Box>
+            <label ><br /> Municipio: <br />{municipio}</label>
+          </Box>
+        
 
-          <TextField
-            required
-            margin="dense"
-            id="anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
-             InputProps={{
-            readOnly: tipo == 1 ? false : true,
-       
-             }}
-          />
+          <Box>
+            <label > <br />Año <br />{anio}</label>
+          </Box>
 
+          <Box>
+            <label ><br /> Poblacion <br /></label>
+          </Box>
           <TextField
             margin="dense"
             required
             id="pob"
-            label="Poblacion"
             value={poblacion}
             type="number"
             fullWidth
@@ -209,13 +194,14 @@ const MunPoblacionProyeccionModal = ({
             }}
           />
          
-         
+         </FormControl>
         </Box>
+        
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cerrar</Button>
+        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
+        <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
       </DialogActions>
     </Dialog>
   );

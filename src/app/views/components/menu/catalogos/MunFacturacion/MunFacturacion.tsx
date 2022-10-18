@@ -87,11 +87,11 @@ export const MunFacturacion = () => {
   ];
 
   const handleClose = (v: string) => {
-   
+
     if (v === "close") {
       setOpen(false);
     }
-    else if(v === "save") {
+    else if (v === "save") {
       setOpen(false);
       let data = {
         NUMOPERACION: 4,
@@ -214,13 +214,15 @@ export const MunFacturacion = () => {
 
 
 
-  const handleFilterChange = (event: any) => {
-    setFilterAnio(event.value);
+  const handleFilterChange = (v: string) => {
+    setFilterAnio(v);
     let data = {
       NUMOPERACION: 4,
-      ANIO: event.value,
+      ANIO: v,
     };
-    consulta(data);
+    if (v != "") {
+      consulta(data);
+    }
   };
 
   const downloadplantilla = () => {
@@ -242,13 +244,13 @@ export const MunFacturacion = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Box  
-         sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
-            <SelectFrag 
-            options={anios} 
-            onInputChange={handleFilterChange} 
-            placeholder={"Seleccione Año"}/>
-            </Box>
+      <Box
+        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
+        <SelectFrag
+          options={anios}
+          onInputChange={handleFilterChange}
+          placeholder={"Seleccione Año"} label={""} id={""} />
+      </Box>
 
       {open ? (
         <MunFacturacionModal

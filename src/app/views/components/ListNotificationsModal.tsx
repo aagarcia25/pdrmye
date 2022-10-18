@@ -221,7 +221,14 @@ const ListNotificationsModal = ({
 
                 <label> Para..</label>
 
-                <SelectFrag options={usuarioSelect} onInputChange={handleSelectUser} placeholder={"Seleccione Usuario"}></SelectFrag>
+                <SelectFrag
+                  options={usuarioSelect}
+                  onInputChange={handleSelectUser}
+                  placeholder={"Seleccione Usuario"}
+                  label={""}
+                  id={""}
+                />
+
               </Box>
 
 

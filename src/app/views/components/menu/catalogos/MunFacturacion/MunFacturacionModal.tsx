@@ -14,10 +14,13 @@ import {
 
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio} from "../../../../../interfaces/municipios/FilterMunicipios";
+import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { municipiosc } from "../../../../../share/loadMunicipios";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 
 const MunFacturacionModal = ({
   open,
@@ -35,29 +38,17 @@ const MunFacturacionModal = ({
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState <number>();
+  const [anio, setAnio] = useState<number>();
   const [fac, setRecaudacion] = useState<number>();
-  const [idMunicipio, setIdmunicipio] = useState <object>();
-  const [values, setValues] = useState<Imunicipio[]>();
+  const [idMunicipio, setIdMunicipio] = useState<string>();
+  const [idMun, setIdMun] = useState<string>();
+  const [municipio, setMunicipio] = useState<string>("");
   const user: RESPONSE = JSON.parse(String(getUser()));
-
-  const municipiosc = () => {
-    let data = {};
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-    let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
-    setValues(m);
-  };
-
-
-
+  const [mun, setMun] = useState<SelectValues[]>([]);
 
 
   const handleSend = () => {
-    if (fac == null|| anio == null || idMunicipio== null) {
+    if (fac == null || anio == null || idMunicipio == null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -91,6 +82,10 @@ const MunFacturacionModal = ({
     }
   };
 
+  const handleFilterChange = (v: string) => {
+    setIdMunicipio(v);
+
+  };
 
 
   const agregar = (data: any) => {
@@ -129,18 +124,17 @@ const MunFacturacionModal = ({
   };
 
 
-
   useEffect(() => {
-    municipiosc();
-
+    setMun(municipiosc());
     if (dt === '') {
-
-
     } else {
+
       setId(dt?.row?.id)
       setAnio(dt?.row?.Anio)
       setRecaudacion(dt?.row?.Facturacion)
-      setIdmunicipio(dt?.row?.idmunicipio)
+      setIdMunicipio(dt?.row?.idmunicipio)
+      setIdMun(dt?.row?.idmunicipio)
+      setMunicipio(dt?.row?.Nombre)
 
 
     }
@@ -160,47 +154,26 @@ const MunFacturacionModal = ({
           </Box>
           <FormControl variant="standard" fullWidth>
             <InputLabel>Municipio</InputLabel>
-            <Select
-              required
-              onChange={(v) => setIdmunicipio( Object(v.target.value))}
-              value={idMunicipio}
-              label="Municipio"
-              inputProps={{
-                readOnly: tipo == 1 ? false : true,
-              }}
-            >
-              {values?.map((item: Imunicipio) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Nombre}
-                  </MenuItem>
-                );
-              })}
-            </Select>
+            <FormControl variant="standard" fullWidth>
+              <InputLabel>Municipio</InputLabel>
+              <SelectFrag
+                options={mun}
+                onInputChange={handleFilterChange}
+                placeholder={"Seleccione Municipio"} label={String(municipio)} id={String("mun")} />
+            </FormControl>
           </FormControl>
+          <Box>
+            <label > Año <br />{anio}</label>
+          </Box>
 
-          <TextField
-            required
-            margin="dense"
-            id="anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(Number(v.target.value))}
-            error={anio == null ? true : false}
-            InputProps={{
-              readOnly: tipo == 1 ? false : true,
-              inputMode: "numeric",
-            }}
-          />
+          <Box>
+            <label > Facturacion <br /></label>
+          </Box>
 
           <TextField
             margin="dense"
             required
             id="fac"
-            label="Facturación"
             value={fac}
             type="number"
             fullWidth

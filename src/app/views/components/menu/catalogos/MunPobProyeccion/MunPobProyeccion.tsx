@@ -186,14 +186,16 @@ export const MunPobProyeccion = () => {
     });
   };
 
-  const handleFilterChange = (event: any) => {
+  const handleFilterChange = (v: string) => {
   
     let data = {
       NUMOPERACION: 4,
-      ANIO: event.value,
+      ANIO: v,
     };
-    setFilterAnio(event.value);
+    setFilterAnio(v);
+    if (v != "") {
     consulta(data);
+    }
   };
   
   const downloadplantilla = () => {
@@ -224,9 +226,9 @@ export const MunPobProyeccion = () => {
       <Box  
          sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
             <SelectFrag 
-            options={anios} 
-            onInputChange={handleFilterChange} 
-            placeholder={"Seleccione Año"}/>
+          options={anios}
+          onInputChange={handleFilterChange}
+          placeholder={"Seleccione Año"} label={""} id={""}/>
             </Box>
 
 
