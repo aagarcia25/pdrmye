@@ -29,6 +29,10 @@ export class calculosServices {
     public static async calcula(data: any) {
         return await post('calcula', data);
     }
+
+    public static async CalculoGarantia(data: any) {
+        return await post('CalculoGarantia', data);
+    }
     
     
 
