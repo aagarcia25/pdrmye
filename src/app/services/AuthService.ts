@@ -36,6 +36,12 @@ export class AuthService {
         return await post('usuarioRol', data);
     }
 
+    public static async FondosAjustes(data: any) {
+        return await post('FondosAjustes', data);
+    }
+    public static async FondosRelAjuste(data: any) {
+        return await post('FondosRelAjuste', data);
+    }
 
     public static async RelacionarUsuarioRol(data: any) {
         return await post('RelacionarUsuarioRol', data);

@@ -5,6 +5,7 @@ import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { messages } from "../../../../styles";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
@@ -13,11 +14,13 @@ import { Alert } from "../../../../../helpers/Alert";
 import FondosModal from "./FondosModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import FondosView from "./FondosView";
 
 const Fondos = () => {
   
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
+  const [openView, setOpenView] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [vrows, setVrows] = useState({});
@@ -84,6 +87,9 @@ const Fondos = () => {
             <IconButton onClick={() => handleDelete(v)}>
               <DeleteForeverIcon />
             </IconButton>
+            <IconButton onClick={() => handleView(v)}>
+              <RemoveRedEyeIcon />
+            </IconButton>
           </Box>
         );
       },
@@ -92,9 +98,17 @@ const Fondos = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setOpenView(false);
     consulta({ NUMOPERACION: 4 });
   };
 
+  const handleView = (v:any) => {
+    setOpenView(true);
+    setVrows(v);
+
+   
+    
+  };
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
@@ -175,9 +189,20 @@ const Fondos = () => {
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-      {open ? (
+      {(open )? (
         <FondosModal
           open={open}
+          modo={modo}
+          tipo={tipoOperacion}
+          handleClose={handleClose}
+          dt={vrows}
+        />
+      ) : (
+        ""
+      )}
+           {(openView) ? (
+        <FondosView
+          open={openView}
           modo={modo}
           tipo={tipoOperacion}
           handleClose={handleClose}

@@ -210,6 +210,7 @@ const FondosModal = ({
           <Grid container spacing={6}>
             <Grid item xs={12}>
               <TextField
+               InputLabelProps={{ shrink: true }}
                 margin="dense"
                 required
                 id="Clave"
@@ -219,11 +220,12 @@ const FondosModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setClave(v.target.value)}
-                error={Clave == "" ? true : false}
+                error={Clave == null ? true : false}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+               InputLabelProps={{ shrink: true }}
                 margin="dense"
                 required
                 id="Descripcion"

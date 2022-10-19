@@ -30,7 +30,7 @@ button.cerrar {
   padding: 5px 12px;
   border-radius: 10px;
   font-size: 15px;
-  border: 2px solid hsl(0, 2%, 95%);
+  border: 2px solid hsl(0, 0%, 89%);
   transition-duration: 0.2s;
   cursor: pointer;
   font-family: "Public Sans", MontserratMedium;
@@ -38,8 +38,8 @@ button.cerrar {
 
 }
 button:hover {
-  background-color: hsl(132, 62%, 34%);
-  color: white;
+  background-color: hsl(240, 3%, 77%);
+  color: rgb(7, 7, 7);
 }
 
 .cerrar:hover {
