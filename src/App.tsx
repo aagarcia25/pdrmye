@@ -14,6 +14,7 @@ import {
   setlogin,
   setMenus,
   setMunicipios,
+  setPerfiles,
   setPermisos,
   setPU,
   setRoles,
@@ -90,10 +91,12 @@ function App() {
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
       console.log(us.RESPONSE.ROLES.length);
+     if(us.RESPONSE.PERFILES.length !==0){
      if(us.RESPONSE.ROLES.length !==0){
         setRoles(us.RESPONSE.ROLES);
         setPermisos(us.RESPONSE.PERMISOS);
         setMenus(us.RESPONSE.MENUS);
+        setPerfiles(us.RESPONSE.PERFILES);
         loadMunicipios();
         loadMeses();
         loadAnios();
@@ -101,6 +104,24 @@ function App() {
         setlogin(true);
         setAcceso(true);
       }
+    }else{
+        setlogin(false);
+        setAcceso(false);
+        Swal.fire({
+          title: "No tienes Relacionado un Perfil",
+          text: 'Favor de Verificar sus Permisos con el área de TI',
+          showDenyButton: false,
+          showCancelButton: false,
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            localStorage.clear();
+            var ventana = window.self;
+               ventana.opener = window.self;
+               ventana.close();
+          }
+        });
+    }
     
 
 

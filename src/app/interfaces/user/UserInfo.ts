@@ -14,6 +14,11 @@
         Permiso: string;
     }
 
+    export interface PERFILES {
+        Descripcion: string;
+        Referencia: string;
+    }
+
     export interface RESPONSE {
         id: string;
         deleted: string;
@@ -35,6 +40,7 @@
         ROLES: ROLE[];
         MENUS: MENU[];
         PERMISOS: PERMISO[];
+        PERFILES:PERFILES[];
         tipo?: any;
     }
 

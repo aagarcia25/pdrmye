@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Input } from "@mui/material";
+import { Box, Checkbox, Grid, IconButton, Input } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Alert } from "../../../../helpers/Alert";
 import { Toast } from "../../../../helpers/Toast";
@@ -47,6 +47,7 @@ const ModalFgp = ({
   const [nameNewDoc, setNameNewDoc] = useState("");
   const [ajusteselect, setajusteselect] = useState("");
   const [labelAjuste, setLabelAjuste] = useState<number>();
+  const [Czero, setCzero]= useState<boolean>(false);
   let year: number = new Date().getFullYear();
 
   const handleSelectMes = (v: SelectValues) => {
@@ -55,6 +56,9 @@ const ModalFgp = ({
     setMeselect(String(v));
   };
 
+  const handleChangeZero = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCzero(event.target.checked);
+  };
   const handleSelectAjuste = (v: SelectValues) => {
     console.log("cambiando select");
     console.log(v)
@@ -231,7 +235,9 @@ const ModalFgp = ({
           IMPORTE: monto,
           ANIO: year,
           MES: meselect,
+          ZERO:Czero
         };
+        console.log(data);
         agregar(data);
       }
     } else {
@@ -565,6 +571,32 @@ const ModalFgp = ({
             ) : (
               ""
             )}
+
+         {monto === 0 ? (
+              <>
+                <Grid
+                  item
+                  xs={5}
+                  md={5}
+                  lg={5}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "right",
+                  }}
+                >
+                  <label className="contenido">Generar Cálculo en cero:</label>
+                </Grid>
+                <Grid item xs={6} md={6}>
+                 <Checkbox  checked={Czero} onChange={(event) => {handleChangeZero(event)  }}  color="success" />
+                </Grid>
+              </>
+            ) : (
+              ""
+            )}
+
+
+
+
 
             {clave === "ICV" ||
             clave === "ISR INMUEBLES" ||
