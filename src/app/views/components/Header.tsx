@@ -164,7 +164,7 @@ export default function Header(props: HeaderProps) {
                     p: 0.1,
                     border: 4,
                     borderColor: COLOR.negro,
-                    backgroundColor: COLOR.blanco,
+                    backgroundColor: user.RutaFoto?COLOR.blanco:COLOR.negro,
                     "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                   }}
                 >

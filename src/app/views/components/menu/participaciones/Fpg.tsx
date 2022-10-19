@@ -16,6 +16,8 @@ import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
 import Trazabilidad from "../../Trazabilidad";
 import Slider from "../../Slider";
 import DetalleFgp from "./DetalleFgp";
+import { PERMISO } from "../../../../interfaces/user/UserInfo";
+import { getPermisos } from "../../../../services/localStorage";
 
 export const Fpg = () => {
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ export const Fpg = () => {
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [fondo, setFondo] = useState("");
   const [modo, setModo] = useState<string>("");
   const [anio, setAnio] = useState<number>(0);
@@ -31,6 +34,7 @@ export const Fpg = () => {
   const [openDetalles, setOpenDetalles] = useState(false);
   const [clave, setClave] = useState("");
   const [estatus, setEstatus] = useState("");
+  const [agregar, setAgregar] = useState<boolean>(false);
 
   const [nombreFondo, setNombreFondo] = useState("");
   const [idDetalle, setIdDetalle] = useState("");
@@ -195,6 +199,16 @@ export const Fpg = () => {
   let params = useParams();
 
   useEffect(() => {
+console.log(params);
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === String(params.fondo)) {
+        if (String(item.Permiso) == "Agregar" && estatus != "CERRADO") {
+          setAgregar(true);
+          console.log("agregar --"+ agregar)
+        }
+      
+      }
+    });
 
 
 
@@ -217,7 +231,7 @@ export const Fpg = () => {
 
       <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <ButtonsCalculo handleOpen={handleOpen} agregar={false} />
+          <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
           <MUIXDataGrid columns={columns} rows={data} />
         </div>
       </Box>
