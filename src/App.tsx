@@ -134,7 +134,9 @@ function App() {
         }).then((result) => {
           if (result.isConfirmed) {
             localStorage.clear();
-            window.location.replace(getItem("RUTA_LOGIN")||"");
+            var ventana = window.self;
+               ventana.opener = window.self;
+               ventana.close();
           }
         });
       }

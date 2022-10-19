@@ -103,11 +103,9 @@ const ModalFgp = ({
     formData.append("tipo", "CalculoAjuste");
     formData.append("FONDO", clave);
     formData.append("CHUSER", user.id);
-    formData.append("ANIO", String(year));
-    formData.append("MES", meselect);
     formData.append("IMPORTE", String(monto));
     formData.append("IDCALCULO", idCalculo);
-    formData.append("AJUSTE", String(ajusteselect));
+    formData.append("IDAJUSTE", String(ajusteselect));
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
       if (res.SUCCESS) {
@@ -220,7 +218,7 @@ const ModalFgp = ({
         isrnomina();
       }
 
-      if (monto == null || anio) {
+      if (monto == null ) {
         Alert.fire({
           title: "Error!",
           text: "Favor de Completar los Campos",
@@ -248,13 +246,13 @@ const ModalFgp = ({
   };
 
   const agregar = (data: any) => {
-    console.log(data);
     calculosServices.CalculoPrincipalindex(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
           title: "Registro Agregado!",
         });
+        onClickBack();
       } else {
         Alert.fire({
           title: "Error!",
@@ -278,12 +276,13 @@ const ModalFgp = ({
   useEffect(() => {
     // SE ESTABLECE EL TIEMPO EN ESPERA PARA QUE SE CARGEN DE FORMA CORRECTA LOS COMPONENTES
     setNameNewDoc("");
-    setTimeout(() => {
+    //setTimeout(() => {
+      setLabelAjuste(0);
       setslideropen(true);
       setMeses(fmeses());
       ajusteesc();
       setslideropen(false);
-    }, 3000);
+    //}, 3000);
   }, [step]);
 
   return (
