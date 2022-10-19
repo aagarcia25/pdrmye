@@ -89,6 +89,35 @@ const FondosView = ({
                 }
             });
         }
+        else{
+            console.log("ajuste -- " + v?.row);
+            console.log("id ajuste --- " + v?.row?.id,);
+            AuthService.FondosRelAjuste(
+                {
+                    TIPO: 2,
+                    IDAJUSTE: v?.row?.id,
+                    IDFONDO: idFondo,
+                }
+            ).then((res) => {
+                setData(res.RESPONSE);
+                if (res.SUCCESS) {
+                    Toast.fire({
+                        icon: "success",
+                        title: "Ajuste Eliminado!",
+                    });
+                    consulta({ 
+                        CHID: dt?.row?.id,
+                        TIPO: 1, 
+                    });
+                } else {
+                    Alert.fire({
+                        title: "Error!",
+                        text: res.STRMESSAGE,
+                        icon: "error",
+                    });
+                }
+            });
+        }
 
 
     };
