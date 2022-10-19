@@ -8,6 +8,7 @@ import { AuthService } from "../../../../../services/AuthService";
 import { messages } from "../../../../styles";
 import AccionesGrid from "../../../AccionesGrid";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeviceHubIcon from "@mui/icons-material/DeviceHub";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
@@ -15,15 +16,19 @@ import RolesRelModal from "./RolesRelModal";
 import RolesSinRel from "./RolesSinRel";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import UsuariosModal from "./UsuariosModal";
+import PerfilesConfiguracion from "./PerfilesConfiguracion";
 
 const Usuarios = () => {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openConfigPerfil, setOpenConfigPerfil] = useState(false);
   const [openSinRel, setOpenSinRel] = useState(false);
   const [openNew, setOpenNew] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [row, setRow] = useState({});
   const [id, setId] = useState("");
+  const [dt, setDt] = useState([]);
+  
 
   const handleOpen = () => {
     setTipoOperacion(3);
@@ -88,6 +93,11 @@ const Usuarios = () => {
     setOpen(false);
     setOpenSinRel(false);
     setOpenNew(false);
+    setOpenConfigPerfil(false);
+  };
+  const handlePerfilConfiguracion = (v: any) => {
+    setDt(v);
+    setOpenConfigPerfil(true);
   };
 
   const handleView = (v: any) => {
@@ -141,11 +151,18 @@ const Usuarios = () => {
             </Tooltip>
 
             <Tooltip title={"Editar Registro"}>
-            <IconButton color="info" onClick={() => handleEdit(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-          </Tooltip>
-          
+              <IconButton color="info" onClick={() => handleEdit(v)}>
+                <ModeEditOutlineIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={"Configurar Perfil"}>
+              <IconButton color="info" onClick={() => handlePerfilConfiguracion(v)}>
+                <AdminPanelSettingsIcon />
+              </IconButton>
+            </Tooltip>
+
+
+
           </Box>
         );
       },
@@ -207,6 +224,18 @@ const Usuarios = () => {
       ) : (
         ""
       )}
+      {openConfigPerfil ? (
+        <PerfilesConfiguracion
+          open={openConfigPerfil}
+          modo={""}
+          tipo={0}
+          handleClose={handleClose}
+          dt={dt}
+        ></PerfilesConfiguracion>
+      ) : (
+        ""
+      )}
+
 
       <ButtonsAdd handleOpen={handleOpen} />
       <MUIXDataGrid columns={columns} rows={data} />

@@ -25,7 +25,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { Alert } from "../../../../../helpers/Alert";
 
-const FondosView = ({
+const PerfilesConfiguracion = ({
     open,
     handleClose,
     tipo,
@@ -42,7 +42,7 @@ const FondosView = ({
     const [openRel, setOpenRel] = useState(true);
     const [openSlider, setOpenSlider] = useState<boolean>();
     const [descripcion, setDescripcion] = useState<string>();
-    const [idFondo, setIdFondo] = useState<string>();
+    const [idPerfil, setIdPerfil] = useState<string>();
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -53,7 +53,7 @@ const FondosView = ({
     }));
     const consulta = (data: any) => {
         setOpenSlider(true);
-        AuthService.FondosAjustes(data).then((res) => {
+        AuthService.getUsuarioPerfil(data).then((res) => {
             setData(res.RESPONSE);
             setOpenSlider(false);
             console.log(res)
@@ -67,18 +67,18 @@ const FondosView = ({
         if (openRel != true) {
             console.log("ajuste -- " + v?.row);
             console.log("id ajuste --- " + v?.row?.id,);
-            AuthService.FondosRelAjuste(
+            AuthService.UsuarioPerfil(
                 {
                     TIPO: 1,
-                    IDAJUSTE: v?.row?.id,
-                    IDFONDO: idFondo,
+                    IDPERFIL: v?.row?.id,
+                    IDUSUARIO: idPerfil,
                 }
             ).then((res) => {
                 setData(res.RESPONSE);
                 if (res.SUCCESS) {
                     Toast.fire({
                         icon: "success",
-                        title: "Ajuste Asignado!",
+                        title: "Perfil Asignado!",
                     });
                     consulta({
                         CHID: dt?.row?.id,
@@ -96,18 +96,18 @@ const FondosView = ({
         else {
             console.log("ajuste -- " + v?.row);
             console.log("id ajuste --- " + v?.row?.id,);
-            AuthService.FondosRelAjuste(
+            AuthService.UsuarioPerfil(
                 {
                     TIPO: 2,
-                    IDAJUSTE: v?.row?.id,
-                    IDFONDO: idFondo,
+                    IDPERFIL: v?.row?.id,
+                    IDUSUARIO: idPerfil,
                 }
             ).then((res) => {
                 setData(res.RESPONSE);
                 if (res.SUCCESS) {
                     Toast.fire({
                         icon: "success",
-                        title: "Ajuste Eliminado!",
+                        title: "Perfil Eliminado!",
                     });
                     consulta({
                         CHID: dt?.row?.id,
@@ -145,7 +145,7 @@ const FondosView = ({
                 return <Checkbox onChange={() => handleChange(v)} />;
             },
         },
-        { field: "Descripcion", headerName: "Descripcion", width: 200 },
+        { field: "Descripcion", headerName: "Descripcion", width: 300 },
     ];
 
 
@@ -162,9 +162,9 @@ const FondosView = ({
     useEffect(() => {
         handleAjustesRel();
         console.log(dt?.row);
-        console.log("id fondo--- " + dt?.row?.id);
+        console.log("id perfil--- " + dt?.row?.id);
         setDescripcion(dt?.row?.Descripcion);
-        setIdFondo(dt?.row?.id);
+        setIdPerfil(dt?.row?.id);
     }, []);
 
 
@@ -189,11 +189,11 @@ const FondosView = ({
                         <ButtonGroup variant="outlined" aria-label="outlined primary button group">
                             <Button
                                 onClick={handleAjustesRel}
-                            >Ajustes Relacionados</Button>
+                            >Perfiles Relacionados</Button>
                             <Button
                                 onClick={handleAjustesDis}
 
-                            >Ajustes Disponibles Para Relacionar</Button>
+                            >Perfiles Disponibles Para Relacionar</Button>
                         </ButtonGroup>
                     </Grid>
 
@@ -224,13 +224,13 @@ const FondosView = ({
                                     <Grid item xs={12}>
                                         <br />
                                         <label className="Titulo">
-                                            Ajustes Relacionados
+                                            Perfiles Relacionados
                                         </label>
                                         <br />
                                     </Grid>
                                     <Grid item xs={12}>
 
-                                        *Para Eliminar el Ajuste Seleccione la Casilla*
+                                        *Para Eliminar el Perfil Seleccione la Casilla*
                                     </Grid>
                                 </Grid>
                             </Box>
@@ -261,18 +261,18 @@ const FondosView = ({
                             <br />
                             <label>{descripcion} </label>
                         </Box>
-                    
-                    <Box sx={{ display: "flex"}}>
-                        <Grid container sm={12} sx={{ alignItems: "center", justifyContent: "center", }}>
 
-                            <Grid item xs={12} sx={{
-                                width: "100%",
-                                height: 300,
-                            }}>
-                                <MUIXDataGridSimple columns={columns} rows={data} />
+                        <Box sx={{ display: "flex" }}>
+                            <Grid container sm={12} sx={{ alignItems: "center", justifyContent: "center", }}>
+
+                                <Grid item xs={12} sx={{
+                                    width: "100%",
+                                    height: 300,
+                                }}>
+                                    <MUIXDataGridSimple columns={columns} rows={data} />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Box>
+                        </Box>
                     </Grid>
                 </Box>
 
@@ -287,4 +287,4 @@ const FondosView = ({
 
 
 
-export default FondosView;
+export default PerfilesConfiguracion;
