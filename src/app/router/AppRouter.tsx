@@ -46,6 +46,7 @@ import DetalleFondo from '../views/components/menu/aportaciones/DetalleFondo';
 import {  getUser, islogin } from '../services/localStorage';
 import { RESPONSE } from '../interfaces/user/UserInfo';
 import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
+import { CalculoGarantiaComponente } from '../views/components/menu/articulos/CalculoGarantia/CalculoGarantiaComponente';
 
 
 
@@ -100,6 +101,7 @@ export const AppRouter = () => {
         {/* SECCION DE ARTICULOS */}
         <Route path='/inicio/articulos/art14f/:tipo' element={<Art14fP />} />
         <Route path='/inicio/articulos/art14d/:tipo/:id' element={<Art14f />} />
+        <Route path='/inicio/articulos/calculogarantia' element={<CalculoGarantiaComponente />} />
         {/* FIN SECCION DE ARTICULOS */}
 
 
