@@ -9,6 +9,8 @@ import {
     Grid,
     Button,
     ButtonGroup,
+    styled,
+    Paper,
 } from "@mui/material";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -42,11 +44,13 @@ const FondosView = ({
     const [descripcion, setDescripcion] = useState<string>();
     const [idFondo, setIdFondo] = useState<string>();
 
-
-
-
-    const [value, setValue] = useState(0);
-
+    const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    }));
     const consulta = (data: any) => {
         setOpenSlider(true);
         AuthService.FondosAjustes(data).then((res) => {
@@ -76,9 +80,9 @@ const FondosView = ({
                         icon: "success",
                         title: "Ajuste Asignado!",
                     });
-                    consulta({ 
+                    consulta({
                         CHID: dt?.row?.id,
-                        TIPO: 2, 
+                        TIPO: 2,
                     });
                 } else {
                     Alert.fire({
@@ -89,7 +93,7 @@ const FondosView = ({
                 }
             });
         }
-        else{
+        else {
             console.log("ajuste -- " + v?.row);
             console.log("id ajuste --- " + v?.row?.id,);
             AuthService.FondosRelAjuste(
@@ -105,9 +109,9 @@ const FondosView = ({
                         icon: "success",
                         title: "Ajuste Eliminado!",
                     });
-                    consulta({ 
+                    consulta({
                         CHID: dt?.row?.id,
-                        TIPO: 1, 
+                        TIPO: 1,
                     });
                 } else {
                     Alert.fire({
@@ -210,33 +214,51 @@ const FondosView = ({
                         {openRel ?
                             <Box>
 
-                                <label className="Titulo">
-                                    Ajustes Relacionados
-                                </label>
-                                <br />
-                                <br />
-                                <label>
-                                    Para Eliminar el Ajuste Seleccione la Casilla
-                                </label>
+                                <Grid container
+                                    sx={{
+                                        textAlign: 'center',
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                    }}>
+                                    <Grid item xs={12}>
+                                        <br />
+                                        <label className="Titulo">
+                                            Ajustes Relacionados
+                                        </label>
+                                        <br />
+                                    </Grid>
+                                    <Grid item xs={12}>
+
+                                        *Para Eliminar el Ajuste Seleccione la Casilla*
+                                    </Grid>
+                                </Grid>
                             </Box>
                             :
                             <Box>
-                                <label
-                                    className="Titulo" >
-                                    Ajustes Disponibles Para Relacionar
-                                </label>
-                                <br />
-                                <br />
-                                <label
-                                    className="contenido"
-                                >
-                                    Para Asignar el Ajuste Seleccione la Casilla
-                                </label>
+                                <Grid container
+                                    sx={{
+                                        textAlign: 'center',
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                    }}>
+                                    <Grid item xs={12}>
+                                        <br />
+                                        <label className="Titulo">
+                                            Ajustes Disponibles Para Relacionar
+                                        </label>
+                                        <br />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        *Para Asignar el Ajuste Seleccione la Casilla*
+                                    </Grid>
+                                </Grid>
                             </Box>
 
                         }
                         <Box>
-                            <br />
+
                             <br />
                             <label>{descripcion} </label>
                         </Box>
