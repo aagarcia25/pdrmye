@@ -136,7 +136,7 @@ export const ParametrosGeneralesModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setNombre(v.target.value)}
-            error={nombre ? true : false}
+            error={!nombre ? true : false}
             InputProps={{}}
           />
           <TextField
@@ -149,7 +149,7 @@ export const ParametrosGeneralesModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setValor(v.target.value)}
-            error={valor ? true : false}
+            error={!valor ? true : false}
             InputProps={{}}
           />
             </Container>
@@ -181,7 +181,7 @@ export const ParametrosGeneralesModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setValor(v.target.value)}
-            error={valor ? true : false}
+            error={!valor ? true : false}
             InputProps={{}}
           />
             </Container>
