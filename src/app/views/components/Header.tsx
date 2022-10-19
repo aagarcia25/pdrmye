@@ -164,18 +164,24 @@ export default function Header(props: HeaderProps) {
                     p: 0.1,
                     border: 4,
                     borderColor: COLOR.negro,
-                    backgroundColor: COLOR.negro,
+                    backgroundColor: COLOR.blanco,
                     "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                   }}
                 >
                   {user.RutaFoto ? (
                     <img
-                      style={{ width: "3vw", height: "7vh" }}
+                      style={{
+                        width: "3vw",
+                        height: "7vh",
+                        objectFit: "scale-down",
+                      }}
                       src={user.RutaFoto}
                     />
                   ) : (
-                    <PersonIcon sx={{ width: "3vw", height: "7vh",
-                    "&:hover":{color:COLOR.negro}}} />
+                    <PersonIcon sx={{
+                      width: "3vw", height: "7vh",
+                      "&:hover": { color: COLOR.negro }
+                    }} />
                   )}
                 </IconButton>
               </Tooltip>

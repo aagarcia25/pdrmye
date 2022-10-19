@@ -35,7 +35,7 @@ export const Perfil = () => {
   const [botonEdicionFoto, setBotonEdicionFoto] = useState("Editar");
   const [botonEdicionTodo, setBotonEdicionTodo] = useState("Editar");
 
-  user.Nombre=nombre;
+  user.Nombre = nombre;
 
   //PRIMER CARD FUNCIONES
   const onClickEditarFoto = () => {
@@ -57,13 +57,13 @@ export const Perfil = () => {
     //Avisos de que faltan algunos campos y avisar que sus compañeros no los podrán observar
     if (botonEdicionTodo === "Guardar") {
       setBotonEdicionTodo("Editar");
-      
+
     }
   };
 
   let st;
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <Box
@@ -204,7 +204,11 @@ export const Perfil = () => {
                     >
                       {user.RutaFoto ? (
                         <img
-                          style={{ width: "3vw", height: "7vh" }}
+                          style={{
+                            objectFit: "scale-down",
+                            width: "3vw",
+                            height: "7vh"
+                          }}
                           src={user.RutaFoto}
                         />
                       ) : (
@@ -260,7 +264,7 @@ export const Perfil = () => {
                     >
                       <Typography sx={{ fontWeight: "Bold" }}>
                         Tipo de usuario: {tipo
-                        //VER COMO TRAER EL ROL DEL USUARIO!!!
+                          //VER COMO TRAER EL ROL DEL USUARIO!!!
                         }
                       </Typography>
                     </Grid>
@@ -566,35 +570,35 @@ export const Perfil = () => {
                     </Box>
                   </Box>
                   <Box sx={{
-                  width:"100%",
-                  height:"13%",
-                //  backgroundColor:"red",
-                  display:"flex",
-                  justifyContent:"center",
-                  alignItems:"end"
-                }}>
-                  <Button
-                  onClick={onClickEditarTodo}
-                  sx={{
-                    width: "2vw",
-                    height: "3vh",
-                    backgroundColor: "white",
-                    borderColor: "#5048E7",
-                    borderRadius: 1,
-                    color: "#5048E5",
-                    "&:hover": {
-                      color: "#5048E5",
-                      backgroundColor: "#eeebf5",
-                    },
-                  }}
-                  > <Typography sx={{ fontSize: "3" }}>
-                  {botonEdicionTodo}
-                </Typography></Button>
-                </Box>
+                    width: "100%",
+                    height: "13%",
+                    //  backgroundColor:"red",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "end"
+                  }}>
+                    <Button
+                      onClick={onClickEditarTodo}
+                      sx={{
+                        width: "2vw",
+                        height: "3vh",
+                        backgroundColor: "white",
+                        borderColor: "#5048E7",
+                        borderRadius: 1,
+                        color: "#5048E5",
+                        "&:hover": {
+                          color: "#5048E5",
+                          backgroundColor: "#eeebf5",
+                        },
+                      }}
+                    > <Typography sx={{ fontSize: "3" }}>
+                        {botonEdicionTodo}
+                      </Typography></Button>
+                  </Box>
                 </Box>
 
-                
-               
+
+
               </Box>
             </Box>
           </Box>
