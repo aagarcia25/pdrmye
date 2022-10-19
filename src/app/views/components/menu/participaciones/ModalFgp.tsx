@@ -46,18 +46,43 @@ const ModalFgp = ({
   const [ajustes, setAjustes] = useState<SelectValues[]>([]);
   const [nameNewDoc, setNameNewDoc] = useState("");
   const [ajusteselect, setajusteselect] = useState("");
-  const [labelAjuste, setLabelAjuste] = useState("");
+  const [labelAjuste, setLabelAjuste] = useState<number>();
   let year: number = new Date().getFullYear();
 
   const handleSelectMes = (v: SelectValues) => {
-    setMeselect(String(v.value));
+    console.log("cambiando select");
+    console.log(v)
+    setMeselect(String(v));
   };
 
   const handleSelectAjuste = (v: SelectValues) => {
     console.log("cambiando select");
     console.log(v)
-    setLabelAjuste(String(v.label));
-    setajusteselect(String(v.value));
+    setajusteselect(String(v));
+   
+    if(String(v) !== ""){
+    
+    let data ={
+      NUMOPERACION :5,
+      CHID :String(v)
+    };
+    CatalogosServices.AjustesIndex(data).then((res) => {
+      if (res.SUCCESS) {
+        console.log(res.RESPONSE);
+        setLabelAjuste(Number(res.RESPONSE.keys));
+       
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  }else{
+    setLabelAjuste(0);
+  }
+   
   };
 
   const [file, setFile] = useState(Object);
@@ -76,6 +101,7 @@ const ModalFgp = ({
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlsx");
     formData.append("tipo", "CalculoAjuste");
+    formData.append("FONDO", clave);
     formData.append("CHUSER", user.id);
     formData.append("ANIO", String(year));
     formData.append("MES", meselect);
@@ -213,7 +239,7 @@ const ModalFgp = ({
     } else {
       
       // AJUSTE ESTATAL
-      if(labelAjuste === "Ajuste Estatal" ){
+      if(labelAjuste == 10 ){
         AjusteEstatal();
       }
 
@@ -384,7 +410,7 @@ const ModalFgp = ({
               </Box>
             </Grid>
 
-            {labelAjuste === "Ajuste Estatal" ? (
+            {labelAjuste == 10 ? (
               <>
                 <Grid
                   item
