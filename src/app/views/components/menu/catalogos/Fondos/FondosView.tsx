@@ -145,7 +145,7 @@ const FondosView = ({
                 return <Checkbox onChange={() => handleChange(v)} />;
             },
         },
-        { field: "Descripcion", headerName: "Descripcion", width: 300 },
+        { field: "Descripcion", headerName: "Descripcion", width: 150 },
     ];
 
 
@@ -267,7 +267,7 @@ const FondosView = ({
                     <Grid sm={6}
                         sx={{
                             mt: "2vh",
-                            width: "100%",
+                            width: "80%",
                             height: 400,
                             justifyContent: "center",
                             alignItems: "center",

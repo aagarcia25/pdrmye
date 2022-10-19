@@ -2,6 +2,7 @@ import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import imgGobEst from "../../assets/img/logo1.svg";
 import { useNavigate } from "react-router-dom";
+import { getItem } from "../../services/localStorage";
 
 const Validacion = () => {
 
@@ -118,7 +119,7 @@ const Validacion = () => {
           }}>
             <Button
             onClick={()=>onClickLogin}
-            href="http://10.200.4.106/"
+            href={String(getItem("RUTA_LOGIN"))}
               sx={
                 {
                   
