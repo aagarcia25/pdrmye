@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import imgGobEst from "../../assets/img/logo1.svg";
 import { useNavigate } from "react-router-dom";
 import { getItem } from "../../services/localStorage";
@@ -10,7 +10,11 @@ const Validacion = () => {
 
   const onClickLogin =()=>{
     localStorage.clear();
+    var ventana = window.self;
+    ventana.opener = window.self;
+    ventana.close();
   }
+
 
   return (
     
@@ -118,14 +122,14 @@ const Validacion = () => {
             // Alineación para el botón de salida
           }}>
             <Button
-            onClick={()=>onClickLogin}
-            href={String(getItem("RUTA_LOGIN"))}
+            onClick={()=>onClickLogin()}
+           
               sx={
                 {
                   
                   width: "100%",
                   height: "100%",
-               backgroundColor: "white",
+                  backgroundColor: "white",
                   borderColor: "#5048E5",
                   borderRadius: 1,
                   color: "#5048E5",

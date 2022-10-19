@@ -36,7 +36,7 @@ function App() {
   const [isIdle, setIsIdle] = useState(false);
   const query = new URLSearchParams(useLocation().search);
   const jwt = query.get("jwt");
-  const [openSlider, setOpenSlider] = useState(false);
+  const [openSlider, setOpenSlider] = useState(true);
   const [acceso, setAcceso] = useState(false);
 
   const loadParametrosGenerales = () => {
@@ -103,6 +103,23 @@ function App() {
         setOpenSlider(false);
         setlogin(true);
         setAcceso(true);
+      }else{
+        setlogin(false);
+        setAcceso(false);
+        Swal.fire({
+          title: "No tienes Relacionado un Rol",
+          text: 'Favor de Verificar sus Permisos con el área de TI',
+          showDenyButton: false,
+          showCancelButton: false,
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            localStorage.clear();
+            var ventana = window.self;
+               ventana.opener = window.self;
+               ventana.close();
+          }
+        });
       }
     }else{
         setlogin(false);
@@ -145,6 +162,7 @@ function App() {
         buscaUsuario(user.IdUsuario);
        
       } else if (res.status == 401) {
+        setOpenSlider(false);
         setlogin(false);
         setAcceso(false);
         Swal.fire({
@@ -248,7 +266,7 @@ function App() {
       ) : acceso ? (
         <AppRouter />
       ) : (
-        <Validacion />
+        openSlider ? "": <Validacion />
       )}
     </div>
   );

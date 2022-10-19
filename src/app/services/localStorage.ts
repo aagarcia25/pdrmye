@@ -50,6 +50,6 @@ export const getPU = ( ) => {
  return localStorage.getItem('PU');
 
 }
-export const getItem = (item:string ) => {
-  return localStorage.getItem(item);
+export const getItem = (item:string ) :string => {
+  return String(localStorage.getItem(item));
  }
