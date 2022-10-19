@@ -36,7 +36,7 @@ export const CalculoGarantiaComponente = () => {
       width: 150,
     },
     { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
+    { field: "Nombre", headerName: "Municipio", width: 200 },
     {
       field: "ClaveFondo",
       hide: true,
@@ -46,7 +46,7 @@ export const CalculoGarantiaComponente = () => {
     {
       field: "Descripcion",
       headerName: "Descripción de fondo",
-      width: 150,
+      width: 420,
     },
     {
       field: "Anio",

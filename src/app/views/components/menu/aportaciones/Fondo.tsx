@@ -218,7 +218,7 @@ export const Fondo = () => {
 
       <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <ButtonsCalculo handleOpen={handleOpen} />
+          <ButtonsCalculo handleOpen={handleOpen} agregar={false} />
           <MUIXDataGrid columns={columns} rows={data} />
         </div>
       </Box>

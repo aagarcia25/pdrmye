@@ -15,9 +15,6 @@ import MUIXDataGrid from "../../MUIXDataGrid";
 import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
 import Trazabilidad from "../../Trazabilidad";
 import Slider from "../../Slider";
-import { PERMISO } from "../../../../interfaces/user/UserInfo";
-import { getPermisos } from "../../../../services/localStorage";
-import DetalleFondo from "../aportaciones/DetalleFondo";
 import DetalleFgp from "./DetalleFgp";
 
 export const Fpg = () => {
@@ -220,7 +217,7 @@ export const Fpg = () => {
 
       <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <ButtonsCalculo handleOpen={handleOpen} />
+          <ButtonsCalculo handleOpen={handleOpen} agregar={false} />
           <MUIXDataGrid columns={columns} rows={data} />
         </div>
       </Box>

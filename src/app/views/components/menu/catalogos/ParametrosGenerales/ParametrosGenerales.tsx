@@ -3,13 +3,10 @@ import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { GridColDef } from "@mui/x-data-grid";
 import { messages } from "../../../../styles";
-import AccionesGrid from "../../../AccionesGrid";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import { ParametroServices } from "../../../../../services/ParametroServices";
-import Slider from "../../../Slider";
-import Buttons from "../Utilerias/Buttons";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { ParametrosGeneralesModal } from "./ParametrosGeneralesModal";
 import { Box, IconButton } from "@mui/material";
@@ -37,12 +34,12 @@ export const ParametrosGenerales = () => {
     {
       field: "Nombre",
       headerName: "Nombre",
-      width: 150,
+      width: 200,
     },
     {
       field: "Valor",
       headerName: "Valor",
-      width: 120,
+      width: 250,
     },
     {
       field: "acciones",
@@ -64,7 +61,6 @@ export const ParametrosGenerales = () => {
       },
     },
   ];
-  console.log("Columns: ", columns);
 
   const handleClose = () => {
     setOpen(false);
