@@ -25,11 +25,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
   const navigate = useNavigate();
  
   const list: menus[] = JSON.parse(String(getMenus()));
-  console.log("menu  "+list);
-
   const [open, setOpen] = React.useState(true);
-
-
   const handleClick = () => {
     setOpen(!open);
   };

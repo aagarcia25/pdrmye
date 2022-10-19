@@ -8,6 +8,7 @@ import { AuthService } from "./app/services/AuthService";
 import { CatalogosServices } from "./app/services/catalogosServices";
 import {
   getBloqueo,
+  getItem,
   getPU,
   setBloqueo,
   setlogin,
@@ -25,6 +26,7 @@ import { BloqueoSesion } from "./app/views/components/BloqueoSesion";
 import Validacion from "./app/views/components/Validacion";
 import { useIdleTimer } from "react-idle-timer";
 import Slider from "./app/views/components/Slider";
+import { ParametroServices } from "./app/services/ParametroServices";
 
 function App() {
  
@@ -35,6 +37,20 @@ function App() {
   const jwt = query.get("jwt");
   const [openSlider, setOpenSlider] = useState(false);
   const [acceso, setAcceso] = useState(false);
+
+  const loadParametrosGenerales = () => {
+    let data = {
+      NUMOPERACION: 5,
+      NOMBRE: "URL_LOGIN"
+    }
+    ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
+      console.log(restApp.RESPONSE.Valor);
+      localStorage.setItem("RUTA_LOGIN", JSON.stringify(restApp.RESPONSE.Valor));
+    });
+  };
+
+  
+ 
 
   const loadAnios = () => {
     let data = { NUMOPERACION: 4 };
@@ -118,7 +134,7 @@ function App() {
         }).then((result) => {
           if (result.isConfirmed) {
             localStorage.clear();
-            window.location.replace("http://10.200.4.106/");
+            window.location.replace(getItem("RUTA_LOGIN")||"");
           }
         });
       }
@@ -146,7 +162,7 @@ function App() {
         }).then((result) => {
           if (result.isConfirmed) {
             localStorage.clear();
-            window.location.replace("http://10.200.4.106/");
+            window.location.replace(getItem("RUTA_LOGIN")||"");
           }
         });
       }
@@ -175,7 +191,9 @@ function App() {
 
 
   useLayoutEffect(() => {
-
+    localStorage.clear();
+    //SE CARGAN LOS PARAMETROS GENERALES
+    loadParametrosGenerales();
     //setTimeout(() => {
       if (String(jwt) != null && String(jwt) != "") {
         console.log("verificando token");
@@ -189,7 +207,7 @@ function App() {
           confirmButtonText: "Aceptar",
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.replace("http://10.200.4.106/");
+            window.location.replace(getItem("RUTA_LOGIN")||"");
           }
         });
       }

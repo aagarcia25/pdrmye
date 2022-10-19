@@ -65,7 +65,6 @@ export default function Header(props: HeaderProps) {
     var ventana = window.self;
     ventana.opener = window.self;
     ventana.close();
-    // window.location.replace("http://10.200.4.106/");
   };
 
   const onOpenCalendar = () => {

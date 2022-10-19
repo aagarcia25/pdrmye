@@ -63,6 +63,7 @@ export const Fpg = () => {
   };
 
   const handleAjuste = (v: any) => {
+    setIdtrazabilidad(v.row.id);
     setModo("ajuste");
     setAnio(Number(v.row.Anio));
     setMes(v.row.Mes);
@@ -135,9 +136,12 @@ export const Fpg = () => {
                 <InfoIcon />
               </IconButton>
             </Tooltip>
-
             <Tooltip title="Agregar Ajuste">
-              <IconButton onClick={() => handleAjuste(v)}>
+              <IconButton onClick={() => handleAjuste(v)}
+                disabled={
+                  String(v.row.estatus) !== 'INICIO' 
+                }
+              >
                 <AttachMoneyIcon />
               </IconButton>
             </Tooltip>
@@ -229,8 +233,9 @@ export const Fpg = () => {
             onClickBack={handleClose}
             modo={modo}
             anio={anio}
-            mes={mes}
-          />
+            mes={mes} 
+            idCalculo={idtrazabilidad}  
+            />
 
           {openDetalles ?
             <DetalleFgp
