@@ -22,13 +22,17 @@ const ListNotificationsModal = ({
   modo,
   handleClose,
   tipo,
-  dt
+  dt,
+  destinatario,
+  remitente
 }: {
   open: boolean;
   modo: string;
   tipo: number;
   handleClose: Function,
-  dt: any
+  dt: any,
+  destinatario: string,
+  remitente: string
 }) => {
 
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -44,7 +48,7 @@ const ListNotificationsModal = ({
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
   const [chuserDestin, setChuserDestin] = useState<string>();
 
-  const [personName, setPersonName] = React.useState<string[]>([]);
+  const [name, setName] = useState<string>();
 
 
 
@@ -77,12 +81,12 @@ const ListNotificationsModal = ({
 
   }
   const handletest = () => {
-    console.log(   newEncabezado +"---"+ newMensaje+"---"+ chuserDestin )
+    console.log(newEncabezado + "---" + newMensaje + "---" + chuserDestin)
 
 
-  
-      
-   
+
+
+
   }
 
 
@@ -150,7 +154,7 @@ const ListNotificationsModal = ({
   };
 
   useEffect(() => {
-    console.log("modo en list notificaciones modal  " + modo);
+    console.log("data " + dt?.row);
     loadSelectUser();
     if (dt === '') {
 
@@ -158,6 +162,7 @@ const ListNotificationsModal = ({
       setId(dt?.row?.id);
       setMensaje(dt?.row?.Descripcion);
       setEncabezado(dt?.row?.Encabezado);
+      setName(dt?.row?.Nombre)
 
 
     }
@@ -302,10 +307,7 @@ const ListNotificationsModal = ({
                     className="enviar-mensaje" color="success" variant="contained" endIcon={<SendIcon />}
                     onClick={() => handleUpload()}>
                     Enviar</Button>
-                    <Button
-                    className="enviar-mensaje" color="success" variant="contained" endIcon={<SendIcon />}
-                    onClick={() => handletest()}>
-                    test</Button>
+
 
                 </Box>
               </Box>
@@ -341,9 +343,17 @@ const ListNotificationsModal = ({
                 top: 1, left: 20,
                 borderRadius: 1
               }}>
+
+                <label>De: {" " + remitente}</label>
+                <br />
+                <label>Para: {" " + destinatario}</label>
+
                 <label >
+
                   <h3>Asunto</h3>
                 </label>
+
+
                 <textarea
                   value={encabezado}
                   readOnly
@@ -420,6 +430,10 @@ const ListNotificationsModal = ({
                 width: "100%",
                 borderRadius: 1
               }}>
+                <label>De: {" " + remitente}</label>
+                <br />
+                <label>Para: {" " + destinatario}</label>
+
                 <label >
                   <h3>Asunto</h3>
                 </label>
@@ -494,9 +508,15 @@ const ListNotificationsModal = ({
                 top: 1, left: 20,
                 borderRadius: 1
               }}>
+
+                <label>De: {" " + remitente}</label>
+                <br />
+                <label>Para: {" " + destinatario}</label>
+
                 <label >
                   <h3>Asunto</h3>
                 </label>
+
                 <textarea
                   value={encabezado}
                   readOnly

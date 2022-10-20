@@ -140,6 +140,30 @@ button.notificaciones-generico {
   box-shadow: rgba(66, 69, 67, 0.24) 0px 8px 16px 0px;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
 }
+button.notificaciones {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  font-weight: 700;
+  line-height: 1.71429;
+  font-size: 0.875rem;
+  text-transform: capitalize;
+  font-family: "Public Sans", MontserratMedium;
+  min-width: 64px;
+  padding: 6px 16px;
+  border-radius: 8px;
+  width: 100%;
+  box-shadow: rgba(66, 69, 67, 0.24) 0px 8px 16px 0px;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+}
 
 .nuevo-mensaje:hover {
   background-color: hsl(126, 86%, 31%);
