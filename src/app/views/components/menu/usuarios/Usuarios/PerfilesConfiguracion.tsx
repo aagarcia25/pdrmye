@@ -138,7 +138,7 @@ const PerfilesConfiguracion = ({
             sortable: false,
             width: 10,
             renderCell: (v) => {
-                return <Checkbox  disabled={data!=null && openRel!=true}   onChange={() => handleChange(v)} />;
+                return <Checkbox     onChange={() => handleChange(v)} />;
             },
         },
         { field: "Descripcion", headerName: "Descripcion", width: 300 },
@@ -250,7 +250,7 @@ const PerfilesConfiguracion = ({
                                     </Grid>
                                     <Grid item xs={12}>
                                         *Para Asignar el Perfil Seleccione la Casilla*
-                                        <br/>
+                                                  <br/>
                                         *Solo se Puede Asignar Un Perfil Por Usuario*
                                     </Grid>
                                 </Grid>

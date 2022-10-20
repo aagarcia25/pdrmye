@@ -138,7 +138,7 @@ const DepartamentoConfig = ({
             sortable: false,
             width: 10,
             renderCell: (v) => {
-                return <Checkbox disabled={data!=null && openRel!=true} onChange={() => handleChange(v)} />;
+                return <Checkbox  onChange={() => handleChange(v)} />;
             },
         },
         { field: "Descripcion", headerName: "Descripcion", width: 300 },
