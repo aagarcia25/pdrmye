@@ -25,7 +25,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { Alert } from "../../../../../helpers/Alert";
 
-const PerfilesConfiguracion = ({
+const DepartamentoConfig = ({
     open,
     handleClose,
     tipo,
@@ -53,10 +53,10 @@ const PerfilesConfiguracion = ({
     }));
     const consulta = (data: any) => {
         setOpenSlider(true);
-        AuthService.getUsuarioPerfil(data).then((res) => {
+        AuthService.getUsuarioDepartamento(data).then((res) => {
             setData(res.RESPONSE);
             setOpenSlider(false);
-            console.log(res.RESPONSE)
+            console.log(res)
         });
 
     };
@@ -65,7 +65,7 @@ const PerfilesConfiguracion = ({
     const handleChange = (v: any) => {
 
         if (openRel != true) {
-            AuthService.UsuarioPerfil(
+            AuthService.UsuarioDepartamento(
                 {
                     TIPO: 1,
                     IDPERFIL: v?.row?.id,
@@ -92,7 +92,7 @@ const PerfilesConfiguracion = ({
             });
         }
         else {
-            AuthService.UsuarioPerfil(
+            AuthService.UsuarioDepartamento(
                 {
                     TIPO: 2,
                     IDPERFIL: v?.row?.id,
@@ -138,7 +138,7 @@ const PerfilesConfiguracion = ({
             sortable: false,
             width: 10,
             renderCell: (v) => {
-                return <Checkbox  disabled={data!=null && openRel!=true}   onChange={() => handleChange(v)} />;
+                return <Checkbox onChange={() => handleChange(v)} />;
             },
         },
         { field: "Descripcion", headerName: "Descripcion", width: 300 },
@@ -185,11 +185,11 @@ const PerfilesConfiguracion = ({
                         <ButtonGroup variant="outlined" aria-label="outlined primary button group">
                             <Button
                                 onClick={handleAjustesRel}
-                            >Perfiles Relacionados</Button>
+                            >Departamento Relacionado</Button>
                             <Button
                                 onClick={handleAjustesDis}
 
-                            >Perfiles Disponibles Para Relacionar</Button>
+                            >Departamentos Disponibles Para Relacionar</Button>
                         </ButtonGroup>
                     </Grid>
 
@@ -226,9 +226,9 @@ const PerfilesConfiguracion = ({
                                     </Grid>
                                     <Grid item xs={12}>
 
-                                        *Para Eliminar el Perfil Seleccione la Casilla*
+                                    *Para Eliminar el Departamento Seleccione la Casilla*
                                         <br/>
-                                        *Solo se Puede Asignar Un Perfil Por Usuario*
+                                        *Solo se Puede Asignar Un Departamento Por Usuario*
                                     </Grid>
                                 </Grid>
                             </Box>
@@ -249,9 +249,9 @@ const PerfilesConfiguracion = ({
                                         <br />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        *Para Asignar el Perfil Seleccione la Casilla*
+                                    *Para Asignar el Departamento Seleccione la Casilla*
                                         <br/>
-                                        *Solo se Puede Asignar Un Perfil Por Usuario*
+                                        *Solo se Puede Asignar Un Departamento Por Usuario*
                                     </Grid>
                                 </Grid>
                             </Box>
@@ -287,4 +287,4 @@ const PerfilesConfiguracion = ({
 
 
 
-export default PerfilesConfiguracion;
+export default DepartamentoConfig;
