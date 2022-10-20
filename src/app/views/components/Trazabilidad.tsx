@@ -93,6 +93,7 @@ const Trazabilidad = ({
                       {it.Nombre}
                       </Typography>
                       <Typography>{it.Descripcion}</Typography>
+                      <Typography>{it.Comentario}</Typography>
                     </TimelineContent>
                   </TimelineItem>
               

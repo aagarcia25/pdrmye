@@ -24,6 +24,9 @@ export const getMenus = () => localStorage.getItem('menus');
 // PERFIL
 export const setPerfiles = (perfiles: any) => localStorage.setItem('perfiles', JSON.stringify(perfiles));
 export const getPerfiles = () => localStorage.getItem('perfiles');
+// DEPARTAMENTO
+export const setDepartamento = (departamento: any) => localStorage.setItem('departamento', JSON.stringify(departamento));
+export const getDepartamento = () => localStorage.getItem('departamento');
 
 //IDENTIFICAR QUE EL USUARIO YA ESTA LOGEADO
 export const setlogin = (data: any) => {

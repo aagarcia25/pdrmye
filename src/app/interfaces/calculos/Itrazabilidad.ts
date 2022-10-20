@@ -3,4 +3,5 @@ export interface Itrazabilidad {
     FechaCreacion: string;
     Nombre: string;
     Descripcion: string;
+    Comentario: string;
 }

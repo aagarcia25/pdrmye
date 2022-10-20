@@ -37,6 +37,10 @@ export class calculosServices {
     public static async BorraCalculo(data: any) {
         return await post('BorraCalculo', data);
     }
+
+    public static async getEstatusCalculo(data: any) {
+        return await post('getEstatusCalculo', data);
+    }
     
 
 }

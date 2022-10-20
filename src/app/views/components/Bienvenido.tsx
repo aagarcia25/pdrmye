@@ -32,9 +32,7 @@ export default function Bienvenido({
     <PlantillaBienvenido id={1} name={user.Nombre + ' ' + user.ApellidoPaterno + ' '+ user.ApellidoMaterno} lastConnnection=""/>
     </Box>
 
-    <Box sx={{ display: user.PERFILES[0].Referencia == "DIR" ? "block" : "none" }}>
-    <PlantillaBienvenido id={1} name={user.Nombre + ' ' + user.ApellidoPaterno + ' '+ user.ApellidoMaterno} lastConnnection=""/>
-    </Box>
+    
    
    </>
 

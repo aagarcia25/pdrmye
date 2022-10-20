@@ -45,6 +45,7 @@ const DetalleFgp = ({
   const navigate = useNavigate();
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const [status,setStatus] = useState<string>("");
   const [data, setData] = useState([]);
   const [autorizar, setAutorizar] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
@@ -52,7 +53,7 @@ const DetalleFgp = ({
   const [enviar, setEnviar] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
 
-  const [openSlider, setOpenSlider] = useState(false);
+  const [openSlider, setOpenSlider] = useState(true);
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
   const [ta, setTa] = useState(false);
@@ -148,6 +149,24 @@ const DetalleFgp = ({
 
   };
 
+  const EstatusCalculo = () => {
+    let data ={
+      IDCALCULO:idDetalle,
+    };
+    calculosServices.getEstatusCalculo(data).then((res) => {
+          if (res.SUCCESS) {
+           setStatus(res.RESPONSE[0].ControlInterno)
+          } else {
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      
+  };
+
 
 
   const columnas = (data: any) => {
@@ -218,7 +237,8 @@ const DetalleFgp = ({
           title: "Consulta Exitosa!",
         });
         setData(res.RESPONSE);
-        
+        console.log("Pasando estatus" + status)
+        EstablecePermisos(status);
       } else {
       
         Alert.fire({
@@ -348,34 +368,41 @@ const DetalleFgp = ({
     },
   ];
 
-  useEffect(() => {
 
-    permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === String(clave)) {
-        if (String(item.Permiso) == "Autorizar" && estatus != "CERRADO") {
-          setAutorizar(true);
-        }
-        if (String(item.Permiso) == "Cancelar" && estatus != "CERRADO") {
-          setCancelar(true);
-        }
-        if (String(item.Permiso) == "Ver Trazabilidad") {
-          setVerTrazabilidad(true);
-        }
-        if (String(item.Permiso) == "Enviar" && estatus != "CERRADO") {
-          setEnviar(true);
-        }
+const EstablecePermisos =(status:string)=>{
+  permisos.map((item: PERMISO) => {
+    if (String(item.ControlInterno) === String(clave)) {
+      if (String(item.Permiso) == "Autorizar" && estatus != "CERRADO" && status==="INICIO" ) {
+        setAutorizar(true);
       }
-    });
+      if (String(item.Permiso) == "Cancelar" && estatus != "CERRADO" && status==="INICIO" ) {
+        setCancelar(true);
+      }
+      if (String(item.Permiso) == "Ver Trazabilidad") {
+        setVerTrazabilidad(true);
+      }
+      if (String(item.Permiso) == "Enviar" && estatus != "CERRADO" && status==="APROBADO") {
+        setEnviar(true);
+      }
+    }
+  });
+}
 
-    setTimeout(() => {
+  useEffect(() => {
+   
+    EstatusCalculo();
+    //setTimeout(() => {
+      EstatusCalculo();
       columnas({ IDCALCULOTOTAL: idDetalle });
       consulta({ IDCALCULOTOTAL: idDetalle });
-    }, 2000);
-  }, []);
+      
+     
+    //}, 2000);
+  }, [status]);
 
   return (
     <div>
-        <Slider open={openSlider}></Slider>
+      
       <Box>
         <Dialog open={Boolean(openDetalles)} fullScreen={true} >
         
@@ -417,7 +444,7 @@ const DetalleFgp = ({
           <Grid
             container spacing={1}
             sx={{ justifyContent: "center", width: '100%' }} >
-
+           <Slider open={openSlider}></Slider>
             <Grid item xs={7} md={8} lg={8} sx={{ justifyContent: "center", width: '100%' }}>
               <BotonesOpciones
                 handleAccion={handleAcciones}

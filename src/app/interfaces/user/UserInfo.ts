@@ -19,6 +19,11 @@
         Referencia: string;
     }
 
+    export interface DEPARTAMENTOS {
+        NombreCorto: string;
+        Descripcion: string;
+    }
+
     export interface RESPONSE {
         id: string;
         deleted: string;
@@ -40,7 +45,8 @@
         ROLES: ROLE[];
         MENUS: MENU[];
         PERMISOS: PERMISO[];
-        PERFILES:PERFILES[];
+        PERFILES: PERFILES[];
+        DEPARTAMENTOS: DEPARTAMENTOS[];
         tipo?: any;
     }
 
