@@ -13,7 +13,7 @@ export default function Bienvenido({
     //Traer los datos por name el nombre de la persona y lastConnection la última conexión del usuario
     <>
     <Box sx={{ display: user.PERFILES[0].Referencia == "MUN" ? "block" : "none" }}>
-    MUNICIPIOS
+    MUNICIPIOSAAA
     </Box>
 
     <Box sx={{ display: user.PERFILES[0].Referencia == "ORG" ? "block" : "none" }}>

@@ -91,11 +91,11 @@ const UsuariosModal = ({
       if (resUser.status == 201) {
 
         let data = {
-          NUMOPERACION: 1,
+          NUMOPERACION: 5,
           NOMBRE: "AppName"
         }
         ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
-          console.log(restApp.RESPONSE);
+          console.log(restApp.RESPONSE[0]?.Valor);
 
           UserServices.apps(token).then((resAppLogin) => {
             console.log(resAppLogin.data.data)
