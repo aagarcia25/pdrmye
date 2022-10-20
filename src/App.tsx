@@ -11,6 +11,7 @@ import {
   getItem,
   getPU,
   setBloqueo,
+  setDepartamento,
   setlogin,
   setMenus,
   setMunicipios,
@@ -80,6 +81,25 @@ function App() {
     }
   };
 
+  const mensaje = (title:string , text:string) => { 
+    setlogin(false);
+    setAcceso(false);
+    Swal.fire({
+      icon:'warning',
+      title: title,
+      text: text,
+      showDenyButton: false,
+      showCancelButton: false,
+      confirmButtonText: "Aceptar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.clear();
+        var ventana = window.self;
+           ventana.opener = window.self;
+           ventana.close();
+      }
+    });
+  }
   const buscaUsuario = (id: string) => {
     let data = {
       NUMOPERACION: 1,
@@ -90,13 +110,15 @@ function App() {
       console.log(res2);
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
-      console.log(us.RESPONSE.ROLES.length);
+      console.log(us.RESPONSE);
+     if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
      if(us.RESPONSE.PERFILES.length !==0){
      if(us.RESPONSE.ROLES.length !==0){
         setRoles(us.RESPONSE.ROLES);
         setPermisos(us.RESPONSE.PERMISOS);
         setMenus(us.RESPONSE.MENUS);
         setPerfiles(us.RESPONSE.PERFILES);
+        setDepartamento(us.RESPONSE.DEPARTAMENTOS);
         loadMunicipios();
         loadMeses();
         loadAnios();
@@ -104,42 +126,14 @@ function App() {
         setlogin(true);
         setAcceso(true);
       }else{
-        setlogin(false);
-        setAcceso(false);
-        Swal.fire({
-          title: "No tienes Relacionado un Rol",
-          text: 'Favor de Verificar sus Permisos con el área de TI',
-          showDenyButton: false,
-          showCancelButton: false,
-          confirmButtonText: "Aceptar",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            localStorage.clear();
-            var ventana = window.self;
-               ventana.opener = window.self;
-               ventana.close();
-          }
-        });
+        mensaje("No tienes Relacionado un Rol","Favor de Verificar sus Permisos con el área de TI");
       }
     }else{
-        setlogin(false);
-        setAcceso(false);
-        Swal.fire({
-          title: "No tienes Relacionado un Perfil",
-          text: 'Favor de Verificar sus Permisos con el área de TI',
-          showDenyButton: false,
-          showCancelButton: false,
-          confirmButtonText: "Aceptar",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            localStorage.clear();
-            var ventana = window.self;
-               ventana.opener = window.self;
-               ventana.close();
-          }
-        });
+       mensaje("No tienes Relacionado un Perfil","Favor de Verificar sus Permisos con el área de TI");
     }
-    
+  }else{
+       mensaje("No tienes Relacionado un Departamento","Favor de Verificar sus Permisos con el área de TI");
+ }
 
 
 
