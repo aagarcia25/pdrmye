@@ -42,7 +42,7 @@ const DepartamentoConfig = ({
     const [openRel, setOpenRel] = useState(true);
     const [openSlider, setOpenSlider] = useState<boolean>();
     const [descripcion, setDescripcion] = useState<string>();
-    const [idPerfil, setIdPerfil] = useState<string>();
+    const [idDepartamento, setIdDepratamento] = useState<string>();
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -69,7 +69,7 @@ const DepartamentoConfig = ({
                 {
                     TIPO: 1,
                     IDPERFIL: v?.row?.id,
-                    IDUSUARIO: idPerfil,
+                    IDUSUARIO: idDepartamento,
                 }
             ).then((res) => {
                 setData(res.RESPONSE);
@@ -95,8 +95,8 @@ const DepartamentoConfig = ({
             AuthService.UsuarioDepartamento(
                 {
                     TIPO: 2,
-                    IDPERFIL: v?.row?.id,
-                    IDUSUARIO: idPerfil,
+                    IDDEPARTAMENTO: v?.row?.id,
+                    IDUSUARIO: idDepartamento,
                 }
             ).then((res) => {
                 setData(res.RESPONSE);
@@ -160,7 +160,7 @@ const DepartamentoConfig = ({
         console.log(dt?.row);
         console.log("id perfil--- " + dt?.row?.id);
         setDescripcion(dt?.row?.Descripcion);
-        setIdPerfil(dt?.row?.id);
+        setIdDepratamento(dt?.row?.id);
     }, []);
 
 
