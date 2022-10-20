@@ -38,7 +38,7 @@ const ListNotificationsModal = ({
   const [encabezado, setEncabezado] = useState<string>();
   const [mensaje, setMensaje] = useState<string>();
   const [newEncabezado, setNewEncabezado] = useState<string>();
-  const [newNensaje, setNewMensaje] = useState<string>()
+  const [newMensaje, setNewMensaje] = useState<string>()
   const [id, setId] = useState<string>();
   const [values, setValues] = useState<Imunicipio[]>();
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
@@ -61,7 +61,7 @@ const ListNotificationsModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "Mensaje Leido!",
         });
 
       } else {
@@ -76,10 +76,19 @@ const ListNotificationsModal = ({
 
 
   }
+  const handletest = () => {
+    console.log(   newEncabezado +"---"+ newMensaje+"---"+ chuserDestin )
+
+
+  
+      
+   
+  }
+
 
   const handleUpload = () => {
 
-    if (newEncabezado == null || newNensaje == null || chuserDestin == null) {
+    if (newEncabezado == null || newMensaje == null || chuserDestin == null) {
       Alert.fire({
         title: "Verificar!",
         text: "Verificar los campos!",
@@ -93,20 +102,20 @@ const ListNotificationsModal = ({
         DELETED: 0,
         VISTO: 0,
         ENCABEZADO: newEncabezado,
-        DESCRIPCION: newNensaje,
+        DESCRIPCION: newMensaje,
         DESTINATARIO: chuserDestin,
       };
       CatalogosServices.Notificaciones(data).then((res) => {
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "Registro Agregado!",
+            title: "Mensaje Enviado!",
           });
 
         } else {
           Alert.fire({
             title: "Error!",
-            text: res.STRMESSAGE,
+            text: "Revisar Valores",
             icon: "error",
           });
         }
@@ -135,7 +144,8 @@ const ListNotificationsModal = ({
   };
 
   const handleSelectUser = (e: any) => {
-    setChuserDestin(e.value);
+    setChuserDestin(e);
+    console.log(e);
 
   };
 
@@ -292,6 +302,10 @@ const ListNotificationsModal = ({
                     className="enviar-mensaje" color="success" variant="contained" endIcon={<SendIcon />}
                     onClick={() => handleUpload()}>
                     Enviar</Button>
+                    <Button
+                    className="enviar-mensaje" color="success" variant="contained" endIcon={<SendIcon />}
+                    onClick={() => handletest()}>
+                    test</Button>
 
                 </Box>
               </Box>
