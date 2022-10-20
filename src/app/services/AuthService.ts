@@ -13,6 +13,10 @@ export class AuthService {
     public static  UsuarioPerfil(data: any) {
         return  post('UsuarioPerfil', data);
     }
+
+    public static  perfilindex(data: any) {
+        return  post('perfilindex', data);
+    }
     
     public static  adminUser(data: any) {
         return  post('Usuariosindex', data);
