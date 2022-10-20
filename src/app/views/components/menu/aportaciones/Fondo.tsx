@@ -24,6 +24,8 @@ export const Fondo = () => {
   const [step, setstep] = useState(0);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [openDetalles, setOpenDetalles] = useState(false);
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
   const [fondo, setFondo] = useState("");
   const [clave, setClave] = useState("");
@@ -198,6 +200,21 @@ export const Fondo = () => {
   let params = useParams();
 
   useEffect(() => {
+    setAgregar(false);
+    console.log(permisos);
+console.log(params.fondo);
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === String(params.fondo)) {
+        if (String(item.Permiso) == "Agregar") {
+          setAgregar(true);
+          console.log("agregar --"+ agregar)
+        }
+      
+      }
+    });
+
+
+
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
 
@@ -218,7 +235,7 @@ export const Fondo = () => {
 
       <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <ButtonsCalculo handleOpen={handleOpen} agregar={false} />
+          <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
           <MUIXDataGrid columns={columns} rows={data} />
         </div>
       </Box>

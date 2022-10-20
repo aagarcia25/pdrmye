@@ -81,7 +81,7 @@ export const Perfil = () => {
         sx={{
           width: "80%",
           height: "80%",
-          // backgroundColor: "blue"
+          //backgroundColor: "blue"
         }}
       >
         <Box
@@ -131,7 +131,7 @@ export const Perfil = () => {
               //CARD #1
               width: "100%",
               height: "50%",
-              //  backgroundColor: "aquamarine",
+              bgcolor: "rgb(252,252,252)",
               borderRadius: 2,
               boxShadow: 2,
               mt: 1,
@@ -149,20 +149,27 @@ export const Perfil = () => {
                 display: "flex",
               }}
             >
+
+
               <Box
                 sx={{
                   width: "25%",
                   height: "100%",
-                  // backgroundColor: "yellow"
+                  // backgroundColor: "blue"
                 }}
               >
-                <Grid container>
+                <Grid container
+                  sx={{
+                    //Anio
+                    alignItems: "center",
+                    display: "flex",
+                  }}>
                   <Grid
                     item
                     xs={12}
                     sx={{
                       //Anio
-                      display: "flex",
+                      alignItems: "center",
                       justifyContent: "start",
                       // backgroundColor: "white",
                     }}
@@ -172,6 +179,43 @@ export const Perfil = () => {
                     </Typography>
                   </Grid>
                 </Grid>
+                <Grid container
+                  sx={{
+                    //Anio
+                  
+                  }}>
+                  <Box
+                    sx={{
+                      width: "25%",
+                      height: "100%",
+                      justifyContent: "start",
+                      ///backgroundColor: "yellow",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}>
+
+                    {user.RutaFoto ? (
+                      <img className="rounded-corners"
+                        style={{
+                          objectFit: "scale-down",
+                          width: "19vw",
+                          height: "20vh",
+                          border: 1,
+                        }}
+                        src={user.RutaFoto}
+                      />
+                    ) : (
+                      <PersonIcon
+                        sx={{
+                          width: "19vw",
+                          height: "20vh",
+                          border: 1,
+                        }}
+                      />
+                    )}
+                  </Box>
+                </Grid>
+
               </Box>
               <Box
                 sx={{
@@ -202,24 +246,7 @@ export const Perfil = () => {
                         // backgroundColor: "violet",
                       }}
                     >
-                      {user.RutaFoto ? (
-                        <img
-                          style={{
-                            objectFit: "scale-down",
-                            width: "3vw",
-                            height: "7vh"
-                          }}
-                          src={user.RutaFoto}
-                        />
-                      ) : (
-                        <PersonIcon
-                          sx={{
-                            width: "3vw",
-                            height: "7vh",
-                            border: 1,
-                          }}
-                        />
-                      )}
+
                     </Grid>
                     <Grid
                       item //Botón Cambiar
@@ -358,7 +385,7 @@ export const Perfil = () => {
               //CARD #2
               width: "100%",
               height: "50%",
-              // backgroundColor: "aquamarine",
+              bgcolor: "rgb(252,252,252)",
               borderRadius: 2,
               boxShadow: 2,
               mt: 1,

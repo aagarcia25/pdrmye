@@ -199,10 +199,12 @@ export const Fpg = () => {
   let params = useParams();
 
   useEffect(() => {
-console.log(params);
+    setAgregar(false);
+    console.log(permisos);
+console.log(params.fondo);
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(params.fondo)) {
-        if (String(item.Permiso) == "Agregar" && estatus != "CERRADO") {
+        if (String(item.Permiso) == "Agregar") {
           setAgregar(true);
           console.log("agregar --"+ agregar)
         }
