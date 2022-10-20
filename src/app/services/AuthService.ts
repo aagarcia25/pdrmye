@@ -3,23 +3,34 @@ import { post, postEasy } from "./apiService";
 
 export class AuthService {
 
+
+
+
+    public static getUsuarioDepartamento(data: any) {
+        return post('getUsuarioDepartamento', data);
+    }
+    public static UsuarioDepartamento(data: any) {
+        return post('UsuarioDepartamento', data);
+    }
+
+
     public static async login(obj: User) {
         return await postEasy('login', obj);
     }
-    
-    public static  getUsuarioPerfil(data: any) {
-        return  post('getUsuarioPerfil', data);
+
+    public static getUsuarioPerfil(data: any) {
+        return post('getUsuarioPerfil', data);
     }
-    public static  UsuarioPerfil(data: any) {
-        return  post('UsuarioPerfil', data);
+    public static UsuarioPerfil(data: any) {
+        return post('UsuarioPerfil', data);
     }
 
-    public static  perfilindex(data: any) {
-        return  post('perfilindex', data);
+    public static perfilindex(data: any) {
+        return post('perfilindex', data);
     }
-    
-    public static  adminUser(data: any) {
-        return  post('Usuariosindex', data);
+
+    public static adminUser(data: any) {
+        return post('Usuariosindex', data);
     }
 
     public static async permisosindex(data: any) {
@@ -30,7 +41,7 @@ export class AuthService {
         return await post('rolesindex', data);
     }
 
-    
+
     public static async rolesrel(data: any) {
         return await post('rolesrel', data);
     }
@@ -57,14 +68,14 @@ export class AuthService {
         return await post('RelacionarUsuarioRol', data);
     }
 
-    
+
 
     public static async menusindex(data: any) {
         return await post('menusindex', data);
     }
 
     public static async menuPermisosRel(data: any) {
-       return await post('menuPermisosRel', data);
+        return await post('menuPermisosRel', data);
     }
 
 
@@ -81,7 +92,7 @@ export class AuthService {
     public static async menurelacionadosalrol(data: any) {
         return await post('menurelacionadosalrol', data);
     }
-    
-    
+
+
 
 }

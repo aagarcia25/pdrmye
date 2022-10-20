@@ -17,11 +17,13 @@ import RolesSinRel from "./RolesSinRel";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import UsuariosModal from "./UsuariosModal";
 import PerfilesConfiguracion from "./PerfilesConfiguracion";
-
+import AddToQueueIcon from '@mui/icons-material/AddToQueue';
+import DepartamentoConfig from "./DepartamentoConfig";
 const Usuarios = () => {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [openConfigPerfil, setOpenConfigPerfil] = useState(false);
+  const [openConfigDep, setOpenConfigDep] = useState(false);
   const [openSinRel, setOpenSinRel] = useState(false);
   const [openNew, setOpenNew] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -94,10 +96,15 @@ const Usuarios = () => {
     setOpenSinRel(false);
     setOpenNew(false);
     setOpenConfigPerfil(false);
+    setOpenConfigDep(false);
   };
   const handlePerfilConfiguracion = (v: any) => {
     setDt(v);
     setOpenConfigPerfil(true);
+  };
+  const handleDepartConfiguracion = (v: any) => {
+    setDt(v);
+    setOpenConfigDep(true);
   };
 
   const handleView = (v: any) => {
@@ -134,32 +141,37 @@ const Usuarios = () => {
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 220,
       renderCell: (v) => {
         return (
           <Box>
             <Tooltip title={"Ver Roles Relaciados al Usuario"}>
-              <IconButton onClick={() => handleView(v)}>
+              <IconButton color="success" onClick={() => handleView(v)}>
                 <DeviceHubIcon />
               </IconButton>
             </Tooltip>
 
             <Tooltip title={"Relacionar Rol"}>
-              <IconButton onClick={() => handleRel(v)}>
+              <IconButton color="warning" onClick={() => handleRel(v)}>
                 <AccountBoxIcon />
               </IconButton>
             </Tooltip>
-
+            <Tooltip title={"Configurar Perfil"}>
+              <IconButton color="warning" onClick={() => handlePerfilConfiguracion(v)}>
+                <AdminPanelSettingsIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={"Configurar Departamento"}>
+              <IconButton color="warning" onClick={() => handleDepartConfiguracion(v)}>
+                <AddToQueueIcon />
+              </IconButton>
+            </Tooltip>
             <Tooltip title={"Editar Registro"}>
               <IconButton color="info" onClick={() => handleEdit(v)}>
                 <ModeEditOutlineIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Configurar Perfil"}>
-              <IconButton color="info" onClick={() => handlePerfilConfiguracion(v)}>
-                <AdminPanelSettingsIcon />
-              </IconButton>
-            </Tooltip>
+
 
 
 
@@ -232,6 +244,17 @@ const Usuarios = () => {
           handleClose={handleClose}
           dt={dt}
         ></PerfilesConfiguracion>
+      ) : (
+        ""
+      )}
+        {openConfigDep ? (
+        <DepartamentoConfig
+          open={openConfigDep}
+          modo={""}
+          tipo={0}
+          handleClose={handleClose}
+          dt={dt}
+        ></DepartamentoConfig>
       ) : (
         ""
       )}
