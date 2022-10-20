@@ -13,6 +13,7 @@ import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { calculosServices } from "../../../../../services/calculosServices";
 import { CalculoGarantiaModal } from "./CalculoGarantiaModal";
+import { Moneda } from "../../CustomToolbar";
 
 export const CalculoGarantiaComponente = () => {
   const [calculoGarantia, setCalculoGarantia] = useState([]);
@@ -57,6 +58,7 @@ export const CalculoGarantiaComponente = () => {
       field: "Garantia",
       headerName: "Garantía",
       width: 150,
+      ...Moneda,
     },
     {
       field: "acciones",
