@@ -69,10 +69,9 @@ export const ListNotification = () => {
 
   const viewMessageModal = (v: any) => {
     setTipoOperacion(6);
-console.log(v.row)
+    console.log(v.row)
     if (v.row.Visto === "0") {
-      setModo("ViewMessage");
-      setDestinatario(v.row.destinatario)
+          setDestinatario(v.row.destinatario)
       setRemitente(v.row.origen)
     }
     setDestinatario(v.row.destinatario)
@@ -128,17 +127,14 @@ console.log(v.row)
   }
 
   const handleClose = (v: string) => {
-    //// console.log("valor de v  "+ v)
+    console.log("valor de v  "+ v)
     if (v === "9") {
       setModo("MessageSend");
+      setOpen(false);
+      viewMessageSend(9);
     }
     if (v === "8") {
       setModo("ViewMessage");
-    }
-    if (v === "cerrar") {
-      setOpen(false);
-    }
-    else {
       let dat = {
         NUMOPERACION: Number(v),
         CHUSER: user.id
@@ -147,7 +143,15 @@ console.log(v.row)
         setNotificacion(res.RESPONSE);
       });
       setOpen(false);
+
     }
+    if (v === "cerrar") {
+      setOpen(false);
+    }
+    if (v === "7") {
+      setOpen(false);
+    }
+   
 
   }
 

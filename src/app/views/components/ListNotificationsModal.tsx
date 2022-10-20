@@ -177,9 +177,7 @@ const ListNotificationsModal = ({
     <Dialog
       fullWidth
       open={open}
-
     >
-
       <Box sx={{
         height: "100%",
         justifyContent: 'space-between',
@@ -206,7 +204,6 @@ const ListNotificationsModal = ({
 
               }}>
                 <Box sx={{
-
                   position: 'relative',
                   flexDirection: 'column',
                   top: 1, left: 20,
@@ -221,8 +218,6 @@ const ListNotificationsModal = ({
                   </button>
                 </Box>
               </Box>
-
-
               <Box
                 sx={{
 
@@ -233,9 +228,7 @@ const ListNotificationsModal = ({
                   display: 'flex',
                   borderRadius: 1
                 }}>
-
                 <label> Para..</label>
-
                 <SelectFrag
                   options={usuarioSelect}
                   onInputChange={handleSelectUser}
@@ -243,11 +236,7 @@ const ListNotificationsModal = ({
                   label={""}
                   id={""}
                 />
-
               </Box>
-
-
-
               <Box sx={{
                 height: "90%",
                 width: "98%",
@@ -295,8 +284,6 @@ const ListNotificationsModal = ({
                     style={{ width: "100%", borderRadius: 15, }} />
                 </Box>
               </Box>
-
-
 
               {////// boton de enviar mensaje nuevo
               }
