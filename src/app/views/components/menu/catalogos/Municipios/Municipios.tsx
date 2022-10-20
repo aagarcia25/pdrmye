@@ -1,31 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  LinearProgress,
-  Modal,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
-import AddCircleTwoToneIcon from "@mui/icons-material/AddCircleTwoTone";
+import {GridColDef } from "@mui/x-data-grid";
 import Slider from "../../../Slider";
-import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar } from "../../CustomToolbar";
 import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import AddIcon from "@mui/icons-material/Add";
 import { messages } from "../../../../styles";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import AccionesGrid from "../../../AccionesGrid";
@@ -35,14 +12,10 @@ import { Toast } from "../../../../../helpers/Toast";
 import MunicipiosModal from "./MunicipiosModal";
 import Buttons from "../Utilerias/Buttons";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { UserReponse } from "../../../../../interfaces/user/UserReponse";
 
 export const Municipios = () => {
   const [municipio, setMunicipio] = useState([]);
-
-
   const [modo, setModo] = useState("");
-
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});

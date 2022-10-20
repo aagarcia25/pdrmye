@@ -27,7 +27,6 @@ import InflacionMes from '../views/components/menu/catalogos/InflacionMes/Inflac
 import InflacionAnio from '../views/components/menu/catalogos/InflacionAnio/InflacionAnio';
 import Fondos from '../views/components/menu/catalogos/Fondos/Fondos';
 import CrecimientoAnio from '../views/components/menu/catalogos/CrecimientoAnio/CrecimientoAnio';
-import DetalleFgp from '../views/components/menu/participaciones/DetalleFgp';
 import Usuarios from '../views/components/menu/usuarios/Usuarios/Usuarios';
 import Roles from '../views/components/menu/usuarios/Roles/Roles';
 import Permisos from '../views/components/menu/usuarios/Permisos/Permisos';
@@ -42,13 +41,12 @@ import Nomina from '../views/components/Organismos/Nomina/Nomina';
 import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
 import { Fondo } from '../views/components/menu/aportaciones/Fondo';
-import DetalleFondo from '../views/components/menu/aportaciones/DetalleFondo';
 import {  getUser, islogin } from '../services/localStorage';
 import { RESPONSE } from '../interfaces/user/UserInfo';
 import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
 import { CalculoGarantiaComponente } from '../views/components/menu/articulos/CalculoGarantia/CalculoGarantiaComponente';
 import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de Usuario/PerfilesUsuario';
-
+import Workflow from '../views/components/menu/Workflow/Workflow';
 
 
 export const AppRouter = () => {
@@ -81,7 +79,7 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/inflacionAnio'              element={<InflacionAnio />}      />
         <Route path='/inicio/catalogos/fondos'                     element={<Fondos />}      />
         <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
-        
+        <Route path='/inicio/wf'                                   element={log ? <Workflow /> : <AuthRouter />} />
         {/*SECCION DE PARAMETROS GENERALES */}
        <Route path='/inicio/catalogos/parametrosgenerales'  element={<ParametrosGenerales />} />
        {/* FIN DE SECCION DE PARAMETROS GENERALES */}
@@ -108,14 +106,11 @@ export const AppRouter = () => {
 
         {/* SECCION PARTICIPACIONES FEDERALES Y ESTATALES */}
         <Route path='/inicio/participaciones/:fondo' element={log ? <Fpg /> : <AuthRouter />} />
-       
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
         {/* SECCION APORTACIONES ESTATALES */}
         <Route path='/inicio/aportaciones/:fondo'     element={log ? <Fondo /> : <AuthRouter />}/>
-        
-        {/*<Route path='/inicio/aportaciones/:fondo/:id/'  element={log ? <DetalleFondo /> : <AuthRouter />}/> */}
-      
+        {/* FIN SECCION APORTACIONES FEDERALES */}
        {/* SECCION USUARIOS, ROLES, PERMISOS */}
        <Route path='/inicio/usuario'   element={log ? <Usuarios /> : <AuthRouter />} />
        <Route path='/inicio/roles'     element={log ? <Roles /> : <AuthRouter />} />

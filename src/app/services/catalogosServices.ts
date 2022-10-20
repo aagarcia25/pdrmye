@@ -55,8 +55,6 @@ export class CatalogosServices {
     public static async departamentos(data : any) {
         return await post('departamentos', data);
     };
-
-
     public static async municipios(data : any) {
         return await post('municipios', data);
     };
@@ -105,6 +103,10 @@ export class CatalogosServices {
 
     public static async SelectIndex(data : any) {
         return await post('SelectIndex', data);
+    };
+
+    public static async workFlowIndex(data : any) {
+        return await post('workFlowIndex', data);
     };
 
     
