@@ -47,10 +47,6 @@ export const Fpg = () => {
     setOpenTrazabilidad(true);
   };
 
-  const handleTras = (v: string) => {
-    setIdtrazabilidad(v);
-    setOpenTrazabilidad(true);
-};
 
   const handleOpen = (v: any) => {
     setModo("calculo");
@@ -72,10 +68,10 @@ export const Fpg = () => {
   };
 
   const handleView = (v: any) => {
-
+    setIdtrazabilidad(v.row.id);
     setClave(v.row.Clave)
     setIdDetalle(String(v.row.id));
-    setMes(v.row.Mes);
+    setMes(v.row.nummes +","+v.row.Mes);
     setstep(2);
     setOpenDetalles(true);
     setAnio(Number(v.row.Anio));
@@ -252,6 +248,7 @@ console.log(params.fondo);
 
           {openDetalles ?
             <DetalleFgp
+              idCalculo={idtrazabilidad}  
               openDetalles={openDetalles}
               nombreFondo={nombreFondo}
               idDetalle={idDetalle}
@@ -259,9 +256,8 @@ console.log(params.fondo);
               clave={clave}
               anio={anio}
               mes={mes}
-              fondo={fondo}
               estatus={estatus}
-              handleTras={handleTras}            />
+                        />
             : ""}
         </div>
       </Box>

@@ -33,7 +33,10 @@ export class calculosServices {
     public static async CalculoGarantia(data: any) {
         return await post('CalculoGarantia', data);
     }
-    
+
+    public static async BorraCalculo(data: any) {
+        return await post('BorraCalculo', data);
+    }
     
 
 }

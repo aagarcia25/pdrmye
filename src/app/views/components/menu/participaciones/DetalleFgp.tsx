@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
 import { Box, Dialog, Grid } from "@mui/material";
 import { Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
@@ -10,15 +8,16 @@ import { calculosServices } from "../../../../services/calculosServices";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
 import Slider from "../../Slider";
-
-
-import { getPermisos } from "../../../../services/localStorage";
-import { PERMISO } from "../../../../interfaces/user/UserInfo";
+import { getPermisos, getUser } from "../../../../services/localStorage";
+import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
 import BotonesOpciones from "../../componentes/BotonesOpciones";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
+import Trazabilidad from "../../Trazabilidad";
+import Swal from "sweetalert2";
 
 
 const DetalleFgp = ({
+  idCalculo,
   openDetalles,
   idDetalle,
   nombreFondo,
@@ -27,10 +26,9 @@ const DetalleFgp = ({
   estatus,
   anio,
   mes,
-  handleTras,
-  fondo
 
 }: {
+  idCalculo:string;
   openDetalles: Boolean;
   idDetalle: String;
   nombreFondo: String;
@@ -39,28 +37,21 @@ const DetalleFgp = ({
   estatus: string;
   anio: number;
   mes: string;
-  handleTras: Function;
-  fondo: string;
 
 }) => {
 
 
 
   const navigate = useNavigate();
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const [data, setData] = useState([]);
-
-  ////////////////////////
-
   const [autorizar, setAutorizar] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [enviar, setEnviar] = useState<boolean>(false);
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
 
-  const [idtrazabilidad, setIdtrazabilidad] = useState("");
-
-  //////////////////
   const [openSlider, setOpenSlider] = useState(false);
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
@@ -74,14 +65,93 @@ const DetalleFgp = ({
   const [ae, setAe] = useState(false);
   const [af, setAf] = useState(false);
 
-  const handleTraz = (v: any) => {
-    setIdtrazabilidad(v.row.id);
-    setOpenTrazabilidad(true);
+  const closeTraz = () => {
+    setOpenTrazabilidad(false);
+  };
+
+  // MANEJO DE ACCIONES 
+  const handleAcciones = (v: any) => {
+    switch (v) {
+      //Regresar
+      case 1:
+        handleClose();
+        break;
+        //Autorizar
+      case 2:
+        setSa(true);
+        break;
+        //Cancelar
+      case 3:
+        BorraCalculo();
+        break;
+        //Enviar
+      case 4:
+        setCa(true);
+        break;
+        //Ver Trazabilidad
+      case 5:
+        setOpenTrazabilidad(true);
+        break;
+      default:
+        break;
+    }
   };
 
 
-  const columnas = (data: any) => {
+  const BorraCalculo = () => {
     setOpenSlider(true);
+    let data ={
+      IDCALCULO:idDetalle,
+      CHUSER:user.id,
+      CLAVE:clave,
+      ANIO:anio,
+      MES:mes.split(",")[0],
+    };
+
+    console.log(data);
+    Swal.fire({
+      icon: 'question',
+      title: "Borrar Cálculo",
+      text: 'El cálculo de eliminara, favor de confirmar',
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText:"Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        calculosServices.BorraCalculo(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Consulta Exitosa!",
+            });
+            handleClose();
+            setOpenSlider(false);
+          } else {
+            setOpenSlider(false);
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      }
+    });
+
+
+    
+
+
+
+
+
+  };
+
+
+
+  const columnas = (data: any) => {
+   
     calculosServices.getColumns(data).then((res) => {
       if (res.SUCCESS) {
         const cl: columnasCal[] = res.RESPONSE;
@@ -127,9 +197,9 @@ const DetalleFgp = ({
               break;
           }
         });
-        setOpenSlider(false);
+       
       } else {
-        setOpenSlider(false);
+       
         Alert.fire({
           title: "Error!",
           text: res.STRMESSAGE,
@@ -140,7 +210,7 @@ const DetalleFgp = ({
   };
 
   const consulta = (data: any) => {
-    setOpenSlider(true);
+   
     calculosServices.calculosInfodetalle(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -148,9 +218,9 @@ const DetalleFgp = ({
           title: "Consulta Exitosa!",
         });
         setData(res.RESPONSE);
-        setOpenSlider(false);
+        
       } else {
-        setOpenSlider(false);
+      
         Alert.fire({
           title: "Error!",
           text: res.STRMESSAGE,
@@ -278,9 +348,7 @@ const DetalleFgp = ({
     },
   ];
 
-  let params = useParams();
   useEffect(() => {
-
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(clave)) {
@@ -299,8 +367,6 @@ const DetalleFgp = ({
       }
     });
 
-
-
     setTimeout(() => {
       columnas({ IDCALCULOTOTAL: idDetalle });
       consulta({ IDCALCULOTOTAL: idDetalle });
@@ -309,9 +375,20 @@ const DetalleFgp = ({
 
   return (
     <div>
+        <Slider open={openSlider}></Slider>
       <Box>
         <Dialog open={Boolean(openDetalles)} fullScreen={true} >
-          <Slider open={openSlider}></Slider>
+        
+        {openTrazabilidad ? (
+        <Trazabilidad
+          open={openTrazabilidad}
+          handleClose={closeTraz}
+          id={idCalculo}
+        ></Trazabilidad>
+      ) : (
+        ""
+      )}
+      
           <Grid container spacing={2} sx={{ justifyContent: "center", }} >
             <Grid item xs={12}>
               <Box sx={{ display: "flex", justifyContent: "center", bgcolor: "rgb(245,245,245)" }}>
@@ -334,7 +411,7 @@ const DetalleFgp = ({
 
             <Grid item xs={1} >
 
-              <label className="subtitulo">{mes} <br /><br /><br /></label>
+              <label className="subtitulo">{mes.split(",")[1]} <br /><br /><br /></label>
             </Grid>
           </Grid>
           <Grid
@@ -343,14 +420,11 @@ const DetalleFgp = ({
 
             <Grid item xs={7} md={8} lg={8} sx={{ justifyContent: "center", width: '100%' }}>
               <BotonesOpciones
-                handleAccion={handleClose}
+                handleAccion={handleAcciones}
                 autorizar={autorizar}
                 cancelar={cancelar}
                 verTrazabilidad={verTrazabilidad}
                 enviar={enviar}
-                handleTras={handleTras}
-                idDetalle={String(idDetalle)}
-
               />
 
               <MUIXDataGrid columns={columns} rows={data} />

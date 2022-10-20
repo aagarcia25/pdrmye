@@ -351,9 +351,6 @@ const DetalleFondo = ({
                 cancelar={cancelar}
                 verTrazabilidad={verTrazabilidad}
                 enviar={enviar}
-                handleTras={handleTras}
-                idDetalle={String(idDetalle)}
-                
                 />
 
               <MUIXDataGrid columns={columns} rows={data} />

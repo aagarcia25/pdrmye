@@ -4,10 +4,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SendIcon from '@mui/icons-material/Send';
 import InsightsIcon from '@mui/icons-material/Insights';
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { ParametroServices } from "../../../services/ParametroServices";
-import { permisosc } from "../../../share/loadPermisos";
 
 const BotonesOpciones = ({
     handleAccion,
@@ -15,22 +11,12 @@ const BotonesOpciones = ({
     cancelar,
     verTrazabilidad,
     enviar,
-    handleTras,
-    idDetalle
-
 }: {
     handleAccion: Function;
     autorizar: boolean;
     cancelar: boolean;
     verTrazabilidad: boolean;
     enviar: boolean;
-    handleTras:Function;
-    idDetalle:string;
-
-
-
-
-
 }) => {
     return (
         <div>
@@ -70,8 +56,7 @@ const BotonesOpciones = ({
                     {(verTrazabilidad) ?
 
                         <Tooltip title="Ver Trazabilidad">
-                            <ToggleButton value="check" onClick={() => handleTras(String(idDetalle))}>
-                              
+                            <ToggleButton value="check" onClick={() => handleAccion(5)}>
                                 <InsightsIcon />
                             </ToggleButton>
                         </Tooltip>

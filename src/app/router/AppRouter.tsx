@@ -47,6 +47,7 @@ import {  getUser, islogin } from '../services/localStorage';
 import { RESPONSE } from '../interfaces/user/UserInfo';
 import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
 import { CalculoGarantiaComponente } from '../views/components/menu/articulos/CalculoGarantia/CalculoGarantiaComponente';
+import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de Usuario/PerfilesUsuario';
 
 
 
@@ -120,6 +121,7 @@ export const AppRouter = () => {
        <Route path='/inicio/roles'     element={log ? <Roles /> : <AuthRouter />} />
        <Route path='/inicio/menus'     element={log ? <Menus /> : <AuthRouter />} />
        <Route path='/inicio/permisos'  element={log ? <Permisos /> : <AuthRouter />} />
+       <Route path='/inicio/perfilesusuario'  element={log ? <PerfilesUsuario /> : <AuthRouter />} />
        {/* FIN SECCION USUARIOS, ROLES, PERMISOS */}
 
        {/* SECCION ORGANISMOS */}
