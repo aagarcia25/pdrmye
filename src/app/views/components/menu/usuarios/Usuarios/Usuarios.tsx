@@ -1,19 +1,14 @@
 import { Tooltip, IconButton } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { messages } from "../../../../styles";
-import AccionesGrid from "../../../AccionesGrid";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeviceHubIcon from "@mui/icons-material/DeviceHub";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import RolesRelModal from "./RolesRelModal";
-import RolesSinRel from "./RolesSinRel";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import UsuariosModal from "./UsuariosModal";
 import PerfilesConfiguracion from "./PerfilesConfiguracion";
@@ -23,11 +18,9 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import RolesConfig from "./RolesConfig";
 const Usuarios = () => {
   const [data, setData] = useState([]);
-  const [open, setOpen] = useState(false);
   const [openRolConf, setOpenRolConf] = useState(false);
   const [openConfigPerfil, setOpenConfigPerfil] = useState(false);
   const [openConfigDep, setOpenConfigDep] = useState(false);
-  const [openSinRel, setOpenSinRel] = useState(false);
   const [openNew, setOpenNew] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [row, setRow] = useState({});
@@ -95,8 +88,6 @@ const Usuarios = () => {
   };
 
   const handleClose = () => {
-    setOpen(false);
-    setOpenSinRel(false);
     setOpenNew(false);
     setOpenConfigPerfil(false);
     setOpenConfigDep(false);
@@ -115,13 +106,6 @@ const Usuarios = () => {
     setOpenRolConf(true);
   };
 
-  const handleView = (v: any) => {
-
-  };
-
-  const handleRel = (v: any) => {
-
-  };
 
   const columns: GridColDef[] = [
     {
@@ -206,16 +190,6 @@ const Usuarios = () => {
   }, []);
   return (
     <div>
-      {open ? (
-        <RolesRelModal
-          key={Math.random()}
-          open={open}
-          handleClose={handleClose}
-          id={id}
-        ></RolesRelModal>
-      ) : (
-        ""
-      )}
 
       {openRolConf ? 
         <RolesConfig
@@ -225,17 +199,6 @@ const Usuarios = () => {
        : 
         ""
       }
-
-      {openSinRel ? (
-        <RolesSinRel
-          key={Math.random()}
-          open={openSinRel}
-          handleClose={handleClose}
-          id={id}
-        ></RolesSinRel>
-      ) : (
-        ""
-      )}
 
       {openNew ? (
         <UsuariosModal

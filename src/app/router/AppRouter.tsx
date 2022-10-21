@@ -46,7 +46,7 @@ import { RESPONSE } from '../interfaces/user/UserInfo';
 import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
 import { CalculoGarantiaComponente } from '../views/components/menu/articulos/CalculoGarantia/CalculoGarantiaComponente';
 import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de Usuario/PerfilesUsuario';
-import Workflow from '../views/components/menu/Workflow/Workflow';
+import Workflow from '../views/components/menu/workflow/workflow';
 
 
 export const AppRouter = () => {

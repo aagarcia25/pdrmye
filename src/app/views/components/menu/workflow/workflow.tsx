@@ -8,7 +8,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { CatalogosServices } from '../../../../services/catalogosServices';
 import { Toast } from '../../../../helpers/Toast';
 import { Alert } from '../../../../helpers/Alert';
-import WorflowModal from './WorflowModal';
+import WorflowModal from '../workflow/WorflowModal';
 
 
 

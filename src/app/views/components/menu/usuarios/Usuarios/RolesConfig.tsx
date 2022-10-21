@@ -1,10 +1,11 @@
-import { Box, Button, ButtonGroup, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Modal,Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react'
 import { Alert } from '../../../../../helpers/Alert';
 import { Toast } from '../../../../../helpers/Toast';
 import { AuthService } from '../../../../../services/AuthService';
 import MUIXDataGridSimple from '../../../MUIXDataGridSimple';
+import Slider from '../../../Slider';
 
 
 
@@ -20,22 +21,45 @@ const RolesConfig = ({
 
     const [modo, setModo] = useState<string>();
     const [data, setData] = useState([]);
-    const [res, setRes] = useState<boolean>(false);
+    const [result, setRes] = useState<boolean>();
+    const [asignado, setAsignado] = useState<boolean>(false);
+    const [openSlider, setOpenSlider] = useState(true);
+
+
 
     const consulta = (modo: string, data: any) => {
+        setOpenSlider(true)
         if (modo == "disponible") {
             AuthService.rolessinrelacionar(data).then((res) => {
+                setOpenSlider(false)
                 setData(res.RESPONSE);
-                setModo("disponible");
-                console.log(res.RESPONSE);
+                setModo(modo);
+                console.log("res length -- " + res.RESPONSE.length)
+                console.log("asignado -- " + asignado)
+                if (asignado) {
+                    setRes(true)
+                    setOpenSlider(false)
+
+                }
+
+
             });
         }
         if (modo == "relacionado") {
             AuthService.usuarioRol(data).then((res) => {
                 setData(res.RESPONSE);
-                res.RESPONSE[0] != null ? setRes(true) : setRes(false);
-                console.log(res.RESPONSE);
-                setModo("relacionado");
+               
+                console.log("res length -- " + res.RESPONSE.length)
+                console.log("asignado -- " + asignado)
+                if (res.RESPONSE.length != 0) {
+                    setAsignado(true);
+                    setRes(false);
+                    setOpenSlider(false)
+                } else {
+                    setRes(false)
+                    setAsignado(false)
+                    setOpenSlider(false)
+                }
             });
         }
     };
@@ -54,6 +78,7 @@ const RolesConfig = ({
             IDROL: v.row.id,
             IDUSUARIO: id
         }
+        setOpenSlider(true)
         AuthService.RelacionarUsuarioRol(data).then((res) => {
             setData(res.RESPONSE);
             if (res.SUCCESS) {
@@ -62,7 +87,12 @@ const RolesConfig = ({
                     title: (modo == "disponible") ? "Permiso Relacionado!" : "Permiso Eliminado",
                 });
                 consulta(modo == "disponible" ? "disponible" : "relacionado", { CHID: id });
+                setOpenSlider(false)
+                modo=="disponible"?setRes(true):setRes(false);
+
             } else {
+                setOpenSlider(false)
+                modo=="disponible"?setRes(true):setRes(false);
                 Alert.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
@@ -87,19 +117,26 @@ const RolesConfig = ({
             sortable: false,
             width: 10,
             renderCell: (v) => {
-                return <Checkbox disabled={res && modo == "disponible"} onChange={() => handleChange(v)} />;
+                return <Checkbox disabled={result} onChange={() => handleChange(v)} />;
             },
         },
         { field: "Nombre", headerName: "Nombre", width: 200 },
     ];
 
     useEffect(() => {
+
         consulta("relacionado", { CHID: id });
+        setOpenSlider(true)
+        setOpenSlider(false)
     }, [id]);
 
     return (
-        <div>
+        <div> 
+         
+         <Slider open={openSlider}></Slider>
+
             <Modal open={open}>
+          
                 <Box>
                     <Grid container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                     </Grid>
