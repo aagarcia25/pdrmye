@@ -253,10 +253,11 @@ export const MunPoblacion = () => {
 
       <Box  
          sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
-            <SelectFrag 
+          <SelectFrag 
           options={anios}
           onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={''} disabled={false}/>
+          placeholder={"Seleccione Año"} label={''} disabled={false} 
+          value={filterAnio}/>
             </Box>
 
       

@@ -42,6 +42,7 @@ const ModalFondo = ({
   const [monto, setMonto] = useState<number>();
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [ajustes, setAjustes] = useState<SelectValues[]>([]);
+  const [idajustes, setidAjustes] = useState("");
   let year: number = new Date().getFullYear();
 
 
@@ -52,8 +53,8 @@ const ModalFondo = ({
     console.log(v)
     setMesSeleccionado(v.value);
   };
-  const handleSelectAjuste = (v: SelectValues) => {
-
+  const handleSelectAjuste = (v: any) => {
+    setidAjustes(v);
   };
 
 
@@ -248,7 +249,14 @@ const ModalFondo = ({
                 display: "flex",
                 alignItems: "center",
               }}>
-                <SelectFrag options={ajustes} onInputChange={handleSelectAjuste} placeholder={"Seleccione el Ajuste"} label={""} disabled={false}></SelectFrag>
+                <SelectFrag 
+                  options={ajustes}
+                  onInputChange={handleSelectAjuste}
+                  placeholder={"Seleccione el Ajuste"}
+                  label={""}
+                  disabled={false} 
+                  value={idajustes}     
+                   ></SelectFrag>
               </Box>
             </Grid>
 
@@ -374,7 +382,13 @@ const ModalFondo = ({
                       justifyContent: "left",
                       alignItems: "center",
                     }}>
-                      <SelectFrag options={meses} onInputChange={handleSelectMes} placeholder={"Seleccione el Mes"} label={""} disabled={false}></SelectFrag>
+                      <SelectFrag 
+                        options={meses}
+                        onInputChange={handleSelectMes}
+                        placeholder={"Seleccione el Mes"} label={""}
+                        disabled={false}
+                        value={mesSeleccionado}   
+                        ></SelectFrag>
                     </Box>
                   </Grid>
                 </Grid>

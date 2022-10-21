@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import {
   Box,
-  SelectChangeEvent,
 } from "@mui/material";
 
 import { GridColDef } from "@mui/x-data-grid";
@@ -11,7 +10,6 @@ import {
 } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
-import Filtros from "../Utilerias/Filtros";
 import Buttons from "../Utilerias/Buttons";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
@@ -247,6 +245,7 @@ export const MunFacturacion = () => {
       <Box
         sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
         <SelectFrag
+          value={''}
           options={anios}
           onInputChange={handleFilterChange}
           placeholder={"Seleccione Año"} label={""} disabled={false} />

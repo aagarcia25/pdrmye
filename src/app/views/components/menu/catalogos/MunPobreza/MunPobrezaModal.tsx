@@ -174,6 +174,7 @@ const MunPobrezaModal = ({
           <FormControl variant="standard" fullWidth>
             <InputLabel>Municipio</InputLabel>
             <SelectFrag
+              value={''}
               options={municipios}
               onInputChange={handleFilterChange}
               placeholder={"Seleccione Municipio"}

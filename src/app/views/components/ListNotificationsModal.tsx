@@ -46,7 +46,7 @@ const ListNotificationsModal = ({
   const [id, setId] = useState<string>();
   const [values, setValues] = useState<Imunicipio[]>();
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
-  const [chuserDestin, setChuserDestin] = useState<string>();
+  const [chuserDestin, setChuserDestin] = useState<string>("");
 
   const [name, setName] = useState<string>();
 
@@ -230,6 +230,7 @@ const ListNotificationsModal = ({
                 }}>
                 <label> Para..</label>
                 <SelectFrag
+                  value={chuserDestin}
                   options={usuarioSelect}
                   onInputChange={handleSelectUser}
                   placeholder={"Seleccione Usuario"}

@@ -228,7 +228,8 @@ export const MunPobProyeccion = () => {
             <SelectFrag 
           options={anios}
           onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={""} disabled={false}/>
+          placeholder={"Seleccione Año"} label={""} disabled={false}
+          value={''}/>
             </Box>
 
 

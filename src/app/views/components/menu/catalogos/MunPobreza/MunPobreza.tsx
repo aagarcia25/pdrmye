@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Box, IconButton, LinearProgress, Modal, SelectChangeEvent, } from '@mui/material'
-import { DataGrid, esES, GridColDef, } from '@mui/x-data-grid'
-
-import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
-import { CustomToolbar, porcentage } from '../../CustomToolbar'
+import { Box, IconButton,  } from '@mui/material'
+import {  GridColDef, } from '@mui/x-data-grid'
+import {  porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -11,7 +9,6 @@ import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { Alert } from "../../../../../helpers/Alert";
-import Filtros from '../Utilerias/Filtros'
 import MunPobrezaModal from './MunPobrezaModal'
 import Buttons from '../Utilerias/Buttons'
 import Slider from "../../../Slider";
@@ -254,7 +251,8 @@ export const MunPobreza = () => {
         <SelectFrag
           options={anios}
           onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={''} disabled={false} />
+          placeholder={"Seleccione Año"} label={''} disabled={false} 
+          value={''} />
       </Box>
 
       {open ? (

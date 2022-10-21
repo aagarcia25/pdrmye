@@ -29,10 +29,9 @@ const Workflow = () => {
       };
 
     const handleEdit = (v: any) => {
-        /*setTipoOperacion(2);
-        setModo("Editar Registro");
+        setTipoOperacion(2);
         setOpen(true);
-        setData(v);*/
+        setRow(v);
       };
 
     const handleDelete = (v: any) => {
@@ -157,7 +156,7 @@ const Workflow = () => {
           open={open}
           handleClose={handleClose}
           tipo={tipoOperacion}
-          dt={data}
+          dt={row}
         />
       ) : (
         ""
