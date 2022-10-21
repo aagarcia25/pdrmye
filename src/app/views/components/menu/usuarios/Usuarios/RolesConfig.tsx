@@ -33,7 +33,7 @@ const RolesConfig = ({
         if (modo == "relacionado") {
             AuthService.usuarioRol(data).then((res) => {
                 setData(res.RESPONSE);
-                res.RESPONSE[0] == null ? setRes(false) : setRes(true);
+                res.RESPONSE[0] != null ? setRes(true) : setRes(false);
                 console.log(res.RESPONSE);
                 setModo("relacionado");
             });

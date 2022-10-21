@@ -116,7 +116,7 @@ const Usuarios = () => {
   };
 
   const handleView = (v: any) => {
-    setOpen(true);
+
   };
 
   const handleRel = (v: any) => {
