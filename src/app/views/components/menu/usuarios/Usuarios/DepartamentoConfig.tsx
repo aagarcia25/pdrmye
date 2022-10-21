@@ -24,6 +24,7 @@ import { id } from "date-fns/locale";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { Alert } from "../../../../../helpers/Alert";
+import Slider from "../../../Slider";
 
 const DepartamentoConfig = ({
     open,
@@ -53,7 +54,7 @@ const DepartamentoConfig = ({
         textAlign: 'center',
         color: theme.palette.text.secondary,
     }));
-    const consulta = (modo: string,data: any) => {
+    const consulta = (modo: string, data: any) => {
         setOpenSlider(true);
         AuthService.getUsuarioDepartamento(data).then((res) => {
             setData(res.RESPONSE);
@@ -98,7 +99,7 @@ const DepartamentoConfig = ({
                         title: "Perfil Asignado!",
                     });
                     setRes(true);
-                    consulta("dis",{
+                    consulta("dis", {
                         CHID: dt?.row?.id,
                         TIPO: 2,
                     });
@@ -134,7 +135,7 @@ const DepartamentoConfig = ({
                         setAsignado(false)
                         setOpenSlider(false)
                     }
-                    consulta("rel",{
+                    consulta("rel", {
                         CHID: dt?.row?.id,
                         TIPO: 1,
                     });
@@ -176,12 +177,12 @@ const DepartamentoConfig = ({
 
     const handleAjustesRel = () => {
         setOpenRel(true);
-        consulta("rel",{ CHID: dt?.row?.id, TIPO: 1, });
+        consulta("rel", { CHID: dt?.row?.id, TIPO: 1, });
     };
 
     const handleAjustesDis = () => {
         setOpenRel(false);
-        consulta("dis",{ CHID: dt?.row?.id, TIPO: 2, });
+        consulta("dis", { CHID: dt?.row?.id, TIPO: 2, });
     };
 
     useEffect(() => {
@@ -194,7 +195,7 @@ const DepartamentoConfig = ({
 
     return (
         <div>
-
+   <Slider open={openSlider}></Slider>
             <Dialog open={open} >
                 <Box
                     sx={{
@@ -254,8 +255,8 @@ const DepartamentoConfig = ({
                                     </Grid>
                                     <Grid item xs={12}>
 
-                                    *Para Eliminar el Departamento Seleccione la Casilla*
-                                        <br/>
+                                        *Para Eliminar el Departamento Seleccione la Casilla*
+                                        <br />
                                         *Solo se Puede Asignar Un Departamento Por Usuario*
                                     </Grid>
                                 </Grid>
@@ -277,8 +278,8 @@ const DepartamentoConfig = ({
                                         <br />
                                     </Grid>
                                     <Grid item xs={12}>
-                                    *Para Asignar el Departamento Seleccione la Casilla*
-                                        <br/>
+                                        *Para Asignar el Departamento Seleccione la Casilla*
+                                        <br />
                                         *Solo se Puede Asignar Un Departamento Por Usuario*
                                     </Grid>
                                 </Grid>

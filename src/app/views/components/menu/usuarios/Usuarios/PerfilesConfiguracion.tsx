@@ -59,7 +59,6 @@ const PerfilesConfiguracion = ({
         AuthService.getUsuarioPerfil(data).then((res) => {
             setData(res.RESPONSE);
             setOpenSlider(false);
-            console.log(res.RESPONSE)
             if (modo == "rel") {
                 if (res.RESPONSE.length != 0) {
                     setAsignado(true);
@@ -220,7 +219,7 @@ const PerfilesConfiguracion = ({
                         <ButtonGroup variant="outlined" aria-label="outlined primary button group">
                             <Button
                                 onClick={handleAjustesRel}
-                            >Perfiles Relacionados</Button>
+                            >Perfil Relacionado</Button>
                             <Button
                                 onClick={handleAjustesDis}
 
