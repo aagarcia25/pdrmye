@@ -40,7 +40,9 @@ const DepartamentoConfig = ({
 
     const [data, setData] = useState([]);
     const [openRel, setOpenRel] = useState(true);
-    const [openSlider, setOpenSlider] = useState<boolean>();
+    const [openSlider, setOpenSlider] = useState<boolean>(true);
+    const [result, setRes] = useState<boolean>();
+    const [asignado, setAsignado] = useState<boolean>(false);
     const [descripcion, setDescripcion] = useState<string>();
     const [idDepartamento, setIdDepratamento] = useState<string>();
 
@@ -51,12 +53,29 @@ const DepartamentoConfig = ({
         textAlign: 'center',
         color: theme.palette.text.secondary,
     }));
-    const consulta = (data: any) => {
+    const consulta = (modo: string,data: any) => {
         setOpenSlider(true);
         AuthService.getUsuarioDepartamento(data).then((res) => {
             setData(res.RESPONSE);
             setOpenSlider(false);
             console.log(res)
+            if (modo == "rel") {
+                if (res.RESPONSE.length != 0) {
+                    setAsignado(true);
+                    setRes(false);
+                    setOpenSlider(false)
+                } else {
+                    setRes(false)
+                    setAsignado(false)
+                    setOpenSlider(false)
+                }
+            }
+            if (modo == "dis") {
+                if (asignado) {
+                    setRes(true)
+                    setOpenSlider(false)
+                }
+            }
         });
 
     };
@@ -78,7 +97,8 @@ const DepartamentoConfig = ({
                         icon: "success",
                         title: "Perfil Asignado!",
                     });
-                    consulta({
+                    setRes(true);
+                    consulta("dis",{
                         CHID: dt?.row?.id,
                         TIPO: 2,
                     });
@@ -105,7 +125,16 @@ const DepartamentoConfig = ({
                         icon: "success",
                         title: "Perfil Eliminado!",
                     });
-                    consulta({
+                    if (res.RESPONSE.length != 0) {
+                        setAsignado(true);
+                        setRes(false);
+                        setOpenSlider(false)
+                    } else {
+                        setRes(false)
+                        setAsignado(false)
+                        setOpenSlider(false)
+                    }
+                    consulta("rel",{
                         CHID: dt?.row?.id,
                         TIPO: 1,
                     });
@@ -138,7 +167,7 @@ const DepartamentoConfig = ({
             sortable: false,
             width: 10,
             renderCell: (v) => {
-                return <Checkbox  onChange={() => handleChange(v)} />;
+                return <Checkbox disabled={result} onChange={() => handleChange(v)} />;
             },
         },
         { field: "Descripcion", headerName: "Descripcion", width: 300 },
@@ -147,18 +176,17 @@ const DepartamentoConfig = ({
 
     const handleAjustesRel = () => {
         setOpenRel(true);
-        consulta({ CHID: dt?.row?.id, TIPO: 1, });
+        consulta("rel",{ CHID: dt?.row?.id, TIPO: 1, });
     };
 
     const handleAjustesDis = () => {
         setOpenRel(false);
-        consulta({ CHID: dt?.row?.id, TIPO: 2, });
+        consulta("dis",{ CHID: dt?.row?.id, TIPO: 2, });
     };
 
     useEffect(() => {
+        consulta("rel", { CHID: dt?.row?.id, TIPO: 1, });
         handleAjustesRel();
-        console.log(dt?.row);
-        console.log("id perfil--- " + dt?.row?.id);
         setDescripcion(dt?.row?.Descripcion);
         setIdDepratamento(dt?.row?.id);
     }, []);

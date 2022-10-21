@@ -24,6 +24,7 @@ import { id } from "date-fns/locale";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { Alert } from "../../../../../helpers/Alert";
+import Slider from "../../../Slider";
 
 const PerfilesConfiguracion = ({
     open,
@@ -40,7 +41,9 @@ const PerfilesConfiguracion = ({
 
     const [data, setData] = useState([]);
     const [openRel, setOpenRel] = useState(true);
-    const [openSlider, setOpenSlider] = useState<boolean>();
+    const [openSlider, setOpenSlider] = useState<boolean>(true);
+    const [result, setRes] = useState<boolean>();
+    const [asignado, setAsignado] = useState<boolean>(false);
     const [descripcion, setDescripcion] = useState<string>();
     const [idPerfil, setIdPerfil] = useState<string>();
 
@@ -51,12 +54,32 @@ const PerfilesConfiguracion = ({
         textAlign: 'center',
         color: theme.palette.text.secondary,
     }));
-    const consulta = (data: any) => {
+    const consulta = (modo: string, data: any) => {
         setOpenSlider(true);
         AuthService.getUsuarioPerfil(data).then((res) => {
             setData(res.RESPONSE);
             setOpenSlider(false);
             console.log(res.RESPONSE)
+            if (modo == "rel") {
+                if (res.RESPONSE.length != 0) {
+                    setAsignado(true);
+                    setRes(false);
+                    setOpenSlider(false)
+                } else {
+                    setRes(false)
+                    setAsignado(false)
+                    setOpenSlider(false)
+                }
+            }
+            if (modo == "dis") {
+                if (asignado) {
+                    setRes(true)
+                    setOpenSlider(false)
+                }
+            }
+
+
+
         });
 
     };
@@ -78,10 +101,13 @@ const PerfilesConfiguracion = ({
                         icon: "success",
                         title: "Perfil Asignado!",
                     });
-                    consulta({
-                        CHID: dt?.row?.id,
-                        TIPO: 2,
-                    });
+                    setRes(true);
+                    consulta(
+                        "dis",
+                        {
+                            CHID: dt?.row?.id,
+                            TIPO: 2,
+                        });
                 } else {
                     Alert.fire({
                         title: "Error!",
@@ -105,7 +131,16 @@ const PerfilesConfiguracion = ({
                         icon: "success",
                         title: "Perfil Eliminado!",
                     });
-                    consulta({
+                    if (res.RESPONSE.length != 0) {
+                        setAsignado(true);
+                        setRes(false);
+                        setOpenSlider(false)
+                    } else {
+                        setRes(false)
+                        setAsignado(false)
+                        setOpenSlider(false)
+                    }
+                    consulta("rel", {
                         CHID: dt?.row?.id,
                         TIPO: 1,
                     });
@@ -138,7 +173,8 @@ const PerfilesConfiguracion = ({
             sortable: false,
             width: 10,
             renderCell: (v) => {
-                return <Checkbox     onChange={() => handleChange(v)} />;
+                console.log("valor de rel -- " + result)
+                return <Checkbox disabled={result} onChange={() => handleChange(v)} />;
             },
         },
         { field: "Descripcion", headerName: "Descripcion", width: 300 },
@@ -147,18 +183,17 @@ const PerfilesConfiguracion = ({
 
     const handleAjustesRel = () => {
         setOpenRel(true);
-        consulta({ CHID: dt?.row?.id, TIPO: 1, });
+        consulta("rel", { CHID: dt?.row?.id, TIPO: 1, });
     };
 
     const handleAjustesDis = () => {
         setOpenRel(false);
-        consulta({ CHID: dt?.row?.id, TIPO: 2, });
+        consulta("dis", { CHID: dt?.row?.id, TIPO: 2, });
     };
 
     useEffect(() => {
+        consulta("rel", { CHID: dt?.row?.id, TIPO: 1, });
         handleAjustesRel();
-        console.log(dt?.row);
-        console.log("id perfil--- " + dt?.row?.id);
         setDescripcion(dt?.row?.Descripcion);
         setIdPerfil(dt?.row?.id);
     }, []);
@@ -166,7 +201,7 @@ const PerfilesConfiguracion = ({
 
     return (
         <div>
-
+            <Slider open={openSlider}></Slider>
             <Dialog open={open} >
                 <Box
                     sx={{
@@ -227,7 +262,7 @@ const PerfilesConfiguracion = ({
                                     <Grid item xs={12}>
 
                                         *Para Eliminar el Perfil Seleccione la Casilla*
-                                        <br/>
+                                        <br />
                                         *Solo se Puede Asignar Un Perfil Por Usuario*
                                     </Grid>
                                 </Grid>
@@ -250,7 +285,7 @@ const PerfilesConfiguracion = ({
                                     </Grid>
                                     <Grid item xs={12}>
                                         *Para Asignar el Perfil Seleccione la Casilla*
-                                                  <br/>
+                                        <br />
                                         *Solo se Puede Asignar Un Perfil Por Usuario*
                                     </Grid>
                                 </Grid>
