@@ -411,7 +411,7 @@ const ModalFgp = ({
                 <SelectFrag
                   options={ajustes}
                   onInputChange={handleSelectAjuste}
-                  placeholder={"Seleccione el Ajuste"} label={""} id={""}                ></SelectFrag>
+                  placeholder={"Seleccione el Ajuste"} label={""} disabled={false}                ></SelectFrag>
               </Box>
             </Grid>
 
@@ -538,7 +538,7 @@ const ModalFgp = ({
                 <SelectFrag
                   options={meses}
                   onInputChange={handleSelectMes}
-                  placeholder={"Seleccione el Mes"} label={""} id={""}                ></SelectFrag>
+                  placeholder={"Seleccione el Mes"} label={""} disabled={false}                ></SelectFrag>
               </Box>
             </Grid>
 

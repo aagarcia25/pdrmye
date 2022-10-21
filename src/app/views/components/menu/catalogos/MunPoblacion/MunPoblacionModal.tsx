@@ -161,7 +161,7 @@ const MunPoblacionModal = ({
               onInputChange={handleSelectMun}
               placeholder={"Seleccione el Municipio"}
               label={""}
-              id={"mun"}
+              disabled={true}
             />
 
           </FormControl>

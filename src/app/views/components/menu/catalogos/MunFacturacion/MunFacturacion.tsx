@@ -249,7 +249,7 @@ export const MunFacturacion = () => {
         <SelectFrag
           options={anios}
           onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={""} id={""} />
+          placeholder={"Seleccione Año"} label={""} disabled={false} />
       </Box>
 
       {open ? (

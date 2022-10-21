@@ -156,7 +156,7 @@ const InflacionMesModal = ({
             onInputChange={handleSelectMes}
             placeholder={"Seleccione el Mes"}
             label={""}
-            id={""}
+            disabled={false}
           />
 
           <TextField

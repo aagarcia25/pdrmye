@@ -8,17 +8,24 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { CatalogosServices } from '../../../../services/catalogosServices';
 import { Toast } from '../../../../helpers/Toast';
 import { Alert } from '../../../../helpers/Alert';
+import WorflowModal from './WorflowModal';
 
 
 const Workflow = () => {
     const [data, setData] = useState([]);
+    const [tipoOperacion, setTipoOperacion] = useState(0);
+    const [open, setOpen] = useState(false);
+    const [row, setRow] = useState({});
 
-
+    const handleClose = (v: string) => {
+        setTipoOperacion(0);
+        setOpen(false);
+        setRow("");
+      };
     const handleOpen = (v: any) => {
-       /* setTipoOperacion(1);
-        setModo("Agregar Registro");
+        setTipoOperacion(1);
         setOpen(true);
-        setData("");*/
+        setRow("");
       };
 
     const handleEdit = (v: any) => {
@@ -83,10 +90,10 @@ const Workflow = () => {
         },
         { field: "idproceso", headerName: "Clave", width: 150 , hide: true},
         { field: "proceso", headerName: "Proceso", width: 350 },
-        { field: "iddepartamentoOrigen", headerName: "Clave", width: 150 , hide: true},
-        { field: "NombreCortoOrigen", headerName: "Estatus Origen", width: 150 },
+        { field: "iddepartamentoOrigen", headerName: "Departamento", width: 150 , hide: true},
+        { field: "NombreCortoOrigen", headerName: "Departamento Origen", width: 150 },
         { field: "iddepartamentoDestino", headerName: "Clave", width: 150 , hide: true},
-        { field: "NombreCortoDestino", headerName: "Estatus Destino", width: 150 },
+        { field: "NombreCortoDestino", headerName: "Departamento Destino", width: 150 },
         { field: "idEstatusOrigen", headerName: "Clave", width: 150 , hide: true},
         { field: "EstatusOrigen", headerName: "Estatus Origen", width: 150 },
         { field: "idestatusDestino", headerName: "Clave", width: 150 , hide: true},
@@ -144,6 +151,18 @@ const Workflow = () => {
       
   return (
     <div style={{ height: 600, width: "100%" }}>
+
+{open ? (
+        <WorflowModal
+          open={open}
+          handleClose={handleClose}
+          tipo={tipoOperacion}
+          dt={data}
+        />
+      ) : (
+        ""
+      )}
+
     <ButtonsAdd handleOpen={handleOpen} />
     <MUIXDataGrid columns={columns} rows={data} />
   </div>

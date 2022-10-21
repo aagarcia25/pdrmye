@@ -234,7 +234,7 @@ const ListNotificationsModal = ({
                   onInputChange={handleSelectUser}
                   placeholder={"Seleccione Usuario"}
                   label={""}
-                  id={""}
+                  disabled={false}
                 />
               </Box>
               <Box sx={{

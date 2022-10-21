@@ -47,7 +47,7 @@ const Filtros = ({
             width: "10%",
           }}
         >
-         <SelectFrag options={meses} onInputChange={handleFilterChangeMes} placeholder={"Seleccione Mes"} label={""} id={""}></SelectFrag>
+         <SelectFrag options={meses} onInputChange={handleFilterChangeMes} placeholder={"Seleccione Mes"} label={""} disabled={false}></SelectFrag>
         </FormControl>
       ) : (
         ""
@@ -60,7 +60,7 @@ const Filtros = ({
             width: "10%",
           }}
         >
-          <SelectFrag options={anios} onInputChange={handleFilterChangeAnio} placeholder={"Seleccione Año"} label={""} id={""}></SelectFrag>
+          <SelectFrag options={anios} onInputChange={handleFilterChangeAnio} placeholder={"Seleccione Año"} label={""} disabled={false}></SelectFrag>
         </FormControl>
       ) : (
         ""

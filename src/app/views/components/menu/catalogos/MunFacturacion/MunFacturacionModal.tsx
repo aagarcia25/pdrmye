@@ -5,8 +5,6 @@ import {
   Box,
   FormControl,
   InputLabel,
-  Select,
-  MenuItem,
   TextField,
   InputAdornment,
   DialogActions,
@@ -14,9 +12,8 @@ import {
 
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { municipiosc } from "../../../../../share/loadMunicipios";
@@ -159,7 +156,7 @@ const MunFacturacionModal = ({
               <SelectFrag
                 options={mun}
                 onInputChange={handleFilterChange}
-                placeholder={"Seleccione Municipio"} label={String(municipio)} id={String("mun")} />
+                placeholder={"Seleccione Municipio"} label={String(municipio)} disabled={true} />
             </FormControl>
           </FormControl>
           <Box>

@@ -177,7 +177,7 @@ const MunPobrezaModal = ({
               options={municipios}
               onInputChange={handleFilterChange}
               placeholder={"Seleccione Municipio"}
-              label={String(mun)} id={"mun"} />
+              label={String(mun)} disabled={true} />
           </FormControl>
 
           <Box>

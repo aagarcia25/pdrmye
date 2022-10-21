@@ -73,7 +73,7 @@ const SolicitudesIns = ({
                     }}>
                   <SelectFrag
                     options={options}
-                    onInputChange={handleSelectTipo} placeholder={"Seleccione una Opcion"} label={""} id={""}                  ></SelectFrag>
+                    onInputChange={handleSelectTipo} placeholder={"Seleccione una Opcion"} label={""} disabled={false}                  ></SelectFrag>
                 </Box>
 
                 <Box sx={{
@@ -81,7 +81,7 @@ const SolicitudesIns = ({
                     }}>
                   <SelectFrag
                     options={partida}
-                    onInputChange={handleSelectTipo} placeholder={"Seleccione una Partida"} label={""} id={""}                  ></SelectFrag>
+                    onInputChange={handleSelectTipo} placeholder={"Seleccione una Partida"} label={""} disabled={false}                  ></SelectFrag>
                 </Box>
 
                 <Box sx={{

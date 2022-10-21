@@ -7,13 +7,13 @@ const SelectFrag = ({
   onInputChange,
   placeholder,
   label,
-  id
+  disabled
 }: {
   options: SelectValues[],
   onInputChange: Function,
   placeholder: string,
   label: string,
-  id:string
+  disabled:boolean
 }) => {
 
   return (
@@ -22,13 +22,13 @@ const SelectFrag = ({
 
       <Select
         options={options}
-        isDisabled={id=="mun"?true:false}
+        isDisabled={disabled}
         isClearable={true}
         isSearchable={true}
         backspaceRemovesValue={true}
         onChange={
           (v) => (v == null) ?
-          onInputChange(String(id))
+          onInputChange(String(disabled))
             :
             onInputChange(v.value)
         }
