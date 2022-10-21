@@ -71,7 +71,7 @@ export const ListNotification = () => {
     setTipoOperacion(6);
     console.log(v.row)
     if (v.row.Visto === "0") {
-          setDestinatario(v.row.destinatario)
+      setDestinatario(v.row.destinatario)
       setRemitente(v.row.origen)
     }
     setDestinatario(v.row.destinatario)

@@ -19,9 +19,12 @@ import UsuariosModal from "./UsuariosModal";
 import PerfilesConfiguracion from "./PerfilesConfiguracion";
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import DepartamentoConfig from "./DepartamentoConfig";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import RolesConfig from "./RolesConfig";
 const Usuarios = () => {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openRolConf, setOpenRolConf] = useState(false);
   const [openConfigPerfil, setOpenConfigPerfil] = useState(false);
   const [openConfigDep, setOpenConfigDep] = useState(false);
   const [openSinRel, setOpenSinRel] = useState(false);
@@ -30,7 +33,7 @@ const Usuarios = () => {
   const [row, setRow] = useState({});
   const [id, setId] = useState("");
   const [dt, setDt] = useState([]);
-  
+
 
   const handleOpen = () => {
     setTipoOperacion(3);
@@ -97,6 +100,7 @@ const Usuarios = () => {
     setOpenNew(false);
     setOpenConfigPerfil(false);
     setOpenConfigDep(false);
+    setOpenRolConf(false);
   };
   const handlePerfilConfiguracion = (v: any) => {
     setDt(v);
@@ -106,15 +110,17 @@ const Usuarios = () => {
     setDt(v);
     setOpenConfigDep(true);
   };
+  const handleRolConf = (v: any) => {
+    setId(v.row.id);
+    setOpenRolConf(true);
+  };
 
   const handleView = (v: any) => {
-    setId(v.row.id);
     setOpen(true);
   };
 
   const handleRel = (v: any) => {
-    setId(v.row.id);
-    setOpenSinRel(true);
+
   };
 
   const columns: GridColDef[] = [
@@ -145,17 +151,13 @@ const Usuarios = () => {
       renderCell: (v) => {
         return (
           <Box>
-            <Tooltip title={"Ver Roles Relaciados al Usuario"}>
-              <IconButton color="success" onClick={() => handleView(v)}>
-                <DeviceHubIcon />
+            <Tooltip title={"Configurar Roles"}>
+              <IconButton color="success" onClick={() => handleRolConf(v)}>
+                <AssignmentIndIcon />
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Relacionar Rol"}>
-              <IconButton color="warning" onClick={() => handleRel(v)}>
-                <AccountBoxIcon />
-              </IconButton>
-            </Tooltip>
+
             <Tooltip title={"Configurar Perfil"}>
               <IconButton color="warning" onClick={() => handlePerfilConfiguracion(v)}>
                 <AdminPanelSettingsIcon />
@@ -215,6 +217,15 @@ const Usuarios = () => {
         ""
       )}
 
+      {openRolConf ? 
+        <RolesConfig
+          id={id}
+          open={openRolConf}
+          handleClose={handleClose}></RolesConfig>
+       : 
+        ""
+      }
+
       {openSinRel ? (
         <RolesSinRel
           key={Math.random()}
@@ -247,7 +258,7 @@ const Usuarios = () => {
       ) : (
         ""
       )}
-        {openConfigDep ? (
+      {openConfigDep ? (
         <DepartamentoConfig
           open={openConfigDep}
           modo={""}
