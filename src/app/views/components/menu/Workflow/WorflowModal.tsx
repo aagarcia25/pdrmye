@@ -3,13 +3,15 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  FormControl,
-  InputLabel,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Alert } from "../../../../helpers/Alert";
+import { Toast } from "../../../../helpers/Toast";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
+import { CatalogosServices } from "../../../../services/catalogosServices";
 import { municipiosc } from "../../../../share/loadMunicipios";
 import SelectFrag from "../../Fragmentos/Select/SelectFrag";
+import Slider from "../../Slider";
 
 const WorflowModal = ( {
     open,
@@ -23,28 +25,125 @@ const WorflowModal = ( {
     dt: any
   }) => {
 
-    const [mun, setMun] = useState<SelectValues[]>([]);
+    const [slideropen, setslideropen] = useState(true);
+    const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
+    const [procesos, setProcesos] = useState<SelectValues[]>([]);
+    const [estatus, setEstatus] = useState<SelectValues[]>([]);
+    const [perfil, setPerfil] = useState<SelectValues[]>([]);
+   
+    const [idproceso, setidproceso] = useState("");
+    const [iddeporigen, setiddeporigen] = useState("");
+    const [iddepdestino, setiddepdestino] = useState("");
+    const [idestatusorigen, setidestatusorigen] = useState("");
+    const [idestatusdestino, setidestatusdestino] = useState("");
+    const [idperfilorigen, setidperfilorigen] = useState("");
+    const [idperfildestino, setidperfildestino] = useState("");
 
-    const handleFilterChange = (v: string) => {
+
+
+
+    const loadFilter = (operacion: number) => {
+    let data = { NUMOPERACION: operacion };
+      CatalogosServices.SelectIndex(data).then((res) => {
+        if(operacion == 6){
+            setProcesos(res.RESPONSE);
+        }else if(operacion == 7){
+            setDepartamentos(res.RESPONSE);
+        }else if(operacion == 8){
+            setEstatus(res.RESPONSE);
+        }else if(operacion == 9){
+            setPerfil(res.RESPONSE);
+        }
+      });
+    }
+
+
+
+    const handleFilterChange1 = (v: string) => {
+        console.log(v)
+        setidproceso(v);
     };
 
+    const handleFilterChange2 = (v: string) => {
+        console.log(v)
+        setiddeporigen(v);
+    };
+    const handleFilterChange3 = (v: string) => {
+        console.log(v)
+        setiddepdestino(v);
+    };
+    const handleFilterChange4 = (v: string) => {
+        console.log(v)
+        setidestatusorigen(v);
+    };
+    const handleFilterChange5 = (v: string) => {
+        console.log(v)
+        setidestatusdestino(v);
+    };
+    const handleFilterChange6 = (v: string) => {
+        console.log(v)
+        setidperfilorigen(v);
+    };
+    const handleFilterChange7 = (v: string) => {
+        console.log(v)
+        setidperfildestino(v);
+    };
+
+
+
+
     const handleSend = () => {
-       
+        let data = {
+            NUMOPERACION: tipo,
+            DO: iddeporigen,
+            DD: iddepdestino,
+            PO: idperfilorigen,
+            PD: idperfildestino,
+            EO: idestatusorigen,
+            ED:idestatusdestino,
+            PROCESO:idproceso
+          };
+        CatalogosServices.workFlowIndex(data).then((res) => {
+            if (res.SUCCESS) {
+              Toast.fire({
+                icon: "success",
+                title: "Consulta Exitosa!",
+              });
+            } else {
+              Alert.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+          
       };
 
     useEffect(() => {
-        setMun(municipiosc());
+        loadFilter(6);
+        loadFilter(7);
+        loadFilter(8);
+        loadFilter(9);
         if (dt === '') {
         } else {
-    
+            console.log(dt);
+            setidproceso(dt.row.idproceso);
+            setiddeporigen(dt.row.iddepartamentoOrigen);
+            setiddepdestino(dt.row.iddepartamentoDestino);
+            setidestatusorigen(dt.row.idEstatusOrigen);
+            setidestatusdestino(dt.row.idestatusDestino);
+            setidperfilorigen(dt.row.idPerfilOrigen);
+            setidperfildestino(dt.row.idPerfilDestino);
         }
-    
+        setslideropen(false);
       }, [dt]);
 
   return (
     <div>
       <Dialog open={open}>
         <DialogContent>
+        <Slider open={slideropen}></Slider>
           <Box>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <label className="Titulo">{tipo==1 ?"Agregar Registro":"Editar Registro"}</label>
@@ -54,8 +153,9 @@ const WorflowModal = ( {
                 margin:1
                }}>
                 <SelectFrag
-                  options={mun}
-                  onInputChange={handleFilterChange}
+                  value={idproceso}
+                  options={procesos}
+                  onInputChange={handleFilterChange1}
                   placeholder={"Seleccione Proceso"}
                   label={""}
                   disabled={false}
@@ -66,8 +166,9 @@ const WorflowModal = ( {
                 margin:1
                }}>
                 <SelectFrag
-                  options={mun}
-                  onInputChange={handleFilterChange}
+                  value={iddeporigen}
+                  options={departamento}
+                  onInputChange={handleFilterChange2}
                   placeholder={"Seleccione Departamento Origen"}
                   label={""}
                   disabled={false}
@@ -78,8 +179,9 @@ const WorflowModal = ( {
                 margin:1
                }}>
                 <SelectFrag
-                  options={mun}
-                  onInputChange={handleFilterChange}
+                  value={iddepdestino}
+                  options={departamento}
+                  onInputChange={handleFilterChange3}
                   placeholder={"Seleccione Departamento Destino"}
                   label={""}
                   disabled={false}
@@ -90,8 +192,9 @@ const WorflowModal = ( {
                 margin:1
                }}>
                 <SelectFrag
-                  options={mun}
-                  onInputChange={handleFilterChange}
+                  value={idestatusorigen}
+                  options={estatus}
+                  onInputChange={handleFilterChange4}
                   placeholder={"Seleccione Estatus Origen"}
                   label={""}
                   disabled={false}
@@ -102,8 +205,9 @@ const WorflowModal = ( {
                 margin:1
                }}>
                 <SelectFrag
-                  options={mun}
-                  onInputChange={handleFilterChange}
+                  value={idestatusdestino}
+                  options={estatus}
+                  onInputChange={handleFilterChange5}
                   placeholder={"Seleccione Estatus Destino"}
                   label={""}
                   disabled={false}
@@ -114,8 +218,9 @@ const WorflowModal = ( {
                 margin:1
                }}>
                 <SelectFrag
-                  options={mun}
-                  onInputChange={handleFilterChange}
+                  value={idperfilorigen}
+                  options={perfil}
+                  onInputChange={handleFilterChange6}
                   placeholder={"Seleccione Perfil Origen"}
                   label={""}
                   disabled={false}
@@ -126,8 +231,9 @@ const WorflowModal = ( {
                 margin:1
                }}>
                 <SelectFrag
-                  options={mun}
-                  onInputChange={handleFilterChange}
+                  value={idperfildestino}
+                  options={perfil}
+                  onInputChange={handleFilterChange7}
                   placeholder={"Seleccione Perfil Destino"}
                   label={""}
                   disabled={false}

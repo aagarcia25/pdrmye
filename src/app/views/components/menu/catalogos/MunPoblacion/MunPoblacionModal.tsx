@@ -162,6 +162,7 @@ const MunPoblacionModal = ({
               placeholder={"Seleccione el Municipio"}
               label={""}
               disabled={true}
+              value={''}
             />
 
           </FormControl>

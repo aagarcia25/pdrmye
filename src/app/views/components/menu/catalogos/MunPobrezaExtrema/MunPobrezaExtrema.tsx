@@ -239,6 +239,7 @@ export const MunPobrezaExtrema = () => {
       <Box  
          sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
             <SelectFrag 
+            value={''}
           options={anios}
           onInputChange={handleFilterChange}
           placeholder={"Seleccione Año"} label={""} disabled={false}/>

@@ -3,12 +3,14 @@ import Select from 'react-select'
 import SelectValues from '../../../../interfaces/Select/SelectValues'
 
 const SelectFrag = ({
+  value,
   options,
   onInputChange,
   placeholder,
   label,
   disabled
 }: {
+  value:string,
   options: SelectValues[],
   onInputChange: Function,
   placeholder: string,
@@ -21,6 +23,7 @@ const SelectFrag = ({
 
 
       <Select
+        value ={options.find(element => element.value == value)}
         options={options}
         isDisabled={disabled}
         isClearable={true}

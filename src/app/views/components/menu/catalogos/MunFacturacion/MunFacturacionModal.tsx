@@ -37,7 +37,7 @@ const MunFacturacionModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState<number>();
   const [fac, setRecaudacion] = useState<number>();
-  const [idMunicipio, setIdMunicipio] = useState<string>();
+  const [idMunicipio, setIdMunicipio] = useState<string>("");
   const [idMun, setIdMun] = useState<string>();
   const [municipio, setMunicipio] = useState<string>("");
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -156,7 +156,9 @@ const MunFacturacionModal = ({
               <SelectFrag
                 options={mun}
                 onInputChange={handleFilterChange}
-                placeholder={"Seleccione Municipio"} label={String(municipio)} disabled={true} />
+                placeholder={"Seleccione Municipio"} label={String(municipio)} disabled={true}
+                value={idMunicipio} 
+                 />
             </FormControl>
           </FormControl>
           <Box>

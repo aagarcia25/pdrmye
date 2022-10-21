@@ -37,7 +37,7 @@ const InflacionMesModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState<string>();
   const [anio, setAnio] = useState<number>();
-  const [mes, setMes] = useState<string>();
+  const [mes, setMes] = useState<string>("");
   const [inflacion, setInflacion] = useState<number>();
   const user: RESPONSE = JSON.parse(String(getUser()));
 
@@ -47,7 +47,7 @@ const InflacionMesModal = ({
 
 
   const handleSelectMes = (data: any) => {
-
+    setMes(data);
   };
 
   const handleSend = () => {
@@ -156,8 +156,9 @@ const InflacionMesModal = ({
             onInputChange={handleSelectMes}
             placeholder={"Seleccione el Mes"}
             label={""}
-            disabled={false}
-          />
+            disabled={false} 
+            value={mes}      
+            />
 
           <TextField
             margin="dense"
