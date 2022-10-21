@@ -197,7 +197,7 @@ export const Fpg = () => {
   useEffect(() => {
     setAgregar(false);
     console.log(permisos);
-console.log(params.fondo);
+    console.log(params.fondo);
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(params.fondo)) {
         if (String(item.Permiso) == "Agregar") {

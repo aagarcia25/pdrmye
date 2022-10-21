@@ -53,7 +53,7 @@ const DetalleFgp = ({
   const [enviar, setEnviar] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
 
-  const [openSlider, setOpenSlider] = useState(true);
+  const [openSlider, setOpenSlider] = useState(false);
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
   const [ta, setTa] = useState(false);

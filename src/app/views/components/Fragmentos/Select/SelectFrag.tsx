@@ -18,12 +18,16 @@ const SelectFrag = ({
   disabled:boolean
 }) => {
 
+
+
+
+
   return (
     <div>
 
 
       <Select
-        value ={options.find(element => element.value == value)}
+        value ={value != null ?options.find(element => element.value == value) :[]}
         options={options}
         isDisabled={disabled}
         isClearable={true}
