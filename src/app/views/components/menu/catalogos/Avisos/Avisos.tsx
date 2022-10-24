@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Box, IconButton, ToggleButton, ToggleButtonGroup, Tooltip, } from '@mui/material'
-import { messages } from '../../../../styles'
+import { Box, IconButton,    } from '@mui/material'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -13,12 +9,16 @@ import Swal from "sweetalert2";
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import { GridColDef } from '@mui/x-data-grid';
 import ButtonsAdd from '../Utilerias/ButtonsAdd';
-import { getUser } from '../../../../../services/localStorage';
-import { RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { getPermisos, getUser } from '../../../../../services/localStorage';
+import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import BotonesAcciones from '../../../componentes/BotonesAcciones';
 
 
 export const Avisos = () => {
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
@@ -27,7 +27,7 @@ export const Avisos = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   const columns: GridColDef[] = [
 
-    { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
+    { field: "id", headerName: "Identificador", hide: true, width: 150},
     { field: "fechaInicio", headerName: "Fecha de Inicio", width: 200 },
     { field: "FechaFin", headerName: "Expiracion", width: 200 },
     { field: "Nombre", headerName: "Nombre", width: 100 },
@@ -52,14 +52,7 @@ export const Avisos = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEditar(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleBorrar(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
         );
       },
     },
@@ -67,15 +60,17 @@ export const Avisos = () => {
   ];
 
 
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setModo("Editar");
+      setOpen(true);
+      setData(v.data);
+    }else if(v.tipo ==2){
+      handleBorrar(v.data);
+    }
+  }
 
-
-  const handleEditar = (v: any) => {
-
-    setTipoOperacion(2);
-    setModo("Editar");
-    setOpen(true);
-    setData(v);
-  };
   const handleBorrar = (v: any) => {
 
     Swal.fire({
@@ -124,7 +119,7 @@ export const Avisos = () => {
   };
 
 
-  const handleNuevoRegistro = (v: any) => {
+  const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Aviso");
     setOpen(true);
@@ -181,7 +176,20 @@ if(v=="save"){
 
 
   useEffect(() => {
- 
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "AVISOS") {
+        console.log(item)
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     CatalogosServices.avisos(dat).then((res) => {
       setAvisos(res.RESPONSE);
     });
@@ -206,7 +214,7 @@ if(v=="save"){
       )}
       <Box>
       </Box>
-      <ButtonsAdd handleOpen={handleNuevoRegistro} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={conAvisos} />
     </div>
 

@@ -164,7 +164,7 @@ const InflacionMes = () => {
         ""
       )}
 
-      <ButtonsAdd handleOpen={handleOpen} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={false} />
       <MUIXDataGrid columns={columns} rows={dataInflacionMes} />
 
     </div>

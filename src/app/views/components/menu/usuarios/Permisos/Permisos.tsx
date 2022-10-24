@@ -4,7 +4,7 @@ import { Alert } from '../../../../../helpers/Alert';
 import { Toast } from '../../../../../helpers/Toast';
 import { AuthService } from '../../../../../services/AuthService';
 import { messages } from '../../../../styles';
-import AccionesGrid from '../../../AccionesGrid';
+import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import MUIXDataGrid from '../../../MUIXDataGrid';
 import ButtonsAdd from '../../catalogos/Utilerias/ButtonsAdd';
 import PermisosModal from './PermisosModal';
@@ -21,7 +21,9 @@ const Permisos = () => {
     const handleClose = () => {
       setOpen(false);
     };
-
+    const handleAccion = (v: any) => {
+      
+    }
     const handleOpen = (v: any) => {
       setTipoOperacion(1);
       setModo("Agregar Registro");
@@ -110,12 +112,11 @@ const Permisos = () => {
            width: 100,
            renderCell: (v) => {
              return (
-               <AccionesGrid 
-               handleEditar={handleEditar}
-                handleBorrar={handleDelete} 
-                v={v} 
-                update={true} 
-                pdelete={true}
+               <BotonesAcciones 
+                handleAccion={handleAccion}
+                row={undefined}
+                editar={false}
+                eliminar={false}              
                  />
              );
            },
@@ -160,7 +161,7 @@ const Permisos = () => {
     ) : (
       ""
     )}
-<ButtonsAdd handleOpen={handleOpen} />
+<ButtonsAdd handleOpen={handleOpen} agregar={false} />
        <MUIXDataGrid
               columns={columns}
               rows={data}

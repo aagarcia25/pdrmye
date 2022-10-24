@@ -102,7 +102,7 @@ const PensionesVitalicias = () => {
         </Box>
       </Box>
       <Box sx={{ display: step == 0 ? "block" : "none" }}>
-        <ButtonsAdd handleOpen={handleOpen}></ButtonsAdd>
+       <ButtonsAdd handleOpen={handleOpen} agregar={false} />
         <MUIXDataGrid columns={columns} rows={data} />
       </Box>
     </div>

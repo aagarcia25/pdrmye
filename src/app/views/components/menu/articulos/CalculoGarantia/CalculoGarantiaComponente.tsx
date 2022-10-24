@@ -183,7 +183,7 @@ export const CalculoGarantiaComponente = () => {
       ) : (
         ""
       )}
-      <ButtonsAdd handleOpen={handleOpen} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={false} />
       <MUIXDataGrid columns={columns} rows={calculoGarantia} />
     </div>
   );

@@ -4,30 +4,29 @@ import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { messages } from "../../../../styles";
-import AccionesGrid from "../../../AccionesGrid";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import MenuRelPermisos from "./MenuRelPermisos";
 import MenuModal from "./MenuModal";
-import { getUser } from "../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import Swal from "sweetalert2";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 const Menus = () => {
   const [dt, setDt] = useState([]);
-
-  const [id, setId] = useState<string>("");
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
-  const [openRel, setOpenRel] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
 
   const handleOpenModal = () => {
     setTipoOperacion(1);
@@ -43,26 +42,21 @@ const Menus = () => {
     setOpenModal(true);
   };
 
+  
 
-  const handleRel = (v: any) => {
-    setDt(v);
-    setOpenRel(true);
-
+  const handleAccion = (v: any) => {
+    if (v.tipo == 1) {
+      handleEditar(v.data);
+    } else if (v.tipo == 2) {
+      handleDelete(v.data);
+    }
   };
 
-
-
-
-  const handleClose = () => {   
-
+  const handleClose = () => {
     setOpen(false);
-    setOpenRel(false);
     setOpenModal(false);
     consulta({ NUMOPERACION: 4 });
   };
-
-
-
 
   const handleDelete = (v: any) => {
     Swal.fire({
@@ -98,8 +92,6 @@ const Menus = () => {
             });
           }
         });
-
-
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
@@ -129,18 +121,12 @@ const Menus = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <>
-            <AccionesGrid
-              handleEditar={handleEditar}
-              handleBorrar={handleDelete}
-              v={v}
-              update={true}
-              pdelete={true}
-            />
-
-          
-
-          </>
+          <BotonesAcciones
+            handleAccion={handleAccion}
+            row={v}
+            editar={editar}
+            eliminar={eliminar}
+          />
         );
       },
     },
@@ -154,7 +140,6 @@ const Menus = () => {
           title: "Consulta Exitosa!",
         });
         setData(res.RESPONSE);
-
       } else {
         Alert.fire({
           title: "Error!",
@@ -166,14 +151,25 @@ const Menus = () => {
   };
 
   useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "MENUS") {
+        console.log(item);
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     consulta({ NUMOPERACION: 4 });
   }, []);
 
   return (
     <div>
-
-
-
       {open ? (
         <MenuRelPermisos
           open={open}
@@ -183,18 +179,6 @@ const Menus = () => {
       ) : (
         ""
       )}
-      {/*
-
-      {openRel ? (
-        <MenuAsignaPermisos
-          open={openRel}
-          handleClose={handleClose}
-          dt={dt}
-        ></MenuAsignaPermisos>
-      ) : (
-        ""
-      )}
-*/}
       {openModal ? (
         <MenuModal
           open={openModal}
@@ -206,9 +190,7 @@ const Menus = () => {
         ""
       )}
 
-
-
-      <ButtonsAdd handleOpen={handleOpenModal} />
+      <ButtonsAdd handleOpen={handleOpenModal} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
     </div>
   );

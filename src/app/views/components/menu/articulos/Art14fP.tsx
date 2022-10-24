@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { GridColDef } from "@mui/x-data-grid";
-import { getUser } from "../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../services/localStorage";
 import { ArticulosServices } from "../../../../services/ArticulosServices";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import {
@@ -14,17 +14,17 @@ import {
 import InfoIcon from "@mui/icons-material/Info";
 import AutoModeIcon from "@mui/icons-material/AutoMode";
 import Slider from "../../Slider";
-import { RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
 import Art14m from "./Art14m";
 
 export const Art14fP = () => {
   const navigate = useNavigate();
   const [step, setstep] = useState(0);
   const [slideropen, setslideropen] = useState(false);
-  const user: RESPONSE = JSON.parse(String(getUser()));
   const [data, setData] = useState([]);
   const [tipo, setTipo] = useState<Number>(0);
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
 
   const handleBack = (v: any) => {
     loaddata(tipo);
@@ -84,6 +84,20 @@ export const Art14fP = () => {
 
   let params = useParams();
   useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "ART14F1" 
+      || String(item.ControlInterno) === "ART14F2" 
+      || String(item.ControlInterno) === "ART14F3" 
+      ) {
+        console.log(item)
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+       
+        
+        
+      }
+    });
     loaddata(Number(params.tipo));
   }, [params.tipo]);
 
@@ -93,6 +107,7 @@ export const Art14fP = () => {
     
      <Box sx={{ display: step == 0 ? "block" : "none" }}>
       <Box >
+        {agregar ? 
         <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
           <Tooltip title="Generar Nueva Versión">
             <ToggleButton value="check" onClick={() => handleVersion()}>
@@ -100,6 +115,7 @@ export const Art14fP = () => {
             </ToggleButton>
           </Tooltip>
         </ToggleButtonGroup>
+         :""}
       </Box>
       <div style={{ height: 600, width: "100%" }}>
         <MUIXDataGrid columns={columns} rows={data} />

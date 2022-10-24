@@ -3,36 +3,25 @@ import {
   Dialog,
   DialogContent,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
-  InputAdornment,
   DialogActions,
 } from "@mui/material";
 
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {
-  getMunicipios,
   getUser,
-  setMunicipios,
-  validaLocalStorage,
 } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const UmasModel = ({
   open,
-  modo,
   handleClose,
   tipo,
   dt,
 }: {
   open: boolean;
-  modo: string;
   tipo: number;
   handleClose: Function;
   dt: any;
@@ -45,14 +34,6 @@ const UmasModel = ({
   const [anual, setAnual] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  console.log("---------Impresión de CAMPOS------");
-  console.log("id: ", id);
-  console.log("anio: ", anio);
-  console.log("diario: ", diario);
-  console.log("mensual: ", mensual);
-  console.log("anual: ", anual);
-  console.log("user: ", user);
-  console.log("---------FIN-de-Impresión de CAMPOS------");
 
   const handleSend = () => {
     if (!diario || !anio || !mensual || !anual) {
@@ -139,9 +120,8 @@ const UmasModel = ({
       <DialogContent>
         <Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{modo}</label>
+            <label className="Titulo">{tipo == 1 ?"Agregar Regidtro" : "Editar Registro"}</label>
           </Box>
-
           <TextField
             required
             margin="dense"

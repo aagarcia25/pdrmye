@@ -26,22 +26,6 @@ const Buttons = ({
   return (
     <Box sx={{alignItems: "center",}}>
       <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-
-       {/*  <Tooltip title="Agregar Registro">
-        <ToggleButton value="check" color="primary" 
-          //onClick={() => handleOpen(1)}
-          >
-          <IconButton
-          disabled
-              color="info"
-              aria-label="upload picture"
-              component="label"
-            >
-            <AddIcon />
-            </IconButton>
-          </ToggleButton>
-        </Tooltip>
-*/}
         <Tooltip title="Descargar Plantilla">
           <ToggleButton value="check" color="primary">
           <IconButton
@@ -54,7 +38,6 @@ const Buttons = ({
             </a>
             </IconButton>
           </ToggleButton>
-
         </Tooltip>
 
         <Tooltip title="Cargar Plantilla">

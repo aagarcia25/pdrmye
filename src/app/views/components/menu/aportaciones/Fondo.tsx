@@ -25,6 +25,8 @@ export const Fondo = () => {
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [openDetalles, setOpenDetalles] = useState(false);
   const [agregar, setAgregar] = useState<boolean>(false);
+  const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
   const [fondo, setFondo] = useState("");
@@ -138,7 +140,7 @@ export const Fondo = () => {
                 <InfoIcon />
               </IconButton>
             </Tooltip>
-
+            {agregarajuste ? (
             <Tooltip title="Agregar Ajuste">
               <IconButton
                 onClick={() => handleAjuste(v)}
@@ -150,12 +152,18 @@ export const Fondo = () => {
                 <AttachMoneyIcon />
               </IconButton>
             </Tooltip>
-
+            ) : (
+              ""
+            )}
+         {verTrazabilidad ? (
             <Tooltip title="Ver Trazabilidad">
               <IconButton onClick={() => handleTraz(v)}>
                 <InsightsIcon />
               </IconButton>
             </Tooltip>
+             ) : (
+              ""
+            )}
           </Box>
         );
       },
@@ -200,16 +208,19 @@ export const Fondo = () => {
   let params = useParams();
 
   useEffect(() => {
-    setAgregar(false);
     console.log(permisos);
-console.log(params.fondo);
+    console.log(params.fondo);
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(params.fondo)) {
-        if (String(item.Permiso) == "Agregar") {
+        if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
-          console.log("agregar --"+ agregar)
         }
-      
+        if (String(item.Referencia) == "TRAZA") {
+          setVerTrazabilidad(true);
+        }
+        if (String(item.Referencia) == "AAJUSTE") {
+          setAgregarAjuste(true);
+        }
       }
     });
 

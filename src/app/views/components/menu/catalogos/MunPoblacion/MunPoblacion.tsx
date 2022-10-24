@@ -11,7 +11,6 @@ import Slider from "../../../Slider";
 import Buttons from '../Utilerias/Buttons'
 import MunPoblacionModal from './MunPoblacionModal'
 import MUIXDataGrid from '../../../MUIXDataGrid'
-import AccionesGrid from '../../../AccionesGrid'
 import { PERMISO, RESPONSE} from '../../../../../interfaces/user/UserInfo'
 import SelectFrag from '../../../Fragmentos/Select/SelectFrag'
 import { fanios } from "../../../../../share/loadAnios";
@@ -62,7 +61,7 @@ export const MunPoblacion = () => {
       width: 200,
       renderCell: (v: any) => {
         return (
-          <AccionesGrid handleEditar={handleEditar} handleBorrar={handleBorrar} v={v} update={update} pdelete={eliminar} />
+          ""
         );
       },
     },
@@ -229,13 +228,13 @@ export const MunPoblacion = () => {
 
 
     permisos.map((item: PERMISO) => {
-      console.log(item.ControlInterno + ' --' + item.Permiso);
+      console.log(item.ControlInterno + ' --' + String(item.Referencia));
 
       if (item.ControlInterno == 'MUNPOB') {
-        if (item.Permiso == 'Editar') {
+        if (String(item.Referencia) == 'Editar') {
           setUpdate(true);
         }
-        if (item.Permiso == 'Eliminar') {
+        if (String(item.Referencia) == 'Eliminar') {
           setEliminar(true);
         }
 

@@ -33,13 +33,6 @@ export const DepartamentosModal = ({
   const [responsable, setResponsable] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  //IMPRESIONES DE CAMPOS
-  console.log("---------Impresión de CAMPOS------");
-  console.log("id", id);
-  console.log("nombreCorto :", nombreCorto);
-  console.log("descripcion :", descripcion);
-  console.log("responsable :", responsable);
-  console.log("---------FIN-de-Impresión de CAMPOS------");
 
   const handleSend = () => {
     if (!nombreCorto || !descripcion || !responsable) {
@@ -81,14 +74,12 @@ export const DepartamentosModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-        console.log("Sé pudo agregar");
       } else {
         Alert.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        console.log("No se pudo agregar");
       }
     });
   };

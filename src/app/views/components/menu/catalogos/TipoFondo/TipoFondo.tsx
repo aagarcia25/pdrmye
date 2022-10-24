@@ -178,7 +178,7 @@ const TipoFondo = () => {
         ""
       )}
 
-      <ButtonsAdd handleOpen={handleOpen} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={false} />
 
       <MUIXDataGrid columns={columns} rows={dataTipoFondo} />
 

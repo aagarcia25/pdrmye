@@ -35,7 +35,9 @@ export const Fpg = () => {
   const [clave, setClave] = useState("");
   const [estatus, setEstatus] = useState("");
   const [agregar, setAgregar] = useState<boolean>(false);
-
+  const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+ 
   const [nombreFondo, setNombreFondo] = useState("");
   const [idDetalle, setIdDetalle] = useState("");
 
@@ -67,7 +69,7 @@ export const Fpg = () => {
     setstep(1);
   };
 
-  const handleView = (v: any) => {
+  const handleDetalle = (v: any) => {
     setIdtrazabilidad(v.row.id);
     setClave(v.row.Clave)
     setIdDetalle(String(v.row.id));
@@ -129,25 +131,34 @@ export const Fpg = () => {
         return (
           <Box>
             <Tooltip title="Ver detalle de Cálculo">
-              <IconButton onClick={() => handleView(v)}>
+              <IconButton onClick={() => handleDetalle(v)}>
                 <InfoIcon />
               </IconButton>
             </Tooltip>
+            {agregarajuste ? (
             <Tooltip title="Agregar Ajuste">
-              <IconButton onClick={() => handleAjuste(v)}
+              <IconButton
+                onClick={() => handleAjuste(v)}
                 disabled={
-                  String(v.row.estatus) !== 'INICIO' 
+                  String(v.row.Clave) == "FISM" ||
+                  String(v.row.Clave) == "FORTAMUN"
                 }
               >
                 <AttachMoneyIcon />
               </IconButton>
             </Tooltip>
-
+            ) : (
+              ""
+            )}
+         {verTrazabilidad ? (
             <Tooltip title="Ver Trazabilidad">
               <IconButton onClick={() => handleTraz(v)}>
                 <InsightsIcon />
               </IconButton>
             </Tooltip>
+             ) : (
+              ""
+            )}
           </Box>
         );
       },
@@ -195,16 +206,19 @@ export const Fpg = () => {
   let params = useParams();
 
   useEffect(() => {
-    setAgregar(false);
     console.log(permisos);
     console.log(params.fondo);
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(params.fondo)) {
-        if (String(item.Permiso) == "Agregar") {
+        if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
-          console.log("agregar --"+ agregar)
         }
-      
+        if (String(item.Referencia) == "TRAZA") {
+          setVerTrazabilidad(true);
+        }
+        if (String(item.Referencia) == "AAJUSTE") {
+          setAgregarAjuste(true);
+        }
       }
     });
 

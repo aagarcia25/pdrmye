@@ -16,6 +16,8 @@ import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import DepartamentoConfig from "./DepartamentoConfig";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import RolesConfig from "./RolesConfig";
+import { getPermisos } from "../../../../../services/localStorage";
+import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 const Usuarios = () => {
   const [data, setData] = useState([]);
   const [openRolConf, setOpenRolConf] = useState(false);
@@ -27,6 +29,10 @@ const Usuarios = () => {
   const [id, setId] = useState("");
   const [dt, setDt] = useState([]);
 
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
 
   const handleOpen = () => {
     setTipoOperacion(3);
@@ -186,6 +192,20 @@ const Usuarios = () => {
   };
 
   useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "USUARIOS") {
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+        
+      }
+    });
     consulta({ NUMOPERACION: 4 });
   }, []);
   return (
@@ -234,7 +254,7 @@ const Usuarios = () => {
       )}
 
 
-      <ButtonsAdd handleOpen={handleOpen} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
     </div>
   );

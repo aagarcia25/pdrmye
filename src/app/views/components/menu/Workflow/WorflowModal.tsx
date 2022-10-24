@@ -9,7 +9,6 @@ import { Alert } from "../../../../helpers/Alert";
 import { Toast } from "../../../../helpers/Toast";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../services/catalogosServices";
-import { municipiosc } from "../../../../share/loadMunicipios";
 import SelectFrag from "../../Fragmentos/Select/SelectFrag";
 import Slider from "../../Slider";
 
@@ -53,7 +52,9 @@ const WorflowModal = ( {
             setEstatus(res.RESPONSE);
         }else if(operacion == 9){
             setPerfil(res.RESPONSE);
+            setslideropen(false);
         }
+       
       });
     }
 
@@ -86,6 +87,7 @@ const WorflowModal = ( {
     };
     const handleFilterChange7 = (v: string) => {
         console.log(v)
+        
         setidperfildestino(v);
     };
 
@@ -121,12 +123,9 @@ const WorflowModal = ( {
       };
 
     useEffect(() => {
-        loadFilter(6);
-        loadFilter(7);
-        loadFilter(8);
-        loadFilter(9);
         if (dt === '') {
         } else {
+         
             console.log(dt);
             setidproceso(dt.row.idproceso);
             setiddeporigen(dt.row.iddepartamentoOrigen);
@@ -135,15 +134,19 @@ const WorflowModal = ( {
             setidestatusdestino(dt.row.idestatusDestino);
             setidperfilorigen(dt.row.idPerfilOrigen);
             setidperfildestino(dt.row.idPerfilDestino);
+            
         }
-        setslideropen(false);
+        loadFilter(6);
+        loadFilter(7);
+        loadFilter(8);
+        loadFilter(9);
       }, [dt]);
 
   return (
-    <div>
+    <div><Slider open={slideropen}></Slider>
       <Dialog open={open}>
         <DialogContent>
-        <Slider open={slideropen}></Slider>
+        
           <Box>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <label className="Titulo">{tipo==1 ?"Agregar Registro":"Editar Registro"}</label>

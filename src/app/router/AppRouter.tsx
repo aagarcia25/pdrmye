@@ -46,7 +46,10 @@ import { RESPONSE } from '../interfaces/user/UserInfo';
 import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
 import { CalculoGarantiaComponente } from '../views/components/menu/articulos/CalculoGarantia/CalculoGarantiaComponente';
 import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de Usuario/PerfilesUsuario';
-import Workflow from '../views/components/menu/workflow/workflow';
+import Workflow from '../views/components/menu/Workflow/Workflow';
+import SolicitudRecursos from '../views/components/Municipios/SolicitudRecursos';
+import RecepcionRecursos from '../views/components/Municipios/RecepcionRecursos';
+
 
 
 export const AppRouter = () => {
@@ -80,9 +83,7 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/fondos'                     element={<Fondos />}      />
         <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
         <Route path='/inicio/wf'                                   element={log ? <Workflow /> : <AuthRouter />} />
-        {/*SECCION DE PARAMETROS GENERALES */}
-       <Route path='/inicio/catalogos/parametrosgenerales'  element={<ParametrosGenerales />} />
-       {/* FIN DE SECCION DE PARAMETROS GENERALES */}
+        <Route path='/inicio/catalogos/parametrosgenerales'  element={<ParametrosGenerales />} />
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
@@ -129,6 +130,8 @@ export const AppRouter = () => {
        {/* FIN DE SECCION DE ORGANISMOS */}
        {/* SECCION MUNICIPIOS */}
        <Route path='/inicio/contactomunicipio'  element={log ? <ContactoMunicipios /> : <AuthRouter />} />
+       <Route path='/inicio/recursos'  element={log ? <RecepcionRecursos /> : <AuthRouter />} />
+      {/* '  element={log ? <SolicitudRecursos /> : <AuthRouter />} /> */}
        {/* SECCION MUNICIPIOS */}
 
        
