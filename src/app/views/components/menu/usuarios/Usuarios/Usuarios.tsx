@@ -50,15 +50,15 @@ const Usuarios = () => {
   };
 
   const handleActivo = (v: any) => {
-   
-    let data = "?userId="+v.row.id;
-  console.log(data)
+
+    let data = "?userId=" + v.row.id;
+    console.log(data)
     UserServices.ActivateUser(data).then((res) => {
       console.log(res)
       console.log(v.row.id);
 
       if (res.status == 200) {
-        
+
         let dat = {
           NUMOPERACION: 6,
           CHID: v.row.id,
@@ -66,12 +66,8 @@ const Usuarios = () => {
         };
 
         AuthService.adminUser(dat).then((res) => {
-          if (res.SUCCESS) {
-            Toast.fire({
-              icon: "success",
-              title: "Activacion exitosa!",
-            });
-            consulta({ NUMOPERACION: 4 });            
+          if (res.SUCCESS) {           
+            consulta({ NUMOPERACION: 4 }, "activate");
           } else {
             Alert.fire({
               title: "Error!",
@@ -79,7 +75,7 @@ const Usuarios = () => {
               icon: "error",
             });
           }
-      
+
 
         });
 
@@ -242,21 +238,21 @@ const Usuarios = () => {
     },
   ];
 
-  const consulta = (data: any) => {
+  const consulta = (data: any, v: string) => {
     AuthService.adminUser(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        setData(res.RESPONSE);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: v=="activate"?"Activacion Exitosa": "Consulta Exitosa!",
+          });
+          setData(res.RESPONSE);
+        } else {
+          Alert.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
     });
   };
 
@@ -272,10 +268,10 @@ const Usuarios = () => {
         if (String(item.Referencia) == "EDIT") {
           setEditar(true);
         }
-        
+
       }
     });
-    consulta({ NUMOPERACION: 4 });
+    consulta({ NUMOPERACION: 4 }, "");
   }, []);
   return (
     <div>
