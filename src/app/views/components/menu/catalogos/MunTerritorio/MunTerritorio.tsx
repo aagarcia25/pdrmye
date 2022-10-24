@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  IconButton,
-} from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
-
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
@@ -18,8 +11,7 @@ import Swal from "sweetalert2";
 import MunTerritorioModal from "./MunTerritorioModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-
-
+import AccionesGrid from "../Utilerias/AccionesGrid";
 
 export const MunTerritorio = () => {
 
@@ -59,14 +51,7 @@ export const MunTerritorio = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEdit(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <AccionesGrid  controlInterno={"MUNTERR"} handleDelete={handleDelete} handleEditar={handleEdit}  ></AccionesGrid>
         );
       },
     },

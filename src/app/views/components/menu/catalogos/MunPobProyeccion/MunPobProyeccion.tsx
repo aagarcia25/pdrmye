@@ -17,6 +17,7 @@ import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { getPermisos, getUser } from '../../../../../services/localStorage';
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio';
+import AccionesGrid from '../Utilerias/AccionesGrid';
 
 
 export const MunPobProyeccion = () => {
@@ -30,7 +31,6 @@ export const MunPobProyeccion = () => {
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
 
   // VARIABLES PARA LOS FILTROS
@@ -58,14 +58,9 @@ export const MunPobProyeccion = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEditar(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleBorrar(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          
+          <AccionesGrid  controlInterno={"MUNPROYEC"} handleDelete={handleBorrar} handleEditar={handleEditar}  ></AccionesGrid>
+          
         );
       },
     },

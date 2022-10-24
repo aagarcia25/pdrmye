@@ -18,6 +18,7 @@ import { RESPONSE } from '../../../../../interfaces/user/UserInfo'
 import { getUser } from '../../../../../services/localStorage'
 import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
+import AccionesGrid from '../Utilerias/AccionesGrid'
 
 export const MunPobrezaExtrema = () => {
 
@@ -60,14 +61,8 @@ export const MunPobrezaExtrema = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEditar(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleBorrar(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <AccionesGrid  controlInterno={"MUNPOEX"} handleDelete={handleBorrar} handleEditar={handleEditar}  ></AccionesGrid>
+
         );
       },
     },

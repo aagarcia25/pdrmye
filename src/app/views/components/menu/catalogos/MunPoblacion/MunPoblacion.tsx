@@ -15,6 +15,7 @@ import SelectFrag from '../../../Fragmentos/Select/SelectFrag'
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
+import AccionesGrid from '../Utilerias/AccionesGrid'
 
 
 const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -61,7 +62,7 @@ export const MunPoblacion = () => {
       width: 200,
       renderCell: (v: any) => {
         return (
-          ""
+          <AccionesGrid  controlInterno={"MUNPOB"} handleDelete={handleBorrar} handleEditar={handleEditar}  ></AccionesGrid>
         );
       },
     },
@@ -230,7 +231,7 @@ export const MunPoblacion = () => {
     permisos.map((item: PERMISO) => {
       console.log(item.ControlInterno + ' --' + String(item.Referencia));
 
-      if (item.ControlInterno == 'MUNPOB') {
+      if (item.ControlInterno == "MUNPOB") {
         if (String(item.Referencia) == 'Editar') {
           setUpdate(true);
         }

@@ -19,6 +19,7 @@ import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { fanios } from "../../../../../share/loadAnios";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
+import AccionesGrid from "../Utilerias/AccionesGrid";
 
 export const MunRecaudacion = () => {
   const [modo, setModo] = useState("");
@@ -64,14 +65,9 @@ export const MunRecaudacion = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEdit(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          
+          <AccionesGrid  controlInterno={"MUNRECAU"} handleDelete={handleDelete} handleEditar={handleEdit}  ></AccionesGrid>
+
         );
       },
     },

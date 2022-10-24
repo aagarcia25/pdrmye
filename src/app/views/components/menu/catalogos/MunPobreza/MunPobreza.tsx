@@ -18,6 +18,7 @@ import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { RESPONSE } from '../../../../../interfaces/user/UserInfo'
 import { getUser } from '../../../../../services/localStorage'
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
+import AccionesGrid from '../Utilerias/AccionesGrid'
 
 export const MunPobreza = () => {
 
@@ -60,14 +61,8 @@ export const MunPobreza = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEditar(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleBorrar(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <AccionesGrid  controlInterno={"MUNPOBREZA"} handleDelete={handleBorrar} handleEditar={handleEditar}  ></AccionesGrid>
+
         );
       },
     },

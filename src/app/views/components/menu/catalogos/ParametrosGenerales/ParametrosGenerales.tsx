@@ -13,6 +13,7 @@ import { Box, IconButton } from "@mui/material";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import AccionesGrid from "../Utilerias/AccionesGrid";
 
 export const ParametrosGenerales = () => {
   const [parametroGeneral, setParametroGeneral] = useState([]);
@@ -49,14 +50,8 @@ export const ParametrosGenerales = () => {
       width: 150,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEdit(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <AccionesGrid  controlInterno={"PG"} handleDelete={handleDelete} handleEditar={handleEdit}  ></AccionesGrid>
+
         );
       },
     },
