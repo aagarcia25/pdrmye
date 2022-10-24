@@ -130,6 +130,22 @@ const DetalleFgp = ({
     };
 
     console.log(obj);
+    calculosServices.wf(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        handleClose();
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+
+    });
   }
   const BorraCalculo = () => {
     let data = {

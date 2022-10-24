@@ -13,7 +13,7 @@ import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
 
 import BotonesAcciones from "../../componentes/BotonesAcciones";
 import Swal from "sweetalert2";
-import WorflowModal from "../workflow/WorflowModal";
+import WorflowModal from "../Workflow/WorflowModal";
 
 
 const Workflow = () => {
