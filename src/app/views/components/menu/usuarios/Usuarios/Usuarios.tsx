@@ -67,7 +67,7 @@ const Usuarios = () => {
 
         AuthService.adminUser(dat).then((res) => {
           if (res.SUCCESS) {           
-            consulta({ NUMOPERACION: 4 }, "activate");
+            consulta({ NUMOPERACION: 4 }, "Activado");
           } else {
             Alert.fire({
               title: "Error!",
@@ -140,11 +140,12 @@ const Usuarios = () => {
       });*/
   };
 
-  const handleClose = () => {
+  const handleClose = (v:string) => {
     setOpenNew(false);
     setOpenConfigPerfil(false);
     setOpenConfigDep(false);
     setOpenRolConf(false);
+    consulta({ NUMOPERACION: 4 }, "Consulta Exitosa");
   };
   const handlePerfilConfiguracion = (v: any) => {
     setDt(v);
@@ -225,13 +226,13 @@ const Usuarios = () => {
           (Number(v.row.EstaActivo) == 0) ?
             <Box>
               <Tooltip title={"Activar Usuario"}>
-                <IconButton color="info" onClick={() => handleActivo(v)}>
+                <IconButton color="success" onClick={() => handleActivo(v)}>
                   <HowToRegIcon />
                 </IconButton>
               </Tooltip>
 
             </Box>
-            : ""
+            : "Activado"
 
         );
       },
@@ -243,7 +244,7 @@ const Usuarios = () => {
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: v=="activate"?"Activacion Exitosa": "Consulta Exitosa!",
+            title: v,
           });
           setData(res.RESPONSE);
         } else {
@@ -271,7 +272,7 @@ const Usuarios = () => {
 
       }
     });
-    consulta({ NUMOPERACION: 4 }, "");
+    consulta({ NUMOPERACION: 4 }, "Consulta Exitosa");
   }, []);
   return (
     <div>

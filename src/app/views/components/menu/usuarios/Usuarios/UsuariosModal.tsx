@@ -134,6 +134,7 @@ const UsuariosModal = ({
                           icon: "success",
                           title: tipo == 3 ? "¡Registro exitoso!" : ""
                         });
+                        handleClose("Registro Exitoso");
 
                       }
 

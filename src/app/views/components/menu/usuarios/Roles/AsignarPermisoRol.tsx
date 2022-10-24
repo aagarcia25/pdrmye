@@ -53,7 +53,7 @@
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "Menu Eliminado!",
+            title: "Permiso Asignado!",
           });
           consulta({CHID: dt?.row?.id, IDROL:id });
         } else {
