@@ -16,6 +16,8 @@ import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import DepartamentoConfig from "./DepartamentoConfig";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import RolesConfig from "./RolesConfig";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { UserServices } from "../../../../../services/UserServices";
 import { getPermisos } from "../../../../../services/localStorage";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 const Usuarios = () => {
@@ -24,6 +26,7 @@ const Usuarios = () => {
   const [openConfigPerfil, setOpenConfigPerfil] = useState(false);
   const [openConfigDep, setOpenConfigDep] = useState(false);
   const [openNew, setOpenNew] = useState(false);
+  const [userActive, setUserActive] = useState<boolean>();
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [row, setRow] = useState({});
   const [id, setId] = useState("");
@@ -45,6 +48,35 @@ const Usuarios = () => {
     setRow(v);
     setOpenNew(true);
   };
+
+  const handleActivo = (v: any) => {
+   
+    let data = {
+      userId: v.row.id,
+    }
+
+    UserServices.ActivateUser(data).then((res) => {
+      console.log(res);
+      console.log(v.row.id);
+
+      if (res.status == 200) {
+        Toast.fire({
+          icon: "success",
+          title: "Activacion exitosa!",
+        });
+      }
+      else if (res.status == 409) {
+        Alert.fire({
+          title: "Error!",
+          text: res.data.msg,
+          icon: "error",
+        });
+      }
+    });
+
+
+  };
+
 
   const handleDelete = (v: any) => {
     /*  Swal.fire({
@@ -130,7 +162,7 @@ const Usuarios = () => {
       headerName: "Correo Electronico",
       width: 200,
     },
-    { field: "Tipo", headerName: "Tipo", width: 200 },
+    { field: "Tipo", headerName: "Tipo", width: 100 },
 
     {
       field: "acciones",
@@ -168,6 +200,24 @@ const Usuarios = () => {
 
 
           </Box>
+        );
+      },
+    },
+    {
+      field: "EstaActivo", headerName: "Activo", width: 100,
+      renderCell: (v: any) => {
+        return (
+          (Number(v.row.EstaActivo) == 0) ?
+            <Box>
+              <Tooltip title={"Activar Usuario"}>
+                <IconButton color="info" onClick={() => handleActivo(v)}>
+                  <HowToRegIcon />
+                </IconButton>
+              </Tooltip>
+
+            </Box>
+            : ""
+
         );
       },
     },
@@ -211,12 +261,12 @@ const Usuarios = () => {
   return (
     <div>
 
-      {openRolConf ? 
+      {openRolConf ?
         <RolesConfig
           id={id}
           open={openRolConf}
           handleClose={handleClose}></RolesConfig>
-       : 
+        :
         ""
       }
 
