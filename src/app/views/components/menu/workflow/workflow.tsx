@@ -5,15 +5,9 @@ import MUIXDataGrid from "../../MUIXDataGrid";
 import ButtonsAdd from "../catalogos/Utilerias/ButtonsAdd";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-<<<<<<< Updated upstream
-import { CatalogosServices } from '../../../../services/catalogosServices';
-import { Toast } from '../../../../helpers/Toast';
-import { Alert } from '../../../../helpers/Alert';
-import WorflowModal from '../workflow/WorflowModal';
 
 
 
-=======
 import { CatalogosServices } from "../../../../services/catalogosServices";
 import { Toast } from "../../../../helpers/Toast";
 import { Alert } from "../../../../helpers/Alert";
@@ -22,7 +16,6 @@ import { getPermisos, getUser } from "../../../../services/localStorage";
 import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../componentes/BotonesAcciones";
 import Swal from "sweetalert2";
->>>>>>> Stashed changes
 
 const Workflow = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));

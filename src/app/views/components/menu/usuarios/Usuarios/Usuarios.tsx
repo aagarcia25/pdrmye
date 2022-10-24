@@ -51,17 +51,38 @@ const Usuarios = () => {
 
   const handleActivo = (v: any) => {
    
-    let data = "?userId="+ v.row.id;
-  
+    let data = "?userId="+v.row.id;
+  console.log(data)
     UserServices.ActivateUser(data).then((res) => {
-      console.log(res);
+      console.log(res)
       console.log(v.row.id);
 
       if (res.status == 200) {
-        Toast.fire({
-          icon: "success",
-          title: "Activacion exitosa!",
+        
+        let dat = {
+          NUMOPERACION: 6,
+          CHID: v.row.id,
+
+        };
+
+        AuthService.adminUser(dat).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Activacion exitosa!",
+            });
+            consulta({ NUMOPERACION: 4 });            
+          } else {
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+      
+
         });
+
       }
       else if (res.status == 409) {
         Alert.fire({
