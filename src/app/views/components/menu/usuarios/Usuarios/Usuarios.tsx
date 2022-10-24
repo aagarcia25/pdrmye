@@ -51,10 +51,8 @@ const Usuarios = () => {
 
   const handleActivo = (v: any) => {
    
-    let data = {
-      userId: v.row.id,
-    }
-
+    let data = "?userId="+ v.row.id;
+  
     UserServices.ActivateUser(data).then((res) => {
       console.log(res);
       console.log(v.row.id);
