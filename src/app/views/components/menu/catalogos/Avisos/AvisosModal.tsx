@@ -685,20 +685,13 @@ return (
               </Box>
 
             </Box>
-
           </Box>
-
-
-
           {////// botones 
           }
 
           <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
             <button className="cerrar" onClick={() => handleClose()}  >Cerrar</button>
             <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
-
-
-
           </Box>
 
         </Container>
@@ -707,9 +700,6 @@ return (
       : ""}
 
   </Dialog>
-
-
-
 );
 };
 

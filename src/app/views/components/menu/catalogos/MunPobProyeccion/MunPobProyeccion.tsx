@@ -8,15 +8,15 @@ import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { Alert } from "../../../../../helpers/Alert";
-import Buttons from '../Utilerias/Buttons'
 import Slider from "../../../Slider";
 import MunPoblacionProyeccionModal from '../MunPobProyeccion/MunPoblacionProyeccionModal';
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { RESPONSE } from '../../../../../interfaces/user/UserInfo';
-import { getUser } from '../../../../../services/localStorage';
+import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { getPermisos, getUser } from '../../../../../services/localStorage';
+import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio';
 
 
 export const MunPobProyeccion = () => {
@@ -30,6 +30,7 @@ export const MunPobProyeccion = () => {
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
 
   // VARIABLES PARA LOS FILTROS
@@ -211,6 +212,7 @@ export const MunPobProyeccion = () => {
 
 
   useEffect(() => {
+    
     setAnios(fanios());
     downloadplantilla();
   }, []);
@@ -220,7 +222,7 @@ export const MunPobProyeccion = () => {
   return (
 
 
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: 500, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
       <Box  
@@ -245,11 +247,9 @@ export const MunPobProyeccion = () => {
         ""
       )}
 
-      <Buttons
-        handleOpen={handleOpen}
+      <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleAgregar}
-      />
+        handleUpload={handleAgregar} controlInterno={"MUNPROYEC"}      />
       <MUIXDataGrid columns={columns} rows={Poblacion} />
 
     </div>

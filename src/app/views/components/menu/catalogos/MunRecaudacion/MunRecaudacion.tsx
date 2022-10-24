@@ -6,7 +6,8 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
-import Buttons from "../Utilerias/Buttons";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
@@ -243,11 +244,9 @@ export const MunRecaudacion = () => {
         ""
       )}
 
-      <Buttons
-        handleOpen={handleOpen}
+      <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload}
-      />
+        handleUpload={handleUpload} controlInterno={"MUNRECAU"}      />
       <MUIXDataGrid columns={columns} rows={Facturacion} />
     </div>
   );

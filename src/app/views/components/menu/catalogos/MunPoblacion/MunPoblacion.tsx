@@ -8,13 +8,13 @@ import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { Alert } from "../../../../../helpers/Alert";
 import Slider from "../../../Slider";
-import Buttons from '../Utilerias/Buttons'
 import MunPoblacionModal from './MunPoblacionModal'
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import { PERMISO, RESPONSE} from '../../../../../interfaces/user/UserInfo'
 import SelectFrag from '../../../Fragmentos/Select/SelectFrag'
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
 
 
 const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -272,11 +272,9 @@ export const MunPoblacion = () => {
       ) : (
         ""
       )}
-      <Buttons
-        handleOpen={handleOpen}
+      <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleAgregar}
-      />
+        handleUpload={handleAgregar} controlInterno={"MUNPO"}      />
 
       <MUIXDataGrid
         columns={columns}

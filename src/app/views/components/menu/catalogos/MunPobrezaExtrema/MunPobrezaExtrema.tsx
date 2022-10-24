@@ -9,7 +9,6 @@ import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { Alert } from "../../../../../helpers/Alert";
-import Buttons from '../Utilerias/Buttons'
 import Slider from "../../../Slider";
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
@@ -18,6 +17,7 @@ import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { RESPONSE } from '../../../../../interfaces/user/UserInfo'
 import { getUser } from '../../../../../services/localStorage'
 import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
+import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
 
 export const MunPobrezaExtrema = () => {
 
@@ -257,11 +257,9 @@ export const MunPobrezaExtrema = () => {
         ""
       )}
 
-      <Buttons
-        handleOpen={handleOpen}
+      <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleAgregar}
-      />
+        handleUpload={handleAgregar} controlInterno={"MUNPOEX"}      />
 
       <MUIXDataGrid columns={columns} rows={PobrezaExtrema} />
 

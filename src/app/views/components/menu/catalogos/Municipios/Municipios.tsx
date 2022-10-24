@@ -9,8 +9,8 @@ import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import MunicipiosModal from "./MunicipiosModal";
-import Buttons from "../Utilerias/Buttons";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 
 export const Municipios = () => {
   const [municipio, setMunicipio] = useState([]);
@@ -204,7 +204,6 @@ export const Municipios = () => {
   };
 
   useEffect(() => {
-    console.log();
     let data = {
       NUMOPERACION: 4,
     };
@@ -230,11 +229,9 @@ export const Municipios = () => {
         ""
       )}
 
-      <Buttons
-        handleOpen={handleOpen}
+      <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload}
-      />
+        handleUpload={handleUpload} controlInterno={"MUNICIPIOS"}      />
 
       <MUIXDataGrid sx={{}} columns={columns} rows={municipio} />
     </div>

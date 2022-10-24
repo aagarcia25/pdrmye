@@ -9,7 +9,8 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
-import Buttons from "../Utilerias/Buttons";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
@@ -229,7 +230,7 @@ export const MunTerritorio = () => {
 
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: 500, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
 
@@ -246,11 +247,9 @@ export const MunTerritorio = () => {
         ""
       )}
 
-      <Buttons
-        handleOpen={handleOpen}
+      <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload}
-      />
+        handleUpload={handleUpload} controlInterno={"MUNTERR"}      />
       <MUIXDataGrid columns={columns} rows={territorio} />
 
     </div>
