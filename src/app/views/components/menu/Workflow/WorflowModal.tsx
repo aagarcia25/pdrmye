@@ -30,6 +30,7 @@ const WorflowModal = ( {
     const [estatus, setEstatus] = useState<SelectValues[]>([]);
     const [perfil, setPerfil] = useState<SelectValues[]>([]);
    
+    const [id, setId] = useState("");
     const [idproceso, setidproceso] = useState("");
     const [iddeporigen, setiddeporigen] = useState("");
     const [iddepdestino, setiddepdestino] = useState("");
@@ -96,6 +97,7 @@ const WorflowModal = ( {
 
     const handleSend = () => {
         let data = {
+            CHID:id,
             NUMOPERACION: tipo,
             DO: iddeporigen,
             DD: iddepdestino,
@@ -127,6 +129,7 @@ const WorflowModal = ( {
         } else {
          
             console.log(dt);
+            setId(dt.row.id);
             setidproceso(dt.row.idproceso);
             setiddeporigen(dt.row.iddepartamentoOrigen);
             setiddepdestino(dt.row.iddepartamentoDestino);

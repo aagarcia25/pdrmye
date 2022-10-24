@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import { messages } from "../../../../styles";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import MenuRelPermisos from "./MenuRelPermisos";
@@ -104,7 +103,6 @@ const Menus = () => {
       headerName: "Identificador",
       hide: true,
       width: 150,
-      description: messages.dataTableColum.id,
     },
     {
       field: "Menu",

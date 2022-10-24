@@ -55,7 +55,7 @@
             icon: "success",
             title: "Menu Eliminado!",
           });
-          consulta({CHID: dt?.row?.id });
+          consulta({CHID: dt?.row?.id, IDROL:id });
         } else {
           Alert.fire({
             title: "Error!",
@@ -92,7 +92,7 @@
   
   
     useEffect(() => {
-      consulta({ CHID: dt?.row?.id });
+      consulta({ CHID: dt?.row?.id ,IDROL:id});
       console.log(dt);
     }, []);
   

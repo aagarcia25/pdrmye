@@ -1,6 +1,5 @@
 import {
   Box,
-  IconButton,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
@@ -13,6 +12,7 @@ import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 
 const BotonesOpciones = ({
+  estatus,
   handleAccion,
   autorizar,
   cancelar,
@@ -20,6 +20,7 @@ const BotonesOpciones = ({
   enviar,
   presupuesto,
 }: {
+  estatus: string,
   handleAccion: Function;
   autorizar: boolean;
   cancelar: boolean;
@@ -37,7 +38,7 @@ const BotonesOpciones = ({
             </ToggleButton>
           </Tooltip>
 
-          {autorizar ? (
+          {autorizar  && estatus=="INICIO" ? (
             <Tooltip title="Autorizar">
               <ToggleButton value="check" onClick={() => handleAccion(2)}>
                 <DoneAllIcon />
@@ -46,7 +47,7 @@ const BotonesOpciones = ({
           ) : (
             ""
           )}
-          {cancelar ? (
+          {cancelar && estatus=="INICIO" ? (
             <Tooltip title="Cancelar">
               <ToggleButton value="check" onClick={() => handleAccion(3)}>
                 <CancelPresentationIcon />
@@ -55,7 +56,7 @@ const BotonesOpciones = ({
           ) : (
             ""
           )}
-          {enviar ? (
+          {enviar && estatus=="AUTORIZADO" ? (
             <Tooltip title="Enviar">
               <ToggleButton value="check" onClick={() => handleAccion(4)}>
                 <SendIcon />
@@ -74,7 +75,7 @@ const BotonesOpciones = ({
             ""
           )}
 
-          {presupuesto ? (
+          {presupuesto && estatus=="PRESUPUESTO"? (
             <Tooltip title="Asignar Presupuesto Global">
               <ToggleButton value="check" onClick={() => handleAccion(6)}>
               <AttachMoneyIcon />

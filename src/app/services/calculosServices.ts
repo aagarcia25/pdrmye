@@ -41,6 +41,8 @@ export class calculosServices {
     public static async getEstatusCalculo(data: any) {
         return await post('getEstatusCalculo', data);
     }
-    
+    public static async wf(data: any) {
+        return await post('wf', data);
+    }
 
 }

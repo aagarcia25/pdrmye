@@ -340,8 +340,8 @@ const DetalleFondo = ({
                 cancelar={cancelar}
                 verTrazabilidad={verTrazabilidad}
                 enviar={enviar}
-                presupuesto={true}
-                />
+                presupuesto={true} 
+                estatus={""}                />
 
               <MUIXDataGrid columns={columns} rows={data} />
 
