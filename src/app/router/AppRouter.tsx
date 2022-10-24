@@ -48,7 +48,7 @@ import { CalculoGarantiaComponente } from '../views/components/menu/articulos/Ca
 import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de Usuario/PerfilesUsuario';
 import SolicitudRecursos from '../views/components/Municipios/SolicitudRecursos';
 import RecepcionRecursos from '../views/components/Municipios/RecepcionRecursos';
-import Workflow from '../views/components/menu/workflow/Worflow';
+import Workflow from '../views/components/menu/Workflow/Worflow';
 
 
 

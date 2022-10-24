@@ -35,8 +35,6 @@ const DetalleFgp = ({
   anio: number;
   mes: string;
 }) => {
-
-
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [status, setStatus] = useState<string>("");
@@ -49,7 +47,7 @@ const DetalleFgp = ({
   const [presupuesto, setPresupuesto] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [proceso, setProceso] = useState(""); //VARIABLE PARA DETERMINAR EL PROCESO QUE SE ESTA REALIZANDO
-  const [tipoAccion, setTipoAccion] = useState("")
+  const [tipoAccion, setTipoAccion] = useState("");
   const [openSlider, setOpenSlider] = useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -86,7 +84,7 @@ const DetalleFgp = ({
         break;
 
       case 4: //Enviar
-       setTipoAccion("Favor de ingresar un comentario para el Envio");
+        setTipoAccion("Favor de ingresar un comentario para el Envio");
         UpdateCalculo("ENVIADO");
         break;
 
@@ -95,8 +93,16 @@ const DetalleFgp = ({
         break;
 
       case 6: //Asignar Presupuesto
-       setTipoAccion("Favor de ingresar un comentario para la asignación del Presupuesto");
+        setTipoAccion(
+          "Favor de ingresar un comentario para la asignación del Presupuesto"
+        );
         agregarPresupuesto(true);
+        break;
+
+      case 7: //Asignar Presupuesto
+      setTipoAccion("Favor de ingresar un comentario para el Envio");
+      UpdateCalculo("INICIO");
+        
         break;
 
       default:
@@ -108,8 +114,7 @@ const DetalleFgp = ({
     console.log(data);
   };
 
-  const UpdateCalculo = (estatus: string) => 
-  {
+  const UpdateCalculo = (estatus: string) => {
     setStatusDestino(estatus);
     setOpenModal(true);
   };
@@ -118,19 +123,19 @@ const DetalleFgp = ({
     setOpenModal(false);
   };
 
-  const Fnworkflow =(data: any)=>{
-    console.log(data);
-    let obj={
-      IDCALCULO:       idCalculo,
+  const Fnworkflow = (data: any) => {
+   
+    let obj = {
+      IDCALCULO: idCalculo,
       ESTATUS_DESTINO: statusDestino,
-      ESTATUS_ORIGEN:  status,
-      IDUSUARIO:       user.id,
-      PROCESO:         proceso,
-      TEXTO:           data.texto
+      ESTATUS_ORIGEN: status,
+      IDUSUARIO: user.id,
+      PROCESO: proceso,
+      TEXTO: data.texto,
     };
 
     console.log(obj);
-    calculosServices.wf(data).then((res) => {
+    calculosServices.wf(obj).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -144,9 +149,8 @@ const DetalleFgp = ({
           icon: "error",
         });
       }
-
     });
-  }
+  };
   const BorraCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -420,9 +424,9 @@ const DetalleFgp = ({
   ];
 
   const EstablecePermisos = () => {
-    if(clave === "ICV" || clave === "ISN"){
+    if (clave === "ICV" || clave === "ISN") {
       setProceso("PARTICIPACIONES_ESTATALES_CPH");
-    }else{
+    } else {
       setProceso("PARTICIPACIONES_FEDERALES_CPH");
     }
 
@@ -452,7 +456,6 @@ const DetalleFgp = ({
     EstatusCalculo();
     columnas({ IDCALCULOTOTAL: idDetalle });
     consulta({ IDCALCULOTOTAL: idDetalle });
-   
   }, [status]);
 
   return (
@@ -466,7 +469,7 @@ const DetalleFgp = ({
               handleClose={FnworkflowClose}
               vrows={""}
               handleAccion={Fnworkflow}
-                           ></ModalAlert>
+            ></ModalAlert>
           ) : (
             ""
           )}
@@ -526,7 +529,7 @@ const DetalleFgp = ({
             sx={{ justifyContent: "center", width: "100%" }}
           >
             <Grid item xs={7} md={8} lg={8}>
-              <label className="subtitulo">
+              <label >
                 Estatus del Cálculo: {status} <br />
               </label>
             </Grid>

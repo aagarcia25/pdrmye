@@ -37,20 +37,13 @@ const ModalAlert = ({
               
              
 
-            <label> <h3> Nuevo Mensaje</h3> </label>
+            <label> <h3> Comentarios:</h3> </label>
             <textarea
                     required
                     spellCheck='true'
                     rows={10}
                     onChange={(v) => setMensaje(v.target.value)}
                     style={{ width: "100%", borderRadius: 15, }} />
-             
-
-
-
-
-            
-
             </Box>
           </DialogContent>
 
