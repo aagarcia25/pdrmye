@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Box, IconButton } from "@mui/material";
+
 import { GridColDef } from "@mui/x-data-grid";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import ButtonsAdd from "../catalogos/Utilerias/ButtonsAdd";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-
-
-
 import { CatalogosServices } from "../../../../services/catalogosServices";
 import { Toast } from "../../../../helpers/Toast";
 import { Alert } from "../../../../helpers/Alert";
-import WorflowModal from "./WorflowModal";
 import { getPermisos, getUser } from "../../../../services/localStorage";
 import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+
 import BotonesAcciones from "../../componentes/BotonesAcciones";
 import Swal from "sweetalert2";
+import WorflowModal from "../workflow/WorflowModal";
+
 
 const Workflow = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));
