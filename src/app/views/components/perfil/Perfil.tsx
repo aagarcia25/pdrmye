@@ -203,33 +203,47 @@ export const Perfil = () => {
                         //Anio
                         display: "flex",
                         justifyContent: "start",
-                         backgroundColor: "violet",
+                        // backgroundColor: "violet",
                       }}
                     >
-                       {user.RutaFoto ? (
+                      
+                      <Box sx={{
+                        width:"4vw",
+                        height:"6vh",
+                        backgroundColor:"white",
+                        borderRadius: '50%',
+                        border:3,
+                        borderColor:"black",
+                        display:"flex",
+                        justifyContent:"center",
+                        alignItems:"center"
+                      }}>
+                         {user.RutaFoto ? (
                         <img
                           style={{
                             objectFit: "scale-down",
                             width: "3vw",
-                            height: "7vh"
                           }}
                           src={user.RutaFoto}
                         />
                       ) : (
                         <PersonIcon
                           sx={{
-                            width: "3vw",
-                            height: "7vh",
-                            border: 1,
+                            width: "10vw",
+                            height: "4vh",
+                            
                           }}
                         />
                       )}
+
+                      </Box>
+                      
                       <Box
                     sx={{
                       width: "25%",
                       height: "100%",
                       justifyContent: "start",
-                      backgroundColor: "yellow",
+                      backgroundColor: "white",
                       display: "flex",
                       flexDirection: "column",
                     }}>
