@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Dialog, Grid } from "@mui/material";
+import { Box, Dialog, Grid, IconButton, Tooltip } from "@mui/material";
 import { Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
 import { Alert } from "../../../../helpers/Alert";
@@ -14,7 +14,7 @@ import BotonesOpciones from "../../componentes/BotonesOpciones";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import Trazabilidad from "../../Trazabilidad";
 import Swal from "sweetalert2";
-
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 
 const DetalleFgp = ({
   idCalculo,
@@ -96,6 +96,10 @@ const DetalleFgp = ({
       default:
         break;
     }
+  };
+
+  const agregarPresupuesto = (data: any) => {
+    console.log(data);
   };
 
 
@@ -366,22 +370,42 @@ const DetalleFgp = ({
       description: "Total",
       ...Moneda,
     },
+
+    {
+      //hide: status=='PRESUPUESTO'  ? false : true,
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Ver detalle de Cálculo",
+      sortable: false,
+      width: 150,
+      renderCell: (v:any ) => {
+        return (
+          <Box>
+            <Tooltip title="Asignar Presupuesto">
+              <IconButton onClick={() => agregarPresupuesto(v)}>
+                <AttachMoneyIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
   ];
 
 
 const EstablecePermisos =(status:string)=>{
   permisos.map((item: PERMISO) => {
     if (String(item.ControlInterno) === String(clave)) {
-      if (String(item.Permiso) == "Autorizar" && estatus != "CERRADO" && status==="INICIO" ) {
+      if (String(item.Referencia) == "Autorizar" && estatus != "CERRADO" && status==="INICIO" ) {
         setAutorizar(true);
       }
-      if (String(item.Permiso) == "Cancelar" && estatus != "CERRADO" && status==="INICIO" ) {
+      if (String(item.Referencia) == "Cancelar" && estatus != "CERRADO" && status==="INICIO" ) {
         setCancelar(true);
       }
-      if (String(item.Permiso) == "Ver Trazabilidad") {
+      if (String(item.Referencia) == "Ver Trazabilidad") {
         setVerTrazabilidad(true);
       }
-      if (String(item.Permiso) == "Enviar" && estatus != "CERRADO" && status==="APROBADO") {
+      if (String(item.Referencia) == "Enviar" && estatus != "CERRADO" && status==="APROBADO") {
         setEnviar(true);
       }
     }
@@ -451,8 +475,9 @@ const EstablecePermisos =(status:string)=>{
                 autorizar={autorizar}
                 cancelar={cancelar}
                 verTrazabilidad={verTrazabilidad}
-                enviar={enviar}
-              />
+                enviar={enviar} 
+                presupuesto={true}
+                              />
 
               <MUIXDataGrid columns={columns} rows={data} />
 

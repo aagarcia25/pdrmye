@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Box, IconButton } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import MUIXDataGrid from '../../../MUIXDataGrid'
-import { getUser } from '../../../../../services/localStorage';
-import { RESPONSE } from '../../../../../interfaces/user/UserInfo';
-import { messages } from '../../../../styles';
+import { getPermisos, getUser } from '../../../../../services/localStorage';
+import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import Swal from 'sweetalert2';
 import { Alert } from '../../../../../helpers/Alert';
 import { Toast } from '../../../../../helpers/Toast';
 import { DepartamentosModal } from './DepartamentosModal';
 import ButtonsAdd from '../Utilerias/ButtonsAdd';
+import BotonesAcciones from '../../../componentes/BotonesAcciones';
+import MUIXDataGrid from '../../../MUIXDataGrid';
 
 export const Departamentos = () => {
 
@@ -21,19 +18,22 @@ export const Departamentos = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
-  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  
   const columns: GridColDef[] = [
     {
       field: "id",
       hide: true,
       headerName: "Identificador",
       width: 150,
-      description: messages.dataTableColum.id,
     },
     { field: "NombreCorto", headerName: "Nomenclatura", width: 120 },
-    { field: "Descripcion", headerName: "Descripción", width: 150 },
+    { field: "Descripcion", headerName: "Descripción", width: 450 },
     { field: "Responsable", headerName: "Responsable", width: 150 },
     {
       field: "acciones",
@@ -43,41 +43,25 @@ export const Departamentos = () => {
       width: 150,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEdit(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+         <BotonesAcciones 
+         handleAccion={handleAccion}
+          row={v} 
+          editar={editar} 
+          eliminar={eliminar} />
         );
       },
     },
 
   ];
 
-  const handleClose = () => {
-    setOpen(false);
-    consulta({ NUMOPERACION: 4 });
-  };
-
-  const handleOpen = (v: any) => {
-    setTipoOperacion(1);
-    setModo("Agregar Registro");
-    setOpen(true);
-    setVrows("");
-  };
-
-  const handleEdit = (v: any) => {
+  const handleAccion=(v: any)=>{
+   if(v.tipo ==1){
     console.log(v);
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
     setVrows(v);
-  };
-
-  const handleDelete = (v: any) => {
+   }else if(v.tipo ==2){
     Swal.fire({
       icon: "info",
       title: "Estas seguro de eliminar este registro?",
@@ -120,6 +104,19 @@ export const Departamentos = () => {
         Swal.fire("No se realizaron cambios", "", "info");
       }
     });
+   }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    consulta({ NUMOPERACION: 4 });
+  };
+
+  const handleOpen = (v: any) => {
+    setTipoOperacion(1);
+    setModo("Agregar Registro");
+    setOpen(true);
+    setVrows("");
   };
 
   const consulta = (data: any) => {
@@ -142,7 +139,23 @@ export const Departamentos = () => {
   };
 
   useEffect(() => {
-    consulta({ NUMOPERACION: 4 });
+   
+    permisos.map((item: PERMISO) => {
+    if (String(item.ControlInterno) === "DEP") {
+      console.log(item)
+      if (String(item.Referencia) == "AGREG") {
+        setAgregar(true);
+      }
+      if (String(item.Referencia) == "ELIM") {
+        setEliminar(true);
+      }
+      if (String(item.Referencia) == "EDIT") {
+        setEditar(true);
+      }
+      
+    }
+  });
+  consulta({ NUMOPERACION: 4 });
   }, []);
 
   return (
@@ -158,7 +171,7 @@ export const Departamentos = () => {
       ) : (
         ""
       )}
-      <ButtonsAdd handleOpen={handleOpen} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={departamento} />
     </div>
   );

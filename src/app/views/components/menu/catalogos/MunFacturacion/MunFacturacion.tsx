@@ -17,7 +17,6 @@ import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import MunFacturacionModal from "./MunFacturacionModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import AccionesGrid from "../../../AccionesGrid";
 import { currencyFormatter } from "../../CustomToolbar";
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
@@ -78,7 +77,7 @@ export const MunFacturacion = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <AccionesGrid handleEditar={handleEdit} handleBorrar={handleDelete} v={v} update={true} pdelete={true} />
+          ""
         );
       },
     },

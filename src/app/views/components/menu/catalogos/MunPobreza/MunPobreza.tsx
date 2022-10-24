@@ -22,7 +22,6 @@ import { getUser } from '../../../../../services/localStorage'
 export const MunPobreza = () => {
 
 
-  const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
@@ -94,7 +93,6 @@ export const MunPobreza = () => {
   }
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
-    setModo("Agregar Registro");
     setOpen(true);
     setData(v);
   };
@@ -103,7 +101,6 @@ export const MunPobreza = () => {
   const handleEditar = (v: any) => {
     console.log(v)
     setTipoOperacion(2);
-    setModo("Editar Registro");
     setOpen(true);
     setData(v);
 
@@ -258,7 +255,6 @@ export const MunPobreza = () => {
       {open ? (
         <MunPobrezaModal
           open={open}
-          modo={modo}
           handleClose={handleClose}
           tipo={tipoOperacion}
           dt={data}

@@ -85,7 +85,7 @@ const Roles = () => {
    
 
   };
-  const handleNuevoRegistro = () => {
+  const handleOpen = () => {
     setTipoOperacion(1);
     setModo("Agregar Rol");
     setOpenRolesModalAdd(true);
@@ -203,14 +203,12 @@ const Roles = () => {
         : ""}
 
 
-      <ButtonsAdd handleOpen={handleNuevoRegistro} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={false} />
       <MUIXDataGrid columns={columns} rows={data} />
     </div>
   );
 };
 
 export default Roles;
-function setOpenRel(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}
+
 

@@ -135,7 +135,7 @@ export const Eventos = () => {
   };
 
 
-  const handleNuevoRegistro = () => {
+  const handleOpen = () => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
@@ -210,7 +210,7 @@ export const Eventos = () => {
       <Box sx={{}}>
        
       </Box>
-      <ButtonsAdd handleOpen={handleNuevoRegistro} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={false} />
       <MUIXDataGrid columns={columns} rows={conEventos} />
 
 

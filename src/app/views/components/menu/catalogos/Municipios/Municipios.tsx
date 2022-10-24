@@ -5,7 +5,6 @@ import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import AccionesGrid from "../../../AccionesGrid";
 import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
@@ -90,13 +89,7 @@ export const Municipios = () => {
       width: 150,
       renderCell: (v) => {
         return (
-          <AccionesGrid
-            handleEditar={handleEdit}
-            handleBorrar={handleDelete}
-            v={v}
-            update={true}
-            pdelete={true}
-          />
+       ""
         );
       },
     },

@@ -158,18 +158,13 @@ export const Perfil = () => {
                   // backgroundColor: "blue"
                 }}
               >
-                <Grid container
-                  sx={{
-                    //Anio
-                    alignItems: "center",
-                    display: "flex",
-                  }}>
+                <Grid container>
                   <Grid
                     item
                     xs={12}
                     sx={{
                       //Anio
-                      alignItems: "center",
+                      display: "flex",
                       justifyContent: "start",
                       // backgroundColor: "white",
                     }}
@@ -179,42 +174,7 @@ export const Perfil = () => {
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container
-                  sx={{
-                    //Anio
-                  
-                  }}>
-                  <Box
-                    sx={{
-                      width: "25%",
-                      height: "100%",
-                      justifyContent: "start",
-                      ///backgroundColor: "yellow",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}>
-
-                    {user.RutaFoto ? (
-                      <img className="rounded-corners"
-                        style={{
-                          objectFit: "scale-down",
-                          width: "19vw",
-                          height: "20vh",
-                          border: 1,
-                        }}
-                        src={user.RutaFoto}
-                      />
-                    ) : (
-                      <PersonIcon
-                        sx={{
-                          width: "19vw",
-                          height: "20vh",
-                          border: 1,
-                        }}
-                      />
-                    )}
-                  </Box>
-                </Grid>
+                
 
               </Box>
               <Box
@@ -243,10 +203,38 @@ export const Perfil = () => {
                         //Anio
                         display: "flex",
                         justifyContent: "start",
-                        // backgroundColor: "violet",
+                         backgroundColor: "violet",
                       }}
                     >
+                       {user.RutaFoto ? (
+                        <img
+                          style={{
+                            objectFit: "scale-down",
+                            width: "3vw",
+                            height: "7vh"
+                          }}
+                          src={user.RutaFoto}
+                        />
+                      ) : (
+                        <PersonIcon
+                          sx={{
+                            width: "3vw",
+                            height: "7vh",
+                            border: 1,
+                          }}
+                        />
+                      )}
+                      <Box
+                    sx={{
+                      width: "25%",
+                      height: "100%",
+                      justifyContent: "start",
+                      backgroundColor: "yellow",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}>
 
+                  </Box>
                     </Grid>
                     <Grid
                       item //Botón Cambiar

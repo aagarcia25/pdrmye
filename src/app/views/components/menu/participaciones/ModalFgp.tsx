@@ -245,6 +245,10 @@ const ModalFgp = ({
       // AJUSTE ESTATAL
       if(labelAjuste == 10 ){
         AjusteEstatal();
+      }else if(labelAjuste == 9){
+        AjusteEstatal();
+      }else if(labelAjuste == 8){
+        AjusteEstatal();
       }
 
 
@@ -416,7 +420,7 @@ const ModalFgp = ({
               </Box>
             </Grid>
 
-            {labelAjuste == 10 ? (
+            {labelAjuste == 10 || labelAjuste == 8 || labelAjuste == 9 ? (
               <>
                 <Grid
                   item

@@ -12,6 +12,7 @@ import WorflowModal from '../workflow/WorflowModal';
 
 
 
+
 const Workflow = () => {
     const [data, setData] = useState([]);
     const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -163,7 +164,7 @@ const Workflow = () => {
         ""
       )}
 
-    <ButtonsAdd handleOpen={handleOpen} />
+    <ButtonsAdd handleOpen={handleOpen} agregar={false} />
     <MUIXDataGrid columns={columns} rows={data} />
   </div>
 

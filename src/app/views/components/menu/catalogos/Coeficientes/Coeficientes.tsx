@@ -168,7 +168,7 @@ export const Coeficientes = () => {
   return (
     <div style={{ height: 600, width: "100%" }}>
 
-      <ButtonsAdd handleOpen={handleOpen}></ButtonsAdd>
+     <ButtonsAdd handleOpen={handleOpen} agregar={false} />
       <CoeficientesModal open={open} modo={modo} tipo={tipoOperacion} handleClose={handleClose} dt={vrows} />
 
       <MUIXDataGrid columns={columns} rows={dataCoeficientes} />

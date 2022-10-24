@@ -11,7 +11,7 @@
 
     export interface PERMISO {
         ControlInterno: string;
-        Permiso: string;
+        Referencia: string;
     }
 
     export interface PERFILES {

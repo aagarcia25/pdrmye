@@ -24,13 +24,11 @@ import { municipiosc } from "../../../../../share/loadMunicipios";
 
 const MunPobrezaModal = ({
   open,
-  modo,
   handleClose,
   tipo,
   dt
 }: {
   open: boolean;
-  modo: string;
   tipo: number;
   handleClose: Function,
   dt: any
@@ -166,7 +164,7 @@ const MunPobrezaModal = ({
         <Box>
           <Box
             sx={{ display: 'flex', justifyContent: 'center', }}>
-            <label className="Titulo">{modo}</label>
+            <label className="Titulo">{tipo == 1 ?"Agregar Registro" : "Editar Registro"}</label>
           </Box>
 
 
