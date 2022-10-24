@@ -60,6 +60,25 @@ export const get = async function (url: string, token: string) {
 };
 
 
+export const getSingle = async function (url: string, body: any) {
+
+    try {
+               let resp = await axios.get(`${env_var.BASE_URL_EXT}` + url,
+            {
+                headers: {
+                    'Content-Type': 'application/json',                   
+                   
+                }
+            }
+
+        );
+        
+        return resp;
+    } catch (err: any) {
+        return err.response
+    }
+};
+
 
 
 

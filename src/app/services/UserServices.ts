@@ -1,4 +1,4 @@
-import { get } from "./apiServiceExt";
+import { get, getSingle } from "./apiServiceExt";
 import { post, postSingle } from "./apiServiceExt";
 
 
@@ -29,6 +29,10 @@ export class UserServices {
     
     public static async apps(token :string) {
         return await get('apps',token);
+    }
+
+    public static async ActivateUser(data: any) {
+        return await getSingle('activate',data);
     }
 
     
