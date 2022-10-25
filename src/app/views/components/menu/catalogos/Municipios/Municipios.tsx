@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import Slider from "../../../Slider";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -12,6 +12,9 @@ import MunicipiosModal from "./MunicipiosModal";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
+import { Box, IconButton } from "@mui/material";
+import FideicomisoConfig from "./FideicomisoConfig";
 
 export const Municipios = () => {
   const [municipio, setMunicipio] = useState([]);
@@ -20,9 +23,12 @@ export const Municipios = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
+  const [openFideicomiso, setOpenFideicomiso] = useState(false);
+
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [plantilla, setPlantilla] = useState("");
+  const [fideicomiso, setFideicomiso] = useState<boolean>(false);
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -91,22 +97,38 @@ export const Municipios = () => {
       width: 150,
       renderCell: (v) => {
         return (
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
+          <Box>
+            {fideicomiso ? <IconButton onClick={() => handleFideicomiso(v)}>
+              <RequestQuoteIcon />
+            </IconButton>
+              :
+              "vvv"
+            }
+
+            <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+          </Box>
         );
       },
     },
   ];
-    
+
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   }
+  const handleFideicomiso = (v: any) => {
+    setModo("Agregar Fideicomiso");
+    setOpenFideicomiso(true);
+    setData(v);
+  };
+
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
@@ -115,6 +137,7 @@ export const Municipios = () => {
   };
   const handleClose = () => {
     setOpen(false);
+    setOpenFideicomiso(false);
     consulta({ NUMOPERACION: 4 });
   };
 
@@ -221,6 +244,9 @@ export const Municipios = () => {
         if (String(item.Referencia) == "EDIT") {
           setEditar(true);
         }
+        if (String(item.Referencia) == "FIDE") {
+          setFideicomiso(true);
+        }
       }
     });
     let data = {
@@ -248,7 +274,17 @@ export const Municipios = () => {
         ""
       )}
 
-      <ButtonsMunicipio url={plantilla} handleUpload={handleUpload} controlInterno={"MUNICIPIOS"}/>
+      {openFideicomiso ? (
+        <FideicomisoConfig
+          open={openFideicomiso}
+          handleClose={handleClose}
+          dt={data}
+        />
+      ) : (
+        ""
+      )}
+
+      <ButtonsMunicipio url={plantilla} handleUpload={handleUpload} controlInterno={"MUNICIPIOS"} />
 
       <MUIXDataGrid sx={{}} columns={columns} rows={municipio} />
     </div>
