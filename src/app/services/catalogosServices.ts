@@ -112,5 +112,9 @@ export class CatalogosServices {
     public static async Bancos(data : any) {
         return await post('Bancos', data);
     };
+    
+    public static async MunFideicomiso(data : any) {
+        return await post('MunFideicomiso', data);
+    };
 
 }

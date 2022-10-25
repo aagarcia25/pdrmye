@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   Box,
-  FormControl,
   InputLabel,
-  Select,
-  MenuItem,
   TextField,
-  InputAdornment,
   DialogActions,
-  Button,
   Switch,
   FormControlLabel,
   FormGroup,
@@ -20,7 +14,6 @@ import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 
 const MunFacturacionModal = ({
@@ -133,7 +126,7 @@ const MunFacturacionModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-          CHUSER: user.id,
+        CHUSER: user.id,
         NOMBRE: nombre,
         CLAVEESTADO: claveEstado,
         MAM: mam,

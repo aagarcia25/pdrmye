@@ -1,27 +1,31 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  InputAdornment,
   DialogActions,
-  Button,
-  Switch,
-  FormControlLabel,
-  FormGroup,
+  Grid,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+  Typography,
+  ButtonGroup,
+  Container,
+  TextField,
 } from "@mui/material";
-import { getUser } from "../../../../../services/localStorage";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
+import AddIcon from "@mui/icons-material/Add";
+
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
+import { AuthService } from "../../../../../services/AuthService";
+import Slider from "../../../Slider";
+import { SendToMobileOutlined } from "@mui/icons-material";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { getUser } from "../../../../../services/localStorage";
 
 const FideicomisoConfig = ({
   open,
@@ -33,149 +37,118 @@ const FideicomisoConfig = ({
   dt: any;
 }) => {
   // CAMPOS DE LOS FORMULARIOS
-  const [id, setId] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [claveEstado, setClaveEstado] = useState("");
-  const [mam, setMam] = useState("");
-  const [descentralizado, setDescentralizado] = useState("");
-  const [nombreCorto, setNombreCorto] = useState("");
-  const [ordenSFTGNL, setOrdenSFTGNL] = useState("");
-  const [claveSIREGOB, setClaveSIREGOB] = useState("");
-  const [claveINEGI, setClaveINEGI] = useState("");
-  const [artF1, setArtF1] = useState("");
-  const [artF2, setArtF2] = useState("");
-  const [artF3, setArtF3] = useState("");
+  const [idMun, setIdMun] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const [data, setData] = useState([]);
+  const [openSlider, setOpenSlider] = useState(false);
+  const [nombre, setNombre] = useState<string>();
+  const [porcentaje, setPorcentaje] = useState<number>();
+  const [claveBan, setClaveBan] = useState<string>();
+  const [cuenta, setCuenta] = useState<string>();
+  const [municipio, setMunicipio] = useState<string>();
+  const [modo, setModo] = useState<string>("visualizar");
+
+
+
   //Valores de chequeo de los Switch
 
-  
-  
+  const columns: GridColDef[] = [
+    {
+      field: "id",
+      hide: true,
+    }, {
+      field: "deleted",
+      hide: true,
+    }, {
+      field: "IdMun",
+      hide: true,
+    }, {
+      field: "Nombre",
+      headerName: "Nombre",
+      width: 500,
+    }, {
+      field: "Porcentaje",
+      headerName: "Porcentaje",
+      width: 120,
+    }, {
+      field: "ClaveBancaria",
+      headerName: "Clave Bancaria",
+      width: 250,
+    }, {
+      field: "Cuenta",
+      headerName: "cuenta",
+      width: 250,
+    },
+    {
+      field: "Acciones",
+      headerName: "Acciones",
+      description: "Relacionar Roles",
+      sortable: false,
+      width: 400,
+      renderCell: (v) => {
+        return (
 
-  const [checkedMam, setCheckedMam] = useState(dt?.row?.MAM === 1 ? true : false);
-  const [checkedDescentralizado, setCheckedDescentralizado] = useState(dt?.row?.Descentralizado === 1 ? true : false);
-  const [checkedArtF1, setCheckedArtF1] = useState(dt?.row?.ArtF1 === '1' ? true : false);
-  const [checkedArtF2, setCheckedArtF2] = useState(dt?.row?.ArtF2 === '1' ? true : false);
-  const [checkedArtF3, setCheckedArtF3] = useState(dt?.row?.ArtF3 === '1' ? true : false);
+          <Box>
+            {v.row}
+          </Box>
+        );
 
-  const textoDeAfirmacion = "SI";
-  const textoDeNegacion = "NO";
-
-  const toggleCheckedMam = () => {
-    setCheckedMam((prev) => !prev);
-    if (checkedMam === true) {
-      setMam("0");
-    } else {
-      setMam("1");
-    }
-  };
-
-  const toggleCheckedDescentralizado = () => {
-    setCheckedDescentralizado((prev) => !prev);
-    if (checkedDescentralizado === true) {
-      setDescentralizado("0");
-    } else {
-      setDescentralizado("1");
-    }
-  };
-
-  const toggleCheckedArtF1 = () => {
-    setCheckedArtF1((prev) => !prev);
-    if (checkedArtF1 === true) {
-      setArtF1("0");
-    } else {
-      setArtF1("1");
-    }
-  };
-
-  const toggleCheckedArtF2 = () => {
-    setCheckedArtF2((prev) => !prev);
-    if (checkedArtF2 === true) {
-      setArtF2("0");
-    } else {
-      setArtF2("1");
-    }
-  };
-
-  const toggleCheckedArtF3 = () => {
-    setCheckedArtF3((prev) => !prev);
-    if (checkedArtF3 === true) {
-      setArtF3("0");
-    } else {
-      setArtF3("1");
-    }
-  };
+      },
+    },
+  ];
 
   const handleSend = () => {
+  };
+
+
+  const handleNuevoFideicomiso = () => {
+    setModo("nuevo");
+
+  };
+
+
+  const agregar = () => {
     if (
-      nombre === "" ||
-      claveEstado === "" ||
-      mam === "" ||
-      descentralizado === "" ||
-      nombreCorto === "" ||
-      ordenSFTGNL === "" ||
-      claveSIREGOB === "" ||
-      claveINEGI === "" ||
-      artF1 === "" ||
-      artF2 === "" ||
-      artF3 === ""
-    ) {
+      nombre === null ||
+      porcentaje === null ||
+      cuenta === null ||
+      claveBan === null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
-    } else {
-      
-      let data = {
-        CHID: id,
-          CHUSER: user.id,
+    }else{
+      let dat = {
+        NUMOPERACION: 1,
+        IDMUN: idMun,
+        CHUSER: user.id,
         NOMBRE: nombre,
-        CLAVEESTADO: claveEstado,
-        MAM: mam,
-        DESCENTRALIZADO: descentralizado,
-        NOMBRECORTO: nombreCorto,
-        ORDENSFTGNL: ordenSFTGNL,
-        CLAVESIREGOB: claveSIREGOB,
-        CLAVEINEGI: claveINEGI,
-        ARTF1: artF1,
-        ARTF2: artF2,
-        ARTF3: artF3,
-        DELETED: 0,
+        PORCENTAJE: porcentaje,
+        CLAVEBANCARIA: claveBan,
+        CUENTA: cuenta,
       };
-      console.log("user props", user);
-      console.log("user id", user.id);
-      console.log("data de modal", data);
-      handleRequest(data);
-      handleClose();
+      CatalogosServices.MunFideicomiso(dat).then((res) => {
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "Registro Agregado!",
+          });
+          console.log("Sé pudo agregar");
+        } else {
+          Alert.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+          console.log("No se pudo agregar");
+        }
+      });
     }
   };
 
-  const handleRequest = (data: any) => {
-    console.log(data);
-
-  };
-
-  const agregar = (data: any) => {
-    CatalogosServices.municipios(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Agregado!",
-        });
-        console.log("Sé pudo agregar");
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-        console.log("No se pudo agregar");
-      }
-    });
-  };
-
   const editar = (data: any) => {
-    CatalogosServices.municipios(data).then((res) => {
+    CatalogosServices.MunFideicomiso(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -193,200 +166,158 @@ const FideicomisoConfig = ({
     });
   };
 
+  const consulta = (data: any) => {
+    setOpenSlider(true);
+    CatalogosServices.MunFideicomiso(data).then((res) => {
+      setData(res.RESPONSE);
+      console.log(res)
+      setOpenSlider(false);
+    });
+
+  };
+
   useEffect(() => {
+    console.log(user);
+    setModo("visualizar")
+    setMunicipio(dt?.row?.Nombre)
+    consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
+    console.log(dt.row)
     if (dt === "") {
     } else {
       //SE PINTAN LOS CAMPOS
-      setId(dt?.row?.id);
-      setNombre(dt?.row?.Nombre);
-      setClaveEstado(dt?.row?.ClaveEstado);
-      setMam(dt?.row?.MAM);
-      setDescentralizado(dt?.row?.Descentralizado);
-      setNombreCorto(dt?.row?.NombreCorto);
-      setOrdenSFTGNL(dt?.row?.OrdenSFTGNL);
-      setClaveSIREGOB(dt?.row?.ClaveSIREGOB);
-      setClaveINEGI(dt?.row?.ClaveINEGI);
-      setArtF1(dt?.row?.ArtF1);
-      setArtF2(dt?.row?.ArtF2);
-      setArtF3(dt?.row?.ArtF3);
+      setIdMun(dt?.row?.id);
     }
   }, [dt]);
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen={true} >
+      <Slider open={openSlider} />
+
       <DialogContent>
         <Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{""}</label>
-          </Box>
-          <TextField
-            required
-            margin="dense"
-            id="nombre"
-            label="Nombre"
-            value={nombre}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setNombre(v.target.value)}
-            error={nombre === "" ? true : false}
-            InputProps={{}}
-          />
+          <DialogActions>
+            <button className="cerrar" onClick={() => handleClose()}>
+              <h2>X</h2>        </button>
+          </DialogActions>
 
-          <TextField
-            required
-            margin="dense"
-            id="claveEstado"
-            label="Clave del Estado"
-            value={claveEstado}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setClaveEstado(v.target.value)}
-            error={claveEstado === "" ? true : false}
-            InputProps={{}}
-          />
+          <Grid
+            container
 
-          {
-            //Switch de si y no en vez de 1 y 0
-          }
-          <FormGroup>
-            <InputLabel>Municipio en área metropolitana</InputLabel>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={checkedMam}
-                  onChange={toggleCheckedMam}
-                  color="default"
-                />
-              }
-              label={checkedMam ? textoDeAfirmacion : textoDeNegacion}
-            />
-          </FormGroup>
+          >
+            <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "4vw", color: "#000000", }}>
+                <p></p> {municipio}
+              </Typography>
+            </Grid>
 
-          <FormGroup>
-            <InputLabel>Municipio descentralizado</InputLabel>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={checkedDescentralizado}
-                  onChange={toggleCheckedDescentralizado}
-                  color="default"
-                />
-              }
-              label={
-                checkedDescentralizado ? textoDeAfirmacion : textoDeNegacion
-              }
-            />
-          </FormGroup>
+          </Grid>
+          <ButtonGroup>
+            {modo == "visualizar" ?
+              <Tooltip title="Agregar">
+                <ToggleButton value="check" onClick={() => { handleNuevoFideicomiso() }}>
+                  <AddIcon />
+                </ToggleButton>
+              </Tooltip>
+              : ""}
 
-          <TextField
-            required
-            margin="dense"
-            id="nombreCorto"
-            label="Nombre Corto"
-            value={nombreCorto}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setNombreCorto(v.target.value)}
-            error={nombreCorto === "" ? true : false}
-            InputProps={{}}
-          />
-          <TextField
-            required
-            margin="dense"
-            id="ordenSFTGNL"
-            label="Orden SFTGNL"
-            value={ordenSFTGNL}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setOrdenSFTGNL(v.target.value)}
-            error={ordenSFTGNL === "" ? true : false}
-            InputProps={{}}
-          />
-          <TextField
-            required
-            margin="dense"
-            id="claveSIREGOB"
-            label="Clave SIREGOB"
-            value={claveSIREGOB}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setClaveSIREGOB(v.target.value)}
-            error={claveSIREGOB === "" ? true : false}
-            InputProps={{}}
-          />
-          <TextField
-            required
-            margin="dense"
-            id="claveINEGI"
-            label="Clave INEGI"
-            value={claveINEGI}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setClaveINEGI(v.target.value)}
-            error={claveINEGI === "" ? true : false}
-            InputProps={{}}
-          />
+            {modo == "nuevo" ?
+              <Tooltip title="Regresar">
+                <ToggleButton value="check" onClick={() => { setModo("visualizar") }}>
+                  <ArrowBackIosIcon />
+                </ToggleButton>
+              </Tooltip>
 
-          <FormGroup>
-            <InputLabel>¿Aplica el ARTF1?</InputLabel>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={checkedArtF1}
-                  onChange={toggleCheckedArtF1}
-                  color="default"
-                />
-              }
-              label={checkedArtF1 ? textoDeAfirmacion : textoDeNegacion}
-            />
-          </FormGroup>
+              : ""}
 
-          <FormGroup>
-            <InputLabel>¿Aplica el ARTF2?</InputLabel>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={checkedArtF2}
-                  onChange={toggleCheckedArtF2}
-                  color="default"
-                />
-              }
-              label={checkedArtF2 ? textoDeAfirmacion : textoDeNegacion}
-            />
-          </FormGroup>
+          </ButtonGroup>
+          {(modo == "visualizar") ?
+            <Grid
+              container
+              sx={{ width: "100%", height: "100%", bgcolor: "rgb(255,255,255)", boxShadow: 50, p: 2, borderRadius: 3, }} >
 
-          <FormGroup>
-            <InputLabel>¿Aplica el ARTF3?</InputLabel>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={checkedArtF3}
-                  onChange={toggleCheckedArtF3}
-                  color="default"
-                />
-              }
-              label={checkedArtF3 ? textoDeAfirmacion : textoDeNegacion}
-            />
-          </FormGroup>
+              <Grid item xs={12} sx={{ width: "100%", height: 300, }}>
+                <MUIXDataGridSimple columns={columns} rows={data} />
+              </Grid>
+            </Grid>
+            : ""}
         </Box>
+
+        {(modo == "nuevo") ?
+          <Grid
+            container
+            sx={{ width: "100%", height: "100%", bgcolor: "rgb(255,255,255)", boxShadow: 50, p: 2, borderRadius: 3, }} >
+
+            <Grid item xs={12} sx={{ width: "100%", height: 300, }}>
+              <Container maxWidth="sm">
+                <TextField
+                  required
+                  margin="dense"
+                  label="Nombre"
+                  value={nombre}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNombre(v.target.value)}
+                  error={!nombre ? true : false}
+                  InputProps={{}}
+                />
+                <TextField
+                  required
+                  margin="dense"
+                  label="Porcentaje"
+                  value={porcentaje}
+                  type="number"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setPorcentaje(Number(v.target.value))}
+                  error={!porcentaje ? true : false}
+                  InputProps={{}}
+                />
+                <TextField
+                  required
+                  margin="dense"
+                  label="Cuenta"
+                  value={cuenta}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setCuenta(v.target.value)}
+                  error={!cuenta ? true : false}
+                  InputProps={{}}
+                />
+                <TextField
+                  required
+                  margin="dense"
+                  label="Clave Bancaria"
+                  value={claveBan}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setClaveBan(v.target.value)}
+                  error={!claveBan ? true : false}
+                  InputProps={{}}
+                />
+                <DialogActions>
+
+                  <button className="guardar" onClick={() => agregar()}>
+                    Guardar
+                  </button>
+                </DialogActions>
+              </Container>
+
+            </Grid>
+          </Grid>
+          : ""}
+
       </DialogContent>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cerrar
-        </button>
-      </DialogActions>
+
+
     </Dialog>
   );
 };
 
 export default FideicomisoConfig;
+
+
