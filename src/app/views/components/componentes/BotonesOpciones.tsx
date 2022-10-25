@@ -22,6 +22,7 @@ const BotonesOpciones = ({
   verTrazabilidad,
   enviar,
   presupuesto,
+  perfil
 }: {
   estatus: string,
   handleAccion: Function;
@@ -30,6 +31,7 @@ const BotonesOpciones = ({
   verTrazabilidad: boolean;
   enviar: boolean;
   presupuesto: boolean;
+  perfil: string;
 }) => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   console.log(user.PERFILES[0].Referencia);
@@ -44,9 +46,12 @@ const BotonesOpciones = ({
           </Tooltip>
 
           {
-           (autorizar  && estatus=="INICIO" && user.PERFILES[0].Referencia=="ANA")
+           (autorizar  && estatus=="INICIO"  && user.PERFILES[0].Referencia=="ANA" )
            || 
-           (autorizar && estatus=="ENVIADO" && user.PERFILES[0].Referencia=="COOR") 
+           (autorizar  && estatus=="ENVIADO" && user.PERFILES[0].Referencia=="COOR" ) 
+           ||  
+           (autorizar  && estatus=="ENVIADO" && user.PERFILES[0].Referencia=="DIR" )
+           
            ? (
             <Tooltip title="Autorizar">
               <ToggleButton value="check" onClick={() => handleAccion(2)}>
@@ -70,7 +75,7 @@ const BotonesOpciones = ({
           )}
 
         {
-          (cancelar && estatus=="ENVIADO" && user.PERFILES[0].Referencia=="COOR") 
+          (cancelar && estatus=="ENVIADO" && user.PERFILES[0].Referencia=="COOR" ) 
           ? (
             <Tooltip title="Regresar a Analista">
               <ToggleButton value="check" onClick={() => handleAccion(7)}>
@@ -81,11 +86,25 @@ const BotonesOpciones = ({
             ""
           )}
 
+        {
+          (cancelar && estatus=="ENVIADO" && user.PERFILES[0].Referencia=="DIR" ) 
+          ? (
+            <Tooltip title="Regresar a Coordinador">
+              <ToggleButton value="check" onClick={() => handleAccion(8)}>
+                <CompareArrowsIcon />
+              </ToggleButton>
+            </Tooltip>
+          ) : (
+            ""
+          )}
+
 
           {
-          (enviar && estatus=="AUTORIZADO") 
+          (enviar && estatus=="AUTORIZADO" && user.PERFILES[0].Referencia=="ANA") 
           || 
           (enviar && estatus=="AUTORIZADO" && user.PERFILES[0].Referencia=="COOR") 
+          ||
+          (enviar && estatus=="AUTORIZADO" && user.PERFILES[0].Referencia=="DIR") 
           ? (
             <Tooltip title="Enviar">
               <ToggleButton value="check" onClick={() => handleAccion(4)}>
@@ -105,7 +124,7 @@ const BotonesOpciones = ({
             ""
           )}
 
-          {(presupuesto && estatus=="PRESUPUESTO" )? (
+          {(presupuesto && estatus=="PRESUPUESTO"   )? (
             <Tooltip title="Asignar Presupuesto Global">
               <ToggleButton value="check" onClick={() => handleAccion(6)}>
               <AttachMoneyIcon />

@@ -16,6 +16,8 @@ import SelectValues from "../../interfaces/Select/SelectValues";
 import { getUser } from "../../services/localStorage";
 import "../../styles/globals.css";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { MailServices } from "../../services/MailServices";
+import { Subject } from "@mui/icons-material";
 
 const ListNotificationsModal = ({
   open,
@@ -111,6 +113,24 @@ const ListNotificationsModal = ({
       };
       CatalogosServices.Notificaciones(data).then((res) => {
         if (res.SUCCESS) {
+
+          let jsonobj = {
+            "texto":newMensaje
+          }
+
+          let obj ={
+          referencia:1,
+          data:jsonobj,
+          to:"aolguin@cecapmex.com",
+          from:"aagarcia@cecapmex.com",
+          subject:newEncabezado
+          };
+
+          MailServices.sendMail(obj).then(() =>{
+
+          });
+
+
           Toast.fire({
             icon: "success",
             title: "Mensaje Enviado!",

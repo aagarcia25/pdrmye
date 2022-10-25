@@ -50,7 +50,7 @@ const DetalleFgp = ({
   const [tipoAccion, setTipoAccion] = useState("");
   const [openSlider, setOpenSlider] = useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
-
+  const [direccion, setDireccion] = useState("")
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
   const [ta, setTa] = useState(false);
@@ -102,7 +102,12 @@ const DetalleFgp = ({
       case 7: //Asignar Presupuesto
       setTipoAccion("Favor de ingresar un comentario para el Envio");
       UpdateCalculo("INICIO");
-        
+      break;
+
+      case 8: //REGRESAR AL COORDINADOR
+      setTipoAccion("Favor de ingresar un comentario para el Envio");
+      UpdateCalculo("ENVIADO");
+
         break;
 
       default:
@@ -206,6 +211,25 @@ const DetalleFgp = ({
       }
     });
   };
+  const getPerfilCalculo = () => {
+    let data = {
+      IDCALCULO: idDetalle,
+    };
+    calculosServices.getPerfilCalculo(data).then((res) => {
+      if (res.SUCCESS) {
+        console.log(res.RESPONSE[0].Referencia)
+        setDireccion(res.RESPONSE[0].Referencia);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+  
+
 
   const columnas = (data: any) => {
     calculosServices.getColumns(data).then((res) => {
@@ -454,6 +478,7 @@ const DetalleFgp = ({
   useEffect(() => {
     EstablecePermisos();
     EstatusCalculo();
+    getPerfilCalculo();
     columnas({ IDCALCULOTOTAL: idDetalle });
     consulta({ IDCALCULOTOTAL: idDetalle });
   }, [status]);
@@ -555,8 +580,9 @@ const DetalleFgp = ({
                 verTrazabilidad={verTrazabilidad}
                 enviar={enviar}
                 presupuesto={presupuesto}
-                estatus={status}
-              />
+                estatus={status} 
+                perfil={direccion} 
+                />
 
               <MUIXDataGrid columns={columns} rows={data} />
             </Grid>
