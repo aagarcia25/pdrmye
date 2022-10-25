@@ -123,14 +123,16 @@ const Workflow = () => {
       headerName: "Departamento Destino",
       width: 150,
     },
-    { field: "idEstatusOrigen", headerName: "Clave", width: 150, hide: true },
-    { field: "EstatusOrigen", headerName: "Estatus Origen", width: 150 },
-    { field: "idestatusDestino", headerName: "Clave", width: 150, hide: true },
-    { field: "EstatusDestino", headerName: "Estatus Destino", width: 150 },
+   
     { field: "idPerfilOrigen", headerName: "Clave", width: 150, hide: true },
     { field: "PerfilOrigen", headerName: "Perfil Origen", width: 150 },
+    { field: "idEstatusOrigen", headerName: "Clave", width: 150, hide: true },
+    { field: "EstatusOrigen", headerName: "Estatus Origen", width: 150 },
     { field: "idPerfilDestino", headerName: "Clave", width: 150, hide: true },
     { field: "PerfilDestino", headerName: "Perfil Destino", width: 150 },
+    { field: "idestatusDestino", headerName: "Clave", width: 150, hide: true },
+    { field: "EstatusDestino", headerName: "Estatus Destino", width: 150 },
+    
 
     {
       field: "acciones",

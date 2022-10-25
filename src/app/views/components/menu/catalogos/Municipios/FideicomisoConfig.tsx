@@ -87,9 +87,10 @@ const FideicomisoConfig = ({
       width: 400,
       renderCell: (v) => {
         return (
-
+ 
           <Box>
-            {v.row}
+            TE
+           
           </Box>
         );
 
@@ -207,7 +208,7 @@ const FideicomisoConfig = ({
             <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
               <Typography
                 sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "4vw", color: "#000000", }}>
-                <p></p> {municipio}
+                <p></p> Municipio: {municipio}
               </Typography>
             </Grid>
 

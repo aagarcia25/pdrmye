@@ -133,13 +133,16 @@ export const Fpg = () => {
                 <InfoIcon />
               </IconButton>
             </Tooltip>
-            {agregarajuste ? (
+
+
+            {agregarajuste &&  String(v.row.estatus) == "INICIO" ? (
             <Tooltip title="Agregar Ajuste">
               <IconButton
                 onClick={() => handleAjuste(v)}
                 disabled={
-                  String(v.row.Clave) == "FISM" ||
-                  String(v.row.Clave) == "FORTAMUN"
+                  String(v.row.Clave) == "FISM" &&
+                  String(v.row.Clave) == "FORTAMUN"  
+                 
                 }
               >
                 <AttachMoneyIcon />
@@ -148,6 +151,9 @@ export const Fpg = () => {
             ) : (
               ""
             )}
+
+
+
          {verTrazabilidad ? (
             <Tooltip title="Ver Trazabilidad">
               <IconButton onClick={() => handleTraz(v)}>
@@ -203,8 +209,7 @@ export const Fpg = () => {
   let params = useParams();
 
   useEffect(() => {
-    console.log(permisos);
-    console.log(params.fondo);
+   
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(params.fondo)) {
         if (String(item.Referencia) == "AGREG") {
@@ -216,6 +221,10 @@ export const Fpg = () => {
         if (String(item.Referencia) == "AAJUSTE") {
           setAgregarAjuste(true);
         }
+      }else{
+        setAgregar(false);
+        setVerTrazabilidad(false);
+        setAgregarAjuste(false);
       }
     });
 

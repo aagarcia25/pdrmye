@@ -169,17 +169,15 @@ const Usuarios = () => {
       width: 150,
       description: messages.dataTableColum.id,
     },
+    { field: "NombreUsuario", headerName: "Usuario", width: 150 },
     { field: "Nombre", headerName: "Nombre", width: 150 },
     { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
     { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
-    { field: "NombreUsuario", headerName: "Usuario", width: 150 },
     {
       field: "CorreoElectronico",
       headerName: "Correo Electronico",
       width: 200,
     },
-    { field: "Tipo", headerName: "Tipo", width: 100 },
-
     {
       field: "acciones",
       headerName: "Acciones",
@@ -194,8 +192,6 @@ const Usuarios = () => {
                 <AssignmentIndIcon />
               </IconButton>
             </Tooltip>
-
-
             <Tooltip title={"Configurar Perfil"}>
               <IconButton color="warning" onClick={() => handlePerfilConfiguracion(v)}>
                 <AdminPanelSettingsIcon />
@@ -211,10 +207,6 @@ const Usuarios = () => {
                 <ModeEditOutlineIcon />
               </IconButton>
             </Tooltip>
-
-
-
-
           </Box>
         );
       },

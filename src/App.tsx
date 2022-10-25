@@ -46,7 +46,7 @@ function App() {
       NOMBRE: "URL_LOGIN"
     }
     ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
-      console.log(restApp.RESPONSE.Valor);
+     // console.log(restApp.RESPONSE.Valor);
       localStorage.setItem("RUTA_LOGIN", JSON.stringify(restApp.RESPONSE.Valor));
     });
   };
@@ -106,11 +106,11 @@ function App() {
       ID: id,
     };
     AuthService.adminUser(data).then((res2) => {
-      console.log('Respuesta de usuario');
-      console.log(res2);
+      //console.log('Respuesta de usuario');
+      //console.log(res2);
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
-      console.log(us.RESPONSE);
+      //console.log(us.RESPONSE);
      if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
      if(us.RESPONSE.PERFILES.length !==0){
      if(us.RESPONSE.ROLES.length !==0){
@@ -144,15 +144,15 @@ function App() {
   const verificatoken = (token: string) => {
     // SE VALIDA EL TOKEN
     setToken(jwt);
-    console.log("verificando")
+    //console.log("verificando")
     UserServices.verify({}, token).then((res) => {
-      console.log(res)
+      //console.log(res)
       if (res.status == 200) {
         //SE OBTIENE LA INFORMACION DE DETALLE DEL USUARIO
         setPU(res.data.data);
         const user: UserReponse = JSON.parse(String(getPU()));
-        console.log('BUSCANDO USUARIO')
-        console.log(user.IdUsuario)
+        //console.log('BUSCANDO USUARIO')
+        //console.log(user.IdUsuario)
         buscaUsuario(user.IdUsuario);
        
       } else if (res.status == 401) {
@@ -231,7 +231,7 @@ function App() {
     loadParametrosGenerales();
     //setTimeout(() => {
       if (String(jwt) != null && String(jwt) != "") {
-        console.log("verificando token");
+        //console.log("verificando token");
         verificatoken(String(jwt));
        
       } else {

@@ -35,8 +35,10 @@ const DetalleFgp = ({
   anio: number;
   mes: string;
 }) => {
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+
+  const [openSlider, setOpenSlider] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos())); 
   const [status, setStatus] = useState<string>("");
   const [statusDestino, setStatusDestino] = useState<string>("");
   const [data, setData] = useState([]);
@@ -48,9 +50,13 @@ const DetalleFgp = ({
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [proceso, setProceso] = useState(""); //VARIABLE PARA DETERMINAR EL PROCESO QUE SE ESTA REALIZANDO
   const [tipoAccion, setTipoAccion] = useState("");
-  const [openSlider, setOpenSlider] = useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [direccion, setDireccion] = useState("")
+  const [area, setArea] = useState("")
+  const [file, setFile] = useState(false);
+
+
+
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
   const [ta, setTa] = useState(false);
@@ -76,7 +82,7 @@ const DetalleFgp = ({
 
       case 2: //Autorizar
         setTipoAccion("Favor de ingresar un comentario para la Autorización");
-        UpdateCalculo("AUTORIZADO");
+        UpdateCalculo("AUTORIZADO",false);
         break;
 
       case 3: //Cancelar
@@ -85,7 +91,7 @@ const DetalleFgp = ({
 
       case 4: //Enviar
         setTipoAccion("Favor de ingresar un comentario para el Envio");
-        UpdateCalculo("ENVIADO");
+        UpdateCalculo("ENVIADO",false);
         break;
 
       case 5: //Ver Trazabilidad
@@ -94,19 +100,19 @@ const DetalleFgp = ({
 
       case 6: //Asignar Presupuesto
         setTipoAccion(
-          "Favor de ingresar un comentario para la asignación del Presupuesto"
+          "Favor de ingresar un comentario para la asignación del Presupuesto de Forma global"
         );
-        agregarPresupuesto(true);
+        UpdateCalculo("INICIO",false);
         break;
 
       case 7: //Asignar Presupuesto
       setTipoAccion("Favor de ingresar un comentario para el Envio");
-      UpdateCalculo("INICIO");
+      UpdateCalculo("INICIO",true);
       break;
 
       case 8: //REGRESAR AL COORDINADOR
       setTipoAccion("Favor de ingresar un comentario para el Envio");
-      UpdateCalculo("ENVIADO");
+      UpdateCalculo("ENVIADO",false);
 
         break;
 
@@ -116,10 +122,13 @@ const DetalleFgp = ({
   };
 
   const agregarPresupuesto = (data: any) => {
-    console.log(data);
+    setTipoAccion("Favor de ingresar un comentario para la asignación del Presupuesto de Forma Singular");
+    UpdateCalculo("ENVIADO",true);
+     
   };
 
-  const UpdateCalculo = (estatus: string) => {
+  const UpdateCalculo = (estatus: string , file:boolean) => {
+    setFile(file);
     setStatusDestino(estatus);
     setOpenModal(true);
   };
@@ -217,7 +226,6 @@ const DetalleFgp = ({
     };
     calculosServices.getPerfilCalculo(data).then((res) => {
       if (res.SUCCESS) {
-        console.log(res.RESPONSE[0].Referencia)
         setDireccion(res.RESPONSE[0].Referencia);
       } else {
         Alert.fire({
@@ -228,6 +236,24 @@ const DetalleFgp = ({
       }
     });
   };
+
+  const getAreaCalculo = () => {
+    let data = {
+      IDCALCULO: idDetalle,
+    };
+    calculosServices.getAreaCalculo(data).then((res) => {
+      if (res.SUCCESS) {
+        setArea(res.RESPONSE[0].NombreCorto);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+  
   
 
 
@@ -432,7 +458,8 @@ const DetalleFgp = ({
       renderCell: (v: any) => {
         return (
           <Box>
-            {presupuesto ? (
+            {
+            (presupuesto && area == user.DEPARTAMENTOS[0].NombreCorto) ? (
               <Tooltip title="Asignar Presupuesto">
                 <IconButton onClick={() => agregarPresupuesto(v)}>
                   <AttachMoneyIcon />
@@ -440,11 +467,21 @@ const DetalleFgp = ({
               </Tooltip>
             ) : (
               ""
-            )}
+            )
+            }
           </Box>
         );
       },
     },
+
+    {
+      hide: presupuesto ? false : true,
+      field: "ComentarioPresupuesto",
+      headerName: "Observación DPCP",
+      width: 150,
+      description: "Observación DPCP",
+    },
+
   ];
 
   const EstablecePermisos = () => {
@@ -471,6 +508,12 @@ const DetalleFgp = ({
         if (String(item.Referencia) == "ENV") {
           setEnviar(true);
         }
+      }else{
+        setAutorizar(false);
+        setCancelar(false);
+        setVerTrazabilidad(false);
+        setPresupuesto(false);
+        setEnviar(false);
       }
     });
   };
@@ -479,6 +522,7 @@ const DetalleFgp = ({
     EstablecePermisos();
     EstatusCalculo();
     getPerfilCalculo();
+    getAreaCalculo();
     columnas({ IDCALCULOTOTAL: idDetalle });
     consulta({ IDCALCULOTOTAL: idDetalle });
   }, [status]);
@@ -493,8 +537,9 @@ const DetalleFgp = ({
               tipo={tipoAccion}
               handleClose={FnworkflowClose}
               vrows={""}
-              handleAccion={Fnworkflow}
-            ></ModalAlert>
+              handleAccion={Fnworkflow} 
+              file={file}         
+              ></ModalAlert>
           ) : (
             ""
           )}
@@ -582,7 +627,7 @@ const DetalleFgp = ({
                 presupuesto={presupuesto}
                 estatus={status}
                 perfil={direccion} 
-                area={""} 
+                area={area} 
                 />
 
               <MUIXDataGrid columns={columns} rows={data} />

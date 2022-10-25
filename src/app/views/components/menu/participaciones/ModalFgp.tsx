@@ -51,8 +51,6 @@ const ModalFgp = ({
   let year: number = new Date().getFullYear();
 
   const handleSelectMes = (v: SelectValues) => {
-    console.log("cambiando select");
-    console.log(v)
     setMeselect(String(v));
   };
 
@@ -60,8 +58,6 @@ const ModalFgp = ({
     setCzero(event.target.checked);
   };
   const handleSelectAjuste = (v: SelectValues) => {
-    console.log("cambiando select");
-    console.log(v)
     setajusteselect(String(v));
    
     if(String(v) !== ""){

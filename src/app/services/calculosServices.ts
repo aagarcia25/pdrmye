@@ -44,7 +44,9 @@ export class calculosServices {
     public static async getPerfilCalculo(data: any) {
         return await post('getPerfilCalculo', data);
     }
-    
+    public static async getAreaCalculo(data: any) {
+        return await post('getAreaCalculo', data);
+    }
     public static async wf(data: any) {
         return await post('wf', data);
     }
