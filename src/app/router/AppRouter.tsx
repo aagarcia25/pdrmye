@@ -48,7 +48,11 @@ import { CalculoGarantiaComponente } from '../views/components/menu/articulos/Ca
 import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de Usuario/PerfilesUsuario';
 import SolicitudRecursos from '../views/components/Municipios/SolicitudRecursos';
 import RecepcionRecursos from '../views/components/Municipios/RecepcionRecursos';
+
 import Workflow from '../views/components/menu/Workflow/Worflow';
+
+import { Bancos } from '../views/components/menu/catalogos/Bancos/Bancos';
+
 
 
 
@@ -84,6 +88,7 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
         <Route path='/inicio/wf'                                   element={log ? <Workflow /> : <AuthRouter />} />
         <Route path='/inicio/catalogos/parametrosgenerales'  element={<ParametrosGenerales />} />
+        <Route path='/inicio/catalogos/bancos'  element={<Bancos />} />
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}

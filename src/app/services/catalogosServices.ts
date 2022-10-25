@@ -109,6 +109,8 @@ export class CatalogosServices {
         return await post('workFlowIndex', data);
     };
 
-    
+    public static async Bancos(data : any) {
+        return await post('Bancos', data);
+    };
 
 }

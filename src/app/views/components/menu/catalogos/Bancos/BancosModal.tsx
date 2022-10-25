@@ -10,12 +10,10 @@ import {
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import {
-  getUser,
-} from "../../../../../services/localStorage";
+import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
-const UmasModel = ({
+export const BancosModal = ({
   open,
   handleClose,
   tipo,
@@ -26,17 +24,14 @@ const UmasModel = ({
   handleClose: Function;
   dt: any;
 }) => {
-  // CAMPOS DE LOS FORMULARIOS
+    // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState("");
-  const [diario, setDiario] = useState("");
-  const [mensual, setMensual] = useState("");
-  const [anual, setAnual] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-
   const handleSend = () => {
-    if (!diario || !anio || !mensual || !anual) {
+    if (!nombre || !descripcion ) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -47,10 +42,8 @@ const UmasModel = ({
         NUMOPERACION: tipo,
         CHID: id,
         CHUSER: user.id,
-        ANIO: anio,
-        DIARIO: diario,
-        MENSUAL: mensual,
-        ANUAL: anual
+        NOMBRE: nombre,
+        DESCRIPCION: descripcion,
       };
 
       handleRequest(data);
@@ -70,7 +63,7 @@ const UmasModel = ({
   };
 
   const agregar = (data: any) => {
-    CatalogosServices.umas(data).then((res) => {
+    CatalogosServices.Bancos(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -87,7 +80,7 @@ const UmasModel = ({
   };
 
   const editar = (data: any) => {
-    CatalogosServices.umas(data).then((res) => {
+    CatalogosServices.Bancos(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -108,10 +101,8 @@ const UmasModel = ({
       console.log(dt);
     } else {
       setId(dt?.row?.id);
-      setAnio(dt?.row?.Anio);
-      setDiario(dt?.row?.Diario);
-      setMensual(dt?.row?.Mensual);
-      setAnual(dt?.row?.Anual);
+      setNombre(dt?.row?.Nombre);
+      setDescripcion(dt?.row?.Descripcion);
     }
   }, [dt]);
 
@@ -125,67 +116,35 @@ const UmasModel = ({
           <TextField
             required
             margin="dense"
-            id="Anio"
-            label="Año"
-            value={anio}
-            type="number"
+            id="Nombre"
+            label="Nombre"
+            value={nombre}
+            type="text"
             fullWidth
             variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
+            onChange={(v) => setNombre(v.target.value)}
+            error={nombre == "" ? true : false}
             InputProps={{
               readOnly: tipo == 1 ? false : true,
-              inputMode: "numeric",
             }}
           />
 
           <TextField
             required
             margin="dense"
-            id="Diario"
-            label="Diario"
-            value={diario}
-            type="number"
+            id="Descripcion"
+            label="Descripción"
+            value={descripcion}
+            type="text"
             fullWidth
             variant="standard"
-            onChange={(v) => setDiario(v.target.value)}
-            error={diario == "" ? true : false}
+            onChange={(v) => setDescripcion(v.target.value)}
+            error={descripcion == "" ? true : false}
             InputProps={{
-              inputMode: "decimal",
+              
             }}
           />
 
-          <TextField
-            required
-            margin="dense"
-            id="Mensual"
-            label="Mensual"
-            value={mensual}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setMensual(v.target.value)}
-            error={mensual == "" ? true : false}
-            InputProps={{
-              inputMode: "numeric",
-            }}
-          />
-
-          <TextField
-            required
-            margin="dense"
-            id="Anual"
-            label="Anual"
-            value={anual}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnual(v.target.value)}
-            error={anual == "" ? true : false}
-            InputProps={{
-              inputMode: "numeric",
-            }}
-          />
         </Box>
       </DialogContent>
 
@@ -199,6 +158,5 @@ const UmasModel = ({
       </DialogActions>
     </Dialog>
   );
-};
 
-export default UmasModel;
+};
