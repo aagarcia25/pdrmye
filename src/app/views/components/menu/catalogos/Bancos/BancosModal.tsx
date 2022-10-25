@@ -45,8 +45,9 @@ export const BancosModal = ({
         NOMBRE: nombre,
         DESCRIPCION: descripcion,
       };
-
+      
       handleRequest(data);
+      handleClose();
     }
   };
 
@@ -69,6 +70,7 @@ export const BancosModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
+        
       } else {
         Alert.fire({
           title: "Error!",
