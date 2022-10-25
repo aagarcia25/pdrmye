@@ -4,7 +4,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { getUser } from "../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -15,7 +15,8 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import InflacionAnioModal from "./InflacionAnioModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 
 const InflacionAnio = () => {
@@ -26,7 +27,10 @@ const InflacionAnio = () => {
   const [vrows, setVrows] = useState({});
   const [dataInflacionAnio, setDataInflacionAnio] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
 
   const columns: GridColDef[] = [
     {
@@ -47,18 +51,24 @@ const InflacionAnio = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEdit(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
         );
       },
     },
   ];
+
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setModo("Editar ");
+      setOpen(true);
+      setVrows(v.data);
+    }else if(v.tipo ==2){
+      handleDelete(v.data);
+    }
+  }
+  
 
   const handleClose = () => {
     setOpen(false);
@@ -144,6 +154,21 @@ const InflacionAnio = () => {
 
 
   useEffect(() => {
+    
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "INFANIO") {
+        console.log(item)
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     consulta({ NUMOPERACION: 4 })
   }, []);
 

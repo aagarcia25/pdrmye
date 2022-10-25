@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {GridColDef } from "@mui/x-data-grid";
 import Slider from "../../../Slider";
-import { getUser } from "../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -9,11 +9,15 @@ import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import MunicipiosModal from "./MunicipiosModal";
-import Buttons from "../Utilerias/Buttons";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 export const Municipios = () => {
   const [municipio, setMunicipio] = useState([]);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  const [agregar, setAgregar] = useState<boolean>(false);
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -21,9 +25,7 @@ export const Municipios = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
-
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
   const columns: GridColDef[] = [
     {
@@ -89,30 +91,33 @@ export const Municipios = () => {
       width: 150,
       renderCell: (v) => {
         return (
-       ""
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
         );
       },
     },
   ];
-
+    
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setModo("Editar Registro");
+      setOpen(true);
+      setData(v.data);
+    }else if(v.tipo ==2){
+      handleDelete(v.data);
+    }
+  }
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
     setData("");
   };
-
   const handleClose = () => {
     setOpen(false);
     consulta({ NUMOPERACION: 4 });
   };
 
-  const handleEdit = (v: any) => {
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setData(v);
-  };
 
   const handleDelete = (v: any) => {
     Swal.fire({
@@ -204,7 +209,20 @@ export const Municipios = () => {
   };
 
   useEffect(() => {
-    console.log();
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "MUNICIPIOS") {
+        console.log(item)
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     let data = {
       NUMOPERACION: 4,
     };
@@ -230,11 +248,7 @@ export const Municipios = () => {
         ""
       )}
 
-      <Buttons
-        handleOpen={handleOpen}
-        url={plantilla}
-        handleUpload={handleUpload}
-      />
+      <ButtonsMunicipio url={plantilla} handleUpload={handleUpload} controlInterno={"MUNICIPIOS"}/>
 
       <MUIXDataGrid sx={{}} columns={columns} rows={municipio} />
     </div>

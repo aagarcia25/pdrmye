@@ -10,7 +10,8 @@ import {
 } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
-import Buttons from "../Utilerias/Buttons";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
@@ -262,11 +263,9 @@ export const MunFacturacion = () => {
         ""
       )}
 
-      <Buttons
-        handleOpen={handleOpen}
+      <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload}
-      />
+        handleUpload={handleUpload} controlInterno={"MUNFA"}      />
 
       <MUIXDataGrid columns={columns} rows={Facturacion} />
     </div>

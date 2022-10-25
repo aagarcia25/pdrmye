@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Modal,Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react'
 import { Alert } from '../../../../../helpers/Alert';
@@ -48,7 +48,7 @@ const RolesConfig = ({
         if (modo == "relacionado") {
             AuthService.usuarioRol(data).then((res) => {
                 setData(res.RESPONSE);
-               
+
                 console.log("res length -- " + res.RESPONSE.length)
                 console.log("asignado -- " + asignado)
                 if (res.RESPONSE.length != 0) {
@@ -88,11 +88,11 @@ const RolesConfig = ({
                 });
                 consulta(modo == "disponible" ? "disponible" : "relacionado", { CHID: id });
                 setOpenSlider(false)
-                modo=="disponible"?setRes(true):setRes(false);
+                modo == "disponible" ? setRes(true) : setRes(false);
 
             } else {
                 setOpenSlider(false)
-                modo=="disponible"?setRes(true):setRes(false);
+                modo == "disponible" ? setRes(true) : setRes(false);
                 Alert.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
@@ -131,12 +131,12 @@ const RolesConfig = ({
     }, [id]);
 
     return (
-        <div> 
-         
-         <Slider open={openSlider}></Slider>
+        <div>
+
+            <Slider open={openSlider}></Slider>
 
             <Modal open={open}>
-          
+
                 <Box>
                     <Grid container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                     </Grid>
@@ -205,20 +205,15 @@ const RolesConfig = ({
 
                         <Grid sm={12}
                             sx={{
-
                                 display: "flex",
                                 alignItems: "right",
                                 justifyContent: "right",
-                                mt: "2vh",
+                            }}>
 
-                            }}
-                        >
-                            <Button
-                                sx={{ color: "#000", fontFamily: "MontserratMedium" }}
-                                onClick={() => handleClose()}
-                            >
+                            <button className='cerrar'
+                                onClick={() => handleClose()} >
                                 Salir
-                            </Button>
+                            </button>
                         </Grid>
                     </Grid>
                 </Box>

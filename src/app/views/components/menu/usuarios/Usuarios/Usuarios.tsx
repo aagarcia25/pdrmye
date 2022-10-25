@@ -16,6 +16,8 @@ import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import DepartamentoConfig from "./DepartamentoConfig";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import RolesConfig from "./RolesConfig";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { UserServices } from "../../../../../services/UserServices";
 import { getPermisos } from "../../../../../services/localStorage";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 const Usuarios = () => {
@@ -24,6 +26,7 @@ const Usuarios = () => {
   const [openConfigPerfil, setOpenConfigPerfil] = useState(false);
   const [openConfigDep, setOpenConfigDep] = useState(false);
   const [openNew, setOpenNew] = useState(false);
+  const [userActive, setUserActive] = useState<boolean>();
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [row, setRow] = useState({});
   const [id, setId] = useState("");
@@ -45,6 +48,50 @@ const Usuarios = () => {
     setRow(v);
     setOpenNew(true);
   };
+
+  const handleActivo = (v: any) => {
+
+    let data = "?userId=" + v.row.id;
+    console.log(data)
+    UserServices.ActivateUser(data).then((res) => {
+      console.log(res)
+      console.log(v.row.id);
+
+      if (res.status == 200) {
+
+        let dat = {
+          NUMOPERACION: 6,
+          CHID: v.row.id,
+
+        };
+
+        AuthService.adminUser(dat).then((res) => {
+          if (res.SUCCESS) {           
+            consulta({ NUMOPERACION: 4 }, "Activado");
+          } else {
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+
+
+        });
+
+      }
+      else if (res.status == 409) {
+        Alert.fire({
+          title: "Error!",
+          text: res.data.msg,
+          icon: "error",
+        });
+      }
+    });
+
+
+  };
+
 
   const handleDelete = (v: any) => {
     /*  Swal.fire({
@@ -93,11 +140,12 @@ const Usuarios = () => {
       });*/
   };
 
-  const handleClose = () => {
+  const handleClose = (v:string) => {
     setOpenNew(false);
     setOpenConfigPerfil(false);
     setOpenConfigDep(false);
     setOpenRolConf(false);
+    consulta({ NUMOPERACION: 4 }, "Consulta Exitosa");
   };
   const handlePerfilConfiguracion = (v: any) => {
     setDt(v);
@@ -130,7 +178,7 @@ const Usuarios = () => {
       headerName: "Correo Electronico",
       width: 200,
     },
-    { field: "Tipo", headerName: "Tipo", width: 200 },
+    { field: "Tipo", headerName: "Tipo", width: 100 },
 
     {
       field: "acciones",
@@ -171,23 +219,41 @@ const Usuarios = () => {
         );
       },
     },
+    {
+      field: "EstaActivo", headerName: "Activo", width: 100,
+      renderCell: (v: any) => {
+        return (
+          (Number(v.row.EstaActivo) == 0) ?
+            <Box>
+              <Tooltip title={"Activar Usuario"}>
+                <IconButton color="success" onClick={() => handleActivo(v)}>
+                  <HowToRegIcon />
+                </IconButton>
+              </Tooltip>
+
+            </Box>
+            : "Activado"
+
+        );
+      },
+    },
   ];
 
-  const consulta = (data: any) => {
+  const consulta = (data: any, v: string) => {
     AuthService.adminUser(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        setData(res.RESPONSE);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: v,
+          });
+          setData(res.RESPONSE);
+        } else {
+          Alert.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
     });
   };
 
@@ -203,20 +269,20 @@ const Usuarios = () => {
         if (String(item.Referencia) == "EDIT") {
           setEditar(true);
         }
-        
+
       }
     });
-    consulta({ NUMOPERACION: 4 });
+    consulta({ NUMOPERACION: 4 }, "Consulta Exitosa");
   }, []);
   return (
     <div>
 
-      {openRolConf ? 
+      {openRolConf ?
         <RolesConfig
           id={id}
           open={openRolConf}
           handleClose={handleClose}></RolesConfig>
-       : 
+        :
         ""
       }
 

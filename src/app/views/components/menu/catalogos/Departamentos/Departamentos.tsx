@@ -44,10 +44,10 @@ export const Departamentos = () => {
       renderCell: (v) => {
         return (
          <BotonesAcciones 
-         handleAccion={handleAccion}
-          row={v} 
-          editar={editar} 
-          eliminar={eliminar} />
+            handleAccion={handleAccion}
+            row={v}
+            editar={editar}
+            eliminar={eliminar} />
         );
       },
     },

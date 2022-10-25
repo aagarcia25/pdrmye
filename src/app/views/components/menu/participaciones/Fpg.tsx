@@ -20,7 +20,6 @@ import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { getPermisos } from "../../../../services/localStorage";
 
 export const Fpg = () => {
-  const navigate = useNavigate();
   const [slideropen, setslideropen] = useState(false);
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
@@ -33,13 +32,13 @@ export const Fpg = () => {
   const [idtrazabilidad, setIdtrazabilidad] = useState("");
   const [openDetalles, setOpenDetalles] = useState(false);
   const [clave, setClave] = useState("");
-  const [estatus, setEstatus] = useState("");
   const [agregar, setAgregar] = useState<boolean>(false);
   const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
- 
   const [nombreFondo, setNombreFondo] = useState("");
   const [idDetalle, setIdDetalle] = useState("");
+ 
+
 
   const closeTraz = (v: any) => {
     setOpenTrazabilidad(false);
@@ -77,7 +76,6 @@ export const Fpg = () => {
     setstep(2);
     setOpenDetalles(true);
     setAnio(Number(v.row.Anio));
-    setEstatus(v.row.estatus);
 
   };
 
@@ -169,7 +167,6 @@ export const Fpg = () => {
     calculosServices.fondoInfo(data).then((res) => {
       if (res.SUCCESS) {
         const obj: fondoinfo[] = res.RESPONSE;
-
         setFondo(obj[0].Clave);
         setNombreFondo(obj[0].Descripcion);
       } else {
@@ -240,6 +237,13 @@ export const Fpg = () => {
       ) : (
         ""
       )}
+  
+
+
+    
+    
+
+
 
       <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
@@ -270,7 +274,6 @@ export const Fpg = () => {
               clave={clave}
               anio={anio}
               mes={mes}
-              estatus={estatus}
                         />
             : ""}
         </div>

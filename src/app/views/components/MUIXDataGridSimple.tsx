@@ -18,7 +18,7 @@ export default function MUIXDataGridSimple(props: any) {
           disableIgnoreModificationsIfProcessingProps	
           disableColumnSelector
           disableDensitySelector
-          rowsPerPageOptions={[6]}
+          rowsPerPageOptions={[5]}
           components={{ Toolbar: GridToolbar }}
           pageSize={5}
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}

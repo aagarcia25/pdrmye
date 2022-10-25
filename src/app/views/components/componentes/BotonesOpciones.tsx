@@ -1,6 +1,5 @@
 import {
   Box,
-  IconButton,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
@@ -11,22 +10,33 @@ import SendIcon from "@mui/icons-material/Send";
 import InsightsIcon from "@mui/icons-material/Insights";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { getUser } from "../../../services/localStorage";
 
 const BotonesOpciones = ({
+  estatus,
   handleAccion,
   autorizar,
   cancelar,
   verTrazabilidad,
   enviar,
   presupuesto,
+  perfil,
+  area
 }: {
+  estatus: string,
   handleAccion: Function;
   autorizar: boolean;
   cancelar: boolean;
   verTrazabilidad: boolean;
   enviar: boolean;
   presupuesto: boolean;
+  perfil: string;
+  area: string;
 }) => {
+  const user: RESPONSE = JSON.parse(String(getUser()));
+  console.log(user.PERFILES[0].Referencia);
   return (
     <div>
       <Box sx={{}}>
@@ -37,7 +47,14 @@ const BotonesOpciones = ({
             </ToggleButton>
           </Tooltip>
 
-          {autorizar ? (
+          {
+           (autorizar  && estatus=="INICIO"  && user.PERFILES[0].Referencia=="ANA" )
+           || 
+           (autorizar  && estatus=="ENVIADO" && user.PERFILES[0].Referencia=="COOR" ) 
+           ||  
+           (autorizar  && estatus=="ENVIADO" && user.PERFILES[0].Referencia=="DIR" )
+           
+           ? (
             <Tooltip title="Autorizar">
               <ToggleButton value="check" onClick={() => handleAccion(2)}>
                 <DoneAllIcon />
@@ -46,7 +63,10 @@ const BotonesOpciones = ({
           ) : (
             ""
           )}
-          {cancelar ? (
+          {
+          (cancelar && estatus=="INICIO"  && user.PERFILES[0].Referencia=="ANA")
+         
+          ? (
             <Tooltip title="Cancelar">
               <ToggleButton value="check" onClick={() => handleAccion(3)}>
                 <CancelPresentationIcon />
@@ -55,7 +75,39 @@ const BotonesOpciones = ({
           ) : (
             ""
           )}
-          {enviar ? (
+
+        {
+          (cancelar && estatus=="ENVIADO" && user.PERFILES[0].Referencia=="COOR" ) 
+          ? (
+            <Tooltip title="Regresar a Analista">
+              <ToggleButton value="check" onClick={() => handleAccion(7)}>
+                <CompareArrowsIcon />
+              </ToggleButton>
+            </Tooltip>
+          ) : (
+            ""
+          )}
+
+        {
+          (cancelar && estatus=="ENVIADO" && user.PERFILES[0].Referencia=="DIR" ) 
+          ? (
+            <Tooltip title="Regresar a Coordinador">
+              <ToggleButton value="check" onClick={() => handleAccion(8)}>
+                <CompareArrowsIcon />
+              </ToggleButton>
+            </Tooltip>
+          ) : (
+            ""
+          )}
+
+
+          {
+          (enviar && estatus=="AUTORIZADO" && user.PERFILES[0].Referencia=="ANA") 
+          || 
+          (enviar && estatus=="AUTORIZADO" && user.PERFILES[0].Referencia=="COOR") 
+          ||
+          (enviar && estatus=="AUTORIZADO" && user.PERFILES[0].Referencia=="DIR") 
+          ? (
             <Tooltip title="Enviar">
               <ToggleButton value="check" onClick={() => handleAccion(4)}>
                 <SendIcon />
@@ -74,7 +126,7 @@ const BotonesOpciones = ({
             ""
           )}
 
-          {presupuesto ? (
+          {(presupuesto && estatus=="PRESUPUESTO"   )? (
             <Tooltip title="Asignar Presupuesto Global">
               <ToggleButton value="check" onClick={() => handleAccion(6)}>
               <AttachMoneyIcon />

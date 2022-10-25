@@ -113,11 +113,10 @@ const Permisos = () => {
            renderCell: (v) => {
              return (
                <BotonesAcciones 
-                handleAccion={handleAccion}
-                row={undefined}
-                editar={false}
-                eliminar={false}              
-                 />
+                 handleAccion={handleAccion}
+                 row={undefined}
+                 editar={false}
+                 eliminar={false}                  />
              );
            },
          },

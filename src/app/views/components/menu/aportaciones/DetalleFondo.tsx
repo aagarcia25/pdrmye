@@ -41,7 +41,7 @@ const DetalleFondo = ({
 }) => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-
+  const [direccion, setDireccion] = useState("")
   const [openSlider, setOpenSlider] = useState(false);
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
@@ -265,8 +265,25 @@ const DetalleFondo = ({
     },
   ];
 
-  useEffect(() => {
+  const getPerfilCalculo = () => {
+    let data = {
+      IDCALCULO: idDetalle,
+    };
+    calculosServices.getPerfilCalculo(data).then((res) => {
+      if (res.SUCCESS) {
+        setDireccion(res.RESPONSE[0].Referencia);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
 
+  useEffect(() => {
+  getPerfilCalculo();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(clave)) {
 
@@ -340,7 +357,10 @@ const DetalleFondo = ({
                 cancelar={cancelar}
                 verTrazabilidad={verTrazabilidad}
                 enviar={enviar}
-                presupuesto={true}
+                presupuesto={true} 
+                estatus={""}   
+                perfil={direccion}
+                area={""}  
                 />
 
               <MUIXDataGrid columns={columns} rows={data} />

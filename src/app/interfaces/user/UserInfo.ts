@@ -38,6 +38,7 @@
         CorreoElectronico: string;
         RutaFoto?: any;
         Puesto?: any;
+        EstaActivo?:number;
         Ubicacion?: any;
         extencion?: any;
         Telefono?: any;

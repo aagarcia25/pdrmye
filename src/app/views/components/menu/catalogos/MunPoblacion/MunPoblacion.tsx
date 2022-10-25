@@ -8,13 +8,15 @@ import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { Alert } from "../../../../../helpers/Alert";
 import Slider from "../../../Slider";
-import Buttons from '../Utilerias/Buttons'
 import MunPoblacionModal from './MunPoblacionModal'
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import { PERMISO, RESPONSE} from '../../../../../interfaces/user/UserInfo'
 import SelectFrag from '../../../Fragmentos/Select/SelectFrag'
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
+import AccionesGrid from '../Utilerias/AccionesGrid'
+import BotonesAcciones from '../../../componentes/BotonesAcciones'
 
 
 const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -24,9 +26,7 @@ export const MunPoblacion = () => {
 
 
 
-  const [eliminar, setEliminar] = useState(false);
   const [update, setUpdate] = useState(false);
-  const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
@@ -34,6 +34,10 @@ export const MunPoblacion = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  const [modo, setModo] = useState("");
+
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
@@ -61,13 +65,24 @@ export const MunPoblacion = () => {
       width: 200,
       renderCell: (v: any) => {
         return (
-          ""
-        );
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+          );
       },
     },
 
   ];
 
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setModo("Editar");
+      setOpen(true);
+      setData(v.data);
+    }else if(v.tipo ==2){
+      handleBorrar(v.data);
+    }
+  }
+  
 
   const handleClose = (v: string) => {
     console.log('cerrando');
@@ -95,14 +110,6 @@ export const MunPoblacion = () => {
   };
 
 
-
-  const handleEditar = (v: any) => {
-    console.log(v)
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setData(v);
-  };
 
   const handleBorrar = (v: any) => {
 
@@ -223,14 +230,10 @@ export const MunPoblacion = () => {
   useEffect(() => {
     downloadplantilla();
     setAnios(fanios());
-
-
-
-
     permisos.map((item: PERMISO) => {
       console.log(item.ControlInterno + ' --' + String(item.Referencia));
 
-      if (item.ControlInterno == 'MUNPOB') {
+      if (item.ControlInterno == "MUNPOB") {
         if (String(item.Referencia) == 'Editar') {
           setUpdate(true);
         }
@@ -272,11 +275,9 @@ export const MunPoblacion = () => {
       ) : (
         ""
       )}
-      <Buttons
-        handleOpen={handleOpen}
+      <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleAgregar}
-      />
+        handleUpload={handleAgregar} controlInterno={"MUNPO"}      />
 
       <MUIXDataGrid
         columns={columns}

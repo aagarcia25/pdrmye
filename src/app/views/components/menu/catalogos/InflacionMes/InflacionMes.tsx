@@ -14,8 +14,9 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import InflacionMesModal from "./InflacionMesModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import { getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 
 
@@ -27,7 +28,10 @@ const InflacionMes = () => {
   const [vrows, setVrows] = useState({});
   const [dataInflacionMes, setDataInflacionMes] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -49,18 +53,24 @@ const InflacionMes = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEdit(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
         );
       },
     },
   ];
+
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setModo("Editar ");
+      setOpen(true);
+      setVrows(v.data);
+    }else if(v.tipo ==2){
+      handleDelete(v.data);
+    }
+  }
+  
 
   const handleClose = () => {
     setOpen(false);
@@ -145,6 +155,21 @@ const InflacionMes = () => {
   };
 
   useEffect(() => {
+    
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "INFMES") {
+        console.log(item)
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     consulta({ NUMOPERACION: 4 })
   }, []);
 
