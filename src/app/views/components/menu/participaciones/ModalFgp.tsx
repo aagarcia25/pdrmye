@@ -213,6 +213,8 @@ const ModalFgp = ({
   };
 
   const handleSend = () => {
+
+
     if (modo === "calculo") {
       if (clave === "ICV") {
         icv();
@@ -220,26 +222,30 @@ const ModalFgp = ({
         isrinmuebles();
       } else if (clave === "ISR NOMINA") {
         isrnomina();
+      }else{
+        
+        if (monto == null ) {
+          Alert.fire({
+            title: "Error!",
+            text: "Favor de Completar los Campos",
+            icon: "error",
+          });
+        } else {
+          let data = {
+            CLAVEFONDO: clave,
+            CHUSER: user.id,
+            IMPORTE: monto,
+            ANIO: year,
+            MES: meselect,
+            ZERO:Czero
+          };
+          console.log(data);
+          agregar(data);
+        }
+
       }
 
-      if (monto == null ) {
-        Alert.fire({
-          title: "Error!",
-          text: "Favor de Completar los Campos",
-          icon: "error",
-        });
-      } else {
-        let data = {
-          CLAVEFONDO: clave,
-          CHUSER: user.id,
-          IMPORTE: monto,
-          ANIO: year,
-          MES: meselect,
-          ZERO:Czero
-        };
-        console.log(data);
-        agregar(data);
-      }
+      
     } else {
       
       // AJUSTE ESTATAL
@@ -250,9 +256,9 @@ const ModalFgp = ({
       }else if(labelAjuste == 8){
         AjusteEstatal();
       }
-
-
     }
+
+
   };
 
   const agregar = (data: any) => {
@@ -286,13 +292,11 @@ const ModalFgp = ({
   useEffect(() => {
     // SE ESTABLECE EL TIEMPO EN ESPERA PARA QUE SE CARGEN DE FORMA CORRECTA LOS COMPONENTES
     setNameNewDoc("");
-    //setTimeout(() => {
       setLabelAjuste(0);
       setslideropen(true);
       setMeses(fmeses());
       ajusteesc();
       setslideropen(false);
-    //}, 3000);
   }, [step]);
 
   return (

@@ -580,8 +580,9 @@ const DetalleFgp = ({
                 verTrazabilidad={verTrazabilidad}
                 enviar={enviar}
                 presupuesto={presupuesto}
-                estatus={status} 
+                estatus={status}
                 perfil={direccion} 
+                area={""} 
                 />
 
               <MUIXDataGrid columns={columns} rows={data} />

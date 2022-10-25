@@ -22,7 +22,8 @@ const BotonesOpciones = ({
   verTrazabilidad,
   enviar,
   presupuesto,
-  perfil
+  perfil,
+  area
 }: {
   estatus: string,
   handleAccion: Function;
@@ -32,6 +33,7 @@ const BotonesOpciones = ({
   enviar: boolean;
   presupuesto: boolean;
   perfil: string;
+  area: string;
 }) => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   console.log(user.PERFILES[0].Referencia);

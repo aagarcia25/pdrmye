@@ -359,7 +359,8 @@ const DetalleFondo = ({
                 enviar={enviar}
                 presupuesto={true} 
                 estatus={""}   
-                perfil={direccion} 
+                perfil={direccion}
+                area={""}  
                 />
 
               <MUIXDataGrid columns={columns} rows={data} />
