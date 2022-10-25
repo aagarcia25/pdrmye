@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { getUser } from "../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
@@ -10,8 +10,9 @@ import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import MunTerritorioModal from "./MunTerritorioModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import AccionesGrid from "../Utilerias/AccionesGrid";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 export const MunTerritorio = () => {
 
@@ -23,6 +24,10 @@ export const MunTerritorio = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
 
 
   // VARIABLES PARA LOS FILTROS
@@ -51,12 +56,22 @@ export const MunTerritorio = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <AccionesGrid  controlInterno={"MUNTERR"} handleDelete={handleDelete} handleEditar={handleEdit}  ></AccionesGrid>
-        );
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+          );
       },
     },
 
   ];
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setOpen(true);
+      setData(v.data);
+    }else if(v.tipo ==2){
+      handleDelete(v.data);
+    }
+  }
+  
 
   const handleClose = (v: string) => {
     if (v == "close") {
@@ -83,12 +98,6 @@ export const MunTerritorio = () => {
     setData("");
   };
 
-  const handleEdit = (v: any) => {
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setData(v);
-  };
 
 
   const handleDelete = (v: any) => {
@@ -198,6 +207,18 @@ export const MunTerritorio = () => {
   };
 
   useEffect(() => {
+    
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "MUNTERR") {
+        console.log(item)
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     downloadplantilla();
 
 

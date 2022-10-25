@@ -14,11 +14,12 @@ import MUIXDataGrid from '../../../MUIXDataGrid'
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import { getUser } from '../../../../../services/localStorage'
+import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { getPermisos, getUser } from '../../../../../services/localStorage'
 import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
 import AccionesGrid from '../Utilerias/AccionesGrid'
+import BotonesAcciones from '../../../componentes/BotonesAcciones'
 
 export const MunPobrezaExtrema = () => {
 
@@ -32,7 +33,10 @@ export const MunPobrezaExtrema = () => {
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
 
 
 
@@ -61,7 +65,7 @@ export const MunPobrezaExtrema = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <AccionesGrid  controlInterno={"MUNPOEX"} handleDelete={handleBorrar} handleEditar={handleEditar}  ></AccionesGrid>
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
 
         );
       },
@@ -92,20 +96,16 @@ export const MunPobrezaExtrema = () => {
     setData(v);
   };
 
-
-  const handleEditar = (v: any) => {
-    console.log(v)
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setData(v);
-
-    let data = {
-      NUMOPERACION: 4,
-      ANIO: filterAnio,
-    };
-    consulta(data);
-  };
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setModo("Editar ");
+      setOpen(true);
+      setData(v.data);
+    }else if(v.tipo ==2){
+      handleBorrar(v.data);
+    }
+  }
 
   const handleBorrar = (v: any) => {
 
@@ -172,9 +172,6 @@ export const MunPobrezaExtrema = () => {
     CatalogosServices.munpobrezaext(data).then((res) => {
 
       console.log('respuesta' + res.RESPONSE + res.NUMCODE);
-
-
-
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -219,6 +216,19 @@ export const MunPobrezaExtrema = () => {
 
 
   useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "MUNPOEX") {
+        console.log(item)
+    
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
+
     setAnios(fanios());
     downloadplantilla();
   }, []);

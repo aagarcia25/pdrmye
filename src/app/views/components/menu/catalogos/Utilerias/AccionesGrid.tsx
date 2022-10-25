@@ -1,7 +1,7 @@
 import { Box, ToggleButtonGroup, Tooltip, ToggleButton} from "@mui/material";
 import { useEffect, useState } from "react";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos } from "../../../../../services/localStorage";
 
@@ -46,14 +46,14 @@ const AccionesGrid = ({
         {editar ?
           <Tooltip title="Editar">
             <ToggleButton value="check" onClick={(v) => handleEditar(v)} >
-                <ArrowDownwardIcon />
+                <ModeEditOutlineIcon />
             </ToggleButton>
           </Tooltip>
           : ""}
         {eliminar ?
           <Tooltip title="Eliminar">
             <ToggleButton value="check" onClick={(v) => handleDelete(v)}>
-              <DriveFolderUploadIcon />
+              <DeleteForeverIcon />
             </ToggleButton>
           </Tooltip>
           : ""}

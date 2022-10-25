@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { GridColDef } from "@mui/x-data-grid";
 import MUIXDataGrid from "../../MUIXDataGrid";
@@ -11,7 +11,7 @@ import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
 
 import BotonesAcciones from "../../componentes/BotonesAcciones";
 import Swal from "sweetalert2";
-import WorflowModal from "../Workflow/WorflowModal";
+import WorflowModal from "./WorflowModal";
 
 
 const Workflow = () => {
@@ -20,7 +20,6 @@ const Workflow = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-
   const [data, setData] = useState([]);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [open, setOpen] = useState(false);

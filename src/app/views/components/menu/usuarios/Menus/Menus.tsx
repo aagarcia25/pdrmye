@@ -123,8 +123,7 @@ const Menus = () => {
             handleAccion={handleAccion}
             row={v}
             editar={editar}
-            eliminar={eliminar}
-          />
+            eliminar={eliminar}  />
         );
       },
     },

@@ -18,6 +18,7 @@ import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { getPermisos, getUser } from '../../../../../services/localStorage';
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio';
 import AccionesGrid from '../Utilerias/AccionesGrid';
+import BotonesAcciones from '../../../componentes/BotonesAcciones';
 
 
 export const MunPobProyeccion = () => {
@@ -31,12 +32,16 @@ export const MunPobProyeccion = () => {
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+
 
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
   //funciones
-  
+
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
     {
@@ -45,7 +50,7 @@ export const MunPobProyeccion = () => {
       hide: true,
       width: 150,
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },     
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "anio", headerName: "Año", width: 150 },
     { field: "Pob", headerName: "Poblacion", width: 150 },
@@ -58,14 +63,25 @@ export const MunPobProyeccion = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          
-          <AccionesGrid  controlInterno={"MUNPROYEC"} handleDelete={handleBorrar} handleEditar={handleEditar}  ></AccionesGrid>
-          
+
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
         );
       },
     },
 
   ];
+  const handleAccion = (v: any) => {
+    if (v.tipo == 1) {
+      setTipoOperacion(2);
+      setModo("Editar ");
+      setOpen(true);
+      setData(v.data);
+    } else if (v.tipo == 2) {
+      handleBorrar(v.data);
+    }
+  }
+
 
   const handleClose = () => {
     console.log('cerrando');
@@ -183,17 +199,17 @@ export const MunPobProyeccion = () => {
   };
 
   const handleFilterChange = (v: string) => {
-  
+
     let data = {
       NUMOPERACION: 4,
       ANIO: v,
     };
     setFilterAnio(v);
     if (v != "") {
-    consulta(data);
+      consulta(data);
     }
   };
-  
+
   const downloadplantilla = () => {
     let data = {
       NUMOPERACION: "MUNICIPIO_PROYECCION",
@@ -207,7 +223,17 @@ export const MunPobProyeccion = () => {
 
 
   useEffect(() => {
-    
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "MUNPROYEC") {
+        console.log(item)
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     setAnios(fanios());
     downloadplantilla();
   }, []);
@@ -220,14 +246,14 @@ export const MunPobProyeccion = () => {
     <div style={{ height: 500, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Box  
-         sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
-            <SelectFrag 
+      <Box
+        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
+        <SelectFrag
           options={anios}
           onInputChange={handleFilterChange}
           placeholder={"Seleccione Año"} label={""} disabled={false}
-          value={''}/>
-            </Box>
+          value={''} />
+      </Box>
 
 
       {open ? (
@@ -244,7 +270,7 @@ export const MunPobProyeccion = () => {
 
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleAgregar} controlInterno={"MUNPROYEC"}      />
+        handleUpload={handleAgregar} controlInterno={"MUNPROYEC"} />
       <MUIXDataGrid columns={columns} rows={Poblacion} />
 
     </div>

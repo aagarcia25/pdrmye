@@ -8,12 +8,12 @@ const BotonesAcciones = ({
     handleAccion,
     row,
     editar,
-    eliminar
+    eliminar,
   }: {
     handleAccion: Function;
     row:any;
     editar:boolean;
-    eliminar:boolean
+    eliminar:boolean;
    
   }) => {
   return (
@@ -31,13 +31,9 @@ const BotonesAcciones = ({
               <DeleteForeverIcon />
             </IconButton>
             :""
-            }
-
-
-
-
-
             
+            }
+                     
           </Box>
     </div>
   )

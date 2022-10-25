@@ -17,12 +17,12 @@ import MUIXDataGrid from "../../../MUIXDataGrid";
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { fanios } from "../../../../../share/loadAnios";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getUser } from "../../../../../services/localStorage";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import AccionesGrid from "../Utilerias/AccionesGrid";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 export const MunRecaudacion = () => {
-  const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
@@ -30,7 +30,11 @@ export const MunRecaudacion = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  const [modo, setModo] = useState("");
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
@@ -65,13 +69,24 @@ export const MunRecaudacion = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          
-          <AccionesGrid  controlInterno={"MUNRECAU"} handleDelete={handleDelete} handleEditar={handleEdit}  ></AccionesGrid>
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
 
         );
       },
     },
   ];
+
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setModo("Editar ");
+      setOpen(true);
+      setData(v.data);
+    }else if(v.tipo ==2){
+      handleDelete(v.data);
+    }
+  }
 
   const handleClose = (v: string) => {
     console.log("cerrando");
@@ -92,13 +107,6 @@ export const MunRecaudacion = () => {
     setModo("Agregar Registro");
     setOpen(true);
     setData("");
-  };
-
-  const handleEdit = (v: any) => {
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setData(v);
   };
 
   const handleDelete = (v: any) => {
@@ -210,6 +218,17 @@ export const MunRecaudacion = () => {
   };
 
   useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "MUNRECAU") {
+        console.log(item)
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     setAnios(fanios());
     downloadplantilla();
   }, []);

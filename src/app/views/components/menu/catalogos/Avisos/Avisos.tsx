@@ -52,7 +52,7 @@ export const Avisos = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar} ></BotonesAcciones>
         );
       },
     },

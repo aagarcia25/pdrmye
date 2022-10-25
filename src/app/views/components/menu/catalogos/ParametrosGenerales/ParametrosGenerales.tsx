@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { GridColDef } from "@mui/x-data-grid";
 import { messages } from "../../../../styles";
 import Swal from "sweetalert2";
@@ -14,6 +14,7 @@ import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import AccionesGrid from "../Utilerias/AccionesGrid";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 export const ParametrosGenerales = () => {
   const [parametroGeneral, setParametroGeneral] = useState([]);
@@ -21,6 +22,11 @@ export const ParametrosGenerales = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+
 
   console.log("parametroGeneral", parametroGeneral);
 
@@ -50,12 +56,24 @@ export const ParametrosGenerales = () => {
       width: 150,
       renderCell: (v) => {
         return (
-          <AccionesGrid  controlInterno={"PG"} handleDelete={handleDelete} handleEditar={handleEdit}  ></AccionesGrid>
+          
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
 
         );
       },
     },
   ];
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setModo("Editar ");
+      setOpen(true);
+      setVrows(v.data);
+    }else if(v.tipo ==2){
+      handleDelete(v.data);
+    }
+  }
+  
 
   const handleClose = () => {
     setOpen(false);
@@ -69,14 +87,7 @@ export const ParametrosGenerales = () => {
     setVrows("");
   };
 
-  const handleEdit = (v: any) => {
-    console.log(v)
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setVrows(v);
-  };
-
+  
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
@@ -145,6 +156,20 @@ export const ParametrosGenerales = () => {
   };
 
   useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "PG") {
+        console.log(item)
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     consulta({ NUMOPERACION: 4 })
   }, []);
 
@@ -162,7 +187,7 @@ export const ParametrosGenerales = () => {
         ""
       )}
 
-      <ButtonsAdd handleOpen={handleOpen} agregar={false} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={parametroGeneral} />
 
 
