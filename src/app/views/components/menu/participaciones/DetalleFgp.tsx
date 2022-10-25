@@ -54,6 +54,8 @@ const DetalleFgp = ({
   const [direccion, setDireccion] = useState("")
   const [area, setArea] = useState("")
   const [file, setFile] = useState(false);
+  const [vrows, setvrows] = useState({});
+
 
 
 
@@ -82,7 +84,7 @@ const DetalleFgp = ({
 
       case 2: //Autorizar
         setTipoAccion("Favor de ingresar un comentario para la Autorización");
-        UpdateCalculo("AUTORIZADO",false);
+        UpdateCalculo("AUTORIZADO",false,{});
         break;
 
       case 3: //Cancelar
@@ -91,7 +93,7 @@ const DetalleFgp = ({
 
       case 4: //Enviar
         setTipoAccion("Favor de ingresar un comentario para el Envio");
-        UpdateCalculo("ENVIADO",false);
+        UpdateCalculo("ENVIADO",false,{});
         break;
 
       case 5: //Ver Trazabilidad
@@ -102,19 +104,18 @@ const DetalleFgp = ({
         setTipoAccion(
           "Favor de ingresar un comentario para la asignación del Presupuesto de Forma global"
         );
-        UpdateCalculo("INICIO",false);
+        UpdateCalculo("INICIO",true,{});
         break;
 
       case 7: //Asignar Presupuesto
       setTipoAccion("Favor de ingresar un comentario para el Envio");
-      UpdateCalculo("INICIO",true);
+      UpdateCalculo("INICIO",true,{});
       break;
 
       case 8: //REGRESAR AL COORDINADOR
       setTipoAccion("Favor de ingresar un comentario para el Envio");
-      UpdateCalculo("ENVIADO",false);
-
-        break;
+      UpdateCalculo("ENVIADO",false,{});
+      break;
 
       default:
         break;
@@ -123,11 +124,12 @@ const DetalleFgp = ({
 
   const agregarPresupuesto = (data: any) => {
     setTipoAccion("Favor de ingresar un comentario para la asignación del Presupuesto de Forma Singular");
-    UpdateCalculo("ENVIADO",true);
+    UpdateCalculo("ENVIADO",true,data);
      
   };
 
-  const UpdateCalculo = (estatus: string , file:boolean) => {
+  const UpdateCalculo = (estatus: string , file:boolean , data: any) => {
+    setvrows(data)
     setFile(file);
     setStatusDestino(estatus);
     setOpenModal(true);
@@ -138,7 +140,7 @@ const DetalleFgp = ({
   };
 
   const Fnworkflow = (data: any) => {
-   
+    console.log(data);
     let obj = {
       IDCALCULO: idCalculo,
       ESTATUS_DESTINO: statusDestino,
@@ -148,7 +150,9 @@ const DetalleFgp = ({
       TEXTO: data.texto,
     };
 
-    console.log(obj);
+
+   
+    /*
     calculosServices.wf(obj).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -163,7 +167,9 @@ const DetalleFgp = ({
           icon: "error",
         });
       }
-    });
+    });*/
+
+
   };
   const BorraCalculo = () => {
     let data = {
@@ -321,7 +327,6 @@ const DetalleFgp = ({
           title: "Consulta Exitosa!",
         });
         setData(res.RESPONSE);
-        console.log("Pasando estatus" + status);
       } else {
         Alert.fire({
           title: "Error!",
@@ -536,7 +541,7 @@ const DetalleFgp = ({
               open={openModal}
               tipo={tipoAccion}
               handleClose={FnworkflowClose}
-              vrows={""}
+              vrows={vrows}
               handleAccion={Fnworkflow} 
               file={file}         
               ></ModalAlert>
