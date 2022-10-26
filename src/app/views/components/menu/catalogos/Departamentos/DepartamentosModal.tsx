@@ -9,9 +9,11 @@ import {
 import { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 
 export const DepartamentosModal = ({
   open,
@@ -27,15 +29,15 @@ export const DepartamentosModal = ({
   dt: any;
 }) => {
   // CAMPOS DE LOS FORMULARIOS
-  const [id, setId] = useState("");
-  const [nombreCorto, setNombreCorto] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [responsable, setResponsable] = useState("");
+  const [id, setId] = useState<String>();
+  const [usuarios, setUsuarios] = useState<SelectValues[]>([]);
+  const [nombreCorto, setNombreCorto] = useState<String>();
+  const [descripcion, setDescripcion] = useState<String>();
+  const [responsable, setResponsable] = useState<String>("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-
   const handleSend = () => {
-    if (!nombreCorto || !descripcion || !responsable) {
+    if (!nombreCorto || !descripcion || !responsable|| responsable=="") {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -55,7 +57,18 @@ export const DepartamentosModal = ({
       handleClose();
     }
   };
+  
+  const loadFilter = (operacion: number) => {
+    let data = { NUMOPERACION: operacion };
+      CatalogosServices.SelectIndex(data).then((res) => {
+          setUsuarios(res.RESPONSE);
+      });
+    }
 
+    const handleChange = (v: string) => {
+      console.log(v)
+       v=="false"?setResponsable(""):setResponsable(v);
+  };
   const handleRequest = (data: any) => {
     console.log(data);
     if (tipo == 1) {
@@ -102,10 +115,13 @@ export const DepartamentosModal = ({
   };
 
   useEffect(() => {
+    console.log(dt?.row)
+    loadFilter(10);
     if (dt === "") {
     } else {
       //SE PINTAN LOS CAMPOS
       setId(dt?.row?.id);
+      console.log(dt?.row?.id)
       setNombreCorto(dt?.row?.NombreCorto);
       setDescripcion(dt?.row?.Descripcion);
       setResponsable(dt?.row?.Responsable);
@@ -115,7 +131,7 @@ export const DepartamentosModal = ({
   return (
     <Dialog open={open}>
       <DialogContent>
-        <Box>
+        <Box sx={{ justifyContent: "center", height:450 }}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <label className="Titulo">{modo}</label>
           </Box>
@@ -147,19 +163,18 @@ export const DepartamentosModal = ({
                 error={!descripcion ? true : false}
                 InputProps={{}}
               />
-              <TextField
-                required
-                margin="dense"
-                id="Responsable"
-                label="Responsable"
-                value={responsable}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setResponsable(v.target.value)}
-                error={!responsable ? true : false}
-                InputProps={{}}
-              />
+                   <Box sx={{
+                margin:1
+               }}>
+                <SelectFrag
+                  value={String(responsable)}
+                  options={usuarios}
+                  onInputChange={handleChange}
+                  placeholder={"Seleccione Usuario"}
+                  label={""}
+                  disabled={false}
+                />
+                </Box>
             </Container>
           ) : (
             ""
@@ -194,19 +209,18 @@ export const DepartamentosModal = ({
                 error={!descripcion ? true : false}
                 InputProps={{}}
               />
-              <TextField
-                required
-                margin="dense"
-                id="Responsable"
-                label="Responsable"
-                value={responsable}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setResponsable(v.target.value)}
-                error={!responsable ? true : false}
-                InputProps={{}}
-              />
+              <Box sx={{
+                margin:1
+               }}>
+                <SelectFrag
+                  value={String(responsable)}
+                  options={usuarios}
+                  onInputChange={handleChange}
+                  placeholder={"Seleccione Usuario"}
+                  label={""}
+                  disabled={false}
+                />
+                </Box>
             </Container>
           ) : (
             ""

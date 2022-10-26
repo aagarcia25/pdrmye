@@ -98,17 +98,17 @@ export const Municipios = () => {
       renderCell: (v) => {
         return (
           <>
-          <Box>
-            {fideicomiso ? <IconButton onClick={() => handleFideicomiso(v)}>
-              <RequestQuoteIcon />
-            </IconButton>
-              :
-              ""
-            }
+            <Box>
+              {fideicomiso ? <IconButton onClick={() => handleFideicomiso(v)}>
+                <RequestQuoteIcon />
+              </IconButton>
+                :
+                ""
+              }
             </Box>
-             <Box>
-            <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-          </Box>
+            <Box>
+              <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+            </Box>
           </>
         );
       },
@@ -131,12 +131,6 @@ export const Municipios = () => {
     setData(v);
   };
 
-  const handleOpen = (v: any) => {
-    setTipoOperacion(1);
-    setModo("Agregar Registro");
-    setOpen(true);
-    setData("");
-  };
   const handleClose = () => {
     setOpen(false);
     setOpenFideicomiso(false);

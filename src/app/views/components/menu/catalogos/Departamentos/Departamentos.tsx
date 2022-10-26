@@ -26,17 +26,12 @@ export const Departamentos = () => {
   const [eliminar, setEliminar] = useState<boolean>(false);
   
   const columns: GridColDef[] = [
-    {
-      field: "id",
-      hide: true,
-      headerName: "Identificador",
-      width: 150,
-    },
+    {field: "id",hide: true},
     { field: "NombreCorto", headerName: "Nomenclatura", width: 120 },
     { field: "Descripcion", headerName: "Descripción", width: 450 },
-    { field: "Responsable", headerName: "Responsable", width: 150 },
-    {
-      field: "acciones",
+    { field: "NAMEUSUARIO", headerName: "Responsable", width: 300 },
+    { field: "Responsable", hide: true, },
+    { field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -60,7 +55,7 @@ export const Departamentos = () => {
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
-    setVrows(v);
+    setVrows(v.data);
    }else if(v.tipo ==2){
     Swal.fire({
       icon: "info",
@@ -110,13 +105,14 @@ export const Departamentos = () => {
   const handleClose = () => {
     setOpen(false);
     consulta({ NUMOPERACION: 4 });
+    
   };
 
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
-    setVrows("");
+    setVrows(v);
   };
 
   const consulta = (data: any) => {
@@ -126,7 +122,7 @@ export const Departamentos = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        console.log(data);
+        console.log(res);
         setDepartamento(res.RESPONSE);
       } else {
         Alert.fire({

@@ -113,7 +113,7 @@ const FideicomisoConfig = ({
     },
   ];
 
-  const validateCount = (e: any, tipo: any) => {
+  const validateCount = (e: any, tipo: number) => {
 
     var valor = e.target.value
     if (tipo == 1) {
