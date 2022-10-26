@@ -12,12 +12,15 @@ import {
   ButtonGroup,
   Container,
   TextField,
+  IconButton,
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import AddIcon from "@mui/icons-material/Add";
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
@@ -26,6 +29,7 @@ import Slider from "../../../Slider";
 import { SendToMobileOutlined } from "@mui/icons-material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { getUser } from "../../../../../services/localStorage";
+import validator from "validator";
 
 const FideicomisoConfig = ({
   open,
@@ -37,14 +41,21 @@ const FideicomisoConfig = ({
   dt: any;
 }) => {
   // CAMPOS DE LOS FORMULARIOS
-  const [idMun, setIdMun] = useState("");
+  const [idMun, setIdMun] = useState("");  
+  const [idFide, setIdFide] = useState<String>();
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [data, setData] = useState([]);
   const [openSlider, setOpenSlider] = useState(false);
   const [nombre, setNombre] = useState<string>();
-  const [porcentaje, setPorcentaje] = useState<number>();
+  const [porcentaje, setPorcentaje] = useState<number>(0);
   const [claveBan, setClaveBan] = useState<string>();
   const [cuenta, setCuenta] = useState<string>();
+  const [cuentaValid, setCuentaValid] = useState<boolean>();
+  const [claveValid, setClaveValid] = useState<boolean>();
+  const [cuentaError, setCuentaError] = useState<string>();
+  const [claveError, setClaveError] = useState<string>();
+
+
   const [municipio, setMunicipio] = useState<string>();
   const [modo, setModo] = useState<string>("visualizar");
 
@@ -87,10 +98,14 @@ const FideicomisoConfig = ({
       width: 400,
       renderCell: (v) => {
         return (
- 
           <Box>
-            TE
-           
+           <IconButton onClick={() => handleEdit(v)}>
+              <ModeEditOutlineIcon />
+            </IconButton>
+            <IconButton onClick={() => handleDelete(v)}>
+              <DeleteForeverIcon />
+            </IconButton>
+
           </Box>
         );
 
@@ -98,30 +113,109 @@ const FideicomisoConfig = ({
     },
   ];
 
-  const handleSend = () => {
+  const validateCount = (e: any, tipo: any) => {
+
+    var valor = e.target.value
+    if (tipo == 1) {
+      ///// clave
+setClaveBan(valor)
+if (validator.isNumeric(valor)) {
+  setClaveError('')
+  setClaveValid(true);
+} else {
+  setClaveError('Ingrese Numeros')
+  setClaveValid(false);
+}
+
+
+    } else
+      if (tipo == 2) {
+        ///// cuenta
+setCuenta(valor)
+if (validator.isNumeric(valor)) {
+  setCuentaError('')
+  setCuentaValid(true);
+} else {
+  setCuentaError('Ingrese Numeros')
+  setCuentaValid(false);
+}
+
+
+      }
+  }
+
+  const handleDelete = (v:any) => {
+    setOpenSlider(true);
+    let dat = {
+      CHID:v?.row.id,
+      NUMOPERACION:3,
+      CHUSER: user.id,
+    };
+    CatalogosServices.MunFideicomiso(dat).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Registro Eliminado!",
+        });
+        consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+    setNombre("");
+    setPorcentaje(0);
+    setCuenta("");
+    setClaveBan("");
+    setModo("visualizar");
+    
+    setOpenSlider(false);
+  };
+
+
+  const handleEdit = (v:any) => {
+    console.log(v?.row)
+    setOpenSlider(true);
+    setModo("editar");
+    setIdMun(v?.row?.IdMun);
+    setIdFide(v?.row.id);
+    setNombre(v?.row?.Nombre);
+    setPorcentaje(v?.row?.Porcentaje);
+    setCuenta(v?.row?.Cuenta);
+    setClaveBan(v?.row?.ClaveBancaria);
+    setOpenSlider(false);
+    consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
+
   };
 
 
   const handleNuevoFideicomiso = () => {
     setModo("nuevo");
-
   };
 
 
   const agregar = () => {
+
     if (
+      claveValid==false||
+      cuentaValid==false||
       nombre === null ||
+      Number(porcentaje) >= 100 ||
       porcentaje === null ||
-      cuenta === null ||
+      cuenta == null ||
       claveBan === null) {
       Alert.fire({
         title: "Error!",
-        text: "Favor de Completar los Campos",
+        text: "Favor de Verificar los Campos",
         icon: "error",
       });
-    }else{
+    } else {
       let dat = {
-        NUMOPERACION: 1,
+        CHID:idFide,
+        NUMOPERACION:modo=="nuevo"?1:2,
         IDMUN: idMun,
         CHUSER: user.id,
         NOMBRE: nombre,
@@ -133,7 +227,7 @@ const FideicomisoConfig = ({
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "Registro Agregado!",
+            title: "Registro" + (modo==="nuevo"?"Agregado!":"Editado!"),
           });
           console.log("Sé pudo agregar");
         } else {
@@ -145,27 +239,17 @@ const FideicomisoConfig = ({
           console.log("No se pudo agregar");
         }
       });
+      setNombre("");
+      setPorcentaje(0);
+      setCuenta("");
+      setClaveBan("");
+      setModo("visualizar");
+      consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
     }
   };
 
-  const editar = (data: any) => {
-    CatalogosServices.MunFideicomiso(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Editado!",
-        });
-        console.log("Sé pudo editar");
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-        console.log("No se pudo editar");
-      }
-    });
-  };
+ 
+  
 
   const consulta = (data: any) => {
     setOpenSlider(true);
@@ -187,6 +271,8 @@ const FideicomisoConfig = ({
     } else {
       //SE PINTAN LOS CAMPOS
       setIdMun(dt?.row?.id);
+    
+
     }
   }, [dt]);
 
@@ -244,7 +330,7 @@ const FideicomisoConfig = ({
             : ""}
         </Box>
 
-        {(modo == "nuevo") ?
+        {(modo == "nuevo"||modo=="editar") ?
           <Grid
             container
             sx={{ width: "100%", height: "100%", bgcolor: "rgb(255,255,255)", boxShadow: 50, p: 2, borderRadius: 3, }} >
@@ -260,8 +346,8 @@ const FideicomisoConfig = ({
                   fullWidth
                   variant="standard"
                   onChange={(v) => setNombre(v.target.value)}
-                  error={!nombre ? true : false}
-                  InputProps={{}}
+                  error={String(nombre).length==0}
+                  InputLabelProps={{shrink: true}}
                 />
                 <TextField
                   required
@@ -272,8 +358,8 @@ const FideicomisoConfig = ({
                   fullWidth
                   variant="standard"
                   onChange={(v) => setPorcentaje(Number(v.target.value))}
-                  error={!porcentaje ? true : false}
-                  InputProps={{}}
+                  error={!porcentaje ? true : false || porcentaje >= 100}
+                  InputLabelProps={{shrink: true}}
                 />
                 <TextField
                   required
@@ -283,10 +369,12 @@ const FideicomisoConfig = ({
                   type="text"
                   fullWidth
                   variant="standard"
-                  onChange={(v) => setCuenta(v.target.value)}
-                  error={!cuenta ? true : false}
-                  InputProps={{}}
+                  onChange={(e) => validateCount(e, 2)}
+                  error={cuentaValid==false||!cuenta ? true : false}
+                  inputProps={{ maxLength: 10 }}
+                  InputLabelProps={{shrink: true}}
                 />
+                 <label>{cuentaError}</label>
                 <TextField
                   required
                   margin="dense"
@@ -295,13 +383,15 @@ const FideicomisoConfig = ({
                   type="text"
                   fullWidth
                   variant="standard"
-                  onChange={(v) => setClaveBan(v.target.value)}
-                  error={!claveBan ? true : false}
-                  InputProps={{}}
+                  onChange={(e) => validateCount(e, 1)}
+                  error={claveValid==false||!claveBan? true : false}
+                  inputProps={{ maxLength: 18 }}
+                  InputLabelProps={{shrink: true}}
                 />
+                 <label>{claveError}</label>
                 <DialogActions>
 
-                  <button className="guardar" onClick={() => agregar()}>
+            <button className="guardar" onClick={() =>{agregar()}}>
                     Guardar
                   </button>
                 </DialogActions>
