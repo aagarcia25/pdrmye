@@ -49,7 +49,7 @@ import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de U
 import SolicitudRecursos from '../views/components/Municipios/SolicitudRecursos';
 import RecepcionRecursos from '../views/components/Municipios/RecepcionRecursos';
 
-import Workflow from '../views/components/menu/workflow/Worflow';
+import Workflow from '../views/components/menu/Workflow/Worflow';
 
 import { Bancos } from '../views/components/menu/catalogos/Bancos/Bancos';
 
