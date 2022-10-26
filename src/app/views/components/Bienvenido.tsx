@@ -1,10 +1,11 @@
-import { Button, Typography, useTheme } from "@mui/material";
+import { Button, Grid, Typography, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useState } from "react";
 import PlantillaBienvenido from "./PlantillaBienvenido";
 import MobileStepper from "@mui/material/MobileStepper";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { COLOR } from "../../styles/colors";
+import CardComponente from "./CardComponente";
 
 export default function Bienvenido({ user }: { user: any }) {
   //VARAIBLES PARA LA VISTA DE MUNICIPIOS
@@ -69,19 +70,25 @@ export default function Bienvenido({ user }: { user: any }) {
             justifyContent: "center",
           }}
         >
-          <Box sx={{ width: "100%", height: "83vh",
-          // backgroundColor: "green"
-         }}>
-            <Box
-              sx={{ width: "100%", height: "15%",
-              // backgroundColor: "skyblue" 
+          <Box
+            sx={{
+              width: "100%",
+              height: "83vh",
+              // backgroundColor: "green"
             }}
+          >
+            <Box
+              sx={{
+                width: "100%",
+                height: "15%",
+                // backgroundColor: "skyblue"
+              }}
             >
               <Box
                 sx={{
                   width: "100%",
                   height: "60%",
-                 // backgroundColor: "purple",
+                  // backgroundColor: "purple",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
@@ -93,18 +100,24 @@ export default function Bienvenido({ user }: { user: any }) {
               </Box>
 
               <Box
-                sx={{ width: "100%", height: "40%",
-                // backgroundColor: "violet", 
-                display:"flex", alignItems:"center" }}
+                sx={{
+                  width: "100%",
+                  height: "40%",
+                  // backgroundColor: "violet",
+                  display: "flex",
+                  alignItems: "center",
+                }}
               >
-                <Typography sx={{ ml: 3, fontSize: "1.4vw" }}>Avisos:</Typography>
+                <Typography sx={{ ml: 3, fontSize: "1.4vw" }}>
+                  Avisos:
+                </Typography>
               </Box>
             </Box>
             <Box
               sx={{
                 width: "100%",
                 height: "80%",
-               // backgroundColor: "yellow",
+                // backgroundColor: "yellow",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -114,12 +127,12 @@ export default function Bienvenido({ user }: { user: any }) {
                 sx={{
                   width: "100%",
                   height: "15%",
-                 // backgroundColor: "pink",
+                  // backgroundColor: "pink",
                   display: "flex",
                   alignItems: "center",
                 }}
               >
-                <Typography sx={{ ml: 3, fontSize:"1.5vw" }}>
+                <Typography sx={{ ml: 3, fontSize: "1.5vw" }}>
                   {images[activeStep].label}
                 </Typography>
               </Box>
@@ -127,7 +140,7 @@ export default function Bienvenido({ user }: { user: any }) {
                 sx={{
                   width: "100%",
                   height: "80%",
-                 // backgroundColor: "aqua",
+                  // backgroundColor: "aqua",
                   display: "flex",
                   justifyContent: "center",
                 }}
@@ -135,12 +148,10 @@ export default function Bienvenido({ user }: { user: any }) {
                 <Box
                   component="img"
                   sx={{
-                    
                     width: "100%",
                     height: "100%",
                     overflow: "hidden",
-                    
-                    
+
                     objectFit: "contain",
                     borderRadius: 0,
                   }}
@@ -151,8 +162,7 @@ export default function Bienvenido({ user }: { user: any }) {
                 sx={{
                   width: "58%",
                   height: "5%",
-                 // backgroundColor: "aquamarine",
-                  
+                  // backgroundColor: "aquamarine",
                 }}
               >
                 <MobileStepper
@@ -160,14 +170,19 @@ export default function Bienvenido({ user }: { user: any }) {
                   steps={4}
                   position="static"
                   activeStep={activeStep}
-                  sx={{ width: "100%", height: "100%", flexGrow: 1, display:"flex",
-                  justifyContent:"center" }}
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    flexGrow: 1,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
                   nextButton={
                     <Button
                       size="small"
                       onClick={handleNext}
                       disabled={activeStep === 3}
-                      sx={{ml:3}}
+                      sx={{ ml: 3 }}
                     >
                       Siguiente
                       {theme.direction === "rtl" ? (
@@ -182,7 +197,7 @@ export default function Bienvenido({ user }: { user: any }) {
                       size="small"
                       onClick={handleBack}
                       disabled={activeStep === 0}
-                      sx={{mr:3}}
+                      sx={{ mr: 3 }}
                     >
                       {theme.direction === "rtl" ? (
                         <KeyboardArrowRight />
@@ -195,10 +210,7 @@ export default function Bienvenido({ user }: { user: any }) {
                 />
               </Box>
             </Box>
-            
-
           </Box>
-          
         </Box>
       </Box>
 
@@ -251,6 +263,23 @@ export default function Bienvenido({ user }: { user: any }) {
           display: user.PERFILES[0].Referencia == "COOR" ? "block" : "none",
         }}
       >
+        {/* <Grid container spacing={1} >
+          <Grid item xs={3}>
+          <CardComponente></CardComponente>
+          </Grid>
+          <Grid item xs={3}>
+          <CardComponente></CardComponente>
+          </Grid>
+          <Grid item xs={3}>
+          <CardComponente></CardComponente>
+          </Grid>
+          <Grid item xs={3}>
+          <CardComponente></CardComponente>
+          </Grid>
+        </Grid>
+        <br></br> */}
+        <Grid container spacing={1}>
+        <Grid item xs={12}>
         <PlantillaBienvenido
           id={1}
           name={
@@ -262,9 +291,12 @@ export default function Bienvenido({ user }: { user: any }) {
           }
           lastConnnection=""
         />
+        </Grid>
+        </Grid>
+       
+        
       </Box>
 
-      
       <Box
         sx={{
           display: user.PERFILES[0].Referencia == "DIR" ? "block" : "none",
@@ -282,7 +314,6 @@ export default function Bienvenido({ user }: { user: any }) {
           lastConnnection=""
         />
       </Box>
-
     </>
   );
 }

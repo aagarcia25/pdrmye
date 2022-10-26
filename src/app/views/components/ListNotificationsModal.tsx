@@ -121,8 +121,7 @@ const ListNotificationsModal = ({
           let obj ={
           referencia:1,
           data:jsonobj,
-          to:"aolguin@cecapmex.com",
-          from:"aagarcia@cecapmex.com",
+          to:"aagarcia@cecapmex.com",
           subject:newEncabezado
           };
 
