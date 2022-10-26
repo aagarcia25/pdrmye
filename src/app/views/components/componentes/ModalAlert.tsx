@@ -8,9 +8,9 @@ import {
   Divider,
   Grid,
   IconButton,
-  Typography,
 } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { Alert } from "../../../helpers/Alert";
 
 const ModalAlert = ({
   open,
@@ -39,6 +39,23 @@ const ModalAlert = ({
     }
   };
 
+  const validacion = () => {
+    if(mensaje == "" || mensaje == null){
+      Alert.fire({
+        title: "Error!",
+        text: "Favor de llenar el campo Comentarios*",
+        icon: "error",
+      });
+    }else{
+      handleAccion({ data: vrows, texto: mensaje , file:Inpfile})
+    }
+    
+  }
+
+
+
+
+
   return (
     <div>
       <Box>
@@ -46,70 +63,71 @@ const ModalAlert = ({
           <DialogTitle>{tipo}</DialogTitle>
           <DialogContent dividers={true}>
             <Grid container spacing={1}>
-            <Grid item xs={12}>
-            <label> <h3> Comentarios:</h3> </label>
-            </Grid>
               <Grid item xs={12}>
-              <textarea
-                    required
-                    spellCheck='true'
-                    rows={10}
-                    onChange={(v) => setMensaje(v.target.value)}
-                    style={{ width: "100%", borderRadius: 15, }} />
+                  <h3> Comentarios:</h3>
               </Grid>
               <Grid item xs={12}>
-              <Divider />
+                <textarea
+                  required
+                  spellCheck="true"
+                  rows={5}
+                  onChange={(v) => setMensaje(v.target.value)}
+                  style={{ width: "100%"}}
+                />
               </Grid>
-              <Grid item xs={4}>
-                xs=4
+              <Grid item xs={12}>
+                <Divider />
               </Grid>
-              <Grid item xs={8}>
-                xs=8
+
+              <Grid item xs={12}>
+              <Box sx={{ display: file ? "block" : "none" ,  }}>
+             
+              <Grid item xs={12}>
+                <label className="contenido">Añade un documento(Opcional):</label>
+                {/* <IconButton
+                  aria-label="upload picture"
+                  component="label"
+                  size="large"
+                > */}
+                  <input
+                    id="ICV"
+                    required
+                    type="file"
+                    
+                    onChange={(event) => {
+                      handleNewFile(event);
+                    }}
+                  />
+                  {/* <UploadFileIcon /> */}
+                {/* </IconButton> */}
+              </Grid>
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+              <Grid item xs={12}>
+              <Box>
+                  <label>{nameNewDoc}</label>
+                </Box>
+              </Grid>
+              </Box>
+
+              </Grid>
+
+
+
+              <Grid item xs={12}>
+                <Divider />
               </Grid>
             </Grid>
 
-            {/* <Box>
-            <label> <h3> Comentarios:</h3> </label>
-            <textarea
-                    required
-                    spellCheck='true'
-                    rows={10}
-                    onChange={(v) => setMensaje(v.target.value)}
-                    style={{ width: "100%", borderRadius: 15, }} />
-            </Box>
 
 
-
-            <label> <h3> Añade un documento:</h3> </label>
-
-            <label className="contenido">Cargar Archivo:</label>
-            <IconButton
-                    aria-label="upload picture"
-                    component="label"
-                    size="large"
-                  >
-                    <input
-                      id="ICV"
-                      required
-                      type="file"
-                      hidden
-                      onChange={(event) => {
-                        handleNewFile(event);
-                      }}
-                    />
-                    <UploadFileIcon />
-                  </IconButton>
-
-                  <Box>
-                    <label>{nameNewDoc}</label>
-                  </Box>
- */}
           </DialogContent>
 
           <DialogActions>
             <button
               className="guardar"
-              onClick={() => handleAccion({ data: vrows, texto: mensaje })}
+              onClick={() => validacion() }
             >
               Guardar
             </button>

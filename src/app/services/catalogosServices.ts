@@ -117,4 +117,8 @@ export class CatalogosServices {
         return await post('MunFideicomiso', data);
     };
 
+    public static async CuentaBancaria(data : any) {
+        return await post('CuentaBancaria', data);
+    };
+
 }

@@ -49,9 +49,11 @@ import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de U
 import SolicitudRecursos from '../views/components/Municipios/SolicitudRecursos';
 import RecepcionRecursos from '../views/components/Municipios/RecepcionRecursos';
 
-import Workflow from '../views/components/menu/Workflow/Worflow';
+import Workflow from '../views/components/menu/workflow/Worflow';
 
 import { Bancos } from '../views/components/menu/catalogos/Bancos/Bancos';
+
+import { CuentaBancaria } from '../views/components/menu/catalogos/CuentaBancaria/CuentaBancaria';
 
 
 
@@ -89,6 +91,7 @@ export const AppRouter = () => {
         <Route path='/inicio/wf'                                   element={log ? <Workflow /> : <AuthRouter />} />
         <Route path='/inicio/catalogos/parametrosgenerales'  element={<ParametrosGenerales />} />
         <Route path='/inicio/catalogos/bancos'  element={<Bancos />} />
+        <Route path='/inicio/catalogos/cuentabancaria'  element={<CuentaBancaria/>} />
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
