@@ -51,4 +51,10 @@ export class calculosServices {
         return await post('wf', data);
     }
 
+    public static async CalculoArchivo(data: any) {
+        return await post('CalculoArchivo', data);
+    }
+
+    
+
 }

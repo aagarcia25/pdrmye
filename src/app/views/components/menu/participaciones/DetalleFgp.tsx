@@ -36,7 +36,7 @@ const DetalleFgp = ({
   mes: string;
 }) => {
 
-  const [openSlider, setOpenSlider] = useState(false);
+  const [openSlider, setOpenSlider] = useState(true);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos())); 
   const [status, setStatus] = useState<string>("");
@@ -334,6 +334,7 @@ const DetalleFgp = ({
           icon: "error",
         });
       }
+      setOpenSlider(false);
     });
   };
 
@@ -486,6 +487,13 @@ const DetalleFgp = ({
       width: 150,
       description: "Observación DPCP",
     },
+    {
+      hide: presupuesto ? false : true,
+      field: "RutaArchivo",
+      headerName: "Documento DPCP",
+      width: 150,
+      description: "Documento DPCP",
+    },
 
   ];
 
@@ -559,7 +567,7 @@ const DetalleFgp = ({
             ""
           )}
 
-          <Grid container spacing={2} sx={{ justifyContent: "center" }}>
+          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={12}>
               <Box
                 sx={{
@@ -581,7 +589,6 @@ const DetalleFgp = ({
               <label className="subtitulo">
                 {anio}
                 <br />
-                <br />
               </label>
             </Grid>
           </Grid>
@@ -592,7 +599,7 @@ const DetalleFgp = ({
           >
             <Grid item xs={1}>
               <label className="subtitulo">
-                {mes.split(",")[1]} <br />
+                {mes.split(",")[1]} 
                 <br />
               </label>
             </Grid>
@@ -609,13 +616,47 @@ const DetalleFgp = ({
               </label>
             </Grid>
           </Grid>
+         
+          
+        
+          <Grid
+            container
+            spacing={1}
+            sx={{ justifyContent: "center",
+                  width: "100%",
+                   }}
+          >
+            <Grid item xs={7} md={8} lg={8}>
+              <label >
+                Observación de DPCP: {} <br />
+              </label>
+            </Grid>
+          </Grid>
+
+          <Grid
+            container
+            spacing={1}
+            sx={{ justifyContent: "center", 
+                  width: "100%",
+                }}
+          >
+            <Grid item xs={7} md={8} lg={8}>
+              <label >
+              Documento DPCP: {} <br />
+              </label>
+            </Grid>
+          </Grid>
+
+
+
+
 
           <Grid
             container
             spacing={1}
             sx={{ justifyContent: "center", width: "100%" }}
           >
-            <Slider open={openSlider}></Slider>
+           
             <Grid
               item
               xs={7}
@@ -623,6 +664,7 @@ const DetalleFgp = ({
               lg={8}
               sx={{ justifyContent: "center", width: "100%" }}
             >
+               <Slider open={openSlider}></Slider>
               <BotonesOpciones
                 handleAccion={handleAcciones}
                 autorizar={autorizar}
