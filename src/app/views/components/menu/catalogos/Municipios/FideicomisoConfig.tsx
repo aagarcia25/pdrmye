@@ -21,7 +21,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import AddIcon from "@mui/icons-material/Add";
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-
+import CloseIcon from '@mui/icons-material/Close';
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
 import { AuthService } from "../../../../../services/AuthService";
@@ -41,7 +41,7 @@ const FideicomisoConfig = ({
   dt: any;
 }) => {
   // CAMPOS DE LOS FORMULARIOS
-  const [idMun, setIdMun] = useState("");  
+  const [idMun, setIdMun] = useState("");
   const [idFide, setIdFide] = useState<String>();
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [data, setData] = useState([]);
@@ -99,7 +99,7 @@ const FideicomisoConfig = ({
       renderCell: (v) => {
         return (
           <Box>
-           <IconButton onClick={() => handleEdit(v)}>
+            <IconButton onClick={() => handleEdit(v)}>
               <ModeEditOutlineIcon />
             </IconButton>
             <IconButton onClick={() => handleDelete(v)}>
@@ -118,37 +118,37 @@ const FideicomisoConfig = ({
     var valor = e.target.value
     if (tipo == 1) {
       ///// clave
-setClaveBan(valor)
-if (validator.isNumeric(valor)) {
-  setClaveError('')
-  setClaveValid(true);
-} else {
-  setClaveError('Ingrese Numeros')
-  setClaveValid(false);
-}
+      setClaveBan(valor)
+      if (validator.isNumeric(valor)) {
+        setClaveError('')
+        setClaveValid(true);
+      } else {
+        setClaveError('Ingrese Numeros')
+        setClaveValid(false);
+      }
 
 
     } else
       if (tipo == 2) {
         ///// cuenta
-setCuenta(valor)
-if (validator.isNumeric(valor)) {
-  setCuentaError('')
-  setCuentaValid(true);
-} else {
-  setCuentaError('Ingrese Numeros')
-  setCuentaValid(false);
-}
+        setCuenta(valor)
+        if (validator.isNumeric(valor)) {
+          setCuentaError('')
+          setCuentaValid(true);
+        } else {
+          setCuentaError('Ingrese Numeros')
+          setCuentaValid(false);
+        }
 
 
       }
   }
 
-  const handleDelete = (v:any) => {
+  const handleDelete = (v: any) => {
     setOpenSlider(true);
     let dat = {
-      CHID:v?.row.id,
-      NUMOPERACION:3,
+      CHID: v?.row.id,
+      NUMOPERACION: 3,
       CHUSER: user.id,
     };
     CatalogosServices.MunFideicomiso(dat).then((res) => {
@@ -171,12 +171,12 @@ if (validator.isNumeric(valor)) {
     setCuenta("");
     setClaveBan("");
     setModo("visualizar");
-    
+
     setOpenSlider(false);
   };
 
 
-  const handleEdit = (v:any) => {
+  const handleEdit = (v: any) => {
     console.log(v?.row)
     setOpenSlider(true);
     setModo("editar");
@@ -200,8 +200,8 @@ if (validator.isNumeric(valor)) {
   const agregar = () => {
 
     if (
-      claveValid==false||
-      cuentaValid==false||
+      claveValid == false ||
+      cuentaValid == false ||
       nombre === null ||
       Number(porcentaje) >= 100 ||
       porcentaje === null ||
@@ -214,8 +214,8 @@ if (validator.isNumeric(valor)) {
       });
     } else {
       let dat = {
-        CHID:idFide,
-        NUMOPERACION:modo=="nuevo"?1:2,
+        CHID: idFide,
+        NUMOPERACION: modo == "nuevo" ? 1 : 2,
         IDMUN: idMun,
         CHUSER: user.id,
         NOMBRE: nombre,
@@ -227,7 +227,7 @@ if (validator.isNumeric(valor)) {
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "Registro" + (modo==="nuevo"?"Agregado!":"Editado!"),
+            title: "Registro" + (modo === "nuevo" ? "Agregado!" : "Editado!"),
           });
           console.log("Sé pudo agregar");
         } else {
@@ -248,8 +248,8 @@ if (validator.isNumeric(valor)) {
     }
   };
 
- 
-  
+
+
 
   const consulta = (data: any) => {
     setOpenSlider(true);
@@ -271,7 +271,7 @@ if (validator.isNumeric(valor)) {
     } else {
       //SE PINTAN LOS CAMPOS
       setIdMun(dt?.row?.id);
-    
+
 
     }
   }, [dt]);
@@ -282,15 +282,8 @@ if (validator.isNumeric(valor)) {
 
       <DialogContent>
         <Box>
-          <DialogActions>
-            <button className="cerrar" onClick={() => handleClose()}>
-              <h2>X</h2>        </button>
-          </DialogActions>
 
-          <Grid
-            container
-
-          >
+          <Grid container >
             <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
               <Typography
                 sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "4vw", color: "#000000", }}>
@@ -299,113 +292,132 @@ if (validator.isNumeric(valor)) {
             </Grid>
 
           </Grid>
-          <ButtonGroup>
-            {modo == "visualizar" ?
-              <Tooltip title="Agregar">
-                <ToggleButton value="check" onClick={() => { handleNuevoFideicomiso() }}>
-                  <AddIcon />
+
+          <Grid container   direction="row"
+  justifyContent="space-between"
+  alignItems="center">
+            <Grid item >
+            <ButtonGroup>
+              {modo == "visualizar" ?
+                <Tooltip title="Agregar">
+                  <ToggleButton value="check" onClick={() => { handleNuevoFideicomiso() }}>
+                    <AddIcon />
+                  </ToggleButton>
+                </Tooltip>
+                : ""}
+
+              {modo == "nuevo" ?
+                <Tooltip title="Regresar">
+                  <ToggleButton value="check" onClick={() => { setModo("visualizar") }}>
+                    <ArrowBackIosIcon />
+                  </ToggleButton>
+                </Tooltip>
+
+                : ""}
+                </ButtonGroup>
+               </Grid>  
+               <Grid item >
+               <ButtonGroup>
+              <Tooltip title="Cerrar">
+                <ToggleButton value="check" color="error" onClick={() => { handleClose() }}>
+                  <CloseIcon />
                 </ToggleButton>
               </Tooltip>
-              : ""}
 
-            {modo == "nuevo" ?
-              <Tooltip title="Regresar">
-                <ToggleButton value="check" onClick={() => { setModo("visualizar") }}>
-                  <ArrowBackIosIcon />
-                </ToggleButton>
-              </Tooltip>
-
-              : ""}
-
-          </ButtonGroup>
-          {(modo == "visualizar") ?
-            <Grid
-              container
-              sx={{ width: "100%", height: "100%", bgcolor: "rgb(255,255,255)", boxShadow: 50, p: 2, borderRadius: 3, }} >
-
-              <Grid item xs={12} sx={{ width: "100%", height: 300, }}>
-                <MUIXDataGridSimple columns={columns} rows={data} />
-              </Grid>
-            </Grid>
-            : ""}
-        </Box>
-
-        {(modo == "nuevo"||modo=="editar") ?
+            </ButtonGroup>
+          </Grid>
+        </Grid>
+        {(modo == "visualizar") ?
           <Grid
             container
             sx={{ width: "100%", height: "100%", bgcolor: "rgb(255,255,255)", boxShadow: 50, p: 2, borderRadius: 3, }} >
 
             <Grid item xs={12} sx={{ width: "100%", height: 300, }}>
-              <Container maxWidth="sm">
-                <TextField
-                  required
-                  margin="dense"
-                  label="Nombre"
-                  value={nombre}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setNombre(v.target.value)}
-                  error={String(nombre).length==0}
-                  InputLabelProps={{shrink: true}}
-                />
-                <TextField
-                  required
-                  margin="dense"
-                  label="Porcentaje"
-                  value={porcentaje}
-                  type="number"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setPorcentaje(Number(v.target.value))}
-                  error={!porcentaje ? true : false || porcentaje >= 100}
-                  InputLabelProps={{shrink: true}}
-                />
-                <TextField
-                  required
-                  margin="dense"
-                  label="Cuenta"
-                  value={cuenta}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(e) => validateCount(e, 2)}
-                  error={cuentaValid==false||!cuenta ? true : false}
-                  inputProps={{ maxLength: 10 }}
-                  InputLabelProps={{shrink: true}}
-                />
-                 <label>{cuentaError}</label>
-                <TextField
-                  required
-                  margin="dense"
-                  label="Clave Bancaria"
-                  value={claveBan}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(e) => validateCount(e, 1)}
-                  error={claveValid==false||!claveBan? true : false}
-                  inputProps={{ maxLength: 18 }}
-                  InputLabelProps={{shrink: true}}
-                />
-                 <label>{claveError}</label>
-                <DialogActions>
-
-            <button className="guardar" onClick={() =>{agregar()}}>
-                    Guardar
-                  </button>
-                </DialogActions>
-              </Container>
-
+              <MUIXDataGridSimple columns={columns} rows={data} />
             </Grid>
           </Grid>
           : ""}
+      </Box>
 
-      </DialogContent>
+      {(modo == "nuevo" || modo == "editar") ?
+        <Grid
+          container
+          sx={{ width: "100%", height: "100%", bgcolor: "rgb(255,255,255)", boxShadow: 50, p: 2, borderRadius: 3, }} >
+
+          <Grid item xs={12} sx={{ width: "100%", height: 300, }}>
+            <Container maxWidth="sm">
+              <TextField
+                required
+                margin="dense"
+                label="Nombre"
+                value={nombre}
+                type="text"
+                fullWidth
+                variant="standard"
+                onChange={(v) => setNombre(v.target.value)}
+                error={String(nombre).length == 0}
+                InputLabelProps={{ shrink: true }}
+              />
+              <TextField
+                required
+                margin="dense"
+                label="Porcentaje"
+                value={porcentaje}
+                type="number"
+                fullWidth
+                variant="standard"
+                onChange={(v) => setPorcentaje(Number(v.target.value))}
+                error={!porcentaje ? true : false || porcentaje >= 100}
+                InputLabelProps={{ shrink: true }}
+              />
+              <TextField
+                required
+                margin="dense"
+                label="Cuenta"
+                value={cuenta}
+                type="text"
+                fullWidth
+                variant="standard"
+                onChange={(e) => validateCount(e, 2)}
+                error={cuentaValid == false || !cuenta ? true : false}
+                inputProps={{ maxLength: 10 }}
+                InputLabelProps={{ shrink: true }}
+              />
+              <label>{cuentaError}</label>
+              <TextField
+                required
+                margin="dense"
+                label="Clave Bancaria"
+                value={claveBan}
+                type="text"
+                fullWidth
+                variant="standard"
+                onChange={(e) => validateCount(e, 1)}
+                error={claveValid == false || !claveBan ? true : false}
+                inputProps={{ maxLength: 18 }}
+                InputLabelProps={{ shrink: true }}
+              />
+              <label>{claveError}</label>
+              <DialogActions>
+
+                <button className="guardar" onClick={() => { agregar() }}>
+                  Guardar
+                </button>
+                <button className="cerrar" onClick={() => { setModo("visualizar") }}>
+                  Cancelar
+                </button>
+              </DialogActions>
+            </Container>
+
+          </Grid>
+        </Grid>
+        : ""}
+
+    </DialogContent>
 
 
 
-    </Dialog>
+    </Dialog >
   );
 };
 
