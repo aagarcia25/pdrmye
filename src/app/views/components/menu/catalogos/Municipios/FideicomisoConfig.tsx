@@ -249,8 +249,6 @@ const FideicomisoConfig = ({
   };
 
 
-
-
   const consulta = (data: any) => {
     setOpenSlider(true);
     CatalogosServices.MunFideicomiso(data).then((res) => {
@@ -281,140 +279,131 @@ const FideicomisoConfig = ({
       <Slider open={openSlider} />
 
       <DialogContent>
-        <Box>
 
           <Grid container >
-            <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
               <Typography
                 sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "3vw", color: "#000000", }}>
-                 Municipio: {municipio}
+                Municipio: {municipio}
               </Typography>
             </Grid>
 
-          </Grid>
 
-          <Grid container   direction="row"
-  justifyContent="space-between"
-  alignItems="center">
+          <Grid container direction="row"
+            justifyContent="space-between"
+            alignItems="center">
             <Grid item >
-            <ButtonGroup>
-              {modo == "visualizar" ?
-                <Tooltip title="Agregar">
-                  <ToggleButton value="check" onClick={() => { handleNuevoFideicomiso() }}>
-                    <AddIcon />
+              <ButtonGroup>
+                {modo == "visualizar" ?
+                  <Tooltip title="Agregar">
+                    <ToggleButton value="check" onClick={() => { handleNuevoFideicomiso() }}>
+                      <AddIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                  : ""}
+
+                {modo == "nuevo" ?
+                  <Tooltip title="Regresar">
+                    <ToggleButton value="check" onClick={() => { setModo("visualizar") }}>
+                      <ArrowBackIosIcon />
+                    </ToggleButton>
+                  </Tooltip>
+
+                  : ""}
+              </ButtonGroup>
+            </Grid>
+            <Grid item >
+              <ButtonGroup>
+                <Tooltip title="Cerrar">
+                  <ToggleButton value="check" color="error" onClick={() => { handleClose() }}>
+                    <CloseIcon />
                   </ToggleButton>
                 </Tooltip>
-                : ""}
 
-              {modo == "nuevo" ?
-                <Tooltip title="Regresar">
-                  <ToggleButton value="check" onClick={() => { setModo("visualizar") }}>
-                    <ArrowBackIosIcon />
-                  </ToggleButton>
-                </Tooltip>
-
-                : ""}
-                </ButtonGroup>
-               </Grid>  
-               <Grid item >
-               <ButtonGroup>
-              <Tooltip title="Cerrar">
-                <ToggleButton value="check" color="error" onClick={() => { handleClose() }}>
-                  <CloseIcon />
-                </ToggleButton>
-              </Tooltip>
-
-            </ButtonGroup>
-          </Grid>
-        </Grid>
-      
-        {(modo == "visualizar") ?
-          <Grid
-            container
-            sx={{ width: "100%", height: "100%", bgcolor: "rgb(255,255,255)", boxShadow: 50, p: 2, borderRadius: 3, }} >
-
-            <Grid item xs={12} sx={{ width: "100%", height: 300, }}>
-              <MUIXDataGridSimple columns={columns} rows={data} />
+              </ButtonGroup>
             </Grid>
           </Grid>
+
+          {(modo == "visualizar") ?
+
+              <Grid item xs={12} sx={{ width: "100%", height: 300, }}>
+                <MUIXDataGridSimple columns={columns} rows={data} />
+              </Grid>
+            : ""}
+
+        {(modo == "nuevo" || modo == "editar") ?
+   
+
+            <Grid item xs={12} sx={{ width: "100%" }}>
+              <Container maxWidth="sm">
+                <TextField
+                  required
+                  margin="dense"
+                  label="Nombre"
+                  value={nombre}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNombre(v.target.value)}
+                  error={String(nombre).length == 0}
+                  InputLabelProps={{ shrink: true }}
+                />
+                <TextField
+                  required
+                  margin="dense"
+                  label="Porcentaje"
+                  value={porcentaje}
+                  type="number"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setPorcentaje(Number(v.target.value))}
+                  error={!porcentaje ? true : false || porcentaje >= 100}
+                  InputLabelProps={{ shrink: true }}
+                />
+                <TextField
+                  required
+                  margin="dense"
+                  label="Cuenta"
+                  value={cuenta}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(e) => validateCount(e, 2)}
+                  error={cuentaValid == false || !cuenta ? true : false}
+                  inputProps={{ maxLength: 10 }}
+                  InputLabelProps={{ shrink: true }}
+                />
+                <label>{cuentaError}</label>
+                <TextField
+                  required
+                  margin="dense"
+                  label="Clave Bancaria"
+                  value={claveBan}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(e) => validateCount(e, 1)}
+                  error={claveValid == false || !claveBan ? true : false}
+                  inputProps={{ maxLength: 18 }}
+                  InputLabelProps={{ shrink: true }}
+                />
+                <label>{claveError}</label>
+                <DialogActions>
+
+                  <button className="guardar" onClick={() => { agregar() }}>
+                    Guardar
+                  </button>
+                  <button className="cerrar" onClick={() => { setModo("visualizar") }}>
+                    Cancelar
+                  </button>
+                </DialogActions>
+              </Container>
+
+            </Grid>
+         
           : ""}
-      </Box>
-
-      {(modo == "nuevo" || modo == "editar") ?
-        <Grid
-          container
-          sx={{ width: "100%", height: "100%", bgcolor: "rgb(255,255,255)", boxShadow: 50, p: 2, borderRadius: 3, }} >
-
-          <Grid item xs={12} sx={{ width: "100%" }}>
-            <Container maxWidth="sm">
-              <TextField
-                required
-                margin="dense"
-                label="Nombre"
-                value={nombre}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setNombre(v.target.value)}
-                error={String(nombre).length == 0}
-                InputLabelProps={{ shrink: true }}
-              />
-              <TextField
-                required
-                margin="dense"
-                label="Porcentaje"
-                value={porcentaje}
-                type="number"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setPorcentaje(Number(v.target.value))}
-                error={!porcentaje ? true : false || porcentaje >= 100}
-                InputLabelProps={{ shrink: true }}
-              />
-              <TextField
-                required
-                margin="dense"
-                label="Cuenta"
-                value={cuenta}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(e) => validateCount(e, 2)}
-                error={cuentaValid == false || !cuenta ? true : false}
-                inputProps={{ maxLength: 10 }}
-                InputLabelProps={{ shrink: true }}
-              />
-              <label>{cuentaError}</label>
-              <TextField
-                required
-                margin="dense"
-                label="Clave Bancaria"
-                value={claveBan}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(e) => validateCount(e, 1)}
-                error={claveValid == false || !claveBan ? true : false}
-                inputProps={{ maxLength: 18 }}
-                InputLabelProps={{ shrink: true }}
-              />
-              <label>{claveError}</label>
-              <DialogActions>
-
-                <button className="guardar" onClick={() => { agregar() }}>
-                  Guardar
-                </button>
-                <button className="cerrar" onClick={() => { setModo("visualizar") }}>
-                  Cancelar
-                </button>
-              </DialogActions>
-            </Container>
-
           </Grid>
-        </Grid>
-        : ""}
-
-    </DialogContent>
+      </DialogContent>
     </Dialog >
   );
 };
