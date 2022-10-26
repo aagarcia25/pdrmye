@@ -286,8 +286,8 @@ const FideicomisoConfig = ({
           <Grid container >
             <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
               <Typography
-                sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "4vw", color: "#000000", }}>
-                <p></p> Municipio: {municipio}
+                sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "3vw", color: "#000000", }}>
+                 Municipio: {municipio}
               </Typography>
             </Grid>
 
@@ -327,6 +327,7 @@ const FideicomisoConfig = ({
             </ButtonGroup>
           </Grid>
         </Grid>
+      
         {(modo == "visualizar") ?
           <Grid
             container
@@ -344,7 +345,7 @@ const FideicomisoConfig = ({
           container
           sx={{ width: "100%", height: "100%", bgcolor: "rgb(255,255,255)", boxShadow: 50, p: 2, borderRadius: 3, }} >
 
-          <Grid item xs={12} sx={{ width: "100%", height: 300, }}>
+          <Grid item xs={12} sx={{ width: "100%" }}>
             <Container maxWidth="sm">
               <TextField
                 required
@@ -414,9 +415,6 @@ const FideicomisoConfig = ({
         : ""}
 
     </DialogContent>
-
-
-
     </Dialog >
   );
 };

@@ -94,20 +94,22 @@ export const Municipios = () => {
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 150,
+      width: 350,
       renderCell: (v) => {
         return (
-
+          <>
           <Box>
             {fideicomiso ? <IconButton onClick={() => handleFideicomiso(v)}>
               <RequestQuoteIcon />
             </IconButton>
               :
-              "vvv"
+              ""
             }
-
+            </Box>
+             <Box>
             <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
           </Box>
+          </>
         );
       },
     },

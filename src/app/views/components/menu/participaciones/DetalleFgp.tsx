@@ -141,6 +141,14 @@ const DetalleFgp = ({
 
   const Fnworkflow = (data: any) => {
     console.log(data);
+
+   if(file){
+    //grabacomentariopresupuesto();
+   }else{
+
+   } 
+
+
     let obj = {
       IDCALCULO: idCalculo,
       ESTATUS_DESTINO: statusDestino,
@@ -260,7 +268,33 @@ const DetalleFgp = ({
     });
   };
   
-  
+  //Grabar comentario y archivo de prespuestos de forma a detalle
+  const grabacomentariopresupuesto = (v:any) =>{
+    const formData = new FormData();
+   // (editDoc) ? formData.append("DOCUMENTO", newDoc, nameNewDoc) : formData.append("DOCUMENTO", "");
+    formData.append("CHID", String(idDetalle));
+
+    calculosServices.CalculoArchivo(formData).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        handleClose();
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+
+  }
+
+
+
+
 
 
   const columnas = (data: any) => {
