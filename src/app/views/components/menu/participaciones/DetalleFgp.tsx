@@ -55,10 +55,6 @@ const DetalleFgp = ({
   const [area, setArea] = useState("")
   const [file, setFile] = useState(false);
   const [vrows, setvrows] = useState({});
-
-
-
-
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
   const [ta, setTa] = useState(false);
@@ -291,11 +287,6 @@ const DetalleFgp = ({
     });
 
   }
-
-
-
-
-
 
   const columnas = (data: any) => {
     calculosServices.getColumns(data).then((res) => {

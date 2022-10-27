@@ -17,17 +17,12 @@ export const AnticipoParticipaciones = () => {
     const [eliminar, setEliminar] = useState<boolean>(false);
     const [agregar, setAgregar] = useState<boolean>(false);
     const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-    const [idPrincipal, setIdPrincipal] = useState<String>();
+    const [idPrincipal, setIdPrincipal] = useState("");
     const [APC, setAPC] = useState([]);
   const [data, setdata] = useState([]);
 
 
-    const handleDetalle = (v: any) => {
-        console.log(v.row.id)
-        setIdPrincipal(String(v.row.id));
-        setdata(v.row);
-        setOpen(true);
-    };
+
     const handleClose = (v: any) => {
 setOpen(false);    
       };
@@ -81,6 +76,12 @@ setOpen(false);
             },
         },
     ];
+    const handleDetalle = (v: any) => {
+        console.log(String(v.row.id))
+        setIdPrincipal(String(v.row.id));
+        setdata(v.row);
+        setOpen(true);
+    };
 
     useEffect(() => {
         permisos.map((item: PERMISO) => {
@@ -112,7 +113,7 @@ setOpen(false);
         <div style={{ height: 600, width: "100%" }}>
             <MUIXDataGrid sx={{}} columns={columns} rows={APC} />
 
-            <DetalleAnticipoParticipaciones idPrincipal={String(idPrincipal)} data={data} open={open} handleClose={handleClose}/>
+            <DetalleAnticipoParticipaciones idPrincipal={idPrincipal} data={data} open={open} handleClose={handleClose}/>
         </div>
     );
 };
