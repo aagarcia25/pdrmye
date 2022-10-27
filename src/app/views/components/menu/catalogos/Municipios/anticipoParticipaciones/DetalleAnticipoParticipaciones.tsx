@@ -15,7 +15,6 @@ import BotonesOpciones from "../../../../componentes/BotonesOpciones";
 
 export const DetalleAnticipoParticipaciones = (
     {
-       
         data,
         open,
         handleClose,
@@ -43,7 +42,7 @@ export const DetalleAnticipoParticipaciones = (
         { field: "IdMunicipio", hide: true, },
         { field: "idPrincipal", hide: true, },
         { field: "ClaveEstado", headerName: "Clave Estado", width: 120 },
-        { field: "Nombre", headerName: "Municipio", width: 120 },
+        { field: "Nombre", headerName: "Municipio", width: 250 },
         { field: "Descripcion", headerName: "Mes", width: 120 },
         { field: "Anio", headerName: "Año", width: 120 },
         { field: "Total", headerName: "Total", width: 100 },
@@ -73,7 +72,7 @@ export const DetalleAnticipoParticipaciones = (
 
     useEffect(() => {  
         setOpenSlider(true)
-        getDetalles({ IDPRINCIPAL: idPrincipal })
+       
         permisos.map((item: PERMISO) => {
             if (String(item.ControlInterno) === "MUNAPC") {
                 console.log(item)
@@ -94,12 +93,12 @@ export const DetalleAnticipoParticipaciones = (
         });
         console.log(data)
         console.log(idPrincipal)
-        setTimeout(() => {
-            setOpenSlider(false)
-          ;
-        }, 2000);
-
-    }, []);
+        // setTimeout(() => {
+        //     setOpenSlider(false)
+        //   ;
+        // }, 2000);
+        getDetalles({ IDPRINCIPAL: idPrincipal })
+    }, [idPrincipal]);
     
     return (
         <div style={{ height: 600, width: "80%" }}>
