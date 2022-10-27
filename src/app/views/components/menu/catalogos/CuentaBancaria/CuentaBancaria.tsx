@@ -83,11 +83,13 @@ export const CuentaBancaria = () => {
           width: 150,
           description: messages.dataTableColum.id,
         },
-        { field: "IdBancos", headerName: "ID BANCOS", width: 150 },
-        { field: "IdUsuarios", headerName: "ID USUARIOS", width: 150 },
+        { field: "IdBancos", headerName: "ID BANCOS", width: 250 },
+
+        { field: "IdUsuarios", headerName: "ID USUARIOS", width: 250 },
         { field: "NumeroCuenta", headerName: "Cuenta", width: 250 },
         { field: "ClabeBancaria", headerName: "Clabe", width: 250 },
-        { field: "deleted", headerName: "Activo", width: 50 },
+        { field: "deleted", headerName: "Estatus", width: 100,
+         },
     
         {
           field: "acciones",
@@ -127,6 +129,7 @@ export const CuentaBancaria = () => {
               icon: "success",
               title: "Consulta Exitosa!",
             });
+            console.log(res.RESPONSE);
             setCuentaBancaria(res.RESPONSE);
           } else {
             Alert.fire({

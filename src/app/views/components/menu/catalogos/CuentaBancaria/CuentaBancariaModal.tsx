@@ -9,6 +9,8 @@ import {
   InputLabel,
   FormControlLabel,
   Switch,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 import { Alert } from "../../../../../helpers/Alert";
@@ -36,11 +38,22 @@ export const CuentaBancariaModal = ({
   const [clabeBancaria, setClabeBancaria] = useState("");
   const [activo, setActivo] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const [banco, setBanco] = useState("");
+  const [bancos, setBancos] = useState<[]>();
 
   const [checkedActivo, setCheckedActivo] = useState(dt?.row?.ArtF1 === '1' ? true : false);
 
   const textoDeAfirmacion = "SI";
   const textoDeNegacion = "NO";
+
+  const bancosc = () => {
+    let data = {};
+    CatalogosServices.Bancos(data).then((res) => {
+      setBancos(res.RESPONSE);
+    });
+  };
+
+console.log("bancos: ",bancos);
 
   const toggleCheckedActivo = () => {
     setCheckedActivo((prev) => !prev);
@@ -50,6 +63,8 @@ export const CuentaBancariaModal = ({
         setActivo("1");
     }
   };
+
+  
 
   const handleSend = () => {
     if (!idBancos || !idUsuarios || !numeroCuenta || !clabeBancaria) {
@@ -122,6 +137,7 @@ export const CuentaBancariaModal = ({
   };
 
   useEffect(() => {
+    bancosc();
     if (dt === "") {
       console.log(dt);
     } else {
@@ -159,7 +175,22 @@ export const CuentaBancariaModal = ({
               readOnly: tipo == 1 ? false : true,
             }}
           />
-
+           <Select
+          required
+          onChange={(v) => setBanco(v.target.value)}
+          value={banco}
+          // inputProps={{
+          //   readOnly: tipo == 1 ? false : true,
+          // }}
+        >
+          {bancos?.map((item: any) => {
+            return (
+              <MenuItem key={item?.id} value={item?.id}>
+                {item.Nombre}
+              </MenuItem>
+            );
+          })}
+        </Select>
           <TextField
             required
             margin="dense"
