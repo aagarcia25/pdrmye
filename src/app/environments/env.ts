@@ -1,6 +1,6 @@
 const env = {
   development: {
-      BASE_URL: 'http://10.200.4.165:3002/api/Api_AdSisUs/',
+      BASE_URL: 'http://10.200.4.164:80/api/Api_AdSisUs/',
       BASE_URL_EXT: 'http://10.200.4.164:5000/api/'
     },
     test: {
