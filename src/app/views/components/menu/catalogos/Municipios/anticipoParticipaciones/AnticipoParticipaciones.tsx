@@ -71,6 +71,7 @@ export const AnticipoParticipaciones = () => {
         CatalogosServices.indexAPC(data).then((res) => {
             setAPC(res.RESPONSE);
             console.log(res.RESPONSE)
+            
         });
     }, []);
     return (
