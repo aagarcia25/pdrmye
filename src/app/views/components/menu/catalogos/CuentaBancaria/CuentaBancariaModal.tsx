@@ -240,7 +240,7 @@ export const CuentaBancariaModal = ({
             id="ClabeBancaria"
             label="Clabe"
             value={clabeBancaria}
-            type="text"
+            type="number"
             fullWidth
             variant="standard"
             onChange={(v) => setClabeBancaria(v.target.value)}
