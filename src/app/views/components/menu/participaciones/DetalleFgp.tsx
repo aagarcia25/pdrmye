@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Dialog, Grid, IconButton, Tooltip } from "@mui/material";
+import { Box, Dialog, Grid, IconButton, Link, Tooltip } from "@mui/material";
 import { Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
 import { Alert } from "../../../../helpers/Alert";
@@ -15,7 +15,7 @@ import Trazabilidad from "../../Trazabilidad";
 import Swal from "sweetalert2";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ModalAlert from "../../componentes/ModalAlert";
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const DetalleFgp = ({
   idCalculo,
@@ -36,10 +36,9 @@ const DetalleFgp = ({
   anio: number;
   mes: string;
 }) => {
-
   const [openSlider, setOpenSlider] = useState(true);
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos())); 
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [status, setStatus] = useState<string>("");
   const [statusDestino, setStatusDestino] = useState<string>("");
   const [data, setData] = useState([]);
@@ -52,13 +51,11 @@ const DetalleFgp = ({
   const [proceso, setProceso] = useState(""); //VARIABLE PARA DETERMINAR EL PROCESO QUE SE ESTA REALIZANDO
   const [tipoAccion, setTipoAccion] = useState("");
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [direccion, setDireccion] = useState("")
-  const [area, setArea] = useState("")
+  const [direccion, setDireccion] = useState("");
+  const [area, setArea] = useState("");
   const [file, setFile] = useState(false);
   const [vrows, setvrows] = useState({});
   const [editDoc, setEditDoc] = useState<boolean>(false);
-
-
 
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
@@ -85,7 +82,7 @@ const DetalleFgp = ({
 
       case 2: //Autorizar
         setTipoAccion("Favor de ingresar un comentario para la Autorización");
-        UpdateCalculo("AUTORIZADO",false,{});
+        UpdateCalculo("AUTORIZADO", false, {});
         break;
 
       case 3: //Cancelar
@@ -94,7 +91,7 @@ const DetalleFgp = ({
 
       case 4: //Enviar
         setTipoAccion("Favor de ingresar un comentario para el Envio");
-        UpdateCalculo("ENVIADO",false,{});
+        UpdateCalculo("ENVIADO", false, {});
         break;
 
       case 5: //Ver Trazabilidad
@@ -105,18 +102,18 @@ const DetalleFgp = ({
         setTipoAccion(
           "Favor de ingresar un comentario para la asignación del Presupuesto de Forma global"
         );
-        UpdateCalculo("INICIO",true,{});
+        UpdateCalculo("INICIO", true, {});
         break;
 
       case 7: //Asignar Presupuesto
-      setTipoAccion("Favor de ingresar un comentario para el Envio");
-      UpdateCalculo("INICIO",true,{});
-      break;
+        setTipoAccion("Favor de ingresar un comentario para el Envio");
+        UpdateCalculo("INICIO", true, {});
+        break;
 
       case 8: //REGRESAR AL COORDINADOR
-      setTipoAccion("Favor de ingresar un comentario para el Envio");
-      UpdateCalculo("ENVIADO",false,{});
-      break;
+        setTipoAccion("Favor de ingresar un comentario para el Envio");
+        UpdateCalculo("ENVIADO", false, {});
+        break;
 
       default:
         break;
@@ -124,13 +121,14 @@ const DetalleFgp = ({
   };
 
   const agregarPresupuesto = (data: any) => {
-    setTipoAccion("Favor de ingresar un comentario para la asignación del Presupuesto de Forma Singular");
-    UpdateCalculo("ENVIADO",true,data);
-     
+    setTipoAccion(
+      "Favor de ingresar un comentario para la asignación del Presupuesto de Forma Singular"
+    );
+    UpdateCalculo("ENVIADO", true, data);
   };
 
-  const UpdateCalculo = (estatus: string , file:boolean , data: any) => {
-    setvrows(data)
+  const UpdateCalculo = (estatus: string, file: boolean, data: any) => {
+    setvrows(data);
     setFile(file);
     setStatusDestino(estatus);
     setOpenModal(true);
@@ -143,45 +141,34 @@ const DetalleFgp = ({
   const Fnworkflow = (data: any) => {
     console.log(data);
 
-   if(file){
-    grabacomentariopresupuesto(data);
-   }else{
+    if (file) {
+      grabacomentariopresupuesto(data);
+    } else {
+      let obj = {
+        IDCALCULO: idCalculo,
+        ESTATUS_DESTINO: statusDestino,
+        ESTATUS_ORIGEN: status,
+        IDUSUARIO: user.id,
+        PROCESO: proceso,
+        TEXTO: data.texto,
+      };
 
-    let obj = {
-      IDCALCULO: idCalculo,
-      ESTATUS_DESTINO: statusDestino,
-      ESTATUS_ORIGEN: status,
-      IDUSUARIO: user.id,
-      PROCESO: proceso,
-      TEXTO: data.texto,
-    };
-
-
-  
-    calculosServices.wf(obj).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        handleClose();
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-
-
-
-   } 
-
-
-   
-
-
+      calculosServices.wf(obj).then((res) => {
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "Consulta Exitosa!",
+          });
+          handleClose();
+        } else {
+          Alert.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
+      });
+    }
   };
   const BorraCalculo = () => {
     let data = {
@@ -271,17 +258,18 @@ const DetalleFgp = ({
       }
     });
   };
-  
+
   //Grabar comentario y archivo de prespuestos de forma a detalle
-  const grabacomentariopresupuesto = (v:any) =>{
+  const grabacomentariopresupuesto = (v: any) => {
     const formData = new FormData();
-    (v.file.name!= null) ? formData.append("DOCUMENTO", v.file, v.file.name) : formData.append("DOCUMENTO", "");
+    v.file.name != null
+      ? formData.append("DOCUMENTO", v.file, v.file.name)
+      : formData.append("DOCUMENTO", "");
     formData.append("IDCALCULO", String(v.data.id));
     formData.append("TEXTO", String(v.texto));
     formData.append("NUMOPERACION", "1");
-    
 
-    console.log(formData)
+    console.log(formData);
 
     calculosServices.CalculoArchivo(formData).then((res) => {
       if (res.SUCCESS) {
@@ -289,7 +277,6 @@ const DetalleFgp = ({
           icon: "success",
           title: "Consulta Exitosa!",
         });
-      
       } else {
         Alert.fire({
           title: "Error!",
@@ -298,8 +285,7 @@ const DetalleFgp = ({
         });
       }
     });
-
-  }
+  };
 
   const columnas = (data: any) => {
     calculosServices.getColumns(data).then((res) => {
@@ -502,8 +488,7 @@ const DetalleFgp = ({
       renderCell: (v: any) => {
         return (
           <Box>
-            {
-            (presupuesto && area == user.DEPARTAMENTOS[0].NombreCorto) ? (
+            {presupuesto && area == user.DEPARTAMENTOS[0].NombreCorto ? (
               <Tooltip title="Asignar Presupuesto">
                 <IconButton onClick={() => agregarPresupuesto(v)}>
                   <AttachMoneyIcon />
@@ -511,8 +496,7 @@ const DetalleFgp = ({
               </Tooltip>
             ) : (
               ""
-            )
-            }
+            )}
           </Box>
         );
       },
@@ -525,34 +509,25 @@ const DetalleFgp = ({
       width: 300,
       description: "Observación DPCP",
     },
-    
 
     {
       hide: presupuesto ? false : true,
       field: "RutaArchivo",
       headerName: "Documento DPCP",
-      width: 100, 
-      renderCell: (v:any) => {
-       
-        return (
-          v.ComentarioPresupuesto != "" ?
+      width: 100,
+      renderCell: (v: any) => {
+        return v.row.RutaArchivo !== null ? (
           <Box>
-            <IconButton>
-            <a href={v.ComentarioPresupuesto} target="_blank">
-            <VisibilityIcon />
-            </a>
-            </IconButton>
+            <Link href={v.row.RutaArchivo} underline="always">
+              Descargar
+            </Link>
           </Box>
-          :""
+        ) : (
+          ""
         );
-      }
+      },
     },
-
   ];
-
-
- 
-
 
   const EstablecePermisos = () => {
     if (clave === "ICV" || clave === "ISN") {
@@ -578,7 +553,7 @@ const DetalleFgp = ({
         if (String(item.Referencia) == "ENV") {
           setEnviar(true);
         }
-      }else{
+      } else {
         setAutorizar(false);
         setCancelar(false);
         setVerTrazabilidad(false);
@@ -607,9 +582,9 @@ const DetalleFgp = ({
               tipo={tipoAccion}
               handleClose={FnworkflowClose}
               vrows={vrows}
-              handleAccion={Fnworkflow} 
-              file={file}         
-              ></ModalAlert>
+              handleAccion={Fnworkflow}
+              file={file}
+            ></ModalAlert>
           ) : (
             ""
           )}
@@ -656,7 +631,7 @@ const DetalleFgp = ({
           >
             <Grid item xs={1}>
               <label className="subtitulo">
-                {mes.split(",")[1]} 
+                {mes.split(",")[1]}
                 <br />
               </label>
             </Grid>
@@ -668,23 +643,19 @@ const DetalleFgp = ({
             sx={{ justifyContent: "center", width: "100%" }}
           >
             <Grid item xs={7} md={8} lg={8}>
-              <label >
+              <label>
                 Estatus del Cálculo: {status} <br />
               </label>
             </Grid>
           </Grid>
-         
-          
-        
+
           <Grid
             container
             spacing={1}
-            sx={{ justifyContent: "center",
-                  width: "100%",
-                   }}
+            sx={{ justifyContent: "center", width: "100%" }}
           >
             <Grid item xs={7} md={8} lg={8}>
-              <label >
+              <label>
                 Observación de DPCP: {} <br />
               </label>
             </Grid>
@@ -693,27 +664,20 @@ const DetalleFgp = ({
           <Grid
             container
             spacing={1}
-            sx={{ justifyContent: "center", 
-                  width: "100%",
-                }}
+            sx={{ justifyContent: "center", width: "100%" }}
           >
             <Grid item xs={7} md={8} lg={8}>
-              <label >
-              Documento DPCP: {} <br />
+              <label>
+                Documento DPCP: {} <br />
               </label>
             </Grid>
           </Grid>
-
-
-
-
 
           <Grid
             container
             spacing={1}
             sx={{ justifyContent: "center", width: "100%" }}
           >
-           
             <Grid
               item
               xs={7}
@@ -721,7 +685,7 @@ const DetalleFgp = ({
               lg={8}
               sx={{ justifyContent: "center", width: "100%" }}
             >
-               <Slider open={openSlider}></Slider>
+              <Slider open={openSlider}></Slider>
               <BotonesOpciones
                 handleAccion={handleAcciones}
                 autorizar={autorizar}
@@ -730,9 +694,9 @@ const DetalleFgp = ({
                 enviar={enviar}
                 presupuesto={presupuesto}
                 estatus={status}
-                perfil={direccion} 
-                area={area} 
-                />
+                perfil={direccion}
+                area={area}
+              />
 
               <MUIXDataGrid columns={columns} rows={data} />
             </Grid>
