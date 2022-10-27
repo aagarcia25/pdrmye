@@ -36,7 +36,6 @@ export const CuentaBancariaModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const [slideropen, setslideropen] = useState(true);
   const [id, setId] = useState("");
-
   const [numeroCuenta, setNumeroCuenta] = useState("");
   const [clabeBancaria, setClabeBancaria] = useState("");
   const [activo, setActivo] = useState("");
@@ -48,12 +47,18 @@ export const CuentaBancariaModal = ({
   const [idBancos, setIdBancos] = useState("");
   const [bancos, setBancos] = useState<SelectValues[]>([]);
 
-  const [checkedActivo, setCheckedActivo] = useState(
-    dt?.row?.ArtF1 === "1" ? true : false
-  );
+  
 
-  const textoDeAfirmacion = "SI";
-  const textoDeNegacion = "NO";
+    console.log("activo: ", activo);
+
+
+    //SE INTERCAMBIÓ 
+  const textoDeAfirmacion = "INACTIVO";
+  const textoDeNegacion = "ACTIVO";
+
+  const [checkedActivo, setCheckedActivo] = useState(
+    dt?.row?.deleted === "1" ? true : false
+  );
 
   const handleFilterChange1 = (v: string) => {
     console.log(v);
@@ -169,7 +174,7 @@ export const CuentaBancariaModal = ({
       setIdUsuarios(dt?.row?.idusuario);
       setNumeroCuenta(dt?.row?.NumeroCuenta);
       setClabeBancaria(dt?.row?.ClabeBancaria);
-      setActivo(dt?.row?.Activo);
+      setActivo(dt?.row?.deleted);
     }
     usuariosc();
     bancosc();

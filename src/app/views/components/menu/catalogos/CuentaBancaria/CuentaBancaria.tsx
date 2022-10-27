@@ -91,8 +91,10 @@ export const CuentaBancaria = () => {
         { field: "NumeroCuenta", headerName: "Cuenta", width: 250 },
         { field: "ClabeBancaria", headerName: "Clabe", width: 250 },
         { field: "deleted", headerName: "Estatus", width: 100,
-         },
-    
+        renderCell: (v) => {
+          return v.row.deleted === '1' ? "INACTIVO" : "ACTIVO";
+        },   
+      },
         {
           field: "acciones",
           headerName: "Acciones",
