@@ -95,13 +95,13 @@ const UsuariosModal = ({
           NOMBRE: "AppName"
         }
         ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
-          console.log(restApp.RESPONSE[0]?.Valor);
+          console.log(restApp.RESPONSE.Valor);
 
           UserServices.apps(token).then((resAppLogin) => {
             console.log(resAppLogin.data.data)
         
             resAppLogin.data.data.map((item:any) => {
-              if (item?.Nombre === restApp.RESPONSE[0]?.Valor) {
+              if (item?.Nombre === restApp.RESPONSE.Valor) {
                 console.log(item.Id + "  " + item.Nombre)
                 console.log("id de usuario crreado  " + resUser.data.IdUsuario)
 
