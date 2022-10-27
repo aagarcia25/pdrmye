@@ -25,6 +25,7 @@ export const CuentaBancaria = () => {
     const [agregar, setAgregar] = useState<boolean>(false);
     const [editar, setEditar] = useState<boolean>(false);
     const [eliminar, setEliminar] = useState<boolean>(false);
+    
 
     console.log("cuentabancaria: ", cuentaBancaria);
 
@@ -59,7 +60,7 @@ export const CuentaBancaria = () => {
                     title: "Registro Eliminado!",
                   });
     
-                  consulta({ NUMOPERACION: 4 });
+                  consulta({CHUSER: user.id, NUMOPERACION: 4 });
                 } else {
                   Alert.fire({
                     title: "Error!",
@@ -82,10 +83,11 @@ export const CuentaBancaria = () => {
           hide: true,
           width: 150,
         },
-        { field: "idbanco", headerName: "t", width: 250 , hide: true,},
-        { field: "IdBancos", headerName: "ID BANCOS", width: 250 },
-
-        { field: "IdUsuarios", headerName: "ID USUARIOS", width: 250 },
+        { field: "idusuario", headerName: "Identificador Usuario", width: 250 , hide: true},
+        { field: "NombreUsuario", headerName: "Cuenta de perfil", width: 250 },
+        { field: "NombreBanco", headerName: "Banco", width: 250 },
+        { field: "idbanco", headerName: "Identificador Banco", width: 250 , hide: true},
+        
         { field: "NumeroCuenta", headerName: "Cuenta", width: 250 },
         { field: "ClabeBancaria", headerName: "Clabe", width: 250 },
         { field: "deleted", headerName: "Estatus", width: 100,
@@ -112,7 +114,7 @@ export const CuentaBancaria = () => {
 
       const handleClose = () => {
         setOpen(false);
-        consulta({ NUMOPERACION: 4 });
+        consulta({CHUSER: user.id, NUMOPERACION: 4 });
       };
     
       const handleOpen = (v: any) => {
@@ -156,7 +158,7 @@ export const CuentaBancaria = () => {
             }
           }
         });
-        consulta({ NUMOPERACION: 4 });
+        consulta({CHUSER: user.id, NUMOPERACION: 4 });
       }, []);
 
       return (

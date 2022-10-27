@@ -36,47 +36,59 @@ export const CuentaBancariaModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const [slideropen, setslideropen] = useState(true);
   const [id, setId] = useState("");
-  const [idUsuarios, setIdUsuarios] = useState("");
+
   const [numeroCuenta, setNumeroCuenta] = useState("");
   const [clabeBancaria, setClabeBancaria] = useState("");
   const [activo, setActivo] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  const [idBancos, setIdBancos] = useState("");
-  const [bancos, setBancos] =useState<SelectValues[]>([]);
+  const [idUsuarios, setIdUsuarios] = useState("");
+  const [usuarios, setUsuarios] = useState<SelectValues[]>([]);
 
-  const [checkedActivo, setCheckedActivo] = useState(dt?.row?.ArtF1 === '1' ? true : false);
+  const [idBancos, setIdBancos] = useState("");
+  const [bancos, setBancos] = useState<SelectValues[]>([]);
+
+  const [checkedActivo, setCheckedActivo] = useState(
+    dt?.row?.ArtF1 === "1" ? true : false
+  );
 
   const textoDeAfirmacion = "SI";
   const textoDeNegacion = "NO";
 
-
   const handleFilterChange1 = (v: string) => {
-    console.log(v)
+    console.log(v);
     setIdBancos(v);
-};
+  };
 
+  const handleFilterChange2 = (v: string) => {
+    console.log(v);
+    setIdUsuarios(v);
+  };
+
+  const usuariosc = () => {
+    let data = { NUMOPERACION: 10 };
+    CatalogosServices.SelectIndex(data).then((res) => {
+      setBancos(res.RESPONSE);
+      setslideropen(false);
+    });
+  };
 
   const bancosc = () => {
     let data = { NUMOPERACION: 11 };
-      CatalogosServices.SelectIndex(data).then((res) => {
-        setBancos(res.RESPONSE);
-        setslideropen(false);
-      });
+    CatalogosServices.SelectIndex(data).then((res) => {
+      setBancos(res.RESPONSE);
+      setslideropen(false);
+    });
   };
-
-
 
   const toggleCheckedActivo = () => {
     setCheckedActivo((prev) => !prev);
     if (checkedActivo === true) {
-        setActivo("0");
+      setActivo("0");
     } else {
-        setActivo("1");
+      setActivo("1");
     }
   };
-
-  
 
   const handleSend = () => {
     if (!idBancos || !idUsuarios || !numeroCuenta || !clabeBancaria) {
@@ -94,7 +106,7 @@ export const CuentaBancariaModal = ({
         IDUSUARIOS: idUsuarios,
         NUMEROCUENTA: numeroCuenta,
         CLABEBANCARIA: clabeBancaria,
-        DELETED: activo
+        DELETED: activo,
       };
 
       handleRequest(data);
@@ -149,63 +161,59 @@ export const CuentaBancariaModal = ({
   };
 
   useEffect(() => {
-    
     if (dt === "") {
       console.log(dt);
     } else {
       setId(dt?.row?.id);
       setIdBancos(dt?.row?.idbanco);
-      setIdUsuarios(dt?.row?.IdUsuarios);
+      setIdUsuarios(dt?.row?.idusuario);
       setNumeroCuenta(dt?.row?.NumeroCuenta);
       setClabeBancaria(dt?.row?.ClabeBancaria);
       setActivo(dt?.row?.Activo);
-      
     }
-
+    usuariosc();
     bancosc();
   }, [dt]);
 
   return (
-
     <Dialog open={open}>
       <DialogContent>
-      <Slider open={slideropen}></Slider>
+        <Slider open={slideropen}></Slider>
         <Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <label className="Titulo">
               {tipo == 1 ? "Agregar Registro" : "Editar Registro"}
             </label>
           </Box>
-          <TextField
-            required
-            margin="dense"
-            id="IdUsuarios"
-            label="Nombre"
-            value={idUsuarios}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setIdUsuarios(v.target.value)}
-            error={idUsuarios == "" ? true : false}
-            InputProps={{
-              readOnly: tipo == 1 ? false : true,
+          <Box
+            sx={{
+              margin: 1,
             }}
-          />
-          <Box sx={{
-                margin:1
-               }}>
+          >
+            <SelectFrag
+              value={idUsuarios}
+              options={usuarios}
+              onInputChange={handleFilterChange2}
+              placeholder={"Seleccione Cuenta Perfil"}
+              label={""}
+              disabled={false}
+            />
+          </Box>
 
-                <SelectFrag
-                  value={idBancos}
-                  options={bancos}
-                  onInputChange={handleFilterChange1}
-                  placeholder={"Seleccione Banco"}
-                  label={""}
-                  disabled={false}
-                />
-                </Box>
-                
-         
+          <Box
+            sx={{
+              margin: 1,
+            }}
+          >
+            <SelectFrag
+              value={idBancos}
+              options={bancos}
+              onInputChange={handleFilterChange1}
+              placeholder={"Seleccione Banco"}
+              label={""}
+              disabled={false}
+            />
+          </Box>
 
           <TextField
             required
