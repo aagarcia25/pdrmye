@@ -107,6 +107,10 @@ export class CatalogosServices {
     public static async indexAPC(data : any) {
         return await post('indexAPC', data);
     };
+    public static async clonarInformacionAP(data : any) {
+        return await post('clonarInformacionAP', data);
+    };
+    
     public static async getdetalle(data : any) {
         return await post('getdetalle', data);
     };

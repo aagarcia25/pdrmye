@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, IconButton, Tooltip } from "@mui/material";
+import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { PERMISO } from "../../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../../services/catalogosServices";
@@ -9,30 +9,31 @@ import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InsightsIcon from "@mui/icons-material/Insights";
 import { DetalleAnticipoParticipaciones } from "./DetalleAnticipoParticipaciones";
-
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 
 export const AnticipoParticipaciones = () => {
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [open, setOpen] = useState<boolean>(false);
+    const [clonar, setClonar] = useState<boolean>(false);
+
     const [eliminar, setEliminar] = useState<boolean>(false);
     const [agregar, setAgregar] = useState<boolean>(false);
     const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
     const [idPrincipal, setIdPrincipal] = useState("");
     const [APC, setAPC] = useState([]);
     const [data, setdata] = useState([]);
+    var hoy = new Date()
+    var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2);
 
-
-
-    const handleClose = (v: any) => {
-setOpen(false);    
-      };
-
+    const handleClose = (v: any) => { setOpen(false); };
     const columns: GridColDef[] = [
         { field: "id", hide: true, },
+
         { field: "Descripcion", headerName: "Estatus", width: 120 },
         { field: "mesdescripcion", headerName: "Mes", width: 120 },
         { field: "Anio", headerName: "Año", width: 120 },
         { field: "Total", headerName: "Total", width: 100 },
+        { field: "Mes", },
         {
             field: "acciones",
             headerName: "Acciones",
@@ -47,6 +48,15 @@ setOpen(false);
                                 <InfoIcon />
                             </IconButton>
                         </Tooltip>
+                        {(hoy.getMonth() == Number(v.row.Mes)) ? (
+                            <Tooltip title="Clonar">
+                                <IconButton
+                                >
+                                    <FileCopyIcon/>
+                                </IconButton>
+                            </Tooltip>
+                        ) : ("")}
+
                         {agregar ? (
                             <Tooltip title="Agregar Ajuste">
                                 <IconButton
@@ -58,13 +68,12 @@ setOpen(false);
                                     <AttachMoneyIcon />
                                 </IconButton>
                             </Tooltip>
-                        ) : (
-                            ""
-                        )}
+                        ) : ("")}
+
                         {verTrazabilidad ? (
                             <Tooltip title="Ver Trazabilidad">
                                 <IconButton
-                                 >
+                                >
                                     <InsightsIcon />
                                 </IconButton>
                             </Tooltip>
@@ -81,6 +90,12 @@ setOpen(false);
         setIdPrincipal(String(v.row.id));
         setdata(v.row);
         setOpen(true);
+    };
+    const test = () => {
+        console.log(fecha)
+        console.log(hoy.getMonth() + "  " + hoy.getFullYear())
+
+
     };
 
     useEffect(() => {
@@ -117,10 +132,16 @@ setOpen(false);
             <MUIXDataGrid sx={{}} columns={columns} rows={APC} />
 
             {open ?
-             <DetalleAnticipoParticipaciones idPrincipal={idPrincipal} data={data} open={open} handleClose={handleClose}/>
-             :""
-           }
-           
+                <DetalleAnticipoParticipaciones idPrincipal={idPrincipal} data={data} open={open} handleClose={handleClose} />
+                : ""
+            }
+            <Button
+                onClick={test}
+                variant="contained"
+            >
+                test
+            </Button>
+
         </div>
     );
 };
