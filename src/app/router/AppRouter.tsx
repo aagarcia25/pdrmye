@@ -54,6 +54,7 @@ import Workflow from '../views/components/menu/Workflow/Worflow';
 import { Bancos } from '../views/components/menu/catalogos/Bancos/Bancos';
 
 import { CuentaBancaria } from '../views/components/menu/catalogos/CuentaBancaria/CuentaBancaria';
+import { AnticipoParticipaciones } from '../views/components/menu/catalogos/Municipios/anticipoParticipaciones/AnticipoParticipaciones';
 
 
 
@@ -69,6 +70,8 @@ export const AppRouter = () => {
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
         <Route path='/'  element={log ? <Bienvenido user={user} /> : <AuthRouter />}     />
         {/* SECCION DE CATALOGOS */}
+       
+        <Route path='/inicio/Municipio/anticipo/APD'              element={<AnticipoParticipaciones />} />
         <Route path='/inicio/catalogos/mun'                        element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa'                       element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob'                     element={<MunPoblacion />} />

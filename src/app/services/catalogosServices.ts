@@ -104,6 +104,9 @@ export class CatalogosServices {
     public static async SelectIndex(data : any) {
         return await post('SelectIndex', data);
     };
+    public static async indexAPC(data : any) {
+        return await post('indexAPC', data);
+    };
 
     public static async workFlowIndex(data : any) {
         return await post('workFlowIndex', data);
