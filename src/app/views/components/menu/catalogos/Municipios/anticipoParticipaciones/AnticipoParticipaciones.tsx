@@ -16,9 +16,8 @@ export const AnticipoParticipaciones = () => {
     const columns: GridColDef[] = [
         {field: "id", hide: true, },
         {field: "idPrincipal", hide: true, },
-        { field: "Descripcion", headerName: "Mes", width: 120 },
+        { field: "Descripcion", headerName: "Estatus", width: 120 },
 
-        { field: "Nombre", headerName: "Municipio", width: 350 },
     
         //{ field: "ClaveMun", headerName: "Clave Municipio", width: 150 },
    
@@ -44,10 +43,10 @@ export const AnticipoParticipaciones = () => {
             }
         });
         let data = {
-            IDPRINCIPAL:"363a03e1-cac7-437f-9e2f-0695b8416d90"
+            NUMOPERACION: 1
         };
 
-        CatalogosServices.getdetalle(data).then((res) => {
+        CatalogosServices.indexAPC(data).then((res) => {
             setAPC(res.RESPONSE);
             console.log(res.RESPONSE)
 
