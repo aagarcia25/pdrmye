@@ -15,6 +15,7 @@ import Trazabilidad from "../../Trazabilidad";
 import Swal from "sweetalert2";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ModalAlert from "../../componentes/ModalAlert";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const DetalleFgp = ({
   idCalculo,
@@ -55,7 +56,7 @@ const DetalleFgp = ({
   const [area, setArea] = useState("")
   const [file, setFile] = useState(false);
   const [vrows, setvrows] = useState({});
-
+  const [editDoc, setEditDoc] = useState<boolean>(false);
 
 
 
@@ -143,11 +144,8 @@ const DetalleFgp = ({
     console.log(data);
 
    if(file){
-    //grabacomentariopresupuesto();
+    grabacomentariopresupuesto(data);
    }else{
-
-   } 
-
 
     let obj = {
       IDCALCULO: idCalculo,
@@ -159,8 +157,7 @@ const DetalleFgp = ({
     };
 
 
-   
-    /*
+  
     calculosServices.wf(obj).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -175,7 +172,14 @@ const DetalleFgp = ({
           icon: "error",
         });
       }
-    });*/
+    });
+
+
+
+   } 
+
+
+   
 
 
   };
@@ -271,8 +275,13 @@ const DetalleFgp = ({
   //Grabar comentario y archivo de prespuestos de forma a detalle
   const grabacomentariopresupuesto = (v:any) =>{
     const formData = new FormData();
-   // (editDoc) ? formData.append("DOCUMENTO", newDoc, nameNewDoc) : formData.append("DOCUMENTO", "");
-    formData.append("CHID", String(idDetalle));
+    (v.file.name!= null) ? formData.append("DOCUMENTO", v.file, v.file.name) : formData.append("DOCUMENTO", "");
+    formData.append("IDCALCULO", String(v.data.id));
+    formData.append("TEXTO", String(v.texto));
+    formData.append("NUMOPERACION", "1");
+    
+
+    console.log(formData)
 
     calculosServices.CalculoArchivo(formData).then((res) => {
       if (res.SUCCESS) {
@@ -280,7 +289,7 @@ const DetalleFgp = ({
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        handleClose();
+      
       } else {
         Alert.fire({
           title: "Error!",
@@ -291,11 +300,6 @@ const DetalleFgp = ({
     });
 
   }
-
-
-
-
-
 
   const columnas = (data: any) => {
     calculosServices.getColumns(data).then((res) => {
@@ -518,18 +522,37 @@ const DetalleFgp = ({
       hide: presupuesto ? false : true,
       field: "ComentarioPresupuesto",
       headerName: "Observación DPCP",
-      width: 150,
+      width: 300,
       description: "Observación DPCP",
     },
+    
+
     {
       hide: presupuesto ? false : true,
       field: "RutaArchivo",
       headerName: "Documento DPCP",
-      width: 150,
-      description: "Documento DPCP",
+      width: 100, 
+      renderCell: (v:any) => {
+       
+        return (
+          v.ComentarioPresupuesto != "" ?
+          <Box>
+            <IconButton>
+            <a href={v.ComentarioPresupuesto} target="_blank">
+            <VisibilityIcon />
+            </a>
+            </IconButton>
+          </Box>
+          :""
+        );
+      }
     },
 
   ];
+
+
+ 
+
 
   const EstablecePermisos = () => {
     if (clave === "ICV" || clave === "ISN") {

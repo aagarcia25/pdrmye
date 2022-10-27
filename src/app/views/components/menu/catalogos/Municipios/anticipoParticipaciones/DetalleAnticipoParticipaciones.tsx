@@ -15,17 +15,17 @@ import BotonesOpciones from "../../../../componentes/BotonesOpciones";
 
 export const DetalleAnticipoParticipaciones = (
     {
-        idPrincipal,
         data,
         open,
-        handleClose
+        handleClose,
+        idPrincipal,
     }
         :
         {
-            idPrincipal: string;
+            idPrincipal: String;
             data: any;
             open: boolean;
-            handleClose:Function;
+            handleClose: Function;
         }
 ) => {
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -33,17 +33,17 @@ export const DetalleAnticipoParticipaciones = (
     const [eliminar, setEliminar] = useState<boolean>(false);
     const [agregar, setAgregar] = useState<boolean>(false);
     const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-    const [APC, setAPC] = useState([]);
-    const [openSlider, setOpenSlider] = useState(false);
+    const [detalle, setDetalle] = useState([]);
+    const [openSlider, setOpenSlider] = useState(true);
 
-
-    const handleDetalle = (v: any) => {
-    };
 
     const columns: GridColDef[] = [
         { field: "id", hide: true, },
-        { field: "Descripcion", headerName: "Estatus", width: 120 },
-        { field: "mesdescripcion", headerName: "Mes", width: 120 },
+        { field: "IdMunicipio", hide: true, },
+        { field: "idPrincipal", hide: true, },
+        { field: "ClaveEstado", headerName: "Clave Estado", width: 120 },
+        { field: "Nombre", headerName: "Municipio", width: 250 },
+        { field: "Descripcion", headerName: "Mes", width: 120 },
         { field: "Anio", headerName: "Año", width: 120 },
         { field: "Total", headerName: "Total", width: 100 },
         {
@@ -60,8 +60,16 @@ export const DetalleAnticipoParticipaciones = (
             },
         },
     ];
+    const getDetalles = (d:any) => {
+        CatalogosServices.getdetalle(d).then((res) => {
+            setDetalle(res.RESPONSE);
+            console.log(res.RESPONSE)
+            setOpenSlider(false);
+        });
+    };
 
-    useEffect(() => {
+    useEffect(() => {  
+       
         permisos.map((item: PERMISO) => {
             if (String(item.ControlInterno) === "MUNAPC") {
                 console.log(item)
@@ -80,18 +88,9 @@ export const DetalleAnticipoParticipaciones = (
 
             }
         });
-        console.log(data)
-        console.log(idPrincipal)
-        let dat = {
-            IDPRINCIPAL: idPrincipal
-        };
-        setOpenSlider(true);
-        CatalogosServices.getdetalle(dat).then((res) => {
-            setAPC(res.RESPONSE);
-            console.log(res.RESPONSE)
-            setOpenSlider(false);
-        });
-    }, []);
+        getDetalles({ IDPRINCIPAL: idPrincipal })
+    }, [idPrincipal]);
+    
     return (
         <div style={{ height: 600, width: "80%" }}>
             <Box>
@@ -132,18 +131,18 @@ export const DetalleAnticipoParticipaciones = (
 
                         <Grid item xs={7} md={8} lg={8} sx={{ justifyContent: "center", width: '100%' }}>
                             <BotonesOpciones
-                  handleAccion={handleClose}
-                  autorizar={false}
-                  cancelar={false}
-                  verTrazabilidad={verTrazabilidad}
-                  enviar={false}
-                  presupuesto={true} 
-                  estatus={""}   
-                  perfil={""}
-                  area={""}  
-                  />
-  
-                            <MUIXDataGrid columns={columns} rows={data} />
+                                handleAccion={handleClose}
+                                autorizar={false}
+                                cancelar={false}
+                                verTrazabilidad={verTrazabilidad}
+                                enviar={false}
+                                presupuesto={true}
+                                estatus={""}
+                                perfil={""}
+                                area={""}
+                            />
+
+                            <MUIXDataGrid columns={columns} rows={detalle} />
 
                         </Grid>
                     </Grid>
