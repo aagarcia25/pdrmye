@@ -18,6 +18,9 @@ import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import Slider from "../../../Slider";
 
 export const CuentaBancariaModal = ({
   open,
@@ -31,29 +34,38 @@ export const CuentaBancariaModal = ({
   dt: any;
 }) => {
   // CAMPOS DE LOS FORMULARIOS
+  const [slideropen, setslideropen] = useState(true);
   const [id, setId] = useState("");
-  const [idBancos, setIdBancos] = useState("");
   const [idUsuarios, setIdUsuarios] = useState("");
   const [numeroCuenta, setNumeroCuenta] = useState("");
   const [clabeBancaria, setClabeBancaria] = useState("");
   const [activo, setActivo] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [banco, setBanco] = useState("");
-  const [bancos, setBancos] = useState<[]>();
+
+  const [idBancos, setIdBancos] = useState("");
+  const [bancos, setBancos] =useState<SelectValues[]>([]);
 
   const [checkedActivo, setCheckedActivo] = useState(dt?.row?.ArtF1 === '1' ? true : false);
 
   const textoDeAfirmacion = "SI";
   const textoDeNegacion = "NO";
 
+
+  const handleFilterChange1 = (v: string) => {
+    console.log(v)
+    setIdBancos(v);
+};
+
+
   const bancosc = () => {
-    let data = {};
-    CatalogosServices.Bancos(data).then((res) => {
-      setBancos(res.RESPONSE);
-    });
+    let data = { NUMOPERACION: 11 };
+      CatalogosServices.SelectIndex(data).then((res) => {
+        setBancos(res.RESPONSE);
+        setslideropen(false);
+      });
   };
 
-console.log("bancos: ",bancos);
+
 
   const toggleCheckedActivo = () => {
     setCheckedActivo((prev) => !prev);
@@ -137,23 +149,27 @@ console.log("bancos: ",bancos);
   };
 
   useEffect(() => {
-    bancosc();
+    
     if (dt === "") {
       console.log(dt);
     } else {
       setId(dt?.row?.id);
-
-      setIdBancos(dt?.row?.IdBancos);
+      setIdBancos(dt?.row?.idbanco);
       setIdUsuarios(dt?.row?.IdUsuarios);
       setNumeroCuenta(dt?.row?.NumeroCuenta);
       setClabeBancaria(dt?.row?.ClabeBancaria);
       setActivo(dt?.row?.Activo);
+      
     }
+
+    bancosc();
   }, [dt]);
 
   return (
+
     <Dialog open={open}>
       <DialogContent>
+      <Slider open={slideropen}></Slider>
         <Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <label className="Titulo">
@@ -175,35 +191,21 @@ console.log("bancos: ",bancos);
               readOnly: tipo == 1 ? false : true,
             }}
           />
-           <Select
-          required
-          onChange={(v) => setBanco(v.target.value)}
-          value={banco}
-          // inputProps={{
-          //   readOnly: tipo == 1 ? false : true,
-          // }}
-        >
-          {bancos?.map((item: any) => {
-            return (
-              <MenuItem key={item?.id} value={item?.id}>
-                {item.Nombre}
-              </MenuItem>
-            );
-          })}
-        </Select>
-          <TextField
-            required
-            margin="dense"
-            id="IdBancos"
-            label="Banco"
-            value={idBancos}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setIdBancos(v.target.value)}
-            error={idBancos == "" ? true : false}
-            InputProps={{}}
-          />
+          <Box sx={{
+                margin:1
+               }}>
+
+                <SelectFrag
+                  value={idBancos}
+                  options={bancos}
+                  onInputChange={handleFilterChange1}
+                  placeholder={"Seleccione Banco"}
+                  label={""}
+                  disabled={false}
+                />
+                </Box>
+                
+         
 
           <TextField
             required

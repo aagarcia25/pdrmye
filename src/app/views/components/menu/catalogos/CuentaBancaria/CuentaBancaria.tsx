@@ -81,8 +81,8 @@ export const CuentaBancaria = () => {
           headerName: "Identificador",
           hide: true,
           width: 150,
-          description: messages.dataTableColum.id,
         },
+        { field: "idbanco", headerName: "t", width: 250 , hide: true,},
         { field: "IdBancos", headerName: "ID BANCOS", width: 250 },
 
         { field: "IdUsuarios", headerName: "ID USUARIOS", width: 250 },
