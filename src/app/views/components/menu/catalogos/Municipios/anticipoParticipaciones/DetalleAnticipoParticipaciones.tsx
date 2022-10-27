@@ -34,7 +34,7 @@ export const DetalleAnticipoParticipaciones = (
     const [agregar, setAgregar] = useState<boolean>(false);
     const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
     const [detalle, setDetalle] = useState([]);
-    const [openSlider, setOpenSlider] = useState(false);
+    const [openSlider, setOpenSlider] = useState(true);
 
 
     const columns: GridColDef[] = [
@@ -61,8 +61,6 @@ export const DetalleAnticipoParticipaciones = (
         },
     ];
     const getDetalles = (d:any) => {
-        setOpenSlider(true);
-        console.log(idPrincipal);
         CatalogosServices.getdetalle(d).then((res) => {
             setDetalle(res.RESPONSE);
             console.log(res.RESPONSE)
@@ -71,7 +69,6 @@ export const DetalleAnticipoParticipaciones = (
     };
 
     useEffect(() => {  
-        setOpenSlider(true)
        
         permisos.map((item: PERMISO) => {
             if (String(item.ControlInterno) === "MUNAPC") {
@@ -91,12 +88,6 @@ export const DetalleAnticipoParticipaciones = (
 
             }
         });
-        console.log(data)
-        console.log(idPrincipal)
-        // setTimeout(() => {
-        //     setOpenSlider(false)
-        //   ;
-        // }, 2000);
         getDetalles({ IDPRINCIPAL: idPrincipal })
     }, [idPrincipal]);
     

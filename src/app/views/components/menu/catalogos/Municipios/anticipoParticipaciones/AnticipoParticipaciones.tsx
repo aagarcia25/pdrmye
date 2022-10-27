@@ -19,7 +19,7 @@ export const AnticipoParticipaciones = () => {
     const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
     const [idPrincipal, setIdPrincipal] = useState("");
     const [APC, setAPC] = useState([]);
-  const [data, setdata] = useState([]);
+    const [data, setdata] = useState([]);
 
 
 
@@ -109,11 +109,18 @@ setOpen(false);
 
         });
     }, []);
+
+
+
     return (
         <div style={{ height: 600, width: "100%" }}>
             <MUIXDataGrid sx={{}} columns={columns} rows={APC} />
 
-            <DetalleAnticipoParticipaciones idPrincipal={idPrincipal} data={data} open={open} handleClose={handleClose}/>
+            {open ?
+             <DetalleAnticipoParticipaciones idPrincipal={idPrincipal} data={data} open={open} handleClose={handleClose}/>
+             :""
+           }
+           
         </div>
     );
 };
