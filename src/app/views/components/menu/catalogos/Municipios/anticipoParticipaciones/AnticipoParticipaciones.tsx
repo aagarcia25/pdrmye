@@ -14,38 +14,17 @@ export const AnticipoParticipaciones = () => {
     const [agregar, setAgregar] = useState<boolean>(false);
     const [APC, setAPC] = useState([]);
     const columns: GridColDef[] = [
-        {
-          field: "id",
-          hide: true,
-          headerName: "Identificador",
-          width: 150,
-        },
-        { field: "ClaveEstado", headerName: "Clave Estado", width: 120 },
-        { field: "Nombre", headerName: "Municipio", width: 250 },
+        {field: "id", hide: true, },
+        {field: "idPrincipal", hide: true, },
+        { field: "Descripcion", headerName: "Mes", width: 120 },
+
+        { field: "Nombre", headerName: "Municipio", width: 350 },
     
         //{ field: "ClaveMun", headerName: "Clave Municipio", width: 150 },
    
-            { field: "NombreCorto", headerName: "Nombre Corto", width: 250 },
-        { field: "OrdenSFTGNL", headerName: "Orden SFTGNL", width: 120 },
-        { field: "ClaveSIREGOB", headerName: "Clave SIREGOB", width: 120 },
-        { field: "ClaveINEGI", headerName: "Clave INEGI", width: 120 },
-        
-       
-        {
-          field: "acciones",
-          headerName: "Acciones",
-          description: "Campo de Acciones",
-          sortable: false,
-          width: 350,
-          renderCell: (v) => {
-            return (
-              <>
-                <Box>
-                </Box>
-              </>
-            );
-          },
-        },
+            { field: "Total", headerName: "Total", width: 100 },
+        { field: "ClaveEstado", headerName: "Clave Estado", width: 120 },
+        { field: "Anio", headerName: "Anio", width: 120 },
       ];
 
     useEffect(() => {
@@ -65,18 +44,18 @@ export const AnticipoParticipaciones = () => {
             }
         });
         let data = {
-            NUMOPERACION: 1,
+            IDPRINCIPAL:"363a03e1-cac7-437f-9e2f-0695b8416d90"
         };
 
-        CatalogosServices.indexAPC(data).then((res) => {
+        CatalogosServices.getdetalle(data).then((res) => {
             setAPC(res.RESPONSE);
             console.log(res.RESPONSE)
-            
+
         });
     }, []);
     return (
         <div style={{ height: 600, width: "100%" }}>
-         <MUIXDataGrid sx={{}} columns={columns} rows={{}} />
+         <MUIXDataGrid sx={{}} columns={columns} rows={APC} />
         </div>
     );
 };
