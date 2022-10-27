@@ -49,9 +49,9 @@ export const Fondo = () => {
     setIdtrazabilidad(v.row.id);
     setOpenTrazabilidad(true);
   }
-    const handleTras = (v: string) => {
-      setIdtrazabilidad(v);
-      setOpenTrazabilidad(true);
+  const handleTras = (v: string) => {
+    setIdtrazabilidad(v);
+    setOpenTrazabilidad(true);
   };
   const handleOpen = (v: any) => {
     setModo("calculo");
@@ -64,9 +64,7 @@ export const Fondo = () => {
     setOpenTrazabilidad(false);
 
   };
-  const handleDetalle = (v: any) => {    
- 
- 
+  const handleDetalle = (v: any) => {
     setClave(v.row.Clave)
     setIdDetalle(String(v.row.id));
     setMes(v.row.Mes);
@@ -74,8 +72,6 @@ export const Fondo = () => {
     setOpenDetalles(true);
     setAnio(Number(v.row.Anio));
     setEstatus(v.row.estatus);
-
-
   };
 
   const handleAjuste = (v: any) => {
@@ -86,7 +82,7 @@ export const Fondo = () => {
   };
 
   const columns: GridColDef[] = [
-    
+
     { field: "id", headerName: "Identificador", width: 150, hide: true },
     {
       field: "Clave",
@@ -141,27 +137,27 @@ export const Fondo = () => {
               </IconButton>
             </Tooltip>
             {agregarajuste ? (
-            <Tooltip title="Agregar Ajuste">
-              <IconButton
-                onClick={() => handleAjuste(v)}
-                disabled={
-                  String(v.row.Clave) == "FISM" ||
-                  String(v.row.Clave) == "FORTAMUN"
-                }
-              >
-                <AttachMoneyIcon />
-              </IconButton>
-            </Tooltip>
+              <Tooltip title="Agregar Ajuste">
+                <IconButton
+                  onClick={() => handleAjuste(v)}
+                  disabled={
+                    String(v.row.Clave) == "FISM" ||
+                    String(v.row.Clave) == "FORTAMUN"
+                  }
+                >
+                  <AttachMoneyIcon />
+                </IconButton>
+              </Tooltip>
             ) : (
               ""
             )}
-         {verTrazabilidad ? (
-            <Tooltip title="Ver Trazabilidad">
-              <IconButton onClick={() => handleTraz(v)}>
-                <InsightsIcon />
-              </IconButton>
-            </Tooltip>
-             ) : (
+            {verTrazabilidad ? (
+              <Tooltip title="Ver Trazabilidad">
+                <IconButton onClick={() => handleTraz(v)}>
+                  <InsightsIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
               ""
             )}
           </Box>
@@ -229,7 +225,7 @@ export const Fondo = () => {
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
 
-   
+
   }, [params.fondo]);
 
   return (
@@ -274,7 +270,8 @@ export const Fondo = () => {
           anio={anio}
           mes={mes}
           fondo={fondo}
-           estatus={estatus}        />
+          estatus={estatus}
+        />
         : ""}
 
     </>
