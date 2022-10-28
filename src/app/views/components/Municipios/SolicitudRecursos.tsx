@@ -17,13 +17,10 @@ const SolicitudRecursos = () => {
 
   const columns: GridColDef[] = [
     { field: "id", hide: true, },
-    { field: "IdMunicipio", hide: true, },
-    { field: "idPrincipal", hide: true, },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 120 },
-    { field: "Nombre", headerName: "Municipio", width: 250 },
-    { field: "Descripcion", headerName: "Mes", width: 120 },
-    { field: "Anio", headerName: "Año", width: 120 },
-    { field: "Total", headerName: "Total", width: 100 },
+    { field: "IdEstatus", hide: true, },
+    { field: "Total", headerName: "Total", width: 120 },
+    { field: "Concepto", headerName: "Concepto", width: 250 },
+    { field: "RutaSpei", headerName: "RutaSpei", width: 120 },
     {
       field: "acciones",
       headerName: "Acciones",
