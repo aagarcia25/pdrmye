@@ -26,7 +26,18 @@ export const AnticipoParticipaciones = () => {
     var hoy = new Date()
     var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2);
 
-    const handleClose = (v: any) => { setOpen(false); };
+    const handleClose = (v: any) => { 
+        setOpen(false); 
+        let data = {
+            NUMOPERACION: 1
+        };
+
+        CatalogosServices.indexAPC(data).then((res) => {
+            setAPC(res.RESPONSE);
+            console.log(res.RESPONSE)
+
+        });
+    };
     const user: RESPONSE = JSON.parse(String(getUser()));
 
     const columns: GridColDef[] = [

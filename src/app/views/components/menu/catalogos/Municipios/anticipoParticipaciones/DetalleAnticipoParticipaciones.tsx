@@ -99,11 +99,11 @@ export const DetalleAnticipoParticipaciones = (
                             icon: "success",
                             title: "Borrado Exitoso!",
                         });
+                        handleClose()
+                        // CatalogosServices.indexAPC(data).then((res) => {
+                        //     console.log(res.RESPONSE)
 
-                        CatalogosServices.indexAPC(data).then((res) => {
-                            console.log(res.RESPONSE)
-
-                        });
+                        // });
                     } else {
                         Alert.fire({
                             title: "Error!",
@@ -180,7 +180,10 @@ export const DetalleAnticipoParticipaciones = (
 
                         <Grid item xs={7} md={8} lg={11} sx={{ justifyContent: "center", width: '100%' }}>
 
-                            <BotonesOpciones
+
+                        <Grid container>
+                        <Grid item xs={1} md={1} lg={1}>
+                        <BotonesOpciones
                                 handleAccion={handleClose}
                                 autorizar={false}
                                 cancelar={false}
@@ -192,17 +195,26 @@ export const DetalleAnticipoParticipaciones = (
                                 area={""}
                             />
 
-
-                            <MUIXDataGrid columns={columns} rows={detalle} />
-
                         </Grid>
-                        <Grid item xs={1} >
-                            <Tooltip title={"Eliminar"}>
+
+                        <Grid item xs={1} md={1} lg={1} >
+                        <Tooltip title={"Eliminar"}>
                                 <ToggleButton value="check" onClick={() => Eliminar()}>
                                     <RemoveCircleOutlineIcon />
                                 </ToggleButton>
                             </Tooltip>
                         </Grid>
+
+                        </Grid>
+                           
+
+
+
+
+                            <MUIXDataGrid columns={columns} rows={detalle} />
+
+                        </Grid>
+                        
                     </Grid>
 
                 </Dialog>
