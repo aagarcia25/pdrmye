@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Box, Dialog, Grid, IconButton, Tooltip } from "@mui/material";
+import { Box, Dialog, Grid, IconButton, ToggleButton, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { PERMISO } from "../../../../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../../services/catalogosServices";
-import { getPermisos } from "../../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../../services/localStorage";
 import MUIXDataGrid from "../../../../MUIXDataGrid";
 import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -11,7 +11,11 @@ import InsightsIcon from "@mui/icons-material/Insights";
 import Slider from "../../../../Slider";
 import { Titulo } from "../../Utilerias/AgregarCalculoUtil/Titulo";
 import BotonesOpciones from "../../../../componentes/BotonesOpciones";
-
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import Swal from "sweetalert2";
+import { Toast } from "../../../../../../helpers/Toast";
+import { Alert } from "../../../../../../helpers/Alert";
+import { userInfo } from "os";
 
 export const DetalleAnticipoParticipaciones = (
     {
@@ -35,6 +39,7 @@ export const DetalleAnticipoParticipaciones = (
     const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
     const [detalle, setDetalle] = useState([]);
     const [openSlider, setOpenSlider] = useState(true);
+    const user: RESPONSE = JSON.parse(String(getUser()));
 
 
     const columns: GridColDef[] = [
@@ -60,16 +65,60 @@ export const DetalleAnticipoParticipaciones = (
             },
         },
     ];
-    const getDetalles = (d:any) => {
+    const getDetalles = (d: any) => {
         CatalogosServices.getdetalle(d).then((res) => {
             setDetalle(res.RESPONSE);
             console.log(res.RESPONSE)
             setOpenSlider(false);
         });
     };
+    const Eliminar = () => {
+        console.log(data)
 
-    useEffect(() => {  
-       
+        let d = {
+            MES: data.Mes,
+            ANIO: data.Anio,
+            PRINCIPAL: data.id,
+            CHUSER: user.id,
+            TIPO: 2
+
+        };
+        Swal.fire({
+            icon: "warning",
+            title: "Borrar Detalle De Partcipacion",
+            text: "¿Desea Autoriza?",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Aceptar",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                CatalogosServices.clonarInformacionAP(d).then((res) => {
+                    if (res.SUCCESS) {
+                        Toast.fire({
+                            icon: "success",
+                            title: "Borrado Exitoso!",
+                        });
+
+                        CatalogosServices.indexAPC(data).then((res) => {
+                            console.log(res.RESPONSE)
+
+                        });
+                    } else {
+                        Alert.fire({
+                            title: "Error!",
+                            text: "Validar informacion",
+                            icon: "error",
+                        });
+                    }
+                });
+            }
+        });
+
+    };
+
+    useEffect(() => {
+
         permisos.map((item: PERMISO) => {
             if (String(item.ControlInterno) === "MUNAPC") {
                 console.log(item)
@@ -90,7 +139,7 @@ export const DetalleAnticipoParticipaciones = (
         });
         getDetalles({ IDPRINCIPAL: idPrincipal })
     }, [idPrincipal]);
-    
+
     return (
         <div style={{ height: 600, width: "80%" }}>
             <Box>
@@ -125,11 +174,12 @@ export const DetalleAnticipoParticipaciones = (
                             {/* <label className="subtitulo">{mes} <br /><br /><br /></label> */}
                         </Grid>
                     </Grid>
-                    <Grid
-                        container spacing={1}
+                    <Grid container
                         sx={{ justifyContent: "center", width: '100%' }} >
 
-                        <Grid item xs={7} md={8} lg={8} sx={{ justifyContent: "center", width: '100%' }}>
+
+                        <Grid item xs={7} md={8} lg={11} sx={{ justifyContent: "center", width: '100%' }}>
+
                             <BotonesOpciones
                                 handleAccion={handleClose}
                                 autorizar={false}
@@ -142,8 +192,16 @@ export const DetalleAnticipoParticipaciones = (
                                 area={""}
                             />
 
+
                             <MUIXDataGrid columns={columns} rows={detalle} />
 
+                        </Grid>
+                        <Grid item xs={1} >
+                            <Tooltip title={"Eliminar"}>
+                                <ToggleButton value="check" onClick={() => Eliminar()}>
+                                    <RemoveCircleOutlineIcon />
+                                </ToggleButton>
+                            </Tooltip>
                         </Grid>
                     </Grid>
 

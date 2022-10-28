@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { PERMISO } from "../../../../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../../services/catalogosServices";
-import { getPermisos } from "../../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../../services/localStorage";
 import MUIXDataGrid from "../../../../MUIXDataGrid";
 import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InsightsIcon from "@mui/icons-material/Insights";
 import { DetalleAnticipoParticipaciones } from "./DetalleAnticipoParticipaciones";
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import Swal from "sweetalert2";
+import { Toast } from "../../../../../../helpers/Toast";
+import { Alert } from "../../../../../../helpers/Alert";
 
 export const AnticipoParticipaciones = () => {
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [open, setOpen] = useState<boolean>(false);
-    const [clonar, setClonar] = useState<boolean>(false);
-
     const [eliminar, setEliminar] = useState<boolean>(false);
     const [agregar, setAgregar] = useState<boolean>(false);
     const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
@@ -26,6 +27,8 @@ export const AnticipoParticipaciones = () => {
     var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2);
 
     const handleClose = (v: any) => { setOpen(false); };
+    const user: RESPONSE = JSON.parse(String(getUser()));
+
     const columns: GridColDef[] = [
         { field: "id", hide: true, },
 
@@ -50,9 +53,9 @@ export const AnticipoParticipaciones = () => {
                         </Tooltip>
                         {(v.row.Activo == 1) ? (
                             <Tooltip title="Clonar">
-                                <IconButton
+                                <IconButton onClick={() => handleClonar(v)}
                                 >
-                                    <FileCopyIcon/>
+                                <FileCopyIcon/>
                                 </IconButton>
                             </Tooltip>
                         ) : ("")}
@@ -90,6 +93,56 @@ export const AnticipoParticipaciones = () => {
         setIdPrincipal(String(v.row.id));
         setdata(v.row);
         setOpen(true);
+    };
+    const handleClonar = (v: any) => {
+        console.log(String(v.row.id))
+        setIdPrincipal(String(v.row.id));
+
+        let d = {
+            MES: v.row.Mes,
+            ANIO:v.row.Anio,
+            PRINCIPAL:v.row.id,
+            CHUSER: user.id,
+            TIPO:1
+
+        };
+        Swal.fire({
+            icon: "warning",
+            title: "Clonar Anticipo",
+            text: "¿Desea Autoriza?",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Aceptar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+                CatalogosServices.clonarInformacionAP(d).then((res) => {
+                if (res.SUCCESS) {
+                  Toast.fire({
+                    icon: "success",
+                    title: "Clonado Exitoso!",
+                  });
+
+                  CatalogosServices.indexAPC(data).then((res) => {
+                    setAPC(res.RESPONSE);
+                    console.log(res.RESPONSE)
+        
+                });
+                } else {
+                  Alert.fire({
+                    title: "Error!",
+                    text:"Validar informacion",
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+
+    
+
+
+
     };
     const test = () => {
         console.log(fecha)
