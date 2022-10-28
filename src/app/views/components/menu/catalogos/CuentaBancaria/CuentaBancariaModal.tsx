@@ -37,8 +37,8 @@ export const CuentaBancariaModal = ({
   const [slideropen, setslideropen] = useState(true);
   const [id, setId] = useState("");
   const [numeroCuenta, setNumeroCuenta] = useState("");
+  const [nombreCuenta, setNombreCuenta] = useState("");
   const [clabeBancaria, setClabeBancaria] = useState("");
-  const [activo, setActivo] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const [idUsuarios, setIdUsuarios] = useState("");
@@ -47,18 +47,16 @@ export const CuentaBancariaModal = ({
   const [idBancos, setIdBancos] = useState("");
   const [bancos, setBancos] = useState<SelectValues[]>([]);
 
-  
+  const [idEstatus, setIdEstatus] = useState("");
+  const [estatus, setEstatus] = useState("");
 
-    console.log("activo: ", activo);
+  const [rutaDocumento, setRutaDocumento] = useState("");
+
+  const [comentarios, setComentarios] = useState("");
+
 
 
     //SE INTERCAMBIÓ 
-  const textoDeAfirmacion = "INACTIVO";
-  const textoDeNegacion = "ACTIVO";
-
-  const [checkedActivo, setCheckedActivo] = useState(
-    dt?.row?.deleted === "1" ? true : false
-  );
 
   const handleFilterChange1 = (v: string) => {
     console.log(v);
@@ -86,17 +84,8 @@ export const CuentaBancariaModal = ({
     });
   };
 
-  const toggleCheckedActivo = () => {
-    setCheckedActivo((prev) => !prev);
-    if (checkedActivo === true) {
-      setActivo("0");
-    } else {
-      setActivo("1");
-    }
-  };
-
   const handleSend = () => {
-    if (!idBancos || !idUsuarios || !numeroCuenta || !clabeBancaria) {
+    if (!nombreCuenta ||!idBancos || !idUsuarios || !numeroCuenta || !clabeBancaria) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -108,10 +97,13 @@ export const CuentaBancariaModal = ({
         CHID: id,
         CHUSER: user.id,
         IDBANCOS: idBancos,
-        IDUSUARIOS: idUsuarios,
+        IDUSUARIOS: user.id,
         NUMEROCUENTA: numeroCuenta,
         CLABEBANCARIA: clabeBancaria,
-        DELETED: activo,
+        IDESTATUS: idEstatus,
+        RUTADOCUMENTO: rutaDocumento,
+        NOMBRECUENTA: nombreCuenta,
+        COMENTARIOS: comentarios
       };
 
       handleRequest(data);
@@ -174,7 +166,6 @@ export const CuentaBancariaModal = ({
       setIdUsuarios(dt?.row?.idusuario);
       setNumeroCuenta(dt?.row?.NumeroCuenta);
       setClabeBancaria(dt?.row?.ClabeBancaria);
-      setActivo(dt?.row?.deleted);
     }
     usuariosc();
     bancosc();
@@ -190,20 +181,20 @@ export const CuentaBancariaModal = ({
               {tipo == 1 ? "Agregar Registro" : "Editar Registro"}
             </label>
           </Box>
-          <Box
-            sx={{
-              margin: 1,
-            }}
-          >
-            <SelectFrag
-              value={idUsuarios}
-              options={usuarios}
-              onInputChange={handleFilterChange2}
-              placeholder={"Seleccione Cuenta Perfil"}
-              label={""}
-              disabled={false}
-            />
-          </Box>
+          
+          <TextField
+            required
+            margin="dense"
+            id="NombreCuenta"
+            label="Nombre de la Cuenta"
+            value={nombreCuenta}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setNombreCuenta(v.target.value)}
+            error={nombreCuenta == "" ? true : false}
+            InputProps={{}}
+          />
 
           <Box
             sx={{
@@ -224,7 +215,7 @@ export const CuentaBancariaModal = ({
             required
             margin="dense"
             id="NumeroCuenta"
-            label="Cuenta"
+            label="Número de la Cuenta"
             value={numeroCuenta}
             type="number"
             fullWidth
@@ -247,20 +238,6 @@ export const CuentaBancariaModal = ({
             error={clabeBancaria == "" ? true : false}
             InputProps={{}}
           />
-          <FormGroup>
-            <InputLabel>Estatus</InputLabel>
-            <FormControlLabel
-              control={
-                <Switch
-                  id="Activo"
-                  checked={checkedActivo}
-                  onChange={toggleCheckedActivo}
-                  color="default"
-                />
-              }
-              label={checkedActivo ? textoDeAfirmacion : textoDeNegacion}
-            />
-          </FormGroup>
         </Box>
       </DialogContent>
 

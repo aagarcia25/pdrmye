@@ -83,18 +83,15 @@ export const CuentaBancaria = () => {
           hide: true,
           width: 150,
         },
-        { field: "idusuario", headerName: "Identificador Usuario", width: 250 , hide: true},
-        { field: "NombreUsuario", headerName: "Cuenta de perfil", width: 250 },
+        { field: "idusuario", headerName: "Identificador Usuario", width: 50 , hide: true},
+        { field: "NombreUsuario", headerName: "Nombre de la Cuenta", width: 250 },
         { field: "NombreBanco", headerName: "Banco", width: 250 },
-        { field: "idbanco", headerName: "Identificador Banco", width: 250 , hide: true},
+        { field: "idbanco", headerName: "Identificador Banco", width: 50 , hide: true},
         
         { field: "NumeroCuenta", headerName: "Cuenta", width: 250 },
         { field: "ClabeBancaria", headerName: "Clabe", width: 250 },
-        { field: "deleted", headerName: "Estatus", width: 100,
-        renderCell: (v) => {
-          return v.row.deleted === '1' ? "INACTIVO" : "ACTIVO";
-        },   
-      },
+        { field: "idestatus", headerName: "Identificador Estatus", width: 50 },
+        { field: "EstatusDescripcion", headerName: "Estatus", width: 250 },
         {
           field: "acciones",
           headerName: "Acciones",
