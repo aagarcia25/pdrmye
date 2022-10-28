@@ -32,6 +32,7 @@ function Copyright() {
      },
    },
    typography: {
+    
      h5: {
        fontWeight: 500,
        fontSize: 26,

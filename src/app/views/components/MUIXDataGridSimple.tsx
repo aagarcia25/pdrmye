@@ -24,7 +24,7 @@ export default function MUIXDataGridSimple(props: any) {
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           columns={props.columns}
           rows={props.rows}
-          sx={{ fontFamily: "MontserratMedium" }}
+          sx={{ fontFamily: "MontserratMedium" ,textTransform:"uppercase "}}
           componentsProps={{
             toolbar: {
               showQuickFilter: true,

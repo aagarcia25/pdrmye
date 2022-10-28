@@ -23,9 +23,8 @@ export default function MUIXDataGrid(props: any) {
           disableColumnFilter
           disableColumnSelector
           disableDensitySelector
-          sx={{ fontFamily: "MontserratMedium" }}
           components={{ Toolbar: GridToolbar }}
-         
+          sx={{ fontFamily: "MontserratMedium" ,textTransform:"uppercase "}}
 
           componentsProps={{
             toolbar: {

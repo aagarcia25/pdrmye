@@ -553,12 +553,6 @@ const DetalleFgp = ({
         if (String(item.Referencia) == "ENV") {
           setEnviar(true);
         }
-      } else {
-        setAutorizar(false);
-        setCancelar(false);
-        setVerTrazabilidad(false);
-        setPresupuesto(false);
-        setEnviar(false);
       }
     });
   };
