@@ -48,7 +48,7 @@ export const AnticipoParticipaciones = () => {
                                 <InfoIcon />
                             </IconButton>
                         </Tooltip>
-                        {(hoy.getMonth() == Number(v.row.Mes)) ? (
+                        {(v.row.Activo == 1) ? (
                             <Tooltip title="Clonar">
                                 <IconButton
                                 >
