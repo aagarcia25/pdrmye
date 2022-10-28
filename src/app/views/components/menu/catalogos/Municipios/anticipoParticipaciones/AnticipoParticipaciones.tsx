@@ -199,12 +199,7 @@ export const AnticipoParticipaciones = () => {
                 <DetalleAnticipoParticipaciones idPrincipal={idPrincipal} data={data} open={open} handleClose={handleClose} />
                 : ""
             }
-            <Button
-                onClick={test}
-                variant="contained"
-            >
-                test
-            </Button>
+       
 
         </div>
     );
