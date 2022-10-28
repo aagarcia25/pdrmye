@@ -3,7 +3,9 @@ import { post, postDocument } from './apiService';
 
 export class CatalogosServices {
 
-
+    public static async SolicitudesInfo(data: any) {
+        return await post('SolicitudesInfo', data);
+    }
     public static async umas(data: any) {
         return await post('umas', data);
     }
