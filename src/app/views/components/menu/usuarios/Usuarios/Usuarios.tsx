@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
 import { Tooltip, IconButton } from "@mui/material";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
@@ -207,6 +208,11 @@ const Usuarios = () => {
                 <ModeEditOutlineIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title={"Editar Registro"}>
+              <IconButton color="error" onClick={() => handleDelete(v)}>
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
         );
       },
@@ -224,7 +230,7 @@ const Usuarios = () => {
               </Tooltip>
 
             </Box>
-            : "Activado"
+            : "Activo"
 
         );
       },

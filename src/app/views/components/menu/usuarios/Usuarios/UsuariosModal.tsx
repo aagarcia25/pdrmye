@@ -36,6 +36,8 @@ const UsuariosModal = ({
   const [NombreUsuario, setNombreUsuario] = useState<string>();
   const [CorreoElectronico, setCorreoElectronico] = useState<string>();
   const [emailValid, setEmailValid] = useState<boolean>();
+  const [tokenValid, setTokenValid] = useState<boolean>();
+
   const user: RESPONSE = JSON.parse(String(getUser()));
   const token = JSON.parse(String(getToken()));
   const [emailError, setEmailError] = useState('')
@@ -84,8 +86,11 @@ const UsuariosModal = ({
 
 
 
+
   const handleRequest = (data: any) => {
-    console.log(data);
+ 
+
+
     UserServices.signup(data, token).then((resUser) => {
    
       if (resUser.status == 201) {
@@ -160,6 +165,21 @@ const UsuariosModal = ({
   };
 
   useEffect(() => {
+    let d = {  
+    
+    }
+    UserServices.verify(d,token).then((resAppLogin) => {
+      console.log(resAppLogin.status);
+      resAppLogin.status==200?  
+     setTokenValid(true)
+     :
+     
+     
+     setTokenValid(false);
+    });
+
+
+
     console.log(dt);
 
     if (dt === "") {

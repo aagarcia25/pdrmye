@@ -145,7 +145,7 @@ export const SolicitudModal = (
                                 rows={4}                                  
                                     type="text"
                                     sx={{
-                                        width: "35vw",
+                                        width: "30vw",
                                         
                                       }}
                                 />
