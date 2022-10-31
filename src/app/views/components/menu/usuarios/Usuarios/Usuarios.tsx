@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import Box from '@mui/material/Box';
 import { Tooltip, IconButton } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
@@ -21,6 +21,9 @@ import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { UserServices } from "../../../../../services/UserServices";
 import { getPermisos } from "../../../../../services/localStorage";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
+
+
+
 const Usuarios = () => {
   const [data, setData] = useState([]);
   const [openRolConf, setOpenRolConf] = useState(false);
@@ -37,6 +40,13 @@ const Usuarios = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+///////////////////////////////////////////
+
+
+
+
+
+
 
   const handleOpen = () => {
     setTipoOperacion(3);
