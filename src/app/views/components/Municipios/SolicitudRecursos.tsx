@@ -48,7 +48,7 @@ setOpen(true);
   };
   useEffect(() => {
     let d = {
-      MES: "",
+      NUMOPERACION: "4",
 
     };
 
@@ -58,8 +58,11 @@ setOpen(true);
       console.log(res.RESPONSE)
     });
   }, []);
+
+
+
   return (
-    <div style={{ height: 600, width: "80%" }}>
+    <div style={{ height: 600, width: "100%" }}>
       <Box>
 
         <Slider open={false}></Slider>
@@ -88,7 +91,7 @@ setOpen(true);
 
           <Grid container>
             <Grid item xs={1} md={1} lg={1}>
-              <Tooltip title={"Regresar"}>
+              <Tooltip title={"Agregar"}>
                 <ToggleButton value="check" onClick={() => Solicitar()}>
                   <AddIcon />
                 </ToggleButton>

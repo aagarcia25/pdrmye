@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import { Box, Container, Dialog, Grid, IconButton, InputAdornment, TextField } from "@mui/material";
+import { Box, Container, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
@@ -18,7 +18,6 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { Alert } from '../../../helpers/Alert';
 import { CatalogosServices } from '../../../services/catalogosServices';
 import { Toast } from '../../../helpers/Toast';
-import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 
 
 
@@ -94,7 +93,7 @@ export const SolicitudModal = (
                 IDESTATUS: "30ec276f-2b14-11ed-afdb-040300000000",
             };
             Swal.fire({
-                icon: "warning",
+                icon: "info",
                 title: "Solicitar",
                 text: DocSubido?"¿Solicitar?":"¿Solicitar sin Documento?",
                 showDenyButton: false,
@@ -110,11 +109,14 @@ export const SolicitudModal = (
                                 title: "Solicitud enviada!",
                             });
 
-                            CatalogosServices.SolicitudesInfo(d).then((res) => {
+                            /*CatalogosServices.SolicitudesInfo(d).then((res) => {
                                 console.log(res.RESPONSE)
                                 handleClose();
 
-                            });
+                            });*/
+
+
+
                         } else {
                             Alert.fire({
                                 title: "Error!",
@@ -157,6 +159,7 @@ export const SolicitudModal = (
         setDocSubido(false);
 
     };
+    
     useEffect(() => {
     }, []);
 
@@ -165,15 +168,16 @@ export const SolicitudModal = (
 
             <Box>
                 <Slider open={openSlider}></Slider>
-                <Dialog open={Boolean(open)}  >
-
-                    <Grid container spacing={2} sx={{ justifyContent: "center", }} >
+                <Dialog open={Boolean(open)}  fullWidth={true}>
+                <DialogTitle>Solicitud de Anticipo de Participaciones</DialogTitle>
+                <DialogContent dividers={true}>
+                    {/* <Grid container spacing={2} sx={{ justifyContent: "center", }} >
                         <Grid item xs={12}>
                             <Box sx={{ display: "flex", justifyContent: "center" }}>
                                 <Titulo name={"Solicitud de Anticipo"} />
                             </Box>
                         </Grid>
-                    </Grid>
+                    </Grid> */}
 
                     <Box sx={{ width: '100%' }}>
                         <Stepper activeStep={activeStep}>
@@ -233,7 +237,7 @@ export const SolicitudModal = (
                                         type="text"
                                         onChange={(v) => setConcepto(v.target.value)}
                                         sx={{
-                                            width: "30vw",
+                                            width: "20vw",
 
                                         }}
                                     />
@@ -245,7 +249,7 @@ export const SolicitudModal = (
                                         value={total}
                                         onChange={(v) => setTotal(Number(v.target.value))}
                                         sx={{
-                                            width: "15vw",
+                                            width: "20vw",
                                         }}
                                     />
                                 </Grid>
@@ -262,7 +266,7 @@ export const SolicitudModal = (
 
 
                             <Box sx={{ width: '100%', }}>
-                                <Grid container spacing={3} sx={{ justifyContent: "center", width: "100%" }}>
+                                <Grid container spacing={1} sx={{ justifyContent: "center", width: "100%" }}>
                                     <Grid item xs={12}>
                                         <label >Concepto<br /><br /></label>
                                         <TextField
@@ -272,7 +276,7 @@ export const SolicitudModal = (
                                             rows={4}
                                             type="text"
                                             sx={{
-                                                width: "30vw",
+                                                width: "20vw",
 
                                             }}
                                         />
@@ -284,7 +288,7 @@ export const SolicitudModal = (
                                             type="number"
                                             value={total}
                                             sx={{
-                                                width: "15vw",
+                                                width: "20vw",
                                             }}
                                         />
                                     </Grid>
@@ -389,7 +393,7 @@ export const SolicitudModal = (
                             </Box>
                         </Container>
                         : ""}
-
+  </DialogContent>
 
                     <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
                         <Grid item xs={2}>
@@ -399,7 +403,7 @@ export const SolicitudModal = (
 
 
 
-
+             
                 </Dialog>
             </Box>
         </div>

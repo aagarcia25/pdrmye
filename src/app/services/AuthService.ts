@@ -94,5 +94,12 @@ export class AuthService {
     }
 
 
+    public static async RelacionarUsuarioMunicipio(data: any) {
+        return await post('RelacionarUsuarioMunicipio', data);
+    }
+
+
+
+    
 
 }

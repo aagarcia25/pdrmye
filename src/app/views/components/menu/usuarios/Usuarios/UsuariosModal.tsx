@@ -14,7 +14,9 @@ import { getToken, getUser } from "../../../../../services/localStorage";
 import validator from 'validator';
 import { UserServices } from "../../../../../services/UserServices";
 import { ParametroServices } from "../../../../../services/ParametroServices";
-
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 const UsuariosModal = ({
   open,
   handleClose,
@@ -31,10 +33,13 @@ const UsuariosModal = ({
 
   const [idNuevoUsuario, setIdNuevoUsuario] = useState<string>();
   const [id, setId] = useState<string>();
+  const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
+  const [idDepartamento, setIdDepartamento] = useState<string>("");
   const [Nombre, setNombre] = useState<string>();
   const [ApellidoPaterno, setApellidoPaterno] = useState<string>();
   const [ApellidoMaterno, setApellidoMaterno] = useState<string>();
   const [NombreUsuario, setNombreUsuario] = useState<string>();
+  const [puesto, setPuesto] = useState<string>();
   const [CorreoElectronico, setCorreoElectronico] = useState<string>();
   const [emailValid, setEmailValid] = useState<boolean>();
   const [tokenValid, setTokenValid] = useState<boolean>();
@@ -44,6 +49,18 @@ const UsuariosModal = ({
   const [emailError, setEmailError] = useState('')
 
 
+  const loadFilter = () => {
+    let data = { NUMOPERACION: 7 };
+      CatalogosServices.SelectIndex(data).then((res) => {
+            setDepartamentos(res.RESPONSE);
+      });
+    }
+
+
+    const handleFilterChange = (v: string) => {
+      console.log(v)
+      setIdDepartamento(v);
+   };
 
   const validateEmail = (e: any) => {
     var email = e.target.value
@@ -119,7 +136,8 @@ const UsuariosModal = ({
                   AP: ApellidoPaterno,
                   AM: ApellidoMaterno,
                   NUSER: NombreUsuario,
-                  CORREO: CorreoElectronico
+                  CORREO: CorreoElectronico,
+                  PUESTO:puesto
 
                 };
 
@@ -166,6 +184,7 @@ const UsuariosModal = ({
   };
 
   useEffect(() => {
+    loadFilter();
     let d = {  
     
     }
@@ -192,6 +211,7 @@ const UsuariosModal = ({
       setApellidoMaterno(dt?.row?.ApellidoMaterno);
       setNombreUsuario(dt?.row?.NombreUsuario);
       setCorreoElectronico(dt?.row?.CorreoElectronico);
+      setPuesto(dt?.row?.Puesto);
     }
   }, [dt]);
 
@@ -270,6 +290,29 @@ const UsuariosModal = ({
               error={emailValid == false || CorreoElectronico == null}
             />
             <label>{emailError}</label>
+
+            <TextField
+              required
+              margin="dense"
+              id="Puesto"
+              label="Puesto"
+              value={puesto}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setPuesto(v.target.value)}
+              error={puesto == null ? true : false}
+            />
+           <br/>
+           <label>Departamento:</label>
+           <SelectFrag
+                  value={idDepartamento}
+                  options={departamento}
+                  onInputChange={handleFilterChange}
+                  placeholder={"Seleccione Departamento"}
+                  label={""}
+                  disabled={false}
+                />
           </Box>
         </DialogContent>
 

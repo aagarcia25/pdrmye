@@ -17,11 +17,12 @@ import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import DepartamentoConfig from "./DepartamentoConfig";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import RolesConfig from "./RolesConfig";
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { UserServices } from "../../../../../services/UserServices";
 import { getPermisos } from "../../../../../services/localStorage";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
-
+import UsuariosMunicipios from "./UsuariosMunicipios";
 
 
 const Usuarios = () => {
@@ -29,6 +30,10 @@ const Usuarios = () => {
   const [openRolConf, setOpenRolConf] = useState(false);
   const [openConfigPerfil, setOpenConfigPerfil] = useState(false);
   const [openConfigDep, setOpenConfigDep] = useState(false);
+  const [openConfigMun, setOpenConfigMun] = useState(false);
+
+
+
   const [openNew, setOpenNew] = useState(false);
   const [userActive, setUserActive] = useState<boolean>();
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -45,6 +50,15 @@ const Usuarios = () => {
 
 
 
+
+
+
+
+  const handleMunicipios = (v: any) => {
+    setTipoOperacion(5);
+    setRow(v);
+    setOpenConfigMun(true);
+  };
 
 
 
@@ -152,6 +166,7 @@ const Usuarios = () => {
   };
 
   const handleClose = (v:string) => {
+    setOpenConfigMun(false);
     setOpenNew(false);
     setOpenConfigPerfil(false);
     setOpenConfigDep(false);
@@ -178,16 +193,6 @@ const Usuarios = () => {
       headerName: "Identificador",
       hide: true,
       width: 150,
-      description: messages.dataTableColum.id,
-    },
-    { field: "NombreUsuario", headerName: "Usuario", width: 150 },
-    { field: "Nombre", headerName: "Nombre", width: 150 },
-    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
-    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
-    {
-      field: "CorreoElectronico",
-      headerName: "Correo Electronico",
-      width: 200,
     },
     {
       field: "acciones",
@@ -213,6 +218,11 @@ const Usuarios = () => {
                 <AddToQueueIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title={"Relacionar Municipios"}>
+              <IconButton color="info" onClick={() => handleMunicipios(v)}>
+                <Diversity3Icon />
+              </IconButton>
+            </Tooltip>
             <Tooltip title={"Editar Registro"}>
               <IconButton color="info" onClick={() => handleEdit(v)}>
                 <ModeEditOutlineIcon />
@@ -227,6 +237,14 @@ const Usuarios = () => {
         );
       },
     },
+    { field: "NombreUsuario", headerName: "Usuario", width: 150 },
+    { field: "Nombre", headerName: "Nombre", width: 150 },
+    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
+    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
+    { field: "CorreoElectronico",headerName: "Correo Electronico",     width: 250,   },
+    { field: "Puesto",headerName: "Puesto",     width: 200,   },
+    { field: "DepartamentoDescripcion",headerName: "Departamento",     width: 300,   },
+   
     {
       field: "EstaActivo", headerName: "Activo", width: 100,
       renderCell: (v: any) => {
@@ -323,6 +341,17 @@ const Usuarios = () => {
           handleClose={handleClose}
           dt={dt}
         ></DepartamentoConfig>
+      ) : (
+        ""
+      )}
+
+
+{openConfigMun ? (
+        <UsuariosMunicipios
+          open={openConfigMun}
+          handleClose={handleClose}
+          dt={dt}
+        ></UsuariosMunicipios>
       ) : (
         ""
       )}

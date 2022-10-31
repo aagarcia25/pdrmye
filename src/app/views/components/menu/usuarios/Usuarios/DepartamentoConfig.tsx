@@ -2,25 +2,17 @@ import {
     Dialog,
     DialogActions,
     Box,
-    Typography,
     Checkbox,
-    IconButton,
-    Tooltip,
     Grid,
     Button,
     ButtonGroup,
     styled,
     Paper,
 } from "@mui/material";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import React, { useEffect, useState } from "react";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { GridColDef } from '@mui/x-data-grid';
 
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
-import { id } from "date-fns/locale";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { Alert } from "../../../../../helpers/Alert";
