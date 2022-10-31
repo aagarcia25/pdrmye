@@ -676,7 +676,6 @@ return (
                   required
                   type="datetime-local"
                   defaultValue={finEvento}
-
                   onChange={handleFechaFin}
                 />
               </Box>
