@@ -65,15 +65,9 @@ export const SolicitudModal = (
     const handleNext = () => {
 
 
-        if (concepto?.length != 0 && total?.valueOf != null) {
-            let newSkipped = skipped;
-            if (isStepSkipped(activeStep)) {
-                newSkipped = new Set(newSkipped.values());
-                newSkipped.delete(activeStep);
-            }
+        if (concepto?.length != 0 && total?.valueOf != null && total != 0) {
 
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
-            setSkipped(newSkipped);
         }
         else {
             Alert.fire({
@@ -95,7 +89,7 @@ export const SolicitudModal = (
             Swal.fire({
                 icon: "info",
                 title: "Solicitar",
-                text: DocSubido?"¿Solicitar?":"¿Solicitar sin Documento?",
+                text: DocSubido ? "Guardar?" : "¿Guardar sin Documento?",
                 showDenyButton: false,
                 showCancelButton: true,
                 confirmButtonText: "Aceptar",
@@ -104,18 +98,11 @@ export const SolicitudModal = (
                 if (result.isConfirmed) {
                     CatalogosServices.SolicitudesInfo(d).then((res) => {
                         if (res.SUCCESS) {
+                            console.log(res.RESPONSE)
                             Toast.fire({
                                 icon: "success",
                                 title: "Solicitud enviada!",
                             });
-
-                            /*CatalogosServices.SolicitudesInfo(d).then((res) => {
-                                console.log(res.RESPONSE)
-                                handleClose();
-
-                            });*/
-
-
 
                         } else {
                             Alert.fire({
@@ -125,6 +112,9 @@ export const SolicitudModal = (
                             });
                         }
                     });
+                }
+                if (result.isDenied) {
+                    handleReset();
                 }
             });
 
@@ -159,7 +149,7 @@ export const SolicitudModal = (
         setDocSubido(false);
 
     };
-    
+
     useEffect(() => {
     }, []);
 
@@ -168,113 +158,67 @@ export const SolicitudModal = (
 
             <Box>
                 <Slider open={openSlider}></Slider>
-                <Dialog open={Boolean(open)}  fullWidth={true}>
-                <DialogTitle>Solicitud de Anticipo de Participaciones</DialogTitle>
-                <DialogContent dividers={true}>
-                    {/* <Grid container spacing={2} sx={{ justifyContent: "center", }} >
-                        <Grid item xs={12}>
-                            <Box sx={{ display: "flex", justifyContent: "center" }}>
-                                <Titulo name={"Solicitud de Anticipo"} />
-                            </Box>
-                        </Grid>
-                    </Grid> */}
+                <Dialog open={Boolean(open)} fullWidth={true}>
+                    <DialogTitle>Solicitud de Anticipo de Participaciones</DialogTitle>
+                    <DialogContent dividers={true}>
 
-                    <Box sx={{ width: '100%' }}>
-                        <Stepper activeStep={activeStep}>
-                            {steps.map((label, index) => {
-                                const stepProps: { completed?: boolean } = {};
-                                const labelProps: {
-                                    optional?: React.ReactNode;
-                                } = {};
-                                if (isStepOptional(index)) {
-                                    labelProps.optional = (
-                                        <Typography variant="caption">Opcional</Typography>
+                        <Box sx={{ width: '100%' }}>
+                            <Stepper activeStep={activeStep}>
+                                {steps.map((label, index) => {
+                                    const stepProps: { completed?: boolean } = {};
+                                    const labelProps: {
+                                        optional?: React.ReactNode;
+                                    } = {};
+                                    if (isStepOptional(index)) {
+                                        labelProps.optional = (
+                                            <Typography variant="caption">Opcional</Typography>
+                                        );
+                                    }
+                                    if (isStepSkipped(index)) {
+                                        stepProps.completed = false;
+                                    }
+                                    return (
+                                        <Step key={label} {...stepProps}>
+                                            <StepLabel {...labelProps}>{label}</StepLabel>
+                                        </Step>
                                     );
-                                }
-                                if (isStepSkipped(index)) {
-                                    stepProps.completed = false;
-                                }
-                                return (
-                                    <Step key={label} {...stepProps}>
-                                        <StepLabel {...labelProps}>{label}</StepLabel>
-                                    </Step>
-                                );
-                            })}
-                        </Stepper>
-                        {activeStep === steps.length ? (
-                            ""
-                        ) : (
-                            <React.Fragment>
+                                })}
+                            </Stepper>
+                            {activeStep === steps.length ? (
+                                ""
+                            ) : (
+                                <React.Fragment>
 
-                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                    <Button color="warning" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-                                        Atras
-                                    </Button>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                        <Button color="warning" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+                                            Atras
+                                        </Button>
 
-                                    <Box sx={{ flex: '1 1 auto' }} />
-                                    <Button color="success" onClick={handleNext} >
-                                        {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
-                                    </Button>
-                                </Box>
-                            </React.Fragment>
-                        )}
-                    </Box>
-                    <Grid container spacing={1} sx={{ justifyContent: "center", width: "100%" }} >
-                    </Grid>
-
-                    {(activeStep + 1) == 1 ?
-                        <Grid container
-                            sx={{ justifyContent: "center", width: '100%' }} >
-
-
-                            <Grid container spacing={3} sx={{ justifyContent: "center", width: "100%" }}>
-                                <Grid item xs={12}>
-                                    <label >Concepto<br /><br /></label>
-                                    <TextField
-                                        multiline
-                                        value={concepto}
-                                        rows={4}
-                                        type="text"
-                                        onChange={(v) => setConcepto(v.target.value)}
-                                        sx={{
-                                            width: "20vw",
-
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <label>Total<br /><br /></label>
-                                    <TextField
-                                        type="number"
-                                        value={total}
-                                        onChange={(v) => setTotal(Number(v.target.value))}
-                                        sx={{
-                                            width: "20vw",
-                                        }}
-                                    />
-                                </Grid>
-
-
-                            </Grid>
-
-
+                                        <Box sx={{ flex: '1 1 auto' }} />
+                                        <Button color="success" onClick={handleNext} >
+                                            {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
+                                        </Button>
+                                    </Box>
+                                </React.Fragment>
+                            )}
+                        </Box>
+                        <Grid container spacing={1} sx={{ justifyContent: "center", width: "100%" }} >
                         </Grid>
-                        : ""}
 
-                    {(activeStep + 1) == 3 ?
-                        <Container maxWidth="sm" >
+                        {(activeStep + 1) == 1 ?
+                            <Grid container
+                                sx={{ justifyContent: "center", width: '100%' }} >
 
 
-                            <Box sx={{ width: '100%', }}>
-                                <Grid container spacing={1} sx={{ justifyContent: "center", width: "100%" }}>
+                                <Grid container spacing={3} sx={{ justifyContent: "center", width: "100%" }}>
                                     <Grid item xs={12}>
                                         <label >Concepto<br /><br /></label>
                                         <TextField
                                             multiline
-                                            disabled
                                             value={concepto}
                                             rows={4}
                                             type="text"
+                                            onChange={(v) => setConcepto(v.target.value)}
                                             sx={{
                                                 width: "20vw",
 
@@ -284,9 +228,9 @@ export const SolicitudModal = (
                                     <Grid item xs={12}>
                                         <label>Total<br /><br /></label>
                                         <TextField
-                                            disabled
                                             type="number"
                                             value={total}
+                                            onChange={(v) => setTotal(Number(v.target.value))}
                                             sx={{
                                                 width: "20vw",
                                             }}
@@ -295,61 +239,45 @@ export const SolicitudModal = (
 
 
                                 </Grid>
-                                <Box sx={{
-                                    display: 'flex',
-                                    alignItems: 'flex-start',
-                                    flexDirection: 'column',
-                                    justifyContent: 'center',
-                                    p: 1,
-                                    m: 1,
-                                    bgcolor: 'background.paper',
-                                    borderRadius: 1,
-                                }}>
 
-                                    <Box>
-                                        <IconButton aria-label="upload picture" component="label" size="large" >
-                                            <input
-                                                required
-                                                type="file"
-                                                hidden
-                                                accept="application/pdf"
-                                                onChange={(event) => {
-                                                    handleNewFile(event)
-                                                }} />
-                                            <UploadFileIcon />
-                                        </IconButton>
-                                    </Box>
 
-                                    {DocSubido ?
-                                        <Box>
+                            </Grid>
+                            : ""}
 
-                                            <label >
-                                                {nameNewDoc}
-                                            </label>
-                                            <Box>
-                                                <IconButton aria-label="upload picture" component="label" size="large" onClick={() => Clean()}>
+                        {(activeStep + 1) == 3 ?
+                            <Container maxWidth="sm" >
 
-                                                    <RemoveCircleIcon />
-                                                </IconButton>
-                                            </Box>
-                                        </Box>
-                                        : ""}
 
-                                </Box>
-                            </Box>
-                        </Container>
-                        : ""}
-                    {(activeStep + 1) == 2 ?
-                        <Container maxWidth="sm" >
-                            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', height: 300 }}>
-
-                                {
-                                    //////////empiezan debajo del titulo
-
-                                    //// imagen carga y previsualizacion
-                                }
                                 <Box sx={{ width: '100%', }}>
+                                    <Grid container spacing={1} sx={{ justifyContent: "center", width: "100%" }}>
+                                        <Grid item xs={12}>
+                                            <label >Concepto<br /><br /></label>
+                                            <TextField
+                                                multiline
+                                                disabled
+                                                value={concepto}
+                                                rows={4}
+                                                type="text"
+                                                sx={{
+                                                    width: "20vw",
 
+                                                }}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <label>Total<br /><br /></label>
+                                            <TextField
+                                                disabled
+                                                type="number"
+                                                value={total}
+                                                sx={{
+                                                    width: "20vw",
+                                                }}
+                                            />
+                                        </Grid>
+
+
+                                    </Grid>
                                     <Box sx={{
                                         display: 'flex',
                                         alignItems: 'flex-start',
@@ -360,7 +288,8 @@ export const SolicitudModal = (
                                         bgcolor: 'background.paper',
                                         borderRadius: 1,
                                     }}>
-                                                  <Box>
+
+                                        <Box>
                                             <IconButton aria-label="upload picture" component="label" size="large" >
                                                 <input
                                                     required
@@ -374,9 +303,9 @@ export const SolicitudModal = (
                                             </IconButton>
                                         </Box>
 
-
                                         {DocSubido ?
                                             <Box>
+
                                                 <label >
                                                     {nameNewDoc}
                                                 </label>
@@ -388,12 +317,66 @@ export const SolicitudModal = (
                                                 </Box>
                                             </Box>
                                             : ""}
+
                                     </Box>
                                 </Box>
-                            </Box>
-                        </Container>
-                        : ""}
-  </DialogContent>
+                            </Container>
+                            : ""}
+                        {(activeStep + 1) == 2 ?
+                            <Container maxWidth="sm" >
+                                <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', height: 300 }}>
+
+                                    {
+                                        //////////empiezan debajo del titulo
+
+                                        //// imagen carga y previsualizacion
+                                    }
+                                    <Box sx={{ width: '100%', }}>
+
+                                        <Box sx={{
+                                            display: 'flex',
+                                            alignItems: 'flex-start',
+                                            flexDirection: 'column',
+                                            justifyContent: 'center',
+                                            p: 1,
+                                            m: 1,
+                                            bgcolor: 'background.paper',
+                                            borderRadius: 1,
+                                        }}>
+                                            <Box>
+                                                <IconButton aria-label="upload picture" component="label" size="large" >
+                                                    <input
+                                                        required
+                                                        type="file"
+                                                        hidden
+                                                        accept="application/pdf"
+                                                        onChange={(event) => {
+                                                            handleNewFile(event)
+                                                        }} />
+                                                    <UploadFileIcon />
+                                                </IconButton>
+                                            </Box>
+
+
+                                            {DocSubido ?
+                                                <Box>
+                                                    <label >
+                                                        {nameNewDoc}
+                                                    </label>
+                                                    <Box>
+                                                        <IconButton aria-label="upload picture" component="label" size="large" onClick={() => Clean()}>
+
+                                                            <RemoveCircleIcon />
+                                                        </IconButton>
+                                                    </Box>
+                                                </Box>
+                                                : ""}
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            </Container>
+                            : ""}
+                    </DialogContent>
 
                     <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
                         <Grid item xs={2}>
@@ -403,7 +386,7 @@ export const SolicitudModal = (
 
 
 
-             
+
                 </Dialog>
             </Box>
         </div>
