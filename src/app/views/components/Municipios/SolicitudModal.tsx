@@ -91,7 +91,7 @@ export const SolicitudModal = (
                 Swal.fire({
                     icon: "info",
                     title: "Solicitar",
-                    text: DocSubido ? "Guardar?" : "¿Guardar sin Documento?",
+                    text: "Guardar?" ,
                     showDenyButton: false,
                     showCancelButton: true,
                     confirmButtonText: "Aceptar",
@@ -147,6 +147,45 @@ export const SolicitudModal = (
                         handleReset();
                     }
                 });
+            } else{
+
+                Swal.fire({
+                    icon: "info",
+                    title: "Solicitar",
+                    text: "¿Guardar sin Documento?",
+                    showDenyButton: false,
+                    showCancelButton: true,
+                    confirmButtonText: "Aceptar",
+                    cancelButtonText: "Cancelar",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        CatalogosServices.SolicitudesInfo(d).then((res) => {
+                            if (res.SUCCESS) {
+                                console.log(res.RESPONSE)                           
+                                    Toast.fire({
+                                        icon: "success",
+                                        title: "Carga Exitosa!",
+                                    }
+                                    );
+                                    handleClose();
+                              
+
+                            } else {
+                                Alert.fire({
+                                    title: "Error!",
+                                    text: "Fallo en la peticion",
+                                    icon: "error",
+                                });
+                            }
+                        });
+                    }
+                    if (result.isDenied) {
+                        handleReset();
+                    }
+                });
+
+
+
             }
 
         }

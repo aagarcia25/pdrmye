@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Dialog, Grid, ToggleButton, Tooltip } from '@mui/material'
+import { Box, Dialog, Grid, IconButton, ToggleButton, Tooltip } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid';
 import { CatalogosServices } from '../../../services/catalogosServices';
 import BotonesAPD from '../componentes/BotonesAPD'
@@ -8,6 +8,8 @@ import MUIXDataGrid from '../MUIXDataGrid';
 import Slider from '../Slider';
 import AddIcon from '@mui/icons-material/Add';
 import { SolicitudModal } from './SolicitudModal';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 
 
 
@@ -16,13 +18,33 @@ import { SolicitudModal } from './SolicitudModal';
 const SolicitudRecursos = () => {
   const [solicitud, setSolicitud] = useState([]);
   const [open, setOpen] = useState(false);
+  const [modo, setModo] = useState("");
+  const [data, setData] = useState({});
+
 
   const columns: GridColDef[] = [
     { field: "id", hide: true, },
     { field: "IdEstatus", hide: true, },
+    { field: "IdArchivo", hide: true, },
     { field: "Concepto", headerName: "Concepto", width: 250 },
     { field: "Total", headerName: "Total", width: 120 },
-    { field: "RutaSpei", headerName: "RutaSpei", width: 120 },
+    {
+      field: "RutaArchivo", headerName: " Archivo", width: 120,
+      renderCell: (v) => {
+        return (
+          <Box>
+            {v.row.RutaArchivo ? 
+            <IconButton onClick={() => handleVisualizar(v)}>
+              <VisibilityIcon />
+            </IconButton>
+              : ""}
+
+          </Box>
+        );
+      },
+    },
+    { field: "NombreArchivo", headerName: "Nombre Archivo", width: 300 },
+    { field: "RutaSpei", headerName: " Spei", width: 120 },
     { field: "Descripcion", headerName: "Estatus", width: 120 },
     {
       field: "acciones",
@@ -33,24 +55,30 @@ const SolicitudRecursos = () => {
       renderCell: (v) => {
         return (
           <Box>
+
           </Box>
         );
       },
     },
   ];
-  const handleClose = (v: any) => { 
-    setOpen(false); 
-    CatalogosServices.SolicitudesInfo({NUMOPERACION: "4"}).then((res) => {
+  const handleClose = (v: any) => {
+    setOpen(false);
+    CatalogosServices.SolicitudesInfo({ NUMOPERACION: "4" }).then((res) => {
       setSolicitud(res.RESPONSE);
       console.log(res.RESPONSE)
     });
-};
+  };
 
   const Solicitar = () => {
-setOpen(true);
-
+    setOpen(true);
+  };
+  const handleVisualizar = (v: any) => {
+    setModo("Aviso");
+    setOpen(true);
+    setData(v);
 
   };
+
   useEffect(() => {
     let d = {
       NUMOPERACION: "4",
@@ -76,7 +104,7 @@ setOpen(true);
 
         <Grid container spacing={2} sx={{ justifyContent: "center", }} >
           <Grid item xs={12}>
-            <Box sx={{ display: "flex", justifyContent: "center"}}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Titulo name={"Solicitud de Recurso "} />
             </Box>
           </Grid>
@@ -110,8 +138,8 @@ setOpen(true);
         </Grid>
       </Box>
 
-      {open?
-      <SolicitudModal idPrincipal={""} data={{}} open={open} handleClose={handleClose}/>:""}
+      {open ?
+        <SolicitudModal idPrincipal={""} data={{}} open={open} handleClose={handleClose} /> : ""}
     </div>
   )
 }
