@@ -55,7 +55,6 @@ const Usuarios = () => {
 
 
   const handleMunicipios = (v: any) => {
-    setTipoOperacion(5);
     setRow(v);
     setOpenConfigMun(true);
   };
@@ -317,7 +316,7 @@ const Usuarios = () => {
           open={openNew}
           tipo={tipoOperacion}
           handleClose={handleClose}
-          dt={row}
+          dt={dt}
         ></UsuariosModal>
       ) : (
         ""
@@ -350,7 +349,7 @@ const Usuarios = () => {
         <UsuariosMunicipios
           open={openConfigMun}
           handleClose={handleClose}
-          dt={dt}
+          dt={row}
         ></UsuariosMunicipios>
       ) : (
         ""

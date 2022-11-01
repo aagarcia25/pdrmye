@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -10,12 +11,10 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
 import { AuthService } from "../../../../../services/AuthService";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
 import Slider from "../../../Slider";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectFragMulti from "../../../Fragmentos/SelectFragMulti";
@@ -29,6 +28,7 @@ const UsuariosMunicipios = ({
   handleClose: Function;
   dt: any;
 }) => {
+
   const [openSlider, setOpenSlider] = useState<boolean>(true);
   const [idMunicipios, setIdMunicipios] = useState<SelectValues[]>([]);
   const [Municipios2, setMunicipios2] = useState<[]>([]);
@@ -45,7 +45,7 @@ const UsuariosMunicipios = ({
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 220,
+      width: 100,
       renderCell: (v) => {
         return (
           <IconButton color="error">
@@ -54,9 +54,8 @@ const UsuariosMunicipios = ({
         );
       },
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 10 },
-    { field: "Nombre", headerName: "Municipio", width: 100 },
-    { field: "proceso", headerName: "Proceso", width: 100 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", width: 200 },
   ];
 
   const loadFilter = () => {
@@ -72,9 +71,16 @@ const UsuariosMunicipios = ({
 
 
   const handleMunicipios = () => {
+    let data = {
+        TIPO:1,
+        OBJS: idMunicipios,
+        IDUSUARIO:dt.row.id
+    };
+
+    setOpenSlider(true);
     AuthService.RelacionarUsuarioMunicipio(data).then((res) => {
-        setData(res.RESPONSE);
-        setOpenSlider(false);
+       console.log(res.RESPONSE);
+       setOpenSlider(false);
       });
   };
 
@@ -82,7 +88,7 @@ const UsuariosMunicipios = ({
 
   const consulta = () => {
     let data = {
-      ID: "",
+      ID: dt.row.id,
       NUMOPERACION: 8,
     };
     AuthService.adminUser(data).then((res) => {
@@ -92,6 +98,7 @@ const UsuariosMunicipios = ({
   };
 
   useEffect(() => {
+    console.log(dt)
     loadFilter();
     consulta();
   }, [dt]);
@@ -129,7 +136,7 @@ const UsuariosMunicipios = ({
               <Button
                 color="success"
                 variant="contained"
-                onClick={() => console.log(idMunicipios)}
+                onClick={() =>handleMunicipios()}
               >
                 <Typography sx={{ fontFamily: "MontserratMedium" }}>
                   Relacionar Municipios
@@ -142,8 +149,10 @@ const UsuariosMunicipios = ({
                 Municipios Relacionados
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12}>
+            <Grid item xs={12} sm={12} md={12} lg={12} >
+            <div style={{ height: 300, width: "100%" }}>
               <MUIXDataGridSimple columns={columns} rows={data} />
+              </div>
             </Grid>
           </Grid>
         </DialogContent>
