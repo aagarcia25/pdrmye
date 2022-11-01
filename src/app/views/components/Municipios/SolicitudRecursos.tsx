@@ -28,9 +28,26 @@ const SolicitudRecursos = () => {
 
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState("");
+
+
   const [data, setData] = useState({});
   const user: RESPONSE = JSON.parse(String(getUser()));
+  let numOperacion=0;
+  const consulta=()=>{
+   
+    if(user.DEPARTAMENTOS[0].NombreCorto =="DAMOP"){
+      numOperacion=6;
+    }else if(user.DEPARTAMENTOS[0].NombreCorto=="DPCP"){
+      numOperacion=6;
+    }else{
+      numOperacion=6;
+    }
 
+    CatalogosServices.SolicitudesInfo({NUMOPERACION: numOperacion,CHUSER:user.id}).then((res) => {
+      setSolicitud(res.RESPONSE);
+      console.log(res.RESPONSE)
+    });
+  }
 
   const columns: GridColDef[] = [
     { field: "id", hide: true, },
@@ -163,7 +180,7 @@ const SolicitudRecursos = () => {
   const handleClose = () => {
     setOpen(false);
     setOpenSeg(false);
-    CatalogosServices.SolicitudesInfo({ NUMOPERACION: "4" }).then((res) => {
+    CatalogosServices.SolicitudesInfo({NUMOPERACION: numOperacion,CHUSER:user.id}).then((res) => {
       setSolicitud(res.RESPONSE);
       console.log(res.RESPONSE)
     });
@@ -182,16 +199,15 @@ const SolicitudRecursos = () => {
   };
 
   useEffect(() => {
-    let d = {
-      NUMOPERACION: "4",
+    
+    
+    
+    consulta();
 
-    };
+
+   
 
 
-    CatalogosServices.SolicitudesInfo(d).then((res) => {
-      setSolicitud(res.RESPONSE);
-      console.log(res.RESPONSE)
-    });
   }, []);
 
 
