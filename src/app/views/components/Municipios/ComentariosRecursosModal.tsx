@@ -70,7 +70,7 @@ export const ComentariosRecursosModal = (
 
                         </Grid>
                         <Grid item xs={1} md={1} lg={1}>
-                            <Tooltip title={"Agregar"}>
+                            <Tooltip title={"Cerrar"}>
                                 <ToggleButton value="check" onClick={() => handleClose()}>
                                     <CloseIcon />
                                 </ToggleButton>
@@ -106,11 +106,11 @@ export const ComentariosRecursosModal = (
                     </DialogContent>
 
                     <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
-                        <Grid item xs={2}>
-                            <button className="guardar" onClick={() => handleClose()}>Autorizar</button>
+                        <Grid item xs={3}>
+                            <button className="guardar" onClick={() => handleClose()}>Autorizar Solicitud</button>
                         </Grid>
-                        <Grid item xs={2}>
-                            <button className="cerrar" onClick={() => handleClose()}> Cancelar</button>
+                        <Grid item xs={3}>
+                            <button className="cerrar" onClick={() => handleClose()}> Cancelar Solicitud</button>
                         </Grid>
 
                     </Grid>

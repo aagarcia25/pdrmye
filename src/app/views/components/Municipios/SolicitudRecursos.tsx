@@ -13,6 +13,10 @@ import BotonesAcciones from '../componentes/BotonesAcciones';
 import DoneIcon from '@mui/icons-material/Done';
 import SendIcon from '@mui/icons-material/Send';
 import { ComentariosRecursosModal } from './ComentariosRecursosModal';
+import Swal from 'sweetalert2';
+import { Alert } from '../../../helpers/Alert';
+import { RESPONSE } from '../../../interfaces/user/UserInfo';
+import { getUser } from '../../../services/localStorage';
 
 
 
@@ -25,6 +29,7 @@ const SolicitudRecursos = () => {
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState("");
   const [data, setData] = useState({});
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
   const columns: GridColDef[] = [
@@ -40,7 +45,11 @@ const SolicitudRecursos = () => {
       renderCell: (v) => {
         return (
           <Box>
-            <BotonesAcciones handleAccion={handleAccion} row={v} editar={true} eliminar={true}></BotonesAcciones>
+            {v.row.Descripcion == "INICIO" ?
+              <BotonesAcciones handleAccion={handleAccion} row={v} editar={true} eliminar={true}></BotonesAcciones>
+              :
+              ""
+            }
           </Box>
         );
       },
@@ -74,39 +83,83 @@ const SolicitudRecursos = () => {
       renderCell: (v) => {
         return (
           <Box>
-            {v.row.Descripcion == "INICIO" ? 
-                <Tooltip title={"Autorizar"}>
-                <ToggleButton value="check" onClick={() => handleSeg("AUT")}>
-                  <DoneIcon />
-                </ToggleButton>
-              </Tooltip>
-            : 
-            <Tooltip title={"Enviar"}>
-                <ToggleButton value="check" onClick={() => handleSeg("ENV")}>
+            {v.row.Descripcion == "INICIO" ?
+
+              <Tooltip title={"Enviar"}>
+                <ToggleButton value="check" onClick={() => handleSeg(v,"ENV")}>
                   <SendIcon />
                 </ToggleButton>
               </Tooltip>
-            
+
+              :
+              <Tooltip title={"Autorizar"}>
+                <ToggleButton value="check" onClick={() => handleSeg(v,"AUT")}>
+                  <DoneIcon />
+                </ToggleButton>
+              </Tooltip>
             }
           </Box>
         );
       },
     },
   ];
-  const handleSeg = (v: string) => {
+  const handleSeg = (data:any,v: string) => {
+    if (v == "ENV") {
+      let d = {
+        NUMOPERACION: 5,
+        CHID:data.id,
+        CHUSER: user.id,
+        ESTATUS: "ENV",
+    };
+
+      Swal.fire({
+        icon: "info",
+        title: "Enviar",
+        text: "Desea Enviar la Solicitud",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          CatalogosServices.SolicitudesInfo(d).then((res) => {
+            if (res.SUCCESS) {
+              console.log(res.RESPONSE)
+
+            } else {
+
+              Alert.fire({
+                title: "Error!",
+                text: "Fallo en la peticion",
+                icon: "error",
+
+              });
+            }
+          });
+        }
+        if (result.isDenied) {
+        }
+      });
+
+
+    }
+    if (v == "AUT") {
+
+
       setTipoOperacion(v);
       setOpenSeg(true);
       //setModo("Editar ");
       /// setOpen(true);
       // setVrows(v.data);
+    }
   }
   const handleAccion = (v: any) => {
-  //  setTipoOperacion(v);
-  // setOpenSeg(true);
+    //  setTipoOperacion(v);
+    // setOpenSeg(true);
     //setModo("Editar ");
     /// setOpen(true);
     // setVrows(v.data);
-}
+  }
   const handleClose = (v: any) => {
     setOpen(false);
     setOpenSeg(false);
@@ -189,9 +242,9 @@ const SolicitudRecursos = () => {
 
       {open ?
         <SolicitudModal modo={modo} data={data} open={open} handleClose={handleClose} /> : ""}
-        {openSeg?
-      <ComentariosRecursosModal modo={modo} data={data} open={openSeg} handleClose={handleClose}/>  
-      :""
+      {openSeg ?
+        <ComentariosRecursosModal modo={modo} data={data} open={openSeg} handleClose={handleClose} />
+        : ""
       }
     </div>
   )
