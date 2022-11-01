@@ -23,6 +23,7 @@ const SolicitudRecursos = () => {
     { field: "Concepto", headerName: "Concepto", width: 250 },
     { field: "Total", headerName: "Total", width: 120 },
     { field: "RutaSpei", headerName: "RutaSpei", width: 120 },
+    { field: "Descripcion", headerName: "Estatus", width: 120 },
     {
       field: "acciones",
       headerName: "Acciones",
