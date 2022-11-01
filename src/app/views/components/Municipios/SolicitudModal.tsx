@@ -45,7 +45,7 @@ export const SolicitudModal = (
     const [DocSubido, setDocSubido] = useState<boolean>(false);
     const [slideropen, setslideropen] = useState(true)
     const [urlDoc, setUrlDoc] = useState("");
-    const [detalle, setDetalle] = useState([]);
+    const [sizeFile, setSizeFile] = useState<boolean>();
     const [openSlider, setOpenSlider] = useState(false);
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [nameNewDoc, setNameNewDoc] = useState<string>();
@@ -65,19 +65,19 @@ export const SolicitudModal = (
     const handleNext = () => {
 
 
-        if (concepto?.length != 0 && total?.valueOf != null && total != 0) {
+        if (concepto?.length != 0 && total?.valueOf != null && total != 0&& sizeFile!=true) {
 
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
         }
         else {
             Alert.fire({
                 title: "Atencion",
-                text: "Verificar los campos",
+                text: sizeFile?"Tamaño de archivo Exedido Maximo 3Mb":"Verificar los campos",
                 icon: "info",
             });
 
         }
-        if (activeStep === steps.length - 1) {
+        if (activeStep === steps.length - 1)  {
 
             let d = {
                 NUMOPERACION: 1,
@@ -87,7 +87,7 @@ export const SolicitudModal = (
                 IDESTATUS: "30ec276f-2b14-11ed-afdb-040300000000",
             };
 
-            if (DocSubido) {
+            if (DocSubido && sizeFile==false) {
                 Swal.fire({
                     icon: "info",
                     title: "Solicitar",
@@ -189,6 +189,7 @@ export const SolicitudModal = (
             }
 
         }
+
     };
 
     const handleBack = () => {
@@ -205,11 +206,14 @@ export const SolicitudModal = (
     const handleNewFile = (event: any) => {
 
         let file = event.target!.files[0]!;
-        console.log(event.target!.files[0]!);
+        var sizeByte = Number(file.size);
+        setSizeFile(Number(sizeByte) / 1024>=3072?true:false)
+
         setNewDoc(file);
         setNameNewDoc(event.target!.files[0]!.name);
         setDocSubido(true);
-
+        console.log(event.target!.files[0]!);
+        console.log(sizeFile)
     };
 
     const Clean = () => {
@@ -231,7 +235,7 @@ export const SolicitudModal = (
             <Box>
                 <Slider open={openSlider}></Slider>
                 <Dialog open={Boolean(open)} fullWidth={true}
-                  //fullScreen={modo=="ver"?true:false}
+                //fullScreen={modo=="ver"?true:false}
                 >
 
                     <DialogTitle>Solicitud de Anticipo de Participaciones</DialogTitle>
@@ -382,19 +386,7 @@ export const SolicitudModal = (
                                             borderRadius: 1,
                                         }}>
 
-                                            <Box>
-                                                <IconButton aria-label="upload picture" component="label" size="large" >
-                                                    <input
-                                                        required
-                                                        type="file"
-                                                        hidden
-                                                        accept="application/pdf"
-                                                        onChange={(event) => {
-                                                            handleNewFile(event)
-                                                        }} />
-                                                    <UploadFileIcon />
-                                                </IconButton>
-                                            </Box>
+                                  
 
                                             {DocSubido ?
                                                 <Box>
@@ -402,12 +394,7 @@ export const SolicitudModal = (
                                                     <label >
                                                         {nameNewDoc}
                                                     </label>
-                                                    <Box>
-                                                        <IconButton aria-label="upload picture" component="label" size="large" onClick={() => Clean()}>
-
-                                                            <RemoveCircleIcon />
-                                                        </IconButton>
-                                                    </Box>
+                                              
                                                 </Box>
                                                 : ""}
 
@@ -474,7 +461,7 @@ export const SolicitudModal = (
 
                     <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
                         <Grid item xs={2}>
-                            <button className="cerrar" onClick={() => handleClose()}> {modo=="ver"?"Cerrar":"Cancelar"}</button>
+                            <button className="cerrar" onClick={() => handleClose()}> {modo == "ver" ? "Cerrar" : "Cancelar"}</button>
                         </Grid>
                     </Grid>
 

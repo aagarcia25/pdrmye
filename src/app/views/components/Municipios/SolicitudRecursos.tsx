@@ -26,6 +26,20 @@ const SolicitudRecursos = () => {
     { field: "id", hide: true, },
     { field: "IdEstatus", hide: true, },
     { field: "IdArchivo", hide: true, },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Ver detalle de Cálculo",
+      sortable: false,
+      width: 150,
+      renderCell: (v) => {
+        return (
+          <Box>
+
+          </Box>
+        );
+      },
+    },
     { field: "Concepto", headerName: "Concepto", width: 250 },
     { field: "Total", headerName: "Total", width: 120 },
     {
@@ -47,8 +61,8 @@ const SolicitudRecursos = () => {
     { field: "RutaSpei", headerName: " Spei", width: 120 },
     { field: "Descripcion", headerName: "Estatus", width: 120 },
     {
-      field: "acciones",
-      headerName: "Acciones",
+      field: "seguimiento",
+      headerName: "Seguimiento",
       description: "Ver detalle de Cálculo",
       sortable: false,
       width: 150,
