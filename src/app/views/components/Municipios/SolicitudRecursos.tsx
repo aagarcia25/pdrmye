@@ -9,8 +9,10 @@ import Slider from '../Slider';
 import AddIcon from '@mui/icons-material/Add';
 import { SolicitudModal } from './SolicitudModal';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-
-
+import BotonesAcciones from '../componentes/BotonesAcciones';
+import DoneIcon from '@mui/icons-material/Done';
+import SendIcon from '@mui/icons-material/Send';
+import { ComentariosRecursosModal } from './ComentariosRecursosModal';
 
 
 
@@ -18,7 +20,10 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 const SolicitudRecursos = () => {
   const [solicitud, setSolicitud] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openSeg, setOpenSeg] = useState(false);
+
   const [modo, setModo] = useState("");
+  const [tipoOperacion, setTipoOperacion] = useState("");
   const [data, setData] = useState({});
 
 
@@ -35,7 +40,7 @@ const SolicitudRecursos = () => {
       renderCell: (v) => {
         return (
           <Box>
-
+            <BotonesAcciones handleAccion={handleAccion} row={v} editar={true} eliminar={true}></BotonesAcciones>
           </Box>
         );
       },
@@ -47,10 +52,10 @@ const SolicitudRecursos = () => {
       renderCell: (v) => {
         return (
           <Box>
-            {v.row.RutaArchivo ? 
-            <IconButton onClick={() => handleVisualizar(v)}>
-              <VisibilityIcon />
-            </IconButton>
+            {v.row.RutaArchivo ?
+              <IconButton onClick={() => handleVisualizar(v)}>
+                <VisibilityIcon />
+              </IconButton>
               : ""}
 
           </Box>
@@ -69,14 +74,42 @@ const SolicitudRecursos = () => {
       renderCell: (v) => {
         return (
           <Box>
-
+            {v.row.Descripcion == "INICIO" ? 
+                <Tooltip title={"Autorizar"}>
+                <ToggleButton value="check" onClick={() => handleSeg("AUT")}>
+                  <DoneIcon />
+                </ToggleButton>
+              </Tooltip>
+            : 
+            <Tooltip title={"Enviar"}>
+                <ToggleButton value="check" onClick={() => handleSeg("ENV")}>
+                  <SendIcon />
+                </ToggleButton>
+              </Tooltip>
+            
+            }
           </Box>
         );
       },
     },
   ];
+  const handleSeg = (v: string) => {
+      setTipoOperacion(v);
+      setOpenSeg(true);
+      //setModo("Editar ");
+      /// setOpen(true);
+      // setVrows(v.data);
+  }
+  const handleAccion = (v: any) => {
+  //  setTipoOperacion(v);
+  // setOpenSeg(true);
+    //setModo("Editar ");
+    /// setOpen(true);
+    // setVrows(v.data);
+}
   const handleClose = (v: any) => {
     setOpen(false);
+    setOpenSeg(false);
     CatalogosServices.SolicitudesInfo({ NUMOPERACION: "4" }).then((res) => {
       setSolicitud(res.RESPONSE);
       console.log(res.RESPONSE)
@@ -156,6 +189,10 @@ const SolicitudRecursos = () => {
 
       {open ?
         <SolicitudModal modo={modo} data={data} open={open} handleClose={handleClose} /> : ""}
+        {openSeg?
+      <ComentariosRecursosModal modo={modo} data={data} open={openSeg} handleClose={handleClose}/>  
+      :""
+      }
     </div>
   )
 }
