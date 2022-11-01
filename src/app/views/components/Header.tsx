@@ -62,9 +62,9 @@ export default function Header(props: HeaderProps) {
 
   const onLogOut = () => {
     localStorage.clear();
-    var ventana = window.self;
-    ventana.opener = window.self;
-    ventana.close();
+  
+    window.close();
+
   };
 
   const onOpenCalendar = () => {

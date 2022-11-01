@@ -15,7 +15,6 @@ import Trazabilidad from "../../Trazabilidad";
 import Swal from "sweetalert2";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ModalAlert from "../../componentes/ModalAlert";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const DetalleFgp = ({
   idCalculo,
