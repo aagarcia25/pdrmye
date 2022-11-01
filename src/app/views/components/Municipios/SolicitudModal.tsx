@@ -86,38 +86,68 @@ export const SolicitudModal = (
                 TOTAL: total,
                 IDESTATUS: "30ec276f-2b14-11ed-afdb-040300000000",
             };
-            Swal.fire({
-                icon: "info",
-                title: "Solicitar",
-                text: DocSubido ? "Guardar?" : "¿Guardar sin Documento?",
-                showDenyButton: false,
-                showCancelButton: true,
-                confirmButtonText: "Aceptar",
-                cancelButtonText: "Cancelar",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    CatalogosServices.SolicitudesInfo(d).then((res) => {
-                        if (res.SUCCESS) {
-                            console.log(res.RESPONSE)
-                            Toast.fire({
-                                icon: "success",
-                                title: "Solicitud enviada!",
-                            });
 
-                        } else {
-                            Alert.fire({
-                                title: "Error!",
-                                text: "Fallo en la peticion",
-                                icon: "error",
-                            });
-                        }
-                    });
-                }
-                if (result.isDenied) {
-                    handleReset();
-                }
-            });
+            if (DocSubido) {
+                Swal.fire({
+                    icon: "info",
+                    title: "Solicitar",
+                    text: DocSubido ? "Guardar?" : "¿Guardar sin Documento?",
+                    showDenyButton: false,
+                    showCancelButton: true,
+                    confirmButtonText: "Aceptar",
+                    cancelButtonText: "Cancelar",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        CatalogosServices.SolicitudesInfo(d).then((res) => {
+                            if (res.SUCCESS) {
+                                console.log(res.RESPONSE)
+                                if (DocSubido) {
+                                    const formData = new FormData();
 
+                                    formData.append("MUNICIPIOS", newDoc);
+                                    formData.append("IDSOLICITUD", res.RESPONSE);
+
+                                    CatalogosServices.subirArchivo(formData).then((res) => {
+                                        if (res.SUCCESS) {
+                                            console.log(res.RESPONSE)
+                                            Toast.fire({
+                                                icon: "success",
+                                                title: "Carga Exitosa!",
+                                            }
+                                            );
+                                            handleClose();
+
+                                        } else {
+                                            Alert.fire({
+                                                title: "Error!",
+                                                text: "Fallo en la carga",
+                                                icon: "error",
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    Toast.fire({
+                                        icon: "success",
+                                        title: "Carga Exitosa!",
+                                    }
+                                    );
+                                    handleClose();
+                                }
+
+                            } else {
+                                Alert.fire({
+                                    title: "Error!",
+                                    text: "Fallo en la peticion",
+                                    icon: "error",
+                                });
+                            }
+                        });
+                    }
+                    if (result.isDenied) {
+                        handleReset();
+                    }
+                });
+            }
 
         }
     };

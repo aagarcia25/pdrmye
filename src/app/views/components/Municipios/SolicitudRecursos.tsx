@@ -40,6 +40,10 @@ const SolicitudRecursos = () => {
   ];
   const handleClose = (v: any) => { 
     setOpen(false); 
+    CatalogosServices.SolicitudesInfo({NUMOPERACION: "4"}).then((res) => {
+      setSolicitud(res.RESPONSE);
+      console.log(res.RESPONSE)
+    });
 };
 
   const Solicitar = () => {
