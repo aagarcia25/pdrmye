@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { env_var } from "../../environments/env";
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -62,8 +63,8 @@ export default function Header(props: HeaderProps) {
 
   const onLogOut = () => {
     localStorage.clear();
-  
-    window.close();
+    var ventana = window.self;
+    ventana.location.replace(env_var.BASE_URL_LOGIN);
 
   };
 

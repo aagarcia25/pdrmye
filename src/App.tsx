@@ -28,7 +28,6 @@ import { BloqueoSesion } from "./app/views/components/BloqueoSesion";
 import Validacion from "./app/views/components/Validacion";
 import { useIdleTimer } from "react-idle-timer";
 import Slider from "./app/views/components/Slider";
-import { ParametroServices } from "./app/services/ParametroServices";
 import { env_var } from '../src/app/environments/env';
 
 function App() {
@@ -188,7 +187,8 @@ function App() {
         }).then((result) => {
           if (result.isConfirmed) {
             localStorage.clear();
-            window.location.replace(getItem("RUTA_LOGIN")||"");
+            var ventana = window.self;
+            ventana.location.replace(env_var.BASE_URL_LOGIN);
           }
         });
       }
@@ -219,7 +219,7 @@ function App() {
   useLayoutEffect(() => {
     localStorage.clear();
     //SE CARGAN LOS PARAMETROS GENERALES
-      if (String(jwt) != null && String(jwt) !='null') {
+      if (String(jwt) != null && String(jwt) !='null' && String(jwt) != "") {
         verificatoken(String(jwt));
       } else {
         Swal.fire({

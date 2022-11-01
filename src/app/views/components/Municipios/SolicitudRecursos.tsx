@@ -86,7 +86,7 @@ const SolicitudRecursos = () => {
             {v.row.Descripcion == "INICIO" ?
 
               <Tooltip title={"Enviar"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v,"ENV")}>
+                <ToggleButton value="check" onClick={() => handleSeg(v,"ENVIADO")}>
                   <SendIcon />
                 </ToggleButton>
               </Tooltip>
