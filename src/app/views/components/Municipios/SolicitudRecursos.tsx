@@ -93,7 +93,7 @@ const SolicitudRecursos = () => {
 
               :
               <Tooltip title={"Autorizar"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v,"AUT")}>
+                <ToggleButton value="check" onClick={() => handleSeg(v,"AUTORIZADO")}>
                   <DoneIcon />
                 </ToggleButton>
               </Tooltip>
@@ -104,12 +104,12 @@ const SolicitudRecursos = () => {
     },
   ];
   const handleSeg = (data:any,v: string) => {
-    if (v == "ENV") {
+    if (v == "ENVIADO") {
       let d = {
         NUMOPERACION: 5,
         CHID:data.id,
         CHUSER: user.id,
-        ESTATUS: "ENV",
+        ESTATUS: "ENVIADO",
     };
 
       Swal.fire({
@@ -125,7 +125,7 @@ const SolicitudRecursos = () => {
           CatalogosServices.SolicitudesInfo(d).then((res) => {
             if (res.SUCCESS) {
               console.log(res.RESPONSE)
-
+              handleClose();
             } else {
 
               Alert.fire({
@@ -143,7 +143,7 @@ const SolicitudRecursos = () => {
 
 
     }
-    if (v == "AUT") {
+    if (v == "AUTORIZADO") {
 
 
       setTipoOperacion(v);
@@ -160,7 +160,7 @@ const SolicitudRecursos = () => {
     /// setOpen(true);
     // setVrows(v.data);
   }
-  const handleClose = (v: any) => {
+  const handleClose = () => {
     setOpen(false);
     setOpenSeg(false);
     CatalogosServices.SolicitudesInfo({ NUMOPERACION: "4" }).then((res) => {
