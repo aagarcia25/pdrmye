@@ -29,6 +29,7 @@ import Validacion from "./app/views/components/Validacion";
 import { useIdleTimer } from "react-idle-timer";
 import Slider from "./app/views/components/Slider";
 import { ParametroServices } from "./app/services/ParametroServices";
+import { env_var } from '../src/app/environments/env';
 
 function App() {
  
@@ -40,16 +41,7 @@ function App() {
   const [openSlider, setOpenSlider] = useState(true);
   const [acceso, setAcceso] = useState(false);
 
-  const loadParametrosGenerales = () => {
-    let data = {
-      NUMOPERACION: 5,
-      NOMBRE: "URL_LOGIN"
-    }
-    ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
-     // console.log(restApp.RESPONSE.Valor);
-      localStorage.setItem("RUTA_LOGIN", JSON.stringify(restApp.RESPONSE.Valor));
-    });
-  };
+
 
   
  
@@ -168,8 +160,7 @@ function App() {
           if (result.isConfirmed) {
             localStorage.clear();
             var ventana = window.self;
-               ventana.opener = window.self;
-               ventana.close();
+            ventana.location.replace(env_var.BASE_URL_LOGIN);
           }
         });
       }
@@ -228,12 +219,8 @@ function App() {
   useLayoutEffect(() => {
     localStorage.clear();
     //SE CARGAN LOS PARAMETROS GENERALES
-    loadParametrosGenerales();
-    //setTimeout(() => {
-      if (String(jwt) != null && String(jwt) != "") {
-        //console.log("verificando token");
+      if (String(jwt) != null && String(jwt) !='null') {
         verificatoken(String(jwt));
-       
       } else {
         Swal.fire({
           title: "Token no valido",
@@ -242,11 +229,12 @@ function App() {
           confirmButtonText: "Aceptar",
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.replace(getItem("RUTA_LOGIN")||"");
+            var ventana = window.self;
+            ventana.location.replace(env_var.BASE_URL_LOGIN);
+       
           }
         });
       }
-    //}, 2000);
 
   }, []);
 
