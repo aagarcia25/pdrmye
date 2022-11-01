@@ -71,11 +71,13 @@ const SolicitudRecursos = () => {
 
   const Solicitar = () => {
     setOpen(true);
+    setModo("");
+
   };
   const handleVisualizar = (v: any) => {
-    setModo("Aviso");
+    setModo("ver");
     setOpen(true);
-    setData(v);
+    setData(v.row);
 
   };
 
@@ -139,7 +141,7 @@ const SolicitudRecursos = () => {
       </Box>
 
       {open ?
-        <SolicitudModal idPrincipal={""} data={{}} open={open} handleClose={handleClose} /> : ""}
+        <SolicitudModal modo={modo} data={data} open={open} handleClose={handleClose} /> : ""}
     </div>
   )
 }
