@@ -211,6 +211,7 @@ export const SolicitudModal = (
 
         setNewDoc(file);
         setNameNewDoc(event.target!.files[0]!.name);
+        //if(String(event.target!.files[0]!.name).slice)
         setDocSubido(true);
         console.log(event.target!.files[0]!);
         console.log(sizeFile)
@@ -237,7 +238,6 @@ export const SolicitudModal = (
                 <Dialog open={Boolean(open)} fullWidth={true}
                 //fullScreen={modo=="ver"?true:false}
                 >
-
                     <DialogTitle>Solicitud de Anticipo de Participaciones</DialogTitle>
                     {modo == "ver" ?
                         <Grid container>
@@ -248,14 +248,8 @@ export const SolicitudModal = (
                                     height="500"
                                     src={urlDoc}
                                 />
-
                             </Grid>
-
                         </Grid>
-
-
-
-
                         :
                         <DialogContent dividers={true}>
 
@@ -343,8 +337,6 @@ export const SolicitudModal = (
 
                             {(activeStep + 1) == 3 ?
                                 <Container maxWidth="sm" >
-
-
                                     <Box sx={{ width: '100%', }}>
                                         <Grid container spacing={1} sx={{ justifyContent: "center", width: "100%" }}>
                                             <Grid item xs={12}>
@@ -357,7 +349,6 @@ export const SolicitudModal = (
                                                     type="text"
                                                     sx={{
                                                         width: "20vw",
-
                                                     }}
                                                 />
                                             </Grid>
@@ -372,8 +363,6 @@ export const SolicitudModal = (
                                                     }}
                                                 />
                                             </Grid>
-
-
                                         </Grid>
                                         <Box sx={{
                                             display: 'flex',
@@ -385,19 +374,14 @@ export const SolicitudModal = (
                                             bgcolor: 'background.paper',
                                             borderRadius: 1,
                                         }}>
-
-                                  
-
                                             {DocSubido ?
                                                 <Box>
-
                                                     <label >
                                                         {nameNewDoc}
                                                     </label>
                                               
                                                 </Box>
                                                 : ""}
-
                                         </Box>
                                     </Box>
                                 </Container>
@@ -405,14 +389,10 @@ export const SolicitudModal = (
                             {(activeStep + 1) == 2 ?
                                 <Container maxWidth="sm" >
                                     <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', height: 300 }}>
-
-                                        {
-                                            //////////empiezan debajo del titulo
-
+                                        { //////////empiezan debajo del titulo
                                             //// imagen carga y previsualizacion
                                         }
                                         <Box sx={{ width: '100%', }}>
-
                                             <Box sx={{
                                                 display: 'flex',
                                                 alignItems: 'flex-start',
@@ -436,8 +416,6 @@ export const SolicitudModal = (
                                                         <UploadFileIcon />
                                                     </IconButton>
                                                 </Box>
-
-
                                                 {DocSubido ?
                                                     <Box>
                                                         <label >

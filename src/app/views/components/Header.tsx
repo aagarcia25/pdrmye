@@ -147,7 +147,7 @@ export default function Header(props: HeaderProps) {
                 {props.name}
               </Typography>
               <Typography variant="caption" color="black">
-                {user.ROLES[0].Descripcion}
+                {/* {user.ROLES[0].Descripcion} */}
               </Typography>
              
             </Grid>

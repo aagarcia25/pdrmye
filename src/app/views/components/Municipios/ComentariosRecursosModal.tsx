@@ -41,7 +41,16 @@ export const ComentariosRecursosModal = (
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [comentarios, setComentarios] = useState<string>();
 
+    const acciones = (v: string) => {
+        if (v == "autorizar") {
 
+
+        } else if (v == "cancelar") {
+
+
+        }
+
+    }
 
 
 
@@ -107,10 +116,10 @@ export const ComentariosRecursosModal = (
 
                     <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
                         <Grid item xs={3}>
-                            <button className="guardar" onClick={() => handleClose()}>Autorizar Solicitud</button>
+                            <button className="guardar" onClick={() => acciones("autorizar")}>Autorizar Solicitud</button>
                         </Grid>
                         <Grid item xs={3}>
-                            <button className="cerrar" onClick={() => handleClose()}> Cancelar Solicitud</button>
+                            <button className="cerrar" onClick={() => acciones("cancelar")}> Cancelar Solicitud</button>
                         </Grid>
 
                     </Grid>

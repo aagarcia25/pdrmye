@@ -15,8 +15,8 @@ import SendIcon from '@mui/icons-material/Send';
 import { ComentariosRecursosModal } from './ComentariosRecursosModal';
 import Swal from 'sweetalert2';
 import { Alert } from '../../../helpers/Alert';
-import { RESPONSE } from '../../../interfaces/user/UserInfo';
-import { getUser } from '../../../services/localStorage';
+import { PERMISO, RESPONSE } from '../../../interfaces/user/UserInfo';
+import { getPermisos, getUser } from '../../../services/localStorage';
 
 
 
@@ -24,29 +24,48 @@ import { getUser } from '../../../services/localStorage';
 const SolicitudRecursos = () => {
   const [solicitud, setSolicitud] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openSlider, setOpenSlider] = useState(false);
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+
   const [openSeg, setOpenSeg] = useState(false);
-
+  const [numOperacion, setNumOperacion] = useState(4);
   const [modo, setModo] = useState("");
+  const [departamento, setDepartamento] = useState<string>();
+
   const [tipoOperacion, setTipoOperacion] = useState("");
-
-
   const [data, setData] = useState({});
   const user: RESPONSE = JSON.parse(String(getUser()));
-  let numOperacion=0;
-  const consulta=()=>{
-   
-    if(user.DEPARTAMENTOS[0].NombreCorto =="DAMOP"){
-      numOperacion=6;
-    }else if(user.DEPARTAMENTOS[0].NombreCorto=="DPCP"){
-      numOperacion=6;
-    }else{
-      numOperacion=6;
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  ///////////////////////////////////////////
+  const consulta = () => {
+
+    if (user.DEPARTAMENTOS[0].NombreCorto == "DAMOP") {
+      CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
+        setDepartamento("DAMOP")
+        setSolicitud(res.RESPONSE);
+        console.log(res.RESPONSE)
+        setOpenSlider(false);
+      });
+    } else if (user.DEPARTAMENTOS[0].NombreCorto == "DPCP") {
+      CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
+        setDepartamento("DPCP")
+        setSolicitud(res.RESPONSE);
+        console.log(res.RESPONSE)
+        setOpenSlider(false);
+      });
+    } else if (user.DEPARTAMENTOS[0].NombreCorto == "MUN") {
+
+      CatalogosServices.SolicitudesInfo({ NUMOPERACION: 4, CHUSER: user.id }).then((res) => {
+        setDepartamento("MUN")
+        setSolicitud(res.RESPONSE);
+        console.log(res.RESPONSE)
+        setOpenSlider(false);
+      });
     }
 
-    CatalogosServices.SolicitudesInfo({NUMOPERACION: numOperacion,CHUSER:user.id}).then((res) => {
-      setSolicitud(res.RESPONSE);
-      console.log(res.RESPONSE)
-    });
+
   }
 
   const columns: GridColDef[] = [
@@ -63,7 +82,7 @@ const SolicitudRecursos = () => {
         return (
           <Box>
             {v.row.Descripcion == "INICIO" ?
-              <BotonesAcciones handleAccion={handleAccion} row={v} editar={true} eliminar={true}></BotonesAcciones>
+              <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
               :
               ""
             }
@@ -100,17 +119,17 @@ const SolicitudRecursos = () => {
       renderCell: (v) => {
         return (
           <Box>
-            {v.row.Descripcion == "INICIO" ?
 
+
+            {v.row.Descripcion == "INICIO"&& departamento=="MUN" ?
               <Tooltip title={"Enviar"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v,"ENVIADO")}>
+                <ToggleButton value="check" onClick={() => handleSeg(v, "ENVIADO")}>
                   <SendIcon />
                 </ToggleButton>
               </Tooltip>
-
               :
-              <Tooltip title={"Autorizar"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v,"AUTORIZADO")}>
+              <Tooltip title={"Atender Solicitud"}>
+                <ToggleButton value="check" onClick={() => handleSeg(v, "AUTORIZADO")}>
                   <DoneIcon />
                 </ToggleButton>
               </Tooltip>
@@ -120,14 +139,15 @@ const SolicitudRecursos = () => {
       },
     },
   ];
-  const handleSeg = (data:any,v: string) => {
+
+  const handleSeg = (data: any, v: string) => {
     if (v == "ENVIADO") {
       let d = {
         NUMOPERACION: 5,
-        CHID:data.id,
+        CHID: data.id,
         CHUSER: user.id,
         ESTATUS: "ENVIADO",
-    };
+      };
 
       Swal.fire({
         icon: "info",
@@ -158,16 +178,10 @@ const SolicitudRecursos = () => {
         }
       });
 
-
     }
     if (v == "AUTORIZADO") {
-
-
       setTipoOperacion(v);
       setOpenSeg(true);
-      //setModo("Editar ");
-      /// setOpen(true);
-      // setVrows(v.data);
     }
   }
   const handleAccion = (v: any) => {
@@ -180,7 +194,7 @@ const SolicitudRecursos = () => {
   const handleClose = () => {
     setOpen(false);
     setOpenSeg(false);
-    CatalogosServices.SolicitudesInfo({NUMOPERACION: numOperacion,CHUSER:user.id}).then((res) => {
+    CatalogosServices.SolicitudesInfo({ NUMOPERACION: numOperacion, CHUSER: user.id }).then((res) => {
       setSolicitud(res.RESPONSE);
       console.log(res.RESPONSE)
     });
@@ -199,26 +213,29 @@ const SolicitudRecursos = () => {
   };
 
   useEffect(() => {
-    
-    
-    
+    console.log(permisos.map)
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "SOLIANT") {
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+
+      }
+    });
     consulta();
-
-
-   
-
-
   }, []);
-
-
 
   return (
     <div style={{ height: 600, width: "100%" }}>
       <Box>
 
-        <Slider open={false}></Slider>
-
-
+        <Slider open={openSlider}></Slider>
 
         <Grid container spacing={2} sx={{ justifyContent: "center", }} >
           <Grid item xs={12}>
@@ -242,14 +259,14 @@ const SolicitudRecursos = () => {
 
           <Grid container>
             <Grid item xs={1} md={1} lg={1}>
-              <Tooltip title={"Agregar"}>
-                <ToggleButton value="check" onClick={() => Solicitar()}>
-                  <AddIcon />
-                </ToggleButton>
-              </Tooltip>
+              {agregar ?
+                <Tooltip title={"Agregar"}>
+                  <ToggleButton value="check" onClick={() => Solicitar()}>
+                    <AddIcon />
+                  </ToggleButton>
+                </Tooltip> : ""
+              }
             </Grid>
-
-
 
           </Grid>
           <MUIXDataGrid columns={columns} rows={solicitud} />
