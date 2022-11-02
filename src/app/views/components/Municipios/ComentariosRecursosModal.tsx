@@ -75,7 +75,8 @@ export const ComentariosRecursosModal = (
                     <Grid container sx={{ justifyContent: "space-between ", width: "100%" }}>
                         <Grid item xs={10} md={10} lg={10} >
 
-                            <DialogTitle>Solicitud de Anticipo de Participaciones</DialogTitle>
+                            <DialogTitle>Solicitud de Anticipo de Participaciones <br/>{" "+"Solicitante:  " +data.Solicitante}</DialogTitle>
+
 
                         </Grid>
                         <Grid item xs={1} md={1} lg={1}>
@@ -114,11 +115,11 @@ export const ComentariosRecursosModal = (
                         </Grid>
                     </DialogContent>
 
-                    <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
-                        <Grid item xs={3}>
+                    <Grid container spacing={3} sx={{ justifyContent: "space-between ", width: "100%" }}>
+                        <Grid item xs={4}>
                             <button className="guardar" onClick={() => acciones("autorizar")}>Autorizar Solicitud</button>
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={4} sx={{ alignItems:"left", width: "100%" }}>
                             <button className="cerrar" onClick={() => acciones("cancelar")}> Cancelar Solicitud</button>
                         </Grid>
 

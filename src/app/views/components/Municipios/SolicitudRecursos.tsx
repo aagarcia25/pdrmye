@@ -90,7 +90,7 @@ const SolicitudRecursos = () => {
         );
       },
     },
-    { field: "Concepto", headerName: "Concepto", width: 250 },
+    { field: "Concepto", headerName: "Concepto", width: 250,resizable:true },
     { field: "Total", headerName: "Total", width: 120 },
     {
       field: "RutaArchivo", headerName: " Archivo", width: 120,
@@ -109,7 +109,28 @@ const SolicitudRecursos = () => {
     },
     { field: "NombreArchivo", headerName: "Nombre Archivo", width: 300 },
     { field: "RutaSpei", headerName: " Spei", width: 120 },
-    { field: "Descripcion", headerName: "Estatus", width: 120 },
+    {
+      field: "Descripcion", headerName: "Estatus", width: 120,
+      renderCell: (v) => {
+        return (
+          <Box>
+            {v.row.Descripcion == "INICIO" && departamento == "MUN" ?
+              "INICIO"
+              : ""}
+            {v.row.Descripcion == "ENVIADO" && departamento == "MUN" ?
+              "ENVIADO"
+              :
+              ""}
+
+
+          </Box>
+        );
+      },
+
+
+
+
+    },
     {
       field: "seguimiento",
       headerName: "Seguimiento",
@@ -121,19 +142,21 @@ const SolicitudRecursos = () => {
           <Box>
 
 
-            {v.row.Descripcion == "INICIO"&& departamento=="MUN" ?
+            {v.row.Descripcion == "INICIO" && departamento == "MUN" ?
               <Tooltip title={"Enviar"}>
                 <ToggleButton value="check" onClick={() => handleSeg(v, "ENVIADO")}>
                   <SendIcon />
                 </ToggleButton>
               </Tooltip>
-              :
+              : ""}
+
+            {departamento == "DAMOP" ?
               <Tooltip title={"Atender Solicitud"}>
                 <ToggleButton value="check" onClick={() => handleSeg(v, "AUTORIZADO")}>
                   <DoneIcon />
                 </ToggleButton>
               </Tooltip>
-            }
+              : ""}
           </Box>
         );
       },
@@ -182,6 +205,7 @@ const SolicitudRecursos = () => {
     if (v == "AUTORIZADO") {
       setTipoOperacion(v);
       setOpenSeg(true);
+      setData(data.row)
     }
   }
   const handleAccion = (v: any) => {
@@ -208,6 +232,7 @@ const SolicitudRecursos = () => {
   const handleVisualizar = (v: any) => {
     setModo("ver");
     setOpen(true);
+    console.log(v.row)
     setData(v.row);
 
   };
