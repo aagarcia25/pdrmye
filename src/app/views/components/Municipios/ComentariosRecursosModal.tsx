@@ -28,6 +28,7 @@ export const ComentariosRecursosModal = (
         open,
         handleClose,
         modo,
+        perfil,
     }
         :
         {
@@ -35,6 +36,7 @@ export const ComentariosRecursosModal = (
             data: any;
             open: boolean;
             handleClose: Function;
+            perfil : string;    
         }
 ) => {
     const [openSlider, setOpenSlider] = useState(false);
@@ -43,10 +45,91 @@ export const ComentariosRecursosModal = (
 
     const acciones = (v: string) => {
         if (v == "autorizar") {
+            if(perfil=="ANA"){
+                let d = {
+                    NUMOPERACION: 5,
+                    CHID: data.id,
+                    CHUSER: user.id,
+                    ESTATUS: "DAMOPANAAUTO",
+                    Comentario:comentarios,
+
+                  };
+            
+                  Swal.fire({
+                    icon: "info",
+                    title: "Enviar",
+                    text: "Desea Autorizar la Solicitud",
+                    showDenyButton: false,
+                    showCancelButton: true,
+                    confirmButtonText: "Aceptar",
+                    cancelButtonText: "Cancelar",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      CatalogosServices.SolicitudesInfo(d).then((res) => {
+                        if (res.SUCCESS) {
+                          console.log(res.RESPONSE)
+                          handleClose();
+                        } else {
+            
+                          Alert.fire({
+                            title: "Error!",
+                            text: "Fallo en la peticion",
+                            icon: "error",
+            
+                          });
+                        }
+                      });
+                    }
+                    if (result.isDenied) {
+                    }
+                  });
+
+
+            }
+
 
 
         } else if (v == "cancelar") {
+            if(perfil=="ANA"){
+                let d = {
+                    NUMOPERACION: 5,
+                    CHID: data.id,
+                    CHUSER: user.id,
+                    ESTATUS: "DAMOPANACAN",
+                    Comentario:comentarios,
+                  };
+            
+                  Swal.fire({
+                    icon: "info",
+                    title: "Enviar",
+                    text: "Desea Cancelar la Solicitud",
+                    showDenyButton: false,
+                    showCancelButton: true,
+                    confirmButtonText: "Aceptar",
+                    cancelButtonText: "Cancelar",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      CatalogosServices.SolicitudesInfo(d).then((res) => {
+                        if (res.SUCCESS) {
+                          console.log(res.RESPONSE)
+                          handleClose();
+                        } else {
+            
+                          Alert.fire({
+                            title: "Error!",
+                            text: "Fallo en la peticion",
+                            icon: "error",
+            
+                          });
+                        }
+                      });
+                    }
+                    if (result.isDenied) {
+                    }
+                  });
 
+
+            }
 
         }
 
@@ -60,7 +143,8 @@ export const ComentariosRecursosModal = (
 
 
     useEffect(() => {
-
+        console.log(modo)
+console.log(perfil)
         console.log(data)
     }, []);
 
@@ -95,6 +179,13 @@ export const ComentariosRecursosModal = (
 
 
                             <Grid container spacing={3} sx={{ justifyContent: "center", width: "100%" }}>
+                            <Grid item xs={12}>
+                            
+                            
+                            
+                            
+                            </Grid>
+
                                 <Grid item xs={12}>
                                     <label >Comentarios<br /><br /></label>
                                     <TextField

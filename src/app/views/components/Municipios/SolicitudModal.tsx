@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import { Box, Container, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField } from "@mui/material";
+import { Box, Container, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
@@ -18,7 +18,8 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { Alert } from '../../../helpers/Alert';
 import { CatalogosServices } from '../../../services/catalogosServices';
 import { Toast } from '../../../helpers/Toast';
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 
 const steps = ['Campos Obligatorios', 'Carga de Archivo ', 'Finalizar Solicitud'];
@@ -39,6 +40,8 @@ export const SolicitudModal = (
             handleClose: Function;
         }
 ) => {
+    const [modoSol, setModoSol] = useState<string>();
+
     const [newDoc, setNewDoc] = useState(Object);
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [eliminar, setEliminar] = useState<boolean>(false);
@@ -65,19 +68,19 @@ export const SolicitudModal = (
     const handleNext = () => {
 
 
-        if (concepto?.length != 0 && total?.valueOf != null && total != 0&& sizeFile!=true) {
+        if (concepto?.length != 0 && total?.valueOf != null && total != 0 && sizeFile != true) {
 
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
         }
         else {
             Alert.fire({
                 title: "Atencion",
-                text: sizeFile?"Tamaño de archivo Exedido Maximo 3Mb":"Verificar los campos",
+                text: sizeFile ? "Tamaño de archivo Exedido Maximo 3Mb" : "Verificar los campos",
                 icon: "info",
             });
 
         }
-        if (activeStep === steps.length - 1)  {
+        if (activeStep === steps.length - 1) {
 
             let d = {
                 NUMOPERACION: 1,
@@ -87,7 +90,7 @@ export const SolicitudModal = (
                 IDESTATUS: "30ec276f-2b14-11ed-afdb-040300000000",
             };
 
-            if (DocSubido && sizeFile==false) {
+            if (DocSubido && sizeFile == false) {
                 Swal.fire({
                     icon: "info",
                     title: "Solicitar",
@@ -207,7 +210,7 @@ export const SolicitudModal = (
 
         let file = event.target!.files[0]!;
         var sizeByte = Number(file.size);
-        setSizeFile(Number(sizeByte) / 1024>=3072?true:false)
+        setSizeFile(Number(sizeByte) / 1024 >= 3072 ? true : false)
 
         setNewDoc(file);
         setNameNewDoc(event.target!.files[0]!.name);
@@ -225,7 +228,7 @@ export const SolicitudModal = (
     };
 
     useEffect(() => {
-
+        setModoSol(String(modo))
         console.log(data)
         setUrlDoc(data.RutaArchivo)
     }, []);
@@ -239,9 +242,17 @@ export const SolicitudModal = (
                 //fullScreen={modo=="ver"?true:false}
                 >
                     <DialogTitle>Solicitud de Anticipo de Participaciones</DialogTitle>
-                    {modo == "ver" ?
+                    {modoSol == "ver" ?
                         <Grid container>
                             <Grid item>
+                                <Tooltip title={"Vizualizar Detalles"}>
+                                    <IconButton onClick={() => setModoSol("verDetalles")}>
+                                        <ArrowBackIosNewIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Grid>
+
+                            <Grid item >
                                 <iframe id="inlineFrameExample"
                                     title="Inline Frame Example"
                                     width="600"
@@ -250,7 +261,9 @@ export const SolicitudModal = (
                                 />
                             </Grid>
                         </Grid>
-                        :
+                        : ""}
+                    {modoSol == "nuevo" ?
+
                         <DialogContent dividers={true}>
 
                             <Box sx={{ width: '100%' }}>
@@ -379,7 +392,7 @@ export const SolicitudModal = (
                                                     <label >
                                                         {nameNewDoc}
                                                     </label>
-                                              
+
                                                 </Box>
                                                 : ""}
                                         </Box>
@@ -435,11 +448,67 @@ export const SolicitudModal = (
                                 </Container>
                                 : ""}
                         </DialogContent>
+                        : ""}
+                    {modoSol == "verDetalles" ?
+                        <DialogContent dividers={true}>
+                            <Grid container>
+                                <Grid item xs={12}>
+                                    <label className='subtitulo'>Solicitante:</label>
+                                    <br />
+                                    <label className='contenido'>{data.Solicitante}</label>
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <label className='subtitulo'>Concepto:</label>
+                                    <br />
+                                    <label className='contenido'>{data.Concepto}</label>
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <label className='subtitulo'>Total:</label>
+                                    <br />
+                                    <label className='contenido'>{data.Total}</label>
+                                    {data.NombreArchivo && data.RutaArchivo ?
+                                        <>
+                                            <br />
+                                            <br />
+                                            <label className='subtitulo'>Archivo:</label>
+                                            <br />
+                                            <label className='contenido'>{data.NombreArchivo}</label>
+                                            <br />
+                                            <Tooltip title={"Vizualizar Documento"}>
+                                                <IconButton onClick={() => setModoSol("ver")}>
+                                                    <VisibilityIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </>
+                                        :
+                                        ""
+
+                                    }
+
+
+
+                                </Grid>
+
+                            </Grid>
+                        </DialogContent>
+                        :
+
+                        ""}
+
+                    {modoSol == "editar" ?
+
+                        "" 
+                        :
+
+
+                        ""
                     }
 
                     <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
                         <Grid item xs={2}>
-                            <button className="cerrar" onClick={() => handleClose()}> {modo == "ver" ? "Cerrar" : "Cancelar"}</button>
+                            <button className="cerrar" onClick={() => handleClose()}> {modo == "ver" || modo == "verDetalles" ? "Cerrar" : "Cancelar"}</button>
                         </Grid>
                     </Grid>
 

@@ -17,7 +17,7 @@ import Swal from 'sweetalert2';
 import { Alert } from '../../../helpers/Alert';
 import { PERMISO, RESPONSE } from '../../../interfaces/user/UserInfo';
 import { getPermisos, getUser } from '../../../services/localStorage';
-
+import DescriptionIcon from '@mui/icons-material/Description';
 
 
 
@@ -31,6 +31,7 @@ const SolicitudRecursos = () => {
   const [numOperacion, setNumOperacion] = useState(4);
   const [modo, setModo] = useState("");
   const [departamento, setDepartamento] = useState<string>();
+  const [perfil, setPerfil] = useState<string>();
 
   const [tipoOperacion, setTipoOperacion] = useState("");
   const [data, setData] = useState({});
@@ -72,36 +73,49 @@ const SolicitudRecursos = () => {
     { field: "id", hide: true, },
     { field: "IdEstatus", hide: true, },
     { field: "IdArchivo", hide: true, },
-    {
-      field: "acciones",
+    { field: "acciones",
       headerName: "Acciones",
       description: "Ver detalle de Cálculo",
       sortable: false,
       width: 150,
       renderCell: (v) => {
         return (
-          <Box>
+          <Grid container >
             {v.row.Descripcion == "INICIO" ?
-              <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+              <Grid item xs={8}>
+                <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+              </Grid>
               :
-              ""
+              <Grid item xs={8}>
+              </Grid>
             }
-          </Box>
+            <Grid item xs={2}>
+              <Tooltip title={"Vizualizar Detalles"}>
+                <IconButton onClick={() => handleVisualizarDetalles(v)}>
+                  <DescriptionIcon />
+                </IconButton>
+              </Tooltip>
+
+            </Grid>
+          </Grid>
         );
       },
     },
-    { field: "Concepto", headerName: "Concepto", width: 250,resizable:true },
+    { field: "Concepto", headerName: "Concepto", width: 250, },
     { field: "Total", headerName: "Total", width: 120 },
-    {
-      field: "RutaArchivo", headerName: " Archivo", width: 120,
+    { field: "RutaArchivo", headerName: " Archivo", width: 120,
       renderCell: (v) => {
         return (
           <Box>
             {v.row.RutaArchivo ?
-              <IconButton onClick={() => handleVisualizar(v)}>
-                <VisibilityIcon />
-              </IconButton>
+              <Tooltip title={"Vizualizar Documento"}>
+                <IconButton onClick={() => handleVisualizar(v)}>
+                  <VisibilityIcon />
+                </IconButton>
+              </Tooltip >
+
               : ""}
+
 
           </Box>
         );
@@ -110,26 +124,33 @@ const SolicitudRecursos = () => {
     { field: "NombreArchivo", headerName: "Nombre Archivo", width: 300 },
     { field: "RutaSpei", headerName: " Spei", width: 120 },
     {
-      field: "Descripcion", headerName: "Estatus", width: 120,
+      field: "Descripcion", headerName: "Estatus", width: 230,
       renderCell: (v) => {
         return (
           <Box>
             {v.row.Descripcion == "INICIO" && departamento == "MUN" ?
               "INICIO"
               : ""}
-            {v.row.Descripcion == "ENVIADO" && departamento == "MUN" ?
+            { departamento == "MUN" && v.row.Descripcion == "ENVIADO" ?
               "ENVIADO"
               :
               ""}
-
+              
+              { departamento == "MUN" && v.row.Descripcion == "ANALISTA DAMOP CANCELA"?
+              "Cancelado"
+              :
+              departamento == "MUN" && v.row.Descripcion != "ENVIADO"&&v.row.Descripcion != "INICIO" ?
+              "ENVIADO"
+              :
+              ""}
+              {departamento!="MUN"?
+            v.row.Descripcion
+            :"" 
+            }
 
           </Box>
         );
       },
-
-
-
-
     },
     {
       field: "seguimiento",
@@ -142,17 +163,17 @@ const SolicitudRecursos = () => {
           <Box>
 
 
-            {v.row.Descripcion == "INICIO" && departamento == "MUN" ?
+            {departamento == "MUN" && v.row.Descripcion == "INICIO"?
               <Tooltip title={"Enviar"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v, "ENVIADO")}>
+                <ToggleButton value="check" onClick={() => handleSeg(v, "ENVIADO","MUN","MUN")}>
                   <SendIcon />
                 </ToggleButton>
               </Tooltip>
               : ""}
 
-            {departamento == "DAMOP" ?
+            {departamento == "DAMOP" && user.PERFILES[0].Referencia=="ANA" && v.row.Descripcion == "ENVIADO" || v.row.Descripcion == "CODAMOPCAN"?
               <Tooltip title={"Atender Solicitud"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v, "AUTORIZADO")}>
+                <ToggleButton value="check" onClick={() => handleSeg(v, "ATENDER","DAMOP","ANA")}>
                   <DoneIcon />
                 </ToggleButton>
               </Tooltip>
@@ -163,13 +184,13 @@ const SolicitudRecursos = () => {
     },
   ];
 
-  const handleSeg = (data: any, v: string) => {
-    if (v == "ENVIADO") {
+  const handleSeg = (data: any,estatus:string, departamento: string, perfil:string) => {
+    if (estatus == "ENVIADO" && departamento=="MUN") {
       let d = {
         NUMOPERACION: 5,
         CHID: data.id,
         CHUSER: user.id,
-        ESTATUS: "ENVIADO",
+        ESTATUS: estatus,
       };
 
       Swal.fire({
@@ -202,8 +223,20 @@ const SolicitudRecursos = () => {
       });
 
     }
-    if (v == "AUTORIZADO") {
-      setTipoOperacion(v);
+    else if(departamento=="DAMOP"){
+      if(perfil=="ANA"){
+        setOpenSeg(true);
+        setData(data.row);
+        setModo(estatus);
+
+
+
+      }
+
+
+    }
+    else if (estatus == "AUTORIZADO") {
+      setTipoOperacion(estatus);
       setOpenSeg(true);
       setData(data.row)
     }
@@ -218,15 +251,12 @@ const SolicitudRecursos = () => {
   const handleClose = () => {
     setOpen(false);
     setOpenSeg(false);
-    CatalogosServices.SolicitudesInfo({ NUMOPERACION: numOperacion, CHUSER: user.id }).then((res) => {
-      setSolicitud(res.RESPONSE);
-      console.log(res.RESPONSE)
-    });
+    consulta();
   };
 
   const Solicitar = () => {
     setOpen(true);
-    setModo("");
+    setModo("nuevo");
 
   };
   const handleVisualizar = (v: any) => {
@@ -236,9 +266,20 @@ const SolicitudRecursos = () => {
     setData(v.row);
 
   };
+  const handleVisualizarDetalles = (v: any) => {
+    setModo("verDetalles");
+    setOpen(true);
+    console.log(v.row)
+    setData(v.row);
+
+  };
 
   useEffect(() => {
     console.log(permisos.map)
+    console.log("departamento  " +user.DEPARTAMENTOS[0].NombreCorto)
+    console.log("perfil "+user.PERFILES[0].Referencia)
+    setPerfil(user.PERFILES[0].Referencia);
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "SOLIANT") {
         if (String(item.Referencia) == "AGREG") {
@@ -301,7 +342,7 @@ const SolicitudRecursos = () => {
       {open ?
         <SolicitudModal modo={modo} data={data} open={open} handleClose={handleClose} /> : ""}
       {openSeg ?
-        <ComentariosRecursosModal modo={modo} data={data} open={openSeg} handleClose={handleClose} />
+        <ComentariosRecursosModal modo={modo} data={data} open={openSeg} handleClose={handleClose} perfil={String(perfil)} />
         : ""
       }
     </div>
