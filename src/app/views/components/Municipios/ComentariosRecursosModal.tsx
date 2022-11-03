@@ -1,23 +1,11 @@
-import * as React from 'react';
 import { useEffect, useState } from "react";
-import { Box, Container, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, ToggleButton, Tooltip } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
+import { Box, Dialog, DialogContent, DialogTitle, Grid, TextField, ToggleButton, Tooltip } from "@mui/material";
 import Swal from "sweetalert2";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../services/localStorage";
+import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { getUser } from "../../../services/localStorage";
 import Slider from "../Slider";
-import { Titulo } from "../menu/catalogos/Utilerias/AgregarCalculoUtil/Titulo";
-import BotonesAPD from "../componentes/BotonesAPD";
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { Alert } from '../../../helpers/Alert';
 import { CatalogosServices } from '../../../services/catalogosServices';
-import { Toast } from '../../../helpers/Toast';
 import CloseIcon from '@mui/icons-material/Close';
 
 
