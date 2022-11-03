@@ -173,13 +173,13 @@ const SolicitudRecursos = () => {
 
             {departamento == "MUN" && v.row.Descripcion == "INICIO" ?
               <Tooltip title={"Enviar"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v, "ENVIADO", "MUN", "MUN")}>
+                <ToggleButton value="check" onClick={() => handleSeg(v, "DAMOP_INICIO", "MUN", "MUN")}>
                   <SendIcon />
                 </ToggleButton>
               </Tooltip>
               : ""}
 
-           {departamento == "DAMOP" && user.PERFILES[0].Referencia == "ANA" && v.row.Descripcion == "ENVIADO" || v.row.Descripcion == "CODAMOPCAN" ?
+           {departamento == "DAMOP" && user.PERFILES[0].Referencia == "ANA" && v.row.Descripcion == "DAMOP_INICIO" || v.row.Descripcion == "DAMOP_REG_COR_ANA" ?
               <Tooltip title={"Atender Solicitud"}>
                 <ToggleButton value="check" onClick={() => handleSeg(v, "ATENDER", "DAMOP", "ANA")}>
                   <DoneIcon />
@@ -204,7 +204,7 @@ const SolicitudRecursos = () => {
   ];
 
   const handleSeg = (data: any, estatus: string, departamento: string, perfil: string) => {
-    if (estatus == "ENVIADO" && departamento == "MUN") {
+    if (estatus == "DAMOP_INICIO" && departamento == "MUN") {
       let d = {
         NUMOPERACION: 5,
         CHID: data.id,

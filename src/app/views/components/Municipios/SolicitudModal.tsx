@@ -75,7 +75,7 @@ export const SolicitudModal = (
         else {
             Alert.fire({
                 title: "Atencion",
-                text: sizeFile ? "Tamaño de archivo Exedido Maximo 3Mb" : "Verificar los campos",
+                text: sizeFile ? "Tamaño de archivo Exedido -Limitado a 3Mb-" : "Verificar los campos",
                 icon: "info",
             });
 
@@ -87,7 +87,7 @@ export const SolicitudModal = (
                 CHUSER: user.id,
                 CONCEPTO: concepto,
                 TOTAL: total,
-                IDESTATUS: "30ec276f-2b14-11ed-afdb-040300000000",
+                ESTATUS: "MUN_INICIO",
             };
 
             if (DocSubido && sizeFile == false) {
