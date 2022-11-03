@@ -26,6 +26,10 @@ export class calculosServices {
         return await post('trazabilidad', data);
     }
 
+    public static async trazabilidadSolicitud(data: any) {
+        return await post('trazabilidadSolicitud', data);
+    }
+
     public static async calcula(data: any) {
         return await post('calcula', data);
     }

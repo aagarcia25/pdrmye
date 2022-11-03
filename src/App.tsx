@@ -10,6 +10,7 @@ import {
   getBloqueo,
   getItem,
   getPU,
+  getToken,
   setBloqueo,
   setDepartamento,
   setlogin,
@@ -39,11 +40,6 @@ function App() {
   const jwt = query.get("jwt");
   const [openSlider, setOpenSlider] = useState(true);
   const [acceso, setAcceso] = useState(false);
-
-
-
-  
- 
 
   const loadAnios = () => {
     let data = { NUMOPERACION: 4 };
@@ -97,14 +93,11 @@ function App() {
       ID: id,
     };
     AuthService.adminUser(data).then((res2) => {
-      //console.log('Respuesta de usuario');
-      //console.log(res2);
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
-    //   //console.log(us.RESPONSE);
-    //  if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
-    //  if(us.RESPONSE.PERFILES.length !==0){
-    //  if(us.RESPONSE.ROLES.length !==0){
+      if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
+      if(us.RESPONSE.PERFILES.length !==0){
+      if(us.RESPONSE.ROLES.length !==0){
         setRoles(us.RESPONSE.ROLES);
         setPermisos(us.RESPONSE.PERMISOS);
         setMenus(us.RESPONSE.MENUS);
@@ -116,15 +109,15 @@ function App() {
         setOpenSlider(false);
         setlogin(true);
         setAcceso(true);
-//                }else{
-//          mensaje("No tienes Relacionado un Rol","Favor de Verificar sus Permisos con el área de TI");
-//        }
-//      }else{
-//         mensaje("No tienes Relacionado un Perfil","Favor de Verificar sus Permisos con el área de TI");
-//      }
-//    }else{
-//         mensaje("No tienes Relacionado un Departamento","Favor de Verificar sus Permisos con el área de TI");
-//  }
+                }else{
+          mensaje("No tienes Relacionado un Rol","Favor de Verificar sus Permisos con el área de TI");
+        }
+      }else{
+         mensaje("No tienes Relacionado un Perfil","Favor de Verificar sus Permisos con el área de TI");
+      }
+    }else{
+         mensaje("No tienes Relacionado un Departamento","Favor de Verificar sus Permisos con el área de TI");
+  }
 
 
 
@@ -133,19 +126,12 @@ function App() {
   };
 
   const verificatoken = (token: string) => {
-    // SE VALIDA EL TOKEN
-    setToken(jwt);
-    //console.log("verificando")
+    
     UserServices.verify({}, token).then((res) => {
-      //console.log(res)
       if (res.status == 200) {
-        //SE OBTIENE LA INFORMACION DE DETALLE DEL USUARIO
         setPU(res.data.data);
         const user: UserReponse = JSON.parse(String(getPU()));
-        //console.log('BUSCANDO USUARIO')
-        //console.log(user.IdUsuario)
         buscaUsuario(user.IdUsuario);
-       
       } else if (res.status == 401) {
         setOpenSlider(false);
         setlogin(false);
@@ -175,7 +161,6 @@ function App() {
 
     UserServices.login(data).then((res) => {
       if (res.status == 200) {
-        //SE OBTIENE LA INFORMACION DE DETALLE DEL USUARIO
         setIsIdle(false);
         setBloqueo(false);
       } else if (res.status == 401) {
@@ -217,10 +202,15 @@ function App() {
 
 
   useLayoutEffect(() => {
-    localStorage.clear();
+   
     //SE CARGAN LOS PARAMETROS GENERALES
       if (String(jwt) != null && String(jwt) !='null' && String(jwt) != "") {
+        setToken(jwt);
         verificatoken(String(jwt));
+      }else if(getToken() != null){
+        console.log('token');
+        console.log(String(getToken()))
+        verificatoken(String(getToken()));
       } else {
         Swal.fire({
           title: "Token no valido",
@@ -229,13 +219,13 @@ function App() {
           confirmButtonText: "Aceptar",
         }).then((result) => {
           if (result.isConfirmed) {
+            localStorage.clear();
             var ventana = window.self;
             ventana.location.replace(env_var.BASE_URL_LOGIN);
-       
           }
         });
       }
-
+      
   }, []);
 
 

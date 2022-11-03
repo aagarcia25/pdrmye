@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Box, Dialog, Grid, IconButton, Link, Tooltip } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  Grid,
+  Link,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+} from "@mui/material";
 import { Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
 import { Alert } from "../../../../helpers/Alert";
@@ -13,8 +21,14 @@ import BotonesOpciones from "../../componentes/BotonesOpciones";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import Trazabilidad from "../../Trazabilidad";
 import Swal from "sweetalert2";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ModalAlert from "../../componentes/ModalAlert";
+import BotonesAcciones from "../../componentes/BotonesAcciones";
+import SelectValues from "../../../../interfaces/Select/SelectValues";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import InsightsIcon from "@mui/icons-material/Insights";
+import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 
 const DetalleFgp = ({
   idCalculo,
@@ -35,27 +49,30 @@ const DetalleFgp = ({
   anio: number;
   mes: string;
 }) => {
-  const [openSlider, setOpenSlider] = useState(true);
+  // Dire
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const [status, setStatus] = useState<string>("");
-  const [statusDestino, setStatusDestino] = useState<string>("");
+  const [status, setStatus] = useState<SelectValues>();
+  const [perfil, setPerfil] = useState<SelectValues>();
+  const [direccion, setDireccion] = useState<SelectValues>();
+  const [openSlider, setOpenSlider] = useState(true);
+  //Permisos
   const [data, setData] = useState([]);
+  const [vrows, setvrows] = useState({});
   const [autorizar, setAutorizar] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-  const [enviar, setEnviar] = useState<boolean>(false);
-  const [presupuesto, setPresupuesto] = useState<boolean>(false);
+
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  //Modals
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
+
   const [proceso, setProceso] = useState(""); //VARIABLE PARA DETERMINAR EL PROCESO QUE SE ESTA REALIZANDO
   const [tipoAccion, setTipoAccion] = useState("");
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [direccion, setDireccion] = useState("");
-  const [area, setArea] = useState("");
-  const [file, setFile] = useState(false);
-  const [vrows, setvrows] = useState({});
-  const [editDoc, setEditDoc] = useState<boolean>(false);
 
+  //Columnas
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
   const [ta, setTa] = useState(false);
@@ -74,62 +91,59 @@ const DetalleFgp = ({
 
   // MANEJO DE ACCIONES
   const handleAcciones = (v: any) => {
-    switch (v) {
-      case 1: //Regresar
-        handleClose();
-        break;
+    if (v.tipo == 1) {
+      console.log(v);
+    } else if (v.tipo == 2) {
+    } else {
+      switch (v) {
+        case 1: //Regresar
+          handleClose();
+          break;
 
-      case 2: //Autorizar
-        setTipoAccion("Favor de ingresar un comentario para la Autorización");
-        UpdateCalculo("AUTORIZADO", false, {});
-        break;
+        case 2: //Autorizar
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          UpdateCalculo("AUTORIZADO", false, {});
+          break;
 
-      case 3: //Cancelar
-        BorraCalculo();
-        break;
+        case 3: //Cancelar
+          BorraCalculo();
+          break;
 
-      case 4: //Enviar
-        setTipoAccion("Favor de ingresar un comentario para el Envio");
-        UpdateCalculo("ENVIADO", false, {});
-        break;
+        case 4: //Enviar
+          setTipoAccion("Favor de ingresar un comentario para el Envio");
+          UpdateCalculo("ENVIADO", false, {});
+          break;
 
-      case 5: //Ver Trazabilidad
-        setOpenTrazabilidad(true);
-        break;
+        case 5: //Ver Trazabilidad
+          setOpenTrazabilidad(true);
+          break;
 
-      case 6: //Asignar Presupuesto
-        setTipoAccion(
-          "Favor de ingresar un comentario para la asignación del Presupuesto de Forma global"
-        );
-        UpdateCalculo("INICIO", true, {});
-        break;
+        case 6: //Asignar Presupuesto
+          setTipoAccion(
+            "Favor de ingresar un comentario para la asignación del Presupuesto de Forma global"
+          );
+          UpdateCalculo("INICIO", true, {});
+          break;
 
-      case 7: //Asignar Presupuesto
-        setTipoAccion("Favor de ingresar un comentario para el Envio");
-        UpdateCalculo("INICIO", true, {});
-        break;
+        case 7: //Asignar Presupuesto
+          setTipoAccion("Favor de ingresar un comentario para el Envio");
+          UpdateCalculo("INICIO", true, {});
+          break;
 
-      case 8: //REGRESAR AL COORDINADOR
-        setTipoAccion("Favor de ingresar un comentario para el Envio");
-        UpdateCalculo("ENVIADO", false, {});
-        break;
+        case 8: //REGRESAR AL COORDINADOR
+          setTipoAccion("Favor de ingresar un comentario para el Envio");
+          UpdateCalculo("ENVIADO", false, {});
+          break;
 
-      default:
-        break;
+        default:
+          break;
+      }
     }
-  };
-
-  const agregarPresupuesto = (data: any) => {
-    setTipoAccion(
-      "Favor de ingresar un comentario para la asignación del Presupuesto de Forma Singular"
-    );
-    UpdateCalculo("ENVIADO", true, data);
   };
 
   const UpdateCalculo = (estatus: string, file: boolean, data: any) => {
     setvrows(data);
-    setFile(file);
-    setStatusDestino(estatus);
+
     setOpenModal(true);
   };
 
@@ -140,34 +154,30 @@ const DetalleFgp = ({
   const Fnworkflow = (data: any) => {
     console.log(data);
 
-    if (file) {
-      grabacomentariopresupuesto(data);
-    } else {
-      let obj = {
-        IDCALCULO: idCalculo,
-        ESTATUS_DESTINO: statusDestino,
-        ESTATUS_ORIGEN: status,
-        IDUSUARIO: user.id,
-        PROCESO: proceso,
-        TEXTO: data.texto,
-      };
+    let obj = {
+      IDCALCULO: idCalculo,
+      ESTATUS_DESTINO: "",
+      ESTATUS_ORIGEN: status,
+      IDUSUARIO: user.id,
+      PROCESO: proceso,
+      TEXTO: data.texto,
+    };
 
-      calculosServices.wf(obj).then((res) => {
-        if (res.SUCCESS) {
-          Toast.fire({
-            icon: "success",
-            title: "Consulta Exitosa!",
-          });
-          handleClose();
-        } else {
-          Alert.fire({
-            title: "Error!",
-            text: res.STRMESSAGE,
-            icon: "error",
-          });
-        }
-      });
-    }
+    calculosServices.wf(obj).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        handleClose();
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
   };
   const BorraCalculo = () => {
     let data = {
@@ -214,7 +224,7 @@ const DetalleFgp = ({
     };
     calculosServices.getEstatusCalculo(data).then((res) => {
       if (res.SUCCESS) {
-        setStatus(res.RESPONSE[0].ControlInterno);
+        setStatus(res.RESPONSE[0]);
       } else {
         Alert.fire({
           title: "Error!",
@@ -230,7 +240,7 @@ const DetalleFgp = ({
     };
     calculosServices.getPerfilCalculo(data).then((res) => {
       if (res.SUCCESS) {
-        setDireccion(res.RESPONSE[0].Referencia);
+        setPerfil(res.RESPONSE[0]);
       } else {
         Alert.fire({
           title: "Error!",
@@ -247,35 +257,7 @@ const DetalleFgp = ({
     };
     calculosServices.getAreaCalculo(data).then((res) => {
       if (res.SUCCESS) {
-        setArea(res.RESPONSE[0].NombreCorto);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
-
-  //Grabar comentario y archivo de prespuestos de forma a detalle
-  const grabacomentariopresupuesto = (v: any) => {
-    const formData = new FormData();
-    v.file.name != null
-      ? formData.append("DOCUMENTO", v.file, v.file.name)
-      : formData.append("DOCUMENTO", "");
-    formData.append("IDCALCULO", String(v.data.id));
-    formData.append("TEXTO", String(v.texto));
-    formData.append("NUMOPERACION", "1");
-
-    console.log(formData);
-
-    calculosServices.CalculoArchivo(formData).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
+        setDireccion(res.RESPONSE[0]);
       } else {
         Alert.fire({
           title: "Error!",
@@ -363,6 +345,46 @@ const DetalleFgp = ({
 
   const columns = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      width: 100,
+      renderCell: (v: any) => {
+        return (
+          <BotonesAcciones
+            handleAccion={handleAcciones}
+            row={v}
+            editar={editar}
+            eliminar={eliminar}
+          />
+        );
+      },
+    },
+    // {
+
+    //   field: "ComentarioPresupuesto",
+    //   headerName: "Observación DPCP",
+    //   width: 300,
+    //   description: "Observación DPCP",
+    // },
+    // {
+
+    //   field: "RutaArchivo",
+    //   headerName: "Documento DPCP",
+    //   width: 100,
+    //   renderCell: (v: any) => {
+    //     return v.row.RutaArchivo !== null ? (
+    //       <Box>
+    //         <Link href={v.row.RutaArchivo} underline="always">
+    //           Descargar
+    //         </Link>
+    //       </Box>
+    //     ) : (
+    //       ""
+    //     );
+    //   },
+    // },
+
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -477,55 +499,6 @@ const DetalleFgp = ({
       description: "Total",
       ...Moneda,
     },
-
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
-      sortable: false,
-      width: 150,
-      renderCell: (v: any) => {
-        return (
-          <Box>
-            {presupuesto && area == user.DEPARTAMENTOS[0].NombreCorto ? (
-              <Tooltip title="Asignar Presupuesto">
-                <IconButton onClick={() => agregarPresupuesto(v)}>
-                  <AttachMoneyIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-          </Box>
-        );
-      },
-    },
-
-    {
-      hide: presupuesto ? false : true,
-      field: "ComentarioPresupuesto",
-      headerName: "Observación DPCP",
-      width: 300,
-      description: "Observación DPCP",
-    },
-
-    {
-      hide: presupuesto ? false : true,
-      field: "RutaArchivo",
-      headerName: "Documento DPCP",
-      width: 100,
-      renderCell: (v: any) => {
-        return v.row.RutaArchivo !== null ? (
-          <Box>
-            <Link href={v.row.RutaArchivo} underline="always">
-              Descargar
-            </Link>
-          </Box>
-        ) : (
-          ""
-        );
-      },
-    },
   ];
 
   const EstablecePermisos = () => {
@@ -546,11 +519,12 @@ const DetalleFgp = ({
         if (String(item.Referencia) == "TRAZA") {
           setVerTrazabilidad(true);
         }
-        if (String(item.Referencia) == "PRESUPUESTO") {
-          setPresupuesto(true);
+       
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
         }
-        if (String(item.Referencia) == "ENV") {
-          setEnviar(true);
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
         }
       }
     });
@@ -563,7 +537,7 @@ const DetalleFgp = ({
     getAreaCalculo();
     columnas({ IDCALCULOTOTAL: idDetalle });
     consulta({ IDCALCULOTOTAL: idDetalle });
-  }, [status]);
+  }, []);
 
   return (
     <div>
@@ -576,7 +550,6 @@ const DetalleFgp = ({
               handleClose={FnworkflowClose}
               vrows={vrows}
               handleAccion={Fnworkflow}
-              file={file}
             ></ModalAlert>
           ) : (
             ""
@@ -637,31 +610,13 @@ const DetalleFgp = ({
           >
             <Grid item xs={7} md={8} lg={8}>
               <label>
-                Estatus del Cálculo: {status} <br />
+                Estatus del Cálculo: {status?.label} <br />
               </label>
-            </Grid>
-          </Grid>
-
-          <Grid
-            container
-            spacing={1}
-            sx={{ justifyContent: "center", width: "100%" }}
-          >
-            <Grid item xs={7} md={8} lg={8}>
               <label>
-                Observación de DPCP: {} <br />
+                Perfil Asignado: {perfil?.label} <br />
               </label>
-            </Grid>
-          </Grid>
-
-          <Grid
-            container
-            spacing={1}
-            sx={{ justifyContent: "center", width: "100%" }}
-          >
-            <Grid item xs={7} md={8} lg={8}>
               <label>
-                Documento DPCP: {} <br />
+                Área Asignada: {direccion?.label} <br />
               </label>
             </Grid>
           </Grid>
@@ -679,17 +634,110 @@ const DetalleFgp = ({
               sx={{ justifyContent: "center", width: "100%" }}
             >
               <Slider open={openSlider}></Slider>
-              <BotonesOpciones
-                handleAccion={handleAcciones}
-                autorizar={autorizar}
-                cancelar={cancelar}
-                verTrazabilidad={verTrazabilidad}
-                enviar={enviar}
-                presupuesto={presupuesto}
-                estatus={status}
-                perfil={direccion}
-                area={area}
-              />
+
+              <Box>
+                <ToggleButtonGroup>
+                  <Tooltip title={"Regresar"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(1)}
+                    >
+                      <ArrowBackIcon />
+                    </ToggleButton>
+                  </Tooltip>
+
+                  {verTrazabilidad ? (
+                    <Tooltip title={"Ver Trazabilidad"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(5)}
+                      >
+                        <InsightsIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {autorizar && perfil?.value == "ANA" ? (
+                    <Tooltip title={"Autorizar Analista"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(2)}
+                      >
+                        <DoneAllIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {autorizar && perfil?.value == "COOR" ? (
+                    <Tooltip title={"Autorizar Coordinador"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(2)}
+                      >
+                        <DoneAllIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {autorizar && perfil?.value == "DIR" ? (
+                    <Tooltip title={"Autorizar Director"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(2)}
+                      >
+                        <DoneAllIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {cancelar && perfil?.value == "ANA" ? (
+                    <Tooltip title={"Cancelar"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(3)}
+                      >
+                        <CancelPresentationIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {cancelar && perfil?.value == "COOR" ? (
+                    <Tooltip title={"Regresar a Analista"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(7)}
+                      >
+                        <CompareArrowsIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {cancelar && perfil?.value == "DIR" ? (
+                    <Tooltip title={"Regresar a Coordinador"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(7)}
+                      >
+                        <CompareArrowsIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+                </ToggleButtonGroup>
+              </Box>
 
               <MUIXDataGrid columns={columns} rows={data} />
             </Grid>
