@@ -23,6 +23,7 @@ import { UserServices } from "../../../../../services/UserServices";
 import { getPermisos } from "../../../../../services/localStorage";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 import UsuariosMunicipios from "./UsuariosMunicipios";
+import UsuarioRoles from "./UsuarioRoles";
 
 
 const Usuarios = () => {
@@ -180,8 +181,9 @@ const Usuarios = () => {
     setDt(v);
     setOpenConfigDep(true);
   };
+  
   const handleRolConf = (v: any) => {
-    setId(v.row.id);
+    setDt(v.row);
     setOpenRolConf(true);
   };
 
@@ -202,21 +204,27 @@ const Usuarios = () => {
       renderCell: (v) => {
         return (
           <Box>
+            {/* <Tooltip title={"Configurar Roles"}>
+              <IconButton color="success" onClick={() => handleRolConf(v)}>
+                <AssignmentIndIcon />
+              </IconButton>
+            </Tooltip> */}
+
             <Tooltip title={"Configurar Roles"}>
               <IconButton color="success" onClick={() => handleRolConf(v)}>
                 <AssignmentIndIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> 
             <Tooltip title={"Configurar Perfil"}>
               <IconButton color="warning" onClick={() => handlePerfilConfiguracion(v)}>
                 <AdminPanelSettingsIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Configurar Departamento"}>
+            {/* <Tooltip title={"Configurar Departamento"}>
               <IconButton color="warning" onClick={() => handleDepartConfiguracion(v)}>
                 <AddToQueueIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
             <Tooltip title={"Relacionar Municipios"}>
               <IconButton color="info" onClick={() => handleMunicipios(v)}>
                 <Diversity3Icon />
@@ -242,7 +250,9 @@ const Usuarios = () => {
     { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
     { field: "CorreoElectronico",headerName: "Correo Electronico",     width: 250,   },
     { field: "Puesto",headerName: "Puesto",     width: 200,   },
+    { field: "idDepartamento",headerName: "idDepartamento",     width: 10,  hide: true,  },
     { field: "DepartamentoDescripcion",headerName: "Departamento",     width: 300,   },
+
    
     {
       field: "EstaActivo", headerName: "Activo", width: 100,
@@ -303,13 +313,16 @@ const Usuarios = () => {
     <div>
 
       {openRolConf ?
-        <RolesConfig
-          id={id}
+        <UsuarioRoles
           open={openRolConf}
-          handleClose={handleClose}></RolesConfig>
+          handleClose={handleClose}
+          dt={dt}
+          ></UsuarioRoles>
         :
         ""
       }
+
+
 
       {openNew ? (
         <UsuariosModal

@@ -324,6 +324,31 @@ const handleClick = () => {
       <Grid container spacing={1}>
         
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+        <Grid item xs={2}>
+         <Typography   sx={{ fontFamily: "MontserratMedium"}}>Procesos:</Typography>
+          <SelectFrag
+                  value={idEstatus}
+                  options={estatus}
+                  onInputChange={handleFilterChange1}
+                  placeholder={"Seleccione Estatus"}
+                  label={""}
+                  disabled={false}
+                />
+          </Grid>
+          
+         <Grid item xs={2}>
+         <Typography   sx={{ fontFamily: "MontserratMedium"}}>Procesos:</Typography>
+          <SelectFrag
+                  value={idEstatus}
+                  options={estatus}
+                  onInputChange={handleFilterChange1}
+                  placeholder={"Seleccione Estatus"}
+                  label={""}
+                  disabled={false}
+                />
+          </Grid>
+
+
           <Grid item  xs={2} sm={2} md={2} lg={2}>
           <Typography   sx={{ fontFamily: "MontserratMedium"}}>Estatus:</Typography>
           <SelectFrag
@@ -372,9 +397,7 @@ const handleClick = () => {
           </Grid>
         
         
-          <Grid item xs={2}>
-            3
-          </Grid>
+       
         </Grid>
 
 
