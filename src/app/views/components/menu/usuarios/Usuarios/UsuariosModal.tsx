@@ -55,10 +55,7 @@ const UsuariosModal = ({
             setDepartamentos(res.RESPONSE);
       });
     }
-
-
     const handleFilterChange = (v: string) => {
-      console.log(v)
       setIdDepartamento(v);
    };
 
@@ -184,7 +181,7 @@ const UsuariosModal = ({
   };
 
   useEffect(() => {
-    loadFilter();
+   
     let d = {  
     
     }
@@ -193,15 +190,13 @@ const UsuariosModal = ({
       resAppLogin.status==200?  
      setTokenValid(true)
      :
-     
-     
      setTokenValid(false);
     });
 
 
 
     console.log(dt);
-
+    setPuesto("");
     if (dt === "") {
       console.log(dt);
     } else {
@@ -212,7 +207,10 @@ const UsuariosModal = ({
       setNombreUsuario(dt?.row?.NombreUsuario);
       setCorreoElectronico(dt?.row?.CorreoElectronico);
       setPuesto(dt?.row?.Puesto);
+      setIdDepartamento(dt?.row?.idDepartamento);
     }
+
+    loadFilter();
   }, [dt]);
 
   return (

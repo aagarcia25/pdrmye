@@ -11,168 +11,199 @@ import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import { CuentaBancariaModal } from "./CuentaBancariaModal";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { IconButton } from "@mui/material";
 
 export const CuentaBancaria = () => {
-    const [modo, setModo] = useState("");
-    const [open, setOpen] = useState(false);
-    const [tipoOperacion, setTipoOperacion] = useState(0);
-    const [vrows, setVrows] = useState({});
-    const [cuentaBancaria, setCuentaBancaria] = useState([]);
-    const user: RESPONSE = JSON.parse(String(getUser()));
+  const [modo, setModo] = useState("");
+  const [open, setOpen] = useState(false);
+  const [tipoOperacion, setTipoOperacion] = useState(0);
+  const [vrows, setVrows] = useState({});
+  const [cuentaBancaria, setCuentaBancaria] = useState([]);
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
-    const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-    const [agregar, setAgregar] = useState<boolean>(false);
-    const [editar, setEditar] = useState<boolean>(false);
-    const [eliminar, setEliminar] = useState<boolean>(false);
-    
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [visualizar, setVisualizar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
 
-    console.log("cuentabancaria: ", cuentaBancaria);
+  console.log("cuentabancaria: ", cuentaBancaria);
 
-    const handleAccion = (v: any) => {
-        if (v.tipo == 1) {
-          console.log(v);
-          setTipoOperacion(2);
-          setModo("Editar Registro");
-          setOpen(true);
-          setVrows(v.data);
-        } else if (v.tipo == 2) {
-          Swal.fire({
-            icon: "info",
-            title: "Estas seguro de eliminar este registro?",
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: "Confirmar",
-            denyButtonText: `Cancelar`,
-          }).then((result) => {
-            if (result.isConfirmed) {
-              let data = {
-                NUMOPERACION: 3,
-                CHID: v.data.row.id,
-                CHUSER: user.id,
-              };
-              console.log(data);
-    
-              CatalogosServices.CuentaBancaria(data).then((res) => {
-                if (res.SUCCESS) {
-                  Toast.fire({
-                    icon: "success",
-                    title: "Registro Eliminado!",
-                  });
-    
-                  consulta({CHUSER: user.id, NUMOPERACION: 4 });
-                } else {
-                  Alert.fire({
-                    title: "Error!",
-                    text: res.STRMESSAGE,
-                    icon: "error",
-                  });
-                }
+  const handleAccion = (v: any) => {
+    if (v.tipo == 1) {
+      console.log(v);
+      setTipoOperacion(2);
+      setModo("Editar Registro");
+      setOpen(true);
+      setVrows(v.data);
+    } else if (v.tipo == 2) {
+      Swal.fire({
+        icon: "info",
+        title: "Estas seguro de eliminar este registro?",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let data = {
+            NUMOPERACION: 3,
+            CHID: v.data.row.id,
+            CHUSER: user.id,
+          };
+          console.log(data);
+
+          CatalogosServices.CuentaBancaria(data).then((res) => {
+            if (res.SUCCESS) {
+              Toast.fire({
+                icon: "success",
+                title: "Registro Eliminado!",
               });
-            } else if (result.isDenied) {
-              Swal.fire("No se realizaron cambios", "", "info");
+
+              consulta({ CHUSER: user.id, NUMOPERACION: 4 });
+            } else {
+              Alert.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
             }
           });
+        } else if (result.isDenied) {
+          Swal.fire("No se realizaron cambios", "", "info");
         }
-      };
+      });
+    }
+  };
 
-      const columns: GridColDef[] = [
-        {
-          field: "id",
-          headerName: "Identificador",
-          hide: true,
-          width: 150,
-        },
-        { field: "idusuario", headerName: "Identificador Usuario", width: 50 , hide: true},
-        { field: "NombreUsuario", headerName: "Nombre de la Cuenta", width: 250 },
-        { field: "NombreBanco", headerName: "Banco", width: 250 },
-        { field: "idbanco", headerName: "Identificador Banco", width: 50 , hide: true},
-        
-        { field: "NumeroCuenta", headerName: "Cuenta", width: 250 },
-        { field: "ClabeBancaria", headerName: "Clabe", width: 250 },
-        { field: "idestatus", headerName: "Identificador Estatus", width: 50 },
-        { field: "EstatusDescripcion", headerName: "Estatus", width: 250 },
-        {
-          field: "acciones",
-          headerName: "Acciones",
-          description: "Campo de Acciones",
-          sortable: false,
-          width: 200,
-          renderCell: (v) => {
-            return (
-              <BotonesAcciones
-                handleAccion={handleAccion}
-                row={v}
-                editar={editar}
-                eliminar={eliminar}
-              />
-            );
-          },
-        },
-      ];
+  const handleVisualizar = (v: any) => {
+    setTipoOperacion(2);
+    setModo("Cuenta Bancaria");
+    setOpen(true);
+    setVrows(v);
+  };
 
-      const handleClose = () => {
-        setOpen(false);
-        consulta({CHUSER: user.id, NUMOPERACION: 4 });
-      };
-    
-      const handleOpen = (v: any) => {
-        setTipoOperacion(1);
-        setModo("Agregar Registro");
-        setOpen(true);
-        setVrows("");
-      };
-    
-      const consulta = (data: any) => {
-        CatalogosServices.CuentaBancaria(data).then((res) => {
-          if (res.SUCCESS) {
-            Toast.fire({
-              icon: "success",
-              title: "Consulta Exitosa!",
-            });
-            console.log(res.RESPONSE);
-            setCuentaBancaria(res.RESPONSE);
-          } else {
-            Alert.fire({
-              title: "Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
-            });
-          }
+  const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "Identificador",
+      hide: true,
+      width: 150,
+    },
+    {
+      field: "idusuario",
+      headerName: "Identificador Usuario",
+      width: 50,
+      hide: true,
+    },
+    { field: "NombreCuenta", headerName: "Nombre de la Cuenta", width: 250 },
+    { field: "NombreBanco", headerName: "Banco", width: 150 },
+    {
+      field: "idbanco",
+      headerName: "Identificador Banco",
+      width: 50,
+      hide: true,
+    },
+
+    { field: "NumeroCuenta", headerName: "Cuenta", width: 250 },
+    { field: "ClabeBancaria", headerName: "Clabe", width: 250 },
+    {
+      field: "idestatus",
+      headerName: "Identificador Estatus",
+      width: 50,
+      hide: true,
+    },
+    { field: "EstatusDescripcion", headerName: "Estatus", width: 250 },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 200,
+      renderCell: (v) => {
+        return (
+          <>
+            <IconButton onClick={() => handleVisualizar(v)}>
+              <VisibilityIcon />
+            </IconButton>
+            <BotonesAcciones
+              handleAccion={handleAccion}
+              row={v}
+              editar={editar}
+              eliminar={eliminar}
+            />
+          </>
+        );
+      },
+    },
+  ];
+
+  const handleClose = () => {
+    setOpen(false);
+    consulta({ CHUSER: user.id, NUMOPERACION: 4 });
+  };
+
+  const handleOpen = (v: any) => {
+    setTipoOperacion(1);
+    setModo("Agregar Registro");
+    setOpen(true);
+    setVrows("");
+  };
+
+  const consulta = (data: any) => {
+    CatalogosServices.CuentaBancaria(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
         });
-      };
-
-      useEffect(() => {
-        permisos.map((item: PERMISO) => {
-          if (String(item.ControlInterno) === "CUENTABANCARIA") {
-            console.log(item);
-            if (String(item.Referencia) == "AGREG") {
-              setAgregar(true);
-            }
-            if (String(item.Referencia) == "ELIM") {
-              setEliminar(true);
-            }
-            if (String(item.Referencia) == "EDIT") {
-              setEditar(true);
-            }
-          }
+        console.log(res.RESPONSE);
+        setCuentaBancaria(res.RESPONSE);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
         });
-        consulta({CHUSER: user.id, NUMOPERACION: 4 });
-      }, []);
+      }
+    });
+  };
 
-      return (
-        <div style={{ height: 600, width: "100%" }}>
-          {open ? (
-             <CuentaBancariaModal
-             open={open}
-             tipo={tipoOperacion}
-             handleClose={handleClose}
-             dt={vrows}
-           />
-          ) : ""}
-    
-          <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-          <MUIXDataGrid columns={columns} rows={cuentaBancaria} />
-        </div>
-      );
-}
+  useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "CUENTABANCARIA") {
+        console.log(item);
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "VIS") {
+          setVisualizar(true);
+        }
+      }
+    });
+    consulta({ CHUSER: user.id, NUMOPERACION: 4 });
+  }, []);
+
+  return (
+    <div style={{ height: 600, width: "100%" }}>
+      {open ? (
+        <CuentaBancariaModal
+          modo={modo}
+          open={open}
+          tipo={tipoOperacion}
+          handleClose={handleClose}
+          dt={vrows}
+        />
+      ) : (
+        ""
+      )}
+
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+      <MUIXDataGrid columns={columns} rows={cuentaBancaria} />
+    </div>
+  );
+};
