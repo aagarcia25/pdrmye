@@ -3,7 +3,6 @@ import {
   Box,
   Dialog,
   Grid,
-  Link,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
@@ -17,7 +16,6 @@ import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
 import Slider from "../../Slider";
 import { getPermisos, getUser } from "../../../../services/localStorage";
 import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
-import BotonesOpciones from "../../componentes/BotonesOpciones";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import Trazabilidad from "../../Trazabilidad";
 import Swal from "sweetalert2";
@@ -56,6 +54,7 @@ const DetalleFgp = ({
   const [perfil, setPerfil] = useState<SelectValues>();
   const [direccion, setDireccion] = useState<SelectValues>();
   const [openSlider, setOpenSlider] = useState(true);
+  const [estatusDestino, setEstatusDestino] = useState("");
   //Permisos
   const [data, setData] = useState([]);
   const [vrows, setvrows] = useState({});
@@ -100,39 +99,47 @@ const DetalleFgp = ({
           handleClose();
           break;
 
-        case 2: //Autorizar
-          setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          UpdateCalculo("AUTORIZADO", false, {});
-          break;
-
-        case 3: //Cancelar
-          BorraCalculo();
-          break;
-
-        case 4: //Enviar
-          setTipoAccion("Favor de ingresar un comentario para el Envio");
-          UpdateCalculo("ENVIADO", false, {});
-          break;
-
-        case 5: //Ver Trazabilidad
+        case 2: //Trazabilidad
           setOpenTrazabilidad(true);
           break;
 
-        case 6: //Asignar Presupuesto
-          setTipoAccion(
-            "Favor de ingresar un comentario para la asignación del Presupuesto de Forma global"
-          );
-          UpdateCalculo("INICIO", true, {});
+        case 3: //Autorizar Analista
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_ENV_COOR');
+          setvrows(data);
+          setOpenModal(true);
           break;
 
-        case 7: //Asignar Presupuesto
-          setTipoAccion("Favor de ingresar un comentario para el Envio");
-          UpdateCalculo("INICIO", true, {});
+        case 4: //Autorizar Coordinador
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_ENV_DIR');
+          setvrows(data);
+          setOpenModal(true);
           break;
 
-        case 8: //REGRESAR AL COORDINADOR
-          setTipoAccion("Favor de ingresar un comentario para el Envio");
-          UpdateCalculo("ENVIADO", false, {});
+        case 5: //Autorizar Director
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_AUT_DIR');
+          setvrows(data);
+          setOpenModal(true);
+          break;
+
+        case 6: //Cancelar
+          BorraCalculo()
+          break;
+
+        case 7: //Regresar a Analista
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_REG_ANA');
+          setvrows(data);
+          setOpenModal(true);
+          break;
+
+        case 8: //Regresar a Coordinador
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_REG_COOR');
+          setvrows(data);
+          setOpenModal(true);
           break;
 
         default:
@@ -141,15 +148,9 @@ const DetalleFgp = ({
     }
   };
 
-  const UpdateCalculo = (estatus: string, file: boolean, data: any) => {
-    setvrows(data);
+ 
 
-    setOpenModal(true);
-  };
 
-  const FnworkflowClose = () => {
-    setOpenModal(false);
-  };
 
   const Fnworkflow = (data: any) => {
     console.log(data);
@@ -179,6 +180,7 @@ const DetalleFgp = ({
       }
     });
   };
+
   const BorraCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -217,7 +219,6 @@ const DetalleFgp = ({
       }
     });
   };
-
   const EstatusCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -250,7 +251,6 @@ const DetalleFgp = ({
       }
     });
   };
-
   const getAreaCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -267,7 +267,6 @@ const DetalleFgp = ({
       }
     });
   };
-
   const columnas = (data: any) => {
     calculosServices.getColumns(data).then((res) => {
       if (res.SUCCESS) {
@@ -323,7 +322,6 @@ const DetalleFgp = ({
       }
     });
   };
-
   const consulta = (data: any) => {
     calculosServices.calculosInfodetalle(data).then((res) => {
       if (res.SUCCESS) {
@@ -342,7 +340,6 @@ const DetalleFgp = ({
       setOpenSlider(false);
     });
   };
-
   const columns = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
     {
@@ -500,7 +497,6 @@ const DetalleFgp = ({
       ...Moneda,
     },
   ];
-
   const EstablecePermisos = () => {
     if (clave === "ICV" || clave === "ISN") {
       setProceso("PARTICIPACIONES_ESTATALES_CPH");
@@ -543,11 +539,12 @@ const DetalleFgp = ({
     <div>
       <Box>
         <Dialog open={Boolean(openDetalles)} fullScreen={true}>
-          {openModal ? (
+         
+         {openModal ? (
             <ModalAlert
               open={openModal}
               tipo={tipoAccion}
-              handleClose={FnworkflowClose}
+              handleClose={handleClose}
               vrows={vrows}
               handleAccion={Fnworkflow}
             ></ModalAlert>
@@ -650,7 +647,7 @@ const DetalleFgp = ({
                     <Tooltip title={"Ver Trazabilidad"}>
                       <ToggleButton
                         value="check"
-                        onClick={() => handleAcciones(5)}
+                        onClick={() => handleAcciones(2)}
                       >
                         <InsightsIcon />
                       </ToggleButton>
@@ -663,7 +660,7 @@ const DetalleFgp = ({
                     <Tooltip title={"Autorizar Analista"}>
                       <ToggleButton
                         value="check"
-                        onClick={() => handleAcciones(2)}
+                        onClick={() => handleAcciones(3)}
                       >
                         <DoneAllIcon />
                       </ToggleButton>
@@ -676,7 +673,7 @@ const DetalleFgp = ({
                     <Tooltip title={"Autorizar Coordinador"}>
                       <ToggleButton
                         value="check"
-                        onClick={() => handleAcciones(2)}
+                        onClick={() => handleAcciones(4)}
                       >
                         <DoneAllIcon />
                       </ToggleButton>
@@ -689,7 +686,7 @@ const DetalleFgp = ({
                     <Tooltip title={"Autorizar Director"}>
                       <ToggleButton
                         value="check"
-                        onClick={() => handleAcciones(2)}
+                        onClick={() => handleAcciones(5)}
                       >
                         <DoneAllIcon />
                       </ToggleButton>
@@ -702,7 +699,7 @@ const DetalleFgp = ({
                     <Tooltip title={"Cancelar"}>
                       <ToggleButton
                         value="check"
-                        onClick={() => handleAcciones(3)}
+                        onClick={() => handleAcciones(6)}
                       >
                         <CancelPresentationIcon />
                       </ToggleButton>
@@ -728,7 +725,7 @@ const DetalleFgp = ({
                     <Tooltip title={"Regresar a Coordinador"}>
                       <ToggleButton
                         value="check"
-                        onClick={() => handleAcciones(7)}
+                        onClick={() => handleAcciones(8)}
                       >
                         <CompareArrowsIcon />
                       </ToggleButton>
