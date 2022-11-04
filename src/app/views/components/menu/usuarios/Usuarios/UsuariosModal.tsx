@@ -31,10 +31,14 @@ const UsuariosModal = ({
 
 
 
-  const [idNuevoUsuario, setIdNuevoUsuario] = useState<string>();
   const [id, setId] = useState<string>();
+
   const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
   const [idDepartamento, setIdDepartamento] = useState<string>("");
+  const [perfiles, setPerfiles] = useState<SelectValues[]>([]);
+  const [idPerfil, setIdPerfil] = useState<string>("");
+
+
   const [Nombre, setNombre] = useState<string>();
   const [ApellidoPaterno, setApellidoPaterno] = useState<string>();
   const [ApellidoMaterno, setApellidoMaterno] = useState<string>();
@@ -49,15 +53,25 @@ const UsuariosModal = ({
   const [emailError, setEmailError] = useState('')
 
 
-  const loadFilter = () => {
-    let data = { NUMOPERACION: 7 };
+  const loadFilter = ( tipo:number) => {
+    let data = { NUMOPERACION: tipo };
       CatalogosServices.SelectIndex(data).then((res) => {
-            setDepartamentos(res.RESPONSE);
+        if(tipo == 7){
+          setDepartamentos(res.RESPONSE);
+        }else if(tipo == 9 ){
+          setPerfiles(res.RESPONSE);
+        }
+           
       });
     }
     const handleFilterChange = (v: string) => {
       setIdDepartamento(v);
    };
+
+   const handleFilterChangePerfil = (v: string) => {
+    setIdPerfil(v);
+ };
+   
 
   const validateEmail = (e: any) => {
     var email = e.target.value
@@ -200,17 +214,19 @@ const UsuariosModal = ({
     if (dt === "") {
       console.log(dt);
     } else {
-      setId(dt?.row?.id);
-      setNombre(dt?.row?.Nombre);
-      setApellidoPaterno(dt?.row?.ApellidoPaterno);
-      setApellidoMaterno(dt?.row?.ApellidoMaterno);
-      setNombreUsuario(dt?.row?.NombreUsuario);
-      setCorreoElectronico(dt?.row?.CorreoElectronico);
-      setPuesto(dt?.row?.Puesto);
-      setIdDepartamento(dt?.row?.idDepartamento);
+      setId(dt?.id);
+      setNombre(dt?.Nombre);
+      setApellidoPaterno(dt?.ApellidoPaterno);
+      setApellidoMaterno(dt?.ApellidoMaterno);
+      setNombreUsuario(dt?.NombreUsuario);
+      setCorreoElectronico(dt?.CorreoElectronico);
+      setPuesto(dt?.Puesto);
+      setIdDepartamento(dt?.idDepartamento);
+      setIdPerfil(dt?.idperfil);
     }
 
-    loadFilter();
+    loadFilter(7);
+    loadFilter(9);
   }, [dt]);
 
   return (
@@ -311,6 +327,16 @@ const UsuariosModal = ({
                   label={""}
                   disabled={false}
                 />
+
+           <label>Perfil:</label>
+           <SelectFrag
+                  value={idPerfil}
+                  options={perfiles}
+                  onInputChange={handleFilterChangePerfil}
+                  placeholder={"Seleccione Perfil"}
+                  label={""}
+                  disabled={false}
+                />     
           </Box>
         </DialogContent>
 

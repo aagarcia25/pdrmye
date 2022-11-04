@@ -6,17 +6,12 @@ import { GridColDef } from "@mui/x-data-grid";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import { messages } from "../../../../styles";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import UsuariosModal from "./UsuariosModal";
-import PerfilesConfiguracion from "./PerfilesConfiguracion";
-import AddToQueueIcon from '@mui/icons-material/AddToQueue';
-import DepartamentoConfig from "./DepartamentoConfig";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import RolesConfig from "./RolesConfig";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { UserServices } from "../../../../../services/UserServices";
@@ -29,19 +24,13 @@ import UsuarioRoles from "./UsuarioRoles";
 const Usuarios = () => {
   const [data, setData] = useState([]);
   const [openRolConf, setOpenRolConf] = useState(false);
-  const [openConfigPerfil, setOpenConfigPerfil] = useState(false);
-  const [openConfigDep, setOpenConfigDep] = useState(false);
   const [openConfigMun, setOpenConfigMun] = useState(false);
-
-
-
   const [openNew, setOpenNew] = useState(false);
   const [userActive, setUserActive] = useState<boolean>();
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [row, setRow] = useState({});
   const [id, setId] = useState("");
   const [dt, setDt] = useState([]);
-
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -49,17 +38,10 @@ const Usuarios = () => {
 ///////////////////////////////////////////
 
 
-
-
-
-
-
-
   const handleMunicipios = (v: any) => {
     setRow(v);
     setOpenConfigMun(true);
   };
-
 
 
   const handleOpen = () => {
@@ -69,6 +51,7 @@ const Usuarios = () => {
   };
 
   const handleEdit = (v: any) => {
+    console.log(v);
     setTipoOperacion(5);
     setRow(v);
     setOpenNew(true);
@@ -168,19 +151,10 @@ const Usuarios = () => {
   const handleClose = (v:string) => {
     setOpenConfigMun(false);
     setOpenNew(false);
-    setOpenConfigPerfil(false);
-    setOpenConfigDep(false);
     setOpenRolConf(false);
     consulta({ NUMOPERACION: 4 }, "Consulta Exitosa");
   };
-  const handlePerfilConfiguracion = (v: any) => {
-    setDt(v);
-    setOpenConfigPerfil(true);
-  };
-  const handleDepartConfiguracion = (v: any) => {
-    setDt(v);
-    setOpenConfigDep(true);
-  };
+  
   
   const handleRolConf = (v: any) => {
     setDt(v.row);
@@ -204,27 +178,11 @@ const Usuarios = () => {
       renderCell: (v) => {
         return (
           <Box>
-            {/* <Tooltip title={"Configurar Roles"}>
-              <IconButton color="success" onClick={() => handleRolConf(v)}>
-                <AssignmentIndIcon />
-              </IconButton>
-            </Tooltip> */}
-
             <Tooltip title={"Configurar Roles"}>
               <IconButton color="success" onClick={() => handleRolConf(v)}>
                 <AssignmentIndIcon />
               </IconButton>
             </Tooltip> 
-            <Tooltip title={"Configurar Perfil"}>
-              <IconButton color="warning" onClick={() => handlePerfilConfiguracion(v)}>
-                <AdminPanelSettingsIcon />
-              </IconButton>
-            </Tooltip>
-            {/* <Tooltip title={"Configurar Departamento"}>
-              <IconButton color="warning" onClick={() => handleDepartConfiguracion(v)}>
-                <AddToQueueIcon />
-              </IconButton>
-            </Tooltip> */}
             <Tooltip title={"Relacionar Municipios"}>
               <IconButton color="info" onClick={() => handleMunicipios(v)}>
                 <Diversity3Icon />
@@ -252,7 +210,8 @@ const Usuarios = () => {
     { field: "Puesto",headerName: "Puesto",     width: 200,   },
     { field: "idDepartamento",headerName: "idDepartamento",     width: 10,  hide: true,  },
     { field: "DepartamentoDescripcion",headerName: "Departamento",     width: 300,   },
-
+    { field: "idperfil",headerName: "idperfil",     width: 10,  hide: true,  },
+    { field: "PerfilDescripcion",headerName: "Perfil",     width: 300,   },
    
     {
       field: "EstaActivo", headerName: "Activo", width: 100,
@@ -334,29 +293,7 @@ const Usuarios = () => {
       ) : (
         ""
       )}
-      {openConfigPerfil ? (
-        <PerfilesConfiguracion
-          open={openConfigPerfil}
-          modo={""}
-          tipo={0}
-          handleClose={handleClose}
-          dt={dt}
-        ></PerfilesConfiguracion>
-      ) : (
-        ""
-      )}
-      {openConfigDep ? (
-        <DepartamentoConfig
-          open={openConfigDep}
-          modo={""}
-          tipo={0}
-          handleClose={handleClose}
-          dt={dt}
-        ></DepartamentoConfig>
-      ) : (
-        ""
-      )}
-
+     
 
 {openConfigMun ? (
         <UsuariosMunicipios
