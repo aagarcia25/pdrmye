@@ -142,7 +142,7 @@ const UsuariosModal = ({
 
           Toast.fire({
             icon: "success",
-            title: tipo == 3 ? "¡Registro exitoso!" : ""
+            title: "¡Registro exitoso!" 
           });
           handleClose("Registro Exitoso");
 
