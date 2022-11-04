@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Box, Dialog, Grid, IconButton, Tooltip } from "@mui/material";
+import { Box, Dialog, Grid, IconButton, ToggleButton, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { PERMISO } from "../../../../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../../services/catalogosServices";
-import { getPermisos } from "../../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../../services/localStorage";
 import MUIXDataGrid from "../../../../MUIXDataGrid";
 import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -11,7 +11,12 @@ import InsightsIcon from "@mui/icons-material/Insights";
 import Slider from "../../../../Slider";
 import { Titulo } from "../../Utilerias/AgregarCalculoUtil/Titulo";
 import BotonesOpciones from "../../../../componentes/BotonesOpciones";
-
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import Swal from "sweetalert2";
+import { Toast } from "../../../../../../helpers/Toast";
+import { Alert } from "../../../../../../helpers/Alert";
+import { userInfo } from "os";
+import BotonesAPD from "../../../../componentes/BotonesAPD";
 
 export const DetalleAnticipoParticipaciones = (
     {
@@ -29,12 +34,10 @@ export const DetalleAnticipoParticipaciones = (
         }
 ) => {
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-    const [editar, setEditar] = useState<boolean>(false);
     const [eliminar, setEliminar] = useState<boolean>(false);
-    const [agregar, setAgregar] = useState<boolean>(false);
-    const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
     const [detalle, setDetalle] = useState([]);
     const [openSlider, setOpenSlider] = useState(true);
+    const user: RESPONSE = JSON.parse(String(getUser()));
 
 
     const columns: GridColDef[] = [
@@ -60,37 +63,73 @@ export const DetalleAnticipoParticipaciones = (
             },
         },
     ];
-    const getDetalles = (d:any) => {
+    const handleAccion = (v : number) => {
+        if (v==1){
+handleClose()
+        }else 
+        if (v==2){
+
+            Eliminar();
+        }
+    };
+    const getDetalles = (d: any) => {
         CatalogosServices.getdetalle(d).then((res) => {
             setDetalle(res.RESPONSE);
             console.log(res.RESPONSE)
             setOpenSlider(false);
         });
     };
+    const Eliminar = () => {
+        console.log(data)
+        let d = {
+            MES: data.Mes,
+            ANIO: data.Anio,
+            PRINCIPAL: data.id,
+            CHUSER: user.id,
+            TIPO: 2
 
-    useEffect(() => {  
-       
-        permisos.map((item: PERMISO) => {
-            if (String(item.ControlInterno) === "MUNAPC") {
-                console.log(item)
-                if (String(item.Referencia) == "AGREG") {
-                    setAgregar(true);
-                }
-                if (String(item.Referencia) == "ELIM") {
-                    setEliminar(true);
-                }
-                if (String(item.Referencia) == "EDIT") {
-                    setEditar(true);
-                }
-                if (String(item.Referencia) == "TRAZA") {
-                    setVerTrazabilidad(true);
-                }
+        };
+        Swal.fire({
+            icon: "warning",
+            title: "Borrar Detalle De Anticipo De Partcipacion",
+            text: "¿Desea Autoriza?",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Aceptar",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                CatalogosServices.clonarInformacionAP(d).then((res) => {
+                    if (res.SUCCESS) {
+                        Toast.fire({
+                            icon: "success",
+                            title: "Borrado Exitoso!",
+                        });
+                        handleClose()
+                        // CatalogosServices.indexAPC(data).then((res) => {
+                        //     console.log(res.RESPONSE)
 
+                        // });
+                    } else {
+                        Alert.fire({
+                            title: "Error!",
+                            text: "Validar informacion",
+                            icon: "error",
+                        });
+                    }
+                });
             }
         });
+
+    };
+
+    useEffect(() => {
+if (data.Activo==1){
+    setEliminar(true);
+}
         getDetalles({ IDPRINCIPAL: idPrincipal })
     }, [idPrincipal]);
-    
+
     return (
         <div style={{ height: 600, width: "80%" }}>
             <Box>
@@ -103,7 +142,7 @@ export const DetalleAnticipoParticipaciones = (
                     <Grid container spacing={2} sx={{ justifyContent: "center", }} >
                         <Grid item xs={12}>
                             <Box sx={{ display: "flex", justifyContent: "center", bgcolor: "rgb(245,245,245)" }}>
-                                <Titulo name={"Detalle de Participaciones"} />
+                                <Titulo name={"Detalle de Anticipo De Participaciones"} />
                             </Box>
                         </Grid>
                     </Grid>
@@ -113,7 +152,7 @@ export const DetalleAnticipoParticipaciones = (
 
                         <Grid item xs={1} sx={{ alignItems: "center", }} >
 
-                            {/* <label className="subtitulo">{anio}<br /><br /><br /></label> */}
+                            <label className="subtitulo">{data.Anio}<br /><br /><br /></label>
                         </Grid>
                     </Grid>
                     <Grid
@@ -121,32 +160,23 @@ export const DetalleAnticipoParticipaciones = (
                         sx={{ justifyContent: "center", width: "100%" }} >
 
                         <Grid item xs={1} >
-
-                            {/* <label className="subtitulo">{mes} <br /><br /><br /></label> */}
+                            <label className="subtitulo">{data.mesdescripcion} <br /><br /><br /></label>
                         </Grid>
                     </Grid>
-                    <Grid
-                        container spacing={1}
+                    <Grid container
                         sx={{ justifyContent: "center", width: '100%' }} >
 
-                        <Grid item xs={7} md={8} lg={8} sx={{ justifyContent: "center", width: '100%' }}>
-                            <BotonesOpciones
-                                handleAccion={handleClose}
-                                autorizar={false}
-                                cancelar={false}
-                                verTrazabilidad={verTrazabilidad}
-                                enviar={false}
-                                presupuesto={true}
-                                estatus={""}
-                                perfil={""}
-                                area={""}
-                            />
+                        <Grid container>
+                            <Grid item xs={1} md={1} lg={1}>
+                               <BotonesAPD handleAccion={handleAccion} eliminar={eliminar}/>
 
-                            <MUIXDataGrid columns={columns} rows={detalle} />
+                            </Grid>
+
+                          
 
                         </Grid>
+                        <MUIXDataGrid columns={columns} rows={detalle} />
                     </Grid>
-
                 </Dialog>
             </Box>
         </div>

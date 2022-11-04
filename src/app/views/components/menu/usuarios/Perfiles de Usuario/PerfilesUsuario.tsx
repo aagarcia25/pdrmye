@@ -5,18 +5,26 @@ import { messages } from "../../../../styles";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Swal from "sweetalert2";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getUser } from "../../../../../services/localStorage";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import { AuthService } from "../../../../../services/AuthService";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PerfilesUsuarioModal } from "./PerfilesUsuarioModal";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 
 
 export const PerfilesUsuario = () => {
+
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+
     const [perfilUsuario, setPerfilUsuario] = useState([]);
     const [modo, setModo] = useState("");
     const [open, setOpen] = useState(false);
@@ -49,14 +57,12 @@ export const PerfilesUsuario = () => {
           width: 150,
           renderCell: (v) => {
             return (
-              <Box>
-                <IconButton onClick={() => handleEdit(v)}>
-                  <ModeEditOutlineIcon />
-                </IconButton>
-                <IconButton onClick={() => handleDelete(v)}>
-                  <DeleteForeverIcon />
-                </IconButton>
-              </Box>
+              <BotonesAcciones 
+                 handleAccion={handleAccion}
+                 row={v}
+                 editar={editar}
+                 eliminar={eliminar} 
+              />
             );
           },
         },
@@ -67,6 +73,64 @@ export const PerfilesUsuario = () => {
         consulta({ NUMOPERACION: 4 });
       };
     
+
+
+
+      const handleAccion=(v: any)=>{
+        if(v.tipo ==1){
+          console.log(v)
+          setTipoOperacion(2);
+          setModo("Editar Registro");
+          setOpen(true);
+          setVrows(v.data);
+        }else if(v.tipo ==2){
+         
+          Swal.fire({
+            icon: "info",
+            title: "Estas seguro de eliminar este registro?",
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              console.log(v);
+              const user: RESPONSE = JSON.parse(String(getUser()));
+      
+              let data = {
+                NUMOPERACION: 3,
+                CHID: v.row.id,
+                CHUSER: user.id,
+              };
+              console.log(data);
+      
+              AuthService.perfilindex(data).then((res) => {
+                if (res.SUCCESS) {
+                  Toast.fire({
+                    icon: "success",
+                    title: "Registro Eliminado!",
+                  });
+      
+                  let data = {
+                    NUMOPERACION: 4,
+                  };
+                  consulta(data);
+                } else {
+                  Alert.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            } else if (result.isDenied) {
+              Swal.fire("No se realizaron cambios", "", "info");
+            }
+          });
+
+        }
+      }
+
       const handleOpen = (v: any) => {
         setTipoOperacion(1);
         setModo("Agregar Registro");
@@ -74,58 +138,8 @@ export const PerfilesUsuario = () => {
         setVrows("");
       };
     
-      const handleEdit = (v: any) => {
-        console.log(v);
-        setTipoOperacion(2);
-        setModo("Editar Registro");
-        setOpen(true);
-        setVrows(v);
-      };
-
-      const handleDelete = (v: any) => {
-        Swal.fire({
-          icon: "info",
-          title: "Estas seguro de eliminar este registro?",
-          showDenyButton: true,
-          showCancelButton: false,
-          confirmButtonText: "Confirmar",
-          denyButtonText: `Cancelar`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            console.log(v);
-            const user: RESPONSE = JSON.parse(String(getUser()));
     
-            let data = {
-              NUMOPERACION: 3,
-              CHID: v.row.id,
-              CHUSER: user.id,
-            };
-            console.log(data);
-    
-            AuthService.perfilindex(data).then((res) => {
-              if (res.SUCCESS) {
-                Toast.fire({
-                  icon: "success",
-                  title: "Registro Eliminado!",
-                });
-    
-                let data = {
-                  NUMOPERACION: 4,
-                };
-                consulta(data);
-              } else {
-                Alert.fire({
-                  title: "Error!",
-                  text: res.STRMESSAGE,
-                  icon: "error",
-                });
-              }
-            });
-          } else if (result.isDenied) {
-            Swal.fire("No se realizaron cambios", "", "info");
-          }
-        });
-      };
+      
     
       const consulta = (data: any) => {
         AuthService.perfilindex(data).then((res) => {
@@ -148,6 +162,19 @@ export const PerfilesUsuario = () => {
       };
     
       useEffect(() => {
+        permisos.map((item: PERMISO) => {
+          if (String(item.ControlInterno) === "PU") {
+            if (String(item.Referencia) == "AGREG") {
+              setAgregar(true);
+            }
+            if (String(item.Referencia) == "ELIM") {
+              setEliminar(true);
+            }
+            if (String(item.Referencia) == "EDIT") {
+              setEditar(true);
+            }
+          }
+        });
         consulta({ NUMOPERACION: 4 });
       }, []);
 
@@ -164,7 +191,7 @@ export const PerfilesUsuario = () => {
           ) : (
             ""
           )}
-          <ButtonsAdd handleOpen={handleOpen} agregar={false} />
+          <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
           <MUIXDataGrid columns={columns} rows={perfilUsuario} />
         </div>
       );

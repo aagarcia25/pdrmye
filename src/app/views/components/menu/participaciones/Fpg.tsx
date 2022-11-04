@@ -209,7 +209,7 @@ export const Fpg = () => {
   let params = useParams();
 
   useEffect(() => {
-   
+    console.log(params.fondo)
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(params.fondo)) {
         if (String(item.Referencia) == "AGREG") {
@@ -221,10 +221,6 @@ export const Fpg = () => {
         if (String(item.Referencia) == "AAJUSTE") {
           setAgregarAjuste(true);
         }
-      }else{
-        setAgregar(false);
-        setVerTrazabilidad(false);
-        setAgregarAjuste(false);
       }
     });
 

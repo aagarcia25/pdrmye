@@ -105,18 +105,11 @@ const Menus = () => {
       width: 150,
     },
     {
-      field: "Menu",
-      headerName: "Menu",
-      width: 150,
-    },
-    { field: "Descripcion", headerName: "Descripcion", width: 400 },
-
-    {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 150,
       renderCell: (v) => {
         return (
           <BotonesAcciones
@@ -127,6 +120,18 @@ const Menus = () => {
         );
       },
     },
+    {
+      field: "Menu",
+      headerName: "Menu",
+      width: 400,
+    },
+    { field: "Descripcion", headerName: "Descripcion", width: 400 },
+    { field: "menupadre", headerName: "Menú Padre", width: 400 },
+    { field: "Path", headerName: "Path", width: 200 },
+    { field: "ControlInterno", headerName: "ControlInterno", width: 200 },
+    { field: "Nivel", headerName: "Nivel", width: 100 },
+    { field: "Orden", headerName: "Orden", width: 100 },
+   
   ];
 
   const consulta = (data: any) => {

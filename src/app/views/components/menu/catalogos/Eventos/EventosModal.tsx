@@ -111,9 +111,6 @@ const EventosModal = ({
     formData.append("FECHAFIN", finEvento);
     formData.append("CHUSER", "1");
 
-
-
-
     CatalogosServices.eventos(formData).then((res) => {
       setslideropen(false);
       if (res.SUCCESS) {

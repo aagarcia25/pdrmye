@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { Box, Dialog, Grid, IconButton, Tooltip } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  Grid,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+} from "@mui/material";
 import { Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
 import { Alert } from "../../../../helpers/Alert";
@@ -9,13 +16,17 @@ import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
 import Slider from "../../Slider";
 import { getPermisos, getUser } from "../../../../services/localStorage";
 import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
-import BotonesOpciones from "../../componentes/BotonesOpciones";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import Trazabilidad from "../../Trazabilidad";
 import Swal from "sweetalert2";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ModalAlert from "../../componentes/ModalAlert";
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import BotonesAcciones from "../../componentes/BotonesAcciones";
+import SelectValues from "../../../../interfaces/Select/SelectValues";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import InsightsIcon from "@mui/icons-material/Insights";
+import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 
 const DetalleFgp = ({
   idCalculo,
@@ -36,30 +47,31 @@ const DetalleFgp = ({
   anio: number;
   mes: string;
 }) => {
-
-  const [openSlider, setOpenSlider] = useState(true);
+  // Dire
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos())); 
-  const [status, setStatus] = useState<string>("");
-  const [statusDestino, setStatusDestino] = useState<string>("");
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [status, setStatus] = useState<SelectValues>();
+  const [perfil, setPerfil] = useState<SelectValues>();
+  const [direccion, setDireccion] = useState<SelectValues>();
+  const [openSlider, setOpenSlider] = useState(true);
+  const [estatusDestino, setEstatusDestino] = useState("");
+  //Permisos
   const [data, setData] = useState([]);
+  const [vrows, setvrows] = useState({});
   const [autorizar, setAutorizar] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-  const [enviar, setEnviar] = useState<boolean>(false);
-  const [presupuesto, setPresupuesto] = useState<boolean>(false);
+
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  //Modals
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
+
   const [proceso, setProceso] = useState(""); //VARIABLE PARA DETERMINAR EL PROCESO QUE SE ESTA REALIZANDO
   const [tipoAccion, setTipoAccion] = useState("");
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [direccion, setDireccion] = useState("")
-  const [area, setArea] = useState("")
-  const [file, setFile] = useState(false);
-  const [vrows, setvrows] = useState({});
-  const [editDoc, setEditDoc] = useState<boolean>(false);
 
-
-
+  //Columnas
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
   const [ta, setTa] = useState(false);
@@ -78,86 +90,78 @@ const DetalleFgp = ({
 
   // MANEJO DE ACCIONES
   const handleAcciones = (v: any) => {
-    switch (v) {
-      case 1: //Regresar
-        handleClose();
-        break;
+    if (v.tipo == 1) {
+      console.log(v);
+    } else if (v.tipo == 2) {
+    } else {
+      switch (v) {
+        case 1: //Regresar
+          handleClose();
+          break;
 
-      case 2: //Autorizar
-        setTipoAccion("Favor de ingresar un comentario para la Autorización");
-        UpdateCalculo("AUTORIZADO",false,{});
-        break;
+        case 2: //Trazabilidad
+          setOpenTrazabilidad(true);
+          break;
 
-      case 3: //Cancelar
-        BorraCalculo();
-        break;
+        case 3: //Autorizar Analista
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_ENV_COOR');
+          setvrows(data);
+          setOpenModal(true);
+          break;
 
-      case 4: //Enviar
-        setTipoAccion("Favor de ingresar un comentario para el Envio");
-        UpdateCalculo("ENVIADO",false,{});
-        break;
+        case 4: //Autorizar Coordinador
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_ENV_DIR');
+          setvrows(data);
+          setOpenModal(true);
+          break;
 
-      case 5: //Ver Trazabilidad
-        setOpenTrazabilidad(true);
-        break;
+        case 5: //Autorizar Director
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_AUT_DIR');
+          setvrows(data);
+          setOpenModal(true);
+          break;
 
-      case 6: //Asignar Presupuesto
-        setTipoAccion(
-          "Favor de ingresar un comentario para la asignación del Presupuesto de Forma global"
-        );
-        UpdateCalculo("INICIO",true,{});
-        break;
+        case 6: //Cancelar
+          BorraCalculo()
+          break;
 
-      case 7: //Asignar Presupuesto
-      setTipoAccion("Favor de ingresar un comentario para el Envio");
-      UpdateCalculo("INICIO",true,{});
-      break;
+        case 7: //Regresar a Analista
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_REG_ANA');
+          setvrows(data);
+          setOpenModal(true);
+          break;
 
-      case 8: //REGRESAR AL COORDINADOR
-      setTipoAccion("Favor de ingresar un comentario para el Envio");
-      UpdateCalculo("ENVIADO",false,{});
-      break;
+        case 8: //Regresar a Coordinador
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_REG_COOR');
+          setvrows(data);
+          setOpenModal(true);
+          break;
 
-      default:
-        break;
+        default:
+          break;
+      }
     }
   };
 
-  const agregarPresupuesto = (data: any) => {
-    setTipoAccion("Favor de ingresar un comentario para la asignación del Presupuesto de Forma Singular");
-    UpdateCalculo("ENVIADO",true,data);
-     
-  };
+ 
 
-  const UpdateCalculo = (estatus: string , file:boolean , data: any) => {
-    setvrows(data)
-    setFile(file);
-    setStatusDestino(estatus);
-    setOpenModal(true);
-  };
 
-  const FnworkflowClose = () => {
-    setOpenModal(false);
-  };
 
   const Fnworkflow = (data: any) => {
     console.log(data);
 
-   if(file){
-    grabacomentariopresupuesto(data);
-   }else{
-
     let obj = {
-      IDCALCULO: idCalculo,
-      ESTATUS_DESTINO: statusDestino,
-      ESTATUS_ORIGEN: status,
-      IDUSUARIO: user.id,
-      PROCESO: proceso,
+      CHID: idCalculo,
+      ESTATUS_DESTINO: estatusDestino,
+      CHUSER: user.id,
       TEXTO: data.texto,
     };
 
-
-  
     calculosServices.wf(obj).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -173,16 +177,8 @@ const DetalleFgp = ({
         });
       }
     });
-
-
-
-   } 
-
-
-   
-
-
   };
+
   const BorraCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -207,7 +203,7 @@ const DetalleFgp = ({
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Consulta Exitosa!",
+              title: "Borrado Exitoso!",
             });
             handleClose();
           } else {
@@ -221,14 +217,13 @@ const DetalleFgp = ({
       }
     });
   };
-
   const EstatusCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
     };
     calculosServices.getEstatusCalculo(data).then((res) => {
       if (res.SUCCESS) {
-        setStatus(res.RESPONSE[0].ControlInterno);
+        setStatus(res.RESPONSE[0]);
       } else {
         Alert.fire({
           title: "Error!",
@@ -244,7 +239,7 @@ const DetalleFgp = ({
     };
     calculosServices.getPerfilCalculo(data).then((res) => {
       if (res.SUCCESS) {
-        setDireccion(res.RESPONSE[0].Referencia);
+        setPerfil(res.RESPONSE[0]);
       } else {
         Alert.fire({
           title: "Error!",
@@ -254,14 +249,13 @@ const DetalleFgp = ({
       }
     });
   };
-
   const getAreaCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
     };
     calculosServices.getAreaCalculo(data).then((res) => {
       if (res.SUCCESS) {
-        setArea(res.RESPONSE[0].NombreCorto);
+        setDireccion(res.RESPONSE[0]);
       } else {
         Alert.fire({
           title: "Error!",
@@ -271,36 +265,6 @@ const DetalleFgp = ({
       }
     });
   };
-  
-  //Grabar comentario y archivo de prespuestos de forma a detalle
-  const grabacomentariopresupuesto = (v:any) =>{
-    const formData = new FormData();
-    (v.file.name!= null) ? formData.append("DOCUMENTO", v.file, v.file.name) : formData.append("DOCUMENTO", "");
-    formData.append("IDCALCULO", String(v.data.id));
-    formData.append("TEXTO", String(v.texto));
-    formData.append("NUMOPERACION", "1");
-    
-
-    console.log(formData)
-
-    calculosServices.CalculoArchivo(formData).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-      
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-
-  }
-
   const columnas = (data: any) => {
     calculosServices.getColumns(data).then((res) => {
       if (res.SUCCESS) {
@@ -356,7 +320,6 @@ const DetalleFgp = ({
       }
     });
   };
-
   const consulta = (data: any) => {
     calculosServices.calculosInfodetalle(data).then((res) => {
       if (res.SUCCESS) {
@@ -375,9 +338,48 @@ const DetalleFgp = ({
       setOpenSlider(false);
     });
   };
-
   const columns = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      width: 100,
+      renderCell: (v: any) => {
+        return (
+          <BotonesAcciones
+            handleAccion={handleAcciones}
+            row={v}
+            editar={editar}
+            eliminar={eliminar}
+          />
+        );
+      },
+    },
+    // {
+
+    //   field: "ComentarioPresupuesto",
+    //   headerName: "Observación DPCP",
+    //   width: 300,
+    //   description: "Observación DPCP",
+    // },
+    // {
+
+    //   field: "RutaArchivo",
+    //   headerName: "Documento DPCP",
+    //   width: 100,
+    //   renderCell: (v: any) => {
+    //     return v.row.RutaArchivo !== null ? (
+    //       <Box>
+    //         <Link href={v.row.RutaArchivo} underline="always">
+    //           Descargar
+    //         </Link>
+    //       </Box>
+    //     ) : (
+    //       ""
+    //     );
+    //   },
+    // },
+
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -492,68 +494,7 @@ const DetalleFgp = ({
       description: "Total",
       ...Moneda,
     },
-
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
-      sortable: false,
-      width: 150,
-      renderCell: (v: any) => {
-        return (
-          <Box>
-            {
-            (presupuesto && area == user.DEPARTAMENTOS[0].NombreCorto) ? (
-              <Tooltip title="Asignar Presupuesto">
-                <IconButton onClick={() => agregarPresupuesto(v)}>
-                  <AttachMoneyIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )
-            }
-          </Box>
-        );
-      },
-    },
-
-    {
-      hide: presupuesto ? false : true,
-      field: "ComentarioPresupuesto",
-      headerName: "Observación DPCP",
-      width: 300,
-      description: "Observación DPCP",
-    },
-    
-
-    {
-      hide: presupuesto ? false : true,
-      field: "RutaArchivo",
-      headerName: "Documento DPCP",
-      width: 100, 
-      renderCell: (v:any) => {
-       
-        return (
-          v.ComentarioPresupuesto != "" ?
-          <Box>
-            <IconButton>
-            <a href={v.ComentarioPresupuesto} target="_blank">
-            <VisibilityIcon />
-            </a>
-            </IconButton>
-          </Box>
-          :""
-        );
-      }
-    },
-
   ];
-
-
- 
-
-
   const EstablecePermisos = () => {
     if (clave === "ICV" || clave === "ISN") {
       setProceso("PARTICIPACIONES_ESTATALES_CPH");
@@ -572,18 +513,13 @@ const DetalleFgp = ({
         if (String(item.Referencia) == "TRAZA") {
           setVerTrazabilidad(true);
         }
-        if (String(item.Referencia) == "PRESUPUESTO") {
-          setPresupuesto(true);
+       
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
         }
-        if (String(item.Referencia) == "ENV") {
-          setEnviar(true);
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
         }
-      }else{
-        setAutorizar(false);
-        setCancelar(false);
-        setVerTrazabilidad(false);
-        setPresupuesto(false);
-        setEnviar(false);
       }
     });
   };
@@ -595,20 +531,21 @@ const DetalleFgp = ({
     getAreaCalculo();
     columnas({ IDCALCULOTOTAL: idDetalle });
     consulta({ IDCALCULOTOTAL: idDetalle });
-  }, [status]);
+  }, []);
 
   return (
     <div>
       <Box>
         <Dialog open={Boolean(openDetalles)} fullScreen={true}>
-          {openModal ? (
+         
+         {openModal ? (
             <ModalAlert
               open={openModal}
               tipo={tipoAccion}
-              handleClose={FnworkflowClose}
+              handleClose={handleClose}
               vrows={vrows}
               handleAccion={Fnworkflow} 
-              file={file}         
+              accion={0}      
               ></ModalAlert>
           ) : (
             ""
@@ -656,7 +593,7 @@ const DetalleFgp = ({
           >
             <Grid item xs={1}>
               <label className="subtitulo">
-                {mes.split(",")[1]} 
+                {mes.split(",")[1]}
                 <br />
               </label>
             </Grid>
@@ -668,52 +605,23 @@ const DetalleFgp = ({
             sx={{ justifyContent: "center", width: "100%" }}
           >
             <Grid item xs={7} md={8} lg={8}>
-              <label >
-                Estatus del Cálculo: {status} <br />
+              <label>
+                Estatus del Cálculo: {status?.label} <br />
+              </label>
+              <label>
+                Perfil Asignado: {perfil?.label} <br />
+              </label>
+              <label>
+                Área Asignada: {direccion?.label} <br />
               </label>
             </Grid>
           </Grid>
-         
-          
-        
-          <Grid
-            container
-            spacing={1}
-            sx={{ justifyContent: "center",
-                  width: "100%",
-                   }}
-          >
-            <Grid item xs={7} md={8} lg={8}>
-              <label >
-                Observación de DPCP: {} <br />
-              </label>
-            </Grid>
-          </Grid>
-
-          <Grid
-            container
-            spacing={1}
-            sx={{ justifyContent: "center", 
-                  width: "100%",
-                }}
-          >
-            <Grid item xs={7} md={8} lg={8}>
-              <label >
-              Documento DPCP: {} <br />
-              </label>
-            </Grid>
-          </Grid>
-
-
-
-
 
           <Grid
             container
             spacing={1}
             sx={{ justifyContent: "center", width: "100%" }}
           >
-           
             <Grid
               item
               xs={7}
@@ -721,18 +629,111 @@ const DetalleFgp = ({
               lg={8}
               sx={{ justifyContent: "center", width: "100%" }}
             >
-               <Slider open={openSlider}></Slider>
-              <BotonesOpciones
-                handleAccion={handleAcciones}
-                autorizar={autorizar}
-                cancelar={cancelar}
-                verTrazabilidad={verTrazabilidad}
-                enviar={enviar}
-                presupuesto={presupuesto}
-                estatus={status}
-                perfil={direccion} 
-                area={area} 
-                />
+              <Slider open={openSlider}></Slider>
+
+              <Box>
+                <ToggleButtonGroup>
+                  <Tooltip title={"Regresar"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(1)}
+                    >
+                      <ArrowBackIcon />
+                    </ToggleButton>
+                  </Tooltip>
+
+                  {verTrazabilidad ? (
+                    <Tooltip title={"Ver Trazabilidad"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(2)}
+                      >
+                        <InsightsIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {autorizar && perfil?.value == "ANA" ? (
+                    <Tooltip title={"Autorizar Analista"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(3)}
+                      >
+                        <DoneAllIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {autorizar && perfil?.value == "COOR" ? (
+                    <Tooltip title={"Autorizar Coordinador"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(4)}
+                      >
+                        <DoneAllIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {autorizar && perfil?.value == "DIR" ? (
+                    <Tooltip title={"Autorizar Director"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(5)}
+                      >
+                        <DoneAllIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {cancelar && perfil?.value == "ANA" ? (
+                    <Tooltip title={"Cancelar"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(6)}
+                      >
+                        <CancelPresentationIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {cancelar && perfil?.value == "COOR" ? (
+                    <Tooltip title={"Regresar a Analista"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(7)}
+                      >
+                        <CompareArrowsIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {cancelar && perfil?.value == "DIR" ? (
+                    <Tooltip title={"Regresar a Coordinador"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(8)}
+                      >
+                        <CompareArrowsIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+                </ToggleButtonGroup>
+              </Box>
 
               <MUIXDataGrid columns={columns} rows={data} />
             </Grid>
