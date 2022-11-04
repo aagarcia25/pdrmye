@@ -28,9 +28,8 @@ const Usuarios = () => {
   const [openNew, setOpenNew] = useState(false);
   const [userActive, setUserActive] = useState<boolean>();
   const [tipoOperacion, setTipoOperacion] = useState(0);
-  const [row, setRow] = useState({});
   const [id, setId] = useState("");
-  const [dt, setDt] = useState([]);
+  const [dt, setDt] = useState({});
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -39,21 +38,21 @@ const Usuarios = () => {
 
 
   const handleMunicipios = (v: any) => {
-    setRow(v);
+    setDt(v);
     setOpenConfigMun(true);
   };
 
 
   const handleOpen = () => {
     setTipoOperacion(3);
-    setRow("");
+    setDt("");
     setOpenNew(true);
   };
 
   const handleEdit = (v: any) => {
     console.log(v);
     setTipoOperacion(5);
-    setRow(v);
+    setDt(v.row);
     setOpenNew(true);
   };
 
@@ -299,7 +298,7 @@ const Usuarios = () => {
         <UsuariosMunicipios
           open={openConfigMun}
           handleClose={handleClose}
-          dt={row}
+          dt={dt}
         ></UsuariosMunicipios>
       ) : (
         ""

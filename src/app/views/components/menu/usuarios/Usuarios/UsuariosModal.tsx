@@ -210,7 +210,6 @@ const UsuariosModal = ({
 
 
     console.log(dt);
-    setPuesto("");
     if (dt === "") {
       console.log(dt);
     } else {
