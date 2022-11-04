@@ -119,79 +119,122 @@ const UsuariosModal = ({
   const handleRequest = (data: any) => {
  
 
+    if (tipo ==5){
+      console.log("Editar")
+      let dat = {
+        NUMOPERACION: tipo,
+        CHUSER: user.id,
+        CHID: id,
+        NOMBRE: Nombre,
+        AP: ApellidoPaterno,
+        AM: ApellidoMaterno,
+        NUSER: NombreUsuario,
+        CORREO: CorreoElectronico,
+        PUESTO:puesto,
+        IDDEPARTAMENTO:idDepartamento,
+        IDPERFIL:idPerfil
 
-    UserServices.signup(data, token).then((resUser) => {
-   
-      if (resUser.status == 201) {
+      };
 
-        let data = {
-          NUMOPERACION: 5,
-          NOMBRE: "AppName"
-        }
-        ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
-          console.log(restApp.RESPONSE.Valor);
+      AuthService.adminUser(dat).then((res) => {
+        console.log(res)
+        if (res.SUCCESS) {
 
-          UserServices.apps(token).then((resAppLogin) => {
-            console.log(resAppLogin.data.data)
-        
-            resAppLogin.data.data.map((item:any) => {
-              if (item?.Nombre === restApp.RESPONSE.Valor) {
-                console.log(item.Id + "  " + item.Nombre)
-                console.log("id de usuario crreado  " + resUser.data.IdUsuario)
-
-                let dat = {
-                  NUMOPERACION: tipo,
-                  CHUSER: user.id,
-                  CHID: resUser.data.IdUsuario,
-                  NOMBRE: Nombre,
-                  AP: ApellidoPaterno,
-                  AM: ApellidoMaterno,
-                  NUSER: NombreUsuario,
-                  CORREO: CorreoElectronico,
-                  PUESTO:puesto
-
-                };
-
-                AuthService.adminUser(dat).then((res) => {
-                  console.log(res)
-                  if (res.SUCCESS) {
-
-                    let datLink = {
-                      IdUsuario: resUser.data.IdUsuario,
-                      IdApp: item.Id,
-
-                    };
-                    UserServices.linkuserapp(datLink, token).then((resLink) => {
-                      console.log(resLink.SUCESS+" respiesta de login  ------")
-
-                      if (resLink.status == 201) {
-                        Toast.fire({
-                          icon: "success",
-                          title: tipo == 3 ? "¡Registro exitoso!" : ""
-                        });
-                        handleClose("Registro Exitoso");
-
-                      }
-
-                    });
-                  }
-                });
-              }
-            });
+          Toast.fire({
+            icon: "success",
+            title: "¡Registro exitoso!" 
           });
+          handleClose("Registro Exitoso");
 
-        });
+         
+        }
+      });
 
-      }
+    }else{
+      UserServices.signup(data, token).then((resUser) => {
+   
 
-      else if (resUser.status == 409) {
-        Alert.fire({
-          title: "Error!",
-          text: resUser.data.msg,
-          icon: "error",
-        });
-      }
-    });
+        if (resUser.status == 201) {
+  
+          let data = {
+            NUMOPERACION: 5,
+            NOMBRE: "AppName"
+          }
+  
+  
+          ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
+            console.log(restApp.RESPONSE.Valor);
+  
+            UserServices.apps(token).then((resAppLogin) => {
+              console.log(resAppLogin.data.data)
+          
+              resAppLogin.data.data.map((item:any) => {
+                if (item?.Nombre === restApp.RESPONSE.Valor) {
+                  console.log(item.Id + "  " + item.Nombre)
+                  console.log("id de usuario crreado  " + resUser.data.IdUsuario)
+  
+                  let dat = {
+                    NUMOPERACION: tipo,
+                    CHUSER: user.id,
+                    CHID: resUser.data.IdUsuario,
+                    NOMBRE: Nombre,
+                    AP: ApellidoPaterno,
+                    AM: ApellidoMaterno,
+                    NUSER: NombreUsuario,
+                    CORREO: CorreoElectronico,
+                    PUESTO:puesto
+  
+                  };
+  
+                  AuthService.adminUser(dat).then((res) => {
+                    console.log(res)
+                    if (res.SUCCESS) {
+  
+                      let datLink = {
+                        IdUsuario: resUser.data.IdUsuario,
+                        IdApp: item.Id,
+  
+                      };
+                      UserServices.linkuserapp(datLink, token).then((resLink) => {
+                        console.log(resLink.SUCESS+" respiesta de login  ------")
+  
+                        if (resLink.status == 201) {
+                          Toast.fire({
+                            icon: "success",
+                            title: tipo == 3 ? "¡Registro exitoso!" : ""
+                          });
+                          handleClose("Registro Exitoso");
+  
+                        }
+  
+                      });
+                    }
+                  });
+                }
+              });
+            });
+  
+          });
+  
+        }
+  
+        else if (resUser.status == 409) {
+          Alert.fire({
+            title: "Error!",
+            text: resUser.data.msg,
+            icon: "error",
+          });
+        }
+        
+      });
+    
+    }
+
+   
+  
+  
+  
+  
   };
 
   useEffect(() => {
