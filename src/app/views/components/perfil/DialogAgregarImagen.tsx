@@ -2,6 +2,9 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { isNull } from "util";
+import { AuthService } from "../../../services/AuthService";
+import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { getUser } from "../../../services/localStorage";
 
 export function DialogAgregarImagen({
     open,
@@ -10,15 +13,35 @@ export function DialogAgregarImagen({
     open: boolean;
     handleClose: Function;
 }) {
+    const user: RESPONSE = JSON.parse(String(getUser()));
     const [uploadFile, setUploadFile] =useState("");
+    const [newDoc, setNewDoc] = useState(Object);
     const [nombreArchivo, setNombreArchivo] = useState(
         "Arrastre o de click aquí para seleccionar archivo"
       );
     const [disabledButton, setDisabledButton] = useState(true);
 
+
+    
+
+    const SaveImagen = () => {
+        const formData = new FormData();
+       formData.append("IMAGEN", newDoc,nombreArchivo);
+       formData.append("CHUSER", user.id);
+   
+
+        AuthService.SaveImagen(formData).then((res) => {
+          console.log(res.RESPONSE);
+        });
+    
+      };
+
+
     function enCambioFile(event: any) {
         setUploadFile(event.target.files[0]);
         setNombreArchivo(event.target.value.split("\\")[2]);
+        let file = event.target!.files[0]!;
+        setNewDoc(file);
         {
           nombreArchivo == null 
             ? setDisabledButton(true)
@@ -54,7 +77,7 @@ export function DialogAgregarImagen({
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => handleClose()} color="error">Cancelar</Button>
-                {disabledButton?<Button disabled color="success">Aceptar</Button>:<Button onClick={() => handleClose()} color="success">Aceptar</Button>}
+                {disabledButton?<Button disabled color="success">Aceptar</Button>:<Button onClick={ SaveImagen} color="success">Aceptar</Button>}
                 
             </DialogActions>
         </Dialog>
