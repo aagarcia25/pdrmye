@@ -20,9 +20,7 @@ import {
 } from "@mui/material";
 
 import Slider from "./Slider";
-import { Toast } from "../../helpers/Toast";
 import { calculosServices } from "../../services/calculosServices";
-import { Alert } from "../../helpers/Alert";
 import { Itrazabilidad } from "../../interfaces/calculos/Itrazabilidad";
 
 const Trazabilidad = ({
@@ -34,65 +32,57 @@ const Trazabilidad = ({
   open: boolean;
   handleClose: Function;
 }) => {
-  const [openSlider, setOpenSlider] = useState(false);
+  const [openSlider, setOpenSlider] = useState(true);
   const [data, setdata] = useState<Itrazabilidad[]>([]);
 
   const consulta = () => {
-    setOpenSlider(true);
+  
     let data = {
       CHID: id,
     };
     calculosServices.trazabilidad(data).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-
         const obj: Itrazabilidad[] = res.RESPONSE;
         setdata(obj);
         setOpenSlider(false);
       } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
         setOpenSlider(false);
       }
     });
   };
 
   useEffect(() => {
-    console.log(id);
     consulta();
   }, [id]);
 
   return (
     <div>
-      <Slider open={openSlider}></Slider>
+     
       <Box>
-        <Dialog open={open} fullWidth={open}>
+        <Dialog open={open} fullWidth={open}
+        scroll={"paper"}>
+        <Slider open={openSlider}></Slider>
           <DialogTitle>Trazabilidad</DialogTitle>
-          <DialogContent>
+          <DialogContent dividers={true}>
 
           <Timeline position="alternate">
             {data.map((it) => {
               return (
               
-                  <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
+                  <TimelineItem key={Math.random()}>
+                    <TimelineOppositeContent  key={Math.random()}>
                     {it.FechaCreacion}
                     </TimelineOppositeContent>
-                    <TimelineSeparator>
-                      <TimelineDot />
+                    <TimelineSeparator key={Math.random()}>
+                      <TimelineDot color="success" />
                       <TimelineConnector />
                     </TimelineSeparator>
-                    <TimelineContent sx={{ py: "12px", px: 2 }}>
+                    <TimelineContent sx={{ py: "12px", px: 2 }} key={Math.random()}>
                       <Typography variant="h6" component="span">
                       {it.Nombre}
                       </Typography>
                       <Typography>{it.Descripcion}</Typography>
+                      <Typography>{it.Comentario}</Typography>
                     </TimelineContent>
                   </TimelineItem>
               

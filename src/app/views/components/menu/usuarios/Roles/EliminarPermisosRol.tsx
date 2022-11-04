@@ -53,7 +53,7 @@ const EliminarPermisosRol = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Menu Eliminado!",
+          title: "Permiso Eliminado!",
         });
         consulta({CHID: dt?.row?.id });
       } else {

@@ -1,85 +1,166 @@
-import { Box, IconButton, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
-import DoneAllIcon from '@mui/icons-material/DoneAll';
+import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SendIcon from '@mui/icons-material/Send';
-import InsightsIcon from '@mui/icons-material/Insights';
-import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { ParametroServices } from "../../../services/ParametroServices";
-import { permisosc } from "../../../share/loadPermisos";
+import SendIcon from "@mui/icons-material/Send";
+import InsightsIcon from "@mui/icons-material/Insights";
+import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import EastIcon from "@mui/icons-material/East";
+import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { getUser } from "../../../services/localStorage";
 
 const BotonesOpciones = ({
-    handleAccion,
-    autorizar,
-    cancelar,
-    verTrazabilidad,
-    enviar,
-    handleTras,
-    idDetalle
-
+  estatus,
+  handleAccion,
+  autorizar,
+  cancelar,
+  verTrazabilidad,
+  enviar,
+  presupuesto,
+  perfil,
+  area,
 }: {
-    handleAccion: Function;
-    autorizar: boolean;
-    cancelar: boolean;
-    verTrazabilidad: boolean;
-    enviar: boolean;
-    handleTras:Function;
-    idDetalle:string;
-
-
-
-
-
+  estatus: string;
+  handleAccion: Function;
+  autorizar: boolean;
+  cancelar: boolean;
+  verTrazabilidad: boolean;
+  enviar: boolean;
+  presupuesto: boolean;
+  perfil: string;
+  area: string;
 }) => {
-    return (
-        <div>
-            <Box sx={{}}>
-                <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+  const user: RESPONSE = JSON.parse(String(getUser()));
+  console.log("PERFIL DEL USUARIO" + user.PERFILES[0].Referencia);
+  console.log("DEPARTAMENTO DEL USUARIO" + user.DEPARTAMENTOS[0].NombreCorto);
 
+  console.log("PERFIL DONDE SE ENCUENTRA EL CALCULO" + perfil);
+  console.log("AREA DONDE SE ENCUENTRA EL CALCULO" + area);
 
-                    <Tooltip title="Regresar">
-                        <ToggleButton value="check" onClick={() => handleAccion(1)}>
-                            <ArrowBackIcon />
-                        </ToggleButton>
-                    </Tooltip>
+  return (
+    <div>
+      <Box>
+        <ToggleButtonGroup>
+          <Tooltip title={"Regresar"}>
+            <ToggleButton value="check" onClick={() => handleAccion(1)}>
+              <ArrowBackIcon />
+            </ToggleButton>
+          </Tooltip>
 
-                    {(autorizar) ?
-                        <Tooltip title="Autorizar">
-                            <ToggleButton value="check" onClick={() => handleAccion(2)}>
-                                <DoneAllIcon />
-                            </ToggleButton>
-                        </Tooltip>
-                        : ""}
-                    {(cancelar) ?
-                        <Tooltip title="Cancelar">
-                            <ToggleButton value="check" onClick={() => handleAccion(3)}>
-                                <CancelPresentationIcon />
-                            </ToggleButton>
-                        </Tooltip>
+          {verTrazabilidad ? (
+            <Tooltip title={"Ver Trazabilidad"}>
+              <ToggleButton value="check" onClick={() => handleAccion(5)}>
+                <InsightsIcon />
+              </ToggleButton>
+            </Tooltip>
+          ) : (
+            ""
+          )}
 
-                        : ""}
-                    {(enviar)?
+          {(autorizar 
+           &&             estatus == "INICIO" 
+           &&     user.PERFILES[0].Referencia == perfil) ||
+         
+           (autorizar &&
+            estatus == "ENVIADO" &&
+            user.PERFILES[0].Referencia == perfil &&
+            area == user.DEPARTAMENTOS[0].NombreCorto) ? (
+            <Tooltip title={"Autorizar"}>
+              <ToggleButton value="check" onClick={() => handleAccion(2)}>
+                <DoneAllIcon />
+              </ToggleButton>
+            </Tooltip>
+          ) : (
+            ""
+          )}
 
-                        <Tooltip title="Enviar">
-                            <ToggleButton value="check" onClick={() => handleAccion(4)}>
-                                <SendIcon />
-                            </ToggleButton>
-                        </Tooltip>
-                        : ""}
-                    {(verTrazabilidad) ?
+          {cancelar &&
+          estatus == "INICIO" &&
+          user.PERFILES[0].Referencia == "ANA" ? (
+            <Tooltip title={"Cancelar"}>
+              <ToggleButton value="check" onClick={() => handleAccion(3)}>
+                <CancelPresentationIcon />
+              </ToggleButton>
+            </Tooltip>
+          ) : (
+            ""
+          )}
 
-                        <Tooltip title="Ver Trazabilidad">
-                            <ToggleButton value="check" onClick={() => handleTras(String(idDetalle))}>
-                              
-                                <InsightsIcon />
-                            </ToggleButton>
-                        </Tooltip>
-                        : ""}
-                </ToggleButtonGroup>
-            </Box>
-        </div>
-    );
+          {cancelar &&
+          estatus == "ENVIADO" &&
+          user.PERFILES[0].Referencia == perfil &&
+          perfil == "COOR" &&
+          area == user.DEPARTAMENTOS[0].NombreCorto ? (
+            <Tooltip title={"Regresar a Analista"}>
+              <ToggleButton value="check" onClick={() => handleAccion(7)}>
+                <CompareArrowsIcon />
+              </ToggleButton>
+            </Tooltip>
+          ) : (
+            ""
+          )}
+
+          {cancelar &&
+          estatus == "ENVIADO" &&
+          user.PERFILES[0].Referencia == perfil &&
+          perfil == "DIR" ? (
+            <Tooltip title={"Regresar a Coordinador"}>
+              <ToggleButton value="check" onClick={() => handleAccion(8)}>
+                <CompareArrowsIcon />
+              </ToggleButton>
+            </Tooltip>
+          ) : (
+            ""
+          )}
+
+          {(enviar &&
+            estatus == "AUTORIZADO" &&
+            user.PERFILES[0].Referencia == perfil) ||
+          (enviar &&
+            estatus == "AUTORIZADO" &&
+            user.PERFILES[0].Referencia == perfil) ||
+          (enviar &&
+            estatus == "AUTORIZADO" &&
+            user.PERFILES[0].Referencia == perfil) ? (
+            <Tooltip title={"Enviar"}>
+              <ToggleButton value="check" onClick={() => handleAccion(4)}>
+                <SendIcon />
+              </ToggleButton>
+            </Tooltip>
+          ) : (
+            ""
+          )}
+
+          {presupuesto &&
+          estatus == "ENVIADO" &&
+          area == user.DEPARTAMENTOS[0].NombreCorto &&
+          user.PERFILES[0].Referencia == perfil ? (
+            <Tooltip title={"Asignar Presupuesto Global"}>
+              <ToggleButton value="check" onClick={() => handleAccion(6)}>
+                <AttachMoneyIcon />
+              </ToggleButton>
+            </Tooltip>
+          ) : (
+            ""
+          )}
+
+          {presupuesto &&
+          estatus == "ENVIADO" &&
+          area == user.DEPARTAMENTOS[0].NombreCorto &&
+          user.PERFILES[0].Referencia == perfil ? (
+            <Tooltip title={"Finalizar"}>
+              <ToggleButton value="check" onClick={() => handleAccion(9)}>
+                <EastIcon />
+              </ToggleButton>
+            </Tooltip>
+          ) : (
+            ""
+          )}
+        </ToggleButtonGroup>
+      </Box>
+    </div>
+  );
 };
 
 export default BotonesOpciones;

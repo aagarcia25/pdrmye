@@ -42,6 +42,7 @@ const ModalFondo = ({
   const [monto, setMonto] = useState<number>();
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [ajustes, setAjustes] = useState<SelectValues[]>([]);
+  const [idajustes, setidAjustes] = useState("");
   let year: number = new Date().getFullYear();
 
 
@@ -52,8 +53,8 @@ const ModalFondo = ({
     console.log(v)
     setMesSeleccionado(v.value);
   };
-  const handleSelectAjuste = (v: SelectValues) => {
-
+  const handleSelectAjuste = (v: any) => {
+    setidAjustes(v);
   };
 
 
@@ -72,7 +73,7 @@ const ModalFondo = ({
     } else {
 
       let data = {
-        CLAVE:clave,
+        CLAVE: clave,
         CHUSER: user.id,
         IMPORTE: monto,
         ANIO: year,
@@ -106,7 +107,7 @@ const ModalFondo = ({
 
 
 
- 
+
 
   const ajusteesc = () => {
     let data = {
@@ -129,7 +130,7 @@ const ModalFondo = ({
       ajusteesc();
       setslideropen(false);
     }, 3000);
-  
+
 
   }, []);
 
@@ -248,7 +249,14 @@ const ModalFondo = ({
                 display: "flex",
                 alignItems: "center",
               }}>
-                <SelectFrag options={ajustes} onInputChange={handleSelectAjuste} placeholder={"Seleccione el Ajuste"}></SelectFrag>
+                <SelectFrag 
+                  options={ajustes}
+                  onInputChange={handleSelectAjuste}
+                  placeholder={"Seleccione el Ajuste"}
+                  label={""}
+                  disabled={false} 
+                  value={idajustes}     
+                   ></SelectFrag>
               </Box>
             </Grid>
 
@@ -317,39 +325,39 @@ const ModalFondo = ({
             </Grid>
             {
               (String(params.fondo) == "FISM" || (String(params.fondo) == "FORTAMUN")) ?
-              <Box              
-              >
-              <Grid
-              item
-              xs={5}
-              sx={{
-                bgcolor: "rgb(255, 245, 255)",
-                display: "flex",
-                justifyContent: "right",
-                alignItems: "center",
-              }}
-            >
-              <label className="contenido"></label>
-            </Grid>
+                <Box
+                >
+                  <Grid
+                    item
+                    xs={5}
+                    sx={{
+                      bgcolor: "rgb(255, 245, 255)",
+                      display: "flex",
+                      justifyContent: "right",
+                      alignItems: "center",
+                    }}
+                  >
+                    <label className="contenido"></label>
+                  </Grid>
 
-            <Grid item xs={5} md={6} lg={6} sx={{}}>
-              <Box sx={{
+                  <Grid item xs={5} md={6} lg={6} sx={{}}>
+                    <Box sx={{
 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center",
-              }}>
-              
-              </Box>
-            </Grid>
-            </Box>
+                      display: "flex",
+                      justifyContent: "left",
+                      alignItems: "center",
+                    }}>
+
+                    </Box>
+                  </Grid>
+                </Box>
                 :
                 <Grid sx={{
 
-               
+
                 }}
-                
-                container >
+
+                  container >
                   <Grid
                     item
                     xs={5}
@@ -363,18 +371,24 @@ const ModalFondo = ({
                   </Grid>
 
                   <Grid item xs={5} md={6} lg={6}
-                  sx={{
+                    sx={{
 
-                  
-                  }}>
+
+                    }}>
                     <Box sx={{
-                      
-                      p:3,
+
+                      p: 3,
                       display: "flex",
                       justifyContent: "left",
                       alignItems: "center",
                     }}>
-                      <SelectFrag options={meses} onInputChange={handleSelectMes} placeholder={"Seleccione el Mes"}></SelectFrag>
+                      <SelectFrag 
+                        options={meses}
+                        onInputChange={handleSelectMes}
+                        placeholder={"Seleccione el Mes"} label={""}
+                        disabled={false}
+                        value={mesSeleccionado}   
+                        ></SelectFrag>
                     </Box>
                   </Grid>
                 </Grid>

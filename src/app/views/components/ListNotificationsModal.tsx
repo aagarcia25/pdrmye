@@ -16,19 +16,25 @@ import SelectValues from "../../interfaces/Select/SelectValues";
 import { getUser } from "../../services/localStorage";
 import "../../styles/globals.css";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { MailServices } from "../../services/MailServices";
+import { Subject } from "@mui/icons-material";
 
 const ListNotificationsModal = ({
   open,
   modo,
   handleClose,
   tipo,
-  dt
+  dt,
+  destinatario,
+  remitente
 }: {
   open: boolean;
   modo: string;
   tipo: number;
   handleClose: Function,
-  dt: any
+  dt: any,
+  destinatario: string,
+  remitente: string
 }) => {
 
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -38,13 +44,13 @@ const ListNotificationsModal = ({
   const [encabezado, setEncabezado] = useState<string>();
   const [mensaje, setMensaje] = useState<string>();
   const [newEncabezado, setNewEncabezado] = useState<string>();
-  const [newNensaje, setNewMensaje] = useState<string>()
+  const [newMensaje, setNewMensaje] = useState<string>()
   const [id, setId] = useState<string>();
   const [values, setValues] = useState<Imunicipio[]>();
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
-  const [chuserDestin, setChuserDestin] = useState<string>();
+  const [chuserDestin, setChuserDestin] = useState<string>("");
 
-  const [personName, setPersonName] = React.useState<string[]>([]);
+  const [name, setName] = useState<string>();
 
 
 
@@ -61,7 +67,7 @@ const ListNotificationsModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "Mensaje Leido!",
         });
 
       } else {
@@ -76,10 +82,19 @@ const ListNotificationsModal = ({
 
 
   }
+  const handletest = () => {
+    console.log(newEncabezado + "---" + newMensaje + "---" + chuserDestin)
+
+
+
+
+
+  }
+
 
   const handleUpload = () => {
 
-    if (newEncabezado == null || newNensaje == null || chuserDestin == null) {
+    if (newEncabezado == null || newMensaje == null || chuserDestin == null) {
       Alert.fire({
         title: "Verificar!",
         text: "Verificar los campos!",
@@ -93,20 +108,37 @@ const ListNotificationsModal = ({
         DELETED: 0,
         VISTO: 0,
         ENCABEZADO: newEncabezado,
-        DESCRIPCION: newNensaje,
+        DESCRIPCION: newMensaje,
         DESTINATARIO: chuserDestin,
       };
       CatalogosServices.Notificaciones(data).then((res) => {
         if (res.SUCCESS) {
+
+          let jsonobj = {
+            "texto":newMensaje
+          }
+
+          let obj ={
+          referencia:1,
+          data:jsonobj,
+          to:"aagarcia@cecapmex.com",
+          subject:newEncabezado
+          };
+
+          MailServices.sendMail(obj).then(() =>{
+
+          });
+
+
           Toast.fire({
             icon: "success",
-            title: "Registro Agregado!",
+            title: "Mensaje Enviado!",
           });
 
         } else {
           Alert.fire({
             title: "Error!",
-            text: res.STRMESSAGE,
+            text: "Revisar Valores",
             icon: "error",
           });
         }
@@ -135,12 +167,13 @@ const ListNotificationsModal = ({
   };
 
   const handleSelectUser = (e: any) => {
-    setChuserDestin(e.value);
+    setChuserDestin(e);
+    console.log(e);
 
   };
 
   useEffect(() => {
-    console.log("modo en list notificaciones modal  " + modo);
+    console.log("data " + dt?.row);
     loadSelectUser();
     if (dt === '') {
 
@@ -148,6 +181,7 @@ const ListNotificationsModal = ({
       setId(dt?.row?.id);
       setMensaje(dt?.row?.Descripcion);
       setEncabezado(dt?.row?.Encabezado);
+      setName(dt?.row?.Nombre)
 
 
     }
@@ -162,9 +196,7 @@ const ListNotificationsModal = ({
     <Dialog
       fullWidth
       open={open}
-
     >
-
       <Box sx={{
         height: "100%",
         justifyContent: 'space-between',
@@ -191,7 +223,6 @@ const ListNotificationsModal = ({
 
               }}>
                 <Box sx={{
-
                   position: 'relative',
                   flexDirection: 'column',
                   top: 1, left: 20,
@@ -206,8 +237,6 @@ const ListNotificationsModal = ({
                   </button>
                 </Box>
               </Box>
-
-
               <Box
                 sx={{
 
@@ -218,14 +247,16 @@ const ListNotificationsModal = ({
                   display: 'flex',
                   borderRadius: 1
                 }}>
-
                 <label> Para..</label>
-
-                <SelectFrag options={usuarioSelect} onInputChange={handleSelectUser} placeholder={"Seleccione Usuario"}></SelectFrag>
+                <SelectFrag
+                  value={chuserDestin}
+                  options={usuarioSelect}
+                  onInputChange={handleSelectUser}
+                  placeholder={"Seleccione Usuario"}
+                  label={""}
+                  disabled={false}
+                />
               </Box>
-
-
-
               <Box sx={{
                 height: "90%",
                 width: "98%",
@@ -274,8 +305,6 @@ const ListNotificationsModal = ({
                 </Box>
               </Box>
 
-
-
               {////// boton de enviar mensaje nuevo
               }
               <Box sx={{ position: 'relative', right: 5, top: -3, display: 'flex', flexDirection: 'row-reverse', }} >
@@ -285,6 +314,7 @@ const ListNotificationsModal = ({
                     className="enviar-mensaje" color="success" variant="contained" endIcon={<SendIcon />}
                     onClick={() => handleUpload()}>
                     Enviar</Button>
+
 
                 </Box>
               </Box>
@@ -320,9 +350,17 @@ const ListNotificationsModal = ({
                 top: 1, left: 20,
                 borderRadius: 1
               }}>
+
+                <label>De: {" " + remitente}</label>
+                <br />
+                <label>Para: {" " + destinatario}</label>
+
                 <label >
+
                   <h3>Asunto</h3>
                 </label>
+
+
                 <textarea
                   value={encabezado}
                   readOnly
@@ -399,6 +437,10 @@ const ListNotificationsModal = ({
                 width: "100%",
                 borderRadius: 1
               }}>
+                <label>De: {" " + remitente}</label>
+                <br />
+                <label>Para: {" " + destinatario}</label>
+
                 <label >
                   <h3>Asunto</h3>
                 </label>
@@ -473,9 +515,15 @@ const ListNotificationsModal = ({
                 top: 1, left: 20,
                 borderRadius: 1
               }}>
+
+                <label>De: {" " + remitente}</label>
+                <br />
+                <label>Para: {" " + destinatario}</label>
+
                 <label >
                   <h3>Asunto</h3>
                 </label>
+
                 <textarea
                   value={encabezado}
                   readOnly

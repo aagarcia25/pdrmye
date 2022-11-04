@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Box, IconButton, LinearProgress, Modal, SelectChangeEvent, } from '@mui/material'
-import { DataGrid, esES, GridColDef, } from '@mui/x-data-grid'
-
-import { CustomNoRowsOverlay } from '../../CustomNoRowsOverlay'
-import { CustomToolbar, porcentage } from '../../CustomToolbar'
+import { Box, IconButton, } from '@mui/material'
+import { GridColDef, } from '@mui/x-data-grid'
+import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -11,21 +9,21 @@ import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { Alert } from "../../../../../helpers/Alert";
-import Filtros from '../Utilerias/Filtros'
 import MunPobrezaModal from './MunPobrezaModal'
-import Buttons from '../Utilerias/Buttons'
 import Slider from "../../../Slider";
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import { getUser } from '../../../../../services/localStorage'
+import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { getPermisos, getUser } from '../../../../../services/localStorage'
+import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
+import AccionesGrid from '../Utilerias/AccionesGrid'
+import BotonesAcciones from '../../../componentes/BotonesAcciones'
 
 export const MunPobreza = () => {
 
 
-  const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
@@ -34,8 +32,9 @@ export const MunPobreza = () => {
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
 
 
   // VARIABLES PARA LOS FILTROS
@@ -64,19 +63,23 @@ export const MunPobreza = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEditar(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleBorrar(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
         );
       },
     },
 
   ];
+
+  const handleAccion = (v: any) => {
+    if (v.tipo == 1) {
+      setTipoOperacion(2);
+      setOpen(true);
+      setData(v.data);
+    } else if (v.tipo == 2) {
+      handleBorrar(v.data);
+    }
+  }
 
 
   const handleClose = (v: string) => {
@@ -97,25 +100,11 @@ export const MunPobreza = () => {
   }
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
-    setModo("Agregar Registro");
     setOpen(true);
     setData(v);
   };
 
 
-  const handleEditar = (v: any) => {
-    console.log(v)
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setData(v);
-
-    let data = {
-      NUMOPERACION: 4,
-      ANIO: filterAnio,
-    };
-    consulta(data);
-  };
 
   const handleBorrar = (v: any) => {
 
@@ -203,24 +192,24 @@ export const MunPobreza = () => {
     });
   };
 
-  const handleFilterChange = (event: any) => {
-    if (event == null) {
+  const handleFilterChange = (v: string) => {
+    if (v == null) {
       let data = {
         NUMOPERACION: 4,
-        
+
       };
       setFilterAnio("");
-  
-
-
     } else {
 
       let data = {
         NUMOPERACION: 4,
-        ANIO: event.value,
+        ANIO: v,
       };
-      setFilterAnio(event.value);
-      consulta(data);
+      setFilterAnio(v);
+
+      if (v != "") {
+        consulta(data);
+      }
     }
   };
 
@@ -237,6 +226,18 @@ export const MunPobreza = () => {
 
 
   useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "MUNPOBREZA") {
+        console.log(item)
+
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     setAnios(fanios());
     downloadplantilla();
   }, []);
@@ -254,13 +255,13 @@ export const MunPobreza = () => {
         <SelectFrag
           options={anios}
           onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} />
+          placeholder={"Seleccione Año"} label={''} disabled={false}
+          value={''} />
       </Box>
 
       {open ? (
         <MunPobrezaModal
           open={open}
-          modo={modo}
           handleClose={handleClose}
           tipo={tipoOperacion}
           dt={data}
@@ -269,11 +270,9 @@ export const MunPobreza = () => {
         ""
       )}
 
-      <Buttons
-        handleOpen={handleOpen}
+      <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleAgregar}
-      />
+        handleUpload={handleAgregar} controlInterno={"MUNPOBREZA"} />
       <MUIXDataGrid columns={columns} rows={dataMunPobreza} />
 
 

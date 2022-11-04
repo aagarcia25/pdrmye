@@ -1,25 +1,29 @@
-import React from 'react'
+import React from "react";
 import AddIcon from "@mui/icons-material/Add";
-import { Box, ToggleButtonGroup, Tooltip, ToggleButton } from '@mui/material'
-
+import { Box, ToggleButtonGroup, Tooltip, ToggleButton } from "@mui/material";
 
 const ButtonsAdd = ({
-    handleOpen,
-  }: {
-    handleOpen: Function;
-  }) => {
+  handleOpen,
+  agregar,
+}: {
+  handleOpen: Function;
+  agregar: boolean;
+}) => {
   return (
-    <Box sx={{}}>
-      <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-        <Tooltip title="Agregar">
-          <ToggleButton value="check" onClick={() => handleOpen(1)}>
-            <AddIcon />
-          </ToggleButton>
-        </Tooltip>
-
-      </ToggleButtonGroup>
+    <Box>
+      {agregar ? (
+        <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+          <Tooltip title="Agregar">
+            <ToggleButton value="check" onClick={() => handleOpen(1)}>
+              <AddIcon />
+            </ToggleButton>
+          </Tooltip>
+        </ToggleButtonGroup>
+      ) : (
+        ""
+      )}
     </Box>
-  )
-}
+  );
+};
 
-export default ButtonsAdd
+export default ButtonsAdd;

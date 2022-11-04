@@ -14,6 +14,9 @@ import { getToken, getUser } from "../../../../../services/localStorage";
 import validator from 'validator';
 import { UserServices } from "../../../../../services/UserServices";
 import { ParametroServices } from "../../../../../services/ParametroServices";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 const UsuariosModal = ({
   open,
   handleClose,
@@ -28,19 +31,47 @@ const UsuariosModal = ({
 
 
 
-  const [idNuevoUsuario, setIdNuevoUsuario] = useState<string>();
   const [id, setId] = useState<string>();
+
+  const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
+  const [idDepartamento, setIdDepartamento] = useState<string>("");
+  const [perfiles, setPerfiles] = useState<SelectValues[]>([]);
+  const [idPerfil, setIdPerfil] = useState<string>("");
+
+
   const [Nombre, setNombre] = useState<string>();
   const [ApellidoPaterno, setApellidoPaterno] = useState<string>();
   const [ApellidoMaterno, setApellidoMaterno] = useState<string>();
   const [NombreUsuario, setNombreUsuario] = useState<string>();
+  const [puesto, setPuesto] = useState<string>();
   const [CorreoElectronico, setCorreoElectronico] = useState<string>();
   const [emailValid, setEmailValid] = useState<boolean>();
+  const [tokenValid, setTokenValid] = useState<boolean>();
+
   const user: RESPONSE = JSON.parse(String(getUser()));
   const token = JSON.parse(String(getToken()));
   const [emailError, setEmailError] = useState('')
 
 
+  const loadFilter = ( tipo:number) => {
+    let data = { NUMOPERACION: tipo };
+      CatalogosServices.SelectIndex(data).then((res) => {
+        if(tipo == 7){
+          setDepartamentos(res.RESPONSE);
+        }else if(tipo == 9 ){
+          setPerfiles(res.RESPONSE);
+        }
+           
+      });
+    }
+    const handleFilterChange = (v: string) => {
+      setIdDepartamento(v);
+   };
+
+   const handleFilterChangePerfil = (v: string) => {
+    setIdPerfil(v);
+ };
+   
 
   const validateEmail = (e: any) => {
     var email = e.target.value
@@ -84,24 +115,27 @@ const UsuariosModal = ({
 
 
 
+
   const handleRequest = (data: any) => {
-    console.log(data);
+ 
+
+
     UserServices.signup(data, token).then((resUser) => {
    
       if (resUser.status == 201) {
 
         let data = {
-          NUMOPERACION: 1,
+          NUMOPERACION: 5,
           NOMBRE: "AppName"
         }
         ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
-          console.log(restApp.RESPONSE);
+          console.log(restApp.RESPONSE.Valor);
 
           UserServices.apps(token).then((resAppLogin) => {
             console.log(resAppLogin.data.data)
         
             resAppLogin.data.data.map((item:any) => {
-              if (item?.Nombre === restApp.RESPONSE[0]?.Valor) {
+              if (item?.Nombre === restApp.RESPONSE.Valor) {
                 console.log(item.Id + "  " + item.Nombre)
                 console.log("id de usuario crreado  " + resUser.data.IdUsuario)
 
@@ -113,7 +147,8 @@ const UsuariosModal = ({
                   AP: ApellidoPaterno,
                   AM: ApellidoMaterno,
                   NUSER: NombreUsuario,
-                  CORREO: CorreoElectronico
+                  CORREO: CorreoElectronico,
+                  PUESTO:puesto
 
                 };
 
@@ -134,6 +169,7 @@ const UsuariosModal = ({
                           icon: "success",
                           title: tipo == 3 ? "¡Registro exitoso!" : ""
                         });
+                        handleClose("Registro Exitoso");
 
                       }
 
@@ -159,18 +195,37 @@ const UsuariosModal = ({
   };
 
   useEffect(() => {
-    console.log(dt);
+   
+    let d = {  
+    
+    }
+    UserServices.verify(d,token).then((resAppLogin) => {
+      console.log(resAppLogin.status);
+      resAppLogin.status==200?  
+     setTokenValid(true)
+     :
+     setTokenValid(false);
+    });
 
+
+
+    console.log(dt);
     if (dt === "") {
       console.log(dt);
     } else {
-      setId(dt?.row?.id);
-      setNombre(dt?.row?.Nombre);
-      setApellidoPaterno(dt?.row?.ApellidoPaterno);
-      setApellidoMaterno(dt?.row?.ApellidoMaterno);
-      setNombreUsuario(dt?.row?.NombreUsuario);
-      setCorreoElectronico(dt?.row?.CorreoElectronico);
+      setId(dt?.id);
+      setNombre(dt?.Nombre);
+      setApellidoPaterno(dt?.ApellidoPaterno);
+      setApellidoMaterno(dt?.ApellidoMaterno);
+      setNombreUsuario(dt?.NombreUsuario);
+      setCorreoElectronico(dt?.CorreoElectronico);
+      setPuesto(dt?.Puesto);
+      setIdDepartamento(dt?.idDepartamento);
+      setIdPerfil(dt?.idperfil);
     }
+
+    loadFilter(7);
+    loadFilter(9);
   }, [dt]);
 
   return (
@@ -248,6 +303,39 @@ const UsuariosModal = ({
               error={emailValid == false || CorreoElectronico == null}
             />
             <label>{emailError}</label>
+
+            <TextField
+              required
+              margin="dense"
+              id="Puesto"
+              label="Puesto"
+              value={puesto}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setPuesto(v.target.value)}
+              error={puesto == null ? true : false}
+            />
+           <br/>
+           <label>Departamento:</label>
+           <SelectFrag
+                  value={idDepartamento}
+                  options={departamento}
+                  onInputChange={handleFilterChange}
+                  placeholder={"Seleccione Departamento"}
+                  label={""}
+                  disabled={false}
+                />
+
+           <label>Perfil:</label>
+           <SelectFrag
+                  value={idPerfil}
+                  options={perfiles}
+                  onInputChange={handleFilterChangePerfil}
+                  placeholder={"Seleccione Perfil"}
+                  label={""}
+                  disabled={false}
+                />     
           </Box>
         </DialogContent>
 

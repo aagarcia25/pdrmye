@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import {
   Box,
-  SelectChangeEvent,
 } from "@mui/material";
 
 import { GridColDef } from "@mui/x-data-grid";
@@ -11,15 +10,14 @@ import {
 } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
-import Filtros from "../Utilerias/Filtros";
-import Buttons from "../Utilerias/Buttons";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import MunFacturacionModal from "./MunFacturacionModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import AccionesGrid from "../../../AccionesGrid";
 import { currencyFormatter } from "../../CustomToolbar";
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
@@ -80,18 +78,18 @@ export const MunFacturacion = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <AccionesGrid handleEditar={handleEdit} handleBorrar={handleDelete} v={v} update={true} pdelete={true} />
+          ""
         );
       },
     },
   ];
 
   const handleClose = (v: string) => {
-   
+
     if (v === "close") {
       setOpen(false);
     }
-    else if(v === "save") {
+    else if (v === "save") {
       setOpen(false);
       let data = {
         NUMOPERACION: 4,
@@ -214,13 +212,15 @@ export const MunFacturacion = () => {
 
 
 
-  const handleFilterChange = (event: any) => {
-    setFilterAnio(event.value);
+  const handleFilterChange = (v: string) => {
+    setFilterAnio(v);
     let data = {
       NUMOPERACION: 4,
-      ANIO: event.value,
+      ANIO: v,
     };
-    consulta(data);
+    if (v != "") {
+      consulta(data);
+    }
   };
 
   const downloadplantilla = () => {
@@ -242,13 +242,14 @@ export const MunFacturacion = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Box  
-         sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
-            <SelectFrag 
-            options={anios} 
-            onInputChange={handleFilterChange} 
-            placeholder={"Seleccione Año"}/>
-            </Box>
+      <Box
+        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
+        <SelectFrag
+          value={''}
+          options={anios}
+          onInputChange={handleFilterChange}
+          placeholder={"Seleccione Año"} label={""} disabled={false} />
+      </Box>
 
       {open ? (
         <MunFacturacionModal
@@ -262,11 +263,9 @@ export const MunFacturacion = () => {
         ""
       )}
 
-      <Buttons
-        handleOpen={handleOpen}
+      <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload}
-      />
+        handleUpload={handleUpload} controlInterno={"MUNFA"}      />
 
       <MUIXDataGrid columns={columns} rows={Facturacion} />
     </div>

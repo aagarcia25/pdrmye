@@ -11,7 +11,17 @@
 
     export interface PERMISO {
         ControlInterno: string;
-        Permiso: string;
+        Referencia: string;
+    }
+
+    export interface PERFILES {
+        Descripcion: string;
+        Referencia: string;
+    }
+
+    export interface DEPARTAMENTOS {
+        NombreCorto: string;
+        Descripcion: string;
     }
 
     export interface RESPONSE {
@@ -28,6 +38,7 @@
         CorreoElectronico: string;
         RutaFoto?: any;
         Puesto?: any;
+        EstaActivo?:number;
         Ubicacion?: any;
         extencion?: any;
         Telefono?: any;
@@ -35,6 +46,8 @@
         ROLES: ROLE[];
         MENUS: MENU[];
         PERMISOS: PERMISO[];
+        PERFILES: PERFILES[];
+        DEPARTAMENTOS: DEPARTAMENTOS[];
         tipo?: any;
     }
 

@@ -27,7 +27,6 @@ import InflacionMes from '../views/components/menu/catalogos/InflacionMes/Inflac
 import InflacionAnio from '../views/components/menu/catalogos/InflacionAnio/InflacionAnio';
 import Fondos from '../views/components/menu/catalogos/Fondos/Fondos';
 import CrecimientoAnio from '../views/components/menu/catalogos/CrecimientoAnio/CrecimientoAnio';
-import DetalleFgp from '../views/components/menu/participaciones/DetalleFgp';
 import Usuarios from '../views/components/menu/usuarios/Usuarios/Usuarios';
 import Roles from '../views/components/menu/usuarios/Roles/Roles';
 import Permisos from '../views/components/menu/usuarios/Permisos/Permisos';
@@ -42,10 +41,22 @@ import Nomina from '../views/components/Organismos/Nomina/Nomina';
 import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
 import { Fondo } from '../views/components/menu/aportaciones/Fondo';
-import DetalleFondo from '../views/components/menu/aportaciones/DetalleFondo';
 import {  getUser, islogin } from '../services/localStorage';
 import { RESPONSE } from '../interfaces/user/UserInfo';
 import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
+import { CalculoGarantiaComponente } from '../views/components/menu/articulos/CalculoGarantia/CalculoGarantiaComponente';
+import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de Usuario/PerfilesUsuario';
+import SolicitudRecursos from '../views/components/Municipios/SolicitudRecursos';
+import RecepcionRecursos from '../views/components/Municipios/RecepcionRecursos';
+
+import Workflow from '../views/components/menu/Workflow/Worflow';
+
+import { Bancos } from '../views/components/menu/catalogos/Bancos/Bancos';
+
+import { CuentaBancaria } from '../views/components/menu/catalogos/CuentaBancaria/CuentaBancaria';
+import { AnticipoParticipaciones } from '../views/components/menu/catalogos/Municipios/anticipoParticipaciones/AnticipoParticipaciones';
+import AsigPresupuestal from '../views/components/DPCP/AsigPresupuestal';
+
 
 
 
@@ -60,6 +71,8 @@ export const AppRouter = () => {
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
         <Route path='/'  element={log ? <Bienvenido user={user} /> : <AuthRouter />}     />
         {/* SECCION DE CATALOGOS */}
+       
+        <Route path='/inicio/Municipio/anticipo/APD'              element={<AnticipoParticipaciones />} />
         <Route path='/inicio/catalogos/mun'                        element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa'                       element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob'                     element={<MunPoblacion />} />
@@ -79,10 +92,10 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/inflacionAnio'              element={<InflacionAnio />}      />
         <Route path='/inicio/catalogos/fondos'                     element={<Fondos />}      />
         <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
-        
-        {/*SECCION DE PARAMETROS GENERALES */}
-       <Route path='/inicio/catalogos/parametrosgenerales'  element={log ? <ParametrosGenerales /> : <AuthRouter />} />
-       {/* FIN DE SECCION DE PARAMETROS GENERALES */}
+        <Route path='/inicio/wf'                                   element={log ? <Workflow /> : <AuthRouter />} />
+        <Route path='/inicio/catalogos/parametrosgenerales'  element={<ParametrosGenerales />} />
+        <Route path='/inicio/catalogos/bancos'  element={<Bancos />} />
+        <Route path='/inicio/catalogos/cuentabancaria'  element={<CuentaBancaria/>} />
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
@@ -100,24 +113,23 @@ export const AppRouter = () => {
         {/* SECCION DE ARTICULOS */}
         <Route path='/inicio/articulos/art14f/:tipo' element={<Art14fP />} />
         <Route path='/inicio/articulos/art14d/:tipo/:id' element={<Art14f />} />
+        <Route path='/inicio/articulos/calculogarantia' element={<CalculoGarantiaComponente />} />
         {/* FIN SECCION DE ARTICULOS */}
 
 
         {/* SECCION PARTICIPACIONES FEDERALES Y ESTATALES */}
         <Route path='/inicio/participaciones/:fondo' element={log ? <Fpg /> : <AuthRouter />} />
-       
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
         {/* SECCION APORTACIONES ESTATALES */}
         <Route path='/inicio/aportaciones/:fondo'     element={log ? <Fondo /> : <AuthRouter />}/>
-        
-        {/*<Route path='/inicio/aportaciones/:fondo/:id/'  element={log ? <DetalleFondo /> : <AuthRouter />}/> */}
-      
+        {/* FIN SECCION APORTACIONES FEDERALES */}
        {/* SECCION USUARIOS, ROLES, PERMISOS */}
        <Route path='/inicio/usuario'   element={log ? <Usuarios /> : <AuthRouter />} />
        <Route path='/inicio/roles'     element={log ? <Roles /> : <AuthRouter />} />
        <Route path='/inicio/menus'     element={log ? <Menus /> : <AuthRouter />} />
        <Route path='/inicio/permisos'  element={log ? <Permisos /> : <AuthRouter />} />
+       <Route path='/inicio/perfilesusuario'  element={log ? <PerfilesUsuario /> : <AuthRouter />} />
        {/* FIN SECCION USUARIOS, ROLES, PERMISOS */}
 
        {/* SECCION ORGANISMOS */}
@@ -130,9 +142,13 @@ export const AppRouter = () => {
        {/* FIN DE SECCION DE ORGANISMOS */}
        {/* SECCION MUNICIPIOS */}
        <Route path='/inicio/contactomunicipio'  element={log ? <ContactoMunicipios /> : <AuthRouter />} />
+       <Route path='/inicio/recursos'  element={log ? <RecepcionRecursos /> : <AuthRouter />} />
+       <Route path='/inicio/anticipop'  element={log ? <SolicitudRecursos /> : <AuthRouter />} />
        {/* SECCION MUNICIPIOS */}
 
-       
+       {/* DCCP */}
+       <Route path='/inicio/dccp'  element={log ? <AsigPresupuestal /> : <AuthRouter />} />
+       {/* FIN DCCP */}
       </Routes>
     </Inicio>
   );

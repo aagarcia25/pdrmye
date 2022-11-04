@@ -1,11 +1,12 @@
-import {
+ import { useEffect, useState } from "react";
+ import {
     Box,
     Checkbox,
     Grid,
     Modal,
     Typography,
   } from "@mui/material";
-  import { useEffect, useState } from "react";
+ 
   import { AuthService } from "../../../../../services/AuthService";
   import { GridColDef } from '@mui/x-data-grid';
   import { Toast } from "../../../../../helpers/Toast";
@@ -52,9 +53,9 @@ import {
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "Menu Eliminado!",
+            title: "Permiso Asignado!",
           });
-          consulta({CHID: dt?.row?.id });
+          consulta({CHID: dt?.row?.id, IDROL:id });
         } else {
           Alert.fire({
             title: "Error!",
@@ -91,7 +92,7 @@ import {
   
   
     useEffect(() => {
-      consulta({ CHID: dt?.row?.id });
+      consulta({ CHID: dt?.row?.id ,IDROL:id});
       console.log(dt);
     }, []);
   

@@ -3,7 +3,12 @@ import { post, postDocument } from './apiService';
 
 export class CatalogosServices {
 
-
+    public static async SolicitudesInfo(data: any) {
+        return await post('SolicitudesInfo', data);
+    }
+    public static async subirArchivo(data: any) {
+        return await post('subirArchivo', data);
+    }
     public static async umas(data: any) {
         return await post('umas', data);
     }
@@ -55,8 +60,6 @@ export class CatalogosServices {
     public static async departamentos(data : any) {
         return await post('departamentos', data);
     };
-
-
     public static async municipios(data : any) {
         return await post('municipios', data);
     };
@@ -106,7 +109,31 @@ export class CatalogosServices {
     public static async SelectIndex(data : any) {
         return await post('SelectIndex', data);
     };
-
+    public static async indexAPC(data : any) {
+        return await post('indexAPC', data);
+    };
+    public static async clonarInformacionAP(data : any) {
+        return await post('clonarInformacionAP', data);
+    };
     
+    public static async getdetalle(data : any) {
+        return await post('getdetalle', data);
+    };
+
+    public static async workFlowIndex(data : any) {
+        return await post('workFlowIndex', data);
+    };
+
+    public static async Bancos(data : any) {
+        return await post('Bancos', data);
+    };
+    
+    public static async MunFideicomiso(data : any) {
+        return await post('MunFideicomiso', data);
+    };
+
+    public static async CuentaBancaria(data : any) {
+        return await post('CuentaBancaria', data);
+    };
 
 }

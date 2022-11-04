@@ -1,41 +1,104 @@
+import { useEffect, useState } from "react";
+import Box from '@mui/material/Box';
 import { Tooltip, IconButton } from "@mui/material";
-import { Box } from "@mui/system";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { GridColDef } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import { messages } from "../../../../styles";
-import AccionesGrid from "../../../AccionesGrid";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeviceHubIcon from "@mui/icons-material/DeviceHub";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import RolesRelModal from "./RolesRelModal";
-import RolesSinRel from "./RolesSinRel";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import UsuariosModal from "./UsuariosModal";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { UserServices } from "../../../../../services/UserServices";
+import { getPermisos } from "../../../../../services/localStorage";
+import { PERMISO } from "../../../../../interfaces/user/UserInfo";
+import UsuariosMunicipios from "./UsuariosMunicipios";
+import UsuarioRoles from "./UsuarioRoles";
+
 
 const Usuarios = () => {
   const [data, setData] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [openSinRel, setOpenSinRel] = useState(false);
+  const [openRolConf, setOpenRolConf] = useState(false);
+  const [openConfigMun, setOpenConfigMun] = useState(false);
   const [openNew, setOpenNew] = useState(false);
+  const [userActive, setUserActive] = useState<boolean>();
   const [tipoOperacion, setTipoOperacion] = useState(0);
-  const [row, setRow] = useState({});
   const [id, setId] = useState("");
+  const [dt, setDt] = useState({});
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+///////////////////////////////////////////
+
+
+  const handleMunicipios = (v: any) => {
+    setDt(v);
+    setOpenConfigMun(true);
+  };
+
 
   const handleOpen = () => {
     setTipoOperacion(3);
-    setRow("");
+    setDt("");
     setOpenNew(true);
   };
 
   const handleEdit = (v: any) => {
+    console.log(v);
     setTipoOperacion(5);
-    setRow(v);
+    setDt(v.row);
     setOpenNew(true);
   };
+
+  const handleActivo = (v: any) => {
+
+    let data = "?userId=" + v.row.id;
+    console.log(data)
+    UserServices.ActivateUser(data).then((res) => {
+      console.log(res)
+      console.log(v.row.id);
+
+      if (res.status == 200) {
+
+        let dat = {
+          NUMOPERACION: 6,
+          CHID: v.row.id,
+
+        };
+
+        AuthService.adminUser(dat).then((res) => {
+          if (res.SUCCESS) {           
+            consulta({ NUMOPERACION: 4 }, "Activado");
+          } else {
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+
+
+        });
+
+      }
+      else if (res.status == 409) {
+        Alert.fire({
+          title: "Error!",
+          text: res.data.msg,
+          icon: "error",
+        });
+      }
+    });
+
+
+  };
+
 
   const handleDelete = (v: any) => {
     /*  Swal.fire({
@@ -84,21 +147,19 @@ const Usuarios = () => {
       });*/
   };
 
-  const handleClose = () => {
-    setOpen(false);
-    setOpenSinRel(false);
+  const handleClose = (v:string) => {
+    setOpenConfigMun(false);
     setOpenNew(false);
+    setOpenRolConf(false);
+    consulta({ NUMOPERACION: 4 }, "Consulta Exitosa");
+  };
+  
+  
+  const handleRolConf = (v: any) => {
+    setDt(v.row);
+    setOpenRolConf(true);
   };
 
-  const handleView = (v: any) => {
-    setId(v.row.id);
-    setOpen(true);
-  };
-
-  const handleRel = (v: any) => {
-    setId(v.row.id);
-    setOpenSinRel(true);
-  };
 
   const columns: GridColDef[] = [
     {
@@ -106,109 +167,145 @@ const Usuarios = () => {
       headerName: "Identificador",
       hide: true,
       width: 150,
-      description: messages.dataTableColum.id,
     },
-    { field: "Nombre", headerName: "Nombre", width: 150 },
-    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
-    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
-    { field: "NombreUsuario", headerName: "Usuario", width: 150 },
-    {
-      field: "CorreoElectronico",
-      headerName: "Correo Electronico",
-      width: 200,
-    },
-    { field: "Tipo", headerName: "Tipo", width: 200 },
-
     {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 220,
       renderCell: (v) => {
         return (
           <Box>
-            <Tooltip title={"Ver Roles Relaciados al Usuario"}>
-              <IconButton onClick={() => handleView(v)}>
-                <DeviceHubIcon />
+            <Tooltip title={"Configurar Roles"}>
+              <IconButton color="success" onClick={() => handleRolConf(v)}>
+                <AssignmentIndIcon />
+              </IconButton>
+            </Tooltip> 
+            <Tooltip title={"Relacionar Municipios"}>
+              <IconButton color="info" onClick={() => handleMunicipios(v)}>
+                <Diversity3Icon />
               </IconButton>
             </Tooltip>
-
-            <Tooltip title={"Relacionar Rol"}>
-              <IconButton onClick={() => handleRel(v)}>
-                <AccountBoxIcon />
-              </IconButton>
-            </Tooltip>
-
             <Tooltip title={"Editar Registro"}>
-            <IconButton color="info" onClick={() => handleEdit(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-          </Tooltip>
-          
+              <IconButton color="info" onClick={() => handleEdit(v)}>
+                <ModeEditOutlineIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={"Editar Registro"}>
+              <IconButton color="error" onClick={() => handleDelete(v)}>
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
+        );
+      },
+    },
+    { field: "NombreUsuario", headerName: "Usuario", width: 150 },
+    { field: "Nombre", headerName: "Nombre", width: 150 },
+    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
+    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
+    { field: "CorreoElectronico",headerName: "Correo Electronico",     width: 250,   },
+    { field: "Puesto",headerName: "Puesto",     width: 200,   },
+    { field: "idDepartamento",headerName: "idDepartamento",     width: 10,  hide: true,  },
+    { field: "DepartamentoDescripcion",headerName: "Departamento",     width: 300,   },
+    { field: "idperfil",headerName: "idperfil",     width: 10,  hide: true,  },
+    { field: "PerfilDescripcion",headerName: "Perfil",     width: 300,   },
+   
+    {
+      field: "EstaActivo", headerName: "Activo", width: 100,
+      renderCell: (v: any) => {
+        return (
+          (Number(v.row.EstaActivo) == 0) ?
+            <Box>
+              <Tooltip title={"Activar Usuario"}>
+                <IconButton color="success" onClick={() => handleActivo(v)}>
+                  <HowToRegIcon />
+                </IconButton>
+              </Tooltip>
+
+            </Box>
+            : "Activo"
+
         );
       },
     },
   ];
 
-  const consulta = (data: any) => {
+  const consulta = (data: any, v: string) => {
     AuthService.adminUser(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        setData(res.RESPONSE);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: v,
+          });
+          setData(res.RESPONSE);
+        } else {
+          Alert.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
     });
   };
 
   useEffect(() => {
-    consulta({ NUMOPERACION: 4 });
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "USUARIOS") {
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+
+      }
+    });
+    consulta({ NUMOPERACION: 4 }, "Consulta Exitosa");
   }, []);
   return (
     <div>
-      {open ? (
-        <RolesRelModal
-          key={Math.random()}
-          open={open}
-          handleClose={handleClose}
-          id={id}
-        ></RolesRelModal>
-      ) : (
-        ""
-      )}
 
-      {openSinRel ? (
-        <RolesSinRel
-          key={Math.random()}
-          open={openSinRel}
+      {openRolConf ?
+        <UsuarioRoles
+          open={openRolConf}
           handleClose={handleClose}
-          id={id}
-        ></RolesSinRel>
-      ) : (
+          dt={dt}
+          ></UsuarioRoles>
+        :
         ""
-      )}
+      }
+
+
 
       {openNew ? (
         <UsuariosModal
           open={openNew}
           tipo={tipoOperacion}
           handleClose={handleClose}
-          dt={row}
+          dt={dt}
         ></UsuariosModal>
       ) : (
         ""
       )}
+     
 
-      <ButtonsAdd handleOpen={handleOpen} />
+{openConfigMun ? (
+        <UsuariosMunicipios
+          open={openConfigMun}
+          handleClose={handleClose}
+          dt={dt}
+        ></UsuariosMunicipios>
+      ) : (
+        ""
+      )}
+
+
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
     </div>
   );

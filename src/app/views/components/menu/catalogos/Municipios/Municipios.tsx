@@ -1,57 +1,37 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  LinearProgress,
-  Modal,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import { DataGrid, esES, GridColDef } from "@mui/x-data-grid";
-import AddCircleTwoToneIcon from "@mui/icons-material/AddCircleTwoTone";
+import { GridColDef } from "@mui/x-data-grid";
 import Slider from "../../../Slider";
-import { CustomNoRowsOverlay } from "../../CustomNoRowsOverlay";
-import { CustomToolbar } from "../../CustomToolbar";
-import { getUser } from "../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import AddIcon from "@mui/icons-material/Add";
 import { messages } from "../../../../styles";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import AccionesGrid from "../../../AccionesGrid";
 import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import MunicipiosModal from "./MunicipiosModal";
-import Buttons from "../Utilerias/Buttons";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { UserReponse } from "../../../../../interfaces/user/UserReponse";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
+import { Box, IconButton } from "@mui/material";
+import FideicomisoConfig from "./FideicomisoConfig";
 
 export const Municipios = () => {
   const [municipio, setMunicipio] = useState([]);
-
-
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  const [agregar, setAgregar] = useState<boolean>(false);
   const [modo, setModo] = useState("");
-
   const [open, setOpen] = useState(false);
+  const [openFideicomiso, setOpenFideicomiso] = useState(false);
+
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [plantilla, setPlantilla] = useState("");
+  const [fideicomiso, setFideicomiso] = useState<boolean>(false);
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
-
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
   const columns: GridColDef[] = [
     {
@@ -114,39 +94,49 @@ export const Municipios = () => {
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 150,
+      width: 350,
       renderCell: (v) => {
         return (
-          <AccionesGrid
-            handleEditar={handleEdit}
-            handleBorrar={handleDelete}
-            v={v}
-            update={true}
-            pdelete={true}
-          />
+          <>
+            <Box>
+              {fideicomiso ? <IconButton onClick={() => handleFideicomiso(v)}>
+                <RequestQuoteIcon />
+              </IconButton>
+                :
+                ""
+              }
+            </Box>
+            <Box>
+              <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+            </Box>
+          </>
         );
       },
     },
   ];
 
-  const handleOpen = (v: any) => {
-    setTipoOperacion(1);
-    setModo("Agregar Registro");
-    setOpen(true);
-    setData("");
+  const handleAccion = (v: any) => {
+    if (v.tipo == 1) {
+      setTipoOperacion(2);
+      setModo("Editar Registro");
+      setOpen(true);
+      setData(v.data);
+    } else if (v.tipo == 2) {
+      handleDelete(v.data);
+    }
+  }
+  const handleFideicomiso = (v: any) => {
+    setModo("Agregar Fideicomiso");
+    setOpenFideicomiso(true);
+    setData(v);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setOpenFideicomiso(false);
     consulta({ NUMOPERACION: 4 });
   };
 
-  const handleEdit = (v: any) => {
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setData(v);
-  };
 
   const handleDelete = (v: any) => {
     Swal.fire({
@@ -238,7 +228,23 @@ export const Municipios = () => {
   };
 
   useEffect(() => {
-    console.log();
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "MUNICIPIOS") {
+        console.log(item)
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+        if (String(item.Referencia) == "FIDE") {
+          setFideicomiso(true);
+        }
+      }
+    });
     let data = {
       NUMOPERACION: 4,
     };
@@ -264,11 +270,17 @@ export const Municipios = () => {
         ""
       )}
 
-      <Buttons
-        handleOpen={handleOpen}
-        url={plantilla}
-        handleUpload={handleUpload}
-      />
+      {openFideicomiso ? (
+        <FideicomisoConfig
+          open={openFideicomiso}
+          handleClose={handleClose}
+          dt={data}
+        />
+      ) : (
+        ""
+      )}
+
+      <ButtonsMunicipio url={plantilla} handleUpload={handleUpload} controlInterno={"MUNICIPIOS"} />
 
       <MUIXDataGrid sx={{}} columns={columns} rows={municipio} />
     </div>

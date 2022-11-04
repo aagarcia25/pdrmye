@@ -35,7 +35,7 @@ export const Perfil = () => {
   const [botonEdicionFoto, setBotonEdicionFoto] = useState("Editar");
   const [botonEdicionTodo, setBotonEdicionTodo] = useState("Editar");
 
-  user.Nombre=nombre;
+  user.Nombre = nombre;
 
   //PRIMER CARD FUNCIONES
   const onClickEditarFoto = () => {
@@ -57,13 +57,13 @@ export const Perfil = () => {
     //Avisos de que faltan algunos campos y avisar que sus compañeros no los podrán observar
     if (botonEdicionTodo === "Guardar") {
       setBotonEdicionTodo("Editar");
-      
+
     }
   };
 
   let st;
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <Box
@@ -81,7 +81,7 @@ export const Perfil = () => {
         sx={{
           width: "80%",
           height: "80%",
-          // backgroundColor: "blue"
+          //backgroundColor: "blue"
         }}
       >
         <Box
@@ -131,7 +131,7 @@ export const Perfil = () => {
               //CARD #1
               width: "100%",
               height: "50%",
-              //  backgroundColor: "aquamarine",
+              bgcolor: "rgb(252,252,252)",
               borderRadius: 2,
               boxShadow: 2,
               mt: 1,
@@ -149,11 +149,13 @@ export const Perfil = () => {
                 display: "flex",
               }}
             >
+
+
               <Box
                 sx={{
                   width: "25%",
                   height: "100%",
-                  // backgroundColor: "yellow"
+                  // backgroundColor: "blue"
                 }}
               >
                 <Grid container>
@@ -172,6 +174,8 @@ export const Perfil = () => {
                     </Typography>
                   </Grid>
                 </Grid>
+                
+
               </Box>
               <Box
                 sx={{
@@ -202,20 +206,49 @@ export const Perfil = () => {
                         // backgroundColor: "violet",
                       }}
                     >
-                      {user.RutaFoto ? (
+                      
+                      <Box sx={{
+                        width:"4vw",
+                        height:"6vh",
+                        backgroundColor:"white",
+                        borderRadius: '50%',
+                        border:3,
+                        borderColor:"black",
+                        display:"flex",
+                        justifyContent:"center",
+                        alignItems:"center"
+                      }}>
+                         {user.RutaFoto ? (
                         <img
-                          style={{ width: "3vw", height: "7vh" }}
+                          style={{
+                            objectFit: "scale-down",
+                            width: "3vw",
+                          }}
                           src={user.RutaFoto}
                         />
                       ) : (
                         <PersonIcon
                           sx={{
-                            width: "3vw",
-                            height: "7vh",
-                            border: 1,
+                            width: "10vw",
+                            height: "4vh",
+                            
                           }}
                         />
                       )}
+
+                      </Box>
+                      
+                      <Box
+                    sx={{
+                      width: "25%",
+                      height: "100%",
+                      justifyContent: "start",
+                      backgroundColor: "white",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}>
+
+                  </Box>
                     </Grid>
                     <Grid
                       item //Botón Cambiar
@@ -260,7 +293,7 @@ export const Perfil = () => {
                     >
                       <Typography sx={{ fontWeight: "Bold" }}>
                         Tipo de usuario: {tipo
-                        //VER COMO TRAER EL ROL DEL USUARIO!!!
+                          //VER COMO TRAER EL ROL DEL USUARIO!!!
                         }
                       </Typography>
                     </Grid>
@@ -354,7 +387,7 @@ export const Perfil = () => {
               //CARD #2
               width: "100%",
               height: "50%",
-              // backgroundColor: "aquamarine",
+              bgcolor: "rgb(252,252,252)",
               borderRadius: 2,
               boxShadow: 2,
               mt: 1,
@@ -566,35 +599,35 @@ export const Perfil = () => {
                     </Box>
                   </Box>
                   <Box sx={{
-                  width:"100%",
-                  height:"13%",
-                //  backgroundColor:"red",
-                  display:"flex",
-                  justifyContent:"center",
-                  alignItems:"end"
-                }}>
-                  <Button
-                  onClick={onClickEditarTodo}
-                  sx={{
-                    width: "2vw",
-                    height: "3vh",
-                    backgroundColor: "white",
-                    borderColor: "#5048E7",
-                    borderRadius: 1,
-                    color: "#5048E5",
-                    "&:hover": {
-                      color: "#5048E5",
-                      backgroundColor: "#eeebf5",
-                    },
-                  }}
-                  > <Typography sx={{ fontSize: "3" }}>
-                  {botonEdicionTodo}
-                </Typography></Button>
-                </Box>
+                    width: "100%",
+                    height: "13%",
+                    //  backgroundColor:"red",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "end"
+                  }}>
+                    <Button
+                      onClick={onClickEditarTodo}
+                      sx={{
+                        width: "2vw",
+                        height: "3vh",
+                        backgroundColor: "white",
+                        borderColor: "#5048E7",
+                        borderRadius: 1,
+                        color: "#5048E5",
+                        "&:hover": {
+                          color: "#5048E5",
+                          backgroundColor: "#eeebf5",
+                        },
+                      }}
+                    > <Typography sx={{ fontSize: "3" }}>
+                        {botonEdicionTodo}
+                      </Typography></Button>
+                  </Box>
                 </Box>
 
-                
-               
+
+
               </Box>
             </Box>
           </Box>

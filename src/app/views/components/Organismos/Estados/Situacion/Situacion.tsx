@@ -33,7 +33,7 @@ const Situacion = () => {
       <div>
       
         <Box >
-          <ButtonsAdd handleOpen={handleOpen}></ButtonsAdd>
+         <ButtonsAdd handleOpen={handleOpen} agregar={false} />
           <MUIXDataGrid columns={columns} rows={data} />
         </Box>
       </div>

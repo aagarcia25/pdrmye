@@ -15,17 +15,16 @@ import MUIXDataGrid from "../../MUIXDataGrid";
 import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
 import Trazabilidad from "../../Trazabilidad";
 import Slider from "../../Slider";
+import DetalleFgp from "./DetalleFgp";
 import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { getPermisos } from "../../../../services/localStorage";
-import DetalleFondo from "../aportaciones/DetalleFondo";
-import DetalleFgp from "./DetalleFgp";
 
 export const Fpg = () => {
-  const navigate = useNavigate();
   const [slideropen, setslideropen] = useState(false);
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [fondo, setFondo] = useState("");
   const [modo, setModo] = useState<string>("");
   const [anio, setAnio] = useState<number>(0);
@@ -33,10 +32,13 @@ export const Fpg = () => {
   const [idtrazabilidad, setIdtrazabilidad] = useState("");
   const [openDetalles, setOpenDetalles] = useState(false);
   const [clave, setClave] = useState("");
-  const [estatus, setEstatus] = useState("");
-
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [nombreFondo, setNombreFondo] = useState("");
   const [idDetalle, setIdDetalle] = useState("");
+ 
+
 
   const closeTraz = (v: any) => {
     setOpenTrazabilidad(false);
@@ -46,10 +48,6 @@ export const Fpg = () => {
     setOpenTrazabilidad(true);
   };
 
-  const handleTras = (v: string) => {
-    setIdtrazabilidad(v);
-    setOpenTrazabilidad(true);
-};
 
   const handleOpen = (v: any) => {
     setModo("calculo");
@@ -63,21 +61,21 @@ export const Fpg = () => {
   };
 
   const handleAjuste = (v: any) => {
+    setIdtrazabilidad(v.row.id);
     setModo("ajuste");
     setAnio(Number(v.row.Anio));
     setMes(v.row.Mes);
     setstep(1);
   };
 
-  const handleView = (v: any) => {
-
+  const handleDetalle = (v: any) => {
+    setIdtrazabilidad(v.row.id);
     setClave(v.row.Clave)
     setIdDetalle(String(v.row.id));
-    setMes(v.row.Mes);
+    setMes(v.row.nummes +","+v.row.Mes);
     setstep(2);
     setOpenDetalles(true);
     setAnio(Number(v.row.Anio));
-    setEstatus(v.row.estatus);
 
   };
 
@@ -131,22 +129,40 @@ export const Fpg = () => {
         return (
           <Box>
             <Tooltip title="Ver detalle de Cálculo">
-              <IconButton onClick={() => handleView(v)}>
+              <IconButton onClick={() => handleDetalle(v)}>
                 <InfoIcon />
               </IconButton>
             </Tooltip>
 
+
+            {agregarajuste &&  String(v.row.estatus) == "INICIO" ? (
             <Tooltip title="Agregar Ajuste">
-              <IconButton onClick={() => handleAjuste(v)}>
+              <IconButton
+                onClick={() => handleAjuste(v)}
+                disabled={
+                  String(v.row.Clave) == "FISM" &&
+                  String(v.row.Clave) == "FORTAMUN"  
+                 
+                }
+              >
                 <AttachMoneyIcon />
               </IconButton>
             </Tooltip>
+            ) : (
+              ""
+            )}
 
+
+
+         {verTrazabilidad ? (
             <Tooltip title="Ver Trazabilidad">
               <IconButton onClick={() => handleTraz(v)}>
                 <InsightsIcon />
               </IconButton>
             </Tooltip>
+             ) : (
+              ""
+            )}
           </Box>
         );
       },
@@ -157,7 +173,6 @@ export const Fpg = () => {
     calculosServices.fondoInfo(data).then((res) => {
       if (res.SUCCESS) {
         const obj: fondoinfo[] = res.RESPONSE;
-
         setFondo(obj[0].Clave);
         setNombreFondo(obj[0].Descripcion);
       } else {
@@ -194,6 +209,20 @@ export const Fpg = () => {
   let params = useParams();
 
   useEffect(() => {
+    console.log(params.fondo)
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === String(params.fondo)) {
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "TRAZA") {
+          setVerTrazabilidad(true);
+        }
+        if (String(item.Referencia) == "AAJUSTE") {
+          setAgregarAjuste(true);
+        }
+      }
+    });
 
 
 
@@ -213,10 +242,17 @@ export const Fpg = () => {
       ) : (
         ""
       )}
+  
+
+
+    
+    
+
+
 
       <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <ButtonsCalculo handleOpen={handleOpen} />
+          <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
           <MUIXDataGrid columns={columns} rows={data} />
         </div>
       </Box>
@@ -229,11 +265,13 @@ export const Fpg = () => {
             onClickBack={handleClose}
             modo={modo}
             anio={anio}
-            mes={mes}
-          />
+            mes={mes} 
+            idCalculo={idtrazabilidad}  
+            />
 
           {openDetalles ?
             <DetalleFgp
+              idCalculo={idtrazabilidad}  
               openDetalles={openDetalles}
               nombreFondo={nombreFondo}
               idDetalle={idDetalle}
@@ -241,9 +279,7 @@ export const Fpg = () => {
               clave={clave}
               anio={anio}
               mes={mes}
-              fondo={fondo}
-              estatus={estatus}
-              handleTras={handleTras}            />
+                        />
             : ""}
         </div>
       </Box>

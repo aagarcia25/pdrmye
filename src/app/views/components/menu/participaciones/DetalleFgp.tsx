@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
-import { Box, Dialog, Grid } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  Grid,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+} from "@mui/material";
 import { Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
 import { Alert } from "../../../../helpers/Alert";
@@ -10,58 +14,64 @@ import { calculosServices } from "../../../../services/calculosServices";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
 import Slider from "../../Slider";
-
-
-import { getPermisos } from "../../../../services/localStorage";
-import { PERMISO } from "../../../../interfaces/user/UserInfo";
-import BotonesOpciones from "../../componentes/BotonesOpciones";
+import { getPermisos, getUser } from "../../../../services/localStorage";
+import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
-
+import Trazabilidad from "../../Trazabilidad";
+import Swal from "sweetalert2";
+import ModalAlert from "../../componentes/ModalAlert";
+import BotonesAcciones from "../../componentes/BotonesAcciones";
+import SelectValues from "../../../../interfaces/Select/SelectValues";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import InsightsIcon from "@mui/icons-material/Insights";
+import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 
 const DetalleFgp = ({
+  idCalculo,
   openDetalles,
   idDetalle,
   nombreFondo,
   handleClose,
   clave,
-  estatus,
   anio,
   mes,
-  handleTras,
-  fondo
-
 }: {
+  idCalculo: string;
   openDetalles: Boolean;
   idDetalle: String;
   nombreFondo: String;
   handleClose: Function;
   clave: string;
-  estatus: string;
   anio: number;
   mes: string;
-  handleTras: Function;
-  fondo: string;
-
 }) => {
-
-
-
-  const navigate = useNavigate();
+  // Dire
+  const user: RESPONSE = JSON.parse(String(getUser()));
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [status, setStatus] = useState<SelectValues>();
+  const [perfil, setPerfil] = useState<SelectValues>();
+  const [direccion, setDireccion] = useState<SelectValues>();
+  const [openSlider, setOpenSlider] = useState(true);
+  const [estatusDestino, setEstatusDestino] = useState("");
+  //Permisos
   const [data, setData] = useState([]);
-
-  ////////////////////////
-
+  const [vrows, setvrows] = useState({});
   const [autorizar, setAutorizar] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-  const [enviar, setEnviar] = useState<boolean>(false);
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  //Modals
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
 
-  const [idtrazabilidad, setIdtrazabilidad] = useState("");
+  const [proceso, setProceso] = useState(""); //VARIABLE PARA DETERMINAR EL PROCESO QUE SE ESTA REALIZANDO
+  const [tipoAccion, setTipoAccion] = useState("");
 
-  //////////////////
-  const [openSlider, setOpenSlider] = useState(false);
+  //Columnas
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
   const [ta, setTa] = useState(false);
@@ -74,14 +84,188 @@ const DetalleFgp = ({
   const [ae, setAe] = useState(false);
   const [af, setAf] = useState(false);
 
-  const handleTraz = (v: any) => {
-    setIdtrazabilidad(v.row.id);
-    setOpenTrazabilidad(true);
+  const closeTraz = () => {
+    setOpenTrazabilidad(false);
   };
 
+  // MANEJO DE ACCIONES
+  const handleAcciones = (v: any) => {
+    if (v.tipo == 1) {
+      console.log(v);
+    } else if (v.tipo == 2) {
+    } else {
+      switch (v) {
+        case 1: //Regresar
+          handleClose();
+          break;
 
+        case 2: //Trazabilidad
+          setOpenTrazabilidad(true);
+          break;
+
+        case 3: //Autorizar Analista
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_ENV_COOR');
+          setvrows(data);
+          setOpenModal(true);
+          break;
+
+        case 4: //Autorizar Coordinador
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_ENV_DIR');
+          setvrows(data);
+          setOpenModal(true);
+          break;
+
+        case 5: //Autorizar Director
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_AUT_DIR');
+          setvrows(data);
+          setOpenModal(true);
+          break;
+
+        case 6: //Cancelar
+          BorraCalculo()
+          break;
+
+        case 7: //Regresar a Analista
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_REG_ANA');
+          setvrows(data);
+          setOpenModal(true);
+          break;
+
+        case 8: //Regresar a Coordinador
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino('CPH_REG_COOR');
+          setvrows(data);
+          setOpenModal(true);
+          break;
+
+        default:
+          break;
+      }
+    }
+  };
+
+ 
+
+
+
+  const Fnworkflow = (data: any) => {
+    console.log(data);
+
+    let obj = {
+      CHID: idCalculo,
+      ESTATUS_DESTINO: estatusDestino,
+      CHUSER: user.id,
+      TEXTO: data.texto,
+    };
+
+    calculosServices.wf(obj).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        handleClose();
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
+  const BorraCalculo = () => {
+    let data = {
+      IDCALCULO: idDetalle,
+      CHUSER: user.id,
+      CLAVE: clave,
+      ANIO: anio,
+      MES: mes.split(",")[0],
+    };
+
+    console.log(data);
+    Swal.fire({
+      icon: "question",
+      title: "Borrar Cálculo",
+      text: "El cálculo de eliminara, favor de confirmar",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        calculosServices.BorraCalculo(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Borrado Exitoso!",
+            });
+            handleClose();
+          } else {
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      }
+    });
+  };
+  const EstatusCalculo = () => {
+    let data = {
+      IDCALCULO: idDetalle,
+    };
+    calculosServices.getEstatusCalculo(data).then((res) => {
+      if (res.SUCCESS) {
+        setStatus(res.RESPONSE[0]);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+  const getPerfilCalculo = () => {
+    let data = {
+      IDCALCULO: idDetalle,
+    };
+    calculosServices.getPerfilCalculo(data).then((res) => {
+      if (res.SUCCESS) {
+        setPerfil(res.RESPONSE[0]);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+  const getAreaCalculo = () => {
+    let data = {
+      IDCALCULO: idDetalle,
+    };
+    calculosServices.getAreaCalculo(data).then((res) => {
+      if (res.SUCCESS) {
+        setDireccion(res.RESPONSE[0]);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
   const columnas = (data: any) => {
-    setOpenSlider(true);
     calculosServices.getColumns(data).then((res) => {
       if (res.SUCCESS) {
         const cl: columnasCal[] = res.RESPONSE;
@@ -127,9 +311,7 @@ const DetalleFgp = ({
               break;
           }
         });
-        setOpenSlider(false);
       } else {
-        setOpenSlider(false);
         Alert.fire({
           title: "Error!",
           text: res.STRMESSAGE,
@@ -138,9 +320,7 @@ const DetalleFgp = ({
       }
     });
   };
-
   const consulta = (data: any) => {
-    setOpenSlider(true);
     calculosServices.calculosInfodetalle(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -148,20 +328,58 @@ const DetalleFgp = ({
           title: "Consulta Exitosa!",
         });
         setData(res.RESPONSE);
-        setOpenSlider(false);
       } else {
-        setOpenSlider(false);
         Alert.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
       }
+      setOpenSlider(false);
     });
   };
-
   const columns = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      width: 100,
+      renderCell: (v: any) => {
+        return (
+          <BotonesAcciones
+            handleAccion={handleAcciones}
+            row={v}
+            editar={editar}
+            eliminar={eliminar}
+          />
+        );
+      },
+    },
+    // {
+
+    //   field: "ComentarioPresupuesto",
+    //   headerName: "Observación DPCP",
+    //   width: 300,
+    //   description: "Observación DPCP",
+    // },
+    // {
+
+    //   field: "RutaArchivo",
+    //   headerName: "Documento DPCP",
+    //   width: 100,
+    //   renderCell: (v: any) => {
+    //     return v.row.RutaArchivo !== null ? (
+    //       <Box>
+    //         <Link href={v.row.RutaArchivo} underline="always">
+    //           Descargar
+    //         </Link>
+    //       </Box>
+    //     ) : (
+    //       ""
+    //     );
+    //   },
+    // },
+
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -277,99 +495,247 @@ const DetalleFgp = ({
       ...Moneda,
     },
   ];
-
-  let params = useParams();
-  useEffect(() => {
-
+  const EstablecePermisos = () => {
+    if (clave === "ICV" || clave === "ISN") {
+      setProceso("PARTICIPACIONES_ESTATALES_CPH");
+    } else {
+      setProceso("PARTICIPACIONES_FEDERALES_CPH");
+    }
 
     permisos.map((item: PERMISO) => {
-
-      console.log("fondo  " + clave + "  estatus " + estatus);
-
       if (String(item.ControlInterno) === String(clave)) {
-        console.log(clave + "  " + "  " + item.Permiso)
-
-        if (String(item.Permiso) == "Autorizar" && estatus != "CERRADO") {
+        if (String(item.Referencia) == "AUT") {
           setAutorizar(true);
-          console.log("autoriza  " + autorizar);
         }
-
-        if (String(item.Permiso) == "Cancelar" && estatus != "CERRADO") {
+        if (String(item.Referencia) == "CANC") {
           setCancelar(true);
-          console.log("cancela  " + cancelar);
         }
-
-        if (String(item.Permiso) == "Ver Trazabilidad") {
+        if (String(item.Referencia) == "TRAZA") {
           setVerTrazabilidad(true);
-          console.log("ver trazabilidad  " + verTrazabilidad);
         }
-
-        if (String(item.Permiso) == "Enviar" && estatus != "CERRADO") {
-          setEnviar(true);
-          console.log("enviar  " + enviar);
+       
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
         }
       }
-
-
-
     });
+  };
 
-
-
-    setTimeout(() => {
-      columnas({ IDCALCULOTOTAL: idDetalle });
-      consulta({ IDCALCULOTOTAL: idDetalle });
-    }, 2000);
+  useEffect(() => {
+    EstablecePermisos();
+    EstatusCalculo();
+    getPerfilCalculo();
+    getAreaCalculo();
+    columnas({ IDCALCULOTOTAL: idDetalle });
+    consulta({ IDCALCULOTOTAL: idDetalle });
   }, []);
 
   return (
     <div>
       <Box>
-        <Dialog open={Boolean(openDetalles)} fullScreen={true} >
-          <Slider open={openSlider}></Slider>
-          <Grid container spacing={2} sx={{ justifyContent: "center", }} >
+        <Dialog open={Boolean(openDetalles)} fullScreen={true}>
+         
+         {openModal ? (
+            <ModalAlert
+              open={openModal}
+              tipo={tipoAccion}
+              handleClose={handleClose}
+              vrows={vrows}
+              handleAccion={Fnworkflow} 
+              accion={0}      
+              ></ModalAlert>
+          ) : (
+            ""
+          )}
+
+          {openTrazabilidad ? (
+            <Trazabilidad
+              open={openTrazabilidad}
+              handleClose={closeTraz}
+              id={idCalculo}
+            ></Trazabilidad>
+          ) : (
+            ""
+          )}
+
+          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={12}>
-              <Box sx={{ display: "flex", justifyContent: "center", bgcolor: "rgb(245,245,245)" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  bgcolor: "rgb(245,245,245)",
+                }}
+              >
                 <Titulo name={String(nombreFondo)} />
               </Box>
             </Grid>
           </Grid>
           <Grid
-            container spacing={1}
-            sx={{ display: "flex", justifyContent: "center", }} >
-
-            <Grid item xs={1} sx={{ alignItems: "center", }} >
-
-              <label className="subtitulo">{anio}<br /><br /><br /></label>
+            container
+            spacing={1}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Grid item xs={1} sx={{ alignItems: "center" }}>
+              <label className="subtitulo">
+                {anio}
+                <br />
+              </label>
             </Grid>
           </Grid>
           <Grid
-            container spacing={1}
-            sx={{ justifyContent: "center", width: "100%" }} >
-
-            <Grid item xs={1} >
-
-              <label className="subtitulo">{mes} <br /><br /><br /></label>
+            container
+            spacing={1}
+            sx={{ justifyContent: "center", width: "100%" }}
+          >
+            <Grid item xs={1}>
+              <label className="subtitulo">
+                {mes.split(",")[1]}
+                <br />
+              </label>
             </Grid>
           </Grid>
+
           <Grid
-            container spacing={1}
-            sx={{ justifyContent: "center", width: '100%' }} >
+            container
+            spacing={1}
+            sx={{ justifyContent: "center", width: "100%" }}
+          >
+            <Grid item xs={7} md={8} lg={8}>
+              <label>
+                Estatus del Cálculo: {status?.label} <br />
+              </label>
+              <label>
+                Perfil Asignado: {perfil?.label} <br />
+              </label>
+              <label>
+                Área Asignada: {direccion?.label} <br />
+              </label>
+            </Grid>
+          </Grid>
 
-            <Grid item xs={7} md={8} lg={8} sx={{ justifyContent: "center", width: '100%' }}>
-              <BotonesOpciones
-                handleAccion={handleClose}
-                autorizar={autorizar}
-                cancelar={cancelar}
-                verTrazabilidad={verTrazabilidad}
-                enviar={enviar}
-                handleTras={handleTras}
-                idDetalle={String(idDetalle)}
+          <Grid
+            container
+            spacing={1}
+            sx={{ justifyContent: "center", width: "100%" }}
+          >
+            <Grid
+              item
+              xs={7}
+              md={8}
+              lg={8}
+              sx={{ justifyContent: "center", width: "100%" }}
+            >
+              <Slider open={openSlider}></Slider>
 
-              />
+              <Box>
+                <ToggleButtonGroup>
+                  <Tooltip title={"Regresar"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(1)}
+                    >
+                      <ArrowBackIcon />
+                    </ToggleButton>
+                  </Tooltip>
+
+                  {verTrazabilidad ? (
+                    <Tooltip title={"Ver Trazabilidad"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(2)}
+                      >
+                        <InsightsIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {autorizar && perfil?.value == "ANA" ? (
+                    <Tooltip title={"Autorizar Analista"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(3)}
+                      >
+                        <DoneAllIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {autorizar && perfil?.value == "COOR" ? (
+                    <Tooltip title={"Autorizar Coordinador"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(4)}
+                      >
+                        <DoneAllIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {autorizar && perfil?.value == "DIR" ? (
+                    <Tooltip title={"Autorizar Director"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(5)}
+                      >
+                        <DoneAllIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {cancelar && perfil?.value == "ANA" ? (
+                    <Tooltip title={"Cancelar"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(6)}
+                      >
+                        <CancelPresentationIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {cancelar && perfil?.value == "COOR" ? (
+                    <Tooltip title={"Regresar a Analista"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(7)}
+                      >
+                        <CompareArrowsIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+
+                  {cancelar && perfil?.value == "DIR" ? (
+                    <Tooltip title={"Regresar a Coordinador"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(8)}
+                      >
+                        <CompareArrowsIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
+                </ToggleButtonGroup>
+              </Box>
 
               <MUIXDataGrid columns={columns} rows={data} />
-
             </Grid>
           </Grid>
         </Dialog>

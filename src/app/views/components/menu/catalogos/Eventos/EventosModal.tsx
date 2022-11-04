@@ -12,9 +12,10 @@ import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getPermisos, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { PhotoCamera } from "@mui/icons-material";
 import "../../../../../styles/globals.css";
+import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 
 
 const EventosModal = ({
@@ -45,7 +46,9 @@ const EventosModal = ({
   const [nameNewImage, setNameNewImage] = useState("");
   const [newImage, setNewImage] = useState(Object);
   const [nameEvent, setNameEvent] = useState("");
- 
+  const [edit, setEditar] = useState<boolean>(false);
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+
   const [finEventoMax, setFinEventoMax] = useState("2100-09-30 13:16:00");
   const [finEvento, setFinEvento] = useState("");
   const [urlImage, setUrlImage] = useState("");
@@ -107,9 +110,6 @@ const EventosModal = ({
     formData.append("FECHAINICIO", inicioEvento);
     formData.append("FECHAFIN", finEvento);
     formData.append("CHUSER", "1");
-
-
-
 
     CatalogosServices.eventos(formData).then((res) => {
       setslideropen(false);
@@ -212,6 +212,14 @@ const EventosModal = ({
   };
 
   useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "EVENTOS") {
+        console.log(item)
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     municipiosc();
     
 
@@ -466,8 +474,8 @@ const EventosModal = ({
             <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
 
               <button  className= "cerrar" onClick={() => handleClose()}>Cerrar</button>
-              <button className= "editar" onClick={() => setModoModal("Editar")}>Editar</button>
-        
+              {edit? <button className = "editar" onClick={() => setModoModal("Editar")}>Editar</button>
+:""}        
             </Box>
           </Box>
         </Container>

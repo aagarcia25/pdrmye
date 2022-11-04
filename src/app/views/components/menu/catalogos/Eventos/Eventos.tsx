@@ -12,8 +12,9 @@ import Swal from "sweetalert2";
 import "../../../../../styles/globals.css";
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import ButtonsAdd from '../Utilerias/ButtonsAdd'
-import { getUser } from '../../../../../services/localStorage'
-import { RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { getPermisos, getUser } from '../../../../../services/localStorage'
+import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import BotonesAcciones from '../../../componentes/BotonesAcciones'
 
 
 
@@ -26,6 +27,10 @@ export const Eventos = () => {
   const [data, setData] = useState({});
   const [conEventos, setEventos] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
 
   const columns: GridColDef[] = [
 
@@ -46,7 +51,6 @@ export const Eventos = () => {
           <Box>
             <IconButton onClick={() => handleVisualizar(v)}>
               <img id="imagen" src={v.row.Imagen} style={{ width: "2vw", objectFit: "scale-down" }} />
-
             </IconButton>
           </Box>
         );
@@ -61,31 +65,25 @@ export const Eventos = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEditar(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleBorrar(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
         );
       },
     },
 
-
   ];
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setModo("Editar");
+      setOpen(true);
+      setData(v.data);
+    }else if(v.tipo ==2){
+      handleBorrar(v.data);
+    }
+  }
 
-  const handleEditar = (v: any) => {
-    console.log(v)
-    setTipoOperacion(2);
-    setModo("Editar");
-    setOpen(true);
-    setData(v);
-  };
-
-
-  const handleBorrar = (v: any) => {
+   const handleBorrar = (v: any) => {
 
     Swal.fire({
       icon: "info",
@@ -135,7 +133,7 @@ export const Eventos = () => {
   };
 
 
-  const handleNuevoRegistro = () => {
+  const handleOpen = () => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
@@ -164,6 +162,8 @@ export const Eventos = () => {
 
 
   let dat = ({
+ 
+
     NUMOPERACION: 4,
     CHUSER: user.id
   })
@@ -187,6 +187,20 @@ export const Eventos = () => {
   };
 
   useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "EVENTOS") {
+        console.log(item)
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     CatalogosServices.eventos(dat).then((res) => {
       //  console.log(res);
       setEventos(res.RESPONSE);
@@ -210,7 +224,7 @@ export const Eventos = () => {
       <Box sx={{}}>
        
       </Box>
-      <ButtonsAdd handleOpen={handleNuevoRegistro} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={conEventos} />
 
 

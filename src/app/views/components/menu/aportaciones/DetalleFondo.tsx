@@ -41,7 +41,7 @@ const DetalleFondo = ({
 }) => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-
+  const [direccion, setDireccion] = useState("")
   const [openSlider, setOpenSlider] = useState(false);
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
@@ -265,38 +265,44 @@ const DetalleFondo = ({
     },
   ];
 
+  const getPerfilCalculo = () => {
+    let data = {
+      IDCALCULO: idDetalle,
+    };
+    calculosServices.getPerfilCalculo(data).then((res) => {
+      if (res.SUCCESS) {
+        setDireccion(res.RESPONSE[0].Referencia);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
   useEffect(() => {
-
+  getPerfilCalculo();
     permisos.map((item: PERMISO) => {
-
-      console.log("fondo  " + clave + "  estatus " + estatus);
-
       if (String(item.ControlInterno) === String(clave)) {
-        console.log(clave + "  " + "  " + item.Permiso)
 
-        if (String(item.Permiso) == "Autorizar" && estatus != "CERRADO") {
+        if (String(item.Referencia) == "AUT" && estatus != "CERRADO") {
           setAutorizar(true);
-          console.log("autoriza  " + autorizar);
         }
 
-        if (String(item.Permiso) == "Cancelar" && estatus != "CERRADO") {
+        if (String(item.Referencia) == "CANC" && estatus != "CERRADO") {
           setCancelar(true);
-          console.log("cancela  " + cancelar);
         }
 
-        if (String(item.Permiso) == "Ver Trazabilidad") {
+        if (String(item.Referencia) == "TRAZA") {
           setVerTrazabilidad(true);
-          console.log("ver trazabilidad  " + verTrazabilidad);
         }
 
-        if (String(item.Permiso) == "Enviar" && estatus != "CERRADO") {
+        if (String(item.Referencia) == "ENV" && estatus != "CERRADO") {
           setEnviar(true);
-          console.log("enviar  " + enviar);
         }
       }
-
-
-
     });
 
 
@@ -351,9 +357,10 @@ const DetalleFondo = ({
                 cancelar={cancelar}
                 verTrazabilidad={verTrazabilidad}
                 enviar={enviar}
-                handleTras={handleTras}
-                idDetalle={String(idDetalle)}
-                
+                presupuesto={true} 
+                estatus={""}   
+                perfil={direccion}
+                area={""}  
                 />
 
               <MUIXDataGrid columns={columns} rows={data} />

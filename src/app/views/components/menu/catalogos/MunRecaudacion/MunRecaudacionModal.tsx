@@ -17,6 +17,9 @@ import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipio
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import { municipiosc } from "../../../../../share/loadMunicipios";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
 const MunRecaudacionModal = ({
@@ -40,21 +43,11 @@ const MunRecaudacionModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState<number>();
   const [recaudacion, setRecaudacion] = useState<number>();
-  const [IdMunicipio, setIdMunicipio] = useState<object>();
-  const [values, setValues] = useState<Imunicipio[]>();
+  const [IdMunicipio, setIdMunicipio] = useState<string>();
+  const [municipios, setMunicipios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const [municipio, setMunicipio] = useState("");
 
-
-  const municipiosc = () => {
-    let data = {};
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-    let m: Imunicipio[] = JSON.parse(String(getMunicipios()));
-    setValues(m);
-  };
 
 
 
@@ -97,6 +90,10 @@ const MunRecaudacionModal = ({
     }
   };
 
+  const handleFilterChange = (event: SelectValues) => {
+    setIdMunicipio(event.value);
+
+  };
 
 
   const agregar = (data: any) => {
@@ -137,7 +134,7 @@ const MunRecaudacionModal = ({
 
 
   useEffect(() => {
-    municipiosc();
+    setMunicipios(municipiosc());
 
     if (dt === '') {
       console.log(dt)
@@ -147,6 +144,7 @@ const MunRecaudacionModal = ({
       setAnio(dt?.row?.Anio)
       setRecaudacion(dt?.row?.Recaudacion)
       setIdMunicipio(dt?.row?.idmunicipio)
+      setMunicipio(dt?.row?.Nombre)
 
 
 
@@ -170,46 +168,22 @@ const MunRecaudacionModal = ({
             <label className="Titulo">{modo}</label>
           </Box>
           <FormControl variant="standard" fullWidth>
-            <InputLabel>Municipio</InputLabel>
-            <Select
-              required
-              onChange={(v) => setIdMunicipio(Object(v.target.value))}
-              value={IdMunicipio}
-              label="Municipio"
-              error={IdMunicipio == null ? true : false}
-              inputProps={{
-                readOnly: tipo == 1 ? false : true,
-              }}
-            >
-              {values?.map((item: Imunicipio) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Nombre}
-                  </MenuItem>
-                );
-              })}
-            </Select>
+          <Box>
+            <label ><br /> Municipio: <br />{municipio}</label>
+          </Box>
           </FormControl>
+          <Box>
+            <label ><br /> Año: <br />{anio}</label>
+          </Box>
 
-          <TextField
-            required
-            margin="dense"
-            id="anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            error={anio == null ? true : false}
-            onChange={(v) => setAnio(Number(v.target.value))}
-
-          />
+          <Box>
+            <label > <br /> Recaudacion: <br /></label>
+          </Box>
 
           <TextField
             margin="dense"
             required
             id="pob"
-            label="Recaudacion"
             value={recaudacion}
             type="number"
             fullWidth

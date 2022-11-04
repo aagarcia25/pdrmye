@@ -15,7 +15,7 @@ import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getPermisos, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 
 import imagenGenerica from '../../../../../../app/assets/img/archivoImagen.jpg'
 import PdfLogo from '../../../../../../app/assets/img/PDF_file_icon.svg'
@@ -24,7 +24,7 @@ import xlsxLogo from '../../../../../../app/assets/img/xlsx_Logo.png'
 import docxLogo from '../../../../../../app/assets/img/docx_Logo.png'
 import "../../../../../styles/globals.css";
 import { UserReponse } from "../../../../../interfaces/user/UserReponse";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 const AvisosModal = ({
   open,
   modo,
@@ -70,7 +70,8 @@ const AvisosModal = ({
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
   const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [editar, setEditar] = useState<boolean>(false);
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -161,22 +162,17 @@ const handleNewFile = (event: any) => {
   setNewDoc(file);
 
 };
-const testeoVariables = () => {
-  console.log("inicio de evento   " + inicioEvento);
-  //console.log("fin de evento   " + finEvento);
-  //console.log("noombre de evento    " + nameAviso);
-  console.log("modo   " + modoModal);
-  console.log("nameDocDownload   " + nameDocDownload);
-  console.log("SE AÑADE DOCUMENTO   " + editDoc);
-  console.log("url doc total caracteres    " + urlDoc.length);
-  console.log("url doc en string1  " + urlDoc);
-  console.log("url doc en string 2    " + urlDoc.search("AVISOS"));
-  console.log("url doc en string  3  " + urlDoc.slice((urlDoc.search("AVISOS") + 7), urlDoc.length));
-  console.log("nombre de descarga archivo  " + nameDocDownload)
 
-}
 
 useEffect(() => {
+  permisos.map((item: PERMISO) => {
+    if (String(item.ControlInterno) === "AVISOS") {
+      console.log(item)
+      if (String(item.Referencia) == "EDIT") {
+        setEditar(true);
+      }
+    }
+  });
 
   municipiosc();
   if (dt === '') {
@@ -528,8 +524,9 @@ return (
           <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
 
             <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
-            <button className="editar" onClick={() => setModoModal("Editar")}>Editar</button>
-
+             {editar?
+             <button className="editar" onClick={() => setModoModal("Editar")}>Editar</button>
+             :""}
           </Box>
         </Box>
       </Container>
@@ -679,26 +676,18 @@ return (
                   required
                   type="datetime-local"
                   defaultValue={finEvento}
-
                   onChange={handleFechaFin}
                 />
               </Box>
 
             </Box>
-
           </Box>
-
-
-
           {////// botones 
           }
 
           <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
             <button className="cerrar" onClick={() => handleClose()}  >Cerrar</button>
             <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
-
-
-
           </Box>
 
         </Container>
@@ -707,9 +696,6 @@ return (
       : ""}
 
   </Dialog>
-
-
-
 );
 };
 

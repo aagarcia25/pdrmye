@@ -14,13 +14,19 @@ export const setUser = (user: any) => localStorage.setItem('user', JSON.stringif
 export const getUser = () => localStorage.getItem('user');
 // PERMISOS
 export const setPermisos = (permisos: any) => localStorage.setItem('permisos', JSON.stringify(permisos));
-export const getPermisos = () => localStorage.getItem('permisos');
+export const getPermisos = () => ((localStorage.getItem('permisos')==null)?  "[{}]": localStorage.getItem('permisos'));
 // ROLES
 export const setRoles = (roles: any) => localStorage.setItem('roles', JSON.stringify(roles));
 export const getRoles = () => localStorage.getItem('roles');
 // MENUS
 export const setMenus = (menus: any) => localStorage.setItem('menus', JSON.stringify(menus));
 export const getMenus = () => localStorage.getItem('menus');
+// PERFIL
+export const setPerfiles = (perfiles: any) => localStorage.setItem('perfiles', JSON.stringify(perfiles));
+export const getPerfiles = () => localStorage.getItem('perfiles');
+// DEPARTAMENTO
+export const setDepartamento = (departamento: any) => localStorage.setItem('departamento', JSON.stringify(departamento));
+export const getDepartamento = () => localStorage.getItem('departamento');
 
 //IDENTIFICAR QUE EL USUARIO YA ESTA LOGEADO
 export const setlogin = (data: any) => {
@@ -47,6 +53,6 @@ export const getPU = ( ) => {
  return localStorage.getItem('PU');
 
 }
-export const getItem = (item:string ) => {
-  return localStorage.getItem(item);
+export const getItem = (item:string ) :string => {
+  return String(localStorage.getItem(item));
  }

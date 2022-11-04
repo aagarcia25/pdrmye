@@ -24,6 +24,10 @@ export const Fondo = () => {
   const [step, setstep] = useState(0);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [openDetalles, setOpenDetalles] = useState(false);
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
   const [fondo, setFondo] = useState("");
   const [clave, setClave] = useState("");
@@ -45,9 +49,9 @@ export const Fondo = () => {
     setIdtrazabilidad(v.row.id);
     setOpenTrazabilidad(true);
   }
-    const handleTras = (v: string) => {
-      setIdtrazabilidad(v);
-      setOpenTrazabilidad(true);
+  const handleTras = (v: string) => {
+    setIdtrazabilidad(v);
+    setOpenTrazabilidad(true);
   };
   const handleOpen = (v: any) => {
     setModo("calculo");
@@ -60,9 +64,7 @@ export const Fondo = () => {
     setOpenTrazabilidad(false);
 
   };
-  const handleDetalle = (v: any) => {    
- 
- 
+  const handleDetalle = (v: any) => {
     setClave(v.row.Clave)
     setIdDetalle(String(v.row.id));
     setMes(v.row.Mes);
@@ -70,8 +72,6 @@ export const Fondo = () => {
     setOpenDetalles(true);
     setAnio(Number(v.row.Anio));
     setEstatus(v.row.estatus);
-
-
   };
 
   const handleAjuste = (v: any) => {
@@ -82,7 +82,7 @@ export const Fondo = () => {
   };
 
   const columns: GridColDef[] = [
-    
+
     { field: "id", headerName: "Identificador", width: 150, hide: true },
     {
       field: "Clave",
@@ -136,24 +136,30 @@ export const Fondo = () => {
                 <InfoIcon />
               </IconButton>
             </Tooltip>
-
-            <Tooltip title="Agregar Ajuste">
-              <IconButton
-                onClick={() => handleAjuste(v)}
-                disabled={
-                  String(v.row.Clave) == "FISM" ||
-                  String(v.row.Clave) == "FORTAMUN"
-                }
-              >
-                <AttachMoneyIcon />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="Ver Trazabilidad">
-              <IconButton onClick={() => handleTraz(v)}>
-                <InsightsIcon />
-              </IconButton>
-            </Tooltip>
+            {agregarajuste ? (
+              <Tooltip title="Agregar Ajuste">
+                <IconButton
+                  onClick={() => handleAjuste(v)}
+                  disabled={
+                    String(v.row.Clave) == "FISM" ||
+                    String(v.row.Clave) == "FORTAMUN"
+                  }
+                >
+                  <AttachMoneyIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+            {verTrazabilidad ? (
+              <Tooltip title="Ver Trazabilidad">
+                <IconButton onClick={() => handleTraz(v)}>
+                  <InsightsIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
           </Box>
         );
       },
@@ -198,10 +204,28 @@ export const Fondo = () => {
   let params = useParams();
 
   useEffect(() => {
+    console.log(permisos);
+    console.log(params.fondo);
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === String(params.fondo)) {
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "TRAZA") {
+          setVerTrazabilidad(true);
+        }
+        if (String(item.Referencia) == "AAJUSTE") {
+          setAgregarAjuste(true);
+        }
+      }
+    });
+
+
+
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
 
-   
+
   }, [params.fondo]);
 
   return (
@@ -218,7 +242,7 @@ export const Fondo = () => {
 
       <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <div style={{ height: 600, width: "100%" }}>
-          <ButtonsCalculo handleOpen={handleOpen} />
+          <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
           <MUIXDataGrid columns={columns} rows={data} />
         </div>
       </Box>
@@ -246,7 +270,8 @@ export const Fondo = () => {
           anio={anio}
           mes={mes}
           fondo={fondo}
-           estatus={estatus}        />
+          estatus={estatus}
+        />
         : ""}
 
     </>

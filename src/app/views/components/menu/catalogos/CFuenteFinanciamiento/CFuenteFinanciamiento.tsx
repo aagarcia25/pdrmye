@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { Alert } from '../../../../../helpers/Alert';
 import { Toast } from '../../../../../helpers/Toast';
 import { CatalogosServices } from '../../../../../services/organismosServices';
-import AccionesGrid from '../../../AccionesGrid';
 import MUIXDataGrid from '../../../MUIXDataGrid'
 
 const CFuenteFinanciamiento = () => {
@@ -61,7 +60,7 @@ const CFuenteFinanciamiento = () => {
           width: 200,
           renderCell: (v: any) => {
             return (
-             <AccionesGrid handleEditar={handleEditar} handleBorrar={handleBorrar} v={v} update={true} pdelete={true}/>
+              ""
             );
           },
         },

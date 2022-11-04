@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, IconButton, } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { getUser, } from "../../../../../services/localStorage";
+import { getPermisos, getUser, } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -13,19 +13,24 @@ import Swal from "sweetalert2";
 import TipoFondoModal from "./TipoFondoModal";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 const TipoFondo = () => {
 
   //   VALORES POR DEFAULT
-  const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [dataTipoFondo, setDataTipoFondo] = useState([]);
   const [slideropen, setslideropen] = useState(false);
   const [vrows, setVrows] = useState({});
   const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  const [modo, setModo] = useState("");
+  
 
   const columns: GridColDef[] = [
     {
@@ -49,19 +54,23 @@ const TipoFondo = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEdit(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
         );
       },
     },
   ];
-
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setModo("Editar ");
+      setOpen(true);
+      setVrows(v.data);
+    }else if(v.tipo ==2){
+      handleDelete(v.data);
+    }
+  }
+  
   const handleClose = () => {
     setOpen(false);
     let data = {
@@ -76,16 +85,6 @@ const TipoFondo = () => {
     setOpen(true);
     setVrows({});
   };
-
-  const handleEdit = (v: any) => {
-    console.log(v);
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setVrows(v);
-
-  };
-
 
 
   const handleDelete = (v: any) => {
@@ -160,6 +159,20 @@ const TipoFondo = () => {
 
 
   useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "MUNICIPIOS") {
+        console.log(item)
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     let data = {
       NUMOPERACION: 4
     };
@@ -178,7 +191,7 @@ const TipoFondo = () => {
         ""
       )}
 
-      <ButtonsAdd handleOpen={handleOpen} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
 
       <MUIXDataGrid columns={columns} rows={dataTipoFondo} />
 

@@ -5,19 +5,17 @@ import { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import { messages } from "../../../../styles";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import RolesMenu from "./RolesMenu";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import RolesModal from "./RolesModal";
 import AsignarMenuRol from "./AsignarMenuRol";
-import EditIcon from '@mui/icons-material/Edit';
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getUser } from "../../../../../services/localStorage";
+import EditIcon from "@mui/icons-material/Edit";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 
 const Roles = () => {
   const [data, setData] = useState([]);
@@ -30,36 +28,31 @@ const Roles = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  const handleClose = (v:string) => {
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminarP, setEliminarP] = useState<boolean>(false);
 
+  const handleClose = (v: string) => {
     setOpen(false);
     setOpenRel(false);
     setOpenRolesModalAdd(false);
 
     {
-      if (v === "saved")
-        consulta({ NUMOPERACION: 4 });
+      if (v === "saved") consulta({ NUMOPERACION: 4 });
     }
   };
 
   const handleRel = (v: any) => {
     setId(v.row.id);
     setOpenRel(true);
-
   };
-  const handleTeste = (v: any) => {
-    console.log(v.row);
 
-  };
   const eliminar = (v: any) => {
-
     let data = {
       NUMOPERACION: 3,
       CHUSER: user.id,
       CHID: String(v.row.id),
-
-
-
     };
     AuthService.rolesindex(data).then((res) => {
       if (res.SUCCESS) {
@@ -81,11 +74,8 @@ const Roles = () => {
   const handleView = (v: any) => {
     setId(v.id);
     setOpen(true);
-   
-   
-
   };
-  const handleNuevoRegistro = () => {
+  const handleOpen = () => {
     setTipoOperacion(1);
     setModo("Agregar Rol");
     setOpenRolesModalAdd(true);
@@ -98,20 +88,17 @@ const Roles = () => {
     setDt(v);
   };
 
-
-
   const columns: GridColDef[] = [
     {
       field: "id",
       headerName: "Identificador",
       hide: true,
       width: 150,
-      description: messages.dataTableColum.id,
     },
     {
       field: "Nombre",
       headerName: "Rol",
-      width: 150,
+      width: 250,
     },
     { field: "Descripcion", headerName: "Descripcion", width: 450 },
     {
@@ -129,23 +116,33 @@ const Roles = () => {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Ver opciones de menu dsiponibles y asignarlas al Rol"}>
+            <Tooltip
+              title={"Ver opciones de menu dsiponibles y asignarlas al Rol"}
+            >
               <IconButton onClick={() => handleRel(v)}>
                 <AccountTreeIcon />
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Editar Descripcion del Rol"}>
-              <IconButton onClick={() => handleEditarRegistro(v)}>
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={"Eliminar Rol"}>
-              <IconButton onClick={() => eliminar(v)}>
-                <DeleteForeverIcon />
-              </IconButton>
-            </Tooltip>
+            {editar ? (
+              <Tooltip title={"Editar Descripcion del Rol"}>
+                <IconButton onClick={() => handleEditarRegistro(v)}>
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
+            {eliminarP ? (
+              <Tooltip title={"Eliminar Rol"}>
+                <IconButton onClick={() => eliminar(v)}>
+                  <DeleteForeverIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
           </Box>
         );
       },
@@ -154,7 +151,7 @@ const Roles = () => {
 
   const consulta = (data: any) => {
     AuthService.rolesindex(data).then((res) => {
-      console.log(res)
+      console.log(res);
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -172,6 +169,19 @@ const Roles = () => {
   };
 
   useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "ROLUSER") {
+        if (String(item.Referencia) == "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) == "ELIM") {
+          setEliminarP(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     consulta({ NUMOPERACION: 4 });
   }, []);
 
@@ -187,30 +197,26 @@ const Roles = () => {
         ""
       )}
       {open ? (
-        <RolesMenu open={open}
-          handleClose={handleClose}
-          id={id}></RolesMenu>
+        <RolesMenu open={open} handleClose={handleClose} id={id}></RolesMenu>
       ) : (
         ""
       )}
-      {openRolesModalAdd ? <RolesModal
-        open={openRolesModalAdd}
-        modo={modo}
-        handleClose={handleClose}
-        tipo={tipoOperacion}
-        dt={dt}
-      />
-        : ""}
+      {openRolesModalAdd ? (
+        <RolesModal
+          open={openRolesModalAdd}
+          modo={modo}
+          handleClose={handleClose}
+          tipo={tipoOperacion}
+          dt={dt}
+        />
+      ) : (
+        ""
+      )}
 
-
-      <ButtonsAdd handleOpen={handleNuevoRegistro} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
     </div>
   );
 };
 
 export default Roles;
-function setOpenRel(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}
-

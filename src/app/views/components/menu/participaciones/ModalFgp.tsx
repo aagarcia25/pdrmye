@@ -1,9 +1,4 @@
-import {
-  Box,
-  Grid,
-  IconButton,
-  Input,
-} from "@mui/material";
+import { Box, Checkbox, Grid, IconButton, Input } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Alert } from "../../../../helpers/Alert";
 import { Toast } from "../../../../helpers/Toast";
@@ -24,6 +19,7 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { useNavigate } from "react-router-dom";
 
 const ModalFgp = ({
+  idCalculo,
   step,
   clave,
   titulo,
@@ -32,6 +28,7 @@ const ModalFgp = ({
   anio,
   mes,
 }: {
+  idCalculo:string
   step: number;
   clave: string;
   titulo: string;
@@ -48,19 +45,47 @@ const ModalFgp = ({
   const [meselect, setMeselect] = useState("");
   const [ajustes, setAjustes] = useState<SelectValues[]>([]);
   const [nameNewDoc, setNameNewDoc] = useState("");
-
+  const [ajusteselect, setajusteselect] = useState("");
+  const [labelAjuste, setLabelAjuste] = useState<number>();
+  const [Czero, setCzero]= useState<boolean>(false);
   let year: number = new Date().getFullYear();
-  
+
   const handleSelectMes = (v: SelectValues) => {
-    setMeselect(String(v.value));
+    setMeselect(String(v));
   };
-  const handleSelectAjuste = (v: SelectValues) => { };
+
+  const handleChangeZero = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCzero(event.target.checked);
+  };
+  const handleSelectAjuste = (v: SelectValues) => {
+    setajusteselect(String(v));
+   
+    if(String(v) !== ""){
+    
+    let data ={
+      NUMOPERACION :5,
+      CHID :String(v)
+    };
+    CatalogosServices.AjustesIndex(data).then((res) => {
+      if (res.SUCCESS) {
+        console.log(res.RESPONSE);
+        setLabelAjuste(Number(res.RESPONSE.keys));
+       
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  }else{
+    setLabelAjuste(0);
+  }
+   
+  };
 
   const [file, setFile] = useState(Object);
-
-
-
-
 
   const handleNewFile = (event: any) => {
     setFile(event?.target?.files?.[0] || "");
@@ -71,16 +96,16 @@ const ModalFgp = ({
     }
   };
 
-
-  const isrnomina = () => {
+  const AjusteEstatal = () => {
     setslideropen(true);
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "ISRNOMINA");
+    formData.append("tipo", "CalculoAjuste");
+    formData.append("FONDO", clave);
     formData.append("CHUSER", user.id);
-    formData.append("ANIO", String(year));
-    formData.append("MES", meselect);
-    formData.append("IMPORTE", '0');
+    formData.append("IMPORTE", String(monto));
+    formData.append("IDCALCULO", idCalculo);
+    formData.append("IDAJUSTE", String(ajusteselect));
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
       if (res.SUCCESS) {
@@ -97,13 +122,36 @@ const ModalFgp = ({
           icon: "error",
         });
       }
-
-
-
     });
+  };
 
+  const isrnomina = () => {
+    setslideropen(true);
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlsx");
+    formData.append("tipo", "ISRNOMINA");
+    formData.append("CHUSER", user.id);
+    formData.append("ANIO", String(year));
+    formData.append("MES", meselect);
+    formData.append("IMPORTE", "0");
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Carga Exitosa!",
+        });
 
-  }
+        onClickBack();
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
 
   const isrinmuebles = () => {
     setslideropen(true);
@@ -130,14 +178,8 @@ const ModalFgp = ({
           icon: "error",
         });
       }
-
-
-
     });
-
-
-  }
-
+  };
 
   const icv = () => {
     setslideropen(true);
@@ -163,53 +205,54 @@ const ModalFgp = ({
           icon: "error",
         });
       }
-
-
-
     });
-
-
-  }
-
-
+  };
 
   const handleSend = () => {
 
 
-    if (clave === 'ICV') {
-      icv();
-    } else if (clave === 'ISR INMUEBLES') {
-      isrinmuebles();
-    } else if (clave === 'ISR NOMINA') {
-      isrnomina();
+    if (modo === "calculo") {
+      if (clave === "ICV") {
+        icv();
+      } else if (clave === "ISR INMUEBLES") {
+        isrinmuebles();
+      } else if (clave === "ISR NOMINA") {
+        isrnomina();
+      }else{
+        
+        if (monto == null ) {
+          Alert.fire({
+            title: "Error!",
+            text: "Favor de Completar los Campos",
+            icon: "error",
+          });
+        } else {
+          let data = {
+            CLAVEFONDO: clave,
+            CHUSER: user.id,
+            IMPORTE: monto,
+            ANIO: year,
+            MES: meselect,
+            ZERO:Czero
+          };
+          console.log(data);
+          agregar(data);
+        }
+
+      }
+
+      
+    } else {
+      
+      // AJUSTE ESTATAL
+      if(labelAjuste == 10 ){
+        AjusteEstatal();
+      }else if(labelAjuste == 9){
+        AjusteEstatal();
+      }else if(labelAjuste == 8){
+        AjusteEstatal();
+      }
     }
-
-
-    /* if (monto == null || anio) {
-       Alert.fire({
-         title: "Error!",
-         text: "Favor de Completar los Campos",
-         icon: "error",
-       });
-     } else {
-       let data = {
-           CHUSER: user.id
-         NUMOPERACION: 1,
-         IDESTATUS: "30ec276f-2b14-11ed-afdb-040300000000",
-         CLAVEFONDO: "FGP",
-         ANIO: year,
-         MES: mes,
-         ANIOPOBLACION: 2020,
-       };
-       agregar(data);
-     }*/
-
-
-
-
-
-
-
 
 
   };
@@ -221,6 +264,7 @@ const ModalFgp = ({
           icon: "success",
           title: "Registro Agregado!",
         });
+        onClickBack();
       } else {
         Alert.fire({
           title: "Error!",
@@ -234,26 +278,22 @@ const ModalFgp = ({
   const ajusteesc = () => {
     let data = {
       NUMOPERACION: 3,
+      CLAVE: clave,
     };
     CatalogosServices.SelectIndex(data).then((res) => {
       setAjustes(res.RESPONSE);
     });
   };
 
-
   useEffect(() => {
     // SE ESTABLECE EL TIEMPO EN ESPERA PARA QUE SE CARGEN DE FORMA CORRECTA LOS COMPONENTES
     setNameNewDoc("");
-    setTimeout(() => {
+      setLabelAjuste(0);
       setslideropen(true);
       setMeses(fmeses());
       ajusteesc();
       setslideropen(false);
-    }, 3000);
-
   }, [step]);
-
-
 
   return (
     <div>
@@ -373,12 +413,52 @@ const ModalFgp = ({
                 }}
               >
                 <SelectFrag
+                  value={ajusteselect}
                   options={ajustes}
                   onInputChange={handleSelectAjuste}
-                  placeholder={"Seleccione el Ajuste"}
-                ></SelectFrag>
+                  placeholder={"Seleccione el Ajuste"} label={""} disabled={false}                ></SelectFrag>
               </Box>
             </Grid>
+
+            {labelAjuste == 10 || labelAjuste == 8 || labelAjuste == 9 ? (
+              <>
+                <Grid
+                  item
+                  xs={5}
+                  md={5}
+                  lg={5}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "right",
+                  }}
+                >
+                  <label className="contenido">Cargar Archivo:</label>
+                </Grid>
+                <Grid item xs={6} md={6}>
+                  <IconButton
+                    aria-label="upload picture"
+                    component="label"
+                    size="large"
+                  >
+                    <input
+                      required
+                      type="file"
+                      hidden
+                      onChange={(event) => {
+                        handleNewFile(event);
+                      }}
+                    />
+                    <UploadFileIcon />
+                  </IconButton>
+
+                  <Box>
+                    <label>{nameNewDoc}</label>
+                  </Box>
+                </Grid>
+              </>
+            ) : (
+              ""
+            )}
 
             <Grid
               item
@@ -461,13 +541,12 @@ const ModalFgp = ({
                 }}
               >
                 <SelectFrag
+                  value={meselect}
                   options={meses}
                   onInputChange={handleSelectMes}
-                  placeholder={"Seleccione el Mes"}
-                ></SelectFrag>
+                  placeholder={"Seleccione el Mes"} label={""} disabled={false}                ></SelectFrag>
               </Box>
             </Grid>
-
 
             {clave !== "ICV" && clave !== "ISR NOMINA" ? (
               <>
@@ -495,13 +574,39 @@ const ModalFgp = ({
                   ></Input>
                 </Grid>
               </>
-            ) : ""
-            }
+            ) : (
+              ""
+            )}
+
+         {monto === 0 ? (
+              <>
+                <Grid
+                  item
+                  xs={5}
+                  md={5}
+                  lg={5}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "right",
+                  }}
+                >
+                  <label className="contenido">Generar Cálculo en cero:</label>
+                </Grid>
+                <Grid item xs={6} md={6}>
+                 <Checkbox  checked={Czero} onChange={(event) => {handleChangeZero(event)  }}  color="success" />
+                </Grid>
+              </>
+            ) : (
+              ""
+            )}
 
 
 
 
-            {clave === "ICV" || clave === "ISR INMUEBLES" || clave==="ISR NOMINA" ? (
+
+            {clave === "ICV" ||
+            clave === "ISR INMUEBLES" ||
+            clave === "ISR NOMINA" ? (
               <>
                 <Grid
                   item
@@ -540,7 +645,6 @@ const ModalFgp = ({
               </>
             ) : (
               ""
-
             )}
 
             <Grid

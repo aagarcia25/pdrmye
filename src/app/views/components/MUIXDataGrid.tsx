@@ -1,8 +1,6 @@
-import * as React from "react";
-import { DataGrid,  esES as gridEsES, esES, GridToolbar } from "@mui/x-data-grid";
-import { createTheme, LinearProgress, ThemeProvider } from "@mui/material";
+import { DataGrid,  esES as gridEsES, esES, GridToolbar,  } from "@mui/x-data-grid";
+import { createTheme,  ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
-import { CustomNoRowsOverlay } from "./menu/CustomNoRowsOverlay";
 import { CustomToolbar } from "./menu/CustomToolbar";
 
 const theme = createTheme(coreEsES, gridEsES);
@@ -18,19 +16,18 @@ export default function MUIXDataGrid(props: any) {
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           columns={props.columns}
           rows={props.rows}
+          align
+          ///autoHeight
           density="compact"
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick 
           disableColumnFilter
           disableColumnSelector
           disableDensitySelector
-          sx={{ fontFamily: "MontserratMedium" }}
+          getRowHeight={() => 'auto'}
+        
           components={{ Toolbar: GridToolbar }}
-          /*components={{
-            Toolbar: CustomToolbar,
-            LoadingOverlay: LinearProgress,
-            NoRowsOverlay: CustomNoRowsOverlay,            
-          }}*/
+          sx={{ fontFamily: "MontserratMedium" ,textTransform:"uppercase "}}
 
           componentsProps={{
             toolbar: {

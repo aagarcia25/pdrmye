@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { env_var } from "../../environments/env";
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -63,9 +64,8 @@ export default function Header(props: HeaderProps) {
   const onLogOut = () => {
     localStorage.clear();
     var ventana = window.self;
-    ventana.opener = window.self;
-    ventana.close();
-    // window.location.replace("http://10.200.4.106/");
+    ventana.location.replace(env_var.BASE_URL_LOGIN);
+
   };
 
   const onOpenCalendar = () => {
@@ -143,9 +143,13 @@ export default function Header(props: HeaderProps) {
             <Grid item xs />
 
             <Grid item>
-              <Typography variant="h6" color="black">
+              <Typography variant="subtitle1" color="black">
                 {props.name}
               </Typography>
+              <Typography variant="caption" color="black">
+               {user.Puesto} 
+              </Typography>
+             
             </Grid>
 
             <Grid item>
@@ -165,19 +169,26 @@ export default function Header(props: HeaderProps) {
                     p: 0.1,
                     border: 4,
                     borderColor: COLOR.negro,
-                    backgroundColor: COLOR.negro,
+                    backgroundColor: user.RutaFoto?COLOR.blanco:COLOR.negro,
                     "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                   }}
                 >
                   {user.RutaFoto ? (
                     <img
-                      style={{ width: "3vw", height: "7vh" }}
+                      style={{
+                        width: "3vw",
+                        height: "7vh",
+                        objectFit: "scale-down",
+                      }}
                       src={user.RutaFoto}
                     />
                   ) : (
-                    <PersonIcon sx={{ width: "3vw", height: "7vh",
-                    "&:hover":{color:COLOR.negro}}} />
+                    <PersonIcon sx={{
+                      width: "3vw", height: "7vh",
+                      "&:hover": { color: COLOR.negro }
+                    }} />
                   )}
+                  
                 </IconButton>
               </Tooltip>
               <Popper

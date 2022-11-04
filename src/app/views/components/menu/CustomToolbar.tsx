@@ -1,4 +1,4 @@
-import { GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton, GridToolbarDensitySelector, GridToolbarExport, GridColTypeDef, GridToolbar } from "@mui/x-data-grid";
+import { GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton, GridToolbarDensitySelector, GridToolbarExport, GridColTypeDef, GridToolbar, GridToolbarQuickFilter } from "@mui/x-data-grid";
 
 export function CustomToolbar() {
     return (
@@ -7,7 +7,7 @@ export function CustomToolbar() {
         <GridToolbarFilterButton />
         <GridToolbarDensitySelector />
         <GridToolbarExport />
-      
+        <GridToolbarQuickFilter />
       </GridToolbarContainer>
     );
   }

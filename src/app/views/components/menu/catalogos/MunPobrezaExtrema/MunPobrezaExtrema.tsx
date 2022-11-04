@@ -9,15 +9,17 @@ import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { Alert } from "../../../../../helpers/Alert";
-import Buttons from '../Utilerias/Buttons'
 import Slider from "../../../Slider";
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import { getUser } from '../../../../../services/localStorage'
+import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { getPermisos, getUser } from '../../../../../services/localStorage'
 import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
+import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
+import AccionesGrid from '../Utilerias/AccionesGrid'
+import BotonesAcciones from '../../../componentes/BotonesAcciones'
 
 export const MunPobrezaExtrema = () => {
 
@@ -31,7 +33,10 @@ export const MunPobrezaExtrema = () => {
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
 
 
 
@@ -60,14 +65,8 @@ export const MunPobrezaExtrema = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
-            <IconButton onClick={() => handleEditar(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-            <IconButton onClick={() => handleBorrar(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
-          </Box>
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
         );
       },
     },
@@ -97,20 +96,16 @@ export const MunPobrezaExtrema = () => {
     setData(v);
   };
 
-
-  const handleEditar = (v: any) => {
-    console.log(v)
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setData(v);
-
-    let data = {
-      NUMOPERACION: 4,
-      ANIO: filterAnio,
-    };
-    consulta(data);
-  };
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setModo("Editar ");
+      setOpen(true);
+      setData(v.data);
+    }else if(v.tipo ==2){
+      handleBorrar(v.data);
+    }
+  }
 
   const handleBorrar = (v: any) => {
 
@@ -177,9 +172,6 @@ export const MunPobrezaExtrema = () => {
     CatalogosServices.munpobrezaext(data).then((res) => {
 
       console.log('respuesta' + res.RESPONSE + res.NUMCODE);
-
-
-
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -224,6 +216,19 @@ export const MunPobrezaExtrema = () => {
 
 
   useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "MUNPOEX") {
+        console.log(item)
+    
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
+
     setAnios(fanios());
     downloadplantilla();
   }, []);
@@ -239,9 +244,10 @@ export const MunPobrezaExtrema = () => {
       <Box  
          sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
             <SelectFrag 
-            options={anios} 
-            onInputChange={handleFilterChange} 
-            placeholder={"Seleccione Año"}/>
+            value={''}
+          options={anios}
+          onInputChange={handleFilterChange}
+          placeholder={"Seleccione Año"} label={""} disabled={false}/>
             </Box>
 
       {open ? (
@@ -256,11 +262,9 @@ export const MunPobrezaExtrema = () => {
         ""
       )}
 
-      <Buttons
-        handleOpen={handleOpen}
+      <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleAgregar}
-      />
+        handleUpload={handleAgregar} controlInterno={"MUNPOEX"}      />
 
       <MUIXDataGrid columns={columns} rows={PobrezaExtrema} />
 
