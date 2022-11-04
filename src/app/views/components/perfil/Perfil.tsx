@@ -11,11 +11,14 @@ import { useEffect, useState } from "react";
 import { getUser } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import PersonIcon from "@mui/icons-material/Person";
+import { DialogAgregarImagen } from "./DialogAgregarImagen";
 
 export const Perfil = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   //CAMPOS EN USO DE USUARIO
-  console.log(user.Nombre);
+  // console.log(user.Nombre);
+  //Abrir Dialog de imagen
+  const [openDialog, setOpenDialog] = useState(false)
 
   const [nombre, setNombre] = useState(user.Nombre);
   const [nombreUsuario, setNombreUsuario] = useState(user.NombreUsuario);
@@ -37,6 +40,13 @@ export const Perfil = () => {
 
   user.Nombre = nombre;
 
+
+  const handleCloseDialogImagen = () => {
+    setOpenDialog(false);
+  };
+  const handleOpenDialogImagen = () => {
+    setOpenDialog(true);
+  };
   //PRIMER CARD FUNCIONES
   const onClickEditarFoto = () => {
     setBotonEdicionFoto("Guardar");
@@ -174,7 +184,7 @@ export const Perfil = () => {
                     </Typography>
                   </Grid>
                 </Grid>
-                
+
 
               </Box>
               <Box
@@ -206,49 +216,63 @@ export const Perfil = () => {
                         // backgroundColor: "violet",
                       }}
                     >
-                      
-                      <Box sx={{
-                        width:"4vw",
-                        height:"6vh",
-                        backgroundColor:"white",
-                        borderRadius: '50%',
-                        border:3,
-                        borderColor:"black",
-                        display:"flex",
-                        justifyContent:"center",
-                        alignItems:"center"
-                      }}>
-                         {user.RutaFoto ? (
-                        <img
-                          style={{
-                            objectFit: "scale-down",
-                            width: "3vw",
-                          }}
-                          src={user.RutaFoto}
-                        />
-                      ) : (
-                        <PersonIcon
-                          sx={{
-                            width: "10vw",
-                            height: "4vh",
-                            
-                          }}
-                        />
-                      )}
+
+                      <Box
+                        onClick={() => {
+                          setOpenDialog(true)
+                        }}
+
+                        sx={{
+                          width: "4vw",
+                          height: "6vh",
+                          backgroundColor: "white",
+                          borderRadius: '50%',
+                          border: 3,
+                          borderColor: "black",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          cursor: "pointer",
+                        }}
+
+                      >
+                        {user.RutaFoto ? (
+                          <img
+                          
+                            style={{
+                              objectFit: "scale-down",
+                              width: "3vw",
+                            }}
+                            src={user.RutaFoto}
+                          />
+                        ) : (
+                          <PersonIcon
+
+                            sx={{
+                              width: "10vw",
+                              height: "4vh",
+
+                            }}
+                          />
+                        )}
 
                       </Box>
-                      
-                      <Box
-                    sx={{
-                      width: "25%",
-                      height: "100%",
-                      justifyContent: "start",
-                      backgroundColor: "white",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}>
+                     
 
-                  </Box>
+                      {openDialog ? <DialogAgregarImagen open={true} handleClose={handleCloseDialogImagen}></DialogAgregarImagen>:null}
+
+
+                      <Box
+                        sx={{
+                          width: "25%",
+                          height: "100%",
+                          justifyContent: "start",
+                          backgroundColor: "white",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}>
+
+                      </Box>
                     </Grid>
                     <Grid
                       item //Botón Cambiar
@@ -299,7 +323,7 @@ export const Perfil = () => {
                     </Grid>
                   </Grid>
                 </Box>
-
+               
                 <Box
                   sx={{
                     width: "100%",

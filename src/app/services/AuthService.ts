@@ -97,8 +97,12 @@ export class AuthService {
     public static async RelacionarUsuarioMunicipio(data: any) {
         return await post('RelacionarUsuarioMunicipio', data);
     }
+    
+    public static async SaveImagen(data: any) {
+        return await post('SaveImagen', data);
+    }
 
-
+    
 
     
 
