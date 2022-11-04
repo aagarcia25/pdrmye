@@ -46,6 +46,13 @@ const SolicitudRecursos = () => {
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [verTraz, setVertraz] = useState<boolean>(false);
 
+  const acciones = [
+    {per:'ANA', dep:"DAMOP", accion:'DAMOP_AUT_ANA'},
+    {per:'COOR',dep:"DAMOP", accion:'DAMOP_AUT_COR'},
+    {per:'DIR', dep:"DAMOP", accion:'DAMOP_AUT_DIR'},
+
+]
+
   ///////////////////////////////////////////
   const consulta = () => {
 
