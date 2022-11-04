@@ -13,6 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 export const ComentariosRecursosModal = (
     {
         data,
+        departamento,
         open,
         handleClose,
         modo,
@@ -21,73 +22,80 @@ export const ComentariosRecursosModal = (
         :
         {
             modo: String;
+            departamento: string;
             data: any;
             open: boolean;
             handleClose: Function;
-            perfil : string;    
+            perfil: string;
         }
 ) => {
     const [openSlider, setOpenSlider] = useState(false);
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [comentarios, setComentarios] = useState<string>();
-
+    const perfiles = [
+        {per:'ANA', dep:"DAMOP", accion:'DAMOP_AUT_ANA'},
+        {per:'COOR',dep:"DAMOP", accion:'DAMOP_AUT_COR'},
+        {per:'DIR', dep:"DAMOP", accion:'DAMOP_AUT_DIR'},
+  
+    ]
+    const result = perfiles.find(({ per,dep }) => per ===perfil && dep==departamento);
     const acciones = (v: string) => {
+
         if (v == "autorizar") {
-            if(perfil=="ANA"){
-                let d = {
-                    NUMOPERACION: 5,
-                    CHID: data.id,
-                    CHUSER: user.id,
-                    ESTATUS: "DAMOPANAAUTO",
-                    Comentario:comentarios,
 
-                  };
-            
-                  Swal.fire({
-                    icon: "info",
-                    title: "Enviar",
-                    text: "Desea Autorizar la Solicitud",
-                    showDenyButton: false,
-                    showCancelButton: true,
-                    confirmButtonText: "Aceptar",
-                    cancelButtonText: "Cancelar",
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      CatalogosServices.SolicitudesInfo(d).then((res) => {
+            let d = {
+                NUMOPERACION: 5,
+                CHID: data.id,
+                CHUSER: user.id,
+                ESTATUS: result?.accion,
+                Comentario: comentarios,
+
+            };
+
+            Swal.fire({
+                icon: "info",
+                title: "Enviar",
+                text: "Desea Autorizar la Solicitud",
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: "Aceptar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    CatalogosServices.SolicitudesInfo(d).then((res) => {
                         if (res.SUCCESS) {
-                          console.log(res.RESPONSE)
-                          handleClose();
+                            console.log(res.RESPONSE)
+                            handleClose();
                         } else {
-            
-                          Alert.fire({
-                            title: "Error!",
-                            text: "Fallo en la peticion",
-                            icon: "error",
-            
-                          });
+
+                            Alert.fire({
+                                title: "Error!",
+                                text: "Fallo en la peticion",
+                                icon: "error",
+
+                            });
                         }
-                      });
-                    }
-                    if (result.isDenied) {
-                    }
-                  });
+                    });
+                }
+                if (result.isDenied) {
+                }
+            });
 
 
-            }
 
 
 
         } else if (v == "cancelar") {
-            if(perfil=="ANA"){
+            if (departamento == "DAMOP" && perfil == "ANA") {
                 let d = {
                     NUMOPERACION: 5,
                     CHID: data.id,
                     CHUSER: user.id,
-                    ESTATUS: "DAMOPANACAN",
-                    Comentario:comentarios,
-                  };
-            
-                  Swal.fire({
+                    ESTATUS: result?.accion,
+                    Comentario: comentarios,
+                };
+
+                Swal.fire({
                     icon: "info",
                     title: "Enviar",
                     text: "Desea Cancelar la Solicitud",
@@ -95,26 +103,26 @@ export const ComentariosRecursosModal = (
                     showCancelButton: true,
                     confirmButtonText: "Aceptar",
                     cancelButtonText: "Cancelar",
-                  }).then((result) => {
+                }).then((result) => {
                     if (result.isConfirmed) {
-                      CatalogosServices.SolicitudesInfo(d).then((res) => {
-                        if (res.SUCCESS) {
-                          console.log(res.RESPONSE)
-                          handleClose();
-                        } else {
-            
-                          Alert.fire({
-                            title: "Error!",
-                            text: "Fallo en la peticion",
-                            icon: "error",
-            
-                          });
-                        }
-                      });
+                        CatalogosServices.SolicitudesInfo(d).then((res) => {
+                            if (res.SUCCESS) {
+                                console.log(res.RESPONSE)
+                                handleClose();
+                            } else {
+
+                                Alert.fire({
+                                    title: "Error!",
+                                    text: "Fallo en la peticion",
+                                    icon: "error",
+
+                                });
+                            }
+                        });
                     }
                     if (result.isDenied) {
                     }
-                  });
+                });
 
 
             }
@@ -131,8 +139,10 @@ export const ComentariosRecursosModal = (
 
 
     useEffect(() => {
+        
+        console.log(result?.accion)
         console.log(modo)
-console.log(perfil)
+        console.log(perfil)
         console.log(data)
     }, []);
 
@@ -147,7 +157,7 @@ console.log(perfil)
                     <Grid container sx={{ justifyContent: "space-between ", width: "100%" }}>
                         <Grid item xs={10} md={10} lg={10} >
 
-                            <DialogTitle>Solicitud de Anticipo de Participaciones <br/>{" "+"Solicitante:  " +data.Solicitante}</DialogTitle>
+                            <DialogTitle>Solicitud de Anticipo de Participaciones <br />{" " + "Solicitante:  " + data.Solicitante}</DialogTitle>
 
 
                         </Grid>
@@ -167,12 +177,12 @@ console.log(perfil)
 
 
                             <Grid container spacing={3} sx={{ justifyContent: "center", width: "100%" }}>
-                            <Grid item xs={12}>
-                            
-                            
-                            
-                            
-                            </Grid>
+                                <Grid item xs={12}>
+
+
+
+
+                                </Grid>
 
                                 <Grid item xs={12}>
                                     <label >Comentarios<br /><br /></label>
@@ -198,7 +208,7 @@ console.log(perfil)
                         <Grid item xs={4}>
                             <button className="guardar" onClick={() => acciones("autorizar")}>Autorizar Solicitud</button>
                         </Grid>
-                        <Grid item xs={4} sx={{ alignItems:"left", width: "100%" }}>
+                        <Grid item xs={4} sx={{ alignItems: "left", width: "100%" }}>
                             <button className="cerrar" onClick={() => acciones("cancelar")}> Cancelar Solicitud</button>
                         </Grid>
 

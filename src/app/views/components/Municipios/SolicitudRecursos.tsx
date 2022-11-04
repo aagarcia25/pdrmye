@@ -36,7 +36,7 @@ const SolicitudRecursos = () => {
   const [modo, setModo] = useState("");
   const [departamento, setDepartamento] = useState<string>();
   const [perfil, setPerfil] = useState<string>();
-  const [idSolicitud ,setIdSolicitud] = useState<string>();
+  const [idSolicitud, setIdSolicitud] = useState<string>();
 
   const [tipoOperacion, setTipoOperacion] = useState("");
   const [data, setData] = useState({});
@@ -44,7 +44,7 @@ const SolicitudRecursos = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-  const [verTraz ,setVertraz] = useState<boolean>(false);
+  const [verTraz, setVertraz] = useState<boolean>(false);
 
   ///////////////////////////////////////////
   const consulta = () => {
@@ -52,6 +52,7 @@ const SolicitudRecursos = () => {
     if (user.DEPARTAMENTOS[0].NombreCorto == "DAMOP") {
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
         setDepartamento("DAMOP")
+
         setSolicitud(res.RESPONSE);
         console.log(res.RESPONSE)
         setOpenSlider(false);
@@ -152,8 +153,9 @@ const SolicitudRecursos = () => {
                 :
                 ""}
             {departamento != "MUN" ?
-              v.row.ControlInterno
-              : ""
+              v.row.Descripcion
+              :
+              ""
             }
 
           </Box>
@@ -170,7 +172,22 @@ const SolicitudRecursos = () => {
         return (
           <Box>
 
+{
+                /////////////////////////////  ver trazabilidad //////////////////////////////
+              }
+            {verTraz ? (
+              <Tooltip title={"Ver Trazabilidad"}>
+                <ToggleButton value="check" onClick={() => handleVerTazabilidad(v)}>
+                  <InsightsIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+            {
 
+              ///////////////////////////////////////////////////////////////////////////
+            }
             {departamento == "MUN" && v.row.ControlInterno == "MUN_INICIO" ?
               <Tooltip title={"Enviar"}>
                 <ToggleButton value="check" onClick={() => handleSeg(v, "DAMOP_INICIO", "MUN", "MUN")}>
@@ -178,24 +195,31 @@ const SolicitudRecursos = () => {
                 </ToggleButton>
               </Tooltip>
               : ""}
-
-           {departamento == "DAMOP" && user.PERFILES[0].Referencia == "ANA" && v.row.ControlInterno == "DAMOP_INICIO" || v.row.ControlInterno == "DAMOP_REG_COR_ANA" ?
+                 {departamento == "DAMOP" && v.row.ControlInterno == "DAMOP_AUT_ANA" && perfil=="ANA" ?
+              <Tooltip title={"Enviar"}>
+                <ToggleButton value="check" onClick={() => handleSeg(v, "DAMOP_ENV_COOR", "DAMOP", "ANA")}>
+                  <SendIcon />
+                </ToggleButton>
+              </Tooltip>
+              : ""}
+{
+  /////////////////////////////////////atender solicitudes/////////////////////////////////////////////
+}
+            {(departamento == "DAMOP" && user.PERFILES[0].Referencia == "ANA") && v.row.ControlInterno == "DAMOP_INICIO" || v.row.ControlInterno == "DAMOP_REG_COR_ANA" ?
               <Tooltip title={"Atender Solicitud"}>
                 <ToggleButton value="check" onClick={() => handleSeg(v, "ATENDER", "DAMOP", "ANA")}>
                   <DoneIcon />
                 </ToggleButton>
               </Tooltip>
-               : ""} 
-
-            {verTraz ? (
-            <Tooltip title={"Ver Trazabilidad"}>
-              <ToggleButton value="check" onClick={() => handleVerTazabilidad(v)}>
-                <InsightsIcon />
-              </ToggleButton>
-            </Tooltip>
-          ) : (
-            ""
-          )}           
+              : ""}
+                {(departamento == "DAMOP" && user.PERFILES[0].Referencia == "COOR") && v.row.ControlInterno == "DAMOP_ENV_COOR" || v.row.ControlInterno == "DAMOP_REG_COR_ANA" ?
+              <Tooltip title={"Atender Solicitud"}>
+                <ToggleButton value="check" onClick={() => handleSeg(v, "ATENDER", "DAMOP", "COOR")}>
+                  <DoneIcon />
+                </ToggleButton>
+              </Tooltip>
+              : ""}
+       
 
           </Box>
         );
@@ -204,7 +228,7 @@ const SolicitudRecursos = () => {
   ];
 
   const handleSeg = (data: any, estatus: string, departamento: string, perfil: string) => {
-    if (estatus == "DAMOP_INICIO" && departamento == "MUN") {
+    if ((estatus == "DAMOP_INICIO" && departamento == "MUN")||(estatus=="DAMOP_ENV_COOR"&& departamento=="DAMOP"&&perfil=="ANA") ) {
       let d = {
         NUMOPERACION: 5,
         CHID: data.id,
@@ -243,13 +267,10 @@ const SolicitudRecursos = () => {
 
     }
     else if (departamento == "DAMOP") {
-      if (perfil == "ANA") {
+      if (perfil == "ANA"||perfil == "COOR") {
         setOpenSeg(true);
         setData(data.row);
         setModo(estatus);
-
-
-
       }
 
 
@@ -260,13 +281,13 @@ const SolicitudRecursos = () => {
       setData(data.row)
     }
   }
- 
+
   const handleClose = () => {
     setOpen(false);
     setOpenSeg(false);
     setOpenTraz(false);
     consulta();
-    
+
   };
 
   const Solicitar = () => {
@@ -277,8 +298,8 @@ const SolicitudRecursos = () => {
   const handleAccion = () => {
 
   };
-  
-  const handleVerTazabilidad = (v:any) => {
+
+  const handleVerTazabilidad = (v: any) => {
 
     setOpenTraz(true);
     setIdSolicitud(v.row.id)
@@ -300,7 +321,7 @@ const SolicitudRecursos = () => {
 
   useEffect(() => {
     console.log(permisos.map)
-    console.log("departamento  " + user.DEPARTAMENTOS[0].NombreCorto)
+    console.log("departamento  " + user.DEPARTAMENTOS[0].NombreCorto )
     console.log("perfil " + user.PERFILES[0].Referencia)
     setPerfil(user.PERFILES[0].Referencia);
 
@@ -360,26 +381,31 @@ const SolicitudRecursos = () => {
                 </Tooltip> : ""
               }
             </Grid>
-            <Grid item xs={3}>    
-              
+            <Grid item xs={3}>
 
+
+            </Grid>
+            <MUIXDataGrid columns={columns} rows={solicitud} />
           </Grid>
-          <MUIXDataGrid columns={columns} rows={solicitud} />
         </Grid>
-        </Grid>
-        
+
       </Box>
 
       {open ?
-        <SolicitudModal modo={modo} data={data} open={open} handleClose={handleClose} /> : ""}
-      {openSeg ?
-        <ComentariosRecursosModal modo={modo} data={data} open={openSeg} handleClose={handleClose} perfil={String(perfil)} />
-        : ""
+        <SolicitudModal modo={modo} data={data} open={open} handleClose={handleClose} />
+        :
+        ""
       }
-      {openTraz?
-      <TrazabilidadSolicitud id={String(idSolicitud)} open={openTraz} handleClose={handleClose}/>
-      :
-      ""
+
+      {openSeg ?
+        <ComentariosRecursosModal modo={modo} data={data} open={openSeg} handleClose={handleClose} perfil={String(perfil)} departamento={String(departamento)} />
+        :
+        ""
+      }
+      {openTraz ?
+        <TrazabilidadSolicitud id={String(idSolicitud)} open={openTraz} handleClose={handleClose} />
+        :
+        ""
       }
     </div>
   )
