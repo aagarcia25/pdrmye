@@ -37,8 +37,8 @@ export const ListNotification = () => {
     { field: "deleted", headerName: "eliminado", width: 300, hide: true },
     { field: "ModificadoPor", headerName: "ModificadoPor", width: 300, hide: true },
     { field: "CreadoPor", headerName: "CreadoPor", width: 300, hide: true },
-    { field: "origen", headerName: "Remitente", width: 300, hide:modo=="MessageSend" },
-    { field: "destinatario", headerName: "Destinatario", width: 300, hide:modo=="viewMessageReading"||modo=="ViewMessage"},
+    { field: "origen", headerName: "Remitente", width: 300, hide: modo == "MessageSend" },
+    { field: "destinatario", headerName: "Destinatario", width: 300, hide: modo == "viewMessageReading" || modo == "ViewMessage" },
     { field: "Encabezado", headerName: "Encabezado", width: 300, },
     { field: "Descripcion", headerName: "Mensage", width: 300, hide: true },
     { field: "Visto", headerName: "Visto", width: 300, hide: true },
@@ -61,9 +61,6 @@ export const ListNotification = () => {
     },
   ];
 
-
-
-
   const handleNuevoMensaje = () => {
     setTipoOperacion(1);
     setModo("NewMessage");
@@ -84,8 +81,8 @@ export const ListNotification = () => {
     setOpen(true);
     setData(v);
   };
-  const viewMessageReading = (v: number) => {
 
+  const viewMessageReading = (v: number) => {
     setModo("viewMessageReading");
     setTipoOperacion(v);
     let dat = {
@@ -131,7 +128,7 @@ export const ListNotification = () => {
   }
 
   const handleClose = (v: string) => {
-    console.log("valor de v  "+ v)
+    console.log("valor de v  " + v)
     if (v === "9") {
       setModo("MessageSend");
       setOpen(false);
@@ -155,7 +152,7 @@ export const ListNotification = () => {
     if (v === "7") {
       setOpen(false);
     }
-   
+
 
   }
 
@@ -206,12 +203,12 @@ export const ListNotification = () => {
         <Box sx={{ height: "600px", width: "150px", borderRadius: 3 }}>
 
           <Box sx={{ position: 'relative', top: 10, left: 7, width: "90%", justifyContent: 'center', display: 'flex', borderRadius: 1 }}>
-
-            <Button className="nuevo-mensaje" color="success" variant="contained" endIcon={<AddIcon />}
-              onClick={() => handleNuevoMensaje()}>
-              Nuevo
+            {perfil != "MUN" ?
+              < Button className="nuevo-mensaje" color="success" variant="contained" endIcon={<AddIcon />}
+                onClick={() => handleNuevoMensaje()}>
+                Nuevo
               </Button>
-
+              : ""}
           </Box>
 
           <Box sx={{
@@ -224,7 +221,7 @@ export const ListNotification = () => {
             display: 'flex',
             borderRadius: 1
           }}>
-
+            {perfil != "MUN" ?
             <Button
               className="notificaciones"
               onClick={() => viewMessageSend(9)}
@@ -236,6 +233,7 @@ export const ListNotification = () => {
               Enviados
               <SendIcon />
             </Button>
+            :""}
 
 
             <Button
@@ -289,7 +287,7 @@ export const ListNotification = () => {
         </Box>
 
       </Box>
-    </div>
+    </div >
   );
 };
 

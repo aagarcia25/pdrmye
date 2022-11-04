@@ -89,7 +89,7 @@ const SolicitudRecursos = () => {
       renderCell: (v) => {
         return (
           <Grid container >
-            {v.row.Descripcion == "INICIO" ?
+            {v.row.ControlInterno == "MUN_INICIO" ?
               <Grid item xs={8}>
                 <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
               </Grid>
@@ -137,22 +137,22 @@ const SolicitudRecursos = () => {
       renderCell: (v) => {
         return (
           <Box>
-            {v.row.Descripcion == "INICIO" && departamento == "MUN" ?
+            {v.row.ControlInterno == "MUN_INICIO" && departamento == "MUN" ?
               "INICIO"
               : ""}
-            {departamento == "MUN" && v.row.Descripcion == "ENVIADO" ?
+            {departamento == "MUN" && v.row.ControlInterno == "ENVIADO" ?
               "ENVIADO"
               :
               ""}
-            {departamento == "MUN" && v.row.Descripcion == "ANALISTA DAMOP CANCELA" ?
+            {departamento == "MUN" && v.row.ControlInterno == "ANALISTA DAMOP CANCELA" ?
               "Cancelado"
               :
-              departamento == "MUN" && v.row.Descripcion != "ENVIADO" && v.row.Descripcion != "INICIO" ?
+              departamento == "MUN" && v.row.ControlInterno != "ENVIADO" && v.row.ControlInterno != "MUN_INICIO" ?
                 "ENVIADO"
                 :
                 ""}
             {departamento != "MUN" ?
-              v.row.Descripcion
+              v.row.ControlInterno
               : ""
             }
 
@@ -171,7 +171,7 @@ const SolicitudRecursos = () => {
           <Box>
 
 
-            {departamento == "MUN" && v.row.Descripcion == "INICIO" ?
+            {departamento == "MUN" && v.row.ControlInterno == "MUN_INICIO" ?
               <Tooltip title={"Enviar"}>
                 <ToggleButton value="check" onClick={() => handleSeg(v, "DAMOP_INICIO", "MUN", "MUN")}>
                   <SendIcon />
@@ -179,7 +179,7 @@ const SolicitudRecursos = () => {
               </Tooltip>
               : ""}
 
-           {departamento == "DAMOP" && user.PERFILES[0].Referencia == "ANA" && v.row.Descripcion == "DAMOP_INICIO" || v.row.Descripcion == "DAMOP_REG_COR_ANA" ?
+           {departamento == "DAMOP" && user.PERFILES[0].Referencia == "ANA" && v.row.ControlInterno == "DAMOP_INICIO" || v.row.ControlInterno == "DAMOP_REG_COR_ANA" ?
               <Tooltip title={"Atender Solicitud"}>
                 <ToggleButton value="check" onClick={() => handleSeg(v, "ATENDER", "DAMOP", "ANA")}>
                   <DoneIcon />
