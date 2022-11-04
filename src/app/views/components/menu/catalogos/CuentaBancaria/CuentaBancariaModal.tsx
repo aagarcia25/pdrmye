@@ -11,21 +11,13 @@ import {
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import imagenGenerica from "../../../../../../app/assets/img/archivoImagen.jpg";
 import PdfLogo from "../../../../../../app/assets/img/PDF_file_icon.svg";
-import {
-  getMunicipios,
-  getPermisos,
-  getUser,
-  setMunicipios,
-  validaLocalStorage,
-} from "../../../../../services/localStorage";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-
+import {getUser} from "../../../../../services/localStorage";
+import {  RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import Slider from "../../../Slider";
 import Swal from "sweetalert2";
 
 export const CuentaBancariaModal = ({
@@ -33,14 +25,14 @@ export const CuentaBancariaModal = ({
   handleClose,
   tipo,
   dt,
-  modo,
 }: {
   open: boolean;
   tipo: number;
   handleClose: Function;
   dt: any;
-  modo: string;
 }) => {
+
+
   // CAMPOS DE LOS FORMULARIOS
   const [slideropen, setslideropen] = useState(true);
   const [id, setId] = useState("");
@@ -48,40 +40,29 @@ export const CuentaBancariaModal = ({
   const [nombreCuenta, setNombreCuenta] = useState("");
   const [clabeBancaria, setClabeBancaria] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [idUsuarios, setIdUsuarios] = useState("");
-  const [usuarios, setUsuarios] = useState<SelectValues[]>([]);
   const [idBancos, setIdBancos] = useState("");
   const [bancos, setBancos] = useState<SelectValues[]>([]);
-  const [idEstatus, setIdEstatus] = useState("");
-  const [estatus, setEstatus] = useState("");
   const [comentarios, setComentarios] = useState("");
   //TODO LO QUE COPIE Y PEGUE
   const [nameNewDoc, setNameNewDoc] = useState<string>();
   const [editDoc, setEditDoc] = useState<boolean>(false);
   const [newDoc, setNewDoc] = useState(Object);
-  const [previewDoc, setPreviewDoc] = useState<string>();
   const [urlDoc, setUrlDoc] = useState("");
-  const [nameDocDownload, setNameDocDownload] = useState("");
 
-  const [modoModal, setModoModal] = useState(modo);
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+ 
+
   const [mensajeLabel, setMensajeLabel] = useState(
     "Agrega un archivo PDF de tú carta de banco."
   );
   const [iconoPDF, setIconoPDF] = useState(imagenGenerica);
 
-  console.log("iconoPDF", iconoPDF);
-  console.log("newdoc ", newDoc);
-  console.log("namenewdoc ", nameNewDoc);
-  console.log("previewDoc ", previewDoc);
 
   const handleNewFile = (event: any) => {
     let file = event.target!.files[0]!;
     let sizeByte = Number(file.size);
-    console.log("sizeByte", sizeByte);
     setNameNewDoc("mensajePrincipal");
     setMensajeLabel("Agrega un archivo PDF de tú carta de banco.");
-    ///// SE VALIDA SI NO SE CARGO ARCHIVO EN EL INPUT PARA PODER EXTRAER EL NOMBRE
+   
     if (event.target.files.length) {
       if (
         String(event.target!.files[0]!.name).slice(-4) === ".pdf" ||
@@ -104,42 +85,25 @@ export const CuentaBancariaModal = ({
       }
     } else {
       setIconoPDF(imagenGenerica);
-      console.log("No tiene elementos");
     }
-    console.log("newdoc ", newDoc);
-    console.log("namenewdoc ", nameNewDoc);
-    console.log("previewDoc ", previewDoc);
   };
 
   const handleFilterChange1 = (v: string) => {
-    console.log(v);
     setIdBancos(v);
   };
 
-  const handleFilterChange2 = (v: string) => {
-    console.log(v);
-    setIdUsuarios(v);
-  };
-
-  const usuariosc = () => {
-    let data = { NUMOPERACION: 10 };
-    CatalogosServices.SelectIndex(data).then((res) => {
-      setBancos(res.RESPONSE);
-      setslideropen(false);
-    });
-  };
 
   const bancosc = () => {
     let data = { NUMOPERACION: 11 };
     CatalogosServices.SelectIndex(data).then((res) => {
       setBancos(res.RESPONSE);
-      setslideropen(false);
     });
   };
 
   const handleSend = () => {
     setslideropen(true);
     const formData = new FormData();
+
     editDoc
       ? formData.append("RUTADOCUMENTO", newDoc, mensajeLabel)
       : formData.append("RUTADOCUMENTO", "");
@@ -147,7 +111,6 @@ export const CuentaBancariaModal = ({
     formData.append("CHID", id);
     formData.append("CHUSER", String(user.id));
     formData.append("IDBANCOS", String(idBancos));
-    formData.append("IDUSUARIOS", String(user.id));
     formData.append("NUMEROCUENTA", numeroCuenta);
     formData.append("NOMBRECUENTA", nombreCuenta);
     formData.append("CLABEBANCARIA", clabeBancaria);
@@ -181,35 +144,9 @@ export const CuentaBancariaModal = ({
     }
   };
 
-  const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
-      //AGREGAR
-      agregar(data);
-    } else if (tipo == 2) {
-      //EDITAR
+ 
 
-      editar(data);
-    }
-  };
-
-  const agregar = (data: any) => {
-    CatalogosServices.CuentaBancaria(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Agregado!",
-        });
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
-
+ 
   const editar = (data: any) => {
     CatalogosServices.CuentaBancaria(data).then((res) => {
       if (res.SUCCESS) {
@@ -233,31 +170,42 @@ export const CuentaBancariaModal = ({
     } else {
       setId(dt?.row?.id);
       setIdBancos(dt?.row?.idbanco);
-      setIdUsuarios(dt?.row?.idusuario);
       setNombreCuenta(dt?.row?.NombreCuenta);
       setNumeroCuenta(dt?.row?.NumeroCuenta);
       setClabeBancaria(dt?.row?.ClabeBancaria);
       setUrlDoc(dt?.row?.RutaDocumento);
-      //Estatus ver como se modifica sin tener que ponerlo aquí
       setComentarios(dt?.row?.Comentarios);
       setMensajeLabel(dt?.row?.NombreDocumento);
       if (dt?.row?.NombreDocumento.length > 0) {
         setIconoPDF(PdfLogo);
       }
     }
-    usuariosc();
     bancosc();
   }, [dt]);
 
+
+
   return (
     <Dialog open={open} keepMounted>
-      {modoModal === "Agregar Registro" ? (
+      {tipo == 1 || tipo == 2  ? (
         <Box>
           <DialogContent>
             <Box>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <label className="Titulo">{modoModal}</label>
+                <label className="Titulo">{tipo == 1 ? "Agregar Registro" : "Editar Registro"}</label>
               </Box>
+              <Box
+               
+               >
+                 <SelectFrag
+                   value={idBancos}
+                   options={bancos}
+                   onInputChange={handleFilterChange1}
+                   placeholder={"Seleccione Banco"}
+                   label={""}
+                   disabled={false}
+                 />
+               </Box>
 
               <TextField
                 required
@@ -273,20 +221,7 @@ export const CuentaBancariaModal = ({
                 InputProps={{}}
               />
 
-              <Box
-                sx={{
-                  margin: 1,
-                }}
-              >
-                <SelectFrag
-                  value={idBancos}
-                  options={bancos}
-                  onInputChange={handleFilterChange1}
-                  placeholder={"Seleccione Banco"}
-                  label={""}
-                  disabled={false}
-                />
-              </Box>
+            
 
               <TextField
                 required
@@ -294,16 +229,16 @@ export const CuentaBancariaModal = ({
                 id="NumeroCuenta"
                 label="Número de la Cuenta"
                 value={numeroCuenta}
-                type="number"
+                type="text"
                 fullWidth
                 variant="standard"
                 onChange={(v) => setNumeroCuenta(v.target.value)}
                 error={numeroCuenta == "" ? true : false}
-                InputProps={
-                  {
-                    //maxLength:20,
-                  }
-                }
+                inputProps={{  
+                  maxLength: 18 ,
+                  pattern: '[0-9]*'
+                }}
+                InputLabelProps={{ shrink: true }}
               />
 
               <TextField
@@ -312,16 +247,16 @@ export const CuentaBancariaModal = ({
                 id="ClabeBancaria"
                 label="Clabe"
                 value={clabeBancaria}
-                type="number"
+                type="text"
                 fullWidth
                 variant="standard"
                 onChange={(v) => setClabeBancaria(v.target.value)}
                 error={clabeBancaria == "" ? true : false}
-                InputProps={
-                  {
-                    //maxLength:20,
-                  }
-                }
+                inputProps={{ 
+                  maxLength: 18 ,
+                  pattern: '[0-9]*'
+                }}
+                InputLabelProps={{ shrink: true }}
               />
 
               <Box sx={{ width: "100%" }}>
@@ -337,9 +272,7 @@ export const CuentaBancariaModal = ({
                     borderRadius: 1,
                   }}
                 >
-                  {
-                    /////  mostrar logo y nombre de el archivo a cargar
-                  }
+                 
                   <Box
                     sx={{
                       display: "flex",
@@ -392,23 +325,18 @@ export const CuentaBancariaModal = ({
       ) : (
         ""
       )}
-      {modoModal === "Cuenta Bancaria" ? (
+
+      {tipo == 3  ? (
         <Box>
           <DialogContent>
             <Box>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <label className="Titulo">{modoModal}</label>
+                <label className="Titulo">Cuenta Bancaria</label>
               </Box>
-
               <Typography>Nombre de la cuenta:</Typography>
               <Typography>{nombreCuenta}</Typography>
-
               <Typography>Banco:</Typography>
-              <Box
-                sx={{
-                  margin: 1,
-                }}
-              >
+
                 <SelectFrag
                   value={idBancos}
                   options={bancos}
@@ -417,27 +345,8 @@ export const CuentaBancariaModal = ({
                   label={""}
                   disabled={true}
                 />
-              </Box>
-
               <Typography>Número de la cuenta:</Typography>
               <Typography>{numeroCuenta}</Typography>
-
-              <TextField
-                required
-                margin="dense"
-                id="ClabeBancaria"
-                label="Clabe"
-                value={clabeBancaria}
-                type="number"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClabeBancaria(v.target.value)}
-                error={clabeBancaria == "" ? true : false}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-
               <Typography>Clabe:</Typography>
               <Typography>{clabeBancaria}</Typography>
               <Box sx={{ width: "100%" }}>
@@ -453,9 +362,7 @@ export const CuentaBancariaModal = ({
                     borderRadius: 1,
                   }}
                 >
-                  {
-                    /////  mostrar logo y nombre de el archivo a cargar
-                  }
+                  
                   <Box
                     sx={{
                       display: "flex",

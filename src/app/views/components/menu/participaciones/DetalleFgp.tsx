@@ -156,11 +156,9 @@ const DetalleFgp = ({
     console.log(data);
 
     let obj = {
-      IDCALCULO: idCalculo,
-      ESTATUS_DESTINO: "",
-      ESTATUS_ORIGEN: status,
-      IDUSUARIO: user.id,
-      PROCESO: proceso,
+      CHID: idCalculo,
+      ESTATUS_DESTINO: estatusDestino,
+      CHUSER: user.id,
       TEXTO: data.texto,
     };
 
@@ -546,8 +544,9 @@ const DetalleFgp = ({
               tipo={tipoAccion}
               handleClose={handleClose}
               vrows={vrows}
-              handleAccion={Fnworkflow}
-            ></ModalAlert>
+              handleAccion={Fnworkflow} 
+              accion={0}      
+              ></ModalAlert>
           ) : (
             ""
           )}

@@ -10,12 +10,14 @@ import {
 import { Alert } from "../../../helpers/Alert";
 
 const ModalAlert = ({
+  accion,
   open,
   tipo,
   handleClose,
   handleAccion,
   vrows,
 }: {
+  accion:number;
   open: boolean;
   tipo: string;
   handleClose: Function;
@@ -34,7 +36,7 @@ const ModalAlert = ({
         icon: "error",
       });
     }else{
-      handleAccion({ data: vrows, texto: mensaje })
+      handleAccion({ data: vrows, texto: mensaje ,tipo:accion})
     }
     
   }

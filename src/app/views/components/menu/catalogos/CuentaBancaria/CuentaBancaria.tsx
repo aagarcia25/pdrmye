@@ -6,35 +6,40 @@ import { Toast } from "../../../../../helpers/Toast";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
-import { messages } from "../../../../styles";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import { CuentaBancariaModal } from "./CuentaBancariaModal";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+import ModalAlert from "../../../componentes/ModalAlert";
 
 export const CuentaBancaria = () => {
-  const [modo, setModo] = useState("");
+  const [slideropen, setslideropen] = useState(true);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [texto, setTexto] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const [cuentaBancaria, setCuentaBancaria] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const [estatus, setEstatus] = useState("");
 
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const [agregar, setAgregar] = useState<boolean>(false);
-  const [editar, setEditar] = useState<boolean>(false);
-  const [visualizar, setVisualizar] = useState<boolean>(false);
-  const [eliminar, setEliminar] = useState<boolean>(false);
 
-  console.log("cuentabancaria: ", cuentaBancaria);
+
+
+
 
   const handleAccion = (v: any) => {
     if (v.tipo == 1) {
-      console.log(v);
       setTipoOperacion(2);
-      setModo("Editar Registro");
       setOpen(true);
       setVrows(v.data);
     } else if (v.tipo == 2) {
@@ -52,7 +57,6 @@ export const CuentaBancaria = () => {
             CHID: v.data.row.id,
             CHUSER: user.id,
           };
-          console.log(data);
 
           CatalogosServices.CuentaBancaria(data).then((res) => {
             if (res.SUCCESS) {
@@ -74,22 +78,95 @@ export const CuentaBancaria = () => {
           Swal.fire("No se realizaron cambios", "", "info");
         }
       });
+    } else if (v.tipo == 3) {
+     
+       let data = {
+        NUMOPERACION: 5,
+        CHID: v.data.row.id,
+        CHUSER: user.id,
+        IDESTATUS:estatus
+      };
+      console.log(v);
+
+      CatalogosServices.CuentaBancaria(data).then((res) => {
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "Registro Enviado a Validación!",
+          });
+
+          consulta({ CHUSER: user.id, NUMOPERACION: 4 });
+        } else {
+          Alert.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
+      });
+
+
+
     }
   };
 
+
+
   const handleVisualizar = (v: any) => {
-    setTipoOperacion(2);
-    setModo("Cuenta Bancaria");
+    setTipoOperacion(3);
     setOpen(true);
     setVrows(v);
   };
 
+  const handlevalidar = (v: any) => {
+    setEstatus('DAMOP_REVISION');
+    setTexto("Enviar a Validación")
+    setOpenModal(true);
+    setVrows(v);
+  };
   const columns: GridColDef[] = [
     {
       field: "id",
       headerName: "Identificador",
       hide: true,
-      width: 150,
+      width: 10,
+    },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 200,
+      renderCell: (v) => {
+        return (
+          <>
+            <Tooltip title="Visualizar">
+              <IconButton onClick={() => handleVisualizar(v)}>
+                <VisibilityIcon />
+              </IconButton>
+            </Tooltip>
+
+            {
+              (v.row.EstatusDescripcion == "INICIO" ? (
+                <Tooltip title="Enviar a Validación">
+                  <IconButton color="info" onClick={() => handlevalidar(v)}>
+                    <SendIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                ""
+              ))
+            }
+
+            <BotonesAcciones
+              handleAccion={handleAccion}
+              row={v}
+              editar={editar}
+              eliminar={eliminar}
+            />
+          </>
+        );
+      },
     },
     {
       field: "idusuario",
@@ -115,38 +192,17 @@ export const CuentaBancaria = () => {
       hide: true,
     },
     { field: "EstatusDescripcion", headerName: "Estatus", width: 250 },
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Campo de Acciones",
-      sortable: false,
-      width: 200,
-      renderCell: (v) => {
-        return (
-          <>
-            <IconButton onClick={() => handleVisualizar(v)}>
-              <VisibilityIcon />
-            </IconButton>
-            <BotonesAcciones
-              handleAccion={handleAccion}
-              row={v}
-              editar={editar}
-              eliminar={eliminar}
-            />
-          </>
-        );
-      },
-    },
   ];
 
   const handleClose = () => {
+    setOpenModal(false);
+    setslideropen(false);
     setOpen(false);
     consulta({ CHUSER: user.id, NUMOPERACION: 4 });
   };
 
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
-    setModo("Agregar Registro");
     setOpen(true);
     setVrows("");
   };
@@ -177,11 +233,11 @@ export const CuentaBancaria = () => {
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
-        }
-        if (String(item.Referencia) == "VIS") {
-          setVisualizar(true);
         }
       }
     });
@@ -192,7 +248,6 @@ export const CuentaBancaria = () => {
     <div style={{ height: 600, width: "100%" }}>
       {open ? (
         <CuentaBancariaModal
-          modo={modo}
           open={open}
           tipo={tipoOperacion}
           handleClose={handleClose}
@@ -202,6 +257,18 @@ export const CuentaBancaria = () => {
         ""
       )}
 
+{openModal ? (
+            <ModalAlert
+             open={openModal}
+             tipo={texto}
+             handleClose={handleClose}
+             vrows={vrows}
+             handleAccion={handleAccion}
+             accion={3}            ></ModalAlert>
+          ) : (
+            ""
+          )}
+          
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={cuentaBancaria} />
     </div>

@@ -95,29 +95,30 @@ function App() {
     AuthService.adminUser(data).then((res2) => {
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
-      if (us.RESPONSE.DEPARTAMENTOS.length !== 0) {
-        // if (us.RESPONSE.PERFILES.length !== 0) {
-          if (us.RESPONSE.ROLES.length !== 0) {
-            setRoles(us.RESPONSE.ROLES);
-            setPermisos(us.RESPONSE.PERMISOS);
-            setMenus(us.RESPONSE.MENUS);
-            setPerfiles(us.RESPONSE.PERFILES);
-            setDepartamento(us.RESPONSE.DEPARTAMENTOS);
-            loadMunicipios();
-            loadMeses();
-            loadAnios();
-            setOpenSlider(false);
-            setlogin(true);
-            setAcceso(true);
-          } else {
-            mensaje("No tienes Relacionado un Rol", "Favor de Verificar sus Permisos con el área de TI");
-          }
-        // } else {
-          // mensaje("No tienes Relacionado un Perfil", "Favor de Verificar sus Permisos con el área de TI");
-        // }
-      } else {
-        mensaje("No tienes Relacionado un Departamento", "Favor de Verificar sus Permisos con el área de TI");
-      }
+
+     // if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
+     // if(us.RESPONSE.PERFILES.length !==0){
+     // if(us.RESPONSE.ROLES.length !==0){
+        setRoles(us.RESPONSE.ROLES);
+        setPermisos(us.RESPONSE.PERMISOS);
+        setMenus(us.RESPONSE.MENUS);
+        setPerfiles(us.RESPONSE.PERFILES);
+        setDepartamento(us.RESPONSE.DEPARTAMENTOS);
+        loadMunicipios();
+        loadMeses();
+        loadAnios();
+        setOpenSlider(false);
+        setlogin(true);
+        setAcceso(true);
+    //            }else{
+    //      mensaje("No tienes Relacionado un Rol","Favor de Verificar sus Permisos con el área de TI");
+    //    }
+    //  }else{
+    //     mensaje("No tienes Relacionado un Perfil","Favor de Verificar sus Permisos con el área de TI");
+    //  }
+   // }else{
+  //       mensaje("No tienes Relacionado un Departamento","Favor de Verificar sus Permisos con el área de TI");
+  //}
 
 
 
