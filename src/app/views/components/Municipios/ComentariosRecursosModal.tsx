@@ -33,21 +33,26 @@ export const ComentariosRecursosModal = (
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [comentarios, setComentarios] = useState<string>();
     const perfiles = [
-        {per:'ANA', dep:"DAMOP", accion:'DAMOP_AUT_ANA'},
-        {per:'COOR',dep:"DAMOP", accion:'DAMOP_AUT_COR'},
-        {per:'DIR', dep:"DAMOP", accion:'DAMOP_AUT_DIR'},
+        {accion:'autorizar', per:'ANA',  dep:"DAMOP", estatus:'DAMOP_AUT_ANA'},
+        {accion:'autorizar', per:'COOR', dep:"DAMOP", estatus:'DAMOP_AUT_COR'},
+        {accion:'autorizar', per:'DIR',  dep:"DAMOP", estatus:'DAMOP_AUT_DIR'},
+        {accion:'cancelar',  per:'ANA',  dep:"DAMOP", estatus:'DAMOP_CANCE_ANA'},
+        {accion:'cancelar',  per:'COOR', dep:"DAMOP", estatus:'DAMOP_REG_COR_ANA'},
+        {accion:'cancelar',  per:'DIR',  dep:"DAMOP", estatus:'DAMOP_REG_DIR_COOR'},
   
     ]
-    const result = perfiles.find(({ per,dep }) => per ===perfil && dep==departamento);
-    const acciones = (v: string) => {
+    
 
-        if (v == "autorizar") {
+    const acciones = (v: string) => {
+        console.log("autorizar");
+        const accion = perfiles.find(({ per,dep,accion }) => per ===perfil && dep==departamento && accion ===accion);
+        if (accion?.accion == v) {
 
             let d = {
                 NUMOPERACION: 5,
                 CHID: data.id,
                 CHUSER: user.id,
-                ESTATUS: result?.accion,
+                ESTATUS: accion?.estatus,
                 Comentario: comentarios,
 
             };
@@ -85,13 +90,13 @@ export const ComentariosRecursosModal = (
 
 
 
-        } else if (v == "cancelar") {
-            if (departamento == "DAMOP" && perfil == "ANA") {
+        } else if (accion?.accion == v) {
+            console.log("cancelar");
                 let d = {
                     NUMOPERACION: 5,
                     CHID: data.id,
                     CHUSER: user.id,
-                    ESTATUS: result?.accion,
+                    ESTATUS: accion?.estatus,
                     Comentario: comentarios,
                 };
 
@@ -124,9 +129,6 @@ export const ComentariosRecursosModal = (
                     }
                 });
 
-
-            }
-
         }
 
     }
@@ -140,7 +142,6 @@ export const ComentariosRecursosModal = (
 
     useEffect(() => {
         
-        console.log(result?.accion)
         console.log(modo)
         console.log(perfil)
         console.log(data)
