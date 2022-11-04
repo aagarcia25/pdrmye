@@ -65,7 +65,6 @@ export default function Bienvenido({ user }: { user: any }) {
           sx={{
             width: "100%",
             height: "100%",
-            backgroundColor: COLOR.grisTarjetaBienvenido,
             display: "flex",
             justifyContent: "center",
           }}
@@ -151,7 +150,6 @@ export default function Bienvenido({ user }: { user: any }) {
                     width: "100%",
                     height: "100%",
                     overflow: "hidden",
-
                     objectFit: "contain",
                     borderRadius: 0,
                   }}

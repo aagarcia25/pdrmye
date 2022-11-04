@@ -55,6 +55,7 @@ import { Bancos } from '../views/components/menu/catalogos/Bancos/Bancos';
 
 import { CuentaBancaria } from '../views/components/menu/catalogos/CuentaBancaria/CuentaBancaria';
 import { AnticipoParticipaciones } from '../views/components/menu/catalogos/Municipios/anticipoParticipaciones/AnticipoParticipaciones';
+import AsigPresupuestal from '../views/components/DPCP/AsigPresupuestal';
 
 
 
@@ -142,10 +143,12 @@ export const AppRouter = () => {
        {/* SECCION MUNICIPIOS */}
        <Route path='/inicio/contactomunicipio'  element={log ? <ContactoMunicipios /> : <AuthRouter />} />
        <Route path='/inicio/recursos'  element={log ? <RecepcionRecursos /> : <AuthRouter />} />
-      {/* '  element={log ? <SolicitudRecursos /> : <AuthRouter />} /> */}
+       <Route path='/inicio/anticipop'  element={log ? <SolicitudRecursos /> : <AuthRouter />} />
        {/* SECCION MUNICIPIOS */}
 
-       
+       {/* DCCP */}
+       <Route path='/inicio/dccp'  element={log ? <AsigPresupuestal /> : <AuthRouter />} />
+       {/* FIN DCCP */}
       </Routes>
     </Inicio>
   );

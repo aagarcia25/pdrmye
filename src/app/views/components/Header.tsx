@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { env_var } from "../../environments/env";
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -63,8 +64,8 @@ export default function Header(props: HeaderProps) {
   const onLogOut = () => {
     localStorage.clear();
     var ventana = window.self;
-    ventana.opener = window.self;
-    ventana.close();
+    ventana.location.replace(env_var.BASE_URL_LOGIN);
+
   };
 
   const onOpenCalendar = () => {
@@ -146,7 +147,7 @@ export default function Header(props: HeaderProps) {
                 {props.name}
               </Typography>
               <Typography variant="caption" color="black">
-                {user.ROLES[0].Descripcion}
+               {user.Puesto} 
               </Typography>
              
             </Grid>

@@ -19,12 +19,12 @@ import AccionesGrid from '../Utilerias/AccionesGrid'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 
 
-const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-const user: RESPONSE = JSON.parse(String(getUser()));
 
 export const MunPoblacion = () => {
 
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
+  
 
   const [update, setUpdate] = useState(false);
   const [open, setOpen] = useState(false);

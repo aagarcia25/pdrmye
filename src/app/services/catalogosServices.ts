@@ -3,7 +3,12 @@ import { post, postDocument } from './apiService';
 
 export class CatalogosServices {
 
-
+    public static async SolicitudesInfo(data: any) {
+        return await post('SolicitudesInfo', data);
+    }
+    public static async subirArchivo(data: any) {
+        return await post('subirArchivo', data);
+    }
     public static async umas(data: any) {
         return await post('umas', data);
     }
@@ -107,6 +112,10 @@ export class CatalogosServices {
     public static async indexAPC(data : any) {
         return await post('indexAPC', data);
     };
+    public static async clonarInformacionAP(data : any) {
+        return await post('clonarInformacionAP', data);
+    };
+    
     public static async getdetalle(data : any) {
         return await post('getdetalle', data);
     };

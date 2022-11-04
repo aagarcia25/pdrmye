@@ -58,13 +58,14 @@ const BotonesOpciones = ({
             ""
           )}
 
-          {(autorizar &&
-            estatus == "INICIO" &&
-            user.PERFILES[0].Referencia == perfil) ||
-          (autorizar &&
+          {(autorizar 
+           &&             estatus == "INICIO" 
+           &&     user.PERFILES[0].Referencia == perfil) ||
+         
+           (autorizar &&
             estatus == "ENVIADO" &&
             user.PERFILES[0].Referencia == perfil &&
-            area == user.PERFILES[0].Referencia) ? (
+            area == user.DEPARTAMENTOS[0].NombreCorto) ? (
             <Tooltip title={"Autorizar"}>
               <ToggleButton value="check" onClick={() => handleAccion(2)}>
                 <DoneAllIcon />
@@ -90,7 +91,7 @@ const BotonesOpciones = ({
           estatus == "ENVIADO" &&
           user.PERFILES[0].Referencia == perfil &&
           perfil == "COOR" &&
-          area == user.PERFILES[0].Referencia ? (
+          area == user.DEPARTAMENTOS[0].NombreCorto ? (
             <Tooltip title={"Regresar a Analista"}>
               <ToggleButton value="check" onClick={() => handleAccion(7)}>
                 <CompareArrowsIcon />

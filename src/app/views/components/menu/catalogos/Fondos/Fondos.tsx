@@ -87,11 +87,14 @@ const Fondos = () => {
       renderCell: (v) => {
         return (
           <Box>
+            <Box>
             <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-
+            </Box>
+            <Box>
             {view ? <IconButton onClick={() => handleView(v)}>
               <RemoveRedEyeIcon />
             </IconButton> : ""}
+            </Box>
           </Box>
         );
       },

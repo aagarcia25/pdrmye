@@ -1,51 +1,58 @@
-import { Tooltip, IconButton } from "@mui/material";
-import { Box } from "@mui/system";
-import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import Box from '@mui/material/Box';
+import { Tooltip, IconButton } from "@mui/material";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { GridColDef } from "@mui/x-data-grid";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import { messages } from "../../../../styles";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import UsuariosModal from "./UsuariosModal";
-import PerfilesConfiguracion from "./PerfilesConfiguracion";
-import AddToQueueIcon from '@mui/icons-material/AddToQueue';
-import DepartamentoConfig from "./DepartamentoConfig";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import RolesConfig from "./RolesConfig";
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { UserServices } from "../../../../../services/UserServices";
 import { getPermisos } from "../../../../../services/localStorage";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
+import UsuariosMunicipios from "./UsuariosMunicipios";
+import UsuarioRoles from "./UsuarioRoles";
+
+
 const Usuarios = () => {
   const [data, setData] = useState([]);
   const [openRolConf, setOpenRolConf] = useState(false);
-  const [openConfigPerfil, setOpenConfigPerfil] = useState(false);
-  const [openConfigDep, setOpenConfigDep] = useState(false);
+  const [openConfigMun, setOpenConfigMun] = useState(false);
   const [openNew, setOpenNew] = useState(false);
   const [userActive, setUserActive] = useState<boolean>();
   const [tipoOperacion, setTipoOperacion] = useState(0);
-  const [row, setRow] = useState({});
   const [id, setId] = useState("");
-  const [dt, setDt] = useState([]);
-
+  const [dt, setDt] = useState({});
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+///////////////////////////////////////////
+
+
+  const handleMunicipios = (v: any) => {
+    setDt(v);
+    setOpenConfigMun(true);
+  };
+
 
   const handleOpen = () => {
     setTipoOperacion(3);
-    setRow("");
+    setDt("");
     setOpenNew(true);
   };
 
   const handleEdit = (v: any) => {
+    console.log(v);
     setTipoOperacion(5);
-    setRow(v);
+    setDt(v.row);
     setOpenNew(true);
   };
 
@@ -141,22 +148,15 @@ const Usuarios = () => {
   };
 
   const handleClose = (v:string) => {
+    setOpenConfigMun(false);
     setOpenNew(false);
-    setOpenConfigPerfil(false);
-    setOpenConfigDep(false);
     setOpenRolConf(false);
     consulta({ NUMOPERACION: 4 }, "Consulta Exitosa");
   };
-  const handlePerfilConfiguracion = (v: any) => {
-    setDt(v);
-    setOpenConfigPerfil(true);
-  };
-  const handleDepartConfiguracion = (v: any) => {
-    setDt(v);
-    setOpenConfigDep(true);
-  };
+  
+  
   const handleRolConf = (v: any) => {
-    setId(v.row.id);
+    setDt(v.row);
     setOpenRolConf(true);
   };
 
@@ -167,16 +167,6 @@ const Usuarios = () => {
       headerName: "Identificador",
       hide: true,
       width: 150,
-      description: messages.dataTableColum.id,
-    },
-    { field: "NombreUsuario", headerName: "Usuario", width: 150 },
-    { field: "Nombre", headerName: "Nombre", width: 150 },
-    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
-    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
-    {
-      field: "CorreoElectronico",
-      headerName: "Correo Electronico",
-      width: 200,
     },
     {
       field: "acciones",
@@ -191,15 +181,10 @@ const Usuarios = () => {
               <IconButton color="success" onClick={() => handleRolConf(v)}>
                 <AssignmentIndIcon />
               </IconButton>
-            </Tooltip>
-            <Tooltip title={"Configurar Perfil"}>
-              <IconButton color="warning" onClick={() => handlePerfilConfiguracion(v)}>
-                <AdminPanelSettingsIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={"Configurar Departamento"}>
-              <IconButton color="warning" onClick={() => handleDepartConfiguracion(v)}>
-                <AddToQueueIcon />
+            </Tooltip> 
+            <Tooltip title={"Relacionar Municipios"}>
+              <IconButton color="info" onClick={() => handleMunicipios(v)}>
+                <Diversity3Icon />
               </IconButton>
             </Tooltip>
             <Tooltip title={"Editar Registro"}>
@@ -207,10 +192,26 @@ const Usuarios = () => {
                 <ModeEditOutlineIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title={"Editar Registro"}>
+              <IconButton color="error" onClick={() => handleDelete(v)}>
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
         );
       },
     },
+    { field: "NombreUsuario", headerName: "Usuario", width: 150 },
+    { field: "Nombre", headerName: "Nombre", width: 150 },
+    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
+    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
+    { field: "CorreoElectronico",headerName: "Correo Electronico",     width: 250,   },
+    { field: "Puesto",headerName: "Puesto",     width: 200,   },
+    { field: "idDepartamento",headerName: "idDepartamento",     width: 10,  hide: true,  },
+    { field: "DepartamentoDescripcion",headerName: "Departamento",     width: 300,   },
+    { field: "idperfil",headerName: "idperfil",     width: 10,  hide: true,  },
+    { field: "PerfilDescripcion",headerName: "Perfil",     width: 300,   },
+   
     {
       field: "EstaActivo", headerName: "Activo", width: 100,
       renderCell: (v: any) => {
@@ -224,7 +225,7 @@ const Usuarios = () => {
               </Tooltip>
 
             </Box>
-            : "Activado"
+            : "Activo"
 
         );
       },
@@ -270,43 +271,35 @@ const Usuarios = () => {
     <div>
 
       {openRolConf ?
-        <RolesConfig
-          id={id}
+        <UsuarioRoles
           open={openRolConf}
-          handleClose={handleClose}></RolesConfig>
+          handleClose={handleClose}
+          dt={dt}
+          ></UsuarioRoles>
         :
         ""
       }
+
+
 
       {openNew ? (
         <UsuariosModal
           open={openNew}
           tipo={tipoOperacion}
           handleClose={handleClose}
-          dt={row}
+          dt={dt}
         ></UsuariosModal>
       ) : (
         ""
       )}
-      {openConfigPerfil ? (
-        <PerfilesConfiguracion
-          open={openConfigPerfil}
-          modo={""}
-          tipo={0}
+     
+
+{openConfigMun ? (
+        <UsuariosMunicipios
+          open={openConfigMun}
           handleClose={handleClose}
           dt={dt}
-        ></PerfilesConfiguracion>
-      ) : (
-        ""
-      )}
-      {openConfigDep ? (
-        <DepartamentoConfig
-          open={openConfigDep}
-          modo={""}
-          tipo={0}
-          handleClose={handleClose}
-          dt={dt}
-        ></DepartamentoConfig>
+        ></UsuariosMunicipios>
       ) : (
         ""
       )}
