@@ -39,15 +39,16 @@ export const ComentariosRecursosModal = (
         {accion:'cancelar',  per:'ANA',  dep:"DAMOP", estatus:'DAMOP_CANCE_ANA'},
         {accion:'cancelar',  per:'COOR', dep:"DAMOP", estatus:'DAMOP_REG_COR_ANA'},
         {accion:'cancelar',  per:'DIR',  dep:"DAMOP", estatus:'DAMOP_REG_DIR_COOR'},
+        
+        
   
     ]
     
-
     const acciones = (v: string) => {
-        console.log("autorizar");
-        const accion = perfiles.find(({ per,dep,accion }) => per ===perfil && dep==departamento && accion ===accion);
-        if (accion?.accion == v) {
-
+        console.log(v);
+        const accion = perfiles.find(({ accion, per, dep }) => accion === String(v) && per ===perfil && dep==departamento );
+        if (accion?.accion === "autorizar") {
+            console.log(accion.accion+" accion de la busqueda")
             let d = {
                 NUMOPERACION: 5,
                 CHID: data.id,
@@ -77,7 +78,6 @@ export const ComentariosRecursosModal = (
                                 title: "Error!",
                                 text: "Fallo en la peticion",
                                 icon: "error",
-
                             });
                         }
                     });
@@ -86,12 +86,9 @@ export const ComentariosRecursosModal = (
                 }
             });
 
-
-
-
-
-        } else if (accion?.accion == v) {
-            console.log("cancelar");
+        } else 
+        if (accion?.accion === "cancelar") {
+            console.log("cancelado");
                 let d = {
                     NUMOPERACION: 5,
                     CHID: data.id,
@@ -120,7 +117,6 @@ export const ComentariosRecursosModal = (
                                     title: "Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",
-
                                 });
                             }
                         });
@@ -128,23 +124,14 @@ export const ComentariosRecursosModal = (
                     if (result.isDenied) {
                     }
                 });
-
         }
-
     }
-
-
-
-
     /////////////////////
 
 
 
     useEffect(() => {
-        
-        console.log(modo)
-        console.log(perfil)
-        console.log(data)
+
     }, []);
 
     return (
@@ -157,10 +144,7 @@ export const ComentariosRecursosModal = (
                 >
                     <Grid container sx={{ justifyContent: "space-between ", width: "100%" }}>
                         <Grid item xs={10} md={10} lg={10} >
-
                             <DialogTitle>Solicitud de Anticipo de Participaciones <br />{" " + "Solicitante:  " + data.Solicitante}</DialogTitle>
-
-
                         </Grid>
                         <Grid item xs={1} md={1} lg={1}>
                             <Tooltip title={"Cerrar"}>
@@ -175,16 +159,9 @@ export const ComentariosRecursosModal = (
                         </Grid>
                         <Grid container
                             sx={{ justifyContent: "center", width: '100%' }} >
-
-
                             <Grid container spacing={3} sx={{ justifyContent: "center", width: "100%" }}>
                                 <Grid item xs={12}>
-
-
-
-
                                 </Grid>
-
                                 <Grid item xs={12}>
                                     <label >Comentarios<br /><br /></label>
                                     <TextField
@@ -195,16 +172,12 @@ export const ComentariosRecursosModal = (
                                         onChange={(v) => setComentarios(v.target.value)}
                                         sx={{
                                             width: "100%",
-
                                         }}
                                     />
                                 </Grid>
-
                             </Grid>
-
                         </Grid>
                     </DialogContent>
-
                     <Grid container spacing={3} sx={{ justifyContent: "space-between ", width: "100%" }}>
                         <Grid item xs={4}>
                             <button className="guardar" onClick={() => acciones("autorizar")}>Autorizar Solicitud</button>
@@ -212,7 +185,6 @@ export const ComentariosRecursosModal = (
                         <Grid item xs={4} sx={{ alignItems: "left", width: "100%" }}>
                             <button className="cerrar" onClick={() => acciones("cancelar")}> Cancelar Solicitud</button>
                         </Grid>
-
                     </Grid>
                 </Dialog>
             </Box>

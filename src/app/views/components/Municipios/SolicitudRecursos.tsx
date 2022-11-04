@@ -46,12 +46,29 @@ const SolicitudRecursos = () => {
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [verTraz, setVertraz] = useState<boolean>(false);
 
-  const acciones = [
-    {per:'ANA', dep:"DAMOP", accion:'DAMOP_AUT_ANA'},
-    {per:'COOR',dep:"DAMOP", accion:'DAMOP_AUT_COR'},
-    {per:'DIR', dep:"DAMOP", accion:'DAMOP_AUT_DIR'},
+  const perfiles = [
+    { estatusRef: 'MUN_INICIO', accion: 'enviar', per: 'MUN', dep: "MUN", estatus: 'DAMOP_INICIO' },
+    { estatusRef: 'DAMOP_AUT_ANA', accion: 'enviar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_ENV_COOR' },
+    { estatusRef: 'DAMOP_AUT_COR', accion: 'enviar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_ENV_DIR' },
+    { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_ENV_DCCP' },
 
-]
+
+    
+
+    { estatusRef: 'DAMOP_INICIO',      accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+    { estatusRef: 'DAMOP_REG_COR_ANA', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+    { estatusRef: 'DAMOP_REG_DIR_COOR',accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+    { estatusRef: 'DAMOP_ENV_COOR',      accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+    { estatusRef: 'DAMOP_ENV_DIR',      accion: 'autorizar', per: 'ANA', dep: "DCCP", estatus: 'AUTORIZAR' },
+
+    
+
+    { estatusRef: 'DAMOP_CANCE_ANA', accion: 'cancelar', per: 'MUN', dep: "MUN", estatus: 'CANCELADO' },
+
+
+  ]
+
+  const accion = perfiles.find(({ per, dep }) => per === perfil && dep == departamento);
 
   ///////////////////////////////////////////
   const consulta = () => {
@@ -152,7 +169,7 @@ const SolicitudRecursos = () => {
               "ENVIADO"
               :
               ""}
-            {departamento == "MUN" && v.row.ControlInterno == "ANALISTA DAMOP CANCELA" ?
+            {departamento == "MUN" && v.row.ControlInterno == "DAMOP_CANCE_ANA" ?
               "Cancelado"
               :
               departamento == "MUN" && v.row.ControlInterno != "ENVIADO" && v.row.ControlInterno != "MUN_INICIO" ?
@@ -169,6 +186,21 @@ const SolicitudRecursos = () => {
         );
       },
     },
+    { field: "Comentario", headerName: " Comentario", width: 120 ,
+      renderCell: (v) => {
+      return (
+        <Box>
+      
+          {departamento == "MUN" && v.row.ControlInterno == "DAMOP_CANCE_ANA" ?
+            v.row.Comentario
+            :
+            "EN ATENCION"}
+   
+
+        </Box>
+      );
+    },
+  },
     {
       field: "seguimiento",
       headerName: "Seguimiento",
@@ -179,9 +211,9 @@ const SolicitudRecursos = () => {
         return (
           <Box>
 
-{
-                /////////////////////////////  ver trazabilidad //////////////////////////////
-              }
+            {
+              /////////////////////////////  ver trazabilidad //////////////////////////////
+            }
             {verTraz ? (
               <Tooltip title={"Ver Trazabilidad"}>
                 <ToggleButton value="check" onClick={() => handleVerTazabilidad(v)}>
@@ -192,41 +224,40 @@ const SolicitudRecursos = () => {
               ""
             )}
             {
-
               ///////////////////////////////////////////////////////////////////////////
             }
-            {departamento == "MUN" && v.row.ControlInterno == "MUN_INICIO" ?
-              <Tooltip title={"Enviar"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v, "DAMOP_INICIO", "MUN", "MUN")}>
-                  <SendIcon />
-                </ToggleButton>
-              </Tooltip>
-              : ""}
-                 {departamento == "DAMOP" && v.row.ControlInterno == "DAMOP_AUT_ANA" && perfil=="ANA" ?
-              <Tooltip title={"Enviar"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v, "DAMOP_ENV_COOR", "DAMOP", "ANA")}>
-                  <SendIcon />
-                </ToggleButton>
-              </Tooltip>
-              : ""}
-{
-  /////////////////////////////////////atender solicitudes/////////////////////////////////////////////
-}
-            {(departamento == "DAMOP" && user.PERFILES[0].Referencia == "ANA") && v.row.ControlInterno == "DAMOP_INICIO" || v.row.ControlInterno == "DAMOP_REG_COR_ANA" ?
-              <Tooltip title={"Atender Solicitud"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v, "ATENDER", "DAMOP", "ANA")}>
-                  <DoneIcon />
-                </ToggleButton>
-              </Tooltip>
-              : ""}
-                {(departamento == "DAMOP" && user.PERFILES[0].Referencia == "COOR") && v.row.ControlInterno == "DAMOP_ENV_COOR" || v.row.ControlInterno == "DAMOP_REG_COR_ANA" ?
-              <Tooltip title={"Atender Solicitud"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v, "ATENDER", "DAMOP", "COOR")}>
-                  <DoneIcon />
-                </ToggleButton>
-              </Tooltip>
-              : ""}
-       
+            {
+              perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "enviar" && per === perfil && dep == departamento) ?
+
+                //departamento == "MUN" && v.row.ControlInterno == "MUN_INICIO" ?
+                <Tooltip title={"Enviar"}>
+                  <ToggleButton
+                    value="check"
+                    onClick={() =>
+                      handleSeg(v, String(perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "enviar" && per === perfil && dep == departamento)?.estatus))}>
+                    <SendIcon />
+                  </ToggleButton>
+                </Tooltip>
+                : ""}
+
+            {
+              /////////////////////////////////////atender solicitudes/////////////////////////////////////////////
+            }
+            {
+              perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "autorizar" && per === perfil && dep == departamento) ?
+
+                // (departamento == "DAMOP" && user.PERFILES[0].Referencia == "ANA") && v.row.ControlInterno == "DAMOP_INICIO" || v.row.ControlInterno == "DAMOP_REG_COR_ANA" ?
+                <Tooltip title={"Atender Solicitud"}>
+                  <ToggleButton
+                    value="check"
+                    onClick={() =>
+                      handleSeg(v, String(perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "autorizar" && per === perfil && dep == departamento)?.estatus))}>
+                    <DoneIcon />
+                  </ToggleButton>
+                </Tooltip>
+                : ""}
+
+
 
           </Box>
         );
@@ -234,8 +265,9 @@ const SolicitudRecursos = () => {
     },
   ];
 
-  const handleSeg = (data: any, estatus: string, departamento: string, perfil: string) => {
-    if ((estatus == "DAMOP_INICIO" && departamento == "MUN")||(estatus=="DAMOP_ENV_COOR"&& departamento=="DAMOP"&&perfil=="ANA") ) {
+  const handleSeg = (data: any, estatus: string,) => {
+    console.log(estatus);
+    if ((estatus != "AUTORIZAR"&& estatus != "CANCELADO" )) {
       let d = {
         NUMOPERACION: 5,
         CHID: data.id,
@@ -274,15 +306,14 @@ const SolicitudRecursos = () => {
 
     }
     else if (departamento == "DAMOP") {
-      if (perfil == "ANA"||perfil == "COOR") {
+      if (perfil == "ANA" || perfil == "COOR") {
         setOpenSeg(true);
         setData(data.row);
         setModo(estatus);
       }
 
-
     }
-    else if (estatus == "AUTORIZADO") {
+    else  {
       setTipoOperacion(estatus);
       setOpenSeg(true);
       setData(data.row)
@@ -327,8 +358,9 @@ const SolicitudRecursos = () => {
   };
 
   useEffect(() => {
+    setPerfil(user.PERFILES[0].Referencia);
     console.log(permisos.map)
-    console.log("departamento  " + user.DEPARTAMENTOS[0].NombreCorto )
+    console.log("departamento  " + user.DEPARTAMENTOS[0].NombreCorto)
     console.log("perfil " + user.PERFILES[0].Referencia)
     setPerfil(user.PERFILES[0].Referencia);
 
@@ -405,7 +437,13 @@ const SolicitudRecursos = () => {
       }
 
       {openSeg ?
-        <ComentariosRecursosModal modo={modo} data={data} open={openSeg} handleClose={handleClose} perfil={String(perfil)} departamento={String(departamento)} />
+        <ComentariosRecursosModal
+          modo={modo}
+          data={data}
+          open={openSeg}
+          handleClose={handleClose}
+          perfil={String(perfil)}
+          departamento={String(departamento)} />
         :
         ""
       }
