@@ -38,32 +38,31 @@ const MunPoblacionModal = ({
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-<<<<<<< Updated upstream
   const [anio, setAnio] = useState<number>();
   const [poblacion, setPoblacion] = useState<number>();
   const [municipios, setMunicipios] = useState<SelectValues[]>([]);
   const [munSeleccionado, setMunSeleccionado] = useState<string>();
-=======
-  const [anio, setAnio] = useState("");
-  const [Poblacion, setPoblacion] = useState("");
-  const [idPoblacion, setIdPoblacion] = useState("");
+// =======
+//   const [anio, setAnio] = useState("");
+//   const [Poblacion, setPoblacion] = useState("");
+//   const [idPoblacion, setIdPoblacion] = useState("");
  
-  const [values, setValues] = useState<Imunicipio[]>();
+//   const [values, setValues] = useState<Imunicipio[]>();
  
  
 
   
-  const municipiosc = () => {
-    let data = {};
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-    let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
-    setValues(m);
-  };
->>>>>>> Stashed changes
+//   const municipiosc = () => {
+//     let data = {};
+//     if (!validaLocalStorage("FiltroMunicipios")) {
+//       CatalogosServices.Filtromunicipios(data).then((res) => {
+//         setMunicipios(res.RESPONSE);
+//       });
+//     }
+//     let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
+//     setValues(m);
+//   };
+// >>>>>>> Stashed changes
 
   const user: RESPONSE = JSON.parse(String(getUser()));
 
@@ -74,11 +73,7 @@ const MunPoblacionModal = ({
 
 
   const handleSend = () => {
-<<<<<<< Updated upstream
     if (poblacion == null || munSeleccionado == null || anio == null) {
-=======
-    if (Poblacion == "") {
->>>>>>> Stashed changes
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -90,12 +85,8 @@ const MunPoblacionModal = ({
         CHID: id,
         CHUSER: user.id,
         ANIO: anio,
-<<<<<<< Updated upstream
         IDMUNICIPIO: munSeleccionado,
         TOTALPOBLACION: poblacion,
-=======
-        TOTALPOBLACION: Poblacion,
->>>>>>> Stashed changes
       };
 
       handleRequest(data);
@@ -157,7 +148,6 @@ const MunPoblacionModal = ({
 
 
   useEffect(() => {
-<<<<<<< Updated upstream
     setMunicipios(municipiosc());
 
     if (dt === '') {
@@ -170,20 +160,19 @@ const MunPoblacionModal = ({
       setMunSeleccionado(dt?.row?.idmunicipio)
 
       console.log(dt.row)
-=======
-    municipiosc();
+// =======
+//     municipiosc();
 
-    if(dt === ''  ){
-        console.log(dt)
+//     if(dt === ''  ){
+//         console.log(dt)
        
-    }else{
-        setId(dt?.row?.id)
-        setAnio(dt?.row?.Anio)
-        setPoblacion(dt?.row?.totalPob
-          )
-        console.log(dt)
-      ///  setIdPoblacion(dt?.row?.idmunicipio)
->>>>>>> Stashed changes
+//     }else{
+//         setId(dt?.row?.id)
+//         setAnio(dt?.row?.Anio)
+//         setPoblacion(dt?.row?.totalPob
+//           )
+//         console.log(dt)
+//       ///  setIdPoblacion(dt?.row?.idmunicipio)
     }
 
   }, [dt]);
@@ -235,21 +224,12 @@ const MunPoblacionModal = ({
             required
             id="fac"
             label="Poblacion"
-<<<<<<< Updated upstream
             value={poblacion}
             type="number"
             fullWidth
             variant="standard"
             onChange={(v) => setPoblacion(Number(v.target.value))}
             error={poblacion == null ? true : false}
-=======
-            value={Poblacion}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setPoblacion(v.target.value)}
-            error={Poblacion == "" ? true : false}
->>>>>>> Stashed changes
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start"></InputAdornment>
