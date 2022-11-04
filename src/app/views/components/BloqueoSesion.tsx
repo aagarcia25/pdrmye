@@ -106,7 +106,7 @@ export function BloqueoSesion({
             <Typography sx={{ mt: 1, fontSize: "1.8vw" }}>
               Haz click{" "}
               <Button
-                href="http://10.200.4.106/"
+                href="http://10.200.4.165/"
                 sx={{ mt: 1, fontSize: "1.6vw" }}
               >
                 aquí
