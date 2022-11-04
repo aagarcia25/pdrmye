@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { getUser } from "../../services/localStorage";
+import { getPermisos, getUser } from "../../services/localStorage";
 import { CatalogosServices } from "../../services/catalogosServices";
 import MUIXDataGrid from "./MUIXDataGrid";
 import AddIcon from '@mui/icons-material/Add';
@@ -15,7 +15,7 @@ import SendIcon from '@mui/icons-material/Send';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import InboxIcon from '@mui/icons-material/Inbox';
 import ListNotificationsModal from "./ListNotificationsModal";
-import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../interfaces/user/UserInfo";
 import { COLOR } from "../../styles/colors";
 
 
@@ -24,10 +24,14 @@ export const ListNotification = () => {
   const [data, setData] = useState({});
   const [modo, setModo] = useState("ViewMessage");
   const [destinatario, setDestinatario] = useState("");
+  const [perfil, setPerfil] = useState<string>();
+
   const [remitente, setRemitente] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState<number>(8);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [open, setOpen] = useState(false);
+
+
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
     { field: "deleted", headerName: "eliminado", width: 300, hide: true },
@@ -157,6 +161,9 @@ export const ListNotification = () => {
 
   useEffect(() => {
 
+    console.log(user.PERFILES[0].Referencia)
+    setPerfil(user.PERFILES[0].Referencia)
+
     let dat = {
       NUMOPERACION: 8,
       CHUSER: user.id
@@ -202,7 +209,8 @@ export const ListNotification = () => {
 
             <Button className="nuevo-mensaje" color="success" variant="contained" endIcon={<AddIcon />}
               onClick={() => handleNuevoMensaje()}>
-              Nuevo</Button>
+              Nuevo
+              </Button>
 
           </Box>
 
