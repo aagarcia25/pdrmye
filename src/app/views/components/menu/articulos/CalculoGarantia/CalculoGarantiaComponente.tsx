@@ -42,13 +42,13 @@ export const CalculoGarantiaComponente = () => {
       hide: true,
       width: 150,
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 200 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 150 },
+    { field: "Nombre", headerName: "Municipio", width: 250 },
     {
-      field: "ClaveFondo",
-      hide: true,
-      headerName: "idClaveFondo",
-      width: 150,
+      field: "clave",
+      hide: false,
+      headerName: "Clave Fondo",
+      width: 100,
     },
     {
       field: "Descripcion",
@@ -66,6 +66,14 @@ export const CalculoGarantiaComponente = () => {
       width: 150,
       ...Moneda,
     },
+    {
+      field: "Distribucion",
+      headerName: "Distribucion",
+      width: 150,
+      
+    },
+
+    
     {
       field: "acciones",
       headerName: "Acciones",
