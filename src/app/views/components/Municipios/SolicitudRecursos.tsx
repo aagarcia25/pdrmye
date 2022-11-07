@@ -51,13 +51,13 @@ const SolicitudRecursos = () => {
     { estatusRef: 'MUN_INICIO', accion: 'enviar', per: 'MUN', dep: "MUN", estatus: 'DAMOP_INICIO' },
     { estatusRef: 'DAMOP_AUT_ANA', accion: 'enviar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_ENV_COOR' },
     { estatusRef: 'DAMOP_AUT_COR', accion: 'enviar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_ENV_DIR' },
-    { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_ENV_DCCP' },  
-    { estatusRef: 'DAMOP_INICIO',      accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+    { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_ENV_DCCP' },
+    { estatusRef: 'DAMOP_INICIO', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
     { estatusRef: 'DAMOP_REG_COR_ANA', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
-    { estatusRef: 'DAMOP_REG_DIR_COOR',accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-    { estatusRef: 'DAMOP_ENV_COOR',      accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-    { estatusRef: 'DAMOP_ENV_DIR',      accion: 'autorizar', per: 'DIR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-    
+    { estatusRef: 'DAMOP_REG_DIR_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+    { estatusRef: 'DAMOP_ENV_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+    { estatusRef: 'DAMOP_ENV_DIR', accion: 'autorizar', per: 'DIR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+
 
     { estatusRef: 'DAMOP_CANCE_ANA', accion: 'cancelar', per: 'MUN', dep: "MUN", estatus: 'CANCELADO' },
   ]
@@ -129,7 +129,7 @@ const SolicitudRecursos = () => {
       },
     },
     { field: "Concepto", headerName: "Concepto", width: 250, },
-    { field: "Total", headerName: "Total", width: 120,...Moneda },
+    { field: "Total", headerName: "Total", width: 120, ...Moneda },
     {
       field: "RutaArchivo", headerName: " Archivo", width: 120,
       renderCell: (v) => {
@@ -180,21 +180,22 @@ const SolicitudRecursos = () => {
         );
       },
     },
-    { field: "Comentario", headerName: " Comentario", width: 120 ,
+    {
+      field: "Comentario", headerName: " Comentario", width: 120,
       renderCell: (v) => {
-      return (
-        <Box>
-      
-          {departamento == "MUN" && v.row.ControlInterno == "DAMOP_CANCE_ANA" ?
-            v.row.Comentario
-            :
-            "EN ATENCION"}
-   
+        return (
+          <Box>
 
-        </Box>
-      );
+            {departamento == "MUN" && v.row.ControlInterno == "DAMOP_CANCE_ANA" ?
+              v.row.Comentario
+              :
+              "EN ATENCION"}
+
+
+          </Box>
+        );
+      },
     },
-  },
     {
       field: "seguimiento",
       headerName: "Seguimiento",
@@ -261,7 +262,7 @@ const SolicitudRecursos = () => {
 
   const handleSeg = (data: any, estatus: string,) => {
     console.log(estatus);
-    if ((estatus != "AUTORIZAR"&& estatus != "CANCELADO" )) {
+    if ((estatus != "AUTORIZAR" && estatus != "CANCELADO")) {
       let d = {
         NUMOPERACION: 5,
         CHID: data.id,
@@ -308,7 +309,7 @@ const SolicitudRecursos = () => {
     //  }
 
     //}
-    else  {
+    else {
       setTipoOperacion(estatus);
       setOpenSeg(true);
       setData(data.row)
@@ -443,7 +444,13 @@ const SolicitudRecursos = () => {
         ""
       }
       {openTraz ?
-        <TrazabilidadSolicitud id={String(idSolicitud)} open={openTraz} handleClose={handleClose} />
+
+
+        <TrazabilidadSolicitud dt={{
+          TIPO: 1,
+          CHID: idSolicitud,
+        }
+        } open={openTraz} handleClose={handleClose} />
         :
         ""
       }

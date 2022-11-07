@@ -24,11 +24,11 @@ import { calculosServices } from "../../services/calculosServices";
 import { Itrazabilidad } from "../../interfaces/calculos/Itrazabilidad";
 
 const TrazabilidadSolicitud = ({
-  id,
+  dt,
   open,
   handleClose,
 }: {
-  id: string;
+  dt: any;
   open: boolean;
   handleClose: Function;
 }) => {
@@ -36,11 +36,7 @@ const TrazabilidadSolicitud = ({
   const [data, setdata] = useState<Itrazabilidad[]>([]);
 
   const consulta = () => {
-  
-    let data = {
-      CHID: id,
-    };
-    calculosServices.trazabilidadSolicitud(data).then((res) => {
+    calculosServices.trazabilidadSolicitud(dt).then((res) => {
       if (res.SUCCESS) {
         const obj: Itrazabilidad[] = res.RESPONSE;
         setdata(obj);
@@ -53,7 +49,7 @@ const TrazabilidadSolicitud = ({
 
   useEffect(() => {
     consulta();
-  }, [id]);
+  }, [dt]);
 
   return (
     <div>
