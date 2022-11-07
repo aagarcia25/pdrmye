@@ -18,11 +18,14 @@ import ButtonsMunicipio from "../../Utilerias/ButtonsMunicipio";
 import DoneIcon from '@mui/icons-material/Done';
 import SendIcon from '@mui/icons-material/Send';
 import TrazabilidadSolicitud from "../../../../TrazabilidadSolicitud";
+import { AnticipoParticipacionesAtenderModal } from "./AnticipoParticipacionesAtenderModal";
 
 
 export const AnticipoParticipaciones = () => {
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [open, setOpen] = useState<boolean>(false);
+    const [openAtender, setOpenAtender] = useState<boolean>(false);
+
     const [eliminar, setEliminar] = useState<boolean>(false);
     const [agregar, setAgregar] = useState<boolean>(false);
     const [importPlant, setImportPlant] = useState<boolean>(false);
@@ -39,25 +42,30 @@ export const AnticipoParticipaciones = () => {
 
 
     const perfiles = [
-        { estatusRef: 'DAMOP_AUT_ANA',      accion: 'enviar',    per: 'ANA',  dep: "DAMOP", estatus: 'DAMOP_ANA_ENV_COOR' },
-        { estatusRef: 'DAMOP_AUT_COOR',     accion: 'enviar',    per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_COOR_ENV_DIR' },
-        { estatusRef: 'DAMOP_AUT_DIR',      accion: 'enviar',    per: 'DIR',  dep: "DAMOP", estatus: 'DAMOP_DIR_ENV_ DCCP' },
-        { estatusRef: 'DAMOP_INICIO',       accion: 'autorizar', per: 'ANA',  dep: "DAMOP", estatus: 'AUTORIZAR' },
-        { estatusRef: 'DAMOP_ANA_ENV_COOR', accion: 'autorizar', per: 'ANA',  dep: "DAMOP", estatus: 'AUTORIZAR' },
-        { estatusRef: 'DAMOP_COOR_ENV_DIR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-        { estatusRef: 'DAMOP_REG_COR_ANA',  accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-        { estatusRef: 'DAMOP_REG_DIR_COOR', accion: 'autorizar', per: 'DIR',  dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_AUT_ANA', accion: 'enviar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_ANA_ENV_COOR' },
+        { estatusRef: 'DAMOP_AUT_COOR', accion: 'enviar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_COOR_ENV_DIR' },
+        { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_DIR_ENV_ DCCP' },
+        { estatusRef: 'DAMOP_INICIO', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_ANA_ENV_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_COOR_ENV_DIR', accion: 'autorizar', per: 'DIR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_REG_COR_ANA', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_REG_DIR_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
 
     ]
 
 
     const consulta = () => {
+        console.log(user.DEPARTAMENTOS[0].NombreCorto)
+        console.log(user.PERFILES[0].Referencia)
+        setPerfil(user.PERFILES[0].Referencia);
+
 
         if (user.DEPARTAMENTOS[0].NombreCorto == "DAMOP") {
             CatalogosServices.indexAPC({ NUMOPERACION: 1 }).then((res) => {
                 setAPC(res.RESPONSE);
                 setDepartamento("DAMOP");
                 console.log(res.RESPONSE)
+               
             });
         }
     }
@@ -65,6 +73,7 @@ export const AnticipoParticipaciones = () => {
     const handleClose = () => {
         setOpen(false);
         setOpenTraz(false);
+        setOpenAtender(false);
         let data = {
             NUMOPERACION: 1
         };
@@ -85,12 +94,12 @@ export const AnticipoParticipaciones = () => {
 
     const columns: GridColDef[] = [
         { field: "id", hide: true, },
-
-        { field: "Descripcion", headerName: "Estatus", width: 120 },
+        { field: "Mes", hide: true },
         { field: "mesdescripcion", headerName: "Mes", width: 120 },
         { field: "Anio", headerName: "Año", width: 120 },
         { field: "Total", headerName: "Total", width: 100 },
-        { field: "Mes", },
+        { field: "Descripcion", headerName: "Estatus", width: 120 },
+        { field: "Comentario", headerName: "Comentarios", width: 200 },
         {
             field: "acciones",
             headerName: "Acciones",
@@ -198,7 +207,7 @@ export const AnticipoParticipaciones = () => {
         console.log(estatus);
         if ((estatus != "AUTORIZAR" && estatus != "CANCELADO")) {
             let d = {
-                NUMOPERACION: 5,
+                NUMOPERACION: 7,
                 CHID: data.id,
                 CHUSER: user.id,
                 ESTATUS: estatus,
@@ -244,7 +253,7 @@ export const AnticipoParticipaciones = () => {
 
         //}
         else {
-            setOpen(true);
+            setOpenAtender(true);
             setData(data.row)
         }
     }
@@ -301,9 +310,6 @@ export const AnticipoParticipaciones = () => {
         });
 
 
-
-
-
     };
     const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         let file = event?.target?.files?.[0] || "";
@@ -319,6 +325,7 @@ export const AnticipoParticipaciones = () => {
                     title: "Carga Exitosa!",
 
                 });
+                consulta();
             } else {
                 Alert.fire({
                     title: "Error!",
@@ -328,6 +335,7 @@ export const AnticipoParticipaciones = () => {
             }
         });
     };
+
     const test = () => {
         console.log(fecha)
         console.log(hoy.getMonth() + "  " + hoy.getFullYear())
@@ -397,6 +405,13 @@ export const AnticipoParticipaciones = () => {
                     open={openTraz} handleClose={handleClose} />
                 :
                 ""
+            }
+
+            {
+                openAtender ?
+                    <AnticipoParticipacionesAtenderModal departamento={String(departamento)} data={data} open={openAtender} handleClose={handleClose} perfil={String(perfil)} />
+                    : ""
+
             }
 
 
