@@ -1,27 +1,25 @@
 import { useEffect, useState } from "react";
 import { Box, Dialog, DialogContent, DialogTitle, Grid, TextField, ToggleButton, Tooltip } from "@mui/material";
 import Swal from "sweetalert2";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getUser } from "../../../services/localStorage";
-import Slider from "../Slider";
-import { Alert } from '../../../helpers/Alert';
-import { CatalogosServices } from '../../../services/catalogosServices';
 import CloseIcon from '@mui/icons-material/Close';
+import { CatalogosServices } from "../../../../../../services/catalogosServices";
+import { Alert } from "../../../../../../helpers/Alert";
+import { RESPONSE } from "../../../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../../../services/localStorage";
+import Slider from "../../../../Slider";
 
 
 
-export const ComentariosRecursosModal = (
+export const AnticipoParticipacionesAtenderModal = (
     {
         data,
         departamento,
         open,
         handleClose,
-        modo,
         perfil,
     }
         :
         {
-            modo: String;
             departamento: string;
             data: any;
             open: boolean;
@@ -34,7 +32,7 @@ export const ComentariosRecursosModal = (
     const [comentarios, setComentarios] = useState<string>();
     const perfiles = [
         {accion:'autorizar', per:'ANA',  dep:"DAMOP", estatus:'DAMOP_AUT_ANA'},
-        {accion:'autorizar', per:'COOR', dep:"DAMOP", estatus:'DAMOP_AUT_COR'},
+        {accion:'autorizar', per:'COOR', dep:"DAMOP", estatus:'DAMOP_AUT_COOR'},
         {accion:'autorizar', per:'DIR',  dep:"DAMOP", estatus:'DAMOP_AUT_DIR'},
         {accion:'cancelar',  per:'ANA',  dep:"DAMOP", estatus:'DAMOP_CANCE_ANA'},
         {accion:'cancelar',  per:'COOR', dep:"DAMOP", estatus:'DAMOP_REG_COR_ANA'},
@@ -50,7 +48,7 @@ export const ComentariosRecursosModal = (
         if (accion?.accion === "autorizar") {
             console.log(accion.accion+" accion de la busqueda")
             let d = {
-                NUMOPERACION: 5,
+                NUMOPERACION: 7,
                 CHID: data.id,
                 CHUSER: user.id,
                 ESTATUS: accion?.estatus,
@@ -90,7 +88,7 @@ export const ComentariosRecursosModal = (
         if (accion?.accion === "cancelar") {
             console.log("cancelado");
                 let d = {
-                    NUMOPERACION: 5,
+                    NUMOPERACION: 7,
                     CHID: data.id,
                     CHUSER: user.id,
                     ESTATUS: accion?.estatus,
@@ -144,7 +142,7 @@ export const ComentariosRecursosModal = (
                 >
                     <Grid container sx={{ justifyContent: "space-between ", width: "100%" }}>
                         <Grid item xs={10} md={10} lg={10} >
-                            <DialogTitle>Solicitud de Anticipo de Participaciones <br />{" " + "Solicitante:  " + data.Solicitante}</DialogTitle>
+                            <DialogTitle>Solicitud de Anticipo de Participaciones <br />{" " + "Año:  " + data.Anio} <br /> {"  " + "Mes: " + data.mesdescripcion }</DialogTitle>
                         </Grid>
                         <Grid item xs={1} md={1} lg={1}>
                             <Tooltip title={"Cerrar"}>

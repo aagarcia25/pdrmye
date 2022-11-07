@@ -32,7 +32,7 @@ import Slider from "./app/views/components/Slider";
 import { env_var } from '../src/app/environments/env';
 
 function App() {
- 
+
   //cambiar a 5 minutos
   const timeout = 600000;
   const [isIdle, setIsIdle] = useState(false);
@@ -68,11 +68,11 @@ function App() {
     }
   };
 
-  const mensaje = (title:string , text:string) => { 
+  const mensaje = (title: string, text: string) => {
     setlogin(false);
     setAcceso(false);
     Swal.fire({
-      icon:'warning',
+      icon: 'warning',
       title: title,
       text: text,
       showDenyButton: false,
@@ -82,8 +82,8 @@ function App() {
       if (result.isConfirmed) {
         localStorage.clear();
         var ventana = window.self;
-           ventana.opener = window.self;
-           ventana.close();
+        ventana.opener = window.self;
+        ventana.close();
       }
     });
   }
@@ -95,6 +95,7 @@ function App() {
     AuthService.adminUser(data).then((res2) => {
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
+
      // if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
      // if(us.RESPONSE.PERFILES.length !==0){
      // if(us.RESPONSE.ROLES.length !==0){
@@ -126,7 +127,7 @@ function App() {
   };
 
   const verificatoken = (token: string) => {
-    
+
     UserServices.verify({}, token).then((res) => {
       if (res.status == 200) {
         setPU(res.data.data);
@@ -185,47 +186,47 @@ function App() {
     setIsIdle(true);
   }
 
-  const {} = useIdleTimer({
+  const { } = useIdleTimer({
     timeout,
     onIdle: handleOnIdle,
   });
 
   function isbloqueado(): boolean {
     let resul = false;
-    if (getBloqueo()){
-        resul = true;
-    }else{
-        resul = isIdle;
+    if (getBloqueo()) {
+      resul = true;
+    } else {
+      resul = isIdle;
     }
     return resul;
   }
 
 
   useLayoutEffect(() => {
-   
+
     //SE CARGAN LOS PARAMETROS GENERALES
-      if (String(jwt) != null && String(jwt) !='null' && String(jwt) != "") {
-        setToken(jwt);
-        verificatoken(String(jwt));
-      }else if(getToken() != null){
-        console.log('token');
-        console.log(String(getToken()))
-        verificatoken(String(getToken()));
-      } else {
-        Swal.fire({
-          title: "Token no valido",
-          showDenyButton: false,
-          showCancelButton: false,
-          confirmButtonText: "Aceptar",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            localStorage.clear();
-            var ventana = window.self;
-            ventana.location.replace(env_var.BASE_URL_LOGIN);
-          }
-        });
-      }
-      
+    if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
+      setToken(jwt);
+      verificatoken(String(jwt));
+    } else if (getToken() != null) {
+      console.log('token');
+      console.log(String(getToken()))
+      verificatoken(String(getToken()));
+    } else {
+      Swal.fire({
+        title: "Token no valido",
+        showDenyButton: false,
+        showCancelButton: false,
+        confirmButtonText: "Aceptar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.clear();
+          var ventana = window.self;
+          ventana.location.replace(env_var.BASE_URL_LOGIN);
+        }
+      });
+    }
+
   }, []);
 
 
@@ -238,7 +239,7 @@ function App() {
       ) : acceso ? (
         <AppRouter />
       ) : (
-        openSlider ? "": <Validacion />
+        openSlider ? "" : <Validacion />
       )}
     </div>
   );

@@ -21,7 +21,8 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import BotonesOpciones from '../componentes/BotonesOpciones';
 import InsightsIcon from "@mui/icons-material/Insights";
 import TrazabilidadSolicitud from '../TrazabilidadSolicitud';
-
+import { Moneda } from '../menu/CustomToolbar';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 
 const SolicitudRecursos = () => {
@@ -30,21 +31,36 @@ const SolicitudRecursos = () => {
   const [openSlider, setOpenSlider] = useState(false);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [openTraz, setOpenTraz] = useState(false);
-
+  const [idSolicitud, setIdSolicitud] = useState<string>();
   const [openSeg, setOpenSeg] = useState(false);
   const [numOperacion, setNumOperacion] = useState(4);
   const [modo, setModo] = useState("");
   const [departamento, setDepartamento] = useState<string>();
   const [perfil, setPerfil] = useState<string>();
-  const [idSolicitud ,setIdSolicitud] = useState<string>();
 
-  const [tipoOperacion, setTipoOperacion] = useState("");
+
   const [data, setData] = useState({});
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-  const [verTraz ,setVertraz] = useState<boolean>(false);
+  const [verTraz, setVertraz] = useState<boolean>(false);
+
+  const perfiles = [
+    { estatusRef: 'MUN_INICIO', accion: 'enviar', per: 'MUN', dep: "MUN", estatus: 'DAMOP_INICIO' },
+    { estatusRef: 'DAMOP_AUT_ANA', accion: 'enviar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_ENV_COOR' },
+    { estatusRef: 'DAMOP_AUT_COR', accion: 'enviar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_ENV_DIR' },
+    { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_ENV_DCCP' },
+    { estatusRef: 'DAMOP_INICIO', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+    { estatusRef: 'DAMOP_REG_COR_ANA', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+    { estatusRef: 'DAMOP_REG_DIR_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+    { estatusRef: 'DAMOP_ENV_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+    { estatusRef: 'DAMOP_ENV_DIR', accion: 'autorizar', per: 'DIR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+
+
+    { estatusRef: 'DAMOP_CANCE_ANA', accion: 'cancelar', per: 'MUN', dep: "MUN", estatus: 'CANCELADO' },
+  ]
+
 
   ///////////////////////////////////////////
   const consulta = () => {
@@ -52,6 +68,7 @@ const SolicitudRecursos = () => {
     if (user.DEPARTAMENTOS[0].NombreCorto == "DAMOP") {
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
         setDepartamento("DAMOP")
+
         setSolicitud(res.RESPONSE);
         console.log(res.RESPONSE)
         setOpenSlider(false);
@@ -110,7 +127,7 @@ const SolicitudRecursos = () => {
       },
     },
     { field: "Concepto", headerName: "Concepto", width: 250, },
-    { field: "Total", headerName: "Total", width: 120 },
+    { field: "Total", headerName: "Total", width: 120, ...Moneda },
     {
       field: "RutaArchivo", headerName: " Archivo", width: 120,
       renderCell: (v) => {
@@ -144,7 +161,7 @@ const SolicitudRecursos = () => {
               "ENVIADO"
               :
               ""}
-            {departamento == "MUN" && v.row.ControlInterno == "ANALISTA DAMOP CANCELA" ?
+            {departamento == "MUN" && v.row.ControlInterno == "DAMOP_CANCE_ANA" ?
               "Cancelado"
               :
               departamento == "MUN" && v.row.ControlInterno != "ENVIADO" && v.row.ControlInterno != "MUN_INICIO" ?
@@ -152,9 +169,34 @@ const SolicitudRecursos = () => {
                 :
                 ""}
             {departamento != "MUN" ?
-              v.row.ControlInterno
-              : ""
+              v.row.Descripcion
+              :
+              ""
             }
+
+          </Box>
+        );
+      },
+    },
+    {
+      field: "Comentario", headerName: " Comentario", width: 120,
+      renderCell: (v) => {
+        return (
+          <Box>
+
+            {departamento == "MUN" && v.row.ControlInterno == "DAMOP_CANCE_ANA" ?
+              v.row.Comentario
+              :
+              v.row.ControlInterno == "MUN_INICIO" ?
+                "EN ESPERA DE ENVIO"
+                : "EN ATENCION"}
+
+            {departamento != "MUN" ?
+              v.row.Comentario
+              :
+              ""
+            }
+
 
           </Box>
         );
@@ -170,46 +212,66 @@ const SolicitudRecursos = () => {
         return (
           <Box>
 
-
-            {departamento == "MUN" && v.row.ControlInterno == "MUN_INICIO" ?
-              <Tooltip title={"Enviar"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v, "DAMOP_INICIO", "MUN", "MUN")}>
-                  <SendIcon />
-                </ToggleButton>
-              </Tooltip>
-              : ""}
-
-           {departamento == "DAMOP" && user.PERFILES[0].Referencia == "ANA" && v.row.ControlInterno == "DAMOP_INICIO" || v.row.ControlInterno == "DAMOP_REG_COR_ANA" ?
-              <Tooltip title={"Atender Solicitud"}>
-                <ToggleButton value="check" onClick={() => handleSeg(v, "ATENDER", "DAMOP", "ANA")}>
-                  <DoneIcon />
-                </ToggleButton>
-              </Tooltip>
-               : ""} 
-
+            {
+              /////////////////////////////  ver trazabilidad //////////////////////////////
+            }
             {verTraz ? (
-            <Tooltip title={"Ver Trazabilidad"}>
-              <ToggleButton value="check" onClick={() => handleVerTazabilidad(v)}>
-                <InsightsIcon />
-              </ToggleButton>
-            </Tooltip>
-          ) : (
-            ""
-          )}           
+              <Tooltip title={"Ver Trazabilidad"}>
+                <ToggleButton value="check" onClick={() => handleVerTazabilidad(v)}>
+                  <InsightsIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+            {
+              /////////////////////////////// ENVIAR ////////////////////////////////////////////
+            }
+            {
+              perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "enviar" && per === perfil && dep == departamento) ?
 
+                //departamento == "MUN" && v.row.ControlInterno == "MUN_INICIO" ?
+                <Tooltip title={"Enviar"}>
+                  <ToggleButton
+                    value="check"
+                    onClick={() =>
+                      handleSeg(v, String(perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "enviar" && per === perfil && dep == departamento)?.estatus))}>
+                    <SendIcon />
+                  </ToggleButton>
+                </Tooltip>
+                : ""}
+
+            {
+              /////////////////////////////////////atender solicitudes/////////////////////////////////////////////
+            }
+            {
+              perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "autorizar" && per === perfil && dep == departamento) ?
+
+                // (departamento == "DAMOP" && user.PERFILES[0].Referencia == "ANA") && v.row.ControlInterno == "DAMOP_INICIO" || v.row.ControlInterno == "DAMOP_REG_COR_ANA" ?
+                <Tooltip title={"Atender Solicitud"}>
+                  <ToggleButton
+                    value="check"
+                    onClick={() =>
+                      handleSeg(v, String(perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "autorizar" && per === perfil && dep == departamento)?.estatus))}>
+                    <DoneIcon />
+                  </ToggleButton>
+                </Tooltip>
+                : ""}
           </Box>
         );
       },
     },
   ];
 
-  const handleSeg = (data: any, estatus: string, departamento: string, perfil: string) => {
-    if (estatus == "DAMOP_INICIO" && departamento == "MUN") {
+  const handleSeg = (data: any, estatus: string,) => {
+    console.log(estatus);
+    if ((estatus != "AUTORIZAR" && estatus != "CANCELADO")) {
       let d = {
         NUMOPERACION: 5,
         CHID: data.id,
         CHUSER: user.id,
         ESTATUS: estatus,
+        Comentario: data?.row?.Comentario,
       };
 
       Swal.fire({
@@ -242,33 +304,27 @@ const SolicitudRecursos = () => {
       });
 
     }
-    else if (departamento == "DAMOP") {
-      if (perfil == "ANA") {
-        setOpenSeg(true);
-        setData(data.row);
-        setModo(estatus);
+    //else 
+    ///if (departamento == "DAMOP") {
+    //  if (perfil == "ANA" || perfil == "COOR"||perfil == "DIR") {
+    //  setOpenSeg(true);
+    //   setData(data.row);
+    //    setModo(estatus);
+    //  }
 
-
-
-      }
-
-
-    }
-    else if (estatus == "AUTORIZADO") {
-      setTipoOperacion(estatus);
+    //}
+    else {
       setOpenSeg(true);
       setData(data.row)
     }
   }
- 
   const handleClose = () => {
     setOpen(false);
     setOpenSeg(false);
     setOpenTraz(false);
     consulta();
-    
-  };
 
+  };
   const Solicitar = () => {
     setOpen(true);
     setModo("nuevo");
@@ -277,8 +333,7 @@ const SolicitudRecursos = () => {
   const handleAccion = () => {
 
   };
-  
-  const handleVerTazabilidad = (v:any) => {
+  const handleVerTazabilidad = (v: any) => {
 
     setOpenTraz(true);
     setIdSolicitud(v.row.id)
@@ -299,6 +354,7 @@ const SolicitudRecursos = () => {
   };
 
   useEffect(() => {
+    setPerfil(user.PERFILES[0].Referencia);
     console.log(permisos.map)
     console.log("departamento  " + user.DEPARTAMENTOS[0].NombreCorto)
     console.log("perfil " + user.PERFILES[0].Referencia)
@@ -360,26 +416,41 @@ const SolicitudRecursos = () => {
                 </Tooltip> : ""
               }
             </Grid>
-            <Grid item xs={3}>    
-              
+            <Grid item xs={3}>
 
+
+            </Grid>
+            <MUIXDataGrid columns={columns} rows={solicitud} />
           </Grid>
-          <MUIXDataGrid columns={columns} rows={solicitud} />
         </Grid>
-        </Grid>
-        
+
       </Box>
 
       {open ?
-        <SolicitudModal modo={modo} data={data} open={open} handleClose={handleClose} /> : ""}
-      {openSeg ?
-        <ComentariosRecursosModal modo={modo} data={data} open={openSeg} handleClose={handleClose} perfil={String(perfil)} />
-        : ""
+        <SolicitudModal modo={modo} data={data} open={open} handleClose={handleClose} />
+        :
+        ""
       }
-      {openTraz?
-      <TrazabilidadSolicitud id={String(idSolicitud)} open={openTraz} handleClose={handleClose}/>
-      :
-      ""
+
+      {openSeg ?
+        <ComentariosRecursosModal
+          modo={modo}
+          data={data}
+          open={openSeg}
+          handleClose={handleClose}
+          perfil={String(perfil)}
+          departamento={String(departamento)} />
+        :
+        ""
+      }
+      {openTraz ?
+        <TrazabilidadSolicitud dt={{
+          TIPO: 1,
+          CHID: idSolicitud,
+        }
+        } open={openTraz} handleClose={handleClose} />
+        :
+        ""
       }
     </div>
   )
