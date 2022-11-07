@@ -31,15 +31,14 @@ const SolicitudRecursos = () => {
   const [openSlider, setOpenSlider] = useState(false);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [openTraz, setOpenTraz] = useState(false);
-
+  const [idSolicitud, setIdSolicitud] = useState<string>();
   const [openSeg, setOpenSeg] = useState(false);
   const [numOperacion, setNumOperacion] = useState(4);
   const [modo, setModo] = useState("");
   const [departamento, setDepartamento] = useState<string>();
   const [perfil, setPerfil] = useState<string>();
-  const [idSolicitud, setIdSolicitud] = useState<string>();
 
-  const [tipoOperacion, setTipoOperacion] = useState("");
+
   const [data, setData] = useState({});
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [agregar, setAgregar] = useState<boolean>(false);
@@ -62,7 +61,6 @@ const SolicitudRecursos = () => {
     { estatusRef: 'DAMOP_CANCE_ANA', accion: 'cancelar', per: 'MUN', dep: "MUN", estatus: 'CANCELADO' },
   ]
 
-  const accion = perfiles.find(({ per, dep }) => per === perfil && dep == departamento);
 
   ///////////////////////////////////////////
   const consulta = () => {
@@ -219,7 +217,7 @@ const SolicitudRecursos = () => {
               ""
             )}
             {
-              ///////////////////////////////////////////////////////////////////////////
+              /////////////////////////////// ENVIAR ////////////////////////////////////////////
             }
             {
               perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "enviar" && per === perfil && dep == departamento) ?
@@ -307,7 +305,6 @@ const SolicitudRecursos = () => {
 
     //}
     else {
-      setTipoOperacion(estatus);
       setOpenSeg(true);
       setData(data.row)
     }
@@ -438,8 +435,6 @@ const SolicitudRecursos = () => {
         ""
       }
       {openTraz ?
-
-
         <TrazabilidadSolicitud dt={{
           TIPO: 1,
           CHID: idSolicitud,
