@@ -37,6 +37,7 @@ export const AnticipoParticipaciones = () => {
     const [departamento, setDepartamento] = useState<string>();
     const [perfil, setPerfil] = useState<string>();
     const [data, setData] = useState({});
+    const user: RESPONSE = JSON.parse(String(getUser()));
     var hoy = new Date()
     var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2);
 
@@ -90,7 +91,7 @@ export const AnticipoParticipaciones = () => {
         setIdSolicitud(v.row.id)
         console.log(v.row.id);
     };
-    const user: RESPONSE = JSON.parse(String(getUser()));
+  
 
     const columns: GridColDef[] = [
         { field: "id", hide: true, },
@@ -211,6 +212,7 @@ export const AnticipoParticipaciones = () => {
                 CHID: data.id,
                 CHUSER: user.id,
                 ESTATUS: estatus,
+                Comentario: data?.row?.Comentario
             };
 
             Swal.fire({

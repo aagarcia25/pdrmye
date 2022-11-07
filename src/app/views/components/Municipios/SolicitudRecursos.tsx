@@ -187,7 +187,15 @@ const SolicitudRecursos = () => {
             {departamento == "MUN" && v.row.ControlInterno == "DAMOP_CANCE_ANA" ?
               v.row.Comentario
               :
-              "EN ATENCION"}
+              v.row.ControlInterno == "MUN_INICIO" ?
+                "EN ESPERA DE ENVIO"
+                : "EN ATENCION"}
+
+            {departamento != "MUN" ?
+              v.row.Comentario
+              :
+              ""
+            }
 
 
           </Box>
@@ -263,6 +271,7 @@ const SolicitudRecursos = () => {
         CHID: data.id,
         CHUSER: user.id,
         ESTATUS: estatus,
+        Comentario: data?.row?.Comentario,
       };
 
       Swal.fire({
