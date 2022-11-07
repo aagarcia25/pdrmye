@@ -45,8 +45,6 @@ const MunFacturacionModal = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
   //Valores de chequeo de los Switch
 
-  
-  
 
   const [checkedMam, setCheckedMam] = useState(dt?.row?.MAM === 1 ? true : false);
   const [checkedDescentralizado, setCheckedDescentralizado] = useState(dt?.row?.Descentralizado === 1 ? true : false);

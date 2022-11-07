@@ -12,18 +12,24 @@ import MunicipiosModal from "./MunicipiosModal";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
-import { Box, IconButton } from "@mui/material";
+import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import FideicomisoConfig from "./FideicomisoConfig";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import MunicipiosUsuarioResponsable from "./MunicipiosUsuarioResponsable";
 
 export const Municipios = () => {
   const [municipio, setMunicipio] = useState([]);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [agregar, setAgregar] = useState<boolean>(false);
+  const [viewCC, setViewCC] = useState<boolean>(false);
+  const [viewUR, setViewUR] = useState<boolean>(false);
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [openFideicomiso, setOpenFideicomiso] = useState(false);
+  const [openUR, setOpenUR] = useState(false);
 
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
@@ -41,10 +47,58 @@ export const Municipios = () => {
       width: 150,
       description: messages.dataTableColum.id,
     },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 200,
+      renderCell: (v) => {
+        return (
+          <>
+            <Box>
+              {fideicomiso ? (
+                <Tooltip title={"Visualizar Fideicomisos"}>
+                  <IconButton onClick={() => handleFideicomiso(v)}>
+                    <RequestQuoteIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                ""
+              )}
+              {viewCC ? (
+                <Tooltip title={"Visualizar Cuenta Bancaria"}>
+                  <IconButton onClick={() => handleCC(v)}>
+                    <AccountBalanceWalletIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                ""
+              )}
+              {viewUR ? (
+                <Tooltip title={"Visualizar Usuario Responsable"}>
+                  <IconButton onClick={() => handleUR(v)}>
+                    <ManageAccountsIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                ""
+              )}
+            </Box>
+            <Box>
+              <BotonesAcciones
+                handleAccion={handleAccion}
+                row={v}
+                editar={editar}
+                eliminar={eliminar}
+              ></BotonesAcciones>
+            </Box>
+          </>
+        );
+      },
+    },
     { field: "ClaveEstado", headerName: "Clave Estado", width: 120 },
     { field: "Nombre", headerName: "Municipio", width: 250 },
-
-    //{ field: "ClaveMun", headerName: "Clave Municipio", width: 150 },
     {
       field: "MAM",
       headerName: "Área Metropolitana",
@@ -89,30 +143,6 @@ export const Municipios = () => {
         return v.row.ArtF3 === "1" ? "SI" : "NO";
       },
     },
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Campo de Acciones",
-      sortable: false,
-      width: 350,
-      renderCell: (v) => {
-        return (
-          <>
-            <Box>
-              {fideicomiso ? <IconButton onClick={() => handleFideicomiso(v)}>
-                <RequestQuoteIcon />
-              </IconButton>
-                :
-                ""
-              }
-            </Box>
-            <Box>
-              <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-            </Box>
-          </>
-        );
-      },
-    },
   ];
 
   const handleAccion = (v: any) => {
@@ -124,19 +154,30 @@ export const Municipios = () => {
     } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
-  }
+  };
   const handleFideicomiso = (v: any) => {
     setModo("Agregar Fideicomiso");
     setOpenFideicomiso(true);
     setData(v);
   };
 
+  const handleCC = (v: any) => {
+    setModo("Agregar Fideicomiso");
+    setOpenFideicomiso(true);
+    setData(v);
+  };
+
+  const handleUR = (v: any) => {
+    setOpenUR(true);
+    setData(v);
+  };
+
   const handleClose = () => {
     setOpen(false);
     setOpenFideicomiso(false);
+    setOpenUR(false);
     consulta({ NUMOPERACION: 4 });
   };
-
 
   const handleDelete = (v: any) => {
     Swal.fire({
@@ -154,7 +195,7 @@ export const Municipios = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.id,
         };
         console.log(data);
 
@@ -230,7 +271,7 @@ export const Municipios = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNICIPIOS") {
-        console.log(item)
+        console.log(item);
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }
@@ -242,6 +283,13 @@ export const Municipios = () => {
         }
         if (String(item.Referencia) == "FIDE") {
           setFideicomiso(true);
+        }
+        if (String(item.Referencia) == "VIEWCC") {
+          setViewCC(true);
+        }
+
+        if (String(item.Referencia) == "VIEWUR") {
+          setViewUR(true);
         }
       }
     });
@@ -280,7 +328,17 @@ export const Municipios = () => {
         ""
       )}
 
-      <ButtonsMunicipio url={plantilla} handleUpload={handleUpload} controlInterno={"MUNICIPIOS"} />
+      {openUR ? (
+        <MunicipiosUsuarioResponsable handleClose={handleClose} dt={data} />
+      ) : (
+        ""
+      )}
+
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleUpload}
+        controlInterno={"MUNICIPIOS"}
+      />
 
       <MUIXDataGrid sx={{}} columns={columns} rows={municipio} />
     </div>

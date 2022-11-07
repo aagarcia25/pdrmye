@@ -21,6 +21,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import BotonesOpciones from '../componentes/BotonesOpciones';
 import InsightsIcon from "@mui/icons-material/Insights";
 import TrazabilidadSolicitud from '../TrazabilidadSolicitud';
+import { Moneda } from '../menu/CustomToolbar';
 
 
 
@@ -50,22 +51,13 @@ const SolicitudRecursos = () => {
     { estatusRef: 'MUN_INICIO', accion: 'enviar', per: 'MUN', dep: "MUN", estatus: 'DAMOP_INICIO' },
     { estatusRef: 'DAMOP_AUT_ANA', accion: 'enviar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_ENV_COOR' },
     { estatusRef: 'DAMOP_AUT_COR', accion: 'enviar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_ENV_DIR' },
-    { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_ENV_DCCP' },
-
-
-    
-
+    { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_ENV_DCCP' },  
     { estatusRef: 'DAMOP_INICIO',      accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
     { estatusRef: 'DAMOP_REG_COR_ANA', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
     { estatusRef: 'DAMOP_REG_DIR_COOR',accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
     { estatusRef: 'DAMOP_ENV_COOR',      accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
     { estatusRef: 'DAMOP_ENV_DIR',      accion: 'autorizar', per: 'ANA', dep: "DCCP", estatus: 'AUTORIZAR' },
-
-    
-
     { estatusRef: 'DAMOP_CANCE_ANA', accion: 'cancelar', per: 'MUN', dep: "MUN", estatus: 'CANCELADO' },
-
-
   ]
 
   const accion = perfiles.find(({ per, dep }) => per === perfil && dep == departamento);
@@ -135,7 +127,7 @@ const SolicitudRecursos = () => {
       },
     },
     { field: "Concepto", headerName: "Concepto", width: 250, },
-    { field: "Total", headerName: "Total", width: 120 },
+    { field: "Total", headerName: "Total", width: 120,...Moneda },
     {
       field: "RutaArchivo", headerName: " Archivo", width: 120,
       renderCell: (v) => {
