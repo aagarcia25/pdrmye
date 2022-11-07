@@ -1,4 +1,4 @@
-import { Box, ToggleButtonGroup, Tooltip, ToggleButton, Link } from "@mui/material";
+import { Box, ToggleButtonGroup, Tooltip, ToggleButton, Link, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
@@ -26,6 +26,9 @@ const ButtonsMunicipio = ({
       if (String(item.ControlInterno) === controlInterno) {
         console.log(item)
         if (String(item.Referencia) == "IMPREG") {
+          setCargarPlantilla(true);
+        }
+        if (String(item.Referencia) == "IMPORTPLANT") {
           setCargarPlantilla(true);
         }
         if (String(item.Referencia) == "DPLANTILLA") {
@@ -58,10 +61,10 @@ const ButtonsMunicipio = ({
           : ""}
         {cargarPlantilla ?
           <Tooltip title="Cargar Plantilla">
-            <ToggleButton value="check">
-              <input hidden accept="*" type="file" value="" onChange={(v) => handleUpload(v)} />
+              <IconButton aria-label="upload documento" component="label" size="large">
+              <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
               <DriveFolderUploadIcon />
-            </ToggleButton>
+              </IconButton>
           </Tooltip>
           : ""}
 

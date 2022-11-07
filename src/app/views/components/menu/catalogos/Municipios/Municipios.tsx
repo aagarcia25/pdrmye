@@ -229,7 +229,7 @@ export const Municipios = () => {
     let file = event?.target?.files?.[0] || "";
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "MunFacturacion");
+    formData.append("tipo", "ANTICIPO_PARTICIPACIONES");
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
       if (res.SUCCESS) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Button, IconButton, Tooltip } from "@mui/material";
+import { Box, Button, Grid, IconButton, ToggleButton, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { PERMISO, RESPONSE } from "../../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../../services/catalogosServices";
@@ -13,18 +13,39 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../../helpers/Toast";
 import { Alert } from "../../../../../../helpers/Alert";
+import { Titulo } from "../../Utilerias/AgregarCalculoUtil/Titulo";
+import AddIcon from '@mui/icons-material/Add';
+import ButtonsMunicipio from "../../Utilerias/ButtonsMunicipio";
+
 
 export const AnticipoParticipaciones = () => {
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [open, setOpen] = useState<boolean>(false);
     const [eliminar, setEliminar] = useState<boolean>(false);
     const [agregar, setAgregar] = useState<boolean>(false);
+    const [importPlant, setImportPlant] = useState<boolean>(false);
+
     const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
     const [idPrincipal, setIdPrincipal] = useState("");
     const [APC, setAPC] = useState([]);
     const [data, setdata] = useState([]);
     var hoy = new Date()
     var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2);
+
+
+    const perfiles = [
+        { estatusRef: 'DAMOP_AUT_ANA', accion: 'enviar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_ANA_ENV_COOR' },
+        { estatusRef: 'DAMOP_AUT_COOR', accion: 'enviar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_COOR_ENV_DIR' },
+        { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_DIR_ENV_ DCCP' },
+        { estatusRef: 'DAMOP_INICIO', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_ANA_ENV_COOR', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_COOR_ENV_DIR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_REG_COR_ANA', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_REG_DIR_COOR', accion: 'autorizar', per: 'DIR', dep: "DAMOP", estatus: 'AUTORIZAR' },
+    
+      ]
+
+
 
     const handleClose = (v: any) => { 
         setOpen(false); 
@@ -155,6 +176,29 @@ export const AnticipoParticipaciones = () => {
 
 
     };
+    const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let file = event?.target?.files?.[0] || "";
+        const formData = new FormData();
+        formData.append("inputfile", file, "inputfile.xlsx");
+        formData.append("tipo", "ANTICIPO_PARTICIPACIONES");
+        formData.append("CHUSER", user.id);
+        formData.append("ESTATUS", "DAMOP_INICIO");
+        CatalogosServices.migraData(formData).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Carga Exitosa!",
+
+            });
+          } else {
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      };
     const test = () => {
         console.log(fecha)
         console.log(hoy.getMonth() + "  " + hoy.getFullYear())
@@ -163,9 +207,9 @@ export const AnticipoParticipaciones = () => {
     };
 
     useEffect(() => {
+    console.log("");
         permisos.map((item: PERMISO) => {
             if (String(item.ControlInterno) === "MUNAPC") {
-                console.log(item)
                 if (String(item.Referencia) == "AGREG") {
                     setAgregar(true);
                 }
@@ -175,17 +219,12 @@ export const AnticipoParticipaciones = () => {
                 if (String(item.Referencia) == "TRAZA") {
                     setVerTrazabilidad(true);
                 }
-
             }
         });
-        let data = {
-            NUMOPERACION: 1
-        };
 
-        CatalogosServices.indexAPC(data).then((res) => {
+        CatalogosServices.indexAPC({NUMOPERACION: 1}).then((res) => {
             setAPC(res.RESPONSE);
             console.log(res.RESPONSE)
-
         });
     }, []);
 
@@ -193,7 +232,31 @@ export const AnticipoParticipaciones = () => {
 
     return (
         <div style={{ height: 600, width: "100%" }}>
+      <Grid container spacing={2} sx={{ justifyContent: "center", }} >
+          <Grid item xs={12}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Titulo name={"Anticipo de Participaciones"} />
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Grid container>
+            <Grid item xs={2} >
+                   <ButtonsMunicipio
+                   url={"d"}
+                   handleUpload={handleUpload}
+                   controlInterno={"MUNAPC"}
+                 /> 
+            </Grid>
+            <Grid item xs={3}>
+
+
+            </Grid>
             <MUIXDataGrid sx={{}} columns={columns} rows={APC} />
+          </Grid>
+
+
+         
 
             {open ?
                 <DetalleAnticipoParticipaciones idPrincipal={idPrincipal} data={data} open={open} handleClose={handleClose} />

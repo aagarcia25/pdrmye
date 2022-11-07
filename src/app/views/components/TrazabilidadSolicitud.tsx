@@ -78,7 +78,10 @@ const TrazabilidadSolicitud = ({
                       {it.Nombre}
                       </Typography>
                       <Typography>{it.Descripcion}</Typography>
-                      <Typography>{it.Comentario}</Typography>
+                      <br></br>
+                      {it.Comentario?
+                      <Typography>COMENTARIO: {it.Comentario}</Typography>
+                    : ""}
                     </TimelineContent>
                   </TimelineItem>
               

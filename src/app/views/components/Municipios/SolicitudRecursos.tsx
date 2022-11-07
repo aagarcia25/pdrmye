@@ -22,7 +22,7 @@ import BotonesOpciones from '../componentes/BotonesOpciones';
 import InsightsIcon from "@mui/icons-material/Insights";
 import TrazabilidadSolicitud from '../TrazabilidadSolicitud';
 import { Moneda } from '../menu/CustomToolbar';
-
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 
 const SolicitudRecursos = () => {
@@ -251,9 +251,6 @@ const SolicitudRecursos = () => {
                   </ToggleButton>
                 </Tooltip>
                 : ""}
-
-
-
           </Box>
         );
       },
@@ -315,7 +312,6 @@ const SolicitudRecursos = () => {
       setData(data.row)
     }
   }
-
   const handleClose = () => {
     setOpen(false);
     setOpenSeg(false);
@@ -323,7 +319,6 @@ const SolicitudRecursos = () => {
     consulta();
 
   };
-
   const Solicitar = () => {
     setOpen(true);
     setModo("nuevo");
@@ -332,7 +327,6 @@ const SolicitudRecursos = () => {
   const handleAccion = () => {
 
   };
-
   const handleVerTazabilidad = (v: any) => {
 
     setOpenTraz(true);
