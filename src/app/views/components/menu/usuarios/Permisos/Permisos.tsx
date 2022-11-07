@@ -107,14 +107,14 @@ const Permisos = () => {
          {
           field: "menu",
           headerName: "Módulo",
-          width: 200,
+          width: 300,
         },
          {
            field: "Permiso",
            headerName: "Permiso",
-           width: 200,
+           width: 300,
          },
-         { field: "Descripcion", headerName: "Descripcion", width: 250 },
+         { field: "Descripcion", headerName: "Descripcion", width: 350 },
         
          {
            field: "acciones",
