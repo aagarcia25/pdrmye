@@ -12,6 +12,8 @@ import MUIXDataGrid from "../MUIXDataGrid";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getUser } from "../../../services/localStorage";
+import { DPCPServices } from "../../../services/DPCPServices";
+import { Toast } from "../../../helpers/Toast";
 
 const AsigPresupuestal = () => {
 
@@ -21,6 +23,7 @@ const AsigPresupuestal = () => {
     const [fondos, setFondos] = useState<SelectValues[]>([]);
     const [anios, setAnios] = useState<SelectValues[]>([]);
     const [mes, setMeses] = useState<SelectValues[]>([]);
+    const [procesos, setProcesos] = useState<SelectValues[]>([]);
 
 
     //Constantes de los filtros
@@ -28,6 +31,10 @@ const AsigPresupuestal = () => {
     const [idFondo, setIdFondo] = useState("");
     const [idanio, setIdanio] = useState("");
     const [idmes, setIdmes] = useState("");
+    const [idProceso, setIdproceso] = useState("");
+
+
+
 //Constantes para las columnas 
 const [data, setData] = useState([]);
 const [pa, setPa] = useState(false);
@@ -41,6 +48,9 @@ const [rf, setRf] = useState(false);
 const [cf, setCf] = useState(false);
 const [ae, setAe] = useState(false);
 const [af, setAf] = useState(false);
+
+
+
 const [presupuesto, setPresupuesto] = useState<boolean>(false);
 const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
 const user: RESPONSE = JSON.parse(String(getUser()));
@@ -285,30 +295,74 @@ const loadFilter = (operacion: number) => {
                 setAnios(res.RESPONSE);
             }else if(operacion == 2){
                 setMeses(res.RESPONSE);
-            }
+            }else if(operacion == 6){
+              setProcesos(res.RESPONSE);
+           }
            
           });
         }
 
     const handleFilterChange1 = (v: string) => {
-            setIdEstatus(v);
+            setIdproceso(v);
     };
 
     const handleFilterChange2 = (v: string) => {
-        setIdFondo(v);
+        setIdanio(v);
     };
 
     const handleFilterChange3 = (v: string) => {
-        setIdFondo(v);
+        setIdmes(v);
     };
 
     const handleFilterChange4 = (v: string) => {
         setIdFondo(v);
     };
 
+    const handleFilterChange5 = (v: string) => {
+      setIdmes(v);
+  };
+
+  const handleFilterChange6 = (v: string) => {
+      setIdFondo(v);
+  };
+
+
 
 const handleClick = () => {
+   console.log('EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS')
+
    
+   console.log(idEstatus);
+   console.log(idFondo);
+   console.log(idanio);
+   console.log(idmes);
+   console.log(idProceso);
+
+  let data={
+    'P_FONDO':idFondo,
+    'P_ANIO':idanio,
+    'P_MES':idmes,
+    'P_IDPROCESO':idProceso,
+    'P_IDESTATUS':idEstatus,
+  };
+
+   DPCPServices.ConsultaDPCP(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        setData(res.RESPONSE);
+      } else {
+        Alert.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+ 
+
 };
         
 
@@ -317,6 +371,7 @@ const handleClick = () => {
             loadFilter(4);  
             loadFilter(8);
             loadFilter(12);
+            loadFilter(6);
           }, []);     
 
   return (
@@ -324,24 +379,48 @@ const handleClick = () => {
       <Grid container spacing={1}>
         
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+        <Grid item  xs={2} sm={2} md={2} lg={2}>
+          <Typography   sx={{ fontFamily: "MontserratMedium"}}>Año:</Typography>
+          <SelectFrag
+                  value={idanio}
+                  options={anios}
+                  onInputChange={handleFilterChange1}
+                  placeholder={"Seleccione Año"}
+                  label={""}
+                  disabled={false}
+                />
+          </Grid>
+
+          <Grid item  xs={2} sm={2} md={2} lg={2}>
+          <Typography   sx={{ fontFamily: "MontserratMedium"}}>Mes:</Typography>
+          <SelectFrag
+                  value={idmes}
+                  options={mes}
+                  onInputChange={handleFilterChange2}
+                  placeholder={"Seleccione Mes"}
+                  label={""}
+                  disabled={false}
+                />
+          </Grid>
+
         <Grid item xs={2}>
          <Typography   sx={{ fontFamily: "MontserratMedium"}}>Procesos:</Typography>
           <SelectFrag
-                  value={idEstatus}
-                  options={estatus}
-                  onInputChange={handleFilterChange1}
-                  placeholder={"Seleccione Estatus"}
+                  value={idProceso}
+                  options={procesos}
+                  onInputChange={handleFilterChange3}
+                  placeholder={"Seleccione Proceso"}
                   label={""}
                   disabled={false}
                 />
           </Grid>
           
          <Grid item xs={2}>
-         <Typography   sx={{ fontFamily: "MontserratMedium"}}>Procesos:</Typography>
+         <Typography   sx={{ fontFamily: "MontserratMedium"}}>Estatus:</Typography>
           <SelectFrag
                   value={idEstatus}
                   options={estatus}
-                  onInputChange={handleFilterChange1}
+                  onInputChange={handleFilterChange4}
                   placeholder={"Seleccione Estatus"}
                   label={""}
                   disabled={false}
@@ -354,42 +433,22 @@ const handleClick = () => {
           <SelectFrag
                   value={idEstatus}
                   options={estatus}
-                  onInputChange={handleFilterChange1}
+                  onInputChange={handleFilterChange5}
                   placeholder={"Seleccione Estatus"}
                   label={""}
                   disabled={false}
                 />
           </Grid>
-          <Grid item  xs={2} sm={2} md={2} lg={2}>
-          <Typography   sx={{ fontFamily: "MontserratMedium"}}>Año:</Typography>
-          <SelectFrag
-                  value={idanio}
-                  options={anios}
-                  onInputChange={handleFilterChange2}
-                  placeholder={"Seleccione Año"}
-                  label={""}
-                  disabled={false}
-                />
-          </Grid>
+        
 
-          <Grid item  xs={2} sm={2} md={2} lg={2}>
-          <Typography   sx={{ fontFamily: "MontserratMedium"}}>Mes:</Typography>
-          <SelectFrag
-                  value={idmes}
-                  options={mes}
-                  onInputChange={handleFilterChange3}
-                  placeholder={"Seleccione Mes"}
-                  label={""}
-                  disabled={false}
-                />
-          </Grid>
+         
 
           <Grid item xs={2} sm={2} md={2} lg={2}>
           <Typography   sx={{ fontFamily: "MontserratMedium"}}>Fondo:</Typography>
           <SelectFrag
                   value={idFondo}
                   options={fondos}
-                  onInputChange={handleFilterChange4}
+                  onInputChange={handleFilterChange6}
                   placeholder={"Seleccione Fondo"}
                   label={""}
                   disabled={false}
