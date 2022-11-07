@@ -59,8 +59,7 @@ const SolicitudRecursos = () => {
     { estatusRef: 'DAMOP_REG_COR_ANA', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
     { estatusRef: 'DAMOP_REG_DIR_COOR',accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
     { estatusRef: 'DAMOP_ENV_COOR',      accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-    { estatusRef: 'DAMOP_ENV_DIR',      accion: 'autorizar', per: 'ANA', dep: "DCCP", estatus: 'AUTORIZAR' },
-
+    { estatusRef: 'DAMOP_ENV_DIR',      accion: 'autorizar', per: 'DIR', dep: "DAMOP", estatus: 'AUTORIZAR' },
     
 
     { estatusRef: 'DAMOP_CANCE_ANA', accion: 'cancelar', per: 'MUN', dep: "MUN", estatus: 'CANCELADO' },
@@ -305,14 +304,15 @@ const SolicitudRecursos = () => {
       });
 
     }
-    else if (departamento == "DAMOP") {
-      if (perfil == "ANA" || perfil == "COOR") {
-        setOpenSeg(true);
-        setData(data.row);
-        setModo(estatus);
-      }
+    //else 
+    ///if (departamento == "DAMOP") {
+    //  if (perfil == "ANA" || perfil == "COOR"||perfil == "DIR") {
+    //  setOpenSeg(true);
+    //   setData(data.row);
+    //    setModo(estatus);
+    //  }
 
-    }
+    //}
     else  {
       setTipoOperacion(estatus);
       setOpenSeg(true);
