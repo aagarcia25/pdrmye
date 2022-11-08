@@ -1,6 +1,7 @@
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import React, { useState } from 'react'
 import SelectValues from '../../../../../interfaces/Select/SelectValues';
+import ModalForm from '../../../componentes/ModalForm';
 import SelectFrag from '../../../Fragmentos/SelectFrag';
 
 const MunicipiosUsuarioResponsable = (
@@ -25,14 +26,8 @@ const MunicipiosUsuarioResponsable = (
     }
 
   return (
+    <ModalForm title={'Usuario Responsable del Municipio'} handleClose={handleClose}>
     <div>
-       <Dialog open={true}>
-       <DialogTitle>Usuario Responsable del Municipio</DialogTitle>
-      <DialogContent>
-        <Box>
-        
-         
-
         <SelectFrag
                   value={id}
                   options={usuarios}
@@ -41,19 +36,9 @@ const MunicipiosUsuarioResponsable = (
                   label={""}
                   disabled={false}
                 />
-        </Box>
-      </DialogContent>
-
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cancelar
-        </button>
-      </DialogActions>
-    </Dialog>
+      
     </div>
+    </ModalForm>
   )
 }
 

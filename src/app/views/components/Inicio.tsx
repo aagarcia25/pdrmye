@@ -7,20 +7,8 @@ import Typography from '@mui/material/Typography';
 import Navigator from './Navigator';
 import Header from './Header';
 import { ReactNode } from 'react';
-import { getUser } from '../../services/localStorage';
-import { RESPONSE, UserInfo } from '../../interfaces/user/UserInfo';
 
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {new Date().getFullYear()}.
-
-      {'   Aviso de Privacidad Contacto'}
-            
-    </Typography>
-  );
-}
+import { RESPONSE,  } from '../../interfaces/user/UserInfo';
 
 
  let theme = createTheme({
