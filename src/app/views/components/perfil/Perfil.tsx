@@ -15,11 +15,13 @@ import { useEffect, useState } from "react";
 import { getUser } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import PersonIcon from "@mui/icons-material/Person";
-import { DialogAgregarImagen } from "./DialogAgregarImagen";
+import { DialogCambiarImagen } from "./DialogCambiarImagen";
 import { AuthService } from "../../../services/AuthService";
+import { Toast } from "../../../helpers/Toast";
 
 export const Perfil = () => {
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const [user,setUser]=useState<RESPONSE>(JSON.parse(String(getUser())));
+  
   //CAMPOS EN USO DE USUARIO
   // console.log(user.Nombre);
   //Abrir Dialog de imagen
@@ -70,33 +72,44 @@ export const Perfil = () => {
   };
 
   const onClickEditar = () => {
-    if(botonEdicionTodo==="Editar"){
+    if (botonEdicionTodo === "Editar") {
       setBotonEdicionTodo("Guardar");
-    }else
+    } else
       setOpenDialogConfirmacion(true);
   };
 
 
   const onClickGuardarCambios = () => {
-    console.log("se guardo");
+
     onClickCancelarEditarTodo();
     setOpenDialogConfirmacion(false);
-    
+
     let dat = {
       NUMOPERACION: 5,
       CHUSER: user.id,
       CHID: user.id,
-      UBICACION:puesto,
-      PUESTO:puesto,
-      EXTENCION:puesto
+      UBICACION: puesto,
+      PUESTO: puesto,
+      EXTENCION: puesto
     };
 
     AuthService.adminUser(dat).then((res) => {
-     
+
       if (res.SUCCESS) {
+        console.log("se guardo");
+        console.log(res.SUCCESS);
+        Toast.fire({
+          icon: "success",
+          title: "Datos actualizados.",
+        });
+      } else {
+        console.log("no se guardo")
+        console.log(res.SUCCESS);
 
-      }else{
-
+        Toast.fire({
+          icon: "error",
+          title: "No se actualizo la información.",
+        });
       }
 
     });
@@ -104,6 +117,7 @@ export const Perfil = () => {
   };
 
   const onClickCancelarEditarTodo = () => {
+
     setBotonEdicionTodo("Guardar");
     if (botonEdicionTodo === "Guardar") {
       setBotonEdicionTodo("Editar");
@@ -112,6 +126,7 @@ export const Perfil = () => {
     setUbicacion(user.Ubicacion);
     setPuesto(user.Puesto);
     setDepartamento(user.DEPARTAMENTOS[0].NombreCorto);
+    setUser(JSON.parse(String(getUser())));
   };
 
   let st;
@@ -210,7 +225,7 @@ export const Perfil = () => {
 
 
           </Box>
-          {openDialog ? <DialogAgregarImagen open={true} handleClose={handleCloseDialogImagen}></DialogAgregarImagen> : null}
+          <DialogCambiarImagen open={openDialog} handleClose={handleCloseDialogImagen}></DialogCambiarImagen>
           <Box sx={{ display: "flex", alignItems: "center", width: "50%", justifyItems: "flex-start", ml: "3vw" }}>
             <Typography sx={{ fontWeight: "Bold" }}>
               Tipo de usuario: {user.tipo}
@@ -232,47 +247,11 @@ export const Perfil = () => {
           bgcolor: "rgb(252,252,252)",
         }}>
           <Typography sx={{ width: "30%", fontFamily: "MontserratBold", fontSize: "1.5vw" }}>Nombre: {nombre} </Typography>
-          {/* <TextField
-              disabled={botonEdicionTodo === "Editar" ? true : false}
-              required
-              margin="dense"
-              id="Nombre"
-              label="Nombre"
-              value={nombre}
-              type="text"
-              variant="outlined"
-              onChange={(v) => setNombre(v.target.value)}
-              error={nombre == "" ? true : false}
-              sx={{width:"30%"}}
-            /> */}
+
           <Typography sx={{ width: "30%", fontFamily: "MontserratBold", fontSize: "1.5vw" }}>Apellido paterno: {apellidoPaterno} </Typography>
-          {/* <TextField
-              disabled={botonEdicionTodo === "Editar" ? true : false}
-              required
-              margin="dense"
-              id="ApellidoPaterno"
-              label="Apellido Paterno"
-              value={apellidoPaterno}
-              type="text"
-              sx={{width:"30%"}}
-              variant="outlined"
-              onChange={(v) => setApellidoPaterno(v.target.value)}
-              error={apellidoPaterno == "" ? true : false}
-            /> */}
+
           <Typography sx={{ width: "30%", fontFamily: "MontserratBold", fontSize: "1.5vw" }}>Apellido materno: {apellidoMaterno} </Typography>
-          {/* <TextField
-              disabled={botonEdicionTodo === "Editar" ? true : false}
-              required
-              margin="dense"
-              id="ApellidoMaterno"
-              label="Apellido Materno"
-              value={apellidoMaterno}
-              type="text"
-              sx={{width:"30%"}}
-              variant="outlined"
-              onChange={(v) => setApellidoMaterno(v.target.value)}
-              error={apellidoMaterno == "" ? true : false}
-            /> */}
+
         </Box>
         <Typography sx={{ fontSize: "1.3vw", fontWeight: "Bold", mt: "1vh", width: "100%", display: "flex" }}>
           Contacto y ubicación
@@ -291,22 +270,15 @@ export const Perfil = () => {
         }}>
 
           <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
+            <Typography sx={{ width: "40%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Departamento :</Typography>
+            <Typography sx={{ width: "60%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{departamento} </Typography>
+          </Box>
+
+          <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
             <Typography sx={{ width: "40%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Correo electrónico :</Typography>
             <Typography sx={{ width: "60%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{correoElectronico} </Typography>
           </Box>
-          {/* <TextField
-                disabled={botonEdicionTodo === "Editar" ? true : false}
-                required
-                margin="dense"
-                id="CorreoElectronico"
-                label="Correo Eléctronico"
-                value={correoElectronico}
-                type="email"
-                fullWidth
-                variant="outlined"
-                onChange={(v) => setCorreoElectronico(v.target.value)}
-                error={correoElectronico == "" ? true : false}
-              /> */}
+
           {botonEdicionTodo === "Editar" ?
             <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
               <Typography sx={{ width: "40%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Telefono :</Typography>
@@ -363,33 +335,17 @@ export const Perfil = () => {
               onChange={(v) => setPuesto(v.target.value)}
               error={puesto == "" ? true : false}
             />}
-          {botonEdicionTodo === "Editar" ?
-            <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-              <Typography sx={{ width: "40%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Departamento :</Typography>
-              <Typography sx={{ width: "60%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{departamento} </Typography>
-            </Box> :
-            <TextField
-              disabled={botonEdicionTodo === "Editar" ? true : false}
-              required
-              margin="dense"
-              id="Departamento"
-              label="Departamento"
-              value={departamento}
-              type="text"
-              sx={{ width: "90%", }}
-              variant="outlined"
-              onChange={(v) => setDepartamento(v.target.value)}
-              error={departamento == "" ? true : false}
-            />
-          }
+
+
         </Box>
         <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
           <Button
             variant="outlined"
-            onClick={()=>{
-                          if(botonEdicionTodo==="Guardar")setOpenDialogConfirmacion(true)
-                          else onClickEditar();}}
-                          
+            onClick={() => {
+              if (botonEdicionTodo === "Guardar") setOpenDialogConfirmacion(true)
+              else onClickEditar();
+            }}
+
             color="success"
             sx={{
               width: "20%",
@@ -435,8 +391,8 @@ export const Perfil = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() =>{ setOpenDialogConfirmacion(false)}}>Cancelar</Button>
-            <Button color="success" onClick={()=>onClickGuardarCambios()}>Aceptar</Button>
+            <Button onClick={() => { setOpenDialogConfirmacion(false) }}>Cancelar</Button>
+            <Button color="success" onClick={() => onClickGuardarCambios()}>Aceptar</Button>
             {/* onClickEditarTodo */}
           </DialogActions>
         </Dialog>

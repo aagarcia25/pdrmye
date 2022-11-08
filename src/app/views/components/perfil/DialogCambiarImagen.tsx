@@ -7,22 +7,21 @@ import { RESPONSE, UserInfo } from "../../../interfaces/user/UserInfo";
 import { getUser, setDepartamento, setMenus, setPerfiles, setPermisos, setRoles, setUser } from "../../../services/localStorage";
 import { id } from "date-fns/locale";
 import { Toast } from "../../../helpers/Toast";
+import { setTimeout } from "timers/promises";
 
-export function DialogAgregarImagen({
+export function DialogCambiarImagen({
     open,
     handleClose,
 }: {
     open: boolean;
     handleClose: Function;
 }) {
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const [user,setUser]=useState<RESPONSE>(JSON.parse(String(getUser())));
     const [uploadFile, setUploadFile] = useState("");
     const [newImage, setNewImage] = useState(Object);
     const[openDialogConfirmacion,setOpenDialogConfirmacion]=useState(false);
 
-    const [nombreArchivo, setNombreArchivo] = useState(
-        "Arrastre o de click aquí para seleccionar archivo"
-    );
+    const [nombreArchivo, setNombreArchivo] = useState("");
     const [tipoArchivo, setTipoArchivo] = useState("");
     const [disabledButton, setDisabledButton] = useState(true);
 
@@ -50,6 +49,11 @@ export function DialogAgregarImagen({
                   setMenus(us.RESPONSE.MENUS);
                   setPerfiles(us.RESPONSE.PERFILES);
                   setDepartamento(us.RESPONSE.DEPARTAMENTOS);
+                  
+                setUser(JSON.parse(String(getUser())));
+                  
+                 
+                  
               });
         });
 
@@ -104,13 +108,13 @@ export function DialogAgregarImagen({
                 <Box sx={{ width: "25vw", height: "8vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     {nombreArchivo==="" ?
                         <Typography sx={{ textAlign: "center" }}>Arrastre la nueva imagen o presione el icono para seleccionar archivo</Typography> :
-                        <Typography>Nombre del archivo: {disabledButton.toString()}</Typography>
+                        <Typography>Nombre del archivo: {nombreArchivo}</Typography>
                         
                     }
                 </Box>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => handleClose()} color="error">Cancelar</Button>
+                <Button onClick={() => {setDisabledButton(true);setNombreArchivo("");setOpenDialogConfirmacion(false);setTipoArchivo("");handleClose();}} color="error">Cancelar</Button>
 
                 <Button disabled={(disabledButton && !(tipoArchivo === "jpg" || tipoArchivo === "png" || tipoArchivo === "svg" || tipoArchivo === "jpeg") ? true: false) ? true : false} onClick={()=>setOpenDialogConfirmacion(true)} color="success">Guardar cambios</Button>
             </DialogActions>
@@ -129,8 +133,8 @@ export function DialogAgregarImagen({
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={()=> setOpenDialogConfirmacion(false)}>Cancelar</Button>
-                    <Button onClick={SaveImagen} color="success">Aceptar</Button>
+                    <Button onClick={()=> {setOpenDialogConfirmacion(false)}}>Cancelar</Button>
+                    <Button onClick={()=>{SaveImagen();setDisabledButton(true);setNombreArchivo("");setOpenDialogConfirmacion(false);setTipoArchivo("");}} color="success">Aceptar</Button>
                 </DialogActions>
             </Dialog>
 

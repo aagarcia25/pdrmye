@@ -224,6 +224,7 @@ function App() {
           var ventana = window.self;
           ventana.location.replace(env_var.BASE_URL_LOGIN);
         }
+        
       });
     }
 
