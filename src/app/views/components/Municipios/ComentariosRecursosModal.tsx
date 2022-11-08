@@ -32,6 +32,7 @@ export const ComentariosRecursosModal = (
     const [openSlider, setOpenSlider] = useState(false);
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [comentarios, setComentarios] = useState<string>();
+    var hoy = new Date()
     const perfiles = [
         {accion:'autorizar', per:'ANA',  dep:"DAMOP", estatus:'DAMOP_AUT_ANA'},
         {accion:'autorizar', per:'COOR', dep:"DAMOP", estatus:'DAMOP_AUT_COR'},
@@ -55,6 +56,8 @@ export const ComentariosRecursosModal = (
                 CHUSER: user.id,
                 ESTATUS: accion?.estatus,
                 Comentario: comentarios,
+                ANIO:hoy.getFullYear(),
+                MES: (hoy.getMonth()+1) 
 
             };
 
@@ -95,6 +98,8 @@ export const ComentariosRecursosModal = (
                     CHUSER: user.id,
                     ESTATUS: accion?.estatus,
                     Comentario: comentarios,
+                    ANIO:hoy.getFullYear(),
+                    MES: (hoy.getMonth()+1)
                 };
 
                 Swal.fire({

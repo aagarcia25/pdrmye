@@ -37,7 +37,7 @@ const SolicitudRecursos = () => {
   const [modo, setModo] = useState("");
   const [departamento, setDepartamento] = useState<string>();
   const [perfil, setPerfil] = useState<string>();
-
+  var hoy = new Date()
 
   const [data, setData] = useState({});
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -272,6 +272,8 @@ const SolicitudRecursos = () => {
         CHUSER: user.id,
         ESTATUS: estatus,
         Comentario: data?.row?.Comentario,
+        ANIO:hoy.getFullYear(),
+        MES: (hoy.getMonth()+1) 
       };
 
       Swal.fire({
@@ -354,6 +356,7 @@ const SolicitudRecursos = () => {
   };
 
   useEffect(() => {
+    console.log(hoy.getMonth() + "  " + hoy.getFullYear());
     setPerfil(user.PERFILES[0].Referencia);
     console.log(permisos.map)
     console.log("departamento  " + user.DEPARTAMENTOS[0].NombreCorto)
