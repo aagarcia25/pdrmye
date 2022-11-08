@@ -459,6 +459,9 @@ const AsigPresupuestal = () => {
     <div>
       <Slider open={slideropen}></Slider>
       <Grid container spacing={1}>
+      <Grid item xs={12} sm={12} md={12} lg={12}>
+        Módulo de Administración Presupuestaria
+      </Grid>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid item xs={2} sm={2} md={2} lg={2}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
