@@ -81,6 +81,7 @@ export const SolicitudModal = (
         if (activeStep === steps.length - 1) {
 
             let d = {
+                CHID:data.id,
                 NUMOPERACION: modo=="editar"?9:1,
                 CHUSER: user.id,
                 CONCEPTO: concepto,
@@ -104,13 +105,14 @@ export const SolicitudModal = (
                     if (result.isConfirmed) {
                         CatalogosServices.SolicitudesInfo(d).then((res) => {
                             if (res.SUCCESS) {
-                                console.log(res.RESPONSE)
+                                console.log("response: "+res.RESPONSE[0])
+                                console.log("data id:  "+data.id)
                                 if (DocSubido) {
                                     const formData = new FormData();
-                                    
+                                    formData.append("CHID", data.id);
                                     formData.append("NUMOPERACION", modo=="editar"?"2":"1");
                                     formData.append("MUNICIPIOS", newDoc);
-                                    formData.append("IDSOLICITUD", res.RESPONSE);
+                                    formData.append("IDSOLICITUD", modo=="editar"?String(data.id):res.RESPONSE);
 
                                     CatalogosServices.subirArchivo(formData).then((res) => {
                                         if (res.SUCCESS) {
