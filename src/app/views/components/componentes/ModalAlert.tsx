@@ -47,7 +47,7 @@ const ModalAlert = ({
   return (
     <div>
       <Box>
-        <Dialog open={open}>
+        <Dialog open={open} fullScreen>
           <DialogTitle>{tipo}</DialogTitle>
           <DialogContent dividers={true}>
             <Grid container spacing={1}>

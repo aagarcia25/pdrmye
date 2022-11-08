@@ -17,7 +17,7 @@ import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { municipiosc } from "../../../../../share/loadMunicipios";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 
 const MunFacturacionModal = ({
   open,
@@ -141,7 +141,7 @@ const MunFacturacionModal = ({
 
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen>
 
       <DialogContent>
         <Box>

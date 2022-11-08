@@ -16,7 +16,7 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 const MunPoblacionModal = ({
@@ -180,7 +180,7 @@ const MunPoblacionModal = ({
 
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen>
       <DialogContent>
         <Box>
           <Box

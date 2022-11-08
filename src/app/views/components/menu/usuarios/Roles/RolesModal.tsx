@@ -139,7 +139,7 @@ const RolesModal = ({
 
 
     return (
-        <Dialog open={open}>
+        <Dialog open={open} fullScreen>
             <DialogContent>
                 <Box>
                     <Box

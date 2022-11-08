@@ -14,7 +14,7 @@ import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
 import MunRecaudacionModal from "./MunRecaudacionModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { fanios } from "../../../../../share/loadAnios";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";

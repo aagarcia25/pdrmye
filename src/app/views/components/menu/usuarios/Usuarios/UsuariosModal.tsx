@@ -4,8 +4,13 @@ import {
   DialogContent,
   TextField,
   DialogActions,
+  Grid,
+  Typography,
+  Box,
+  Button,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
@@ -16,7 +21,8 @@ import { UserServices } from "../../../../../services/UserServices";
 import { ParametroServices } from "../../../../../services/ParametroServices";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
+import CloseIcon from '@mui/icons-material/Close';
 const UsuariosModal = ({
   open,
   handleClose,
@@ -273,12 +279,33 @@ const UsuariosModal = ({
 
   return (
     <div>
-      <Dialog open={open}>
-        <Box
-          sx={{ display: 'flex', justifyContent: 'center', }}>
-          <label className="Titulo"> {tipo == 3 ? "Nuevo Registro" : "Editar Registro"}
-          </label>
-        </Box>
+      <Dialog open={open} fullScreen>
+
+       
+
+
+ <Grid container spacing={1}>
+        <Grid item xs={11} sm={11} md={11} lg={11}>
+          <Box sx={{ display:"flex",justifyContent:"center"}}>
+          <Typography><h2>{tipo == 3 ? "Nuevo Registro" : "Editar Registro"}</h2></Typography>
+          </Box>
+       
+        </Grid>
+        <Grid item xs={1} sm={1} md={1} lg={1}>
+        <Button variant="outlined" >
+        <Tooltip title="Salir">
+        <IconButton
+          aria-label="close"
+          color="error"
+          onClick={() => handleClose()}>
+          <CloseIcon />
+        </IconButton>
+        </Tooltip>
+        </Button>
+        </Grid>
+ </Grid>
+
+
 
         <DialogContent>
           <Box>

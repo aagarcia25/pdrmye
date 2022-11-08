@@ -9,7 +9,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, textAlign } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
 import { AuthService } from "../../../../../services/AuthService";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
@@ -18,7 +18,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectFragMulti from "../../../Fragmentos/SelectFragMulti";
-
+import CloseIcon from '@mui/icons-material/Close';
 const UsuarioRoles = ({
   open,
   handleClose,
@@ -133,8 +133,31 @@ const UsuarioRoles = ({
   return (
     <div>
       <Slider open={openSlider}></Slider>
-      <Dialog open={open} fullWidth={open}>
-        <DialogTitle>Municipios Relacionados al Usuario</DialogTitle>
+      <Dialog open={open }
+        fullScreen
+        
+        >
+
+        <Grid container spacing={1}>
+        <Grid item xs={11} sm={11} md={11} lg={11}>
+          <Box sx={{ display:"flex",justifyContent:"center"}}>
+          <Typography><h2>Roles Relacionados al Usuario</h2></Typography>
+          </Box>
+       
+        </Grid>
+        <Grid item xs={1} sm={1} md={1} lg={1}>
+        <Button variant="outlined" >
+        <IconButton
+          aria-label="close"
+          color="error"
+          onClick={() => handleClose()}>
+          <CloseIcon />
+        </IconButton>
+        </Button>
+       
+        </Grid>
+         </Grid>
+
         <DialogContent dividers={true}>
           <Grid container spacing={1}>
             <Grid item xs={12} sm={12} md={12} lg={12}></Grid>
@@ -184,11 +207,11 @@ const UsuarioRoles = ({
           </Grid>
         </DialogContent>
 
-        <DialogActions>
+        {/* <DialogActions>
           <button className="cerrar" onClick={() => handleClose()}>
             Cerrar
           </button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     </div>
   );

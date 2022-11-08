@@ -13,7 +13,7 @@ import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 
 export const DepartamentosModal = ({
   open,
@@ -129,7 +129,7 @@ export const DepartamentosModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen>
       <DialogContent>
         <Box sx={{ justifyContent: "center", height:450 }}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>

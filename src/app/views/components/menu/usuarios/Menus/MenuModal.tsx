@@ -1,4 +1,4 @@
-import { TextField, DialogActions, Dialog, DialogContent, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { TextField, DialogActions, Dialog, DialogContent, FormControl, InputLabel, MenuItem, Select, Grid, Typography, Button, IconButton, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import { Alert } from "../../../../../helpers/Alert";
@@ -7,6 +7,7 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AuthService } from "../../../../../services/AuthService";
 import { getUser } from "../../../../../services/localStorage";
 import Slider from "../../../Slider";
+import CloseIcon from '@mui/icons-material/Close';
 
 const MenuModal = ({
   open,
@@ -120,13 +121,33 @@ const MenuModal = ({
     <div>
       <Slider open={openSlider}></Slider>
       <Box>
-        <Dialog open={open}>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
+        <Dialog open={open} fullScreen>
 
-            <label className="Titulo">{tipo == 1 ? "Nuevo Registro" : "Editar Registro"}
-            </label>
+
+        <Grid container spacing={1}>
+        <Grid item xs={11} sm={11} md={11} lg={11}>
+          <Box sx={{ display:"flex",justifyContent:"center"}}>
+          <Typography><h2>{tipo == 3 ? "Nuevo Registro" : "Editar Registro"}</h2></Typography>
           </Box>
+       
+        </Grid>
+        <Grid item xs={1} sm={1} md={1} lg={1}>
+        <Button variant="outlined" >
+        <Tooltip title="Salir">
+        <IconButton
+          aria-label="close"
+          color="error"
+          onClick={() => handleClose()}>
+          <CloseIcon />
+        </IconButton>
+        </Tooltip>
+        </Button>
+        </Grid>
+ </Grid>
+
+
+
+
           <DialogContent>
             <Box>
               <TextField
@@ -222,9 +243,10 @@ const MenuModal = ({
 
           <DialogActions>
             <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-            <button className="cerrar" onClick={() => handleClose()}>Cancelar</button>
           </DialogActions>
         </Dialog>
+
+
       </Box>
     </div>
   );

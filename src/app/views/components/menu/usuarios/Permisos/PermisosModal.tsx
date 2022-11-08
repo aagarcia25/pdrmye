@@ -96,7 +96,7 @@ const PermisosModal = ({
 
   return (
     <div>
-      <Dialog open={open}>
+      <Dialog open={open} fullScreen>
         <Box
           sx={{ display: 'flex', justifyContent: 'center', }}>
           <label className="Titulo">{modo}</label>

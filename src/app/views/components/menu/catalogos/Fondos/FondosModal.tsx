@@ -204,7 +204,7 @@ const FondosModal = ({
   return (
     <div>
       <Slider open={slideropen}></Slider>
-      <Dialog open={open}>
+      <Dialog open={open} fullScreen>
         <DialogTitle>{modo}</DialogTitle>
         <DialogContent>
           <Grid container spacing={6}>

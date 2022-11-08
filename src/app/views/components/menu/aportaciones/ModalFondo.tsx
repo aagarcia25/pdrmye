@@ -18,7 +18,7 @@ import { RESPONSE } from "../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../services/localStorage";
 import Slider from "../../Slider";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
-import SelectFrag from "../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../Fragmentos/SelectFrag";
 import { useParams } from "react-router-dom";
 import { fmeses } from "../../../../share/loadMeses";
 

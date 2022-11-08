@@ -15,7 +15,7 @@ import Box from "@mui/material/Box";
 import { margin } from "@mui/system";
 import React, { useState } from "react";
 import { Path } from "react-router";
-import SelectFrag from "../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../Fragmentos/SelectFrag";
 import Slider from "../../Slider";
 
 const SolicitudesIns = ({

@@ -11,7 +11,7 @@ import { Toast } from "../../helpers/Toast";
 import { Alert } from "../../helpers/Alert";
 import SendIcon from '@mui/icons-material/Send';
 import { Imunicipio } from "../../interfaces/municipios/FilterMunicipios";
-import SelectFrag from "./Fragmentos/Select/SelectFrag";
+import SelectFrag from "./Fragmentos/SelectFrag";
 import SelectValues from "../../interfaces/Select/SelectValues";
 import { getUser } from "../../services/localStorage";
 import "../../styles/globals.css";

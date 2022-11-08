@@ -1,7 +1,7 @@
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import React, { useState } from 'react'
 import SelectValues from '../../../../../interfaces/Select/SelectValues';
-import SelectFrag from '../../../Fragmentos/Select/SelectFrag';
+import SelectFrag from '../../../Fragmentos/SelectFrag';
 
 const MunicipiosUsuarioResponsable = (
 {

@@ -11,7 +11,7 @@ import Slider from "../../../Slider";
 import MunPoblacionModal from './MunPoblacionModal'
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import { PERMISO, RESPONSE} from '../../../../../interfaces/user/UserInfo'
-import SelectFrag from '../../../Fragmentos/Select/SelectFrag'
+import SelectFrag from '../../../Fragmentos/SelectFrag'
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'

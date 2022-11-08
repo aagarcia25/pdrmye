@@ -165,7 +165,7 @@ const MunPobrezaExtremaModal = ({
 
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen>
 
 
 

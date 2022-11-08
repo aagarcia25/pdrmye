@@ -17,7 +17,7 @@ import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipio
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
@@ -159,7 +159,7 @@ const MunRecaudacionModal = ({
 
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen>
 
       <DialogContent>
         <Box>

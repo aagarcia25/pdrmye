@@ -175,7 +175,7 @@ interface Props {
 }
 
 
-const drawerWidth = 300;
+const drawerWidth = 200;
 
 
 

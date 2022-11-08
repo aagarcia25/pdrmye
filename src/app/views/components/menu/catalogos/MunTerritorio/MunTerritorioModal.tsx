@@ -167,7 +167,7 @@ const MunTerritorioModal = ({
 
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen>
 
       <DialogContent>
         <Box>

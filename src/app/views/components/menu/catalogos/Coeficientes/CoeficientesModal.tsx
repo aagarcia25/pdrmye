@@ -128,7 +128,7 @@ const CoeficientesModal = ({
 
   return (
     <div>
-      <Dialog open={open}>
+      <Dialog open={open} fullScreen>
         <DialogTitle>{modo}</DialogTitle>
         <DialogContent>
           <Box>
