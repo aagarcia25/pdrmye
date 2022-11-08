@@ -48,6 +48,7 @@ const SolicitudRecursos = () => {
 
   const perfiles = [
     { estatusRef: 'MUN_INICIO', accion: 'enviar', per: 'MUN', dep: "MUN", estatus: 'DAMOP_INICIO' },
+    { estatusRef: 'MUN_ACT', accion: 'enviar', per: 'MUN', dep: "MUN", estatus: 'DAMOP_INICIO' },
     { estatusRef: 'DAMOP_AUT_ANA', accion: 'enviar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_ENV_COOR' },
     { estatusRef: 'DAMOP_AUT_COR', accion: 'enviar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_ENV_DIR' },
     { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_ENV_DCCP' },
@@ -179,7 +180,7 @@ const SolicitudRecursos = () => {
       },
     },
     {
-      field: "Comentario", headerName: " Comentario", width: 120,
+      field: "Comentario", headerName: " Comentario", width: 150,
       renderCell: (v) => {
         return (
           <Box>

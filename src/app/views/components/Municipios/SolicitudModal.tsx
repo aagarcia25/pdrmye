@@ -85,10 +85,11 @@ export const SolicitudModal = (
                 NUMOPERACION: modo=="editar"?9:1,
                 CHUSER: user.id,
                 CONCEPTO: concepto,
-                TOTAL: total,
-                ESTATUS: "MUN_INICIO",
+                TOTAL: total, 
+                ESTATUS: modo=="editar"? "MUN_ACT" : "MUN_INICIO",
                 ANIO: hoy.getFullYear(),
                 MES: (hoy.getMonth() + 1),
+                COMENTARIO:modo=="editar"?"EDICION DE INFORMACION ANTES DE ENVIAR":"INICIO DE OPERACION"
                 //idMunicipio 
             };
 
@@ -113,6 +114,7 @@ export const SolicitudModal = (
                                     formData.append("NUMOPERACION", modo=="editar"?"2":"1");
                                     formData.append("MUNICIPIOS", newDoc);
                                     formData.append("IDSOLICITUD", modo=="editar"?String(data.id):res.RESPONSE);
+                                    formData.append("COMENTARIO", modo=="editar"?"Edicion de archivo":"carga de archivo");
 
                                     CatalogosServices.subirArchivo(formData).then((res) => {
                                         if (res.SUCCESS) {
@@ -501,16 +503,7 @@ export const SolicitudModal = (
 
                         ""}
 
-                    {modoSol == "editar" ?
-
-                        ""
-                        :
-
-
-                        ""
-                    }
-
-                    <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
+                                   <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
                         <Grid item xs={2}>
                             <button className="cerrar" onClick={() => handleClose()}> {modo == "ver" || modo == "verDetalles" ? "Cerrar" : "Cancelar"}</button>
                         </Grid>
