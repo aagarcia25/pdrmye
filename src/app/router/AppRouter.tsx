@@ -56,6 +56,7 @@ import { Bancos } from '../views/components/menu/catalogos/Bancos/Bancos';
 import { CuentaBancaria } from '../views/components/menu/catalogos/CuentaBancaria/CuentaBancaria';
 import { AnticipoParticipaciones } from '../views/components/menu/catalogos/Municipios/anticipoParticipaciones/AnticipoParticipaciones';
 import AsigPresupuestal from '../views/components/DPCP/AsigPresupuestal';
+import AsigPago from '../views/components/DAF/AsigPago';
 
 
 
@@ -149,6 +150,9 @@ export const AppRouter = () => {
        {/* DCCP */}
        <Route path='/inicio/dccp'  element={log ? <AsigPresupuestal /> : <AuthRouter />} />
        {/* FIN DCCP */}
+        {/* DAF */}
+        <Route path='/inicio/daf'  element={log ? <AsigPago /> : <AuthRouter />} />
+       {/* FIN DAF */}
       </Routes>
     </Inicio>
   );
