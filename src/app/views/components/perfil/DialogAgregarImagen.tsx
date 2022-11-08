@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { isNull } from "util";
 import { AuthService } from "../../../services/AuthService";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getUser } from "../../../services/localStorage";
+import { RESPONSE, UserInfo } from "../../../interfaces/user/UserInfo";
+import { getUser, setDepartamento, setMenus, setPerfiles, setPermisos, setRoles, setUser } from "../../../services/localStorage";
 import { id } from "date-fns/locale";
+import { Toast } from "../../../helpers/Toast";
 
 export function DialogAgregarImagen({
     open,
@@ -32,7 +33,24 @@ export function DialogAgregarImagen({
 
 
         AuthService.SaveImagen(formData).then((res) => {
+            Toast.fire({
+                icon: "success",
+                title: "Imagen Actualizada",
+              });
             console.log(res.RESPONSE);
+            let data = {
+                NUMOPERACION: 1,
+                ID: user.id,
+              };
+            AuthService.adminUser(data).then((res2) => {
+                const us: UserInfo = res2;
+                  setUser(us.RESPONSE);
+                  setRoles(us.RESPONSE.ROLES);
+                  setPermisos(us.RESPONSE.PERMISOS);
+                  setMenus(us.RESPONSE.MENUS);
+                  setPerfiles(us.RESPONSE.PERFILES);
+                  setDepartamento(us.RESPONSE.DEPARTAMENTOS);
+              });
         });
 
         handleClose();

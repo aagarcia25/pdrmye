@@ -16,6 +16,7 @@ import { getUser } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import PersonIcon from "@mui/icons-material/Person";
 import { DialogAgregarImagen } from "./DialogAgregarImagen";
+import { AuthService } from "../../../services/AuthService";
 
 export const Perfil = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -81,6 +82,25 @@ export const Perfil = () => {
     onClickCancelarEditarTodo();
     setOpenDialogConfirmacion(false);
     
+    let dat = {
+      NUMOPERACION: 5,
+      CHUSER: user.id,
+      CHID: user.id,
+      UBICACION:puesto,
+      PUESTO:puesto,
+      EXTENCION:puesto
+    };
+
+    AuthService.adminUser(dat).then((res) => {
+     
+      if (res.SUCCESS) {
+
+      }else{
+
+      }
+
+    });
+
   };
 
   const onClickCancelarEditarTodo = () => {
