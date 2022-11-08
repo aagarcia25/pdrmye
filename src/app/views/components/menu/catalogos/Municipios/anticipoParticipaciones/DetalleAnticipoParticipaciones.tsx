@@ -223,12 +223,19 @@ export const DetalleAnticipoParticipaciones = (
                         </Grid>
                         <MUIXDataGrid columns={columns} rows={detalle} />
                     </Grid>
-                    {openEditar?
-                    <ModalForm title={"Editar "} handleClose={handleClosedetalle} />
-                    :""}
-                
-                    </Dialog>
+
+
+                </Dialog>
+
             </Box>
+            {openEditar ?
+                <ModalForm title={"Editar Los Registros"} handleClose={handleClosedetalle}>
+
+
+
+                </ModalForm>
+                : ""}
         </div>
+
     );
 };
