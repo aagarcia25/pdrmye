@@ -39,7 +39,6 @@ export const AnticipoParticipaciones = () => {
     const [data, setData] = useState({});
     const user: RESPONSE = JSON.parse(String(getUser()));
     var hoy = new Date()
-    var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2);
 
 
     const perfiles = [
@@ -47,6 +46,7 @@ export const AnticipoParticipaciones = () => {
         { estatusRef: 'DAMOP_AUT_COOR', accion: 'enviar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_COOR_ENV_DIR' },
         { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_DIR_ENV_ DCCP' },
         { estatusRef: 'DAMOP_INICIO', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'INICIO', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
         { estatusRef: 'DAMOP_ANA_ENV_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
         { estatusRef: 'DAMOP_COOR_ENV_DIR', accion: 'autorizar', per: 'DIR', dep: "DAMOP", estatus: 'AUTORIZAR' },
         { estatusRef: 'DAMOP_REG_COR_ANA', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
@@ -63,9 +63,9 @@ export const AnticipoParticipaciones = () => {
 
         if (user.DEPARTAMENTOS[0].NombreCorto == "DAMOP") {
             CatalogosServices.indexAPC({ NUMOPERACION: 1 }).then((res) => {
+                console.log(res.RESPONSE)
                 setAPC(res.RESPONSE);
                 setDepartamento("DAMOP");
-                console.log(res.RESPONSE)
                
             });
         }
@@ -115,14 +115,7 @@ export const AnticipoParticipaciones = () => {
                                 <InfoIcon />
                             </IconButton>
                         </Tooltip>
-                        {(v.row.Activo == 1) ? (
-                            <Tooltip title="Clonar">
-                                <IconButton onClick={() => handleClonar(v)}
-                                >
-                                    <FileCopyIcon />
-                                </IconButton>
-                            </Tooltip>
-                        ) : ("")}
+                  
 
                         {agregar ?
                             <Tooltip title="Agregar Ajuste">
@@ -138,6 +131,14 @@ export const AnticipoParticipaciones = () => {
                             :
                             ""
                         }
+                              {((Number(v.row.Mes)- hoy.getMonth() )== 1) ? (
+                            <Tooltip title="Clonar">
+                                <IconButton onClick={() => handleClonar(v)}
+                                >
+                                    <FileCopyIcon />
+                                </IconButton>
+                            </Tooltip>
+                        ) : ("")}
 
                     </Box>
                 );
@@ -339,7 +340,6 @@ export const AnticipoParticipaciones = () => {
     };
 
     const test = () => {
-        console.log(fecha)
         console.log(hoy.getMonth() + "  " + hoy.getFullYear())
 
 

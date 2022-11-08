@@ -17,6 +17,8 @@ import { Toast } from "../../../../../../helpers/Toast";
 import { Alert } from "../../../../../../helpers/Alert";
 import { userInfo } from "os";
 import BotonesAPD from "../../../../componentes/BotonesAPD";
+import BotonesAcciones from "../../../../componentes/BotonesAcciones";
+import ModalForm from "../../../../componentes/ModalForm";
 
 export const DetalleAnticipoParticipaciones = (
     {
@@ -34,9 +36,14 @@ export const DetalleAnticipoParticipaciones = (
         }
 ) => {
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-    const [eliminar, setEliminar] = useState<boolean>(false);
+    const [eliminar, setEliminar] = useState<boolean>(true);
+    const [agregar, setAgregar] = useState<boolean>(false);
+    const [editar, setEditar] = useState<boolean>(true);
     const [detalle, setDetalle] = useState([]);
     const [openSlider, setOpenSlider] = useState(true);
+    const [openEditar, setOpenEditar] = useState(false);
+    const [dataEditar, setDataEditar] = useState({});
+
     const user: RESPONSE = JSON.parse(String(getUser()));
 
 
@@ -58,19 +65,42 @@ export const DetalleAnticipoParticipaciones = (
             renderCell: (v) => {
                 return (
                     <Box>
+                        <Grid container >
+                            <Grid item xs={12}>
+                                <BotonesAcciones handleAccion={handleAccionRegistros} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+                            </Grid>
+                        </Grid>
                     </Box>
                 );
             },
         },
     ];
-    const handleAccion = (v : number) => {
-        if (v==1){
-handleClose()
-        }else 
-        if (v==2){
+    const handleAccionRegistros = (v: any) => {
+        if (v.tipo == 1) {
+            ///editar
+            setOpenEditar(true)
+            console.log(v.data)
+            setDataEditar(v.data)
 
-            Eliminar();
-        }
+        } else
+            if (v == 2) {
+
+                Eliminar();
+            }
+    };
+
+    const handleClosedetalle = () => {
+
+        setOpenEditar(false);
+    };
+    const handleAccion = (v: number) => {
+        if (v == 1) {
+            handleClose()
+        } else
+            if (v == 2) {
+
+                Eliminar();
+            }
     };
     const getDetalles = (d: any) => {
         CatalogosServices.getdetalle(d).then((res) => {
@@ -124,9 +154,25 @@ handleClose()
     };
 
     useEffect(() => {
-if (data.Activo==1){
-    setEliminar(true);
-}
+        permisos.map((item: PERMISO) => {
+            if (String(item.ControlInterno) === "MUNAPC") {
+                if (String(item.Referencia) == "AGREG") {
+                    setAgregar(true);
+                }
+                if (String(item.Referencia) == "ELIM") {
+                    setEliminar(true);
+                }
+                if (String(item.Referencia) == "EDIT") {
+                    setEditar(true);
+                }
+
+            }
+        });
+
+
+        if (data.Activo == 1) {
+            setEliminar(true);
+        }
         getDetalles({ IDPRINCIPAL: idPrincipal })
     }, [idPrincipal]);
 
@@ -168,16 +214,20 @@ if (data.Activo==1){
 
                         <Grid container>
                             <Grid item xs={1} md={1} lg={1}>
-                               <BotonesAPD handleAccion={handleAccion} eliminar={eliminar}/>
+                                <BotonesAPD handleAccion={handleAccion} eliminar={eliminar} />
 
                             </Grid>
 
-                          
+
 
                         </Grid>
                         <MUIXDataGrid columns={columns} rows={detalle} />
                     </Grid>
-                </Dialog>
+                    {openEditar?
+                    <ModalForm title={"Editar "} handleClose={handleClosedetalle} />
+                    :""}
+                
+                    </Dialog>
             </Box>
         </div>
     );
