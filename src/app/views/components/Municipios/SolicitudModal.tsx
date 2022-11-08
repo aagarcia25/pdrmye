@@ -41,12 +41,8 @@ export const SolicitudModal = (
         }
 ) => {
     const [modoSol, setModoSol] = useState<string>();
-
     const [newDoc, setNewDoc] = useState(Object);
-    const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-    const [eliminar, setEliminar] = useState<boolean>(false);
     const [DocSubido, setDocSubido] = useState<boolean>(false);
-    const [slideropen, setslideropen] = useState(true)
     const [urlDoc, setUrlDoc] = useState("");
     const [sizeFile, setSizeFile] = useState<boolean>();
     const [openSlider, setOpenSlider] = useState(false);
@@ -56,6 +52,8 @@ export const SolicitudModal = (
     const [total, setTotal] = useState<Number>();
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set<number>());
+    var hoy = new Date()
+
 
     const isStepOptional = (step: number) => {
         return step === 1;
@@ -83,11 +81,14 @@ export const SolicitudModal = (
         if (activeStep === steps.length - 1) {
 
             let d = {
-                NUMOPERACION: 1,
+                NUMOPERACION: modo=="editar"?9:1,
                 CHUSER: user.id,
                 CONCEPTO: concepto,
                 TOTAL: total,
                 ESTATUS: "MUN_INICIO",
+                ANIO: hoy.getFullYear(),
+                MES: (hoy.getMonth() + 1),
+                //idMunicipio 
             };
 
             if (DocSubido && sizeFile == false) {
@@ -106,7 +107,8 @@ export const SolicitudModal = (
                                 console.log(res.RESPONSE)
                                 if (DocSubido) {
                                     const formData = new FormData();
-
+                                    
+                                    formData.append("NUMOPERACION", modo=="editar"?"2":"1");
                                     formData.append("MUNICIPIOS", newDoc);
                                     formData.append("IDSOLICITUD", res.RESPONSE);
 
@@ -202,10 +204,7 @@ export const SolicitudModal = (
     const handleReset = () => {
         setActiveStep(0);
     };
-
     /////////////////////
-
-
     const handleNewFile = (event: any) => {
 
         let file = event.target!.files[0]!;
@@ -216,8 +215,6 @@ export const SolicitudModal = (
         setNameNewDoc(event.target!.files[0]!.name);
         //if(String(event.target!.files[0]!.name).slice)
         setDocSubido(true);
-        console.log(event.target!.files[0]!);
-        console.log(sizeFile)
     };
 
     const Clean = () => {
@@ -231,6 +228,11 @@ export const SolicitudModal = (
         setModoSol(String(modo))
         console.log(data)
         setUrlDoc(data.RutaArchivo)
+        if (modo == "editar") {
+            setTotal(data?.row?.Total)
+            setConcepto(data?.row?.Concepto)
+        }
+
     }, []);
 
     return (
@@ -262,7 +264,7 @@ export const SolicitudModal = (
                             </Grid>
                         </Grid>
                         : ""}
-                    {modoSol == "nuevo" ?
+                    {modoSol == "nuevo" || modoSol == "editar" ?
 
                         <DialogContent dividers={true}>
 
@@ -499,7 +501,7 @@ export const SolicitudModal = (
 
                     {modoSol == "editar" ?
 
-                        "" 
+                        ""
                         :
 
 

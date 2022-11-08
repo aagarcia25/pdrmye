@@ -321,6 +321,7 @@ const SolicitudRecursos = () => {
     }
   }
   const handleClose = () => {
+ 
     setOpen(false);
     setOpenSeg(false);
     setOpenTraz(false);
@@ -332,7 +333,54 @@ const SolicitudRecursos = () => {
     setModo("nuevo");
 
   };
-  const handleAccion = () => {
+  const handleAccion = (v: any) => {
+
+    if(v.tipo ==1){
+      setModo("editar");
+      setOpen(true);
+      setData(v.data);
+    }else if(v.tipo ==2){
+      handleBorrar(v.data);
+    }
+
+  };
+  const handleBorrar = (v: any) => {
+console.log(v);
+
+let d = {
+  NUMOPERACION: 8,
+  CHID: v.id,
+  CHUSER: user.id,
+};
+
+Swal.fire({
+  icon: "info",
+  title: "Enviar",
+  text: "Desea Eliminar La Solicitud",
+  showDenyButton: false,
+  showCancelButton: true,
+  confirmButtonText: "Aceptar",
+  cancelButtonText: "Cancelar",
+}).then((result) => {
+  if (result.isConfirmed) {
+    CatalogosServices.SolicitudesInfo(d).then((res) => {
+      if (res.SUCCESS) {
+        console.log(res.RESPONSE)
+        handleClose();
+      } else {
+
+        Alert.fire({
+          title: "Error!",
+          text: "Fallo en la peticion",
+          icon: "error",
+
+        });
+      }
+    });
+  }
+  if (result.isDenied) {
+  }
+});
 
   };
   const handleVerTazabilidad = (v: any) => {
