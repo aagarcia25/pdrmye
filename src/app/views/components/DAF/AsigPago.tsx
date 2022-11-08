@@ -34,9 +34,9 @@ import {
   GridColumns,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
-import ModalPresupuesto from "./ModalPresupuesto";
+import ModalPresupuesto from "./ModalPago";
 
-const AsigPresupuestal = () => {
+const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
 
   const [slideropen, setslideropen] = useState(true);
@@ -460,7 +460,7 @@ const AsigPresupuestal = () => {
       <Slider open={slideropen}></Slider>
       <Grid container spacing={1}>
       <Grid item xs={12} sm={12} md={12} lg={12}>
-        Módulo de Administración Presupuestaria
+        Módulo de Administración Financiera
       </Grid>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -675,4 +675,4 @@ const AsigPresupuestal = () => {
   );
 };
 
-export default AsigPresupuestal;
+export default AsigPago;
