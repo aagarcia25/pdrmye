@@ -25,9 +25,9 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
   const navigate = useNavigate();
  
   const list: menus[] = JSON.parse(String(getMenus()));
-  const [open, setOpen] = React.useState(true);
-  const handleClick = () => {
-    setOpen(!open);
+  const [open, setOpen] = React.useState(0);
+  const handleClick = (x:number) => {
+    setOpen(x);
   };
 
 
@@ -67,19 +67,19 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
 
          {
            
-           list.map((item) =>{
+           list.map((item,indexx) =>{
               
             return (
 
                 (item?.items?.length !== 0) ?
 
-                <div key={Math.random()}>
-                <ListItemButton key={Math.random()}   onClick={handleClick}>
+                <div key={indexx}>
+                <ListItemButton key={indexx}   onClick={()=>handleClick(indexx)}>
                 <ListItemIcon>
                 <SendIcon />
                 </ListItemIcon>
                
-                <ListItemText key={Math.random()}  primary={
+                <ListItemText key={indexx}  primary={
                    <Typography variant="button" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
                   {item.Menu}
                   </Typography>
@@ -90,21 +90,22 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                  {/* <Divider key={Math.random()} absolute /> */}
                  
                  {
-                    item?.items?.map((subitem) =>{
+                    item?.items?.map((subitem,index) =>{
                       return(
-                        <Collapse key={Math.random()}   in={open} timeout="auto" unmountOnExit>
-                        <List key={Math.random()}  component="div" disablePadding>
-                          <ListItemButton  key={Math.random()}  onClick={() => navigate(subitem.Path)}  sx={{ pl: 4 }}>
+                        <Collapse key={index}   in={open===indexx} timeout="auto" unmountOnExit>
+                        <List key={index}  component="div" disablePadding>
+                          <Divider/>
+                          <ListItemButton  key={index}  onClick={() => navigate(subitem.Path)}  sx={{ pl: 4 }}>
                             <ListItemIcon>
                               <ArrowForwardIcon />
                             </ListItemIcon>
-                               <ListItemText key={Math.random()}  primary={
+                               <ListItemText key={index}  primary={
                                 <Typography variant="caption" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
                                 {  subitem.Menu}
                                 </Typography>
                                 } />
                           </ListItemButton>
-                          <Divider key={Math.random()} absolute />
+                          <Divider/>
                         </List>
                       </Collapse>
                       );

@@ -132,32 +132,36 @@ function App() {
 
   const verificatoken = (token: string) => {
 
-    UserServices.verify({}, token).then((res) => {
-      if (res.status == 200) {
-        setPU(res.data.data);
-        const user: UserReponse = JSON.parse(String(getPU()));
-        buscaUsuario(user.IdUsuario);
-      } else if (res.status == 401) {
-        setOpenSlider(false);
-        setlogin(false);
-        setAcceso(false);
-        Swal.fire({
-          title: "Mensaje: " + res.data.msg,
-          showDenyButton: false,
-          showCancelButton: false,
-          confirmButtonText: "Aceptar",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            localStorage.clear();
-            var ventana = window.self;
-            ventana.location.replace(env_var.BASE_URL_LOGIN);
-          }
-        });
-      }
+    UserServices.verify({}, token.replaceAll('"','')).then((res) => {
+      console.log(token)
+      console.log(token.replaceAll('"',''))
+        if (res.status == 200) {
+          setPU(res.data.data);
+          const user: UserReponse = JSON.parse(String(getPU()));
+          buscaUsuario(user.IdUsuario);
+        } else if (res.status == 401) {
+          setOpenSlider(false);
+          setlogin(false);
+          setAcceso(false);
+          Swal.fire({
+            title: "Mensaje: " + res.data.msg,
+            showDenyButton: false,
+            showCancelButton: false,
+            confirmButtonText: "Aceptar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              localStorage.clear();
+              var ventana = window.self;
+              ventana.location.replace(env_var.BASE_URL_LOGIN);
+            }
+          });
+        }
+    
     });
   };
 
   const handleOnActive = (v: string) => {
+
     const user: UserReponse = JSON.parse(String(getPU()));
     let data = {
       NombreUsuario: user.NombreUsuario,
