@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Container,
   Dialog,
   DialogActions,
@@ -12,6 +13,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AuthService } from "../../../../../services/AuthService";
 import { getUser } from "../../../../../services/localStorage";
+import ModalForm from "../../../componentes/ModalForm";
 
 export const PerfilesUsuarioModal = ({
   open,
@@ -119,11 +121,10 @@ export const PerfilesUsuarioModal = ({
 
   return (
     <Dialog open={open} fullScreen>
-      <DialogContent>
+<ModalForm title={modo} handleClose={handleClose}>
+<DialogContent>
         <Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
+        
           {modo === "Agregar Registro" ? (
             <Container maxWidth="sm">
               <TextField
@@ -193,13 +194,15 @@ export const PerfilesUsuarioModal = ({
         </Box>
       </DialogContent>
       <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cerrar
-        </button>
+        <Button className="actualizar" onClick={() => handleSend()}>
+          Actualizar
+        </Button>
+        
       </DialogActions>
+
+</ModalForm>
+
+
     </Dialog>
   );
 };

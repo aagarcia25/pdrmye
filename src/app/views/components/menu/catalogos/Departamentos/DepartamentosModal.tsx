@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Container,
   Dialog,
   DialogActions,
@@ -13,6 +14,7 @@ import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
+import ModalForm from "../../../componentes/ModalForm";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 
 export const DepartamentosModal = ({
@@ -37,7 +39,7 @@ export const DepartamentosModal = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const handleSend = () => {
-    if (!nombreCorto || !descripcion || !responsable|| responsable=="") {
+    if (!nombreCorto || !descripcion || !responsable || responsable == "") {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -57,17 +59,17 @@ export const DepartamentosModal = ({
       handleClose();
     }
   };
-  
+
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
-      CatalogosServices.SelectIndex(data).then((res) => {
-          setUsuarios(res.RESPONSE);
-      });
-    }
+    CatalogosServices.SelectIndex(data).then((res) => {
+      setUsuarios(res.RESPONSE);
+    });
+  }
 
-    const handleChange = (v: string) => {
-      console.log(v)
-       v=="false"?setResponsable(""):setResponsable(v);
+  const handleChange = (v: string) => {
+    console.log(v)
+    v == "false" ? setResponsable("") : setResponsable(v);
   };
   const handleRequest = (data: any) => {
     console.log(data);
@@ -129,12 +131,13 @@ export const DepartamentosModal = ({
   }, [dt]);
 
   return (
+
+
     <Dialog open={open} fullScreen>
+      <ModalForm title={"Editar Registro"} handleClose={handleClose}>
       <DialogContent>
-        <Box sx={{ justifyContent: "center", height:450 }}>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
+        <Box sx={{ justifyContent: "center", height: 450 }}>
+          
           {modo === "Agregar Registro" ? (
             <Container maxWidth="sm">
               <TextField
@@ -163,9 +166,9 @@ export const DepartamentosModal = ({
                 error={!descripcion ? true : false}
                 InputProps={{}}
               />
-                   <Box sx={{
-                margin:1
-               }}>
+              <Box sx={{
+                margin: 1
+              }}>
                 <SelectFrag
                   value={String(responsable)}
                   options={usuarios}
@@ -174,7 +177,7 @@ export const DepartamentosModal = ({
                   label={""}
                   disabled={false}
                 />
-                </Box>
+              </Box>
             </Container>
           ) : (
             ""
@@ -210,8 +213,8 @@ export const DepartamentosModal = ({
                 InputProps={{}}
               />
               <Box sx={{
-                margin:1
-               }}>
+                margin: 1
+              }}>
                 <SelectFrag
                   value={String(responsable)}
                   options={usuarios}
@@ -220,7 +223,7 @@ export const DepartamentosModal = ({
                   label={""}
                   disabled={false}
                 />
-                </Box>
+              </Box>
             </Container>
           ) : (
             ""
@@ -228,13 +231,14 @@ export const DepartamentosModal = ({
         </Box>
       </DialogContent>
       <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cerrar
-        </button>
+        <Button className="actualizar" onClick={() => handleSend()}>
+          Actualizar
+        </Button>
+ 
       </DialogActions>
+
+      </ModalForm>
+
     </Dialog>
   );
 };

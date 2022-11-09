@@ -6,6 +6,7 @@ import { Toast } from '../../../../../helpers/Toast';
 import { RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { AuthService } from '../../../../../services/AuthService';
 import { getUser } from '../../../../../services/localStorage';
+import ModalForm from '../../../componentes/ModalForm';
 
 
 
@@ -97,11 +98,10 @@ const PermisosModal = ({
   return (
     <div>
       <Dialog open={open} fullScreen>
-        <Box
-          sx={{ display: 'flex', justifyContent: 'center', }}>
-          <label className="Titulo">{modo}</label>
-        </Box>
-        <DialogContent>
+    <ModalForm title={modo} handleClose={handleClose}>
+
+
+    <DialogContent>
           <Box>
             <TextField
               required
@@ -139,9 +139,13 @@ const PermisosModal = ({
         </DialogContent>
 
         <DialogActions>
-          <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-          <button className="cerrar" onClick={() => handleClose()}>Cancelar</button>
+          <Button className="actualizar" onClick={() => handleSend()}>Actualizar</Button>
+          {/* <button className="cerrar" onClick={() => handleClose()}>Cancelar</button> */}
         </DialogActions>
+
+
+    </ModalForm>
+
       </Dialog>
     </div>
   )

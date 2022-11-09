@@ -8,6 +8,7 @@ import { AuthService } from "../../../../../services/AuthService";
 import { getUser } from "../../../../../services/localStorage";
 import Slider from "../../../Slider";
 import CloseIcon from '@mui/icons-material/Close';
+import ModalForm from "../../../componentes/ModalForm";
 
 const MenuModal = ({
   open,
@@ -119,37 +120,21 @@ const MenuModal = ({
 
   return (
     <div>
-      <Slider open={openSlider}></Slider>
-      <Box>
-        <Dialog open={open} fullScreen>
+      <ModalForm title={tipo == 1 ? "Nuevo Registro" : "Editar Registro"} handleClose={handleClose}>
+        <Slider open={openSlider}></Slider>
+
+        <DialogContent>
 
 
-        <Grid container spacing={1}>
-        <Grid item xs={11} sm={11} md={11} lg={11}>
-          <Box sx={{ display:"flex",justifyContent:"center"}}>
-          <Typography><h2>{tipo == 3 ? "Nuevo Registro" : "Editar Registro"}</h2></Typography>
-          </Box>
-       
-        </Grid>
-        <Grid item xs={1} sm={1} md={1} lg={1}>
-        <Button variant="outlined" >
-        <Tooltip title="Salir">
-        <IconButton
-          aria-label="close"
-          color="error"
-          onClick={() => handleClose()}>
-          <CloseIcon />
-        </IconButton>
-        </Tooltip>
-        </Button>
-        </Grid>
- </Grid>
+          <Grid container 
+              sx={{
+                justifyContent: "center"
 
+            }}
+          
+          >
 
-
-
-          <DialogContent>
-            <Box>
+            <Grid item sm={8}>
               <TextField
                 required
                 margin="dense"
@@ -162,6 +147,8 @@ const MenuModal = ({
                 onChange={(v) => setMenu(v.target.value)}
                 error={Menu == "" ? true : false}
               />
+            </Grid>
+            <Grid item sm={8}>
 
               <TextField
                 required
@@ -175,7 +162,8 @@ const MenuModal = ({
                 onChange={(v) => setDescripcion(v.target.value)}
                 error={Descripcion == "" ? true : false}
               />
-
+            </Grid>
+            <Grid item sm={8}>
 
 
               <FormControl variant="standard" fullWidth>
@@ -197,6 +185,9 @@ const MenuModal = ({
                 </Select>
               </FormControl>
 
+             </Grid>
+             <Grid item sm={8}>
+
 
               <TextField
                 required
@@ -210,6 +201,9 @@ const MenuModal = ({
                 onChange={(v) => setPath(v.target.value)}
                 error={Path == "" ? true : false}
               />
+            </Grid>
+            <Grid item sm={8}>
+
 
               <TextField
                 required
@@ -223,6 +217,9 @@ const MenuModal = ({
                 onChange={(v) => setNivel(v.target.value)}
                 error={Nivel == null ? true : false}
               />
+            </Grid>
+            <Grid item sm={8}>
+
 
               <TextField
                 required
@@ -236,18 +233,16 @@ const MenuModal = ({
                 onChange={(v) => setOrden(v.target.value)}
                 error={Orden == "" ? true : false}
               />
+            </Grid>
 
+          </Grid>
+        </DialogContent>
 
-            </Box>
-          </DialogContent>
+        <DialogActions>
+          <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
+        </DialogActions>
 
-          <DialogActions>
-            <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-          </DialogActions>
-        </Dialog>
-
-
-      </Box>
+      </ModalForm>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import MUIXDataGridSimple from '../../../MUIXDataGridSimple';
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import AsignarPermisoRol from './AsignarPermisoRol';
 import EliminarPermisosRol from './EliminarPermisosRol';
+import ModalForm from '../../../componentes/ModalForm';
 
 
 
@@ -42,13 +43,13 @@ const RolesMenu = ({
 
     setDt(v);
     setOpenPerRel(true);
-   
+
   };
 
-  const handleCloseAsignar = (v:string) => {
+  const handleCloseAsignar = (v: string) => {
 
     setOpenPerRel(false);
-    setOpenRel(false);  
+    setOpenRel(false);
 
     {
       if (v === "saved")
@@ -148,6 +149,61 @@ const RolesMenu = ({
     <div>
 
 
+
+      <ModalForm title={' Relacion Menú a Rol'} handleClose={handleClose}>
+
+        <Grid
+          container
+          sx={{           
+            left: "50%",
+            width: "100%",
+            height: "80vh",
+            bgcolor: "rgb(255,255,255)",
+            boxShadow: 50,
+            p: 2,
+            borderRadius: 3,
+            justifyContent:"center"
+            
+          }}
+        >
+ 
+
+          <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center",   }}>
+            <Typography
+              sx={{
+                textAlign: "center",
+                fontFamily: "MontserratMedium",
+                fontSize: "1.5vw",
+                color: "#808080",
+              
+              }}
+            >
+              Para Eliminar el menú solo Marcar la Casilla
+            </Typography>
+          </Grid>
+
+
+          <Grid item sm={5}
+            sx={{
+              height: "100%",
+
+            }}
+          >
+            <MUIXDataGridSimple columns={columns} rows={data} />
+
+          </Grid>
+
+
+          <Grid item sm={12}
+            sx={{
+
+      
+            }}
+          >
+          </Grid>
+        </Grid>
+      </ModalForm>
+
       {openRel ? (
         <AsignarPermisoRol
           id={id}
@@ -160,9 +216,9 @@ const RolesMenu = ({
         ""
       )}
 
-{openPerRel ? (
+      {openPerRel ? (
         <EliminarPermisosRol
-        id={id}
+          id={id}
           open={openPerRel}
           handleCloseAsignar={handleCloseAsignar}
           handleClose={handleClose}
@@ -173,86 +229,6 @@ const RolesMenu = ({
       )}
 
 
-      
-      <Modal open={open}>
-        <Grid
-          container
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "50vw",
-            height: "60vh",
-            bgcolor: "rgb(255,255,255)",
-            boxShadow: 50,
-            p: 2,
-            borderRadius: 3,
-          }}
-        >
-          <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-            <Typography
-              sx={{
-                textAlign: "center",
-                fontFamily: "MontserratBold",
-                fontSize: "2vw",
-                color: "#454545",
-              }}
-            >
-              Relacion Menú a Rol
-            </Typography>
-          </Grid>
-
-          <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-            <Typography
-              sx={{
-                textAlign: "left",
-                fontFamily: "MontserratMedium",
-                fontSize: "1.5vw",
-                color: "#808080",
-              }}
-            >
-              Para Eliminar el menú solo Marcar la Casilla
-            </Typography>
-          </Grid>
-
-
-          <Grid sm={12}
-            sx={{
-              mt: "2vh",
-              width: "100%",
-              height: "60%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row",
-
-            }}
-          >
-            <MUIXDataGridSimple columns={columns} rows={data} />
-
-          </Grid>
-
-
-          <Grid sm={12}
-            sx={{
-
-              display: "flex",
-              alignItems: "right",
-              justifyContent: "right",
-              mt: "2vh",
-
-            }}
-          >
-            <Button
-              sx={{ color: "#000", fontFamily: "MontserratMedium" }}
-              onClick={() => handleClose()}
-            >
-              Salir
-            </Button>
-          </Grid>
-        </Grid>
-      </Modal>
     </div>
   )
 }
