@@ -10,7 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Logo from "../../assets/img/logo.svg";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { Collapse } from "@mui/material";
+import { Collapse, Typography } from "@mui/material";
 import { getMenus } from "../../services/localStorage";
 import { menus } from "../../interfaces/menu/menu";
 import SendIcon from "@mui/icons-material/Send";
@@ -61,11 +61,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
         }}
       >
         <div>
-          <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-            component="nav"
-            aria-labelledby=""
-          >
+          <List >
 
 
 
@@ -82,7 +78,13 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                 <ListItemIcon>
                 <SendIcon />
                 </ListItemIcon>
-                <ListItemText key={Math.random()}  primary={item.Menu} />
+               
+                <ListItemText key={Math.random()}  primary={
+                   <Typography variant="button" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
+                  {item.Menu}
+                  </Typography>
+                  } />
+               
                 {open ? <ExpandLess /> : <ExpandMore />}
                  </ListItemButton>
                  {/* <Divider key={Math.random()} absolute /> */}
@@ -96,7 +98,11 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                             <ListItemIcon>
                               <ArrowForwardIcon />
                             </ListItemIcon>
-                            <ListItemText key={Math.random()}  primary={subitem.Menu} />
+                               <ListItemText key={Math.random()}  primary={
+                                <Typography variant="caption" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
+                                {  subitem.Menu}
+                                </Typography>
+                                } />
                           </ListItemButton>
                           <Divider key={Math.random()} absolute />
                         </List>
@@ -115,7 +121,11 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                 <ListItemIcon>
                 <SendIcon />
                 </ListItemIcon>
-                <ListItemText primary={item.Menu} />
+                <ListItemText key={Math.random()}  primary={
+                                <Typography variant="caption" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
+                                {  item.Menu}
+                                </Typography>
+                                } />
                 </ListItemButton>
                 <Divider key={Math.random()} absolute />
                 </div>
