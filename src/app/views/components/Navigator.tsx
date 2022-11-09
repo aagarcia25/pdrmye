@@ -10,7 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Logo from "../../assets/img/logo.svg";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { Collapse, Typography } from "@mui/material";
+import { Collapse, Grid } from "@mui/material";
 import { getMenus } from "../../services/localStorage";
 import { menus } from "../../interfaces/menu/menu";
 import SendIcon from "@mui/icons-material/Send";
@@ -33,14 +33,27 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
 
   return (
     <Drawer variant="permanent" {...other} {...logoFijo}>
-      <AppBar
+      <Grid container 
+        position="sticky"
+        sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%" }}>
+        <Grid item>
+        <img src={Logo} style={{ width: "90%" }} />
+        </Grid>
+        <Grid item sx={{ bgcolor:"blue", width:"100% " }}>
+          <p>hola</p>
+        </Grid> 
+      </Grid>
+
+      
+      {/* <AppBar
         position="sticky"
         sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%" }}
       >
-        <Toolbar>
-          <img src={Logo} style={{ width: "100%" }} />
-        </Toolbar>
-      </AppBar>
+         <img src={Logo} style={{ width: "90%" }} />
+ 
+        {/* <Toolbar>
+        </Toolbar> */}
+      {/* </AppBar> */} 
 
       <Box
         sx={{
