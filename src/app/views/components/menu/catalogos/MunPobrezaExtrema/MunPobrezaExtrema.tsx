@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Box, IconButton } from '@mui/material'
+import { Box } from '@mui/material'
 import { GridColDef, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
@@ -18,7 +16,6 @@ import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
 import { getPermisos, getUser } from '../../../../../services/localStorage'
 import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
-import AccionesGrid from '../Utilerias/AccionesGrid'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 
 export const MunPobrezaExtrema = () => {
@@ -34,6 +31,7 @@ export const MunPobrezaExtrema = () => {
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -42,8 +40,7 @@ export const MunPobrezaExtrema = () => {
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
-  //funciones
-  const handleFilterMes = () => { };
+ 
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
@@ -72,7 +69,6 @@ export const MunPobrezaExtrema = () => {
     },
 
   ];
-
 
   const handleClose = (v:string) => {
     if (v === "close"){
@@ -167,7 +163,6 @@ export const MunPobrezaExtrema = () => {
     });
   };
 
-
   const consulta = (data: any) => {
     CatalogosServices.munpobrezaext(data).then((res) => {
 
@@ -190,12 +185,11 @@ export const MunPobrezaExtrema = () => {
     });
   };
 
-  const handleFilterChange = (event: any) => {
-
-    setFilterAnio(event.value);
+  const handleFilterChange = (v: string) => {
+    setFilterAnio(v)
     let data = {
       NUMOPERACION: 4,
-      ANIO: event.value,
+      ANIO: v,
 
     }; 
 
@@ -244,7 +238,7 @@ export const MunPobrezaExtrema = () => {
       <Box  
          sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
             <SelectFrag 
-            value={''}
+          value={filterAnio}
           options={anios}
           onInputChange={handleFilterChange}
           placeholder={"Seleccione Año"} label={""} disabled={false}/>
@@ -265,7 +259,6 @@ export const MunPobrezaExtrema = () => {
       <ButtonsMunicipio
         url={plantilla}
         handleUpload={handleAgregar} controlInterno={"MUNPOEX"}      />
-
       <MUIXDataGrid columns={columns} rows={PobrezaExtrema} />
 
 
