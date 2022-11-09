@@ -132,13 +132,7 @@ const Fondos = () => {
     setVrows("");
   };
 
-  const handleEdit = (v: any) => {
-    console.log(v);
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setVrows(v);
-  };
+
 
   const handleDelete = (v: any) => {
     Swal.fire({

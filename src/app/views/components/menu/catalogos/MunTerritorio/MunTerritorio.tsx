@@ -67,6 +67,7 @@ export const MunTerritorio = () => {
       setTipoOperacion(2);
       setOpen(true);
       setData(v.data);
+      setModo("Editar Registro");
     }else if(v.tipo ==2){
       handleDelete(v.data);
     }
@@ -74,18 +75,13 @@ export const MunTerritorio = () => {
   
 
   const handleClose = (v: string) => {
-    if (v == "close") {
       setOpen(false);
-    }
-    else if (v == "save") {
       setOpen(false);
       let data = {
         NUMOPERACION: 4,
-
-      };
+      }
       consulta(data);
 
-    }
     console.log('cerrando');
 
 
@@ -177,19 +173,19 @@ export const MunTerritorio = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munterritorio(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        setTerritorio(res.RESPONSE);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+      // if (res.SUCCESS) {
+      //   Toast.fire({
+      //     icon: "success",
+      //     title: "Consulta Exitosa!",
+      //   });
+      //   setTerritorio(res.RESPONSE);
+      // } else {
+      //   Alert.fire({
+      //     title: "Error!",
+      //     text: res.STRMESSAGE,
+      //     icon: "error",
+      //   });
+      // }
     });
   };
 
@@ -241,7 +237,7 @@ export const MunTerritorio = () => {
 
 
 
-      {open ? (
+      {open ? 
         <MunTerritorioModal
           open={open}
           modo={modo}
@@ -249,9 +245,9 @@ export const MunTerritorio = () => {
           tipo={tipoOperacion}
           dt={data}
         />
-      ) : (
+      : 
         ""
-      )}
+      }
 
       <ButtonsMunicipio
         url={plantilla}
