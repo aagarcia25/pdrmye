@@ -22,6 +22,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
+import ModalForm from "../../../componentes/ModalForm";
 import Slider from "../../../Slider";
 
 const FondosModal = ({
@@ -204,8 +205,11 @@ const FondosModal = ({
   return (
     <div>
       <Slider open={slideropen}></Slider>
-      <Dialog open={open} fullScreen>
-        <DialogTitle>{modo}</DialogTitle>
+      <ModalForm title={modo} handleClose={handleClose}>
+
+
+
+    
         <DialogContent>
           <Grid container spacing={6}>
             <Grid item xs={12}>
@@ -305,10 +309,11 @@ const FondosModal = ({
           </Grid>
         </DialogContent>
         <DialogActions>
-          <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-          <button className="cerrar" onClick={() => handleClose()}>Cancelar</button>
+          <Button className={tipo==1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo==1?"Guardar":"Actualizar"}</Button>
+          {/* <button className="cerrar" onClick={() => handleClose()}>Cancelar</button> */}
         </DialogActions>
-      </Dialog>
+
+      </ModalForm>
     </div>
   );
 };
