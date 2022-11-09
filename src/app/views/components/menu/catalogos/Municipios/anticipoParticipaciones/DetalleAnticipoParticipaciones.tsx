@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Dialog, Grid, IconButton, ToggleButton, Tooltip } from "@mui/material";
+import { Box, Dialog, DialogActions, FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, TextField, ToggleButton, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { PERMISO, RESPONSE } from "../../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../../services/catalogosServices";
@@ -19,6 +19,8 @@ import { userInfo } from "os";
 import BotonesAPD from "../../../../componentes/BotonesAPD";
 import BotonesAcciones from "../../../../componentes/BotonesAcciones";
 import ModalForm from "../../../../componentes/ModalForm";
+import { Moneda } from "../../../CustomToolbar";
+import validator from "validator";
 
 export const DetalleAnticipoParticipaciones = (
     {
@@ -40,10 +42,15 @@ export const DetalleAnticipoParticipaciones = (
     const [agregar, setAgregar] = useState<boolean>(false);
     const [editar, setEditar] = useState<boolean>(true);
     const [detalle, setDetalle] = useState([]);
+    const [mun, setMun] = useState<string>();
+    const [total, setTotal] = useState<string>();
+    const [mes, setMes] = useState<string>();
+    const [idRegistro, setIdRegistro] = useState<string>();
     const [openSlider, setOpenSlider] = useState(true);
     const [openEditar, setOpenEditar] = useState(false);
     const [dataEditar, setDataEditar] = useState({});
-
+    const [claveError, setClaveError] = useState<string>();
+    const [claveValid, setClaveValid] = useState<boolean>();
     const user: RESPONSE = JSON.parse(String(getUser()));
 
 
@@ -64,34 +71,105 @@ export const DetalleAnticipoParticipaciones = (
             width: 150,
             renderCell: (v) => {
                 return (
+
                     <Box>
+
+                        {user.DEPARTAMENTOS[0].NombreCorto == "DAMOP"&& user.PERFILES[0].Referencia=="ANA"?
                         <Grid container >
                             <Grid item xs={12}>
                                 <BotonesAcciones handleAccion={handleAccionRegistros} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
                             </Grid>
                         </Grid>
+                         :""}
                     </Box>
                 );
             },
         },
     ];
     const handleAccionRegistros = (v: any) => {
+        setIdRegistro(v.data.row.id)
+
         if (v.tipo == 1) {
             ///editar
             setOpenEditar(true)
-            console.log(v.data)
-            setDataEditar(v.data)
+            console.log(v.data.row)
+            setDataEditar(v.data.row)
+            setMes(v.data.row.Descripcion)
+            setTotal(v.data.row.Total)
+            setMun(v.data.row.Nombre)
+            setIdRegistro(v.data.row.id)
+
 
         } else
-            if (v == 2) {
+            if (v.tipo == 2) {
 
-                Eliminar();
+                console.log("Eliminar resgitro detallado")
+                EliminarRegistro(
+                    {
+                        NUMOPERACION: 3,
+                        CHUSER: user.id,
+                        CHID: v.data.row.id,
+
+                    }
+                );
             }
     };
 
-    const handleClosedetalle = () => {
 
+    const handleAccionEditarRegistros = () => {
+        console.log(total);
+        console.log(idRegistro);
+        console.log(user.id)
+
+        Swal.fire({
+            icon: "info",
+            title: "Editar Total De El Municipio Seleccionado?",
+            text: "Nuevo Valor: " + total,
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Aceptar",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                CatalogosServices.getdetalle({ CHID: idRegistro, NUMOPERACION: 2, TOTAL: total, CHUSER: user.id }).then((res) => {
+                    if (res.SUCCESS) {
+                        Toast.fire({
+                            icon: "success",
+                            title: "Editado Exitoso!",
+                        });
+
+                    } else {
+                        Alert.fire({
+                            title: "Error!",
+                            text: "Validar informacion",
+                            icon: "error",
+                        });
+                    }
+                    handleClosedetalle();
+                });
+            }
+        });
+
+
+
+
+    };
+
+    const handleClosedetalle = () => {
         setOpenEditar(false);
+        getDetalles({ IDPRINCIPAL: idPrincipal, NUMOPERACION: "1" })
+    };
+    const handleNuevoTotal = (v: string) => {
+        ///// clave
+        setTotal(v)
+        if (validator.isNumeric(v)) {
+            setClaveError('')
+            setClaveValid(true);
+        } else {
+            setClaveError('Ingrese Valores Numericos')
+            setClaveValid(false);
+        }
+
     };
     const handleAccion = (v: number) => {
         if (v == 1) {
@@ -135,7 +213,40 @@ export const DetalleAnticipoParticipaciones = (
                             icon: "success",
                             title: "Borrado Exitoso!",
                         });
-                        handleClose()
+                        // CatalogosServices.indexAPC(data).then((res) => {
+                        //     console.log(res.RESPONSE)
+
+                        // });
+                        handleClose();
+                    } else {
+                        Alert.fire({
+                            title: "Error!",
+                            text: "Validar informacion",
+                            icon: "error",
+                        });
+                    }
+                });
+            }
+        });
+
+    };
+    const EliminarRegistro = (dat: any) => {
+        Swal.fire({
+            icon: "error",
+            title: "Borrar Registro ",
+            text: "¿Desea Autoriza?",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Aceptar",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                CatalogosServices.getdetalle(dat).then((res) => {
+                    if (res.SUCCESS) {
+                        Toast.fire({
+                            icon: "success",
+                            title: "Borrado Exitoso!",
+                        });
                         // CatalogosServices.indexAPC(data).then((res) => {
                         //     console.log(res.RESPONSE)
 
@@ -147,6 +258,7 @@ export const DetalleAnticipoParticipaciones = (
                             icon: "error",
                         });
                     }
+                    getDetalles({ IDPRINCIPAL: idPrincipal, NUMOPERACION: "1" })
                 });
             }
         });
@@ -173,7 +285,7 @@ export const DetalleAnticipoParticipaciones = (
         if (data.Activo == 1) {
             setEliminar(true);
         }
-        getDetalles({ IDPRINCIPAL: idPrincipal })
+        getDetalles({ IDPRINCIPAL: idPrincipal, NUMOPERACION: "1" })
     }, [idPrincipal]);
 
     return (
@@ -229,10 +341,66 @@ export const DetalleAnticipoParticipaciones = (
 
             </Box>
             {openEditar ?
-                <ModalForm title={"Editar Los Registros"} handleClose={handleClosedetalle}>
+                <ModalForm title={"Editar Los Registros Detallado"} handleClose={handleClosedetalle}>
+
+                    <div>
+                        <Grid container spacing={2} sx={{ justifyContent: "center", }} >
+                            <Grid item xs={12}>
+                                <Box sx={{ display: "flex", justifyContent: "center", bgcolor: "rgb(245,245,245)" }}>
+                                    <Titulo name={"Municipio: " + mun} />
+
+                                </Box>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Box sx={{ display: "flex", justifyContent: "center", bgcolor: "rgb(245,245,245)" }}>
+                                    <Titulo name={"Mes: " + mes} />
+
+                                </Box>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Box sx={{ display: "flex", justifyContent: "center", bgcolor: "rgb(245,245,245)" }}>
+                                    <Titulo name={"Total"} />
+                                </Box>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Box sx={{ display: "flex", justifyContent: "center", bgcolor: "rgb(245,245,245)" }}>
+                                    <TextField
+                                        sx={{ m: 1, width: '25ch' }}
+                                        value={total}
+                                        type="text"
+                                        InputProps={{
+                                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                                        }}
+                                        onChange={(v) => handleNuevoTotal(v.target.value)}
+                                        error={!claveValid}
+                                    />
+                                </Box>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Box sx={{ display: "flex", justifyContent: "center", bgcolor: "rgb(245,245,245)" }}>
+
+                                    <label>{claveError}</label>
+                                </Box>
+                            </Grid>
+
+                            <Grid item xs={3}>
+                                {claveValid ?
+                                    <Box sx={{ display: "flex", justifyContent: "center", bgcolor: "rgb(245,245,245)" }}>
+                                        <DialogActions>
+                                            <button className="guardar"
+                                                onClick={() => { handleAccionEditarRegistros() }}
+                                            >
+                                                Guardar
+                                            </button>
+
+                                        </DialogActions>
+                                    </Box>
+                                    : ""}
+                            </Grid>
 
 
-
+                        </Grid>
+                    </div>
                 </ModalForm>
                 : ""}
         </div>
