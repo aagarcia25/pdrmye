@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import { Box, Grid, IconButton } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { messages } from "../../../../styles";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
@@ -37,8 +34,31 @@ const Fondos = () => {
       field: "id",
       headerName: "Identificador",
       hide: true,
-      width: 150,
-      description: messages.dataTableColum.id,
+      width: 10,
+    },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 200,
+      renderCell: (v) => {
+        return (
+          <Box>
+            <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+           
+            {view ? 
+             <Tooltip title={"Visualizar Ajustes"}>
+              <IconButton onClick={() => handleView(v)}>
+              <RemoveRedEyeIcon />
+            </IconButton>
+            </Tooltip>
+             : ""}
+            
+          
+          </Box>
+        );
+      },
     },
     { field: "Clave", headerName: "Clave", width: 150 },
     { field: "Descripcion", headerName: "Descripcion", width: 450 },
@@ -78,27 +98,7 @@ const Fondos = () => {
     { field: "idtipo", headerName: "idtipo", width: 150, hide: true },
     { field: "dtipo", headerName: "Tipo", width: 250 },
 
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Campo de Acciones",
-      sortable: false,
-      width: 200,
-      renderCell: (v) => {
-        return (
-          <Grid container>
-            <Grid item xs={6}>
-            <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-            </Grid>
-            <Grid item xs={3}>
-            {view ? <IconButton onClick={() => handleView(v)}>
-              <RemoveRedEyeIcon />
-            </IconButton> : ""}
-            </Grid>
-          </Grid>
-        );
-      },
-    },
+    
   ];
   const handleAccion = (v: any) => {
     if (v.tipo == 1) {
