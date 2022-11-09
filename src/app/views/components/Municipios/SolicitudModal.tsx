@@ -23,6 +23,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import validator from 'validator';
+import { border, borderColor } from '@mui/system';
 
 
 const steps = ['Campos Obligatorios', 'Carga de Archivo ', 'Finalizar Solicitud'];
@@ -272,7 +273,7 @@ export const SolicitudModal = (
                 <Dialog open={Boolean(open)} fullWidth={true}
                 //fullScreen={modo=="ver"?true:false}
                 >
-                    <DialogTitle>Solicitud de Anticipo de Participaciones</DialogTitle>
+                    <DialogTitle textAlign="center"> Solicitud de Anticipo de Participaciones </DialogTitle>
                     {modoSol == "ver" ?
                         <Grid container>
                             <Grid item>
@@ -345,23 +346,23 @@ export const SolicitudModal = (
                                     sx={{ justifyContent: "center", width: '100%' }} >
 
 
-                                    <Grid container spacing={3} sx={{ justifyContent: "center", width: "100%" }}>
+                                    <Grid container spacing={3} xs={12} sx={{ justifyContent: "center"}}>
                                         <Grid item xs={12}>
-                                            <label >Concepto<br /><br /></label>
-                                            <TextField
+                                            <Typography variant='body1' margin={1}> CONCEPTO </Typography>
+                                            <TextField 
                                                 multiline
                                                 value={concepto}
                                                 rows={4}
                                                 type="text"
                                                 onChange={(v) => setConcepto(v.target.value)}
                                                 sx={{
-                                                    width: "20vw",
-
+                                                    width: "100%"
+                                                
                                                 }}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <label>Total<br /><br /></label>
+                                        <Typography variant='body1' margin={1}> TOTAL </Typography>
                                             <TextField
                                                 type="text"
                                                 value={total}
@@ -370,14 +371,12 @@ export const SolicitudModal = (
                                                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                                                 }}
                                                 sx={{
-                                                    width: "20vw",
+                                                    width: "10vw",
                                                 }}
                                                 error= {!totalValid}
                                             />
+                                            <Typography variant='body2'paddingTop={.5}> {totalError} </Typography>
                                         </Grid>
-                                        <label>{totalError}</label>
-
-
                                     </Grid>
 
 

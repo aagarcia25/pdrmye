@@ -176,7 +176,7 @@ export default function Header(props: HeaderProps) {
                     <img
                       style={{
                         width: "2vw",
-                        height: "5vh",
+                        height: "4vh",
                         objectFit: "scale-down",
                       }}
                       src={user.RutaFoto}

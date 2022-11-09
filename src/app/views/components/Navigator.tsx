@@ -33,14 +33,16 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
 
   return (
     <Drawer variant="permanent" {...other} {...logoFijo}>
+
       <Grid container 
         position="sticky"
+        alignContent="center"
         sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%" }}>
-        <Grid item>
-        <img src={Logo} style={{ width: "90%" }} />
+        <Grid item sx={{ width:"auto",higth:"30%" }}>
+        <img src={Logo} style={{ width: "100%" }} />
         </Grid>
-        <Grid item sx={{ bgcolor:"blue", width:"100% " }}>
-          <p>hola</p>
+        <Grid item sx={{width:"auto", textAlign:"center"}}>
+          <Typography variant="h6" > DISTRIBUCIÓN DE RECURSOS </Typography>
         </Grid> 
       </Grid>
 
