@@ -156,13 +156,13 @@ export const DetalleAnticipoParticipaciones = (
     useEffect(() => {
         permisos.map((item: PERMISO) => {
             if (String(item.ControlInterno) === "MUNAPC") {
-                if (String(item.Referencia) == "AGREG") {
+                if (String(item.Referencia) === "AGREG") {
                     setAgregar(true);
                 }
-                if (String(item.Referencia) == "ELIM") {
+                if (String(item.Referencia) === "ELIM") {
                     setEliminar(true);
                 }
-                if (String(item.Referencia) == "EDIT") {
+                if (String(item.Referencia) === "EDIT") {
                     setEditar(true);
                 }
 

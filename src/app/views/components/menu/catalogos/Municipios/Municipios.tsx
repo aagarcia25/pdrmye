@@ -18,6 +18,7 @@ import FideicomisoConfig from "./FideicomisoConfig";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MunicipiosUsuarioResponsable from "./MunicipiosUsuarioResponsable";
+import { MunicipiosCuentaBancaria } from "./MunicipiosCuentaBancaria";
 
 export const Municipios = () => {
   const [municipio, setMunicipio] = useState([]);
@@ -30,6 +31,8 @@ export const Municipios = () => {
   const [open, setOpen] = useState(false);
   const [openFideicomiso, setOpenFideicomiso] = useState(false);
   const [openUR, setOpenUR] = useState(false);
+  const [openCC, setOpenCC] = useState(false);
+
 
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
@@ -163,8 +166,7 @@ export const Municipios = () => {
   };
 
   const handleCC = (v: any) => {
-    setModo("Agregar Fideicomiso");
-    setOpenFideicomiso(true);
+    setOpenCC(true);
     setData(v);
   };
 
@@ -174,6 +176,7 @@ export const Municipios = () => {
   };
 
   const handleClose = () => {
+    setOpenCC(false);
     setOpen(false);
     setOpenFideicomiso(false);
     setOpenUR(false);
@@ -334,6 +337,13 @@ export const Municipios = () => {
       ) : (
         ""
       )}
+
+   {openCC ? (
+        <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
+      ) : (
+        ""
+      )}
+
 
       <ButtonsMunicipio
         url={plantilla}

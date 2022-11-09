@@ -163,7 +163,7 @@ interface Props {
 }
 
 
-const drawerWidth = 200;
+const drawerWidth = 230;
 
 
 

@@ -62,9 +62,9 @@ const UsuariosModal = ({
   const loadFilter = ( tipo:number) => {
     let data = { NUMOPERACION: tipo };
       CatalogosServices.SelectIndex(data).then((res) => {
-        if(tipo == 7){
+        if(tipo === 7){
           setDepartamentos(res.RESPONSE);
-        }else if(tipo == 9 ){
+        }else if(tipo === 9 ){
           setPerfiles(res.RESPONSE);
         }
            

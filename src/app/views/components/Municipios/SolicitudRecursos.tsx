@@ -149,7 +149,7 @@ const SolicitudRecursos = () => {
       },
     },
     { field: "NombreArchivo", headerName: "Nombre Archivo", width: 300 },
-    { field: "RutaSpei", headerName: " Spei", width: 120 },
+    // { field: "RutaSpei", headerName: " Spei", width: 120 },
     {
       field: "Descripcion", headerName: "Estatus", width: 230,
       renderCell: (v) => {

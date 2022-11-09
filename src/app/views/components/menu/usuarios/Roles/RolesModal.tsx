@@ -11,8 +11,7 @@ import {
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import { UserReponse } from "../../../../../interfaces/user/UserReponse";
-import { getPU, getUser } from "../../../../../services/localStorage";
+import {  getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 
@@ -41,9 +40,9 @@ const RolesModal = ({
 
     const handleSend = () => {
 
-        if (modo == "Agregar Rol") {
+        if (modo === "Agregar Rol") {
 
-            if (nombre == null || descripcion == null || nombre == "" || descripcion == "") {
+            if (nombre === null || descripcion === null || nombre === "" || descripcion === "") {
                 Alert.fire({
                     title: "Error!",
                     text: "Favor de Completar los Campos",

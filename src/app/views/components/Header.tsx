@@ -32,8 +32,8 @@ interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps) {
-  const btnPerson = "2.5vw";
-  const btnAll = "3.0vw";
+  const btnPerson = "1.5vw";
+  const btnAll = "2.0vw";
 
   const user: RESPONSE = JSON.parse(String(getUser()));
   const navigate = useNavigate();
@@ -162,8 +162,8 @@ export default function Header(props: HeaderProps) {
                   onClick={handleToggle}
                   color="inherit"
                   sx={{
-                    width: "3.8vw",
-                    height: "7vh",
+                    width: "2vw",
+                    height: "5vh",
                     fontSize: btnPerson,
                     p: 0.1,
                     border: 4,
@@ -175,15 +175,15 @@ export default function Header(props: HeaderProps) {
                   {user.RutaFoto ? (
                     <img
                       style={{
-                        width: "3vw",
-                        height: "7vh",
+                        width: "2vw",
+                        height: "5vh",
                         objectFit: "scale-down",
                       }}
                       src={user.RutaFoto}
                     />
                   ) : (
                     <PersonIcon sx={{
-                      width: "3vw", height: "7vh",
+                      width: "2vw", height: "5vh",
                       "&:hover": { color: COLOR.negro }
                     }} />
                   )}

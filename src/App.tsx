@@ -15,6 +15,7 @@ import {
   setDepartamento,
   setlogin,
   setMenus,
+  setMunicipio,
   setMunicipios,
   setPerfiles,
   setPermisos,
@@ -106,6 +107,7 @@ function App() {
         setMenus(us.RESPONSE.MENUS);
         setPerfiles(us.RESPONSE.PERFILES);
         setDepartamento(us.RESPONSE.DEPARTAMENTOS);
+        setMunicipio(us.RESPONSE.MUNICIPIOS);
         loadMunicipios();
         loadMeses();
         loadAnios();
