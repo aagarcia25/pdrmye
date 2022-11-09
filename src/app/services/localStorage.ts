@@ -27,6 +27,9 @@ export const getPerfiles = () => localStorage.getItem('perfiles');
 // DEPARTAMENTO
 export const setDepartamento = (departamento: any) => localStorage.setItem('departamento', JSON.stringify(departamento));
 export const getDepartamento = () => localStorage.getItem('departamento');
+// MUNICIPIO
+export const setMunicipio = (municipio: any) => localStorage.setItem('municipio', JSON.stringify(municipio));
+export const getMunicipio = () => localStorage.getItem('municipio');
 
 //IDENTIFICAR QUE EL USUARIO YA ESTA LOGEADO
 export const setlogin = (data: any) => {
