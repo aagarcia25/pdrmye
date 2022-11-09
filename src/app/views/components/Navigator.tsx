@@ -11,6 +11,7 @@ import Logo from "../../assets/img/logo.svg";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { Collapse, Grid } from "@mui/material";
+import Typography from "@mui/material";
 import { getMenus } from "../../services/localStorage";
 import { menus } from "../../interfaces/menu/menu";
 import SendIcon from "@mui/icons-material/Send";
