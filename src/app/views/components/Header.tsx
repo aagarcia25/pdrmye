@@ -124,8 +124,6 @@ export default function Header(props: HeaderProps) {
             <Grid
               sx={{
                 display: {
-                  sm: "none",
-                  xs: "block",
                   backgroundColor: COLOR.negro,
                 },
               }}
@@ -138,21 +136,22 @@ export default function Header(props: HeaderProps) {
                 edge="start"
               >
                 <MenuIcon />
+
               </IconButton>
             </Grid>
             <Grid item xs />
 
-            <Grid item>
+            <Grid item >
               <Typography variant="subtitle1" color="black">
                 {props.name}
               </Typography>
               <Typography variant="caption" color="black">
-               {user.Puesto} 
+                {user.Puesto}
               </Typography>
-             
+
             </Grid>
 
-            <Grid item>
+            <Grid item >
               <Tooltip title="Haz click para ver más">
                 <IconButton
                   ref={anchorRef}
@@ -169,7 +168,7 @@ export default function Header(props: HeaderProps) {
                     p: 0.1,
                     border: 4,
                     borderColor: COLOR.negro,
-                    backgroundColor: user.RutaFoto?COLOR.blanco:COLOR.negro,
+                    backgroundColor: user.RutaFoto ? COLOR.blanco : COLOR.negro,
                     "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                   }}
                 >
@@ -188,7 +187,7 @@ export default function Header(props: HeaderProps) {
                       "&:hover": { color: COLOR.negro }
                     }} />
                   )}
-                  
+
                 </IconButton>
               </Tooltip>
               <Popper
