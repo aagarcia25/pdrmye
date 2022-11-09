@@ -30,9 +30,11 @@ import Validacion from "./app/views/components/Validacion";
 import { useIdleTimer } from "react-idle-timer";
 import Slider from "./app/views/components/Slider";
 import { env_var } from '../src/app/environments/env';
+import { useNavigate } from "react-router-dom";
+
 
 function App() {
-
+  const navigate = useNavigate();
   //cambiar a 5 minutos
   const timeout = 600000;
   const [isIdle, setIsIdle] = useState(false);
@@ -221,10 +223,14 @@ function App() {
       }).then((result) => {
         if (result.isConfirmed) {
           localStorage.clear();
+          
           var ventana = window.self;
           ventana.location.replace(env_var.BASE_URL_LOGIN);
+        }else {
+          setTimeout(() => {
+            navigate("/Calendario");
+          }, 10000);
         }
-        
       });
     }
 

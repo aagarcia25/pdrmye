@@ -157,18 +157,7 @@ export const Perfil = () => {
           //backgroundColor: "blue"
         }}
       >
-        <Box
-          sx={{
-            //EspacioTitulo
-            width: "100%",
-            height: "10%",
-            //backgroundColor: "skyblue",
-            display: "flex",
-
-          }}
-        >
-          <Typography sx={{ fontSize: "2.5vw", fontWeight: "bold", }} >Perfil </Typography>
-        </Box>
+        
 
         <Box sx={{
           //EspacioTitulo
@@ -226,11 +215,6 @@ export const Perfil = () => {
 
           </Box>
           <DialogCambiarImagen open={openDialog} handleClose={handleCloseDialogImagen}></DialogCambiarImagen>
-          <Box sx={{ display: "flex", alignItems: "center", width: "50%", justifyItems: "flex-start", ml: "3vw" }}>
-            <Typography sx={{ fontWeight: "Bold" }}>
-              Tipo de usuario: {user.tipo}
-            </Typography>
-          </Box>
 
         </Box>
 
@@ -258,7 +242,7 @@ export const Perfil = () => {
         </Typography>
         <Box sx={{
           width: "90%",
-          height: "50%",
+          height: "60%",
           display: "flex",
           justifyContent: "space-evenly",
           alignItems: "center",
@@ -338,7 +322,7 @@ export const Perfil = () => {
 
 
         </Box>
-        <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
+        <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "100%",height:"8%",alignItems:"center" }}>
           <Button
             variant="outlined"
             onClick={() => {

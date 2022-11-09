@@ -20,6 +20,8 @@ import { CatalogosServices } from '../../../services/catalogosServices';
 import { Toast } from '../../../helpers/Toast';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
 const steps = ['Campos Obligatorios', 'Carga de Archivo ', 'Finalizar Solicitud'];
@@ -81,15 +83,15 @@ export const SolicitudModal = (
         if (activeStep === steps.length - 1) {
 
             let d = {
-                CHID:data.id,
-                NUMOPERACION: modo=="editar"?9:1,
+                CHID: data.id,
+                NUMOPERACION: modo == "editar" ? 9 : 1,
                 CHUSER: user.id,
                 CONCEPTO: concepto,
-                TOTAL: total, 
-                ESTATUS: modo=="editar"? "MUN_ACT" : "MUN_INICIO",
+                TOTAL: total,
+                ESTATUS: modo == "editar" ? "MUN_ACT" : "MUN_INICIO",
                 ANIO: hoy.getFullYear(),
                 MES: (hoy.getMonth() + 1),
-                COMENTARIO:modo=="editar"?"EDICION DE INFORMACION ANTES DE ENVIAR":"INICIO DE OPERACION"
+                COMENTARIO: modo == "editar" ? "EDICION DE INFORMACION ANTES DE ENVIAR" : "INICIO DE OPERACION"
                 //idMunicipio 
             };
 
@@ -106,15 +108,15 @@ export const SolicitudModal = (
                     if (result.isConfirmed) {
                         CatalogosServices.SolicitudesInfo(d).then((res) => {
                             if (res.SUCCESS) {
-                                console.log("response: "+res.RESPONSE[0])
-                                console.log("data id:  "+data.id)
+                                console.log("response: " + res.RESPONSE[0])
+                                console.log("data id:  " + data.id)
                                 if (DocSubido) {
                                     const formData = new FormData();
                                     formData.append("CHID", data.id);
-                                    formData.append("NUMOPERACION", modo=="editar"?"2":"1");
+                                    formData.append("NUMOPERACION", modo == "editar" ? "2" : "1");
                                     formData.append("MUNICIPIOS", newDoc);
-                                    formData.append("IDSOLICITUD", modo=="editar"?String(data.id):res.RESPONSE);
-                                    formData.append("COMENTARIO", modo=="editar"?"Edicion de archivo":"carga de archivo");
+                                    formData.append("IDSOLICITUD", modo == "editar" ? String(data.id) : res.RESPONSE);
+                                    formData.append("COMENTARIO", modo == "editar" ? "Edicion de archivo" : "carga de archivo");
 
                                     CatalogosServices.subirArchivo(formData).then((res) => {
                                         if (res.SUCCESS) {
@@ -221,10 +223,11 @@ export const SolicitudModal = (
         setDocSubido(true);
     };
 
+   
     const Clean = () => {
         setNewDoc(null);
-        setNameNewDoc('');
         setDocSubido(false);
+        setNameNewDoc("");
 
     };
 
@@ -236,6 +239,9 @@ export const SolicitudModal = (
             setTotal(data?.row?.Total)
             setConcepto(data?.row?.Concepto)
         }
+        setNewDoc(null);
+        setDocSubido(false);
+        setNameNewDoc("");
 
     }, []);
 
@@ -412,7 +418,7 @@ export const SolicitudModal = (
                                             //// imagen carga y previsualizacion
                                         }
                                         <Box sx={{ width: '100%', }}>
-                                            <Box sx={{
+                                            {/* <Box sx={{
                                                 display: 'flex',
                                                 alignItems: 'flex-start',
                                                 flexDirection: 'column',
@@ -421,22 +427,23 @@ export const SolicitudModal = (
                                                 m: 1,
                                                 bgcolor: 'background.paper',
                                                 borderRadius: 1,
-                                            }}>
-                                                <Box>
-                                                    <IconButton aria-label="upload picture" component="label" size="large" >
-                                                        <input
-                                                            required
-                                                            type="file"
-                                                            hidden
-                                                            accept="application/pdf"
-                                                            onChange={(event) => {
-                                                                handleNewFile(event)
-                                                            }} />
-                                                        <UploadFileIcon />
-                                                    </IconButton>
+                                            }}> */}
+                                                <Box sx={{ width: "100%", height: "40%", border: "5px dashed  black", display: "flex", justifyContent: "center", alignItems: "center",mt:"1vh"}}>
+                                                    <input
+                                                        id="imagencargada"
+                                                        accept="application/pdf"
+                                                        onChange={(event) => {
+                                                            handleNewFile(event)
+                                                        }} 
+                                                        type="file"
+                                                        style={{ zIndex: 2, opacity: 0, width: "90%", height: "40%", position: "absolute", cursor: "pointer", }}  /
+                                                    >
+                                                        {nameNewDoc===""?<CloudUploadIcon sx={{ width: "50%", height: "80%" }} />:<PictureAsPdfOutlinedIcon sx={{ width: "50%", height: "80%" }}/>}
+
                                                 </Box>
+                                                
                                                 {DocSubido ?
-                                                    <Box>
+                                                    <Box sx={{display:"flex",alignItems:"center",justifyContent:"space-around", width:"100%"}}>
                                                         <label >
                                                             {nameNewDoc}
                                                         </label>
@@ -448,7 +455,7 @@ export const SolicitudModal = (
                                                         </Box>
                                                     </Box>
                                                     : ""}
-                                            </Box>
+                                            
                                         </Box>
                                     </Box>
                                 </Container>
@@ -503,7 +510,7 @@ export const SolicitudModal = (
 
                         ""}
 
-                                   <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
+                    <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
                         <Grid item xs={2}>
                             <button className="cerrar" onClick={() => handleClose()}> {modo == "ver" || modo == "verDetalles" ? "Cerrar" : "Cancelar"}</button>
                         </Grid>
