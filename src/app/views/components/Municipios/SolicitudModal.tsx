@@ -22,6 +22,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import validator from 'validator';
 
 
 const steps = ['Campos Obligatorios', 'Carga de Archivo ', 'Finalizar Solicitud'];
@@ -51,7 +52,9 @@ export const SolicitudModal = (
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [nameNewDoc, setNameNewDoc] = useState<string>();
     const [concepto, setConcepto] = useState<string>();
-    const [total, setTotal] = useState<Number>();
+    const [totalError, setTotalError] = useState<string>();
+    const [totalValid, setTotalValid] = useState<boolean>();
+    const [total, setTotal] = useState<string>();
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set<number>());
     var hoy = new Date()
@@ -68,9 +71,12 @@ export const SolicitudModal = (
     const handleNext = () => {
 
 
-        if (concepto?.length != 0 && total?.valueOf != null && total != 0 && sizeFile != true) {
+        if (concepto?.length != 0 && total?.valueOf != null && totalValid == true && sizeFile != true) {
+            if (activeStep === steps.length - 1) {
 
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            }
+
+            else { setActiveStep((prevActiveStep) => prevActiveStep + 1) }
         }
         else {
             Alert.fire({
@@ -207,6 +213,19 @@ export const SolicitudModal = (
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    const handleTotal = (v: string) => {
+        ///// clave
+        setTotal(v)
+        if (validator.isNumeric(v)) {
+            setTotalError('')
+            setTotalValid(true);
+        } else {
+            setTotalError('Ingrese Valores Numericos')
+            setTotalValid(false);
+        }
+
+    };
+
     const handleReset = () => {
         setActiveStep(0);
     };
@@ -223,7 +242,7 @@ export const SolicitudModal = (
         setDocSubido(true);
     };
 
-   
+
     const Clean = () => {
         setNewDoc(null);
         setDocSubido(false);
@@ -344,14 +363,19 @@ export const SolicitudModal = (
                                         <Grid item xs={12}>
                                             <label>Total<br /><br /></label>
                                             <TextField
-                                                type="number"
+                                                type="text"
                                                 value={total}
-                                                onChange={(v) => setTotal(Number(v.target.value))}
+                                                onChange={(v) => handleTotal(v.target.value)}
+                                                InputProps={{
+                                                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                                                }}
                                                 sx={{
                                                     width: "20vw",
                                                 }}
+                                                error= {!totalValid}
                                             />
                                         </Grid>
+                                        <label>{totalError}</label>
 
 
                                     </Grid>
@@ -428,34 +452,34 @@ export const SolicitudModal = (
                                                 bgcolor: 'background.paper',
                                                 borderRadius: 1,
                                             }}> */}
-                                                <Box sx={{ width: "100%", height: "40%", border: "5px dashed  black", display: "flex", justifyContent: "center", alignItems: "center",mt:"1vh"}}>
-                                                    <input
-                                                        id="imagencargada"
-                                                        accept="application/pdf"
-                                                        onChange={(event) => {
-                                                            handleNewFile(event)
-                                                        }} 
-                                                        type="file"
-                                                        style={{ zIndex: 2, opacity: 0, width: "90%", height: "40%", position: "absolute", cursor: "pointer", }}  /
-                                                    >
-                                                        {nameNewDoc===""?<CloudUploadIcon sx={{ width: "50%", height: "80%" }} />:<PictureAsPdfOutlinedIcon sx={{ width: "50%", height: "80%" }}/>}
+                                            <Box sx={{ width: "100%", height: "40%", border: "5px dashed  black", display: "flex", justifyContent: "center", alignItems: "center", mt: "1vh" }}>
+                                                <input
+                                                    id="imagencargada"
+                                                    accept="application/pdf"
+                                                    onChange={(event) => {
+                                                        handleNewFile(event)
+                                                    }}
+                                                    type="file"
+                                                    style={{ zIndex: 2, opacity: 0, width: "90%", height: "40%", position: "absolute", cursor: "pointer", }} /
+                                                >
+                                                {nameNewDoc === "" ? <CloudUploadIcon sx={{ width: "50%", height: "80%" }} /> : <PictureAsPdfOutlinedIcon sx={{ width: "50%", height: "80%" }} />}
 
-                                                </Box>
-                                                
-                                                {DocSubido ?
-                                                    <Box sx={{display:"flex",alignItems:"center",justifyContent:"space-around", width:"100%"}}>
-                                                        <label >
-                                                            {nameNewDoc}
-                                                        </label>
-                                                        <Box>
-                                                            <IconButton aria-label="upload picture" component="label" size="large" onClick={() => Clean()}>
+                                            </Box>
 
-                                                                <RemoveCircleIcon />
-                                                            </IconButton>
-                                                        </Box>
+                                            {DocSubido ?
+                                                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
+                                                    <label >
+                                                        {nameNewDoc}
+                                                    </label>
+                                                    <Box>
+                                                        <IconButton aria-label="upload picture" component="label" size="large" onClick={() => Clean()}>
+
+                                                            <RemoveCircleIcon />
+                                                        </IconButton>
                                                     </Box>
-                                                    : ""}
-                                            
+                                                </Box>
+                                                : ""}
+
                                         </Box>
                                     </Box>
                                 </Container>
