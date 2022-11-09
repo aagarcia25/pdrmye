@@ -207,7 +207,7 @@ const RolesModal = ({
             </DialogContent>
 
             <DialogActions>
-                <Button className="actualizar" onClick={() => handleSend()}>Actualizar</Button>
+                <Button className="guardar" onClick={() => handleSend()}>Guardar</Button>
                 {/* <button className="cerrar" onClick={() => handleClose("cerrar")}>Cerrar</button> */}
             </DialogActions>
 

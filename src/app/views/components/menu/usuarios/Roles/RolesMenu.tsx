@@ -183,7 +183,7 @@ const RolesMenu = ({
           </Grid>
 
 
-          <Grid item sm={5}
+          <Grid item sm={12}
             sx={{
               height: "100%",
 

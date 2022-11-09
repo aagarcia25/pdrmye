@@ -120,7 +120,7 @@ const AsignarMenuRol = ({
                             </Typography>
                         </Grid>
 
-                        <Grid md={5}
+                        <Grid md={12}
                             sx={{
                                 width: "50%",
                                 height: "100%",
