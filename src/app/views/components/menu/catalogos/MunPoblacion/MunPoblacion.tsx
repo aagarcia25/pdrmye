@@ -229,7 +229,20 @@ export const MunPoblacion = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Box
+   
+
+
+
+     
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
+   <Box
         sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
         <SelectFrag
           options={anios}
@@ -237,10 +250,15 @@ export const MunPoblacion = () => {
           placeholder={"Seleccione Año"} label={''} disabled={false}
           value={filterAnio} />
       </Box>
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleAgregar} controlInterno={"MUNPO"} />
 
-
-
-      {open ? (
+      <MUIXDataGrid
+        columns={columns}
+        rows={Poblacion}
+      />
+ {open ? (
         <MunPoblacionModal
           open={open}
           modo={modo}
@@ -251,24 +269,6 @@ export const MunPoblacion = () => {
       ) : (
         ""
       )}
-      <Grid container
-        sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography>
-            <h1>{nombreMenu}</h1>
-          </Typography>
-        </Grid>
-      </Grid>
-
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleAgregar} controlInterno={"MUNPO"} />
-
-      <MUIXDataGrid
-        columns={columns}
-        rows={Poblacion}
-      />
-
     </div>
 
 

@@ -40,10 +40,10 @@ export const MunPobrezaExtrema = () => {
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
- 
+
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", hide: true},
+    { field: "id", headerName: "Identificador", hide: true },
     {
       field: "idmunicipio",
       headerName: "idmunicipio",
@@ -68,14 +68,14 @@ export const MunPobrezaExtrema = () => {
     { field: "Anio", headerName: "Año", width: 150 },
     { field: "Personas", headerName: "Total", width: 150 },
     { field: "CarenciaProm", headerName: "Carencia Promedio", width: 250, ...porcentage }
-    
+
 
   ];
 
-  const handleClose = (v:string) => {
+  const handleClose = (v: string) => {
 
-      setOpen(false);
-      setOpen(false);
+    setOpen(false);
+    setOpen(false);
     let data = {
       NUMOPERACION: 4,
       ANIO: filterAnio,
@@ -93,12 +93,12 @@ export const MunPobrezaExtrema = () => {
   };
 
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+    } else if (v.tipo == 2) {
       handleBorrar(v.data);
     }
   }
@@ -168,7 +168,7 @@ export const MunPobrezaExtrema = () => {
       setPobrezaExtrema(res.RESPONSE);
 
       console.log('respuesta' + res.RESPONSE + res.NUMCODE);
- 
+
     });
   };
 
@@ -178,12 +178,12 @@ export const MunPobrezaExtrema = () => {
       NUMOPERACION: 4,
       ANIO: v,
 
-    }; 
+    };
 
     consulta(data);
   };
 
-  
+
   const downloadplantilla = () => {
     let data = {
       NUMOPERACION: "MUNICIPIO_POBREZA_EXTREMA",
@@ -201,7 +201,7 @@ export const MunPobrezaExtrema = () => {
       if (String(item.ControlInterno) === "MUNPOEX") {
         console.log(item)
         setNombreMenu(item.Menu);
-    
+
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
@@ -223,14 +223,29 @@ export const MunPobrezaExtrema = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Box  
-         sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
-            <SelectFrag 
+
+
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
+      <Box
+        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
+        <SelectFrag
           value={filterAnio}
           options={anios}
           onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={""} disabled={false}/>
-            </Box>
+          placeholder={"Seleccione Año"} label={""} disabled={false} />
+      </Box>
+
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleAgregar} controlInterno={"MUNPOEX"} />
+      <MUIXDataGrid columns={columns} rows={PobrezaExtrema} />
 
       {open ? (
         <MunPobrezaExtremaModal
@@ -243,21 +258,6 @@ export const MunPobrezaExtrema = () => {
       ) : (
         ""
       )}
-       <Grid container
-        sx={{justifyContent: "center"}}>
-        <Grid item xs={10} sx={{textAlign:"center"}}>
-          <Typography>
-            <h1>{nombreMenu}</h1>
-          </Typography>
-        </Grid>
-      </Grid>
-
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleAgregar} controlInterno={"MUNPOEX"}      />
-      <MUIXDataGrid columns={columns} rows={PobrezaExtrema} />
-
-
     </div>
 
 

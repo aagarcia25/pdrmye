@@ -223,7 +223,14 @@ export const MunRecaudacion = () => {
   return (
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
-
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
       <Box
         sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
         <SelectFrag
@@ -233,6 +240,10 @@ export const MunRecaudacion = () => {
           placeholder={"Seleccione Año"} label={""} disabled={false} />
       </Box>
 
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleUpload} controlInterno={"MUNRECAU"} />
+      <MUIXDataGrid columns={columns} rows={Facturacion} />
 
       {open ? (
         <MunRecaudacionModal
@@ -245,19 +256,6 @@ export const MunRecaudacion = () => {
       ) : (
         ""
       )}
-      <Grid container
-        sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography>
-            <h1>{nombreMenu}</h1>
-          </Typography>
-        </Grid>
-      </Grid>
-
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNRECAU"} />
-      <MUIXDataGrid columns={columns} rows={Facturacion} />
     </div>
   );
 };
