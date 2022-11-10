@@ -162,7 +162,7 @@ const DetalleFgp = ({
       TEXTO: data.texto,
     };
 
-    calculosServices.wf(obj).then((res) => {
+    calculosServices.indexCalculo(obj).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -178,6 +178,8 @@ const DetalleFgp = ({
       }
     });
   };
+
+
 
   const BorraCalculo = () => {
     let data = {

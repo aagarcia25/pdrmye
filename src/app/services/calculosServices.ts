@@ -55,10 +55,7 @@ export class calculosServices {
     public static async getAreaCalculo(data: any) {
         return await post('getAreaCalculo', data);
     }
-    public static async wf(data: any) {
-        return await post('wf', data);
-    }
-
+    
     public static async CalculoArchivo(data: any) {
         return await post('CalculoArchivo', data);
     }
