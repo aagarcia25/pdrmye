@@ -178,13 +178,9 @@ const MunRecaudacionModal = ({
       >
         <Grid item xs={12} sm={8} md={6} lg={4}>
         <Box>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
           <FormControl variant="standard" fullWidth>
           <Box>
-            <label ><br /> Municipio: <br />{municipio}</label>
+          <label className="Titulo">{dt?.row?.Nombre}</label>
           </Box>
           </FormControl>
           <Box>

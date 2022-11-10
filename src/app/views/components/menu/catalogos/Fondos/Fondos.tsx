@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, IconButton, Tooltip } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -44,8 +44,14 @@ const Fondos = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <Box>
+          <Grid container>
+
+<Grid item xs={6}>
+
             <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+          </Grid>
+
+<Grid item xs={3}>
            
             {view ? 
              <Tooltip title={"Visualizar Ajustes"}>
@@ -55,8 +61,9 @@ const Fondos = () => {
             </Tooltip>
              : ""}
             
+            </Grid>
           
-          </Box>
+          </Grid>
         );
       },
     },

@@ -67,7 +67,7 @@ const MunPobrezaModal = ({
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         TOTAL: poblacion,
-        CARENCIAPROMEDIO: carenciaProm,
+        CARENCIAPROM: carenciaProm,
 
 
       };
