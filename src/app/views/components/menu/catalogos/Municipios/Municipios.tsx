@@ -13,7 +13,7 @@ import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
-import { Box, IconButton, Tooltip } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import FideicomisoConfig from "./FideicomisoConfig";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
@@ -32,8 +32,7 @@ export const Municipios = () => {
   const [openFideicomiso, setOpenFideicomiso] = useState(false);
   const [openUR, setOpenUR] = useState(false);
   const [openCC, setOpenCC] = useState(false);
-
-
+  const [nombreMenu, setNombreMenu] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [plantilla, setPlantilla] = useState("");
@@ -100,9 +99,10 @@ export const Municipios = () => {
         );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
     { field: "ClaveEstado", headerName: "Clave Estado", width: 120 },
     { field: "Nombre", headerName: "Municipio", width: 250 },
-   
+
     { field: "NombreCorto", headerName: "Nombre Corto", width: 250 },
     { field: "OrdenSFTGNL", headerName: "Orden SFTGNL", width: 120 },
     { field: "ClaveSIREGOB", headerName: "Clave SIREGOB", width: 120 },
@@ -276,6 +276,7 @@ export const Municipios = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNICIPIOS") {
         console.log(item);
+        setNombreMenu(item.Menu);
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }
@@ -310,6 +311,23 @@ export const Municipios = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
+
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
+
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleUpload}
+        controlInterno={"MUNICIPIOS"}
+      />
+
+      <MUIXDataGrid sx={{}} columns={columns} rows={municipio} />
       {open ? (
         <MunicipiosModal
           open={open}
@@ -338,20 +356,11 @@ export const Municipios = () => {
         ""
       )}
 
-   {openCC ? (
+      {openCC ? (
         <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
       ) : (
         ""
       )}
-
-
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleUpload}
-        controlInterno={"MUNICIPIOS"}
-      />
-
-      <MUIXDataGrid sx={{}} columns={columns} rows={municipio} />
     </div>
   );
 };

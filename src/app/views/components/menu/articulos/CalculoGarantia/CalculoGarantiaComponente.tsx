@@ -32,15 +32,10 @@ export const CalculoGarantiaComponente = () => {
     {
       field: "id",
       hide: true,
-      headerName: "Identificador",
-      width: 150,
-      description: messages.dataTableColum.id,
     },
     {
       field: "idmunicipio",
-      headerName: "idmunicipio",
       hide: true,
-      width: 150,
     },
     {
       field: "acciones",
@@ -212,7 +207,7 @@ export const CalculoGarantiaComponente = () => {
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
           <Typography>
-            <h1>{nombreMenu}</h1>
+            <h1>Calculo Garantía</h1>
           </Typography>
         </Grid>
       </Grid>

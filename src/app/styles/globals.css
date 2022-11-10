@@ -34,6 +34,12 @@ button {
   font-family: "Public Sans", MontserratMedium;
 
 }
+button.subtitulo {
+  font-size: 20px;
+  transition-duration: 0.2s;
+ font-family: "Public Sans", MontserratMedium;
+
+};
 button.cerrar {
   font-size: 20px;
   transition-duration: 0.2s;

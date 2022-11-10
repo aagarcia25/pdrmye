@@ -205,7 +205,6 @@ const FondosView = ({
                             display: "flex",
                             width: "100%",
                             height: "100%",
-                            bgcolor: "rgb(245,245,245)",
                             boxShadow: 50,
                             borderRadius: 3,
                             justifyContent: "center",

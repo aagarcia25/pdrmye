@@ -41,18 +41,7 @@ export const Art14fP = () => {
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
-    { field: "FechaCreacion", headerName: "Fecha de Creación", width: 150 },
-    { field: "Version", headerName: "Versión", width: 150 },
-    { field: "Articulo", headerName: "Articulo", width: 150 },
-    {
-      field: "deleted",
-      headerName: "Activo",
-      width: 150,
-      renderCell: (v) => {
-        return v.row.deleted === "0" ? "SI" : "NO";
-      },
-    },
-    {
+     {
       field: "acciones",
       headerName: "Acciones",
       description: "Ver detalle",
@@ -70,6 +59,18 @@ export const Art14fP = () => {
         );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha de Creación", width: 150 },
+    { field: "Version", headerName: "Versión", width: 150 },
+    { field: "Articulo", headerName: "Articulo", width: 150 },
+    {
+      field: "deleted",
+      headerName: "Activo",
+      width: 150,
+      renderCell: (v) => {
+        return v.row.deleted === "0" ? "SI" : "NO";
+      },
+    },
+   
   ];
 
   const loaddata = (tipo: Number) => {
