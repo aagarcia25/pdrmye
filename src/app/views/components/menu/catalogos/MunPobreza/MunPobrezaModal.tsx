@@ -10,6 +10,8 @@ import {
   TextField,
   InputAdornment,
   DialogActions,
+  Grid,
+  Button,
 } from "@mui/material";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
@@ -20,6 +22,7 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { municipiosc } from "../../../../../share/loadMunicipios";
+import ModalForm from "../../../componentes/ModalForm";
 
 
 const MunPobrezaModal = ({
@@ -156,29 +159,27 @@ const MunPobrezaModal = ({
 
 
   return (
-    <Dialog open={open} fullScreen>
 
 
+    <div>
+      <ModalForm title={tipo == 1 ?"Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+        <Grid container
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
 
-      <DialogContent>
-        <Box>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
-            <label className="Titulo">{tipo == 1 ?"Agregar Registro" : "Editar Registro"}</label>
+        >
+          <Grid item xs={12} sm={8} md={8} lg={8}>
+          <Box>
+          <label className="Titulo">{dt?.row?.Nombre}</label>
           </Box>
-
-
-
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Municipio</InputLabel>
-            <SelectFrag
-              value={''}
-              options={municipios}
-              onInputChange={handleFilterChange}
-              placeholder={"Seleccione Municipio"}
-              label={String(mun)} disabled={true} />
-          </FormControl>
-
+          </Grid>
+          <Grid item xs={12} sm={8} md={8} lg={8}>
           <Box>
             <label >  <br /> Año <br />{anio}</label>
           </Box>
@@ -198,7 +199,10 @@ const MunPobrezaModal = ({
             onChange={(v) => setPoblacion(Number(v.target.value))}
             error={poblacion == null ? true : false}
           />
+          </Grid>
 
+
+          <Grid item xs={12} sm={8} md={8} lg={8}>
 
           <Box>
             <label > Carencia Promedio <br /></label>
@@ -220,15 +224,32 @@ const MunPobrezaModal = ({
               ),
             }}
           />
-        </Box>
-      </DialogContent>
+          </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
 
-      </DialogActions>
-    </Dialog>
+
+
+          <Grid container
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+          >
+            <Grid item xs={4} sm={3} md={2} lg={1}
+            >
+              <Button className={tipo==1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo==1?"Guardar":"Actualizar"}</Button>
+            </Grid>
+          </Grid>
+        </Grid>
+
+      </ModalForm>
+    </div>
+
+
   );
 };
 

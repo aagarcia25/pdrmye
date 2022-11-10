@@ -8,6 +8,8 @@ import {
   TextField,
   InputAdornment,
   DialogActions,
+  Grid,
+  Button,
 } from "@mui/material";
 
 import { Alert } from "../../../../../helpers/Alert";
@@ -18,6 +20,7 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
+import ModalForm from "../../../componentes/ModalForm";
 
 const MunFacturacionModal = ({
   open,
@@ -62,7 +65,7 @@ const MunFacturacionModal = ({
       };
 
       handleRequest(data);
-      handleClose("save");
+      handleClose();
     }
   };
 
@@ -141,58 +144,82 @@ const MunFacturacionModal = ({
 
 
   return (
-    <Dialog open={open} fullScreen>
 
-      <DialogContent>
-        <Box>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Municipio</InputLabel>
-            <FormControl variant="standard" fullWidth>
-              <InputLabel>Municipio</InputLabel>
-              <SelectFrag
-                options={mun}
-                onInputChange={handleFilterChange}
-                placeholder={"Seleccione Municipio"} label={String(municipio)} disabled={true}
-                value={idMunicipio} 
-                 />
-            </FormControl>
-          </FormControl>
-          <Box>
-            <label > Año <br />{anio}</label>
-          </Box>
+    <div>
+      <ModalForm title={tipo == 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+        <Grid container
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
 
-          <Box>
-            <label > Facturacion <br /></label>
-          </Box>
+        >
+          <Grid item xs={12} sm={8} md={6} lg={4}>
+            <Box>
+              <FormControl variant="standard" fullWidth>
+                <Box>
+                  <label ><br /> Municipio: <br />{municipio}</label>
+                </Box>
+              </FormControl>
+              <Box>
+                <label ><br /> Año: <br />{anio}</label>
+              </Box>
 
-          <TextField
-            margin="dense"
-            required
-            id="fac"
-            value={fac}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setRecaudacion(Number(v.target.value))}
-            error={fac == null ? true : false}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
-              ),
+              <Box>
+                <label > Facturacion <br /></label>
+              </Box>
+
+              <TextField
+                margin="dense"
+                required
+                id="fac"
+                value={fac}
+                type="number"
+                fullWidth
+                variant="standard"
+                onChange={(v) => setRecaudacion(Number(v.target.value))}
+                error={fac == null ? true : false}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">$</InputAdornment>
+                  ),
+                }}
+              />
+
+
+            </Box>
+          </Grid>
+
+
+
+          <Grid container
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
             }}
-          />
-        </Box>
-      </DialogContent>
+          >
+            <Grid item xs={4} sm={3} md={2} lg={1}
+            >
+              <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
+            </Grid>
+          </Grid>
+        </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
-      </DialogActions>
-    </Dialog>
+      </ModalForm>
+    </div>
+
+
+
+
+
   );
 };
 

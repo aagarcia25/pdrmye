@@ -6,6 +6,7 @@ import {
 
 import { GridColDef } from "@mui/x-data-grid";
 import {
+  getPermisos,
   getUser,
 } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -22,7 +23,8 @@ import { currencyFormatter } from "../../CustomToolbar";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 
 
@@ -37,7 +39,10 @@ export const MunFacturacion = () => {
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
 
 
   // VARIABLES PARA LOS FILTROS
@@ -78,26 +83,37 @@ export const MunFacturacion = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          ""
+
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
+
+
         );
       },
     },
   ];
 
+
+  const handleAccion = (v: any) => {
+    if(v.tipo ==1){
+      setTipoOperacion(2);
+      setModo("Editar ");
+      setOpen(true);
+      setData(v.data);
+    }else if(v.tipo ==2){
+      handleDelete(v.data);
+    }
+  }
+
+
   const handleClose = (v: string) => {
 
-    if (v === "close") {
-      setOpen(false);
-    }
-    else if (v === "save") {
       setOpen(false);
       let data = {
         NUMOPERACION: 4,
         ANIO: filterAnio,
       };
       consulta(data);
-
-    }
 
 
   };
@@ -194,19 +210,9 @@ export const MunFacturacion = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munfacturacion(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
+
         setFacturacion(res.RESPONSE);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+    
     });
   };
 
@@ -236,6 +242,17 @@ export const MunFacturacion = () => {
   useEffect(() => {
     setAnios(fanios());
     downloadplantilla();
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "MUNFA") {
+        console.log(item)
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
   }, []);
 
   return (

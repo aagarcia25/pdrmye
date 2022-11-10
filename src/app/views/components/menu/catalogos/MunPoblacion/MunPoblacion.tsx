@@ -171,6 +171,7 @@ export const MunPoblacion = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munpoblacion(data).then((res) => {
+      setPoblacion(res.RESPONSE);
     });
   };
 

@@ -43,7 +43,7 @@ const MunPoblacionProyeccionModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
-  const [poblacion, setPoblacion] = useState("");
+  const [poblacion, setPoblacion] = useState<number>();
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [municipio, setMunicipio] = useState("");
@@ -56,7 +56,7 @@ const MunPoblacionProyeccionModal = ({
 
 
   const handleSend = () => {
-    if (poblacion == "") {
+    if (poblacion == null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -72,10 +72,10 @@ const MunPoblacionProyeccionModal = ({
         POB: poblacion,
 
 
-
+      
       };
-
-      handleRequest(data);
+  handleRequest(data);
+     
     }
   };
 
@@ -106,6 +106,7 @@ const MunPoblacionProyeccionModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
+        handleClose();
 
       } else {
         Alert.fire({
@@ -124,6 +125,7 @@ const MunPoblacionProyeccionModal = ({
           icon: "success",
           title: "Registro Editado!",
         });
+        handleClose();
       } else {
         Alert.fire({
           title: "Error!",
@@ -178,27 +180,11 @@ const MunPoblacionProyeccionModal = ({
 
         >
     
-            <Grid item xs={12} sm={8} md={8} lg={7}
-            sx={{
-              mt: "2vh",
-              width: "100%",
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row",
-              textAlign:"center"
-            }}>
-              <InputLabel>Municipio</InputLabel>
-            </Grid>
+           
           <Grid item xs={12} sm={8} md={8} lg={7}>
-            <SelectFrag
-              value={dt?.row?.idmunicipio}
-              options={[]}
-              onInputChange={handle}
-              placeholder={municipio}
-              label={""}
-              disabled={true}
-            />
+          <Box>
+          <label className="Titulo">{municipio}</label>
+          </Box>
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={7}>
             <TextField
@@ -210,7 +196,7 @@ const MunPoblacionProyeccionModal = ({
               type="number"
               fullWidth
               variant="standard"
-              onChange={(v) => setPoblacion(v.target.value)}
+              onChange={(v) => setPoblacion(Number(v.target.value))}
               error={poblacion == null ? true : false}
               InputProps={{
                 startAdornment: (

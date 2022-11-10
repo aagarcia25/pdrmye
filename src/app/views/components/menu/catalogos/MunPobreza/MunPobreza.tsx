@@ -83,19 +83,12 @@ export const MunPobreza = () => {
 
 
   const handleClose = (v: string) => {
-    console.log("valor de v  " + v)
-
-    if (v == "close") {
-      setOpen(false)
-    }
-    if (v == "save") {
       setOpen(false);
       let data = {
         NUMOPERACION: 4,
         ANIO: filterAnio,
       };
       consulta(data);
-    }
 
   }
   const handleOpen = (v: any) => {
@@ -169,26 +162,7 @@ export const MunPobreza = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munpobreza(data).then((res) => {
-
-      console.log('respuesta' + res.RESPONSE + res.NUMCODE);
-
-
-
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-
-        setDataMunPobreza(res.RESPONSE);
-
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+      setDataMunPobreza(res.RESPONSE);
     });
   };
 

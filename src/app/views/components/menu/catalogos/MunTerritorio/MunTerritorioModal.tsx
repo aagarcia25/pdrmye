@@ -71,7 +71,7 @@ const MunTerritorioModal = ({
 
 
   const handleSend = () => {
-    if (territorio == null || IdMunicipio == null) {
+    if (territorio == null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -91,12 +91,10 @@ const MunTerritorioModal = ({
       };
 
       handleRequest(data);
-      handleClose("save");
+      handleClose();
     }
   };
-  const handle = () => {
 
-  };
 
   const handleRequest = (data: any) => {
     console.log(data);
@@ -189,17 +187,9 @@ const MunTerritorioModal = ({
 
         >
           <Grid item xs={7} sm={8} md={8} lg={8}>
-            <InputLabel>Municipio</InputLabel>
-          </Grid>
-          <Grid item xs={7} sm={8} md={8} lg={8}>
-            <SelectFrag
-              value={dt?.row?.idmunicipio}
-              options={municipio}
-              onInputChange={handle}
-              placeholder={""}
-              label={""}
-              disabled={true}
-            />
+          <Box>
+          <label className="Titulo">{dt?.row?.Nombre}</label>
+          </Box>
           </Grid>
           <Grid item xs={7} sm={8} md={8} lg={8}>
             <TextField

@@ -163,6 +163,7 @@ export const MunPobrezaExtrema = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munpobrezaext(data).then((res) => {
+      setPobrezaExtrema(res.RESPONSE);
 
       console.log('respuesta' + res.RESPONSE + res.NUMCODE);
  

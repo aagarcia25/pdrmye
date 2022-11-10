@@ -76,7 +76,7 @@ const MunPoblacionModal = ({
 
 
   const handleSend = () => {
-    if (poblacion == null || munSeleccionado == null || anio == null) {
+    if (poblacion == null || anio == null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -201,18 +201,11 @@ const MunPoblacionModal = ({
           }}
 
         >
-          <Grid item xs={12} sm={8} md={8} lg={8}>
-            <InputLabel>Municipio</InputLabel>
-          </Grid>
-          <Grid item xs={12} sm={8} md={8} lg={8}>
-            <SelectFrag
-              value={dt?.row?.idmunicipio}
-              options={municipios}
-              onInputChange={handle}
-              placeholder={""}
-              label={""}
-              disabled={true}
-            />
+
+          <Grid item xs={12} sm={8} md={8} lg={7}>
+            <Box>
+              <label className="Titulo">{dt?.row?.Nombre}</label>
+            </Box>
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
 

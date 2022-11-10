@@ -190,17 +190,9 @@ const MunPobrezaExtremaModal = ({
 
         >
           <Grid item xs={7} sm={8} md={8} lg={8}>
-            <InputLabel>Municipio</InputLabel>
-          </Grid>
-          <Grid item xs={7} sm={8} md={8} lg={8}>
-            <SelectFrag
-              value={String(IdMunicipio)}
-              options={municipio}
-              onInputChange={handle}
-              placeholder={""}
-              label={""}
-              disabled={true}
-            />
+          <Box>
+          <label className="Titulo">{dt?.row?.Nombre}</label>
+          </Box>
           </Grid>
           <Grid item xs={7} sm={8} md={8} lg={8}>
             {(modo === "Agregar Registro") ?

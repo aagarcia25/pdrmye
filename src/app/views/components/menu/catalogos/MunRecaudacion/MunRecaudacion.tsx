@@ -89,17 +89,12 @@ export const MunRecaudacion = () => {
   }
 
   const handleClose = (v: string) => {
-    console.log("cerrando");
-    if (v === "close") {
-      setOpen(false);
-    } else if (v === "save") {
       setOpen(false);
       let data = {
         NUMOPERACION: 4,
         ANIO: filterAnio,
       };
       consulta(data);
-    }
   };
 
   const handleOpen = (v: any) => {
@@ -179,19 +174,7 @@ export const MunRecaudacion = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munrecaudacion(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        setFacturacion(res.RESPONSE);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+      setFacturacion(res.RESPONSE);
     });
   };
 

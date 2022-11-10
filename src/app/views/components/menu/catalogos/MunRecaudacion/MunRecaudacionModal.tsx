@@ -10,6 +10,8 @@ import {
   TextField,
   InputAdornment,
   DialogActions,
+  Button,
+  Grid,
 } from "@mui/material";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
@@ -20,6 +22,7 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import ModalForm from "../../../componentes/ModalForm";
 
 
 const MunRecaudacionModal = ({
@@ -159,9 +162,21 @@ const MunRecaudacionModal = ({
 
 
   return (
-    <Dialog open={open} fullScreen>
 
-      <DialogContent>
+    <div>
+    <ModalForm title={tipo == 1 ?"Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+      <Grid container
+        sx={{
+          mt: "2vh",
+          width: "100%",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+        }}
+
+      >
+        <Grid item xs={12} sm={8} md={6} lg={4}>
         <Box>
           <Box
             sx={{ display: 'flex', justifyContent: 'center', }}>
@@ -199,13 +214,31 @@ const MunRecaudacionModal = ({
 
 
         </Box>
-      </DialogContent>
+        </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
-      </DialogActions>
-    </Dialog>
+
+
+        <Grid container
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Grid item xs={4} sm={3} md={2} lg={1}
+          >
+            <Button className={tipo==1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo==1?"Guardar":"Actualizar"}</Button>
+          </Grid>
+        </Grid>
+      </Grid>
+
+    </ModalForm>
+  </div>
+
+
   );
 };
 
