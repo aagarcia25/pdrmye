@@ -10,6 +10,7 @@ import {
   InputAdornment,
   DialogActions,
   Button,
+  Grid,
 } from "@mui/material";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
@@ -19,6 +20,7 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { municipiosc } from "../../../../../share/loadMunicipios";
+import ModalForm from "../../../componentes/ModalForm";
 
 
 const MunPoblacionProyeccionModal = ({
@@ -132,7 +134,9 @@ const MunPoblacionProyeccionModal = ({
     });
   };
 
- 
+  const handle = () => {
+
+  };
 
   useEffect(() => {
     setMun(municipiosc());
@@ -159,51 +163,74 @@ const MunPoblacionProyeccionModal = ({
 
 
   return (
-    <Dialog open={open} fullScreen>
-      <DialogTitle>{modo}</DialogTitle>
-      <DialogContent>
-        <Box>
-          <FormControl variant="standard" fullWidth>
-    
-            <Box>
-            <label ><br /> Municipio: <br />{municipio}</label>
-          </Box>
-        
 
-          <Box>
-            <label > <br />Año <br />{anio}</label>
-          </Box>
+    <div>
+      <ModalForm title={modo} handleClose={handleClose}>
+        <Grid container
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
 
-          <Box>
-            <label ><br /> Poblacion <br /></label>
-          </Box>
-          <TextField
-            margin="dense"
-            required
-            id="pob"
-            value={poblacion}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setPoblacion(v.target.value)}
-            error={poblacion == "" ? true : false}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start"></InputAdornment>
-              ),
+        >
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+            <InputLabel>Municipio</InputLabel>
+          </Grid>
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+            <SelectFrag
+              value={dt?.row?.idmunicipio}
+              options={[]}
+              onInputChange={handle}
+              placeholder={municipio}
+              label={""}
+              disabled={true}
+            />
+          </Grid>
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+            <TextField
+              margin="dense"
+              required
+              id="pob"
+              label="Area"
+              value={poblacion}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setPoblacion(v.target.value)}
+              error={poblacion == null ? true : false}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start"></InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid container
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
             }}
-          />
-         
-         </FormControl>
-        </Box>
-        
-      </DialogContent>
+          >
+            <Grid item xs={4} sm={3} md={2} lg={1}
+            >
+              <Button className="guardar" onClick={() => handleSend()}>Guardar</Button>
+            </Grid>
+          </Grid>
+        </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
-      </DialogActions>
-    </Dialog>
+      </ModalForm>
+    </div>
+
+
   );
 };
 

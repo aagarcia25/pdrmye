@@ -25,7 +25,7 @@ const ModalForm = ({ children, title, handleClose }: Props) => {
     <div>
       <Dialog open={true} fullScreen>
         <Grid container spacing={1}>
-          <Grid item xs={11} sm={11} md={11} lg={11}>
+          <Grid item xs={7} sm={10} md={11} lg={11}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Typography>
                 <h2>{title}</h2>

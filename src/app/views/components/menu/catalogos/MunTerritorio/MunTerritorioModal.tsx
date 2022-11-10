@@ -12,6 +12,7 @@ import {
   InputAdornment,
   DialogActions,
   Button,
+  Grid,
 } from "@mui/material";
 import { porcentage } from '../../CustomToolbar'
 import { Alert } from "../../../../../helpers/Alert";
@@ -21,6 +22,9 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, getPU, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { UserReponse } from "../../../../../interfaces/user/UserReponse";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ModalForm from "../../../componentes/ModalForm";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
 const MunTerritorioModal = ({
@@ -47,6 +51,7 @@ const MunTerritorioModal = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [IdMunicipio, setIdMunicipio] = useState<object>();
   const [values, setValues] = useState<Imunicipio[]>();
+  const [municipio, setMunicipios] = useState<SelectValues[]>([]);
 
 
 
@@ -89,7 +94,9 @@ const MunTerritorioModal = ({
       handleClose("save");
     }
   };
+  const handle = () => {
 
+  };
 
   const handleRequest = (data: any) => {
     console.log(data);
@@ -153,78 +160,88 @@ const MunTerritorioModal = ({
       setAnio(dt?.row?.Anio)
       setTerritorio(dt?.row?.Km2)
       setIdMunicipio(dt?.row?.idmunicipio)
-
-
-
       console.log(dt)
-
-
-
     }
+
+    let data = { NUMOPERACION: 5 };
+    CatalogosServices.SelectIndex(data).then((res) => {
+      setMunicipios(res.RESPONSE);
+    });
+
+
     console.log(dt)
   }, [dt]);
 
 
 
   return (
-    <Dialog open={open} fullScreen>
+    <div>
+      <ModalForm title={modo} handleClose={handleClose}>
+        <Grid container
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
 
-      <DialogContent>
-        <Box>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
-          <FormControl variant="standard" fullWidth>
+        >
+          <Grid item xs={7} sm={8} md={8} lg={8}>
             <InputLabel>Municipio</InputLabel>
-            <Select
+          </Grid>
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+            <SelectFrag
+              value={dt?.row?.idmunicipio}
+              options={municipio}
+              onInputChange={handle}
+              placeholder={""}
+              label={""}
+              disabled={true}
+            />
+          </Grid>
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+            <TextField
+              margin="dense"
               required
-              onChange={(v) => setIdMunicipio(Object(v.target.value))}
-              value={IdMunicipio}
-              label="Municipio"
-              error={IdMunicipio == null ? true : false}
-              inputProps={{
-                readOnly: tipo == 1 ? false : true,
+              id="pob"
+              label="Area"
+              value={territorio}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setTerritorio(Number(v.target.value))}
+              error={territorio == null ? true : false}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start"></InputAdornment>
+                ),
               }}
-            >
-              {values?.map((item: Imunicipio) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Nombre}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+            />
+          </Grid>
 
-
-          <TextField
-            margin="dense"
-            required
-            id="pob"
-            label="Area"
-            value={territorio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setTerritorio(Number(v.target.value))}
-            error={territorio == null ? true : false}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start"></InputAdornment>
-              ),
+          <Grid container
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
             }}
-          />
+          >
+            <Grid item xs={4} sm={3} md={2} lg={1}
+            >
+              <Button className="guardar" onClick={() => handleSend()}>Guardar</Button>
+            </Grid>
+          </Grid>
+        </Grid>
+
+      </ModalForm>
+    </div>
 
 
-        </Box>
-      </DialogContent>
-
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
-      </DialogActions>
-    </Dialog>
   );
 };
 

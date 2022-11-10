@@ -175,26 +175,7 @@ export const MunPobProyeccion = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munproyec(data).then((res) => {
-
-      console.log('respuesta' + res.RESPONSE + res.NUMCODE);
-
-
-
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-
         setPoblacion(res.RESPONSE);
-
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
     });
   };
 

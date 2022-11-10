@@ -50,19 +50,21 @@ button.salir {
 
 }
 button.guardar {
-  background-color: rgb(59, 191, 101);
-  padding: 5px 12px;
-  border-radius: 10px;
-  font-size: 15px;
-  border: 2px solid hsl(0, 0%, 89%);
+  font-size: 20px;
   transition-duration: 0.2s;
-  cursor: pointer;
-  font-family: "Public Sans", MontserratMedium;
+ font-family: "Public Sans", MontserratMedium;
+ color: rgb(11, 116, 63);
 
+}
+button.actualizar {
+  font-size: 20px;
+  transition-duration: 0.2s;
+ font-family: "Public Sans", MontserratMedium;
+ color: rgb(53, 160, 223);
 
 }
 button:hover {
-  background-color: hsl(240, 3%, 77%);
+  background-color: hsl(240, 11%, 89%);
   color: rgb(7, 7, 7);
 }
 
@@ -78,10 +80,10 @@ button:hover {
   color: white;
 }
 
-.guardar:hover {
+/* .guardar:hover {
   background-color: hsl(126, 86%, 31%);
   color: white;
-}
+} */
 
 .descargar:hover {
   background-color: hsl(206, 49%, 56%);
