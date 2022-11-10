@@ -82,44 +82,6 @@ export const Fpg = () => {
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
     {
-      field: "Clave",
-      headerName: "Clave",
-      width: 150,
-      description: "Clave Fondo",
-    },
-    {
-      field: "Descripcion",
-      headerName: "Descripcion",
-      width: 300,
-      description: "Descripcion del Fondo",
-    },
-    {
-      field: "Anio",
-      headerName: "Anio",
-      width: 60,
-      description: "Año",
-    },
-    {
-      field: "Mes",
-      headerName: "Mes",
-      width: 90,
-      description: "Mes",
-    },
-    {
-      field: "Total",
-      headerName: "Total",
-      width: 200,
-      description: "Total",
-      ...Moneda,
-    },
-    {
-      field: "estatus",
-      headerName: "Estatus",
-      width: 200,
-      description: "Estatus",
-    },
-
-    {
       field: "acciones",
       headerName: "Acciones",
       description: "Ver detalle de Cálculo",
@@ -167,6 +129,51 @@ export const Fpg = () => {
         );
       },
     },
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creación",
+      width: 150,
+      description: "Fecha Creación",
+    },
+    {
+      field: "Clave",
+      headerName: "Clave",
+      width: 150,
+      description: "Clave Fondo",
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripcion",
+      width: 300,
+      description: "Descripcion del Fondo",
+    },
+    {
+      field: "Anio",
+      headerName: "Anio",
+      width: 60,
+      description: "Año",
+    },
+    {
+      field: "Mes",
+      headerName: "Mes",
+      width: 90,
+      description: "Mes",
+    },
+    {
+      field: "Total",
+      headerName: "Total",
+      width: 200,
+      description: "Total",
+      ...Moneda,
+    },
+    {
+      field: "estatus",
+      headerName: "Estatus",
+      width: 200,
+      description: "Estatus",
+    },
+
+ 
   ];
 
   const consultafondo = (data: any) => {

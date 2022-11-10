@@ -13,7 +13,7 @@ export default function MUIXDataGrid(props: any) {
       <ThemeProvider theme={theme}>
         <DataGrid
           {...props.rows}
-          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+         // localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           columns={props.columns}
           rows={props.rows}
           align
@@ -21,16 +21,31 @@ export default function MUIXDataGrid(props: any) {
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick 
           disableColumnFilter
+          disableColumnSelector
           disableDensitySelector
           getRowHeight={() => 'auto'}
           components={{ Toolbar: GridToolbar }}
           sx={{ fontFamily: "MontserratMedium" }}
           componentsProps={{
             toolbar: {
+              label:"buscar",
               showQuickFilter: true,
               quickFilterProps: { debounceMs: 500 },
             },
           }}
+          localeText={{
+            noRowsLabel: "No se ha encontrado datos.",
+            noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+            toolbarColumns: "Columnas",
+            toolbarExport:"Exportar",
+            toolbarColumnsLabel: "Seleccionar columnas",
+            toolbarFilters: "Filtros",
+            toolbarFiltersLabel: "Ver filtros",
+            toolbarFiltersTooltipHide: "Quitar filtros",
+            toolbarFiltersTooltipShow: "Ver filtros",
+            toolbarQuickFilterPlaceholder:"Buscar",
+            
+        }}
          
         />
       </ThemeProvider>
