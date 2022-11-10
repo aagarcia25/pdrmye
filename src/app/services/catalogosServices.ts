@@ -6,6 +6,9 @@ export class CatalogosServices {
     public static async SolicitudesInfo(data: any) {
         return await post('SolicitudesInfo', data);
     }
+    public static async municipioInformacion(data: any) {
+        return await post('municipioInformacion', data);
+    }
     public static async subirArchivo(data: any) {
         return await post('subirArchivo', data);
     }

@@ -24,6 +24,7 @@ import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { env_var } from "../../environments/env";
+import DoubleArrowRoundedIcon from '@mui/icons-material/DoubleArrowRounded';
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -134,8 +135,17 @@ export default function Header(props: HeaderProps) {
                 aria-label="open drawer"
                 onClick={onDrawerToggle}
                 edge="start"
+                sx={{
+                  width: "2.5vw",
+                  height: "2.5vw",
+                  fontSize: btnPerson,
+                  p: 0.1,
+                  
+                  backgroundColor: user.RutaFoto ? COLOR.negro : COLOR.blanco,
+                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+                }}
               >
-                <MenuIcon />
+                <DoubleArrowRoundedIcon    sx={{width: "2.5vw",height: "2.5vw",}}/>
 
               </IconButton>
             </Grid>
