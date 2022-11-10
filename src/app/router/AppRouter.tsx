@@ -51,6 +51,7 @@ import { CuentaBancaria } from '../views/components/menu/catalogos/CuentaBancari
 import { AnticipoParticipaciones } from '../views/components/menu/catalogos/Municipios/anticipoParticipaciones/AnticipoParticipaciones';
 import AsigPresupuestal from '../views/components/DPCP/AsigPresupuestal';
 import AsigPago from '../views/components/DAF/AsigPago';
+import AgregarContactoMunicipio from '../views/components/Municipios/AgregarContactoMunicipio';
 
 
 
@@ -132,6 +133,7 @@ export const AppRouter = () => {
        {/* FIN DE SECCION DE ORGANISMOS */}
        {/* SECCION MUNICIPIOS */}
        <Route path='/inicio/contactomunicipio'  element={log ? <ContactoMunicipios /> : <AuthRouter />} />
+       <Route path='/inicio/agregarcontactomunicipio'  element={log ? <AgregarContactoMunicipio /> : <AuthRouter />} />
        <Route path='/inicio/recursos'  element={log ? <RecepcionRecursos /> : <AuthRouter />} />
        <Route path='/inicio/anticipop'  element={log ? <SolicitudRecursos /> : <AuthRouter />} />
        {/* SECCION MUNICIPIOS */}

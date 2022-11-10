@@ -89,7 +89,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                 (item?.items?.length !== 0) ?
 
                 <div key={indexx}>
-                <ListItemButton key={indexx}   onClick={()=>handleClick(indexx)}>
+                <ListItemButton key={indexx}   onClick={()=>handleClick(indexx)} onDoubleClick={()=>handleClick(-1)}>
                 <ListItemIcon>
                 <SendIcon />
                 </ListItemIcon>
@@ -100,7 +100,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                   </Typography>
                   } />
                
-                {open ? <ExpandLess /> : <ExpandMore />}
+               {open===indexx ? <ExpandLess /> : <ExpandMore />}
                  </ListItemButton>
                  {/* <Divider key={Math.random()} absolute /> */}
                  
