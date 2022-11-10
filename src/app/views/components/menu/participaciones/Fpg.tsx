@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, IconButton, Tooltip } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { Moneda } from "../CustomToolbar";
 import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
@@ -37,7 +37,7 @@ export const Fpg = () => {
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [nombreFondo, setNombreFondo] = useState("");
   const [idDetalle, setIdDetalle] = useState("");
- 
+  const [nombreMenu, setNombreMenu] = useState("");
 
 
   const closeTraz = (v: any) => {
@@ -209,7 +209,7 @@ export const Fpg = () => {
   let params = useParams();
 
   useEffect(() => {
-    console.log(params.fondo)
+    setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(params.fondo)) {
         if (String(item.Referencia) == "AGREG") {
@@ -244,7 +244,14 @@ export const Fpg = () => {
       )}
   
 
-
+   <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
     
     
 
