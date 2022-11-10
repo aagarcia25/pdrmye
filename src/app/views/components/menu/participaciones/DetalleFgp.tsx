@@ -55,20 +55,19 @@ const DetalleFgp = ({
   const [direccion, setDireccion] = useState<SelectValues>();
   const [openSlider, setOpenSlider] = useState(true);
   const [estatusDestino, setEstatusDestino] = useState("");
+  const [perfilDestino, setperfilDestino] = useState("");
   //Permisos
   const [data, setData] = useState([]);
   const [vrows, setvrows] = useState({});
   const [autorizar, setAutorizar] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   //Modals
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
 
-  const [proceso, setProceso] = useState(""); //VARIABLE PARA DETERMINAR EL PROCESO QUE SE ESTA REALIZANDO
   const [tipoAccion, setTipoAccion] = useState("");
 
   //Columnas
@@ -108,6 +107,7 @@ const DetalleFgp = ({
           setEstatusDestino('CPH_ENV_COOR');
           setvrows(data);
           setOpenModal(true);
+          setperfilDestino('COOR');
           break;
 
         case 4: //Autorizar Coordinador
@@ -115,6 +115,7 @@ const DetalleFgp = ({
           setEstatusDestino('CPH_ENV_DIR');
           setvrows(data);
           setOpenModal(true);
+          setperfilDestino('DIR');
           break;
 
         case 5: //Autorizar Director
@@ -122,6 +123,7 @@ const DetalleFgp = ({
           setEstatusDestino('CPH_AUT_DIR');
           setvrows(data);
           setOpenModal(true);
+          setperfilDestino('ANA');
           break;
 
         case 6: //Cancelar
@@ -131,6 +133,7 @@ const DetalleFgp = ({
         case 7: //Regresar a Analista
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino('CPH_REG_ANA');
+          setperfilDestino('ANA');
           setvrows(data);
           setOpenModal(true);
           break;
@@ -138,6 +141,7 @@ const DetalleFgp = ({
         case 8: //Regresar a Coordinador
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino('CPH_REG_COOR');
+          setperfilDestino('COOR');
           setvrows(data);
           setOpenModal(true);
           break;
@@ -160,6 +164,7 @@ const DetalleFgp = ({
       ESTATUS_DESTINO: estatusDestino,
       CHUSER: user.id,
       TEXTO: data.texto,
+      PERFIL_DESTINO: perfilDestino,
     };
 
     calculosServices.indexCalculo(obj).then((res) => {
@@ -342,21 +347,21 @@ const DetalleFgp = ({
   };
   const columns = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      width: 100,
-      renderCell: (v: any) => {
-        return (
-          <BotonesAcciones
-            handleAccion={handleAcciones}
-            row={v}
-            editar={editar}
-            eliminar={eliminar}
-          />
-        );
-      },
-    },
+    // {
+    //   field: "acciones",
+    //   headerName: "Acciones",
+    //   width: 100,
+    //   renderCell: (v: any) => {
+    //     return (
+    //       <BotonesAcciones
+    //         handleAccion={handleAcciones}
+    //         row={v}
+    //         editar={editar}
+    //         eliminar={eliminar}
+    //       />
+    //     );
+    //   },
+    // },
     // {
 
     //   field: "ComentarioPresupuesto",
@@ -498,12 +503,6 @@ const DetalleFgp = ({
     },
   ];
   const EstablecePermisos = () => {
-    if (clave === "ICV" || clave === "ISN") {
-      setProceso("PARTICIPACIONES_ESTATALES_CPH");
-    } else {
-      setProceso("PARTICIPACIONES_FEDERALES_CPH");
-    }
-
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(clave)) {
         if (String(item.Referencia) == "AUT") {
@@ -657,7 +656,7 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {autorizar && perfil?.value == "ANA" ? (
+                  {autorizar && perfil?.value == "ANA"  &&  user.PERFILES[0].Referencia  == "ANA"  ? (
                     <Tooltip title={"Autorizar Analista"}>
                       <ToggleButton
                         value="check"
@@ -670,7 +669,7 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {autorizar && perfil?.value == "COOR" ? (
+                  {autorizar && perfil?.value == "COOR"  &&  user.PERFILES[0].Referencia  == "COOR" ? (
                     <Tooltip title={"Autorizar Coordinador"}>
                       <ToggleButton
                         value="check"
@@ -683,7 +682,7 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {autorizar && perfil?.value == "DIR" ? (
+                  {autorizar && perfil?.value == "DIR" && user.PERFILES[0].Referencia  == "DIR"? (
                     <Tooltip title={"Autorizar Director"}>
                       <ToggleButton
                         value="check"
@@ -696,7 +695,7 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {cancelar && perfil?.value == "ANA" ? (
+                  {cancelar &&  perfil?.value == "ANA"  &&  user.PERFILES[0].Referencia  == "ANA"   ? (
                     <Tooltip title={"Cancelar"}>
                       <ToggleButton
                         value="check"
@@ -709,7 +708,7 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {cancelar && perfil?.value == "COOR" ? (
+                  {cancelar && perfil?.value == "COOR" && user.PERFILES[0].Referencia  == "COOR" ? (
                     <Tooltip title={"Regresar a Analista"}>
                       <ToggleButton
                         value="check"
@@ -722,7 +721,7 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {cancelar && perfil?.value == "DIR" ? (
+                  {cancelar && perfil?.value == "DIR" && user.PERFILES[0].Referencia  == "DIR"? (
                     <Tooltip title={"Regresar a Coordinador"}>
                       <ToggleButton
                         value="check"
