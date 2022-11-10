@@ -233,7 +233,7 @@ const MunTerritorioModal = ({
           >
             <Grid item xs={4} sm={3} md={2} lg={1}
             >
-              <Button className="guardar" onClick={() => handleSend()}>Guardar</Button>
+              <Button className={tipo==1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo==1?"Guardar":"Actualizar"}</Button>
             </Grid>
           </Grid>
         </Grid>

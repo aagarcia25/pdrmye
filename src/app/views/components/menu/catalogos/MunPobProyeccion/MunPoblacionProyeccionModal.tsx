@@ -32,9 +32,9 @@ const MunPoblacionProyeccionModal = ({
 }: {
   open: boolean;
   modo: string;
-  tipo:number;
-  handleClose:Function,
-  dt:any
+  tipo: number;
+  handleClose: Function,
+  dt: any
 }) => {
 
 
@@ -48,12 +48,12 @@ const MunPoblacionProyeccionModal = ({
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [municipio, setMunicipio] = useState("");
   const [mun, setMun] = useState<SelectValues[]>([]);
- 
- 
 
 
 
- 
+
+
+
 
   const handleSend = () => {
     if (poblacion == "") {
@@ -70,18 +70,18 @@ const MunPoblacionProyeccionModal = ({
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         POB: poblacion,
- 
 
-        
+
+
       };
 
       handleRequest(data);
     }
   };
 
-  const handleFilterChange = (event:SelectValues) => { 
+  const handleFilterChange = (event: SelectValues) => {
     setIdMunicipio(event.value);
- 
+
   };
 
 
@@ -92,7 +92,7 @@ const MunPoblacionProyeccionModal = ({
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-      
+
       editar(data);
     }
   };
@@ -141,23 +141,23 @@ const MunPoblacionProyeccionModal = ({
   useEffect(() => {
     setMun(municipiosc());
 
-    if(dt === ''  ){
-        console.log(dt)
-       
-    }else{
-        setId(dt?.row?.id)
-        setAnio(dt?.row?.anio)
-        setPoblacion(dt?.row?.Pob)
-        setIdMunicipio(dt?.row?.idmunicipio)
-        setMunicipio(dt?.row?.Nombre)
-   
+    if (dt === '') {
+      console.log(dt)
 
-        console.log(dt)
+    } else {
+      setId(dt?.row?.id)
+      setAnio(dt?.row?.anio)
+      setPoblacion(dt?.row?.Pob)
+      setIdMunicipio(dt?.row?.idmunicipio)
+      setMunicipio(dt?.row?.Nombre)
 
 
-   
+      console.log(dt)
+
+
+
     }
-   
+
   }, [dt]);
 
 
@@ -177,10 +177,20 @@ const MunPoblacionProyeccionModal = ({
           }}
 
         >
-          <Grid item xs={7} sm={8} md={8} lg={8}>
-            <InputLabel>Municipio</InputLabel>
-          </Grid>
-          <Grid item xs={7} sm={8} md={8} lg={8}>
+    
+            <Grid item xs={12} sm={8} md={8} lg={7}
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
+              textAlign:"center"
+            }}>
+              <InputLabel>Municipio</InputLabel>
+            </Grid>
+          <Grid item xs={12} sm={8} md={8} lg={7}>
             <SelectFrag
               value={dt?.row?.idmunicipio}
               options={[]}
@@ -190,7 +200,7 @@ const MunPoblacionProyeccionModal = ({
               disabled={true}
             />
           </Grid>
-          <Grid item xs={7} sm={8} md={8} lg={8}>
+          <Grid item xs={12} sm={8} md={8} lg={7}>
             <TextField
               margin="dense"
               required
@@ -222,7 +232,7 @@ const MunPoblacionProyeccionModal = ({
           >
             <Grid item xs={4} sm={3} md={2} lg={1}
             >
-              <Button className="guardar" onClick={() => handleSend()}>Guardar</Button>
+              <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
             </Grid>
           </Grid>
         </Grid>

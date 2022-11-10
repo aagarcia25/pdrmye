@@ -13,6 +13,7 @@ import {
   Container,
   TextField,
   IconButton,
+  Button,
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
@@ -390,12 +391,12 @@ const FideicomisoConfig = ({
                 <label>{claveError}</label>
                 <DialogActions>
 
-                  <button className="guardar" onClick={() => { agregar() }}>
+                  <Button className="guardar" onClick={() => { agregar() }}>
                     Guardar
-                  </button>
-                  <button className="cerrar" onClick={() => { setModo("visualizar") }}>
+                  </Button>
+                  <Button className="cerrar" onClick={() => { setModo("visualizar") }}>
                     Cancelar
-                  </button>
+                  </Button>
                 </DialogActions>
               </Container>
 

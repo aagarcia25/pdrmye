@@ -71,16 +71,14 @@ export const MunPobrezaExtrema = () => {
   ];
 
   const handleClose = (v:string) => {
-    if (v === "close"){
+
       setOpen(false);
-    } else if (v === "save"){
       setOpen(false);
     let data = {
       NUMOPERACION: 4,
       ANIO: filterAnio,
     };
     consulta(data);
-    }  
 
 
   }
@@ -167,21 +165,7 @@ export const MunPobrezaExtrema = () => {
     CatalogosServices.munpobrezaext(data).then((res) => {
 
       console.log('respuesta' + res.RESPONSE + res.NUMCODE);
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-
-        setPobrezaExtrema(res.RESPONSE);
-
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+ 
     });
   };
 

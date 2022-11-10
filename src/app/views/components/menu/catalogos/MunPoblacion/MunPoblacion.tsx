@@ -84,20 +84,12 @@ export const MunPoblacion = () => {
   
 
   const handleClose = (v: string) => {
-    console.log('cerrando');
-    if (v === "cerrar") {
       setOpen(false);
-    }
-    else {
       let data = {
         NUMOPERACION: 4,
         ANIO: filterAnio,
       };
       consulta(data);
-      setOpen(false);
-
-
-    }
 
   };
 
@@ -179,26 +171,6 @@ export const MunPoblacion = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munpoblacion(data).then((res) => {
-
-      console.log('respuesta' + res.RESPONSE + res.NUMCODE);
-
-
-
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-
-        setPoblacion(res.RESPONSE);
-        console.log('respuesta' + setPoblacion);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
     });
   };
 

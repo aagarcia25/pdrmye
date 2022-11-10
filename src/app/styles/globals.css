@@ -26,15 +26,11 @@ button {
 
 }
 button.cerrar {
-  background-color: rgb(246, 78, 96);
-  color: aliceblue;
-  padding: 5px 12px;
-  border-radius: 5px;
-  font-size: 15px;
-  border: 2px solid rgb(246, 78, 96);
+  font-size: 20px;
   transition-duration: 0.2s;
-  cursor: pointer;
-  font-family: 'Roboto', sans-serif;
+ font-family: "Public Sans", MontserratMedium;
+ color: rgb(228, 34, 34);
+
 };
 
 button.salir {

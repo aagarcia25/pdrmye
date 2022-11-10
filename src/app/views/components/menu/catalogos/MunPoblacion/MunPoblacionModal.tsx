@@ -8,6 +8,8 @@ import {
   TextField,
   InputAdornment,
   DialogActions,
+  Grid,
+  Button,
 } from "@mui/material";
 
 import { Alert } from "../../../../../helpers/Alert";
@@ -18,6 +20,7 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import ModalForm from "../../../componentes/ModalForm";
 
 const MunPoblacionModal = ({
   open,
@@ -42,27 +45,27 @@ const MunPoblacionModal = ({
   const [poblacion, setPoblacion] = useState<number>();
   const [municipios, setMunicipios] = useState<SelectValues[]>([]);
   const [munSeleccionado, setMunSeleccionado] = useState<string>();
-// =======
-//   const [anio, setAnio] = useState("");
-//   const [Poblacion, setPoblacion] = useState("");
-//   const [idPoblacion, setIdPoblacion] = useState("");
- 
-//   const [values, setValues] = useState<Imunicipio[]>();
- 
- 
+  // =======
+  //   const [anio, setAnio] = useState("");
+  //   const [Poblacion, setPoblacion] = useState("");
+  //   const [idPoblacion, setIdPoblacion] = useState("");
 
-  
-//   const municipiosc = () => {
-//     let data = {};
-//     if (!validaLocalStorage("FiltroMunicipios")) {
-//       CatalogosServices.Filtromunicipios(data).then((res) => {
-//         setMunicipios(res.RESPONSE);
-//       });
-//     }
-//     let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
-//     setValues(m);
-//   };
-// >>>>>>> Stashed changes
+  //   const [values, setValues] = useState<Imunicipio[]>();
+
+
+
+
+  //   const municipiosc = () => {
+  //     let data = {};
+  //     if (!validaLocalStorage("FiltroMunicipios")) {
+  //       CatalogosServices.Filtromunicipios(data).then((res) => {
+  //         setMunicipios(res.RESPONSE);
+  //       });
+  //     }
+  //     let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
+  //     setValues(m);
+  //   };
+  // >>>>>>> Stashed changes
 
   const user: RESPONSE = JSON.parse(String(getUser()));
 
@@ -145,7 +148,9 @@ const MunPoblacionModal = ({
     });
   };
 
+  const handle = () => {
 
+  };
 
   useEffect(() => {
     setMunicipios(municipiosc());
@@ -160,19 +165,19 @@ const MunPoblacionModal = ({
       setMunSeleccionado(dt?.row?.idmunicipio)
 
       console.log(dt.row)
-// =======
-//     municipiosc();
+      // =======
+      //     municipiosc();
 
-//     if(dt === ''  ){
-//         console.log(dt)
-       
-//     }else{
-//         setId(dt?.row?.id)
-//         setAnio(dt?.row?.Anio)
-//         setPoblacion(dt?.row?.totalPob
-//           )
-//         console.log(dt)
-//       ///  setIdPoblacion(dt?.row?.idmunicipio)
+      //     if(dt === ''  ){
+      //         console.log(dt)
+
+      //     }else{
+      //         setId(dt?.row?.id)
+      //         setAnio(dt?.row?.Anio)
+      //         setPoblacion(dt?.row?.totalPob
+      //           )
+      //         console.log(dt)
+      //       ///  setIdPoblacion(dt?.row?.idmunicipio)
     }
 
   }, [dt]);
@@ -180,70 +185,101 @@ const MunPoblacionModal = ({
 
 
   return (
-    <Dialog open={open} fullScreen>
-      <DialogContent>
-        <Box>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
 
-          <FormControl variant="standard" fullWidth>
+
+
+    <div>
+      <ModalForm title={modo} handleClose={handleClose}>
+        <Grid container
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+
+        >
+          <Grid item xs={12} sm={8} md={8} lg={8}>
             <InputLabel>Municipio</InputLabel>
-
+          </Grid>
+          <Grid item xs={12} sm={8} md={8} lg={8}>
             <SelectFrag
+              value={dt?.row?.idmunicipio}
               options={municipios}
-              onInputChange={handleSelectMun}
-              placeholder={"Seleccione el Municipio"}
+              onInputChange={handle}
+              placeholder={""}
               label={""}
               disabled={true}
-              value={''}
             />
+          </Grid>
+          <Grid item xs={12} sm={8} md={8} lg={8}>
 
-          </FormControl>
 
-          <TextField
-            required
-            margin="dense"
-            id="anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(Number(v.target.value))}
-            error={anio == null ? true : false}
-            InputProps={{
-              readOnly: tipo == 1 ? false : true,
 
+            <TextField
+              required
+              margin="dense"
+              id="anio"
+              label="Año"
+              value={anio}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setAnio(Number(v.target.value))}
+              error={anio == null ? true : false}
+              InputProps={{
+                readOnly: tipo == 1 ? false : true,
+
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={8} md={8} lg={8}>
+
+            <TextField
+              margin="dense"
+              required
+              id="fac"
+              label="Poblacion"
+              value={poblacion}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setPoblacion(Number(v.target.value))}
+              error={poblacion == null ? true : false}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start"></InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid container
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
             }}
-          />
+          >
+            <Grid item xs={5} sm={3} md={2} lg={1}
+            >
+              <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
+            </Grid>
+          </Grid>
+        </Grid>
 
-          <TextField
-            margin="dense"
-            required
-            id="fac"
-            label="Poblacion"
-            value={poblacion}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setPoblacion(Number(v.target.value))}
-            error={poblacion == null ? true : false}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start"></InputAdornment>
-              ),
-            }}
-          />
-        </Box>
-      </DialogContent>
+      </ModalForm>
+    </div>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose("cerrar")}>Cerrar</button>
-      </DialogActions>
-    </Dialog>
+
+
+
   );
 };
 
