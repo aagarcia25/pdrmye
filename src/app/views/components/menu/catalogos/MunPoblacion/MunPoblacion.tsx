@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { getPermisos, getUser } from '../../../../../services/localStorage'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -10,7 +10,7 @@ import { Alert } from "../../../../../helpers/Alert";
 import Slider from "../../../Slider";
 import MunPoblacionModal from './MunPoblacionModal'
 import MUIXDataGrid from '../../../MUIXDataGrid'
-import { PERMISO, RESPONSE} from '../../../../../interfaces/user/UserInfo'
+import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
 import SelectFrag from '../../../Fragmentos/SelectFrag'
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
@@ -24,7 +24,7 @@ export const MunPoblacion = () => {
 
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const user: RESPONSE = JSON.parse(String(getUser()));
-  
+
 
   const [update, setUpdate] = useState(false);
   const [open, setOpen] = useState(false);
@@ -36,6 +36,7 @@ export const MunPoblacion = () => {
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [modo, setModo] = useState("");
+  const [nombreMenu, setNombreMenu] = useState("");
 
 
   // VARIABLES PARA LOS FILTROS
@@ -51,45 +52,46 @@ export const MunPoblacion = () => {
       hide: true,
       width: 150,
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "totalPob", headerName: "Total Población", width: 150 },
-
     {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
-      renderCell: (v: any) => {
+      width: 100,
+      renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={update} eliminar={eliminar}></BotonesAcciones>
-          );
+
+        );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", width: 150 },
+    { field: "Anio", headerName: "Año", width: 150 },
+    { field: "totalPob", headerName: "Total Población", width: 150 },
 
   ];
 
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+    } else if (v.tipo == 2) {
       handleBorrar(v.data);
     }
   }
-  
+
 
   const handleClose = (v: string) => {
-      setOpen(false);
-      let data = {
-        NUMOPERACION: 4,
-        ANIO: filterAnio,
-      };
-      consulta(data);
+    setOpen(false);
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: filterAnio,
+    };
+    consulta(data);
 
   };
 
@@ -177,7 +179,7 @@ export const MunPoblacion = () => {
 
 
 
-  const handleFilterChange = (v:string) => {
+  const handleFilterChange = (v: string) => {
     setFilterAnio(v);
 
     let data = {
@@ -185,7 +187,7 @@ export const MunPoblacion = () => {
       ANIO: v,
     };
     if (v != "") {
-    consulta(data);
+      consulta(data);
     }
   };
 
@@ -205,7 +207,9 @@ export const MunPoblacion = () => {
     permisos.map((item: PERMISO) => {
       console.log(item.ControlInterno + ' --' + String(item.Referencia));
 
-      if (item.ControlInterno == "MUNPO") {
+      if (item.ControlInterno == "MUNPO")
+        setNombreMenu(item.Menu);
+      {
         if (String(item.Referencia) == 'EDIT') {
           setUpdate(true);
         }
@@ -225,16 +229,16 @@ export const MunPoblacion = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Box  
-         sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
-          <SelectFrag 
+      <Box
+        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
+        <SelectFrag
           options={anios}
           onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={''} disabled={false} 
-          value={filterAnio}/>
-            </Box>
+          placeholder={"Seleccione Año"} label={''} disabled={false}
+          value={filterAnio} />
+      </Box>
 
-      
+
 
       {open ? (
         <MunPoblacionModal
@@ -247,9 +251,18 @@ export const MunPoblacion = () => {
       ) : (
         ""
       )}
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
+
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleAgregar} controlInterno={"MUNPO"}      />
+        handleUpload={handleAgregar} controlInterno={"MUNPO"} />
 
       <MUIXDataGrid
         columns={columns}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { GridColDef, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -31,7 +31,7 @@ export const MunPobrezaExtrema = () => {
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-
+  const [nombreMenu, setNombreMenu] = useState("");
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -43,23 +43,19 @@ export const MunPobrezaExtrema = () => {
  
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
+    { field: "id", headerName: "Identificador", hide: true},
     {
       field: "idmunicipio",
       headerName: "idmunicipio",
       hide: true,
       width: 150,
     },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Personas", headerName: "Total", width: 150 },
-    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 250, ...porcentage },
     {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 100,
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
@@ -67,6 +63,12 @@ export const MunPobrezaExtrema = () => {
         );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
+    { field: "Nombre", headerName: "Municipio", width: 150 },
+    { field: "Anio", headerName: "Año", width: 150 },
+    { field: "Personas", headerName: "Total", width: 150 },
+    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 250, ...porcentage }
+    
 
   ];
 
@@ -198,6 +200,7 @@ export const MunPobrezaExtrema = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPOEX") {
         console.log(item)
+        setNombreMenu(item.Menu);
     
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
@@ -240,6 +243,14 @@ export const MunPobrezaExtrema = () => {
       ) : (
         ""
       )}
+       <Grid container
+        sx={{justifyContent: "center"}}>
+        <Grid item xs={10} sx={{textAlign:"center"}}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
 
       <ButtonsMunicipio
         url={plantilla}

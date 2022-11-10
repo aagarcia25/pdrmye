@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, IconButton } from "@mui/material";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { Moneda } from "../../CustomToolbar";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -35,6 +35,7 @@ export const MunRecaudacion = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [modo, setModo] = useState("");
+  const [nombreMenu, setNombreMenu] = useState("");
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
@@ -56,45 +57,46 @@ export const MunRecaudacion = () => {
       hide: true,
       width: 150,
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 400 },
-    { field: "Anio", headerName: "Año", width: 100 },
-    { field: "Recaudacion", headerName: "Recaudacion", width: 150, ...Moneda },
-
     {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 100,
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
 
-
         );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", width: 400 },
+    { field: "Anio", headerName: "Año", width: 100 },
+    { field: "Recaudacion", headerName: "Recaudacion", width: 150, ...Moneda },
+
+
   ];
 
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   }
 
   const handleClose = (v: string) => {
-      setOpen(false);
-      let data = {
-        NUMOPERACION: 4,
-        ANIO: filterAnio,
-      };
-      consulta(data);
+    setOpen(false);
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: filterAnio,
+    };
+    consulta(data);
   };
 
   const handleOpen = (v: any) => {
@@ -186,7 +188,7 @@ export const MunRecaudacion = () => {
       ANIO: v,
     };
     if (v != "") {
-    consulta(data);
+      consulta(data);
     }
   };
 
@@ -204,6 +206,8 @@ export const MunRecaudacion = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNRECAU") {
         console.log(item)
+        setNombreMenu(item.Menu);
+
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
@@ -241,10 +245,18 @@ export const MunRecaudacion = () => {
       ) : (
         ""
       )}
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
 
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNRECAU"}      />
+        handleUpload={handleUpload} controlInterno={"MUNRECAU"} />
       <MUIXDataGrid columns={columns} rows={Facturacion} />
     </div>
   );

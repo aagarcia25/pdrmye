@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, IconButton, } from '@mui/material'
+import { Box, Grid, IconButton, Typography, } from '@mui/material'
 import { GridColDef, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -35,6 +35,7 @@ export const MunPobreza = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+  const [nombreMenu, setNombreMenu] = useState("");
 
 
   // VARIABLES PARA LOS FILTROS
@@ -50,17 +51,12 @@ export const MunPobreza = () => {
       hide: true,
       width: 150,
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Total", headerName: "Total", width: 150 },
-    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 300, ...porcentage },
     {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 100,
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
@@ -68,6 +64,12 @@ export const MunPobreza = () => {
         );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", width: 150 },
+    { field: "Anio", headerName: "Año", width: 150 },
+    { field: "Total", headerName: "Total", width: 150 },
+    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 300, ...porcentage },
 
   ];
 
@@ -83,12 +85,12 @@ export const MunPobreza = () => {
 
 
   const handleClose = (v: string) => {
-      setOpen(false);
-      let data = {
-        NUMOPERACION: 4,
-        ANIO: filterAnio,
-      };
-      consulta(data);
+    setOpen(false);
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: filterAnio,
+    };
+    consulta(data);
 
   }
   const handleOpen = (v: any) => {
@@ -203,6 +205,7 @@ export const MunPobreza = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPOBREZA") {
         console.log(item)
+        setNombreMenu(item.Menu);
 
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
@@ -243,6 +246,14 @@ export const MunPobreza = () => {
       ) : (
         ""
       )}
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
 
       <ButtonsMunicipio
         url={plantilla}

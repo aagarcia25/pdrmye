@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Grid, IconButton, Tooltip } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -23,6 +23,8 @@ const Fondos = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [vrows, setVrows] = useState({});
   const [fondos, setFondos] = useState([]);
+  const [nombreMenu, setNombreMenu] = useState("");
+
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -36,39 +38,39 @@ const Fondos = () => {
       hide: true,
       width: 10,
     },
-    
+
     {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 150,
       renderCell: (v) => {
         return (
           <Grid container>
 
-<Grid item xs={6}>
+            <Grid item xs={8}>
 
-            <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-          </Grid>
-
-<Grid item xs={3}>
-           
-            {view ? 
-             <Tooltip title={"Visualizar Ajustes"}>
-              <IconButton onClick={() => handleView(v)}>
-              <RemoveRedEyeIcon />
-            </IconButton>
-            </Tooltip>
-             : ""}
-            
+              <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
             </Grid>
-          
+
+            <Grid item xs={4}>
+
+              {view ?
+                <Tooltip title={"Visualizar Ajustes"}>
+                  <IconButton onClick={() => handleView(v)}>
+                    <RemoveRedEyeIcon />
+                  </IconButton>
+                </Tooltip>
+                : ""}
+
+            </Grid>
+
           </Grid>
         );
       },
     },
-    {  field: "FechaCreacion",      headerName: "Fecha Creación", width: 150,   },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150, },
     { field: "Clave", headerName: "Clave", width: 150 },
     { field: "Descripcion", headerName: "Descripcion", width: 450 },
     {
@@ -107,7 +109,7 @@ const Fondos = () => {
     { field: "idtipo", headerName: "idtipo", width: 150, hide: true },
     { field: "dtipo", headerName: "Tipo", width: 250 },
 
-    
+
   ];
   const handleAccion = (v: any) => {
     if (v.tipo == 1) {
@@ -205,8 +207,9 @@ const Fondos = () => {
   useEffect(() => {
 
     permisos.map((item: PERMISO) => {
-      
+
       if (String(item.ControlInterno) === "FONDOS") {
+        setNombreMenu(item.Menu);
         console.log(item.Menu)
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
@@ -249,6 +252,19 @@ const Fondos = () => {
       ) : (
         ""
       )}
+
+
+      <Grid container
+        sx={{justifyContent: "center"}}>
+        <Grid item xs={10} sx={{textAlign:"center"}}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
+
+
+
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={fondos} />

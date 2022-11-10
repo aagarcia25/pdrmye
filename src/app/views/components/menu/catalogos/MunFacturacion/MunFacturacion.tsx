@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import {
-  Box,
+  Box, Grid, Typography,
 } from "@mui/material";
 
 import { GridColDef } from "@mui/x-data-grid";
@@ -43,6 +43,7 @@ export const MunFacturacion = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+  const [nombreMenu, setNombreMenu] = useState("");
 
 
   // VARIABLES PARA LOS FILTROS
@@ -65,6 +66,20 @@ export const MunFacturacion = () => {
       hide: true,
       width: 150,
     },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 100,
+      renderCell: (v) => {
+        return (
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
+        );
+      },
+    },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
     { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", width: 220 },
     { field: "Anio", headerName: "Año", width: 150 },
@@ -75,32 +90,17 @@ export const MunFacturacion = () => {
       align: "right",
       ...currencyFormatter
     },
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Campo de Acciones",
-      sortable: false,
-      width: 200,
-      renderCell: (v) => {
-        return (
 
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-
-
-
-        );
-      },
-    },
   ];
 
 
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   }
@@ -108,12 +108,12 @@ export const MunFacturacion = () => {
 
   const handleClose = (v: string) => {
 
-      setOpen(false);
-      let data = {
-        NUMOPERACION: 4,
-        ANIO: filterAnio,
-      };
-      consulta(data);
+    setOpen(false);
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: filterAnio,
+    };
+    consulta(data);
 
 
   };
@@ -211,8 +211,8 @@ export const MunFacturacion = () => {
   const consulta = (data: any) => {
     CatalogosServices.munfacturacion(data).then((res) => {
 
-        setFacturacion(res.RESPONSE);
-    
+      setFacturacion(res.RESPONSE);
+
     });
   };
 
@@ -245,6 +245,8 @@ export const MunFacturacion = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNFA") {
         console.log(item)
+        setNombreMenu(item.Menu);
+
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
@@ -279,10 +281,18 @@ export const MunFacturacion = () => {
       ) : (
         ""
       )}
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
 
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNFA"}      />
+        handleUpload={handleUpload} controlInterno={"MUNFA"} />
 
       <MUIXDataGrid columns={columns} rows={Facturacion} />
     </div>
