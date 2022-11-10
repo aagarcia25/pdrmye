@@ -36,6 +36,7 @@ const Fondos = () => {
       hide: true,
       width: 10,
     },
+    
     {
       field: "acciones",
       headerName: "Acciones",
@@ -67,6 +68,7 @@ const Fondos = () => {
         );
       },
     },
+    {  field: "FechaCreacion",      headerName: "Fecha Creación", width: 150,   },
     { field: "Clave", headerName: "Clave", width: 150 },
     { field: "Descripcion", headerName: "Descripcion", width: 450 },
     {
@@ -203,8 +205,9 @@ const Fondos = () => {
   useEffect(() => {
 
     permisos.map((item: PERMISO) => {
+      
       if (String(item.ControlInterno) === "FONDOS") {
-        console.log(item)
+        console.log(item.Menu)
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }

@@ -27,8 +27,6 @@ export default function MUIXDataGrid(props: any) {
           sx={{ fontFamily: "MontserratMedium" }}
           componentsProps={{
             toolbar: {
-              toolbarQuickFilterPlaceholder:"Buscar",
-              toolbarQuickFilterLabel:"Buscar",
               showQuickFilter: true,
               quickFilterProps: { debounceMs: 500 },
             },

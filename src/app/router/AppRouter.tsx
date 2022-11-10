@@ -39,7 +39,6 @@ import Presupuesto from '../views/components/Organismos/Presupuesto/Presupuesto'
 import Nomina from '../views/components/Organismos/Nomina/Nomina';
 import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
-import { Fondo } from '../views/components/menu/aportaciones/Fondo';
 import {  getUser, islogin } from '../services/localStorage';
 import { RESPONSE } from '../interfaces/user/UserInfo';
 import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
@@ -116,9 +115,6 @@ export const AppRouter = () => {
         <Route path='/inicio/participaciones/:fondo' element={log ? <Fpg /> : <AuthRouter />} />
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
-        {/* SECCION APORTACIONES ESTATALES */}
-        <Route path='/inicio/aportaciones/:fondo'     element={log ? <Fondo /> : <AuthRouter />}/>
-        {/* FIN SECCION APORTACIONES FEDERALES */}
        {/* SECCION USUARIOS, ROLES, PERMISOS */}
        <Route path='/inicio/usuario'   element={log ? <Usuarios /> : <AuthRouter />} />
        <Route path='/inicio/roles'     element={log ? <Roles /> : <AuthRouter />} />
@@ -141,7 +137,9 @@ export const AppRouter = () => {
        {/* SECCION MUNICIPIOS */}
 
        {/* DCCP */}
-       <Route path='/inicio/dccp'  element={log ? <AsigPresupuestal /> : <AuthRouter />} />
+       <Route path='/inicio/dpcp'  element={log ? <AsigPresupuestal /> : <AuthRouter />} />
+       <Route path='/inicio/dpcp/auth'  element={log ? <AsigPresupuestal /> : <AuthRouter />} />
+       AuthSolicitudes
        {/* FIN DCCP */}
         {/* DAF */}
         <Route path='/inicio/daf'  element={log ? <AsigPago /> : <AuthRouter />} />

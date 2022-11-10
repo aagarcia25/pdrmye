@@ -12,6 +12,7 @@
     export interface PERMISO {
         ControlInterno: string;
         Referencia: string;
+        Menu: string;
     }
 
     export interface PERFILES {
