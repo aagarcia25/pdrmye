@@ -34,7 +34,6 @@ export const MunPoblacion = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
-  const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [modo, setModo] = useState("");
 
@@ -65,7 +64,7 @@ export const MunPoblacion = () => {
       width: 200,
       renderCell: (v: any) => {
         return (
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={update} eliminar={eliminar}></BotonesAcciones>
           );
       },
     },
@@ -233,11 +232,11 @@ export const MunPoblacion = () => {
     permisos.map((item: PERMISO) => {
       console.log(item.ControlInterno + ' --' + String(item.Referencia));
 
-      if (item.ControlInterno == "MUNPOB") {
-        if (String(item.Referencia) == 'Editar') {
+      if (item.ControlInterno == "MUNPO") {
+        if (String(item.Referencia) == 'EDIT') {
           setUpdate(true);
         }
-        if (String(item.Referencia) == 'Eliminar') {
+        if (String(item.Referencia) == 'ELIM') {
           setEliminar(true);
         }
 
