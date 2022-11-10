@@ -326,12 +326,12 @@ export const SolicitudModal = (
                                     <React.Fragment>
 
                                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                            <Button color="warning" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-                                                Atras
+                                            <Button color="warning" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 2, padding:2 }}>
+                                               Atrás 
                                             </Button>
 
                                             <Box sx={{ flex: '1 1 auto' }} />
-                                            <Button color="success" onClick={handleNext} >
+                                            <Button color="success" onClick={handleNext} sx={{ padding:2 }}>
                                                 {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
                                             </Button>
                                         </Box>
@@ -371,11 +371,11 @@ export const SolicitudModal = (
                                                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                                                 }}
                                                 sx={{
-                                                    width: "10vw",
+                                                    width: "40%",
                                                 }}
                                                 error= {!totalValid}
                                             />
-                                            <Typography variant='body2'paddingTop={.5}> {totalError} </Typography>
+                                            <Typography variant='body2'padding={2}> {totalError} </Typography>
                                         </Grid>
                                     </Grid>
 
@@ -384,11 +384,11 @@ export const SolicitudModal = (
                                 : ""}
 
                             {(activeStep + 1) == 3 ?
-                                <Container maxWidth="sm" >
-                                    <Box sx={{ width: '100%', }}>
-                                        <Grid container spacing={1} sx={{ justifyContent: "center", width: "100%" }}>
+                                <Container maxWidth="sm">
+                                    <Box sx={{ width: '100%', paddingTop:"2" }}>
+                                        <Grid container xs={12} spacing={1} sx={{ justifyContent: "center"}}>
                                             <Grid item xs={12}>
-                                                <label >Concepto<br /><br /></label>
+                                            <Typography variant='body1' margin={1}> CONCEPTO </Typography>
                                                 <TextField
                                                     multiline
                                                     disabled
@@ -396,18 +396,18 @@ export const SolicitudModal = (
                                                     rows={4}
                                                     type="text"
                                                     sx={{
-                                                        width: "20vw",
+                                                        width: "100%",
                                                     }}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
-                                                <label>Total<br /><br /></label>
+                                            <Typography variant='body1' margin={1}> TOTAL </Typography>
                                                 <TextField
                                                     disabled
                                                     type="number"
                                                     value={total}
                                                     sx={{
-                                                        width: "20vw",
+                                                        width: "40%",
                                                     }}
                                                 />
                                             </Grid>
@@ -451,8 +451,8 @@ export const SolicitudModal = (
                                                 bgcolor: 'background.paper',
                                                 borderRadius: 1,
                                             }}> */}
-                                            <Box sx={{ width: "100%", height: "40%", border: "5px dashed  black", display: "flex", justifyContent: "center", alignItems: "center", mt: "1vh" }}>
-                                                <input
+                                            <Box sx={{ width: "100%", height: "40%", border: "5px dashed  black", display: "flex", justifyContent: "center", alignItems: "center", mt: "2vh"}}>
+                                                <input 
                                                     id="imagencargada"
                                                     accept="application/pdf"
                                                     onChange={(event) => {
@@ -533,8 +533,8 @@ export const SolicitudModal = (
 
                         ""}
 
-                    <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
-                        <Grid item xs={2}>
+                    <Grid container xs={12} spacing={3} marginTop={1} marginBottom={1} sx={{ justifyContent: "right ", width: "100%" }}>
+                        <Grid item xs={2} paddingBottom={1}>
                             <button className="cerrar" onClick={() => handleClose()}> {modo == "ver" || modo == "verDetalles" ? "Cerrar" : "Cancelar"}</button>
                         </Grid>
                     </Grid>

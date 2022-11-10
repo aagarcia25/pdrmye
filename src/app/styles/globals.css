@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap');
+
 img {
   width: 200px;
   height: 200px;
@@ -22,20 +24,18 @@ button {
   cursor: pointer;
   font-family: "Public Sans", MontserratMedium;
 
-
 }
 button.cerrar {
-  background-color: rgb(198, 70, 70);
+  background-color: rgb(246, 78, 96);
+  color: aliceblue;
   padding: 5px 12px;
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 15px;
-  border: 2px solid hsl(0, 0%, 89%);
+  border: 2px solid rgb(246, 78, 96);
   transition-duration: 0.2s;
   cursor: pointer;
-  font-family: "Public Sans", MontserratMedium;
-
-
-}
+  font-family: 'Roboto', sans-serif;
+};
 
 button.salir {
   background-color: rgb(195, 165, 117);
@@ -67,10 +67,10 @@ button:hover {
 }
 
 .cerrar:hover {
-  background-color: #f44336;
-  color: white;
+  background-color: #f64e60;
+  color: rgba(240, 248, 255, 0.526);
   text-transform: capitalize;
-  font-family: "Public Sans", MontserratMedium;
+  
 }
 
 .editar:hover {
@@ -199,11 +199,11 @@ button.notificaciones {
 }
 
 .cerrar-nuevo-mensaje:hover {
-  background-color: hsl(0, 87%, 53%);
+  background-color: #f64e60;
   color: white;
 }
 .cerrar-mensaje:hover {
-  background-color: hsl(0, 87%, 53%);
+  background-color: #f64e60;
   color: white;
 }
 
