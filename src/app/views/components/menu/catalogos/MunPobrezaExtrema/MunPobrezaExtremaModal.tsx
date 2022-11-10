@@ -10,6 +10,8 @@ import {
   TextField,
   InputAdornment,
   DialogActions,
+  Grid,
+  Button,
 } from "@mui/material";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
@@ -17,6 +19,9 @@ import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipio
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ModalForm from "../../../componentes/ModalForm";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
 const MunPobrezaExtremaModal = ({
@@ -45,7 +50,7 @@ const MunPobrezaExtremaModal = ({
   const [IdMunicipio, setIdMunicipio] = useState<object>();
   const [values, setValues] = useState<Imunicipio[]>();
   const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const [municipio, setMunicipios] = useState<SelectValues[]>([]);
 
 
 
@@ -120,6 +125,9 @@ const MunPobrezaExtremaModal = ({
       }
     });
   };
+  const handle = () => {
+
+  };
 
   const editar = (data: any) => {
     CatalogosServices.munpobrezaext(data).then((res) => {
@@ -153,125 +161,140 @@ const MunPobrezaExtremaModal = ({
       setIdMunicipio(dt?.row?.idmunicipio)
       setPorcentage(dt?.row?.Porcentaje)
       setCarenciaProm(dt?.row?.CarenciaProm)
-
-
-
-
-
     }
+
+    let data = { NUMOPERACION: 5 };
+    CatalogosServices.SelectIndex(data).then((res) => {
+      setMunicipios(res.RESPONSE);
+    });
+
 
   }, [dt]);
 
 
 
   return (
-    <Dialog open={open}>
 
 
+    <div>
+      <ModalForm title={modo} handleClose={handleClose}>
+        <Grid container
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
 
-      <DialogContent>
-        <Box>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
-            <label className="Titulo">{modo}</label>
+        >
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+          <Box>
+          <label className="Titulo">{dt?.row?.Nombre}</label>
           </Box>
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Municipio</InputLabel>
-            <Select
-              required
-              onChange={(v) => setIdMunicipio(Object(v.target.value))}
-              value={IdMunicipio}
-              label="Municipio"
-              inputProps={{
-                readOnly: tipo == 1 ? false : true,
-              }}
-            >
-              {values?.map((item: Imunicipio) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Nombre}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+          </Grid>
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+            {(modo === "Agregar Registro") ?
+              <TextField
+                required
+                margin="dense"
+                id="anio"
+                label="Año"
+                value={anio}
+                type="number"
+                fullWidth
+                variant="standard"
+                onChange={(v) => setAnio(Number(v.target.value))}
+                error={anio == null ? true : false}
+                InputProps={{
+                  readOnly: tipo == 1 ? false : true,
 
-          {(modo === "Agregar Registro") ?
+                }}
+              />
+              :
+              <TextField
+                required
+                margin="dense"
+                id="anio"
+                label="Año"
+                value={anio}
+                type="number"
+                fullWidth
+                variant="standard"
+                onChange={(v) => setAnio(Number(v.target.value))}
+                error={anio == null ? true : false}
+                InputProps={{
+                  readOnly: tipo == 1 ? false : true,
+
+                }}
+              />
+            }
+          </Grid>
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+
             <TextField
-              required
               margin="dense"
-              id="anio"
-              label="Año"
-              value={anio}
+              required
+              id="pob"
+              label="Total"
+              value={poblacion}
               type="number"
               fullWidth
               variant="standard"
-              onChange={(v) => setAnio(Number(v.target.value))}
-              error={anio == null ? true : false}
-              InputProps={{
-                readOnly: tipo == 1 ? false : true,
-
-              }}
+              onChange={(v) => setPoblacion(Number(v.target.value))}
+              error={poblacion == null ? true : false}
             />
-            :
+          </Grid>
+
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+
             <TextField
-              required
+
               margin="dense"
-              id="anio"
-              label="Año"
-              value={anio}
-              type="number"
+              required
+              id="fac"
+
+              label="Carencia Promedio"
+              value={carenciaProm}
+              type="percent"
               fullWidth
               variant="standard"
-              onChange={(v) => setAnio(Number(v.target.value))}
-              error={anio == null ? true : false}
+              onChange={(v) => setCarenciaProm(Number(v.target.value))}
+              error={carenciaProm == null ? true : false}
               InputProps={{
-                readOnly: tipo == 1 ? false : true,
-
+                endAdornment: (
+                  <InputAdornment position="end">%</InputAdornment>
+                ),
               }}
             />
-          }
 
-          <TextField
-            margin="dense"
-            required
-            id="pob"
-            label="Total"
-            value={poblacion}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setPoblacion(Number(v.target.value))}
-            error={poblacion == null ? true : false}
-          />
+          </Grid>
 
-          <TextField
-
-            margin="dense"
-            required
-            id="fac"
-
-            label="Carencia Promedio"
-            value={carenciaProm}
-            type="percent"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setCarenciaProm(Number(v.target.value))}
-            error={carenciaProm == null ? true : false}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">%</InputAdornment>
-              ),
+          <Grid container
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
             }}
-          />
-        </Box>
-      </DialogContent>
+          >
+            <Grid item xs={4} sm={3} md={2} lg={1}
+            >
+              <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
+            </Grid>
+          </Grid>
+        </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
-      </DialogActions>
-    </Dialog>
+      </ModalForm>
+    </div>
+
+
+
+
+
   );
 };
 

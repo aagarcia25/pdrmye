@@ -59,6 +59,27 @@ export const get = async function (url: string, token: string) {
     }
 };
 
+export const put = async function (refreshToken: string) {
+
+    try {
+        console.log(refreshToken)
+        let resp = await axios.get(`${env_var.BASE_URL_EXT}` ,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': refreshToken
+                   
+                }
+            }
+
+        );
+        
+        return resp;
+    } catch (err: any) {
+        return err.response
+    }
+};
+
 
 export const getSingle = async function (url: string, body: any) {
 

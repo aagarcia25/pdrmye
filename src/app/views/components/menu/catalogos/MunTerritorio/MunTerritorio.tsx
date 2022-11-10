@@ -13,6 +13,7 @@ import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import AccionesGrid from "../Utilerias/AccionesGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import { Grid, Typography } from "@mui/material";
 
 export const MunTerritorio = () => {
 
@@ -28,7 +29,7 @@ export const MunTerritorio = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-
+  const [nombreMenu, setNombreMenu] = useState("");
 
   // VARIABLES PARA LOS FILTROS
 
@@ -45,21 +46,23 @@ export const MunTerritorio = () => {
       hide: true,
       width: 150,
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Km2", headerName: "Area", width: 150 },
     {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 100,
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
           );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", width: 150 },
+    { field: "Km2", headerName: "Area", width: 150 },
+  
 
   ];
   const handleAccion = (v: any) => {
@@ -67,6 +70,7 @@ export const MunTerritorio = () => {
       setTipoOperacion(2);
       setOpen(true);
       setData(v.data);
+      setModo("Editar Registro");
     }else if(v.tipo ==2){
       handleDelete(v.data);
     }
@@ -74,18 +78,13 @@ export const MunTerritorio = () => {
   
 
   const handleClose = (v: string) => {
-    if (v == "close") {
       setOpen(false);
-    }
-    else if (v == "save") {
       setOpen(false);
       let data = {
         NUMOPERACION: 4,
-
-      };
+      }
       consulta(data);
 
-    }
     console.log('cerrando');
 
 
@@ -177,19 +176,19 @@ export const MunTerritorio = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munterritorio(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        setTerritorio(res.RESPONSE);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+      // if (res.SUCCESS) {
+      //   Toast.fire({
+      //     icon: "success",
+      //     title: "Consulta Exitosa!",
+      //   });
+      //   setTerritorio(res.RESPONSE);
+      // } else {
+      //   Alert.fire({
+      //     title: "Error!",
+      //     text: res.STRMESSAGE,
+      //     icon: "error",
+      //   });
+      // }
     });
   };
 
@@ -211,6 +210,7 @@ export const MunTerritorio = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNTERR") {
         console.log(item)
+        setNombreMenu(item.Menu);
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
@@ -241,7 +241,7 @@ export const MunTerritorio = () => {
 
 
 
-      {open ? (
+      {open ? 
         <MunTerritorioModal
           open={open}
           modo={modo}
@@ -249,9 +249,17 @@ export const MunTerritorio = () => {
           tipo={tipoOperacion}
           dt={data}
         />
-      ) : (
+      : 
         ""
-      )}
+      }
+       <Grid container
+        sx={{justifyContent: "center"}}>
+        <Grid item xs={10} sx={{textAlign:"center"}}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
 
       <ButtonsMunicipio
         url={plantilla}

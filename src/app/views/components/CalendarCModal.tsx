@@ -213,7 +213,7 @@ const CalendarCModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen>
       <Container maxWidth="sm"></Container>
       {modoModal == "Editar Evento" ? (
         Date.parse(inicioEventoMin) > Date.parse(inicioEvento) ? (

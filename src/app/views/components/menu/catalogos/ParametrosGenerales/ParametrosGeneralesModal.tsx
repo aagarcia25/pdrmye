@@ -118,7 +118,7 @@ export const ParametrosGeneralesModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen>
       <DialogContent>
         <Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>

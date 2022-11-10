@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
-import SelectValues from '../../../../interfaces/Select/SelectValues'
+import SelectValues from '../../../interfaces/Select/SelectValues'
 
 const SelectFrag = ({
   value,

@@ -17,18 +17,14 @@ export default function MUIXDataGrid(props: any) {
           columns={props.columns}
           rows={props.rows}
           align
-          ///autoHeight
           density="compact"
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick 
           disableColumnFilter
-          disableColumnSelector
           disableDensitySelector
           getRowHeight={() => 'auto'}
-        
           components={{ Toolbar: GridToolbar }}
-          sx={{ fontFamily: "MontserratMedium" ,textTransform:"uppercase "}}
-
+          sx={{ fontFamily: "MontserratMedium" }}
           componentsProps={{
             toolbar: {
               showQuickFilter: true,

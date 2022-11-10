@@ -3,7 +3,9 @@ import {
   Button,
   Checkbox,
   Grid,
+  IconButton,
   Modal,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -13,7 +15,8 @@ import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
 import Slider from "../../../Slider";
-
+import ModalForm from "../../../componentes/ModalForm";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const EliminarPermisosRol = ({
   id,
@@ -22,7 +25,7 @@ const EliminarPermisosRol = ({
   handleClose,
   handleCloseAsignar,
 }: {
-  id:string;
+  id: string;
   dt: any;
   open: boolean;
   handleClose: Function;
@@ -43,10 +46,10 @@ const EliminarPermisosRol = ({
 
   const handleChange = (v: any) => {
     let data = {
-      TIPO:2,
+      TIPO: 2,
       IDPERMISO: v.row.id,
       IDMENU: dt?.row?.id,
-      IDROL:id,
+      IDROL: id,
     }
     AuthService.menuPermisosRelacionar(data).then((res) => {
       setData(res.RESPONSE);
@@ -55,7 +58,7 @@ const EliminarPermisosRol = ({
           icon: "success",
           title: "Permiso Eliminado!",
         });
-        consulta({CHID: dt?.row?.id });
+        consulta({ CHID: dt?.row?.id });
       } else {
         Alert.fire({
           title: "Error!",
@@ -92,48 +95,47 @@ const EliminarPermisosRol = ({
 
 
   useEffect(() => {
-    consulta({ CHID: dt?.row?.id , IDROL:id, });
+    consulta({ CHID: dt?.row?.id, IDROL: id, });
   }, []);
 
   return (
     <div>
-      <Slider open={openSlider} ></Slider>
-      <Box >
-        <Modal open={open}>
-          <Grid
-            container
+
+      <ModalForm title={"Permisos Relacionados al Menú"} handleClose={handleClose}>
+        <Slider open={openSlider} ></Slider>
+        <Box >
+          <Grid container
             sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "50vw",
+              width: "100%",
               height: "60vh",
               bgcolor: "rgb(255,255,255)",
-              boxShadow: 50,
-              p: 2,
               borderRadius: 3,
+              justifyContent: "center"
             }}
           >
-            <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+
+            <Grid item xs={1}>
+
+              <Button variant="outlined">
+                <Tooltip title="Salir">
+                  <IconButton
+                    aria-label="close"
+                    color="info"
+                    onClick={() => handleCloseAsignar()}
+                  >
+                    <ArrowBackIosIcon />
+                  </IconButton>
+                </Tooltip>
+              </Button>
+
+            </Grid>
+
+            <Grid item xs={11} >
               <Typography
                 sx={{
                   textAlign: "center",
-                  fontFamily: "MontserratBold",
-                  fontSize: "2vw",
-                  color: "#454545",
-                }}
-              >
-                Permisos Relacionados al Menú
-              </Typography>
-            </Grid>
-
-            <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <Typography
-                sx={{
-                  textAlign: "left",
                   fontFamily: "MontserratMedium",
-                  fontSize: "1.5vw",
+                  fontSize: "2vw",
                   color: "#808080",
                 }}
               >
@@ -141,46 +143,22 @@ const EliminarPermisosRol = ({
               </Typography>
 
             </Grid>
-            <button
-                  className="atras"
-                  onClick={() => handleCloseAsignar()}
-                >
-                  Regresar
-                </button>
-            <Grid sm={12}
+
+
+            <Grid item sm={12}
               sx={{
                 mt: "2vh",
                 width: "100%",
-                height: "60%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "row",
-
+                height: "100%",
               }}
             >
 
               <MUIXDataGridSimple columns={columns} rows={data} />
             </Grid>
-            <Grid md={12}
-              sx={{
-                display: "flex",
-                alignItems: "right",
-                justifyContent: "right",
-                mt: "2vh",
 
-              }}
-            >
-               <button
-                className="cerrar"
-                onClick={() => handleClose()}
-              >
-                Salir
-              </button>
-            </Grid>
           </Grid>
-        </Modal>
-      </Box>
+        </Box>
+      </ModalForm>
     </div>
   );
 };

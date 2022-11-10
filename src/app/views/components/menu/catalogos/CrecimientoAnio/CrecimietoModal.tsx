@@ -112,7 +112,7 @@ const CrecimietoModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen>
       <DialogTitle>{modo}</DialogTitle>
       <DialogContent>
         <Box>

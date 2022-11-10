@@ -13,7 +13,7 @@ import { RESPONSE } from "../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../services/localStorage";
 import Slider from "../../Slider";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
-import SelectFrag from "../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../Fragmentos/SelectFrag";
 import { fmeses } from "../../../../share/loadMeses";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { useNavigate } from "react-router-dom";

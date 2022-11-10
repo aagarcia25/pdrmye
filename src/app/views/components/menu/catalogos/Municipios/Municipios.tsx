@@ -18,6 +18,7 @@ import FideicomisoConfig from "./FideicomisoConfig";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MunicipiosUsuarioResponsable from "./MunicipiosUsuarioResponsable";
+import { MunicipiosCuentaBancaria } from "./MunicipiosCuentaBancaria";
 
 export const Municipios = () => {
   const [municipio, setMunicipio] = useState([]);
@@ -30,6 +31,8 @@ export const Municipios = () => {
   const [open, setOpen] = useState(false);
   const [openFideicomiso, setOpenFideicomiso] = useState(false);
   const [openUR, setOpenUR] = useState(false);
+  const [openCC, setOpenCC] = useState(false);
+
 
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
@@ -99,10 +102,15 @@ export const Municipios = () => {
     },
     { field: "ClaveEstado", headerName: "Clave Estado", width: 120 },
     { field: "Nombre", headerName: "Municipio", width: 250 },
+   
+    { field: "NombreCorto", headerName: "Nombre Corto", width: 250 },
+    { field: "OrdenSFTGNL", headerName: "Orden SFTGNL", width: 120 },
+    { field: "ClaveSIREGOB", headerName: "Clave SIREGOB", width: 120 },
+    { field: "ClaveINEGI", headerName: "Clave INEGI", width: 120 },
     {
       field: "MAM",
       headerName: "Área Metropolitana",
-      width: 150,
+      width: 100,
       renderCell: (v) => {
         return v.row.MAM === 1 ? "SI" : "NO";
       },
@@ -110,19 +118,15 @@ export const Municipios = () => {
     {
       field: "Descentralizado",
       headerName: "Descentralizado",
-      width: 120,
+      width: 100,
       renderCell: (v) => {
         return v.row.Descentralizado === 1 ? "SI" : "NO";
       },
     },
-    { field: "NombreCorto", headerName: "Nombre Corto", width: 250 },
-    { field: "OrdenSFTGNL", headerName: "Orden SFTGNL", width: 120 },
-    { field: "ClaveSIREGOB", headerName: "Clave SIREGOB", width: 120 },
-    { field: "ClaveINEGI", headerName: "Clave INEGI", width: 120 },
     {
       field: "ArtF1",
       headerName: "ARTF1",
-      width: 120,
+      width: 100,
       renderCell: (v) => {
         return v.row.ArtF1 === "1" ? "SI" : "NO";
       },
@@ -130,7 +134,7 @@ export const Municipios = () => {
     {
       field: "ArtF2",
       headerName: "ARTF2",
-      width: 120,
+      width: 100,
       renderCell: (v) => {
         return v.row.ArtF2 === "1" ? "SI" : "NO";
       },
@@ -138,7 +142,7 @@ export const Municipios = () => {
     {
       field: "ArtF3",
       headerName: "ARTF3",
-      width: 120,
+      width: 100,
       renderCell: (v) => {
         return v.row.ArtF3 === "1" ? "SI" : "NO";
       },
@@ -162,8 +166,7 @@ export const Municipios = () => {
   };
 
   const handleCC = (v: any) => {
-    setModo("Agregar Fideicomiso");
-    setOpenFideicomiso(true);
+    setOpenCC(true);
     setData(v);
   };
 
@@ -173,6 +176,7 @@ export const Municipios = () => {
   };
 
   const handleClose = () => {
+    setOpenCC(false);
     setOpen(false);
     setOpenFideicomiso(false);
     setOpenUR(false);
@@ -333,6 +337,13 @@ export const Municipios = () => {
       ) : (
         ""
       )}
+
+   {openCC ? (
+        <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
+      ) : (
+        ""
+      )}
+
 
       <ButtonsMunicipio
         url={plantilla}

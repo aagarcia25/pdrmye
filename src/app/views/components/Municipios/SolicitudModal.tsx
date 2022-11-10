@@ -20,6 +20,10 @@ import { CatalogosServices } from '../../../services/catalogosServices';
 import { Toast } from '../../../helpers/Toast';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import validator from 'validator';
+import { border, borderColor } from '@mui/system';
 
 
 const steps = ['Campos Obligatorios', 'Carga de Archivo ', 'Finalizar Solicitud'];
@@ -41,21 +45,21 @@ export const SolicitudModal = (
         }
 ) => {
     const [modoSol, setModoSol] = useState<string>();
-
     const [newDoc, setNewDoc] = useState(Object);
-    const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-    const [eliminar, setEliminar] = useState<boolean>(false);
     const [DocSubido, setDocSubido] = useState<boolean>(false);
-    const [slideropen, setslideropen] = useState(true)
     const [urlDoc, setUrlDoc] = useState("");
     const [sizeFile, setSizeFile] = useState<boolean>();
     const [openSlider, setOpenSlider] = useState(false);
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [nameNewDoc, setNameNewDoc] = useState<string>();
     const [concepto, setConcepto] = useState<string>();
-    const [total, setTotal] = useState<Number>();
+    const [totalError, setTotalError] = useState<string>();
+    const [totalValid, setTotalValid] = useState<boolean>();
+    const [total, setTotal] = useState<string>();
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set<number>());
+    var hoy = new Date()
+
 
     const isStepOptional = (step: number) => {
         return step === 1;
@@ -68,9 +72,12 @@ export const SolicitudModal = (
     const handleNext = () => {
 
 
-        if (concepto?.length != 0 && total?.valueOf != null && total != 0 && sizeFile != true) {
+        if (concepto?.length != 0 && total?.valueOf != null && totalValid == true && sizeFile != true) {
+            if (activeStep === steps.length - 1) {
 
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            }
+
+            else { setActiveStep((prevActiveStep) => prevActiveStep + 1) }
         }
         else {
             Alert.fire({
@@ -83,11 +90,16 @@ export const SolicitudModal = (
         if (activeStep === steps.length - 1) {
 
             let d = {
-                NUMOPERACION: 1,
+                CHID: data.id,
+                NUMOPERACION: modo == "editar" ? 9 : 1,
                 CHUSER: user.id,
                 CONCEPTO: concepto,
                 TOTAL: total,
-                ESTATUS: "MUN_INICIO",
+                ESTATUS: modo == "editar" ? "MUN_ACT" : "MUN_INICIO",
+                ANIO: hoy.getFullYear(),
+                MES: (hoy.getMonth() + 1),
+                COMENTARIO: modo == "editar" ? "EDICION DE INFORMACION ANTES DE ENVIAR" : "INICIO DE OPERACION"
+                //idMunicipio 
             };
 
             if (DocSubido && sizeFile == false) {
@@ -103,12 +115,15 @@ export const SolicitudModal = (
                     if (result.isConfirmed) {
                         CatalogosServices.SolicitudesInfo(d).then((res) => {
                             if (res.SUCCESS) {
-                                console.log(res.RESPONSE)
+                                console.log("response: " + res.RESPONSE[0])
+                                console.log("data id:  " + data.id)
                                 if (DocSubido) {
                                     const formData = new FormData();
-
+                                    formData.append("CHID", data.id);
+                                    formData.append("NUMOPERACION", modo == "editar" ? "2" : "1");
                                     formData.append("MUNICIPIOS", newDoc);
-                                    formData.append("IDSOLICITUD", res.RESPONSE);
+                                    formData.append("IDSOLICITUD", modo == "editar" ? String(data.id) : res.RESPONSE);
+                                    formData.append("COMENTARIO", modo == "editar" ? "Edicion de archivo" : "carga de archivo");
 
                                     CatalogosServices.subirArchivo(formData).then((res) => {
                                         if (res.SUCCESS) {
@@ -199,13 +214,23 @@ export const SolicitudModal = (
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    const handleTotal = (v: string) => {
+        ///// clave
+        setTotal(v)
+        if (validator.isNumeric(v)) {
+            setTotalError('')
+            setTotalValid(true);
+        } else {
+            setTotalError('Ingrese Valores Numericos')
+            setTotalValid(false);
+        }
+
+    };
+
     const handleReset = () => {
         setActiveStep(0);
     };
-
     /////////////////////
-
-
     const handleNewFile = (event: any) => {
 
         let file = event.target!.files[0]!;
@@ -216,14 +241,13 @@ export const SolicitudModal = (
         setNameNewDoc(event.target!.files[0]!.name);
         //if(String(event.target!.files[0]!.name).slice)
         setDocSubido(true);
-        console.log(event.target!.files[0]!);
-        console.log(sizeFile)
     };
+
 
     const Clean = () => {
         setNewDoc(null);
-        setNameNewDoc('');
         setDocSubido(false);
+        setNameNewDoc("");
 
     };
 
@@ -231,6 +255,14 @@ export const SolicitudModal = (
         setModoSol(String(modo))
         console.log(data)
         setUrlDoc(data.RutaArchivo)
+        if (modo == "editar") {
+            setTotal(data?.row?.Total)
+            setConcepto(data?.row?.Concepto)
+        }
+        setNewDoc(null);
+        setDocSubido(false);
+        setNameNewDoc("");
+
     }, []);
 
     return (
@@ -241,7 +273,7 @@ export const SolicitudModal = (
                 <Dialog open={Boolean(open)} fullWidth={true}
                 //fullScreen={modo=="ver"?true:false}
                 >
-                    <DialogTitle>Solicitud de Anticipo de Participaciones</DialogTitle>
+                    <DialogTitle textAlign="center"> Solicitud de Anticipo de Participaciones </DialogTitle>
                     {modoSol == "ver" ?
                         <Grid container>
                             <Grid item>
@@ -262,7 +294,7 @@ export const SolicitudModal = (
                             </Grid>
                         </Grid>
                         : ""}
-                    {modoSol == "nuevo" ?
+                    {modoSol == "nuevo" || modoSol == "editar" ?
 
                         <DialogContent dividers={true}>
 
@@ -294,12 +326,12 @@ export const SolicitudModal = (
                                     <React.Fragment>
 
                                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                            <Button color="warning" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-                                                Atras
+                                            <Button color="warning" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 2, padding:2 }}>
+                                               Atrás 
                                             </Button>
 
                                             <Box sx={{ flex: '1 1 auto' }} />
-                                            <Button color="success" onClick={handleNext} >
+                                            <Button color="success" onClick={handleNext} sx={{ padding:2 }}>
                                                 {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
                                             </Button>
                                         </Box>
@@ -314,34 +346,37 @@ export const SolicitudModal = (
                                     sx={{ justifyContent: "center", width: '100%' }} >
 
 
-                                    <Grid container spacing={3} sx={{ justifyContent: "center", width: "100%" }}>
+                                    <Grid container spacing={3} xs={12} sx={{ justifyContent: "center"}}>
                                         <Grid item xs={12}>
-                                            <label >Concepto<br /><br /></label>
-                                            <TextField
+                                            <Typography variant='body1' margin={1}> CONCEPTO </Typography>
+                                            <TextField 
                                                 multiline
                                                 value={concepto}
                                                 rows={4}
                                                 type="text"
                                                 onChange={(v) => setConcepto(v.target.value)}
                                                 sx={{
-                                                    width: "20vw",
-
+                                                    width: "100%"
+                                                
                                                 }}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <label>Total<br /><br /></label>
+                                        <Typography variant='body1' margin={1}> TOTAL </Typography>
                                             <TextField
-                                                type="number"
+                                                type="text"
                                                 value={total}
-                                                onChange={(v) => setTotal(Number(v.target.value))}
-                                                sx={{
-                                                    width: "20vw",
+                                                onChange={(v) => handleTotal(v.target.value)}
+                                                InputProps={{
+                                                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
                                                 }}
+                                                sx={{
+                                                    width: "40%",
+                                                }}
+                                                error= {!totalValid}
                                             />
+                                            <Typography variant='body2'padding={2}> {totalError} </Typography>
                                         </Grid>
-
-
                                     </Grid>
 
 
@@ -349,11 +384,11 @@ export const SolicitudModal = (
                                 : ""}
 
                             {(activeStep + 1) == 3 ?
-                                <Container maxWidth="sm" >
-                                    <Box sx={{ width: '100%', }}>
-                                        <Grid container spacing={1} sx={{ justifyContent: "center", width: "100%" }}>
+                                <Container maxWidth="sm">
+                                    <Box sx={{ width: '100%', paddingTop:"2" }}>
+                                        <Grid container xs={12} spacing={1} sx={{ justifyContent: "center"}}>
                                             <Grid item xs={12}>
-                                                <label >Concepto<br /><br /></label>
+                                            <Typography variant='body1' margin={1}> CONCEPTO </Typography>
                                                 <TextField
                                                     multiline
                                                     disabled
@@ -361,18 +396,18 @@ export const SolicitudModal = (
                                                     rows={4}
                                                     type="text"
                                                     sx={{
-                                                        width: "20vw",
+                                                        width: "100%",
                                                     }}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
-                                                <label>Total<br /><br /></label>
+                                            <Typography variant='body1' margin={1}> TOTAL </Typography>
                                                 <TextField
                                                     disabled
                                                     type="number"
                                                     value={total}
                                                     sx={{
-                                                        width: "20vw",
+                                                        width: "40%",
                                                     }}
                                                 />
                                             </Grid>
@@ -406,7 +441,7 @@ export const SolicitudModal = (
                                             //// imagen carga y previsualizacion
                                         }
                                         <Box sx={{ width: '100%', }}>
-                                            <Box sx={{
+                                            {/* <Box sx={{
                                                 display: 'flex',
                                                 alignItems: 'flex-start',
                                                 flexDirection: 'column',
@@ -415,34 +450,35 @@ export const SolicitudModal = (
                                                 m: 1,
                                                 bgcolor: 'background.paper',
                                                 borderRadius: 1,
-                                            }}>
-                                                <Box>
-                                                    <IconButton aria-label="upload picture" component="label" size="large" >
-                                                        <input
-                                                            required
-                                                            type="file"
-                                                            hidden
-                                                            accept="application/pdf"
-                                                            onChange={(event) => {
-                                                                handleNewFile(event)
-                                                            }} />
-                                                        <UploadFileIcon />
-                                                    </IconButton>
-                                                </Box>
-                                                {DocSubido ?
-                                                    <Box>
-                                                        <label >
-                                                            {nameNewDoc}
-                                                        </label>
-                                                        <Box>
-                                                            <IconButton aria-label="upload picture" component="label" size="large" onClick={() => Clean()}>
+                                            }}> */}
+                                            <Box sx={{ width: "100%", height: "40%", border: "5px dashed  black", display: "flex", justifyContent: "center", alignItems: "center", mt: "2vh"}}>
+                                                <input 
+                                                    id="imagencargada"
+                                                    accept="application/pdf"
+                                                    onChange={(event) => {
+                                                        handleNewFile(event)
+                                                    }}
+                                                    type="file"
+                                                    style={{ zIndex: 2, opacity: 0, width: "90%", height: "40%", position: "absolute", cursor: "pointer", }} /
+                                                >
+                                                {nameNewDoc === "" ? <CloudUploadIcon sx={{ width: "50%", height: "80%" }} /> : <PictureAsPdfOutlinedIcon sx={{ width: "50%", height: "80%" }} />}
 
-                                                                <RemoveCircleIcon />
-                                                            </IconButton>
-                                                        </Box>
-                                                    </Box>
-                                                    : ""}
                                             </Box>
+
+                                            {DocSubido ?
+                                                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
+                                                    <label >
+                                                        {nameNewDoc}
+                                                    </label>
+                                                    <Box>
+                                                        <IconButton aria-label="upload picture" component="label" size="large" onClick={() => Clean()}>
+
+                                                            <RemoveCircleIcon />
+                                                        </IconButton>
+                                                    </Box>
+                                                </Box>
+                                                : ""}
+
                                         </Box>
                                     </Box>
                                 </Container>
@@ -497,17 +533,8 @@ export const SolicitudModal = (
 
                         ""}
 
-                    {modoSol == "editar" ?
-
-                        "" 
-                        :
-
-
-                        ""
-                    }
-
-                    <Grid container spacing={3} sx={{ justifyContent: "right ", width: "100%" }}>
-                        <Grid item xs={2}>
+                    <Grid container xs={12} spacing={3} marginTop={1} marginBottom={1} sx={{ justifyContent: "right ", width: "100%" }}>
+                        <Grid item xs={2} paddingBottom={1}>
                             <button className="cerrar" onClick={() => handleClose()}> {modo == "ver" || modo == "verDetalles" ? "Cerrar" : "Cancelar"}</button>
                         </Grid>
                     </Grid>

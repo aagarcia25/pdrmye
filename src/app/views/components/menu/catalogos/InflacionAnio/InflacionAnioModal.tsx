@@ -112,7 +112,7 @@ const InflacionAnioModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen>
       <DialogTitle>{modo}</DialogTitle>
       <DialogContent>
         <Box>

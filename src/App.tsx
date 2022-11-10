@@ -15,6 +15,7 @@ import {
   setDepartamento,
   setlogin,
   setMenus,
+  setMunicipio,
   setMunicipios,
   setPerfiles,
   setPermisos,
@@ -30,9 +31,11 @@ import Validacion from "./app/views/components/Validacion";
 import { useIdleTimer } from "react-idle-timer";
 import Slider from "./app/views/components/Slider";
 import { env_var } from '../src/app/environments/env';
+import { useNavigate } from "react-router-dom";
+
 
 function App() {
-
+  const navigate = useNavigate();
   //cambiar a 5 minutos
   const timeout = 600000;
   const [isIdle, setIsIdle] = useState(false);
@@ -104,6 +107,7 @@ function App() {
         setMenus(us.RESPONSE.MENUS);
         setPerfiles(us.RESPONSE.PERFILES);
         setDepartamento(us.RESPONSE.DEPARTAMENTOS);
+        setMunicipio(us.RESPONSE.MUNICIPIOS);
         loadMunicipios();
         loadMeses();
         loadAnios();
@@ -128,32 +132,36 @@ function App() {
 
   const verificatoken = (token: string) => {
 
-    UserServices.verify({}, token).then((res) => {
-      if (res.status == 200) {
-        setPU(res.data.data);
-        const user: UserReponse = JSON.parse(String(getPU()));
-        buscaUsuario(user.IdUsuario);
-      } else if (res.status == 401) {
-        setOpenSlider(false);
-        setlogin(false);
-        setAcceso(false);
-        Swal.fire({
-          title: "Mensaje: " + res.data.msg,
-          showDenyButton: false,
-          showCancelButton: false,
-          confirmButtonText: "Aceptar",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            localStorage.clear();
-            var ventana = window.self;
-            ventana.location.replace(env_var.BASE_URL_LOGIN);
-          }
-        });
-      }
+    UserServices.verify({}, token.replaceAll('"','')).then((res) => {
+      console.log(token)
+      console.log(token.replaceAll('"',''))
+        if (res.status == 200) {
+          setPU(res.data.data);
+          const user: UserReponse = JSON.parse(String(getPU()));
+          buscaUsuario(user.IdUsuario);
+        } else if (res.status == 401) {
+          setOpenSlider(false);
+          setlogin(false);
+          setAcceso(false);
+          Swal.fire({
+            title: "Mensaje: " + res.data.msg,
+            showDenyButton: false,
+            showCancelButton: false,
+            confirmButtonText: "Aceptar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              localStorage.clear();
+              var ventana = window.self;
+              ventana.location.replace(env_var.BASE_URL_LOGIN);
+            }
+          });
+        }
+    
     });
   };
 
   const handleOnActive = (v: string) => {
+
     const user: UserReponse = JSON.parse(String(getPU()));
     let data = {
       NombreUsuario: user.NombreUsuario,
@@ -221,8 +229,13 @@ function App() {
       }).then((result) => {
         if (result.isConfirmed) {
           localStorage.clear();
+          
           var ventana = window.self;
           ventana.location.replace(env_var.BASE_URL_LOGIN);
+        }else {
+          setTimeout(() => {
+            navigate("/Calendario");
+          }, 10000);
         }
       });
     }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, IconButton, } from '@mui/material'
+import { Box, Grid, IconButton, Typography, } from '@mui/material'
 import { GridColDef, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -12,7 +12,7 @@ import { Alert } from "../../../../../helpers/Alert";
 import MunPobrezaModal from './MunPobrezaModal'
 import Slider from "../../../Slider";
 import MUIXDataGrid from '../../../MUIXDataGrid'
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
@@ -35,6 +35,7 @@ export const MunPobreza = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+  const [nombreMenu, setNombreMenu] = useState("");
 
 
   // VARIABLES PARA LOS FILTROS
@@ -50,17 +51,12 @@ export const MunPobreza = () => {
       hide: true,
       width: 150,
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Total", headerName: "Total", width: 150 },
-    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 300, ...porcentage },
     {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 100,
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
@@ -68,6 +64,12 @@ export const MunPobreza = () => {
         );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", width: 150 },
+    { field: "Anio", headerName: "Año", width: 150 },
+    { field: "Total", headerName: "Total", width: 150 },
+    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 300, ...porcentage },
 
   ];
 
@@ -83,19 +85,12 @@ export const MunPobreza = () => {
 
 
   const handleClose = (v: string) => {
-    console.log("valor de v  " + v)
-
-    if (v == "close") {
-      setOpen(false)
-    }
-    if (v == "save") {
-      setOpen(false);
-      let data = {
-        NUMOPERACION: 4,
-        ANIO: filterAnio,
-      };
-      consulta(data);
-    }
+    setOpen(false);
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: filterAnio,
+    };
+    consulta(data);
 
   }
   const handleOpen = (v: any) => {
@@ -169,26 +164,7 @@ export const MunPobreza = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munpobreza(data).then((res) => {
-
-      console.log('respuesta' + res.RESPONSE + res.NUMCODE);
-
-
-
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-
-        setDataMunPobreza(res.RESPONSE);
-
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+      setDataMunPobreza(res.RESPONSE);
     });
   };
 
@@ -229,6 +205,7 @@ export const MunPobreza = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPOBREZA") {
         console.log(item)
+        setNombreMenu(item.Menu);
 
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
@@ -249,7 +226,15 @@ export const MunPobreza = () => {
 
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
-
+  
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
       <Box
         sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
         <SelectFrag
@@ -258,6 +243,12 @@ export const MunPobreza = () => {
           placeholder={"Seleccione Año"} label={''} disabled={false}
           value={''} />
       </Box>
+
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleAgregar} controlInterno={"MUNPOBREZA"} />
+      <MUIXDataGrid columns={columns} rows={dataMunPobreza} />
+
 
       {open ? (
         <MunPobrezaModal
@@ -269,13 +260,6 @@ export const MunPobreza = () => {
       ) : (
         ""
       )}
-
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleAgregar} controlInterno={"MUNPOBREZA"} />
-      <MUIXDataGrid columns={columns} rows={dataMunPobreza} />
-
-
     </div>
 
 

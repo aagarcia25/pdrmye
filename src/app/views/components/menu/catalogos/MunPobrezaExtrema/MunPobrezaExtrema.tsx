@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { Box, IconButton } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { GridColDef, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { Alert } from "../../../../../helpers/Alert";
 import Slider from "../../../Slider";
 import MUIXDataGrid from '../../../MUIXDataGrid'
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
 import { getPermisos, getUser } from '../../../../../services/localStorage'
 import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
-import AccionesGrid from '../Utilerias/AccionesGrid'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 
 export const MunPobrezaExtrema = () => {
@@ -34,6 +31,7 @@ export const MunPobrezaExtrema = () => {
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [nombreMenu, setNombreMenu] = useState("");
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -42,27 +40,22 @@ export const MunPobrezaExtrema = () => {
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
-  //funciones
-  const handleFilterMes = () => { };
+
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
+    { field: "id", headerName: "Identificador", hide: true },
     {
       field: "idmunicipio",
       headerName: "idmunicipio",
       hide: true,
       width: 150,
     },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Personas", headerName: "Total", width: 150 },
-    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 250, ...porcentage },
     {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 100,
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
@@ -70,21 +63,24 @@ export const MunPobrezaExtrema = () => {
         );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
+    { field: "Nombre", headerName: "Municipio", width: 150 },
+    { field: "Anio", headerName: "Año", width: 150 },
+    { field: "Personas", headerName: "Total", width: 150 },
+    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 250, ...porcentage }
+
 
   ];
 
+  const handleClose = (v: string) => {
 
-  const handleClose = (v:string) => {
-    if (v === "close"){
-      setOpen(false);
-    } else if (v === "save"){
-      setOpen(false);
+    setOpen(false);
+    setOpen(false);
     let data = {
       NUMOPERACION: 4,
       ANIO: filterAnio,
     };
     consulta(data);
-    }  
 
 
   }
@@ -97,12 +93,12 @@ export const MunPobrezaExtrema = () => {
   };
 
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+    } else if (v.tipo == 2) {
       handleBorrar(v.data);
     }
   }
@@ -167,42 +163,27 @@ export const MunPobrezaExtrema = () => {
     });
   };
 
-
   const consulta = (data: any) => {
     CatalogosServices.munpobrezaext(data).then((res) => {
+      setPobrezaExtrema(res.RESPONSE);
 
       console.log('respuesta' + res.RESPONSE + res.NUMCODE);
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
 
-        setPobrezaExtrema(res.RESPONSE);
-
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
     });
   };
 
-  const handleFilterChange = (event: any) => {
-
-    setFilterAnio(event.value);
+  const handleFilterChange = (v: string) => {
+    setFilterAnio(v)
     let data = {
       NUMOPERACION: 4,
-      ANIO: event.value,
+      ANIO: v,
 
-    }; 
+    };
 
     consulta(data);
   };
 
-  
+
   const downloadplantilla = () => {
     let data = {
       NUMOPERACION: "MUNICIPIO_POBREZA_EXTREMA",
@@ -219,7 +200,8 @@ export const MunPobrezaExtrema = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPOEX") {
         console.log(item)
-    
+        setNombreMenu(item.Menu);
+
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
@@ -241,14 +223,29 @@ export const MunPobrezaExtrema = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Box  
-         sx={{ display: 'flex', flexDirection: 'row-reverse',}}>
-            <SelectFrag 
-            value={''}
+
+
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
+      <Box
+        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
+        <SelectFrag
+          value={filterAnio}
           options={anios}
           onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={""} disabled={false}/>
-            </Box>
+          placeholder={"Seleccione Año"} label={""} disabled={false} />
+      </Box>
+
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleAgregar} controlInterno={"MUNPOEX"} />
+      <MUIXDataGrid columns={columns} rows={PobrezaExtrema} />
 
       {open ? (
         <MunPobrezaExtremaModal
@@ -261,14 +258,6 @@ export const MunPobrezaExtrema = () => {
       ) : (
         ""
       )}
-
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleAgregar} controlInterno={"MUNPOEX"}      />
-
-      <MUIXDataGrid columns={columns} rows={PobrezaExtrema} />
-
-
     </div>
 
 

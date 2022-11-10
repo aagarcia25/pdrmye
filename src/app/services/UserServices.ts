@@ -1,4 +1,4 @@
-import { get, getSingle } from "./apiServiceExt";
+import { get, getSingle, put } from "./apiServiceExt";
 import { post, postSingle } from "./apiServiceExt";
 
 
@@ -34,7 +34,9 @@ export class UserServices {
     public static async ActivateUser(data: any) {
         return await getSingle('activate',data);
     }
-
+    public static async refreshToken(data: any) {
+        return await put('refreshToken');
+    }
     
 
 

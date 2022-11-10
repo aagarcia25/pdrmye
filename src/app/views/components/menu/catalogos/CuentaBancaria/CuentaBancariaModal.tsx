@@ -16,7 +16,7 @@ import {  RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import Swal from "sweetalert2";
 

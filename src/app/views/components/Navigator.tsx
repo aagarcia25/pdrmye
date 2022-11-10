@@ -10,7 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Logo from "../../assets/img/logo.svg";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { Collapse } from "@mui/material";
+import { Collapse, Grid, Typography } from "@mui/material";
 import { getMenus } from "../../services/localStorage";
 import { menus } from "../../interfaces/menu/menu";
 import SendIcon from "@mui/icons-material/Send";
@@ -25,22 +25,37 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
   const navigate = useNavigate();
  
   const list: menus[] = JSON.parse(String(getMenus()));
-  const [open, setOpen] = React.useState(true);
-  const handleClick = () => {
-    setOpen(!open);
+  const [open, setOpen] = React.useState(0);
+  const handleClick = (x:number) => {
+    setOpen(x);
   };
 
 
   return (
     <Drawer variant="permanent" {...other} {...logoFijo}>
-      <AppBar
+
+      <Grid container 
+        position="sticky"
+        alignContent="center"
+        sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%" }}>
+        <Grid item sx={{ width:"auto",higth:"30%" }}>
+        <img src={Logo} style={{ width: "100%" }} />
+        </Grid>
+        <Grid item sx={{width:"auto", textAlign:"center"}}>
+          <Typography variant="h6" > DISTRIBUCIÓN DE RECURSOS </Typography>
+        </Grid> 
+      </Grid>
+
+      
+      {/* <AppBar
         position="sticky"
         sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%" }}
       >
-        <Toolbar>
-          <img src={Logo} style={{ width: "100%" }} />
-        </Toolbar>
-      </AppBar>
+         <img src={Logo} style={{ width: "90%" }} />
+ 
+        {/* <Toolbar>
+        </Toolbar> */}
+      {/* </AppBar> */} 
 
       <Box
         sx={{
@@ -61,44 +76,51 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
         }}
       >
         <div>
-          <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-            component="nav"
-            aria-labelledby=""
-          >
+          <List >
 
 
 
          {
            
-           list.map((item) =>{
+           list.map((item,indexx) =>{
               
             return (
 
                 (item?.items?.length !== 0) ?
 
-                <div key={Math.random()}>
-                <ListItemButton key={Math.random()}   onClick={handleClick}>
+                <div key={indexx}>
+                <ListItemButton key={indexx}   onClick={()=>handleClick(indexx)} onDoubleClick={()=>handleClick(-1)}>
                 <ListItemIcon>
                 <SendIcon />
                 </ListItemIcon>
-                <ListItemText key={Math.random()}  primary={item.Menu} />
-                {open ? <ExpandLess /> : <ExpandMore />}
+               
+                <ListItemText key={indexx}  primary={
+                   <Typography variant="button" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
+                  {item.Menu}
+                  </Typography>
+                  } />
+               
+               {open===indexx ? <ExpandLess /> : <ExpandMore />}
                  </ListItemButton>
                  {/* <Divider key={Math.random()} absolute /> */}
                  
                  {
-                    item?.items?.map((subitem) =>{
+                    item?.items?.map((subitem,index) =>{
                       return(
-                        <Collapse key={Math.random()}   in={open} timeout="auto" unmountOnExit>
-                        <List key={Math.random()}  component="div" disablePadding>
-                          <ListItemButton  key={Math.random()}  onClick={() => navigate(subitem.Path)}  sx={{ pl: 4 }}>
+                        <Collapse key={index}   in={open===indexx} timeout="auto" unmountOnExit>
+                        <List key={index}  component="div" disablePadding>
+                          <Divider/>
+                          <ListItemButton  key={index}  onClick={() => navigate(subitem.Path)}  sx={{ pl: 4 }}>
                             <ListItemIcon>
                               <ArrowForwardIcon />
                             </ListItemIcon>
-                            <ListItemText key={Math.random()}  primary={subitem.Menu} />
+                               <ListItemText key={index}  primary={
+                                <Typography variant="caption" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
+                                {  subitem.Menu}
+                                </Typography>
+                                } />
                           </ListItemButton>
-                          <Divider key={Math.random()} absolute />
+                          <Divider/>
                         </List>
                       </Collapse>
                       );
@@ -115,7 +137,11 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                 <ListItemIcon>
                 <SendIcon />
                 </ListItemIcon>
-                <ListItemText primary={item.Menu} />
+                <ListItemText key={Math.random()}  primary={
+                                <Typography variant="caption" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
+                                {  item.Menu}
+                                </Typography>
+                                } />
                 </ListItemButton>
                 <Divider key={Math.random()} absolute />
                 </div>

@@ -24,6 +24,7 @@ import { id } from "date-fns/locale";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { Alert } from "../../../../../helpers/Alert";
+import ModalForm from "../../../componentes/ModalForm";
 
 const FondosView = ({
     open,
@@ -170,9 +171,8 @@ const FondosView = ({
 
     return (
         <div>
-
-            <Dialog open={open} >
-                <Box
+            <ModalForm title={"  Ajustes Relacionados"} handleClose={handleClose}>
+                <Grid container
                     sx={{
                         mt: "2vh",
                         width: "100%",
@@ -188,9 +188,11 @@ const FondosView = ({
 
                         <ButtonGroup variant="outlined" aria-label="outlined primary button group">
                             <Button
+                                color={openRel?"info":"inherit"}
                                 onClick={handleAjustesRel}
                             >Ajustes Relacionados</Button>
                             <Button
+                                color={openRel?"inherit":"info"}
                                 onClick={handleAjustesDis}
 
                             >Ajustes Disponibles Para Relacionar</Button>
@@ -212,74 +214,71 @@ const FondosView = ({
                     >
 
                         {openRel ?
-                            <Box>
 
-                                <Grid container
-                                    sx={{
-                                        textAlign: 'center',
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                    }}>
-                                    <Grid item xs={12}>
-                                        <br />
-                                        <label className="Titulo">
-                                            Ajustes Relacionados
-                                        </label>
-                                        <br />
-                                    </Grid>
-                                    <Grid item xs={12}>
+                            <Grid container
+                                sx={{
+                                    textAlign: 'center',
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
 
-                                        *Para Eliminar el Ajuste Seleccione la Casilla*
-                                    </Grid>
+                                }}>
+                                <Grid item xs={12}>
+                                    <br />
+                                    <label className="Titulo">
+
+                                    </label>
+                                    <br />
                                 </Grid>
-                            </Box>
+                                <Grid item xs={12} >
+
+                                    *Para Eliminar el Ajuste Seleccione la Casilla*
+                                </Grid>
+                            </Grid>
                             :
-                            <Box>
-                                <Grid container
-                                    sx={{
-                                        textAlign: 'center',
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                    }}>
-                                    <Grid item xs={12}>
-                                        <br />
-                                        <label className="Titulo">
-                                            Ajustes Disponibles Para Relacionar
-                                        </label>
-                                        <br />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        *Para Asignar el Ajuste Seleccione la Casilla*
-                                    </Grid>
+                            <Grid container
+                                sx={{
+                                    textAlign: 'center',
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+
+                                }}>
+                                <Grid item xs={12} >
+                                    <br />
+                                    <label className="Titulo">
+                                        Ajustes Disponibles Para Relacionar
+                                    </label>
+                                    <br />
                                 </Grid>
-                            </Box>
+                                <Grid item xs={12}>
+                                    *Para Asignar el Ajuste Seleccione la Casilla*
+                                </Grid>
+                            </Grid>
                         }
                         <Box>
 
                             <br />
                             <label>{descripcion} </label>
                         </Box>
-                    
-                    <Box sx={{ display: "flex"}}>
+
                         <Grid container sm={12} sx={{ alignItems: "center", justifyContent: "center", }}>
 
                             <Grid item xs={12} sx={{
                                 width: "100%",
-                                height: 300,
+                                // height: 300,
+                                height: "60vh",
                             }}>
                                 <MUIXDataGridSimple columns={columns} rows={data} />
                             </Grid>
                         </Grid>
-                    </Box>
                     </Grid>
-                </Box>
+                </Grid>
 
-                <DialogActions>
-                    <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
-                </DialogActions>
-            </Dialog>
+
+
+            </ModalForm>
+
         </div>
 
     )

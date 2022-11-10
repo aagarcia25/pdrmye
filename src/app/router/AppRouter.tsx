@@ -35,12 +35,10 @@ import PensionesVitalicias from '../views/components/Organismos/PensionesVitalic
 import Solicitudes from '../views/components/Organismos/Solicitudes/Solicitudes';
 import ContactoMunicipios from '../views/components/Municipios/ContactoMunicipios';
 import ContactoOrganismos from '../views/components/Organismos/contactoOrganismos/ContactoOrganismos';
-import CFuenteFinanciamiento from '../views/components/menu/catalogos/CFuenteFinanciamiento/CFuenteFinanciamiento';
 import Presupuesto from '../views/components/Organismos/Presupuesto/Presupuesto';
 import Nomina from '../views/components/Organismos/Nomina/Nomina';
 import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
-import { Fondo } from '../views/components/menu/aportaciones/Fondo';
 import {  getUser, islogin } from '../services/localStorage';
 import { RESPONSE } from '../interfaces/user/UserInfo';
 import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
@@ -48,15 +46,12 @@ import { CalculoGarantiaComponente } from '../views/components/menu/articulos/Ca
 import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de Usuario/PerfilesUsuario';
 import SolicitudRecursos from '../views/components/Municipios/SolicitudRecursos';
 import RecepcionRecursos from '../views/components/Municipios/RecepcionRecursos';
-
-import Workflow from '../views/components/menu/Workflow/Worflow';
-
 import { Bancos } from '../views/components/menu/catalogos/Bancos/Bancos';
-
 import { CuentaBancaria } from '../views/components/menu/catalogos/CuentaBancaria/CuentaBancaria';
 import { AnticipoParticipaciones } from '../views/components/menu/catalogos/Municipios/anticipoParticipaciones/AnticipoParticipaciones';
 import AsigPresupuestal from '../views/components/DPCP/AsigPresupuestal';
 import AsigPago from '../views/components/DAF/AsigPago';
+import AgregarContactoMunicipio from '../views/components/Municipios/AgregarContactoMunicipio';
 
 
 
@@ -93,7 +88,6 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/inflacionAnio'              element={<InflacionAnio />}      />
         <Route path='/inicio/catalogos/fondos'                     element={<Fondos />}      />
         <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
-        <Route path='/inicio/wf'                                   element={log ? <Workflow /> : <AuthRouter />} />
         <Route path='/inicio/catalogos/parametrosgenerales'  element={<ParametrosGenerales />} />
         <Route path='/inicio/catalogos/bancos'  element={<Bancos />} />
         <Route path='/inicio/catalogos/cuentabancaria'  element={<CuentaBancaria/>} />
@@ -122,9 +116,6 @@ export const AppRouter = () => {
         <Route path='/inicio/participaciones/:fondo' element={log ? <Fpg /> : <AuthRouter />} />
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
-        {/* SECCION APORTACIONES ESTATALES */}
-        <Route path='/inicio/aportaciones/:fondo'     element={log ? <Fondo /> : <AuthRouter />}/>
-        {/* FIN SECCION APORTACIONES FEDERALES */}
        {/* SECCION USUARIOS, ROLES, PERMISOS */}
        <Route path='/inicio/usuario'   element={log ? <Usuarios /> : <AuthRouter />} />
        <Route path='/inicio/roles'     element={log ? <Roles /> : <AuthRouter />} />
@@ -137,18 +128,20 @@ export const AppRouter = () => {
        <Route path='/inicio/pensionesvitalicias'  element={log ? <PensionesVitalicias /> : <AuthRouter />} />
        <Route path='/inicio/org/solicitudes'  element={log ? <Solicitudes /> : <AuthRouter />} />
        <Route path='/inicio/contactoorganismos'  element={log ? <ContactoOrganismos /> : <AuthRouter />} />
-       <Route path='/inicio/ff'  element={log ? <CFuenteFinanciamiento /> : <AuthRouter />} />
        <Route path='/inicio/presupuesto'  element={log ? <Presupuesto /> : <AuthRouter />} />
        <Route path='/inicio/nomina'  element={log ? <Nomina /> : <AuthRouter />} />
        {/* FIN DE SECCION DE ORGANISMOS */}
        {/* SECCION MUNICIPIOS */}
        <Route path='/inicio/contactomunicipio'  element={log ? <ContactoMunicipios /> : <AuthRouter />} />
+       <Route path='/inicio/agregarcontactomunicipio'  element={log ? <AgregarContactoMunicipio /> : <AuthRouter />} />
        <Route path='/inicio/recursos'  element={log ? <RecepcionRecursos /> : <AuthRouter />} />
        <Route path='/inicio/anticipop'  element={log ? <SolicitudRecursos /> : <AuthRouter />} />
        {/* SECCION MUNICIPIOS */}
 
        {/* DCCP */}
-       <Route path='/inicio/dccp'  element={log ? <AsigPresupuestal /> : <AuthRouter />} />
+       <Route path='/inicio/dpcp'  element={log ? <AsigPresupuestal /> : <AuthRouter />} />
+       <Route path='/inicio/dpcp/auth'  element={log ? <AsigPresupuestal /> : <AuthRouter />} />
+       AuthSolicitudes
        {/* FIN DCCP */}
         {/* DAF */}
         <Route path='/inicio/daf'  element={log ? <AsigPago /> : <AuthRouter />} />

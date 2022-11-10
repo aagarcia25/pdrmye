@@ -12,11 +12,17 @@
     export interface PERMISO {
         ControlInterno: string;
         Referencia: string;
+        Menu: string;
     }
 
     export interface PERFILES {
         Descripcion: string;
         Referencia: string;
+    }
+
+    export interface MUNICIPIOS {
+        id: string;
+        Nombre: string;
     }
 
     export interface DEPARTAMENTOS {
@@ -48,6 +54,7 @@
         PERMISOS: PERMISO[];
         PERFILES: PERFILES[];
         DEPARTAMENTOS: DEPARTAMENTOS[];
+        MUNICIPIOS : MUNICIPIOS[];
         tipo?: any;
     }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, IconButton } from '@mui/material'
+import { Box, Grid, IconButton, Typography } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
@@ -11,7 +11,7 @@ import { Alert } from "../../../../../helpers/Alert";
 import Slider from "../../../Slider";
 import MunPoblacionProyeccionModal from '../MunPobProyeccion/MunPoblacionProyeccionModal';
 import MUIXDataGrid from '../../../MUIXDataGrid'
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
@@ -35,6 +35,7 @@ export const MunPobProyeccion = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+  const [nombreMenu, setNombreMenu] = useState("");
 
 
 
@@ -50,25 +51,25 @@ export const MunPobProyeccion = () => {
       hide: true,
       width: 150,
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "anio", headerName: "Año", width: 150 },
-    { field: "Pob", headerName: "Poblacion", width: 150 },
-
     {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 100,
       renderCell: (v) => {
         return (
-
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
 
         );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", width: 150 },
+    { field: "anio", headerName: "Año", width: 150 },
+    { field: "Pob", headerName: "Poblacion", width: 150 },
+
 
   ];
   const handleAccion = (v: any) => {
@@ -175,26 +176,7 @@ export const MunPobProyeccion = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munproyec(data).then((res) => {
-
-      console.log('respuesta' + res.RESPONSE + res.NUMCODE);
-
-
-
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-
-        setPoblacion(res.RESPONSE);
-
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+      setPoblacion(res.RESPONSE);
     });
   };
 
@@ -226,6 +208,7 @@ export const MunPobProyeccion = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPROYEC") {
         console.log(item)
+        setNombreMenu(item.Menu);
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
@@ -245,7 +228,14 @@ export const MunPobProyeccion = () => {
 
     <div style={{ height: 500, width: "100%" }}>
       <Slider open={slideropen}></Slider>
-
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
       <Box
         sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
         <SelectFrag
@@ -254,8 +244,10 @@ export const MunPobProyeccion = () => {
           placeholder={"Seleccione Año"} label={""} disabled={false}
           value={''} />
       </Box>
-
-
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleAgregar} controlInterno={"MUNPROYEC"} />
+      <MUIXDataGrid columns={columns} rows={Poblacion} />
       {open ? (
         <MunPoblacionProyeccionModal
           open={open}
@@ -267,12 +259,6 @@ export const MunPobProyeccion = () => {
       ) : (
         ""
       )}
-
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleAgregar} controlInterno={"MUNPROYEC"} />
-      <MUIXDataGrid columns={columns} rows={Poblacion} />
-
     </div>
 
 

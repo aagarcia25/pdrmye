@@ -32,8 +32,8 @@ interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps) {
-  const btnPerson = "2.5vw";
-  const btnAll = "3.0vw";
+  const btnPerson = "120%";
+  const btnAll = "130%";
 
   const user: RESPONSE = JSON.parse(String(getUser()));
   const navigate = useNavigate();
@@ -124,8 +124,6 @@ export default function Header(props: HeaderProps) {
             <Grid
               sx={{
                 display: {
-                  sm: "none",
-                  xs: "block",
                   backgroundColor: COLOR.negro,
                 },
               }}
@@ -138,21 +136,22 @@ export default function Header(props: HeaderProps) {
                 edge="start"
               >
                 <MenuIcon />
+
               </IconButton>
             </Grid>
             <Grid item xs />
 
-            <Grid item>
+            <Grid item >
               <Typography variant="subtitle1" color="black">
                 {props.name}
               </Typography>
               <Typography variant="caption" color="black">
-               {user.Puesto} 
+                {user.Puesto}
               </Typography>
-             
+
             </Grid>
 
-            <Grid item>
+            <Grid item >
               <Tooltip title="Haz click para ver más">
                 <IconButton
                   ref={anchorRef}
@@ -163,32 +162,32 @@ export default function Header(props: HeaderProps) {
                   onClick={handleToggle}
                   color="inherit"
                   sx={{
-                    width: "3.8vw",
-                    height: "7vh",
+                    width: "2.5vw",
+                    height: "2.5vw",
                     fontSize: btnPerson,
                     p: 0.1,
-                    border: 4,
-                    borderColor: COLOR.negro,
-                    backgroundColor: user.RutaFoto?COLOR.blanco:COLOR.negro,
+                    border: 2,
+                    borderColor: COLOR.azul,
+                    backgroundColor: user.RutaFoto ? COLOR.blanco : COLOR.azul,
                     "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                   }}
                 >
                   {user.RutaFoto ? (
                     <img
                       style={{
-                        width: "3vw",
-                        height: "7vh",
+                        
+                        height: "100%",
                         objectFit: "scale-down",
                       }}
                       src={user.RutaFoto}
                     />
                   ) : (
                     <PersonIcon sx={{
-                      width: "3vw", height: "7vh",
+                      width: "2vw", height: "5vh",
                       "&:hover": { color: COLOR.negro }
                     }} />
                   )}
-                  
+
                 </IconButton>
               </Tooltip>
               <Popper
@@ -218,11 +217,11 @@ export default function Header(props: HeaderProps) {
                           onKeyDown={handleListKeyDown}
                         >
                           <MenuItem onClick={onConfigProfile}>
-                            <ManageAccountsIcon sx={{ color: COLOR.negro }} />
+                            <ManageAccountsIcon sx={{ color: COLOR.azul }} />
                             Configuración de perfil
                           </MenuItem>
                           <MenuItem onClick={onLogOut}>
-                            <LogoutIcon sx={{ color: COLOR.negro }} />
+                            <LogoutIcon sx={{ color: COLOR.azul }} />
                             Cerrar sesión
                           </MenuItem>
                         </MenuList>
@@ -247,7 +246,7 @@ export default function Header(props: HeaderProps) {
                     color="inherit"
                     sx={{
                       mt: 0.1,
-                      backgroundColor: COLOR.negro,
+                      backgroundColor: COLOR.azul,
                       "&:hover": {
                         backgroundColor: COLOR.grisTarjetaBienvenido,
                       },
@@ -259,7 +258,7 @@ export default function Header(props: HeaderProps) {
                         color: COLOR.blanco,
                         fontSize: btnAll,
                         "&:hover": {
-                          color: COLOR.negro,
+                          color: COLOR.azul,
                         },
                       }}
                     />
@@ -274,7 +273,7 @@ export default function Header(props: HeaderProps) {
                   color="inherit"
                   sx={{
                     mt: 0.1,
-                    backgroundColor: COLOR.negro,
+                    backgroundColor: COLOR.azul,
                     "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                   }}
                   onClick={onOpenCalendar}
@@ -284,7 +283,7 @@ export default function Header(props: HeaderProps) {
                       fontSize: btnAll,
                       color: COLOR.blanco,
                       "&:hover": {
-                        color: COLOR.negro,
+                        color: COLOR.azul,
                       },
                     }}
                   />

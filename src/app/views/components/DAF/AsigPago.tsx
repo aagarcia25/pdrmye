@@ -14,7 +14,7 @@ import {
 import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
-import SelectFrag from "../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../Fragmentos/SelectFrag";
 import SendIcon from "@mui/icons-material/Send";
 import { Alert } from "../../../helpers/Alert";
 import { Moneda } from "../menu/CustomToolbar";

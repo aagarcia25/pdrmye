@@ -1,4 +1,4 @@
-import { Box, IconButton } from "@mui/material";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { messages } from "../../../../styles";
@@ -26,7 +26,7 @@ export const CalculoGarantiaComponente = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-  
+  const [nombreMenu, setNombreMenu] = useState("");
 
   const columns: GridColDef[] = [
     {
@@ -42,6 +42,20 @@ export const CalculoGarantiaComponente = () => {
       hide: true,
       width: 150,
     },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 100,
+      renderCell: (v) => {
+        return (
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
+        );
+      },
+    },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
     { field: "ClaveEstado", headerName: "Clave Estado", width: 150 },
     { field: "Nombre", headerName: "Municipio", width: 250 },
     {
@@ -70,31 +84,18 @@ export const CalculoGarantiaComponente = () => {
       field: "Distribucion",
       headerName: "Distribucion",
       width: 150,
-      
+
     },
 
-    
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Campo de Acciones",
-      sortable: false,
-      width: 150,
-      renderCell: (v) => {
-        return (
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
 
-        );
-      },
-    },
   ];
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setVrows(v.data);
-    }else if(v.tipo ==2){
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   }
@@ -188,6 +189,8 @@ export const CalculoGarantiaComponente = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "CA") {
         console.log(item)
+
+        setNombreMenu(item.Menu);
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }
@@ -204,7 +207,18 @@ export const CalculoGarantiaComponente = () => {
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-       {open ? (
+
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+      <MUIXDataGrid columns={columns} rows={calculoGarantia} />
+      {open ? (
         <CalculoGarantiaModal
           open={open}
           modo={modo}
@@ -215,8 +229,7 @@ export const CalculoGarantiaComponente = () => {
       ) : (
         ""
       )}
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGrid columns={columns} rows={calculoGarantia} />
+
     </div>
   );
 };

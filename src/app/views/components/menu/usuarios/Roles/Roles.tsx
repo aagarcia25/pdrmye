@@ -16,6 +16,7 @@ import AsignarMenuRol from "./AsignarMenuRol";
 import EditIcon from "@mui/icons-material/Edit";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
+import Swal from "sweetalert2";
 
 const Roles = () => {
   const [data, setData] = useState([]);
@@ -54,21 +55,36 @@ const Roles = () => {
       CHUSER: user.id,
       CHID: String(v.row.id),
     };
-    AuthService.rolesindex(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Rol Eliminado!",
-        });
-        consulta({ NUMOPERACION: 4 });
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
+    Swal.fire({
+      icon: "error",
+      title: "Borrar El Rol",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Aceptar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        AuthService.rolesindex(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Rol Eliminado!",
+            });
+            consulta({ NUMOPERACION: 4 });
+          } else {
+            Alert.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
         });
       }
     });
+
+
+
+
+
   };
 
   const handleView = (v: any) => {

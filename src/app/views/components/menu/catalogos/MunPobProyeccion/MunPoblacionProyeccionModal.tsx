@@ -10,15 +10,17 @@ import {
   InputAdornment,
   DialogActions,
   Button,
+  Grid,
 } from "@mui/material";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { municipiosc } from "../../../../../share/loadMunicipios";
+import ModalForm from "../../../componentes/ModalForm";
 
 
 const MunPoblacionProyeccionModal = ({
@@ -30,9 +32,9 @@ const MunPoblacionProyeccionModal = ({
 }: {
   open: boolean;
   modo: string;
-  tipo:number;
-  handleClose:Function,
-  dt:any
+  tipo: number;
+  handleClose: Function,
+  dt: any
 }) => {
 
 
@@ -41,20 +43,20 @@ const MunPoblacionProyeccionModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
-  const [poblacion, setPoblacion] = useState("");
+  const [poblacion, setPoblacion] = useState<number>();
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [municipio, setMunicipio] = useState("");
   const [mun, setMun] = useState<SelectValues[]>([]);
- 
- 
 
 
 
- 
+
+
+
 
   const handleSend = () => {
-    if (poblacion == "") {
+    if (poblacion == null) {
       Alert.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -68,18 +70,18 @@ const MunPoblacionProyeccionModal = ({
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         POB: poblacion,
- 
 
-        
+
+      
       };
-
-      handleRequest(data);
+  handleRequest(data);
+     
     }
   };
 
-  const handleFilterChange = (event:SelectValues) => { 
+  const handleFilterChange = (event: SelectValues) => {
     setIdMunicipio(event.value);
- 
+
   };
 
 
@@ -90,7 +92,7 @@ const MunPoblacionProyeccionModal = ({
       agregar(data);
     } else if (tipo == 2) {
       //EDITAR
-      
+
       editar(data);
     }
   };
@@ -104,6 +106,7 @@ const MunPoblacionProyeccionModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
+        handleClose();
 
       } else {
         Alert.fire({
@@ -122,6 +125,7 @@ const MunPoblacionProyeccionModal = ({
           icon: "success",
           title: "Registro Editado!",
         });
+        handleClose();
       } else {
         Alert.fire({
           title: "Error!",
@@ -132,78 +136,97 @@ const MunPoblacionProyeccionModal = ({
     });
   };
 
- 
+  const handle = () => {
+
+  };
 
   useEffect(() => {
     setMun(municipiosc());
 
-    if(dt === ''  ){
-        console.log(dt)
-       
-    }else{
-        setId(dt?.row?.id)
-        setAnio(dt?.row?.anio)
-        setPoblacion(dt?.row?.Pob)
-        setIdMunicipio(dt?.row?.idmunicipio)
-        setMunicipio(dt?.row?.Nombre)
-   
+    if (dt === '') {
+      console.log(dt)
 
-        console.log(dt)
+    } else {
+      setId(dt?.row?.id)
+      setAnio(dt?.row?.anio)
+      setPoblacion(dt?.row?.Pob)
+      setIdMunicipio(dt?.row?.idmunicipio)
+      setMunicipio(dt?.row?.Nombre)
 
 
-   
+      console.log(dt)
+
+
+
     }
-   
+
   }, [dt]);
 
 
 
   return (
-    <Dialog open={open}>
-      <DialogTitle>{modo}</DialogTitle>
-      <DialogContent>
-        <Box>
-          <FormControl variant="standard" fullWidth>
+
+    <div>
+      <ModalForm title={modo} handleClose={handleClose}>
+        <Grid container
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+
+        >
     
-            <Box>
-            <label ><br /> Municipio: <br />{municipio}</label>
-          </Box>
-        
-
+           
+          <Grid item xs={12} sm={8} md={8} lg={7}>
           <Box>
-            <label > <br />Año <br />{anio}</label>
+          <label className="Titulo">{municipio}</label>
           </Box>
+          </Grid>
+          <Grid item xs={12} sm={8} md={8} lg={7}>
+            <TextField
+              margin="dense"
+              required
+              id="pob"
+              label="Area"
+              value={poblacion}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setPoblacion(Number(v.target.value))}
+              error={poblacion == null ? true : false}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start"></InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
 
-          <Box>
-            <label ><br /> Poblacion <br /></label>
-          </Box>
-          <TextField
-            margin="dense"
-            required
-            id="pob"
-            value={poblacion}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setPoblacion(v.target.value)}
-            error={poblacion == "" ? true : false}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start"></InputAdornment>
-              ),
+          <Grid container
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
             }}
-          />
-         
-         </FormControl>
-        </Box>
-        
-      </DialogContent>
+          >
+            <Grid item xs={4} sm={3} md={2} lg={1}
+            >
+              <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
+            </Grid>
+          </Grid>
+        </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
-      </DialogActions>
-    </Dialog>
+      </ModalForm>
+    </div>
+
+
   );
 };
 

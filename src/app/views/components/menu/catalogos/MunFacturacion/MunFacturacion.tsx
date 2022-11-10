@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 import {
-  Box,
+  Box, Grid, Typography,
 } from "@mui/material";
 
 import { GridColDef } from "@mui/x-data-grid";
 import {
+  getPermisos,
   getUser,
 } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -19,10 +20,11 @@ import Swal from "sweetalert2";
 import MunFacturacionModal from "./MunFacturacionModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { currencyFormatter } from "../../CustomToolbar";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 
 
@@ -37,7 +39,11 @@ export const MunFacturacion = () => {
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  const [nombreMenu, setNombreMenu] = useState("");
 
 
   // VARIABLES PARA LOS FILTROS
@@ -60,6 +66,20 @@ export const MunFacturacion = () => {
       hide: true,
       width: 150,
     },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 100,
+      renderCell: (v) => {
+        return (
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
+        );
+      },
+    },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
     { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", width: 220 },
     { field: "Anio", headerName: "Año", width: 150 },
@@ -70,34 +90,30 @@ export const MunFacturacion = () => {
       align: "right",
       ...currencyFormatter
     },
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Campo de Acciones",
-      sortable: false,
-      width: 200,
-      renderCell: (v) => {
-        return (
-          ""
-        );
-      },
-    },
+
   ];
+
+
+  const handleAccion = (v: any) => {
+    if (v.tipo == 1) {
+      setTipoOperacion(2);
+      setModo("Editar ");
+      setOpen(true);
+      setData(v.data);
+    } else if (v.tipo == 2) {
+      handleDelete(v.data);
+    }
+  }
+
 
   const handleClose = (v: string) => {
 
-    if (v === "close") {
-      setOpen(false);
-    }
-    else if (v === "save") {
-      setOpen(false);
-      let data = {
-        NUMOPERACION: 4,
-        ANIO: filterAnio,
-      };
-      consulta(data);
-
-    }
+    setOpen(false);
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: filterAnio,
+    };
+    consulta(data);
 
 
   };
@@ -194,19 +210,9 @@ export const MunFacturacion = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munfacturacion(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        setFacturacion(res.RESPONSE);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+
+      setFacturacion(res.RESPONSE);
+
     });
   };
 
@@ -236,12 +242,33 @@ export const MunFacturacion = () => {
   useEffect(() => {
     setAnios(fanios());
     downloadplantilla();
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "MUNFA") {
+        console.log(item)
+        setNombreMenu(item.Menu);
+
+        if (String(item.Referencia) == "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) == "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
   }, []);
 
   return (
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
       <Box
         sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
         <SelectFrag
@@ -251,6 +278,12 @@ export const MunFacturacion = () => {
           placeholder={"Seleccione Año"} label={""} disabled={false} />
       </Box>
 
+
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleUpload} controlInterno={"MUNFA"} />
+
+      <MUIXDataGrid columns={columns} rows={Facturacion} />
       {open ? (
         <MunFacturacionModal
           open={open}
@@ -263,11 +296,6 @@ export const MunFacturacion = () => {
         ""
       )}
 
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNFA"}      />
-
-      <MUIXDataGrid columns={columns} rows={Facturacion} />
     </div>
   );
 };

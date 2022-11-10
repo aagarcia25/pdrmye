@@ -37,7 +37,7 @@ const SolicitudRecursos = () => {
   const [modo, setModo] = useState("");
   const [departamento, setDepartamento] = useState<string>();
   const [perfil, setPerfil] = useState<string>();
-
+  var hoy = new Date()
 
   const [data, setData] = useState({});
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -48,6 +48,7 @@ const SolicitudRecursos = () => {
 
   const perfiles = [
     { estatusRef: 'MUN_INICIO', accion: 'enviar', per: 'MUN', dep: "MUN", estatus: 'DAMOP_INICIO' },
+    { estatusRef: 'MUN_ACT', accion: 'enviar', per: 'MUN', dep: "MUN", estatus: 'DAMOP_INICIO' },
     { estatusRef: 'DAMOP_AUT_ANA', accion: 'enviar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_ENV_COOR' },
     { estatusRef: 'DAMOP_AUT_COR', accion: 'enviar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_ENV_DIR' },
     { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_ENV_DCCP' },
@@ -148,7 +149,7 @@ const SolicitudRecursos = () => {
       },
     },
     { field: "NombreArchivo", headerName: "Nombre Archivo", width: 300 },
-    { field: "RutaSpei", headerName: " Spei", width: 120 },
+    // { field: "RutaSpei", headerName: " Spei", width: 120 },
     {
       field: "Descripcion", headerName: "Estatus", width: 230,
       renderCell: (v) => {
@@ -179,7 +180,7 @@ const SolicitudRecursos = () => {
       },
     },
     {
-      field: "Comentario", headerName: " Comentario", width: 120,
+      field: "Comentario", headerName: " Comentario", width: 150,
       renderCell: (v) => {
         return (
           <Box>
@@ -272,6 +273,8 @@ const SolicitudRecursos = () => {
         CHUSER: user.id,
         ESTATUS: estatus,
         Comentario: data?.row?.Comentario,
+        ANIO:hoy.getFullYear(),
+        MES: (hoy.getMonth()+1) 
       };
 
       Swal.fire({
@@ -319,6 +322,7 @@ const SolicitudRecursos = () => {
     }
   }
   const handleClose = () => {
+ 
     setOpen(false);
     setOpenSeg(false);
     setOpenTraz(false);
@@ -330,7 +334,54 @@ const SolicitudRecursos = () => {
     setModo("nuevo");
 
   };
-  const handleAccion = () => {
+  const handleAccion = (v: any) => {
+
+    if(v.tipo ==1){
+      setModo("editar");
+      setOpen(true);
+      setData(v.data);
+    }else if(v.tipo ==2){
+      handleBorrar(v.data);
+    }
+
+  };
+  const handleBorrar = (v: any) => {
+console.log(v);
+
+let d = {
+  NUMOPERACION: 8,
+  CHID: v.id,
+  CHUSER: user.id,
+};
+
+Swal.fire({
+  icon: "info",
+  title: "Enviar",
+  text: "Desea Eliminar La Solicitud",
+  showDenyButton: false,
+  showCancelButton: true,
+  confirmButtonText: "Aceptar",
+  cancelButtonText: "Cancelar",
+}).then((result) => {
+  if (result.isConfirmed) {
+    CatalogosServices.SolicitudesInfo(d).then((res) => {
+      if (res.SUCCESS) {
+        console.log(res.RESPONSE)
+        handleClose();
+      } else {
+
+        Alert.fire({
+          title: "Error!",
+          text: "Fallo en la peticion",
+          icon: "error",
+
+        });
+      }
+    });
+  }
+  if (result.isDenied) {
+  }
+});
 
   };
   const handleVerTazabilidad = (v: any) => {
@@ -354,6 +405,7 @@ const SolicitudRecursos = () => {
   };
 
   useEffect(() => {
+    console.log(hoy.getMonth() + "  " + hoy.getFullYear());
     setPerfil(user.PERFILES[0].Referencia);
     console.log(permisos.map)
     console.log("departamento  " + user.DEPARTAMENTOS[0].NombreCorto)
