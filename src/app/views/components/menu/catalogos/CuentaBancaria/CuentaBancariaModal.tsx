@@ -153,9 +153,17 @@ export const CuentaBancariaModal = ({
       setslideropen(false);
     } else {
       const formData = new FormData();
+       console.log(nameNewDoc)
+      if(nameNewDoc !== undefined ){
+        formData.append("RUTADOCUMENTO", newDoc, nameNewDoc) ;
+      }
 
-      newDoc ? formData.append("RUTADOCUMENTO", newDoc, nameNewDoc) : formData.append("RUTADOCUMENTO", "");
-      newDocCarta ? formData.append("CARTA", newDocCarta, nameNewDocCarta) : formData.append("CARTA", "");
+      if( nameNewDocCarta !== undefined){
+        formData.append("CARTA", newDocCarta, nameNewDocCarta); 
+      }
+    
+
+
       formData.append("NUMOPERACION", String(tipo));
       formData.append("CHID", id);
       formData.append("CHUSER", String(user.id));
@@ -164,6 +172,7 @@ export const CuentaBancariaModal = ({
       formData.append("NOMBRECUENTA", nombreCuenta);
       formData.append("CLABEBANCARIA", clabeBancaria);
       formData.append("COMENTARIOS", comentarios);
+      formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
       CatalogosServices.CuentaBancaria(formData).then((res) => {
         setslideropen(false);
         console.log("res en service", res);
