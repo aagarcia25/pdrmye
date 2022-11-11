@@ -145,7 +145,7 @@ idmunicipio :string
             </Tooltip>
 
             {
-              ((v.row.EstatusDescripcion == "INICIO"|| v.row.EstatusDescripcion == "	DAMOP_REGRESADO")&& (user.DEPARTAMENTOS[0].NombreCorto == "MUN"&& user.PERFILES[0].Referencia=="MUN") ? (
+              ((v.row.EstatusDescripcion == "INICIO"|| v.row.ControlInterno == "DAMOP_REGRESADO")&& (user.DEPARTAMENTOS[0].NombreCorto == "MUN"&& user.PERFILES[0].Referencia=="MUN") ? (
                 <>
                 <Tooltip title="Enviar a Validación">
                   <IconButton color="info" onClick={() => handlevalidar(v)}>
