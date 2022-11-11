@@ -40,11 +40,13 @@ button.subtitulo {
  font-family:  "Poppins", 'Gill Sans', 'Gill Sans MT', sans-serif;
 
 };
+
 button.cerrar {
   font-size: 20px;
   transition-duration: 0.2s;
- font-family:  "Poppins", 'Gill Sans', 'Gill Sans MT', sans-serif;
- color: rgb(228, 34, 34);
+
+ font-family: "Public Sans", MontserratMedium;
+ color: rgb(168, 29, 29);
 
 };
 
@@ -74,16 +76,16 @@ button.actualizar {
  color: rgb(53, 160, 223);
 
 }
+button.regresar {
+  font-size: 20px;
+  transition-duration: 0.2s;
+ font-family: "Public Sans", MontserratMedium;
+ color: rgb(172, 28, 28);
+
+}
 button:hover {
   background-color: hsl(240, 11%, 89%);
   color: rgb(7, 7, 7);
-}
-
-.cerrar:hover {
-  background-color: #f64e60;
-  color: rgba(240, 248, 255, 0.526);
-  text-transform: capitalize;
-  
 }
 
 .editar:hover {

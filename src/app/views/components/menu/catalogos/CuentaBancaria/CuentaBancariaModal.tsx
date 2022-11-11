@@ -64,13 +64,6 @@ export const CuentaBancariaModal = ({
   const [uploadFile, setUploadFile] = useState("");
   const [uploadFileCarta, setUploadFileCarta] = useState("");
 
-
-
-
-  const [mensajeLabel, setMensajeLabel] = useState("Agrega un archivo PDF de tú carta de banco.");
-  const [iconoPDF, setIconoPDF] = useState(imagenGenerica);
-
-
   const handleNewFile = (event: any) => {
 
     let file = event.target!.files[0]!;
@@ -241,10 +234,6 @@ export const CuentaBancariaModal = ({
       setUrlDoc(dt?.row?.RutaDocumento);
       setUrlDocCarta(dt?.row?.RutaCarta)
       setComentarios(dt?.row?.Comentarios);
-      setMensajeLabel(dt?.row?.NombreDocumento);
-      if (dt?.row?.NombreDocumento.length > 0) {
-        setIconoPDF(PdfLogo);
-      }
     }
     bancosc();
   }, [dt]);
@@ -454,16 +443,16 @@ export const CuentaBancariaModal = ({
           >
 
             <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-            <Typography><h2>Nombre de la cuenta:</h2>   <h4>{" "+ nombreCuenta}</h4></Typography>
+            <label><h2>Nombre de la cuenta:</h2>   <h4>{" "+ nombreCuenta}</h4></label>
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-               <Typography><h2>Banco:</h2>  <h4>{" "+ dt?.row?.NombreBanco}</h4></Typography>
+               <label><h2>Banco:</h2>  <h4>{" "+ dt?.row?.NombreBanco}</h4></label>
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-             <Typography><h2>Numero de Cuenta: </h2>   <h4>{" "+ dt?.row?.NumeroCuenta}</h4></Typography>
+             <label><h2>Numero de Cuenta: </h2>   <h4>{" "+ dt?.row?.NumeroCuenta}</h4></label>
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-             <Typography><h2>Clave bancaria:</h2><h4>{" "+ dt?.row?.ClabeBancaria}</h4></Typography>
+             <label><h2>Clave bancaria:</h2><h4>{" "+ dt?.row?.ClabeBancaria}</h4></label>
             </Grid>
           </Grid>
 
