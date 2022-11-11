@@ -24,7 +24,7 @@ export default function MUIXDataGridSimple(props: any) {
             pageSize={20}
             columns={props.columns}
             rows={props.rows}
-            sx={{ fontFamily: "MontserratMedium", textTransform: "uppercase " }}
+            sx={{ fontFamily: "Poppins", textTransform: "uppercase " }}
             componentsProps={{
               toolbar: {
                 showQuickFilter: true,

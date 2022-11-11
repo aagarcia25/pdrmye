@@ -25,7 +25,7 @@ export default function MUIXDataGrid(props: any) {
           disableDensitySelector
           getRowHeight={() => 'auto'}
           components={{ Toolbar: GridToolbar }}
-          sx={{ fontFamily: "MontserratMedium" }}
+          sx={{ fontFamily: "Poppins"}}
           componentsProps={{
             toolbar: {
               label:"buscar",

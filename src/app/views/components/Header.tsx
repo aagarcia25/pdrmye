@@ -174,8 +174,8 @@ export default function Header(props: HeaderProps) {
                   onClick={handleToggle}
                   color="inherit"
                   sx={{
-                    width: "2.5vw",
-                    height: "2.5vw",
+                    width: "2.9rem",
+                    height: "2.9rem",
                     fontSize: btnPerson,
                     p: 0.1,
                     border: 2,
@@ -187,15 +187,16 @@ export default function Header(props: HeaderProps) {
                   {user.RutaFoto ? (
                     <img
                       style={{
-                        
-                        height: "100%",
                         objectFit: "scale-down",
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: '50%',
                       }}
                       src={user.RutaFoto}
                     />
                   ) : (
                     <PersonIcon sx={{
-                      width: "2vw", height: "5vh",
+                      width: "100%", height: "100%",
                       "&:hover": { color: COLOR.negro }
                     }} />
                   )}
