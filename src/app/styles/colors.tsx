@@ -6,5 +6,7 @@ export const COLOR = {
     grisTarjetaBienvenido: '#CCCCCC',
     doradoNL: '#B08C55',
     grisDivisionEntreElementos: '#808080',
-    grisBotones:'#EEEEEE'
+    grisBotones:'#EEEEEE',
+    rojo:'#fa4238',
+    verde:'#517b51',
   }
