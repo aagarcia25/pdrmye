@@ -85,7 +85,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                
                 <ListItemText key={indexx}  primary={
                    <Tooltip title={item.Descripcion}>
-                   <Typography variant="button" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
+                   <Typography variant="button" sx={{ fontFamily: "sans-serif" }} gutterBottom>
                     {item.Menu}
                   </Typography>
                   </Tooltip>
@@ -106,7 +106,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                             </ListItemIcon>
                                <ListItemText key={index}  primary={
                                 <Tooltip title={subitem.Descripcion}>
-                                <Typography variant="caption" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
+                                <Typography variant="caption" sx={{ fontFamily: "sans-serif" }} gutterBottom>
                                 {  subitem.Menu}
                                 </Typography>
                                 </Tooltip>
@@ -131,7 +131,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                 </ListItemIcon>
                 <ListItemText key={Math.random()}  primary={
                                 <Tooltip title={item.Descripcion}>
-                                <Typography variant="caption" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
+                                <Typography variant="caption" sx={{ fontFamily: "sans-serif" }} gutterBottom>
                                 {  item.Menu}
                                 </Typography>
                                 </Tooltip>
