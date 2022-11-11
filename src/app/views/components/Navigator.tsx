@@ -25,9 +25,10 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
   const navigate = useNavigate();
  
   const list: menus[] = JSON.parse(String(getMenus()));
-  const [open, setOpen] = React.useState(0);
+  const [open, setOpen] = useState(-1);
   const handleClick = (x:number) => {
-    setOpen(x);
+    open===x?setOpen(-1):setOpen(x);
+    
   };
 
 
@@ -87,9 +88,9 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
             return (
 
                 (item?.items?.length !== 0) ?
-
+                
                 <div key={indexx}>
-                <ListItemButton key={indexx}   onClick={()=>handleClick(indexx)} onDoubleClick={()=>handleClick(-1)}>
+                <ListItemButton key={indexx}   onClick={()=>handleClick(indexx)} >
                 <ListItemIcon>
                 <SendIcon />
                 </ListItemIcon>
@@ -100,7 +101,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                   </Typography>
                   } />
                
-               {open===indexx ? <ExpandLess /> : <ExpandMore />}
+               {open===indexx? <ExpandLess /> : <ExpandMore />}
                  </ListItemButton>
                  {/* <Divider key={Math.random()} absolute /> */}
                  

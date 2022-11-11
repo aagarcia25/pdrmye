@@ -33,7 +33,7 @@ const AgregarContactoMunicipio = () => {
     const [openDialogConfirmacion, setOpenDialogConfirmacion] = useState(false);
 
     const formData = new FormData();
-   
+
 
     useEffect(() => {
         console.log(telefono.length);
@@ -97,21 +97,21 @@ const AgregarContactoMunicipio = () => {
 
     const agregar = (data: any) => {
         CatalogosServices.municipioInformacion(data).then((res) => {
-          if (res.SUCCESS) {
-            Toast.fire({
-              icon: "success",
-              title: "Registro Agregado!",
-            });
-    
-          } else {
-            Alert.fire({
-              title: "Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
-            });
-          }
+            if (res.SUCCESS) {
+                Toast.fire({
+                    icon: "success",
+                    title: "Registro Agregado!",
+                });
+
+            } else {
+                Alert.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                });
+            }
         });
-      };
+    };
 
     const limpiar = () => {
         setMunicipio("")
@@ -127,162 +127,164 @@ const AgregarContactoMunicipio = () => {
     return (
         //Box padre
         <Box sx={{ display: "flex", width: "100%", height: "100%", justifyContent: "center", alignItems: "center" }}>
-            {/* Box delimitador con border */}
-            <Box sx={{ display: "flex", width: "40%", height: "90%", border: "1px solid  black", borderRadius: "5%", justifyContent: "center", alignItems: "center" }}>
-                {/* Box de contenido */}
-                <Box sx={{ display: "flex", width: "90%", height: "90%", backgroundColor: "white", flexDirection: "column", alignItems: "center" }}>
-                    {/* Box de imagen */}
-                    <Box sx={{ width: "25%", height: "25%", border: "5px dashed  black", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                        <input
-                            id="imagencargada"
-                            accept="image/*"
-                            onChange={(v) => { enCambioFile(v) }}
-                            type="file"
-                            style={{ zIndex: 2, opacity: 0, width: "10%", height: "15%", cursor: "pointer", position: "absolute" }}
-                        /
-                        >
-                        {disabledButton ?
-                            <AddPhotoAlternateIcon sx={{ width: "80%", height: "80%" }} /> :
-                            <img src={uploadFile} style={{ objectFit: "scale-down", width: "80%", height: "80%" }} />
-                        }
-                    </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", width: "98%", flexDirection: "column", justifyContent: "space-evenly", height: "75%" }}>
+            <Box sx={{ display: "flex", width: "80%", height: "100%", justifyContent: "center", alignItems: "center" }}>
+                {/* Box delimitador con border */}
+                <Box sx={{ display: "flex", width: "80%", height: "90%", border: "1px solid  black", borderRadius: "5%", justifyContent: "center", alignItems: "center" }}>
+                    {/* Box de contenido */}
+                    <Box sx={{ display: "flex", width: "90%", height: "90%", backgroundColor: "white", flexDirection: "column", alignItems: "center" }}>
+                        {/* Box de imagen */}
+                        <Box sx={{ width: "40%", height: "25%", border: "5px dashed  black", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                            <input
+                                id="imagencargada"
+                                accept="image/*"
+                                onChange={(v) => { enCambioFile(v) }}
+                                type="file"
+                                style={{ zIndex: 2, opacity: 0, width: "25%", height: "15%", cursor: "pointer", position: "absolute" }}
+                            /
+                            >
+                            {disabledButton ?
+                                <AddPhotoAlternateIcon sx={{ width: "80%", height: "80%" }} /> :
+                                <img src={uploadFile} style={{ objectFit: "scale-down", width: "80%", height: "80%" }} />
+                            }
+                        </Box>
+                        <Box sx={{ display: "flex", alignItems: "center", width: "98%", flexDirection: "column", justifyContent: "space-evenly", height: "75%" }}>
 
-                        <TextField
-                            required
-                            // margin="dense"
-                            label="municipio"
-                            value={municipio}
-                            type="text"
-                            sx={{ width: "90%", }}
-                            variant="outlined"
-                            onChange={(v) => setMunicipio(v.target.value)}
-                            error={municipio === "" && verificaForm}
-                            helperText={(municipio === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
-
-                        />
-                        <TextField
-                            required
-                            // margin="dense"
-                            label="tesorero"
-                            value={tesorero}
-                            type="text"
-                            sx={{ width: "90%", }}
-                            variant="outlined"
-                            onChange={(v) => setTesorero(v.target.value)}
-                            error={tesorero === "" && verificaForm}
-                            helperText={(tesorero === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
-
-                        />
-
-
-                        <TextField
-                            required
-                            // margin="dense"
-                            label="responsable"
-                            value={responsable}
-                            type="text"
-                            sx={{ width: "90%", }}
-                            variant="outlined"
-                            onChange={(v) => setResponable(v.target.value)}
-                            error={responsable === "" && verificaForm}
-                            helperText={(responsable === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
-
-                        />
-                        <TextField
-                            required
-                            // margin="dense"
-                            label="domicilio"
-                            value={domicilio}
-                            type="text"
-                            sx={{ width: "90%", }}
-                            variant="outlined"
-                            onChange={(v) => setDomicilio(v.target.value)}
-                            error={domicilio === "" && verificaForm}
-                            helperText={(domicilio === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
-
-                        />
-
-
-                        <Box sx={{ display: "flex", justifyContent: "space-between", width: "90%" }}>
                             <TextField
                                 required
                                 // margin="dense"
-                                label="telefono"
-                                value={telefono}
-                                inputProps={{
-                                    maxLength: 12
-                                }}
+                                label="municipio"
+                                value={municipio}
                                 type="text"
-                                sx={{ width: "45%", }}
+                                sx={{ width: "90%", }}
                                 variant="outlined"
-                                onChange={(v) => handleTotal(v.target.value)}
-                                error={telefono === "" && verificaForm}
-                                helperText={(telefono === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+                                onChange={(v) => setMunicipio(v.target.value)}
+                                error={municipio === "" && verificaForm}
+                                helperText={(municipio === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
 
                             />
                             <TextField
                                 required
                                 // margin="dense"
-                                label="horario"
-                                value={horario}
+                                label="tesorero"
+                                value={tesorero}
                                 type="text"
-                                sx={{ width: "45%", }}
+                                sx={{ width: "90%", }}
                                 variant="outlined"
-                                onChange={(v) => setHorario(v.target.value)}
-                                error={horario === "" && verificaForm}
-                                helperText={(horario === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+                                onChange={(v) => setTesorero(v.target.value)}
+                                error={tesorero === "" && verificaForm}
+                                helperText={(tesorero === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
 
                             />
+
+
+                            <TextField
+                                required
+                                // margin="dense"
+                                label="responsable"
+                                value={responsable}
+                                type="text"
+                                sx={{ width: "90%", }}
+                                variant="outlined"
+                                onChange={(v) => setResponable(v.target.value)}
+                                error={responsable === "" && verificaForm}
+                                helperText={(responsable === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+
+                            />
+                            <TextField
+                                required
+                                // margin="dense"
+                                label="domicilio"
+                                value={domicilio}
+                                type="text"
+                                sx={{ width: "90%", }}
+                                variant="outlined"
+                                onChange={(v) => setDomicilio(v.target.value)}
+                                error={domicilio === "" && verificaForm}
+                                helperText={(domicilio === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+
+                            />
+
+
+                            <Box sx={{ display: "flex", justifyContent: "space-between", width: "90%" }}>
+                                <TextField
+                                    required
+                                    // margin="dense"
+                                    label="telefono"
+                                    value={telefono}
+                                    inputProps={{
+                                        maxLength: 12
+                                    }}
+                                    type="text"
+                                    sx={{ width: "45%", }}
+                                    variant="outlined"
+                                    onChange={(v) => handleTotal(v.target.value)}
+                                    error={telefono === "" && verificaForm}
+                                    helperText={(telefono === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+
+                                />
+                                <TextField
+                                    required
+                                    // margin="dense"
+                                    label="horario"
+                                    value={horario}
+                                    type="text"
+                                    sx={{ width: "45%", }}
+                                    variant="outlined"
+                                    onChange={(v) => setHorario(v.target.value)}
+                                    error={horario === "" && verificaForm}
+                                    helperText={(horario === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+
+                                />
+                            </Box>
+
+                            <TextField
+                                required
+                                // margin="dense"
+                                label="Sitio Web"
+                                value={web}
+                                type="text"
+                                sx={{ width: "90%", }}
+                                variant="outlined"
+                                onChange={(v) => setWeb(v.target.value)}
+                                error={web === "" && verificaForm}
+                                helperText={(web === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+
+                            />
+
+
+
+
+                            <Box sx={{ display: "flex", width: "50%", justifyContent: "space-evenly" }}>
+                                <Button variant="outlined" onClick={() => { limpiar() }}>Limpiar</Button>
+                                <Button variant="outlined" onClick={() => { onClickGuardar() }}>Guardar</Button>
+                            </Box>
+
+
                         </Box>
-
-                        <TextField
-                            required
-                            // margin="dense"
-                            label="Sitio Web"
-                            value={web}
-                            type="text"
-                            sx={{ width: "90%", }}
-                            variant="outlined"
-                            onChange={(v) => setWeb(v.target.value)}
-                            error={web === "" && verificaForm}
-                            helperText={(web === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
-
-                        />
-
-
-
-
-                        <Box sx={{ display: "flex", width: "50%", justifyContent: "space-evenly" }}>
-                            <Button variant="outlined" onClick={() => { limpiar() }}>Limpiar</Button>
-                            <Button variant="outlined" onClick={() => { onClickGuardar() }}>Guardar</Button>
-                        </Box>
-
 
                     </Box>
-
                 </Box>
+
+
+                <Dialog
+                    open={openDialogConfirmacion}
+                    onClose={() => setOpenDialogConfirmacion(false)}
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Agregar Contacto de Municipio"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            ¿ Desea guardar la información de {municipio} ?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => { setOpenDialogConfirmacion(false) }}>Cancelar</Button>
+                        <Button onClick={() => { setOpenDialogConfirmacion(false); limpiar(); guardarRegistro(); handleSend(); }} color="success">Aceptar</Button>
+                    </DialogActions>
+                </Dialog>
+
             </Box>
-
-
-            <Dialog
-                open={openDialogConfirmacion}
-                onClose={() => setOpenDialogConfirmacion(false)}
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {"Agregar Contacto de Municipio"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        ¿ Desea guardar la información de {municipio} ?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => { setOpenDialogConfirmacion(false) }}>Cancelar</Button>
-                    <Button onClick={() => { setOpenDialogConfirmacion(false); limpiar(); guardarRegistro(); handleSend(); }} color="success">Aceptar</Button>
-                </DialogActions>
-            </Dialog>
-
         </Box>
     )
 }

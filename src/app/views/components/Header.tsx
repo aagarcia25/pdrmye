@@ -126,6 +126,7 @@ export default function Header(props: HeaderProps) {
               sx={{
                 display: {
                   backgroundColor: COLOR.negro,
+                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                 },
               }}
               item
@@ -136,8 +137,7 @@ export default function Header(props: HeaderProps) {
                 onClick={onDrawerToggle}
                 edge="start"
                 sx={{
-                  width: "2.5vw",
-                  height: "2.5vw",
+                  
                   fontSize: btnPerson,
                   p: 0.1,
                   
@@ -145,7 +145,7 @@ export default function Header(props: HeaderProps) {
                   "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                 }}
               >
-                <DoubleArrowRoundedIcon    sx={{width: "2.5vw",height: "2.5vw",}}/>
+                <MenuIcon    />
 
               </IconButton>
             </Grid>
