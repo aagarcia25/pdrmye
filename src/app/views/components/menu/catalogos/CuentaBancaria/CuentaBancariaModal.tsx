@@ -141,30 +141,29 @@ export const CuentaBancariaModal = ({
 
   const handleSend = () => {
     setslideropen(true);
-    const formData = new FormData();
 
-    newDoc ? formData.append("RUTADOCUMENTO", newDoc, nameNewDoc) : formData.append("RUTADOCUMENTO", "");
-    newDocCarta ? formData.append("CARTA", newDocCarta, nameNewDocCarta) : formData.append("CARTA", "");
-    formData.append("NUMOPERACION", String(tipo));
-    formData.append("CHID", id);
-    formData.append("CHUSER", String(user.id));
-    formData.append("IDBANCOS", String(idBancos));
-    formData.append("NUMEROCUENTA", numeroCuenta);
-    formData.append("NOMBRECUENTA", nombreCuenta);
-    formData.append("CLABEBANCARIA", clabeBancaria);
-    formData.append("COMENTARIOS", comentarios);
+    if (!nombreCuenta ||!numeroCuenta || !idBancos ||!clabeBancaria ||!newDoc || !newDocCarta ) 
+    {
+      Alert.fire({
+        title: "Atencion",
+        text: "Verifique los campos",
+        icon: "warning",
+      });
 
-    if (
-      !nombreCuenta ||
-      !numeroCuenta ||
-      !idBancos ||
-      !clabeBancaria ||
-      !newDoc ||
-      !newDocCarta
-    ) {
-      Swal.fire("Campos Vacios", "Error!", "error");
       setslideropen(false);
     } else {
+      const formData = new FormData();
+
+      newDoc ? formData.append("RUTADOCUMENTO", newDoc, nameNewDoc) : formData.append("RUTADOCUMENTO", "");
+      newDocCarta ? formData.append("CARTA", newDocCarta, nameNewDocCarta) : formData.append("CARTA", "");
+      formData.append("NUMOPERACION", String(tipo));
+      formData.append("CHID", id);
+      formData.append("CHUSER", String(user.id));
+      formData.append("IDBANCOS", String(idBancos));
+      formData.append("NUMEROCUENTA", numeroCuenta);
+      formData.append("NOMBRECUENTA", nombreCuenta);
+      formData.append("CLABEBANCARIA", clabeBancaria);
+      formData.append("COMENTARIOS", comentarios);
       CatalogosServices.CuentaBancaria(formData).then((res) => {
         setslideropen(false);
         console.log("res en service", res);
@@ -366,7 +365,9 @@ export const CuentaBancariaModal = ({
                 </Box>
                 <Grid item xs={12} sm={12} md={12} lg={12}
                   sx={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                  <Typography sx={{ textAlign: "center" }}>Arrastre El Documento o Presione el icono Para Seleccionar</Typography>
+                  <Typography sx={{ textAlign: "center" }}>
+                  {dt?.row?.NombreDocumento? "Arrastre El Nuevo Documento o Presione el icono Para Seleccionar" : "Arrastre El Documento o Presione el icono Para Seleccionar"} 
+                    </Typography>
                 </Grid>
               </Grid>
 
@@ -398,7 +399,9 @@ export const CuentaBancariaModal = ({
                 </Box>
                 <Grid item xs={12} sm={12} md={12} lg={12}
                   sx={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                  <Typography sx={{ textAlign: "center" }}>Arrastre El Documento Carta o Presione el icono Para Seleccionar</Typography>
+                  <Typography sx={{ textAlign: "center" }}>
+                  {dt?.row?.NombreCarta? "Arrastre El Nuevo Documento Carta o Presione el icono Para Seleccionar" : "Arrastre El Documento Carta o Presione el icono Para Seleccionar"} 
+                    </Typography>
                 </Grid>
               </Grid>
 
