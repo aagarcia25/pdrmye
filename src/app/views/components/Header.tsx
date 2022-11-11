@@ -125,6 +125,8 @@ export default function Header(props: HeaderProps) {
             <Grid
               sx={{
                 display: {
+
+                  
                   backgroundColor: COLOR.negro,
                   "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                 },
@@ -137,7 +139,7 @@ export default function Header(props: HeaderProps) {
                 onClick={onDrawerToggle}
                 edge="start"
                 sx={{
-                  
+                  width: "2vw", height: "5vh",
                   fontSize: btnPerson,
                   p: 0.1,
                   
