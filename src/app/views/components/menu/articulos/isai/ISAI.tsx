@@ -6,25 +6,26 @@ import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { Alert } from "../../../../../helpers/Alert";
 import Swal from "sweetalert2";
-import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import {
   Box,
-  Button,
   Grid,
   IconButton,
   TextField,
+  ToggleButton,
+  ToggleButtonGroup,
   Tooltip,
   Typography,
 } from "@mui/material";
 import ModalForm from "../../../componentes/ModalForm";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SaveButton from "../../../componentes/SaveButton";
 import Title from "../../../componentes/Title";
 
-const TipoFondoCalculo = () => {
+const ISAI = () => {
   //   VALORES POR DEFAULT
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -38,55 +39,51 @@ const TipoFondoCalculo = () => {
   const [nombreMenu, setNombreMenu] = useState("");
   const [vrows, setVrows] = useState({});
   const [tipoCalculo, setTipoCalculo] = useState("");
+  const [version, setVersion] = useState(0);
+  const [modo, setModo] =  useState(0);
 
-  const columns: GridColDef[] = [
+  const columns1: GridColDef[] = [
     {
       field: "id",
       headerName: "Identificador",
       hide: true,
-      width: 10,
     },
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Campo de Acciones",
-      sortable: false,
-      width: 200,
-      renderCell: (v) => {
-        return (
-          <Box>
-            {/* EDITAR */}
-            {editar ? (
-              <Tooltip title={"Editar Registro"}>
-                <IconButton
-                  color="info"
-                  onClick={() => handleAccion({ tipo: 2, data: v })}
-                >
-                  <ModeEditOutlineIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-            {/* ELIMINAR */}
-            {eliminar ? (
-              <Tooltip title={"Eliminar Registro"}>
-                <IconButton
-                  color="error"
-                  onClick={() => handleAccion({ tipo: 3, data: v })}
-                >
-                  <DeleteForeverIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-          </Box>
-        );
-      },
-    },
+    
+    { field: "Version", headerName: "Versión", width: 150 },
     { field: "FechaCreacion", headerName: "Fecha de Creación", width: 150 },
-    { field: "Descripcion", headerName: "Descripcion", width: 350 },
+    { field: "municipio", headerName: "Municipio", width: 350 },
+    { field: "Importe", headerName: "Importe", width: 350 },
+    { field: "Coeficiente", headerName: "Coeficiente", width: 350 },
+    { field: "UC", headerName: "Usuario Creo", width: 350 },
+    { field: "UM", headerName: "Usuario Modifico", width: 350 },
+  ];
+
+  const columns0: GridColDef[] = [
+    {
+        field: "acciones",
+        headerName: "Acciones",
+        description: "Campo de Acciones",
+        sortable: false,
+        width: 200,
+        renderCell: (v) => {
+          return (
+            <Box>
+              <Tooltip title={"Ver y Eliminar menus de el Rol"}>
+                <IconButton onClick={() => handleView(v)}>
+                  <RemoveRedEyeIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          );
+        },
+      },
+    {
+      field: "id",
+      headerName: "Versión",
+    },
+    { field: "Importe", headerName: "Importe", width: 150 },
+    { field: "UC", headerName: "Usuario Creo", width: 350 },
+    { field: "UM", headerName: "Usuario Modifico", width: 350 },
   ];
 
   const handlesave = (v: any) => {
@@ -104,7 +101,7 @@ const TipoFondoCalculo = () => {
           icon: "success",
           title: "Registro Eliminado!",
         });
-        consulta();
+        consulta(5);
       } else {
         Alert.fire({
           title: "Error!",
@@ -144,7 +141,7 @@ const TipoFondoCalculo = () => {
                 icon: "success",
                 title: "Registro Eliminado!",
               });
-              consulta();
+              consulta(5);
             } else {
               Alert.fire({
                 title: "Error!",
@@ -160,8 +157,19 @@ const TipoFondoCalculo = () => {
     }
   };
 
+  const handleView = (v: any) => {
+    setVersion(v.id);
+    consulta(4);
+    setModo(1)
+  };
+
+  const handleBack = () => {
+    consulta(5);
+    setModo(0)
+   
+  };
   const handleClose = () => {
-    consulta();
+    consulta(5);
     setVrows({});
     setOpen(false);
   };
@@ -173,12 +181,12 @@ const TipoFondoCalculo = () => {
     setVrows({});
   };
 
-  const consulta = () => {
+  const consulta = (NUMOPERACION:number) => {
     let data = {
-      NUMOPERACION: 4,
+      NUMOPERACION: NUMOPERACION,
     };
 
-    CatalogosServices.TipoFondosCalculo(data).then((res) => {
+    CatalogosServices.MUNISAI(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -195,10 +203,21 @@ const TipoFondoCalculo = () => {
     });
   };
 
+  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setslideropen(true);
+    let file = event?.target?.files?.[0] || "";
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlxs");
+    formData.append("NUMOPERACION", "1");
+    formData.append("CHUSER",  user.id);
+    CatalogosServices.MUNISAI(formData).then((res) => {
+      setslideropen(false);
+    });
+  };
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "TIPOCALCULO") {
+      if (String(item.ControlInterno) === "ISAI") {
         setNombreMenu(item.Menu);
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
@@ -211,15 +230,49 @@ const TipoFondoCalculo = () => {
         }
       }
     });
-    consulta();
+    consulta(5);
   }, []);
 
   return (
+    
+    
+    
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
-      <Title titulo={nombreMenu} tooltip={"Cátalogo para Agregar los tipos de Cálculos Permitidos generar"}></Title>
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGrid columns={columns} rows={dataTipoFondo} />
+      <Title titulo={nombreMenu} tooltip={"Coeficiente Generado para el cálculo del ISAI"}></Title>
+      
+      <div style={{ display : modo == 0 ? "block":"none"}}>
+      <Box >
+        {agregar ? 
+        <Tooltip title="Cargar Plantilla">
+        <IconButton aria-label="upload documento" component="label" size="large">
+        <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
+        <DriveFolderUploadIcon />
+        </IconButton>
+        </Tooltip>
+         :""}
+      </Box>
+
+      <MUIXDataGrid columns={columns0} rows={dataTipoFondo} />
+      </div>
+      <div style={{ display : modo == 1 ? "block":"none"}}>
+      <Box >
+      <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+      <Tooltip title="Regresar">
+        <ToggleButton value="check" onClick={ () =>handleBack()}>
+          <ArrowBackIcon />
+        </ToggleButton>
+      </Tooltip>
+    </ToggleButtonGroup>
+      </Box>
+
+      <MUIXDataGrid columns={columns1} rows={dataTipoFondo} />
+      </div>
+      
+
+
+
+
 
       {open ? (
         <ModalForm
@@ -272,4 +325,4 @@ const TipoFondoCalculo = () => {
   );
 };
 
-export default TipoFondoCalculo;
+export default ISAI;

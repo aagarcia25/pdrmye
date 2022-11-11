@@ -107,7 +107,7 @@ function App() {
         setMenus(us.RESPONSE.MENUS);
         setPerfiles(us.RESPONSE.PERFILES);
         setDepartamento(us.RESPONSE.DEPARTAMENTOS);
-        setMunicipio(us.RESPONSE.MUNICIPIOS);
+        setMunicipio(us.RESPONSE.MUNICIPIO);
         loadMunicipios();
         loadMeses();
         loadAnios();

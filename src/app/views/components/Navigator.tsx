@@ -8,9 +8,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Logo from "../../assets/img/logo.svg";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import { Collapse, Grid, Typography } from "@mui/material";
+import { Collapse, Grid, Tooltip, Typography } from "@mui/material";
 import { getMenus } from "../../services/localStorage";
 import { menus } from "../../interfaces/menu/menu";
 import SendIcon from "@mui/icons-material/Send";
@@ -47,16 +45,6 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
         </Grid> 
       </Grid>
 
-      
-      {/* <AppBar
-        position="sticky"
-        sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%" }}
-      >
-         <img src={Logo} style={{ width: "90%" }} />
- 
-        {/* <Toolbar>
-        </Toolbar> */}
-      {/* </AppBar> */} 
 
       <Box
         sx={{
@@ -96,14 +84,15 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                 </ListItemIcon>
                
                 <ListItemText key={indexx}  primary={
+                   <Tooltip title={item.Descripcion}>
                    <Typography variant="button" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
-                  {item.Menu}
+                    {item.Menu}
                   </Typography>
+                  </Tooltip>
                   } />
                
                {open===indexx? <ExpandLess /> : <ExpandMore />}
                  </ListItemButton>
-                 {/* <Divider key={Math.random()} absolute /> */}
                  
                  {
                     item?.items?.map((subitem,index) =>{
@@ -116,9 +105,11 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                               <ArrowForwardIcon />
                             </ListItemIcon>
                                <ListItemText key={index}  primary={
+                                <Tooltip title={subitem.Descripcion}>
                                 <Typography variant="caption" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
                                 {  subitem.Menu}
                                 </Typography>
+                                </Tooltip>
                                 } />
                           </ListItemButton>
                           <Divider/>
@@ -139,9 +130,11 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                 <SendIcon />
                 </ListItemIcon>
                 <ListItemText key={Math.random()}  primary={
+                                <Tooltip title={item.Descripcion}>
                                 <Typography variant="caption" sx={{ fontFamily: "MontserratMedium" }} gutterBottom>
                                 {  item.Menu}
                                 </Typography>
+                                </Tooltip>
                                 } />
                 </ListItemButton>
                 <Divider key={Math.random()} absolute />

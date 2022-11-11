@@ -53,6 +53,7 @@ import AsigPresupuestal from '../views/components/DPCP/AsigPresupuestal';
 import AsigPago from '../views/components/DAF/AsigPago';
 import AgregarContactoMunicipio from '../views/components/Municipios/AgregarContactoMunicipio';
 import TipoFondoCalculo from '../views/components/menu/catalogos/TipoFondoCalculo/TipoFondoCalculo';
+import ISAI from '../views/components/menu/articulos/isai/ISAI';
 
 
 
@@ -111,6 +112,7 @@ export const AppRouter = () => {
         <Route path='/inicio/articulos/art14f/:tipo' element={<Art14fP />} />
         <Route path='/inicio/articulos/art14d/:tipo/:id' element={<Art14f />} />
         <Route path='/inicio/articulos/calculogarantia' element={<CalculoGarantiaComponente />} />
+        <Route path='/inicio/articulos/isai' element={<ISAI />} />
         {/* FIN SECCION DE ARTICULOS */}
 
 

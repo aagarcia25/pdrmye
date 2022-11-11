@@ -142,4 +142,8 @@ export class CatalogosServices {
         return await post('CuentaBancaria', data);
     };
 
+    public static async MUNISAI(data: any) {
+        return await post('MUNISAI', data);
+    }
+    
 }

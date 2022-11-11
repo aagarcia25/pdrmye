@@ -20,7 +20,7 @@
         Referencia: string;
     }
 
-    export interface MUNICIPIOS {
+    export interface MUNICIPIO {
         id: string;
         Nombre: string;
     }
@@ -54,7 +54,7 @@
         PERMISOS: PERMISO[];
         PERFILES: PERFILES[];
         DEPARTAMENTOS: DEPARTAMENTOS[];
-        MUNICIPIOS : MUNICIPIOS[];
+        MUNICIPIO : MUNICIPIO[];
         tipo?: any;
     }
 

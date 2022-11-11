@@ -83,7 +83,7 @@ const AgregarContactoMunicipio = () => {
     const handleSend = () => {
         formData.append("NUMOPERACION", "1");
         formData.append("CHUSER", user.id);
-        formData.append("IDMUNICIPIO", "6bcf4613-3f7f-11ed-af5a-040300000000");
+        formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
         formData.append("MUNICIPIO", municipio);
         formData.append("TESORERO", tesorero);
         formData.append("RESPONSABLE", responsable);
