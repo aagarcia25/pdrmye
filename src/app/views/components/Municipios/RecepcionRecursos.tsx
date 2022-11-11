@@ -130,16 +130,16 @@ const RecepcionRecursos = () => {
 
           <ButtonGroup variant="outlined" aria-label="outlined primary button group">
             
-            <Button className='subtitulo' variant="contained" color={recursoButton == "PF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PF")}> 
+            <Button className='subtitulo'  color={recursoButton == "PF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PF")}> 
              Participaciones Federales 
              </Button>
-            <Button className='subtitulo' variant="contained" color={recursoButton == "PE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PE")}>
+            <Button className='subtitulo' color={recursoButton == "PE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PE")}>
               Participaciones Estatales
             </Button>
-            <Button className='subtitulo' variant="contained" color={recursoButton == "AF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AF")}>
+            <Button className='subtitulo' color={recursoButton == "AF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AF")}>
               Aportaciones Federales
             </Button>
-            <Button className='subtitulo' variant="contained" color={recursoButton == "AE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AE")}>
+            <Button className='subtitulo' color={recursoButton == "AE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AE")}>
               Aportaciones Estatales
             </Button>
           </ButtonGroup>

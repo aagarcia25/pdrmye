@@ -7,19 +7,24 @@ import {
   DialogActions,
   IconButton,
   Typography,
+  Grid,
+  Button,
+  InputAdornment,
 } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import imagenGenerica from "../../../../../../app/assets/img/archivoImagen.jpg";
 import PdfLogo from "../../../../../../app/assets/img/PDF_file_icon.svg";
-import {getUser} from "../../../../../services/localStorage";
-import {  RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import Swal from "sweetalert2";
-
+import ModalForm from "../../../componentes/ModalForm";
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 export const CuentaBancariaModal = ({
   open,
   handleClose,
@@ -46,10 +51,14 @@ export const CuentaBancariaModal = ({
   //TODO LO QUE COPIE Y PEGUE
   const [nameNewDoc, setNameNewDoc] = useState<string>();
   const [editDoc, setEditDoc] = useState<boolean>(false);
+  const [editDoc2, setEditDoc2] = useState<boolean>(false);
+  const [disabledButton, setDisabledButton] = useState(true);
+  const [nombreArchivo, setNombreArchivo] = useState("");
+
   const [newDoc, setNewDoc] = useState(Object);
   const [urlDoc, setUrlDoc] = useState("");
 
- 
+
 
   const [mensajeLabel, setMensajeLabel] = useState(
     "Agrega un archivo PDF de tú carta de banco."
@@ -62,7 +71,37 @@ export const CuentaBancariaModal = ({
     let sizeByte = Number(file.size);
     setNameNewDoc("mensajePrincipal");
     setMensajeLabel("Agrega un archivo PDF de tú carta de banco.");
-   
+
+    if (event.target.files.length) {
+      if (
+        String(event.target!.files[0]!.name).slice(-4) === ".pdf" ||
+        String(event.target!.files[0]!.name).slice(-4) === ".PDF"
+      ) {
+        if (sizeByte <= 2000000) {
+          setNameNewDoc("EsPDFYMenorDe2MB");
+          setEditDoc(true);
+          setMensajeLabel(event.target!.files[0]!.name);
+          setNewDoc(file);
+          setIconoPDF(PdfLogo);
+        } else {
+          setNameNewDoc("ElDocEsMayorA2MB");
+          setMensajeLabel("El archivo es muy grande, tiene más de 2 hojas.");
+        }
+      } else {
+        setNameNewDoc("noEsPDF");
+        setMensajeLabel("El archivo no es un PDF, intenta de nuevo.");
+        setIconoPDF(imagenGenerica);
+      }
+    } else {
+      setIconoPDF(imagenGenerica);
+    }
+  };
+  const handleNewFileCarta = (event: any) => {
+    let file = event.target!.files[0]!;
+    let sizeByte = Number(file.size);
+    setNameNewDoc("mensajePrincipal");
+    setMensajeLabel("Agrega un archivo PDF de tú carta de banco.");
+
     if (event.target.files.length) {
       if (
         String(event.target!.files[0]!.name).slice(-4) === ".pdf" ||
@@ -104,9 +143,9 @@ export const CuentaBancariaModal = ({
     setslideropen(true);
     const formData = new FormData();
 
-    editDoc
-      ? formData.append("RUTADOCUMENTO", newDoc, mensajeLabel)
-      : formData.append("RUTADOCUMENTO", "");
+    editDoc ? formData.append("RUTADOCUMENTO", newDoc, mensajeLabel) : formData.append("RUTADOCUMENTO", "");
+    editDoc2 ? formData.append("RUTADOCUMENTO", newDoc, mensajeLabel) : formData.append("RUTADOCUMENTO", "");
+
     formData.append("NUMOPERACION", String(tipo));
     formData.append("CHID", id);
     formData.append("CHUSER", String(user.id));
@@ -144,9 +183,9 @@ export const CuentaBancariaModal = ({
     }
   };
 
- 
 
- 
+
+
   const editar = (data: any) => {
     CatalogosServices.CuentaBancaria(data).then((res) => {
       if (res.SUCCESS) {
@@ -187,146 +226,203 @@ export const CuentaBancariaModal = ({
 
   return (
     <Dialog open={open} keepMounted>
-      {tipo == 1 || tipo == 2  ? (
-        <Box>
-          <DialogContent>
-            <Box>
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <label className="Titulo">{tipo == 1 ? "Agregar Registro" : "Editar Registro"}</label>
+      {tipo == 1 || tipo == 2 ? (
+
+        <ModalForm title={tipo == 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+          <Grid container
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+
+          >
+            <Grid item xs={12} sm={8} md={8} lg={8}>
+
+              <Box>
+                <SelectFrag
+                  value={idBancos}
+                  options={bancos}
+                  onInputChange={handleFilterChange1}
+                  placeholder={"Seleccione Banco"}
+                  label={""}
+                  disabled={false}
+                />
+
               </Box>
-              <Box
-               
-               >
-                 <SelectFrag
-                   value={idBancos}
-                   options={bancos}
-                   onInputChange={handleFilterChange1}
-                   placeholder={"Seleccione Banco"}
-                   label={""}
-                   disabled={false}
-                 />
-               </Box>
 
-              <TextField
-                required
-                margin="dense"
-                id="NombreCuenta"
-                label="Nombre de la Cuenta"
-                value={nombreCuenta}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setNombreCuenta(v.target.value)}
-                error={nombreCuenta == "" ? true : false}
-                InputProps={{}}
-              />
+            </Grid>
 
-            
 
-              <TextField
-                required
-                margin="dense"
-                id="NumeroCuenta"
-                label="Número de la Cuenta"
-                value={numeroCuenta}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setNumeroCuenta(v.target.value)}
-                error={numeroCuenta == "" ? true : false}
-                inputProps={{  
-                  maxLength: 18 ,
-                  pattern: '[0-9]*'
-                }}
-                InputLabelProps={{ shrink: true }}
-              />
+            <Grid item xs={12} sm={8} md={8} lg={8}>
+              <Box>
+                <TextField
+                  required
+                  margin="dense"
+                  id="NombreCuenta"
+                  label="Nombre de la Cuenta"
+                  value={nombreCuenta}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNombreCuenta(v.target.value)}
+                  error={nombreCuenta == "" ? true : false}
+                  InputProps={{}}
+                />
 
-              <TextField
-                required
-                margin="dense"
-                id="ClabeBancaria"
-                label="Clabe"
-                value={clabeBancaria}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClabeBancaria(v.target.value)}
-                error={clabeBancaria == "" ? true : false}
-                inputProps={{ 
-                  maxLength: 18 ,
-                  pattern: '[0-9]*'
-                }}
-                InputLabelProps={{ shrink: true }}
-              />
+              </Box>
 
-              <Box sx={{ width: "100%" }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    p: 1,
-                    m: 1,
-                    bgcolor: "background.paper",
-                    borderRadius: 1,
+              <Box>
+
+
+                <TextField
+                  required
+                  margin="dense"
+                  id="NumeroCuenta"
+                  label="Número de la Cuenta"
+                  value={numeroCuenta}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNumeroCuenta(v.target.value)}
+                  error={numeroCuenta == "" ? true : false}
+                  inputProps={{
+                    maxLength: 18,
+                    pattern: '[0-9]*'
                   }}
-                >
-                 
-                  <Box
-                    sx={{
-                      display: "flex",
-                      width: "100%",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <Box>
-                      <img
-                        src={iconoPDF}
-                        style={{ objectFit: "scale-down", width: "100%" }}
-                      />
-                    </Box>
-                    <Box>
-                      <Typography>Nombre del documento:</Typography>
-                      <Typography>{mensajeLabel}</Typography>
-                    </Box>
-                  </Box>
-                  <Box>
-                    <IconButton
-                      aria-label="upload picture"
-                      component="label"
-                      size="large"
-                    >
-                      <input
-                        required
-                        type="file"
-                        hidden
-                        onChange={(event) => {
-                          handleNewFile(event);
-                        }}
-                      />
-                      <UploadFileIcon />
-                    </IconButton>
-                  </Box>
-                </Box>
+                  InputLabelProps={{ shrink: true }}
+                />
               </Box>
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <button className="guardar" onClick={() => handleSend()}>
-              Guardar
-            </button>
-            <button className="cerrar" onClick={() => handleClose()}>
-              Cancelar
-            </button>
-          </DialogActions>
-        </Box>
+              <Box>
+
+                <TextField
+                  required
+                  margin="dense"
+                  id="ClabeBancaria"
+                  label="Clabe"
+                  value={clabeBancaria}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setClabeBancaria(v.target.value)}
+                  error={clabeBancaria == "" ? true : false}
+                  inputProps={{
+                    maxLength: 18,
+                    pattern: '[0-9]*'
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Box>
+
+            </Grid>
+
+            <Grid container
+              direction="row"
+              justifyContent="space-around"
+              alignItems="center"
+            >
+
+
+
+              <Grid item xs={3}
+              alignContent="center"
+              alignItems="center"
+                   >
+
+                <Box sx={{ width: "25vw", height: "25vh", border: "5px dashed  black", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <input
+                    id="imagencargada"
+                    accept="image/*"
+                    // onChange={(v) => { enCambioFile(v) }}
+                    type="file"
+                    style={{ zIndex: 2, opacity: 0, width: '100%', height: '80%', position: "absolute", cursor: "pointer", }} /
+                  >
+                  {/* {disabledButton ? */}
+                  {/* user.RutaFoto === "" ?  */}
+                  <InsertDriveFileIcon sx={{ width: "90%", height: "90%" }} />
+                  {/* : 
+                         <img src={user.RutaFoto} style={{ objectFit: "scale-down", width: '100%', }} />
+                    :
+                    <img src={"uploadFile"} style={{ objectFit: "scale-down", width: '100%', }} />
+                    } */}
+
+                </Box>
+
+                <Box sx={{ width: "25vw", height: "8vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    {nombreArchivo==="" ?
+                        <Typography sx={{ textAlign: "center" }}>Arrastre El Documento o presione el icono para seleccionar archivo</Typography> :
+                        <Typography>Nombre del archivo: {nombreArchivo}</Typography>
+                        
+                    }
+                </Box>
+              </Grid>
+
+              <Grid item xs={3}
+              sx={{ justifyContent: "center", alignItems: "center" }} >
+
+                <Box sx={{ width: "25vw", height: "25vh", border: "5px dashed  black", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <input
+                    id="imagencargada"
+                    accept="image/*"
+                    //  onChange={(v) => { enCambioFile(v) }}
+                    type="file"
+                    style={{ zIndex: 2, opacity: 0, width: '100%', height: '80%', position: "absolute", cursor: "pointer", }} /
+                  >
+                  {/* {disabledButton ?
+                        user.RutaFoto === "" ?  */}
+                  <InsertDriveFileIcon sx={{ width: "90%", height: "90%" }} />
+                  {/* : <img src={user.RutaFoto} style={{ objectFit: "scale-down", width: '100%', }} />
+                        :
+                        <img src={""} style={{ objectFit: "scale-down", width: '100%', }} />
+                    } */}
+
+                </Box>
+
+                <Box sx={{ width: "25vw", height: "8vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    {nombreArchivo==="" ?
+                        <Typography sx={{ textAlign: "center" }}>Arrastre la Carta o presione el icono para seleccionar archivo</Typography> :
+                        <Typography>Nombre del archivo: {nombreArchivo}</Typography>
+                        
+                    }
+                </Box>
+
+              </Grid>
+
+            </Grid>
+
+
+            <Grid container
+              sx={{
+                mt: "2vh",
+                width: "100%",
+                height: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row",
+              }}
+            >
+              <Grid item xs={4} sm={3} md={2} lg={1}
+              >
+                <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
+              </Grid>
+            </Grid>
+          </Grid>
+
+        </ModalForm>
+
+
+
+
+
+
       ) : (
         ""
       )}
 
-      {tipo == 3  ? (
+      {tipo == 3 ? (
         <Box>
           <DialogContent>
             <Box>
@@ -337,14 +433,14 @@ export const CuentaBancariaModal = ({
               <Typography>{nombreCuenta}</Typography>
               <Typography>Banco:</Typography>
 
-                <SelectFrag
-                  value={idBancos}
-                  options={bancos}
-                  onInputChange={handleFilterChange1}
-                  placeholder={"Seleccione Banco"}
-                  label={""}
-                  disabled={true}
-                />
+              <SelectFrag
+                value={idBancos}
+                options={bancos}
+                onInputChange={handleFilterChange1}
+                placeholder={"Seleccione Banco"}
+                label={""}
+                disabled={true}
+              />
               <Typography>Número de la cuenta:</Typography>
               <Typography>{numeroCuenta}</Typography>
               <Typography>Clabe:</Typography>
@@ -362,7 +458,7 @@ export const CuentaBancariaModal = ({
                     borderRadius: 1,
                   }}
                 >
-                  
+
                   <Box
                     sx={{
                       display: "flex",
