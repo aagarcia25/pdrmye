@@ -25,6 +25,8 @@ import Swal from "sweetalert2";
 import ModalForm from "../../../componentes/ModalForm";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 export const CuentaBancariaModal = ({
   open,
   handleClose,
@@ -49,81 +51,73 @@ export const CuentaBancariaModal = ({
   const [bancos, setBancos] = useState<SelectValues[]>([]);
   const [comentarios, setComentarios] = useState("");
   //TODO LO QUE COPIE Y PEGUE
-  const [nameNewDoc, setNameNewDoc] = useState<string>();
+
   const [editDoc, setEditDoc] = useState<boolean>(false);
-  const [editDoc2, setEditDoc2] = useState<boolean>(false);
-  const [disabledButton, setDisabledButton] = useState(true);
-  const [nombreArchivo, setNombreArchivo] = useState("");
+  const [editDocCarta, setEditDocCarta] = useState<boolean>(false);
+  const [urlDoc, setUrlDoc] = useState("");
+  const [urlDocCarta, setUrlDocCarta] = useState("");
 
   const [newDoc, setNewDoc] = useState(Object);
-  const [urlDoc, setUrlDoc] = useState("");
+  const [nameNewDoc, setNameNewDoc] = useState<string>();
+  const [DocSubido, setDocSubido] = useState<boolean>(false);
+  const [sizeFile, setSizeFile] = useState<boolean>();
+
+  const [newDocCarta, setNewDocCarta] = useState(Object);
+  const [nameNewDocCarta, setNameNewDocCarta] = useState<string>();
+  const [DocSubidoCarta, setDocSubidoCarta] = useState<boolean>(false);
+  const [sizeFileCarta, setSizeFileCarta] = useState<boolean>();
 
 
 
-  const [mensajeLabel, setMensajeLabel] = useState(
-    "Agrega un archivo PDF de tú carta de banco."
-  );
+
+  const [mensajeLabel, setMensajeLabel] = useState("Agrega un archivo PDF de tú carta de banco.");
   const [iconoPDF, setIconoPDF] = useState(imagenGenerica);
 
 
   const handleNewFile = (event: any) => {
-    let file = event.target!.files[0]!;
-    let sizeByte = Number(file.size);
-    setNameNewDoc("mensajePrincipal");
-    setMensajeLabel("Agrega un archivo PDF de tú carta de banco.");
 
-    if (event.target.files.length) {
-      if (
-        String(event.target!.files[0]!.name).slice(-4) === ".pdf" ||
-        String(event.target!.files[0]!.name).slice(-4) === ".PDF"
-      ) {
-        if (sizeByte <= 2000000) {
-          setNameNewDoc("EsPDFYMenorDe2MB");
-          setEditDoc(true);
-          setMensajeLabel(event.target!.files[0]!.name);
-          setNewDoc(file);
-          setIconoPDF(PdfLogo);
-        } else {
-          setNameNewDoc("ElDocEsMayorA2MB");
-          setMensajeLabel("El archivo es muy grande, tiene más de 2 hojas.");
-        }
-      } else {
-        setNameNewDoc("noEsPDF");
-        setMensajeLabel("El archivo no es un PDF, intenta de nuevo.");
-        setIconoPDF(imagenGenerica);
-      }
+    let file = event.target!.files[0]!;
+    var sizeByte = Number(file.size);
+    // setSizeFile(Number(sizeByte) / 1024 >= 3072 ? true : false)
+    if (Number(sizeByte) / 1024 >= 3072) {
+      Alert.fire({
+        title: "Atencion",
+        text: "Tamaño de archivo Exedido -Limitado a 3Mb-",
+        icon: "info",
+      });
+    } else if ((event.target!.files[0]!.name.slice(-4) === ".pdf" || event.target!.files[0]!.name.slice(-4) === ".PDF")) {
+      setNewDoc(file);
+      setNameNewDoc(event.target!.files[0]!.name);
+      //if(String(event.target!.files[0]!.name).slice)
+      setDocSubido(true);
+
     } else {
-      setIconoPDF(imagenGenerica);
+      Alert.fire({
+        title: "Atencion",
+        text: "Agrega un archivo PDF",
+        icon: "info",
+      });
+
     }
-  };
-  const handleNewFileCarta = (event: any) => {
-    let file = event.target!.files[0]!;
-    let sizeByte = Number(file.size);
-    setNameNewDoc("mensajePrincipal");
-    setMensajeLabel("Agrega un archivo PDF de tú carta de banco.");
 
-    if (event.target.files.length) {
-      if (
-        String(event.target!.files[0]!.name).slice(-4) === ".pdf" ||
-        String(event.target!.files[0]!.name).slice(-4) === ".PDF"
-      ) {
-        if (sizeByte <= 2000000) {
-          setNameNewDoc("EsPDFYMenorDe2MB");
-          setEditDoc(true);
-          setMensajeLabel(event.target!.files[0]!.name);
-          setNewDoc(file);
-          setIconoPDF(PdfLogo);
-        } else {
-          setNameNewDoc("ElDocEsMayorA2MB");
-          setMensajeLabel("El archivo es muy grande, tiene más de 2 hojas.");
-        }
-      } else {
-        setNameNewDoc("noEsPDF");
-        setMensajeLabel("El archivo no es un PDF, intenta de nuevo.");
-        setIconoPDF(imagenGenerica);
-      }
+  };
+
+  const handleNewFileCarta = (event: any) => {
+
+    let file2 = event.target!.files[0]!;
+    var sizeByte = Number(file2.size);
+    //setSizeFileCarta(Number(sizeByte) / 1024 >= 3072 ? true : false)
+    if (Number(sizeByte) / 1024 >= 3072) {
+      Alert.fire({
+        title: "Atencion",
+        text: "Tamaño de archivo Exedido -Limitado a 3Mb-",
+        icon: "info",
+      });
     } else {
-      setIconoPDF(imagenGenerica);
+      setNewDocCarta(file2);
+      setNameNewDocCarta(event.target!.files[0]!.name);
+      //if(String(event.target!.files[0]!.name).slice)
+      setDocSubidoCarta(true);
     }
   };
 
@@ -143,9 +137,8 @@ export const CuentaBancariaModal = ({
     setslideropen(true);
     const formData = new FormData();
 
-    editDoc ? formData.append("RUTADOCUMENTO", newDoc, mensajeLabel) : formData.append("RUTADOCUMENTO", "");
-    editDoc2 ? formData.append("RUTADOCUMENTO", newDoc, mensajeLabel) : formData.append("RUTADOCUMENTO", "");
-
+    newDoc ? formData.append("RUTADOCUMENTO", newDoc, nameNewDoc) : formData.append("RUTADOCUMENTO", "");
+    newDocCarta ? formData.append("CARTA", newDocCarta, nameNewDocCarta) : formData.append("CARTA", "");
     formData.append("NUMOPERACION", String(tipo));
     formData.append("CHID", id);
     formData.append("CHUSER", String(user.id));
@@ -160,7 +153,8 @@ export const CuentaBancariaModal = ({
       !numeroCuenta ||
       !idBancos ||
       !clabeBancaria ||
-      !newDoc
+      !newDoc ||
+      !newDocCarta
     ) {
       Swal.fire("Campos Vacios", "Error!", "error");
       setslideropen(false);
@@ -203,6 +197,24 @@ export const CuentaBancariaModal = ({
     });
   };
 
+  // function enCambioFile(event: any) {
+  //   setUploadFile(URL.createObjectURL(event.target.files[0]));
+  //   setNombreArchivo(event.target.value.split("\\")[2]);
+  //   let file = event.target!.files[0]!;
+  //   setTipoArchivo((event.target.value.split(".")[1]))
+  //   setFile(file);
+  //   {
+  //     nombreArchivo === null
+  //       ? setDisabledButton(true)
+  //       : setDisabledButton(false);
+  //   }
+  // }
+
+
+
+  /// archivo de carta
+
+
   useEffect(() => {
     if (dt === "") {
       console.log(dt);
@@ -213,6 +225,7 @@ export const CuentaBancariaModal = ({
       setNumeroCuenta(dt?.row?.NumeroCuenta);
       setClabeBancaria(dt?.row?.ClabeBancaria);
       setUrlDoc(dt?.row?.RutaDocumento);
+      setUrlDocCarta(dt?.row?.RutaCarta)
       setComentarios(dt?.row?.Comentarios);
       setMensajeLabel(dt?.row?.NombreDocumento);
       if (dt?.row?.NombreDocumento.length > 0) {
@@ -228,7 +241,7 @@ export const CuentaBancariaModal = ({
     <Dialog open={open} keepMounted>
       {tipo == 1 || tipo == 2 ? (
 
-        <ModalForm title={tipo == 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+        <ModalForm title={tipo == 1 ? "Agregar Datos bancarios" : "Editar Registro"} handleClose={handleClose}>
           <Grid container
             sx={{
               mt: "2vh",
@@ -319,81 +332,64 @@ export const CuentaBancariaModal = ({
 
             </Grid>
 
-            <Grid container
-              direction="row"
-              justifyContent="space-around"
-              alignItems="center"
-            >
-
-
-
-              <Grid item xs={3}
-              alignContent="center"
-              alignItems="center"
-                   >
-
-                <Box sx={{ width: "25vw", height: "25vh", border: "5px dashed  black", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <Grid container direction="row" justifyContent="space-around" alignItems="center">
+              <Grid item xs={3} sm={3} md={3} lg={3} alignContent="center" alignItems="center">
+                <Box sx={{ width: "100%", height: "100%", border: "5px dashed  black" }}>
                   <input
                     id="imagencargada"
-                    accept="image/*"
-                    // onChange={(v) => { enCambioFile(v) }}
+                    accept="application/pdf"
+                    onChange={(event) => { handleNewFile(event) }}
                     type="file"
-                    style={{ zIndex: 2, opacity: 0, width: '100%', height: '80%', position: "absolute", cursor: "pointer", }} /
-                  >
-                  {/* {disabledButton ? */}
-                  {/* user.RutaFoto === "" ?  */}
-                  <InsertDriveFileIcon sx={{ width: "90%", height: "90%" }} />
-                  {/* : 
-                         <img src={user.RutaFoto} style={{ objectFit: "scale-down", width: '100%', }} />
-                    :
-                    <img src={"uploadFile"} style={{ objectFit: "scale-down", width: '100%', }} />
-                    } */}
+                    style={{ zIndex: 2, opacity: 0, width: "25%", height: "40%", position: "absolute", cursor: "pointer", }} />
 
+                  {nameNewDoc ? < PictureAsPdfOutlinedIcon sx={{ width: "100%", height: "100%" }} /> : <CloudUploadIcon sx={{ width: "100%", height: "100%" }} />}
                 </Box>
 
-                <Box sx={{ width: "25vw", height: "8vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    {nombreArchivo==="" ?
-                        <Typography sx={{ textAlign: "center" }}>Arrastre El Documento o presione el icono para seleccionar archivo</Typography> :
-                        <Typography>Nombre del archivo: {nombreArchivo}</Typography>
-                        
-                    }
-                </Box>
+                {DocSubido ?
+                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
+                    <label >
+                      {nameNewDoc}
+                    </label>
+
+                  </Box>
+                  : ""}
+                <Grid item xs={12} sm={12} md={12} lg={12}
+                  sx={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <Typography sx={{ textAlign: "center" }}>Arrastre El Documento o Presione el icono Para Seleccionar</Typography>
+                </Grid>
               </Grid>
 
-              <Grid item xs={3}
-              sx={{ justifyContent: "center", alignItems: "center" }} >
+              {/* //// archivo de carta*/}
 
-                <Box sx={{ width: "25vw", height: "25vh", border: "5px dashed  black", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                  <input
-                    id="imagencargada"
-                    accept="image/*"
-                    //  onChange={(v) => { enCambioFile(v) }}
-                    type="file"
-                    style={{ zIndex: 2, opacity: 0, width: '100%', height: '80%', position: "absolute", cursor: "pointer", }} /
-                  >
-                  {/* {disabledButton ?
-                        user.RutaFoto === "" ?  */}
-                  <InsertDriveFileIcon sx={{ width: "90%", height: "90%" }} />
-                  {/* : <img src={user.RutaFoto} style={{ objectFit: "scale-down", width: '100%', }} />
-                        :
-                        <img src={""} style={{ objectFit: "scale-down", width: '100%', }} />
-                    } */}
+              <Grid item xs={3} sm={3} md={3} lg={3} alignContent="center" alignItems="center">
+                <Box sx={{ width: "100%", height: "100%", border: "5px dashed  black" }}>
+                  <Grid >
+                    <input
+                      id="imagencargada"
+                      accept="application/pdf"
+                      onChange={(event) => { handleNewFileCarta(event) }}
+                      type="file"
+                      style={{ zIndex: 2, opacity: 0, width: "25%", height: "40%", position: "absolute", cursor: "pointer", }} />
 
+                    {nameNewDocCarta ? < PictureAsPdfOutlinedIcon sx={{ width: "100%", height: "100%" }} /> : <CloudUploadIcon sx={{ width: "100%", height: "100%" }} />}
+
+                  </Grid>
                 </Box>
 
-                <Box sx={{ width: "25vw", height: "8vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    {nombreArchivo==="" ?
-                        <Typography sx={{ textAlign: "center" }}>Arrastre la Carta o presione el icono para seleccionar archivo</Typography> :
-                        <Typography>Nombre del archivo: {nombreArchivo}</Typography>
-                        
-                    }
-                </Box>
+                {DocSubidoCarta ?
+                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
+                    <label >
+                      {nameNewDocCarta}
+                    </label>
 
+                  </Box>
+                  : ""}
+                <Grid item xs={12} sm={12} md={12} lg={12}
+                  sx={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <Typography sx={{ textAlign: "center" }}>Arrastre La Carta o Presione el Icono Para Seleccionar</Typography>
+                </Grid>
               </Grid>
-
             </Grid>
-
-
             <Grid container
               sx={{
                 mt: "2vh",
@@ -410,87 +406,180 @@ export const CuentaBancariaModal = ({
               </Grid>
             </Grid>
           </Grid>
-
         </ModalForm>
-
-
-
-
-
-
       ) : (
         ""
       )}
 
       {tipo == 3 ? (
-        <Box>
-          <DialogContent>
+
+        <ModalForm title={"Cuenta Bancaria"} handleClose={handleClose}>
+
+          <Grid container
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+
+          >
+
+            <Grid item xs={12} sm={8} md={8} lg={7} textAlign="center">
+              <Box>
+                <Typography>Nombre de la cuenta:</Typography>
+                <Typography>{nombreCuenta}</Typography>
+                <br />
+                <Typography>Banco:</Typography>
+                <Typography> {dt?.row?.NombreBanco}</Typography>
+                <br />
+                <Typography>Numero de Cuenta</Typography>
+                <Typography>{dt?.row?.NumeroCuenta}</Typography>
+
+                <br />
+                <Typography>Clave bancaria</Typography>
+                <Typography>{dt?.row?.ClabeBancaria}</Typography>
+
+              </Box>
+            </Grid>
+
+
+
+
+
+          </Grid>
+          <Grid container>  
+          
+              <Grid item xs={12} sm={6} md={6} lg={6}>
+
             <Box>
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <label className="Titulo">Cuenta Bancaria</label>
-              </Box>
-              <Typography>Nombre de la cuenta:</Typography>
-              <Typography>{nombreCuenta}</Typography>
-              <Typography>Banco:</Typography>
-
-              <SelectFrag
-                value={idBancos}
-                options={bancos}
-                onInputChange={handleFilterChange1}
-                placeholder={"Seleccione Banco"}
-                label={""}
-                disabled={true}
+              <iframe
+                id="inlineFrameExample"
+                title="Inline Frame Example"
+                width="100%"
+                height="500"
+                src={urlDoc}
               />
-              <Typography>Número de la cuenta:</Typography>
-              <Typography>{numeroCuenta}</Typography>
-              <Typography>Clabe:</Typography>
-              <Typography>{clabeBancaria}</Typography>
-              <Box sx={{ width: "100%" }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    p: 1,
-                    m: 1,
-                    bgcolor: "background.paper",
-                    borderRadius: 1,
-                  }}
-                >
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      width: "100%",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <Box>
-                      <iframe
-                        id="inlineFrameExample"
-                        title="Inline Frame Example"
-                        width="500"
-                        height="350"
-                        src={urlDoc}
-                      />
-                    </Box>
-                    <Box>
-                      <Typography>Nombre del documento:</Typography>
-                      <Typography>{mensajeLabel}</Typography>
-                    </Box>
-                  </Box>
-                </Box>
-              </Box>
             </Box>
-          </DialogContent>
-          <DialogActions>
-            <button className="cerrar" onClick={() => handleClose()}>
-              Cancelar
-            </button>
-          </DialogActions>
-        </Box>
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
+                    <label >
+                    {dt?.row?.NombreDocumento}
+                    </label>
+
+                  </Box>
+
+          </Grid>
+          <Grid item xs={12} sm={6} md={6} lg={6}>
+
+            <Box>
+              <iframe
+                id="inlineFrameExample"
+                title="Inline Frame Example"
+                width="100%"
+                height="500"
+                src={urlDocCarta }
+              />
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
+                    <label >
+                      {dt?.row?.NombreCarta}
+                    </label>
+
+                  </Box>
+
+          </Grid>
+          </Grid>
+
+      
+
+
+
+
+        </ModalForm>
+
+
+
+        // <Box>
+        //   <DialogContent>
+        //     <Box>
+        //       <Box sx={{ display: "flex", justifyContent: "center" }}>
+        //         <label className="Titulo">Cuenta Bancaria</label>
+        //       </Box>
+        //       <Typography>Nombre de la cuenta:</Typography>
+        //       <Typography>{nombreCuenta}</Typography>
+        //       <Typography>Banco:</Typography>
+
+        //       <SelectFrag
+        //         value={idBancos}
+        //         options={bancos}
+        //         onInputChange={handleFilterChange1}
+        //         placeholder={"Seleccione Banco"}
+        //         label={""}
+        //         disabled={true}
+        //       />
+        //       <Typography>Número de la cuenta:</Typography>
+        //       <Typography>{numeroCuenta}</Typography>
+        //       <Typography>Clabe:</Typography>
+        //       <Typography>{clabeBancaria}</Typography>
+        //       <Box sx={{ width: "100%" }}>
+        //         <Box
+        //           sx={{
+        //             display: "flex",
+        //             alignItems: "flex-start",
+        //             flexDirection: "column",
+        //             justifyContent: "center",
+        //             p: 1,
+        //             m: 1,
+        //             bgcolor: "background.paper",
+        //             borderRadius: 1,
+        //           }}
+        //         >
+
+        //           <Box
+        //             sx={{
+        //               display: "flex",
+        //               width: "100%",
+        //               justifyContent: "center",
+        //               flexDirection: "column",
+        //             }}
+        //           >
+        //             <Box>
+        //               <iframe
+        //                 id="inlineFrameExample"
+        //                 title="Inline Frame Example"
+        //                 width="500"
+        //                 height="350"
+        //                 src={urlDoc}
+        //               />
+        //             </Box>
+        //             <Box>
+        //               <iframe
+        //                 id="inlineFrameExample"
+        //                 title="Inline Frame Example"
+        //                 width="500"
+        //                 height="350"
+        //                 src={urlDocCarta}
+        //               />
+        //             </Box>
+
+
+        //             <Box>
+        //               <Typography>Nombre del documento:</Typography>
+        //               <Typography>{mensajeLabel}</Typography>
+        //             </Box>
+        //           </Box>
+        //         </Box>
+        //       </Box>
+        //     </Box>
+        //   </DialogContent>
+        //   <DialogActions>
+        //     <button className="cerrar" onClick={() => handleClose()}>
+        //       Cancelar
+        //     </button>
+        //   </DialogActions>
+        // </Box>
       ) : (
         ""
       )}
