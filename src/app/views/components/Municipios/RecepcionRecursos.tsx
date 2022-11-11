@@ -116,7 +116,7 @@ const RecepcionRecursos = () => {
     },
   ];
 
-  const [recursoButton, setRecursoButton] = useState("");
+  const [recursoButton, setRecursoButton] = useState("PF");
 
   const handleAjustesRel = (v: string) => {
     setRecursoButton(v)

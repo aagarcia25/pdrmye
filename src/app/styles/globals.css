@@ -17,11 +17,12 @@ img.rounded-corners {
 
 h1 {
   font-family: "Public Sans", MontserratMedium;
-
 }
 h2 {
   font-family: "Public Sans", MontserratMedium;
-
+}
+h4 {
+  font-family: "Public Sans", MontserratMedium;
 }
 button {
   background-color: white;
