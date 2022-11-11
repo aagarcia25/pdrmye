@@ -18,9 +18,11 @@ import FideicomisoConfig from "./FideicomisoConfig";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MunicipiosUsuarioResponsable from "./MunicipiosUsuarioResponsable";
-import { MunicipiosCuentaBancaria } from "./MunicipiosCuentaBancaria";
+import { CuentaBancaria } from "../CuentaBancaria/CuentaBancaria";
+import ModalForm from "../../../componentes/ModalForm";
 
 export const Municipios = () => {
+  const [id, setId] = useState("");
   const [municipio, setMunicipio] = useState([]);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -166,8 +168,10 @@ export const Municipios = () => {
   };
 
   const handleCC = (v: any) => {
+    console.log(v);
+    setId(v.row.id);
     setOpenCC(true);
-    setData(v);
+    
   };
 
   const handleUR = (v: any) => {
@@ -357,7 +361,11 @@ export const Municipios = () => {
       )}
 
       {openCC ? (
-        <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
+        // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
+        <ModalForm title={"Cuentas Bancarias"} handleClose={handleClose}>
+            <CuentaBancaria idmunicipio={id} ></CuentaBancaria>
+        </ModalForm>
+      
       ) : (
         ""
       )}

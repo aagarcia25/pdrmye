@@ -15,15 +15,19 @@ import { IconButton, Tooltip } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ModalAlert from "../../../componentes/ModalAlert";
 
-export const CuentaBancaria = () => {
+export const CuentaBancaria = ({
+idmunicipio
+}:{
+idmunicipio :string
+}) => {
+
+
   const [slideropen, setslideropen] = useState(true);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [texto, setTexto] = useState("");
   const [open, setOpen] = useState(false);
@@ -65,7 +69,7 @@ export const CuentaBancaria = () => {
                 title: "Registro Eliminado!",
               });
 
-              consulta({ CHUSER: user.id, NUMOPERACION: 4 });
+              consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0].id, NUMOPERACION: 4 });
             } else {
               Alert.fire({
                 title: "Error!",
@@ -95,7 +99,7 @@ export const CuentaBancaria = () => {
             title: "Registro Enviado a Validación!",
           });
 
-          consulta({ CHUSER: user.id, NUMOPERACION: 4 });
+          consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0].id, NUMOPERACION: 4 });
         } else {
           Alert.fire({
             title: "Error!",
@@ -148,22 +152,26 @@ export const CuentaBancaria = () => {
 
             {
               (v.row.EstatusDescripcion == "INICIO" ? (
+                <>
                 <Tooltip title="Enviar a Validación">
                   <IconButton color="info" onClick={() => handlevalidar(v)}>
                     <SendIcon />
                   </IconButton>
                 </Tooltip>
+
+              <BotonesAcciones
+              handleAccion={handleAccion}
+              row={v}
+              editar={editar}
+              eliminar={eliminar}
+               />
+              </>
               ) : (
                 ""
               ))
             }
 
-            <BotonesAcciones
-              handleAccion={handleAccion}
-              row={v}
-              editar={editar}
-              eliminar={eliminar}
-            />
+            
           </>
         );
       },
@@ -198,7 +206,7 @@ export const CuentaBancaria = () => {
     setOpenModal(false);
     setslideropen(false);
     setOpen(false);
-    consulta({ CHUSER: user.id, NUMOPERACION: 4 });
+    consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0].id, NUMOPERACION: 4 });
   };
 
   const handleOpen = (v: any) => {
@@ -241,7 +249,7 @@ export const CuentaBancaria = () => {
         }
       }
     });
-    consulta({ CHUSER: user.id, NUMOPERACION: 4 });
+    consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0].id, NUMOPERACION: 4 });
   }, []);
 
   return (
