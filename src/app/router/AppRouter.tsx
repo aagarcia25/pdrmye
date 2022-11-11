@@ -52,6 +52,7 @@ import { AnticipoParticipaciones } from '../views/components/menu/catalogos/Muni
 import AsigPresupuestal from '../views/components/DPCP/AsigPresupuestal';
 import AsigPago from '../views/components/DAF/AsigPago';
 import AgregarContactoMunicipio from '../views/components/Municipios/AgregarContactoMunicipio';
+import TipoFondoCalculo from '../views/components/menu/catalogos/TipoFondoCalculo/TipoFondoCalculo';
 
 
 
@@ -84,6 +85,7 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/eventos'                    element={<Eventos />} />
         <Route path='/inicio/catalogos/departamentos'              element={<Departamentos />}      />
         <Route path='/inicio/catalogos/tipoFondo'                  element={<TipoFondo />}      />
+        <Route path='/inicio/catalogos/TipoFondoCalculo'           element={<TipoFondoCalculo />}      />
         <Route path='/inicio/catalogos/inflacionMes'               element={<InflacionMes />}      />
         <Route path='/inicio/catalogos/inflacionAnio'              element={<InflacionAnio />}      />
         <Route path='/inicio/catalogos/fondos'                     element={<Fondos />}      />

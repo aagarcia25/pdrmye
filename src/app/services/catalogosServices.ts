@@ -92,6 +92,9 @@ export class CatalogosServices {
         return await post('tipofondo', data);
     };
     
+    public static async TipoFondosCalculo(data : any) {
+        return await post('TipoFondosCalculo', data);
+    };
 
     public static async inflacionMes(data : any) {
         return await post('inflacionMes', data);
