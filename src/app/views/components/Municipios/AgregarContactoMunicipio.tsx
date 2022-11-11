@@ -127,19 +127,19 @@ const AgregarContactoMunicipio = () => {
     return (
         //Box padre
         <Box sx={{ display: "flex", width: "100%", height: "100%", justifyContent: "center", alignItems: "center" }}>
-            <Box sx={{ display: "flex", width: "80%", height: "100%", justifyContent: "center", alignItems: "center" }}>
+            <Box sx={{ display: "flex", width: "65%", height: "100%", justifyContent: "center", alignItems: "center" }}>
                 {/* Box delimitador con border */}
                 <Box sx={{ display: "flex", width: "80%", height: "90%", border: "1px solid  black", borderRadius: "5%", justifyContent: "center", alignItems: "center" }}>
                     {/* Box de contenido */}
                     <Box sx={{ display: "flex", width: "90%", height: "90%", backgroundColor: "white", flexDirection: "column", alignItems: "center" }}>
                         {/* Box de imagen */}
-                        <Box sx={{ width: "40%", height: "25%", border: "5px dashed  black", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                        <Box sx={{ width: "20vh", height: "20vh", border: "5px dashed  black", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                             <input
                                 id="imagencargada"
                                 accept="image/*"
                                 onChange={(v) => { enCambioFile(v) }}
                                 type="file"
-                                style={{ zIndex: 2, opacity: 0, width: "25%", height: "15%", cursor: "pointer", position: "absolute" }}
+                                style={{ zIndex: 2, opacity: 0, width: "20vh",height: "20vh", cursor: "pointer", position: "absolute" }}
                             /
                             >
                             {disabledButton ?
@@ -279,7 +279,7 @@ const AgregarContactoMunicipio = () => {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => { setOpenDialogConfirmacion(false) }}>Cancelar</Button>
+                        <Button sx={{}} onClick={() => { setOpenDialogConfirmacion(false) }}>Cancelar</Button>
                         <Button onClick={() => { setOpenDialogConfirmacion(false); limpiar(); guardarRegistro(); handleSend(); }} color="success">Aceptar</Button>
                     </DialogActions>
                 </Dialog>
