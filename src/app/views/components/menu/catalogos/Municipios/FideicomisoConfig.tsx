@@ -394,7 +394,7 @@ const FideicomisoConfig = ({
                   <Button className="guardar" onClick={() => { agregar() }}>
                     Guardar
                   </Button>
-                  <Button className="cerrar" onClick={() => { setModo("visualizar") }}>
+                  <Button className="regresar" onClick={() => { setModo("visualizar") }}>
                     Cancelar
                   </Button>
                 </DialogActions>

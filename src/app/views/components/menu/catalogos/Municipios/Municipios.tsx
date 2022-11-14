@@ -23,6 +23,8 @@ import ModalForm from "../../../componentes/ModalForm";
 
 export const Municipios = () => {
   const [id, setId] = useState("");
+  const [nombreMun, setNombreMun] = useState("");
+
   const [municipio, setMunicipio] = useState([]);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -170,6 +172,7 @@ export const Municipios = () => {
   const handleCC = (v: any) => {
     console.log(v);
     setId(v.row.id);
+    setNombreMun(v.row.Nombre)
     setOpenCC(true);
     
   };
@@ -363,7 +366,7 @@ export const Municipios = () => {
       {openCC ? (
         // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
         <ModalForm title={"Cuentas Bancarias"} handleClose={handleClose}>
-            <CuentaBancaria idmunicipio={id} ></CuentaBancaria>
+            <CuentaBancaria idmunicipio={id} municipio={nombreMun} ></CuentaBancaria>
         </ModalForm>
       
       ) : (

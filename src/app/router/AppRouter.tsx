@@ -93,7 +93,7 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
         <Route path='/inicio/catalogos/parametrosgenerales'  element={<ParametrosGenerales />} />
         <Route path='/inicio/catalogos/bancos'  element={<Bancos />} />
-        <Route path='/inicio/catalogos/cuentabancaria'  element={<CuentaBancaria idmunicipio={''}/>} />
+        <Route path='/inicio/catalogos/cuentabancaria'  element={<CuentaBancaria idmunicipio={''} municipio={''}/>} />
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
