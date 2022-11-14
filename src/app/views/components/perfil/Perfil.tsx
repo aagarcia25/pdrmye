@@ -157,7 +157,7 @@ export const Perfil = () => {
           alignItems: "center",
           justifyContent: "center",
           border: "1px solid  black",
-           borderRadius: "5%",
+          borderRadius: "5%",
           //backgroundColor: "blue"
         }}
       >
