@@ -114,7 +114,7 @@ const Art14m = ({
   useEffect(() => {
     setImporte(fondos.map(()=>{return(NaN)}))
     setimporteDistri(fondos.map(()=>{return(NaN)}))
-  }, [fondos]);
+  }, [fondos,tipo]);
 
   return (
     <div>
