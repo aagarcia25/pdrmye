@@ -32,8 +32,22 @@ const Art14m = ({
 }) => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [slideropen, setslideropen] = useState(false);
-  const [monto, setMonto] = useState<number>();
+
+
+ 
+  const [importe, setImporte] = useState<Array<Number>>([]);
+  const [importeDistri, setimporteDistri] = useState<Array<Number>>([]);
+
+
   const [fondos, setFondos] = useState([]);
+
+
+
+
+
+  const [monto, setMonto] = useState<number>();
+
+
 
   const handleclose = () => {
     onClickBack();
@@ -80,9 +94,12 @@ const Art14m = ({
     }
   };
 
+
   useEffect(() => {
     handleFondos();
-  }, [tipo]);
+    console.log(importe)
+    console.log(importeDistri)
+  }, [tipo,importeDistri]);
 
   return (
     <div>
@@ -149,7 +166,10 @@ const Art14m = ({
  
         <Grid item xs={12} sm={12} md={12} >
         {
-          fondos.map((item: any) => {
+          fondos.map((item: any,x) => {
+            importe.push();
+            importeDistri.push();
+           
             return(
          
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
@@ -162,12 +182,21 @@ const Art14m = ({
               </Tooltip>
             </Grid>
             <Grid item xs={3} sm={3} md={3} sx={{ textAlign: "center" }}>
+            
               <Input
                 sx={{ fontWeight: "MontserratMedium" }}
                 required
+                value={importe[x -1]}
                 placeholder="1500000*"
-                id="monto"
-                onChange={(v) => setMonto(Number(v.target.value))}
+                id={(x -1).toString()}
+                onChange={(v) =>{
+                  let numero =importe
+                      numero[x-1]=parseInt(v.target.value);
+                                setImporte(numero);
+                  let im =importeDistri ;
+                      importeDistri[x-1]=(item.PorcentajeDistribucion / 100) * Number(numero[x-1]);
+                                setimporteDistri(im);
+                  } }
                 error={monto == null ? true : false}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -185,9 +214,9 @@ const Art14m = ({
                 sx={{ fontWeight: "MontserratMedium" }}
                 required
                 placeholder="1500000*"
-                id="monto"
-                onChange={(v) => setMonto(Number(v.target.value))}
-                error={monto == null ? true : false}
+                id="montodistri"
+                value={importeDistri[x -1]}
+                // onChange={(v) => setMonto( importeDistri)}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
@@ -218,7 +247,7 @@ const Art14m = ({
                 required
                 placeholder="1500000*"
                 id="monto"
-                onChange={(v) => setMonto(Number(v.target.value))}
+                value={monto}
                 error={monto == null ? true : false}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
