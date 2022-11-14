@@ -98,23 +98,23 @@ const Art14m = ({
   const crearValue=()=>{
    
         let prevState = [...importe];
-        prevState.push(0);
+        prevState.push();
         setImporte(prevState);
+        
         let prev=[...importeDistri]
-        prev.push(0)
+        prev.push()
         setimporteDistri(prev);
   }
 
 
   useEffect(() => {
     handleFondos();
-  }, [tipo]);
+  }, []);
 
-  // useEffect(() => {
-  //   importeDistri.push()
-  //   let a =importeDistri
-  //   console.log(a.length)
-  // }, [importeDistri]);
+  useEffect(() => {
+    setImporte(fondos.map(()=>{return(NaN)}))
+    setimporteDistri(fondos.map(()=>{return(NaN)}))
+  }, [fondos]);
 
   return (
     <div>
@@ -182,7 +182,6 @@ const Art14m = ({
         <Grid item xs={12} sm={12} md={12} >
         {
           fondos.map((item: any,x) => {
-            crearValue();
             return(
          
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
@@ -197,17 +196,18 @@ const Art14m = ({
             <Grid item xs={3} sm={3} md={3} sx={{ textAlign: "center" }}>
             
               <Input
+              key={x}
                 sx={{ fontWeight: "MontserratMedium" }}
                 required
-                value={importe[x -1]}
+                value={importe[x]}
                 placeholder="1500000*"
                 id={(x -1).toString()}
                 onChange={(v) =>{
                   let numero =importe
-                      numero[x-1]=parseInt(v.target.value);
-                                setImporte(numero);
+                      numero[x]=parseInt(v.target.value);
+                      setImporte([...importe,importe[x]=parseInt(v.target.value)]);
                   let im =importeDistri ;
-                      importeDistri[x-1]=(item.PorcentajeDistribucion / 100) * (numero[x-1]);
+                      importeDistri[x]=(item.PorcentajeDistribucion / 100) * (numero[x]);
                                 setimporteDistri(im);
                   } }
                 error={monto == null ? true : false}
@@ -224,11 +224,12 @@ const Art14m = ({
             
             <Grid item xs={3} sm={3} md={3} sx={{ textAlign: "center" }}>
               <Input
+                key={x}
                 sx={{ fontWeight: "MontserratMedium" }}
                 required
                 placeholder="1500000*"
                 id="montodistri"
-                value={importeDistri[x -1]}
+                value={importeDistri[x]}
                 // onChange={(v) => setMonto( importeDistri)}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -260,7 +261,7 @@ const Art14m = ({
                 required
                 placeholder="1500000*"
                 id="monto"
-                value={monto}
+                value={importeDistri.reduce((a, b) => a + b, 0)}
                 error={monto == null ? true : false}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
