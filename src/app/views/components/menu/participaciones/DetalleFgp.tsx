@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
-import { Alert } from "../../../../helpers/Alert";
+import { AlertS } from "../../../../helpers/AlertS";
 import { calculosServices } from "../../../../services/calculosServices";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
@@ -175,7 +175,7 @@ const DetalleFgp = ({
         });
         handleClose();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -214,7 +214,7 @@ const DetalleFgp = ({
             });
             handleClose();
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -232,7 +232,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         setStatus(res.RESPONSE[0]);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -248,7 +248,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         setPerfil(res.RESPONSE[0]);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -264,7 +264,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         setDireccion(res.RESPONSE[0]);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -319,7 +319,7 @@ const DetalleFgp = ({
           }
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -336,7 +336,7 @@ const DetalleFgp = ({
         });
         setData(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle, DialogContent, TextField, FormControl, InputLabel, Select, MenuItem, InputAdornment, DialogActions, Button } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react'
-import { Alert } from '../../../../../helpers/Alert';
+import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
 import { RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { AuthService } from '../../../../../services/AuthService';
@@ -36,7 +36,7 @@ const PermisosModal = ({
 
   const handleSend = () => {
     if (nombre == "" || descripcion == "") {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -72,7 +72,7 @@ const PermisosModal = ({
           title: titulo,
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

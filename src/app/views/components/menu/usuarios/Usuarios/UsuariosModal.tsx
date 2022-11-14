@@ -11,7 +11,7 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
@@ -102,7 +102,7 @@ const UsuariosModal = ({
       CorreoElectronico == null ||
       emailValid == false
     ) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Verificar los campos",
         icon: "error",
@@ -226,7 +226,7 @@ const UsuariosModal = ({
         }
 
         else if (resUser.status == 409) {
-          Alert.fire({
+          AlertS.fire({
             title: "Error!",
             text: resUser.data.msg,
             icon: "error",

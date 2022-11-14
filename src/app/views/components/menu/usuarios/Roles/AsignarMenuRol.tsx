@@ -8,7 +8,7 @@ import { messages } from "../../../../styles";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import ModalForm from "../../../componentes/ModalForm";
 
 const AsignarMenuRol = ({
@@ -39,7 +39,7 @@ const AsignarMenuRol = ({
                 });
                 consulta({ CHID: id });
             } else {
-                Alert.fire({
+                AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
                     icon: "error",

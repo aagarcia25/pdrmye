@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Box, IconButton,    } from '@mui/material'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AvisosModal from './AvisosModal'
 import Swal from "sweetalert2";
@@ -102,7 +102,7 @@ export const Avisos = () => {
             };
             consulta(data);
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -159,7 +159,7 @@ if(v=="save"){
         });
         setAvisos(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

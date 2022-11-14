@@ -1,63 +1,38 @@
+import React, { useEffect, useState } from "react";
 import {
-    Dialog,
-    DialogActions,
     Box,
-    Typography,
     Checkbox,
-    IconButton,
-    Tooltip,
     Grid,
     Button,
     ButtonGroup,
-    styled,
-    Paper,
 } from "@mui/material";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import React, { useEffect, useState } from "react";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { GridColDef } from '@mui/x-data-grid';
-
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
-import { id } from "date-fns/locale";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { AlertS } from "../../../../../helpers/AlertS";
 import ModalForm from "../../../componentes/ModalForm";
+import Slider from "../../../Slider";
 
-const FondosView = ({
-    open,
+const FondosTipoView = ({
     handleClose,
-    tipo,
     dt,
 }: {
-    open: boolean;
-    modo: string;
-    tipo: number;
     handleClose: Function;
     dt: any;
 }) => {
 
     const [data, setData] = useState([]);
     const [openRel, setOpenRel] = useState(true);
-    const [openSlider, setOpenSlider] = useState<boolean>();
+    const [openSlider, setOpenSlider] = useState(true);
     const [descripcion, setDescripcion] = useState<string>();
     const [idFondo, setIdFondo] = useState<string>();
 
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    }));
+ 
     const consulta = (data: any) => {
-        setOpenSlider(true);
-        AuthService.FondosAjustes(data).then((res) => {
+        AuthService.tipoCalculo(data).then((res) => {
             setData(res.RESPONSE);
             setOpenSlider(false);
-            console.log(res)
         });
 
     };
@@ -66,24 +41,17 @@ const FondosView = ({
     const handleChange = (v: any) => {
 
         if (openRel != true) {
-            console.log("ajuste -- " + v?.row);
-            console.log("id ajuste --- " + v?.row?.id,);
-            AuthService.FondosRelAjuste(
+            AuthService.tipoCalculo(
                 {
-                    TIPO: 1,
-                    IDAJUSTE: v?.row?.id,
+                    NUMOPERACION: 1,
+                    IDTIPOCALCULO: v?.row?.id,
                     IDFONDO: idFondo,
                 }
             ).then((res) => {
-                setData(res.RESPONSE);
                 if (res.SUCCESS) {
                     Toast.fire({
                         icon: "success",
                         title: "Ajuste Asignado!",
-                    });
-                    consulta({
-                        CHID: dt?.row?.id,
-                        TIPO: 2,
                     });
                 } else {
                     AlertS.fire({
@@ -95,24 +63,19 @@ const FondosView = ({
             });
         }
         else {
-            console.log("ajuste -- " + v?.row);
-            console.log("id ajuste --- " + v?.row?.id,);
-            AuthService.FondosRelAjuste(
+            AuthService.tipoCalculo(
                 {
-                    TIPO: 2,
-                    IDAJUSTE: v?.row?.id,
-                    IDFONDO: idFondo,
+                    NUMOPERACION: 3,
+                    CHID: v?.row?.idrelacion,
                 }
             ).then((res) => {
-                setData(res.RESPONSE);
                 if (res.SUCCESS) {
                     Toast.fire({
                         icon: "success",
                         title: "Ajuste Eliminado!",
                     });
                     consulta({
-                        CHID: dt?.row?.id,
-                        TIPO: 1,
+                        NUMOPERACION: 4,
                     });
                 } else {
                     AlertS.fire({
@@ -137,9 +100,14 @@ const FondosView = ({
             width: 10,
         },
         {
+            field: "idrelacion",
+            hide: true,
+        },
+        
+        {
             field: "acciones",
             headerName: "",
-            description: "Relacionar Menus",
+            description: "Relacionar",
             sortable: false,
             width: 10,
             renderCell: (v) => {
@@ -152,18 +120,16 @@ const FondosView = ({
 
     const handleAjustesRel = () => {
         setOpenRel(true);
-        consulta({ CHID: dt?.row?.id, TIPO: 1, });
+        consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
     };
 
     const handleAjustesDis = () => {
         setOpenRel(false);
-        consulta({ CHID: dt?.row?.id, TIPO: 2, });
+        consulta({ CHID: dt?.row?.id, NUMOPERACION: 5, });
     };
 
     useEffect(() => {
         handleAjustesRel();
-        console.log(dt?.row);
-        console.log("id fondo--- " + dt?.row?.id);
         setDescripcion(dt?.row?.Descripcion);
         setIdFondo(dt?.row?.id);
     }, []);
@@ -171,7 +137,9 @@ const FondosView = ({
 
     return (
         <div>
-            <ModalForm title={"  Ajustes Relacionados"} handleClose={handleClose}>
+        
+            <ModalForm title={"Tipo de Cálculos Relacionados"} handleClose={handleClose}>
+            <Slider open={openSlider}></Slider>
                 <Grid container
                     sx={{
                         mt: "2vh",
@@ -190,12 +158,12 @@ const FondosView = ({
                             <Button
                                 color={openRel?"info":"inherit"}
                                 onClick={handleAjustesRel}
-                            >Ajustes Relacionados</Button>
+                            > Relacionados</Button>
                             <Button
                                 color={openRel?"inherit":"info"}
                                 onClick={handleAjustesDis}
 
-                            >Ajustes Disponibles Para Relacionar</Button>
+                            >Disponibles Para Relacionar</Button>
                         </ButtonGroup>
                     </Grid>
 
@@ -222,16 +190,9 @@ const FondosView = ({
                                     alignItems: "center",
 
                                 }}>
-                                <Grid item xs={12}>
-                                    <br />
-                                    <label className="Titulo">
-
-                                    </label>
-                                    <br />
-                                </Grid>
+                                
                                 <Grid item xs={12} >
-
-                                    *Para Eliminar el Ajuste Seleccione la Casilla*
+                                    *Para Eliminar el Registro Seleccione la Casilla*
                                 </Grid>
                             </Grid>
                             :
@@ -243,15 +204,9 @@ const FondosView = ({
                                     alignItems: "center",
 
                                 }}>
-                                <Grid item xs={12} >
-                                    <br />
-                                    <label className="Titulo">
-                                        Ajustes Disponibles Para Relacionar
-                                    </label>
-                                    <br />
-                                </Grid>
+                              
                                 <Grid item xs={12}>
-                                    *Para Asignar el Ajuste Seleccione la Casilla*
+                                    *Para Asignar el Registro  Seleccione la Casilla*
                                 </Grid>
                             </Grid>
                         }
@@ -265,7 +220,6 @@ const FondosView = ({
 
                             <Grid item xs={12} sx={{
                                 width: "100%",
-                                // height: 300,
                                 height: "60vh",
                             }}>
                                 <MUIXDataGridSimple columns={columns} rows={data} />
@@ -285,4 +239,4 @@ const FondosView = ({
 
 
 
-export default FondosView;
+export default FondosTipoView;

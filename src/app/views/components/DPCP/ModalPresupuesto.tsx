@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
-import { Alert } from '../../../helpers/Alert';
+import { AlertS } from '../../../helpers/AlertS';
 
 const ModalPresupuesto = ({
     handleClose,
@@ -17,7 +17,7 @@ const ModalPresupuesto = ({
 
   const validacion = () => {
     if(mensaje == "" || mensaje == null){
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de llenar el campo Comentarios*",
         icon: "error",

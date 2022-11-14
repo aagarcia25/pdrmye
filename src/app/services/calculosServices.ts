@@ -60,6 +60,11 @@ export class calculosServices {
         return await post('CalculoArchivo', data);
     }
 
+    public static async spcalculo(data: any) {
+        return await post('spcalculo', data);
+    }
+
+    
     
     
     

@@ -4,7 +4,7 @@ import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
@@ -103,7 +103,7 @@ const ISAI = () => {
         });
         consulta(5);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -143,7 +143,7 @@ const ISAI = () => {
               });
               consulta(5);
             } else {
-              Alert.fire({
+              AlertS.fire({
                 title: "Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
@@ -194,7 +194,7 @@ const ISAI = () => {
         });
         setDataTipoFondo(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

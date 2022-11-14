@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 
@@ -114,7 +114,7 @@ const MunFacturacionModal = ({
       artF2 === "" ||
       artF3 === ""
     ) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -171,7 +171,7 @@ const MunFacturacionModal = ({
         });
         console.log("Sé pudo agregar");
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -190,7 +190,7 @@ const MunFacturacionModal = ({
         });
         console.log("Sé pudo editar");
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

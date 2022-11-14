@@ -15,7 +15,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { Alert } from '../../../helpers/Alert';
+import { AlertS } from '../../../helpers/AlertS';
 import { CatalogosServices } from '../../../services/catalogosServices';
 import { Toast } from '../../../helpers/Toast';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -80,7 +80,7 @@ export const SolicitudModal = (
             else { setActiveStep((prevActiveStep) => prevActiveStep + 1) }
         }
         else {
-            Alert.fire({
+            AlertS.fire({
                 title: "Atencion",
                 text: sizeFile ? "Tamaño de archivo Exedido -Limitado a 3Mb-" : "Verificar los campos",
                 icon: "info",
@@ -136,7 +136,7 @@ export const SolicitudModal = (
                                             handleClose();
 
                                         } else {
-                                            Alert.fire({
+                                            AlertS.fire({
                                                 title: "Error!",
                                                 text: "Fallo en la carga",
                                                 icon: "error",
@@ -153,7 +153,7 @@ export const SolicitudModal = (
                                 }
 
                             } else {
-                                Alert.fire({
+                                AlertS.fire({
                                     title: "Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",
@@ -189,7 +189,7 @@ export const SolicitudModal = (
 
 
                             } else {
-                                Alert.fire({
+                                AlertS.fire({
                                     title: "Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",

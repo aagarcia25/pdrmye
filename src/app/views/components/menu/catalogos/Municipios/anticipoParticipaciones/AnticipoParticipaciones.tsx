@@ -12,7 +12,7 @@ import { DetalleAnticipoParticipaciones } from "./DetalleAnticipoParticipaciones
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../../helpers/Toast";
-import { Alert } from "../../../../../../helpers/Alert";
+import { AlertS } from "../../../../../../helpers/AlertS";
 import { Titulo } from "../../Utilerias/AgregarCalculoUtil/Titulo";
 import ButtonsMunicipio from "../../Utilerias/ButtonsMunicipio";
 import DoneIcon from '@mui/icons-material/Done';
@@ -232,7 +232,7 @@ export const AnticipoParticipaciones = () => {
                             handleClose();
                         } else {
 
-                            Alert.fire({
+                            AlertS.fire({
                                 title: "Error!",
                                 text: "Fallo en la peticion",
                                 icon: "error",
@@ -302,7 +302,7 @@ export const AnticipoParticipaciones = () => {
 
                         });
                     } else {
-                        Alert.fire({
+                        AlertS.fire({
                             title: "Error!",
                             text: "Validar informacion",
                             icon: "error",
@@ -330,7 +330,7 @@ export const AnticipoParticipaciones = () => {
                 });
                 consulta();
             } else {
-                Alert.fire({
+                AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
