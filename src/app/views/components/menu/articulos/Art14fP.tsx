@@ -37,11 +37,11 @@ export const Art14fP = () => {
 
   const handleVersion = () => {
     setstep(1);
-  }
+  };
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
-     {
+    {
       field: "acciones",
       headerName: "Acciones",
       description: "Ver detalle",
@@ -70,7 +70,6 @@ export const Art14fP = () => {
         return v.row.deleted === "0" ? "SI" : "NO";
       },
     },
-   
   ];
 
   const loaddata = (tipo: Number) => {
@@ -86,17 +85,15 @@ export const Art14fP = () => {
   let params = useParams();
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "ART14F1" 
-      || String(item.ControlInterno) === "ART14F2" 
-      || String(item.ControlInterno) === "ART14F3" 
+      if (
+        String(item.ControlInterno) === "ART14F1" ||
+        String(item.ControlInterno) === "ART14F2" ||
+        String(item.ControlInterno) === "ART14F3"
       ) {
-        console.log(item)
+        console.log(item);
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }
-       
-        
-        
       }
     });
     loaddata(Number(params.tipo));
@@ -104,31 +101,44 @@ export const Art14fP = () => {
 
   return (
     <>
-     <Slider open={slideropen} ></Slider>
-    
-     <Box sx={{ display: step == 0 ? "block" : "none" }}>
-      <Box >
-        {agregar ? 
-        <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-          <Tooltip title="Generar Nueva Versión">
-            <ToggleButton value="check" onClick={() => handleVersion()}>
-              <AutoModeIcon />
-            </ToggleButton>
-          </Tooltip>
-        </ToggleButtonGroup>
-         :""}
-      </Box>
-      <div style={{ height: 600, width: "100%" }}>
-        <MUIXDataGrid columns={columns} rows={data} />
-      </div>
-      </Box>
-      <Box sx={{ display: step == 1 ? "block" : "none" }}>
-       <Art14m titulo={
-       tipo == 1 ? "Articulo 14 F I" : ( tipo == 2 ? "Articulo 14 F II" : ( tipo == 3 ? "Articulo 14 F III" :"")  )
-       } onClickBack={handleBack} tipo={tipo}></Art14m>
+      <Slider open={slideropen}></Slider>
+
+      <Box sx={{ display: step == 0 ? "block" : "none" }}>
+        <Box>
+          {agregar ? (
+            <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+              <Tooltip title="Generar Nueva Versión">
+                <ToggleButton value="check" onClick={() => handleVersion()}>
+                  <AutoModeIcon />
+                </ToggleButton>
+              </Tooltip>
+            </ToggleButtonGroup>
+          ) : (
+            ""
+          )}
+        </Box>
+        <div style={{ height: 600, width: "100%" }}>
+          <MUIXDataGrid columns={columns} rows={data} />
+        </div>
       </Box>
 
-
+      {step == 1 ? (
+        <Art14m
+          titulo={
+            tipo == 1
+              ? "Articulo 14 F I"
+              : tipo == 2
+              ? "Articulo 14 F II"
+              : tipo == 3
+              ? "Articulo 14 F III"
+              : ""
+          }
+          onClickBack={handleBack}
+          tipo={tipo}
+        ></Art14m>
+      ) : (
+        ""
+      )}
     </>
   );
 };
