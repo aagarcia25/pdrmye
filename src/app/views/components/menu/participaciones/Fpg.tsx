@@ -148,6 +148,12 @@ export const Fpg = () => {
       description: "Descripcion del Fondo",
     },
     {
+      field: "Tipo",
+      headerName: "Tipo",
+      width: 60,
+      description: "Tipo Cálculo",
+    },
+    {
       field: "Anio",
       headerName: "Anio",
       width: 60,
