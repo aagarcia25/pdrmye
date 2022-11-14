@@ -66,7 +66,7 @@ const RecepcionRecursos = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
+    { field: "FechaCreacion", headerName: "Fechas Creación", width: 150 },
     { field: "ClaveEstado", headerName: "Clave Estado", width: 120 },
     { field: "Nombre", headerName: "Municipio", width: 250 },
 

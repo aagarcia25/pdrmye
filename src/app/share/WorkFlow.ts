@@ -1,4 +1,4 @@
-import { Alert } from "../helpers/Alert";
+import { AlertS } from "../helpers/AlertS";
 import { calculosServices } from "../services/calculosServices";
 
 
@@ -12,7 +12,7 @@ import { calculosServices } from "../services/calculosServices";
             if (res.SUCCESS) {
            //  setStatus(res.RESPONSE[0].ControlInterno)
             } else {
-              Alert.fire({
+              AlertS.fire({
                 title: "Error!",
                 text: res.STRMESSAGE,
                 icon: "error",

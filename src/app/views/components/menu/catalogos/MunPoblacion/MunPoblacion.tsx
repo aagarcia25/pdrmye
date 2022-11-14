@@ -6,7 +6,7 @@ import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Slider from "../../../Slider";
 import MunPoblacionModal from './MunPoblacionModal'
 import MUIXDataGrid from '../../../MUIXDataGrid'
@@ -134,7 +134,7 @@ export const MunPoblacion = () => {
 
 
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",

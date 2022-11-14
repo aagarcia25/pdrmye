@@ -11,7 +11,7 @@ import { messages } from "../../../../styles";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import CrecimietoModal from "./CrecimietoModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
@@ -111,7 +111,7 @@ const CrecimientoAnio = () => {
             consulta({ NUMOPERACION: 4 });
 
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -134,7 +134,7 @@ const CrecimientoAnio = () => {
         });
         setDataCrecimientoAnio(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

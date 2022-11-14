@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { AuthService } from "../../../../../services/AuthService";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -116,7 +116,7 @@ export const PerfilesUsuario = () => {
                   };
                   consulta(data);
                 } else {
-                  Alert.fire({
+                  AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
@@ -152,7 +152,7 @@ export const PerfilesUsuario = () => {
             setPerfilUsuario(res.RESPONSE);
             console.log("parametroGeneral consulta", perfilUsuario);
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",

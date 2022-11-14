@@ -1,7 +1,7 @@
 import { GridColDef } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2';
-import { Alert } from '../../../../../helpers/Alert';
+import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
 import { PERMISO, RESPONSE} from '../../../../../interfaces/user/UserInfo';
 import { AuthService } from '../../../../../services/AuthService';
@@ -62,7 +62,7 @@ const Permisos = () => {
               });
               consulta({NUMOPERACION:4});
             } else {
-              Alert.fire({
+              AlertS.fire({
                 title: "Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
@@ -145,7 +145,7 @@ const Permisos = () => {
         });
         setData(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

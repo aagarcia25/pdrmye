@@ -10,7 +10,7 @@ import {
     Grid,
 } from "@mui/material";
 
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { getUser } from "../../../../../services/localStorage";
@@ -46,7 +46,7 @@ const RolesModal = ({
         if (modo === "Agregar Rol") {
 
             if (nombre === null || descripcion === null || nombre === "" || descripcion === "") {
-                Alert.fire({
+                AlertS.fire({
                     title: "Error!",
                     text: "Favor de Completar los Campos",
                     icon: "error",
@@ -66,7 +66,7 @@ const RolesModal = ({
         if (modo == "Editar Rol") {
 
             if (nombre == null || descripcion == null || nombre == "" || descripcion == "") {
-                Alert.fire({
+                AlertS.fire({
                     title: "Error!",
                     text: "Favor de Completar los Campos",
                     icon: "error",
@@ -106,7 +106,7 @@ const RolesModal = ({
                 });
 
             } else {
-                Alert.fire({
+                AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
                     icon: "error",

@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { Moneda } from "../CustomToolbar";
 import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
 import { calculosServices } from "../../../../services/calculosServices";
 import { Toast } from "../../../../helpers/Toast";
-import { Alert } from "../../../../helpers/Alert";
+import { AlertS } from "../../../../helpers/AlertS";
 import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InsightsIcon from "@mui/icons-material/Insights";
-import ModalFgp from "./ModalFgp";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
 import Trazabilidad from "../../Trazabilidad";
@@ -18,6 +17,7 @@ import Slider from "../../Slider";
 import DetalleFgp from "./DetalleFgp";
 import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { getPermisos } from "../../../../services/localStorage";
+import ModalNew from "./ModalNew";
 
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
@@ -25,8 +25,6 @@ export const Fpg = () => {
   const [step, setstep] = useState(0);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const [fondo, setFondo] = useState("");
-  const [modo, setModo] = useState<string>("");
   const [anio, setAnio] = useState<number>(0);
   const [mes, setMes] = useState<string>("");
   const [idtrazabilidad, setIdtrazabilidad] = useState("");
@@ -35,7 +33,7 @@ export const Fpg = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-  const [nombreFondo, setNombreFondo] = useState("");
+  const [objfondo, setObjFondo] = useState<fondoinfo>();
   const [idDetalle, setIdDetalle] = useState("");
   const [nombreMenu, setNombreMenu] = useState("");
 
@@ -50,19 +48,17 @@ export const Fpg = () => {
 
 
   const handleOpen = (v: any) => {
-    setModo("calculo");
     setstep(1);
   };
 
   const handleClose = (v: any) => {
-    consulta({ FONDO: fondo });
+    consulta({ FONDO: objfondo?.Clave });
     setstep(0);
     setOpenDetalles(false);
   };
 
   const handleAjuste = (v: any) => {
     setIdtrazabilidad(v.row.id);
-    setModo("ajuste");
     setAnio(Number(v.row.Anio));
     setMes(v.row.Mes);
     setstep(1);
@@ -148,6 +144,12 @@ export const Fpg = () => {
       description: "Descripcion del Fondo",
     },
     {
+      field: "Tipo",
+      headerName: "Tipo",
+      width: 60,
+      description: "Tipo Cálculo",
+    },
+    {
       field: "Anio",
       headerName: "Anio",
       width: 60,
@@ -180,10 +182,9 @@ export const Fpg = () => {
     calculosServices.fondoInfo(data).then((res) => {
       if (res.SUCCESS) {
         const obj: fondoinfo[] = res.RESPONSE;
-        setFondo(obj[0].Clave);
-        setNombreFondo(obj[0].Descripcion);
+        setObjFondo(obj[0]);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -203,7 +204,7 @@ export const Fpg = () => {
         setdata(res.RESPONSE);
         setslideropen(false);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -231,10 +232,9 @@ export const Fpg = () => {
       }
     });
 
-
-
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
+
   }, [params.fondo]);
 
   return (
@@ -254,40 +254,19 @@ export const Fpg = () => {
    <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
+        <Tooltip title={objfondo?.Comentarios}>
           <Typography>
             <h1>{nombreMenu}</h1>
           </Typography>
+          </Tooltip>
         </Grid>
       </Grid>
     
-    
-
-
-
-      <Box sx={{ display: step == 0 ? "block" : "none" }}>
-        <div style={{ height: 600, width: "100%" }}>
-          <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
-          <MUIXDataGrid columns={columns} rows={data} />
-        </div>
-      </Box>
-      <Box sx={{ display: step == 1 ? "block" : "none" }}>
-        <div style={{ height: 600, width: "100%" }}>
-          <ModalFgp
-            step={step}
-            clave={fondo}
-            titulo={nombreFondo}
-            onClickBack={handleClose}
-            modo={modo}
-            anio={anio}
-            mes={mes} 
-            idCalculo={idtrazabilidad}  
-            />
-
-          {openDetalles ?
+      {openDetalles ?
             <DetalleFgp
               idCalculo={idtrazabilidad}  
               openDetalles={openDetalles}
-              nombreFondo={nombreFondo}
+              nombreFondo={objfondo?.Descripcion || ""}
               idDetalle={idDetalle}
               handleClose={handleClose}
               clave={clave}
@@ -295,8 +274,26 @@ export const Fpg = () => {
               mes={mes}
                         />
             : ""}
+
+
+
+
+
+      {step == 0 ?
+        <div style={{ height: 600, width: "100%" }}>
+          <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
+          <MUIXDataGrid columns={columns} rows={data} />
         </div>
-      </Box>
+       : ""}
+
+  
+      {step == 1 ?
+          <ModalNew
+            clave={objfondo?.Clave || ""}
+            titulo={objfondo?.Descripcion || ""}
+            onClickBack={handleClose }
+            />
+       : ""}
     </>
   );
 };

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
-import { Alert } from "../../../../helpers/Alert";
+import { AlertS } from "../../../../helpers/AlertS";
 import { calculosServices } from "../../../../services/calculosServices";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
@@ -20,7 +20,6 @@ import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import Trazabilidad from "../../Trazabilidad";
 import Swal from "sweetalert2";
 import ModalAlert from "../../componentes/ModalAlert";
-import BotonesAcciones from "../../componentes/BotonesAcciones";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -40,8 +39,8 @@ const DetalleFgp = ({
 }: {
   idCalculo: string;
   openDetalles: Boolean;
-  idDetalle: String;
-  nombreFondo: String;
+  idDetalle: string;
+  nombreFondo: string;
   handleClose: Function;
   clave: string;
   anio: number;
@@ -97,11 +96,9 @@ const DetalleFgp = ({
         case 1: //Regresar
           handleClose();
           break;
-
         case 2: //Trazabilidad
           setOpenTrazabilidad(true);
           break;
-
         case 3: //Autorizar Analista
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino('CPH_ENV_COOR');
@@ -109,7 +106,6 @@ const DetalleFgp = ({
           setOpenModal(true);
           setperfilDestino('COOR');
           break;
-
         case 4: //Autorizar Coordinador
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino('CPH_ENV_DIR');
@@ -117,31 +113,13 @@ const DetalleFgp = ({
           setOpenModal(true);
           setperfilDestino('DIR');
           break;
-
-        case 5: //Autorizar Director
-          setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino('CPH_AUT_DIR');
-          setvrows(data);
-          setOpenModal(true);
-          setperfilDestino('ANA');
-          break;
-
         case 6: //Cancelar
           BorraCalculo()
           break;
-
         case 7: //Regresar a Analista
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino('CPH_REG_ANA');
           setperfilDestino('ANA');
-          setvrows(data);
-          setOpenModal(true);
-          break;
-
-        case 8: //Regresar a Coordinador
-          setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino('CPH_REG_COOR');
-          setperfilDestino('COOR');
           setvrows(data);
           setOpenModal(true);
           break;
@@ -175,7 +153,7 @@ const DetalleFgp = ({
         });
         handleClose();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -214,7 +192,7 @@ const DetalleFgp = ({
             });
             handleClose();
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -232,7 +210,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         setStatus(res.RESPONSE[0]);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -248,7 +226,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         setPerfil(res.RESPONSE[0]);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -264,7 +242,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         setDireccion(res.RESPONSE[0]);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -319,7 +297,7 @@ const DetalleFgp = ({
           }
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -336,7 +314,7 @@ const DetalleFgp = ({
         });
         setData(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -682,18 +660,7 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {autorizar && perfil?.value == "DIR" && user.PERFILES[0].Referencia  == "DIR"? (
-                    <Tooltip title={"Autorizar Director"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(5)}
-                      >
-                        <DoneAllIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
+              
 
                   {cancelar &&  perfil?.value == "ANA"  &&  user.PERFILES[0].Referencia  == "ANA"   ? (
                     <Tooltip title={"Cancelar"}>
@@ -721,18 +688,7 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {cancelar && perfil?.value == "DIR" && user.PERFILES[0].Referencia  == "DIR"? (
-                    <Tooltip title={"Regresar a Coordinador"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(8)}
-                      >
-                        <CompareArrowsIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
+                
                 </ToggleButtonGroup>
               </Box>
 

@@ -6,7 +6,7 @@ import { messages } from "../../../../styles";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import MunTerritorioModal from "./MunTerritorioModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -132,7 +132,7 @@ export const MunTerritorio = () => {
             consulta(data);
 
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -162,7 +162,7 @@ export const MunTerritorio = () => {
           title: "Carga Exitosa!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -183,7 +183,7 @@ export const MunTerritorio = () => {
       //   });
       //   setTerritorio(res.RESPONSE);
       // } else {
-      //   Alert.fire({
+      //   AlertS.fire({
       //     title: "Error!",
       //     text: res.STRMESSAGE,
       //     icon: "error",

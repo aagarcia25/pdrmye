@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import { Tooltip, IconButton } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { GridColDef } from "@mui/x-data-grid";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -76,7 +76,7 @@ const Usuarios = () => {
           if (res.SUCCESS) {           
             consulta({ NUMOPERACION: 4 }, "Activado");
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -88,7 +88,7 @@ const Usuarios = () => {
 
       }
       else if (res.status == 409) {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.data.msg,
           icon: "error",
@@ -133,7 +133,7 @@ const Usuarios = () => {
               consulta(data);
   
             } else {
-              Alert.fire({
+              AlertS.fire({
                 title: "Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
@@ -241,7 +241,7 @@ const Usuarios = () => {
           });
           setData(res.RESPONSE);
         } else {
-          Alert.fire({
+          AlertS.fire({
             title: "Error!",
             text: res.STRMESSAGE,
             icon: "error",

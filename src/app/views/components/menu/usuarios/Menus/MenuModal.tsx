@@ -1,7 +1,7 @@
 import { TextField, DialogActions, Dialog, DialogContent, FormControl, InputLabel, MenuItem, Select, Grid, Typography, Button, IconButton, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AuthService } from "../../../../../services/AuthService";
@@ -41,7 +41,7 @@ const MenuModal = ({
       Descripcion == "" ||
       Path == ""
     ) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -72,7 +72,7 @@ const MenuModal = ({
         });
         handleClose();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -86,7 +86,7 @@ const MenuModal = ({
       if (res.SUCCESS) {
         setValues(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

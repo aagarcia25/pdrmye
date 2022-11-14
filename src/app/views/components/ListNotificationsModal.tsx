@@ -8,7 +8,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { CatalogosServices } from "../../services/catalogosServices";
 import { Toast } from "../../helpers/Toast";
-import { Alert } from "../../helpers/Alert";
+import { AlertS } from "../../helpers/AlertS";
 import SendIcon from '@mui/icons-material/Send';
 import { Imunicipio } from "../../interfaces/municipios/FilterMunicipios";
 import SelectFrag from "./Fragmentos/SelectFrag";
@@ -71,7 +71,7 @@ const ListNotificationsModal = ({
         });
 
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -95,7 +95,7 @@ const ListNotificationsModal = ({
   const handleUpload = () => {
 
     if (newEncabezado == null || newMensaje == null || chuserDestin == null) {
-      Alert.fire({
+      AlertS.fire({
         title: "Verificar!",
         text: "Verificar los campos!",
         icon: "warning",
@@ -136,7 +136,7 @@ const ListNotificationsModal = ({
           });
 
         } else {
-          Alert.fire({
+          AlertS.fire({
             title: "Error!",
             text: "Revisar Valores",
             icon: "error",
@@ -157,7 +157,7 @@ const ListNotificationsModal = ({
       if (res.SUCCESS) {
         setUsuarioSelect(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

@@ -9,7 +9,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { Alert } from "../../../helpers/Alert";
+import { AlertS } from "../../../helpers/AlertS";
 import ModalForm from "./ModalForm";
 import { getUser } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
@@ -37,7 +37,7 @@ const ModalAlert = ({
 
   const validacion = (v:string) => {
     if (mensaje == "" || mensaje == null) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de llenar el campo Comentarios*",
         icon: "error",

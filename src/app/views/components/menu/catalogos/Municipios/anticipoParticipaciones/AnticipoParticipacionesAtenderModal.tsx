@@ -3,7 +3,7 @@ import { Box, Dialog, DialogContent, DialogTitle, Grid, TextField, ToggleButton,
 import Swal from "sweetalert2";
 import CloseIcon from '@mui/icons-material/Close';
 import { CatalogosServices } from "../../../../../../services/catalogosServices";
-import { Alert } from "../../../../../../helpers/Alert";
+import { AlertS } from "../../../../../../helpers/AlertS";
 import { RESPONSE } from "../../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../../services/localStorage";
 import Slider from "../../../../Slider";
@@ -72,7 +72,7 @@ export const AnticipoParticipacionesAtenderModal = (
                             handleClose();
                         } else {
 
-                            Alert.fire({
+                            AlertS.fire({
                                 title: "Error!",
                                 text: "Fallo en la peticion",
                                 icon: "error",
@@ -111,7 +111,7 @@ export const AnticipoParticipacionesAtenderModal = (
                                 handleClose();
                             } else {
 
-                                Alert.fire({
+                                AlertS.fire({
                                     title: "Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",

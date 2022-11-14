@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getUser } from "../../../services/localStorage";
 import Slider from "../Slider";
-import { Alert } from '../../../helpers/Alert';
+import { AlertS } from '../../../helpers/AlertS';
 import { CatalogosServices } from '../../../services/catalogosServices';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -77,7 +77,7 @@ export const ComentariosRecursosModal = (
                             handleClose();
                         } else {
 
-                            Alert.fire({
+                            AlertS.fire({
                                 title: "Error!",
                                 text: "Fallo en la peticion",
                                 icon: "error",
@@ -118,7 +118,7 @@ export const ComentariosRecursosModal = (
                                 handleClose();
                             } else {
 
-                                Alert.fire({
+                                AlertS.fire({
                                     title: "Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",

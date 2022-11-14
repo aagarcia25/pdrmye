@@ -17,7 +17,7 @@ import {
   FormLabel,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -91,7 +91,7 @@ const FondosModal = ({
           title: "Registro Agregado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -108,7 +108,7 @@ const FondosModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -130,7 +130,7 @@ const FondosModal = ({
 
   const handleSend = () => {
     if (Clave == null || Descripcion == null ){
-      Alert.fire({
+      AlertS.fire({
         title: "",
         text: "Favor de Completar los Campos",
         icon: "warning",
