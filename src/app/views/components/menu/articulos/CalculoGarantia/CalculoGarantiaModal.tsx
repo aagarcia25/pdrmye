@@ -1,6 +1,6 @@
 import { Box, Container, Dialog, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getMunicipios, getUser } from "../../../../../services/localStorage";
 import { calculosServices } from "../../../../../services/calculosServices";
@@ -66,7 +66,7 @@ export const CalculoGarantiaModal = ({
 
   const handleSend = () => {
     if (!anio || !claveFondo || !municipio) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -108,7 +108,7 @@ export const CalculoGarantiaModal = ({
         });
         console.log("Sé pudo agregar");
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -126,7 +126,7 @@ export const CalculoGarantiaModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

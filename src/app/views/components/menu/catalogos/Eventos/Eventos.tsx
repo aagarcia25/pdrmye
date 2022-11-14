@@ -7,7 +7,7 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EventosModal from './EventosModal';
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import "../../../../../styles/globals.css";
 import MUIXDataGrid from '../../../MUIXDataGrid'
@@ -116,7 +116,7 @@ export const Eventos = () => {
             };
             consulta(data);
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -177,7 +177,7 @@ export const Eventos = () => {
         });
         setEventos(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

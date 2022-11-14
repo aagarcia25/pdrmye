@@ -15,7 +15,7 @@ import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import MunFacturacionModal from "./MunFacturacionModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -166,7 +166,7 @@ export const MunFacturacion = () => {
             consulta(data);
 
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -196,7 +196,7 @@ export const MunFacturacion = () => {
           title: "Carga Exitosa!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

@@ -6,7 +6,7 @@ import { Moneda } from "../CustomToolbar";
 import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
 import { calculosServices } from "../../../../services/calculosServices";
 import { Toast } from "../../../../helpers/Toast";
-import { Alert } from "../../../../helpers/Alert";
+import { AlertS } from "../../../../helpers/AlertS";
 import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InsightsIcon from "@mui/icons-material/Insights";
@@ -18,6 +18,7 @@ import Slider from "../../Slider";
 import DetalleFgp from "./DetalleFgp";
 import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { getPermisos } from "../../../../services/localStorage";
+import ModalNew from "./ModalNew";
 
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
@@ -50,7 +51,7 @@ export const Fpg = () => {
 
 
   const handleOpen = (v: any) => {
-    setModo("calculo");
+    
     setstep(1);
   };
 
@@ -189,7 +190,7 @@ export const Fpg = () => {
         setFondo(obj[0].Clave);
         setNombreFondo(obj[0].Descripcion);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -209,7 +210,7 @@ export const Fpg = () => {
         setdata(res.RESPONSE);
         setslideropen(false);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -266,30 +267,7 @@ export const Fpg = () => {
         </Grid>
       </Grid>
     
-    
-
-
-
-      <Box sx={{ display: step == 0 ? "block" : "none" }}>
-        <div style={{ height: 600, width: "100%" }}>
-          <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
-          <MUIXDataGrid columns={columns} rows={data} />
-        </div>
-      </Box>
-      <Box sx={{ display: step == 1 ? "block" : "none" }}>
-        <div style={{ height: 600, width: "100%" }}>
-          <ModalFgp
-            step={step}
-            clave={fondo}
-            titulo={nombreFondo}
-            onClickBack={handleClose}
-            modo={modo}
-            anio={anio}
-            mes={mes} 
-            idCalculo={idtrazabilidad}  
-            />
-
-          {openDetalles ?
+      {openDetalles ?
             <DetalleFgp
               idCalculo={idtrazabilidad}  
               openDetalles={openDetalles}
@@ -301,6 +279,27 @@ export const Fpg = () => {
               mes={mes}
                         />
             : ""}
+
+
+
+
+
+      <Box sx={{ display: step == 0 ? "block" : "none" }}>
+        <div style={{ height: 600, width: "100%" }}>
+          <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
+          <MUIXDataGrid columns={columns} rows={data} />
+        </div>
+      </Box>
+
+  
+      <Box sx={{ display: step == 1 ? "block" : "none" }}>
+        <div style={{ height: 600, width: "100%" }}>
+          <ModalNew
+            clave={fondo}
+            titulo={nombreFondo}
+            onClickBack={handleClose}
+            />
+
         </div>
       </Box>
     </>

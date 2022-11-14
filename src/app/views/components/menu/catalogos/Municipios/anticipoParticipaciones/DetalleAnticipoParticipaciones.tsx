@@ -14,7 +14,7 @@ import BotonesOpciones from "../../../../componentes/BotonesOpciones";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../../helpers/Toast";
-import { Alert } from "../../../../../../helpers/Alert";
+import { AlertS } from "../../../../../../helpers/AlertS";
 import { userInfo } from "os";
 import BotonesAPD from "../../../../componentes/BotonesAPD";
 import BotonesAcciones from "../../../../componentes/BotonesAcciones";
@@ -139,7 +139,7 @@ export const DetalleAnticipoParticipaciones = (
                         });
 
                     } else {
-                        Alert.fire({
+                        AlertS.fire({
                             title: "Error!",
                             text: "Validar informacion",
                             icon: "error",
@@ -219,7 +219,7 @@ export const DetalleAnticipoParticipaciones = (
                         // });
                         handleClose();
                     } else {
-                        Alert.fire({
+                        AlertS.fire({
                             title: "Error!",
                             text: "Validar informacion",
                             icon: "error",
@@ -252,7 +252,7 @@ export const DetalleAnticipoParticipaciones = (
 
                         // });
                     } else {
-                        Alert.fire({
+                        AlertS.fire({
                             title: "Error!",
                             text: "Validar informacion",
                             icon: "error",

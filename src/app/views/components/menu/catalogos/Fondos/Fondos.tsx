@@ -7,7 +7,7 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import FondosModal from "./FondosModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
@@ -186,7 +186,7 @@ const Fondos = () => {
 
             consulta({ NUMOPERACION: 4 });
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -208,7 +208,7 @@ const Fondos = () => {
         });
         setFondos(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

@@ -4,7 +4,7 @@ import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { getPermisos, getUser } from '../../../../../services/localStorage';
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import Swal from 'sweetalert2';
-import { Alert } from '../../../../../helpers/Alert';
+import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
 import { DepartamentosModal } from './DepartamentosModal';
 import ButtonsAdd from '../Utilerias/ButtonsAdd';
@@ -88,7 +88,7 @@ export const Departamentos = () => {
             };
             consulta(data);
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -125,7 +125,7 @@ export const Departamentos = () => {
         console.log(res);
         setDepartamento(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

@@ -10,7 +10,7 @@ import { GridColDef } from '@mui/x-data-grid';
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import ModalForm from "../../../componentes/ModalForm";
 import Slider from "../../../Slider";
 
@@ -54,7 +54,7 @@ const FondosTipoView = ({
                         title: "Ajuste Asignado!",
                     });
                 } else {
-                    Alert.fire({
+                    AlertS.fire({
                         title: "Error!",
                         text: res.STRMESSAGE,
                         icon: "error",
@@ -78,7 +78,7 @@ const FondosTipoView = ({
                         NUMOPERACION: 4,
                     });
                 } else {
-                    Alert.fire({
+                    AlertS.fire({
                         title: "Error!",
                         text: res.STRMESSAGE,
                         icon: "error",

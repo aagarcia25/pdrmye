@@ -23,7 +23,7 @@ import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
 import { id } from "date-fns/locale";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import ModalForm from "../../../componentes/ModalForm";
 
 const FondosView = ({
@@ -86,7 +86,7 @@ const FondosView = ({
                         TIPO: 2,
                     });
                 } else {
-                    Alert.fire({
+                    AlertS.fire({
                         title: "Error!",
                         text: res.STRMESSAGE,
                         icon: "error",
@@ -115,7 +115,7 @@ const FondosView = ({
                         TIPO: 1,
                     });
                 } else {
-                    Alert.fire({
+                    AlertS.fire({
                         title: "Error!",
                         text: res.STRMESSAGE,
                         icon: "error",

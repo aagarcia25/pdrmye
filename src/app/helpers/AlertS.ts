@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 
 
 //SOLO VENTANA DE CONFIRMACION
-export const Alert = Swal.mixin({
+export const AlertS = Swal.mixin({
     showConfirmButton: true,
     confirmButtonText: 'OK',
 });

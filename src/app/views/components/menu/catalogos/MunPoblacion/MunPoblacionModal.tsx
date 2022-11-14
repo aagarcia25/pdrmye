@@ -12,7 +12,7 @@ import {
   Button,
 } from "@mui/material";
 
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { municipiosc } from "../../../../../share/loadMunicipios";
@@ -77,7 +77,7 @@ const MunPoblacionModal = ({
 
   const handleSend = () => {
     if (poblacion == null || anio == null) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -122,7 +122,7 @@ const MunPoblacionModal = ({
         });
 
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -139,7 +139,7 @@ const MunPoblacionModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

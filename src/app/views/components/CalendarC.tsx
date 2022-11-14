@@ -13,7 +13,7 @@ import {
 import { getUser } from "../../services/localStorage";
 import { Button, Grid } from "@mui/material";
 import { Toast } from "../../helpers/Toast";
-import { Alert } from "../../helpers/Alert";
+import { AlertS } from "../../helpers/AlertS";
 import CalendarCModal from "./CalendarCModal";
 import Swal from "sweetalert2";
 import { UserReponse } from "../../interfaces/user/UserReponse";
@@ -101,7 +101,7 @@ const CalendarC = () => {
 
             handleClose();
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -135,7 +135,7 @@ const CalendarC = () => {
         });
         setEventos(eveitem);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

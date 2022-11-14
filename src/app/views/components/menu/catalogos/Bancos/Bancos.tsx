@@ -1,7 +1,7 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -60,7 +60,7 @@ export const Bancos = () => {
 
               consulta({ NUMOPERACION: 4 });
             } else {
-              Alert.fire({
+              AlertS.fire({
                 title: "Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
@@ -125,7 +125,7 @@ export const Bancos = () => {
         });
         setBancos(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

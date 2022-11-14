@@ -16,7 +16,7 @@ import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
 import SendIcon from "@mui/icons-material/Send";
-import { Alert } from "../../../helpers/Alert";
+import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
@@ -437,7 +437,7 @@ const AsigPago = () => {
         });
         setData(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

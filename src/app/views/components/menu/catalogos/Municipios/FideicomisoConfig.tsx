@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import AddIcon from "@mui/icons-material/Add";
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
@@ -160,7 +160,7 @@ const FideicomisoConfig = ({
         });
         consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -208,7 +208,7 @@ const FideicomisoConfig = ({
       porcentaje === null ||
       cuenta == null ||
       claveBan === null) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Verificar los Campos",
         icon: "error",
@@ -232,7 +232,7 @@ const FideicomisoConfig = ({
           });
           console.log("Sé pudo agregar");
         } else {
-          Alert.fire({
+          AlertS.fire({
             title: "Error!",
             text: res.STRMESSAGE,
             icon: "error",

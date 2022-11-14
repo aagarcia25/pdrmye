@@ -13,7 +13,7 @@ import {
   Grid,
   Button,
 } from "@mui/material";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -70,7 +70,7 @@ const MunPobrezaExtremaModal = ({
 
   const handleSend = () => {
     if (poblacion == null || anio == null || carenciaProm == null || IdMunicipio == null) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -117,7 +117,7 @@ const MunPobrezaExtremaModal = ({
         });
 
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -137,7 +137,7 @@ const MunPobrezaExtremaModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

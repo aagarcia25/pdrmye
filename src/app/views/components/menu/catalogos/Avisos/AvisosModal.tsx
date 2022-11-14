@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -100,7 +100,7 @@ const AvisosModal = ({
 
     if (inicioEvento == null || finEvento == null || nameAviso == null || descripcion == null||nameAviso==null || (editDoc)? (newDoc==null):(newDoc==!null)) {     
 
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: "Campos Vacios",
           icon: "error",
@@ -119,7 +119,7 @@ else {
 
         handleClose("save");
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: "Campos Requeridos Vacios",
           icon: "error",

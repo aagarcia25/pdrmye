@@ -7,7 +7,7 @@ import {
   DialogActions,
 } from "@mui/material";
 
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
@@ -32,7 +32,7 @@ export const BancosModal = ({
 
   const handleSend = () => {
     if (!nombre || !descripcion ) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -72,7 +72,7 @@ export const BancosModal = ({
         });
         
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -89,7 +89,7 @@ export const BancosModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

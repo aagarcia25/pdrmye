@@ -16,7 +16,7 @@ import imagenGenerica from "../../../../../../app/assets/img/archivoImagen.jpg";
 import PdfLogo from "../../../../../../app/assets/img/PDF_file_icon.svg";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
@@ -70,7 +70,7 @@ export const CuentaBancariaModal = ({
     var sizeByte = Number(file.size);
     // setSizeFile(Number(sizeByte) / 1024 >= 3072 ? true : false)
     if (Number(sizeByte) / 1024 >= 3072) {
-      Alert.fire({
+      AlertS.fire({
         title: "Atencion",
         text: "Tamaño de archivo Exedido -Limitado a 3Mb-",
         icon: "info",
@@ -83,7 +83,7 @@ export const CuentaBancariaModal = ({
       setDocSubido(true);
 
     } else {
-      Alert.fire({
+      AlertS.fire({
         title: "Atencion",
         text: "Agrega un archivo PDF",
         icon: "info",
@@ -99,7 +99,7 @@ export const CuentaBancariaModal = ({
     var sizeByte = Number(file2.size);
     //setSizeFileCarta(Number(sizeByte) / 1024 >= 3072 ? true : false)
     if (Number(sizeByte) / 1024 >= 3072) {
-      Alert.fire({
+      AlertS.fire({
         title: "Atencion",
         text: "Tamaño de archivo Exedido -Limitado a 3Mb-",
         icon: "info",
@@ -111,7 +111,7 @@ export const CuentaBancariaModal = ({
       //if(String(event.target!.files[0]!.name).slice)
       setDocSubidoCarta(true);
     } else {
-      Alert.fire({
+      AlertS.fire({
         title: "Atencion",
         text: "Agrega un archivo PDF",
         icon: "info",
@@ -137,7 +137,7 @@ export const CuentaBancariaModal = ({
 
     if (!nombreCuenta ||!numeroCuenta || !idBancos ||!clabeBancaria ||!newDoc || !newDocCarta ) 
     {
-      Alert.fire({
+      AlertS.fire({
         title: "Atencion",
         text: "Verifique los campos",
         icon: "warning",
@@ -195,7 +195,7 @@ export const CuentaBancariaModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

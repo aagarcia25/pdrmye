@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { calculosServices } from "../../../../../services/calculosServices";
@@ -147,7 +147,7 @@ export const CalculoGarantiaComponente = () => {
             };
             consulta(data);
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -171,7 +171,7 @@ export const CalculoGarantiaComponente = () => {
         setCalculoGarantia(res.RESPONSE);
         console.log("parametroGeneral consulta", calculoGarantia);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

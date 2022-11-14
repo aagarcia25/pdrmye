@@ -1,6 +1,6 @@
 import { Box, Checkbox, Grid, IconButton, Input } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../helpers/Alert";
+import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../services/catalogosServices";
 import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
@@ -16,11 +16,9 @@ import SelectValues from "../../../../interfaces/Select/SelectValues";
 import SelectFrag from "../../Fragmentos/SelectFrag";
 import { fmeses } from "../../../../share/loadMeses";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { useNavigate } from "react-router-dom";
 
 const ModalFgp = ({
   idCalculo,
-  step,
   clave,
   titulo,
   onClickBack,
@@ -29,7 +27,6 @@ const ModalFgp = ({
   mes,
 }: {
   idCalculo:string
-  step: number;
   clave: string;
   titulo: string;
   onClickBack: Function;
@@ -37,7 +34,6 @@ const ModalFgp = ({
   anio: number;
   mes: string;
 }) => {
-  const navigate = useNavigate();
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [slideropen, setslideropen] = useState(false);
   const [monto, setMonto] = useState<number>();
@@ -72,7 +68,7 @@ const ModalFgp = ({
         setLabelAjuste(Number(res.RESPONSE.keys));
        
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -116,7 +112,7 @@ const ModalFgp = ({
 
         onClickBack();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -144,7 +140,7 @@ const ModalFgp = ({
 
         onClickBack();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -172,7 +168,7 @@ const ModalFgp = ({
 
         onClickBack();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -199,7 +195,7 @@ const ModalFgp = ({
 
         onClickBack();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -221,7 +217,7 @@ const ModalFgp = ({
       }else{
         
         if (monto == null ) {
-          Alert.fire({
+          AlertS.fire({
             title: "Error!",
             text: "Favor de Completar los Campos",
             icon: "error",
@@ -266,7 +262,7 @@ const ModalFgp = ({
         });
         onClickBack();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -293,7 +289,7 @@ const ModalFgp = ({
       setMeses(fmeses());
       ajusteesc();
       setslideropen(false);
-  }, [step]);
+  }, [clave]);
 
   return (
     <div>
@@ -307,6 +303,7 @@ const ModalFgp = ({
       <Grid container spacing={2} sx={{ justifyContent: "center" }}>
         <Grid item xs={12}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
+        
             <Titulo name={titulo} />
           </Box>
         </Grid>
@@ -530,6 +527,34 @@ const ModalFgp = ({
               }}
             >
               <label className="contenido">Mes:</label>
+            </Grid>
+
+            <Grid item xs={5} md={6} lg={6} sx={{}}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "left",
+                  alignItems: "center",
+                }}
+              >
+                <SelectFrag
+                  value={meselect}
+                  options={meses}
+                  onInputChange={handleSelectMes}
+                  placeholder={"Seleccione el Mes"} label={""} disabled={false}                ></SelectFrag>
+              </Box>
+            </Grid>
+
+            <Grid
+              item
+              xs={5}
+              sx={{
+                display: "flex",
+                justifyContent: "right",
+                alignItems: "center",
+              }}
+            >
+              <label className="contenido">Tipo Cálculo:</label>
             </Grid>
 
             <Grid item xs={5} md={6} lg={6} sx={{}}>
