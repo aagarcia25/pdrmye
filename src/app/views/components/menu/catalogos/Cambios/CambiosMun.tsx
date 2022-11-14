@@ -1,7 +1,7 @@
 import { Box, Button, ButtonGroup, Dialog, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -163,7 +163,7 @@ const CambiosMun = () => {
                 // console.log(res.RESPONSE);
                 setBitacoraAjustes(res.RESPONSE);
             } else {
-                Alert.fire({
+                AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
