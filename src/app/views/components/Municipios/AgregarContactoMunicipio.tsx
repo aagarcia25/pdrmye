@@ -7,6 +7,7 @@ import { CatalogosServices } from "../../../services/catalogosServices";
 import { Toast } from "../../../helpers/Toast";
 import { getUser } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { IData } from "./ContactoMunicipios";
 
 
 
@@ -31,14 +32,73 @@ const AgregarContactoMunicipio = () => {
 
     const [verificaForm, setVerificaFrom] = useState(false);
     const [openDialogConfirmacion, setOpenDialogConfirmacion] = useState(false);
+    const [dato, setDato] = useState<IData>(
+        {
+            idMunicipio: "",
+            Municipio: "",
+            Tesorero: "",
+            Responsable: "",
+            Domicilio: "",
+            Horario: "",
+            Telefono: "",
+            Web: "",
+            Escudo: "",
+        }
+    )
+    const [editar, setEditar] = useState(false)
+    const [nuevoRegistro, setNuevoRegistro] = useState(true)
 
     const formData = new FormData();
 
+    useEffect(() => {
+        consulta()
+    }, [])
 
     useEffect(() => {
-        console.log(telefono.length);
-    }, [telefono])
+        setUploadFile(dato.Escudo)
+        setMunicipio(dato.Municipio)
+        setTesorero(dato.Tesorero)
+        setResponable(dato.Responsable)
+        setDomicilio(dato.Domicilio)
+        setTelefono(dato.Telefono)
+        setHorario(dato.Horario)
+        setWeb(dato.Web)
+        setNuevoRegistro(false)
+    }, [dato])
 
+
+    const consulta = () => {
+        formData.append("NUMOPERACION", "4");
+        formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
+        obtenerLista(formData);
+    }
+    // "6bcf4613-3f7f-11ed-af5a-040300000000"
+    const obtenerLista = (data: any) => {
+        CatalogosServices.municipioInformacion(data).then((res) => {
+            if (res.SUCCESS) {
+                Toast.fire({
+                    icon: "success",
+                    title: "Lista Obtenida!",
+                });
+
+                if(res.RESPONSE.length>=1)
+                {
+                    let a=res.RESPONSE
+                    setDato(a[0])
+                    setNuevoRegistro(false)
+                }else{
+                    setNuevoRegistro(true)
+                }
+            } else {
+                Alert.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                });
+
+            }
+        });
+    };
 
     function enCambioFile(event: any) {
         setUploadFile(URL.createObjectURL(event.target.files[0]));
@@ -74,26 +134,38 @@ const AgregarContactoMunicipio = () => {
         }
     };
 
+    const onClickActualizar = () => {
+
+        if (municipio === "" || tesorero === "" || responsable === "" || domicilio === "" || telefono === "" || horario === "" || web === "" || nombreArchivo === "") {
+
+            setVerificaFrom(true)
+            Alert.fire({
+                title: "Error!",
+                text: "Favor de Completar los Campos y seleccionar una imagen",
+                icon: "error",
+            });
+        } else {
+            setOpenDialogConfirmacion(true)
+        }
+    };
+
     const guardarRegistro = () => {
-        console.log("se guardo");
-
-    }
-
-
-    const handleSend = () => {
-        formData.append("NUMOPERACION", "1");
+        nuevoRegistro? formData.append("NUMOPERACION", "1"):formData.append("NUMOPERACION", "2")
         formData.append("CHUSER", user.id);
         formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
         formData.append("MUNICIPIO", municipio);
         formData.append("TESORERO", tesorero);
         formData.append("RESPONSABLE", responsable);
         formData.append("DOMICILIO", domicilio);
+        formData.append("Telefono", telefono)
         formData.append("HORARIO", horario);
         formData.append("WEB", web);
         formData.append("ESCUDO", newImage, nombreArchivo);
 
+
         agregar(formData);
-    };
+    }
+    
 
     const agregar = (data: any) => {
         CatalogosServices.municipioInformacion(data).then((res) => {
@@ -102,6 +174,9 @@ const AgregarContactoMunicipio = () => {
                     icon: "success",
                     title: "Registro Agregado!",
                 });
+
+                console.log("se guardo");
+                limpiar();
 
             } else {
                 Alert.fire({
@@ -121,6 +196,7 @@ const AgregarContactoMunicipio = () => {
         setTelefono("")
         setHorario("")
         setWeb("")
+        setUploadFile("")
         setVerificaFrom(false)
     }
 
@@ -131,138 +207,206 @@ const AgregarContactoMunicipio = () => {
                 {/* Box delimitador con border */}
                 <Box sx={{ display: "flex", width: "80%", height: "90%", border: "1px solid  black", borderRadius: "5%", justifyContent: "center", alignItems: "center" }}>
                     {/* Box de contenido */}
-                    <Box sx={{ display: "flex", width: "90%", height: "90%", backgroundColor: "white", flexDirection: "column", alignItems: "center" }}>
-                        {/* Box de imagen */}
-                        <Box sx={{ width: "20vh", height: "20vh", border: "5px dashed  black", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                            <input
-                                id="imagencargada"
-                                accept="image/*"
-                                onChange={(v) => { enCambioFile(v) }}
-                                type="file"
-                                style={{ zIndex: 2, opacity: 0, width: "20vh",height: "20vh", cursor: "pointer", position: "absolute" }}
-                            /
-                            >
-                            {disabledButton ?
-                                <AddPhotoAlternateIcon sx={{ width: "80%", height: "80%" }} /> :
-                                <img src={uploadFile} style={{ objectFit: "scale-down", width: "80%", height: "80%" }} />
-                            }
-                        </Box>
-                        <Box sx={{ display: "flex", alignItems: "center", width: "98%", flexDirection: "column", justifyContent: "space-evenly", height: "75%" }}>
 
-                            <TextField
-                                required
-                                // margin="dense"
-                                label="municipio"
-                                value={municipio}
-                                type="text"
-                                sx={{ width: "90%", }}
-                                variant="outlined"
-                                onChange={(v) => setMunicipio(v.target.value)}
-                                error={municipio === "" && verificaForm}
-                                helperText={(municipio === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
-
-                            />
-                            <TextField
-                                required
-                                // margin="dense"
-                                label="tesorero"
-                                value={tesorero}
-                                type="text"
-                                sx={{ width: "90%", }}
-                                variant="outlined"
-                                onChange={(v) => setTesorero(v.target.value)}
-                                error={tesorero === "" && verificaForm}
-                                helperText={(tesorero === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
-
-                            />
+                    {editar ?
+                        <Box sx={{ display: "flex", width: "90%", height: "100%", backgroundColor: "white", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
+                            {/* Box de imagen */}
+                            <Box sx={{ width: "20vh", height: "20vh", border: "5px dashed  black", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
 
 
-                            <TextField
-                                required
-                                // margin="dense"
-                                label="responsable"
-                                value={responsable}
-                                type="text"
-                                sx={{ width: "90%", }}
-                                variant="outlined"
-                                onChange={(v) => setResponable(v.target.value)}
-                                error={responsable === "" && verificaForm}
-                                helperText={(responsable === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+                                <input
+                                    id="imagencargada"
+                                    accept="image/*"
+                                    onChange={(v) => { enCambioFile(v) }}
+                                    type="file"
+                                    style={{ zIndex: 2, opacity: 0, width: "20vh", height: "20vh", cursor: "pointer", position: "absolute" }}
+                                /
+                                >
+                                {uploadFile === "" ?
 
-                            />
-                            <TextField
-                                required
-                                // margin="dense"
-                                label="domicilio"
-                                value={domicilio}
-                                type="text"
-                                sx={{ width: "90%", }}
-                                variant="outlined"
-                                onChange={(v) => setDomicilio(v.target.value)}
-                                error={domicilio === "" && verificaForm}
-                                helperText={(domicilio === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
-
-                            />
+                                    <AddPhotoAlternateIcon sx={{ width: "80%", height: "80%" }} /> :
+                                    <img src={uploadFile} style={{ objectFit: "scale-down", width: "80%", height: "80%" }} />
+                                }
+                            </Box>
 
 
-                            <Box sx={{ display: "flex", justifyContent: "space-between", width: "90%" }}>
+                            <Box sx={{ display: "flex", alignItems: "center", width: "98%", flexDirection: "column", justifyContent: "space-evenly", height: "60%" }}>
+
                                 <TextField
                                     required
                                     // margin="dense"
-                                    label="telefono"
-                                    value={telefono}
-                                    inputProps={{
-                                        maxLength: 12
-                                    }}
+                                    label="municipio"
+                                    value={municipio}
                                     type="text"
-                                    sx={{ width: "45%", }}
+                                    sx={{ width: "90%", }}
                                     variant="outlined"
-                                    onChange={(v) => handleTotal(v.target.value)}
-                                    error={telefono === "" && verificaForm}
-                                    helperText={(telefono === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+                                    onChange={(v) => setMunicipio(v.target.value)}
+                                    error={municipio === "" && verificaForm}
+                                    helperText={(municipio === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
 
                                 />
                                 <TextField
                                     required
                                     // margin="dense"
-                                    label="horario"
-                                    value={horario}
+                                    label="tesorero"
+                                    value={tesorero}
                                     type="text"
-                                    sx={{ width: "45%", }}
+                                    sx={{ width: "90%", }}
                                     variant="outlined"
-                                    onChange={(v) => setHorario(v.target.value)}
-                                    error={horario === "" && verificaForm}
-                                    helperText={(horario === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+                                    onChange={(v) => setTesorero(v.target.value)}
+                                    error={tesorero === "" && verificaForm}
+                                    helperText={(tesorero === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+
+                                />
+
+
+                                <TextField
+                                    required
+                                    // margin="dense"
+                                    label="responsable"
+                                    value={responsable}
+                                    type="text"
+                                    sx={{ width: "90%", }}
+                                    variant="outlined"
+                                    onChange={(v) => setResponable(v.target.value)}
+                                    error={responsable === "" && verificaForm}
+                                    helperText={(responsable === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+
+                                />
+                                <TextField
+                                    required
+                                    // margin="dense"
+                                    label="domicilio"
+                                    value={domicilio}
+                                    type="text"
+                                    sx={{ width: "90%", }}
+                                    variant="outlined"
+                                    onChange={(v) => setDomicilio(v.target.value)}
+                                    error={domicilio === "" && verificaForm}
+                                    helperText={(domicilio === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+
+                                />
+
+
+                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "90%" }}>
+                                    <TextField
+                                        required
+                                        // margin="dense"
+                                        label="telefono"
+                                        value={telefono}
+                                        inputProps={{
+                                            maxLength: 12
+                                        }}
+                                        type="text"
+                                        sx={{ width: "45%", }}
+                                        variant="outlined"
+                                        onChange={(v) => handleTotal(v.target.value)}
+                                        error={telefono === "" && verificaForm}
+                                        helperText={(telefono === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+
+                                    />
+                                    <TextField
+                                        required
+                                        // margin="dense"
+                                        label="horario"
+                                        value={horario}
+                                        type="text"
+                                        sx={{ width: "45%", }}
+                                        variant="outlined"
+                                        onChange={(v) => setHorario(v.target.value)}
+                                        error={horario === "" && verificaForm}
+                                        helperText={(horario === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
+
+                                    />
+                                </Box>
+
+                                <TextField
+                                    required
+                                    // margin="dense"
+                                    label="Sitio Web"
+                                    value={web}
+                                    type="text"
+                                    sx={{ width: "90%", }}
+                                    variant="outlined"
+                                    onChange={(v) => setWeb(v.target.value)}
+                                    error={web === "" && verificaForm}
+                                    helperText={(web === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
 
                                 />
                             </Box>
-
-                            <TextField
-                                required
-                                // margin="dense"
-                                label="Sitio Web"
-                                value={web}
-                                type="text"
-                                sx={{ width: "90%", }}
-                                variant="outlined"
-                                onChange={(v) => setWeb(v.target.value)}
-                                error={web === "" && verificaForm}
-                                helperText={(web === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
-
-                            />
-
-
-
 
                             <Box sx={{ display: "flex", width: "50%", justifyContent: "space-evenly" }}>
                                 <Button variant="outlined" onClick={() => { limpiar() }}>Limpiar</Button>
-                                <Button variant="outlined" onClick={() => { onClickGuardar() }}>Guardar</Button>
+                                <Button variant="outlined" onClick={() => { nuevoRegistro? onClickGuardar():onClickActualizar()}}>Guardar</Button>
+                                <Button variant="outlined" onClick={() => { limpiar(); setEditar(false); }}>Cancelar</Button>
                             </Box>
 
-
                         </Box>
+                        :
+                        <Box sx={{ display: "flex", width: "90%", height: "100%", backgroundColor: "white", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
+                            {/* Box de imagen */}
 
-                    </Box>
+                            <Box sx={{ width: "20vh", height: "20vh", border: "5px solid  black", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                                {nuevoRegistro?<AddPhotoAlternateIcon sx={{ width: "80%", height: "80%" }} /> :<img src={dato.Escudo} style={{ objectFit: "scale-down", width: "100%", height: "100%" }} />}
+                            </Box>
+
+                            <Box sx={{ display: "flex", alignItems: "center", width: "98%", flexDirection: "column", justifyContent: "space-evenly", height: "60%", border: "1px solid  black", borderRadius: "5%", }}>
+                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Municipio: </Typography>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Municipio === "" ? "Sin información" : dato.Municipio} </Typography>
+                                </Box>
+
+                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Tesorero: </Typography>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Tesorero === "" ? "Sin información" : dato.Tesorero} </Typography>
+                                </Box>
+
+                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Responsable: </Typography>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Responsable === "" ? "Sin información" : dato.Responsable} </Typography>
+                                </Box>
+
+                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Domicilio: </Typography>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Domicilio === "" ? "Sin información" : dato.Domicilio} </Typography>
+                                </Box>
+
+                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Web: </Typography>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Web === "" ? "Sin información" : dato.Web} </Typography>
+                                </Box>
+
+
+                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "90%" }}>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Telefono: </Typography>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Telefono === "" ? "Sin informacion." : dato.Telefono} </Typography>
+                                </Box>
+
+                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "90%" }}>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Horario: </Typography>
+                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Horario === "" ? "Sin información." : dato.Horario} </Typography>
+                                </Box>
+                            </Box>
+
+                            <Box sx={{ display: "flex", width: "50%", justifyContent: "space-evenly" }}>
+                                {nuevoRegistro?<Button variant="outlined" onClick={() => {setEditar(true) }}>Registrar</Button>:<Button variant="outlined" onClick={() => { setEditar(true) }}>Editar</Button>}
+                            </Box>
+                        </Box>}
+
                 </Box>
 
 
@@ -280,7 +424,12 @@ const AgregarContactoMunicipio = () => {
                     </DialogContent>
                     <DialogActions>
                         <Button sx={{}} onClick={() => { setOpenDialogConfirmacion(false) }}>Cancelar</Button>
-                        <Button onClick={() => { setOpenDialogConfirmacion(false); limpiar(); guardarRegistro(); handleSend(); }} color="success">Aceptar</Button>
+                        <Button onClick={() => { 
+
+                                setOpenDialogConfirmacion(false); 
+                                guardarRegistro(); 
+
+                            }} color="success">Aceptar</Button>
                     </DialogActions>
                 </Dialog>
 
@@ -289,3 +438,4 @@ const AgregarContactoMunicipio = () => {
     )
 }
 export default AgregarContactoMunicipio;
+

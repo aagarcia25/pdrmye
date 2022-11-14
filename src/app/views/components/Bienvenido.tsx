@@ -6,7 +6,7 @@ import MobileStepper from "@mui/material/MobileStepper";
 import { AlignHorizontalCenter, KeyboardArrowLeft, KeyboardArrowRight, Padding } from "@mui/icons-material";
 import { COLOR } from "../../styles/colors";
 import CardComponente from "./CardComponente";
-import "@fontsource/poppins"; 
+// import "@fontsource/poppins"; 
 
 export default function Bienvenido({ user }: { user: any }) {
   //VARAIBLES PARA LA VISTA DE MUNICIPIOS

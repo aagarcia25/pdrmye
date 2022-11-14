@@ -33,11 +33,11 @@ const ContactoMunicipios = () => {
 
 
   const consulta = () => {
-    formData.append("NUMOPERACION", "4");
-    formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
+    formData.append("NUMOPERACION", "5");
+    formData.append("IDMUNICIPIO", "6bcf4613-3f7f-11ed-af5a-040300000000");
     obtenerLista(formData);
   }
-// "6bcf4613-3f7f-11ed-af5a-040300000000"
+
   const obtenerLista = (data: any) => {
     CatalogosServices.municipioInformacion(data).then((res) => {
       if (res.SUCCESS) {
@@ -123,6 +123,7 @@ export interface IData {
   Responsable: string;
   Domicilio: string;
   Horario: string;
+  Telefono: string;
   Web: string;
   Escudo: string;
 }
