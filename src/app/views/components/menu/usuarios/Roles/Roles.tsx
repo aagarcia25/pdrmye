@@ -202,7 +202,7 @@ const Roles = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ height: 600, width: "100%" }}>
       {openRel ? (
         <AsignarMenuRol
           open={openRel}

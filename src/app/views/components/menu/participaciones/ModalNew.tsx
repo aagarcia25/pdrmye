@@ -164,8 +164,15 @@ const ModalNew = ({
           </Grid>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12}>
-          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+
+
+        <Grid item xs={12} sm={12} md={12} >
+
+          <Grid container spacing={1} sx={{ 
+            justifyContent: "center" ,
+            displayPrint : clave === 'ICV' ? 'block' :'none'
+             
+             }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Cargar Archivo:
@@ -195,6 +202,8 @@ const ModalNew = ({
             </Grid>
           </Grid>
         </Grid>
+
+
 
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
           <IconButton onClick={handleSend}>
