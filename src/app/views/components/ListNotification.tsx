@@ -175,7 +175,7 @@ export const ListNotification = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: "90%", width: "100%", paddingTop:"3%" }}>
 
       {open ? (
         <ListNotificationsModal
@@ -193,14 +193,15 @@ export const ListNotification = () => {
 
       <Box sx={{
         display: 'flex',
+        height:"90%",
         justifyContent: 'content-position',
         p: 1,
         m: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 2,
+        // bgcolor:"red",
+        // bgcolor: 'background.paper',
       }} >
 
-        <Box sx={{ height: "600px", width: "150px", borderRadius: 3 }}>
+        <Box sx={{ width: "150px", paddingRight:".5%"}}>
 
           <Box sx={{ position: 'relative', top: 10, left: 7, width: "90%", justifyContent: 'center', display: 'flex', borderRadius: 1 }}>
             {perfil != "MUN" ?
@@ -271,19 +272,12 @@ export const ListNotification = () => {
           </Box>
         </Box>
 
-
-        <Box sx={{ left: 7, height: "600px", width: "90%", borderRadius: 3 }} >
-
-
-
-
-          <Box sx={{ height: "600px", width: "100%", borderRadius: 3 }}>
-            <MUIXDataGrid
+        
+        <Box sx={{ left: 7, height: "600px", width: "90%", display:"flow"}} >
+        
+            <MUIXDataGrid 
               columns={columns} rows={notificacion} />
-          </Box>
-
-
-
+        
         </Box>
 
       </Box>

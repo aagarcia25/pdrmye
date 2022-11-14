@@ -9,7 +9,7 @@ const theme = createTheme(coreEsES, gridEsES);
 
 export default function MUIXDataGrid(props: any) {
   return (
-    <div style={{ height: "60vh", width: "100%" }}>
+    <div style={{ height: "78%", width: "100%" }}>
       <ThemeProvider theme={theme}>
         <DataGrid
           {...props.rows}
@@ -25,7 +25,7 @@ export default function MUIXDataGrid(props: any) {
           disableDensitySelector
           getRowHeight={() => 'auto'}
           components={{ Toolbar: GridToolbar }}
-          sx={{ fontFamily: "Poppins"}}
+          sx={{ fontFamily: "Poppins,sans-serif"}}
           componentsProps={{
             toolbar: {
               label:"buscar",
