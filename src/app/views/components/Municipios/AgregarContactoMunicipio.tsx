@@ -90,7 +90,7 @@ const AgregarContactoMunicipio = () => {
                     setNuevoRegistro(true)
                 }
             } else {
-                AlertD.fire({
+                AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
@@ -139,7 +139,7 @@ const AgregarContactoMunicipio = () => {
         if (municipio === "" || tesorero === "" || responsable === "" || domicilio === "" || telefono === "" || horario === "" || web === "" || nombreArchivo === "") {
 
             setVerificaFrom(true)
-            AlertD.fire({
+            AlertS.fire({
                 title: "Error!",
                 text: "Favor de Completar los Campos y seleccionar una imagen",
                 icon: "error",
@@ -161,8 +161,6 @@ const AgregarContactoMunicipio = () => {
         formData.append("HORARIO", horario);
         formData.append("WEB", web);
         formData.append("ESCUDO", newImage, nombreArchivo);
-
-
         agregar(formData);
     }
     
