@@ -45,8 +45,8 @@ button.cerrar {
   font-size: 20px;
   transition-duration: 0.2s;
 
- font-family:  "Poppins", 'Gill Sans', 'Gill Sans MT', sans-serif;
- color: COLOR.rojo;
+ font-family: "Public Sans", MontserratMedium;
+ color: rgb(168, 29, 29);
 
 };
 

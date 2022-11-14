@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  Typography,
 } from "@mui/material";
 import { Alert } from "../../../helpers/Alert";
 import ModalForm from "./ModalForm";
@@ -76,6 +77,7 @@ const ModalAlert = ({
     <div>
 
       <ModalForm title={tipo} handleClose={handleClose}>
+     
         <Grid container spacing={1}
           sx={{
             mt: "2vh",
@@ -86,6 +88,12 @@ const ModalAlert = ({
             flexDirection: "row",
           }}
         >
+           <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "3vw", color: "#000000", }}>
+                Municipio: {vrows.Nombre}
+              </Typography>
+            </Grid>
           <Grid item xs={12}>
             <h3> Comentarios:</h3>
           </Grid>

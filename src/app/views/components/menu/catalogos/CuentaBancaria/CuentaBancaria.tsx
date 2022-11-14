@@ -11,14 +11,17 @@ import MUIXDataGrid from "../../../MUIXDataGrid";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import { CuentaBancariaModal } from "./CuentaBancariaModal";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { IconButton, Tooltip } from "@mui/material";
+import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ModalAlert from "../../../componentes/ModalAlert";
 
 export const CuentaBancaria = ({
-idmunicipio
+idmunicipio,
+municipio
 }:{
-idmunicipio :string
+idmunicipio :string,
+municipio :string
+
 }) => {
 
 
@@ -295,6 +298,15 @@ idmunicipio :string
             ""
           )}
           
+          <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "3vw", color: "#000000", }}>
+                Municipio: {municipio}
+              </Typography>
+            </Grid>
+            </Grid>
+
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={cuentaBancaria} />
     </div>

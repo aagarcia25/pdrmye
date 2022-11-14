@@ -24,7 +24,7 @@ import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { env_var } from "../../environments/env";
-import DoubleArrowRoundedIcon from '@mui/icons-material/DoubleArrowRounded';
+import StartIcon from '@mui/icons-material/Start';
 
 interface HeaderProps {
   onDrawerToggle: () => void;
