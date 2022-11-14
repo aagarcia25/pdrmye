@@ -2,7 +2,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import validator from 'validator';
-import { AlertS } from "../../../helpers/AlertS";
+import { AlertD, AlertS } from "../../../helpers/AlertS";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { Toast } from "../../../helpers/Toast";
 import { getUser } from "../../../services/localStorage";
@@ -161,8 +161,6 @@ const AgregarContactoMunicipio = () => {
         formData.append("HORARIO", horario);
         formData.append("WEB", web);
         formData.append("ESCUDO", newImage, nombreArchivo);
-
-
         agregar(formData);
     }
     

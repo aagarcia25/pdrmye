@@ -7,6 +7,11 @@ import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegres
 import CalculateIcon from "@mui/icons-material/Calculate";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { InputAdornment } from "@mui/material";
+import { RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../services/localStorage";
+import { Toast } from "../../../../helpers/Toast";
+import { AlertS } from "../../../../helpers/AlertS";
+import { calculosServices } from "../../../../services/calculosServices";
 
 const ModalNew = ({
   clave,
@@ -17,6 +22,8 @@ const ModalNew = ({
   titulo: string;
   onClickBack: Function;
 }) => {
+  
+  const user: RESPONSE = JSON.parse(String(getUser()));
   let year: number = new Date().getFullYear();
   //LLENADO DE FILTRO
   const [mes, setMeses] = useState<SelectValues[]>([]);
@@ -29,6 +36,11 @@ const ModalNew = ({
   const [monto, setMonto] = useState<number>();
   const [nameNewDoc, setNameNewDoc] = useState("");
   const [file, setFile] = useState(Object);
+  const [slideropen, setslideropen] = useState(false);
+  const [Czero, setCzero]= useState<boolean>(false);
+
+
+
 
   const handleSelectMes = (v: SelectValues) => {
     setIdmes(String(v));
@@ -47,7 +59,143 @@ const ModalNew = ({
     }
   };
 
-  const handleSend = () => {};
+
+  const icv = () => {
+    setslideropen(true);
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlsx");
+    formData.append("tipo", "RefrendosICV");
+    formData.append("CHUSER", user.id);
+    formData.append("ANIO", String(year));
+    formData.append("MES", idmes);
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Carga Exitosa!",
+        });
+
+        onClickBack();
+      } else {
+        AlertS.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
+
+  const isrnomina = () => {
+    setslideropen(true);
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlsx");
+    formData.append("tipo", "ISRNOMINA");
+    formData.append("CHUSER", user.id);
+    formData.append("ANIO", String(year));
+    formData.append("MES", idmes);
+    formData.append("IMPORTE", "0");
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Carga Exitosa!",
+        });
+
+        onClickBack();
+      } else {
+        AlertS.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
+  const isrinmuebles = () => {
+    setslideropen(true);
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlsx");
+    formData.append("tipo", "ISRINMUEBLES");
+    formData.append("CHUSER", user.id);
+    formData.append("ANIO", String(year));
+    formData.append("MES", idmes);
+    formData.append("IMPORTE", String(monto));
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Carga Exitosa!",
+        });
+
+        onClickBack();
+      } else {
+        AlertS.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
+
+  const handleSend = () => {
+
+        if (clave === "ICV") {
+          icv();
+        } else if (clave === "ISR INMUEBLES") {
+          isrinmuebles();
+        } else if (clave === "ISR NOMINA") {
+          isrnomina();
+        }else{
+          
+          if (monto == null ) {
+            AlertS.fire({
+              title: "Error!",
+              text: "Favor de Completar los Campos",
+              icon: "error",
+            });
+          } else {
+            let data = {
+              CLAVEFONDO: clave,
+              CHUSER: user.id,
+              IMPORTE: monto,
+              ANIO: year,
+              MES: idmes,
+              ZERO:Czero,
+              TIPOCALCULO:idTipoCalculo
+            };
+            console.log(data);
+            agregar(data);
+          }
+  
+        }
+
+  };
+
+  const agregar = (data: any) => {
+    calculosServices.CalculoPrincipalindex(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Registro Agregado!",
+        });
+        onClickBack();
+      } else {
+        AlertS.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
 
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion, CHID: clave };
@@ -138,7 +286,12 @@ const ModalNew = ({
           </Grid>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12} sm={12} md={12}
+        sx={{ 
+            justifyContent: "center" ,
+            display : clave !== 'ICV' ? 'block' :'none'
+             }}
+        >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
@@ -146,16 +299,19 @@ const ModalNew = ({
               </Typography>
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
-           
-         
-
-
               <Input
                 sx={{ fontWeight: "MontserratMedium" }}
                 required
                 placeholder="1500000*"
                 id="monto"
-                onChange={(v) => setMonto(Number(v.target.value))}
+                onChange={(v) => {
+                    setMonto(Number(v.target.value))
+                    if(Number(v.target.value) == 0){
+                        setCzero(true);
+                    }else{
+                        setCzero(false);
+                    }
+                }}
                 error={monto == null ? true : false}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -163,9 +319,18 @@ const ModalNew = ({
             </Grid>
           </Grid>
         </Grid>
+        
 
-        <Grid item xs={12} sm={12} md={12}>
-          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+
+
+        <Grid item xs={12} sm={12} md={12} 
+          sx={{ 
+            justifyContent: "center" ,
+            display : clave === 'ICV' ? 'block' :'none'
+             }}
+        >
+
+          <Grid container spacing={0} >
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Cargar Archivo:
@@ -195,6 +360,8 @@ const ModalNew = ({
             </Grid>
           </Grid>
         </Grid>
+
+
 
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
           <IconButton onClick={handleSend}>

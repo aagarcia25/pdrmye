@@ -64,3 +64,34 @@
         RESPONSE: RESPONSE;
         SUCCESS: boolean;
     }
+
+    export interface MunicipioCambios {
+        id: number;
+        deleted: string;
+        UltimaActualizacion: string;
+        FechaCreacion: string;
+        ModificadoPor: string;
+        CreadoPor: string;
+        Anio?: number;
+        Personas?: number;
+        CarenciaProm?: number;
+        IdMun?: string;
+        Nombre?: string;
+        Porcentaje?: string;
+        ClaveBancaria?: string;
+        Cuenta?: string;
+        Importe?: string;
+        Coeficiente?: string;
+        Version?: string;
+        totalPob?: string;
+        Total?: string;
+        anio?: string;
+        Pob?: string;
+        Recaudacion?: string;
+        Km2?: string;
+        Mes?: string;
+        Movimientos?: string;
+
+    }
+
+
