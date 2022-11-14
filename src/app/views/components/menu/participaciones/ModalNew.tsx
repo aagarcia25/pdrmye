@@ -138,7 +138,12 @@ const ModalNew = ({
           </Grid>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12} sm={12} md={12}
+        sx={{ 
+            justifyContent: "center" ,
+            display : clave !== 'ICV' ? 'block' :'none'
+             }}
+        >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
@@ -146,10 +151,6 @@ const ModalNew = ({
               </Typography>
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
-           
-         
-
-
               <Input
                 sx={{ fontWeight: "MontserratMedium" }}
                 required
@@ -166,13 +167,14 @@ const ModalNew = ({
 
 
 
-        <Grid item xs={12} sm={12} md={12} >
-
-          <Grid container spacing={1} sx={{ 
+        <Grid item xs={12} sm={12} md={12} 
+          sx={{ 
             justifyContent: "center" ,
-            displayPrint : clave === 'ICV' ? 'block' :'none'
-             
-             }}>
+            display : clave === 'ICV' ? 'block' :'none'
+             }}
+        >
+
+          <Grid container spacing={0} >
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Cargar Archivo:
