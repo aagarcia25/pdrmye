@@ -2,7 +2,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import validator from 'validator';
-import { AlertS } from "../../../helpers/AlertS";
+import { AlertD, AlertS } from "../../../helpers/AlertS";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { Toast } from "../../../helpers/Toast";
 import { getUser } from "../../../services/localStorage";
@@ -90,7 +90,7 @@ const AgregarContactoMunicipio = () => {
                     setNuevoRegistro(true)
                 }
             } else {
-                Alert.fire({
+                AlertD.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
@@ -139,7 +139,7 @@ const AgregarContactoMunicipio = () => {
         if (municipio === "" || tesorero === "" || responsable === "" || domicilio === "" || telefono === "" || horario === "" || web === "" || nombreArchivo === "") {
 
             setVerificaFrom(true)
-            Alert.fire({
+            AlertD.fire({
                 title: "Error!",
                 text: "Favor de Completar los Campos y seleccionar una imagen",
                 icon: "error",

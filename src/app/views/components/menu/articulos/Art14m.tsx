@@ -20,6 +20,7 @@ import Slider from "../../Slider";
 import { ArticulosServices } from "../../../../services/ArticulosServices";
 import Swal from "sweetalert2";
 import { CatalogosServices } from "../../../../services/catalogosServices";
+import { setISOWeek } from "date-fns";
 
 const Art14m = ({
   titulo,
@@ -35,8 +36,8 @@ const Art14m = ({
 
 
  
-  const [importe, setImporte] = useState<Array<Number>>([]);
-  const [importeDistri, setimporteDistri] = useState<Array<Number>>([]);
+  const [importe, setImporte] = useState<Array<number>>([]);
+  const [importeDistri, setimporteDistri] = useState<Array<number>>([]);
 
 
   const [fondos, setFondos] = useState([]);
@@ -94,12 +95,26 @@ const Art14m = ({
     }
   };
 
+  const crearValue=()=>{
+   
+        let prevState = [...importe];
+        prevState.push(0);
+        setImporte(prevState);
+        let prev=[...importeDistri]
+        prev.push(0)
+        setimporteDistri(prev);
+  }
+
 
   useEffect(() => {
     handleFondos();
-    console.log(importe)
-    console.log(importeDistri)
-  }, [tipo,importeDistri]);
+  }, [tipo]);
+
+  // useEffect(() => {
+  //   importeDistri.push()
+  //   let a =importeDistri
+  //   console.log(a.length)
+  // }, [importeDistri]);
 
   return (
     <div>
@@ -167,9 +182,7 @@ const Art14m = ({
         <Grid item xs={12} sm={12} md={12} >
         {
           fondos.map((item: any,x) => {
-            importe.push();
-            importeDistri.push();
-           
+            crearValue();
             return(
          
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
@@ -194,7 +207,7 @@ const Art14m = ({
                       numero[x-1]=parseInt(v.target.value);
                                 setImporte(numero);
                   let im =importeDistri ;
-                      importeDistri[x-1]=(item.PorcentajeDistribucion / 100) * Number(numero[x-1]);
+                      importeDistri[x-1]=(item.PorcentajeDistribucion / 100) * (numero[x-1]);
                                 setimporteDistri(im);
                   } }
                 error={monto == null ? true : false}
