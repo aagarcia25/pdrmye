@@ -24,7 +24,6 @@ import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { env_var } from "../../environments/env";
-import StartIcon from '@mui/icons-material/Start';
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -97,9 +96,6 @@ export default function Header(props: HeaderProps) {
     prevOpen.current = open;
   }, [open]);
 
-  function pathLogin(path: string) {
-    return path;
-  }
 
   let data = {
     NUMOPERACION: 5,
@@ -111,7 +107,7 @@ export default function Header(props: HeaderProps) {
       let result = res.RESPONSE;
       setCnotif(result[0].count);
     });
-  }, []);
+  });
 
   return (
     <React.Fragment>
@@ -142,13 +138,11 @@ export default function Header(props: HeaderProps) {
                   width: "2vw", height: "5vh",
                   fontSize: btnPerson,
                   p: 0.1,
-                  
                   backgroundColor: user.RutaFoto ? COLOR.negro : COLOR.blanco,
                   "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                 }}
               >
                 <MenuIcon    />
-
               </IconButton>
             </Grid>
             <Grid item xs />

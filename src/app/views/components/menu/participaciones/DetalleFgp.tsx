@@ -101,25 +101,25 @@ const DetalleFgp = ({
           break;
         case 3: //Autorizar Analista
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino('CPH_ENV_COOR');
+          setEstatusDestino("CPH_ENV_COOR");
           setvrows(data);
           setOpenModal(true);
-          setperfilDestino('COOR');
+          setperfilDestino("COOR");
           break;
         case 4: //Autorizar Coordinador
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino('CPH_ENV_DIR');
+          setEstatusDestino("CPH_ENV_DIR");
           setvrows(data);
           setOpenModal(true);
-          setperfilDestino('DIR');
+          setperfilDestino("DIR");
           break;
         case 6: //Cancelar
-          BorraCalculo()
+          BorraCalculo();
           break;
         case 7: //Regresar a Analista
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino('CPH_REG_ANA');
-          setperfilDestino('ANA');
+          setEstatusDestino("CPH_REG_ANA");
+          setperfilDestino("ANA");
           setvrows(data);
           setOpenModal(true);
           break;
@@ -129,10 +129,6 @@ const DetalleFgp = ({
       }
     }
   };
-
- 
-
-
 
   const Fnworkflow = (data: any) => {
     console.log(data);
@@ -161,8 +157,6 @@ const DetalleFgp = ({
       }
     });
   };
-
-
 
   const BorraCalculo = () => {
     let data = {
@@ -492,7 +486,7 @@ const DetalleFgp = ({
         if (String(item.Referencia) == "TRAZA") {
           setVerTrazabilidad(true);
         }
-       
+
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
@@ -516,16 +510,17 @@ const DetalleFgp = ({
     <div>
       <Box>
         <Dialog open={Boolean(openDetalles)} fullScreen={true}>
-         
-         {openModal ? (
+        <Slider open={openSlider}></Slider>
+
+          {openModal ? (
             <ModalAlert
               open={openModal}
               tipo={tipoAccion}
               handleClose={handleClose}
               vrows={vrows}
-              handleAccion={Fnworkflow} 
-              accion={0}      
-              ></ModalAlert>
+              handleAccion={Fnworkflow}
+              accion={0}
+            ></ModalAlert>
           ) : (
             ""
           )}
@@ -553,6 +548,7 @@ const DetalleFgp = ({
               </Box>
             </Grid>
           </Grid>
+        
           <Grid
             container
             spacing={1}
@@ -583,7 +579,7 @@ const DetalleFgp = ({
             spacing={1}
             sx={{ justifyContent: "center", width: "100%" }}
           >
-            <Grid item xs={7} md={8} lg={8}>
+            <Grid item xs={12} md={12} lg={12}>
               <label>
                 Estatus del Cálculo: {status?.label} <br />
               </label>
@@ -596,20 +592,9 @@ const DetalleFgp = ({
             </Grid>
           </Grid>
 
-          <Grid
-            container
-            spacing={1}
-            sx={{ justifyContent: "center", width: "100%" }}
-          >
-            <Grid
-              item
-              xs={7}
-              md={8}
-              lg={8}
-              sx={{ justifyContent: "center", width: "100%" }}
-            >
-              <Slider open={openSlider}></Slider>
 
+
+          <div style={{ height: 600, width: "100%" }}>
               <Box>
                 <ToggleButtonGroup>
                   <Tooltip title={"Regresar"}>
@@ -634,7 +619,9 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {autorizar && perfil?.value == "ANA"  &&  user.PERFILES[0].Referencia  == "ANA"  ? (
+                  {autorizar &&
+                  perfil?.value == "ANA" &&
+                  user.PERFILES[0].Referencia == "ANA" ? (
                     <Tooltip title={"Autorizar Analista"}>
                       <ToggleButton
                         value="check"
@@ -647,7 +634,9 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {autorizar && perfil?.value == "COOR"  &&  user.PERFILES[0].Referencia  == "COOR" ? (
+                  {autorizar &&
+                  perfil?.value == "COOR" &&
+                  user.PERFILES[0].Referencia == "COOR" ? (
                     <Tooltip title={"Autorizar Coordinador"}>
                       <ToggleButton
                         value="check"
@@ -660,9 +649,9 @@ const DetalleFgp = ({
                     ""
                   )}
 
-              
-
-                  {cancelar &&  perfil?.value == "ANA"  &&  user.PERFILES[0].Referencia  == "ANA"   ? (
+                  {cancelar &&
+                  perfil?.value == "ANA" &&
+                  user.PERFILES[0].Referencia == "ANA" ? (
                     <Tooltip title={"Cancelar"}>
                       <ToggleButton
                         value="check"
@@ -675,7 +664,9 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {cancelar && perfil?.value == "COOR" && user.PERFILES[0].Referencia  == "COOR" ? (
+                  {cancelar &&
+                  perfil?.value == "COOR" &&
+                  user.PERFILES[0].Referencia == "COOR" ? (
                     <Tooltip title={"Regresar a Analista"}>
                       <ToggleButton
                         value="check"
@@ -687,14 +678,10 @@ const DetalleFgp = ({
                   ) : (
                     ""
                   )}
-
-                
                 </ToggleButtonGroup>
               </Box>
-
               <MUIXDataGrid columns={columns} rows={data} />
-            </Grid>
-          </Grid>
+          </div>
         </Dialog>
       </Box>
     </div>
