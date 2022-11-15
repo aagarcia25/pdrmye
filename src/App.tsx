@@ -33,6 +33,7 @@ import { useIdleTimer } from "react-idle-timer";
 import Slider from "./app/views/components/Slider";
 import { env_var } from '../src/app/environments/env';
 import { useNavigate } from "react-router-dom";
+import { ParametroServices } from "./app/services/ParametroServices";
 
 
 function App() {
@@ -44,6 +45,17 @@ function App() {
   const jwt = query.get("jwt");
   const [openSlider, setOpenSlider] = useState(true);
   const [acceso, setAcceso] = useState(false);
+
+  const parametros = () => {
+  let data = {
+    NUMOPERACION: 5,
+    NOMBRE: "AMBIENTE"
+  }
+  ParametroServices.ParametroGeneralesIndex(data).then((res) => {
+    localStorage.setItem("Ambiente", JSON.stringify(res.RESPONSE.Valor));
+  });
+
+  };
 
   const loadAnios = () => {
     let data = { NUMOPERACION: 4 };
@@ -112,6 +124,7 @@ function App() {
         loadMunicipios();
         loadMeses();
         loadAnios();
+        parametros();
         setOpenSlider(false);
         setlogin(true);
         setAcceso(true);
