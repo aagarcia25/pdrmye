@@ -12,6 +12,7 @@ import { getUser } from "../../../../services/localStorage";
 import { Toast } from "../../../../helpers/Toast";
 import { AlertS } from "../../../../helpers/AlertS";
 import { calculosServices } from "../../../../services/calculosServices";
+import Slider from "../../Slider";
 
 const ModalAjuste = ({
   idCalculo,  
@@ -40,7 +41,7 @@ const ModalAjuste = ({
   const [monto, setMonto] = useState<number>();
   const [nameNewDoc, setNameNewDoc] = useState("");
   const [file, setFile] = useState(Object);
-  const [slideropen, setslideropen] = useState(false);
+  const [slideropen, setslideropen] = useState(true);
   const [labelAjuste, setLabelAjuste] = useState<number>();
 
   const handleNewFile = (event: any) => {
@@ -130,14 +131,18 @@ const ModalAjuste = ({
       }  else if (operacion == 3) {
         setAjustes(res.RESPONSE);
       }
+     
     });
   };
  
   const loadInfoCalculo = () => {
     let data = {CHID: idCalculo };
     calculosServices.infoCalculo(data).then((res) => {
-        setIdmes( mes.find(el => el.value === res.RESPONSE.Mes));
-        setIdTipoCalculo(tipoCalculo.find(el => el.value === res.RESPONSE.idtipo));
+      let mesDescripcion  = mes.find(el => el.value === res.RESPONSE.Mes);
+      let tipoDescripcion = tipoCalculo.find(el => el.value === res.RESPONSE.idtipo);
+      setIdmes( mesDescripcion);
+      setIdTipoCalculo(tipoDescripcion);
+      setslideropen(false);
     });
   };
 
@@ -145,16 +150,23 @@ const ModalAjuste = ({
 
 
   useEffect(() => {
+   
     setNameNewDoc("");
     loadFilter(2);
     loadFilter(15);
     loadFilter(3);
+    //loadInfoCalculo();
+  }, [,idCalculo]);
+
+  useEffect(() => {
     loadInfoCalculo();
-   
-  }, [idCalculo]);
+  }, [tipoCalculo]);
+
+
 
   return (
     <div>
+       <Slider open={slideropen}></Slider>
       <Grid container spacing={1} sx={{}}>
         <Grid item xs={3} md={2.1} lg={2.5}>
           <BtnRegresar onClick={onClickBack} />
@@ -193,9 +205,7 @@ const ModalAjuste = ({
 
             <Grid item xs={2} sm={2} md={2} sx={{ textAlign: "left" }}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                {
-                idmes?.label
-                }
+                {idmes?.label}
             </Typography>
 
              

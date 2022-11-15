@@ -28,6 +28,8 @@ const CambiosMun = () => {
     const [labelCatalogo, setLabelCatalogo] = useState<string>();
     const [comentario, setComentario] = useState<string>();
     const [idCambio, setIdCambio] = useState<string>();
+    const [idSolicitante, setIdSolicitante] = useState<string>();
+
 
 
 
@@ -139,6 +141,7 @@ const CambiosMun = () => {
         console.log(v.row)
         setSolicitud(JSON.parse(String(v.row.Solicitud)));
         console.log(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
+        setIdSolicitante(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setOrigen(JSON.parse(String(v.row.Origen)));
         setLabelCatalogo(String(tablas.find(({ tipo }) => tipo == v.row.Tipo)?.label));
         setIdCambio(v.row.id);

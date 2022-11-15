@@ -125,4 +125,5 @@ export interface IData {
   Telefono: string;
   Web: string;
   Escudo: string;
+  id:string;
 }

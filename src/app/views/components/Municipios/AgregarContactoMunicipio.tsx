@@ -7,8 +7,6 @@ import { CatalogosServices } from "../../../services/catalogosServices";
 import { Toast } from "../../../helpers/Toast";
 import { getUser } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
-import { IData } from "./ContactoMunicipios";
-
 
 
 const AgregarContactoMunicipio = () => {
@@ -17,9 +15,8 @@ const AgregarContactoMunicipio = () => {
 
     const [uploadFile, setUploadFile] = useState("");
     const [nombreArchivo, setNombreArchivo] = useState("");
-    const [tipoArchivo, setTipoArchivo] = useState("");
+    // const [tipoArchivo, setTipoArchivo] = useState("");
     const [newImage, setNewImage] = useState(Object);
-    const [disabledButton, setDisabledButton] = useState(true);
 
     const [municipio, setMunicipio] = useState("")
     const [tesorero, setTesorero] = useState("")
@@ -32,8 +29,9 @@ const AgregarContactoMunicipio = () => {
 
     const [verificaForm, setVerificaFrom] = useState(false);
     const [openDialogConfirmacion, setOpenDialogConfirmacion] = useState(false);
-    const [dato, setDato] = useState<IData>(
+    const [dato, setDato] = useState<IDatoMunicipio>(
         {
+            id:"",
             idMunicipio: "",
             Municipio: "",
             Tesorero: "",
@@ -47,19 +45,17 @@ const AgregarContactoMunicipio = () => {
     )
     const [editar, setEditar] = useState(false)
     const [nuevoRegistro, setNuevoRegistro] = useState(true)
+    const [actualizarDatos,setActualizaaDatos]= useState(true)
 
     const formData = new FormData();
 
     useEffect(() => {
         consulta()
-    }, [])
+    }, [,actualizarDatos])
 
     useEffect(() => {
-        console.log(dato);
-        
+       
         setUploadFile(dato.Escudo)
-        let a = dato.Escudo.split("/")
-        setNombreArchivo(a[a.length-1])
         setMunicipio(dato.Municipio)
         setTesorero(dato.Tesorero)
         setResponable(dato.Responsable)
@@ -67,7 +63,6 @@ const AgregarContactoMunicipio = () => {
         setTelefono(dato.Telefono)
         setHorario(dato.Horario)
         setWeb(dato.Web)
-        setNuevoRegistro(false)
     }, [dato,editar])
 
 
@@ -85,20 +80,23 @@ const AgregarContactoMunicipio = () => {
                     title: "Lista Obtenida!",
                 });
 
-                if(res.RESPONSE.length>=1)
+                if(res.RESPONSE.length!==0)
                 {
-                    let a=res.RESPONSE
-                    setDato(a[0])
+                    setDato(res.RESPONSE)
                     setNuevoRegistro(false)
+                    
+                    
                 }else{
                     setNuevoRegistro(true)
                 }
-            } else {
-                AlertS.fire({
-                    title: "Error!",
-                    text: res.STRMESSAGE,
-                    icon: "error",
-                });
+            } else { 
+                setNuevoRegistro(true)
+                // AlertS.fire({
+                //     title: "Error!",
+                //     text: res.STRMESSAGE,
+                //     icon: "error",
+                // });
+               
 
             }
         });
@@ -108,13 +106,8 @@ const AgregarContactoMunicipio = () => {
         setUploadFile(URL.createObjectURL(event.target.files[0]));
         setNombreArchivo(event.target.value.split("\\")[2]);
         let file = event.target!.files[0]!;
-        setTipoArchivo((event.target.value.split(".")[1]))
+        // setTipoArchivo((event.target.value.split(".")[1]))
         setNewImage(file);
-        {
-            nombreArchivo === null
-                ? setDisabledButton(true)
-                : setDisabledButton(false);
-        }
     }
 
     const handleTotal = (v: string) => {
@@ -140,22 +133,24 @@ const AgregarContactoMunicipio = () => {
 
     const onClickActualizar = () => {
 
-        if (municipio === "" || tesorero === "" || responsable === "" || domicilio === "" || telefono === "" || horario === "" || web === "" || nombreArchivo === "") {
+        if (municipio === "" || tesorero === "" || responsable === "" || domicilio === "" || telefono === "" || horario === "" || web === "" ) {
 
             setVerificaFrom(true)
             AlertS.fire({
                 title: "Error!",
-                text: "Favor de Completar los Campos y seleccionar una imagen",
+                text: "Favor de Completar los Campos",
                 icon: "error",
             });
+            
         } else {
             setOpenDialogConfirmacion(true)
         }
     };
 
     const guardarRegistro = () => {
-        if(nuevoRegistro){formData.append("NUMOPERACION", "1")} 
-        else {formData.append("NUMOPERACION", "2")}
+        
+        if(nuevoRegistro){formData.append("NUMOPERACION", "1")} else {formData.append("NUMOPERACION", "2")}
+        formData.append("CHID",dato.id)
         formData.append("CHUSER", user.id);
         formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
         formData.append("MUNICIPIO", municipio);
@@ -165,12 +160,12 @@ const AgregarContactoMunicipio = () => {
         formData.append("TELEFONO", telefono)
         formData.append("HORARIO", horario);
         formData.append("WEB", web);
-        if(nuevoRegistro){formData.append("ESCUDO", newImage, nombreArchivo)}
-        else{formData.append("ESCUDO","")}
+        if(nombreArchivo!==""){formData.append("ESCUDO", newImage, nombreArchivo);}else{formData.append("ESCUDO", "");}
+        console.log(nuevoRegistro);
+        
         agregar(formData);
     }
     
-
     const agregar = (data: any) => {
         CatalogosServices.municipioInformacion(data).then((res) => {
             if (res.SUCCESS) {
@@ -179,7 +174,7 @@ const AgregarContactoMunicipio = () => {
                     title: "Registro Agregado!",
                 });
 
-                console.log("se guardo");
+                setActualizaaDatos(!actualizarDatos);
                 limpiar();
 
             } else {
@@ -190,6 +185,9 @@ const AgregarContactoMunicipio = () => {
                 });
             }
         });
+
+        setEditar(false);
+        
     };
 
     const limpiar = () => {
@@ -217,28 +215,23 @@ const AgregarContactoMunicipio = () => {
                             {/* Box de imagen */}
                             <Box sx={{ width: "20vh", height: "20vh", border: "5px dashed  black", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
 
-
                                 <input
                                     id="imagencargada"
                                     accept="image/*"
                                     onChange={(v) => { enCambioFile(v) }}
                                     type="file"
                                     style={{ zIndex: 2, opacity: 0, width: "20vh", height: "20vh", cursor: "pointer", position: "absolute" }}
-                                /
-                                >
+                                />
                                 {uploadFile === "" ?
-
                                     <AddPhotoAlternateIcon sx={{ width: "80%", height: "80%" }} /> :
                                     <img src={uploadFile} style={{ objectFit: "scale-down", width: "80%", height: "80%" }} />
                                 }
                             </Box>
 
-
                             <Box sx={{ display: "flex", alignItems: "center", width: "98%", flexDirection: "column", justifyContent: "space-evenly", height: "60%" }}>
 
                                 <TextField
                                     required
-                                    // margin="dense"
                                     label="municipio"
                                     value={municipio}
                                     type="text"
@@ -251,7 +244,6 @@ const AgregarContactoMunicipio = () => {
                                 />
                                 <TextField
                                     required
-                                    // margin="dense"
                                     label="tesorero"
                                     value={tesorero}
                                     type="text"
@@ -263,10 +255,8 @@ const AgregarContactoMunicipio = () => {
 
                                 />
 
-
                                 <TextField
                                     required
-                                    // margin="dense"
                                     label="responsable"
                                     value={responsable}
                                     type="text"
@@ -279,7 +269,6 @@ const AgregarContactoMunicipio = () => {
                                 />
                                 <TextField
                                     required
-                                    // margin="dense"
                                     label="domicilio"
                                     value={domicilio}
                                     type="text"
@@ -291,16 +280,12 @@ const AgregarContactoMunicipio = () => {
 
                                 />
 
-
                                 <Box sx={{ display: "flex", justifyContent: "space-between", width: "90%" }}>
                                     <TextField
                                         required
-                                        // margin="dense"
                                         label="telefono"
                                         value={telefono}
-                                        inputProps={{
-                                            maxLength: 12
-                                        }}
+                                        inputProps={{maxLength: 12}}
                                         type="text"
                                         sx={{ width: "45%", }}
                                         variant="outlined"
@@ -409,7 +394,7 @@ const AgregarContactoMunicipio = () => {
                             </Box>
 
                             <Box sx={{ display: "flex", width: "50%", justifyContent: "space-evenly" }}>
-                                {nuevoRegistro?<Button variant="outlined" onClick={() => {setEditar(true) }}>Registrar</Button>:<Button variant="outlined" onClick={() => { setEditar(true) }}>Editar</Button>}
+                                {nuevoRegistro ? <Button variant="outlined" onClick={() => {setEditar(true) }}>Registrar</Button> : <Button variant="outlined" onClick={() => { setEditar(true) }}>Editar</Button>}
                             </Box>
                         </Box>}
 
@@ -444,4 +429,17 @@ const AgregarContactoMunicipio = () => {
     )
 }
 export default AgregarContactoMunicipio;
+
+export interface IDatoMunicipio {
+    id:string;
+    idMunicipio: string;
+    Municipio: string;
+    Tesorero: string;
+    Responsable: string;
+    Domicilio: string;
+    Horario: string;
+    Telefono: string;
+    Web: string;
+    Escudo: string;
+  }
 
