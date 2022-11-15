@@ -114,14 +114,13 @@ export const MunPobrezaExtrema = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+
 
         CatalogosServices.munpobrezaext(data).then((res) => {
           if (res.SUCCESS) {
@@ -167,7 +166,6 @@ export const MunPobrezaExtrema = () => {
     CatalogosServices.munpobrezaext(data).then((res) => {
       setPobrezaExtrema(res.RESPONSE);
 
-      console.log('respuesta' + res.RESPONSE + res.NUMCODE);
 
     });
   };
@@ -199,7 +197,6 @@ export const MunPobrezaExtrema = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPOEX") {
-        console.log(item)
         setNombreMenu(item.Menu);
 
         if (String(item.Referencia) == "ELIM") {
