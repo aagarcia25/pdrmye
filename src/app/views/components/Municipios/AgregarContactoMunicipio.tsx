@@ -345,35 +345,35 @@ const AgregarContactoMunicipio = () => {
                                 <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
                                     <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Municipio: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Municipio === "" ? "Sin información" : dato.Municipio} </Typography>
                                 </Box>
 
                                 <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
                                     <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Tesorero: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Tesorero === "" ? "Sin información" : dato.Tesorero} </Typography>
                                 </Box>
 
                                 <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
                                     <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Responsable: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Responsable === "" ? "Sin información" : dato.Responsable} </Typography>
                                 </Box>
 
                                 <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
                                     <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Domicilio: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Domicilio === "" ? "Sin información" : dato.Domicilio} </Typography>
                                 </Box>
 
                                 <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
                                     <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Web: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Web === "" ? "Sin información" : dato.Web} </Typography>
                                 </Box>
 
@@ -381,14 +381,14 @@ const AgregarContactoMunicipio = () => {
                                 <Box sx={{ display: "flex", justifyContent: "space-between", width: "90%" }}>
                                     <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Telefono: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Telefono === "" ? "Sin informacion." : dato.Telefono} </Typography>
                                 </Box>
 
                                 <Box sx={{ display: "flex", justifyContent: "space-between", width: "90%" }}>
                                     <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Horario: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Horario === "" ? "Sin información." : dato.Horario} </Typography>
                                 </Box>
                             </Box>

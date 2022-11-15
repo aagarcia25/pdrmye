@@ -15,6 +15,7 @@ import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { getUser } from "../../../services/localStorage";
 
+
 const ContactoMunicipios = () => {
 
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -86,7 +87,7 @@ const ContactoMunicipios = () => {
                             <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
                               Municipio: 
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em"  }} variant="body2" gutterBottom>
                               {registro?.Municipio}
                             </Typography>
                           </Box>
@@ -95,8 +96,8 @@ const ContactoMunicipios = () => {
                             <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
                               Tesorero: 
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start" }} variant="body2" gutterBottom>
-                              Jose {registro?.Tesorero} perez alonso
+                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em"  }} variant="body2" gutterBottom>
+                               {registro?.Tesorero}
                             </Typography>
                           </Box>
 
@@ -104,7 +105,7 @@ const ContactoMunicipios = () => {
                             <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
                               Responsable: 
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start" , ml: "1em" }} variant="body2" gutterBottom>
                               {registro?.Responsable}
                             </Typography>
                           </Box>
@@ -113,8 +114,8 @@ const ContactoMunicipios = () => {
                             <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
                               Domicilio: 
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start" }} variant="body2" gutterBottom>
-                              {registro?.Domicilio} mariano escobedo 333 colonia centro, monterrey nuevo leon mexico
+                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start" , ml: "1em" }} variant="body2" gutterBottom>
+                              {registro?.Domicilio}
                             </Typography>
                           </Box>
 
@@ -122,7 +123,7 @@ const ContactoMunicipios = () => {
                             <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
                               Teléfono: 
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em"  }} variant="body2" gutterBottom>
                               {registro?.Telefono}
                             </Typography>
                           </Box>
@@ -131,7 +132,7 @@ const ContactoMunicipios = () => {
                             <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
                               Horario: 
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em"  }} variant="body2" gutterBottom>
                               {registro?.Horario}
                             </Typography>
                           </Box>
@@ -140,7 +141,7 @@ const ContactoMunicipios = () => {
                             <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
                               Página Web: 
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} variant="body2" gutterBottom>
                               {registro?.Web}
                             </Typography>
                           </Box>
