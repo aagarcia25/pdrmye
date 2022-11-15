@@ -37,11 +37,12 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
         position="sticky"
         alignContent="center"
         sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%" }}>
-        <Grid item sx={{ width:"auto",higth:"30%" }}>
+        <Grid item sx={{ width:"auto",higth:"10%" }}>
         <img src={Logo} style={{ width: "100%" }} />
         </Grid>
         <Grid item sx={{width:"auto", textAlign:"center"}}>
-          <Typography variant="h6" > DISTRIBUCIÓN DE RECURSOS </Typography>
+          <Typography variant="subtitle1" > DISTRIBUCIÓN DE RECURSOS </Typography>
+          <Typography variant="subtitle1" > Ambiente:  { localStorage.getItem('Ambiente')} </Typography>
         </Grid> 
       </Grid>
 
