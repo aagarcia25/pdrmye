@@ -74,8 +74,8 @@ const ContactoMunicipios = () => {
               dato?.map((registro, x) =>
 
                 <Grid item xs={2} sm={4} md={4} key={x}>
-                  <Card >
-                    <CardContent>
+                  <Card  >
+                    <CardContent sx={{display:"flex",justifyContent:"space-evenly"}}>
                       <Box sx={{ width: "100%", display: "flex", flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
 
                         <Box sx={{ width: "35%", display: "flex", justifyContent: "center", alignItems: "center" }}>
