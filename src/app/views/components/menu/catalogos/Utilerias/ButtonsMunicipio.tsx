@@ -24,14 +24,13 @@ const ButtonsMunicipio = ({
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === controlInterno) {
-        console.log(item)
-        if (String(item.Referencia) == "IMPREG") {
+        if (String(item.Referencia) == "AGREG") {
           setCargarPlantilla(true);
         }
-        if (String(item.Referencia) == "IMPORTPLANT") {
+        if (String(item.Referencia) == "AGREG") {
           setCargarPlantilla(true);
         }
-        if (String(item.Referencia) == "DPLANTILLA") {
+        if (String(item.Referencia) == "AGREG") {
           setDescargarPlantilla(true);
         }
 

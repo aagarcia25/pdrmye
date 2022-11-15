@@ -24,13 +24,14 @@ import {
 import ModalForm from "../../../componentes/ModalForm";
 import SaveButton from "../../../componentes/SaveButton";
 import Title from "../../../componentes/Title";
+import { Moneda } from "../../CustomToolbar";
 
 const ISAI = () => {
   //   VALORES POR DEFAULT
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [dataTipoFondo, setDataTipoFondo] = useState([]);
-  const [slideropen, setslideropen] = useState(false);
+  const [slideropen, setslideropen] = useState(true);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
@@ -48,12 +49,11 @@ const ISAI = () => {
       headerName: "Identificador",
       hide: true,
     },
-    
     { field: "Version", headerName: "Versión", width: 150 },
-    { field: "FechaCreacion", headerName: "Fecha de Creación", width: 150 },
-    { field: "municipio", headerName: "Municipio", width: 350 },
-    { field: "Importe", headerName: "Importe", width: 350 },
-    { field: "Coeficiente", headerName: "Coeficiente", width: 350 },
+    { field: "FechaCreacion", headerName: "Fecha de Creación", width: 200 },
+    { field: "municipio", headerName: "Municipio", width: 250 },
+    { field: "Importe", headerName: "Importe", width: 250,...Moneda },
+    { field: "Coeficiente", headerName: "Coeficiente", width: 250 },
     { field: "UC", headerName: "Usuario Creo", width: 350 },
     { field: "UM", headerName: "Usuario Modifico", width: 350 },
   ];
@@ -68,7 +68,7 @@ const ISAI = () => {
         renderCell: (v) => {
           return (
             <Box>
-              <Tooltip title={"Ver y Eliminar menus de el Rol"}>
+              <Tooltip title={"Ver Detalle"}>
                 <IconButton onClick={() => handleView(v)}>
                   <RemoveRedEyeIcon />
                 </IconButton>
@@ -77,11 +77,8 @@ const ISAI = () => {
           );
         },
       },
-    {
-      field: "id",
-      headerName: "Versión",
-    },
-    { field: "Importe", headerName: "Importe", width: 150 },
+    {field: "id",headerName: "Versión",},
+    { field: "Importe", headerName: "Importe", width: 350,...Moneda },
     { field: "UC", headerName: "Usuario Creo", width: 350 },
     { field: "UM", headerName: "Usuario Modifico", width: 350 },
   ];
@@ -158,8 +155,8 @@ const ISAI = () => {
   };
 
   const handleView = (v: any) => {
-    setVersion(v.id);
     consulta(4);
+    setVersion(v.id);
     setModo(1)
   };
 
@@ -182,6 +179,7 @@ const ISAI = () => {
   };
 
   const consulta = (NUMOPERACION:number) => {
+    setslideropen(true);
     let data = {
       NUMOPERACION: NUMOPERACION,
     };
@@ -200,6 +198,7 @@ const ISAI = () => {
           icon: "error",
         });
       }
+      setslideropen(false);
     });
   };
 
@@ -212,6 +211,7 @@ const ISAI = () => {
     formData.append("CHUSER",  user.id);
     CatalogosServices.MUNISAI(formData).then((res) => {
       setslideropen(false);
+      consulta(5);
     });
   };
 
@@ -231,17 +231,18 @@ const ISAI = () => {
       }
     });
     consulta(5);
+  
   }, []);
 
   return (
     
     
     
-    <div style={{ height: 600, width: "100%" }}>
+    <div >
       <Slider open={slideropen}></Slider>
       <Title titulo={nombreMenu} tooltip={"Coeficiente Generado para el cálculo del ISAI"}></Title>
       
-      <div style={{ display : modo == 0 ? "block":"none"}}>
+      <div style={{ height: 600, width: "100%" ,display : modo == 0 ? "block":"none"}}>
       <Box >
         {agregar ? 
         <Tooltip title="Cargar Plantilla">
@@ -255,7 +256,8 @@ const ISAI = () => {
 
       <MUIXDataGrid columns={columns0} rows={dataTipoFondo} />
       </div>
-      <div style={{ display : modo == 1 ? "block":"none"}}>
+
+      <div style={{height: 600, width: "100%", display : modo == 1 ? "block":"none"}}>
       <Box >
       <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
       <Tooltip title="Regresar">

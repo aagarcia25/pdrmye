@@ -1,9 +1,6 @@
-import { Box, Grid, IconButton, Typography } from "@mui/material";
+import { Grid,  Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { messages } from "../../../../styles";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
@@ -15,6 +12,8 @@ import { calculosServices } from "../../../../../services/calculosServices";
 import { CalculoGarantiaModal } from "./CalculoGarantiaModal";
 import { Moneda } from "../../CustomToolbar";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import ButtonsMunicipio from "../../catalogos/Utilerias/ButtonsMunicipio";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
 
 export const CalculoGarantiaComponente = () => {
   const [calculoGarantia, setCalculoGarantia] = useState([]);
@@ -27,7 +26,7 @@ export const CalculoGarantiaComponente = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
-
+  const [plantilla, setPlantilla] = useState("");
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -95,6 +94,15 @@ export const CalculoGarantiaComponente = () => {
     }
   }
 
+  const downloadplantilla = () => {
+    let data = {
+      NUMOPERACION: "PLANTILLA DE CARGA DE GARANTIA",
+    };
+
+    CatalogosServices.descargaplantilla(data).then((res) => {
+      setPlantilla(res.RESPONSE);
+    });
+  };
   const handleClose = () => {
     setOpen(false);
     consulta({ NUMOPERACION: 4 });
@@ -160,6 +168,27 @@ export const CalculoGarantiaComponente = () => {
     });
   };
 
+  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let file = event?.target?.files?.[0] || "";
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlsx");
+    formData.append("tipo", "CalculoGarantia");
+    CatalogosServices.migraData(formData).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Carga Exitosa!",
+        });
+      } else {
+        AlertS.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
   const consulta = (data: any) => {
     calculosServices.CalculoGarantia(data).then((res) => {
       if (res.SUCCESS) {
@@ -181,6 +210,7 @@ export const CalculoGarantiaComponente = () => {
   };
 
   useEffect(() => {
+    downloadplantilla();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "CA") {
         console.log(item)
@@ -211,7 +241,15 @@ export const CalculoGarantiaComponente = () => {
           </Typography>
         </Grid>
       </Grid>
+
+
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleUpload} controlInterno={"CA"}      />
+
+
+
       <MUIXDataGrid columns={columns} rows={calculoGarantia} />
       {open ? (
         <CalculoGarantiaModal

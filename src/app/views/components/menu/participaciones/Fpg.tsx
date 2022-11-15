@@ -18,6 +18,7 @@ import DetalleFgp from "./DetalleFgp";
 import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { getPermisos } from "../../../../services/localStorage";
 import ModalNew from "./ModalNew";
+import ModalAjuste from "./ModalAjuste";
 
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
@@ -58,10 +59,10 @@ export const Fpg = () => {
   };
 
   const handleAjuste = (v: any) => {
-    setIdtrazabilidad(v.row.id);
+    setIdDetalle(String(v.row.id));
     setAnio(Number(v.row.Anio));
     setMes(v.row.Mes);
-    setstep(1);
+    setstep(2);
   };
 
   const handleDetalle = (v: any) => {
@@ -100,7 +101,6 @@ export const Fpg = () => {
                 disabled={
                   String(v.row.Clave) == "FISM" &&
                   String(v.row.Clave) == "FORTAMUN"  
-                 
                 }
               >
                 <AttachMoneyIcon />
@@ -146,7 +146,7 @@ export const Fpg = () => {
     {
       field: "Tipo",
       headerName: "Tipo",
-      width: 60,
+      width: 150,
       description: "Tipo Cálculo",
     },
     {
@@ -294,6 +294,18 @@ export const Fpg = () => {
             onClickBack={handleClose }
             />
        : ""}
+
+     {step == 2 ?
+          <ModalAjuste
+            idCalculo={idDetalle}
+            clave={objfondo?.Clave || ""}
+            titulo={objfondo?.Descripcion || ""}
+            onClickBack={handleClose }
+            />
+       : ""}
+
+
+
     </>
   );
 };
