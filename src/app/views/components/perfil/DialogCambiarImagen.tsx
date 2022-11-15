@@ -25,6 +25,14 @@ export function DialogCambiarImagen({
     const [tipoArchivo, setTipoArchivo] = useState("");
     const [disabledButton, setDisabledButton] = useState(true);
 
+    useEffect(() => {
+      console.log(newImage);
+      console.log(nombreArchivo);
+      
+      
+    }, [newImage])
+    
+
     const SaveImagen = () => {
         const formData = new FormData();
         formData.append("IMAGEN", newImage, nombreArchivo);
