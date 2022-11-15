@@ -20,7 +20,6 @@ import Slider from "../../Slider";
 import { ArticulosServices } from "../../../../services/ArticulosServices";
 import Swal from "sweetalert2";
 import { CatalogosServices } from "../../../../services/catalogosServices";
-import { setISOWeek } from "date-fns";
 
 const Art14m = ({
   titulo,
@@ -62,18 +61,19 @@ const Art14m = ({
   };
 
   const handleVersion = () => {
-    if (monto == null) {
+    console.log(importeDistri.reduce((a, b) => a + b, 0))
+  /*  if (monto == null) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
-    } else {
+    } else {*/
       let data = {
         CLAVE: tipo,
         CHUSER: user.id,
         ANIO: 2022,
-        IMPORTE: monto,
+        IMPORTE: importeDistri.reduce((a, b) => a + b, 0),
       };
 
       Swal.fire({
@@ -92,19 +92,10 @@ const Art14m = ({
           });
         }
       });
-    }
+   // }
   };
 
-  const crearValue=()=>{
-   
-        let prevState = [...importe];
-        prevState.push();
-        setImporte(prevState);
-        
-        let prev=[...importeDistri]
-        prev.push()
-        setimporteDistri(prev);
-  }
+
 
 
   useEffect(() => {
@@ -143,6 +134,12 @@ const Art14m = ({
             </label>
             </Tooltip>
         </Grid>
+
+        <Grid container spacing={1} sx={{}}>
+        <Grid item xs={3} md={2.1} lg={2.5}>
+          <BtnRegresar onClick={onClickBack} />
+        </Grid>
+      </Grid>
 
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
         <Grid container spacing={1} sx={{ justifyContent: "center" }}>
