@@ -52,7 +52,7 @@ button.cerrar {
   font-size: 20px;
   transition-duration: 0.2s;
 
- font-family: "Public Sans", MontserratMedium;
+  font-family:  "Poppins", 'Gill Sans', 'Gill Sans MT', sans-serif;
  color: rgb(168, 29, 29);
 
 };
@@ -73,21 +73,21 @@ button.guardar {
   font-size: 20px;
   transition-duration: 0.2s;
  font-family:  "Poppins", 'Gill Sans', 'Gill Sans MT', sans-serif;
- /* color: rgb(11, 116, 63); */
- color: COLOR.azul;
+ color: rgb(11, 116, 63);
+
 }
 button.actualizar {
   font-size: 20px;
   transition-duration: 0.2s;
  font-family:  "Poppins", 'Gill Sans', 'Gill Sans MT', sans-serif;
- /* color: rgb(53, 160, 223); */
- color:dimgray
+ color: rgb(53, 160, 223);
+
 }
 button.regresar {
   font-size: 20px;
   transition-duration: 0.2s;
- font-family:"Poppins", 'Gill Sans', 'Gill Sans MT', sans-serif;
- color: COLOR.rojo;
+ font-family: "Public Sans", MontserratMedium;
+ color: rgb(172, 28, 28);
 
 }
 button:hover {
@@ -132,10 +132,9 @@ button.nuevo-mensaje {
   padding: 6px 16px;
   border-radius: 8px;
   color: rgb(255, 255, 255);
-  /* background-color: rgb(0, 171, 85); */
-  background-color: COLOR.verde;
+  background-color: rgb(0, 171, 85);
   width: 100%;
-  box-shadow: rgb(78 78 78 / 24%) 0px 8px 8px 0px;
+  box-shadow: rgb(0 171 85 / 24%) 0px 8px 16px 0px;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
 }
 
@@ -154,9 +153,9 @@ button.enviar-mensaje {
   padding: 6px 16px;
   border-radius: 8px;
   color: rgb(255, 255, 255);
-  background-color: COLOR.verde;
+  background-color: rgb(0, 171, 85);
   width: 100%;
-  box-shadow: rgb(78 78 78 / 24%) 0px 8px 16px 0px;
+  box-shadow: rgb(0 171 85 / 24%) 0px 8px 16px 0px;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
 }
 
@@ -215,16 +214,16 @@ button.notificaciones {
 }
 
 .nuevo-mensaje:hover {
-  background-color: COLOR.verde;
+  background-color: hsl(126, 86%, 31%);
   color: white;
 }
 
 .cerrar-nuevo-mensaje:hover {
-  background-color: COLOR.rojo;
+  background-color: #f64e60;
   color: white;
 }
 .cerrar-mensaje:hover {
-  background-color: COLOR.rojo;
+  background-color: #f64e60;
   color: white;
 }
 
