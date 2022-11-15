@@ -51,13 +51,20 @@ const UsuariosModal = ({
   const [ApellidoMaterno, setApellidoMaterno] = useState<string>();
   const [NombreUsuario, setNombreUsuario] = useState<string>();
   const [puesto, setPuesto] = useState<string>();
+  const [rfc, setRfc] = useState<string>();
+  const [curp, setCurp] = useState<string>();
+  const [telefono, setTelefono] = useState<string>();
   const [CorreoElectronico, setCorreoElectronico] = useState<string>();
   const [emailValid, setEmailValid] = useState<boolean>();
+  const [telValid, setTelValid] = useState<boolean>();
+
   const [tokenValid, setTokenValid] = useState<boolean>();
 
   const user: RESPONSE = JSON.parse(String(getUser()));
   const token = JSON.parse(String(getToken()));
   const [emailError, setEmailError] = useState('')
+  const [telError, setTelError] = useState('')
+
 
 
   const loadFilter = (tipo: number) => {
@@ -91,6 +98,16 @@ const UsuariosModal = ({
       setEmailValid(false);
     }
   }
+  const validateNumber = (e: any) => {
+    var tel = e.target.value
+    setTelefono(tel);
+    if (validator.isEmail(tel)) {
+      setTelValid(true);
+    } else {
+      setTelError('Ingrese Numeros')
+      setTelValid(false);
+    }
+  }
 
 
   const handleSend = () => {
@@ -120,14 +137,10 @@ const UsuariosModal = ({
     }
   };
 
-
-
-
   const handleRequest = (data: any) => {
 
 
     if (tipo == 5) {
-      console.log("Editar")
       let dat = {
         NUMOPERACION: tipo,
         CHUSER: user.id,
@@ -140,20 +153,15 @@ const UsuariosModal = ({
         PUESTO: puesto,
         IDDEPARTAMENTO: idDepartamento,
         IDPERFIL: idPerfil
-
       };
 
       AuthService.adminUser(dat).then((res) => {
-        console.log(res)
         if (res.SUCCESS) {
-
           Toast.fire({
             icon: "success",
             title: "¡Registro exitoso!"
           });
           handleClose("Registro Exitoso");
-
-
         }
       });
 
@@ -170,15 +178,11 @@ const UsuariosModal = ({
 
 
           ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
-            console.log(restApp.RESPONSE.Valor);
 
             UserServices.apps(token).then((resAppLogin) => {
-              console.log(resAppLogin.data.data)
 
               resAppLogin.data.data.map((item: any) => {
                 if (item?.Nombre === restApp.RESPONSE.Valor) {
-                  console.log(item.Id + "  " + item.Nombre)
-                  console.log("id de usuario crreado  " + resUser.data.IdUsuario)
 
                   let dat = {
                     NUMOPERACION: tipo,
@@ -194,7 +198,6 @@ const UsuariosModal = ({
                   };
 
                   AuthService.adminUser(dat).then((res) => {
-                    console.log(res)
                     if (res.SUCCESS) {
 
                       let datLink = {
@@ -203,7 +206,6 @@ const UsuariosModal = ({
 
                       };
                       UserServices.linkuserapp(datLink, token).then((resLink) => {
-                        console.log(resLink.SUCESS + " respiesta de login  ------")
 
                         if (resLink.status == 201) {
                           Toast.fire({
@@ -232,16 +234,8 @@ const UsuariosModal = ({
             icon: "error",
           });
         }
-
       });
-
     }
-
-
-
-
-
-
   };
 
   useEffect(() => {
@@ -253,26 +247,19 @@ const UsuariosModal = ({
     const dateIni = new Date(Number(user.iat));
 
     //const diferencia=(today-user.exp) )
-    console.log(Date.now() + "  ***    ")
-    console.log(dateExp + "   " + dateIni)
 
 
     let d = {
 
     }
     UserServices.verify(d, token).then((resAppLogin) => {
-      console.log(resAppLogin.data.expDateTime);
       resAppLogin.status == 200 ?
         setTokenValid(true)
         :
         setTokenValid(false);
     });
 
-
-
-    console.log(dt);
     if (dt === "") {
-      console.log(dt);
     } else {
       setId(dt?.id);
       setNombre(dt?.Nombre);
@@ -283,6 +270,9 @@ const UsuariosModal = ({
       setPuesto(dt?.Puesto);
       setIdDepartamento(dt?.idDepartamento);
       setIdPerfil(dt?.idperfil);
+      setRfc(dt?.Rfc);
+      setCurp(dt?.Curp);
+      setTelefono(dt?.Telefono);
     }
 
     loadFilter(7);
@@ -398,6 +388,47 @@ const UsuariosModal = ({
               onChange={(v) => setPuesto(v.target.value)}
               error={puesto == null ? true : false}
             />
+            <TextField
+              required
+              margin="dense"
+              id="RFC"
+              label="RFC"
+              value={rfc}
+              type="text"
+              fullWidth
+              inputProps={ {maxLength: 13}}
+              variant="standard"
+              onChange={(v) => setRfc(v.target.value.toUpperCase())}
+              error={rfc == null ? true : false}
+            />
+            <TextField
+              required
+              margin="dense"
+              id="curp"
+              label="CURP"
+              value={curp}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setCurp(v.target.value.toUpperCase())}
+              inputProps={ {maxLength: 18}}
+              error={curp == null ? true : false}
+            />
+            <TextField
+              required
+              margin="dense"
+              id="telefono"
+              label="Telefono"
+              value={telefono}
+              type="text"
+              fullWidth
+              inputProps={ {maxLength: 10 ,mask:"000-00 00 00"}}
+              variant="standard"
+              onChange={(e) => validateNumber(e)}
+              error={telValid == false || telefono == null}
+              
+            />
+             <label>{telError}</label>
             <br />
             <label>Departamento:</label>
             <SelectFrag
@@ -423,16 +454,12 @@ const UsuariosModal = ({
 
         <DialogActions>
           <Button
-          className="guardar"
-          color="info"   
-           onClick={() => handleSend()}
-            // sx={{ fontFamily: "MontserratRegular" }}
+            className="guardar"
+            color="info"
+            onClick={() => handleSend()}
           >
             Actualizar
           </Button>
-          {/* <button className="guardar" onClick={() => handleSend()}>Guardar</button> */}
-          {/* <button className="cerrar" onClick={() => handleClose()}>Cancelar</button> */}
-
         </DialogActions>
       </Dialog>
     </div>

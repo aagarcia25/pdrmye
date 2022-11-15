@@ -24,6 +24,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { UserReponse } from "../../interfaces/user/UserReponse";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
+import ModalForm from "./componentes/ModalForm";
 
 const CalendarCModal = ({
   open,
@@ -213,7 +214,8 @@ const CalendarCModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen>
+    <>
+    <ModalForm title={modoModal} handleClose={handleClose}>
       <Container maxWidth="sm"></Container>
       {modoModal == "Editar Evento" ? (
         Date.parse(inicioEventoMin) > Date.parse(inicioEvento) ? (
@@ -271,78 +273,78 @@ const CalendarCModal = ({
               <Button onClick={() => handleClose()}>Cerrar</Button>
             </DialogActions>
           </Container>
-        ) : (
-          <Container maxWidth="sm">
-            <DialogTitle>{modoModal}</DialogTitle>
-            <DialogContent>
-              <Box sx={{ padding: 2 }}>
-                <Typography>Título del Evento*</Typography>
-                <TextField
-                  required
-                  margin="dense"
-                  id="nombreEvento"
-                  value={nombreEvento}
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setNombreEvento(v.target.value)}
-                  error={nombreEvento == null ? true : false}
-                  InputProps={{}}
-                />
+        ) : (""
+          // <Container maxWidth="sm">
+          //   <DialogTitle>{modoModal}</DialogTitle>
+          //   <DialogContent>
+          //     <Box sx={{ padding: 2 }}>
+          //       <Typography>Título del Evento*</Typography>
+          //       <TextField
+          //         required
+          //         margin="dense"
+          //         id="nombreEvento"
+          //         value={nombreEvento}
+          //         fullWidth
+          //         variant="standard"
+          //         onChange={(v) => setNombreEvento(v.target.value)}
+          //         error={nombreEvento == null ? true : false}
+          //         InputProps={{}}
+          //       />
 
-                <Typography>Fecha de inicio del evento*</Typography>
+          //       <Typography>Fecha de inicio del evento*</Typography>
 
-                <Input
-                  fullWidth
-                  id="inicioEvento"
-                  required
-                  type="datetime-local"
-                  value={inicioEvento}
-                  inputProps={{
-                    inputProps: { min: inicioEventoMin, max: finEventoMax },
-                  }}
-                  onChange={handleFechaInicio}
-                  error={inicioEvento == "" ? true : false}
-                />
-                <Typography>Fecha de fin del evento*</Typography>
-                <Input
-                  fullWidth
-                  id="finEvento"
-                  required
-                  value={finEvento}
-                  type="datetime-local"
-                  onChange={handleFechaFin}
-                  error={finEvento <= inicioEvento ? true : false}
-                  inputProps={{
-                    inputProps: { min: inicioEvento, max: finEventoMax },
-                  }}
-                />
+          //       <Input
+          //         fullWidth
+          //         id="inicioEvento"
+          //         required
+          //         type="datetime-local"
+          //         value={inicioEvento}
+          //         inputProps={{
+          //           inputProps: { min: inicioEventoMin, max: finEventoMax },
+          //         }}
+          //         onChange={handleFechaInicio}
+          //         error={inicioEvento == "" ? true : false}
+          //       />
+          //       <Typography>Fecha de fin del evento*</Typography>
+          //       <Input
+          //         fullWidth
+          //         id="finEvento"
+          //         required
+          //         value={finEvento}
+          //         type="datetime-local"
+          //         onChange={handleFechaFin}
+          //         error={finEvento <= inicioEvento ? true : false}
+          //         inputProps={{
+          //           inputProps: { min: inicioEvento, max: finEventoMax },
+          //         }}
+          //       />
 
-                <FormGroup>
-                  <FormControlLabel
-                    sx={{ width: "0vw" }}
-                    control={
-                      <Switch id="repetitivoEvento" onChange={() => {}} />
-                    }
-                    label="¿Repetir?"
-                  />
-                </FormGroup>
-              </Box>
-            </DialogContent>
+          //       <FormGroup>
+          //         <FormControlLabel
+          //           sx={{ width: "0vw" }}
+          //           control={
+          //             <Switch id="repetitivoEvento" onChange={() => {}} />
+          //           }
+          //           label="¿Repetir?"
+          //         />
+          //       </FormGroup>
+          //     </Box>
+          //   </DialogContent>
 
-            <Divider />
+          //   <Divider />
 
-            <DialogActions>
-              <Button
-                sx={{ mr: 5 }}
-                onClick={() => handleDelete()}
-                startIcon={<DeleteIcon />}
-              >
-                Borrar
-              </Button>
-              <Button onClick={() => handleSend()}>Guardar</Button>
-              <Button onClick={() => handleClose()}>Cancelar</Button>
-            </DialogActions>
-          </Container>
+          //   <DialogActions>
+          //     <Button
+          //       sx={{ mr: 5 }}
+          //       onClick={() => handleDelete()}
+          //       startIcon={<DeleteIcon />}
+          //     >
+          //       Borrar
+          //     </Button>
+          //     <Button onClick={() => handleSend()}>Guardar</Button>
+          //     <Button onClick={() => handleClose()}>Cancelar</Button>
+          //   </DialogActions>
+          // </Container>
         )
       ) : (
         ""
@@ -436,7 +438,8 @@ const CalendarCModal = ({
       ) : (
         ""
       )}
-    </Dialog>
+      </ModalForm>
+      </>
   );
 };
 
