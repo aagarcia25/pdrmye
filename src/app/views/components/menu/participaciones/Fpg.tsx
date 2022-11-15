@@ -60,8 +60,6 @@ export const Fpg = () => {
 
   const handleAjuste = (v: any) => {
     setIdDetalle(String(v.row.id));
-    setAnio(Number(v.row.Anio));
-    setMes(v.row.Mes);
     setstep(2);
   };
 
