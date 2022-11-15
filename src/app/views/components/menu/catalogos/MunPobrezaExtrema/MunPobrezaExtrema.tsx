@@ -127,7 +127,7 @@ export const MunPobrezaExtrema = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "Solicitud de Eliminado Enviada!",
             });
 
             let data = {
