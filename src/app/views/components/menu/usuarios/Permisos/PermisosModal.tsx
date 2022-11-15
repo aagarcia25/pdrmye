@@ -3,10 +3,13 @@ import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react'
 import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
+import SelectValues from '../../../../../interfaces/Select/SelectValues';
 import { RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { AuthService } from '../../../../../services/AuthService';
+import { CatalogosServices } from '../../../../../services/catalogosServices';
 import { getUser } from '../../../../../services/localStorage';
 import ModalForm from '../../../componentes/ModalForm';
+import SelectFrag from '../../../Fragmentos/SelectFrag';
 
 
 
@@ -28,12 +31,27 @@ const PermisosModal = ({
 
   const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");
+
+  const [menus, setMenus] = useState<SelectValues[]>([]);
+  const [idMenu, setIdMenu] = useState("");
+
   const [descripcion, setdescripcion] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
+  const [referencia, setReferencia] = useState("");
 
+  const handleFilterChange2 = (v: string) => {
+    setIdMenu(v);
+  };
 
-
+  const loadFilter = (operacion: number) => {
+    let data = { NUMOPERACION: operacion };
+    CatalogosServices.SelectIndex(data).then((res) => {
+      if (operacion == 16) {
+        setMenus(res.RESPONSE);
+      } 
+    });
+  };
   const handleSend = () => {
     if (nombre == "" || descripcion == "") {
       AlertS.fire({
@@ -48,6 +66,9 @@ const PermisosModal = ({
         CHUSER: user.id,
         PERMISO: nombre,
         DESCRIPCION: descripcion,
+        REFERENCIA: referencia,
+        IDMENU:idMenu
+        
       };
       handleRequest(data);
     }
@@ -85,6 +106,7 @@ const PermisosModal = ({
 
   useEffect(() => {
     console.log(dt);
+    loadFilter(16);
     if (dt === "") {
       console.log(dt);
     } else {
@@ -103,6 +125,18 @@ const PermisosModal = ({
 
     <DialogContent>
           <Box>
+
+
+          <SelectFrag
+              value={idMenu}
+              options={menus}
+              onInputChange={handleFilterChange2}
+              placeholder={"Seleccione Menú"}
+              label={""}
+              disabled={false}
+            />
+
+
             <TextField
               required
               margin="dense"
@@ -135,6 +169,22 @@ const PermisosModal = ({
               error={descripcion == "" ? true : false}
 
             />
+
+<TextField
+              margin="dense"
+              required
+              id="ci"
+              label="Control Interno"
+              value={referencia}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setReferencia(v.target.value)}
+              error={referencia == "" ? true : false}
+
+            />
+
+
           </Box>
         </DialogContent>
 
