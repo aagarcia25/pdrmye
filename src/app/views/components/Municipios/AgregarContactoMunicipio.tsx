@@ -55,7 +55,11 @@ const AgregarContactoMunicipio = () => {
     }, [])
 
     useEffect(() => {
+        console.log(dato);
+        
         setUploadFile(dato.Escudo)
+        let a = dato.Escudo.split("/")
+        setNombreArchivo(a[a.length-1])
         setMunicipio(dato.Municipio)
         setTesorero(dato.Tesorero)
         setResponable(dato.Responsable)
@@ -64,7 +68,7 @@ const AgregarContactoMunicipio = () => {
         setHorario(dato.Horario)
         setWeb(dato.Web)
         setNuevoRegistro(false)
-    }, [dato])
+    }, [dato,editar])
 
 
     const consulta = () => {
@@ -150,17 +154,19 @@ const AgregarContactoMunicipio = () => {
     };
 
     const guardarRegistro = () => {
-        nuevoRegistro? formData.append("NUMOPERACION", "1"):formData.append("NUMOPERACION", "2")
+        if(nuevoRegistro){formData.append("NUMOPERACION", "1")} 
+        else {formData.append("NUMOPERACION", "2")}
         formData.append("CHUSER", user.id);
         formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
         formData.append("MUNICIPIO", municipio);
         formData.append("TESORERO", tesorero);
         formData.append("RESPONSABLE", responsable);
         formData.append("DOMICILIO", domicilio);
-        formData.append("Telefono", telefono)
+        formData.append("TELEFONO", telefono)
         formData.append("HORARIO", horario);
         formData.append("WEB", web);
-        formData.append("ESCUDO", newImage, nombreArchivo);
+        if(nuevoRegistro){formData.append("ESCUDO", newImage, nombreArchivo)}
+        else{formData.append("ESCUDO","")}
         agregar(formData);
     }
     
@@ -335,7 +341,9 @@ const AgregarContactoMunicipio = () => {
 
                             <Box sx={{ display: "flex", width: "50%", justifyContent: "space-evenly" }}>
                                 <Button variant="outlined" onClick={() => { limpiar() }}>Limpiar</Button>
-                                <Button variant="outlined" onClick={() => { nuevoRegistro? onClickGuardar():onClickActualizar()}}>Guardar</Button>
+                               { nuevoRegistro?
+                                    <Button variant="outlined" onClick={() => { onClickGuardar()}}>Guardar</Button>:
+                                    <Button variant="outlined" onClick={() => { onClickActualizar()}}>Guardar Cambios</Button> }
                                 <Button variant="outlined" onClick={() => { limpiar(); setEditar(false); }}>Cancelar</Button>
                             </Box>
 
