@@ -169,11 +169,13 @@ const CalendarC = () => {
       ) : (
         ""
       )}
-      <Grid container spacing={1}>
+      <Grid container spacing={1} paddingTop={4}>
         <Grid
           item
           xs={12}
           sx={{
+            paddingTop:"1%",
+            paddingRight:"2%",
             mb: 1,
             display: "flex",
             justifyContent: "right",
@@ -189,6 +191,7 @@ const CalendarC = () => {
         </Grid>
       </Grid>
       <Calendar
+        
         culture="es"
         localizer={localizer}
         events={eventos}
@@ -197,7 +200,8 @@ const CalendarC = () => {
         startAccessor="start"
         endAccessor="end"
         style={{
-          height: "calc( 80vh - 80px )",
+          height: "calc( 80rem - 80% )",
+          margin:"2%",
         }}
         messages={getMessagesES()}
         onSelectEvent={(v) => onSelectEvent(v)}

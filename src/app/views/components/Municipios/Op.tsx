@@ -37,7 +37,7 @@ import {
 import { esES as coreEsES } from "@mui/material/locale";
 import ModalPresupuesto from "./ModalPresupuesto";
 
-const Operaciones = () => {
+const Op = () => {
   const theme = createTheme(coreEsES, gridEsES);
 
   const [slideropen, setslideropen] = useState(true);
@@ -703,4 +703,4 @@ const Operaciones = () => {
   );
 };
 
-export default Operaciones;
+export default Op;

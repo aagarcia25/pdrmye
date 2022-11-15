@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Card, CardActions, CardContent, Dialog, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Card, CardActions, CardContent, Dialog, Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { Toast } from "../../../../../helpers/Toast";
@@ -9,6 +9,9 @@ import { MunicipioCambios, RESPONSE } from "../../../../../interfaces/user/UserI
 import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
 import { AlertS } from "../../../../../helpers/AlertS";
+import Swal from "sweetalert2";
+import ComentarioModal from "../../../componentes/ComentarioModal";
+import { Label } from "@mui/icons-material";
 
 
 const CambiosMun = () => {
@@ -16,11 +19,17 @@ const CambiosMun = () => {
     const [bitacoraAjustes, setBitacoraAjustes] = useState([]);
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [openModal, setOpenModal] = useState<boolean>(false);
+    const [openValidacion, setOpenValidacion] = useState<boolean>(false);
+
     const [vrows, setVrows] = useState({});
     const [solicitud, setSolicitud] = useState<MunicipioCambios>();
     const [origen, setOrigen] = useState<MunicipioCambios>();
 
     const [labelCatalogo, setLabelCatalogo] = useState<string>();
+    const [comentario, setComentario] = useState<string>();
+    const [idCambio, setIdCambio] = useState<string>();
+
+
 
     const columns: GridColDef[] = [
         {
@@ -42,10 +51,6 @@ const CambiosMun = () => {
             hide: true,
         },
         {
-            field: "Aplicado",
-            hide: true,
-        },
-        {
             field: "acciones",
             headerName: "Acciones",
             description: "Campo de Acciones",
@@ -54,10 +59,8 @@ const CambiosMun = () => {
             renderCell: (v) => {
                 return (
                     <>
-
-
                         {
-                            ((user.DEPARTAMENTOS[0].NombreCorto == "CPH" && user.PERFILES[0].Referencia == "COOR") ? (
+                            ((user.DEPARTAMENTOS[0].NombreCorto == "CPH" && user.PERFILES[0].Referencia == "COOR") &&(v.row.Aplicado==0 && v.row.deleted == 0) ? (
                                 <>
                                     <Tooltip title="Atender Solicitud">
                                         <IconButton color="info" onClick={() => handlevalidar(v)}>
@@ -73,6 +76,33 @@ const CambiosMun = () => {
                 );
             },
         },
+        {
+            field: "Aplicado",
+            headerName: "Estatus",
+            description: "Campo de Acciones",
+            renderCell: (v) => {
+                return (
+                    <>
+                        {
+                            ((v.row.Aplicado==0 && v.row.deleted == 0) ? (
+                                <> <label> Espera de Autorizacion</label>  </>    ) :  "" )
+                            
+                        }
+                              {
+                            ((v.row.Aplicado==0 && v.row.deleted == 1) ? (
+                                <> <label> Rechazado</label> </> ) :"")
+                            
+                        }
+                              {
+                            ((v.row.Aplicado==1 && v.row.deleted == 0) ? (
+                                <> <label> Autorizado</label></>) :"" )
+                            
+                        }
+                    </>
+                );
+            },
+        },
+      
         {
             field: "FechaCreacion",
             headerName: "Fecha Creacion",
@@ -106,17 +136,68 @@ const CambiosMun = () => {
     const handlevalidar = (v: any) => {
         setOpenModal(true);
         setVrows(v.row);
-        console.log(v.row);
+        console.log(v.row)
         setSolicitud(JSON.parse(String(v.row.Solicitud)));
+        console.log(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setOrigen(JSON.parse(String(v.row.Origen)));
-
-
-        console.log(v.row.Solicitud);
         setLabelCatalogo(String(tablas.find(({ tipo }) => tipo == v.row.Tipo)?.label));
-        console.log(String(tablas.find(({ tipo }) => tipo == v.row.Tipo)?.label));
-        console.log(String(solicitud?.CarenciaProm))
+        setIdCambio(v.row.id);
+
+    };
+
+    const handleSolicitud = () => {
+        setOpenValidacion(true);
 
 
+    };
+    const acciones = (v: any) => {
+        console.log(v);
+
+        if (comentario) {
+            Swal.fire({
+                icon: v == "autorizar" ? "success" : "warning",
+                title: v == "autorizar" ? "Autorizar" : "Rechazar",
+                text: v == "autorizar" ? "¿Autorizara el cambio?" : "¿Rechazar el cambio?",
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: "Aceptar",
+                cancelButtonText: "Cancelar",
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+
+                    CatalogosServices.BitacoraAjustes({
+                        NUMOPERACION: v == "autorizar" ? 2 : 3,
+                        CHID: idCambio,
+                        CHUSER: user.id,
+                        COMENTARIO: comentario
+                    }).then((res) => {
+                        if (res.SUCCESS) {
+                            console.log(res.RESPONSE)
+                            handleClose();
+                        } else {
+
+                            AlertS.fire({
+                                title: "Error!",
+                                text: "Fallo en la peticion",
+                                icon: "error",
+
+                            });
+                        }
+                    });
+                }
+                if (result.isDenied) {
+                }
+            });
+
+        } else {
+
+            AlertS.fire({
+                title: "Error!",
+                text: "Campo Comenatrio Vacio",
+                icon: "error",
+
+            });
+        }
 
 
     };
@@ -142,11 +223,10 @@ const CambiosMun = () => {
 
     const handleClose = () => {
         setOpenModal(false);
+        setOpenValidacion(false);
         consulta();
     };
-    const acciones = (v: string) => {
-      
-    }
+
 
 
     useEffect(() => {
@@ -280,15 +360,67 @@ const CambiosMun = () => {
 
                             </Grid>
 
-                            <Grid container spacing={3} sx={{ width: "100%" }}>
+                            <Grid container spacing={1}
+                                sx={{
+                                    mt: "2vh",
+                                    width: "100%",
+                                    height: "100%",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    flexDirection: "row",
 
-                        <Grid item xs={6} sx={{ alignItems: "right", width: "100%" ,justifyContent: "center",}}>
-                            <button className="guardar" onClick={() => acciones("autorizar")}>Autorizar Solicitud</button>
-                        </Grid>
-                        <Grid item xs={6} sx={{ alignItems: "left", width: "100%",justifyContent: "center", }}>
-                            <button className="regresar" onClick={() => acciones("cancelar")}> Cancelar Solicitud</button>
-                        </Grid>
-                    </Grid>
+                                }}
+                            >
+                                <Grid item xs={6} sm={6} md={4} lg={3}>
+                                    <h3> Comentarios:</h3>
+                                </Grid>
+                            </Grid>
+
+                            <Grid container spacing={1}
+                                sx={{
+                                    mt: "2vh",
+                                    width: "100%",
+                                    height: "100%",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    flexDirection: "row",
+                                }}
+                            >
+                                <Grid item xs={12} sm={12} md={6} lg={4}>
+                                    <TextField
+                                        required
+                                        spellCheck="true"
+                                        rows={8}
+                                        multiline
+                                        onChange={(v) => setComentario(v.target.value)}
+                                        style={{ width: "100%" }}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        inputProps={{
+                                            maxLength: 300,
+                                        }}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <br /><br />
+                            <Grid container spacing={3} sx={{ width: "100%", justifyContent: "center", alignItems: "center", direction: "row", }}>
+
+                                <Grid item xs={6} sm={6} md={4} lg={3} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                                    <Box >
+                                        <button className="guardar" onClick={() => acciones("autorizar")}>Autorizar Solicitud</button>
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={6} sm={6} md={4} lg={3} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                                    <Box>
+                                        <button className="regresar" onClick={() => acciones("cancelar")}> Cancelar Solicitud</button>
+                                    </Box>
+                                </Grid>
+                            </Grid>
+
+
+
+
 
 
 
@@ -297,7 +429,13 @@ const CambiosMun = () => {
 
 
                         </Box>
+                        {openValidacion ?
+                            <>
+                                <ComentarioModal accion={0} tipo={""} handleClose={handleClose} handleAccion={acciones} vrows={vrows} />
+                            </>
+                            : ""
 
+                        }
 
                     </ModalForm>
                 </>) : ""

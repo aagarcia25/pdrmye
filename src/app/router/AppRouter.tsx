@@ -47,6 +47,7 @@ import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de U
 import SolicitudRecursos from '../views/components/Municipios/SolicitudRecursos';
 import RecepcionRecursos from '../views/components/Municipios/RecepcionRecursos';
 import Operaciones from '../views/components/Municipios/Operaciones';
+import Op from '../views/components/Municipios/Op';
 import { Bancos } from '../views/components/menu/catalogos/Bancos/Bancos';
 import { CuentaBancaria } from '../views/components/menu/catalogos/CuentaBancaria/CuentaBancaria';
 import { AnticipoParticipaciones } from '../views/components/menu/catalogos/Municipios/anticipoParticipaciones/AnticipoParticipaciones';
@@ -145,6 +146,7 @@ export const AppRouter = () => {
        <Route path='/inicio/recursos'  element={log ? <RecepcionRecursos /> : <AuthRouter />} />
        <Route path='/inicio/anticipop'  element={log ? <SolicitudRecursos /> : <AuthRouter />} />
        <Route path='/inicio/oper'  element={log ? <Operaciones /> : <AuthRouter />} />
+       <Route path='/inicio/listado/op'  element={log ? <Op /> : <AuthRouter />} />
        {/* SECCION MUNICIPIOS */}
 
        {/* DCCP */}

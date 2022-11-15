@@ -17,8 +17,8 @@ export default function PlantillaBienvenido(props: UserProps) {
   return (
    
     <Grid container sm={12}>
-          <Grid item sm={12} md={2}></Grid>
-          <Grid item sm={12} md={8}  >
+          <Grid  sm={12} md={2}></Grid>
+          <Grid  sm={12} md={8}  >
            <img src={logo}  style={{
                         alignContent:"center",
                         marginTop:"5%",
@@ -26,7 +26,7 @@ export default function PlantillaBienvenido(props: UserProps) {
                         height: "40rem",
                         objectFit: "fill",
                       }}></img>
-           <Grid item sm={12} md={2}></Grid>
+           <Grid  sm={12} md={2}></Grid>
           </Grid>
     </Grid>
   );

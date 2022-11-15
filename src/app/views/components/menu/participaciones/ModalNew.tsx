@@ -68,6 +68,7 @@ const ModalNew = ({
     formData.append("CHUSER", user.id);
     formData.append("ANIO", String(year));
     formData.append("MES", idmes);
+    formData.append("TIPOCALCULO", idTipoCalculo);
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
       if (res.SUCCESS) {
@@ -97,6 +98,7 @@ const ModalNew = ({
     formData.append("ANIO", String(year));
     formData.append("MES", idmes);
     formData.append("IMPORTE", "0");
+    formData.append("TIPOCALCULO", idTipoCalculo);
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
       if (res.SUCCESS) {
@@ -125,6 +127,7 @@ const ModalNew = ({
     formData.append("ANIO", String(year));
     formData.append("MES", idmes);
     formData.append("IMPORTE", String(monto));
+    formData.append("TIPOCALCULO", idTipoCalculo);
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
       if (res.SUCCESS) {
