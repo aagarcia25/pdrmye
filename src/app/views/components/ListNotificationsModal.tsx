@@ -4,6 +4,7 @@ import {
   Dialog,
   Box,
   Button,
+  Typography,
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { CatalogosServices } from "../../services/catalogosServices";
@@ -18,6 +19,8 @@ import "../../styles/globals.css";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { MailServices } from "../../services/MailServices";
 import { Subject } from "@mui/icons-material";
+import { bgcolor, margin } from "@mui/system";
+import { COLOR } from "../../styles/colors";
 
 const ListNotificationsModal = ({
   open,
@@ -195,10 +198,11 @@ const ListNotificationsModal = ({
   return (
     <Dialog
       fullWidth
+      maxWidth="md"
       open={open}
     >
       <Box sx={{
-        height: "100%",
+        height: "95%",
         justifyContent: 'space-between',
         position: 'relative',
         flexDirection: 'column',
@@ -212,25 +216,24 @@ const ListNotificationsModal = ({
               justifyContent: 'space-between',
               position: 'relative',
               flexDirection: 'column',
-              borderRadius: 1
+              borderRadius: 1,
             }}>
               <Box sx={{
-                bgcolor: "rgb(246,246,246)",
+                bgcolor: COLOR.azul,
                 display: 'flex',
                 justifyContent: 'space-between',
                 position: 'relative',
-                borderRadius: 1,
-
+                
               }}>
                 <Box sx={{
                   position: 'relative',
                   flexDirection: 'column',
                   top: 1, left: 20,
-                  borderRadius: 1
+                  borderRadius: 0,
                 }}>
-                  <label> <h3> Nuevo Mensaje</h3> </label>
+                  <Typography variant="h5" color="white" paddingTop={1} paddingBottom={1}> Nuevo Mensaje </Typography>
                 </Box>
-                <Box>
+                <Box padding={1}>
                   <button className="cerrar-nuevo-mensaje" color="error"
                     onClick={() => handleClose("cerrar")}>
                     <CloseIcon />
@@ -239,69 +242,64 @@ const ListNotificationsModal = ({
               </Box>
               <Box
                 sx={{
-
                   height: "100px",
                   position: 'relative',
                   flexDirection: 'column',
                   top: 10, left: 7, width: "95%",
                   display: 'flex',
-                  borderRadius: 1
+                  borderRadius: 1,
+                  marginLeft: "2%",
                 }}>
-                <label> Para..</label>
+                <Typography variant="h6" paddingBottom={.5}> Para.. </Typography>
                 <SelectFrag
                   value={chuserDestin}
                   options={usuarioSelect}
                   onInputChange={handleSelectUser}
-                  placeholder={"Seleccione Usuario"}
+                  placeholder={"Seleccionar Usuario"}
                   label={""}
                   disabled={false}
                 />
               </Box>
               <Box sx={{
                 height: "90%",
-                width: "98%",
+                width: "95%",
                 justifyContent: 'space-between',
                 position: 'relative',
                 left: 5,
                 display: 'flex',
                 flexDirection: 'column',
+                marginLeft: "2%",
               }}>
                 <Box
                   sx={{
                     width: "100%",
-                    height: "60%",
+                    height: "100%",
+                    paddingBottom:"1%"
                   }}>
-                  <label > Asunto.. </label>
+                  <Typography variant="h6" paddingBottom={.2}> Asunto.. </Typography>
                   <textarea
                     required
                     spellCheck='true'
                     rows={2}
                     onChange={(v) => setNewEncabezado(v.target.value)}
-                    style={{ width: "100%", borderRadius: 12, }} />
+                    style={{ width: "100%", borderRadius: 10, fontFamily:"sans-serif"}} />
                 </Box>
+              
                 <Box
                   sx={{
-                    width: "90%",
-                    height: "10px",
-                  }}>
-
-                </Box>
-                <Box
-                  sx={{
+                    paddingTop:"1%",
                     borderRadius: 2,
-                    height: "98%",
+                    height: "95%",
                     width: "100%",
-                    bgcolor: "rgb(246,246,246)",
                   }}>
-                  <label >
-                    Mensaje..
-                  </label>
+                    <Typography variant="h6" paddingBottom={.2}> Mensaje.. </Typography>
+                 
                   <textarea
                     required
                     spellCheck='true'
-                    rows={20}
+                    rows={10}
                     onChange={(v) => setNewMensaje(v.target.value)}
-                    style={{ width: "100%", borderRadius: 15, }} />
+                    style={{ width: "100%", borderRadius: 10, }} />
                 </Box>
               </Box>
 
@@ -309,7 +307,7 @@ const ListNotificationsModal = ({
               }
               <Box sx={{ position: 'relative', right: 5, top: -3, display: 'flex', flexDirection: 'row-reverse', }} >
 
-                <Box sx={{ width: "18%", }} >
+                <Box sx={{ width: "18%", padding:"1%"}} >
                   <Button
                     className="enviar-mensaje" color="success" variant="contained" endIcon={<SendIcon />}
                     onClick={() => handleUpload()}>
@@ -445,7 +443,6 @@ const ListNotificationsModal = ({
                   <h3>Asunto</h3>
                 </label>
                 <textarea
-
                   value={encabezado}
                   readOnly
                   rows={2}
@@ -477,8 +474,8 @@ const ListNotificationsModal = ({
               <textarea
                 value={mensaje}
                 readOnly
-                rows={20}
-                style={{ width: "100%", borderRadius: 15, }} />
+                rows={15}
+                style={{ width: "100%", borderRadius: 15 }} />
 
             </Box>
 
