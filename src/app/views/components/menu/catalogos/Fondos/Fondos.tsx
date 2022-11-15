@@ -7,18 +7,22 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import FondosModal from "./FondosModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import FondosView from "./FondosView";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
-
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import ModalForm from "../../../componentes/ModalForm";
+import FondosTipoView from "./FondosTipoView";
 const Fondos = () => {
 
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [openView, setOpenView] = useState(false);
+  const [openViewAjustes, setOpenViewAjustes] = useState(false);
+
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [vrows, setVrows] = useState({});
@@ -44,17 +48,14 @@ const Fondos = () => {
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 150,
+      width: 200,
       renderCell: (v) => {
         return (
           <Grid container>
 
-            <Grid item xs={8}>
 
               <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-            </Grid>
 
-            <Grid item xs={4}>
 
               {view ?
                 <Tooltip title={"Visualizar Ajustes"}>
@@ -64,7 +65,14 @@ const Fondos = () => {
                 </Tooltip>
                 : ""}
 
-            </Grid>
+              {view ?
+                <Tooltip title={"Visualizar Tipo de Cálculos"}>
+                  <IconButton onClick={() => handleViewAjustes(v)}>
+                    <MiscellaneousServicesIcon />
+                  </IconButton>
+                </Tooltip>
+                : ""}
+
 
           </Grid>
         );
@@ -126,16 +134,21 @@ const Fondos = () => {
   const handleClose = () => {
     setOpen(false);
     setOpenView(false);
+    setOpenViewAjustes(false);
     consulta({ NUMOPERACION: 4 });
   };
 
   const handleView = (v: any) => {
     setOpenView(true);
     setVrows(v);
-
-
-
   };
+
+  const handleViewAjustes = (v: any) => {
+    setOpenViewAjustes(true);
+    setVrows(v);
+  };
+
+
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
@@ -173,7 +186,7 @@ const Fondos = () => {
 
             consulta({ NUMOPERACION: 4 });
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -195,7 +208,7 @@ const Fondos = () => {
         });
         setFondos(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -241,6 +254,7 @@ const Fondos = () => {
       ) : (
         ""
       )}
+
       {(openView) ? (
         <FondosView
           open={openView}
@@ -249,6 +263,17 @@ const Fondos = () => {
           handleClose={handleClose}
           dt={vrows}
         />
+      ) : (
+        ""
+      )}
+
+   {(openViewAjustes) ? (
+       
+       <FondosTipoView
+       handleClose={handleClose}
+       dt={vrows}
+     />
+
       ) : (
         ""
       )}

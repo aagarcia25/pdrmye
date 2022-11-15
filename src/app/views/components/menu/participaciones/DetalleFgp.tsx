@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
-import { Alert } from "../../../../helpers/Alert";
+import { AlertS } from "../../../../helpers/AlertS";
 import { calculosServices } from "../../../../services/calculosServices";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
@@ -20,7 +20,6 @@ import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import Trazabilidad from "../../Trazabilidad";
 import Swal from "sweetalert2";
 import ModalAlert from "../../componentes/ModalAlert";
-import BotonesAcciones from "../../componentes/BotonesAcciones";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -40,8 +39,8 @@ const DetalleFgp = ({
 }: {
   idCalculo: string;
   openDetalles: Boolean;
-  idDetalle: String;
-  nombreFondo: String;
+  idDetalle: string;
+  nombreFondo: string;
   handleClose: Function;
   clave: string;
   anio: number;
@@ -55,20 +54,19 @@ const DetalleFgp = ({
   const [direccion, setDireccion] = useState<SelectValues>();
   const [openSlider, setOpenSlider] = useState(true);
   const [estatusDestino, setEstatusDestino] = useState("");
+  const [perfilDestino, setperfilDestino] = useState("");
   //Permisos
   const [data, setData] = useState([]);
   const [vrows, setvrows] = useState({});
   const [autorizar, setAutorizar] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   //Modals
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
 
-  const [proceso, setProceso] = useState(""); //VARIABLE PARA DETERMINAR EL PROCESO QUE SE ESTA REALIZANDO
   const [tipoAccion, setTipoAccion] = useState("");
 
   //Columnas
@@ -98,46 +96,30 @@ const DetalleFgp = ({
         case 1: //Regresar
           handleClose();
           break;
-
         case 2: //Trazabilidad
           setOpenTrazabilidad(true);
           break;
-
         case 3: //Autorizar Analista
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino('CPH_ENV_COOR');
+          setEstatusDestino("CPH_ENV_COOR");
           setvrows(data);
           setOpenModal(true);
+          setperfilDestino("COOR");
           break;
-
         case 4: //Autorizar Coordinador
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino('CPH_ENV_DIR');
+          setEstatusDestino("CPH_ENV_DIR");
           setvrows(data);
           setOpenModal(true);
+          setperfilDestino("DIR");
           break;
-
-        case 5: //Autorizar Director
-          setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino('CPH_AUT_DIR');
-          setvrows(data);
-          setOpenModal(true);
-          break;
-
         case 6: //Cancelar
-          BorraCalculo()
+          BorraCalculo();
           break;
-
         case 7: //Regresar a Analista
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino('CPH_REG_ANA');
-          setvrows(data);
-          setOpenModal(true);
-          break;
-
-        case 8: //Regresar a Coordinador
-          setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino('CPH_REG_COOR');
+          setEstatusDestino("CPH_REG_ANA");
+          setperfilDestino("ANA");
           setvrows(data);
           setOpenModal(true);
           break;
@@ -148,10 +130,6 @@ const DetalleFgp = ({
     }
   };
 
- 
-
-
-
   const Fnworkflow = (data: any) => {
     console.log(data);
 
@@ -160,6 +138,7 @@ const DetalleFgp = ({
       ESTATUS_DESTINO: estatusDestino,
       CHUSER: user.id,
       TEXTO: data.texto,
+      PERFIL_DESTINO: perfilDestino,
     };
 
     calculosServices.indexCalculo(obj).then((res) => {
@@ -170,7 +149,7 @@ const DetalleFgp = ({
         });
         handleClose();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -178,8 +157,6 @@ const DetalleFgp = ({
       }
     });
   };
-
-
 
   const BorraCalculo = () => {
     let data = {
@@ -209,7 +186,7 @@ const DetalleFgp = ({
             });
             handleClose();
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -227,7 +204,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         setStatus(res.RESPONSE[0]);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -243,7 +220,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         setPerfil(res.RESPONSE[0]);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -259,7 +236,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         setDireccion(res.RESPONSE[0]);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -314,7 +291,7 @@ const DetalleFgp = ({
           }
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -331,7 +308,7 @@ const DetalleFgp = ({
         });
         setData(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -342,21 +319,21 @@ const DetalleFgp = ({
   };
   const columns = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      width: 100,
-      renderCell: (v: any) => {
-        return (
-          <BotonesAcciones
-            handleAccion={handleAcciones}
-            row={v}
-            editar={editar}
-            eliminar={eliminar}
-          />
-        );
-      },
-    },
+    // {
+    //   field: "acciones",
+    //   headerName: "Acciones",
+    //   width: 100,
+    //   renderCell: (v: any) => {
+    //     return (
+    //       <BotonesAcciones
+    //         handleAccion={handleAcciones}
+    //         row={v}
+    //         editar={editar}
+    //         eliminar={eliminar}
+    //       />
+    //     );
+    //   },
+    // },
     // {
 
     //   field: "ComentarioPresupuesto",
@@ -498,12 +475,6 @@ const DetalleFgp = ({
     },
   ];
   const EstablecePermisos = () => {
-    if (clave === "ICV" || clave === "ISN") {
-      setProceso("PARTICIPACIONES_ESTATALES_CPH");
-    } else {
-      setProceso("PARTICIPACIONES_FEDERALES_CPH");
-    }
-
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(clave)) {
         if (String(item.Referencia) == "AUT") {
@@ -515,7 +486,7 @@ const DetalleFgp = ({
         if (String(item.Referencia) == "TRAZA") {
           setVerTrazabilidad(true);
         }
-       
+
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
@@ -539,16 +510,17 @@ const DetalleFgp = ({
     <div>
       <Box>
         <Dialog open={Boolean(openDetalles)} fullScreen={true}>
-         
-         {openModal ? (
+        <Slider open={openSlider}></Slider>
+
+          {openModal ? (
             <ModalAlert
               open={openModal}
               tipo={tipoAccion}
               handleClose={handleClose}
               vrows={vrows}
-              handleAccion={Fnworkflow} 
-              accion={0}      
-              ></ModalAlert>
+              handleAccion={Fnworkflow}
+              accion={0}
+            ></ModalAlert>
           ) : (
             ""
           )}
@@ -576,6 +548,7 @@ const DetalleFgp = ({
               </Box>
             </Grid>
           </Grid>
+        
           <Grid
             container
             spacing={1}
@@ -606,7 +579,7 @@ const DetalleFgp = ({
             spacing={1}
             sx={{ justifyContent: "center", width: "100%" }}
           >
-            <Grid item xs={7} md={8} lg={8}>
+            <Grid item xs={12} md={12} lg={12}>
               <label>
                 Estatus del Cálculo: {status?.label} <br />
               </label>
@@ -619,20 +592,9 @@ const DetalleFgp = ({
             </Grid>
           </Grid>
 
-          <Grid
-            container
-            spacing={1}
-            sx={{ justifyContent: "center", width: "100%" }}
-          >
-            <Grid
-              item
-              xs={7}
-              md={8}
-              lg={8}
-              sx={{ justifyContent: "center", width: "100%" }}
-            >
-              <Slider open={openSlider}></Slider>
 
+
+          <div style={{ height: 600, width: "100%" }}>
               <Box>
                 <ToggleButtonGroup>
                   <Tooltip title={"Regresar"}>
@@ -657,7 +619,9 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {autorizar && perfil?.value == "ANA" ? (
+                  {autorizar &&
+                  perfil?.value == "ANA" &&
+                  user.PERFILES[0].Referencia == "ANA" ? (
                     <Tooltip title={"Autorizar Analista"}>
                       <ToggleButton
                         value="check"
@@ -670,7 +634,9 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {autorizar && perfil?.value == "COOR" ? (
+                  {autorizar &&
+                  perfil?.value == "COOR" &&
+                  user.PERFILES[0].Referencia == "COOR" ? (
                     <Tooltip title={"Autorizar Coordinador"}>
                       <ToggleButton
                         value="check"
@@ -683,20 +649,9 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {autorizar && perfil?.value == "DIR" ? (
-                    <Tooltip title={"Autorizar Director"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(5)}
-                      >
-                        <DoneAllIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
-
-                  {cancelar && perfil?.value == "ANA" ? (
+                  {cancelar &&
+                  perfil?.value == "ANA" &&
+                  user.PERFILES[0].Referencia == "ANA" ? (
                     <Tooltip title={"Cancelar"}>
                       <ToggleButton
                         value="check"
@@ -709,7 +664,9 @@ const DetalleFgp = ({
                     ""
                   )}
 
-                  {cancelar && perfil?.value == "COOR" ? (
+                  {cancelar &&
+                  perfil?.value == "COOR" &&
+                  user.PERFILES[0].Referencia == "COOR" ? (
                     <Tooltip title={"Regresar a Analista"}>
                       <ToggleButton
                         value="check"
@@ -721,25 +678,10 @@ const DetalleFgp = ({
                   ) : (
                     ""
                   )}
-
-                  {cancelar && perfil?.value == "DIR" ? (
-                    <Tooltip title={"Regresar a Coordinador"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(8)}
-                      >
-                        <CompareArrowsIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
                 </ToggleButtonGroup>
               </Box>
-
               <MUIXDataGrid columns={columns} rows={data} />
-            </Grid>
-          </Grid>
+          </div>
         </Dialog>
       </Box>
     </div>

@@ -46,12 +46,17 @@ import { CalculoGarantiaComponente } from '../views/components/menu/articulos/Ca
 import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de Usuario/PerfilesUsuario';
 import SolicitudRecursos from '../views/components/Municipios/SolicitudRecursos';
 import RecepcionRecursos from '../views/components/Municipios/RecepcionRecursos';
+import Operaciones from '../views/components/Municipios/Operaciones';
+import Op from '../views/components/Municipios/Op';
 import { Bancos } from '../views/components/menu/catalogos/Bancos/Bancos';
 import { CuentaBancaria } from '../views/components/menu/catalogos/CuentaBancaria/CuentaBancaria';
 import { AnticipoParticipaciones } from '../views/components/menu/catalogos/Municipios/anticipoParticipaciones/AnticipoParticipaciones';
 import AsigPresupuestal from '../views/components/DPCP/AsigPresupuestal';
 import AsigPago from '../views/components/DAF/AsigPago';
 import AgregarContactoMunicipio from '../views/components/Municipios/AgregarContactoMunicipio';
+import TipoFondoCalculo from '../views/components/menu/catalogos/TipoFondoCalculo/TipoFondoCalculo';
+import ISAI from '../views/components/menu/articulos/isai/ISAI';
+import CambiosMun from '../views/components/menu/catalogos/Cambios/CambiosMun';
 
 
 
@@ -84,13 +89,16 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/eventos'                    element={<Eventos />} />
         <Route path='/inicio/catalogos/departamentos'              element={<Departamentos />}      />
         <Route path='/inicio/catalogos/tipoFondo'                  element={<TipoFondo />}      />
+        <Route path='/inicio/catalogos/TipoFondoCalculo'           element={<TipoFondoCalculo />}      />
         <Route path='/inicio/catalogos/inflacionMes'               element={<InflacionMes />}      />
         <Route path='/inicio/catalogos/inflacionAnio'              element={<InflacionAnio />}      />
         <Route path='/inicio/catalogos/fondos'                     element={<Fondos />}      />
         <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
-        <Route path='/inicio/catalogos/parametrosgenerales'  element={<ParametrosGenerales />} />
-        <Route path='/inicio/catalogos/bancos'  element={<Bancos />} />
-        <Route path='/inicio/catalogos/cuentabancaria'  element={<CuentaBancaria/>} />
+        <Route path='/inicio/catalogos/parametrosgenerales'        element={<ParametrosGenerales />} />
+        <Route path='/inicio/catalogos/bancos'                     element={<Bancos />} />
+        <Route path='/inicio/catalogos/cuentabancaria'             element={<CuentaBancaria idmunicipio={''} municipio={''}/>} />
+        <Route path='/inicio/catalogos/SolicitudCambios'           element={<CambiosMun/>} />
+
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
@@ -109,6 +117,7 @@ export const AppRouter = () => {
         <Route path='/inicio/articulos/art14f/:tipo' element={<Art14fP />} />
         <Route path='/inicio/articulos/art14d/:tipo/:id' element={<Art14f />} />
         <Route path='/inicio/articulos/calculogarantia' element={<CalculoGarantiaComponente />} />
+        <Route path='/inicio/articulos/isai' element={<ISAI />} />
         {/* FIN SECCION DE ARTICULOS */}
 
 
@@ -136,6 +145,8 @@ export const AppRouter = () => {
        <Route path='/inicio/agregarcontactomunicipio'  element={log ? <AgregarContactoMunicipio /> : <AuthRouter />} />
        <Route path='/inicio/recursos'  element={log ? <RecepcionRecursos /> : <AuthRouter />} />
        <Route path='/inicio/anticipop'  element={log ? <SolicitudRecursos /> : <AuthRouter />} />
+       <Route path='/inicio/oper'  element={log ? <Operaciones /> : <AuthRouter />} />
+       <Route path='/inicio/listado/op'  element={log ? <Op /> : <AuthRouter />} />
        {/* SECCION MUNICIPIOS */}
 
        {/* DCCP */}

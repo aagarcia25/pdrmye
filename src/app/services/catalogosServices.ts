@@ -6,6 +6,12 @@ export class CatalogosServices {
     public static async SolicitudesInfo(data: any) {
         return await post('SolicitudesInfo', data);
     }
+    public static async BitacoraAjustes(data: any) {
+        return await post('BitacoraAjustes', data);
+    }
+    public static async municipioInformacion(data: any) {
+        return await post('municipioInformacion', data);
+    }
     public static async subirArchivo(data: any) {
         return await post('subirArchivo', data);
     }
@@ -89,6 +95,9 @@ export class CatalogosServices {
         return await post('tipofondo', data);
     };
     
+    public static async TipoFondosCalculo(data : any) {
+        return await post('TipoFondosCalculo', data);
+    };
 
     public static async inflacionMes(data : any) {
         return await post('inflacionMes', data);
@@ -136,4 +145,8 @@ export class CatalogosServices {
         return await post('CuentaBancaria', data);
     };
 
+    public static async MUNISAI(data: any) {
+        return await post('MUNISAI', data);
+    }
+    
 }

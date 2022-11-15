@@ -2,6 +2,7 @@ import * as React from "react";
 import {Grid} from "@mui/material";
 
 import logo from "../../assets/img/logopalacio.svg";
+import { blue } from "@mui/material/colors";
 interface UserProps{
   name: string;
   lastConnnection: string;
@@ -15,15 +16,18 @@ export default function PlantillaBienvenido(props: UserProps) {
 
   return (
    
-    <Grid container spacing={1} >
-          <Grid item xs={12} sm={12} md={12} >
+    <Grid container sm={12}>
+          <Grid  sm={12} md={2}></Grid>
+          <Grid  sm={12} md={8}  >
            <img src={logo}  style={{
-                        width: "60vw",
-                        height: "60vh",
+                        alignContent:"center",
+                        marginTop:"5%",
+                        width: "100%",
+                        height: "40rem",
                         objectFit: "fill",
                       }}></img>
+           <Grid  sm={12} md={2}></Grid>
           </Grid>
-        
     </Grid>
   );
 }

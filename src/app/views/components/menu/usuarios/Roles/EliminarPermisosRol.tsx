@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { AuthService } from "../../../../../services/AuthService";
 import { GridColDef } from '@mui/x-data-grid';
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
 import Slider from "../../../Slider";
 import ModalForm from "../../../componentes/ModalForm";
@@ -60,7 +60,7 @@ const EliminarPermisosRol = ({
         });
         consulta({ CHID: dt?.row?.id });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

@@ -5,7 +5,7 @@ import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import MunicipiosModal from "./MunicipiosModal";
@@ -13,14 +13,18 @@ import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
-import { Box, IconButton, Tooltip } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import FideicomisoConfig from "./FideicomisoConfig";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MunicipiosUsuarioResponsable from "./MunicipiosUsuarioResponsable";
-import { MunicipiosCuentaBancaria } from "./MunicipiosCuentaBancaria";
+import { CuentaBancaria } from "../CuentaBancaria/CuentaBancaria";
+import ModalForm from "../../../componentes/ModalForm";
 
 export const Municipios = () => {
+  const [id, setId] = useState("");
+  const [nombreMun, setNombreMun] = useState("");
+
   const [municipio, setMunicipio] = useState([]);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -32,8 +36,7 @@ export const Municipios = () => {
   const [openFideicomiso, setOpenFideicomiso] = useState(false);
   const [openUR, setOpenUR] = useState(false);
   const [openCC, setOpenCC] = useState(false);
-
-
+  const [nombreMenu, setNombreMenu] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [plantilla, setPlantilla] = useState("");
@@ -100,9 +103,10 @@ export const Municipios = () => {
         );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
     { field: "ClaveEstado", headerName: "Clave Estado", width: 120 },
     { field: "Nombre", headerName: "Municipio", width: 250 },
-   
+
     { field: "NombreCorto", headerName: "Nombre Corto", width: 250 },
     { field: "OrdenSFTGNL", headerName: "Orden SFTGNL", width: 120 },
     { field: "ClaveSIREGOB", headerName: "Clave SIREGOB", width: 120 },
@@ -166,8 +170,11 @@ export const Municipios = () => {
   };
 
   const handleCC = (v: any) => {
+    console.log(v);
+    setId(v.row.id);
+    setNombreMun(v.row.Nombre)
     setOpenCC(true);
-    setData(v);
+    
   };
 
   const handleUR = (v: any) => {
@@ -215,7 +222,7 @@ export const Municipios = () => {
             };
             consulta(data);
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -242,7 +249,7 @@ export const Municipios = () => {
           title: "Carga Exitosa!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -261,7 +268,7 @@ export const Municipios = () => {
         console.log(data);
         setMunicipio(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -276,6 +283,7 @@ export const Municipios = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNICIPIOS") {
         console.log(item);
+        setNombreMenu(item.Menu);
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }
@@ -310,6 +318,23 @@ export const Municipios = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
+
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography>
+            <h1>{nombreMenu}</h1>
+          </Typography>
+        </Grid>
+      </Grid>
+
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleUpload}
+        controlInterno={"MUNICIPIOS"}
+      />
+
+      <MUIXDataGrid sx={{}} columns={columns} rows={municipio} />
       {open ? (
         <MunicipiosModal
           open={open}
@@ -338,20 +363,15 @@ export const Municipios = () => {
         ""
       )}
 
-   {openCC ? (
-        <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
+      {openCC ? (
+        // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
+        <ModalForm title={"Cuentas Bancarias"} handleClose={handleClose}>
+            <CuentaBancaria idmunicipio={id} municipio={nombreMun} ></CuentaBancaria>
+        </ModalForm>
+      
       ) : (
         ""
       )}
-
-
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleUpload}
-        controlInterno={"MUNICIPIOS"}
-      />
-
-      <MUIXDataGrid sx={{}} columns={columns} rows={municipio} />
     </div>
   );
 };

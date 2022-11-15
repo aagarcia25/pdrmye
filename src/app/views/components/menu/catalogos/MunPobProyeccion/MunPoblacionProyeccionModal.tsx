@@ -12,7 +12,7 @@ import {
   Button,
   Grid,
 } from "@mui/material";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
@@ -57,7 +57,7 @@ const MunPoblacionProyeccionModal = ({
 
   const handleSend = () => {
     if (poblacion == null) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -109,7 +109,7 @@ const MunPoblacionProyeccionModal = ({
         handleClose();
 
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -127,7 +127,7 @@ const MunPoblacionProyeccionModal = ({
         });
         handleClose();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

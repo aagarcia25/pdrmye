@@ -134,6 +134,7 @@ export const Perfil = () => {
   useEffect(() => { }, []);
 
   return (
+    
     <Box
       sx={{
         //Principal
@@ -146,14 +147,17 @@ export const Perfil = () => {
         alignItems: "center",
       }}
     >
+      <Box sx={{ display: "flex", width: "80%", height: "100%", justifyContent: "center", alignItems: "center" }}>
       <Box
         sx={{
-          width: "90%",
+          width: "80%",
           height: "98%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          border: "1px solid  black",
+          borderRadius: "5%",
           //backgroundColor: "blue"
         }}
       >
@@ -170,15 +174,15 @@ export const Perfil = () => {
           <Typography sx={{ fontSize: "1.3vw", fontWeight: "Bold" }}> Información Personal </Typography>
         </Box>
         {/* Imagen y tipo de usuario */}
-        <Box sx={{ display: "flex", justifyContent: "flex-start", width: "100%" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", width: "100vw", height:"15vh" }}>
           <Box
             onClick={() => {
               setOpenDialog(true)
             }}
 
             sx={{
-              width: "4vw",
-              height: "4vw",
+              width: "15vh",
+              height: "15vh",
               backgroundColor: "",
               borderRadius: '50%',
               border: 3,
@@ -237,7 +241,7 @@ export const Perfil = () => {
           <Typography sx={{ width: "30%", fontFamily: "MontserratBold", fontSize: "1.5vw" }}>Apellido materno: {apellidoMaterno} </Typography>
 
         </Box>
-        <Typography sx={{ fontSize: "1.3vw", fontWeight: "Bold", mt: "1vh", width: "100%", display: "flex" }}>
+        <Typography sx={{ fontSize: "1.3vw", fontWeight: "Bold", mt: "1vh", width: "100%", display: "flex",ml:"2vw" }}>
           Contacto y ubicación
         </Typography>
         <Box sx={{
@@ -382,6 +386,7 @@ export const Perfil = () => {
         </Dialog>
 
 
+      </Box>
       </Box>
     </Box>
   );

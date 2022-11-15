@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Button, Modal, Checkbox, Typography, Grid, Tooltip, IconButton } from '@mui/material';
 import { AuthService } from '../../../../../services/AuthService';
 import { Toast } from '../../../../../helpers/Toast';
-import { Alert } from '../../../../../helpers/Alert';
+import { AlertS } from '../../../../../helpers/AlertS';
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { GridColDef } from '@mui/x-data-grid';
 import MUIXDataGridSimple from '../../../MUIXDataGridSimple';
@@ -72,7 +72,7 @@ const RolesMenu = ({
         });
         consulta({ CHID: id });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

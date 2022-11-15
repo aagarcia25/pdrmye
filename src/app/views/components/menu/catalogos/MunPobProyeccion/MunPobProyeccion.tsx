@@ -7,7 +7,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Slider from "../../../Slider";
 import MunPoblacionProyeccionModal from '../MunPobProyeccion/MunPoblacionProyeccionModal';
 import MUIXDataGrid from '../../../MUIXDataGrid'
@@ -146,7 +146,7 @@ export const MunPobProyeccion = () => {
             };
             consulta(data);
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",

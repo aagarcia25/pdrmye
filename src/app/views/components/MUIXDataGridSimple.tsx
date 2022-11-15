@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DataGrid, esES as gridEsES, esES, GridCellParams, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, esES as gridEsES, esES, GridCellParams, GridToolbar, GridToolbarFilterButton } from "@mui/x-data-grid";
 import { createTheme, Grid, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 
@@ -22,16 +22,27 @@ export default function MUIXDataGridSimple(props: any) {
             rowsPerPageOptions={[12]}
             components={{ Toolbar: GridToolbar }}
             pageSize={20}
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
             columns={props.columns}
             rows={props.rows}
-            sx={{ fontFamily: "MontserratMedium", textTransform: "uppercase " }}
+            sx={{ fontFamily: "Poppins", textTransform: "uppercase " }}
             componentsProps={{
               toolbar: {
                 showQuickFilter: true,
                 quickFilterProps: { debounceMs: 500 },
               },
             }}
+            localeText={{
+              noRowsLabel: "No se ha encontrado datos.",
+              noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+              toolbarColumns: "Columnas",
+              toolbarExport:"Exportar",
+              toolbarColumnsLabel: "Seleccionar columnas",
+              toolbarFilters: "Filtros",
+              toolbarFiltersLabel: "Ver filtros",
+              toolbarFiltersTooltipHide: "Quitar filtros",
+              toolbarFiltersTooltipShow: "Ver filtros",
+              toolbarQuickFilterPlaceholder:"Buscar",
+          }}
           />
         </ThemeProvider>
 

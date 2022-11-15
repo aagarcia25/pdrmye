@@ -10,7 +10,7 @@ import {
   Button,
 } from "@mui/material";
 
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
@@ -52,7 +52,7 @@ const InflacionMesModal = ({
 
   const handleSend = () => {
     if (mes == null || inflacion == null || anio == null) {
-      Alert.fire({
+      AlertS.fire({
         title: "Uno o mas campos vacios!",
         text: "revisar los Campos",
         icon: "warning",
@@ -90,7 +90,7 @@ const InflacionMesModal = ({
           title: "Registro Agregado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -107,7 +107,7 @@ const InflacionMesModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

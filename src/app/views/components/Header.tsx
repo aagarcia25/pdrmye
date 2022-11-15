@@ -96,9 +96,6 @@ export default function Header(props: HeaderProps) {
     prevOpen.current = open;
   }, [open]);
 
-  function pathLogin(path: string) {
-    return path;
-  }
 
   let data = {
     NUMOPERACION: 5,
@@ -110,7 +107,7 @@ export default function Header(props: HeaderProps) {
       let result = res.RESPONSE;
       setCnotif(result[0].count);
     });
-  }, []);
+  });
 
   return (
     <React.Fragment>
@@ -124,7 +121,10 @@ export default function Header(props: HeaderProps) {
             <Grid
               sx={{
                 display: {
+
+                  
                   backgroundColor: COLOR.negro,
+                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                 },
               }}
               item
@@ -134,9 +134,15 @@ export default function Header(props: HeaderProps) {
                 aria-label="open drawer"
                 onClick={onDrawerToggle}
                 edge="start"
+                sx={{
+                  width: "2vw", height: "5vh",
+                  fontSize: btnPerson,
+                  p: 0.1,
+                  backgroundColor: user.RutaFoto ? COLOR.negro : COLOR.blanco,
+                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+                }}
               >
-                <MenuIcon />
-
+                <MenuIcon    />
               </IconButton>
             </Grid>
             <Grid item xs />
@@ -162,8 +168,8 @@ export default function Header(props: HeaderProps) {
                   onClick={handleToggle}
                   color="inherit"
                   sx={{
-                    width: "2.5vw",
-                    height: "2.5vw",
+                    width: "2.9rem",
+                    height: "2.9rem",
                     fontSize: btnPerson,
                     p: 0.1,
                     border: 2,
@@ -175,15 +181,16 @@ export default function Header(props: HeaderProps) {
                   {user.RutaFoto ? (
                     <img
                       style={{
-                        
-                        height: "100%",
                         objectFit: "scale-down",
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: '50%',
                       }}
                       src={user.RutaFoto}
                     />
                   ) : (
                     <PersonIcon sx={{
-                      width: "2vw", height: "5vh",
+                      width: "100%", height: "100%",
                       "&:hover": { color: COLOR.negro }
                     }} />
                   )}

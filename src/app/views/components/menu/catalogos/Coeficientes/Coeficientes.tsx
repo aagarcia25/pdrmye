@@ -10,7 +10,7 @@ import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import CoeficientesModal from "./CoeficientesModal";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -125,7 +125,7 @@ export const Coeficientes = () => {
 
 
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -148,7 +148,7 @@ export const Coeficientes = () => {
         });
         setDataCoeficientes(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

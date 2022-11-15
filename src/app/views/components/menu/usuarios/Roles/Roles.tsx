@@ -2,7 +2,7 @@ import { IconButton, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
@@ -71,7 +71,7 @@ const Roles = () => {
             });
             consulta({ NUMOPERACION: 4 });
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -175,7 +175,7 @@ const Roles = () => {
         });
         setData(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -202,7 +202,7 @@ const Roles = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ height: 600, width: "100%" }}>
       {openRel ? (
         <AsignarMenuRol
           open={openRel}

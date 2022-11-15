@@ -3,9 +3,10 @@ import Box from "@mui/material/Box";
 import { useState } from "react";
 import PlantillaBienvenido from "./PlantillaBienvenido";
 import MobileStepper from "@mui/material/MobileStepper";
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import { AlignHorizontalCenter, KeyboardArrowLeft, KeyboardArrowRight, Padding } from "@mui/icons-material";
 import { COLOR } from "../../styles/colors";
 import CardComponente from "./CardComponente";
+// import "@fontsource/poppins"; 
 
 export default function Bienvenido({ user }: { user: any }) {
   //VARAIBLES PARA LA VISTA DE MUNICIPIOS
@@ -67,56 +68,50 @@ export default function Bienvenido({ user }: { user: any }) {
             height: "100%",
             display: "flex",
             justifyContent: "center",
+            paddingTop:"1%"
           }}
         >
-          <Box
-            sx={{
+          <Box 
+             sx={{
               width: "100%",
-              height: "83vh",
-              // backgroundColor: "green"
+              // height: "70%",
+              backgroundColor: COLOR.azul
             }}
           >
             <Box
               sx={{
                 width: "100%",
-                height: "15%",
+                // height: "20%",
                 // backgroundColor: "skyblue"
               }}
             >
               <Box
                 sx={{
                   width: "100%",
-                  height: "60%",
                   // backgroundColor: "purple",
-                  display: "flex",
+                  display: "flow",
                   justifyContent: "center",
                   alignItems: "center",
+                  margin:"1%",
                 }}
               >
-                <Typography sx={{ ml: 3, fontSize: "2vw" }}>
-                  Bienvenido, Monterrey.
+                <Typography sx={{
+                   ml: 2, 
+                   fontSize: "2.5rem", 
+                   textAlign: "center",
+                   color: COLOR.doradoNL,
+                   fontFamily:"Poppins",
+                   }}>
+                ¡Bienvenido! Monterrey.
                 </Typography>
               </Box>
 
-              <Box
-                sx={{
-                  width: "100%",
-                  height: "40%",
-                  // backgroundColor: "violet",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Typography sx={{ ml: 3, fontSize: "1.4vw" }}>
-                  Avisos:
-                </Typography>
-              </Box>
             </Box>
             <Box
               sx={{
                 width: "100%",
                 height: "80%",
-                // backgroundColor: "yellow",
+                backgroundColor: "white",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -124,21 +119,43 @@ export default function Bienvenido({ user }: { user: any }) {
             >
               <Box
                 sx={{
+                  marginTop:"2%",
                   width: "100%",
-                  height: "15%",
-                  // backgroundColor: "pink",
-                  display: "flex",
-                  alignItems: "center",
+                  // backgroundColor: "violet",
+                  display: "flow",
+                  alignContent:"center",
                 }}
               >
-                <Typography sx={{ ml: 3, fontSize: "1.5vw" }}>
+                <Typography sx={{  
+                  fontSize: "2rem", 
+                  // bgcolor:"blue",  
+                  width: "100%",
+                  textAlign:"center",
+                  fontFamily:"Poppins",
+                  }}> 
+                  Avisos:
+                </Typography>
+              </Box>
+              
+              <Box
+                sx={{
+                  width: "100%",
+                  // backgroundColor: "pink",
+                  display: "flow",
+                  alignItems: "center",
+                  fontFamily:"Poppins",
+                  
+                }}
+              >
+                <Typography sx={{ ml: 2, fontSize: "2rem", textAlign:"center", fontFamily:"Poppins"}}>
                   {images[activeStep].label}
                 </Typography>
               </Box>
               <Box
                 sx={{
+                  paddingTop:"1%",
                   width: "100%",
-                  height: "80%",
+                  height: "70%",
                   // backgroundColor: "aqua",
                   display: "flex",
                   justifyContent: "center",
@@ -158,8 +175,8 @@ export default function Bienvenido({ user }: { user: any }) {
               </Box>
               <Box
                 sx={{
-                  width: "58%",
-                  height: "5%",
+                  width: "100%",
+                  // height: "5%",
                   // backgroundColor: "aquamarine",
                 }}
               >
@@ -177,7 +194,7 @@ export default function Bienvenido({ user }: { user: any }) {
                   }}
                   nextButton={
                     <Button
-                      size="small"
+                      size="medium"
                       onClick={handleNext}
                       disabled={activeStep === 3}
                       sx={{ ml: 3 }}
@@ -192,7 +209,7 @@ export default function Bienvenido({ user }: { user: any }) {
                   }
                   backButton={
                     <Button
-                      size="small"
+                      size="medium"
                       onClick={handleBack}
                       disabled={activeStep === 0}
                       sx={{ mr: 3 }}

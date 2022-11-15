@@ -14,7 +14,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import SendIcon from '@mui/icons-material/Send';
 import { ComentariosRecursosModal } from './ComentariosRecursosModal';
 import Swal from 'sweetalert2';
-import { Alert } from '../../../helpers/Alert';
+import { AlertS } from '../../../helpers/AlertS';
 import { PERMISO, RESPONSE } from '../../../interfaces/user/UserInfo';
 import { getPermisos, getUser } from '../../../services/localStorage';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -293,7 +293,7 @@ const SolicitudRecursos = () => {
               handleClose();
             } else {
 
-              Alert.fire({
+              AlertS.fire({
                 title: "Error!",
                 text: "Fallo en la peticion",
                 icon: "error",
@@ -370,7 +370,7 @@ Swal.fire({
         handleClose();
       } else {
 
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: "Fallo en la peticion",
           icon: "error",

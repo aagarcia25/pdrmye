@@ -5,7 +5,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import { messages } from "../../../../styles";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { ParametroServices } from "../../../../../services/ParametroServices";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { ParametrosGeneralesModal } from "./ParametrosGeneralesModal";
@@ -120,7 +120,7 @@ export const ParametrosGenerales = () => {
             };
             consulta(data);
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -146,7 +146,7 @@ export const ParametrosGenerales = () => {
         setParametroGeneral(res.RESPONSE);
         console.log("parametroGeneral consulta", parametroGeneral);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Alert } from "../../helpers/Alert";
+import { AlertS } from "../../helpers/AlertS";
 import { Toast } from "../../helpers/Toast";
 import { eventoc } from "../../interfaces/calendario/calendario";
 import { CalendarioService } from "../../services/calendarioService";
@@ -79,7 +79,7 @@ const CalendarCModal = ({
 
   const handleSend = () => {
     if (nombreEvento == null || nombreEvento == "") {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -87,7 +87,7 @@ const CalendarCModal = ({
       
     }
     if (finEvento <= inicioEvento){
-        Alert.fire({
+        AlertS.fire({
         title: "Error!",
         text: "La fecha fin del evento no puede ser antes de la fecha inicio.",
         icon: "error",
@@ -131,7 +131,7 @@ const CalendarCModal = ({
         });
         handleClose();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -149,7 +149,7 @@ const CalendarCModal = ({
         });
         handleClose();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
