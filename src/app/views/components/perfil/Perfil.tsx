@@ -18,6 +18,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import { DialogCambiarImagen } from "./DialogCambiarImagen";
 import { AuthService } from "../../../services/AuthService";
 import { Toast } from "../../../helpers/Toast";
+import validator from 'validator';
 
 export const Perfil = () => {
   const [user,setUser]=useState<RESPONSE>(JSON.parse(String(getUser())));
@@ -103,7 +104,6 @@ export const Perfil = () => {
           title: "Datos actualizados.",
         });
       } else {
-        console.log("no se guardo")
         console.log(res.SUCCESS);
 
         Toast.fire({
@@ -129,9 +129,11 @@ export const Perfil = () => {
     setUser(JSON.parse(String(getUser())));
   };
 
-  let st;
-
-  useEffect(() => { }, []);
+  const handleTotal = (v: string) => {
+    if ((validator.isNumeric(v) || v === "")) {
+        setTelefono(v)
+    }
+};
 
   return (
     
@@ -234,11 +236,11 @@ export const Perfil = () => {
           border: "1px solid black",
           bgcolor: "rgb(252,252,252)",
         }}>
-          <Typography sx={{ width: "30%", fontFamily: "MontserratBold", fontSize: "1.5vw" }}>Nombre: {nombre} </Typography>
+          <Typography sx={{ width: "30%", fontFamily: "MontserratLigth", fontSize: "1.5vw" }}>Nombre: {nombre} </Typography>
 
-          <Typography sx={{ width: "30%", fontFamily: "MontserratBold", fontSize: "1.5vw" }}>Apellido paterno: {apellidoPaterno} </Typography>
+          <Typography sx={{ width: "30%", fontFamily: "MontserratLigth", fontSize: "1.5vw" }}>Apellido paterno: {apellidoPaterno} </Typography>
 
-          <Typography sx={{ width: "30%", fontFamily: "MontserratBold", fontSize: "1.5vw" }}>Apellido materno: {apellidoMaterno} </Typography>
+          <Typography sx={{ width: "30%", fontFamily: "MontserratLigth", fontSize: "1.5vw" }}>Apellido materno: {apellidoMaterno} </Typography>
 
         </Box>
         <Typography sx={{ fontSize: "1.3vw", fontWeight: "Bold", mt: "1vh", width: "100%", display: "flex",ml:"2vw" }}>
@@ -258,37 +260,38 @@ export const Perfil = () => {
         }}>
 
           <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-            <Typography sx={{ width: "40%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Departamento :</Typography>
-            <Typography sx={{ width: "60%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{departamento} </Typography>
+            <Typography sx={{ width: "40%", fontFamily: "MontserratMedium", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Departamento :</Typography>
+            <Typography sx={{ width: "60%", fontFamily: "MontserratLigth", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{departamento} </Typography>
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-            <Typography sx={{ width: "40%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Correo electrónico :</Typography>
-            <Typography sx={{ width: "60%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{correoElectronico} </Typography>
+            <Typography sx={{ width: "40%", fontFamily: "MontserratMedium", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Correo electrónico :</Typography>
+            <Typography sx={{ width: "60%", fontFamily: "MontserratLigth", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{correoElectronico} </Typography>
           </Box>
 
           {botonEdicionTodo === "Editar" ?
             <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-              <Typography sx={{ width: "40%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Telefono :</Typography>
-              <Typography sx={{ width: "60%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{telefono} </Typography>
+              <Typography sx={{ width: "40%", fontFamily: "MontserratMedium", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Telefono :</Typography>
+              <Typography sx={{ width: "60%", fontFamily: "MontserratLigth", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{telefono} </Typography>
             </Box> :
             <TextField
               disabled={botonEdicionTodo === "Editar" ? true : false}
               required
+              inputProps={{maxLength: 12}}
               margin="dense"
               id="Telefono"
               label="Teléfono"
               value={telefono}
-              type="number"
-              sx={{ width: "90%", }}
+              type="text"
+              sx={{ width: "60%", }}
               variant="outlined"
-              onChange={(v) => setTelefono(v.target.value)}
+              onChange={(v) => handleTotal(v.target.value)}
               error={telefono == "" ? true : false}
             />}
           {botonEdicionTodo === "Editar" ?
             <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-              <Typography sx={{ width: "40%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Ubicación :</Typography>
-              <Typography sx={{ width: "60%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{ubicacion} </Typography>
+              <Typography sx={{ width: "40%", fontFamily: "MontserratMedium", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Ubicación :</Typography>
+              <Typography sx={{ width: "60%", fontFamily: "MontserratLigth", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{ubicacion} </Typography>
             </Box> :
             <TextField
               disabled={botonEdicionTodo === "Editar" ? true : false}
@@ -298,7 +301,7 @@ export const Perfil = () => {
               label="Ubicación"
               value={ubicacion}
               type="text"
-              sx={{ width: "90%", }}
+              sx={{ width: "60%", }}
               variant="outlined"
               onChange={(v) => setUbicacion(v.target.value)}
               error={ubicacion == "" ? true : false}
@@ -306,8 +309,8 @@ export const Perfil = () => {
 
           {botonEdicionTodo === "Editar" ?
             <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-              <Typography sx={{ width: "40%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Puesto :</Typography>
-              <Typography sx={{ width: "60%", fontFamily: "MontserratBold", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{puesto} </Typography>
+              <Typography sx={{ width: "40%", fontFamily: "MontserratMedium", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Puesto :</Typography>
+              <Typography sx={{ width: "60%", fontFamily: "MontserratLigth", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{puesto} </Typography>
             </Box>
             :
             <TextField
@@ -318,7 +321,7 @@ export const Perfil = () => {
               label="Puesto"
               value={puesto}
               type="text"
-              sx={{ width: "90%", }}
+              sx={{ width: "60%", }}
               variant="outlined"
               onChange={(v) => setPuesto(v.target.value)}
               error={puesto == "" ? true : false}

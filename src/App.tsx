@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router";
+import "./Fonts.css";
 import Swal from "sweetalert2";
 import { UserInfo } from "./app/interfaces/user/UserInfo";
 import { UserReponse } from "./app/interfaces/user/UserReponse";
