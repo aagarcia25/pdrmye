@@ -21,7 +21,7 @@ const ContactoMunicipios = () => {
 
   const [dato, setDato] = useState<Array<IData>>([])
 
-  const [mostrar,setMostrar]=useState(false)
+  const [mostrar, setMostrar] = useState(false)
 
   const formData = new FormData();
 
@@ -70,44 +70,98 @@ const ContactoMunicipios = () => {
 
 
           {
-            mostrar?dato?.map((registro, x) =>
+            mostrar ?
+              dato?.map((registro, x) =>
 
-            <Grid item xs={2} sm={4} md={4} key={x}>
-              <Card >
-                <CardContent>
-                  <Box sx={{width:"100%",}}>
-                    <img src={user.RutaFoto} style={{ objectFit: "scale-down", }} />
-                    </Box>
-                
-                  <Typography
-                    sx={{ fontSize: 14 }}
-                    variant="body2"
-                    gutterBottom
-                  >
-                    Municipio: {registro?.Municipio}
-                  </Typography>
+                <Grid item xs={2} sm={4} md={4} key={x}>
+                  <Card >
+                    <CardContent>
+                      <Box sx={{ width: "100%", display: "flex", flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
 
-                  <Typography
-                    sx={{ fontSize: 14 }}
-                    variant="body2"
-                    gutterBottom
-                  >
-                    Tesorerio: {registro?.Responsable}
-                  </Typography>
-                  <Typography variant="body2">
-                    Domicilio:  {registro?.Domicilio}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small">Enviar Mensaje</Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ):null
-            }
+                        <Box sx={{ width: "35%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                          <img src={registro.Escudo} style={{ objectFit: "scale-down", }} />
+                        </Box>
+                        <Box sx={{  display: "flex", justifyContent: "center", flexDirection: "column" }}>
+                          <Box sx={{ width: "100%", display: "flex", }}>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
+                              Municipio: 
+                            </Typography>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start" }} variant="body2" gutterBottom>
+                              {registro?.Municipio}
+                            </Typography>
+                          </Box>
+
+                          <Box sx={{ width: "100%", display: "flex", }}>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
+                              Tesorero: 
+                            </Typography>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start" }} variant="body2" gutterBottom>
+                              Jose {registro?.Tesorero} perez alonso
+                            </Typography>
+                          </Box>
+
+                          <Box sx={{ width: "100%", display: "flex", }}>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
+                              Responsable: 
+                            </Typography>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start" }} variant="body2" gutterBottom>
+                              {registro?.Responsable}
+                            </Typography>
+                          </Box>
+
+                          <Box sx={{ width: "100%", display: "flex", }}>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
+                              Domicilio: 
+                            </Typography>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start" }} variant="body2" gutterBottom>
+                              {registro?.Domicilio} mariano escobedo 333 colonia centro, monterrey nuevo leon mexico
+                            </Typography>
+                          </Box>
+
+                          <Box sx={{ width: "100%", display: "flex", }}>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
+                              Teléfono: 
+                            </Typography>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start" }} variant="body2" gutterBottom>
+                              {registro?.Telefono}
+                            </Typography>
+                          </Box>
+
+                          <Box sx={{ width: "100%", display: "flex", }}>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
+                              Horario: 
+                            </Typography>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start" }} variant="body2" gutterBottom>
+                              {registro?.Horario}
+                            </Typography>
+                          </Box>
+
+                          <Box sx={{ width: "100%", display: "flex", }}>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end",alignItems:"center" }} variant="body2" gutterBottom>
+                              Página Web: 
+                            </Typography>
+                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} variant="body2" gutterBottom>
+                              {registro?.Web}
+                            </Typography>
+                          </Box>
+                        </Box>
+
+                      </Box>
+
+
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small">Enviar Mensaje</Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              )
+
+              : null
+          }
 
         </Grid>
-       
+
       </Box>
     </div>
   );
@@ -125,5 +179,4 @@ export interface IData {
   Telefono: string;
   Web: string;
   Escudo: string;
-  id:string;
 }
