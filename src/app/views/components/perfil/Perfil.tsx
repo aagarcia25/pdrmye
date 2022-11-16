@@ -19,6 +19,7 @@ import { DialogCambiarImagen } from "./DialogCambiarImagen";
 import { AuthService } from "../../../services/AuthService";
 import { Toast } from "../../../helpers/Toast";
 import validator from 'validator';
+import { COLOR } from "../../../styles/colors";
 
 export const Perfil = () => {
   const [user,setUser]=useState<RESPONSE>(JSON.parse(String(getUser())));
@@ -142,56 +143,65 @@ export const Perfil = () => {
         //Principal
         width: "100%",
         height: "100%",
+        backgroundColor: "#EEEEEE",
         // backgroundColor: "#FBF8EF",
-        borderRadius: "30px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        marginTop:".5%",
       }}
     >
-      <Box sx={{ display: "flex", width: "80%", height: "100%", justifyContent: "center", alignItems: "center" }}>
+      <Box 
+      boxShadow={3} 
+      sx={{ 
+        display: "flex", 
+        width: "100%",
+        height: "90%", 
+        justifyContent: "center", 
+        backgroundColor: "white",
+        alignItems: "center" 
+        }}>
+
       <Box
+        display="flex" flexDirection="row" 
         sx={{
           width: "80%",
-          height: "98%",
-          display: "flex",
+          height: "95%",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          border: "1px solid  black",
-          borderRadius: "5%",
-          //backgroundColor: "blue"
+          // justifyContent: "center",
+          // border: "1px solid  black",
+          // borderRadius: "1%",
+          // backgroundColor: "blue"
         }}
       >
         
 
-        <Box sx={{
+        {/* <Box  sx={{
           //EspacioTitulo
-          width: "100%",
-          height: "5%",
-          //backgroundColor: "skyblue",
-          display: "flex",
-          justifyContent: "center"
+          width: "50%",
+          backgroundColor: "skyblue",
         }}>
-          <Typography sx={{ fontSize: "1.3vw", fontWeight: "Bold" }}> Información Personal </Typography>
-        </Box>
+          <Typography variant="h6"  paddingTop={3}> Información Personal </Typography>
+        </Box> */}
+
         {/* Imagen y tipo de usuario */}
-        <Box sx={{ display: "flex", justifyContent: "center", width: "100vw", height:"15vh" }}>
-          <Box
+        <Box >
+          <Box boxShadow={3} 
             onClick={() => {
               setOpenDialog(true)
             }}
 
             sx={{
-              width: "15vh",
-              height: "15vh",
-              backgroundColor: "",
+              width: "8rem",
+              height: "8rem",
+              backgroundColor: "white",
               borderRadius: '50%',
-              border: 3,
-              borderColor: "black",
-              display: "flex",
+              // border: 3,
+              // borderColor: "black",
+              // display: "flex",
               justifyContent: "center",
-              alignItems: "center",
+              // alignItems: "center",
               cursor: "pointer",
             }}
 
@@ -225,27 +235,55 @@ export const Perfil = () => {
         </Box>
 
         {/* Informacion Basica */}
-        <Box sx={{
+        <Box boxShadow={3}  sx={{
           width: "90%",
           height: "12%",
           display: "flex",
           justifyContent: "space-evenly",
           alignItems: "center",
-          mt: "2vh",
-          borderRadius: "15px",
-          border: "1px solid black",
-          bgcolor: "rgb(252,252,252)",
+          mt: "2rem",
+          borderRadius: "10px",
+          // border: "1px solid black",
+          bgcolor: "#051c2c",
         }}>
-          <Typography sx={{ width: "30%", fontFamily: "MontserratLigth", fontSize: "1.5vw" }}>Nombre: {nombre} </Typography>
 
-          <Typography sx={{ width: "30%", fontFamily: "MontserratLigth", fontSize: "1.5vw" }}>Apellido paterno: {apellidoPaterno} </Typography>
+          <Typography sx={{ width: "30%", 
+          fontFamily: "sans-serif", 
+          fontSize: "1rem", 
+          color:"#CCCCCC" }}
+          > Nombre: 
+          <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem",color:"white"  }}>
+          {nombre} </Typography> 
+          </Typography>
 
-          <Typography sx={{ width: "30%", fontFamily: "MontserratLigth", fontSize: "1.5vw" }}>Apellido materno: {apellidoMaterno} </Typography>
+          <Typography sx={{ width: "30%", 
+          fontFamily: "sans-serif", 
+          fontSize: "1rem", 
+          color:"#CCCCCC" }}
+          > Apellido Paterno:  
+          <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem",color:"white"  }}>
+          {apellidoPaterno} </Typography> 
+          </Typography>
 
+          <Typography sx={{ width: "30%", 
+          fontFamily: "sans-serif", 
+          fontSize: "1rem", 
+          color:"#CCCCCC" }}
+          > Apellido Materno: 
+          <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem",color:"white"  }}>
+          {apellidoMaterno} </Typography> 
+          </Typography>  
         </Box>
+
+        <Box sx={{
+          height: "12%",
+          padding:"1%"
+        }}>
         <Typography sx={{ fontSize: "1.3vw", fontWeight: "Bold", mt: "1vh", width: "100%", display: "flex",ml:"2vw" }}>
           Contacto y ubicación
         </Typography>
+        </Box>
+
         <Box sx={{
           width: "90%",
           height: "60%",
@@ -260,19 +298,19 @@ export const Perfil = () => {
         }}>
 
           <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-            <Typography sx={{ width: "40%", fontFamily: "MontserratMedium", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Departamento :</Typography>
-            <Typography sx={{ width: "60%", fontFamily: "MontserratLigth", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{departamento} </Typography>
+            <Typography sx={{ width: "40%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Departamento :</Typography>
+            <Typography sx={{ width: "60%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{departamento} </Typography>
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-            <Typography sx={{ width: "40%", fontFamily: "MontserratMedium", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Correo electrónico :</Typography>
-            <Typography sx={{ width: "60%", fontFamily: "MontserratLigth", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{correoElectronico} </Typography>
+            <Typography sx={{ width: "40%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Correo electrónico :</Typography>
+            <Typography sx={{ width: "60%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{correoElectronico} </Typography>
           </Box>
 
           {botonEdicionTodo === "Editar" ?
             <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-              <Typography sx={{ width: "40%", fontFamily: "MontserratMedium", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Telefono :</Typography>
-              <Typography sx={{ width: "60%", fontFamily: "MontserratLigth", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{telefono} </Typography>
+              <Typography sx={{ width: "40%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Telefono :</Typography>
+              <Typography sx={{ width: "60%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{telefono} </Typography>
             </Box> :
             <TextField
               disabled={botonEdicionTodo === "Editar" ? true : false}
@@ -290,8 +328,8 @@ export const Perfil = () => {
             />}
           {botonEdicionTodo === "Editar" ?
             <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-              <Typography sx={{ width: "40%", fontFamily: "MontserratMedium", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Ubicación :</Typography>
-              <Typography sx={{ width: "60%", fontFamily: "MontserratLigth", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{ubicacion} </Typography>
+              <Typography sx={{ width: "40%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Ubicación :</Typography>
+              <Typography sx={{ width: "60%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{ubicacion} </Typography>
             </Box> :
             <TextField
               disabled={botonEdicionTodo === "Editar" ? true : false}
@@ -309,8 +347,8 @@ export const Perfil = () => {
 
           {botonEdicionTodo === "Editar" ?
             <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-              <Typography sx={{ width: "40%", fontFamily: "MontserratMedium", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Puesto :</Typography>
-              <Typography sx={{ width: "60%", fontFamily: "MontserratLigth", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{puesto} </Typography>
+              <Typography sx={{ width: "40%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Puesto :</Typography>
+              <Typography sx={{ width: "60%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{puesto} </Typography>
             </Box>
             :
             <TextField

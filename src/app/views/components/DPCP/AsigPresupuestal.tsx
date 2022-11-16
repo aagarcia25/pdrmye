@@ -250,8 +250,7 @@ const AsigPresupuestal = () => {
   ];
 
   const columnsParticipaciones = [
-    { field: "id", headerName: "Identificador", width: 100, hide: true },
-    { field: "idcalculo", headerName: "idcalculo", width: 10, hide: true },
+
     {
       field: "acciones",
       headerName: "Acciones",
@@ -270,74 +269,32 @@ const AsigPresupuestal = () => {
         );
       },
     },
-    {
-      field: "proceso",
-      headerName: "Proceso",
-      width: 250,
-      description: "Proceso",
-    },
-    {
-      field: "fondodescripcion",
-      headerName: "Fondo",
-      width: 150,
-      description: "Fondo",
-    },
-    {
-      field: "Anio",
-      headerName: "Año",
-      width: 150,
-      description: "Año",
-    },
-    {
-      field: "Descripcion",
-      headerName: "Mes",
-      width: 250,
-      description: "Mes",
-    },
-    {
-      field: "ClaveEstado",
-      headerName: "Clave Estado",
-      width: 150,
-      description: "Clave Estado",
-    },
-    {
-      field: "municipio",
-      headerName: "Municipio",
-      width: 150,
-      description: "Municipio",
-    },
+    { field: "id"	,headerName: "id", width: 100, hide: true },
+    { field: "IdMunicipio",	headerName: "IdMunicipio", width: 100, hide: true },
+    { field: "Nombre"	, headerName: "Nombre", width: 100, hide: false },
+    { field: "ClaveEstado"	, headerName: "Clave Estado", width: 100, hide: false },
+    { field: "ClavePSIREGOB", headerName: "ClavePSIREGOB", width: 100, hide: true },
+    { field: "Anio", headerName: "Anio", width: 100, hide: false },
+    { field: "nummes"	, headerName: "nummes", width: 100, hide: true },
+    { field: "Mes"	, headerName: "Mes", width: 100, hide: false },
+    { field: "estatus"	, headerName: "estatus", width: 100, hide: false },
+    { field: "tipoCalculo"	, headerName: "tipoCalculo", width: 100, hide: false },
+    { field: "ClavePresupuestal", headerName: "Clave Presupuestal", width: 600, hide: false },
+    { field: "FGP"	, headerName: "FGP", width: 100, hide: false ,...Moneda },
+    { field: "FFM70", headerName: "FFM70", width: 100, hide: false ,...Moneda },
+    { field: "FFM30", headerName: "FFM30", width: 100, hide: false ,...Moneda },
+    { field: "ISR_NOMINA", headerName: "ISR_NOMINA", width: 100, hide: false,...Moneda  },
+    { field: "FEIEF"	, headerName: "FEIEF", width: 100, hide: false ,...Moneda },
+    { field: "IEPS"	, headerName: "IEPS", width: 100, hide: false ,...Moneda },
+    { field: "FOFIR", headerName: "FOFIR", width: 100, hide: false ,...Moneda },
+    { field: "ISAN"	, headerName: "ISAN", width: 100, hide: false ,...Moneda },
+    { field: "FEXHI"	, headerName: "FEXHI", width: 100, hide: false ,...Moneda },
+    { field: "COMP_ISAN"	, headerName: "COMP_ISAN", width: 100, hide: false ,...Moneda },
+    { field: "IEPSGyD"	, headerName: "IEPSGyD", width: 100, hide: false ,...Moneda },
+    { field: "ISR_INMUEBLES", headerName: "ISR_INMUEBLES", width: 100, hide: false ,...Moneda },
 
-    {
-      field: "total",
-      headerName: "Importe",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
 
-    {
-      field: "ComentarioPresupuesto",
-      headerName: "Observación DPCP",
-      width: 300,
-      description: "Observación DPCP",
-    },
 
-    {
-      field: "RutaArchivo",
-      headerName: "Documento DPCP",
-      width: 100,
-      renderCell: (v: any) => {
-        return v.row.RutaArchivo !== null ? (
-          <Box>
-            <Link href={v.row.RutaArchivo} underline="always">
-              Descargar
-            </Link>
-          </Box>
-        ) : (
-          ""
-        );
-      },
-    },
   ];
 
   const loadFilter = (operacion: number) => {

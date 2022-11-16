@@ -250,7 +250,6 @@ import {
   
     const columnsParticipaciones = [
       { field: "id", headerName: "Identificador", width: 100, hide: true },
-      { field: "idcalculo", headerName: "idcalculo", width: 10, hide: true },
       {
         field: "acciones",
         headerName: "Acciones",
@@ -270,25 +269,13 @@ import {
         },
       },
       {
-        field: "proceso",
-        headerName: "Proceso",
-        width: 250,
-        description: "Proceso",
-      },
-      {
-        field: "fondodescripcion",
-        headerName: "Fondo",
-        width: 150,
-        description: "Fondo",
-      },
-      {
         field: "Anio",
         headerName: "Año",
         width: 150,
         description: "Año",
       },
       {
-        field: "Descripcion",
+        field: "Mes",
         headerName: "Mes",
         width: 250,
         description: "Mes",
@@ -300,12 +287,18 @@ import {
         description: "Clave Estado",
       },
       {
-        field: "municipio",
+        field: "Nombre",
         headerName: "Municipio",
         width: 150,
         description: "Municipio",
       },
-  
+      {
+        field: "Clave",
+        headerName: "Fondo",
+        width: 150,
+        description: "Fondo",
+      },
+      { field: "ClavePresupuestal", headerName: "Clave Presupuestal", width: 600, hide: false },
       {
         field: "total",
         headerName: "Importe",
@@ -314,29 +307,9 @@ import {
         ...Moneda,
       },
   
-      {
-        field: "ComentarioPresupuesto",
-        headerName: "Observación DPCP",
-        width: 300,
-        description: "Observación DPCP",
-      },
+    
   
-      {
-        field: "RutaArchivo",
-        headerName: "Documento DPCP",
-        width: 100,
-        renderCell: (v: any) => {
-          return v.row.RutaArchivo !== null ? (
-            <Box>
-              <Link href={v.row.RutaArchivo} underline="always">
-                Descargar
-              </Link>
-            </Box>
-          ) : (
-            ""
-          );
-        },
-      },
+    
     ];
   
     const loadFilter = (operacion: number) => {
@@ -428,7 +401,7 @@ import {
         P_IDESTATUS: idEstatus == "false" ? "" : idEstatus,
       };
       console.log(data);
-      DPCPServices.ConsultaDPCP(data).then((res) => {
+      DPCPServices.GetPartFedv2(data).then((res) => {
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
@@ -581,27 +554,48 @@ import {
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <div style={{ height: "60vh", width: "100%" , display : p1 == 1 ? "block":"none"}}>
               <ThemeProvider theme={theme}>
-                  <DataGrid
-                    localeText={
-                      esES.components.MuiDataGrid.defaultProps.localeText
-                    }
-                    columns={columnsAnticipoParticipaciones}
-                    rows={data}
-                    density="compact"
-                    rowsPerPageOptions={[10, 25, 50, 100]}
-                    disableSelectionOnClick
-                    disableColumnFilter
-                    disableColumnSelector
-                    disableDensitySelector
-                    getRowHeight={() => "auto"}
-                    checkboxSelection={checkboxSelection}
-                    components={{ Toolbar: GridToolbar }}
-                    sx={{ fontFamily: "MontserratMedium" }}
-                    onSelectionModelChange={(newSelectionModel: any) => {
-                      setSelectionModel(newSelectionModel);
-                    }}
-                    selectionModel={selectionModel}
-                  />
+
+              <DataGrid
+          columns={columnsAnticipoParticipaciones}
+          rows={data}
+          density="compact"
+          rowsPerPageOptions={[10, 25, 50, 100]}
+          disableSelectionOnClick 
+          disableColumnFilter
+          disableColumnSelector
+          disableDensitySelector
+          getRowHeight={() => 'auto'}
+          components={{ Toolbar: GridToolbar }}
+          sx={{ fontFamily: "Poppins,sans-serif"}}
+          componentsProps={{
+            toolbar: {
+              label:"buscar",
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}  
+          onSelectionModelChange={(newSelectionModel: any) => {
+            setSelectionModel(newSelectionModel);
+          }}
+          selectionModel={selectionModel}
+          localeText={{
+            noRowsLabel: "No se ha encontrado datos.",
+            noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+            toolbarColumns: "Columnas",
+            toolbarExport:"Exportar",
+            toolbarColumnsLabel: "Seleccionar columnas",
+            toolbarFilters: "Filtros",
+            toolbarFiltersLabel: "Ver filtros",
+            toolbarFiltersTooltipHide: "Quitar filtros",
+            toolbarFiltersTooltipShow: "Ver filtros",
+            toolbarQuickFilterPlaceholder:"Buscar",
+            
+        }}
+         
+        />
+
+
+                 
               </ThemeProvider>
             </div>
   
@@ -633,27 +627,50 @@ import {
   
             <div style={{ height: "60vh", width: "100%" , display : p1 == 3 ? "block":"none"}}>
               <ThemeProvider theme={theme}>
-                  <DataGrid
-                    localeText={
-                      esES.components.MuiDataGrid.defaultProps.localeText
-                    }
-                    columns={columnsParticipaciones}
-                    rows={data}
-                    density="compact"
-                    rowsPerPageOptions={[10, 25, 50, 100]}
-                    disableSelectionOnClick
-                    disableColumnFilter
-                    disableColumnSelector
-                    disableDensitySelector
-                    getRowHeight={() => "auto"}
-                    checkboxSelection={checkboxSelection}
-                    components={{ Toolbar: GridToolbar }}
-                    sx={{ fontFamily: "MontserratMedium" }}
-                    onSelectionModelChange={(newSelectionModel: any) => {
-                      setSelectionModel(newSelectionModel);
-                    }}
-                    selectionModel={selectionModel}
-                  />
+
+              <DataGrid
+          columns={columnsParticipaciones}
+          rows={data}
+          density="compact"
+          rowsPerPageOptions={[10, 25, 50, 100]}
+          disableSelectionOnClick 
+          disableColumnFilter
+          disableColumnSelector
+          disableDensitySelector
+          getRowHeight={() => 'auto'}
+          components={{ Toolbar: GridToolbar }}
+          sx={{ fontFamily: "Poppins,sans-serif"}}
+          componentsProps={{
+            toolbar: {
+              label:"buscar",
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}  
+          checkboxSelection={checkboxSelection}
+          onSelectionModelChange={(newSelectionModel: any) => {
+            setSelectionModel(newSelectionModel);
+          }}
+          selectionModel={selectionModel}
+          localeText={{
+            noRowsLabel: "No se ha encontrado datos.",
+            noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+            toolbarColumns: "Columnas",
+            toolbarExport:"Exportar",
+            toolbarColumnsLabel: "Seleccionar columnas",
+            toolbarFilters: "Filtros",
+            toolbarFiltersLabel: "Ver filtros",
+            toolbarFiltersTooltipHide: "Quitar filtros",
+            toolbarFiltersTooltipShow: "Ver filtros",
+            toolbarQuickFilterPlaceholder:"Buscar",
+            
+        }}
+         
+        />
+
+
+
+                 
               </ThemeProvider>
             </div>
           </Grid>

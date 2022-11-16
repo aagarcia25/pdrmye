@@ -300,6 +300,12 @@ label.contenido{
   font-family:  "Poppins", 'Gill Sans', 'Gill Sans MT', sans-serif;
 }
 
+input.imagencargada{
+width: 100px;
+height: 100px;
+
+}
+
 
 
 

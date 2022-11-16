@@ -232,7 +232,7 @@ export const ListNotification = () => {
               }}
             >
               Enviados
-              <SendIcon />
+              {/* <SendIcon /> */}
             </Button>
             :""}
 
@@ -246,7 +246,7 @@ export const ListNotification = () => {
               }}
             >
               Recibidos
-              <InboxIcon />
+              {/* <InboxIcon /> */}
             </Button>
 
 
@@ -260,7 +260,7 @@ export const ListNotification = () => {
               }}
             >
               Leidos
-              <AutoStoriesIcon />
+              {/* <AutoStoriesIcon /> */}
             </Button>
 
 

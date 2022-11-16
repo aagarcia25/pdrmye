@@ -15,7 +15,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { AlertS } from '../../../helpers/AlertS';
+
 import { CatalogosServices } from '../../../services/catalogosServices';
 import { Toast } from '../../../helpers/Toast';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -24,7 +24,10 @@ import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import validator from 'validator';
 import { border, borderColor } from '@mui/system';
-
+import { AlertS } from '../../../helpers/AlertS';
+import ModalForm from '../componentes/ModalForm';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 const steps = ['Campos Obligatorios', 'Carga de Archivo ', 'Finalizar Solicitud'];
 
@@ -32,7 +35,6 @@ const steps = ['Campos Obligatorios', 'Carga de Archivo ', 'Finalizar Solicitud'
 export const SolicitudModal = (
     {
         data,
-        open,
         handleClose,
         modo,
     }
@@ -40,7 +42,6 @@ export const SolicitudModal = (
         {
             modo: String;
             data: any;
-            open: boolean;
             handleClose: Function;
         }
 ) => {
@@ -250,6 +251,10 @@ export const SolicitudModal = (
         setNameNewDoc("");
 
     };
+    const Cl = () => {
+
+
+    };
 
     useEffect(() => {
         setModoSol(String(modo))
@@ -267,38 +272,51 @@ export const SolicitudModal = (
 
     return (
         <div style={{ height: "100%", width: "100%" }}>
-
-            <Box>
+            <ModalForm title={'Solicitud de Anticipo de Participaciones'} handleClose={handleClose}>
                 <Slider open={openSlider}></Slider>
-                <Dialog open={Boolean(open)} fullWidth={true}
-                //fullScreen={modo=="ver"?true:false}
-                >
-                    <DialogTitle textAlign="center"> Solicitud de Anticipo de Participaciones </DialogTitle>
-                    {modoSol == "ver" ?
-                        <Grid container>
-                            <Grid item>
-                                <Tooltip title={"Vizualizar Detalles"}>
-                                    <IconButton onClick={() => setModoSol("verDetalles")}>
-                                        <ArrowBackIosNewIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            </Grid>
 
-                            <Grid item >
-                                <iframe id="inlineFrameExample"
-                                    title="Inline Frame Example"
-                                    width="600"
-                                    height="500"
-                                    src={urlDoc}
-                                />
-                            </Grid>
+
+                <DialogTitle textAlign="center">  </DialogTitle>
+                {modoSol == "ver" ?
+                    <Grid
+                        container
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Grid item xs={.5} >
+                            <Tooltip title={"Vizualizar Detalles"}>
+                                <IconButton onClick={() => setModoSol("verDetalles")}>
+                                    <ArrowBackIosNewIcon   sx={{ width: "100%", height: "100%" }}/>
+                                </IconButton>
+                            </Tooltip>
                         </Grid>
-                        : ""}
-                    {modoSol == "nuevo" || modoSol == "editar" ?
+                        </Grid>
 
-                        <DialogContent dividers={true}>
 
-                            <Box sx={{ width: '100%' }}>
+                        <Grid item xs={7} sm={8} md={8} lg={8}>
+                            <iframe id="inlineFrameExample"
+                                title="Inline Frame Example"
+                                width="100%"
+                                height="700"
+                                src={urlDoc}
+                            />
+                        </Grid>
+                    </Grid>
+                    : ""}
+                {modoSol == "nuevo" || modoSol == "editar" ?
+
+                    <DialogContent dividers={true}>
+
+                        <Grid
+                            container
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                        >
+                            <Grid item xs={7} sm={8} md={8} lg={8}
+                            >
                                 <Stepper activeStep={activeStep}>
                                     {steps.map((label, index) => {
                                         const stepProps: { completed?: boolean } = {};
@@ -326,30 +344,29 @@ export const SolicitudModal = (
                                     <React.Fragment>
 
                                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                            <Button color="warning" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 2, padding:2 }}>
-                                               Atrás 
+                                            <Button color="warning" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 2, padding: 2 }}>
+                                                Atrás
                                             </Button>
 
                                             <Box sx={{ flex: '1 1 auto' }} />
-                                            <Button color="success" onClick={handleNext} sx={{ padding:2 }}>
+                                            <Button color="success" onClick={handleNext} sx={{ padding: 2 }}>
                                                 {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
                                             </Button>
                                         </Box>
                                     </React.Fragment>
                                 )}
-                            </Box>
-                            <Grid container spacing={1} sx={{ justifyContent: "center", width: "100%" }} >
                             </Grid>
+                        </Grid>
 
-                            {(activeStep + 1) == 1 ?
-                                <Grid container
-                                    sx={{ justifyContent: "center", width: '100%' }} >
+                        {(activeStep + 1) == 1 ?
+                            <Grid container
+                                sx={{ justifyContent: "center", width: '100%' }} >
 
-
-                                    <Grid container spacing={3} xs={12} sx={{ justifyContent: "center"}}>
-                                        <Grid item xs={12}>
+                                <Grid item xs={8}>
+                                    <Grid container xs={12}>
+                                        <Grid item xs={8}>
                                             <Typography variant='body1' margin={1}> CONCEPTO </Typography>
-                                            <TextField 
+                                            <TextField
                                                 multiline
                                                 value={concepto}
                                                 rows={4}
@@ -357,193 +374,205 @@ export const SolicitudModal = (
                                                 onChange={(v) => setConcepto(v.target.value)}
                                                 sx={{
                                                     width: "100%"
-                                                
+                                                }}
+                                            />
+                                        </Grid>
+                                        <Grid container >
+                                            <Grid item xs={6}>
+                                                <Typography variant='body1' margin={1}> IMPORTE </Typography>
+                                                <TextField
+                                                    variant="standard"
+                                                    type="text"
+                                                    value={total}
+                                                    onChange={(v) => handleTotal(v.target.value)}
+                                                    InputProps={{
+                                                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                                                    }}
+                                                    sx={{
+                                                        width: "40%",
+                                                    }}
+                                                    error={!totalValid}
+                                                />
+                                                <Typography variant='body2' padding={2}> {totalError} </Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+
+                            </Grid>
+                            : ""}
+
+                        {(activeStep + 1) == 3 ?
+                            <Container maxWidth="sm">
+                                <Box sx={{ width: '100%', paddingTop: "2" }}>
+                                    <Grid container xs={12} spacing={1} sx={{ justifyContent: "center" }}>
+                                        <Grid item xs={12}>
+                                            <Typography variant='body1' margin={1}> CONCEPTO </Typography>
+                                            <TextField
+                                                multiline
+                                                disabled
+                                                value={concepto}
+                                                rows={4}
+                                                type="text"
+                                                sx={{
+                                                    width: "100%",
                                                 }}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
-                                        <Typography variant='body1' margin={1}> TOTAL </Typography>
+                                            <Typography variant='body1' margin={1}> TOTAL </Typography>
                                             <TextField
-                                                type="text"
+                                                disabled
+                                                type="number"
                                                 value={total}
-                                                onChange={(v) => handleTotal(v.target.value)}
-                                                InputProps={{
-                                                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                                                }}
                                                 sx={{
                                                     width: "40%",
                                                 }}
-                                                error= {!totalValid}
                                             />
-                                            <Typography variant='body2'padding={2}> {totalError} </Typography>
                                         </Grid>
                                     </Grid>
-
-
-                                </Grid>
-                                : ""}
-
-                            {(activeStep + 1) == 3 ?
-                                <Container maxWidth="sm">
-                                    <Box sx={{ width: '100%', paddingTop:"2" }}>
-                                        <Grid container xs={12} spacing={1} sx={{ justifyContent: "center"}}>
-                                            <Grid item xs={12}>
-                                            <Typography variant='body1' margin={1}> CONCEPTO </Typography>
-                                                <TextField
-                                                    multiline
-                                                    disabled
-                                                    value={concepto}
-                                                    rows={4}
-                                                    type="text"
-                                                    sx={{
-                                                        width: "100%",
-                                                    }}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                            <Typography variant='body1' margin={1}> TOTAL </Typography>
-                                                <TextField
-                                                    disabled
-                                                    type="number"
-                                                    value={total}
-                                                    sx={{
-                                                        width: "40%",
-                                                    }}
-                                                />
-                                            </Grid>
-                                        </Grid>
-                                        <Box sx={{
-                                            display: 'flex',
-                                            alignItems: 'flex-start',
-                                            flexDirection: 'column',
-                                            justifyContent: 'center',
-                                            p: 1,
-                                            m: 1,
-                                            bgcolor: 'background.paper',
-                                            borderRadius: 1,
-                                        }}>
-                                            {DocSubido ?
-                                                <Box>
-                                                    <label >
-                                                        {nameNewDoc}
-                                                    </label>
-
-                                                </Box>
-                                                : ""}
-                                        </Box>
-                                    </Box>
-                                </Container>
-                                : ""}
-                            {(activeStep + 1) == 2 ?
-                                <Container maxWidth="sm" >
-                                    <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', height: 300 }}>
-                                        { //////////empiezan debajo del titulo
-                                            //// imagen carga y previsualizacion
-                                        }
-                                        <Box sx={{ width: '100%', }}>
-                                            {/* <Box sx={{
-                                                display: 'flex',
-                                                alignItems: 'flex-start',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center',
-                                                p: 1,
-                                                m: 1,
-                                                bgcolor: 'background.paper',
-                                                borderRadius: 1,
-                                            }}> */}
-                                            <Box sx={{ width: "100%", height: "40%", border: "5px dashed  black", display: "flex", justifyContent: "center", alignItems: "center", mt: "2vh"}}>
-                                                <input 
-                                                    id="imagencargada"
-                                                    accept="application/pdf"
-                                                    onChange={(event) => {
-                                                        handleNewFile(event)
-                                                    }}
-                                                    type="file"
-                                                    style={{ zIndex: 2, opacity: 0, width: "90%", height: "40%", position: "absolute", cursor: "pointer", }} /
-                                                >
-                                                {nameNewDoc === "" ? <CloudUploadIcon sx={{ width: "50%", height: "80%" }} /> : <PictureAsPdfOutlinedIcon sx={{ width: "50%", height: "80%" }} />}
+                                    <Box sx={{
+                                        display: 'flex',
+                                        alignItems: 'flex-start',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        p: 1,
+                                        m: 1,
+                                        bgcolor: 'background.paper',
+                                        borderRadius: 1,
+                                    }}>
+                                        {DocSubido ?
+                                            <Box>
+                                                <label >
+                                                    {nameNewDoc}
+                                                </label>
 
                                             </Box>
-
-                                            {DocSubido ?
-                                                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
-                                                    <label >
-                                                        {nameNewDoc}
-                                                    </label>
-                                                    <Box>
-                                                        <IconButton aria-label="upload picture" component="label" size="large" onClick={() => Clean()}>
-
-                                                            <RemoveCircleIcon />
-                                                        </IconButton>
-                                                    </Box>
-                                                </Box>
-                                                : ""}
-
-                                        </Box>
+                                            : ""}
                                     </Box>
-                                </Container>
-                                : ""}
-                        </DialogContent>
-                        : ""}
-                    {modoSol == "verDetalles" ?
-                        <DialogContent dividers={true}>
-                            <Grid container>
-                                <Grid item xs={12}>
-                                    <label className='subtitulo'>Solicitante:</label>
-                                    <br />
-                                    <label className='contenido'>{data.Solicitante}</label>
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <label className='subtitulo'>Concepto:</label>
-                                    <br />
-                                    <label className='contenido'>{data.Concepto}</label>
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <label className='subtitulo'>Total:</label>
-                                    <br />
-                                    <label className='contenido'>{data.Total}</label>
-                                    {data.NombreArchivo && data.RutaArchivo ?
-                                        <>
-                                            <br />
-                                            <br />
-                                            <label className='subtitulo'>Archivo:</label>
-                                            <br />
-                                            <label className='contenido'>{data.NombreArchivo}</label>
-                                            <br />
-                                            <Tooltip title={"Vizualizar Documento"}>
-                                                <IconButton onClick={() => setModoSol("ver")}>
-                                                    <VisibilityIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                        </>
-                                        :
-                                        ""
-
+                                </Box>
+                            </Container>
+                            : ""}
+                        {(activeStep + 1) == 2 ?
+                            <Container maxWidth="sm" >
+                                <Box sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
+                                    { //////////empiezan debajo del titulo
+                                        //// imagen carga y previsualizacion
                                     }
+                                    {DocSubido ?
+                                        <Grid container justifyContent="space-between" alignItems="center">
+                                            <Grid item xs={10} sm={10} md={8} lg={8} justifyContent="center" alignItems="center">
+                                                <label >
+                                                    {nameNewDoc}
+                                                </label>
+                                            </Grid>
+                                            <Grid item xs={1.5} sm={1.5} md={1.5} lg={1.5} justifyContent="rigth" alignItems="rigth">
+                                                <Tooltip title={"Limpiar campo"}>
+                                                    <IconButton aria-label="Borrar Documento" component="label" size="large" onClick={() => Clean()}>
+                                                        <DeleteOutlineIcon sx={{ width: "100%", height: "100%" }} />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </Grid>
+                                        </Grid>
+
+                                        : ""}
+                                    <Grid container direction="row" justifyContent="center" alignItems="center">
+
+                                        <Grid container sx={{ border: "5px dashed  black" }} justifyContent="center" alignItems="center">
+                                            {nameNewDoc === "" ?
+                                                <Tooltip title={"Cargar Archivo"}>
+                                                    <IconButton component="label">
+                                                        <input
+                                                            hidden
+                                                            id="imagencargada"
+                                                            accept="application/pdf"
+                                                            onChange={(event) => {
+                                                                handleNewFile(event)
+                                                            }}
+                                                            type="file"
+                                                        />
+                                                        <CloudUploadIcon sx={{ width: "100%", height: "100%" }} />
+                                                    </IconButton>
+                                                </Tooltip>
+
+                                                :
+                                                <Tooltip title={"Cargar Archivo"}>
+
+                                                    <IconButton component="label">
+                                                        <input
+                                                            hidden
+                                                            id="imagencargada"
+                                                            accept="application/pdf"
+                                                            onChange={(event) => {
+                                                                handleNewFile(event)
+                                                            }}
+                                                            type="file"
+                                                        />
+                                                        <PictureAsPdfOutlinedIcon sx={{ width: "100%", height: "100%" }} />
+                                                    </IconButton>
+                                                </Tooltip>
+
+                                            }
+
+                                        </Grid>
 
 
 
-                                </Grid>
 
+                                    </Grid>
+                                </Box>
+                            </Container>
+                            : ""}
+                    </DialogContent>
+                    : ""}
+                {modoSol == "verDetalles" ?
+                    <DialogContent dividers={true}>
+                        <Grid
+                            container
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                        >
+                            <Grid item xs={4}>
+                                <label className='subtitulo'>Solicitante:</label>
+                                <br />
+                                <label className='contenido'>{data.Solicitante}</label>
+                                <br />
+                                <br />
+                                <br />
+                                <label className='subtitulo'>Concepto:</label>
+                                <br />
+                                <label className='contenido'>{data.Concepto}</label>
+                                <br />
+                                <br />
+                                <br />
+                                <label className='subtitulo'>Total:</label>
+                                <br />
+                                <label className='contenido'>{data.Total}</label>
+                                {data.NombreArchivo && data.RutaArchivo ?
+                                    <>
+                                        <br />
+                                        <br />
+                                        <label className='subtitulo'>Archivo:</label>
+                                        <br />
+                                        <label className='contenido'>{data.NombreArchivo}</label>
+                                        <br />
+                                        <Grid  item xs={1.5}>
+                                        <Tooltip title={"Vizualizar Documento"}>
+                                            <IconButton onClick={() => setModoSol("ver")}>
+                                                <DescriptionIcon  sx={{ width: "100%", height: "100%" }}/>
+                                            </IconButton>
+                                        </Tooltip>
+                                        </Grid>
+                                    </>
+                                    : ""}
                             </Grid>
-                        </DialogContent>
-                        :
-
-                        ""}
-
-                    <Grid container xs={12} spacing={3} marginTop={1} marginBottom={1} sx={{ justifyContent: "right ", width: "100%" }}>
-                        <Grid item xs={2} paddingBottom={1}>
-                            <button className="cerrar" onClick={() => handleClose()}> {modo == "ver" || modo == "verDetalles" ? "Cerrar" : "Cancelar"}</button>
                         </Grid>
-                    </Grid>
+                    </DialogContent>
+                    : ""}
 
+            </ModalForm>
 
-
-
-                </Dialog>
-            </Box>
         </div>
     );
 };
