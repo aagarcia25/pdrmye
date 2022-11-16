@@ -217,7 +217,7 @@ export const Fpg = () => {
   useEffect(() => {
     setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === String(params.fondo)) {
+      if (String(item.ControlInterno) === String(params.fondo).replace(/\s/g, "")) {
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }
