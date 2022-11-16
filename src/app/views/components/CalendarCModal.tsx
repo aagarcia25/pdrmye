@@ -259,7 +259,7 @@ const CalendarCModal = ({
                  <Typography variant="h6"  paddingTop={1} > Fecha de inicio del evento </Typography>
               
                 <Input
-                  fullWidth
+                  // fullWidth
                   id="inicioEvento"
                   required
                   type="datetime-local"
@@ -269,9 +269,9 @@ const CalendarCModal = ({
                     inputProps: { readOnly: true },
                   }}
                 />
-                 <Typography variant="h6"  paddingTop={1} > Fecha de fin del evento</Typography>
+                 <Typography variant="h6"  paddingTop={5} > Fecha de fin del evento</Typography>
                 <Input
-                  fullWidth
+                  // fullWidth
                   id="finEvento"
                   required
                   value={finEvento}
@@ -304,7 +304,7 @@ const CalendarCModal = ({
                   margin="dense"
                   id="nombreEvento"
                   value={nombreEvento}
-                  fullWidth
+                  // fullWidth
                   variant="standard"
                   onChange={(v) => setNombreEvento(v.target.value)}
                   error={nombreEvento == null ? true : false}
@@ -327,7 +327,7 @@ const CalendarCModal = ({
                 />
                 <Typography>Fecha de fin del evento*</Typography>
                 <Input
-                  fullWidth
+                  // fullWidth
                   id="finEvento"
                   required
                   value={finEvento}
@@ -440,7 +440,7 @@ const CalendarCModal = ({
                         <Typography variant="h6"  paddingTop={1} > Fecha de inicio del evento </Typography>
 
                         <Input
-                          fullWidth
+                          // fullWidth
                           sx={{ paddingBottom:"2%" }}
                           id="inicioEvento"
                           required
@@ -453,10 +453,10 @@ const CalendarCModal = ({
                           error={inicioEvento == "" ? true : false}
                         />
 
-                        <Typography variant="h6"  paddingTop={1} > Fecha de fin del evento</Typography>
+                        <Typography variant="h6"  paddingTop={3} > Fecha de fin del evento</Typography>
 
                         <Input
-                          fullWidth
+                          // fullWidth
                           sx={{ paddingBottom:"2%" }}
                           id="finEvento"
                           required
