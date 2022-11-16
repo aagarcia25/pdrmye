@@ -197,29 +197,32 @@ const ListNotificationsModal = ({
 
   return (
     <Dialog
-      fullWidth
-      maxWidth="md"
-      open={open}
+    fullWidth
+    fullScreen
+    open={open}
+    sx={{ margin:"0%",padding:"0%"}}
     >
-      <Box sx={{
-        height: "95%",
-        justifyContent: 'space-between',
+      
+      <Box maxWidth="100%" 
+       sx={{
+        // justifyContent: 'space-between',
         position: 'relative',
         flexDirection: 'column',
-        borderRadius: 1
+        margin:"4.5%",
+        // borderRadius: 2
       }}>
 
         {(modo === "NewMessage") ?
-          <Box>
+          <Box boxShadow={2} maxWidth="95%">
             <Box sx={{
-              height: "100%",
+              height: "60%",
               justifyContent: 'space-between',
               position: 'relative',
               flexDirection: 'column',
-              borderRadius: 1,
+              // borderRadius: 1,
             }}>
               <Box sx={{
-                bgcolor: COLOR.azul,
+                bgcolor: COLOR.grisDivisionEntreElementos,
                 display: 'flex',
                 justifyContent: 'space-between',
                 position: 'relative',
@@ -297,7 +300,7 @@ const ListNotificationsModal = ({
                   <textarea
                     required
                     spellCheck='true'
-                    rows={10}
+                    rows={8}
                     onChange={(v) => setNewMensaje(v.target.value)}
                     style={{ width: "100%", borderRadius: 10, }} />
                 </Box>
@@ -307,7 +310,7 @@ const ListNotificationsModal = ({
               }
               <Box sx={{ position: 'relative', right: 5, top: -3, display: 'flex', flexDirection: 'row-reverse', }} >
 
-                <Box sx={{ width: "18%", padding:"1%"}} >
+                <Box sx={{ width: "12%", padding:"1%"}} >
                   <Button
                     className="enviar-mensaje" color="success" variant="contained" endIcon={<SendIcon />}
                     onClick={() => handleUpload()}>
