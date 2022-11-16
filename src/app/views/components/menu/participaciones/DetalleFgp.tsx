@@ -26,6 +26,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InsightsIcon from "@mui/icons-material/Insights";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import ModalCalculos from "../../componentes/ModalCalculos";
 
 const DetalleFgp = ({
   idCalculo,
@@ -55,6 +56,7 @@ const DetalleFgp = ({
   const [openSlider, setOpenSlider] = useState(true);
   const [estatusDestino, setEstatusDestino] = useState("");
   const [perfilDestino, setperfilDestino] = useState("");
+  const [area, setArea] = useState("");
   //Permisos
   const [data, setData] = useState([]);
   const [vrows, setvrows] = useState({});
@@ -105,13 +107,15 @@ const DetalleFgp = ({
           setvrows(data);
           setOpenModal(true);
           setperfilDestino("COOR");
+          setArea("CPH")
           break;
         case 4: //Autorizar Coordinador
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino("CPH_ENV_DIR");
+          setEstatusDestino("DAMOP_INICIO");
           setvrows(data);
           setOpenModal(true);
-          setperfilDestino("DIR");
+          setperfilDestino("ANA");
+          setArea("DAMOP")
           break;
         case 6: //Cancelar
           BorraCalculo();
@@ -121,6 +125,7 @@ const DetalleFgp = ({
           setEstatusDestino("CPH_REG_ANA");
           setperfilDestino("ANA");
           setvrows(data);
+          setArea("CPH")
           setOpenModal(true);
           break;
 
@@ -130,16 +135,18 @@ const DetalleFgp = ({
     }
   };
 
-  const Fnworkflow = (data: any) => {
+  const Fnworkflow = (data: string) => {
     console.log(data);
 
     let obj = {
       CHID: idCalculo,
       ESTATUS_DESTINO: estatusDestino,
       CHUSER: user.id,
-      TEXTO: data.texto,
+      TEXTO: data,
       PERFIL_DESTINO: perfilDestino,
+      AREA:area
     };
+    console.log(obj);
 
     calculosServices.indexCalculo(obj).then((res) => {
       if (res.SUCCESS) {
@@ -513,14 +520,11 @@ const DetalleFgp = ({
         <Slider open={openSlider}></Slider>
 
           {openModal ? (
-            <ModalAlert
-              open={openModal}
+            <ModalCalculos
               tipo={tipoAccion}
               handleClose={handleClose}
-              vrows={vrows}
               handleAccion={Fnworkflow}
-              accion={0}
-            ></ModalAlert>
+            />
           ) : (
             ""
           )}
@@ -620,8 +624,9 @@ const DetalleFgp = ({
                   )}
 
                   {autorizar &&
-                  perfil?.value == "ANA" &&
-                  user.PERFILES[0].Referencia == "ANA" ? (
+                  direccion?.value ==="CPH" &&
+                  perfil?.value === "ANA" &&
+                  user.PERFILES[0].Referencia === "ANA" ? (
                     <Tooltip title={"Autorizar Analista"}>
                       <ToggleButton
                         value="check"
@@ -635,6 +640,7 @@ const DetalleFgp = ({
                   )}
 
                   {autorizar &&
+                  direccion?.value =="CPH" &&
                   perfil?.value == "COOR" &&
                   user.PERFILES[0].Referencia == "COOR" ? (
                     <Tooltip title={"Autorizar Coordinador"}>
@@ -650,6 +656,7 @@ const DetalleFgp = ({
                   )}
 
                   {cancelar &&
+                   direccion?.value =="CPH" &&
                   perfil?.value == "ANA" &&
                   user.PERFILES[0].Referencia == "ANA" ? (
                     <Tooltip title={"Cancelar"}>
@@ -665,6 +672,7 @@ const DetalleFgp = ({
                   )}
 
                   {cancelar &&
+                   direccion?.value =="CPH" &&
                   perfil?.value == "COOR" &&
                   user.PERFILES[0].Referencia == "COOR" ? (
                     <Tooltip title={"Regresar a Analista"}>
