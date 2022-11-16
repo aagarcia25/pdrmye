@@ -479,7 +479,7 @@ Swal.fire({
       </Box>
 
       {open ?
-        <SolicitudModal modo={modo} data={data} open={open} handleClose={handleClose} />
+        <SolicitudModal modo={modo} data={data} handleClose={handleClose} />
         :
         ""
       }

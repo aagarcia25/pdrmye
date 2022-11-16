@@ -54,9 +54,13 @@ const UsuariosModal = ({
   const [rfc, setRfc] = useState<string>();
   const [curp, setCurp] = useState<string>();
   const [telefono, setTelefono] = useState<string>();
+  const [celular, setCelular] = useState<string>();
+
   const [CorreoElectronico, setCorreoElectronico] = useState<string>();
   const [emailValid, setEmailValid] = useState<boolean>();
   const [telValid, setTelValid] = useState<boolean>();
+  const [celValid, setCelValid] = useState<boolean>();
+
 
   const [tokenValid, setTokenValid] = useState<boolean>();
 
@@ -64,6 +68,9 @@ const UsuariosModal = ({
   const token = JSON.parse(String(getToken()));
   const [emailError, setEmailError] = useState('')
   const [telError, setTelError] = useState('')
+  const [celError, setCelError] = useState('')
+  
+
 
 
 
@@ -101,28 +108,46 @@ const UsuariosModal = ({
   const validateNumber = (e: any) => {
     var tel = e.target.value
     setTelefono(tel);
-    if (validator.isEmail(tel)) {
+    if (validator.isNumeric(tel)) {
+      setTelError('')
       setTelValid(true);
     } else {
       setTelError('Ingrese Numeros')
       setTelValid(false);
     }
   }
+  const validateCel = (e: any) => {
+    var cel = e.target.value
+    setCelular(cel);
+    if (validator.isNumeric(cel)) {
+      setCelError('')
+      setCelValid(true);
+    } else {
+      setCelError('Ingrese Numeros')
+      setCelValid(false);
+    }
+  }
 
 
   const handleSend = () => {
     if (
-      Nombre == null ||
-      ApellidoPaterno == null ||
-      ApellidoMaterno == null ||
-      NombreUsuario == null ||
-      CorreoElectronico == null ||
-      emailValid == false
+      !Nombre||
+      !ApellidoPaterno||
+      !ApellidoMaterno||
+      !NombreUsuario||
+      !CorreoElectronico||
+      !emailValid||
+      !telValid ||
+      !telefono||
+      !curp||
+      !rfc||
+      !idDepartamento||
+      !idPerfil||
+      !celular
     ) {
       AlertS.fire({
-        title: "Error!",
-        text: "Verificar los campos",
-        icon: "error",
+        title: "Verificar los campos!",
+        icon: "warning",
       });
     } else {
       let data = {
@@ -132,6 +157,10 @@ const UsuariosModal = ({
         NombreUsuario: NombreUsuario,
         CorreoElectronico: CorreoElectronico,
         IdUsuarioModificador: user.id,
+        Curp: curp,
+        Rfc: rfc ,
+        Celular: celular,
+        Telefono:telefono
       };
       handleRequest(data);
     }
@@ -152,7 +181,10 @@ const UsuariosModal = ({
         CORREO: CorreoElectronico,
         PUESTO: puesto,
         IDDEPARTAMENTO: idDepartamento,
-        IDPERFIL: idPerfil
+        IDPERFIL: idPerfil,
+        CURP: curp ,
+        RFC: rfc ,
+        CELULAR:  telefono
       };
 
       AuthService.adminUser(dat).then((res) => {
@@ -193,7 +225,12 @@ const UsuariosModal = ({
                     AM: ApellidoMaterno,
                     NUSER: NombreUsuario,
                     CORREO: CorreoElectronico,
-                    PUESTO: puesto
+                    IDDEPARTAMENTO: idDepartamento  ,
+                    IDPERFIL: idPerfil ,
+                    PUESTO: puesto ,
+                    CURP: curp ,
+                    RFC: rfc ,
+                    CELULAR:  telefono
 
                   };
 
@@ -282,10 +319,6 @@ const UsuariosModal = ({
   return (
     <div>
       <Dialog open={open} fullScreen>
-
-
-
-
         <Grid container spacing={1}>
           <Grid item xs={11} sm={11} md={11} lg={11}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -307,160 +340,206 @@ const UsuariosModal = ({
           </Grid>
         </Grid>
 
+        <Grid container spacing={1}
+          sx={{
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}>
+          <Grid item xs={11} sm={11} md={9} lg={6}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <DialogContent>
+                <Box>
+                  <TextField
+                    required
+                    margin="dense"
+                    id="nombre"
+                    label="Nombre"
+                    value={Nombre}
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    onChange={(v) => setNombre(v.target.value)}
+                    error={Nombre == null ? true : false}
+                    InputLabelProps={{ shrink: true }}
+                  />
 
+                  <TextField
+                    required
+                    margin="dense"
+                    id="ApellidoPaterno"
+                    label="Apellido Paterno"
+                    value={ApellidoPaterno}
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    onChange={(v) => setApellidoPaterno(v.target.value)}
+                    error={ApellidoPaterno == null ? true : false}
+                    InputLabelProps={{ shrink: true }}
+                  />
 
-        <DialogContent>
-          <Box>
-            <TextField
-              required
-              margin="dense"
-              id="nombre"
-              label="Nombre"
-              value={Nombre}
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(v) => setNombre(v.target.value)}
-              error={Nombre == null ? true : false}
-            />
+                  <TextField
+                    required
+                    margin="dense"
+                    id="ApellidoMaterno"
+                    label="Apellido Materno"
+                    value={ApellidoMaterno}
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    onChange={(v) => setApellidoMaterno(v.target.value)}
+                    error={ApellidoMaterno == null ? true : false}
+                    InputLabelProps={{ shrink: true }}
+                  />
 
-            <TextField
-              required
-              margin="dense"
-              id="ApellidoPaterno"
-              label="Apellido Paterno"
-              value={ApellidoPaterno}
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(v) => setApellidoPaterno(v.target.value)}
-              error={ApellidoPaterno == null ? true : false}
-            />
+                  <TextField
+                    required
+                    margin="dense"
+                    id="NombreUsuario"
+                    label="Nombre Usuario"
+                    value={NombreUsuario}
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    onChange={(v) => setNombreUsuario(v.target.value)}
+                    error={NombreUsuario == null ? true : false}
+                    InputLabelProps={{ shrink: true }}
+                  />
 
-            <TextField
-              required
-              margin="dense"
-              id="ApellidoMaterno"
-              label="Apellido Materno"
-              value={ApellidoMaterno}
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(v) => setApellidoMaterno(v.target.value)}
-              error={ApellidoMaterno == null ? true : false}
-            />
+                  <TextField
+                    required
+                    margin="dense"
+                    id="CorreoElectronico"
+                    label="Correo Electronico"
+                    fullWidth
+                    value={CorreoElectronico}
+                    variant="standard"
+                    onChange={(e) => validateEmail(e)}
+                    error={emailValid == false || CorreoElectronico == null}
+                    InputLabelProps={{ shrink: true }}
+                  />
+                  <label>{emailError}</label>
 
-            <TextField
-              required
-              margin="dense"
-              id="NombreUsuario"
-              label="Nombre Usuario"
-              value={NombreUsuario}
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(v) => setNombreUsuario(v.target.value)}
-              error={NombreUsuario == null ? true : false}
-            />
+                  <TextField
+                    required
+                    margin="dense"
+                    id="Puesto"
+                    label="Puesto"
+                    value={puesto}
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    onChange={(v) => setPuesto(v.target.value)}
+                    error={puesto == null ? true : false}
+                    InputLabelProps={{ shrink: true }}
+                  />
+                  <TextField
+                    required
+                    margin="dense"
+                    id="RFC"
+                    label="RFC"
+                    value={rfc}
+                    type="text"
+                    fullWidth
+                    inputProps={{ maxLength: 13 }}
+                    variant="standard"
+                    onChange={(v) => setRfc(v.target.value.toUpperCase())}
+                    error={rfc == null ? true : false}
+                    InputLabelProps={{ shrink: true }}
+                  />
+                  <TextField
+                    required
+                    margin="dense"
+                    id="curp"
+                    label="CURP"
+                    value={curp}
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    onChange={(v) => setCurp(v.target.value.toUpperCase())}
+                    inputProps={{ maxLength: 18 }}
+                    error={curp == null ? true : false}
+                  />
+                  <TextField
+                    required
+                    margin="dense"
+                    id="telefono"
+                    label="Telefono"
+                    value={telefono}
+                    type="text"
+                    fullWidth
+                    inputProps={{ maxLength: 10, mask:"(___) ___-____"}}
+                    variant="standard"
+                    onChange={(e) => validateNumber(e)}
+                    error={!telValid|| !telefono}
+                    InputLabelProps={{ shrink: true }}
 
-            <TextField
-              required
-              margin="dense"
-              id="CorreoElectronico"
-              label="Correo Electronico"
-              fullWidth
-              value={CorreoElectronico}
-              variant="standard"
-              onChange={(e) => validateEmail(e)}
-              error={emailValid == false || CorreoElectronico == null}
-            />
-            <label>{emailError}</label>
+                  />
+                  <label>{telError}</label>
+                  <br />
+                  <TextField
+                    required
+                    margin="dense"
+                    id="celular"
+                    label="Telefono Movil"
+                    value={celular}
+                    type="text"
+                    fullWidth
+                    inputProps={{ maxLength: 10, mask:"(___) ___-____"}}
+                    variant="standard"
+                    onChange={(e) => validateCel(e)}
+                    error={!celValid|| !celular}
+                    InputLabelProps={{ shrink: true }}
 
-            <TextField
-              required
-              margin="dense"
-              id="Puesto"
-              label="Puesto"
-              value={puesto}
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(v) => setPuesto(v.target.value)}
-              error={puesto == null ? true : false}
-            />
-            <TextField
-              required
-              margin="dense"
-              id="RFC"
-              label="RFC"
-              value={rfc}
-              type="text"
-              fullWidth
-              inputProps={ {maxLength: 13}}
-              variant="standard"
-              onChange={(v) => setRfc(v.target.value.toUpperCase())}
-              error={rfc == null ? true : false}
-            />
-            <TextField
-              required
-              margin="dense"
-              id="curp"
-              label="CURP"
-              value={curp}
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(v) => setCurp(v.target.value.toUpperCase())}
-              inputProps={ {maxLength: 18}}
-              error={curp == null ? true : false}
-            />
-            <TextField
-              required
-              margin="dense"
-              id="telefono"
-              label="Telefono"
-              value={telefono}
-              type="text"
-              fullWidth
-              inputProps={ {maxLength: 10 ,mask:"000-00 00 00"}}
-              variant="standard"
-              onChange={(e) => validateNumber(e)}
-              error={telValid == false || telefono == null}
-              
-            />
-             <label>{telError}</label>
-            <br />
-            <label>Departamento:</label>
-            <SelectFrag
-              value={idDepartamento}
-              options={departamento}
-              onInputChange={handleFilterChange}
-              placeholder={"Seleccione Departamento"}
-              label={""}
-              disabled={false}
-            />
+                  />
+                  <label>{celError}</label>
+                  <br />
+                  <label>Departamento:</label>
+                  <SelectFrag
+                    value={idDepartamento}
+                    options={departamento}
+                    onInputChange={handleFilterChange}
+                    placeholder={"Seleccione Departamento"}
+                    label={""}
+                    disabled={false}
+                  />
 
-            <label>Perfil:</label>
-            <SelectFrag
-              value={idPerfil}
-              options={perfiles}
-              onInputChange={handleFilterChangePerfil}
-              placeholder={"Seleccione Perfil"}
-              label={""}
-              disabled={false}
-            />
-          </Box>
-        </DialogContent>
+                  <label>Perfil:</label>
+                  <SelectFrag
+                    value={idPerfil}
+                    options={perfiles}
+                    onInputChange={handleFilterChangePerfil}
+                    placeholder={"Seleccione Perfil"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Box>
+              </DialogContent>
+            </Box>
+          </Grid>
+        </Grid>
 
-        <DialogActions>
-          <Button
-            className="guardar"
-            color="info"
-            onClick={() => handleSend()}
-          >
-            Actualizar
-          </Button>
-        </DialogActions>
+        <Grid container spacing={1}
+          sx={{
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}>
+          <Grid item xs={11} sm={11} md={9} lg={6}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <DialogActions>
+                <Button
+                  className="guardar"
+                  color="info"
+                  onClick={() => handleSend()}
+                >
+                 {tipo == 3 ? "Guardar" : "Actualizar"}
+                </Button>
+              </DialogActions>
+            </Box>
+          </Grid>
+        </Grid>
+
       </Dialog>
     </div>
   );
