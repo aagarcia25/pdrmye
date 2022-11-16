@@ -51,11 +51,11 @@ const ButtonsMunicipio = ({
       <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
         {descargarPlantilla ?
           <Tooltip title="Descargar Plantilla">
-            <ToggleButton value="check" >
-              <Link href={url}>
+             <IconButton aria-label="upload documento" component="label" size="large">
+             <Link href={url}>
                 <ArrowDownwardIcon />
               </Link>
-            </ToggleButton>
+             </IconButton>
           </Tooltip>
           : ""}
         {cargarPlantilla ?
