@@ -15,7 +15,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { AlertS } from '../../../helpers/AlertS';
+
 import { CatalogosServices } from '../../../services/catalogosServices';
 import { Toast } from '../../../helpers/Toast';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -24,6 +24,8 @@ import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import validator from 'validator';
 import { border, borderColor } from '@mui/system';
+import { AlertS } from '../../../helpers/AlertS';
+import ModalForm from '../componentes/ModalForm';
 
 
 const steps = ['Campos Obligatorios', 'Carga de Archivo ', 'Finalizar Solicitud'];
@@ -250,6 +252,10 @@ export const SolicitudModal = (
         setNameNewDoc("");
 
     };
+    const Cl = () => {
+ 
+
+    };
 
     useEffect(() => {
         setModoSol(String(modo))
@@ -267,13 +273,13 @@ export const SolicitudModal = (
 
     return (
         <div style={{ height: "100%", width: "100%" }}>
-
-            <Box>
+<ModalForm title={'Solicitud de Anticipo de Participaciones'} handleClose={handleClose}>
+  <Box>
                 <Slider open={openSlider}></Slider>
-                <Dialog open={Boolean(open)} fullWidth={true}
-                //fullScreen={modo=="ver"?true:false}
-                >
-                    <DialogTitle textAlign="center"> Solicitud de Anticipo de Participaciones </DialogTitle>
+              
+              {modo=="ver"?true:false}
+                
+                    <DialogTitle textAlign="center">  </DialogTitle>
                     {modoSol == "ver" ?
                         <Grid container>
                             <Grid item>
@@ -542,8 +548,10 @@ export const SolicitudModal = (
 
 
 
-                </Dialog>
             </Box>
+
+</ModalForm>
+          
         </div>
     );
 };
