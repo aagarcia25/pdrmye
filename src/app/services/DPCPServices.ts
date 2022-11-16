@@ -7,6 +7,10 @@ export class DPCPServices {
         return await post('ConsultaDPCP', data);
     }
    
+    public static async GetPartFedv2(data: any) {
+        return await post('GetPartFedv2', data);
+    }
+   
 
     
 
