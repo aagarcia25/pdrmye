@@ -80,14 +80,7 @@ export const MunTerritorio = () => {
   const handleClose = (v: string) => {
       setOpen(false);
       setOpen(false);
-      let data = {
-        NUMOPERACION: 4,
-      }
-      consulta(data);
-
-    console.log('cerrando');
-
-
+      consulta();
   };
 
   const handleOpen = (v: any) => {
@@ -125,11 +118,7 @@ export const MunTerritorio = () => {
               title: "Registro Eliminado!",
             });
 
-            let data = {
-              NUMOPERACION: 4,
-
-            };
-            consulta(data);
+            consulta();
 
           } else {
             AlertS.fire({
@@ -161,6 +150,7 @@ export const MunTerritorio = () => {
           icon: "success",
           title: "Carga Exitosa!",
         });
+        consulta();
       } else {
         AlertS.fire({
           title: "Error!",
@@ -174,14 +164,18 @@ export const MunTerritorio = () => {
     });
   };
 
-  const consulta = (data: any) => {
-    CatalogosServices.munterritorio(data).then((res) => {
+  const consulta = () => {
+    let dat = ({
+      NUMOPERACION: 4,
+      CHUSER: user.id
+    })
+    CatalogosServices.munterritorio(dat).then((res) => {
       // if (res.SUCCESS) {
       //   Toast.fire({
       //     icon: "success",
       //     title: "Consulta Exitosa!",
       //   });
-      //   setTerritorio(res.RESPONSE);
+         setTerritorio(res.RESPONSE);
       // } else {
       //   AlertS.fire({
       //     title: "Error!",
@@ -224,14 +218,9 @@ export const MunTerritorio = () => {
 
   }, []);
 
-  let dat = ({
-    NUMOPERACION: 4,
-    CHUSER: user.id
-  })
+ 
   useEffect(() => {
-    CatalogosServices.munterritorio(dat).then((res) => {
-      setTerritorio(res.RESPONSE);
-    });
+    consulta();
   }, []);
 
 

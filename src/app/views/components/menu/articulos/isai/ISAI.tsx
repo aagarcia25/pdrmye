@@ -11,10 +11,12 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import {
   Box,
   Grid,
   IconButton,
+  Link,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -42,6 +44,8 @@ const ISAI = () => {
   const [tipoCalculo, setTipoCalculo] = useState("");
   const [version, setVersion] = useState(0);
   const [modo, setModo] =  useState(0);
+  const [plantilla, setPlantilla] = useState("");
+
 
   const columns1: GridColDef[] = [
     {
@@ -215,6 +219,16 @@ const ISAI = () => {
     });
   };
 
+  const downloadplantilla = () => {
+    let data = {
+      NUMOPERACION: "PLANTILLA DE CARGA_ISAI",
+    };
+
+    CatalogosServices.descargaplantilla(data).then((res) => {
+      setPlantilla(res.RESPONSE);
+    });
+  };
+
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "ISAI") {
@@ -230,6 +244,7 @@ const ISAI = () => {
         }
       }
     });
+    downloadplantilla();
     consulta(5);
   
   }, []);
@@ -244,13 +259,23 @@ const ISAI = () => {
       
       <div style={{ height: 600, width: "100%" ,display : modo == 0 ? "block":"none"}}>
       <Box >
-        {agregar ? 
+        {agregar ?
+        <>
+          <Tooltip title="Descargar Plantilla">
+          <IconButton aria-label="upload documento" component="label" size="large">
+            <Link href={plantilla}>
+              <ArrowDownwardIcon />
+            </Link>
+            </IconButton>
+        </Tooltip>
+
         <Tooltip title="Cargar Plantilla">
         <IconButton aria-label="upload documento" component="label" size="large">
         <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
         <DriveFolderUploadIcon />
         </IconButton>
         </Tooltip>
+        </>
          :""}
       </Box>
 
