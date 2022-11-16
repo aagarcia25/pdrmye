@@ -57,6 +57,7 @@ import AgregarContactoMunicipio from '../views/components/Municipios/AgregarCont
 import TipoFondoCalculo from '../views/components/menu/catalogos/TipoFondoCalculo/TipoFondoCalculo';
 import ISAI from '../views/components/menu/articulos/isai/ISAI';
 import CambiosMun from '../views/components/menu/catalogos/Cambios/CambiosMun';
+import AuthSolicitudes from '../views/components/DPCP/AuthSolicitudes';
 
 
 
@@ -151,7 +152,7 @@ export const AppRouter = () => {
 
        {/* DCCP */}
        <Route path='/inicio/dpcp'  element={log ? <AsigPresupuestal /> : <AuthRouter />} />
-       <Route path='/inicio/dpcp/auth'  element={log ? <AsigPresupuestal /> : <AuthRouter />} />
+       <Route path='/inicio/dpcp/auth'  element={log ? <AuthSolicitudes /> : <AuthRouter />} />
        AuthSolicitudes
        {/* FIN DCCP */}
         {/* DAF */}

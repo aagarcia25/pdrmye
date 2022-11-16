@@ -118,42 +118,13 @@ const ModalNew = ({
     });
   };
 
-  const isrinmuebles = () => {
-    setslideropen(true);
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "ISRINMUEBLES");
-    formData.append("CHUSER", user.id);
-    formData.append("ANIO", String(year));
-    formData.append("MES", idmes);
-    formData.append("IMPORTE", String(monto));
-    formData.append("TIPOCALCULO", idTipoCalculo);
-    CatalogosServices.migraData(formData).then((res) => {
-      setslideropen(false);
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        });
-
-        onClickBack();
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
+ 
 
 
   const handleSend = () => {
 
         if (clave === "ICV") {
           icv();
-        } else if (clave === "ISR INMUEBLES") {
-          isrinmuebles();
         } else if (clave === "ISR NOMINA") {
           isrnomina();
         }else{

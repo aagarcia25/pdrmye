@@ -152,7 +152,7 @@ const CalendarC = () => {
   }
 
   useEffect(() => {
-    consulta({ NUMOPERACION: 4 });
+    consulta({ NUMOPERACION: 4 ,CHUSER:user.id});
   }, []);
 
   return (
