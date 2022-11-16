@@ -40,7 +40,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
         <Grid item sx={{ width:"auto",higth:"10%" }}>
         <img src={Logo} style={{ width: "100%" }} />
         </Grid>
-        <Grid item sx={{width:"auto", textAlign:"center"}}>
+        <Grid item sx={{width:"auto", textAlign:"center", paddingLeft:"3%"}}>
           <Typography variant="subtitle1" > DISTRIBUCIÓN DE RECURSOS </Typography>
           <Typography variant="subtitle1" > Ambiente:  { localStorage.getItem('Ambiente')} </Typography>
         </Grid> 
@@ -81,7 +81,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                 <div key={indexx}>
                 <ListItemButton key={indexx}   onClick={()=>handleClick(indexx)} >
                 <ListItemIcon>
-                <SendIcon />
+                {/* <SendIcon /> */}
                 </ListItemIcon>
                
                 <ListItemText key={indexx}  primary={
@@ -102,9 +102,9 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                         <List key={index}  component="div" disablePadding>
                           <Divider/>
                           <ListItemButton  key={index}  onClick={() => navigate(subitem.Path)}  sx={{ pl: 4 }}>
-                            <ListItemIcon>
+                            {/* <ListItemIcon>
                               <ArrowForwardIcon />
-                            </ListItemIcon>
+                            </ListItemIcon> */}
                                <ListItemText key={index}  primary={
                                 <Tooltip title={subitem.Descripcion}>
                                 <Typography variant="caption" sx={{ fontFamily: "sans-serif" }} gutterBottom>
