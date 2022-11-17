@@ -12,7 +12,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import BotonesAcciones from '../componentes/BotonesAcciones';
 import DoneIcon from '@mui/icons-material/Done';
 import SendIcon from '@mui/icons-material/Send';
-import { ComentariosRecursosModal } from './ComentariosRecursosModal';
+import { ComentariosRecursosModal } from '../Municipios/ComentariosRecursosModal';
 import Swal from 'sweetalert2';
 import { AlertS } from '../../../helpers/AlertS';
 import { PERMISO, RESPONSE } from '../../../interfaces/user/UserInfo';
@@ -374,7 +374,7 @@ Swal.fire({
         <Grid container spacing={2} sx={{ justifyContent: "center", }} >
           <Grid item xs={12}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Titulo name={"Ordenes de Pago"} />
+              <Titulo name={"solicitudes de Pago"} />
             </Box>
           </Grid>
         </Grid>

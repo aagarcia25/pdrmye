@@ -31,6 +31,7 @@ import {
   esES as gridEsES,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
+import Swal from "sweetalert2";
 
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -139,6 +140,54 @@ const Participaciones = () => {
     console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
     console.log(selectionModel);
     setOpenModal(true);
+  };
+
+  const SolicitudOrdenPago = () => {
+    console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
+    console.log(selectionModel);
+    //setOpenModal(true);
+
+    Swal.fire({
+      icon: "warning",
+      title:"Solicitar",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+  }).then(async (result) => {
+      if (result.isConfirmed) {
+
+          // CatalogosServices.BitacoraAjustes({
+          //     NUMOPERACION: v == "autorizar" ? 2 : 3,
+          //     CHID: idCambio,
+          //     CHUSER: user.id,
+          //     COMENTARIO: comentario
+          // }).then((res) => {
+          //     if (res.SUCCESS) {
+          //         console.log(res.RESPONSE)
+          //         handleClose();
+          //     } else {
+
+                  AlertS.fire({
+                      title: "Solicitud Enviada",
+                      icon: "success",
+
+                  }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      handleClick();
+            
+                              
+                    }
+                    
+                });
+                
+             // }
+        //  });
+      }
+      
+  });
+
+
   };
 
   const handleClick = () => {
@@ -252,7 +301,7 @@ const Participaciones = () => {
               </ToggleButton>
             </Tooltip>
             <Tooltip title={"Generar Solicitud"}>
-            <ToggleButton value="check" onClick={() => AsignarPresupuesto()}>
+            <ToggleButton value="check" onClick={() => SolicitudOrdenPago()}>
               <SettingsSuggestIcon />
             </ToggleButton>
           </Tooltip>
