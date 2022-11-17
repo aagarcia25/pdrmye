@@ -4,7 +4,6 @@ import {
   createTheme,
   Grid,
   IconButton,
-  Link,
   ThemeProvider,
   ToggleButton,
   ToggleButtonGroup,
@@ -16,6 +15,7 @@ import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
 import SendIcon from "@mui/icons-material/Send";
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -26,7 +26,6 @@ import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
 import {
   DataGrid,
-  esES,
   GridSelectionModel,
   GridToolbar,
   esES as gridEsES,
@@ -41,7 +40,6 @@ const Participaciones = () => {
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
-  const [procesos, setProcesos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tipos, setTipos] = useState<SelectValues[]>([]);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
@@ -266,11 +264,16 @@ const Participaciones = () => {
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <ToggleButtonGroup>
-            <Tooltip title={"Asignar Presupuesto"}>
+            <Tooltip title={"Solicitar Suficiencia Presupuestal"}>
               <ToggleButton value="check" onClick={() => AsignarPresupuesto()}>
                 <AttachMoneyIcon />
               </ToggleButton>
             </Tooltip>
+            <Tooltip title={"Generar Solicitud"}>
+            <ToggleButton value="check" onClick={() => AsignarPresupuesto()}>
+              <SettingsSuggestIcon />
+            </ToggleButton>
+          </Tooltip>
           </ToggleButtonGroup>
         </Grid>
 
