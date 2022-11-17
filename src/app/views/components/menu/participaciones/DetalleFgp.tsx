@@ -90,6 +90,7 @@ const DetalleFgp = ({
 
   // MANEJO DE ACCIONES
   const handleAcciones = (v: any) => {
+    setOpenSlider(true);
     if (v.tipo == 1) {
       console.log(v);
     } else if (v.tipo == 2) {
@@ -481,9 +482,10 @@ const DetalleFgp = ({
       ...Moneda,
     },
   ];
+
   const EstablecePermisos = () => {
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === String(clave)) {
+      if (String(item.ControlInterno) === String(clave).replace(/\s/g, "")) {
         if (String(item.Referencia) == "AUT") {
           setAutorizar(true);
         }
@@ -512,6 +514,8 @@ const DetalleFgp = ({
     columnas({ IDCALCULOTOTAL: idDetalle });
     consulta({ IDCALCULOTOTAL: idDetalle });
   }, []);
+
+
 
   return (
     <div>
