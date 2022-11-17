@@ -58,6 +58,7 @@ import TipoFondoCalculo from '../views/components/menu/catalogos/TipoFondoCalcul
 import ISAI from '../views/components/menu/articulos/isai/ISAI';
 import CambiosMun from '../views/components/menu/catalogos/Cambios/CambiosMun';
 import AuthSolicitudes from '../views/components/DPCP/AuthSolicitudes';
+import Participaciones from '../views/components/DAMOP/Participaciones';
 
 
 
@@ -74,7 +75,7 @@ export const AppRouter = () => {
         <Route path='/'  element={log ? <Bienvenido user={user} /> : <AuthRouter />}     />
         {/* SECCION DE CATALOGOS */}
        
-        <Route path='/inicio/Municipio/anticipo/APD'              element={<AnticipoParticipaciones />} />
+      
         <Route path='/inicio/catalogos/mun'                        element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa'                       element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob'                     element={<MunPoblacion />} />
@@ -158,6 +159,13 @@ export const AppRouter = () => {
         {/* DAF */}
         <Route path='/inicio/daf'  element={log ? <AsigPago /> : <AuthRouter />} />
        {/* FIN DAF */}
+
+       {/* DAMOP */}
+       <Route path='/inicio/Municipio/anticipo/APD'              element={<AnticipoParticipaciones />} />
+       <Route path='/inicio/Municipio/participaciones'              element={<Participaciones />} />
+       {/* FIN DAMOP */}
+
+
       </Routes>
     </Inicio>
   );

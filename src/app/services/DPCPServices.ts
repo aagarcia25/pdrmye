@@ -10,7 +10,11 @@ export class DPCPServices {
     public static async GetPartFedv2(data: any) {
         return await post('GetPartFedv2', data);
     }
-   
+
+    public static async GetParticipaciones(data: any) {
+        return await post('GetParticipaciones', data);
+    }
+    
 
     
 
