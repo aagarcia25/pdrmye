@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { Titulo } from '../menu/catalogos/Utilerias/AgregarCalculoUtil/Titulo';
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
@@ -35,7 +36,7 @@ import {
   GridColumns,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
-import ModalPresupuesto from "./ModalPresupuesto";
+import ModalOp from "./ModalOp";
 
 const Operaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -74,197 +75,8 @@ const Operaciones = () => {
     setOpenModal(true);
   };
 
-  const columnsSolicitudAnticipoParticipaciones = [
-    { field: "id", headerName: "Identificador", width: 100, hide: true },
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
-      sortable: false,
-      width: 150,
-      renderCell: (v: any) => {
-        return (
-          <Box>
-            <Tooltip title="Asignar Presupuesto">
-              <IconButton onClick={() => agregarPresupuesto(v)}>
-                <AttachMoneyIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        );
-      },
-    },
-    {
-      field: "proceso",
-      headerName: "Proceso",
-      width: 250,
-      description: "Proceso",
-    },
-    {
-      field: "Anio",
-      headerName: "Año",
-      width: 100,
-      description: "Año",
-    },
-    {
-      field: "descripcionMes",
-      headerName: "Mes",
-      width: 150,
-      description: "Mes",
-    },
-    {
-      field: "ClaveEstado",
-      headerName: "Clave Estado",
-      width: 100,
-      description: "Clave Estado",
-    },
-    {
-      field: "municipio",
-      headerName: "Municipio",
-      width: 150,
-      description: "Municipio",
-    },
-    {
-      field: "Concepto",
-      headerName: "Concepto",
-      width: 250,
-      description: "Concepto",
-    },
-
-    {
-      field: "Total",
-      headerName: "Importe",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-
-    {
-      field: "ComentarioPresupuesto",
-      headerName: "Observación DAMOP",
-      width: 300,
-      description: "Observación DAMOP",
-    },
-
-    {
-      field: "Clave Presupuestal",
-      headerName: "Clave Presupuestal",
-      width: 300,
-      description: "Clave Presupuestal",
-    },
-
-    {
-      field: "RutaArchivo",
-      headerName: "Documento DPCP",
-      width: 100,
-      renderCell: (v: any) => {
-        return v.row.RutaArchivo !== null ? (
-          <Box>
-            <Link href={v.row.RutaArchivo} underline="always">
-              Descargar
-            </Link>
-          </Box>
-        ) : (
-          ""
-        );
-      },
-    },
-  ];
-
-
-  const columnsAnticipoParticipaciones = [
-    { field: "id", headerName: "Identificador", width: 100, hide: true },
-    { field: "idprincipal", headerName: "idcalculo", width: 10, hide: true },
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
-      sortable: false,
-      width: 150,
-      renderCell: (v: any) => {
-        return (
-          <Box>
-            <Tooltip title="Asignar Presupuesto">
-              <IconButton onClick={() => agregarPresupuesto(v)}>
-                <AttachMoneyIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        );
-      },
-    },
-    {
-      field: "proceso",
-      headerName: "Proceso",
-      width: 250,
-      description: "Proceso",
-    },
-    {
-      field: "Anio",
-      headerName: "Año",
-      width: 100,
-      description: "Año",
-    },
-    {
-      field: "mesdescripcion",
-      headerName: "Mes",
-      width: 150,
-      description: "Mes",
-    },
-    {
-      field: "ClaveEstado",
-      headerName: "Clave Estado",
-      width: 100,
-      description: "Clave Estado",
-    },
-    {
-      field: "Nombre",
-      headerName: "Municipio",
-      width: 150,
-      description: "Municipio",
-    },
-
-    {
-      field: "Total",
-      headerName: "Importe",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-
-    {
-      field: "ComentarioPresupuesto",
-      headerName: "Observación DAMOP",
-      width: 300,
-      description: "Observación DAMOP",
-    },
-
-    {
-      field: "Clave Presupuestal",
-      headerName: "Clave Presupuestal",
-      width: 300,
-      description: "Clave Presupuestal",
-    },
-
-    {
-      field: "RutaArchivo",
-      headerName: "Documento DPCP",
-      width: 100,
-      renderCell: (v: any) => {
-        return v.row.RutaArchivo !== null ? (
-          <Box>
-            <Link href={v.row.RutaArchivo} underline="always">
-              Descargar
-            </Link>
-          </Box>
-        ) : (
-          ""
-        );
-      },
-    },
-  ];
-
-  const columnsParticipaciones = [
+ 
+  const columnsGenerarOrdendePago = [
     { field: "id", headerName: "Identificador", width: 100, hide: true },
     { field: "idcalculo", headerName: "idcalculo", width: 10, hide: true },
     {
@@ -483,7 +295,9 @@ const Operaciones = () => {
       <Slider open={slideropen}></Slider>
       <Grid container spacing={1}>
       <Grid item xs={12} sm={12} md={12} lg={12}>
-        Módulo de Administración Presupuestaria
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Titulo name={"Generar Ordenes de Pago "} />
+      </Box>
       </Grid>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -604,61 +418,13 @@ const Operaciones = () => {
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <Typography sx={{ fontFamily: "MontserratMedium" }}>
-            Para Realizar la consulta de Información es Requerido los filtros
+            Para realizar la consulta, seleccione la información de los filtros
           </Typography>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <div style={{ height: "60vh", width: "100%" , display : p1 == 1 ? "block":"none"}}>
-            <ThemeProvider theme={theme}>
-                <DataGrid
-                  localeText={
-                    esES.components.MuiDataGrid.defaultProps.localeText
-                  }
-                  columns={columnsAnticipoParticipaciones}
-                  rows={data}
-                  density="compact"
-                  rowsPerPageOptions={[10, 25, 50, 100]}
-                  disableSelectionOnClick
-                  disableColumnFilter
-                  disableColumnSelector
-                  disableDensitySelector
-                  getRowHeight={() => "auto"}
-                  checkboxSelection={checkboxSelection}
-                  components={{ Toolbar: GridToolbar }}
-                  sx={{ fontFamily: "MontserratMedium" }}
-                  onSelectionModelChange={(newSelectionModel: any) => {
-                    setSelectionModel(newSelectionModel);
-                  }}
-                  selectionModel={selectionModel}
-                />
-            </ThemeProvider>
-          </div>
+          
 
-          <div style={{ height: "60vh", width: "100%" , display : p1 == 2 ? "block":"none"}}>
-            <ThemeProvider theme={theme}>
-                <DataGrid
-                  localeText={
-                    esES.components.MuiDataGrid.defaultProps.localeText
-                  }
-                  columns={columnsSolicitudAnticipoParticipaciones}
-                  rows={data}
-                  density="compact"
-                  rowsPerPageOptions={[10, 25, 50, 100]}
-                  disableSelectionOnClick
-                  disableColumnFilter
-                  disableColumnSelector
-                  disableDensitySelector
-                  getRowHeight={() => "auto"}
-                  checkboxSelection={checkboxSelection}
-                  components={{ Toolbar: GridToolbar }}
-                  sx={{ fontFamily: "MontserratMedium" }}
-                  onSelectionModelChange={(newSelectionModel: any) => {
-                    setSelectionModel(newSelectionModel);
-                  }}
-                  selectionModel={selectionModel}
-                />
-            </ThemeProvider>
-          </div>
+         
 
           <div style={{ height: "60vh", width: "100%" , display : p1 == 3 ? "block":"none"}}>
             <ThemeProvider theme={theme}>
@@ -666,7 +432,7 @@ const Operaciones = () => {
                   localeText={
                     esES.components.MuiDataGrid.defaultProps.localeText
                   }
-                  columns={columnsParticipaciones}
+                  columns={columnsGenerarOrdendePago}
                   rows={data}
                   density="compact"
                   rowsPerPageOptions={[10, 25, 50, 100]}
@@ -691,11 +457,11 @@ const Operaciones = () => {
       {/* MODALES */}
 
       {openModal ? (
-        <ModalPresupuesto
+        <ModalOp
           handleClose={handleClose}
           vrows={vrows}
           handleAccion={Fnworkflow}
-        ></ModalPresupuesto>
+        ></ModalOp>
       ) : (
         ""
       )}

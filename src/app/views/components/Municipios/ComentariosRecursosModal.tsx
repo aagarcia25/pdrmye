@@ -4,9 +4,9 @@ import Swal from "sweetalert2";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getUser } from "../../../services/localStorage";
 import Slider from "../Slider";
-import { AlertS } from '../../../helpers/AlertS';
 import { CatalogosServices } from '../../../services/catalogosServices';
 import CloseIcon from '@mui/icons-material/Close';
+import { AlertS } from "../../../helpers/AlertS";
 
 
 
@@ -149,7 +149,7 @@ export const ComentariosRecursosModal = (
                 >
                     <Grid container sx={{ justifyContent: "space-between ", width: "100%" }}>
                         <Grid item xs={10} md={10} lg={10} >
-                            <DialogTitle>Solicitud de Anticipo de Participaciones <br />{" " + "Solicitante:  " + data.Solicitante}</DialogTitle>
+                            <DialogTitle>tud de Anticipo de Participaciones <br />{" " + "Solicitante:  " + data.Solicitante}</DialogTitle>
                         </Grid>
                         <Grid item xs={1} md={1} lg={1}>
                             <Tooltip title={"Cerrar"}>
