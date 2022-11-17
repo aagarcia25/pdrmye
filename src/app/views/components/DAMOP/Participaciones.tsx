@@ -60,39 +60,21 @@ const Participaciones = () => {
   const columnsParticipaciones = [
     { field: "id", headerName: "Identificador", width: 100, hide: true },
     {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
-      sortable: false,
-      width: 150,
-      renderCell: (v: any) => {
-        return (
-          <Box>
-            <Tooltip title="Asignar Presupuesto">
-              <IconButton onClick={() => agregarPresupuesto(v)}>
-                <AttachMoneyIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        );
-      },
-    },
-    {
       field: "Anio",
       headerName: "Año",
-      width: 150,
+      width: 100,
       description: "Año",
     },
     {
       field: "Mes",
       headerName: "Mes",
-      width: 250,
+      width: 100,
       description: "Mes",
     },
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
-      width: 150,
+      width: 100,
       description: "Clave Estado",
     },
     {
