@@ -401,7 +401,7 @@ import {
         P_IDESTATUS: idEstatus == "false" ? "" : idEstatus,
       };
       console.log(data);
-      DPCPServices.GetPartFedv2(data).then((res) => {
+     /* DPCPServices.GetPartFedv2(data).then((res) => {
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
@@ -415,7 +415,7 @@ import {
             icon: "error",
           });
         }
-      });
+      });*/
     };
   
     useEffect(() => {

@@ -32,6 +32,8 @@ import {
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
+import ModalCalculos from "../componentes/ModalCalculos";
+import { DAMOPServices } from "../../../services/DAMOPServices";
 
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -53,10 +55,6 @@ const Participaciones = () => {
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  const agregarPresupuesto = (data: any) => {
-    setVrows(data);
-    setOpenModal(true);
-  };
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -89,6 +87,21 @@ const Participaciones = () => {
       headerName: "Fondo",
       width: 150,
       description: "Fondo",
+    },
+    {
+      field: "fondodes",
+      headerName: "Descripción de Fondo",
+      width: 250,
+    },
+    {
+      field: "tipocalculo",
+      headerName: "Tipo Cálculo",
+      width: 150,
+    },
+    {
+      field: "estatus",
+      headerName: "Estatus",
+      width: 200,
     },
     {
       field: "ClavePresupuestal",
@@ -136,11 +149,36 @@ const Participaciones = () => {
   };
 
 
-  const AsignarPresupuesto = () => {
-    console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
-    console.log(selectionModel);
-    setOpenModal(true);
+  const Fnworkflow = (data: string) => {
+    console.log(data);
+
+    let obj = {
+      NUMOPERACION:1,
+      OBJS: selectionModel,
+      CHUSER: user.id,
+      COMENTARIO:data
+    
+    };
+    console.log(obj);
+
+    DAMOPServices.PA(obj).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        handleClose();
+      } else {
+        AlertS.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
   };
+
+
 
   const SolicitudOrdenPago = () => {
     console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
@@ -231,6 +269,17 @@ console.log(data);
   return (
     <div>
       <Slider open={slideropen}></Slider>
+
+      {openModal ? (
+        <ModalCalculos
+          tipo={"Comentarios"}
+          handleClose={handleClose}
+          handleAccion={Fnworkflow}
+        />
+      ) : (
+        ""
+      )}
+      
       <Grid container spacing={1}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
@@ -301,7 +350,7 @@ console.log(data);
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <ToggleButtonGroup>
             <Tooltip title={"Solicitar Suficiencia Presupuestal"}>
-              <ToggleButton value="check" onClick={() => AsignarPresupuesto()}>
+              <ToggleButton value="check" onClick={() => setOpenModal(true)}>
                 <AttachMoneyIcon />
               </ToggleButton>
             </Tooltip>

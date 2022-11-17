@@ -30,18 +30,19 @@ import { esES as coreEsES } from "@mui/material/locale";
 import ModalPresupuesto from "./ModalPresupuesto";
 
 const AsigPresupuestal = () => {
-
+  const user: RESPONSE = JSON.parse(String(getUser()));
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
+  const [selectionModel, setSelectionModel] =React.useState<GridSelectionModel>([]);
+  
+  
   //MODAL
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
-
-
   //Constantes para las columnas
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+ 
 
   const agregarPresupuesto = (data: any) => {
     setVrows(data);
@@ -50,16 +51,67 @@ const AsigPresupuestal = () => {
 
   
   const columnsParticipaciones = [
-    { field: "id", headerName: "Identificador", width: 100, hide: true },
-    {field: "Anio",headerName: "Año",width: 150,description: "Año",},
-    {field: "Mes",      headerName: "Mes",      width: 250,      description: "Mes",    },
-    {field: "ClaveEstado",      headerName: "Clave Estado",      width: 150,      description: "Clave Estado",    },
-    {field: "Nombre",      headerName: "Municipio",      width: 150,      description: "Municipio",    },
-    {field: "Clave",      headerName: "Fondo",      width: 150,      description: "Fondo",    },
-    {field: "ClavePresupuestal", headerName: "Clave Presupuestal", width: 600, hide: false },
-    {field: "total",      headerName: "Importe",      width: 150,      description: "Importe",      ...Moneda,    },
-
+    { field: "id", hide: true },
+    {
+      field: "Anio",
+      headerName: "Año",
+      width: 100,
+      description: "Año",
+    },
+    {
+      field: "Mes",
+      headerName: "Mes",
+      width: 100,
+      description: "Mes",
+    },
+    {
+      field: "ClaveEstado",
+      headerName: "Clave Estado",
+      width: 100,
+      description: "Clave Estado",
+    },
+    {
+      field: "Nombre",
+      headerName: "Municipio",
+      width: 150,
+      description: "Municipio",
+    },
+    {
+      field: "Clave",
+      headerName: "Fondo",
+      width: 150,
+      description: "Fondo",
+    },
+    {
+      field: "fondodes",
+      headerName: "Descripción de Fondo",
+      width: 250,
+    },
+    {
+      field: "tipocalculo",
+      headerName: "Tipo Cálculo",
+      width: 150,
+    },
+    {
+      field: "estatus",
+      headerName: "Estatus",
+      width: 200,
+    },
+    {
+      field: "ClavePresupuestal",
+      headerName: "Clave Presupuestal",
+      width: 600,
+      hide: false,
+    },
+    {
+      field: "total",
+      headerName: "Importe",
+      width: 150,
+      description: "Importe",
+      ...Moneda,
+    },
   ];
+
 
 
 
@@ -73,8 +125,7 @@ const AsigPresupuestal = () => {
 
 
 
-  const [selectionModel, setSelectionModel] =
-    React.useState<GridSelectionModel>([]);
+  
   const FinalizarProceso = () => {
     console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
     console.log(selectionModel);
@@ -88,7 +139,7 @@ const AsigPresupuestal = () => {
   };
 
   const handleClick = () => {
-    DPCPServices.GetPartFedv2(data).then((res) => {
+    DPCPServices.ConsultaDPCP(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
