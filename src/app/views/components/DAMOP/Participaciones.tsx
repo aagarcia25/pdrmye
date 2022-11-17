@@ -59,7 +59,7 @@ const Participaciones = () => {
   };
 
   const columnsParticipaciones = [
-    { field: "id", headerName: "Identificador", width: 100, hide: true },
+    { field: "id", hide: true },
     {
       field: "Anio",
       headerName: "Año",
@@ -156,7 +156,12 @@ const Participaciones = () => {
       cancelButtonText: "Cancelar",
   }).then(async (result) => {
       if (result.isConfirmed) {
-
+        let data = {
+          TIPO:1,
+          OBJS: selectionModel,
+          CHUSER:user.id
+      };
+console.log(data);
           // CatalogosServices.BitacoraAjustes({
           //     NUMOPERACION: v == "autorizar" ? 2 : 3,
           //     CHID: idCambio,
