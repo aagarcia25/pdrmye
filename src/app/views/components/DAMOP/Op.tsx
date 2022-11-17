@@ -47,19 +47,11 @@ const Op = () => {
   const [verTraz, setVertraz] = useState<boolean>(false);
 
   const perfiles = [
-    { estatusRef: 'MUN_INICIO', accion: 'enviar', per: 'MUN', dep: "MUN", estatus: 'DAMOP_INICIO' },
-    { estatusRef: 'MUN_ACT', accion: 'enviar', per: 'MUN', dep: "MUN", estatus: 'DAMOP_INICIO' },
-    { estatusRef: 'DAMOP_AUT_ANA', accion: 'enviar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_ENV_COOR' },
-    { estatusRef: 'DAMOP_AUT_COR', accion: 'enviar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_ENV_DIR' },
-    { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_ENV_DCCP' },
-    { estatusRef: 'DAMOP_INICIO', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
-    { estatusRef: 'DAMOP_REG_COR_ANA', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
-    { estatusRef: 'DAMOP_REG_DIR_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-    { estatusRef: 'DAMOP_ENV_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-    { estatusRef: 'DAMOP_ENV_DIR', accion: 'autorizar', per: 'DIR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-
-
-    { estatusRef: 'DAMOP_CANCE_ANA', accion: 'cancelar', per: 'MUN', dep: "MUN", estatus: 'CANCELADO' },
+    { estatusRef: 'DAMOP_INICIO',                       accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_ESPERA_AUTORIZACION' },
+    { estatusRef: 'DAMOP_ESPERA_AUTORIZACION',          accion: 'autorizar', per: 'COOR', dep: "DPCP",  estatus: 'DPCP_COOR_APRUEBA' },
+    { estatusRef: 'DPCP_COOR_APRUEBA',                  accion: 'autorizar', per: 'COOR', dep: "DAF",   estatus: 'DAF_CONSULTA_SOLICITUDES_PENDIENTES' },
+    { estatusRef: 'DAF_CONSULTA_SOLICITUDES_PENDIENTES',accion: 'autorizar', per: 'COOR', dep: "DAF",   estatus: 'DAF_REALIZA_PAGO_SOLICITUDES' },
+    { estatusRef: 'DAF_REALIZA_PAGO_SOLICITUDES',       accion: 'autorizar', per: 'COOR', dep: "DAF",   estatus: 'DAMOP_ENV_COOR' },
   ]
 
 
@@ -134,8 +126,8 @@ const Op = () => {
     { field: "Tipo", headerName: "Tipo", width: 120, },
     { field: "Total", headerName: "Total", width: 120, ...Moneda },
     { field: "Fecha", headerName: "Fecha", width: 120, },
-    {
-      field: "Comentario", headerName: " Comentario", width: 150, },
+    { field: "Comentario", headerName: " Comentario", width: 150, },
+    { field: "Estatus", headerName: " Estatus", width: 150, },
     {
       field: "seguimiento",
       headerName: "Seguimiento",
@@ -164,7 +156,6 @@ const Op = () => {
             {
               perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "enviar" && per === perfil && dep == departamento) ?
 
-                //departamento == "MUN" && v.row.ControlInterno == "MUN_INICIO" ?
                 <Tooltip title={"Enviar"}>
                   <ToggleButton
                     value="check"
@@ -181,7 +172,6 @@ const Op = () => {
             {
               perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "autorizar" && per === perfil && dep == departamento) ?
 
-                // (departamento == "DAMOP" && user.PERFILES[0].Referencia == "ANA") && v.row.ControlInterno == "DAMOP_INICIO" || v.row.ControlInterno == "DAMOP_REG_COR_ANA" ?
                 <Tooltip title={"Atender Solicitud"}>
                   <ToggleButton
                     value="check"
@@ -240,15 +230,7 @@ const Op = () => {
       });
 
     }
-    //else 
-    ///if (departamento == "DAMOP") {
-    //  if (perfil == "ANA" || perfil == "COOR"||perfil == "DIR") {
-    //  setOpenSeg(true);
-    //   setData(data.row);
-    //    setModo(estatus);
-    //  }
-
-    //}
+  
     else {
       setOpenSeg(true);
       setData(data.row)
@@ -322,13 +304,7 @@ Swal.fire({
     setOpenTraz(true);
     setIdSolicitud(v.row.id)
   };
-  const handleVisualizar = (v: any) => {
-    setModo("ver");
-    setOpen(true);
-    console.log(v.row)
-    setData(v.row);
-
-  };
+  
   const handleVisualizarDetalles = (v: any) => {
     setModo("verDetalles");
     setOpen(true);
