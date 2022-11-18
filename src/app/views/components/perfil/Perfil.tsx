@@ -1,12 +1,10 @@
 import {
-  Avatar,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Grid,
   Stack,
   TextField,
   Typography,
@@ -29,7 +27,6 @@ export const Perfil = () => {
   // console.log(user.Nombre);
   //Abrir Dialog de imagen
   const [openDialog, setOpenDialog] = useState(false)
-
   const [nombre, setNombre] = useState(user.Nombre);
   const [nombreUsuario, setNombreUsuario] = useState(user.NombreUsuario);
   const [apellidoPaterno, setApellidoPaterno] = useState(user.ApellidoPaterno);
@@ -40,16 +37,13 @@ export const Perfil = () => {
   const [puesto, setPuesto] = useState(user.Puesto);
   const [ubicacion, setUbicacion] = useState(user.Ubicacion);
   const [tipo, setTipo] = useState("");
-
   const [departamento, setDepartamento] = useState(user.DEPARTAMENTOS[0].NombreCorto);
   const [departamentos, setDepartamentos] = useState("");
-
   //CARD 1
   const [botonEdicionFoto, setBotonEdicionFoto] = useState("Editar");
   const [botonEdicionTodo, setBotonEdicionTodo] = useState("Editar");
 
   user.Nombre = nombre;
-
   const [openDialogConfirmacion, setOpenDialogConfirmacion] = useState(false);
 
 
