@@ -305,41 +305,34 @@ export const OpModal = (
     return (
         <div style={{ height: "100%", width: "100%" }}>
             <ModalForm title={'Detalles de solicitudes de Pago'} handleClose={handleClose}>
-                <Box>
+                <DialogContent dividers={true}>
+                    <Grid container>
+                        <Grid item xs={12} >
+                            <label className='subtitulo'>No Proveedor:</label>
+                            <label className='contenido'>{data.Solicitante}</label>
+                            <br />
+                            <label className='subtitulo'>No Proyecto:</label>
+                            <label className='contenido'>{data.Concepto}</label>
+                            <br />
+                            <label className='subtitulo'>Fecha:</label>
+                            <br />
+                            <br />
+                            <label className='subtitulo'>Total:</label>
+                            <br />
+                            <label className='contenido'>{data.Total}</label>
+                        </Grid>
+                    </Grid>
 
-                    {modoSol == "verDetalles" ?
-                        <DialogContent dividers={true}>
+                </DialogContent>
+                <div style={{ height: 100, width: '100%' }}>
+                <MUIXDataGrid columns={columns} rows={{}} />
+                </div>
 
-                            <Grid container>
-                                <Grid item xs={12} >
-                                    <label className='subtitulo'>No Proveedor:</label>
-                                    <label className='contenido'>{data.Solicitante}</label>
-                                    <br />
-                                    <label className='subtitulo'>No Proyecto:</label>
-                                    <label className='contenido'>{data.Concepto}</label>
-                                    <br />
-                                    <label className='subtitulo'>Fecha:</label>
-                                    <br />
-                                    <br />
-                                    <label className='subtitulo'>Total:</label>
-                                    <br />
-                                    <label className='contenido'>{data.Total}</label>
-                                </Grid>
-
-
-                                <Grid item xs={12}>
-
-                                    <MUIXDataGrid columns={columns} rows={{}} />
-                                </Grid>
-
-                            </Grid>
-                        </DialogContent>
-                        :
-
-                        ""}
-
-
-                </Box>
+                {/* <Grid item xs={12}>
+                    <Box sx={{ display: "flex", justifyContent: "center", height: "20%" }}>
+                       
+                    </Box>
+                </Grid> */}
 
             </ModalForm>
 

@@ -74,22 +74,11 @@ export default function Bienvenido({ user }: { user: any }) {
   const isXs = useMediaQuery(theme.breakpoints.up("xs"));
 
   function MyComponent() {
-    if(isSm||isXs){
-      return (<Box
-        sx={{
-  
-          width: "100%",
-          height: "80%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundSize: 'cover', objectFit: "scale-down"
-        }}
-      >
-        {imagenes.length === 0 ? <FilterIcon sx={{ height: "100%" }} />
-          : <img src={imagenes[activeStep].Imagen} style={{ height: "auto", width: "80%" }} />}
-      </Box>);
-    }else{
+    
+    
+
+
+    if(isXl||isLg||isMd){
       return (<Box
       sx={{
 
@@ -101,10 +90,26 @@ export default function Bienvenido({ user }: { user: any }) {
         backgroundSize: 'cover', objectFit: "scale-down"
       }}
     >
+      
       {imagenes.length === 0 ? <FilterIcon sx={{ height: "100%" }} />
         : <img src={imagenes[activeStep].Imagen} style={{ height: "80%", width: "auto" }} />}
     </Box>);
-    }
+    }else{
+      return (<Box
+            sx={{
+      
+              width: "80%",
+              height: "80%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundSize: 'cover', objectFit: "scale-down"
+            }}
+          >
+            {imagenes.length === 0 ? <FilterIcon sx={{ height: "100%" }} />
+              : <img src={imagenes[activeStep].Imagen} style={{ height: "auto", width: "80%" }} />}
+          </Box>);
+          }
 
     
   }
