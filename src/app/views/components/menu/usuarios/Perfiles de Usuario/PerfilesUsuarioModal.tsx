@@ -122,11 +122,11 @@ export const PerfilesUsuarioModal = ({
   return (
     <Dialog open={open} fullScreen>
 <ModalForm title={modo} handleClose={handleClose}>
-<DialogContent>
-        <Box>
+
+        <Box boxShadow={2}>
         
           {modo === "Agregar Registro" ? (
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" >
               <TextField
                 required
                 margin="dense"
@@ -191,14 +191,19 @@ export const PerfilesUsuarioModal = ({
           ) : (
             ""
           )}
-        </Box>
-      </DialogContent>
-      <DialogActions>
+        <Box  display="flex" justifyContent="center" sx={{ paddingBottom:"2%", paddingTop:"1%" }} > 
+        <Box maxWidth={100} >
+        <DialogActions>
         <Button className="actualizar" onClick={() => handleSend()}>
           Actualizar
         </Button>
-        
       </DialogActions>
+      </Box>
+      </Box> 
+
+        </Box>
+     
+    
 
 </ModalForm>
 

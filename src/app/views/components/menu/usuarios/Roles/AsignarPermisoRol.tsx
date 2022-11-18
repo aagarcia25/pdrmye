@@ -117,7 +117,7 @@ const AsignarPermisoRol = ({
           <Typography
             sx={{
               textAlign: "center",
-              fontFamily: "MontserratBold",
+              fontFamily: "sans-serif",
               fontSize: "2vw",
               color: "#454545",
             }}
@@ -145,7 +145,7 @@ const AsignarPermisoRol = ({
           <Typography
             sx={{
               textAlign: "left",
-              fontFamily: "MontserratMedium",
+              fontFamily: "sans-serif",
               fontSize: "1.5vw",
               color: "#808080",
             }}

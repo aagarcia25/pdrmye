@@ -111,7 +111,7 @@ const AsignarMenuRol = ({
                             <Typography
                                 sx={{
                                     textAlign: "left",
-                                    fontFamily: "MontserratMedium",
+                                    fontFamily: "sans-serif",
                                     fontSize: "1.5vw",
                                     color: "#808080",
                                 }}
