@@ -33,7 +33,6 @@ import {
     esES as gridEsES,
   } from "@mui/x-data-grid";
   import { esES as coreEsES } from "@mui/material/locale";
-  import ModalPresupuesto from "./ModalPresupuesto";
   
   const AuthSolicitudes = () => {
     const theme = createTheme(coreEsES, gridEsES);
@@ -677,16 +676,6 @@ import {
         </Grid>
   
         {/* MODALES */}
-  
-        {openModal ? (
-          <ModalPresupuesto
-            handleClose={handleClose}
-            vrows={vrows}
-            handleAccion={Fnworkflow}
-          ></ModalPresupuesto>
-        ) : (
-          ""
-        )}
       </div>
     );
   };

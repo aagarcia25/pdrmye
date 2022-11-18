@@ -156,7 +156,8 @@ const Participaciones = () => {
       NUMOPERACION:1,
       OBJS: selectionModel,
       CHUSER: user.id,
-      COMENTARIO:data
+      COMENTARIO:data,
+      ESTATUS:'DPCP_INICIO'
     
     };
     console.log(obj);
@@ -167,6 +168,7 @@ const Participaciones = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
+        handleClick();
         handleClose();
       } else {
         AlertS.fire({
