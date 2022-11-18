@@ -35,8 +35,8 @@ const ButtonsMunicipio = ({
         if (String(item.Referencia) == "AGREG") {
           setDescargarPlantilla(true);
         }
-        if (String(item.Referencia) == "ELIMMASIVA") {
-          setDescargarPlantilla(true);
+        if (String(item.Referencia) == "ELIM") {
+          setelimasiva(true);
         }
 
       }
@@ -66,17 +66,16 @@ const ButtonsMunicipio = ({
         {cargarPlantilla ?
           <Tooltip title="Cargar Plantilla">
               <IconButton aria-label="upload documento" component="label" size="large">
-              <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
+              <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload({tipo:1,data:v})} />
               <DriveFolderUploadIcon />
               </IconButton>
           </Tooltip>
           : ""}
 
-          {cargarPlantilla ?
+          {elimasiva ?
             <Tooltip title="Eliminación Masiva">
                 <IconButton aria-label="upload documento" component="label" size="large">
-                <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
-                <DeleteForeverIcon />
+                <DeleteForeverIcon onClick={() => handleUpload({tipo:2,data:{}})}  />
                 </IconButton>
             </Tooltip>
             : ""}

@@ -133,14 +133,19 @@ export const DepartamentosModal = ({
   return (
 
 
-    <Dialog open={open} fullScreen>
+    <Dialog open={open} fullScreen sx={{ margin:"0%",padding:"0%"}}>
+
       <ModalForm title={"Editar Registro"} handleClose={handleClose}>
-      <DialogContent>
-        <Box sx={{ justifyContent: "center", height: 450 }}>
+
+      <Box boxShadow={2} sx={{ justifyContent: "center"}}>
+      <DialogContent >
+        
           
           {modo === "Agregar Registro" ? (
-            <Container maxWidth="sm">
+            <Container maxWidth="md"   >
+             
               <TextField
+                sx={{ paddingBottom:"1%"}}
                 required
                 margin="dense"
                 id="NombreCorto"
@@ -153,7 +158,9 @@ export const DepartamentosModal = ({
                 error={!nombreCorto ? true : false}
                 InputProps={{}}
               />
+              
               <TextField
+              sx={{ paddingBottom:"2%"}}
                 required
                 margin="dense"
                 id="Descripcion"
@@ -167,9 +174,11 @@ export const DepartamentosModal = ({
                 InputProps={{}}
               />
               <Box sx={{
-                margin: 1
+                paddingTop:3,
+                paddingBottom: 3
               }}>
                 <SelectFrag
+             
                   value={String(responsable)}
                   options={usuarios}
                   onInputChange={handleChange}
@@ -186,6 +195,7 @@ export const DepartamentosModal = ({
           {modo === "Editar Registro" ? (
             <Container maxWidth="sm">
               <TextField
+                sx={{ paddingBotton:"10" }}
                 disabled
                 required
                 margin="dense"
@@ -200,6 +210,7 @@ export const DepartamentosModal = ({
                 InputProps={{}}
               />
               <TextField
+                sx={{ paddingBotton:"2%" }}
                 required
                 margin="dense"
                 id="Descripcion"
@@ -213,7 +224,8 @@ export const DepartamentosModal = ({
                 InputProps={{}}
               />
               <Box sx={{
-                margin: 1
+                margin: 1,
+                paddingBotton:"10"
               }}>
                 <SelectFrag
                   value={String(responsable)}
@@ -228,14 +240,17 @@ export const DepartamentosModal = ({
           ) : (
             ""
           )}
-        </Box>
+        
       </DialogContent>
-      <DialogActions>
+
+      <DialogActions sx={{width:"80%"}}>
         <Button className="actualizar" onClick={() => handleSend()}>
           Actualizar
         </Button>
  
       </DialogActions>
+
+      </Box>
 
       </ModalForm>
 

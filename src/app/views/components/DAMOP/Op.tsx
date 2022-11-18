@@ -341,6 +341,11 @@ Swal.fire({
     consulta();
   }, []);
 
+   
+
+
+
+
   return (
     <div style={{ height: 600, width: "100%" }}>
       <Box>

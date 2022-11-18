@@ -4,7 +4,7 @@ import {
   Box, Grid, Typography,
 } from "@mui/material";
 
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import {
   getPermisos,
   getUser,
@@ -25,6 +25,7 @@ import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
 
 
 
@@ -44,6 +45,7 @@ export const MunFacturacion = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
 
   // VARIABLES PARA LOS FILTROS
@@ -182,31 +184,93 @@ export const MunFacturacion = () => {
 
 
 
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "MunFacturacion");
-    CatalogosServices.migraData(formData).then((res) => {
-      setslideropen(false);
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        });
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+  const handleUpload = (data: any) => {
+
+    if (data.tipo == 1) {
+      setslideropen(true);
+      let file = data.data?.target?.files?.[0] || "";
+      const formData = new FormData();
+      formData.append("inputfile", file, "inputfile.xlsx");
+      formData.append("tipo", "MunFacturacion");
+      CatalogosServices.migraData(formData).then((res) => {
+        setslideropen(false);
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "Carga Exitosa!",
+          });
+        } else {
+          AlertS.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
+  
+  
+  
+      });
+    } 
+    else if (data.tipo == 2) {
+
+      if(selectionModel.length!==0){
+      Swal.fire({
+        icon: "question",
+        title: selectionModel.length +" Registros Se Eliminaran!!",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+  
+          let data = {
+           NUMOPERACION: 5,
+           OBJS: selectionModel,
+           CHUSER: user.id,
+          
+          };
+          console.log(data);
+  
+          CatalogosServices.munfacturacion(data).then((res) => {
+            if (res.SUCCESS) {
+              Toast.fire({
+                icon: "success",
+                title: "Borrado!",
+              });
+  
+              consulta({
+                NUMOPERACION: 4,
+                CHUSER: user.id,
+                ANIO: filterAnio,
+              });
+  
+            } else {
+              AlertS.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+  
+        } else if (result.isDenied) {
+          Swal.fire("No se realizaron cambios", "", "info");
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Seleccione Registros Para Borrar",
+        confirmButtonText: "Aceptar",
+      });
+    }
 
 
+    }
 
-    });
   };
+
 
   const consulta = (data: any) => {
     CatalogosServices.munfacturacion(data).then((res) => {
@@ -216,7 +280,9 @@ export const MunFacturacion = () => {
     });
   };
 
-
+  const handleBorrar = (v: any) => {
+    setSelectionModel(v);
+  };
 
   const handleFilterChange = (v: string) => {
     setFilterAnio(v);
@@ -282,8 +348,8 @@ export const MunFacturacion = () => {
       <ButtonsMunicipio
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"MUNFA"} />
+      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} borrar={eliminar}   />
 
-      <MUIXDataGrid columns={columns} rows={Facturacion} />
       {open ? (
         <MunFacturacionModal
           open={open}

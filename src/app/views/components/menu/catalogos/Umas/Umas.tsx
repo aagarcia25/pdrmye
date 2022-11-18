@@ -1,5 +1,7 @@
+
+import React from "react";
 import { useEffect, useState } from "react";
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import UmasModel from "./UmasModel";
@@ -11,6 +13,9 @@ import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+
 
 
 
@@ -21,6 +26,7 @@ export const Umas = () => {
   const [vrows, setVrows] = useState({});
   const [conUmas, setUmas] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
 
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -81,16 +87,8 @@ export const Umas = () => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
       hide: true,
-      width: 150,
-      description: messages.dataTableColum.id,
     },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Diario", headerName: "Diario", width: 150 },
-    { field: "Mensual", headerName: "Mensual", width: 150 },
-    { field: "Anual", headerName: "Anual", width: 150 },
-
     {
       field: "acciones",
       headerName: "Acciones",
@@ -107,6 +105,12 @@ export const Umas = () => {
         );
       },
     },
+    { field: "Anio", headerName: "Año", width: 150 },
+    { field: "Diario", headerName: "Diario", width: 150 },
+    { field: "Mensual", headerName: "Mensual", width: 150 },
+    { field: "Anual", headerName: "Anual", width: 150 },
+
+
   ];
 
   const handleClose = () => {
@@ -122,7 +126,76 @@ export const Umas = () => {
     setVrows("");
   };
 
+  const handleBorrar = (v: any) => {
+    setSelectionModel(v);
+  };
 
+
+  const handleUpload = (data: any) => {
+
+    if (data.tipo == 1) {
+
+
+    } 
+    else if (data.tipo == 2) {
+      console.log("borrado de toda la tabla")
+      console.log(selectionModel)
+
+      if(selectionModel.length!==0){
+      Swal.fire({
+        icon: "question",
+        title: selectionModel.length +" Registros Se Eliminaran!!",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+  
+          let data = {
+           NUMOPERACION: 5,
+           OBJS: selectionModel,
+           CHUSER: user.id
+          };
+          console.log(data);
+  
+          CatalogosServices.umas(data).then((res) => {
+            if (res.SUCCESS) {
+              Toast.fire({
+                icon: "success",
+                title: "Borrado!",
+              });
+  
+              consulta({
+                NUMOPERACION: 4,
+                CHUSER: user.id
+              });
+  
+            } else {
+              AlertS.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+  
+        } else if (result.isDenied) {
+          Swal.fire("No se realizaron cambios", "", "info");
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Seleccione Registros Para Borrar",
+        confirmButtonText: "Aceptar",
+      });
+    }
+
+
+    }
+
+  };
   
   const consulta = (data: any) => {
     CatalogosServices.umas(data).then((res) => {
@@ -178,9 +251,13 @@ export const Umas = () => {
       ) : (
         ""
       )}
+       <ButtonsMunicipio
+        url={""}
+        handleUpload={handleUpload} controlInterno={"UMAS"} />
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGrid columns={columns} rows={conUmas} />
+     < MUIXDataGridMun columns={columns} rows={conUmas} handleBorrar={handleBorrar} borrar={eliminar}   />
+
 
 
     </div>
