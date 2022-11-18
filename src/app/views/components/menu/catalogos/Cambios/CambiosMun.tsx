@@ -27,6 +27,8 @@ const CambiosMun = () => {
     const [origen, setOrigen] = useState<MunicipioCambios>();
 
     const [labelCatalogo, setLabelCatalogo] = useState<string>();
+    const [solicitante, setSolicitante] = useState<string>();
+
     const [comentario, setComentario] = useState<string>();
     const [idCambio, setIdCambio] = useState<string>();
     const [idSolicitante, setIdSolicitante] = useState<string>();
@@ -155,6 +157,7 @@ const CambiosMun = () => {
         setComentario(v?.row?.Comentario);
         setSolicitud(JSON.parse(String(v.row.Solicitud)));
         console.log(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
+        setSolicitante(v?.row?.Solicitante)
         setIdSolicitante(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setOrigen(JSON.parse(String(v.row.Origen)));
         setLabelCatalogo(String(tablas.find(({ tipo }) => tipo == v.row.Tipo)?.label));
@@ -280,9 +283,16 @@ const CambiosMun = () => {
 
                         <Box sx={{ width: '100%', typography: 'body1' }}>
 
-                            <Grid container direction="row" justifyContent="center" alignItems="center">
+                        <Grid container direction="row" justifyContent="center" alignItems="center">
                                 <Typography>
                                     <h3>{String("Catalogo a Modificar: " + labelCatalogo)}</h3>
+                                </Typography>
+
+
+                            </Grid>
+                            <Grid container direction="row" justifyContent="center" alignItems="center">
+                                <Typography>
+                                    <h3>{String("Solicitante: " + solicitante)}</h3>
                                 </Typography>
 
 
@@ -295,6 +305,7 @@ const CambiosMun = () => {
                                     </label>
 
                                 </Grid>
+                                
                                 {String(solicitud?.deleted) === "1" ? "" :
                                     <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                                         <label>
