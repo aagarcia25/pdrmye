@@ -35,8 +35,8 @@ const ButtonsMunicipio = ({
         if (String(item.Referencia) == "AGREG") {
           setDescargarPlantilla(true);
         }
-        if (String(item.Referencia) == "ELIMMASIVA") {
-          setDescargarPlantilla(true);
+        if (String(item.Referencia) == "ELIM") {
+          setelimasiva(true);
         }
 
       }
@@ -72,7 +72,7 @@ const ButtonsMunicipio = ({
           </Tooltip>
           : ""}
 
-          {cargarPlantilla ?
+          {elimasiva ?
             <Tooltip title="Eliminación Masiva">
                 <IconButton aria-label="upload documento" component="label" size="large">
                 <DeleteForeverIcon onClick={() => handleUpload({tipo:2,data:{}})}  />
