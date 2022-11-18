@@ -284,6 +284,14 @@ export const MunPobrezaExtrema = () => {
     setAnios(fanios());
     downloadplantilla();
 
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: "",
+
+    };
+
+    consulta(data);
+
   }, []);
 
 

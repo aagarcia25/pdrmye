@@ -1,28 +1,21 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
   Box,
   FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
   InputAdornment,
-  DialogActions,
   Button,
   Grid,
 } from "@mui/material";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import {  getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import ModalForm from "../../../componentes/ModalForm";
+import React from "react";
 
 
 const MunRecaudacionModal = ({

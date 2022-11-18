@@ -19,7 +19,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import MunFacturacionModal from "./MunFacturacionModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import { currencyFormatter } from "../../CustomToolbar";
+import { currencyFormatter, Moneda } from "../../CustomToolbar";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
@@ -90,7 +90,7 @@ export const MunFacturacion = () => {
       headerName: "Facturado",
       width: 150,
       align: "right",
-      ...currencyFormatter
+      ...Moneda
     },
 
   ];
@@ -321,6 +321,11 @@ export const MunFacturacion = () => {
         }
       }
     });
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: "",
+    };
+    consulta(data);
   }, []);
 
   return (
