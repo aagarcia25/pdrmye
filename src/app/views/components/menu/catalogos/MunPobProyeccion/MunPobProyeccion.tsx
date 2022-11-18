@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Grid, IconButton, Typography } from '@mui/material'
-import { GridColDef } from '@mui/x-data-grid'
+import { GridColDef, GridSelectionModel } from '@mui/x-data-grid'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -19,6 +19,7 @@ import { getPermisos, getUser } from '../../../../../services/localStorage';
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio';
 import AccionesGrid from '../Utilerias/AccionesGrid';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
+import MUIXDataGridMun from '../../../MUIXDataGridMun';
 
 
 export const MunPobProyeccion = () => {
@@ -36,6 +37,7 @@ export const MunPobProyeccion = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
 
 
@@ -79,9 +81,57 @@ export const MunPobProyeccion = () => {
       setOpen(true);
       setData(v.data);
     } else if (v.tipo == 2) {
-      handleBorrar(v.data);
+      handleDelete(v.data);
     }
   }
+
+  const handleDelete = (v: any) => {
+
+    Swal.fire({
+      icon: "info",
+      title: "Estas seguro de eliminar este registro?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Confirmar",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        let data = {
+          NUMOPERACION: 3,
+          CHID: v.row.id,
+          CHUSER: user.id
+        };
+
+
+        CatalogosServices.munpobrezaext(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Solicitud de Eliminado Enviada!",
+            });
+
+            let data = {
+              NUMOPERACION: 4,
+              ANIO: filterAnio,
+            };
+            consulta(data);
+          } else {
+            AlertS.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+
+      } else if (result.isDenied) {
+        Swal.fire("No se realizaron cambios", "", "info");
+      }
+
+
+    });
+  };
 
 
   const handleClose = () => {
@@ -114,65 +164,85 @@ export const MunPobProyeccion = () => {
   };
 
   const handleBorrar = (v: any) => {
-
-    Swal.fire({
-      icon: "info",
-      title: "Estas seguro de eliminar este registro?",
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: "Confirmar",
-      denyButtonText: `Cancelar`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log(v);
-
-        let data = {
-          NUMOPERACION: 3,
-          CHID: v.row.id,
-          CHUSER: user.id
-        };
-        console.log(data);
-
-        CatalogosServices.munproyec(data).then((res) => {
-          if (res.SUCCESS) {
-            Toast.fire({
-              icon: "success",
-              title: "Registro Eliminado!",
-            });
-
-            let data = {
-              NUMOPERACION: 4,
-              ANIO: filterAnio,
-            };
-            consulta(data);
-          } else {
-            AlertS.fire({
-              title: "Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
-            });
-          }
-        });
-
-      } else if (result.isDenied) {
-        Swal.fire("No se realizaron cambios", "", "info");
-      }
-
-
-    });
+    setSelectionModel(v);
+  
   };
 
-  const handleAgregar = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlxs");
-    formData.append("tipo", "MunProyec");
-    CatalogosServices.migraData(formData).then((res) => {
-      setslideropen(false);
-    });
-  };
 
+  const handleUpload = (data: any) => {
+
+    if (data.tipo == 1) {
+      setslideropen(true);
+      let file = data.data?.target?.files?.[0] || "";
+      const formData = new FormData();
+      formData.append("inputfile", file, "inputfile.xlxs");
+      formData.append("tipo", "MunProyec");
+      CatalogosServices.migraData(formData).then((res) => {
+        setslideropen(false);
+      });
+
+    } 
+    else if (data.tipo == 2) {
+      console.log("borrado de toda la tabla")
+      console.log(selectionModel)
+
+      if(selectionModel.length!==0){
+      Swal.fire({
+        icon: "question",
+        title: selectionModel.length +" Registros Se Eliminaran!!",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+  
+          let data = {
+           NUMOPERACION: 5,
+           OBJS: selectionModel,
+           CHUSER: user.id
+          };
+          console.log(data);
+  
+          CatalogosServices.munproyec(data).then((res) => {
+            if (res.SUCCESS) {
+              Toast.fire({
+                icon: "success",
+                title: "Borrado!",
+              });
+  
+              consulta({
+                NUMOPERACION: 4,
+                CHUSER: user.id,
+                ANIO: filterAnio
+
+              });
+  
+            } else {
+              AlertS.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+  
+        } else if (result.isDenied) {
+          Swal.fire("No se realizaron cambios", "", "info");
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Seleccione Registros Para Borrar",
+        confirmButtonText: "Aceptar",
+      });
+    }
+
+
+    }
+
+  };
 
   const consulta = (data: any) => {
     CatalogosServices.munproyec(data).then((res) => {
@@ -246,8 +316,10 @@ export const MunPobProyeccion = () => {
       </Box>
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleAgregar} controlInterno={"MUNPROYEC"} />
-      <MUIXDataGrid columns={columns} rows={Poblacion} />
+        handleUpload={handleUpload} controlInterno={"MUNPROYEC"} />
+      < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} borrar={eliminar}   />
+
+
       {open ? (
         <MunPoblacionProyeccionModal
           open={open}

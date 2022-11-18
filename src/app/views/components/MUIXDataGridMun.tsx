@@ -1,29 +1,22 @@
-import React from "react";
-import { DataGrid,  esES as gridEsES, esES, GridToolbar, GridSelectionModel,  } from "@mui/x-data-grid";
+import { DataGrid,  esES as gridEsES, GridToolbar,   } from "@mui/x-data-grid";
 import { createTheme,  ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
-import { CustomToolbar } from "./menu/CustomToolbar";
 
 
 const theme = createTheme(coreEsES, gridEsES);
-const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-
 
 const MUIXDataGridMun = ({
     handleBorrar,
     columns,
-    rows
+    rows,
+    borrar
   }: {
     handleBorrar: Function,
     columns: any,
-    rows: any
+    rows: any,
+    borrar:boolean
 
   }) => {
-
-
-
-
-
   return (
     <div style={{height: 600, width: "100%" }}>
       <ThemeProvider theme={theme}>
@@ -46,10 +39,8 @@ const MUIXDataGridMun = ({
               quickFilterProps: { debounceMs: 500 },
             },
           }}
-         // checkboxSelection={checkboxSelection}
-          onSelectionModelChange={(newSelectionModel: any) => {
-            setSelectionModel(newSelectionModel);
-          }}
+          checkboxSelection={borrar}
+          onSelectionModelChange={(newSelectionModel: any) => { handleBorrar(newSelectionModel); }}
           localeText={{
             noRowsLabel: "No se ha encontrado datos.",
             noResultsOverlayLabel: "No se ha encontrado ningún resultado",
