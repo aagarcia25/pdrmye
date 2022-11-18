@@ -237,6 +237,8 @@ export default function Bienvenido({ user }: { user: any }) {
         </Box>
       </Box>
 
+
+
       <Box
         sx={{
           display: user.PERFILES[0].Referencia == "ORG" ? "block" : "none",
@@ -286,42 +288,8 @@ export default function Bienvenido({ user }: { user: any }) {
           display: user.PERFILES[0].Referencia == "COOR" ? "block" : "none",
         }}
       >
-         {/* <Grid container  spacing={1} >
-          <Grid item xs={12} sm={12} md={6} lg={3}>
-          <CardComponente></CardComponente>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={3}>
-          <CardComponente></CardComponente>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={3}>
-          <CardComponente></CardComponente>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={3}>
-          <CardComponente></CardComponente>
-          </Grid>
-        </Grid>
-        <br></br>  */}
-
-
-        {/* <Grid container  spacing={1} >
-          <Grid item xs={12} sm={12} md={6} lg={3}>
-          <CardComponente></CardComponente>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={3}>
-          <CardComponente></CardComponente>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={3}>
-          <CardComponente></CardComponente>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={3}>
-          <CardComponente></CardComponente>
-          </Grid>
-        </Grid>
-        <br></br>  */}
-
-
-        <Grid container spacing={1}>
-        <Grid item  xs={12} sm={12} md={12} lg={12}>
+         
+      
         <PlantillaBienvenido
           id={1}
           name={
@@ -333,8 +301,7 @@ export default function Bienvenido({ user }: { user: any }) {
           }
           lastConnnection=""
         />
-        </Grid>
-        </Grid>
+    
        
         
       </Box>

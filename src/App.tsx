@@ -231,8 +231,8 @@ function App() {
       setToken(jwt);
       verificatoken(String(jwt));
     } else if (getToken() != null) {
-      console.log('token');
-      console.log(String(getToken()))
+     // console.log('token');
+     // console.log(String(getToken()))
       verificatoken(String(getToken()));
     } else {
       Swal.fire({

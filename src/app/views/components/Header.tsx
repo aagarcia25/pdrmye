@@ -199,7 +199,6 @@ export default function Header(props: HeaderProps) {
               </Tooltip>
               <Popper
                 open={open}
-                anchorEl={anchorRef.current}
                 role={undefined}
                 placement="bottom-start"
                 transition
