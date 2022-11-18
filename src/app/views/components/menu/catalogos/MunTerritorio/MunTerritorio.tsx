@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
@@ -9,11 +9,10 @@ import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import MunTerritorioModal from "./MunTerritorioModal";
-import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import AccionesGrid from "../Utilerias/AccionesGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import { Grid, Typography } from "@mui/material";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
 
 export const MunTerritorio = () => {
 
@@ -30,6 +29,7 @@ export const MunTerritorio = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
   // VARIABLES PARA LOS FILTROS
 
@@ -55,43 +55,43 @@ export const MunTerritorio = () => {
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-          );
+        );
       },
     },
     { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
     { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "Km2", headerName: "Area", width: 150 },
-  
+
 
   ];
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setOpen(true);
       setData(v.data);
       setModo("Editar Registro");
-    }else if(v.tipo ==2){
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
+
     }
   }
-  
 
   const handleClose = (v: string) => {
-      setOpen(false);
-      setOpen(false);
-      consulta();
+    setOpen(false);
+    setOpen(false);
+    consulta();
   };
-
+  const handleBorrar = (v: any) => {
+    setSelectionModel(v);
+    console.log(v)
+  };
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
     setData("");
   };
-
-
-
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
@@ -115,7 +115,7 @@ export const MunTerritorio = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "Solicutud Enviada!",
             });
 
             consulta();
@@ -135,54 +135,97 @@ export const MunTerritorio = () => {
     });
   };
 
+  const handleUpload = (data: any) => {
 
-
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "MunTerritorio");
-    CatalogosServices.migraData(formData).then((res) => {
+    if (data.tipo == 1) {
+      setslideropen(true);
+      let file = data.data?.target?.files?.[0] || "";
+      const formData = new FormData();
+      formData.append("inputfile", file, "inputfile.xlsx");
+      formData.append("tipo", "MunTerritorio");
       setslideropen(false);
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        });
-        consulta();
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+      console.log(file)
+      CatalogosServices.migraData(formData).then((res) => {
+        setslideropen(false);
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "Carga Exitosa!",
+          });
+          consulta();
+        } else {
+          AlertS.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
+      });
+
+    } 
+    else if (data.tipo == 2) {
+      console.log("borrado de toda la tabla")
+      console.log(selectionModel)
+
+      if(selectionModel.length!==0){
+      Swal.fire({
+        icon: "question",
+        title: selectionModel.length +" Registros Se Eliminaran!!",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+  
+          let data = {
+           NUMOPERACION: 5,
+           OBJS: selectionModel,
+           CHUSER: user.id
+          };
+          console.log(data);
+  
+          CatalogosServices.munterritorio(data).then((res) => {
+            if (res.SUCCESS) {
+              Toast.fire({
+                icon: "success",
+                title: "Borrado!",
+              });
+  
+              consulta();
+  
+            } else {
+              AlertS.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+  
+        } else if (result.isDenied) {
+          Swal.fire("No se realizaron cambios", "", "info");
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Seleccione Registros Para Borrar",
+        confirmButtonText: "Aceptar",
+      });
+    }
 
 
+    }
 
-    });
   };
-
   const consulta = () => {
     let dat = ({
       NUMOPERACION: 4,
       CHUSER: user.id
     })
     CatalogosServices.munterritorio(dat).then((res) => {
-      // if (res.SUCCESS) {
-      //   Toast.fire({
-      //     icon: "success",
-      //     title: "Consulta Exitosa!",
-      //   });
-         setTerritorio(res.RESPONSE);
-      // } else {
-      //   AlertS.fire({
-      //     title: "Error!",
-      //     text: res.STRMESSAGE,
-      //     icon: "error",
-      //   });
-      // }
+      setTerritorio(res.RESPONSE);
     });
   };
 
@@ -200,7 +243,7 @@ export const MunTerritorio = () => {
   };
 
   useEffect(() => {
-    
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNTERR") {
         console.log(item)
@@ -211,6 +254,7 @@ export const MunTerritorio = () => {
         if (String(item.Referencia) == "EDIT") {
           setEditar(true);
         }
+       
       }
     });
     downloadplantilla();
@@ -218,7 +262,7 @@ export const MunTerritorio = () => {
 
   }, []);
 
- 
+
   useEffect(() => {
     consulta();
   }, []);
@@ -228,9 +272,7 @@ export const MunTerritorio = () => {
     <div style={{ height: 500, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-
-
-      {open ? 
+      {open ?
         <MunTerritorioModal
           open={open}
           modo={modo}
@@ -238,12 +280,12 @@ export const MunTerritorio = () => {
           tipo={tipoOperacion}
           dt={data}
         />
-      : 
+        :
         ""
       }
-       <Grid container
-        sx={{justifyContent: "center"}}>
-        <Grid item xs={10} sx={{textAlign:"center"}}>
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
           <Typography>
             <h1>{nombreMenu}</h1>
           </Typography>
@@ -252,8 +294,9 @@ export const MunTerritorio = () => {
 
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNTERR"}      />
-      <MUIXDataGrid columns={columns} rows={territorio} />
+        handleUpload={handleUpload} controlInterno={"MUNTERR"} />
+
+      <MUIXDataGridMun columns={columns} rows={territorio} handleBorrar={handleBorrar} borrar={eliminar}   />
 
     </div>
   );

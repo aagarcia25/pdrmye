@@ -7,6 +7,7 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -148,15 +149,17 @@ export const Perfil = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        padding:"0",
         marginTop:".5%",
       }}
     >
       <Box 
       boxShadow={3} 
+      paddingBottom="2%"
       sx={{ 
         display: "flex", 
         width: "100%",
-        height: "90%", 
+        height: "auto", 
         justifyContent: "center", 
         backgroundColor: "white",
         alignItems: "center" 
@@ -166,7 +169,7 @@ export const Perfil = () => {
         display="flex" flexDirection="row" 
         sx={{
           width: "80%",
-          height: "95%",
+          height: "auto",
           flexDirection: "column",
           alignItems: "center",
           // justifyContent: "center",
@@ -186,15 +189,15 @@ export const Perfil = () => {
         </Box> */}
 
         {/* Imagen y tipo de usuario */}
-        <Box >
+        <Box paddingTop={3}>
           <Box boxShadow={3} 
             onClick={() => {
               setOpenDialog(true)
             }}
 
             sx={{
-              width: "8rem",
-              height: "8rem",
+              width: "7.4rem",
+              height: "7.4rem",
               backgroundColor: "white",
               borderRadius: '50%',
               // border: 3,
@@ -276,42 +279,39 @@ export const Perfil = () => {
         </Box>
 
         <Box sx={{
-          height: "12%",
-          padding:"1%"
-        }}>
-        <Typography sx={{ fontSize: "1.3vw", fontWeight: "Bold", mt: "1vh", width: "100%", display: "flex",ml:"2vw" }}>
-          Contacto y ubicación
-        </Typography>
-        </Box>
-
-        <Box sx={{
+          height: "2%",
+        }}> </Box>
+        
+        <Box boxShadow={2}  sx={{
           width: "90%",
-          height: "60%",
+          height: "100%",
           display: "flex",
           justifyContent: "space-evenly",
-          alignItems: "center",
-          mt: "1vh",
-          borderRadius: "15px",
-          border: "1px solid black",
+          borderRadius: "10px",
           bgcolor: "rgb(252,252,252)",
           flexDirection: "column"
-        }}>
-
-          <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-            <Typography sx={{ width: "40%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Departamento :</Typography>
-            <Typography sx={{ width: "60%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{departamento} </Typography>
+        }}>  
+       <Typography align="center" variant="h5" sx={{ width: "100%",color:COLOR.azul, paddingTop:"2%"}}>
+          Contacto y Ubicación
+        </Typography>
+                
+          <Box display="flex" flexWrap="wrap"  sx={{paddingTop:"2%", justifyContent: "center"}}>
+            <Typography sx={{ paddingLeft:"2%", color:"#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex"}}>Departamento :</Typography>
+            <Typography sx={{ ml:"1%", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex"  }}> {departamento} </Typography>
+            <Typography sx={{ paddingLeft:"10%", color:"#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex"}}>Correo electrónico :</Typography>
+            <Typography sx={{ ml:"1%", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex"}}> {correoElectronico}  </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-            <Typography sx={{ width: "40%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Correo electrónico :</Typography>
-            <Typography sx={{ width: "60%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{correoElectronico} </Typography>
-          </Box>
 
+        
           {botonEdicionTodo === "Editar" ?
-            <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-              <Typography sx={{ width: "40%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Telefono :</Typography>
-              <Typography sx={{ width: "60%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{telefono} </Typography>
+            <Box display="flex" flexWrap="wrap"   sx={{ justifyContent: "center", paddingTop:"3%"}}>
+              <Typography sx={{ color:"#808080",  fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", }}>Telefono :</Typography>
+              <Typography sx={{ ml:"1%",bgcolor:"#EEEEEE", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", flexDirection: "row" }}>  {telefono} </Typography>
             </Box> :
+
+            <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ paddingBottom:".5%", paddingTop:"2%"}}>
+               <Box sx={{  width: 500 }}> </Box>
             <TextField
               disabled={botonEdicionTodo === "Editar" ? true : false}
               required
@@ -321,16 +321,27 @@ export const Perfil = () => {
               label="Teléfono"
               value={telefono}
               type="text"
-              sx={{ width: "60%", }}
+              fullWidth
+              // sx={{ width: "40%",}}
               variant="outlined"
               onChange={(v) => handleTotal(v.target.value)}
               error={telefono == "" ? true : false}
-            />}
+            />
+            <Box sx={{  width: 500 }}> </Box>
+            </Stack>
+          
+            }
+
+
+
           {botonEdicionTodo === "Editar" ?
-            <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-              <Typography sx={{ width: "40%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Ubicación :</Typography>
-              <Typography sx={{ width: "60%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{ubicacion} </Typography>
+            <Box display="flex" flexWrap="wrap"   sx={{ justifyContent: "center", paddingTop:"3%"}}>
+              <Typography sx={{ color:"#808080",  fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", }}>Ubicación :</Typography>
+              <Typography sx={{ ml:"1%",bgcolor:"#EEEEEE", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", flexDirection: "row" }}>{ubicacion} </Typography>
             </Box> :
+
+            <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ paddingBottom:".5%"}}>
+              <Box sx={{  width: 500 }}> </Box>
             <TextField
               disabled={botonEdicionTodo === "Editar" ? true : false}
               required
@@ -339,19 +350,29 @@ export const Perfil = () => {
               label="Ubicación"
               value={ubicacion}
               type="text"
-              sx={{ width: "60%", }}
+              fullWidth
+              // sx={{ width: "60%", }}
               variant="outlined"
               onChange={(v) => setUbicacion(v.target.value)}
               error={ubicacion == "" ? true : false}
-            />}
+            />
+            <Box sx={{  width: 500 }}> </Box>
+            </Stack>
+
+            }
 
           {botonEdicionTodo === "Editar" ?
-            <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "95%" }}>
-              <Typography sx={{ width: "40%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>Puesto :</Typography>
-              <Typography sx={{ width: "60%", fontFamily: "Poppins", fontSize: "1.5vw", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row" }}>{puesto} </Typography>
+            <Box display="flex" flexWrap="wrap"  sx={{ justifyContent: "center", paddingTop:"3%", paddingBottom:"2%"}}>
+              <Typography sx={{ color:"#808080",  fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", }}> Puesto :</Typography>
+              <Typography sx={{ ml:"1%", bgcolor:"#EEEEEE", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", flexDirection: "row" }}> {puesto} </Typography>
             </Box>
             :
-            <TextField
+            // pagina 2 el puesto
+
+            <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ paddingBottom:"2%"}}>
+               
+               <Box sx={{  width: 500 }}> </Box>
+               <TextField
               disabled={botonEdicionTodo === "Editar" ? true : false}
               required
               margin="dense"
@@ -359,15 +380,23 @@ export const Perfil = () => {
               label="Puesto"
               value={puesto}
               type="text"
-              sx={{ width: "60%", }}
+              fullWidth
+              // sx={{ width: 1/2 }}
               variant="outlined"
               onChange={(v) => setPuesto(v.target.value)}
               error={puesto == "" ? true : false}
-            />}
+            />
+            <Box sx={{  width: 500 }}> </Box>
+            </Stack>
+            
+            }
 
+              {/* BOTON DE GUARDAR  */}
 
-        </Box>
-        <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "100%",height:"8%",alignItems:"center" }}>
+          <Box display="flex" flexWrap="wrap" sx={{paddingBottom:"2%"}}>
+          
+          <Box  sx={{width: "70%"}}> </Box>
+          <Box  sx={{width: "28%"}} >
           <Button
             variant="outlined"
             onClick={() => {
@@ -377,35 +406,49 @@ export const Perfil = () => {
 
             color="success"
             sx={{
-              width: "20%",
-              height: "3vh",
+              width: "50%",
+              height: "auto",
               borderRadius: 1,
               "&:hover": {
                 color: "#5048E5",
                 backgroundColor: "#eeebf5",
               },
             }}
-          > <Typography sx={{ fontSize: "3" }}>
+          > 
+          
+          <Typography sx={{ fontSize: "3" }}>
               {botonEdicionTodo}
-            </Typography></Button>
+          </Typography></Button>
 
           {botonEdicionTodo === "Guardar" ? <Button
             variant="outlined"
             onClick={onClickCancelarEditarTodo}
             color="error"
             sx={{
-              width: "20%",
-              height: "3vh",
+              width: "50%",
+              height: "auto",
               borderRadius: 1,
               "&:hover": {
                 color: "#5048E5",
                 backgroundColor: "#eeebf5",
               },
             }}
-          > <Typography sx={{ fontSize: "3" }}>
+          > 
+          
+          <Typography sx={{ fontSize: "3" }}>
               Cancelar
-            </Typography></Button> : null}
+           </Typography></Button> : null}
+
+
+            </Box>
+
         </Box>
+
+
+
+        </Box>
+
+        
 
         <Dialog
           open={openDialogConfirmacion}

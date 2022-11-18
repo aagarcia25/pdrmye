@@ -1,42 +1,57 @@
-import { Button, Grid, Typography, useTheme } from "@mui/material";
+import { Button, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PlantillaBienvenido from "./PlantillaBienvenido";
 import MobileStepper from "@mui/material/MobileStepper";
-import { AlignHorizontalCenter, KeyboardArrowLeft, KeyboardArrowRight, Padding } from "@mui/icons-material";
+import { AlignHorizontalCenter, ImageSearch, KeyboardArrowLeft, KeyboardArrowRight, Padding } from "@mui/icons-material";
 import { COLOR } from "../../styles/colors";
 import CardComponente from "./CardComponente";
+import { AlertS } from "../../helpers/AlertS";
+import { Toast } from "../../helpers/Toast";
+import { CatalogosServices } from "../../services/catalogosServices";
+import FilterIcon from '@mui/icons-material/Filter';
 // import "@fontsource/poppins"; 
 
 export default function Bienvenido({ user }: { user: any }) {
   //VARAIBLES PARA LA VISTA DE MUNICIPIOS
   //IMAGENES PRUEBA
-  const images = [
-    {
-      label: "San Francisco – Oakland Bay Bridge, United States",
-      imgPath:
-        "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
-    },
-    {
-      label: "Bird",
-      imgPath:
-        "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
-    },
-    {
-      label: "Bali, Indonesia",
-      imgPath:
-        "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
-    },
-    {
-      label: "Goč, Serbia",
-      imgPath:
-        "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
-    },
-  ];
+  const [imagenes, setImagenes] = useState<Array<imagenen>>([]);
+
+  let dat = ({
+    NUMOPERACION: 5,
+    CHUSER: user.id
+  })
+
+  const consulta = (data: any) => {
+    CatalogosServices.eventos(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        setImagenes(res.RESPONSE);
+      } else {
+        AlertS.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
+  useEffect(() => {
+    consulta(dat)
+  }, [])
+
+  useEffect(() => {
+    console.log(imagenes);
+
+  }, [imagenes])
+
 
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = images.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -49,6 +64,52 @@ export default function Bienvenido({ user }: { user: any }) {
   const handleStepChange = (step: number) => {
     setActiveStep(step);
   };
+
+
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+  const isXl = useMediaQuery(theme.breakpoints.up("xl"));
+  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
+  const isSm = useMediaQuery(theme.breakpoints.up("sm"));
+  const isXs = useMediaQuery(theme.breakpoints.up("xs"));
+
+  function MyComponent() {
+    if(isSm||isXs){
+      return (<Box
+        sx={{
+  
+          width: "100%",
+          height: "80%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundSize: 'cover', objectFit: "scale-down"
+        }}
+      >
+        {imagenes.length === 0 ? <FilterIcon sx={{ height: "100%" }} />
+          : <img src={imagenes[activeStep].Imagen} style={{ height: "auto", width: "80%" }} />}
+      </Box>);
+    }else{
+      return (<Box
+      sx={{
+
+        width: "100%",
+        height: "80%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundSize: 'cover', objectFit: "scale-down"
+      }}
+    >
+      {imagenes.length === 0 ? <FilterIcon sx={{ height: "100%" }} />
+        : <img src={imagenes[activeStep].Imagen} style={{ height: "80%", width: "auto" }} />}
+    </Box>);
+    }
+
+    
+  }
+
+
   //FIN DE VARIABLES PARA MUNICIPIOS
 
   return (
@@ -68,13 +129,13 @@ export default function Bienvenido({ user }: { user: any }) {
             height: "100%",
             display: "flex",
             justifyContent: "center",
-            paddingTop:"1%"
+            paddingTop: "1%"
           }}
         >
-          <Box 
-             sx={{
+          <Box
+            sx={{
               width: "100%",
-              // height: "70%",
+              height: "100%",
               backgroundColor: COLOR.azul
             }}
           >
@@ -92,17 +153,16 @@ export default function Bienvenido({ user }: { user: any }) {
                   display: "flow",
                   justifyContent: "center",
                   alignItems: "center",
-                  margin:"1%",
                 }}
               >
                 <Typography sx={{
-                   ml: 2, 
-                   fontSize: "2.5rem", 
-                   textAlign: "center",
-                   color: COLOR.doradoNL,
-                   fontFamily:"Poppins",
-                   }}>
-                ¡Bienvenido! Monterrey.
+                  ml: 2,
+                  fontSize: "2.5rem",
+                  textAlign: "center",
+                  color: COLOR.doradoNL,
+                  fontFamily: "Poppins",
+                }}>
+                  ¡Bienvenido! Monterrey.
                 </Typography>
               </Box>
 
@@ -119,60 +179,55 @@ export default function Bienvenido({ user }: { user: any }) {
             >
               <Box
                 sx={{
-                  marginTop:"2%",
+                  marginTop: "2%",
                   width: "100%",
                   // backgroundColor: "violet",
                   display: "flow",
-                  alignContent:"center",
+                  alignContent: "center",
                 }}
               >
-                <Typography sx={{  
-                  fontSize: "2rem", 
+                <Typography sx={{
+                  fontSize: "2rem",
                   // bgcolor:"blue",  
                   width: "100%",
-                  textAlign:"center",
-                  fontFamily:"Poppins",
-                  }}> 
+                  textAlign: "center",
+                  fontFamily: "Poppins",
+                }}>
                   Avisos:
                 </Typography>
               </Box>
-              
+
               <Box
                 sx={{
                   width: "100%",
                   // backgroundColor: "pink",
                   display: "flow",
                   alignItems: "center",
-                  fontFamily:"Poppins",
-                  
+                  fontFamily: "Poppins",
+
                 }}
               >
-                <Typography sx={{ ml: 2, fontSize: "2rem", textAlign:"center", fontFamily:"Poppins"}}>
-                  {images[activeStep].label}
+                <Typography sx={{ ml: 2, fontSize: "2rem", textAlign: "center", fontFamily: "Poppins" }}>
+                  {imagenes[activeStep]?.Descripcion}
                 </Typography>
               </Box>
-              <Box
+
+
+              {/* <Box
                 sx={{
-                  paddingTop:"1%",
+
                   width: "100%",
-                  height: "70%",
-                  // backgroundColor: "aqua",
+                  height: "80%",
                   display: "flex",
                   justifyContent: "center",
+                  backgroundSize:'cover',objectFit: "scale-down"
                 }}
               >
-                <Box
-                  component="img"
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    overflow: "hidden",
-                    objectFit: "contain",
-                    borderRadius: 0,
-                  }}
-                  src={images[activeStep].imgPath}
-                />
-              </Box>
+                {imagenes.length === 0 ? <FilterIcon sx={{height: "100%" }} />
+                  : <img src={imagenes[activeStep].Imagen}  style={{ height: "100%", width: "auto"}} />}
+              </Box> */}
+              {MyComponent()}
+
               <Box
                 sx={{
                   width: "100%",
@@ -182,7 +237,7 @@ export default function Bienvenido({ user }: { user: any }) {
               >
                 <MobileStepper
                   variant="text"
-                  steps={4}
+                  steps={imagenes.length}
                   position="static"
                   activeStep={activeStep}
                   sx={{
@@ -195,8 +250,10 @@ export default function Bienvenido({ user }: { user: any }) {
                   nextButton={
                     <Button
                       size="medium"
-                      onClick={handleNext}
-                      disabled={activeStep === 3}
+                      onClick={() => {
+                        setActiveStep(activeStep + 1)
+                      }}
+                      disabled={activeStep === imagenes.length - 1}
                       sx={{ ml: 3 }}
                     >
                       Siguiente
@@ -210,7 +267,9 @@ export default function Bienvenido({ user }: { user: any }) {
                   backButton={
                     <Button
                       size="medium"
-                      onClick={handleBack}
+                      onClick={() => {
+                        setActiveStep(activeStep - 1)
+                      }}
                       disabled={activeStep === 0}
                       sx={{ mr: 3 }}
                     >
@@ -280,8 +339,8 @@ export default function Bienvenido({ user }: { user: any }) {
           display: user.PERFILES[0].Referencia == "COOR" ? "block" : "none",
         }}
       >
-         
-      
+
+
         <PlantillaBienvenido
           id={1}
           name={
@@ -293,9 +352,9 @@ export default function Bienvenido({ user }: { user: any }) {
           }
           lastConnnection=""
         />
-    
-       
-        
+
+
+
       </Box>
 
       <Box
@@ -317,4 +376,18 @@ export default function Bienvenido({ user }: { user: any }) {
       </Box>
     </>
   );
+}
+
+export interface imagenen {
+  CreadoPor: string;
+  Descripcion: string;
+  FechaCreacion: string;
+  FechaFin: string;
+  FechaInicio: string;
+  Imagen: string;
+  ModificadoPor: string;
+  Nombre: string;
+  UltimaActualizacion: string;
+  deleted: string;
+  id: string;
 }

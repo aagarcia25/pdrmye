@@ -33,7 +33,6 @@ import {
     esES as gridEsES,
   } from "@mui/x-data-grid";
   import { esES as coreEsES } from "@mui/material/locale";
-  import ModalPresupuesto from "./ModalPresupuesto";
   
   const AuthSolicitudes = () => {
     const theme = createTheme(coreEsES, gridEsES);
@@ -401,7 +400,7 @@ import {
         P_IDESTATUS: idEstatus == "false" ? "" : idEstatus,
       };
       console.log(data);
-      DPCPServices.GetPartFedv2(data).then((res) => {
+     /* DPCPServices.GetPartFedv2(data).then((res) => {
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
@@ -415,7 +414,7 @@ import {
             icon: "error",
           });
         }
-      });
+      });*/
     };
   
     useEffect(() => {
@@ -677,16 +676,6 @@ import {
         </Grid>
   
         {/* MODALES */}
-  
-        {openModal ? (
-          <ModalPresupuesto
-            handleClose={handleClose}
-            vrows={vrows}
-            handleAccion={Fnworkflow}
-          ></ModalPresupuesto>
-        ) : (
-          ""
-        )}
       </div>
     );
   };

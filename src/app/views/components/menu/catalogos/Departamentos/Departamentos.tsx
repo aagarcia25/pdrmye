@@ -155,7 +155,7 @@ export const Departamentos = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: 600, width: "100%", padding:"2%" }}>
        {open ? (
         <DepartamentosModal
           open={open}

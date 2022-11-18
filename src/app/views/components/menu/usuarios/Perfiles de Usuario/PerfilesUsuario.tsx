@@ -179,7 +179,7 @@ export const PerfilesUsuario = () => {
       }, []);
 
       return (
-        <div style={{ height: 600, width: "100%" }}>
+        <div style={{ height: 600, width: "100%", paddingTop:"5%" }}>
            {open ? (
             <PerfilesUsuarioModal
               open={open}
