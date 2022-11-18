@@ -142,7 +142,7 @@ const CambiosMun = () => {
         { tipo: 'MunRecaudacion', label: 'Municipio Recaudación', },
         { tipo: 'MunRefrendos', label: 'Municipio Refrendos', },
         { tipo: 'MunTerritorio', label: 'Municipio Territorio', },
-        { tipo: 'Umas', label: 'UMAS', },
+        { tipo: 'UMAS', label: 'UMAS', },
         { tipo: 'MunFideicomiso', label: 'Municipio Fideicomiso', },
 
 
@@ -360,6 +360,10 @@ const CambiosMun = () => {
                                                 {origen?.Km2 ? <Typography><h5>	{"	KM2	: " + origen?.Km2}<br />	</h5></Typography> : ""}
                                                 {origen?.Mes ? <Typography><h5>	{"	Mes	: " + origen?.Mes}<br />	</h5></Typography> : ""}
                                                 {origen?.Movimientos ? <Typography><h5>	{"	Movimientos	: " + origen?.Movimientos}<br />	</h5></Typography> : ""}
+                                                {origen?.Mensual ? <Typography><h5>	{"	Mensual	: " + origen?.Mensual}<br />	</h5></Typography> : ""}
+                                                {origen?.Anual ? <Typography><h5>	{"	Anual	: " + origen?.Anual}<br />	</h5></Typography> : ""}
+                                                {origen?.Diario ? <Typography><h5>	{"	Diario	: " + origen?.Diario}<br />	</h5></Typography> : ""}
+
 
 
                                             </Box>
@@ -397,8 +401,9 @@ const CambiosMun = () => {
                                                     {solicitud?.Km2 ? <Typography><h5>	{"	KM2	: " + solicitud?.Km2}<br />	</h5></Typography> : ""}
                                                     {solicitud?.Mes ? <Typography><h5>	{"	Mes	: " + solicitud?.Mes}<br />	</h5></Typography> : ""}
                                                     {solicitud?.Movimientos ? <Typography><h5>	{"	Movimientos	: " + solicitud?.Movimientos}<br />	</h5></Typography> : ""}
-
-
+                                                    {solicitud?.Mensual ? <Typography><h5>	{"	Mensual	: " + solicitud?.Mensual}<br />	</h5></Typography> : ""}
+                                                    {solicitud?.Anual ? <Typography><h5>	{"	Anual	: " + solicitud?.Anual}<br />	</h5></Typography> : ""}
+                                                    {solicitud?.Diario ? <Typography><h5>	{"	Diario	: " + solicitud?.Diario}<br />	</h5></Typography> : ""}
 
                                                 </Box>
                                             </CardContent>
@@ -409,24 +414,8 @@ const CambiosMun = () => {
                                 }
 
                             </Grid>
-
-
-
-                        
-
-
-
-
-                            {modoVer===false?
+                            {modoVer === false ?
                                 <>
-
-
-
-
-
-
-
-
                                     <Grid container spacing={1}
                                         sx={{
                                             mt: "2vh",
@@ -469,11 +458,11 @@ const CambiosMun = () => {
                                         </Grid>
                                     </Grid>
                                 </>
-                                : 
-                                
+                                :
+
                                 comentario ?
                                     <>
-    
+
                                         <Grid container spacing={1}
                                             sx={{
                                                 mt: "2vh",
@@ -482,7 +471,7 @@ const CambiosMun = () => {
                                                 justifyContent: "center",
                                                 alignItems: "center",
                                                 flexDirection: "row",
-    
+
                                             }}
                                         >
                                             <Grid item xs={6} sm={6} md={4} lg={3}>
@@ -497,7 +486,7 @@ const CambiosMun = () => {
                                                 justifyContent: "center",
                                                 alignItems: "center",
                                                 flexDirection: "row",
-    
+
                                             }}
                                         >
                                             <Grid item xs={6} sm={6} md={4} lg={3}>
@@ -506,10 +495,10 @@ const CambiosMun = () => {
                                         </Grid>
                                     </>
                                     : ""
-                                
-                                
-                                
-                                }
+
+
+
+                            }
                         </Box>
                         {openValidacion ?
                             <>
