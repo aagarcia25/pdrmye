@@ -23,16 +23,16 @@ const ModalForm = ({ children, title, handleClose }: Props) => {
 
     
     <div>
-      <Dialog open={true} fullScreen>
-        <Grid container spacing={1}>
-          <Grid item xs={7} sm={10} md={11} lg={11}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Typography>
-                <h2>{title}</h2>
+      <Dialog open={true} fullScreen >
+        <Grid container paddingTop="2%" sx={{ bgcolor:"#CCCCCC" }}>
+          <Grid item xs={7} sm={10} md={11} lg={11} >
+            <Box sx={{ display: "flex", justifyContent: "center"}}>
+              <Typography variant="h4" >
+                {title}
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={1} sm={1} md={1} lg={1}>
+          <Grid item xs={1} sm={1} md={1} lg={1} paddingBottom="1%" >
             <Button variant="outlined">
               <Tooltip title="Salir">
                 <IconButton

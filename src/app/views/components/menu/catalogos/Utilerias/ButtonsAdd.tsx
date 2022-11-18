@@ -10,9 +10,9 @@ const ButtonsAdd = ({
   agregar: boolean;
 }) => {
   return (
-    <Box>
+    <Box sx={{marginLeft:"1%"}} >
       {agregar ? (
-        <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+        <ToggleButtonGroup color="primary" exclusive aria-label="Platform" >
           <Tooltip title="Agregar">
             <ToggleButton value="check" onClick={() => handleOpen(1)}>
               <AddIcon />
