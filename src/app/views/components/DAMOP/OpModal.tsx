@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import { Box, Container, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, ToggleButton, Tooltip } from "@mui/material";
+import { Box, Container, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, ThemeProvider, ToggleButton, Tooltip } from "@mui/material";
 import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
@@ -22,7 +22,7 @@ import { border, borderColor } from '@mui/system';
 import { AlertS } from '../../../helpers/AlertS';
 import ModalForm from '../componentes/ModalForm';
 import MUIXDataGrid from '../MUIXDataGrid';
-import { GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 
 
 const steps = ['Campos Obligatorios', 'Carga de Archivo ', 'Finalizar Solicitud'];
@@ -307,32 +307,107 @@ export const OpModal = (
             <ModalForm title={'Detalles de solicitudes de Pago'} handleClose={handleClose}>
                 <DialogContent dividers={true}>
                     <Grid container>
-                        <Grid item xs={12} >
-                            <label className='subtitulo'>No Proveedor:</label>
+                        <Grid item xs={6} >
+                            <label className='subtitulo'>Solicitante:</label>
                             <label className='contenido'>{data.Solicitante}</label>
                             <br />
                             <label className='subtitulo'>No Proyecto:</label>
                             <label className='contenido'>{data.Concepto}</label>
-                            <br />
-                            <label className='subtitulo'>Fecha:</label>
                             <br />
                             <br />
                             <label className='subtitulo'>Total:</label>
                             <br />
                             <label className='contenido'>{data.Total}</label>
                         </Grid>
+                        <Grid item xs={6} >
+                            <label className='subtitulo'>Fecha de Solicitud:</label>
+                            <label className='contenido'>{data.FechaCreacion.slice(0,10)}</label>
+                            <br />
+                            <label className='contenido'>{data.Concepto}</label>
+                            <br />
+                        </Grid>
                     </Grid>
 
                 </DialogContent>
-                <div style={{ height: 100, width: '100%' }}>
-                <MUIXDataGrid columns={columns} rows={{}} />
+
+
+
+
+                <div style={{ height: 350, width: "100%", paddingRight: "1%", paddingLeft: "1%", paddingBottom: "1%" }}>
+                    <DataGrid
+                        columns={columns}
+                        rows={[]}
+                        density="compact"
+                        rowsPerPageOptions={[10, 25, 50, 100]}
+                        disableSelectionOnClick
+                        disableColumnFilter
+                        disableColumnSelector
+                        disableDensitySelector
+                        getRowHeight={() => 'auto'}
+                        components={{ Toolbar: GridToolbar }}
+                        sx={{ fontFamily: "Poppins,sans-serif" }}
+                        componentsProps={{
+                            toolbar: {
+                                label: "Buscar",
+                                showQuickFilter: true,
+                                quickFilterProps: { debounceMs: 500 },
+                            },
+                        }}
+                        localeText={{
+                            noRowsLabel: "No se ha encontrado datos.",
+                            noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+                            toolbarColumns: "Columnas",
+                            toolbarExport: "Exportar",
+                            toolbarColumnsLabel: "Seleccionar columnas",
+                            toolbarFilters: "Filtros",
+                            toolbarFiltersLabel: "Ver filtros",
+                            toolbarFiltersTooltipHide: "Quitar filtros",
+                            toolbarFiltersTooltipShow: "Ver filtros",
+                            toolbarQuickFilterPlaceholder: "Buscar",
+
+                        }}
+
+                    />
                 </div>
 
-                {/* <Grid item xs={12}>
-                    <Box sx={{ display: "flex", justifyContent: "center", height: "20%" }}>
-                       
-                    </Box>
-                </Grid> */}
+                <Grid container>
+                    <Grid item xs={3}  textAlign="right">
+                        <label className='subtitulo'>Observaciones:</label>
+                    </Grid>
+                    <Grid item xs={6} >
+
+                        <TextField
+                            required
+                            multiline
+                            margin="dense"
+
+                            id="anio"
+                            //value nombre de evento
+                            type="string"
+                            fullWidth
+                            variant="outlined"
+                        // onChange={(v) => setNameAviso(v.target.value)}
+                        //error={nameAviso == "" ? true : false}
+                        />
+
+
+
+                        {/* <label className='contenido'>{data.Solicitante}</label>
+                        <br />
+                        <label className='subtitulo'>No Proyecto:</label>
+                        <label className='contenido'>{data.Concepto}</label>
+                        <br />
+                        <label className='subtitulo'>Fecha:</label>
+                        <br />
+                        <br />
+                        <label className='subtitulo'>Total:</label>
+                        <br />
+                        <label className='contenido'>{data.Total}</label> */}
+                    </Grid>
+
+
+                </Grid>
+
 
             </ModalForm>
 

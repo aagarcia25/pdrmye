@@ -181,7 +181,7 @@ export default function Inicio({ children, user }: Props) {
           onClose={handleDrawerToggle}
         />
 
-        <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        <Box sx={{ flex: 1, display: "flex", flexDirection: "column",width:"100%"}}>
           <Header
             onDrawerToggle={handleDrawerToggle}
             name={
