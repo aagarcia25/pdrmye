@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { AlertS } from '../../../helpers/AlertS';
 
-const ModalPresupuesto = ({
+const ModalOp = ({
     handleClose,
     handleAccion,
     vrows,
@@ -34,7 +34,7 @@ const ModalPresupuesto = ({
     <div>
       <Box>
         <Dialog open={true}>
-          <DialogTitle>Comentario Presupuestos</DialogTitle>
+          <DialogTitle>Comentario Orden de Pago</DialogTitle>
           <DialogContent dividers={true}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
@@ -79,4 +79,4 @@ const ModalPresupuesto = ({
   )
 }
 
-export default ModalPresupuesto
+export default ModalOp

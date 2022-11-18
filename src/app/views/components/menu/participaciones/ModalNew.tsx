@@ -61,7 +61,7 @@ const ModalNew = ({
 
 
   const icv = () => {
-    setslideropen(true);
+    
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlsx");
     formData.append("tipo", "RefrendosICV");
@@ -70,7 +70,7 @@ const ModalNew = ({
     formData.append("MES", idmes);
     formData.append("TIPOCALCULO", idTipoCalculo);
     CatalogosServices.migraData(formData).then((res) => {
-      setslideropen(false);
+     
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -90,7 +90,7 @@ const ModalNew = ({
 
 
   const isrnomina = () => {
-    setslideropen(true);
+   
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlsx");
     formData.append("tipo", "ISRNOMINA");
@@ -100,7 +100,7 @@ const ModalNew = ({
     formData.append("IMPORTE", "0");
     formData.append("TIPOCALCULO", idTipoCalculo);
     CatalogosServices.migraData(formData).then((res) => {
-      setslideropen(false);
+      
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -122,7 +122,7 @@ const ModalNew = ({
 
 
   const handleSend = () => {
-
+    setslideropen(true);
         if (clave === "ICV") {
           icv();
         } else if (clave === "ISR NOMINA") {
@@ -150,6 +150,7 @@ const ModalNew = ({
           }
   
         }
+        setslideropen(false);
 
   };
 

@@ -2,6 +2,7 @@ import { Box, ToggleButtonGroup, Tooltip, ToggleButton, Link, IconButton } from 
 import { useEffect, useState } from "react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos } from "../../../../../services/localStorage";
 
@@ -17,6 +18,7 @@ const ButtonsMunicipio = ({
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [cargarPlantilla, setCargarPlantilla] = useState<boolean>(false);
   const [descargarPlantilla, setDescargarPlantilla] = useState<boolean>(false);
+  const [elimasiva, setelimasiva] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -31,6 +33,9 @@ const ButtonsMunicipio = ({
           setCargarPlantilla(true);
         }
         if (String(item.Referencia) == "AGREG") {
+          setDescargarPlantilla(true);
+        }
+        if (String(item.Referencia) == "ELIMMASIVA") {
           setDescargarPlantilla(true);
         }
 
@@ -66,6 +71,16 @@ const ButtonsMunicipio = ({
               </IconButton>
           </Tooltip>
           : ""}
+
+          {cargarPlantilla ?
+            <Tooltip title="Eliminación Masiva">
+                <IconButton aria-label="upload documento" component="label" size="large">
+                <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
+                <DeleteForeverIcon />
+                </IconButton>
+            </Tooltip>
+            : ""}
+          
 
       </ToggleButtonGroup>
     </Box>
