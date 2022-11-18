@@ -256,7 +256,7 @@ export const Umas = () => {
         handleUpload={handleUpload} controlInterno={"UMAS"} />
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-     < MUIXDataGridMun columns={columns} rows={conUmas} handleBorrar={handleBorrar} borrar={eliminar}   />
+     < MUIXDataGridMun columns={columns} rows={conUmas} handleBorrar={handleBorrar} borrar={eliminar} modulo={"UMAS"}   />
 
 
 
