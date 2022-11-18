@@ -271,11 +271,9 @@ export const MunPoblacion = () => {
     downloadplantilla();
     setAnios(fanios());
     permisos.map((item: PERMISO) => {
-      console.log(item.ControlInterno + ' --' + String(item.Referencia));
-
-      if (item.ControlInterno == "MUNPO")
+    
+      if (item.ControlInterno == "MUNPO"){
         setNombreMenu(item.Menu);
-      {
         if (String(item.Referencia) == 'EDIT') {
           setUpdate(true);
         }
@@ -285,6 +283,14 @@ export const MunPoblacion = () => {
 
       }
     });
+
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: "",
+
+    };
+    consulta(data);
+
   }, []);
 
 
