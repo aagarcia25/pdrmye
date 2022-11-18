@@ -11,7 +11,15 @@ import CardComponente from "./CardComponente";
 export default function Bienvenido({ user }: { user: any }) {
   //VARAIBLES PARA LA VISTA DE MUNICIPIOS
   //IMAGENES PRUEBA
-  const images = [
+  const images = [{
+    label: "San Francisco – Oakland Bay Bridge, United States",
+    imgPath:
+      "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
+  },{
+    label: "San Francisco – Oakland Bay Bridge, United States",
+    imgPath:
+      "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
+  },
     {
       label: "San Francisco – Oakland Bay Bridge, United States",
       imgPath:
@@ -36,7 +44,6 @@ export default function Bienvenido({ user }: { user: any }) {
 
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = images.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -74,7 +81,7 @@ export default function Bienvenido({ user }: { user: any }) {
           <Box 
              sx={{
               width: "100%",
-              // height: "70%",
+              height: "100%",
               backgroundColor: COLOR.azul
             }}
           >
@@ -92,7 +99,6 @@ export default function Bienvenido({ user }: { user: any }) {
                   display: "flow",
                   justifyContent: "center",
                   alignItems: "center",
-                  margin:"1%",
                 }}
               >
                 <Typography sx={{
@@ -153,19 +159,17 @@ export default function Bienvenido({ user }: { user: any }) {
               </Box>
               <Box
                 sx={{
-                  paddingTop:"1%",
+                  
                   width: "100%",
-                  height: "70%",
-                  // backgroundColor: "aqua",
+                  height: "80%",
                   display: "flex",
                   justifyContent: "center",
                 }}
               >
                 <Box
                   component="img"
-                  sx={{
-                    width: "100%",
-                    height: "100%",
+                  sx={{width:"55%",
+                    height:"100%",
                     overflow: "hidden",
                     objectFit: "contain",
                     borderRadius: 0,
@@ -182,7 +186,7 @@ export default function Bienvenido({ user }: { user: any }) {
               >
                 <MobileStepper
                   variant="text"
-                  steps={4}
+                  steps={images.length}
                   position="static"
                   activeStep={activeStep}
                   sx={{
@@ -195,8 +199,10 @@ export default function Bienvenido({ user }: { user: any }) {
                   nextButton={
                     <Button
                       size="medium"
-                      onClick={handleNext}
-                      disabled={activeStep === 3}
+                      onClick={()=>{
+                        setActiveStep(activeStep+1)
+                      }}
+                      disabled={activeStep === images.length-1}
                       sx={{ ml: 3 }}
                     >
                       Siguiente
@@ -210,7 +216,9 @@ export default function Bienvenido({ user }: { user: any }) {
                   backButton={
                     <Button
                       size="medium"
-                      onClick={handleBack}
+                      onClick={()=>{
+                        setActiveStep(activeStep-1)
+                      }}
                       disabled={activeStep === 0}
                       sx={{ mr: 3 }}
                     >
