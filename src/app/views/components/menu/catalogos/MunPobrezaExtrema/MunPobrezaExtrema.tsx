@@ -284,6 +284,14 @@ export const MunPobrezaExtrema = () => {
     setAnios(fanios());
     downloadplantilla();
 
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: "",
+
+    };
+
+    consulta(data);
+
   }, []);
 
 
@@ -317,7 +325,7 @@ export const MunPobrezaExtrema = () => {
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"MUNPOEX"} />
 
-     < MUIXDataGridMun columns={columns} rows={PobrezaExtrema} handleBorrar={handleBorrar} borrar={eliminar}   />
+     < MUIXDataGridMun columns={columns} rows={PobrezaExtrema} handleBorrar={handleBorrar} borrar={eliminar} modulo={'POBREZA_EXTREMA'}   />
       {open ? (
         <MunPobrezaExtremaModal
           open={open}

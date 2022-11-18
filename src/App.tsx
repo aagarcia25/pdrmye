@@ -46,6 +46,9 @@ function App() {
   const [openSlider, setOpenSlider] = useState(true);
   const [acceso, setAcceso] = useState(false);
 
+
+
+
   const parametros = () => {
   let data = {
     NUMOPERACION: 5,
@@ -225,7 +228,7 @@ function App() {
 
 
   useLayoutEffect(() => {
-
+   
     //SE CARGAN LOS PARAMETROS GENERALES
     if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
       setToken(jwt);
@@ -246,10 +249,6 @@ function App() {
           
           var ventana = window.self;
           ventana.location.replace(env_var.BASE_URL_LOGIN);
-        }else {
-          setTimeout(() => {
-            navigate("/Calendario");
-          }, 10000);
         }
       });
     }

@@ -257,7 +257,7 @@ export const MunPobProyeccion = () => {
       ANIO: v,
     };
     setFilterAnio(v);
-    if (v != "") {
+    if (v != "false") {
       consulta(data);
     }
   };
@@ -277,7 +277,6 @@ export const MunPobProyeccion = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPROYEC") {
-        console.log(item)
         setNombreMenu(item.Menu);
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
@@ -289,6 +288,12 @@ export const MunPobProyeccion = () => {
     });
     setAnios(fanios());
     downloadplantilla();
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: "",
+
+    };
+    consulta(data);
   }, []);
 
 
@@ -317,7 +322,7 @@ export const MunPobProyeccion = () => {
       <ButtonsMunicipio
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"MUNPROYEC"} />
-      < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} borrar={eliminar}   />
+      < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={'PROYECCION'}   />
 
 
       {open ? (

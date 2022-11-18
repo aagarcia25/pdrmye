@@ -98,10 +98,10 @@ const UsuariosModal = ({
     var email = e.target.value
     setCorreoElectronico(email);
     if (validator.isEmail(email)) {
-      setEmailError('Email Valido')
+      setEmailError('email válido')
       setEmailValid(true);
     } else {
-      setEmailError('Ingrese Email Valido')
+      setEmailError('Ingrese email válido')
       setEmailValid(false);
     }
   }
@@ -318,16 +318,17 @@ const UsuariosModal = ({
 
   return (
     <div>
-      <Dialog open={open} fullScreen>
-        <Grid container spacing={1}>
-          <Grid item xs={11} sm={11} md={11} lg={11}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Typography><h2>{tipo == 3 ? "Nuevo Registro" : "Editar Registro"}</h2></Typography>
+      <Dialog open={open} fullScreen >
+        <Grid container spacing={1} sx={{ bgcolor:"#CCCCCC", paddingBottom:"1%",paddingTop:"1%" }}>
+        <Grid item xs={12} sm={2} md={2} lg={2} ></Grid>
+          <Grid item xs={12} sm={8} md={8} lg={8} >
+            <Box sx={{ display: "flex", justifyContent: "center"}}>
+              <Typography variant="h4"> {tipo == 3 ? "Nuevo Registro" : "Editar Registro"} </Typography>
             </Box>
 
           </Grid>
-          <Grid item xs={1} sm={1} md={1} lg={1}>
-            <Button variant="outlined" >
+          <Grid item xs={12} sm={2} md={2} lg={2}  >
+            <Button variant="outlined">
               <Tooltip title="Salir">
                 <IconButton
                   aria-label="close"
@@ -346,11 +347,10 @@ const UsuariosModal = ({
             alignItems: "center",
             flexDirection: "row",
           }}>
-          <Grid item xs={11} sm={11} md={9} lg={6}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <DialogContent>
-                <Box>
-                  <TextField
+          <Grid item xs={11} sm={11} md={11} lg={11} >
+            <Box display="flex" flexWrap="wrap"  boxShadow={2} sx={{padding:"2%" }}>
+            <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight:"2%", paddingLeft:"2%"}}  > 
+            <TextField
                     required
                     margin="dense"
                     id="nombre"
@@ -418,7 +418,7 @@ const UsuariosModal = ({
                     error={emailValid == false || CorreoElectronico == null}
                     InputLabelProps={{ shrink: true }}
                   />
-                  <label>{emailError}</label>
+                   <Typography variant="body2"> {emailError} </Typography>
 
                   <TextField
                     required
@@ -447,7 +447,10 @@ const UsuariosModal = ({
                     error={rfc == null ? true : false}
                     InputLabelProps={{ shrink: true }}
                   />
-                  <TextField
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight:"2%", paddingLeft:"2%"}}   > 
+            <TextField
                     required
                     margin="dense"
                     id="curp"
@@ -475,7 +478,7 @@ const UsuariosModal = ({
                     InputLabelProps={{ shrink: true }}
 
                   />
-                  <label>{telError}</label>
+                  <Typography variant="body2"> {telError} </Typography>
                   <br />
                   <TextField
                     required
@@ -492,9 +495,9 @@ const UsuariosModal = ({
                     InputLabelProps={{ shrink: true }}
 
                   />
-                  <label>{celError}</label>
+                  <Typography variant="body2"> {celError} </Typography>
                   <br />
-                  <label>Departamento:</label>
+                  <Typography variant="body2"> Departamento: </Typography>
                   <SelectFrag
                     value={idDepartamento}
                     options={departamento}
@@ -503,8 +506,8 @@ const UsuariosModal = ({
                     label={""}
                     disabled={false}
                   />
-
-                  <label>Perfil:</label>
+                  <br />
+                   <Typography variant="body2"> Perfil: </Typography>
                   <SelectFrag
                     value={idPerfil}
                     options={perfiles}
@@ -513,20 +516,10 @@ const UsuariosModal = ({
                     label={""}
                     disabled={false}
                   />
-                </Box>
-              </DialogContent>
-            </Box>
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={1}
-          sx={{
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "row",
-          }}>
-          <Grid item xs={11} sm={11} md={9} lg={6}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              
+              <Grid xs={12} sm={12} md={12} lg={12} sx={{ paddingTop:"3%"}}  >
+              <Box maxHeight={1/2} flexDirection="row"> </Box>
+              <Box maxHeight={1/2} flexDirection="row">
               <DialogActions>
                 <Button
                   className="guardar"
@@ -537,8 +530,13 @@ const UsuariosModal = ({
                 </Button>
               </DialogActions>
             </Box>
+            </Grid>
+            
+            </Grid>
+            </Box>
           </Grid>
         </Grid>
+
 
       </Dialog>
     </div>
@@ -546,3 +544,6 @@ const UsuariosModal = ({
 };
 
 export default UsuariosModal;
+
+
+

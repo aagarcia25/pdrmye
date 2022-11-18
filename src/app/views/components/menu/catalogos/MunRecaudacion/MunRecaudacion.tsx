@@ -284,6 +284,11 @@ export const MunRecaudacion = () => {
     });
     setAnios(fanios());
     downloadplantilla();
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: "",
+    };
+    consulta(data);
   }, []);
 
   return (
@@ -309,7 +314,7 @@ export const MunRecaudacion = () => {
       <ButtonsMunicipio
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"MUNRECAU"} />
-      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} borrar={eliminar}   />
+      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={"RECAUDACION"}   />
 
       {open ? (
         <MunRecaudacionModal

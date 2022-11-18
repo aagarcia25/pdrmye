@@ -296,7 +296,7 @@ export const MunTerritorio = () => {
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"MUNTERR"} />
 
-      <MUIXDataGridMun columns={columns} rows={territorio} handleBorrar={handleBorrar} borrar={eliminar}   />
+      <MUIXDataGridMun columns={columns} rows={territorio} handleBorrar={handleBorrar} borrar={eliminar} modulo={"TERRITORIO"}   />
 
     </div>
   );
