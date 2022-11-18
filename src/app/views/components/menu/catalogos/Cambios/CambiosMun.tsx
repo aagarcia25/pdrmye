@@ -12,6 +12,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import ComentarioModal from "../../../componentes/ComentarioModal";
 import { Label } from "@mui/icons-material";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 
 const CambiosMun = () => {
@@ -29,6 +30,7 @@ const CambiosMun = () => {
     const [comentario, setComentario] = useState<string>();
     const [idCambio, setIdCambio] = useState<string>();
     const [idSolicitante, setIdSolicitante] = useState<string>();
+    const [modo, setModo] = useState<string>();
 
 
 
@@ -72,8 +74,17 @@ const CambiosMun = () => {
                                 </>
                             ) :
                                 ""
+
+
                             )
                         }
+                        <>
+                            <Tooltip title="Ver Solicitud">
+                                <IconButton color="info" onClick={() => handlevalidar(v)}>
+                                    <VisibilityIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </>
                     </>
                 );
             },
@@ -138,8 +149,10 @@ const CambiosMun = () => {
 
     const handlevalidar = (v: any) => {
         setOpenModal(true);
+        setModo("ver");
         setVrows(v.row);
         console.log(v.row)
+        setComentario(v?.row?.Comentario);
         setSolicitud(JSON.parse(String(v.row.Solicitud)));
         console.log(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setIdSolicitante(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
@@ -254,7 +267,7 @@ const CambiosMun = () => {
                 sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}
             >
                 <Grid item xs={12}
-                
+
                     sx={{ height: 700, width: "100%" }}>
                     <MUIXDataGrid columns={columns} rows={bitacoraAjustes} />
                 </Grid>
@@ -275,7 +288,7 @@ const CambiosMun = () => {
 
                             </Grid>
 
-                            <Grid container direction="row"justifyContent="center" alignItems="center" >
+                            <Grid container direction="row" justifyContent="center" alignItems="center" >
                                 <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                                     <label>
                                         <h4>{String("Valores Originales")}</h4>
@@ -294,7 +307,7 @@ const CambiosMun = () => {
                             </Grid>
 
 
-                            <Grid container direction="row"justifyContent="center" alignItems="center" >
+                            <Grid container direction="row" justifyContent="center" alignItems="center" >
                                 <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                                     <Card sx={{ minWidth: 275 }}>
                                         <CardContent>
@@ -312,7 +325,7 @@ const CambiosMun = () => {
                                                 {origen?.Coeficiente ? <Typography><h5>	{"	Coeficiente	: " + origen?.Coeficiente}<br />	</h5></Typography> : ""}
                                                 {origen?.Version ? <Typography><h5>	{"	Version	: " + origen?.Version}<br />	</h5></Typography> : ""}
                                                 {origen?.totalPob ? <Typography><h5>	{"	Poblacion Total	: " + origen?.totalPob}<br />	</h5></Typography> : ""}
-                                                {origen?.Facturacion ? <Typography><h5>	{"	Total	: " + origen?.Facturacion}<br />	</h5></Typography> : ""}
+                                                {origen?.Facturacion ? <Typography><h5>	{"	Facturacion	: " + origen?.Facturacion}<br />	</h5></Typography> : ""}
                                                 {origen?.Total ? <Typography><h5>	{"	Total	: " + origen?.Total}<br />	</h5></Typography> : ""}
                                                 {origen?.anio ? <Typography><h5>	{"	Año	: " + origen?.anio}<br />	</h5></Typography> : ""}
                                                 {origen?.Pob ? <Typography><h5>	{"	Poblacion Total	: " + origen?.Pob}<br />	</h5></Typography> : ""}
@@ -386,47 +399,73 @@ const CambiosMun = () => {
                                 </Grid>
                             </Grid>
 
-                            <Grid container spacing={1}
-                                sx={{
-                                    mt: "2vh",
-                                    width: "100%",
-                                    height: "100%",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    flexDirection: "row",
-                                }}
-                            >
-                                <Grid item xs={12} sm={12} md={6} lg={4}>
-                                    <TextField
-                                        required
-                                        spellCheck="true"
-                                        rows={8}
-                                        multiline
-                                        onChange={(v) => setComentario(v.target.value)}
-                                        style={{ width: "100%" }}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        inputProps={{
-                                            maxLength: 300,
-                                        }}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <br /><br />
-                            <Grid container spacing={3} sx={{ width: "100%", justifyContent: "center", alignItems: "center", direction: "row", }}>
+                            {comentario ?
+                                <Grid container spacing={1}
+                                    sx={{
+                                        mt: "2vh",
+                                        width: "100%",
+                                        height: "100%",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        flexDirection: "row",
 
-                                <Grid item xs={6} sm={6} md={4} lg={3} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                                    <Box >
-                                        <button className="guardar" onClick={() => acciones("autorizar")}>Autorizar Solicitud</button>
-                                    </Box>
+                                    }}
+                                >
+                                    <Grid item xs={6} sm={6} md={4} lg={3}>
+                                        <Typography><h5>	{comentario}<br />	</h5></Typography>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={6} sm={6} md={4} lg={3} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                                    <Box>
-                                        <button className="regresar" onClick={() => acciones("cancelar")}> Cancelar Solicitud</button>
-                                    </Box>
-                                </Grid>
-                            </Grid>
+
+                                : ""}
+
+
+
+
+                            {modo !== "ver" ?
+                                <>
+                                    <Grid container spacing={1}
+                                        sx={{
+                                            mt: "2vh",
+                                            width: "100%",
+                                            height: "100%",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            flexDirection: "row",
+                                        }}
+                                    >
+                                        <Grid item xs={12} sm={12} md={6} lg={4}>
+                                            <TextField
+                                                required
+                                                spellCheck="true"
+                                                rows={8}
+                                                multiline
+                                                onChange={(v) => setComentario(v.target.value)}
+                                                style={{ width: "100%" }}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                                inputProps={{
+                                                    maxLength: 300,
+                                                }}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                    <br /><br />
+                                    <Grid container spacing={3} sx={{ width: "100%", justifyContent: "center", alignItems: "center", direction: "row", }}>
+
+                                        <Grid item xs={6} sm={6} md={4} lg={3} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                                            <Box >
+                                                <button className="guardar" onClick={() => acciones("autorizar")}>Autorizar Solicitud</button>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item xs={6} sm={6} md={4} lg={3} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                                            <Box>
+                                                <button className="regresar" onClick={() => acciones("cancelar")}> Cancelar Solicitud</button>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </>
+                                : ""}
                         </Box>
                         {openValidacion ?
                             <>
