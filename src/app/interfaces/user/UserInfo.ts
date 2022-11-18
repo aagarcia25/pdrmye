@@ -92,6 +92,13 @@ export interface MunicipioCambios {
     Km2?: string;
     Mes?: string;
     Movimientos?: string;
+    Mensual?: string;
+    Anual?: string;
+    Diario?: string;
+
+
+
+
 
 }
 

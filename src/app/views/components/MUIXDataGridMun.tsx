@@ -6,11 +6,13 @@ import { esES as coreEsES } from "@mui/material/locale";
 const theme = createTheme(coreEsES, gridEsES);
 
 const MUIXDataGridMun = ({
+    modulo,
     handleBorrar,
     columns,
     rows,
     borrar
   }: {
+    modulo:string
     handleBorrar: Function,
     columns: any,
     rows: any,
@@ -30,13 +32,16 @@ const MUIXDataGridMun = ({
           disableColumnSelector
           disableDensitySelector
           getRowHeight={() => 'auto'}
-          components={{ Toolbar: GridToolbar }}
+          components={{ Toolbar:GridToolbar }}
           sx={{ fontFamily: "Poppins,sans-serif"}}
           componentsProps={{
             toolbar: {
               label:"Buscar",
               showQuickFilter: true,
               quickFilterProps: { debounceMs: 500 },
+              csvOptions:{  fileName: modulo,
+                             utf8WithBom: true,
+                            }
             },
           }}
           checkboxSelection={borrar}

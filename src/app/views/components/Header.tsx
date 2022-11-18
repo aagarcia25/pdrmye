@@ -115,6 +115,7 @@ export default function Header(props: HeaderProps) {
         style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco }}
         position="sticky"
         elevation={0}
+        sx={{ width: "100%" }}
       >
         <Toolbar>
           <Grid container spacing={2} alignItems="center">
@@ -122,13 +123,15 @@ export default function Header(props: HeaderProps) {
               sx={{
                 display: {
 
-                  
+
                   backgroundColor: COLOR.negro,
                   "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                 },
               }}
               item
             >
+
+
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -142,8 +145,11 @@ export default function Header(props: HeaderProps) {
                   "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                 }}
               >
-                <MenuIcon    />
+                <MenuIcon />
               </IconButton>
+
+
+
             </Grid>
             <Grid item xs />
 
@@ -196,11 +202,13 @@ export default function Header(props: HeaderProps) {
                   )}
 
                 </IconButton>
+                
               </Tooltip>
               <Popper
                 open={open}
                 role={undefined}
                 placement="bottom-start"
+                anchorEl={anchorRef.current}
                 transition
                 disablePortal
               >

@@ -32,7 +32,7 @@ const CambiosMun = () => {
     const [comentario, setComentario] = useState<string>();
     const [idCambio, setIdCambio] = useState<string>();
     const [idSolicitante, setIdSolicitante] = useState<string>();
-    const [modo, setModo] = useState<string>();
+    const [modoVer, setModoVer] = useState<boolean>(false);
 
 
 
@@ -82,7 +82,7 @@ const CambiosMun = () => {
                         }
                         <>
                             <Tooltip title="Ver Solicitud">
-                                <IconButton color="info" onClick={() => handlevalidar(v)}>
+                                <IconButton color="info" onClick={() => handlever(v)}>
                                     <VisibilityIcon />
                                 </IconButton>
                             </Tooltip>
@@ -142,7 +142,7 @@ const CambiosMun = () => {
         { tipo: 'MunRecaudacion', label: 'Municipio Recaudación', },
         { tipo: 'MunRefrendos', label: 'Municipio Refrendos', },
         { tipo: 'MunTerritorio', label: 'Municipio Territorio', },
-        { tipo: 'Umas', label: 'UMAS', },
+        { tipo: 'UMAS', label: 'UMAS', },
         { tipo: 'MunFideicomiso', label: 'Municipio Fideicomiso', },
 
 
@@ -151,7 +151,23 @@ const CambiosMun = () => {
 
     const handlevalidar = (v: any) => {
         setOpenModal(true);
-        setModo("ver");
+        setModoVer(false);
+        setVrows(v.row);
+        console.log(v.row)
+        setComentario(v?.row?.Comentario);
+        setSolicitud(JSON.parse(String(v.row.Solicitud)));
+        console.log(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
+        setSolicitante(v?.row?.Solicitante)
+        setIdSolicitante(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
+        setOrigen(JSON.parse(String(v.row.Origen)));
+        setLabelCatalogo(String(tablas.find(({ tipo }) => tipo == v.row.Tipo)?.label));
+        setIdCambio(v.row.id);
+
+    };
+
+    const handlever = (v: any) => {
+        setOpenModal(true);
+        setModoVer(true);
         setVrows(v.row);
         console.log(v.row)
         setComentario(v?.row?.Comentario);
@@ -283,7 +299,7 @@ const CambiosMun = () => {
 
                         <Box sx={{ width: '100%', typography: 'body1' }}>
 
-                        <Grid container direction="row" justifyContent="center" alignItems="center">
+                            <Grid container direction="row" justifyContent="center" alignItems="center">
                                 <Typography>
                                     <h3>{String("Catalogo a Modificar: " + labelCatalogo)}</h3>
                                 </Typography>
@@ -305,7 +321,7 @@ const CambiosMun = () => {
                                     </label>
 
                                 </Grid>
-                                
+
                                 {String(solicitud?.deleted) === "1" ? "" :
                                     <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                                         <label>
@@ -344,6 +360,10 @@ const CambiosMun = () => {
                                                 {origen?.Km2 ? <Typography><h5>	{"	KM2	: " + origen?.Km2}<br />	</h5></Typography> : ""}
                                                 {origen?.Mes ? <Typography><h5>	{"	Mes	: " + origen?.Mes}<br />	</h5></Typography> : ""}
                                                 {origen?.Movimientos ? <Typography><h5>	{"	Movimientos	: " + origen?.Movimientos}<br />	</h5></Typography> : ""}
+                                                {origen?.Mensual ? <Typography><h5>	{"	Mensual	: " + origen?.Mensual}<br />	</h5></Typography> : ""}
+                                                {origen?.Anual ? <Typography><h5>	{"	Anual	: " + origen?.Anual}<br />	</h5></Typography> : ""}
+                                                {origen?.Diario ? <Typography><h5>	{"	Diario	: " + origen?.Diario}<br />	</h5></Typography> : ""}
+
 
 
                                             </Box>
@@ -381,8 +401,9 @@ const CambiosMun = () => {
                                                     {solicitud?.Km2 ? <Typography><h5>	{"	KM2	: " + solicitud?.Km2}<br />	</h5></Typography> : ""}
                                                     {solicitud?.Mes ? <Typography><h5>	{"	Mes	: " + solicitud?.Mes}<br />	</h5></Typography> : ""}
                                                     {solicitud?.Movimientos ? <Typography><h5>	{"	Movimientos	: " + solicitud?.Movimientos}<br />	</h5></Typography> : ""}
-
-
+                                                    {solicitud?.Mensual ? <Typography><h5>	{"	Mensual	: " + solicitud?.Mensual}<br />	</h5></Typography> : ""}
+                                                    {solicitud?.Anual ? <Typography><h5>	{"	Anual	: " + solicitud?.Anual}<br />	</h5></Typography> : ""}
+                                                    {solicitud?.Diario ? <Typography><h5>	{"	Diario	: " + solicitud?.Diario}<br />	</h5></Typography> : ""}
 
                                                 </Box>
                                             </CardContent>
@@ -393,46 +414,7 @@ const CambiosMun = () => {
                                 }
 
                             </Grid>
-
-                            <Grid container spacing={1}
-                                sx={{
-                                    mt: "2vh",
-                                    width: "100%",
-                                    height: "100%",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    flexDirection: "row",
-
-                                }}
-                            >
-                                <Grid item xs={6} sm={6} md={4} lg={3}>
-                                    <h3> Comentarios:</h3>
-                                </Grid>
-                            </Grid>
-
-                            {comentario ?
-                                <Grid container spacing={1}
-                                    sx={{
-                                        mt: "2vh",
-                                        width: "100%",
-                                        height: "100%",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        flexDirection: "row",
-
-                                    }}
-                                >
-                                    <Grid item xs={6} sm={6} md={4} lg={3}>
-                                        <Typography><h5>	{comentario}<br />	</h5></Typography>
-                                    </Grid>
-                                </Grid>
-
-                                : ""}
-
-
-
-
-                            {modo !== "ver" ?
+                            {modoVer === false ?
                                 <>
                                     <Grid container spacing={1}
                                         sx={{
@@ -476,7 +458,47 @@ const CambiosMun = () => {
                                         </Grid>
                                     </Grid>
                                 </>
-                                : ""}
+                                :
+
+                                comentario ?
+                                    <>
+
+                                        <Grid container spacing={1}
+                                            sx={{
+                                                mt: "2vh",
+                                                width: "100%",
+                                                height: "100%",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                flexDirection: "row",
+
+                                            }}
+                                        >
+                                            <Grid item xs={6} sm={6} md={4} lg={3}>
+                                                <h3> Comentarios:</h3>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid container spacing={1}
+                                            sx={{
+                                                mt: "2vh",
+                                                width: "100%",
+                                                height: "100%",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                flexDirection: "row",
+
+                                            }}
+                                        >
+                                            <Grid item xs={6} sm={6} md={4} lg={3}>
+                                                <Typography><h5>	{comentario}<br />	</h5></Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </>
+                                    : ""
+
+
+
+                            }
                         </Box>
                         {openValidacion ?
                             <>
