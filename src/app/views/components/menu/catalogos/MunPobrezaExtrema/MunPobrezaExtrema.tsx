@@ -65,6 +65,7 @@ export const MunPobrezaExtrema = () => {
       },
     },
     { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "Anio", headerName: "Año", width: 150 },
     { field: "Personas", headerName: "Total", width: 150 },
