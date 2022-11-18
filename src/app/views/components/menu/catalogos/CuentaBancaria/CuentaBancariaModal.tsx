@@ -244,7 +244,7 @@ export const CuentaBancariaModal = ({
 <div>
     {tipo == 1 || tipo == 2 ? (
 
-        <ModalForm title={tipo == 1 ? "Agregar Datos bancarios" : "Editar Registro"} handleClose={handleClose}>
+        <ModalForm title={tipo == 1 ? "Agregar Datos Bancarios" : "Editar Registro"} handleClose={handleClose}>
           <Grid container
             sx={{
               mt: "2vh",
