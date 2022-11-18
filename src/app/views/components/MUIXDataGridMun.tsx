@@ -1,7 +1,6 @@
 import { DataGrid,  esES as gridEsES, GridToolbar,   } from "@mui/x-data-grid";
 import { createTheme,  ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
-import { CustomToolbar, CustomToolbarv2 } from "./menu/CustomToolbar";
 
 
 const theme = createTheme(coreEsES, gridEsES);
@@ -33,14 +32,16 @@ const MUIXDataGridMun = ({
           disableColumnSelector
           disableDensitySelector
           getRowHeight={() => 'auto'}
-          
-          components={{ Toolbar: CustomToolbarv2  }}
+          components={{ Toolbar:GridToolbar }}
           sx={{ fontFamily: "Poppins,sans-serif"}}
           componentsProps={{
             toolbar: {
               label:"Buscar",
               showQuickFilter: true,
               quickFilterProps: { debounceMs: 500 },
+              csvOptions:{  fileName: modulo,
+                             utf8WithBom: true,
+                            }
             },
           }}
           checkboxSelection={borrar}

@@ -22,20 +22,6 @@ export function CustomToolbar() {
 
 
 
-export function CustomToolbarv2  (modulo:string  ){
-return(
-  <GridToolbarContainer>
-  <GridToolbarQuickFilter />
-    <GridToolbarExport
-      csvOptions={{
-        fileName: 'Modulo',
-        utf8WithBom: true,
-      }}
-    />
-  </GridToolbarContainer>
-  );
-}
-
 export const currencyFormatter = new Intl.NumberFormat("es-US", {
   style: "currency",
   currency: "USD",
