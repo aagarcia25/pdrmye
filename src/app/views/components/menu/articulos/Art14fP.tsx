@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { GridColDef } from "@mui/x-data-grid";
-import { getPermisos, getUser } from "../../../../services/localStorage";
+import { getPermisos } from "../../../../services/localStorage";
 import { ArticulosServices } from "../../../../services/ArticulosServices";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import {
@@ -14,7 +14,7 @@ import {
 import InfoIcon from "@mui/icons-material/Info";
 import AutoModeIcon from "@mui/icons-material/AutoMode";
 import Slider from "../../Slider";
-import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import Art14m from "./Art14m";
 
 export const Art14fP = () => {
@@ -92,7 +92,7 @@ export const Art14fP = () => {
         String(item.ControlInterno) === "ART14F3"
       ) {
         //console.log(item);
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
       }
@@ -128,9 +128,9 @@ export const Art14fP = () => {
           titulo={
             tipo == 1
               ? "Articulo 14 F I"
-              : tipo == 2
+              : tipo === 2
               ? "Articulo 14 F II"
-              : tipo == 3
+              : tipo === 3
               ? "Articulo 14 F III"
               : ""
           }

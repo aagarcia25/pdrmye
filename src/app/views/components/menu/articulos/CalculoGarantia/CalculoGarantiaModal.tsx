@@ -2,11 +2,9 @@ import { Box, Container, Dialog, DialogActions, DialogContent, FormControl, Inpu
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getMunicipios, getUser } from "../../../../../services/localStorage";
+import { getUser } from "../../../../../services/localStorage";
 import { calculosServices } from "../../../../../services/calculosServices";
 import { Toast } from "../../../../../helpers/Toast";
-import { municipiosc } from "../../../../../share/loadMunicipios";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 
 export const CalculoGarantiaModal = ({
@@ -90,10 +88,10 @@ export const CalculoGarantiaModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo == 1) {
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }

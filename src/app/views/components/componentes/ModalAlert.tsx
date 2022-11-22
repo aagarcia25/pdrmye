@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Grid,
   Typography,
 } from "@mui/material";
@@ -36,7 +31,7 @@ const ModalAlert = ({
   const [mensaje, setMensaje] = useState<string>();
 
   const validacion = (v:string) => {
-    if (mensaje == "" || mensaje == null) {
+    if (mensaje === "" || mensaje === null) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de llenar el campo Comentarios*",
@@ -44,9 +39,9 @@ const ModalAlert = ({
       });
     } else {
       Swal.fire({
-        icon: v=="DAMOP_REGRESADO"? "error":"success",
+        icon: v==="DAMOP_REGRESADO"? "error":"success",
         title: "Enviar",
-        text: v=="DAMOP_REGRESADO"? "Desea Regresar La Solicitud":"Desea Autorizar La Cuenta",
+        text: v==="DAMOP_REGRESADO"? "Desea Regresar La Solicitud":"Desea Autorizar La Cuenta",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -107,12 +102,12 @@ const ModalAlert = ({
             />
           </Grid>
 
-          {(user.DEPARTAMENTOS[0].NombreCorto == "MUN" && user.PERFILES[0].Referencia == "MUN") ?
+          {(user.DEPARTAMENTOS[0].NombreCorto === "MUN" && user.PERFILES[0].Referencia === "MUN") ?
             < Grid item xs={4} sm={3} md={2} lg={1}>
               <Button className="actualizar" onClick={() => validacion("DAMOP_REVISION")}>Enviar</Button>
             </Grid>
             : ""}
-          {(user.DEPARTAMENTOS[0].NombreCorto == "DAMOP" && user.PERFILES[0].Referencia == "ANA") ?
+          {(user.DEPARTAMENTOS[0].NombreCorto === "DAMOP" && user.PERFILES[0].Referencia === "ANA") ?
             <>
               < Grid item xs={4} sm={3} md={3} lg={3}>
                 <Button className="actualizar" onClick={() => validacion("DAMOP_AUTORIZADO")}>Autorizar</Button>

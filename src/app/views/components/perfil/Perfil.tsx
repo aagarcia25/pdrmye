@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getUser } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import PersonIcon from "@mui/icons-material/Person";
@@ -21,10 +21,8 @@ import validator from 'validator';
 import { COLOR } from "../../../styles/colors";
 
 export const Perfil = () => {
-  const [user,setUser]=useState<RESPONSE>(JSON.parse(String(getUser())));
-  
-  //CAMPOS EN USO DE USUARIO
-  // //console.log(user.Nombre);
+  const [user, setUser] = useState<RESPONSE>(JSON.parse(String(getUser())));
+
   //Abrir Dialog de imagen
   const [openDialog, setOpenDialog] = useState(false)
   const [nombre, setNombre] = useState(user.Nombre);
@@ -93,15 +91,11 @@ export const Perfil = () => {
     AuthService.adminUser(dat).then((res) => {
 
       if (res.SUCCESS) {
-        //console.log("se guardo");
-        //console.log(res.SUCCESS);
         Toast.fire({
           icon: "success",
           title: "Datos actualizados.",
         });
       } else {
-        //console.log(res.SUCCESS);
-
         Toast.fire({
           icon: "error",
           title: "No se actualizo la información.",
@@ -127,344 +121,323 @@ export const Perfil = () => {
 
   const handleTotal = (v: string) => {
     if ((validator.isNumeric(v) || v === "")) {
-        setTelefono(v)
+      setTelefono(v)
     }
-};
+  };
 
   return (
-    
+
     <Box
       sx={{
         //Principal
         width: "100%",
         height: "100%",
         backgroundColor: "#EEEEEE",
-        // backgroundColor: "#FBF8EF",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        padding:"0",
-        marginTop:".5%",
+        padding: "0",
+        marginTop: ".5%",
       }}
     >
-      <Box 
-      boxShadow={3} 
-      paddingBottom="2%"
-      sx={{ 
-        display: "flex", 
-        width: "100%",
-        height: "auto", 
-        justifyContent: "center", 
-        backgroundColor: "white",
-        alignItems: "center" 
-        }}>
-
       <Box
-        display="flex" flexDirection="row" 
+        boxShadow={3}
+        paddingBottom="2%"
         sx={{
-          width: "80%",
+          display: "flex",
+          width: "100%",
           height: "auto",
-          flexDirection: "column",
-          alignItems: "center",
-          // justifyContent: "center",
-          // border: "1px solid  black",
-          // borderRadius: "1%",
-          // backgroundColor: "blue"
-        }}
-      >
-        
-
-        {/* <Box  sx={{
-          //EspacioTitulo
-          width: "50%",
-          backgroundColor: "skyblue",
-        }}>
-          <Typography variant="h6"  paddingTop={3}> Información Personal </Typography>
-        </Box> */}
-
-        {/* Imagen y tipo de usuario */}
-        <Box paddingTop={3}>
-          <Box boxShadow={3} 
-            onClick={() => {
-              setOpenDialog(true)
-            }}
-
-            sx={{
-              width: "7.4rem",
-              height: "7.4rem",
-              backgroundColor: "white",
-              borderRadius: '50%',
-              // border: 3,
-              // borderColor: "black",
-              // display: "flex",
-              justifyContent: "center",
-              // alignItems: "center",
-              cursor: "pointer",
-            }}
-
-          >
-            {user.RutaFoto ? (
-              <img
-
-                style={{
-                  objectFit: "scale-down",
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: '50%',
-                }}
-                src={user.RutaFoto}
-              />
-            ) : (
-              <PersonIcon
-
-                sx={{
-                  width: "100%",
-                  height: "100%",
-
-                }}
-              />
-            )}
-
-
-          </Box>
-          <DialogCambiarImagen open={openDialog} handleClose={handleCloseDialogImagen}></DialogCambiarImagen>
-
-        </Box>
-
-        {/* Informacion Basica */}
-        <Box boxShadow={3}  sx={{
-          width: "90%",
-          height: "12%",
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          mt: "2rem",
-          borderRadius: "10px",
-          // border: "1px solid black",
-          bgcolor: "#051c2c",
+          justifyContent: "center",
+          backgroundColor: "white",
+          alignItems: "center"
         }}>
 
-          <Typography sx={{ width: "30%", 
-          fontFamily: "sans-serif", 
-          fontSize: "1rem", 
-          color:"#CCCCCC" }}
-          > Nombre: 
-          <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem",color:"white"  }}>
-          {nombre} </Typography> 
-          </Typography>
-
-          <Typography sx={{ width: "30%", 
-          fontFamily: "sans-serif", 
-          fontSize: "1rem", 
-          color:"#CCCCCC" }}
-          > Apellido Paterno:  
-          <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem",color:"white"  }}>
-          {apellidoPaterno} </Typography> 
-          </Typography>
-
-          <Typography sx={{ width: "30%", 
-          fontFamily: "sans-serif", 
-          fontSize: "1rem", 
-          color:"#CCCCCC" }}
-          > Apellido Materno: 
-          <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem",color:"white"  }}>
-          {apellidoMaterno} </Typography> 
-          </Typography>  
-        </Box>
-
-        <Box sx={{
-          height: "2%",
-        }}> </Box>
-        
-        <Box boxShadow={2}  sx={{
-          width: "90%",
-          height: "100%",
-          display: "flex",
-          justifyContent: "space-evenly",
-          borderRadius: "10px",
-          bgcolor: "rgb(252,252,252)",
-          flexDirection: "column"
-        }}>  
-       <Typography align="center" variant="h5" sx={{ width: "100%",color:COLOR.azul, paddingTop:"2%"}}>
-          Contacto y Ubicación
-        </Typography>
-                
-          <Box display="flex" flexWrap="wrap"  sx={{paddingTop:"2%", justifyContent: "center"}}>
-            <Typography sx={{ paddingLeft:"2%", color:"#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex"}}>Departamento :</Typography>
-            <Typography sx={{ ml:"1%", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex"  }}> {departamento} </Typography>
-            <Typography sx={{ paddingLeft:"10%", color:"#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex"}}>Correo electrónico :</Typography>
-            <Typography sx={{ ml:"1%", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex"}}> {correoElectronico}  </Typography>
-          </Box>
-
-
-        
-          {botonEdicionTodo === "Editar" ?
-            <Box display="flex" flexWrap="wrap"   sx={{ justifyContent: "center", paddingTop:"3%"}}>
-              <Typography sx={{ color:"#808080",  fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", }}>Telefono :</Typography>
-              <Typography sx={{ ml:"1%",bgcolor:"#EEEEEE", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", flexDirection: "row" }}>  {telefono} </Typography>
-            </Box> :
-
-            <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ paddingBottom:".5%", paddingTop:"2%"}}>
-               <Box sx={{  width: 500 }}> </Box>
-            <TextField
-              disabled={botonEdicionTodo === "Editar" ? true : false}
-              required
-              inputProps={{maxLength: 12}}
-              margin="dense"
-              id="Telefono"
-              label="Teléfono"
-              value={telefono}
-              type="text"
-              fullWidth
-              // sx={{ width: "40%",}}
-              variant="outlined"
-              onChange={(v) => handleTotal(v.target.value)}
-              error={telefono == "" ? true : false}
-            />
-            <Box sx={{  width: 500 }}> </Box>
-            </Stack>
-          
-            }
-
-
-
-          {botonEdicionTodo === "Editar" ?
-            <Box display="flex" flexWrap="wrap"   sx={{ justifyContent: "center", paddingTop:"3%"}}>
-              <Typography sx={{ color:"#808080",  fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", }}>Ubicación :</Typography>
-              <Typography sx={{ ml:"1%",bgcolor:"#EEEEEE", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", flexDirection: "row" }}>{ubicacion} </Typography>
-            </Box> :
-
-            <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ paddingBottom:".5%"}}>
-              <Box sx={{  width: 500 }}> </Box>
-            <TextField
-              disabled={botonEdicionTodo === "Editar" ? true : false}
-              required
-              margin="dense"
-              id="Ubicacion"
-              label="Ubicación"
-              value={ubicacion}
-              type="text"
-              fullWidth
-              // sx={{ width: "60%", }}
-              variant="outlined"
-              onChange={(v) => setUbicacion(v.target.value)}
-              error={ubicacion == "" ? true : false}
-            />
-            <Box sx={{  width: 500 }}> </Box>
-            </Stack>
-
-            }
-
-          {botonEdicionTodo === "Editar" ?
-            <Box display="flex" flexWrap="wrap"  sx={{ justifyContent: "center", paddingTop:"3%", paddingBottom:"2%"}}>
-              <Typography sx={{ color:"#808080",  fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", }}> Puesto :</Typography>
-              <Typography sx={{ ml:"1%", bgcolor:"#EEEEEE", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", flexDirection: "row" }}> {puesto} </Typography>
-            </Box>
-            :
-            // pagina 2 el puesto
-
-            <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ paddingBottom:"2%"}}>
-               
-               <Box sx={{  width: 500 }}> </Box>
-               <TextField
-              disabled={botonEdicionTodo === "Editar" ? true : false}
-              required
-              margin="dense"
-              id="Puesto"
-              label="Puesto"
-              value={puesto}
-              type="text"
-              fullWidth
-              // sx={{ width: 1/2 }}
-              variant="outlined"
-              onChange={(v) => setPuesto(v.target.value)}
-              error={puesto == "" ? true : false}
-            />
-            <Box sx={{  width: 500 }}> </Box>
-            </Stack>
-            
-            }
-
-              {/* BOTON DE GUARDAR  */}
-
-          <Box display="flex" flexWrap="wrap" sx={{paddingBottom:"2%"}}>
-          
-          <Box  sx={{width: "70%"}}> </Box>
-          <Box  sx={{width: "28%"}} >
-          <Button
-            variant="outlined"
-            onClick={() => {
-              if (botonEdicionTodo === "Guardar") setOpenDialogConfirmacion(true)
-              else onClickEditar();
-            }}
-
-            color="success"
-            sx={{
-              width: "50%",
-              height: "auto",
-              borderRadius: 1,
-              "&:hover": {
-                color: "#5048E5",
-                backgroundColor: "#eeebf5",
-              },
-            }}
-          > 
-          
-          <Typography sx={{ fontSize: "3" }}>
-              {botonEdicionTodo}
-          </Typography></Button>
-
-          {botonEdicionTodo === "Guardar" ? <Button
-            variant="outlined"
-            onClick={onClickCancelarEditarTodo}
-            color="error"
-            sx={{
-              width: "50%",
-              height: "auto",
-              borderRadius: 1,
-              "&:hover": {
-                color: "#5048E5",
-                backgroundColor: "#eeebf5",
-              },
-            }}
-          > 
-          
-          <Typography sx={{ fontSize: "3" }}>
-              Cancelar
-           </Typography></Button> : null}
-
-
-            </Box>
-
-        </Box>
-
-
-
-        </Box>
-
-        
-
-        <Dialog
-          open={openDialogConfirmacion}
-          onClose={() => setOpenDialogConfirmacion(false)}
+        <Box
+          display="flex" flexDirection="row"
+          sx={{
+            width: "80%",
+            height: "auto",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
         >
-          <DialogTitle id="alert-dialog-title">
-            {"Editar información"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              ¿ Desea cambiar la informacion ?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => { setOpenDialogConfirmacion(false) }}>Cancelar</Button>
-            <Button color="success" onClick={() => onClickGuardarCambios()}>Aceptar</Button>
-            {/* onClickEditarTodo */}
-          </DialogActions>
-        </Dialog>
+
+          {/* Imagen y tipo de usuario */}
+          <Box paddingTop={3}>
+            <Box boxShadow={3}
+              onClick={() => {
+                setOpenDialog(true)
+              }}
+
+              sx={{
+                width: "7.4rem",
+                height: "7.4rem",
+                backgroundColor: "white",
+                borderRadius: '50%',
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+
+            >
+              {user.RutaFoto ? (
+                <img
+                  style={{
+                    objectFit: "scale-down",
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: '50%',
+                  }}
+                  src={user.RutaFoto}
+                />
+              ) : (
+                <PersonIcon
+
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+
+                  }}
+                />
+              )}
 
 
-      </Box>
+            </Box>
+            <DialogCambiarImagen open={openDialog} handleClose={handleCloseDialogImagen}></DialogCambiarImagen>
+
+          </Box>
+
+          {/* Informacion Basica */}
+          <Box boxShadow={3} sx={{
+            width: "90%",
+            height: "12%",
+            display: "flex",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            mt: "2rem",
+            borderRadius: "10px",
+            // border: "1px solid black",
+            bgcolor: "#051c2c",
+          }}>
+
+            <Typography sx={{
+              width: "30%",
+              fontFamily: "sans-serif",
+              fontSize: "1rem",
+              color: "#CCCCCC"
+            }}
+            > Nombre:
+              <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
+                {nombre} </Typography>
+            </Typography>
+
+            <Typography sx={{
+              width: "30%",
+              fontFamily: "sans-serif",
+              fontSize: "1rem",
+              color: "#CCCCCC"
+            }}
+            > Apellido Paterno:
+              <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
+                {apellidoPaterno} </Typography>
+            </Typography>
+
+            <Typography sx={{
+              width: "30%",
+              fontFamily: "sans-serif",
+              fontSize: "1rem",
+              color: "#CCCCCC"
+            }}
+            > Apellido Materno:
+              <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
+                {apellidoMaterno} </Typography>
+            </Typography>
+          </Box>
+
+          <Box sx={{
+            height: "2%",
+          }}> </Box>
+
+          <Box boxShadow={2} sx={{
+            width: "90%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "space-evenly",
+            borderRadius: "10px",
+            bgcolor: "rgb(252,252,252)",
+            flexDirection: "column"
+          }}>
+            <Typography align="center" variant="h5" sx={{ width: "100%", color: COLOR.azul, paddingTop: "2%" }}>
+              Contacto y Ubicación
+            </Typography>
+
+            <Box display="flex" flexWrap="wrap" sx={{ paddingTop: "2%", justifyContent: "center" }}>
+              <Typography sx={{ paddingLeft: "2%", color: "#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex" }}>Departamento :</Typography>
+              <Typography sx={{ ml: "1%", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex" }}> {departamento} </Typography>
+              <Typography sx={{ paddingLeft: "10%", color: "#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex" }}>Correo electrónico :</Typography>
+              <Typography sx={{ ml: "1%", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex" }}> {correoElectronico}  </Typography>
+            </Box>
+
+
+
+            {botonEdicionTodo === "Editar" ?
+              <Box display="flex" flexWrap="wrap" sx={{ justifyContent: "center", paddingTop: "3%" }}>
+                <Typography sx={{ color: "#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", }}>Telefono :</Typography>
+                <Typography sx={{ ml: "1%", bgcolor: "#EEEEEE", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", flexDirection: "row" }}>  {telefono} </Typography>
+              </Box> :
+
+              <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ paddingBottom: ".5%", paddingTop: "2%" }}>
+                <Box sx={{ width: 500 }}> </Box>
+                <TextField
+                  disabled={botonEdicionTodo === "Editar" ? true : false}
+                  required
+                  inputProps={{ maxLength: 12 }}
+                  margin="dense"
+                  id="Telefono"
+                  label="Teléfono"
+                  value={telefono}
+                  type="text"
+                  fullWidth
+                  // sx={{ width: "40%",}}
+                  variant="outlined"
+                  onChange={(v) => handleTotal(v.target.value)}
+                  error={telefono === "" ? true : false}
+                />
+                <Box sx={{ width: 500 }}> </Box>
+              </Stack>
+
+            }
+
+
+
+            {botonEdicionTodo === "Editar" ?
+              <Box display="flex" flexWrap="wrap" sx={{ justifyContent: "center", paddingTop: "3%" }}>
+                <Typography sx={{ color: "#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", }}>Ubicación :</Typography>
+                <Typography sx={{ ml: "1%", bgcolor: "#EEEEEE", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", flexDirection: "row" }}>{ubicacion} </Typography>
+              </Box> :
+
+              <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ paddingBottom: ".5%" }}>
+                <Box sx={{ width: 500 }}> </Box>
+                <TextField
+                  disabled={botonEdicionTodo === "Editar" ? true : false}
+                  required
+                  margin="dense"
+                  id="Ubicacion"
+                  label="Ubicación"
+                  value={ubicacion}
+                  type="text"
+                  fullWidth
+                  // sx={{ width: "60%", }}
+                  variant="outlined"
+                  onChange={(v) => setUbicacion(v.target.value)}
+                  error={ubicacion === "" ? true : false}
+                />
+                <Box sx={{ width: 500 }}> </Box>
+              </Stack>
+
+            }
+
+            {botonEdicionTodo === "Editar" ?
+              <Box display="flex" flexWrap="wrap" sx={{ justifyContent: "center", paddingTop: "3%", paddingBottom: "2%" }}>
+                <Typography sx={{ color: "#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", }}> Puesto :</Typography>
+                <Typography sx={{ ml: "1%", bgcolor: "#EEEEEE", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", flexDirection: "row" }}> {puesto} </Typography>
+              </Box>
+              :
+              // pagina 2 el puesto
+
+              <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ paddingBottom: "2%" }}>
+
+                <Box sx={{ width: 500 }}> </Box>
+                <TextField
+                  disabled={botonEdicionTodo === "Editar" ? true : false}
+                  required
+                  margin="dense"
+                  id="Puesto"
+                  label="Puesto"
+                  value={puesto}
+                  type="text"
+                  fullWidth
+                  // sx={{ width: 1/2 }}
+                  variant="outlined"
+                  onChange={(v) => setPuesto(v.target.value)}
+                  error={puesto === "" ? true : false}
+                />
+                <Box sx={{ width: 500 }}> </Box>
+              </Stack>
+
+            }
+
+            {/* BOTON DE GUARDAR  */}
+
+            <Box display="flex" flexWrap="wrap" sx={{ paddingBottom: "2%" }}>
+
+              <Box sx={{ width: "70%" }}> </Box>
+              <Box sx={{ width: "28%" }} >
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    if (botonEdicionTodo === "Guardar") setOpenDialogConfirmacion(true)
+                    else onClickEditar();
+                  }}
+
+                  color="success"
+                  sx={{
+                    width: "50%",
+                    height: "auto",
+                    borderRadius: 1,
+                    "&:hover": {
+                      color: "#5048E5",
+                      backgroundColor: "#eeebf5",
+                    },
+                  }}
+                >
+
+                  <Typography sx={{ fontSize: "3" }}>
+                    {botonEdicionTodo}
+                  </Typography></Button>
+
+                {botonEdicionTodo === "Guardar" ? <Button
+                  variant="outlined"
+                  onClick={onClickCancelarEditarTodo}
+                  color="error"
+                  sx={{
+                    width: "50%",
+                    height: "auto",
+                    borderRadius: 1,
+                    "&:hover": {
+                      color: "#5048E5",
+                      backgroundColor: "#eeebf5",
+                    },
+                  }}
+                >
+
+                  <Typography sx={{ fontSize: "3" }}>
+                    Cancelar
+                  </Typography></Button> : null}
+              </Box>
+            </Box>
+          </Box>
+
+          <Dialog
+            open={openDialogConfirmacion}
+            onClose={() => setOpenDialogConfirmacion(false)}
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Editar información"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                ¿ Desea cambiar la informacion ?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => { setOpenDialogConfirmacion(false) }}>Cancelar</Button>
+              <Button color="success" onClick={() => onClickGuardarCambios()}>Aceptar</Button>
+              {/* onClickEditarTodo */}
+            </DialogActions>
+          </Dialog>
+
+
+        </Box>
       </Box>
     </Box>
   );

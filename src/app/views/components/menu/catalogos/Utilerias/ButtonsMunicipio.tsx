@@ -1,4 +1,4 @@
-import { Box, ToggleButtonGroup, Tooltip, ToggleButton, Link, IconButton } from "@mui/material";
+import { Box, ToggleButtonGroup, Tooltip, Link, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
@@ -26,60 +26,53 @@ const ButtonsMunicipio = ({
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === controlInterno) {
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setCargarPlantilla(true);
         }
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setCargarPlantilla(true);
         }
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setDescargarPlantilla(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setelimasiva(true);
         }
 
       }
     });
-
-
-
-
   }, []);
 
-
-
   return (
-
     <Box sx={{ alignItems: "center", }}>
 
       <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
         {descargarPlantilla ?
           <Tooltip title="Descargar Plantilla">
-             <IconButton aria-label="upload documento" component="label" size="large">
-             <Link href={url}>
+            <IconButton aria-label="upload documento" component="label" size="large">
+              <Link href={url}>
                 <ArrowDownwardIcon />
               </Link>
-             </IconButton>
+            </IconButton>
           </Tooltip>
           : ""}
         {cargarPlantilla ?
           <Tooltip title="Cargar Plantilla">
-              <IconButton aria-label="upload documento" component="label" size="large">
-              <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload({tipo:1,data:v})} />
+            <IconButton aria-label="upload documento" component="label" size="large">
+              <input hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload({ tipo: 1, data: v })} />
               <DriveFolderUploadIcon />
-              </IconButton>
+            </IconButton>
           </Tooltip>
           : ""}
 
-          {elimasiva ?
-            <Tooltip title="Eliminación Masiva">
-                <IconButton aria-label="upload documento" component="label" size="large">
-                <DeleteForeverIcon onClick={() => handleUpload({tipo:2,data:{}})}  />
-                </IconButton>
-            </Tooltip>
-            : ""}
-          
+        {elimasiva ?
+          <Tooltip title="Eliminación Masiva">
+            <IconButton aria-label="upload documento" component="label" size="large">
+              <DeleteForeverIcon onClick={() => handleUpload({ tipo: 2, data: {} })} />
+            </IconButton>
+          </Tooltip>
+          : ""}
+
 
       </ToggleButtonGroup>
     </Box>

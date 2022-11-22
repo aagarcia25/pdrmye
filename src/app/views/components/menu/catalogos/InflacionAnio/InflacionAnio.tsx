@@ -53,12 +53,20 @@ const InflacionAnio = () => {
   ];
 
   const handleAccion = (v: any) => {
+<<<<<<< Updated upstream
     if(v.tipo === 1){
+=======
+    if(v.tipo ===1){
+>>>>>>> Stashed changes
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setVrows(v.data);
+<<<<<<< Updated upstream
     }else if(v.tipo === 2){
+=======
+    }else if(v.tipo ===2){
+>>>>>>> Stashed changes
       handleDelete(v.data);
     }
   }
@@ -151,6 +159,10 @@ const InflacionAnio = () => {
     
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "INFANIO") {
+<<<<<<< Updated upstream
+=======
+        //console.log(item)
+>>>>>>> Stashed changes
         if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
@@ -164,8 +176,6 @@ const InflacionAnio = () => {
     });
     consulta({ NUMOPERACION: 4 })
   }, []);
-
-
 
   return (
     <div style={{ height: 600, width: "100%" }}>
@@ -183,6 +193,10 @@ const InflacionAnio = () => {
 
       <ButtonsAdd handleOpen={handleOpen} agregar={false} />
       <MUIXDataGrid columns={columns} rows={dataInflacionAnio} />
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     </div>
   )
 }

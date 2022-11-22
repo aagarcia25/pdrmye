@@ -25,7 +25,6 @@ export const Coeficientes = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [dataCoeficientes, setDataCoeficientes] = useState([]);
-  const [slideropen, setslideropen] = useState(false);
   const [vrows, setVrows] = useState({});
   const user: RESPONSE = JSON.parse(String(getUser()));
 
@@ -40,7 +39,7 @@ export const Coeficientes = () => {
       renderCell: (v) => {
         return (
           <Box>
-            {v.row.Vigente == 1 ? 'Vigente' : 'No Vigente'}
+            {v.row.Vigente === 1 ? 'Vigente' : 'No Vigente'}
           </Box>
         );
       },

@@ -1,31 +1,31 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { AlertS } from '../../../helpers/AlertS';
 
 const ModalPresupuesto = ({
-    handleClose,
-    handleAccion,
-    vrows,
-  }: {
-    handleClose: Function;
-    handleAccion: Function;
-    vrows: any;
-  }) => {
+  handleClose,
+  handleAccion,
+  vrows,
+}: {
+  handleClose: Function;
+  handleAccion: Function;
+  vrows: any;
+}) => {
 
-    
+
   const [mensaje, setMensaje] = useState<string>();
 
   const validacion = () => {
-    if(mensaje == "" || mensaje == null){
+    if (mensaje === "" || mensaje === null) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de llenar el campo Comentarios*",
         icon: "error",
       });
-    }else{
+    } else {
       handleAccion({ data: vrows, texto: mensaje })
     }
-    
+
   }
 
 
@@ -38,7 +38,7 @@ const ModalPresupuesto = ({
           <DialogContent dividers={true}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                  <h3> Comentarios:</h3>
+                <h3> Comentarios:</h3>
               </Grid>
               <Grid item xs={12}>
                 <textarea
@@ -46,7 +46,7 @@ const ModalPresupuesto = ({
                   spellCheck="true"
                   rows={5}
                   onChange={(v) => setMensaje(v.target.value)}
-                  style={{ width: "100%"}}
+                  style={{ width: "100%" }}
                 />
               </Grid>
 
@@ -58,13 +58,13 @@ const ModalPresupuesto = ({
           <DialogActions>
             <button
               className="guardar"
-              onClick={() => validacion() }
+              onClick={() => validacion()}
             >
               Autorizar
             </button>
             <button
               className="cerrar"
-              onClick={() => validacion() }
+              onClick={() => validacion()}
             >
               Rechazar
             </button>

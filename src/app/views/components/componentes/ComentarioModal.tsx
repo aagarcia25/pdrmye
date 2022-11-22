@@ -1,18 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
     Grid,
-    Typography,
 } from "@mui/material";
 import { AlertS } from "../../../helpers/AlertS";
 import ModalForm from "./ModalForm";
-import { getUser } from "../../../services/localStorage";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import Swal from "sweetalert2";
 
 const ComentarioModal = ({
@@ -33,7 +25,7 @@ const ComentarioModal = ({
     const [mensaje, setMensaje] = useState<string>();
 
     const validacion = (v: string) => {
-        if (mensaje == "" || mensaje == null) {
+        if (mensaje === "" || mensaje === null) {
             AlertS.fire({
                 title: "Error!",
                 text: "Favor de llenar el campo Comentarios*",
@@ -41,9 +33,9 @@ const ComentarioModal = ({
             });
         } else {
             Swal.fire({
-                icon: v == "DAMOP_REGRESADO" ? "error" : "success",
+                icon: v === "DAMOP_REGRESADO" ? "error" : "success",
                 title: "Enviar",
-                text: v == "DAMOP_REGRESADO" ? "Desea Regresar La Solicitud" : "Desea Autorizar La Cuenta",
+                text: v === "DAMOP_REGRESADO" ? "Desea Regresar La Solicitud" : "Desea Autorizar La Cuenta",
                 showDenyButton: false,
                 showCancelButton: true,
                 confirmButtonText: "Aceptar",

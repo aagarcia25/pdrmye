@@ -1,6 +1,5 @@
 import {
   Alert,
-  Box,
   Grid,
   IconButton,
   Input,
@@ -11,9 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
 import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
-import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import CalculateIcon from "@mui/icons-material/Calculate";
-import { COLOR } from "../../../../styles/colors";
 import { RESPONSE } from "../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../services/localStorage";
 import Slider from "../../Slider";
@@ -58,7 +55,7 @@ const Art14m = ({
   };
 
   const handleVersion = () => {
-    if (monto == null) {
+    if (monto === null) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -204,7 +201,7 @@ const Art14m = ({
                       importeDistri[x]=(item.PorcentajeDistribucion / 100) * (numero[x]);
                                 setimporteDistri(im);
                   } }
-                error={monto == null ? true : false}
+                error={monto === null ? true : false}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
@@ -282,7 +279,7 @@ const Art14m = ({
                 placeholder="1500000*"
                 id="monto"
                 value={monto}
-                error={monto == null ? true : false}
+                error={monto === null ? true : false}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
