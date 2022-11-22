@@ -274,9 +274,7 @@ export const MunFacturacion = () => {
 
   const consulta = (data: any) => {
     CatalogosServices.munfacturacion(data).then((res) => {
-
       setFacturacion(res.RESPONSE);
-
     });
   };
 

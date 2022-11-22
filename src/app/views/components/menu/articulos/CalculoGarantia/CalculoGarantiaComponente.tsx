@@ -14,8 +14,10 @@ import { Moneda } from "../../CustomToolbar";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import ButtonsMunicipio from "../../catalogos/Utilerias/ButtonsMunicipio";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+import Slider from "../../../Slider";
 
 export const CalculoGarantiaComponente = () => {
+  const [slideropen, setslideropen] = useState(true);
   const [calculoGarantia, setCalculoGarantia] = useState([]);
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
@@ -98,7 +100,6 @@ export const CalculoGarantiaComponente = () => {
     let data = {
       NUMOPERACION: "PLANTILLA DE CARGA DE GARANTIA",
     };
-
     CatalogosServices.descargaplantilla(data).then((res) => {
       setPlantilla(res.RESPONSE);
     });
@@ -168,25 +169,39 @@ export const CalculoGarantiaComponente = () => {
     });
   };
 
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let file = event?.target?.files?.[0] || "";
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "CalculoGarantia");
-    CatalogosServices.migraData(formData).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        });
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
+  const handleUpload = (data: any) => {
+
+    if (data.tipo == 1) {
+      setslideropen(true);
+      let file = data.data?.target?.files?.[0] || "";
+      const formData = new FormData();
+      formData.append("inputfile", file, "inputfile.xlsx");
+      formData.append("tipo", "CalculoGarantia");
+      CatalogosServices.migraData(formData).then((res) => {
+        setslideropen(false);
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "Carga Exitosa!",
+          });
+        } else {
+          AlertS.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
+  
+  
+  
+      });
+    } 
+    else if (data.tipo == 2) {
+
+
+
+    }
+
   };
 
   const consulta = (data: any) => {
@@ -196,9 +211,8 @@ export const CalculoGarantiaComponente = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        console.log(data);
         setCalculoGarantia(res.RESPONSE);
-        console.log("parametroGeneral consulta", calculoGarantia);
+        setslideropen(false);
       } else {
         AlertS.fire({
           title: "Error!",
@@ -232,7 +246,7 @@ export const CalculoGarantiaComponente = () => {
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-
+    <Slider open={slideropen}></Slider>
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
