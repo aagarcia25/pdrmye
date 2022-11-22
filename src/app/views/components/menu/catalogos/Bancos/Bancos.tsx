@@ -20,7 +20,7 @@ export const Bancos = () => {
   const [bancos, setBancos] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  console.log("bancos: ", bancos)
+  //console.log("bancos: ", bancos)
 
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
@@ -29,12 +29,12 @@ export const Bancos = () => {
 
   const handleAccion = (v: any) => {
     if (v.tipo == 1) {
-      console.log(v);
+      //console.log(v);
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo == 2) {
+    } else if (v.tipo === 2) {
       Swal.fire({
         icon: "info",
         title: "Estas seguro de eliminar este registro?",
@@ -49,7 +49,7 @@ export const Bancos = () => {
             CHID: v.data.row.id,
             CHUSER: user.id,
           };
-          console.log(data);
+          //console.log(data);
 
           CatalogosServices.Bancos(data).then((res) => {
             if (res.SUCCESS) {
@@ -137,14 +137,14 @@ export const Bancos = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "BANCOS") {
-        console.log(item);
-        if (String(item.Referencia) == "AGREG") {
+        //console.log(item);
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }

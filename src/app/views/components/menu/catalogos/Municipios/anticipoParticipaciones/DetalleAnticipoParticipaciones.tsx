@@ -1,25 +1,18 @@
 import { useEffect, useState } from "react";
-import { Box, Dialog, DialogActions, FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, TextField, ToggleButton, Tooltip } from "@mui/material";
+import { Box, Dialog, DialogActions, Grid, InputAdornment, TextField } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { PERMISO, RESPONSE } from "../../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../../../../services/localStorage";
 import MUIXDataGrid from "../../../../MUIXDataGrid";
-import InfoIcon from "@mui/icons-material/Info";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import InsightsIcon from "@mui/icons-material/Insights";
 import Slider from "../../../../Slider";
 import { Titulo } from "../../Utilerias/AgregarCalculoUtil/Titulo";
-import BotonesOpciones from "../../../../componentes/BotonesOpciones";
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../../helpers/Toast";
 import { AlertS } from "../../../../../../helpers/AlertS";
-import { userInfo } from "os";
 import BotonesAPD from "../../../../componentes/BotonesAPD";
 import BotonesAcciones from "../../../../componentes/BotonesAcciones";
 import ModalForm from "../../../../componentes/ModalForm";
-import { Moneda } from "../../../CustomToolbar";
 import validator from "validator";
 
 export const DetalleAnticipoParticipaciones = (
@@ -89,10 +82,10 @@ export const DetalleAnticipoParticipaciones = (
     const handleAccionRegistros = (v: any) => {
         setIdRegistro(v.data.row.id)
 
-        if (v.tipo == 1) {
+        if (v.tipo === 1) {
             ///editar
             setOpenEditar(true)
-            console.log(v.data.row)
+            //console.log(v.data.row)
             setDataEditar(v.data.row)
             setMes(v.data.row.Descripcion)
             setTotal(v.data.row.Total)
@@ -101,9 +94,9 @@ export const DetalleAnticipoParticipaciones = (
 
 
         } else
-            if (v.tipo == 2) {
+            if (v.tipo === 2) {
 
-                console.log("Eliminar resgitro detallado")
+                //console.log("Eliminar resgitro detallado")
                 EliminarRegistro(
                     {
                         NUMOPERACION: 3,
@@ -117,9 +110,9 @@ export const DetalleAnticipoParticipaciones = (
 
 
     const handleAccionEditarRegistros = () => {
-        console.log(total);
-        console.log(idRegistro);
-        console.log(user.id)
+        //console.log(total);
+        //console.log(idRegistro);
+        //console.log(user.id)
 
         Swal.fire({
             icon: "info",
@@ -172,10 +165,10 @@ export const DetalleAnticipoParticipaciones = (
 
     };
     const handleAccion = (v: number) => {
-        if (v == 1) {
+        if (v === 1) {
             handleClose()
         } else
-            if (v == 2) {
+            if (v === 2) {
 
                 Eliminar();
             }
@@ -183,12 +176,12 @@ export const DetalleAnticipoParticipaciones = (
     const getDetalles = (d: any) => {
         CatalogosServices.getdetalle(d).then((res) => {
             setDetalle(res.RESPONSE);
-            console.log(res.RESPONSE)
+            //console.log(res.RESPONSE)
             setOpenSlider(false);
         });
     };
     const Eliminar = () => {
-        console.log(data)
+        //console.log(data)
         let d = {
             MES: data.Mes,
             ANIO: data.Anio,
@@ -214,7 +207,7 @@ export const DetalleAnticipoParticipaciones = (
                             title: "Borrado Exitoso!",
                         });
                         // CatalogosServices.indexAPC(data).then((res) => {
-                        //     console.log(res.RESPONSE)
+                        //     //console.log(res.RESPONSE)
 
                         // });
                         handleClose();
@@ -248,7 +241,7 @@ export const DetalleAnticipoParticipaciones = (
                             title: "Borrado Exitoso!",
                         });
                         // CatalogosServices.indexAPC(data).then((res) => {
-                        //     console.log(res.RESPONSE)
+                        //     //console.log(res.RESPONSE)
 
                         // });
                     } else {

@@ -40,11 +40,11 @@ municipio :string
   const [estatus, setEstatus] = useState("");
 
   const handleAccion = (v: any ,est:string) => {
-    if (v.tipo == 1) {
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo == 2) {
+    } else if (v.tipo === 2) {
       Swal.fire({
         icon: "info",
         title: "Estas seguro de eliminar este registro?",
@@ -80,7 +80,7 @@ municipio :string
           Swal.fire("No se realizaron cambios", "", "info");
         }
       });
-    } else if (v.tipo == 3) {
+    } else if (v.tipo === 3) {
      
        let data = {
         NUMOPERACION: 5,
@@ -88,7 +88,7 @@ municipio :string
         CHUSER: user.id,
         IDESTATUS:est
       };
-      console.log(v);
+      //console.log(v);
 
       CatalogosServices.CuentaBancaria(data).then((res) => {
         if (res.SUCCESS) {
@@ -148,7 +148,7 @@ municipio :string
             </Tooltip>
 
             {
-              ((v.row.EstatusDescripcion == "INICIO"|| v.row.ControlInterno == "DAMOP_REGRESADO")&& (user.DEPARTAMENTOS[0].NombreCorto == "MUN"&& user.PERFILES[0].Referencia=="MUN") ? (
+              ((v.row.EstatusDescripcion === "INICIO"|| v.row.ControlInterno === "DAMOP_REGRESADO")&& (user.DEPARTAMENTOS[0].NombreCorto === "MUN"&& user.PERFILES[0].Referencia==="MUN") ? (
                 <>
                 <Tooltip title="Enviar a Validación">
                   <IconButton color="info" onClick={() => handlevalidar(v)}>
@@ -170,7 +170,7 @@ municipio :string
               
             }
             {
-              ((v.row.ControlInterno == "DAMOP_REVISION")&& (user.DEPARTAMENTOS[0].NombreCorto == "DAMOP"&& user.PERFILES[0].Referencia=="ANA") ? (
+              ((v.row.ControlInterno === "DAMOP_REVISION")&& (user.DEPARTAMENTOS[0].NombreCorto === "DAMOP"&& user.PERFILES[0].Referencia==="ANA") ? (
              
              <>
              <Tooltip title="Revisar">
@@ -243,7 +243,7 @@ municipio :string
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        console.log(res.RESPONSE);
+        //console.log(res.RESPONSE);
         setCuentaBancaria(res.RESPONSE);
       } else {
         AlertS.fire({
@@ -258,14 +258,14 @@ municipio :string
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "CUENTABANCARIA") {
-        console.log(item);
-        if (String(item.Referencia) == "AGREG") {
+        //console.log(item);
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
       }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Button, Modal, Checkbox, Typography, Grid, Tooltip, IconButton } from '@mui/material';
+import {   Checkbox, Typography, Grid, Tooltip, IconButton } from '@mui/material';
 import { AuthService } from '../../../../../services/AuthService';
 import { Toast } from '../../../../../helpers/Toast';
 import { AlertS } from '../../../../../helpers/AlertS';
@@ -12,10 +12,6 @@ import AsignarPermisoRol from './AsignarPermisoRol';
 import EliminarPermisosRol from './EliminarPermisosRol';
 import ModalForm from '../../../componentes/ModalForm';
 
-
-
-
-
 const RolesMenu = ({
   id,
   open,
@@ -25,14 +21,10 @@ const RolesMenu = ({
   open: boolean;
   handleClose: Function,
 }) => {
-
-
-
   const [data, setData] = useState([]);
   const [dt, setDt] = useState([]);
   const [openRel, setOpenRel] = useState(false);
   const [openPerRel, setOpenPerRel] = useState(false);
-
   const handleRel = (v: any) => {
     setDt(v);
     setOpenRel(true);

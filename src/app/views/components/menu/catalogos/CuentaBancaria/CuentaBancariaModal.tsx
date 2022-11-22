@@ -1,19 +1,11 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
   Box,
   TextField,
-  DialogActions,
-  IconButton,
   Typography,
   Grid,
   Button,
-  InputAdornment,
 } from "@mui/material";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-import imagenGenerica from "../../../../../../app/assets/img/archivoImagen.jpg";
-import PdfLogo from "../../../../../../app/assets/img/PDF_file_icon.svg";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -23,8 +15,6 @@ import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import Swal from "sweetalert2";
 import ModalForm from "../../../componentes/ModalForm";
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 export const CuentaBancariaModal = ({
@@ -57,7 +47,6 @@ export const CuentaBancariaModal = ({
   const [newDoc, setNewDoc] = useState(Object);
   const [nameNewDoc, setNameNewDoc] = useState<string>();
   const [DocSubido, setDocSubido] = useState<boolean>(false);
-  const [sizeFile, setSizeFile] = useState<boolean>();
   const [newDocCarta, setNewDocCarta] = useState(Object);
   const [nameNewDocCarta, setNameNewDocCarta] = useState<string>();
   const [DocSubidoCarta, setDocSubidoCarta] = useState<boolean>(false);
@@ -146,7 +135,7 @@ export const CuentaBancariaModal = ({
       setslideropen(false);
     } else {
       const formData = new FormData();
-       console.log(nameNewDoc)
+       //console.log(nameNewDoc)
       if(nameNewDoc !== undefined ){
         formData.append("RUTADOCUMENTO", newDoc, nameNewDoc) ;
       }
@@ -168,7 +157,7 @@ export const CuentaBancariaModal = ({
       formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
       CatalogosServices.CuentaBancaria(formData).then((res) => {
         setslideropen(false);
-        console.log("res en service", res);
+        //console.log("res en service", res);
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
@@ -177,7 +166,7 @@ export const CuentaBancariaModal = ({
           handleClose();
         } else {
           setslideropen(false);
-          console.log("res en Sí res.SUCCESS no tiene nada", res);
+          //console.log("res en Sí res.SUCCESS no tiene nada", res);
           Swal.fire("Error inesperado", "Error!", "error");
         }
       });
@@ -224,7 +213,7 @@ export const CuentaBancariaModal = ({
 
   useEffect(() => {
     if (dt === "") {
-      console.log(dt);
+      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setIdBancos(dt?.row?.idbanco);
@@ -242,9 +231,9 @@ export const CuentaBancariaModal = ({
 
   return (
 <div>
-    {tipo == 1 || tipo == 2 ? (
+    {tipo === 1 || tipo === 2 ? (
 
-        <ModalForm title={tipo == 1 ? "Agregar Datos Bancarios" : "Editar Registro"} handleClose={handleClose}>
+        <ModalForm title={tipo === 1 ? "Agregar Datos Bancarios" : "Editar Registro"} handleClose={handleClose}>
           <Grid container
             sx={{
               mt: "2vh",
@@ -417,7 +406,7 @@ export const CuentaBancariaModal = ({
             >
               <Grid item xs={4} sm={3} md={2} lg={1}
               >
-                <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
+                <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
               </Grid>
             </Grid>
           </Grid>

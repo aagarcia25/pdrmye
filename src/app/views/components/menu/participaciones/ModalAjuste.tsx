@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Grid, IconButton, Input, Typography } from "@mui/material";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../services/catalogosServices";
@@ -63,7 +63,7 @@ const ModalAjuste = ({
       };
       CatalogosServices.AjustesIndex(data).then((res) => {
         if (res.SUCCESS) {
-          console.log(res.RESPONSE);
+          //console.log(res.RESPONSE);
           setLabelAjuste(Number(res.RESPONSE.keys));
          
         } else {
@@ -110,11 +110,11 @@ const ModalAjuste = ({
 
   const handleSend = () => {
          // AJUSTE ESTATAL
-      if(labelAjuste == 10 ){
+      if(labelAjuste === 10 ){
         AjusteEstatal();
-      }else if(labelAjuste == 9){
+      }else if(labelAjuste === 9){
         AjusteEstatal();
-      }else if(labelAjuste == 8){
+      }else if(labelAjuste === 8){
         AjusteEstatal();
       } 
           
@@ -124,11 +124,11 @@ const ModalAjuste = ({
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion, CHID: clave , CLAVE: clave};
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion == 2) {
+      if (operacion === 2) {
         setMeses(res.RESPONSE);
-      } else if (operacion == 15) {
+      } else if (operacion === 15) {
         setTipoCalculo(res.RESPONSE);
-      }  else if (operacion == 3) {
+      }  else if (operacion === 3) {
         setAjustes(res.RESPONSE);
       }
      
@@ -273,7 +273,7 @@ const ModalAjuste = ({
                 onChange={(v) => {
                     setMonto(Number(v.target.value))
                 }}
-                error={monto == null ? true : false}
+                error={monto? true : false}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
@@ -287,7 +287,7 @@ const ModalAjuste = ({
         <Grid item xs={12} sm={12} md={12} 
           sx={{ 
             justifyContent: "center" ,
-            display : labelAjuste == 10 || labelAjuste == 9 || labelAjuste == 8  ? 'block' :'none'
+            display : labelAjuste === 10 || labelAjuste === 9 || labelAjuste === 8  ? 'block' :'none'
              }}
         >
 

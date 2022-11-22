@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   Box,
   TextField,
   Container,
@@ -23,7 +22,6 @@ import PptxLogo from '../../../../../../app/assets/img/pptx_Logo.png'
 import xlsxLogo from '../../../../../../app/assets/img/xlsx_Logo.png'
 import docxLogo from '../../../../../../app/assets/img/docx_Logo.png'
 import "../../../../../styles/globals.css";
-import { UserReponse } from "../../../../../interfaces/user/UserReponse";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 const AvisosModal = ({
   open,
@@ -98,7 +96,7 @@ const AvisosModal = ({
     formData.append("FECHAFIN", String(finEvento));
     formData.append("CHUSER", String(user.id));
 
-    if (inicioEvento == null || finEvento == null || nameAviso == null || descripcion == null||nameAviso==null || (editDoc)? (newDoc==null):(newDoc==!null)) {     
+    if (inicioEvento === null || finEvento === null || nameAviso === null || descripcion === null||nameAviso===null || (editDoc)? (newDoc===null):(newDoc==!null)) {     
 
         AlertS.fire({
           title: "Error!",
@@ -167,8 +165,8 @@ const handleNewFile = (event: any) => {
 useEffect(() => {
   permisos.map((item: PERMISO) => {
     if (String(item.ControlInterno) === "AVISOS") {
-      console.log(item)
-      if (String(item.Referencia) == "EDIT") {
+      //console.log(item)
+      if (String(item.Referencia) === "EDIT") {
         setEditar(true);
       }
     }
@@ -366,7 +364,7 @@ return (
               fullWidth
               variant="standard"
               onChange={(v) => setNameAviso(v.target.value)}
-              error={nameAviso == "" ? true : false}
+              error={nameAviso === "" ? true : false}
             />
             <label >Descripcion</label>
             <TextField
@@ -611,7 +609,7 @@ return (
               fullWidth
               variant="standard"
               onChange={(v) => setNameAviso(v.target.value)}
-              error={nameAviso == "" ? true : false}
+              error={nameAviso === "" ? true : false}
             />
 
             <Box
@@ -628,7 +626,7 @@ return (
               fullWidth
               variant="standard"
               onChange={(v) => setDescripcion(v.target.value)}
-              error={descripcion == "" ? true : false}
+              error={descripcion === "" ? true : false}
 
             />
           </Box>

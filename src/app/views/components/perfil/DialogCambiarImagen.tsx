@@ -1,13 +1,10 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box, Typography, Input } from "@mui/material"
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { isNull } from "util";
 import { AuthService } from "../../../services/AuthService";
 import { RESPONSE, UserInfo } from "../../../interfaces/user/UserInfo";
-import { getUser, setDepartamento, setMenus, setPerfiles, setPermisos, setRoles, setUser } from "../../../services/localStorage";
-import { id } from "date-fns/locale";
+import { getUser, setDepartamento, setMenus, setPerfiles, setPermisos, setRoles } from "../../../services/localStorage";
 import { Toast } from "../../../helpers/Toast";
-import { setTimeout } from "timers/promises";
 
 export function DialogCambiarImagen({
     open,
@@ -20,15 +17,11 @@ export function DialogCambiarImagen({
     const [uploadFile, setUploadFile] = useState("");
     const [newImage, setNewImage] = useState(Object);
     const[openDialogConfirmacion,setOpenDialogConfirmacion]=useState(false);
-
     const [nombreArchivo, setNombreArchivo] = useState("");
     const [tipoArchivo, setTipoArchivo] = useState("");
     const [disabledButton, setDisabledButton] = useState(true);
 
-    useEffect(() => {
-      console.log(newImage);
-      console.log(nombreArchivo);
-      
+    useEffect(() => {     
       
     }, [newImage])
     
@@ -44,7 +37,7 @@ export function DialogCambiarImagen({
                 icon: "success",
                 title: "Imagen Actualizada",
               });
-            console.log(res.RESPONSE);
+            //console.log(res.RESPONSE);
             let data = {
                 NUMOPERACION: 1,
                 ID: user.id,
@@ -57,10 +50,7 @@ export function DialogCambiarImagen({
                   setMenus(us.RESPONSE.MENUS);
                   setPerfiles(us.RESPONSE.PERFILES);
                   setDepartamento(us.RESPONSE.DEPARTAMENTOS);
-                  
                 setUser(JSON.parse(String(getUser())));
-                  
-                 
                   
               });
         });
@@ -148,5 +138,5 @@ export function DialogCambiarImagen({
 
 
         </Dialog>
-    )
-}
+    );
+};

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-    Dialog,
     DialogContent,
-    Box,
     TextField,
     InputAdornment,
     DialogActions,
@@ -16,9 +14,6 @@ import { AuthService } from "../../../../../services/AuthService";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
-
-
-
 
 const RolesModal = ({
     open,
@@ -63,9 +58,9 @@ const RolesModal = ({
                 handleClose("saved");
             }
         }
-        if (modo == "Editar Rol") {
+        if (modo === "Editar Rol") {
 
-            if (nombre == null || descripcion == null || nombre == "" || descripcion == "") {
+            if (nombre === null || descripcion === null || nombre === "" || descripcion === "") {
                 AlertS.fire({
                     title: "Error!",
                     text: "Favor de Completar los Campos",
@@ -79,14 +74,10 @@ const RolesModal = ({
                     NOMBRE: nombre,
                     DESCRIPCION: descripcion,
                 };
-
                 handleRequest(data);
                 handleClose("saved");
             }
-
         }
-
-
     };
 
     const handleRequest = (data: any) => {
@@ -94,7 +85,7 @@ const RolesModal = ({
     };
 
     const handleTeste = () => {
-        console.log(user.id);
+        //console.log(user.id);
 
     };
     const agregar = (data: any) => {
@@ -128,7 +119,7 @@ const RolesModal = ({
             setId(dt?.row?.id)
 
 
-            if (modo == "Agregar Rol") {
+            if (modo === "Agregar Rol") {
 
                 setNombre('');
                 setDescripcion('');
@@ -138,8 +129,6 @@ const RolesModal = ({
 
     }, [dt]);
 
-
-
     return (
         <ModalForm title={modo} handleClose={handleClose}>
             <DialogContent>
@@ -148,11 +137,9 @@ const RolesModal = ({
                     sx={{
                         height: "30vh",
                         justifyContent: "center"
-
                     }}
-
                 >
-                    {(modo == "Editar Rol") ?
+                    {(modo === "Editar Rol") ?
                         <Grid sm={12}
                             sx={{ display: 'flex', justifyContent: 'center', }}>
                             <label className="contenido">Solo se puede editar la descripcion *</label>
@@ -166,22 +153,17 @@ const RolesModal = ({
                             id="anio"
                             label="Nombre"
                             value={nombre}
-                            disabled={modo == "Editar Rol"}
+                            disabled={modo === "Editar Rol"}
                             fullWidth
                             variant="standard"
                             onChange={(v) => setNombre(String(v.target.value))}
-                            error={nombre == null ? true : false}
+                            error={nombre === null ? true : false}
                             InputProps={{
-                                readOnly: tipo == 1 ? false : true,
-
+                                readOnly: tipo === 1 ? false : true,
                             }}
                         />
-
                     </Grid>
-
-
                     <Grid item sm={7}>
-
 
                         <TextField
                             margin="dense"
@@ -193,7 +175,7 @@ const RolesModal = ({
                             fullWidth
                             variant="standard"
                             onChange={(v) => setDescripcion(String(v.target.value))}
-                            error={descripcion == null ? true : false}
+                            error={descripcion === null ? true : false}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start"></InputAdornment>

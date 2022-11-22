@@ -1,5 +1,5 @@
 import { Grid,  Typography } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
@@ -14,8 +14,12 @@ import { Moneda } from "../../CustomToolbar";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import ButtonsMunicipio from "../../catalogos/Utilerias/ButtonsMunicipio";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+import Slider from "../../../Slider";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import React from "react";
 
 export const CalculoGarantiaComponente = () => {
+  const [slideropen, setslideropen] = useState(true);
   const [calculoGarantia, setCalculoGarantia] = useState([]);
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
@@ -27,6 +31,9 @@ export const CalculoGarantiaComponente = () => {
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
   const [plantilla, setPlantilla] = useState("");
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+  
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -84,7 +91,7 @@ export const CalculoGarantiaComponente = () => {
 
   ];
   const handleAccion = (v: any) => {
-    if (v.tipo == 1) {
+    if (v.tipo = 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
@@ -98,7 +105,6 @@ export const CalculoGarantiaComponente = () => {
     let data = {
       NUMOPERACION: "PLANTILLA DE CARGA DE GARANTIA",
     };
-
     CatalogosServices.descargaplantilla(data).then((res) => {
       setPlantilla(res.RESPONSE);
     });
@@ -116,7 +122,7 @@ export const CalculoGarantiaComponente = () => {
   };
 
   const handleEdit = (v: any) => {
-    console.log(v);
+    //console.log(v);
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
@@ -133,7 +139,7 @@ export const CalculoGarantiaComponente = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
         const user: RESPONSE = JSON.parse(String(getUser()));
 
         let data = {
@@ -141,7 +147,7 @@ export const CalculoGarantiaComponente = () => {
           CHID: v.row.id,
           CHUSER: user.id,
         };
-        console.log(data);
+        //console.log(data);
 
         calculosServices.CalculoGarantia(data).then((res) => {
           if (res.SUCCESS) {
@@ -168,25 +174,94 @@ export const CalculoGarantiaComponente = () => {
     });
   };
 
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let file = event?.target?.files?.[0] || "";
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "CalculoGarantia");
-    CatalogosServices.migraData(formData).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        });
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
+  const handleUpload = (data: any) => {
+
+    if (data.tipo === 1) {
+      setslideropen(true);
+      let file = data.data?.target?.files?.[0] || "";
+      const formData = new FormData();
+      formData.append("inputfile", file, "inputfile.xlsx");
+      formData.append("tipo", "CalculoGarantia");
+      CatalogosServices.migraData(formData).then((res) => {
+        setslideropen(false);
+        if (res.SUCCESS) {
+          consulta({ NUMOPERACION: 4 });
+          Toast.fire({
+            icon: "success",
+            title: "Carga Exitosa!",
+          });
+
+        } else {
+          consulta({ NUMOPERACION: 4 });
+          AlertS.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
+  
+  
+  
+      });
+    } 
+    else if (data.tipo === 2) {
+      //console.log("borrado de toda la tabla")
+      //console.log(selectionModel)
+
+      if(selectionModel.length!==0){
+      Swal.fire({
+        icon: "question",
+        title: selectionModel.length +" Registros Se Eliminaran!!",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+  
+          let data = {
+           NUMOPERACION: 5,
+           OBJS: selectionModel,
+           CHUSER: user.id
+          };
+  
+          calculosServices.CalculoGarantia(data).then((res) => {
+            if (res.SUCCESS) {
+              Toast.fire({
+                icon: "success",
+                title: "Borrado!",
+              });
+  
+              consulta({ NUMOPERACION: 4 });
+            } else {
+              AlertS.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+  
+        } else if (result.isDenied) {
+          Swal.fire("No se realizaron cambios", "", "info");
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Seleccione Registros Para Borrar",
+        confirmButtonText: "Aceptar",
+      });
+    }
+
+
+
+    }
+
+  };
+
+  const handleBorrar = (v: any) => {
+    setSelectionModel(v);
   };
 
   const consulta = (data: any) => {
@@ -196,9 +271,8 @@ export const CalculoGarantiaComponente = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        console.log(data);
         setCalculoGarantia(res.RESPONSE);
-        console.log("parametroGeneral consulta", calculoGarantia);
+        setslideropen(false);
       } else {
         AlertS.fire({
           title: "Error!",
@@ -213,16 +287,16 @@ export const CalculoGarantiaComponente = () => {
     downloadplantilla();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "CA") {
-        console.log(item)
+        //console.log(item)
 
         setNombreMenu(item.Menu);
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -232,7 +306,7 @@ export const CalculoGarantiaComponente = () => {
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-
+    <Slider open={slideropen}></Slider>
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
@@ -247,11 +321,9 @@ export const CalculoGarantiaComponente = () => {
       <ButtonsMunicipio
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"CA"}      />
-
-
-
-      <MUIXDataGrid columns={columns} rows={calculoGarantia} />
-      {open ? (
+        < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} borrar={eliminar} modulo={"Garantia"}   />
+      
+        {open ? (
         <CalculoGarantiaModal
           open={open}
           modo={modo}

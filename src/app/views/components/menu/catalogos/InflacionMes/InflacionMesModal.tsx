@@ -51,7 +51,7 @@ const InflacionMesModal = ({
   };
 
   const handleSend = () => {
-    if (mes == null || inflacion == null || anio == null) {
+    if (mes === null || inflacion === null || anio === null) {
       AlertS.fire({
         title: "Uno o mas campos vacios!",
         text: "revisar los Campos",
@@ -72,11 +72,11 @@ const InflacionMesModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -120,7 +120,7 @@ const InflacionMesModal = ({
     setMeses(municipiosc());
 
     if (dt === "") {
-      console.log(dt);
+      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setAnio(dt?.row?.Anio);
@@ -144,9 +144,9 @@ const InflacionMesModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setAnio(Number(v.target.value))}
-            error={anio == null ? true : false}
+            error={anio === null ? true : false}
             InputProps={{
-              readOnly: tipo == 1 ? false : true,
+              readOnly: tipo === 1 ? false : true,
               inputMode: "numeric",
             }}
           />
@@ -170,7 +170,7 @@ const InflacionMesModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setInflacion(Number(v.target.value))}
-            error={inflacion == null ? true : false}
+            error={inflacion === null ? true : false}
             InputProps={{
               endAdornment: <InputAdornment position="start">%</InputAdornment>,
             }}

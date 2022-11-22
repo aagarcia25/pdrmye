@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { AlertS } from '../../../helpers/AlertS';
 
@@ -16,7 +16,7 @@ const ModalPago = ({
   const [mensaje, setMensaje] = useState<string>();
 
   const validacion = () => {
-    if(mensaje == "" || mensaje == null){
+    if(mensaje === "" || mensaje === null){
       AlertS.fire({
         title: "Error!",
         text: "Favor de llenar el campo Comentarios*",

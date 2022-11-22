@@ -1,24 +1,17 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
   Box,
-  FormControl,
-  InputLabel,
   TextField,
   InputAdornment,
-  DialogActions,
   Grid,
   Button,
 } from "@mui/material";
-
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import ModalForm from "../../../componentes/ModalForm";
 
@@ -45,38 +38,15 @@ const MunPoblacionModal = ({
   const [poblacion, setPoblacion] = useState<number>();
   const [municipios, setMunicipios] = useState<SelectValues[]>([]);
   const [munSeleccionado, setMunSeleccionado] = useState<string>();
-  // =======
-  //   const [anio, setAnio] = useState("");
-  //   const [Poblacion, setPoblacion] = useState("");
-  //   const [idPoblacion, setIdPoblacion] = useState("");
-
-  //   const [values, setValues] = useState<Imunicipio[]>();
-
-
-
-
-  //   const municipiosc = () => {
-  //     let data = {};
-  //     if (!validaLocalStorage("FiltroMunicipios")) {
-  //       CatalogosServices.Filtromunicipios(data).then((res) => {
-  //         setMunicipios(res.RESPONSE);
-  //       });
-  //     }
-  //     let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
-  //     setValues(m);
-  //   };
-  // >>>>>>> Stashed changes
-
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const handleSelectMun = (v: SelectValues) => {
-    console.log(v)
     setMunSeleccionado(v.value);
   };
 
 
   const handleSend = () => {
-    if (poblacion == null || anio == null) {
+    if (poblacion === null || anio === null) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -99,11 +69,11 @@ const MunPoblacionModal = ({
 
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
 
       editar(data);
@@ -148,15 +118,12 @@ const MunPoblacionModal = ({
     });
   };
 
-  const handle = () => {
-
-  };
-
+ 
   useEffect(() => {
     setMunicipios(municipiosc());
 
     if (dt === '') {
-      console.log(dt)
+      //console.log(dt)
 
     } else {
       setId(dt?.row?.id)
@@ -164,20 +131,6 @@ const MunPoblacionModal = ({
       setPoblacion(dt?.row?.totalPob)
       setMunSeleccionado(dt?.row?.idmunicipio)
 
-      console.log(dt.row)
-      // =======
-      //     municipiosc();
-
-      //     if(dt === ''  ){
-      //         console.log(dt)
-
-      //     }else{
-      //         setId(dt?.row?.id)
-      //         setAnio(dt?.row?.Anio)
-      //         setPoblacion(dt?.row?.totalPob
-      //           )
-      //         console.log(dt)
-      //       ///  setIdPoblacion(dt?.row?.idmunicipio)
     }
 
   }, [dt]);
@@ -208,9 +161,6 @@ const MunPoblacionModal = ({
             </Box>
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
-
-
-
             <TextField
               required
               margin="dense"
@@ -221,9 +171,9 @@ const MunPoblacionModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setAnio(Number(v.target.value))}
-              error={anio == null ? true : false}
+              error={anio === null ? true : false}
               InputProps={{
-                readOnly: tipo == 1 ? false : true,
+                readOnly: tipo === 1 ? false : true,
 
               }}
             />
@@ -241,7 +191,7 @@ const MunPoblacionModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setPoblacion(Number(v.target.value))}
-              error={poblacion == null ? true : false}
+              error={poblacion === null ? true : false}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start"></InputAdornment>
@@ -262,7 +212,7 @@ const MunPoblacionModal = ({
           >
             <Grid item xs={5} sm={3} md={2} lg={1}
             >
-              <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
+              <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
             </Grid>
           </Grid>
         </Grid>

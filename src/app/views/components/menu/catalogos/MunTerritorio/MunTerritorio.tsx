@@ -25,7 +25,6 @@ export const MunTerritorio = () => {
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
@@ -66,12 +65,12 @@ export const MunTerritorio = () => {
 
   ];
   const handleAccion = (v: any) => {
-    if (v.tipo == 1) {
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setOpen(true);
       setData(v.data);
       setModo("Editar Registro");
-    } else if (v.tipo == 2) {
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
 
     }
@@ -84,7 +83,7 @@ export const MunTerritorio = () => {
   };
   const handleBorrar = (v: any) => {
     setSelectionModel(v);
-    console.log(v)
+    //console.log(v)
   };
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
@@ -102,14 +101,14 @@ export const MunTerritorio = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.munterritorio(data).then((res) => {
           if (res.SUCCESS) {
@@ -137,14 +136,14 @@ export const MunTerritorio = () => {
 
   const handleUpload = (data: any) => {
 
-    if (data.tipo == 1) {
+    if (data.tipo === 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
       formData.append("inputfile", file, "inputfile.xlsx");
       formData.append("tipo", "MunTerritorio");
       setslideropen(false);
-      console.log(file)
+      //console.log(file)
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
         if (res.SUCCESS) {
@@ -163,9 +162,9 @@ export const MunTerritorio = () => {
       });
 
     } 
-    else if (data.tipo == 2) {
-      console.log("borrado de toda la tabla")
-      console.log(selectionModel)
+    else if (data.tipo === 2) {
+      //console.log("borrado de toda la tabla")
+      //console.log(selectionModel)
 
       if(selectionModel.length!==0){
       Swal.fire({
@@ -183,7 +182,7 @@ export const MunTerritorio = () => {
            OBJS: selectionModel,
            CHUSER: user.id
           };
-          console.log(data);
+          //console.log(data);
   
           CatalogosServices.munterritorio(data).then((res) => {
             if (res.SUCCESS) {
@@ -246,12 +245,12 @@ export const MunTerritorio = () => {
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNTERR") {
-        console.log(item)
+        //console.log(item)
         setNombreMenu(item.Menu);
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
        

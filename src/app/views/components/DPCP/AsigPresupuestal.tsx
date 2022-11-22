@@ -110,7 +110,7 @@ const AsigPresupuestal = () => {
   };
 
   const Fnworkflow = (data: string) => {
-    console.log(data);
+    //console.log(data);
 
     let obj = {
       NUMOPERACION:1,
@@ -120,7 +120,7 @@ const AsigPresupuestal = () => {
       ESTATUS:'DAMOP_INICIO'
     
     };
-    console.log(obj);
+    //console.log(obj);
 
     DAMOPServices.PA(obj).then((res) => {
       if (res.SUCCESS) {

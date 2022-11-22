@@ -28,7 +28,6 @@ const Roles = () => {
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -80,9 +79,6 @@ const Roles = () => {
         });
       }
     });
-
-
-
 
 
   };
@@ -167,7 +163,7 @@ const Roles = () => {
 
   const consulta = (data: any) => {
     AuthService.rolesindex(data).then((res) => {
-      console.log(res);
+      //console.log(res);
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -187,13 +183,13 @@ const Roles = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "ROLUSER") {
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminarP(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -202,7 +198,7 @@ const Roles = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%", padding:"2%" }}>
+    <div style={{ height: 600, width: "100%", padding: "2%" }}>
       {openRel ? (
         <AsignarMenuRol
           open={openRel}

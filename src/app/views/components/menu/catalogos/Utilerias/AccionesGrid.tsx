@@ -24,11 +24,11 @@ const AccionesGrid = ({
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === controlInterno) {
-        console.log(item)
-        if (String(item.Referencia) == "ELIM") {
+        //console.log(item)
+        if (String(item.Referencia) === "ELIM") {
             setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
             setEditar(true);
         }
       }

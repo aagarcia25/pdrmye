@@ -54,7 +54,7 @@ export const DepartamentosModal = ({
         DESCRIPCION: descripcion,
         RESPONSABLE: responsable,
       };
-      console.log("data de modal", data);
+      //console.log("data de modal", data);
       handleRequest(data);
       handleClose();
     }
@@ -68,15 +68,15 @@ export const DepartamentosModal = ({
   }
 
   const handleChange = (v: string) => {
-    console.log(v)
-    v == "false" ? setResponsable("") : setResponsable(v);
+    //console.log(v)
+    v === "false" ? setResponsable("") : setResponsable(v);
   };
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -117,13 +117,13 @@ export const DepartamentosModal = ({
   };
 
   useEffect(() => {
-    console.log(dt?.row)
+    //console.log(dt?.row)
     loadFilter(10);
     if (dt === "") {
     } else {
       //SE PINTAN LOS CAMPOS
       setId(dt?.row?.id);
-      console.log(dt?.row?.id)
+      //console.log(dt?.row?.id)
       setNombreCorto(dt?.row?.NombreCorto);
       setDescripcion(dt?.row?.Descripcion);
       setResponsable(dt?.row?.Responsable);

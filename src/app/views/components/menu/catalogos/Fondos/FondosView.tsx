@@ -1,26 +1,16 @@
 import {
-    Dialog,
-    DialogActions,
     Box,
-    Typography,
     Checkbox,
-    IconButton,
-    Tooltip,
     Grid,
     Button,
     ButtonGroup,
     styled,
     Paper,
 } from "@mui/material";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import React, { useEffect, useState } from "react";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { GridColDef } from '@mui/x-data-grid';
 
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
-import { id } from "date-fns/locale";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -57,7 +47,7 @@ const FondosView = ({
         AuthService.FondosAjustes(data).then((res) => {
             setData(res.RESPONSE);
             setOpenSlider(false);
-            console.log(res)
+            //console.log(res)
         });
 
     };
@@ -66,8 +56,8 @@ const FondosView = ({
     const handleChange = (v: any) => {
 
         if (openRel != true) {
-            console.log("ajuste -- " + v?.row);
-            console.log("id ajuste --- " + v?.row?.id,);
+            //console.log("ajuste -- " + v?.row);
+            //console.log("id ajuste --- " + v?.row?.id,);
             AuthService.FondosRelAjuste(
                 {
                     TIPO: 1,
@@ -95,8 +85,8 @@ const FondosView = ({
             });
         }
         else {
-            console.log("ajuste -- " + v?.row);
-            console.log("id ajuste --- " + v?.row?.id,);
+            //console.log("ajuste -- " + v?.row);
+            //console.log("id ajuste --- " + v?.row?.id,);
             AuthService.FondosRelAjuste(
                 {
                     TIPO: 2,
@@ -123,11 +113,7 @@ const FondosView = ({
                 }
             });
         }
-
-
     };
-
-
 
     const columns: GridColDef[] = [
         {
@@ -162,8 +148,8 @@ const FondosView = ({
 
     useEffect(() => {
         handleAjustesRel();
-        console.log(dt?.row);
-        console.log("id fondo--- " + dt?.row?.id);
+        //console.log(dt?.row);
+        //console.log("id fondo--- " + dt?.row?.id);
         setDescripcion(dt?.row?.Descripcion);
         setIdFondo(dt?.row?.id);
     }, []);

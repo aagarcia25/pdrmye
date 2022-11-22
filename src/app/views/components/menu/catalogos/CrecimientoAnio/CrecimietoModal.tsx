@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -37,7 +37,7 @@ const CrecimietoModal = ({
 
 
   const handleSend = () => {
-    if (anio == "" || crecimiento == "") {
+    if (anio === "" || crecimiento === "") {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -57,11 +57,11 @@ const CrecimietoModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -103,7 +103,7 @@ const CrecimietoModal = ({
 
   useEffect(() => {
     if (dt === "") {
-      console.log(dt);
+      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setAnio(dt?.row?.Anio);
@@ -127,7 +127,7 @@ const CrecimietoModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
+            error={anio === "" ? true : false}
           />
 
           <TextField
@@ -140,7 +140,7 @@ const CrecimietoModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setCrecimiento(v.target.value)}
-            error={crecimiento == "" ? true : false}
+            error={crecimiento === "" ? true : false}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="start">%</InputAdornment>

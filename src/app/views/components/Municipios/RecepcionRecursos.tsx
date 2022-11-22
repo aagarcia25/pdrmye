@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Box from '@mui/material/Box';
+import { Button, ButtonGroup, Grid } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { ta } from 'date-fns/locale';
@@ -131,16 +132,16 @@ const RecepcionRecursos = () => {
           <ButtonGroup variant="outlined" aria-label="outlined primary button group">
             
             <Button className='subtitulo'  color={recursoButton == "PF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PF")}> 
-             <Typography variant='h6'> Participaciones Federales   </Typography> 
+             Participaciones Federales 
              </Button>
             <Button className='subtitulo' color={recursoButton == "PE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PE")}>
-            <Typography variant='h6'> Participaciones Estatales  </Typography> 
+              Participaciones Estatales
             </Button>
             <Button className='subtitulo' color={recursoButton == "AF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AF")}>
-            <Typography variant='h6'> Aportaciones Federales   </Typography> 
+              Aportaciones Federales
             </Button>
             <Button className='subtitulo' color={recursoButton == "AE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AE")}>
-            <Typography variant='h6'> Aportaciones Estatales  </Typography> 
+              Aportaciones Estatales
             </Button>
           </ButtonGroup>
         </Grid>

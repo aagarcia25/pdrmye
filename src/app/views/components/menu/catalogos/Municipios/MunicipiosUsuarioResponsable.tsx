@@ -1,14 +1,9 @@
 import {
-  Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -42,7 +37,7 @@ const MunicipiosUsuarioResponsable = ({
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion == 1) {
+      if (operacion === 1) {
         setUsuarios(res.RESPONSE);
         setUsuariosDelegado(res.RESPONSE);
         setslideropen(false);
@@ -72,7 +67,7 @@ const saveInfo = () => {
   };
 
   CatalogosServices.municipios(data).then((res) => {
-    console.log(res.RESPONSE);
+    //console.log(res.RESPONSE);
     Toast.fire({
       icon: "success",
       title: "Consulta Exitosa!",
@@ -81,7 +76,7 @@ const saveInfo = () => {
 };
 
   useEffect(() => {
-    console.log(dt);
+    //console.log(dt);
     loadFilter(1);
     loadinfo();
   },[]);

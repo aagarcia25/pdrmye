@@ -3,18 +3,11 @@ import {
   DialogTitle,
   DialogContent,
   TextField,
-  Menu,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   DialogActions,
   Button,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { margin } from "@mui/system";
-import React, { useState } from "react";
-import { Path } from "react-router";
+import { useState } from "react";
 import SelectFrag from "../../Fragmentos/SelectFrag";
 import Slider from "../../Slider";
 
@@ -32,14 +25,14 @@ const SolicitudesIns = ({
   const [openSlider, setOpenSlider] = useState(false);
 
   const options = [
-    { value: "GO",label: "GASTOS EXTRAORDINARIOS"},
-    { value: "GO",label: "PAGO DE 3% DE ISN"},
-    { value: "GO",label: "PAGO DE PENSIONES VITALICIAS"},
-    { value: "GO",label: "PAGO DE DONATIVOS ICV A CRUZ ROJA Y BOMBEROS"},
-    { value: "GO",label: "PAGO DE AYUDAS SOCIALES A INSTITUCIONES SIN FINES DE LUCRO (CRUZ ROJA Y BOMBEROS)"},
-    { value: "GO",label: "PAGO DE 1 Y 2 AL MILLAR"},
-    { value: "GO",label: "GASTOS EXTRAORDINARIOS CON PRESUPUESTO VIRTUAL"},
-    { value: "GO",label: "PAGO VIRTUAL ICV"},
+    { value: "GO", label: "GASTOS EXTRAORDINARIOS" },
+    { value: "GO", label: "PAGO DE 3% DE ISN" },
+    { value: "GO", label: "PAGO DE PENSIONES VITALICIAS" },
+    { value: "GO", label: "PAGO DE DONATIVOS ICV A CRUZ ROJA Y BOMBEROS" },
+    { value: "GO", label: "PAGO DE AYUDAS SOCIALES A INSTITUCIONES SIN FINES DE LUCRO (CRUZ ROJA Y BOMBEROS)" },
+    { value: "GO", label: "PAGO DE 1 Y 2 AL MILLAR" },
+    { value: "GO", label: "GASTOS EXTRAORDINARIOS CON PRESUPUESTO VIRTUAL" },
+    { value: "GO", label: "PAGO VIRTUAL ICV" },
 
   ];
 
@@ -49,10 +42,9 @@ const SolicitudesIns = ({
   ];
 
 
-  const handleSend = () => {};
+  const handleSend = () => { };
 
   const handleSelectTipo = (e: any) => {
-    console.log(e.value);
   };
 
   return (
@@ -60,25 +52,25 @@ const SolicitudesIns = ({
       <div>
         <Slider open={openSlider}></Slider>
         <Box>
-          <Dialog open={open}   
-          fullWidth={true} 
-          maxWidth="lg">
+          <Dialog open={open}
+            fullWidth={true}
+            maxWidth="lg">
             <DialogTitle>
-              {tipo == 1 ? "Nuevo Registro" : "Editar Registro"}
+              {tipo === 1 ? "Nuevo Registro" : "Editar Registro"}
             </DialogTitle>
             <DialogContent>
               <Box>
                 <Box sx={{
-                    margin:2
-                    }}>
+                  margin: 2
+                }}>
                   <SelectFrag
                     options={options}
                     onInputChange={handleSelectTipo} placeholder={"Seleccione una Opcion"} label={""} disabled={false} value={""}                  ></SelectFrag>
                 </Box>
 
                 <Box sx={{
-                    margin:2
-                    }}>
+                  margin: 2
+                }}>
                   <SelectFrag
                     value={""}
                     options={partida}
@@ -86,23 +78,19 @@ const SolicitudesIns = ({
                 </Box>
 
                 <Box sx={{
-                    margin:2
-                    }}>
-                <TextField
-                margin="dense"
-                required
-                id="importe"
-                label="importe"
-                
-                type="text"
-                fullWidth
-                variant="standard"
-              
-               
-              />
+                  margin: 2
+                }}>
+                  <TextField
+                    margin="dense"
+                    required
+                    id="importe"
+                    label="importe"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+
+                  />
                 </Box>
-
-
               </Box>
             </DialogContent>
 

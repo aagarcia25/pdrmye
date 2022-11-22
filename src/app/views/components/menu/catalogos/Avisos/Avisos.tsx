@@ -61,12 +61,12 @@ export const Avisos = () => {
 
 
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if(v.tipo ===1){
       setTipoOperacion(2);
       setModo("Editar");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+    }else if(v.tipo ===2){
       handleBorrar(v.data);
     }
   }
@@ -137,7 +137,7 @@ export const Avisos = () => {
 
 
   const handleClose = (v:string) => {
-if(v=="save"){
+if(v==="save"){
   let data = {
     NUMOPERACION: 4,
     CHUSER: String(user.id),
@@ -178,14 +178,14 @@ if(v=="save"){
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "AVISOS") {
-        console.log(item)
-        if (String(item.Referencia) == "AGREG") {
+        //console.log(item)
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }

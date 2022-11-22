@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router";
 import "./Fonts.css";
 import Swal from "sweetalert2";
@@ -9,7 +9,6 @@ import { AuthService } from "./app/services/AuthService";
 import { CatalogosServices } from "./app/services/catalogosServices";
 import {
   getBloqueo,
-  getItem,
   getPU,
   getToken,
   setBloqueo,
@@ -150,13 +149,13 @@ function App() {
   const verificatoken = (token: string) => {
 
     UserServices.verify({}, token.replaceAll('"','')).then((res) => {
-      console.log(token)
-      console.log(token.replaceAll('"',''))
-        if (res.status == 200) {
+      //console.log(token)
+      //console.log(token.replaceAll('"',''))
+        if (res.status === 200) {
           setPU(res.data.data);
           const user: UserReponse = JSON.parse(String(getPU()));
           buscaUsuario(user.IdUsuario);
-        } else if (res.status == 401) {
+        } else if (res.status === 401) {
           setOpenSlider(false);
           setlogin(false);
           setAcceso(false);
@@ -186,10 +185,10 @@ function App() {
     };
 
     UserServices.login(data).then((res) => {
-      if (res.status == 200) {
+      if (res.status === 200) {
         setIsIdle(false);
         setBloqueo(false);
-      } else if (res.status == 401) {
+      } else if (res.status === 401) {
         Swal.fire({
           title: res.data.msg,
           showDenyButton: false,
@@ -234,8 +233,8 @@ function App() {
       setToken(jwt);
       verificatoken(String(jwt));
     } else if (getToken() != null) {
-     // console.log('token');
-     // console.log(String(getToken()))
+     // //console.log('token');
+     // //console.log(String(getToken()))
       verificatoken(String(getToken()));
     } else {
       Swal.fire({

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { GridColDef } from "@mui/x-data-grid";
@@ -9,11 +9,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { ParametroServices } from "../../../../../services/ParametroServices";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { ParametrosGeneralesModal } from "./ParametrosGeneralesModal";
-import { Box, IconButton } from "@mui/material";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
-import AccionesGrid from "../Utilerias/AccionesGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 export const ParametrosGenerales = () => {
@@ -28,7 +24,7 @@ export const ParametrosGenerales = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
 
-  console.log("parametroGeneral", parametroGeneral);
+  //console.log("parametroGeneral", parametroGeneral);
 
   const columns: GridColDef[] = [
     {
@@ -64,12 +60,12 @@ export const ParametrosGenerales = () => {
     },
   ];
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if(v.tipo ===1){
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setVrows(v.data);
-    }else if(v.tipo ==2){
+    }else if(v.tipo ===2){
       handleDelete(v.data);
     }
   }
@@ -98,7 +94,7 @@ export const ParametrosGenerales = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
         const user: RESPONSE = JSON.parse(String(getUser()));
 
         let data = {
@@ -106,7 +102,7 @@ export const ParametrosGenerales = () => {
           CHID: v.row.id,
           CHUSER: user.id,
         };
-        console.log(data);
+        //console.log(data);
 
         ParametroServices.ParametroGeneralesIndex(data).then((res) => {
           if (res.SUCCESS) {
@@ -132,9 +128,6 @@ export const ParametrosGenerales = () => {
       }
     });
   };
-
-  
-
   const consulta = (data: any) => {
     ParametroServices.ParametroGeneralesIndex(data).then((res) => {
       if (res.SUCCESS) {
@@ -142,9 +135,9 @@ export const ParametrosGenerales = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        console.log(data);
+        //console.log(data);
         setParametroGeneral(res.RESPONSE);
-        console.log("parametroGeneral consulta", parametroGeneral);
+        //console.log("parametroGeneral consulta", parametroGeneral);
       } else {
         AlertS.fire({
           title: "Error!",
@@ -158,14 +151,14 @@ export const ParametrosGenerales = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PG") {
-        console.log(item)
-        if (String(item.Referencia) == "AGREG") {
+        //console.log(item)
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -189,8 +182,6 @@ export const ParametrosGenerales = () => {
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={parametroGeneral} />
-
-
     </div>
   );
 };

@@ -94,13 +94,13 @@ export const Fpg = () => {
             </Tooltip>
 
 
-            {agregarajuste &&  String(v.row.estatus) == "INICIO" ? (
+            {agregarajuste &&  String(v.row.estatus) === "INICIO" ? (
             <Tooltip title="Agregar Ajuste">
               <IconButton
                 onClick={() => handleAjuste(v)}
                 disabled={
-                  String(v.row.Clave) == "FISM" &&
-                  String(v.row.Clave) == "FORTAMUN"  
+                  String(v.row.Clave) === "FISM" &&
+                  String(v.row.Clave) === "FORTAMUN"  
                 }
               >
                 <AttachMoneyIcon />
@@ -174,8 +174,6 @@ export const Fpg = () => {
       width: 200,
       description: "Estatus",
     },
-
- 
   ];
 
   const consultafondo = (data: any) => {
@@ -220,13 +218,13 @@ export const Fpg = () => {
     setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(params.fondo).replace(/\s/g, "")) {
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "TRAZA") {
+        if (String(item.Referencia) === "TRAZA") {
           setVerTrazabilidad(true);
         }
-        if (String(item.Referencia) == "AAJUSTE") {
+        if (String(item.Referencia) === "AAJUSTE") {
           setAgregarAjuste(true);
         }
       }
@@ -279,7 +277,7 @@ export const Fpg = () => {
 
 
 
-      {step == 0 ?
+      {step === 0 ?
         <div style={{ height: 600, width: "100%" }}>
           <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
           <MUIXDataGrid columns={columns} rows={data} />
@@ -287,7 +285,7 @@ export const Fpg = () => {
        : ""}
 
   
-      {step == 1 ?
+      {step === 1 ?
           <ModalNew
             clave={objfondo?.Clave || ""}
             titulo={objfondo?.Descripcion || ""}
@@ -295,7 +293,7 @@ export const Fpg = () => {
             />
        : ""}
 
-     {step == 2 ?
+     {step === 2 ?
           <ModalAjuste
             idCalculo={idDetalle}
             clave={objfondo?.Clave || ""}

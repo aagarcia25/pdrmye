@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
   Box,
   FormControl,
-  InputLabel,
   TextField,
   InputAdornment,
-  DialogActions,
   Grid,
   Button,
 } from "@mui/material";
@@ -19,7 +15,6 @@ import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { municipiosc } from "../../../../../share/loadMunicipios";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import ModalForm from "../../../componentes/ModalForm";
 
 const MunFacturacionModal = ({
@@ -48,7 +43,7 @@ const MunFacturacionModal = ({
 
 
   const handleSend = () => {
-    if (fac == null || anio == null || idMunicipio == null) {
+    if (fac === null || anio === null || idMunicipio === null) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -71,11 +66,11 @@ const MunFacturacionModal = ({
 
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
 
       editar(data);
@@ -146,7 +141,7 @@ const MunFacturacionModal = ({
   return (
 
     <div>
-      <ModalForm title={tipo == 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+      <ModalForm title={tipo === 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
         <Grid container
           sx={{
             mt: "2vh",
@@ -182,7 +177,7 @@ const MunFacturacionModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setRecaudacion(Number(v.target.value))}
-                error={fac == null ? true : false}
+                error={fac === null ? true : false}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">$</InputAdornment>
@@ -208,7 +203,7 @@ const MunFacturacionModal = ({
           >
             <Grid item xs={4} sm={3} md={2} lg={1}
             >
-              <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
+              <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
             </Grid>
           </Grid>
         </Grid>

@@ -34,30 +34,30 @@ export const ComentariosRecursosModal = (
     const [comentarios, setComentarios] = useState<string>();
     var hoy = new Date()
     const perfiles = [
-        {accion:'autorizar', per:'ANA',  dep:"DAMOP", estatus:'DAMOP_AUT_ANA'},
-        {accion:'autorizar', per:'COOR', dep:"DAMOP", estatus:'DAMOP_AUT_COR'},
-        {accion:'autorizar', per:'DIR',  dep:"DAMOP", estatus:'DAMOP_AUT_DIR'},
-        {accion:'cancelar',  per:'ANA',  dep:"DAMOP", estatus:'DAMOP_CANCE_ANA'},
-        {accion:'cancelar',  per:'COOR', dep:"DAMOP", estatus:'DAMOP_REG_COR_ANA'},
-        {accion:'cancelar',  per:'DIR',  dep:"DAMOP", estatus:'DAMOP_REG_DIR_COOR'},
-        
-        
-  
+        { accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_AUT_ANA' },
+        { accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_AUT_COR' },
+        { accion: 'autorizar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_AUT_DIR' },
+        { accion: 'cancelar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_CANCE_ANA' },
+        { accion: 'cancelar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_REG_COR_ANA' },
+        { accion: 'cancelar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_REG_DIR_COOR' },
+
+
+
     ]
-    
+
     const acciones = (v: string) => {
-        console.log(v);
-        const accion = perfiles.find(({ accion, per, dep }) => accion === String(v) && per ===perfil && dep==departamento );
+        //console.log(v);
+        const accion = perfiles.find(({ accion, per, dep }) => accion === String(v) && per === perfil && dep === departamento);
         if (accion?.accion === "autorizar") {
-            console.log(accion.accion+" accion de la busqueda")
+            //console.log(accion.accion+" accion de la busqueda")
             let d = {
                 NUMOPERACION: 5,
                 CHID: data.id,
                 CHUSER: user.id,
                 ESTATUS: accion?.estatus,
                 Comentario: comentarios,
-                ANIO:hoy.getFullYear(),
-                MES: (hoy.getMonth()+1) 
+                ANIO: hoy.getFullYear(),
+                MES: (hoy.getMonth() + 1)
 
             };
 
@@ -73,7 +73,7 @@ export const ComentariosRecursosModal = (
                 if (result.isConfirmed) {
                     CatalogosServices.SolicitudesInfo(d).then((res) => {
                         if (res.SUCCESS) {
-                            console.log(res.RESPONSE)
+                            //console.log(res.RESPONSE)
                             handleClose();
                         } else {
 
@@ -89,17 +89,17 @@ export const ComentariosRecursosModal = (
                 }
             });
 
-        } else 
-        if (accion?.accion === "cancelar") {
-            console.log("cancelado");
+        } else
+            if (accion?.accion === "cancelar") {
+                //console.log("cancelado");
                 let d = {
                     NUMOPERACION: 5,
                     CHID: data.id,
                     CHUSER: user.id,
                     ESTATUS: accion?.estatus,
                     Comentario: comentarios,
-                    ANIO:hoy.getFullYear(),
-                    MES: (hoy.getMonth()+1)
+                    ANIO: hoy.getFullYear(),
+                    MES: (hoy.getMonth() + 1)
                 };
 
                 Swal.fire({
@@ -114,7 +114,7 @@ export const ComentariosRecursosModal = (
                     if (result.isConfirmed) {
                         CatalogosServices.SolicitudesInfo(d).then((res) => {
                             if (res.SUCCESS) {
-                                console.log(res.RESPONSE)
+                                //console.log(res.RESPONSE)
                                 handleClose();
                             } else {
 
@@ -129,7 +129,7 @@ export const ComentariosRecursosModal = (
                     if (result.isDenied) {
                     }
                 });
-        }
+            }
     }
     /////////////////////
 
@@ -145,7 +145,6 @@ export const ComentariosRecursosModal = (
             <Box>
                 <Slider open={openSlider}></Slider>
                 <Dialog open={Boolean(open)} fullWidth={true}
-                //fullScreen={modo=="ver"?true:false}
                 >
                     <Grid container sx={{ justifyContent: "space-between ", width: "100%" }}>
                         <Grid item xs={10} md={10} lg={10} >

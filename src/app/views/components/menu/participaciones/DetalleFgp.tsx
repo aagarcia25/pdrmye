@@ -19,7 +19,6 @@ import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import Trazabilidad from "../../Trazabilidad";
 import Swal from "sweetalert2";
-import ModalAlert from "../../componentes/ModalAlert";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -91,9 +90,9 @@ const DetalleFgp = ({
   // MANEJO DE ACCIONES
   const handleAcciones = (v: any) => {
     setOpenSlider(true);
-    if (v.tipo == 1) {
-      console.log(v);
-    } else if (v.tipo == 2) {
+    if (v.tipo === 1) {
+      //console.log(v);
+    } else if (v.tipo === 2) {
     } else {
       switch (v) {
         case 1: //Regresar
@@ -137,7 +136,6 @@ const DetalleFgp = ({
   };
 
   const Fnworkflow = (data: string) => {
-    console.log(data);
 
     let obj = {
       CHID: idCalculo,
@@ -145,9 +143,8 @@ const DetalleFgp = ({
       CHUSER: user.id,
       TEXTO: data,
       PERFIL_DESTINO: perfilDestino,
-      AREA:area
+      AREA: area
     };
-    console.log(obj);
 
     calculosServices.indexCalculo(obj).then((res) => {
       if (res.SUCCESS) {
@@ -175,7 +172,7 @@ const DetalleFgp = ({
       MES: mes.split(",")[0],
     };
 
-    console.log(data);
+    //console.log(data);
     Swal.fire({
       icon: "question",
       title: "Borrar Cálculo",
@@ -257,7 +254,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         const cl: columnasCal[] = res.RESPONSE;
         cl.map((item) => {
-          console.log(item.keys);
+          //console.log(item.keys);
           switch (item.keys) {
             case 0:
               break;
@@ -486,20 +483,20 @@ const DetalleFgp = ({
   const EstablecePermisos = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(clave).replace(/\s/g, "")) {
-        if (String(item.Referencia) == "AUT") {
+        if (String(item.Referencia) === "AUT") {
           setAutorizar(true);
         }
-        if (String(item.Referencia) == "CANC") {
+        if (String(item.Referencia) === "CANC") {
           setCancelar(true);
         }
-        if (String(item.Referencia) == "TRAZA") {
+        if (String(item.Referencia) === "TRAZA") {
           setVerTrazabilidad(true);
         }
 
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -521,7 +518,7 @@ const DetalleFgp = ({
     <div>
       <Box>
         <Dialog open={Boolean(openDetalles)} fullScreen={true}>
-        <Slider open={openSlider}></Slider>
+          <Slider open={openSlider}></Slider>
 
           {openModal ? (
             <ModalCalculos
@@ -556,7 +553,7 @@ const DetalleFgp = ({
               </Box>
             </Grid>
           </Grid>
-        
+
           <Grid
             container
             spacing={1}
@@ -600,99 +597,97 @@ const DetalleFgp = ({
             </Grid>
           </Grid>
 
-
-
           <div style={{ height: 600, width: "100%" }}>
-              <Box>
-                <ToggleButtonGroup>
-                  <Tooltip title={"Regresar"}>
+            <Box>
+              <ToggleButtonGroup>
+                <Tooltip title={"Regresar"}>
+                  <ToggleButton
+                    value="check"
+                    onClick={() => handleAcciones(1)}
+                  >
+                    <ArrowBackIcon />
+                  </ToggleButton>
+                </Tooltip>
+
+                {verTrazabilidad ? (
+                  <Tooltip title={"Ver Trazabilidad"}>
                     <ToggleButton
                       value="check"
-                      onClick={() => handleAcciones(1)}
+                      onClick={() => handleAcciones(2)}
                     >
-                      <ArrowBackIcon />
+                      <InsightsIcon />
                     </ToggleButton>
                   </Tooltip>
+                ) : (
+                  ""
+                )}
 
-                  {verTrazabilidad ? (
-                    <Tooltip title={"Ver Trazabilidad"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(2)}
-                      >
-                        <InsightsIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
-
-                  {autorizar &&
-                  direccion?.value ==="CPH" &&
+                {autorizar &&
+                  direccion?.value === "CPH" &&
                   perfil?.value === "ANA" &&
                   user.PERFILES[0].Referencia === "ANA" ? (
-                    <Tooltip title={"Autorizar Analista"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(3)}
-                      >
-                        <DoneAllIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
+                  <Tooltip title={"Autorizar Analista"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(3)}
+                    >
+                      <DoneAllIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
 
-                  {autorizar &&
-                  direccion?.value =="CPH" &&
+                {autorizar &&
+                  direccion?.value == "CPH" &&
                   perfil?.value == "COOR" &&
                   user.PERFILES[0].Referencia == "COOR" ? (
-                    <Tooltip title={"Autorizar Coordinador"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(4)}
-                      >
-                        <DoneAllIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
+                  <Tooltip title={"Autorizar Coordinador"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(4)}
+                    >
+                      <DoneAllIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
 
-                  {cancelar &&
-                   direccion?.value =="CPH" &&
-                  perfil?.value == "ANA" &&
-                  user.PERFILES[0].Referencia == "ANA" ? (
-                    <Tooltip title={"Cancelar"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(6)}
-                      >
-                        <CancelPresentationIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
+                {cancelar &&
+                  direccion?.value === "CPH" &&
+                  perfil?.value === "ANA" &&
+                  user.PERFILES[0].Referencia === "ANA" ? (
+                  <Tooltip title={"Cancelar"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(6)}
+                    >
+                      <CancelPresentationIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
 
-                  {cancelar &&
-                   direccion?.value =="CPH" &&
-                  perfil?.value == "COOR" &&
-                  user.PERFILES[0].Referencia == "COOR" ? (
-                    <Tooltip title={"Regresar a Analista"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(7)}
-                      >
-                        <CompareArrowsIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
-                </ToggleButtonGroup>
-              </Box>
-              <MUIXDataGrid columns={columns} rows={data} />
+                {cancelar &&
+                  direccion?.value === "CPH" &&
+                  perfil?.value === "COOR" &&
+                  user.PERFILES[0].Referencia === "COOR" ? (
+                  <Tooltip title={"Regresar a Analista"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(7)}
+                    >
+                      <CompareArrowsIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
+              </ToggleButtonGroup>
+            </Box>
+            <MUIXDataGrid columns={columns} rows={data} />
           </div>
         </Dialog>
       </Box>

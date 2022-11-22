@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Dialog, Grid, IconButton, ToggleButton, Tooltip } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Box, Grid, IconButton, ToggleButton, Tooltip } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid';
 import { CatalogosServices } from '../../../services/catalogosServices';
-import BotonesAPD from '../componentes/BotonesAPD'
 import { Titulo } from '../menu/catalogos/Utilerias/AgregarCalculoUtil/Titulo';
 import MUIXDataGrid from '../MUIXDataGrid';
 import Slider from '../Slider';
 import AddIcon from '@mui/icons-material/Add';
 import { OpModal } from './OpModal';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import BotonesAcciones from '../componentes/BotonesAcciones';
 import DoneIcon from '@mui/icons-material/Done';
 import SendIcon from '@mui/icons-material/Send';
@@ -18,11 +16,9 @@ import { AlertS } from '../../../helpers/AlertS';
 import { PERMISO, RESPONSE } from '../../../interfaces/user/UserInfo';
 import { getPermisos, getUser } from '../../../services/localStorage';
 import DescriptionIcon from '@mui/icons-material/Description';
-import BotonesOpciones from '../componentes/BotonesOpciones';
 import InsightsIcon from "@mui/icons-material/Insights";
 import TrazabilidadSolicitud from '../TrazabilidadSolicitud';
 import { Moneda } from '../menu/CustomToolbar';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 
 const Op = () => {
@@ -58,27 +54,27 @@ const Op = () => {
   ///////////////////////////////////////////
   const consulta = () => {
 
-    if (user.DEPARTAMENTOS[0].NombreCorto == "DAMOP") {
+    if (user.DEPARTAMENTOS[0].NombreCorto === "DAMOP") {
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
         setDepartamento("DAMOP")
 
         setSolicitud(res.RESPONSE);
-        console.log(res.RESPONSE)
+        //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
-    } else if (user.DEPARTAMENTOS[0].NombreCorto == "DPCP") {
+    } else if (user.DEPARTAMENTOS[0].NombreCorto === "DPCP") {
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
         setDepartamento("DPCP")
         setSolicitud(res.RESPONSE);
-        console.log(res.RESPONSE)
+        //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
-    } else if (user.DEPARTAMENTOS[0].NombreCorto == "MUN") {
+    } else if (user.DEPARTAMENTOS[0].NombreCorto === "MUN") {
 
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 4, CHUSER: user.id }).then((res) => {
         setDepartamento("MUN")
         setSolicitud(res.RESPONSE);
-        console.log(res.RESPONSE)
+        //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
     }
@@ -99,7 +95,7 @@ const Op = () => {
       renderCell: (v) => {
         return (
           <Grid container >
-            {v.row.ControlInterno == "MUN_INICIO" ?
+            {v.row.ControlInterno === "MUN_INICIO" ?
               <Grid item xs={8}>
                 <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
               </Grid>
@@ -154,13 +150,13 @@ const Op = () => {
               /////////////////////////////// ENVIAR ////////////////////////////////////////////
             }
             {
-              perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "enviar" && per === perfil && dep == departamento) ?
+              perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef === v.row.ControlInterno && accion === "enviar" && per === perfil && dep === departamento) ?
 
                 <Tooltip title={"Enviar"}>
                   <ToggleButton
                     value="check"
                     onClick={() =>
-                      handleSeg(v, String(perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "enviar" && per === perfil && dep == departamento)?.estatus))}>
+                      handleSeg(v, String(perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef === v.row.ControlInterno && accion === "enviar" && per === perfil && dep === departamento)?.estatus))}>
                     <SendIcon />
                   </ToggleButton>
                 </Tooltip>
@@ -170,13 +166,13 @@ const Op = () => {
               /////////////////////////////////////atender solicitudes/////////////////////////////////////////////
             }
             {
-              perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "autorizar" && per === perfil && dep == departamento) ?
+              perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef === v.row.ControlInterno && accion === "autorizar" && per === perfil && dep === departamento) ?
 
                 <Tooltip title={"Atender Solicitud"}>
                   <ToggleButton
                     value="check"
                     onClick={() =>
-                      handleSeg(v, String(perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "autorizar" && per === perfil && dep == departamento)?.estatus))}>
+                      handleSeg(v, String(perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef === v.row.ControlInterno && accion === "autorizar" && per === perfil && dep === departamento)?.estatus))}>
                     <DoneIcon />
                   </ToggleButton>
                 </Tooltip>
@@ -188,7 +184,7 @@ const Op = () => {
   ];
 
   const handleSeg = (data: any, estatus: string,) => {
-    console.log(estatus);
+    //console.log(estatus);
     if ((estatus != "AUTORIZAR" && estatus != "CANCELADO")) {
       let d = {
         NUMOPERACION: 5,
@@ -212,7 +208,7 @@ const Op = () => {
         if (result.isConfirmed) {
           CatalogosServices.SolicitudesInfo(d).then((res) => {
             if (res.SUCCESS) {
-              console.log(res.RESPONSE)
+              //console.log(res.RESPONSE)
               handleClose();
             } else {
 
@@ -251,17 +247,17 @@ const Op = () => {
   };
   const handleAccion = (v: any) => {
 
-    if(v.tipo ==1){
+    if(v.tipo ===1){
       setModo("editar");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+    }else if(v.tipo ===2){
       handleBorrar(v.data);
     }
 
   };
   const handleBorrar = (v: any) => {
-console.log(v);
+//console.log(v);
 
 let d = {
   NUMOPERACION: 8,
@@ -281,7 +277,7 @@ Swal.fire({
   if (result.isConfirmed) {
     CatalogosServices.SolicitudesInfo(d).then((res) => {
       if (res.SUCCESS) {
-        console.log(res.RESPONSE)
+        //console.log(res.RESPONSE)
         handleClose();
       } else {
 
@@ -308,31 +304,31 @@ Swal.fire({
   const handleVisualizarDetalles = (v: any) => {
     setModo("verDetalles");
     setOpen(true);
-    console.log(v.row)
+    //console.log(v.row)
     setData(v.row);
 
   };
 
   useEffect(() => {
-    console.log(hoy.getMonth() + "  " + hoy.getFullYear());
+    //console.log(hoy.getMonth() + "  " + hoy.getFullYear());
     setPerfil(user.PERFILES[0].Referencia);
-    console.log(permisos.map)
-    console.log("departamento  " + user.DEPARTAMENTOS[0].NombreCorto)
-    console.log("perfil " + user.PERFILES[0].Referencia)
+    //console.log(permisos.map)
+    //console.log("departamento  " + user.DEPARTAMENTOS[0].NombreCorto)
+    //console.log("perfil " + user.PERFILES[0].Referencia)
     setPerfil(user.PERFILES[0].Referencia);
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "SOLIANT") {
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
-        if (String(item.Referencia) == "TRAZA") {
+        if (String(item.Referencia) === "TRAZA") {
           setVertraz(true);
         }
 

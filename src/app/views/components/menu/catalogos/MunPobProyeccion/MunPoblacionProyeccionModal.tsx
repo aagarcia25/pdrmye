@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
   Box,
-  FormControl,
-  InputLabel,
   TextField,
   InputAdornment,
-  DialogActions,
   Button,
   Grid,
 } from "@mui/material";
@@ -17,7 +11,6 @@ import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import ModalForm from "../../../componentes/ModalForm";
@@ -36,10 +29,6 @@ const MunPoblacionProyeccionModal = ({
   handleClose: Function,
   dt: any
 }) => {
-
-
-
-
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
@@ -49,14 +38,8 @@ const MunPoblacionProyeccionModal = ({
   const [municipio, setMunicipio] = useState("");
   const [mun, setMun] = useState<SelectValues[]>([]);
 
-
-
-
-
-
-
   const handleSend = () => {
-    if (poblacion == null) {
+    if (poblacion === null) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -86,11 +69,11 @@ const MunPoblacionProyeccionModal = ({
 
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
 
       editar(data);
@@ -144,7 +127,7 @@ const MunPoblacionProyeccionModal = ({
     setMun(municipiosc());
 
     if (dt === '') {
-      console.log(dt)
+      //console.log(dt)
 
     } else {
       setId(dt?.row?.id)
@@ -154,7 +137,7 @@ const MunPoblacionProyeccionModal = ({
       setMunicipio(dt?.row?.Nombre)
 
 
-      console.log(dt)
+      //console.log(dt)
 
 
 
@@ -197,7 +180,7 @@ const MunPoblacionProyeccionModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setPoblacion(Number(v.target.value))}
-              error={poblacion == null ? true : false}
+              error={poblacion === null ? true : false}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start"></InputAdornment>
@@ -218,7 +201,7 @@ const MunPoblacionProyeccionModal = ({
           >
             <Grid item xs={4} sm={3} md={2} lg={1}
             >
-              <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
+              <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
             </Grid>
           </Grid>
         </Grid>

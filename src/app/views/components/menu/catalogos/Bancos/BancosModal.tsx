@@ -52,11 +52,11 @@ export const BancosModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
 
       editar(data);
@@ -100,7 +100,7 @@ export const BancosModal = ({
 
   useEffect(() => {
     if (dt === "") {
-      console.log(dt);
+      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setNombre(dt?.row?.Nombre);
@@ -113,7 +113,7 @@ export const BancosModal = ({
       <DialogContent>
         <Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{tipo == 1 ?"Agregar Registro" : "Editar Registro"}</label>
+            <label className="Titulo">{tipo === 1 ?"Agregar Registro" : "Editar Registro"}</label>
           </Box>
           <TextField
             required
@@ -125,9 +125,9 @@ export const BancosModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setNombre(v.target.value)}
-            error={nombre == "" ? true : false}
+            error={nombre === "" ? true : false}
             InputProps={{
-              readOnly: tipo == 1 ? false : true,
+              readOnly: tipo === 1 ? false : true,
             }}
           />
 
@@ -141,7 +141,7 @@ export const BancosModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setDescripcion(v.target.value)}
-            error={descripcion == "" ? true : false}
+            error={descripcion === "" ? true : false}
             InputProps={{
               
             }}

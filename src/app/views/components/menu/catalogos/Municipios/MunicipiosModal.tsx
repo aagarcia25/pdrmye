@@ -138,24 +138,24 @@ const MunFacturacionModal = ({
         ARTF3: artF3,
         DELETED: 0,
       };
-      console.log("user props", user);
-      console.log("user id", user.id);
-      console.log("data de modal", data);
+      //console.log("user props", user);
+      //console.log("user id", user.id);
+      //console.log("data de modal", data);
       handleRequest(data);
       handleClose();
     }
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
-      console.log("A AGREGAR");
+      //console.log("A AGREGAR");
       agregar(data);
       
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
-      console.log("A EDITAR");
+      //console.log("A EDITAR");
 
       editar(data);
       
@@ -169,14 +169,14 @@ const MunFacturacionModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-        console.log("Sé pudo agregar");
+        //console.log("Sé pudo agregar");
       } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        console.log("No se pudo agregar");
+        //console.log("No se pudo agregar");
       }
     });
   };
@@ -188,14 +188,14 @@ const MunFacturacionModal = ({
           icon: "success",
           title: "Registro Editado!",
         });
-        console.log("Sé pudo editar");
+        //console.log("Sé pudo editar");
       } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        console.log("No se pudo editar");
+        //console.log("No se pudo editar");
       }
     });
   };

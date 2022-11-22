@@ -44,9 +44,9 @@ const Menus = () => {
   
 
   const handleAccion = (v: any) => {
-    if (v.tipo == 1) {
+    if (v.tipo === 1) {
       handleEditar(v.data);
-    } else if (v.tipo == 2) {
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
     }
   };
@@ -67,14 +67,14 @@ const Menus = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id,
         };
-        console.log(data);
+        //console.log(data);
         AuthService.menusindex(data).then((res) => {
           if (res.SUCCESS) {
             Toast.fire({
@@ -120,8 +120,7 @@ const Menus = () => {
         );
       },
     },
-    {
-      field: "Menu",
+    { field: "Menu",
       headerName: "Menu",
       width: 400,
     },
@@ -155,14 +154,14 @@ const Menus = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MENUS") {
-        console.log(item);
-        if (String(item.Referencia) == "AGREG") {
+        //console.log(item);
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }

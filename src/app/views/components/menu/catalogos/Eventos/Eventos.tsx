@@ -3,8 +3,6 @@ import { Box, IconButton, } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { messages } from '../../../../styles'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EventosModal from './EventosModal';
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -73,12 +71,12 @@ export const Eventos = () => {
 
   ];
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if(v.tipo ===1){
       setTipoOperacion(2);
       setModo("Editar");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+    }else if(v.tipo ===2){
       handleBorrar(v.data);
     }
   }
@@ -94,14 +92,14 @@ export const Eventos = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.eventos(data).then((res) => {
           if (res.SUCCESS) {
@@ -150,7 +148,7 @@ export const Eventos = () => {
   };
 
   const handleClose = () => {
-    console.log('cerrando');
+    //console.log('cerrando');
     setOpen(false);
     let data = {
       NUMOPERACION: 4,
@@ -189,20 +187,20 @@ export const Eventos = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "EVENTOS") {
-        console.log(item)
-        if (String(item.Referencia) == "AGREG") {
+        //console.log(item)
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
     });
     CatalogosServices.eventos(dat).then((res) => {
-      //  console.log(res);
+      //  //console.log(res);
       setEventos(res.RESPONSE);
     });
   }, []);
