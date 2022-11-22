@@ -1,5 +1,4 @@
-import { TextField, DialogActions, Dialog, DialogContent, FormControl, InputLabel, MenuItem, Select, Grid, Typography, Button, IconButton, Tooltip } from "@mui/material";
-import { Box } from "@mui/system";
+import { TextField, DialogActions,  DialogContent, FormControl, InputLabel, MenuItem, Select, Grid,  Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
@@ -7,7 +6,6 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AuthService } from "../../../../../services/AuthService";
 import { getUser } from "../../../../../services/localStorage";
 import Slider from "../../../Slider";
-import CloseIcon from '@mui/icons-material/Close';
 import ModalForm from "../../../componentes/ModalForm";
 
 const MenuModal = ({

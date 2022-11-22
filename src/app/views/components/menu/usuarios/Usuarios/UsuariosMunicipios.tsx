@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogTitle,
   Grid,
   IconButton,
   Typography,
@@ -80,7 +78,6 @@ const UsuariosMunicipios = ({
 
     setOpenSlider(true);
     AuthService.RelacionarUsuarioMunicipio(data).then((res) => {
-       //console.log(res.RESPONSE);
        setOpenSlider(false);
       });
   };
@@ -99,7 +96,6 @@ const UsuariosMunicipios = ({
   };
 
   useEffect(() => {
-    //console.log(dt)
     loadFilter();
     consulta();
   }, [dt]);
@@ -180,11 +176,6 @@ const UsuariosMunicipios = ({
           </Grid>
         </DialogContent>
 
-        {/* <DialogActions>
-          <button className="cerrar" onClick={() => handleClose()}>
-            Cerrar
-          </button>
-        </DialogActions> */}
       </Dialog>
     </div>
   );

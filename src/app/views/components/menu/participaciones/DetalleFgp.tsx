@@ -19,7 +19,6 @@ import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import Trazabilidad from "../../Trazabilidad";
 import Swal from "sweetalert2";
-import ModalAlert from "../../componentes/ModalAlert";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -137,7 +136,6 @@ const DetalleFgp = ({
   };
 
   const Fnworkflow = (data: string) => {
-    //console.log(data);
 
     let obj = {
       CHID: idCalculo,
@@ -147,7 +145,6 @@ const DetalleFgp = ({
       PERFIL_DESTINO: perfilDestino,
       AREA:area
     };
-    //console.log(obj);
 
     calculosServices.indexCalculo(obj).then((res) => {
       if (res.SUCCESS) {
@@ -486,20 +483,20 @@ const DetalleFgp = ({
   const EstablecePermisos = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(clave).replace(/\s/g, "")) {
-        if (String(item.Referencia) == "AUT") {
+        if (String(item.Referencia) === "AUT") {
           setAutorizar(true);
         }
-        if (String(item.Referencia) == "CANC") {
+        if (String(item.Referencia) === "CANC") {
           setCancelar(true);
         }
-        if (String(item.Referencia) == "TRAZA") {
+        if (String(item.Referencia) === "TRAZA") {
           setVerTrazabilidad(true);
         }
 
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
