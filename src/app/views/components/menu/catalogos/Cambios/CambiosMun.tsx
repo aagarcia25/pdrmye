@@ -33,7 +33,7 @@ const CambiosMun = () => {
     const [idCambio, setIdCambio] = useState<string>();
     const [idSolicitante, setIdSolicitante] = useState<string>();
     const [modoVer, setModoVer] = useState<boolean>(false);
-
+    const [municipio, setMunicipio] = useState<string>();
 
 
 
@@ -45,11 +45,11 @@ const CambiosMun = () => {
             width: 10,
         },
         {
-            field: "Tipo",
+            field: "IdRegistro",
             hide: true,
         },
         {
-            field: "IdRegistro",
+            field: "Tipo",
             hide: true,
         },
         {
@@ -125,9 +125,8 @@ const CambiosMun = () => {
             width: 180,
         },
         {
-            field: "Solicitante",
-            headerName: "Solicitante",
-            width: 350
+            field: "nombreMunicipio",
+            hide: true,
         }
 
 
@@ -162,6 +161,7 @@ const CambiosMun = () => {
         setOrigen(JSON.parse(String(v.row.Origen)));
         setLabelCatalogo(String(tablas.find(({ tipo }) => tipo == v.row.Tipo)?.label));
         setIdCambio(v.row.id);
+        setMunicipio(v?.row?.nombreMunicipio);
 
     };
 
@@ -178,6 +178,7 @@ const CambiosMun = () => {
         setOrigen(JSON.parse(String(v.row.Origen)));
         setLabelCatalogo(String(tablas.find(({ tipo }) => tipo == v.row.Tipo)?.label));
         setIdCambio(v.row.id);
+        setMunicipio(v?.row?.nombreMunicipio);
 
     };
 
@@ -314,6 +315,15 @@ const CambiosMun = () => {
 
                             </Grid>
 
+
+                            <Grid container direction="row" justifyContent="center" alignItems="center">
+                                <Typography>
+                                    <h3>{municipio !=null ? String("Municipio: " + municipio):""}</h3>
+                                </Typography>
+
+
+                            </Grid>
+
                             <Grid container direction="row" justifyContent="center" alignItems="center" >
                                 <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                                     <label>
@@ -393,7 +403,7 @@ const CambiosMun = () => {
                                                     {solicitud?.Coeficiente ? <Typography><h5>	{"	Coeficiente	: " + solicitud?.Coeficiente}<br />	</h5></Typography> : ""}
                                                     {solicitud?.Version ? <Typography><h5>	{"	Version	: " + solicitud?.Version}<br />	</h5></Typography> : ""}
                                                     {solicitud?.totalPob ? <Typography><h5>	{"	Poblacion Total	: " + solicitud?.totalPob}<br />	</h5></Typography> : ""}
-                                                    {solicitud?.Facturacion ? <Typography><h5>	{"	Total	: " + origen?.Facturacion}<br />	</h5></Typography> : ""}
+                                                    {solicitud?.Facturacion ? <Typography><h5>	{"	Total	: " + solicitud?.Facturacion}<br />	</h5></Typography> : ""}
                                                     {solicitud?.Total ? <Typography><h5>	{"	Total	: " + solicitud?.Total}<br />	</h5></Typography> : ""}
                                                     {solicitud?.anio ? <Typography><h5>	{"	Año	: " + solicitud?.anio}<br />	</h5></Typography> : ""}
                                                     {solicitud?.Pob ? <Typography><h5>	{"	Poblacion Total	: " + solicitud?.Pob}<br />	</h5></Typography> : ""}
