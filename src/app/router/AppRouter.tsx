@@ -58,6 +58,7 @@ import ISAI from '../views/components/menu/articulos/isai/ISAI';
 import CambiosMun from '../views/components/menu/catalogos/Cambios/CambiosMun';
 import AuthSolicitudes from '../views/components/DPCP/AuthSolicitudes';
 import Participaciones from '../views/components/DAMOP/Participaciones';
+import { Divisas } from '../views/components/menu/catalogos/Divisas/Divisas';
 
 
 
@@ -99,6 +100,8 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/bancos'                     element={<Bancos />} />
         <Route path='/inicio/catalogos/cuentabancaria'             element={<CuentaBancaria idmunicipio={''} municipio={''}/>} />
         <Route path='/inicio/catalogos/SolicitudCambios'           element={<CambiosMun/>} />
+        <Route path='/inicio/catalogos/divisas'           element={<Divisas/>} />
+
 
         {/* FIN SECCION DE CATALOGOS */}
 
