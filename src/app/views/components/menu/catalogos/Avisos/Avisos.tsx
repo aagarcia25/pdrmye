@@ -199,7 +199,7 @@ if(v=="save"){
 
   return (
 
-    <div style={{ height: 600, width: "100%" }} >
+    <div style={{ height: 600, width: "100%", paddingTop:"2%" }} >
 
       {open ? (
         <AvisosModal

@@ -204,38 +204,39 @@ const AgregarContactoMunicipio = () => {
 
     return (
         //Box padre
-        <Box sx={{ display: "flex", width: "100%", height: "100%", justifyContent: "center", alignItems: "center" }}>
-            <Box sx={{ display: "flex", width: "65%", height: "100%", justifyContent: "center", alignItems: "center" }}>
+        <Box sx={{ bgcolor:"#EEEEEE", display: "flex", width: "100%", height: "100%", justifyContent: "center", alignItems: "center" }}>
+            <Box  boxShadow={3}  sx={{  bgcolor:"white", display: "flex", width: "100%", height: "90%", justifyContent: "center", alignItems: "center" }}>
                 {/* Box delimitador con border */}
-                <Box sx={{ display: "flex", width: "80%", height: "90%", border: "1px solid  black", borderRadius: "5%", justifyContent: "center", alignItems: "center" }}>
+                <Box sx={{ display: "flex", width: "80%", height: "90%", justifyContent: "center", alignItems: "center" }}>
                     {/* Box de contenido */}
 
                     {editar ?
-                        <Box sx={{ display: "flex", width: "90%", height: "100%", backgroundColor: "white", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
+                        <Box sx={{  display: "flex", width: "90%", height: "98%", backgroundColor: "white", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
                             {/* Box de imagen */}
-                            <Box sx={{ width: "20vh", height: "20vh", border: "5px dashed  black", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                            <Box sx={{bgcolor:"#EEEEEE", width: "25%",  display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
 
                                 <input
                                     id="imagencargada"
                                     accept="image/*"
                                     onChange={(v) => { enCambioFile(v) }}
                                     type="file"
-                                    style={{ zIndex: 2, opacity: 0, width: "20vh", height: "20vh", cursor: "pointer", position: "absolute" }}
+                                    style={{ zIndex: 2, opacity: 0, cursor: "pointer", position: "absolute" }}
                                 />
                                 {uploadFile === "" ?
-                                    <AddPhotoAlternateIcon sx={{ width: "80%", height: "80%" }} /> :
-                                    <img src={uploadFile} style={{ objectFit: "scale-down", width: "80%", height: "80%" }} />
+                                    <AddPhotoAlternateIcon sx={{ width: "60%", height: "60%" }} /> :
+                                    <img src={uploadFile} style={{ objectFit: "fill", width: "100%", borderRadius: "0"}} />
                                 }
                             </Box>
 
-                            <Box sx={{ display: "flex", alignItems: "center", width: "98%", flexDirection: "column", justifyContent: "space-evenly", height: "60%" }}>
+                            <Box sx={{ paddingTop:"5%",  display: "flex", alignItems: "center", width: "98%", flexDirection: "column", justifyContent: "space-evenly", height: "60%" }}>
 
                                 <TextField
                                     required
                                     label="municipio"
                                     value={municipio}
                                     type="text"
-                                    sx={{ width: "90%", }}
+                                    size= "small"
+                                    sx={{ width: "70%", paddingBottom:".3%"}}
                                     variant="outlined"
                                     onChange={(v) => setMunicipio(v.target.value)}
                                     error={municipio === "" && verificaForm}
@@ -247,7 +248,8 @@ const AgregarContactoMunicipio = () => {
                                     label="tesorero"
                                     value={tesorero}
                                     type="text"
-                                    sx={{ width: "90%", }}
+                                    size= "small"
+                                    sx={{ width: "70%", paddingBottom:".3%"}}
                                     variant="outlined"
                                     onChange={(v) => setTesorero(v.target.value)}
                                     error={tesorero === "" && verificaForm}
@@ -260,7 +262,8 @@ const AgregarContactoMunicipio = () => {
                                     label="responsable"
                                     value={responsable}
                                     type="text"
-                                    sx={{ width: "90%", }}
+                                    size= "small"
+                                    sx={{ width: "70%",paddingBottom:".3%" }}
                                     variant="outlined"
                                     onChange={(v) => setResponable(v.target.value)}
                                     error={responsable === "" && verificaForm}
@@ -272,7 +275,8 @@ const AgregarContactoMunicipio = () => {
                                     label="domicilio"
                                     value={domicilio}
                                     type="text"
-                                    sx={{ width: "90%", }}
+                                    size= "small"
+                                    sx={{ width: "70%", paddingBottom:".3%"}}
                                     variant="outlined"
                                     onChange={(v) => setDomicilio(v.target.value)}
                                     error={domicilio === "" && verificaForm}
@@ -280,14 +284,15 @@ const AgregarContactoMunicipio = () => {
 
                                 />
 
-                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "90%" }}>
+                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "70%" }}>
                                     <TextField
                                         required
                                         label="telefono"
                                         value={telefono}
                                         inputProps={{maxLength: 12}}
                                         type="text"
-                                        sx={{ width: "45%", }}
+                                        size= "small"
+                                        sx={{ width: "45%",paddingBottom:".3%"}}
                                         variant="outlined"
                                         onChange={(v) => handleTotal(v.target.value)}
                                         error={telefono === "" && verificaForm}
@@ -300,7 +305,8 @@ const AgregarContactoMunicipio = () => {
                                         label="horario"
                                         value={horario}
                                         type="text"
-                                        sx={{ width: "45%", }}
+                                        size= "small"
+                                        sx={{ width: "45%",paddingBottom:".3%"}}
                                         variant="outlined"
                                         onChange={(v) => setHorario(v.target.value)}
                                         error={horario === "" && verificaForm}
@@ -315,7 +321,8 @@ const AgregarContactoMunicipio = () => {
                                     label="Sitio Web"
                                     value={web}
                                     type="text"
-                                    sx={{ width: "90%", }}
+                                    size= "small"
+                                    sx={{ width: "70%", paddingBottom:".3%"}}
                                     variant="outlined"
                                     onChange={(v) => setWeb(v.target.value)}
                                     error={web === "" && verificaForm}
@@ -324,7 +331,7 @@ const AgregarContactoMunicipio = () => {
                                 />
                             </Box>
 
-                            <Box sx={{ display: "flex", width: "50%", justifyContent: "space-evenly" }}>
+                            <Box sx={{ paddingTop:"4%", display: "flex", width: "50%", justifyContent: "space-evenly" }}>
                                 <Button variant="outlined" onClick={() => { limpiar() }}>Limpiar</Button>
                                { nuevoRegistro?
                                     <Button variant="outlined" onClick={() => { onClickGuardar()}}>Guardar</Button>:
@@ -334,67 +341,68 @@ const AgregarContactoMunicipio = () => {
 
                         </Box>
                         :
-                        <Box sx={{ display: "flex", width: "90%", height: "100%", backgroundColor: "white", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
+                        <Box  sx={{ display: "flex", width: "90%", height: "100%", backgroundColor: "white", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                             {/* Box de imagen */}
 
-                            <Box sx={{ width: "20vh", height: "20vh", border: "5px solid  black", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                                {nuevoRegistro?<AddPhotoAlternateIcon sx={{ width: "80%", height: "80%" }} /> :<img src={dato.Escudo} style={{ objectFit: "scale-down", width: "100%", height: "100%" }} />}
+                            <Box  sx={{width: "20vh", height: "20vh", border: "2px solid  #CCCCCC", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                                {nuevoRegistro?<AddPhotoAlternateIcon sx={{ width: "60%", height: "60%" }} /> :<img src={dato.Escudo} style={{ objectFit: "scale-down", width: "100%", height: "100%" }} />}
                             </Box>
+                            <Box sx={{ height: "3%", }}></Box>
 
-                            <Box sx={{ display: "flex", alignItems: "center", width: "98%", flexDirection: "column", justifyContent: "space-evenly", height: "60%", border: "1px solid  black", borderRadius: "5%", }}>
-                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                            <Box boxShadow={3} sx={{paddingTop:"2%", bgcolor: "rgb(252,252,252)", paddingBottom:"2%", display: "flex", alignItems: "center", width: "90%", flexDirection: "column", justifyContent: "center", height: "auto" }}>
+                                <Box sx={{ display: "flex", paddingBottom:"1%", justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif", fontWeight: 'bold', fontSize: "1.3rem", color:"#808080", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2rem" }}
                                     > Municipio: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "sans-serif",  fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Municipio === "" ? "Sin información" : dato.Municipio} </Typography>
                                 </Box>
 
-                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                <Box sx={{ display: "flex", paddingBottom:"1%", justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",  fontWeight: 'bold', fontSize: "1.3rem", color:"#808080", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Tesorero: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Tesorero === "" ? "Sin información" : dato.Tesorero} </Typography>
                                 </Box>
 
-                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                <Box sx={{ display: "flex",paddingBottom:"1%",  justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",  fontWeight: 'bold', fontSize: "1.3rem", color:"#808080",width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Responsable: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Responsable === "" ? "Sin información" : dato.Responsable} </Typography>
                                 </Box>
 
-                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                <Box sx={{ display: "flex",paddingBottom:"1%", justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",  fontWeight: 'bold', fontSize: "1.3rem", color:"#808080", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Domicilio: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Domicilio === "" ? "Sin información" : dato.Domicilio} </Typography>
                                 </Box>
 
-                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                <Box sx={{ display: "flex", paddingBottom:"1%", justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",  fontWeight: 'bold', fontSize: "1.3rem", color:"#808080",width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Web: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "sans-serif",  fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Web === "" ? "Sin información" : dato.Web} </Typography>
                                 </Box>
 
 
-                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "90%" }}>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                <Box sx={{ display: "flex", paddingBottom:"1%", justifyContent: "space-between", width: "90%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",   fontWeight: 'bold', fontSize: "1.3rem", color:"#808080",width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Telefono: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily:  "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Telefono === "" ? "Sin informacion." : dato.Telefono} </Typography>
                                 </Box>
 
-                                <Box sx={{ display: "flex", justifyContent: "space-between", width: "90%" }}>
-                                    <Typography sx={{ fontFamily: "MontserratBold", fontSize: "1.5vw", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                <Box sx={{ display: "flex", paddingBottom:"1%", justifyContent: "space-between", width: "90%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",  fontWeight: 'bold', fontSize: "1.3rem", color:"#808080", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Horario: </Typography>
-                                    <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1.5vw", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    <Typography sx={{ fontFamily: "sans-serif",  fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Horario === "" ? "Sin información." : dato.Horario} </Typography>
                                 </Box>
-                            </Box>
 
-                            <Box sx={{ display: "flex", width: "50%", justifyContent: "space-evenly" }}>
+                                <Box sx={{ display: "flex", width: "50%", justifyContent: "space-evenly" }}>
                                 {nuevoRegistro ? <Button variant="outlined" onClick={() => {setEditar(true) }}>Registrar</Button> : <Button variant="outlined" onClick={() => { setEditar(true) }}>Editar</Button>}
+                            </Box>
                             </Box>
                         </Box>}
 
