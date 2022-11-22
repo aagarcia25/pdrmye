@@ -282,14 +282,12 @@ console.log(data);
         ""
       )}
       
-      <Grid container spacing={1}>
+      <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={10} sx={{ textAlign: "center" }}>
-              <Typography>
-                <h1>
+              <Typography variant="h4" paddingBottom={2}>
                   Generación de Solicitudes de Participaciones y Aportaciones
-                </h1>
               </Typography>
             </Grid>
           </Grid>
@@ -338,18 +336,18 @@ console.log(data);
           </Grid>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={12}>
+        <Grid item xs={12} sm={12} md={12} lg={12}  paddingBottom={2}>
           <Button
             onClick={handleClick}
             variant="contained"
             color="success"
-            endIcon={<SendIcon />}
+            endIcon={<SendIcon sx={{color:"white"}} />}
           >
-            Buscar
+            <Typography sx={{ color:"white" }}> Buscar </Typography>
           </Button>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={12}>
+        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={1}>
           <ToggleButtonGroup>
             <Tooltip title={"Solicitar Suficiencia Presupuestal"}>
               <ToggleButton value="check" onClick={() => setOpenModal(true)}>
@@ -364,7 +362,7 @@ console.log(data);
           </ToggleButtonGroup>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={12}>
+        <Grid item xs={12} sm={12} md={12} lg={12} >
           <div
             style={{
               height: "60vh",
