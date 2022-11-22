@@ -63,7 +63,7 @@ const MenuModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
+    //console.log(data);
     AuthService.menusindex(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -98,7 +98,7 @@ const MenuModal = ({
   useEffect(() => {
     consulta({ NUMOPERACION: 4 });
     if (vrows === '') {
-      console.log(vrows)
+      //console.log(vrows)
 
     } else {
       setMenu(vrows?.row?.Menu)
@@ -110,7 +110,7 @@ const MenuModal = ({
       setId(vrows?.row?.id)
 
 
-      console.log(vrows)
+      //console.log(vrows)
 
 
 

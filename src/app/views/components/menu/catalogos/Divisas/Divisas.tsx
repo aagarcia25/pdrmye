@@ -185,14 +185,14 @@ export const Divisas = () => {
             denyButtonText: `Cancelar`,
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log(v);
+                //console.log(v);
 
                 let data = {
                     NUMOPERACION: 3,
                     CHID: v.row.id,
                     CHUSER: user.id
                 };
-                console.log(data);
+                //console.log(data);
 
                 CatalogosServices.divisas(data).then((res) => {
                     if (res.SUCCESS) {
@@ -226,7 +226,7 @@ export const Divisas = () => {
     const consulta = (data: any) => {
         CatalogosServices.divisas(data).then((res) => {
             setDivisas(res.RESPONSE);
-            console.log(res.RESPONSE);
+            //console.log(res.RESPONSE);
         });
     };
 
@@ -256,7 +256,7 @@ export const Divisas = () => {
     useEffect(() => {
         permisos.map((item: PERMISO) => {
             if (String(item.ControlInterno) === "DIVISAS") {
-                console.log(item)
+                //console.log(item)
                 setNombreMenu(item.Menu);
 
                 if (String(item.Referencia) == "ELIM") {

@@ -145,7 +145,7 @@ const ModalNew = ({
               ZERO:Czero,
               TIPOCALCULO:idTipoCalculo
             };
-            console.log(data);
+            //console.log(data);
             agregar(data);
           }
   

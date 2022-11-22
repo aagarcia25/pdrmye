@@ -67,14 +67,14 @@ const Menus = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id,
         };
-        console.log(data);
+        //console.log(data);
         AuthService.menusindex(data).then((res) => {
           if (res.SUCCESS) {
             Toast.fire({
@@ -155,7 +155,7 @@ const Menus = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MENUS") {
-        console.log(item);
+        //console.log(item);
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }

@@ -52,7 +52,7 @@ const SolicitudesIns = ({
   const handleSend = () => {};
 
   const handleSelectTipo = (e: any) => {
-    console.log(e.value);
+    //console.log(e.value);
   };
 
   return (

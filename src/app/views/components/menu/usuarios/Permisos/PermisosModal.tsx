@@ -76,7 +76,7 @@ const PermisosModal = ({
 
 
   const handleRequest = (data: any) => {
-    console.log(data);
+    //console.log(data);
     let titulo = "";
     if (tipo == 1) {
       //AGREGAR
@@ -105,10 +105,10 @@ const PermisosModal = ({
 
 
   useEffect(() => {
-    console.log(dt);
+    //console.log(dt);
     loadFilter(16);
     if (dt === "") {
-      console.log(dt);
+      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setNombre(dt?.row?.Permiso);

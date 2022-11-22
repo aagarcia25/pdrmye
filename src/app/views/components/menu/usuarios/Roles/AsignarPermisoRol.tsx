@@ -97,7 +97,7 @@ const AsignarPermisoRol = ({
 
   useEffect(() => {
     consulta({ CHID: dt?.row?.id, IDROL: id });
-    console.log(dt);
+    //console.log(dt);
   }, []);
 
   return (

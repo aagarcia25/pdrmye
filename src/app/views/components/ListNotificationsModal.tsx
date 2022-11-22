@@ -86,7 +86,7 @@ const ListNotificationsModal = ({
 
   }
   const handletest = () => {
-    console.log(newEncabezado + "---" + newMensaje + "---" + chuserDestin)
+    //console.log(newEncabezado + "---" + newMensaje + "---" + chuserDestin)
 
 
 
@@ -171,12 +171,12 @@ const ListNotificationsModal = ({
 
   const handleSelectUser = (e: any) => {
     setChuserDestin(e);
-    console.log(e);
+    //console.log(e);
 
   };
 
   useEffect(() => {
-    console.log("data " + dt?.row);
+    //console.log("data " + dt?.row);
     loadSelectUser();
     if (dt === '') {
 

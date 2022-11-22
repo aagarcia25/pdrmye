@@ -45,7 +45,7 @@ export default function Bienvenido({ user }: { user: any }) {
   }, [])
 
   useEffect(() => {
-    console.log(imagenes);
+    //console.log(imagenes);
 
   }, [imagenes])
 

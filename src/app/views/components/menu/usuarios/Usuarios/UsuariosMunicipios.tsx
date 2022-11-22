@@ -80,7 +80,7 @@ const UsuariosMunicipios = ({
 
     setOpenSlider(true);
     AuthService.RelacionarUsuarioMunicipio(data).then((res) => {
-       console.log(res.RESPONSE);
+       //console.log(res.RESPONSE);
        setOpenSlider(false);
       });
   };
@@ -99,7 +99,7 @@ const UsuariosMunicipios = ({
   };
 
   useEffect(() => {
-    console.log(dt)
+    //console.log(dt)
     loadFilter();
     consulta();
   }, [dt]);

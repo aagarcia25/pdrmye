@@ -43,10 +43,10 @@ export const AnticipoParticipacionesAtenderModal = (
     ]
     
     const acciones = (v: string) => {
-        console.log(v);
+        //console.log(v);
         const accion = perfiles.find(({ accion, per, dep }) => accion === String(v) && per ===perfil && dep==departamento );
         if (accion?.accion === "autorizar") {
-            console.log(accion.accion+" accion de la busqueda")
+            //console.log(accion.accion+" accion de la busqueda")
             let d = {
                 NUMOPERACION: 7,
                 CHID: data.id,
@@ -68,7 +68,7 @@ export const AnticipoParticipacionesAtenderModal = (
                 if (result.isConfirmed) {
                     CatalogosServices.SolicitudesInfo(d).then((res) => {
                         if (res.SUCCESS) {
-                            console.log(res.RESPONSE)
+                            //console.log(res.RESPONSE)
                             handleClose();
                         } else {
 
@@ -86,7 +86,7 @@ export const AnticipoParticipacionesAtenderModal = (
 
         } else 
         if (accion?.accion === "cancelar") {
-            console.log("cancelado");
+            //console.log("cancelado");
                 let d = {
                     NUMOPERACION: 7,
                     CHID: data.id,
@@ -107,7 +107,7 @@ export const AnticipoParticipacionesAtenderModal = (
                     if (result.isConfirmed) {
                         CatalogosServices.SolicitudesInfo(d).then((res) => {
                             if (res.SUCCESS) {
-                                console.log(res.RESPONSE)
+                                //console.log(res.RESPONSE)
                                 handleClose();
                             } else {
 

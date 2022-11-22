@@ -72,7 +72,7 @@ const saveInfo = () => {
   };
 
   CatalogosServices.municipios(data).then((res) => {
-    console.log(res.RESPONSE);
+    //console.log(res.RESPONSE);
     Toast.fire({
       icon: "success",
       title: "Consulta Exitosa!",
@@ -81,7 +81,7 @@ const saveInfo = () => {
 };
 
   useEffect(() => {
-    console.log(dt);
+    //console.log(dt);
     loadFilter(1);
     loadinfo();
   },[]);

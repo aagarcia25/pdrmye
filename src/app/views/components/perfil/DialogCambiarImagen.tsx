@@ -26,8 +26,8 @@ export function DialogCambiarImagen({
     const [disabledButton, setDisabledButton] = useState(true);
 
     useEffect(() => {
-      console.log(newImage);
-      console.log(nombreArchivo);
+      //console.log(newImage);
+      //console.log(nombreArchivo);
       
       
     }, [newImage])
@@ -44,7 +44,7 @@ export function DialogCambiarImagen({
                 icon: "success",
                 title: "Imagen Actualizada",
               });
-            console.log(res.RESPONSE);
+            //console.log(res.RESPONSE);
             let data = {
                 NUMOPERACION: 1,
                 ID: user.id,

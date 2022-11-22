@@ -36,7 +36,7 @@ export const Umas = () => {
 
   const handleAccion=(v: any)=>{
     if(v.tipo ==1){
-      console.log(v)
+      //console.log(v)
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
@@ -57,7 +57,7 @@ export const Umas = () => {
             CHID: v.data.row.id,
             CHUSER: user.id
           };
-          console.log(data);
+          //console.log(data);
   
           CatalogosServices.umas(data).then((res) => {
             if (res.SUCCESS) {
@@ -138,8 +138,8 @@ export const Umas = () => {
 
     } 
     else if (data.tipo == 2) {
-      console.log("borrado de toda la tabla")
-      console.log(selectionModel)
+      //console.log("borrado de toda la tabla")
+      //console.log(selectionModel)
 
       if(selectionModel.length!==0){
       Swal.fire({
@@ -157,7 +157,7 @@ export const Umas = () => {
            OBJS: selectionModel,
            CHUSER: user.id
           };
-          console.log(data);
+          //console.log(data);
   
           CatalogosServices.umas(data).then((res) => {
             if (res.SUCCESS) {
@@ -221,7 +221,7 @@ export const Umas = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "UMAS") {
-        console.log(item)
+        //console.log(item)
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }

@@ -161,7 +161,7 @@ const AgregarContactoMunicipio = () => {
         formData.append("HORARIO", horario);
         formData.append("WEB", web);
         if(nombreArchivo!==""){formData.append("ESCUDO", newImage, nombreArchivo);}else{formData.append("ESCUDO", "");}
-        console.log(nuevoRegistro);
+        //console.log(nuevoRegistro);
         
         agregar(formData);
     }

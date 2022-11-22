@@ -74,7 +74,7 @@ const CalendarCModal = ({
   const departamentosc = () => {
     let data = {};
     CatalogosServices.departamentos(data).then((res) => {
-      //  console.log(res);
+      //  //console.log(res);
       setDepartamentos(res.RESPONSE);
     });
   };
@@ -173,7 +173,7 @@ const CalendarCModal = ({
     departamentosc();
 
     if (dt === "") {
-      console.log("Modal dt", dt);
+      //console.log("Modal dt", dt);
     } else {
       setId(dt?.id);
       setNombreEvento(dt?.title);

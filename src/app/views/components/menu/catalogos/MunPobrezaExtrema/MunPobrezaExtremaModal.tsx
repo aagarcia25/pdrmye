@@ -95,7 +95,7 @@ const MunPobrezaExtremaModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
+    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -152,7 +152,7 @@ const MunPobrezaExtremaModal = ({
     municipiosc();
 
     if (dt === '') {
-      console.log(dt)
+      //console.log(dt)
 
     } else {
       setId(dt?.row?.id)

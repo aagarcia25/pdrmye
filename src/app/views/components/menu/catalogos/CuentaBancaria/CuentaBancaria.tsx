@@ -88,7 +88,7 @@ municipio :string
         CHUSER: user.id,
         IDESTATUS:est
       };
-      console.log(v);
+      //console.log(v);
 
       CatalogosServices.CuentaBancaria(data).then((res) => {
         if (res.SUCCESS) {
@@ -243,7 +243,7 @@ municipio :string
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        console.log(res.RESPONSE);
+        //console.log(res.RESPONSE);
         setCuentaBancaria(res.RESPONSE);
       } else {
         AlertS.fire({
@@ -258,7 +258,7 @@ municipio :string
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "CUENTABANCARIA") {
-        console.log(item);
+        //console.log(item);
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }

@@ -103,7 +103,7 @@ const TipoFondo = () => {
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.tipofondo(data).then((res) => {
           if (res.SUCCESS) {
@@ -161,7 +161,7 @@ const TipoFondo = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNICIPIOS") {
-        console.log(item)
+        //console.log(item)
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }

@@ -28,7 +28,7 @@ const ContactoMunicipios = () => {
 
   useEffect(() => {
     consulta()
-    console.log(dato);
+    //console.log(dato);
     setMostrar(true);
   }, [])
 

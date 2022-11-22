@@ -94,7 +94,7 @@ const RolesModal = ({
     };
 
     const handleTeste = () => {
-        console.log(user.id);
+        //console.log(user.id);
 
     };
     const agregar = (data: any) => {

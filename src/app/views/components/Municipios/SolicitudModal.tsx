@@ -116,8 +116,8 @@ export const SolicitudModal = (
                     if (result.isConfirmed) {
                         CatalogosServices.SolicitudesInfo(d).then((res) => {
                             if (res.SUCCESS) {
-                                console.log("response: " + res.RESPONSE[0])
-                                console.log("data id:  " + data.id)
+                                //console.log("response: " + res.RESPONSE[0])
+                                //console.log("data id:  " + data.id)
                                 if (DocSubido) {
                                     const formData = new FormData();
                                     formData.append("CHID", data.id);
@@ -128,7 +128,7 @@ export const SolicitudModal = (
 
                                     CatalogosServices.subirArchivo(formData).then((res) => {
                                         if (res.SUCCESS) {
-                                            console.log(res.RESPONSE)
+                                            //console.log(res.RESPONSE)
                                             Toast.fire({
                                                 icon: "success",
                                                 title: "Carga Exitosa!",
@@ -180,7 +180,7 @@ export const SolicitudModal = (
                     if (result.isConfirmed) {
                         CatalogosServices.SolicitudesInfo(d).then((res) => {
                             if (res.SUCCESS) {
-                                console.log(res.RESPONSE)
+                                //console.log(res.RESPONSE)
                                 Toast.fire({
                                     icon: "success",
                                     title: "Carga Exitosa!",
@@ -258,7 +258,7 @@ export const SolicitudModal = (
 
     useEffect(() => {
         setModoSol(String(modo))
-        console.log(data)
+        //console.log(data)
         setUrlDoc(data.RutaArchivo)
         if (modo == "editar") {
             setTotal(data?.row?.Total)

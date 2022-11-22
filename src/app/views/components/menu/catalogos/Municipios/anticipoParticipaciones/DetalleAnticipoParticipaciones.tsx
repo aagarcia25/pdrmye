@@ -92,7 +92,7 @@ export const DetalleAnticipoParticipaciones = (
         if (v.tipo == 1) {
             ///editar
             setOpenEditar(true)
-            console.log(v.data.row)
+            //console.log(v.data.row)
             setDataEditar(v.data.row)
             setMes(v.data.row.Descripcion)
             setTotal(v.data.row.Total)
@@ -103,7 +103,7 @@ export const DetalleAnticipoParticipaciones = (
         } else
             if (v.tipo == 2) {
 
-                console.log("Eliminar resgitro detallado")
+                //console.log("Eliminar resgitro detallado")
                 EliminarRegistro(
                     {
                         NUMOPERACION: 3,
@@ -117,9 +117,9 @@ export const DetalleAnticipoParticipaciones = (
 
 
     const handleAccionEditarRegistros = () => {
-        console.log(total);
-        console.log(idRegistro);
-        console.log(user.id)
+        //console.log(total);
+        //console.log(idRegistro);
+        //console.log(user.id)
 
         Swal.fire({
             icon: "info",
@@ -183,12 +183,12 @@ export const DetalleAnticipoParticipaciones = (
     const getDetalles = (d: any) => {
         CatalogosServices.getdetalle(d).then((res) => {
             setDetalle(res.RESPONSE);
-            console.log(res.RESPONSE)
+            //console.log(res.RESPONSE)
             setOpenSlider(false);
         });
     };
     const Eliminar = () => {
-        console.log(data)
+        //console.log(data)
         let d = {
             MES: data.Mes,
             ANIO: data.Anio,
@@ -214,7 +214,7 @@ export const DetalleAnticipoParticipaciones = (
                             title: "Borrado Exitoso!",
                         });
                         // CatalogosServices.indexAPC(data).then((res) => {
-                        //     console.log(res.RESPONSE)
+                        //     //console.log(res.RESPONSE)
 
                         // });
                         handleClose();
@@ -248,7 +248,7 @@ export const DetalleAnticipoParticipaciones = (
                             title: "Borrado Exitoso!",
                         });
                         // CatalogosServices.indexAPC(data).then((res) => {
-                        //     console.log(res.RESPONSE)
+                        //     //console.log(res.RESPONSE)
 
                         // });
                     } else {

@@ -84,7 +84,7 @@ export const MunTerritorio = () => {
   };
   const handleBorrar = (v: any) => {
     setSelectionModel(v);
-    console.log(v)
+    //console.log(v)
   };
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
@@ -102,14 +102,14 @@ export const MunTerritorio = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.munterritorio(data).then((res) => {
           if (res.SUCCESS) {
@@ -144,7 +144,7 @@ export const MunTerritorio = () => {
       formData.append("inputfile", file, "inputfile.xlsx");
       formData.append("tipo", "MunTerritorio");
       setslideropen(false);
-      console.log(file)
+      //console.log(file)
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
         if (res.SUCCESS) {
@@ -164,8 +164,8 @@ export const MunTerritorio = () => {
 
     } 
     else if (data.tipo == 2) {
-      console.log("borrado de toda la tabla")
-      console.log(selectionModel)
+      //console.log("borrado de toda la tabla")
+      //console.log(selectionModel)
 
       if(selectionModel.length!==0){
       Swal.fire({
@@ -183,7 +183,7 @@ export const MunTerritorio = () => {
            OBJS: selectionModel,
            CHUSER: user.id
           };
-          console.log(data);
+          //console.log(data);
   
           CatalogosServices.munterritorio(data).then((res) => {
             if (res.SUCCESS) {
@@ -246,7 +246,7 @@ export const MunTerritorio = () => {
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNTERR") {
-        console.log(item)
+        //console.log(item)
         setNombreMenu(item.Menu);
         if (String(item.Referencia) == "ELIM") {
           setEliminar(true);

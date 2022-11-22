@@ -178,7 +178,7 @@ const FideicomisoConfig = ({
 
 
   const handleEdit = (v: any) => {
-    console.log(v?.row)
+    //console.log(v?.row)
     setOpenSlider(true);
     setModo("editar");
     setIdMun(v?.row?.IdMun);
@@ -230,14 +230,14 @@ const FideicomisoConfig = ({
             icon: "success",
             title: "Registro" + (modo === "nuevo" ? "Agregado!" : "Editado!"),
           });
-          console.log("Sé pudo agregar");
+          //console.log("Sé pudo agregar");
         } else {
           AlertS.fire({
             title: "Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
-          console.log("No se pudo agregar");
+          //console.log("No se pudo agregar");
         }
       });
       setNombre("");
@@ -254,18 +254,18 @@ const FideicomisoConfig = ({
     setOpenSlider(true);
     CatalogosServices.MunFideicomiso(data).then((res) => {
       setData(res.RESPONSE);
-      console.log(res)
+      //console.log(res)
       setOpenSlider(false);
     });
 
   };
 
   useEffect(() => {
-    console.log(user);
+    //console.log(user);
     setModo("visualizar")
     setMunicipio(dt?.row?.Nombre)
     consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
-    console.log(dt.row)
+    //console.log(dt.row)
     if (dt === "") {
     } else {
       //SE PINTAN LOS CAMPOS
