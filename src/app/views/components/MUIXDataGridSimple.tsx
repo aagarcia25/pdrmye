@@ -29,6 +29,9 @@ export default function MUIXDataGridSimple(props: any) {
               toolbar: {
                 showQuickFilter: true,
                 quickFilterProps: { debounceMs: 500 },
+                csvOptions:{  fileName: 'Export',
+                  utf8WithBom: true,
+                 }
               },
             }}
             localeText={{

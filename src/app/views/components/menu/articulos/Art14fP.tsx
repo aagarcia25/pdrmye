@@ -60,6 +60,7 @@ export const Art14fP = () => {
       },
     },
     { field: "FechaCreacion", headerName: "Fecha de Creación", width: 150 },
+    { field: "UC", headerName: "Creado Por", width: 150 },
     { field: "Version", headerName: "Versión", width: 150 },
     { field: "Articulo", headerName: "Articulo", width: 150 },
     {
