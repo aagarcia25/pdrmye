@@ -3,19 +3,15 @@ import {
   Box,
   Button,
   IconButton,
-  Tooltip,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { getPermisos, getUser } from "../../services/localStorage";
+import { getUser } from "../../services/localStorage";
 import { CatalogosServices } from "../../services/catalogosServices";
 import MUIXDataGrid from "./MUIXDataGrid";
 import AddIcon from '@mui/icons-material/Add';
-import SendIcon from '@mui/icons-material/Send';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import InboxIcon from '@mui/icons-material/Inbox';
 import ListNotificationsModal from "./ListNotificationsModal";
-import { PERMISO, RESPONSE } from "../../interfaces/user/UserInfo";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { COLOR } from "../../styles/colors";
 
 
@@ -37,8 +33,8 @@ export const ListNotification = () => {
     { field: "deleted", headerName: "eliminado", width: 300, hide: true },
     { field: "ModificadoPor", headerName: "ModificadoPor", width: 300, hide: true },
     { field: "CreadoPor", headerName: "CreadoPor", width: 300, hide: true },
-    { field: "origen", headerName: "Remitente", width: 300, hide: modo == "MessageSend" },
-    { field: "destinatario", headerName: "Destinatario", width: 300, hide: modo == "viewMessageReading" || modo == "ViewMessage" },
+    { field: "origen", headerName: "Remitente", width: 300, hide: modo === "MessageSend" },
+    { field: "destinatario", headerName: "Destinatario", width: 300, hide: modo === "viewMessageReading" || modo === "ViewMessage" },
     { field: "Encabezado", headerName: "Encabezado", width: 300, },
     { field: "Descripcion", headerName: "Mensage", width: 300, hide: true },
     { field: "Visto", headerName: "Visto", width: 300, hide: true },
@@ -227,7 +223,7 @@ export const ListNotification = () => {
               className="notificaciones"
               onClick={() => viewMessageSend(9)}
               sx={{
-                backgroundColor: modo == "MessageSend" ? COLOR.grisTarjetaBienvenido : COLOR.blanco,
+                backgroundColor: modo === "MessageSend" ? COLOR.grisTarjetaBienvenido : COLOR.blanco,
                 "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
               }}
             >
@@ -241,7 +237,7 @@ export const ListNotification = () => {
               className="notificaciones"
               onClick={() => viewMessage(8)}
               sx={{
-                backgroundColor: modo == "ViewMessage" ? COLOR.grisTarjetaBienvenido : COLOR.blanco,
+                backgroundColor: modo === "ViewMessage" ? COLOR.grisTarjetaBienvenido : COLOR.blanco,
                 "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
               }}
             >

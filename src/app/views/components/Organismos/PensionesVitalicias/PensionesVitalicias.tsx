@@ -1,7 +1,7 @@
 import { AccountCircle } from "@mui/icons-material";
-import { FormControl, Grid, Input, InputAdornment, InputLabel, TextField } from "@mui/material";
+import { FormControl, Grid, Input, InputAdornment, InputLabel } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import { useState } from "react";
 import { messages } from "../../../styles";
 import ButtonsAdd from "../../menu/catalogos/Utilerias/ButtonsAdd";
 import MUIXDataGrid from "../../MUIXDataGrid";
@@ -30,7 +30,7 @@ const PensionesVitalicias = () => {
 
   return (
     <div>
-      <Box sx={{ display: step == 1 ? "block" : "none" }}>
+      <Box sx={{ display: step === 1 ? "block" : "none" }}>
         <Box sx={{ flexGrow: 1 }}>
           <Grid
             container
@@ -40,16 +40,9 @@ const PensionesVitalicias = () => {
             justifyContent="center"
             alignItems="center"
           >
-
-
-
             <Grid item xs={2} sm={4} md={4}>
-             
             </Grid>
-
             <Grid item xs={2} sm={4} md={4} >
-             
-             
               <FormControl variant="standard">
                 <InputLabel htmlFor="input-with-icon-adornment">
                   With a start adornment
@@ -63,10 +56,6 @@ const PensionesVitalicias = () => {
                   }
                 />
               </FormControl>
-
-
-
-             
 
             </Grid>
 
@@ -101,7 +90,7 @@ const PensionesVitalicias = () => {
           </Grid>
         </Box>
       </Box>
-      <Box sx={{ display: step == 0 ? "block" : "none" }}>
+      <Box sx={{ display: step === 0 ? "block" : "none" }}>
        <ButtonsAdd handleOpen={handleOpen} agregar={false} />
         <MUIXDataGrid columns={columns} rows={data} />
       </Box>

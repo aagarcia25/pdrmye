@@ -1,5 +1,5 @@
 import { GridColDef } from '@mui/x-data-grid';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Swal from 'sweetalert2';
 import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
@@ -18,9 +18,6 @@ const Permisos = () => {
     const [agregar, setAgregar] = useState<boolean>(false);
     const [editar, setEditar] = useState<boolean>(false);
     const [eliminar, setEliminar] = useState<boolean>(false);
-
-
-
     const [data, setData] = useState([]);
     const [open, setOpen] = useState(false);
     const [modo, setModo] = useState("");
@@ -33,12 +30,12 @@ const Permisos = () => {
 
     const handleAccion = (v: any) => {
       
-      if(v.tipo ==1){
+      if(v.tipo =1){
         setTipoOperacion(2);
         setModo("Editar Registro");
         setVrows(v.data);
         setOpen(true);
-      }else if(v.tipo ==2){
+      }else if(v.tipo ===2){
 
       Swal.fire({
         icon: "info",
@@ -75,7 +72,6 @@ const Permisos = () => {
       });
      }
 
-
     }
 
     const handleOpen = (v: any) => {
@@ -84,14 +80,6 @@ const Permisos = () => {
       setVrows("");
       setOpen(true);
     };
-
-  
-
-   
-      
-      
- 
- 
      const columns: GridColDef[] = [
          {
            field: "id",
@@ -158,20 +146,17 @@ const Permisos = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PRIVUSU") {
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
     });
-
-
-
     consulta({NUMOPERACION:4});
   }, []);
   return (

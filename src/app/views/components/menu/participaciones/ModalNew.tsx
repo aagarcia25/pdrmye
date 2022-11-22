@@ -1,5 +1,5 @@
 import { Box, Grid, IconButton, Input, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../services/catalogosServices";
 import SelectFrag from "../../Fragmentos/SelectFrag";
@@ -129,7 +129,7 @@ const ModalNew = ({
           isrnomina();
         }else{
           
-          if (monto == null ) {
+          if (monto === null ) {
             AlertS.fire({
               title: "Error!",
               text: "Favor de Completar los Campos",
@@ -175,9 +175,9 @@ const ModalNew = ({
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion, CHID: clave };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion == 2) {
+      if (operacion === 2) {
         setMeses(res.RESPONSE);
-      } else if (operacion == 15) {
+      } else if (operacion === 15) {
         setTipoCalculo(res.RESPONSE);
       }
     });
@@ -281,13 +281,13 @@ const ModalNew = ({
                 id="monto"
                 onChange={(v) => {
                     setMonto(Number(v.target.value))
-                    if(Number(v.target.value) == 0){
+                    if(Number(v.target.value) === 0){
                         setCzero(true);
                     }else{
                         setCzero(false);
                     }
                 }}
-                error={monto == null ? true : false}
+                error={monto? true : false}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>

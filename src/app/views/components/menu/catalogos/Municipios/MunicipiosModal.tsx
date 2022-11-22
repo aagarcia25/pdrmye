@@ -148,12 +148,12 @@ const MunFacturacionModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo == 1) {
+    if (tipo === 1) {
       //AGREGAR
       //console.log("A AGREGAR");
       agregar(data);
       
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       //console.log("A EDITAR");
 

@@ -91,7 +91,7 @@ export const CalculoGarantiaComponente = () => {
 
   ];
   const handleAccion = (v: any) => {
-    if (v.tipo == 1) {
+    if (v.tipo = 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
@@ -176,7 +176,7 @@ export const CalculoGarantiaComponente = () => {
 
   const handleUpload = (data: any) => {
 
-    if (data.tipo == 1) {
+    if (data.tipo === 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -204,7 +204,7 @@ export const CalculoGarantiaComponente = () => {
   
       });
     } 
-    else if (data.tipo == 2) {
+    else if (data.tipo === 2) {
       //console.log("borrado de toda la tabla")
       //console.log(selectionModel)
 
@@ -290,13 +290,13 @@ export const CalculoGarantiaComponente = () => {
         //console.log(item)
 
         setNombreMenu(item.Menu);
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }

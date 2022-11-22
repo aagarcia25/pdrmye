@@ -174,8 +174,6 @@ export const Fpg = () => {
       width: 200,
       description: "Estatus",
     },
-
- 
   ];
 
   const consultafondo = (data: any) => {
@@ -275,10 +273,13 @@ export const Fpg = () => {
                         />
             : ""}
 
+<<<<<<< Updated upstream
 
 
 
 
+=======
+>>>>>>> Stashed changes
       {step === 0 ?
         <div style={{ height: 600, width: "100%" }}>
           <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />

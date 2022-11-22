@@ -37,14 +37,11 @@ export const AnticipoParticipacionesAtenderModal = (
         {accion:'cancelar',  per:'ANA',  dep:"DAMOP", estatus:'DAMOP_CANCE_ANA'},
         {accion:'cancelar',  per:'COOR', dep:"DAMOP", estatus:'DAMOP_REG_COR_ANA'},
         {accion:'cancelar',  per:'DIR',  dep:"DAMOP", estatus:'DAMOP_REG_DIR_COOR'},
-        
-        
-  
     ]
     
     const acciones = (v: string) => {
         //console.log(v);
-        const accion = perfiles.find(({ accion, per, dep }) => accion === String(v) && per ===perfil && dep==departamento );
+        const accion = perfiles.find(({ accion, per, dep }) => accion === String(v) && per ===perfil && dep===departamento );
         if (accion?.accion === "autorizar") {
             //console.log(accion.accion+" accion de la busqueda")
             let d = {

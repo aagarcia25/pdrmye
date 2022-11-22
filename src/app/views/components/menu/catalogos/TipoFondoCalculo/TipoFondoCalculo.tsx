@@ -11,7 +11,6 @@ import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import {
   Box,
-  Button,
   Grid,
   IconButton,
   TextField,
@@ -118,11 +117,11 @@ const TipoFondoCalculo = () => {
 
   const handleAccion = (v: any) => {
     //console.log(v)
-    if (v.tipo == 2) {
+    if (v.tipo === 2) {
       setTipoOperacion(2);
       setVrows(v.data);
       setOpen(true);
-    } else if (v.tipo == 3) {
+    } else if (v.tipo === 3) {
       Swal.fire({
         icon: "info",
         title: "Estas seguro de eliminar este registro?",
@@ -200,13 +199,13 @@ const TipoFondoCalculo = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "TIPOCALCULO") {
         setNombreMenu(item.Menu);
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -254,7 +253,7 @@ const TipoFondoCalculo = () => {
                 fullWidth
                 variant="standard"
                 onChange={(v) => setTipoCalculo(v.target.value)}
-                error={tipoCalculo == null ? true : false}
+                error={tipoCalculo === null ? true : false}
               />
             </Grid>
 

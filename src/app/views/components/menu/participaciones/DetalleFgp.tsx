@@ -90,9 +90,9 @@ const DetalleFgp = ({
   // MANEJO DE ACCIONES
   const handleAcciones = (v: any) => {
     setOpenSlider(true);
-    if (v.tipo == 1) {
+    if (v.tipo === 1) {
       //console.log(v);
-    } else if (v.tipo == 2) {
+    } else if (v.tipo === 2) {
     } else {
       switch (v) {
         case 1: //Regresar
@@ -143,7 +143,7 @@ const DetalleFgp = ({
       CHUSER: user.id,
       TEXTO: data,
       PERFIL_DESTINO: perfilDestino,
-      AREA:area
+      AREA: area
     };
 
     calculosServices.indexCalculo(obj).then((res) => {
@@ -518,7 +518,7 @@ const DetalleFgp = ({
     <div>
       <Box>
         <Dialog open={Boolean(openDetalles)} fullScreen={true}>
-        <Slider open={openSlider}></Slider>
+          <Slider open={openSlider}></Slider>
 
           {openModal ? (
             <ModalCalculos
@@ -553,7 +553,7 @@ const DetalleFgp = ({
               </Box>
             </Grid>
           </Grid>
-        
+
           <Grid
             container
             spacing={1}
@@ -597,99 +597,97 @@ const DetalleFgp = ({
             </Grid>
           </Grid>
 
-
-
           <div style={{ height: 600, width: "100%" }}>
-              <Box>
-                <ToggleButtonGroup>
-                  <Tooltip title={"Regresar"}>
+            <Box>
+              <ToggleButtonGroup>
+                <Tooltip title={"Regresar"}>
+                  <ToggleButton
+                    value="check"
+                    onClick={() => handleAcciones(1)}
+                  >
+                    <ArrowBackIcon />
+                  </ToggleButton>
+                </Tooltip>
+
+                {verTrazabilidad ? (
+                  <Tooltip title={"Ver Trazabilidad"}>
                     <ToggleButton
                       value="check"
-                      onClick={() => handleAcciones(1)}
+                      onClick={() => handleAcciones(2)}
                     >
-                      <ArrowBackIcon />
+                      <InsightsIcon />
                     </ToggleButton>
                   </Tooltip>
+                ) : (
+                  ""
+                )}
 
-                  {verTrazabilidad ? (
-                    <Tooltip title={"Ver Trazabilidad"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(2)}
-                      >
-                        <InsightsIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
-
-                  {autorizar &&
-                  direccion?.value ==="CPH" &&
+                {autorizar &&
+                  direccion?.value === "CPH" &&
                   perfil?.value === "ANA" &&
                   user.PERFILES[0].Referencia === "ANA" ? (
-                    <Tooltip title={"Autorizar Analista"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(3)}
-                      >
-                        <DoneAllIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
+                  <Tooltip title={"Autorizar Analista"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(3)}
+                    >
+                      <DoneAllIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
 
-                  {autorizar &&
-                  direccion?.value =="CPH" &&
+                {autorizar &&
+                  direccion?.value == "CPH" &&
                   perfil?.value == "COOR" &&
                   user.PERFILES[0].Referencia == "COOR" ? (
-                    <Tooltip title={"Autorizar Coordinador"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(4)}
-                      >
-                        <DoneAllIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
+                  <Tooltip title={"Autorizar Coordinador"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(4)}
+                    >
+                      <DoneAllIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
 
-                  {cancelar &&
-                   direccion?.value =="CPH" &&
-                  perfil?.value == "ANA" &&
-                  user.PERFILES[0].Referencia == "ANA" ? (
-                    <Tooltip title={"Cancelar"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(6)}
-                      >
-                        <CancelPresentationIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
+                {cancelar &&
+                  direccion?.value === "CPH" &&
+                  perfil?.value === "ANA" &&
+                  user.PERFILES[0].Referencia === "ANA" ? (
+                  <Tooltip title={"Cancelar"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(6)}
+                    >
+                      <CancelPresentationIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
 
-                  {cancelar &&
-                   direccion?.value =="CPH" &&
-                  perfil?.value == "COOR" &&
-                  user.PERFILES[0].Referencia == "COOR" ? (
-                    <Tooltip title={"Regresar a Analista"}>
-                      <ToggleButton
-                        value="check"
-                        onClick={() => handleAcciones(7)}
-                      >
-                        <CompareArrowsIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
-                </ToggleButtonGroup>
-              </Box>
-              <MUIXDataGrid columns={columns} rows={data} />
+                {cancelar &&
+                  direccion?.value === "CPH" &&
+                  perfil?.value === "COOR" &&
+                  user.PERFILES[0].Referencia === "COOR" ? (
+                  <Tooltip title={"Regresar a Analista"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(7)}
+                    >
+                      <CompareArrowsIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
+              </ToggleButtonGroup>
+            </Box>
+            <MUIXDataGrid columns={columns} rows={data} />
           </div>
         </Dialog>
       </Box>

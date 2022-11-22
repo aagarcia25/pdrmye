@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import SelectValues from '../../../interfaces/Select/SelectValues'
 
@@ -27,14 +26,14 @@ const SelectFrag = ({
 
 
       <Select
-        value ={value != null ?options.find(element => element.value == value) :[]}
+        value ={value != null ?options.find(element => element.value === value) :[]}
         options={options}
         isDisabled={disabled}
         isClearable={true}
         isSearchable={true}
         backspaceRemovesValue={true}
         onChange={
-          (v) => (v == null) ?
+          (v) => (v === null) ?
           onInputChange(String(disabled))
             :
             onInputChange(v.value)
