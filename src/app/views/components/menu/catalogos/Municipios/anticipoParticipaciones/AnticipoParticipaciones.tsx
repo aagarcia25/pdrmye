@@ -56,14 +56,14 @@ export const AnticipoParticipaciones = () => {
 
 
     const consulta = () => {
-        console.log(user.DEPARTAMENTOS[0].NombreCorto)
-        console.log(user.PERFILES[0].Referencia)
+        //console.log(user.DEPARTAMENTOS[0].NombreCorto)
+        //console.log(user.PERFILES[0].Referencia)
         setPerfil(user.PERFILES[0].Referencia);
 
 
         if (user.DEPARTAMENTOS[0].NombreCorto == "DAMOP") {
             CatalogosServices.indexAPC({ NUMOPERACION: 1 }).then((res) => {
-                console.log(res.RESPONSE)
+                //console.log(res.RESPONSE)
                 setAPC(res.RESPONSE);
                 setDepartamento("DAMOP");
                
@@ -81,7 +81,7 @@ export const AnticipoParticipaciones = () => {
 
         CatalogosServices.indexAPC(data).then((res) => {
             setAPC(res.RESPONSE);
-            console.log(res.RESPONSE)
+            //console.log(res.RESPONSE)
 
         });
     };
@@ -89,7 +89,7 @@ export const AnticipoParticipaciones = () => {
 
         setOpenTraz(true);
         setIdSolicitud(v.row.id)
-        console.log(v.row.id);
+        //console.log(v.row.id);
     };
   
 
@@ -206,7 +206,7 @@ export const AnticipoParticipaciones = () => {
     ];
 
     const handleSeg = (data: any, estatus: string,) => {
-        console.log(estatus);
+        //console.log(estatus);
         if ((estatus != "AUTORIZAR" && estatus != "CANCELADO")) {
             let d = {
                 NUMOPERACION: 7,
@@ -228,7 +228,7 @@ export const AnticipoParticipaciones = () => {
                 if (result.isConfirmed) {
                     CatalogosServices.SolicitudesInfo(d).then((res) => {
                         if (res.SUCCESS) {
-                            console.log(res.RESPONSE)
+                            //console.log(res.RESPONSE)
                             handleClose();
                         } else {
 
@@ -262,13 +262,13 @@ export const AnticipoParticipaciones = () => {
     }
 
     const handleDetalle = (v: any) => {
-        console.log(String(v.row.id))
+        //console.log(String(v.row.id))
         setIdPrincipal(String(v.row.id));
         setData(v.row);
         setOpen(true);
     };
     const handleClonar = (v: any) => {
-        console.log(String(v.row.id))
+        //console.log(String(v.row.id))
         setIdPrincipal(String(v.row.id));
 
         let d = {
@@ -298,7 +298,7 @@ export const AnticipoParticipaciones = () => {
 
                         CatalogosServices.indexAPC(data).then((res) => {
                             setAPC(res.RESPONSE);
-                            console.log(res.RESPONSE)
+                            //console.log(res.RESPONSE)
 
                         });
                     } else {
@@ -340,13 +340,13 @@ export const AnticipoParticipaciones = () => {
     };
 
     const test = () => {
-        console.log(hoy.getMonth() + "  " + hoy.getFullYear())
+        //console.log(hoy.getMonth() + "  " + hoy.getFullYear())
 
 
     };
 
     useEffect(() => {
-        console.log("");
+        //console.log("");
         consulta();
         permisos.map((item: PERMISO) => {
             if (String(item.ControlInterno) === "MUNAPC") {

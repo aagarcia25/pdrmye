@@ -91,7 +91,7 @@ export const Art14fP = () => {
         String(item.ControlInterno) === "ART14F2" ||
         String(item.ControlInterno) === "ART14F3"
       ) {
-        console.log(item);
+        //console.log(item);
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }

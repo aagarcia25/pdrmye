@@ -50,7 +50,7 @@ const Usuarios = () => {
   };
 
   const handleEdit = (v: any) => {
-    console.log(v);
+    //console.log(v);
     setTipoOperacion(5);
     setDt(v.row);
     setOpenNew(true);
@@ -59,10 +59,10 @@ const Usuarios = () => {
   const handleActivo = (v: any) => {
 
     let data = "?userId=" + v.row.id;
-    console.log(data)
+    //console.log(data)
     UserServices.ActivateUser(data).then((res) => {
-      console.log(res)
-      console.log(v.row.id);
+      //console.log(res)
+      //console.log(v.row.id);
 
       if (res.status == 200) {
 
@@ -110,14 +110,14 @@ const Usuarios = () => {
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-          console.log(v);
+          //console.log(v);
   
           let data = {
             NUMOPERACION: 3,
             CHID: v.row.id,
             CHUSER: user.id
           };
-          console.log(data);
+          //console.log(data);
   
           CatalogosServices.munfacturacion(data).then((res) => {
             if (res.SUCCESS) {

@@ -71,14 +71,14 @@ const SolicitudRecursos = () => {
         setDepartamento("DAMOP")
 
         setSolicitud(res.RESPONSE);
-        console.log(res.RESPONSE)
+        //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
     } else if (user.DEPARTAMENTOS[0].NombreCorto == "DPCP") {
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
         setDepartamento("DPCP")
         setSolicitud(res.RESPONSE);
-        console.log(res.RESPONSE)
+        //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
     } else if (user.DEPARTAMENTOS[0].NombreCorto == "MUN") {
@@ -86,7 +86,7 @@ const SolicitudRecursos = () => {
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 4, CHUSER: user.id }).then((res) => {
         setDepartamento("MUN")
         setSolicitud(res.RESPONSE);
-        console.log(res.RESPONSE)
+        //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
     }
@@ -265,7 +265,7 @@ const SolicitudRecursos = () => {
   ];
 
   const handleSeg = (data: any, estatus: string,) => {
-    console.log(estatus);
+    //console.log(estatus);
     if ((estatus != "AUTORIZAR" && estatus != "CANCELADO")) {
       let d = {
         NUMOPERACION: 5,
@@ -289,7 +289,7 @@ const SolicitudRecursos = () => {
         if (result.isConfirmed) {
           CatalogosServices.SolicitudesInfo(d).then((res) => {
             if (res.SUCCESS) {
-              console.log(res.RESPONSE)
+              //console.log(res.RESPONSE)
               handleClose();
             } else {
 
@@ -346,7 +346,7 @@ const SolicitudRecursos = () => {
 
   };
   const handleBorrar = (v: any) => {
-console.log(v);
+//console.log(v);
 
 let d = {
   NUMOPERACION: 8,
@@ -366,7 +366,7 @@ Swal.fire({
   if (result.isConfirmed) {
     CatalogosServices.SolicitudesInfo(d).then((res) => {
       if (res.SUCCESS) {
-        console.log(res.RESPONSE)
+        //console.log(res.RESPONSE)
         handleClose();
       } else {
 
@@ -392,24 +392,24 @@ Swal.fire({
   const handleVisualizar = (v: any) => {
     setModo("ver");
     setOpen(true);
-    console.log(v.row)
+    //console.log(v.row)
     setData(v.row);
 
   };
   const handleVisualizarDetalles = (v: any) => {
     setModo("verDetalles");
     setOpen(true);
-    console.log(v.row)
+    //console.log(v.row)
     setData(v.row);
 
   };
 
   useEffect(() => {
-    console.log(hoy.getMonth() + "  " + hoy.getFullYear());
+    //console.log(hoy.getMonth() + "  " + hoy.getFullYear());
     setPerfil(user.PERFILES[0].Referencia);
-    console.log(permisos.map)
-    console.log("departamento  " + user.DEPARTAMENTOS[0].NombreCorto)
-    console.log("perfil " + user.PERFILES[0].Referencia)
+    //console.log(permisos.map)
+    //console.log("departamento  " + user.DEPARTAMENTOS[0].NombreCorto)
+    //console.log("perfil " + user.PERFILES[0].Referencia)
     setPerfil(user.PERFILES[0].Referencia);
 
     permisos.map((item: PERMISO) => {

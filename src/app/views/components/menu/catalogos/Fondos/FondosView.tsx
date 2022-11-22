@@ -57,7 +57,7 @@ const FondosView = ({
         AuthService.FondosAjustes(data).then((res) => {
             setData(res.RESPONSE);
             setOpenSlider(false);
-            console.log(res)
+            //console.log(res)
         });
 
     };
@@ -66,8 +66,8 @@ const FondosView = ({
     const handleChange = (v: any) => {
 
         if (openRel != true) {
-            console.log("ajuste -- " + v?.row);
-            console.log("id ajuste --- " + v?.row?.id,);
+            //console.log("ajuste -- " + v?.row);
+            //console.log("id ajuste --- " + v?.row?.id,);
             AuthService.FondosRelAjuste(
                 {
                     TIPO: 1,
@@ -95,8 +95,8 @@ const FondosView = ({
             });
         }
         else {
-            console.log("ajuste -- " + v?.row);
-            console.log("id ajuste --- " + v?.row?.id,);
+            //console.log("ajuste -- " + v?.row);
+            //console.log("id ajuste --- " + v?.row?.id,);
             AuthService.FondosRelAjuste(
                 {
                     TIPO: 2,
@@ -162,8 +162,8 @@ const FondosView = ({
 
     useEffect(() => {
         handleAjustesRel();
-        console.log(dt?.row);
-        console.log("id fondo--- " + dt?.row?.id);
+        //console.log(dt?.row);
+        //console.log("id fondo--- " + dt?.row?.id);
         setDescripcion(dt?.row?.Descripcion);
         setIdFondo(dt?.row?.id);
     }, []);

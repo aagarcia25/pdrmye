@@ -168,14 +168,14 @@ const Fondos = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.fondos(data).then((res) => {
           if (res.SUCCESS) {
@@ -223,7 +223,7 @@ const Fondos = () => {
 
       if (String(item.ControlInterno) === "FONDOS") {
         setNombreMenu(item.Menu);
-        console.log(item.Menu)
+        //console.log(item.Menu)
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }

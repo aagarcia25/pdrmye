@@ -66,7 +66,7 @@ const ModalAlert = ({
   }
   useEffect(() => {
 
-    console.log(vrows);
+    //console.log(vrows);
 
 
   }, []);

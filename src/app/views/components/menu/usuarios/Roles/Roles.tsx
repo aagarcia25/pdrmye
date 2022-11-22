@@ -167,7 +167,7 @@ const Roles = () => {
 
   const consulta = (data: any) => {
     AuthService.rolesindex(data).then((res) => {
-      console.log(res);
+      //console.log(res);
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",

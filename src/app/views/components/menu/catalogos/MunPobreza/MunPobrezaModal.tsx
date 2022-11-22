@@ -79,7 +79,7 @@ const MunPobrezaModal = ({
 
 
   const handleRequest = (data: any) => {
-    console.log(data);
+    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -138,7 +138,7 @@ const MunPobrezaModal = ({
     setMunicipios(municipiosc());
 
     if (dt === '') {
-      console.log(dt)
+      //console.log(dt)
 
     } else {
       setId(dt?.row?.id)

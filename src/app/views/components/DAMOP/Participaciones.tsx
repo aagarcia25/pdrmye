@@ -150,7 +150,7 @@ const Participaciones = () => {
 
 
   const Fnworkflow = (data: string) => {
-    console.log(data);
+    //console.log(data);
 
     let obj = {
       NUMOPERACION:1,
@@ -160,7 +160,7 @@ const Participaciones = () => {
       ESTATUS:'DPCP_INICIO'
     
     };
-    console.log(obj);
+    //console.log(obj);
 
     DAMOPServices.PA(obj).then((res) => {
       if (res.SUCCESS) {
@@ -183,8 +183,8 @@ const Participaciones = () => {
 
 
   const SolicitudOrdenPago = () => {
-    console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
-    console.log(selectionModel);
+    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
+    //console.log(selectionModel);
     //setOpenModal(true);
 
     Swal.fire({
@@ -201,7 +201,7 @@ const Participaciones = () => {
           OBJS: selectionModel,
           CHUSER:user.id
       };
-console.log(data);
+//console.log(data);
           // CatalogosServices.BitacoraAjustes({
           //     NUMOPERACION: v == "autorizar" ? 2 : 3,
           //     CHID: idCambio,
@@ -209,7 +209,7 @@ console.log(data);
           //     COMENTARIO: comentario
           // }).then((res) => {
           //     if (res.SUCCESS) {
-          //         console.log(res.RESPONSE)
+          //         //console.log(res.RESPONSE)
           //         handleClose();
           //     } else {
 
@@ -236,14 +236,14 @@ console.log(data);
   };
 
   const handleClick = () => {
-    console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
+    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
     let data = {
       P_FONDO: idFondo == "false" ? "" : idFondo,
       P_IDMUNICIPIO: idMunicipio == "false" ? "" : idMunicipio,
       P_IDTIPO: idtipo == "false" ? "" : idtipo,
     };
-    console.log(data);
+    //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({

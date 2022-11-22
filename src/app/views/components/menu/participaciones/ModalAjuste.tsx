@@ -63,7 +63,7 @@ const ModalAjuste = ({
       };
       CatalogosServices.AjustesIndex(data).then((res) => {
         if (res.SUCCESS) {
-          console.log(res.RESPONSE);
+          //console.log(res.RESPONSE);
           setLabelAjuste(Number(res.RESPONSE.keys));
          
         } else {

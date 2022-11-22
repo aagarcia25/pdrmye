@@ -86,7 +86,7 @@ const InflacionMes = () => {
   };
 
   const handleEdit = (v: any) => {
-    console.log(v)
+    //console.log(v)
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
@@ -103,14 +103,14 @@ const InflacionMes = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.inflacionMes(data).then((res) => {
           if (res.SUCCESS) {
@@ -158,7 +158,7 @@ const InflacionMes = () => {
     
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "INFMES") {
-        console.log(item)
+        //console.log(item)
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }

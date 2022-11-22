@@ -70,7 +70,7 @@ export const ListNotification = () => {
 
   const viewMessageModal = (v: any) => {
     setTipoOperacion(6);
-    console.log(v.row)
+    //console.log(v.row)
     if (v.row.Visto === "0") {
       setDestinatario(v.row.destinatario)
       setRemitente(v.row.origen)
@@ -122,13 +122,13 @@ export const ListNotification = () => {
 
   const testeoVariables = () => {
 
-    console.log("tipo de operacio  " + tipoOperacion);
-    console.log("modo de operacion  " + modo);
+    //console.log("tipo de operacio  " + tipoOperacion);
+    //console.log("modo de operacion  " + modo);
 
   }
 
   const handleClose = (v: string) => {
-    console.log("valor de v  " + v)
+    //console.log("valor de v  " + v)
     if (v === "9") {
       setModo("MessageSend");
       setOpen(false);
@@ -158,7 +158,7 @@ export const ListNotification = () => {
 
   useEffect(() => {
 
-    console.log(user.PERFILES[0].Referencia)
+    //console.log(user.PERFILES[0].Referencia)
     setPerfil(user.PERFILES[0].Referencia)
 
     let dat = {

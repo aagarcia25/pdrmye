@@ -178,7 +178,7 @@ if(v=="save"){
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "AVISOS") {
-        console.log(item)
+        //console.log(item)
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }

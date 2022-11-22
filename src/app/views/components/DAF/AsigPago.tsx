@@ -374,7 +374,7 @@ const AsigPago = () => {
 
   const handleFilterChange3 = (v: string) => {
     setIdproceso(v);
-    console.log(v);
+    //console.log(v);
     if (v !== "false") {
       let subArray = procesos.filter((val) => val.value == v);
       if (subArray[0]["label"] == "Anticipo de Participaciones") {
@@ -407,19 +407,19 @@ const AsigPago = () => {
   const [selectionModel, setSelectionModel] =
     React.useState<GridSelectionModel>([]);
   const FinalizarProceso = () => {
-    console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
-    console.log(selectionModel);
+    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
+    //console.log(selectionModel);
     setOpenModal(true);
   };
 
   const AsignarPresupuesto = () => {
-    console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
-    console.log(selectionModel);
+    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
+    //console.log(selectionModel);
     setOpenModal(true);
   };
 
   const handleClick = () => {
-    console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
+    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
     let data = {
       P_FONDO: idFondo == "false" ? "" : idFondo,
@@ -428,7 +428,7 @@ const AsigPago = () => {
       P_IDPROCESO: idProceso == "false" ? "" : idProceso,
       P_IDESTATUS: idEstatus == "false" ? "" : idEstatus,
     };
-    console.log(data);
+    //console.log(data);
     DPCPServices.ConsultaDPCP(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({

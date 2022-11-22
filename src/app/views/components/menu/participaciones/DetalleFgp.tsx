@@ -92,7 +92,7 @@ const DetalleFgp = ({
   const handleAcciones = (v: any) => {
     setOpenSlider(true);
     if (v.tipo == 1) {
-      console.log(v);
+      //console.log(v);
     } else if (v.tipo == 2) {
     } else {
       switch (v) {
@@ -137,7 +137,7 @@ const DetalleFgp = ({
   };
 
   const Fnworkflow = (data: string) => {
-    console.log(data);
+    //console.log(data);
 
     let obj = {
       CHID: idCalculo,
@@ -147,7 +147,7 @@ const DetalleFgp = ({
       PERFIL_DESTINO: perfilDestino,
       AREA:area
     };
-    console.log(obj);
+    //console.log(obj);
 
     calculosServices.indexCalculo(obj).then((res) => {
       if (res.SUCCESS) {
@@ -175,7 +175,7 @@ const DetalleFgp = ({
       MES: mes.split(",")[0],
     };
 
-    console.log(data);
+    //console.log(data);
     Swal.fire({
       icon: "question",
       title: "Borrar Cálculo",
@@ -257,7 +257,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         const cl: columnasCal[] = res.RESPONSE;
         cl.map((item) => {
-          console.log(item.keys);
+          //console.log(item.keys);
           switch (item.keys) {
             case 0:
               break;

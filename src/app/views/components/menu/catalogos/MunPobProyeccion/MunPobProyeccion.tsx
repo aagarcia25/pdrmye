@@ -135,7 +135,7 @@ export const MunPobProyeccion = () => {
 
 
   const handleClose = () => {
-    console.log('cerrando');
+    //console.log('cerrando');
     setOpen(false);
     let data = {
       NUMOPERACION: 4,
@@ -156,7 +156,7 @@ export const MunPobProyeccion = () => {
 
 
   const handleEditar = (v: any) => {
-    console.log(v)
+    //console.log(v)
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
@@ -183,8 +183,8 @@ export const MunPobProyeccion = () => {
 
     } 
     else if (data.tipo == 2) {
-      console.log("borrado de toda la tabla")
-      console.log(selectionModel)
+      //console.log("borrado de toda la tabla")
+      //console.log(selectionModel)
 
       if(selectionModel.length!==0){
       Swal.fire({
@@ -202,7 +202,7 @@ export const MunPobProyeccion = () => {
            OBJS: selectionModel,
            CHUSER: user.id
           };
-          console.log(data);
+          //console.log(data);
   
           CatalogosServices.munproyec(data).then((res) => {
             if (res.SUCCESS) {

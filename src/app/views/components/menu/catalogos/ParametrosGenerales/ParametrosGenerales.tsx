@@ -28,7 +28,7 @@ export const ParametrosGenerales = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
 
-  console.log("parametroGeneral", parametroGeneral);
+  //console.log("parametroGeneral", parametroGeneral);
 
   const columns: GridColDef[] = [
     {
@@ -98,7 +98,7 @@ export const ParametrosGenerales = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
         const user: RESPONSE = JSON.parse(String(getUser()));
 
         let data = {
@@ -106,7 +106,7 @@ export const ParametrosGenerales = () => {
           CHID: v.row.id,
           CHUSER: user.id,
         };
-        console.log(data);
+        //console.log(data);
 
         ParametroServices.ParametroGeneralesIndex(data).then((res) => {
           if (res.SUCCESS) {
@@ -142,9 +142,9 @@ export const ParametrosGenerales = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        console.log(data);
+        //console.log(data);
         setParametroGeneral(res.RESPONSE);
-        console.log("parametroGeneral consulta", parametroGeneral);
+        //console.log("parametroGeneral consulta", parametroGeneral);
       } else {
         AlertS.fire({
           title: "Error!",
@@ -158,7 +158,7 @@ export const ParametrosGenerales = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PG") {
-        console.log(item)
+        //console.log(item)
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }

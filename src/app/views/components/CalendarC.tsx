@@ -31,11 +31,11 @@ const CalendarC = () => {
   const [id, setId] = useState("");
   const today = new Date();
 
-  console.log("modo", modo);
+  //console.log("modo", modo);
 
   const onSelectEvent = (v: any) => {
 
-    console.log(v);
+    //console.log(v);
     setId(v.id);
     setTipoOperacion(2);
     setModo("Editar Evento");
@@ -60,7 +60,7 @@ const CalendarC = () => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
-    console.log("SelectSlot fecha inicio", Fecha_inicio, " Fecha fin ", Fecha_fin);
+    //console.log("SelectSlot fecha inicio", Fecha_inicio, " Fecha fin ", Fecha_fin);
 
   };
 
@@ -147,7 +147,7 @@ const CalendarC = () => {
 
 
   const moviendoEventos = (v: any) => {
-    console.log(v);
+    //console.log(v);
 
   }
 

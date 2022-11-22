@@ -94,14 +94,14 @@ export const Eventos = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.eventos(data).then((res) => {
           if (res.SUCCESS) {
@@ -150,7 +150,7 @@ export const Eventos = () => {
   };
 
   const handleClose = () => {
-    console.log('cerrando');
+    //console.log('cerrando');
     setOpen(false);
     let data = {
       NUMOPERACION: 4,
@@ -189,7 +189,7 @@ export const Eventos = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "EVENTOS") {
-        console.log(item)
+        //console.log(item)
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }
@@ -202,7 +202,7 @@ export const Eventos = () => {
       }
     });
     CatalogosServices.eventos(dat).then((res) => {
-      //  console.log(res);
+      //  //console.log(res);
       setEventos(res.RESPONSE);
     });
   }, []);

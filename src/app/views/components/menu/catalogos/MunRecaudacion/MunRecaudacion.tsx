@@ -122,14 +122,14 @@ export const MunRecaudacion = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.munrecaudacion(data).then((res) => {
           if (res.SUCCESS) {
@@ -200,7 +200,7 @@ export const MunRecaudacion = () => {
            OBJS: selectionModel,
            CHUSER: user.id
           };
-          console.log(data);
+          //console.log(data);
   
           CatalogosServices.munrecaudacion(data).then((res) => {
             if (res.SUCCESS) {
@@ -271,7 +271,7 @@ export const MunRecaudacion = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNRECAU") {
-        console.log(item)
+        //console.log(item)
         setNombreMenu(item.Menu);
 
         if (String(item.Referencia) == "ELIM") {

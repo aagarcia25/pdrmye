@@ -174,8 +174,8 @@ export const MunPobrezaExtrema = () => {
 
     } 
     else if (data.tipo == 2) {
-      console.log("borrado de toda la tabla")
-      console.log(selectionModel)
+      //console.log("borrado de toda la tabla")
+      //console.log(selectionModel)
 
       if(selectionModel.length!==0){
       Swal.fire({
@@ -193,7 +193,7 @@ export const MunPobrezaExtrema = () => {
            OBJS: selectionModel,
            CHUSER: user.id
           };
-          console.log(data);
+          //console.log(data);
   
           CatalogosServices.munpobrezaext(data).then((res) => {
             if (res.SUCCESS) {

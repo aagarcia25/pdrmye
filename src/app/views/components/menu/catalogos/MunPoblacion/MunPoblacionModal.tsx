@@ -70,7 +70,7 @@ const MunPoblacionModal = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const handleSelectMun = (v: SelectValues) => {
-    console.log(v)
+    //console.log(v)
     setMunSeleccionado(v.value);
   };
 
@@ -99,7 +99,7 @@ const MunPoblacionModal = ({
 
 
   const handleRequest = (data: any) => {
-    console.log(data);
+    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -156,7 +156,7 @@ const MunPoblacionModal = ({
     setMunicipios(municipiosc());
 
     if (dt === '') {
-      console.log(dt)
+      //console.log(dt)
 
     } else {
       setId(dt?.row?.id)
@@ -164,19 +164,19 @@ const MunPoblacionModal = ({
       setPoblacion(dt?.row?.totalPob)
       setMunSeleccionado(dt?.row?.idmunicipio)
 
-      console.log(dt.row)
+      //console.log(dt.row)
       // =======
       //     municipiosc();
 
       //     if(dt === ''  ){
-      //         console.log(dt)
+      //         //console.log(dt)
 
       //     }else{
       //         setId(dt?.row?.id)
       //         setAnio(dt?.row?.Anio)
       //         setPoblacion(dt?.row?.totalPob
       //           )
-      //         console.log(dt)
+      //         //console.log(dt)
       //       ///  setIdPoblacion(dt?.row?.idmunicipio)
     }
 

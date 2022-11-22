@@ -40,8 +40,8 @@ const TrazabilidadSolicitud = ({
       if (res.SUCCESS) {
         const obj: Itrazabilidad[] = res.RESPONSE;
         setdata(obj);
-        console.log(dt);
-        console.log(res);
+        //console.log(dt);
+        //console.log(res);
         setOpenSlider(false);
       } else {
         setOpenSlider(false);
