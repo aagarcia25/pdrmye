@@ -74,17 +74,17 @@ const TipoFondoModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo == 1) {
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
   };
 
   const handleSend = () => {
-    if (descripcion == "") {
+    if (descripcion === "") {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -134,7 +134,7 @@ const TipoFondoModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setClave(v.target.value)}
-              error={clave == "" ? true : false}
+              error={clave === "" ? true : false}
             />
 
             <TextField
@@ -147,7 +147,7 @@ const TipoFondoModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setDescripcion(v.target.value)}
-              error={descripcion == "" ? true : false}
+              error={descripcion === "" ? true : false}
             />
           </Box>
         </DialogContent>

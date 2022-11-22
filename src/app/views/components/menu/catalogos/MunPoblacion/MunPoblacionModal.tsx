@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
   Box,
-  FormControl,
-  InputLabel,
   TextField,
   InputAdornment,
-  DialogActions,
   Grid,
   Button,
 } from "@mui/material";
@@ -18,7 +13,6 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import ModalForm from "../../../componentes/ModalForm";
 
@@ -45,32 +39,9 @@ const MunPoblacionModal = ({
   const [poblacion, setPoblacion] = useState<number>();
   const [municipios, setMunicipios] = useState<SelectValues[]>([]);
   const [munSeleccionado, setMunSeleccionado] = useState<string>();
-  // =======
-  //   const [anio, setAnio] = useState("");
-  //   const [Poblacion, setPoblacion] = useState("");
-  //   const [idPoblacion, setIdPoblacion] = useState("");
-
-  //   const [values, setValues] = useState<Imunicipio[]>();
-
-
-
-
-  //   const municipiosc = () => {
-  //     let data = {};
-  //     if (!validaLocalStorage("FiltroMunicipios")) {
-  //       CatalogosServices.Filtromunicipios(data).then((res) => {
-  //         setMunicipios(res.RESPONSE);
-  //       });
-  //     }
-  //     let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
-  //     setValues(m);
-  //   };
-  // >>>>>>> Stashed changes
-
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const handleSelectMun = (v: SelectValues) => {
-    //console.log(v)
     setMunSeleccionado(v.value);
   };
 
@@ -164,20 +135,6 @@ const MunPoblacionModal = ({
       setPoblacion(dt?.row?.totalPob)
       setMunSeleccionado(dt?.row?.idmunicipio)
 
-      //console.log(dt.row)
-      // =======
-      //     municipiosc();
-
-      //     if(dt === ''  ){
-      //         //console.log(dt)
-
-      //     }else{
-      //         setId(dt?.row?.id)
-      //         setAnio(dt?.row?.Anio)
-      //         setPoblacion(dt?.row?.totalPob
-      //           )
-      //         //console.log(dt)
-      //       ///  setIdPoblacion(dt?.row?.idmunicipio)
     }
 
   }, [dt]);

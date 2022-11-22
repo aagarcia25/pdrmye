@@ -73,10 +73,10 @@ const InflacionMesModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo == 1) {
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -146,7 +146,7 @@ const InflacionMesModal = ({
             onChange={(v) => setAnio(Number(v.target.value))}
             error={anio == null ? true : false}
             InputProps={{
-              readOnly: tipo == 1 ? false : true,
+              readOnly: tipo === 1 ? false : true,
               inputMode: "numeric",
             }}
           />
