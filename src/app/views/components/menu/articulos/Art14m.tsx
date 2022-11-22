@@ -31,22 +31,18 @@ const Art14m = ({
   tipo: Number;
 }) => {
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [slideropen, setslideropen] = useState(false);
-
-
- 
+  const [slideropen, setslideropen] = useState(true);
   const [importe, setImporte] = useState<Array<number>>([]);
   const [importeDistri, setimporteDistri] = useState<Array<number>>([]);
-
-
   const [fondos, setFondos] = useState([]);
-
-
-
-
-
+  const [montoaniopasado, setmontoaniopasado] = useState<number>();
   const [monto, setMonto] = useState<number>();
 
+
+  const handleMontos = (v: number ) => {
+    setmontoaniopasado(v);
+    setMonto((importeDistri.reduce((a, b) => a + b, 0)) - v );
+  };
 
 
   const handleclose = () => {
@@ -58,22 +54,22 @@ const Art14m = ({
     CatalogosServices.fondos(data).then((res) => {
       setFondos(res.RESPONSE);
     });
+    setslideropen(false);
   };
 
   const handleVersion = () => {
-    console.log(importeDistri.reduce((a, b) => a + b, 0))
-  /*  if (monto == null) {
+    if (monto == null) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
-    } else {*/
+    } else {
       let data = {
         CLAVE: tipo,
         CHUSER: user.id,
         ANIO: 2022,
-        IMPORTE: importeDistri.reduce((a, b) => a + b, 0),
+        IMPORTE: monto,
       };
 
       Swal.fire({
@@ -92,7 +88,7 @@ const Art14m = ({
           });
         }
       });
-   // }
+    }
   };
 
 
@@ -109,6 +105,7 @@ const Art14m = ({
 
   return (
     <div>
+    <Slider open={slideropen}></Slider>
       <Grid container spacing={1} sx={{ justifyContent: "center" }}>
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
           <Tooltip title="Presupuesto de Egreso de la Federación">
@@ -227,7 +224,6 @@ const Art14m = ({
                 placeholder="1500000*"
                 id="montodistri"
                 value={importeDistri[x]}
-                // onChange={(v) => setMonto( importeDistri)}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
@@ -248,6 +244,33 @@ const Art14m = ({
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
         <Grid container spacing={1} sx={{ justifyContent: "center" }}>
         <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "center" }}>
+        <Tooltip title="Solo Aplica para el Articulo 1 en los demas se debe poner un cero (0) ">
+        <Typography sx={{ fontFamily: "MontserratMedium" }}>
+            Total Distribuido Año Pasado:
+        </Typography>
+        </Tooltip>
+        </Grid>
+        <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "center" }}>
+              <Input
+                sx={{ fontWeight: "MontserratMedium" }}
+                required
+                placeholder="1500000*"
+                type="number"
+                id="montoaniopasado"
+                value={montoaniopasado}
+                error={montoaniopasado == null ? true : false}
+                onChange={(v) => handleMontos(parseInt(v.target.value))}
+                startAdornment={<InputAdornment position="start">$</InputAdornment>}
+              ></Input>
+        </Grid>
+
+        
+        </Grid>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
+        <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+        <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "center" }}>
         <Typography sx={{ fontFamily: "MontserratMedium" }}>
             Total:
         </Typography>
@@ -258,13 +281,14 @@ const Art14m = ({
                 required
                 placeholder="1500000*"
                 id="monto"
-                value={importeDistri.reduce((a, b) => a + b, 0)}
+                value={monto}
                 error={monto == null ? true : false}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
         </Grid>
 
+        
         </Grid>
         </Grid>
        
@@ -275,19 +299,7 @@ const Art14m = ({
         </Grid>
        
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
-        <IconButton
-              onClick={handleVersion}
-              sx={{
-                borderRadius: 1,
-                border: 1,
-                bgcolor: COLOR.negro,
-                color: COLOR.blanco,
-                "&:hover": {
-                  bgcolor: COLOR.grisTarjetaBienvenido,
-                  color: COLOR.negro,
-                },
-              }}
-            >
+        <IconButton onClick={handleVersion}            >
               <CalculateIcon />
               Calcular
             </IconButton>

@@ -30,6 +30,9 @@ export default function MUIXDataGrid(props: any) {
               label:"Buscar",
               showQuickFilter: true,
               quickFilterProps: { debounceMs: 500 },
+              csvOptions:{  fileName: 'Export',
+              utf8WithBom: true,
+             }
             },
           }}
           localeText={{

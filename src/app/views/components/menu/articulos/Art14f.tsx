@@ -27,6 +27,7 @@ export const Art14f = () => {
 
   const columnsArticulo14f1: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   ,hide: true},
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 150 , description:"Clave del Estado"},
     { field: "Nombre", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
     { field: "Facturacion1", headerName: "Facturación", width: 150 ,description:"BGt-2",...Moneda},
     { field: "Recaudacion1", headerName: "Recaudación", width: 150 ,description:"RPt-1",...Moneda},
@@ -65,7 +66,7 @@ export const Art14f = () => {
 
   const columnsArticulo14f2: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   ,hide: true},
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 150 , description:""},
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 150 , description:"Clave del Estado"},
     { field: "Nombre", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
     { field: "Poblacion", headerName: "Población", width: 150 ,description:"PO"},
     { field: "Coeficientepoblacion", headerName: "Coeficiente Población", width: 150 ,description:"POi/∑POi "},
@@ -89,6 +90,7 @@ export const Art14f = () => {
 
   const columnsArticulo14f3: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150   ,hide: true},
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 150 , description:"Clave del Estado"},
     { field: "Nombre", headerName: "Municipio", width: 150 , description:"Nombre del Municipio"},
     { field: "Facturacion1", headerName: "Facturación", width: 150 ,description:"BGt-1"},
     { field: "Recaudacion1", headerName: "Recaudación (Ri,t-1)", width: 150 ,description:"Ri,t-1 "},
@@ -99,7 +101,6 @@ export const Art14f = () => {
     { field: "Tasa2", headerName: "Tasa>0", width: 150 ,description:" "},
     { field: "CoeficienteCrecimientoRecaudacion", headerName: "Coeficiente Crecimiento Recaudación", width: 300 ,description:"CCRi,t=CRi,t /∑CRi,t"},
     { field: "CoeficienteimpuestoPredial", headerName: "Coeficiente por Monto de Recaudación Impuesto Predial", width: 300 ,description:"REi,t = Ri,t-1 /∑Ri,t-1"},
-
     { field: "A1_1", headerName: "Distribución por Eficiencia en la Recaudación", width: 300 ,description:"50%"},
     { field: "A1_2", headerName: "Distribución Crecimiento Recaudación", width: 300 ,description:"30%"},
     { field: "A1_3", headerName: "Distribución por Recaudación", width: 300 ,description:"20%"},

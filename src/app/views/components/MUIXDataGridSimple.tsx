@@ -24,11 +24,14 @@ export default function MUIXDataGridSimple(props: any) {
             pageSize={20}
             columns={props.columns}
             rows={props.rows}
-            sx={{ fontFamily: "Poppins", textTransform: "uppercase " }}
+            sx={{ fontFamily: "sans-serif", textTransform: "uppercase " }}
             componentsProps={{
               toolbar: {
                 showQuickFilter: true,
                 quickFilterProps: { debounceMs: 500 },
+                csvOptions:{  fileName: 'Export',
+                  utf8WithBom: true,
+                 }
               },
             }}
             localeText={{

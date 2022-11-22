@@ -134,7 +134,7 @@ const EliminarPermisosRol = ({
               <Typography
                 sx={{
                   textAlign: "center",
-                  fontFamily: "MontserratMedium",
+                  fontFamily: "sans-serif",
                   fontSize: "2vw",
                   color: "#808080",
                 }}

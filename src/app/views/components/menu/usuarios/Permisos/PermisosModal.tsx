@@ -118,15 +118,14 @@ const PermisosModal = ({
 
 
   return (
-    <div>
+    <div >
       <Dialog open={open} fullScreen>
-    <ModalForm title={modo} handleClose={handleClose}>
+        <ModalForm title={modo} handleClose={handleClose}>
+          <Box   display="flex" justifyContent="center" boxShadow={2} maxWidth="100%" >
 
+            <Box maxWidth="100%"  sx={{ padding:"2%" }}>
 
-    <DialogContent>
-          <Box>
-
-
+            <Box maxWidth="65%">
           <SelectFrag
               value={idMenu}
               options={menus}
@@ -135,7 +134,7 @@ const PermisosModal = ({
               label={""}
               disabled={false}
             />
-
+             </Box>  
 
             <TextField
               required
@@ -174,7 +173,7 @@ const PermisosModal = ({
               margin="dense"
               required
               id="ci"
-              label="Control Interno"
+              label="Control sdfsdf Interno"
               value={referencia}
               type="text"
               fullWidth
@@ -184,14 +183,15 @@ const PermisosModal = ({
 
             />
 
-
-          </Box>
-        </DialogContent>
-
         <DialogActions>
           <Button className="actualizar" onClick={() => handleSend()}>Actualizar</Button>
           {/* <button className="cerrar" onClick={() => handleClose()}>Cancelar</button> */}
         </DialogActions>
+        </Box>
+          </Box>
+        
+
+      
 
 
     </ModalForm>

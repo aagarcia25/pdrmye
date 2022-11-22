@@ -172,7 +172,7 @@ const RolesMenu = ({
             <Typography
               sx={{
                 textAlign: "center",
-                fontFamily: "MontserratMedium",
+                fontFamily: "sans-serif",
                 fontSize: "1.5vw",
                 color: "#808080",
               
@@ -186,6 +186,7 @@ const RolesMenu = ({
           <Grid item sm={12}
             sx={{
               height: "100%",
+              paddingTop:"1%"
 
             }}
           >
