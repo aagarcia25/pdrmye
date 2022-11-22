@@ -23,7 +23,7 @@ const SaveButton = ({
            }}
          >
            <Grid item xs={4} sm={3} md={2} lg={1}   >
-             <Button className={tipoOperacion===1?"guardar":"actualizar"}  onClick={() => handleAccion(vrow)}>{tipoOperacion===1?"Guardar":"Actualizar"}</Button>
+             <Button className={tipoOperacion==1?"guardar":"actualizar"}  onClick={() => handleAccion(vrow)}>{tipoOperacion==1?"Guardar":"Actualizar"}</Button>
            </Grid>
          </Grid>
     </div>

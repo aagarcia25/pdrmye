@@ -10,11 +10,12 @@ import {
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import {  getUser } from "../../../../../services/localStorage";
+import {  getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import ModalForm from "../../../componentes/ModalForm";
+import React from "react";
 
 
 const MunRecaudacionModal = ({
@@ -48,7 +49,7 @@ const MunRecaudacionModal = ({
 
 
   const handleSend = () => {
-    if (recaudacion === null || anio ===null || IdMunicipio === null) {
+    if (recaudacion == null || anio == null || IdMunicipio == null) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -75,10 +76,10 @@ const MunRecaudacionModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
 
       editar(data);
@@ -156,7 +157,7 @@ const MunRecaudacionModal = ({
   return (
 
     <div>
-    <ModalForm title={tipo === 1 ?"Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+    <ModalForm title={tipo == 1 ?"Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
       <Grid container
         sx={{
           mt: "2vh",
@@ -192,7 +193,7 @@ const MunRecaudacionModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setRecaudacion(Number(v.target.value))}
-            error={recaudacion === null ? true : false}
+            error={recaudacion == null ? true : false}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start"></InputAdornment>
@@ -218,7 +219,7 @@ const MunRecaudacionModal = ({
         >
           <Grid item xs={4} sm={3} md={2} lg={1}
           >
-            <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+            <Button className={tipo==1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo==1?"Guardar":"Actualizar"}</Button>
           </Grid>
         </Grid>
       </Grid>

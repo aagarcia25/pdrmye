@@ -61,7 +61,7 @@ export const AnticipoParticipaciones = () => {
         setPerfil(user.PERFILES[0].Referencia);
 
 
-        if (user.DEPARTAMENTOS[0].NombreCorto === "DAMOP") {
+        if (user.DEPARTAMENTOS[0].NombreCorto == "DAMOP") {
             CatalogosServices.indexAPC({ NUMOPERACION: 1 }).then((res) => {
                 //console.log(res.RESPONSE)
                 setAPC(res.RESPONSE);
@@ -121,8 +121,8 @@ export const AnticipoParticipaciones = () => {
                             <Tooltip title="Agregar Ajuste">
                                 <IconButton
                                     disabled={
-                                        String(v.row.Clave) === "FISM" ||
-                                        String(v.row.Clave) === "FORTAMUN"
+                                        String(v.row.Clave) == "FISM" ||
+                                        String(v.row.Clave) == "FORTAMUN"
                                     }
                                 >
                                     <AttachMoneyIcon />
@@ -131,7 +131,7 @@ export const AnticipoParticipaciones = () => {
                             :
                             ""
                         }
-                              {((Number(v.row.Mes)- hoy.getMonth() )=== 1) ? (
+                              {((Number(v.row.Mes)- hoy.getMonth() )== 1) ? (
                             <Tooltip title="Clonar">
                                 <IconButton onClick={() => handleClonar(v)}
                                 >
@@ -170,14 +170,14 @@ export const AnticipoParticipaciones = () => {
                             //////////////////////////////////ENVIAR/////////////////////////////////////////
                         }
                         {
-                            perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef === v.row.ControlInterno && accion === "enviar" && per === perfil && dep === departamento) ?
+                            perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "enviar" && per === perfil && dep == departamento) ?
 
                                 //departamento == "MUN" && v.row.ControlInterno == "MUN_INICIO" ?
                                 <Tooltip title={"Enviar"}>
                                     <ToggleButton
                                         value="check"
                                         onClick={() =>
-                                            handleSeg(v, String(perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef === v.row.ControlInterno && accion === "enviar" && per === perfil && dep == departamento)?.estatus))}>
+                                            handleSeg(v, String(perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "enviar" && per === perfil && dep == departamento)?.estatus))}>
                                         <SendIcon />
                                     </ToggleButton>
                                 </Tooltip>
@@ -187,14 +187,14 @@ export const AnticipoParticipaciones = () => {
                             /////////////////////////////////////atender solicitudes/////////////////////////////////////////////
                         }
                         {
-                            perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef === v.row.ControlInterno && accion === "autorizar" && per === perfil && dep === departamento) ?
+                            perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "autorizar" && per === perfil && dep == departamento) ?
 
                                 // (departamento == "DAMOP" && user.PERFILES[0].Referencia == "ANA") && v.row.ControlInterno == "DAMOP_INICIO" || v.row.ControlInterno == "DAMOP_REG_COR_ANA" ?
                                 <Tooltip title={"Atender Solicitud"}>
                                     <ToggleButton
                                         value="check"
                                         onClick={() =>
-                                            handleSeg(v, String(perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef === v.row.ControlInterno && accion === "autorizar" && per === perfil && dep === departamento)?.estatus))}>
+                                            handleSeg(v, String(perfiles.find(({ estatusRef, accion, per, dep }) => estatusRef == v.row.ControlInterno && accion === "autorizar" && per === perfil && dep == departamento)?.estatus))}>
                                         <DoneIcon />
                                     </ToggleButton>
                                 </Tooltip>
@@ -207,7 +207,7 @@ export const AnticipoParticipaciones = () => {
 
     const handleSeg = (data: any, estatus: string,) => {
         //console.log(estatus);
-        if ((estatus !== "AUTORIZAR" && estatus !== "CANCELADO")) {
+        if ((estatus != "AUTORIZAR" && estatus != "CANCELADO")) {
             let d = {
                 NUMOPERACION: 7,
                 CHID: data.id,
@@ -350,13 +350,13 @@ export const AnticipoParticipaciones = () => {
         consulta();
         permisos.map((item: PERMISO) => {
             if (String(item.ControlInterno) === "MUNAPC") {
-                if (String(item.Referencia) === "AGREG") {
+                if (String(item.Referencia) == "AGREG") {
                     setAgregar(true);
                 }
-                if (String(item.Referencia) === "ELIM") {
+                if (String(item.Referencia) == "ELIM") {
                     setEliminar(true);
                 }
-                if (String(item.Referencia) === "TRAZA") {
+                if (String(item.Referencia) == "TRAZA") {
                     setVerTrazabilidad(true);
                 }
             }

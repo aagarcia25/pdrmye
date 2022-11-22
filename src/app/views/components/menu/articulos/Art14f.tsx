@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import {GridColDef } from "@mui/x-data-grid";
 import {  Moneda } from "../CustomToolbar";
@@ -149,7 +149,7 @@ export const Art14f = () => {
   </Box>
     <div style={{ height: 600, width: "100%" }}>
        <MUIXDataGrid columns={
-        Number(params.tipo) === 1 ? columnsArticulo14f1 : (Number(params.tipo) === 2 ? columnsArticulo14f2 : ( Number(params.tipo) === 3 ?columnsArticulo14f3 :[])  )
+        Number(params.tipo) == 1 ? columnsArticulo14f1 : (Number(params.tipo) == 2 ? columnsArticulo14f2 : ( Number(params.tipo) == 3 ?columnsArticulo14f3 :[])  )
       
       } rows={data} />
 

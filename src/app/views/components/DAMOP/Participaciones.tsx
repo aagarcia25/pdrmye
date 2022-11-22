@@ -1,7 +1,9 @@
 import {
+  Box,
   Button,
   createTheme,
   Grid,
+  IconButton,
   ThemeProvider,
   ToggleButton,
   ToggleButtonGroup,
@@ -119,11 +121,11 @@ const Participaciones = () => {
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 12) {
+      if (operacion == 12) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 5) {
+      } else if (operacion == 5) {
         setMunicipios(res.RESPONSE);
-      }  else if (operacion === 17) {
+      }  else if (operacion == 17) {
         setTipos(res.RESPONSE);
         setslideropen(false);
       }
@@ -148,6 +150,7 @@ const Participaciones = () => {
 
 
   const Fnworkflow = (data: string) => {
+    //console.log(data);
 
     let obj = {
       NUMOPERACION:1,
@@ -157,6 +160,7 @@ const Participaciones = () => {
       ESTATUS:'DPCP_INICIO'
     
     };
+    //console.log(obj);
 
     DAMOPServices.PA(obj).then((res) => {
       if (res.SUCCESS) {
@@ -179,6 +183,9 @@ const Participaciones = () => {
 
 
   const SolicitudOrdenPago = () => {
+    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
+    //console.log(selectionModel);
+    //setOpenModal(true);
 
     Swal.fire({
       icon: "warning",
@@ -194,7 +201,17 @@ const Participaciones = () => {
           OBJS: selectionModel,
           CHUSER:user.id
       };
-
+//console.log(data);
+          // CatalogosServices.BitacoraAjustes({
+          //     NUMOPERACION: v == "autorizar" ? 2 : 3,
+          //     CHID: idCambio,
+          //     CHUSER: user.id,
+          //     COMENTARIO: comentario
+          // }).then((res) => {
+          //     if (res.SUCCESS) {
+          //         //console.log(res.RESPONSE)
+          //         handleClose();
+          //     } else {
 
                   AlertS.fire({
                       title: "Solicitud Enviada",
@@ -208,7 +225,9 @@ const Participaciones = () => {
                     }
                     
                 });
-       
+                
+             // }
+        //  });
       }
       
   });
@@ -220,9 +239,9 @@ const Participaciones = () => {
     //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
     let data = {
-      P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      P_IDTIPO: idtipo === "false" ? "" : idtipo,
+      P_FONDO: idFondo == "false" ? "" : idFondo,
+      P_IDMUNICIPIO: idMunicipio == "false" ? "" : idMunicipio,
+      P_IDTIPO: idtipo == "false" ? "" : idtipo,
     };
     //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {

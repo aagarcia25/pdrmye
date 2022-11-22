@@ -1,3 +1,4 @@
+import { UserReponse } from "../interfaces/user/UserReponse";
 
 
 //BLOQUEO DE PANTALLA

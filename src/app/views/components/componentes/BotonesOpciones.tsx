@@ -59,13 +59,13 @@ const BotonesOpciones = ({
           )}
 
           {(autorizar 
-           &&             estatus === "INICIO" 
-           &&     user.PERFILES[0].Referencia === perfil) ||
+           &&             estatus == "INICIO" 
+           &&     user.PERFILES[0].Referencia == perfil) ||
          
            (autorizar &&
-            estatus === "ENVIADO" &&
-            user.PERFILES[0].Referencia === perfil &&
-            area === user.DEPARTAMENTOS[0].NombreCorto) ? (
+            estatus == "ENVIADO" &&
+            user.PERFILES[0].Referencia == perfil &&
+            area == user.DEPARTAMENTOS[0].NombreCorto) ? (
             <Tooltip title={"Autorizar"}>
               <ToggleButton value="check" onClick={() => handleAccion(2)}>
                 <DoneAllIcon />
@@ -76,8 +76,8 @@ const BotonesOpciones = ({
           )}
 
           {cancelar &&
-          estatus === "INICIO" &&
-          user.PERFILES[0].Referencia === "ANA" ? (
+          estatus == "INICIO" &&
+          user.PERFILES[0].Referencia == "ANA" ? (
             <Tooltip title={"Cancelar"}>
               <ToggleButton value="check" onClick={() => handleAccion(3)}>
                 <CancelPresentationIcon />
@@ -88,10 +88,10 @@ const BotonesOpciones = ({
           )}
 
           {cancelar &&
-          estatus === "ENVIADO" &&
-          user.PERFILES[0].Referencia === perfil &&
-          perfil === "COOR" &&
-          area === user.DEPARTAMENTOS[0].NombreCorto ? (
+          estatus == "ENVIADO" &&
+          user.PERFILES[0].Referencia == perfil &&
+          perfil == "COOR" &&
+          area == user.DEPARTAMENTOS[0].NombreCorto ? (
             <Tooltip title={"Regresar a Analista"}>
               <ToggleButton value="check" onClick={() => handleAccion(7)}>
                 <CompareArrowsIcon />
@@ -102,9 +102,9 @@ const BotonesOpciones = ({
           )}
 
           {cancelar &&
-          estatus === "ENVIADO" &&
-          user.PERFILES[0].Referencia === perfil &&
-          perfil === "DIR" ? (
+          estatus == "ENVIADO" &&
+          user.PERFILES[0].Referencia == perfil &&
+          perfil == "DIR" ? (
             <Tooltip title={"Regresar a Coordinador"}>
               <ToggleButton value="check" onClick={() => handleAccion(8)}>
                 <CompareArrowsIcon />
@@ -115,14 +115,14 @@ const BotonesOpciones = ({
           )}
 
           {(enviar &&
-            estatus === "AUTORIZADO" &&
-            user.PERFILES[0].Referencia === perfil) ||
+            estatus == "AUTORIZADO" &&
+            user.PERFILES[0].Referencia == perfil) ||
           (enviar &&
-            estatus === "AUTORIZADO" &&
-            user.PERFILES[0].Referencia === perfil) ||
+            estatus == "AUTORIZADO" &&
+            user.PERFILES[0].Referencia == perfil) ||
           (enviar &&
-            estatus === "AUTORIZADO" &&
-            user.PERFILES[0].Referencia === perfil) ? (
+            estatus == "AUTORIZADO" &&
+            user.PERFILES[0].Referencia == perfil) ? (
             <Tooltip title={"Enviar"}>
               <ToggleButton value="check" onClick={() => handleAccion(4)}>
                 <SendIcon />
@@ -133,9 +133,9 @@ const BotonesOpciones = ({
           )}
 
           {presupuesto &&
-          estatus === "ENVIADO" &&
-          area === user.DEPARTAMENTOS[0].NombreCorto &&
-          user.PERFILES[0].Referencia === perfil ? (
+          estatus == "ENVIADO" &&
+          area == user.DEPARTAMENTOS[0].NombreCorto &&
+          user.PERFILES[0].Referencia == perfil ? (
             <Tooltip title={"Asignar Presupuesto Global"}>
               <ToggleButton value="check" onClick={() => handleAccion(6)}>
                 <AttachMoneyIcon />
@@ -146,9 +146,9 @@ const BotonesOpciones = ({
           )}
 
           {presupuesto &&
-          estatus === "ENVIADO" &&
-          area === user.DEPARTAMENTOS[0].NombreCorto &&
-          user.PERFILES[0].Referencia === perfil ? (
+          estatus == "ENVIADO" &&
+          area == user.DEPARTAMENTOS[0].NombreCorto &&
+          user.PERFILES[0].Referencia == perfil ? (
             <Tooltip title={"Finalizar"}>
               <ToggleButton value="check" onClick={() => handleAccion(9)}>
                 <EastIcon />

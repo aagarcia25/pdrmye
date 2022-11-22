@@ -16,10 +16,13 @@ import {
   import { CatalogosServices } from "../../../services/catalogosServices";
   import SelectFrag from "../Fragmentos/SelectFrag";
   import SendIcon from "@mui/icons-material/Send";
+  import { AlertS } from "../../../helpers/AlertS";
   import { Moneda } from "../menu/CustomToolbar";
   import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
   import { RESPONSE } from "../../../interfaces/user/UserInfo";
   import { getUser } from "../../../services/localStorage";
+  import { DPCPServices } from "../../../services/DPCPServices";
+  import { Toast } from "../../../helpers/Toast";
   import Slider from "../Slider";
   import DoneAllIcon from "@mui/icons-material/DoneAll";
   import {
@@ -311,18 +314,18 @@ import {
     const loadFilter = (operacion: number) => {
       let data = { NUMOPERACION: operacion };
       CatalogosServices.SelectIndex(data).then((res) => {
-        if (operacion=== 8) {
+        if (operacion == 8) {
           setEstatus(res.RESPONSE);
-        } else if (operacion === 12) {
+        } else if (operacion == 12) {
           setFondos(res.RESPONSE);
-        } else if (operacion === 4) {
+        } else if (operacion == 4) {
           setAnios(res.RESPONSE);
-        } else if (operacion === 2) {
+        } else if (operacion == 2) {
           setMeses(res.RESPONSE);
-        } else if (operacion === 14) {
+        } else if (operacion == 14) {
           setProcesos(res.RESPONSE);
           setslideropen(false);
-        } else if (operacion === 5) {
+        } else if (operacion == 5) {
           setMunicipios(res.RESPONSE);
         }
       });
@@ -344,11 +347,11 @@ import {
       setIdproceso(v);
       //console.log(v);
       if (v !== "false") {
-        let subArray = procesos.filter((val) => val.value === v);
-        if (subArray[0]["label"] === "Anticipo de Participaciones") {
+        let subArray = procesos.filter((val) => val.value == v);
+        if (subArray[0]["label"] == "Anticipo de Participaciones") {
           setp1(1);
         } else if (
-          subArray[0]["label"] === "Solicitud de Anticipo de Participaciones"
+          subArray[0]["label"] == "Solicitud de Anticipo de Participaciones"
         ) {
           setp1(2);
         } else {
@@ -390,11 +393,11 @@ import {
       //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
   
       let data = {
-        P_FONDO: idFondo === "false" ? "" : idFondo,
-        P_ANIO: idanio === "false" ? "" : idanio,
-        P_MES: idmes === "false" ? "" : idmes,
-        P_IDPROCESO: idProceso === "false" ? "" : idProceso,
-        P_IDESTATUS: idEstatus === "false" ? "" : idEstatus,
+        P_FONDO: idFondo == "false" ? "" : idFondo,
+        P_ANIO: idanio == "false" ? "" : idanio,
+        P_MES: idmes == "false" ? "" : idmes,
+        P_IDPROCESO: idProceso == "false" ? "" : idProceso,
+        P_IDESTATUS: idEstatus == "false" ? "" : idEstatus,
       };
       //console.log(data);
      /* DPCPServices.GetPartFedv2(data).then((res) => {
@@ -548,7 +551,7 @@ import {
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12}>
-            <div style={{ height: "60vh", width: "100%" , display : p1 === 1 ? "block":"none"}}>
+            <div style={{ height: "60vh", width: "100%" , display : p1 == 1 ? "block":"none"}}>
               <ThemeProvider theme={theme}>
 
               <DataGrid
@@ -595,7 +598,7 @@ import {
               </ThemeProvider>
             </div>
   
-            <div style={{ height: "60vh", width: "100%" , display : p1 === 2 ? "block":"none"}}>
+            <div style={{ height: "60vh", width: "100%" , display : p1 == 2 ? "block":"none"}}>
               <ThemeProvider theme={theme}>
                   <DataGrid
                     localeText={
@@ -621,7 +624,7 @@ import {
               </ThemeProvider>
             </div>
   
-            <div style={{ height: "60vh", width: "100%" , display : p1 === 3 ? "block":"none"}}>
+            <div style={{ height: "60vh", width: "100%" , display : p1 == 3 ? "block":"none"}}>
               <ThemeProvider theme={theme}>
 
               <DataGrid

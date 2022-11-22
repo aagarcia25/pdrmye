@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Grid, Typography, } from '@mui/material'
+import { Box, Grid, IconButton, Typography, } from '@mui/material'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { AlertS } from "../../../../../helpers/AlertS";
 import MunPobrezaModal from './MunPobrezaModal'
 import Slider from "../../../Slider";
+import MUIXDataGrid from '../../../MUIXDataGrid'
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
 import { getPermisos, getUser } from '../../../../../services/localStorage'
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
+import AccionesGrid from '../Utilerias/AccionesGrid'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import MUIXDataGridMun from '../../../MUIXDataGridMun'
 
@@ -72,11 +76,11 @@ export const MunPobreza = () => {
   ];
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setOpen(true);
       setData(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   }
@@ -156,7 +160,7 @@ export const MunPobreza = () => {
 
   const handleUpload = (data: any) => {
 
-    if (data.tipo === 1) {
+    if (data.tipo == 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -167,7 +171,7 @@ export const MunPobreza = () => {
       });
 
     } 
-    else if (data.tipo === 2) {
+    else if (data.tipo == 2) {
       //console.log("borrado de toda la tabla")
       //console.log(selectionModel)
 
@@ -235,7 +239,7 @@ export const MunPobreza = () => {
   };
 
   const handleFilterChange = (v: string) => {
-    if (v === null) {
+    if (v == null) {
       let data = {
         NUMOPERACION: 4,
 
@@ -249,7 +253,7 @@ export const MunPobreza = () => {
       };
       setFilterAnio(v);
 
-      if (v !== "") {
+      if (v != "") {
         consulta(data);
       }
     }
@@ -273,10 +277,10 @@ export const MunPobreza = () => {
         //console.log(item)
         setNombreMenu(item.Menu);
 
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.Referencia) == "EDIT") {
           setEditar(true);
         }
       }

@@ -69,6 +69,23 @@ const EventosModal = ({
   const [cleanUp, setCleanUp] = useState<boolean>(false);
   const [editImage, setEditImage] = useState<boolean>(false);
 
+  //setInicioEvento(Fecha_min);
+  //////////////////////////////////
+
+
+  const testeoVariables = () => {
+    //console.log("inicio de evento   " + inicioEvento)
+    //console.log("fin de evento   " + finEvento)
+    //console.log("noombre de evento    " + nameEvent)
+    //console.log("detalles de evento   " + descripcion);
+    //console.log("imagen   " + urlImage)
+    //console.log("nuevo usl de imagen   "+ previewImage)
+    //console.log("hoy   "+ hoy.getFullYear())
+    //console.log("fecha de hoy   "+ Fecha_min)
+    //console.log("numero de operacion  "+tipo)
+   
+  }
+
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -152,10 +169,10 @@ const EventosModal = ({
   };
   const handleRequest = (data: any) => {
    
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
       editar(data);
     }
@@ -198,7 +215,7 @@ const EventosModal = ({
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "EVENTOS") {
         //console.log(item)
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.Referencia) == "EDIT") {
           setEditar(true);
         }
       }
@@ -375,7 +392,7 @@ const EventosModal = ({
                   fullWidth
                   variant="standard"
                   onChange={(v) => setNameEvent(v.target.value)}
-                  error={nameEvent === "" ? true : false}
+                  error={nameEvent == "" ? true : false}
                 />
                  <label 
                  >Descripcion</label>
@@ -389,7 +406,7 @@ const EventosModal = ({
                   fullWidth
                   variant="standard"
                   onChange={(v) => setDescripcion(v.target.value)}
-                  error={descripcion === "" ? true : false}
+                  error={descripcion == "" ? true : false}
 
                 />
               </Box>
@@ -543,7 +560,7 @@ const EventosModal = ({
                   fullWidth
                   variant="standard"
                   onChange={(v) => setNameEvent(v.target.value)}
-                  error={nameEvent === "" ? true : false}
+                  error={nameEvent == "" ? true : false}
                 />
 
             <Box
@@ -560,7 +577,7 @@ const EventosModal = ({
                   fullWidth
                   variant="standard"
                   onChange={(v) => setDescripcion(v.target.value)}
-                  error={descripcion === "" ? true : false}
+                  error={descripcion == "" ? true : false}
 
                 />          
             </Box>

@@ -3,11 +3,13 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { messages } from "../../../../styles";
 import UmasModel from "./UmasModel";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
+import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
@@ -25,19 +27,21 @@ export const Umas = () => {
   const [conUmas, setUmas] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+
+
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
 
   const handleAccion=(v: any)=>{
-    if(v.tipo ===1){
+    if(v.tipo ==1){
       //console.log(v)
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
       setVrows(v.data);
-    }else if(v.tipo ===2){
+    }else if(v.tipo ==2){
       Swal.fire({
         icon: "info",
         title: "Estas seguro de eliminar este registro?",
@@ -129,11 +133,11 @@ export const Umas = () => {
 
   const handleUpload = (data: any) => {
 
-    if (data.tipo === 1) {
+    if (data.tipo == 1) {
 
 
     } 
-    else if (data.tipo === 2) {
+    else if (data.tipo == 2) {
       //console.log("borrado de toda la tabla")
       //console.log(selectionModel)
 
@@ -218,13 +222,13 @@ export const Umas = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "UMAS") {
         //console.log(item)
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.Referencia) == "EDIT") {
           setEditar(true);
         }
         
@@ -232,6 +236,8 @@ export const Umas = () => {
     });
     consulta({ NUMOPERACION: 4 })
   }, []);
+
+
 
   return (
     <div style={{ height: 600, width: "100%" }}>
@@ -248,8 +254,12 @@ export const Umas = () => {
        <ButtonsMunicipio
         url={""}
         handleUpload={handleUpload} controlInterno={"UMAS"} />
+
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
      < MUIXDataGridMun columns={columns} rows={conUmas} handleBorrar={handleBorrar} borrar={eliminar} modulo={"UMAS"}   />
+
+
+
     </div>
   );
 };

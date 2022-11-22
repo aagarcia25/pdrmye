@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
 import {
+  Dialog,
+  DialogContent,
   Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   TextField,
   InputAdornment,
+  DialogActions,
   Grid,
   Button,
 } from "@mui/material";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
+import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getUser } from "../../../../../services/localStorage";
+import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import ModalForm from "../../../componentes/ModalForm";
@@ -44,7 +53,7 @@ const MunPobrezaModal = ({
 
 
   const handleSend = () => {
-    if (IdMunicipio === null || poblacion === null || anio === null || carenciaProm === null || poblacion === 0 || anio === 0 || carenciaProm === 0) {
+    if (IdMunicipio == null || poblacion == null || anio == null || carenciaProm == null || poblacion == 0 || anio == 0 || carenciaProm == 0) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -71,10 +80,10 @@ const MunPobrezaModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo=== 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
 
       editar(data);
@@ -153,7 +162,7 @@ const MunPobrezaModal = ({
 
 
     <div>
-      <ModalForm title={tipo === 1 ?"Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+      <ModalForm title={tipo == 1 ?"Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
         <Grid container
           sx={{
             mt: "2vh",
@@ -188,7 +197,7 @@ const MunPobrezaModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setPoblacion(Number(v.target.value))}
-            error={poblacion === null ? true : false}
+            error={poblacion == null ? true : false}
           />
           </Grid>
 
@@ -208,7 +217,7 @@ const MunPobrezaModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setCarenciaProm(Number(v.target.value))}
-            error={carenciaProm === null ? true : false}
+            error={carenciaProm == null ? true : false}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">%</InputAdornment>
@@ -232,7 +241,7 @@ const MunPobrezaModal = ({
           >
             <Grid item xs={4} sm={3} md={2} lg={1}
             >
-              <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+              <Button className={tipo==1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo==1?"Guardar":"Actualizar"}</Button>
             </Grid>
           </Grid>
         </Grid>

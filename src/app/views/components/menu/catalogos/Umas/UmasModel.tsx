@@ -6,10 +6,13 @@ import {
   TextField,
   DialogActions,
 } from "@mui/material";
+
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getUser} from "../../../../../services/localStorage";
+import {
+  getUser,
+} from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 const UmasModel = ({
@@ -56,10 +59,10 @@ const UmasModel = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
 
       editar(data);
@@ -117,7 +120,7 @@ const UmasModel = ({
       <DialogContent>
         <Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{tipo === 1 ?"Agregar Registro" : "Editar Registro"}</label>
+            <label className="Titulo">{tipo == 1 ?"Agregar Registro" : "Editar Registro"}</label>
           </Box>
           <TextField
             required
@@ -129,9 +132,9 @@ const UmasModel = ({
             fullWidth
             variant="standard"
             onChange={(v) => setAnio(v.target.value)}
-            error={anio === "" ? true : false}
+            error={anio == "" ? true : false}
             InputProps={{
-              readOnly: tipo === 1 ? false : true,
+              readOnly: tipo == 1 ? false : true,
               inputMode: "numeric",
             }}
           />
@@ -146,7 +149,7 @@ const UmasModel = ({
             fullWidth
             variant="standard"
             onChange={(v) => setDiario(v.target.value)}
-            error={diario === "" ? true : false}
+            error={diario == "" ? true : false}
             InputProps={{
               inputMode: "decimal",
             }}
@@ -162,7 +165,7 @@ const UmasModel = ({
             fullWidth
             variant="standard"
             onChange={(v) => setMensual(v.target.value)}
-            error={mensual === "" ? true : false}
+            error={mensual == "" ? true : false}
             InputProps={{
               inputMode: "numeric",
             }}
@@ -178,7 +181,7 @@ const UmasModel = ({
             fullWidth
             variant="standard"
             onChange={(v) => setAnual(v.target.value)}
-            error={anual === "" ? true : false}
+            error={anual == "" ? true : false}
             InputProps={{
               inputMode: "numeric",
             }}

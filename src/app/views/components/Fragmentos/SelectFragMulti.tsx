@@ -1,4 +1,5 @@
 
+import React from 'react'
 import Select from 'react-select'
 
 const SelectFragMulti = ({
@@ -17,7 +18,7 @@ const SelectFragMulti = ({
     <div>
     <Select
       isDisabled={disabled}
-      onChange={ (v) => (v === null) ?         onInputChange(String(disabled)) : onInputChange(v) }
+      onChange={ (v) => (v == null) ?         onInputChange(String(disabled)) : onInputChange(v) }
       closeMenuOnSelect={false}
       isMulti
       options={options}

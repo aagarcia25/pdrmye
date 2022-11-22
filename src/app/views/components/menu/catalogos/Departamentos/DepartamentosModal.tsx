@@ -69,14 +69,14 @@ export const DepartamentosModal = ({
 
   const handleChange = (v: string) => {
     //console.log(v)
-    v === "false" ? setResponsable("") : setResponsable(v);
+    v == "false" ? setResponsable("") : setResponsable(v);
   };
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
       editar(data);
     }

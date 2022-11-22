@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { ta } from 'date-fns/locale';
 import { Button, ButtonGroup, Grid } from '@mui/material';
 import MUIXDataGrid from '../MUIXDataGrid';
 import { GridColDef } from '@mui/x-data-grid';
@@ -126,17 +129,17 @@ const RecepcionRecursos = () => {
         <Grid container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
 
           <ButtonGroup variant="outlined" aria-label="outlined primary button group">
-
-            <Button className='subtitulo' color={recursoButton === "PF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PF")}>
-              Participaciones Federales
-            </Button>
-            <Button className='subtitulo' color={recursoButton === "PE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PE")}>
+            
+            <Button className='subtitulo'  color={recursoButton == "PF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PF")}> 
+             Participaciones Federales 
+             </Button>
+            <Button className='subtitulo' color={recursoButton == "PE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PE")}>
               Participaciones Estatales
             </Button>
-            <Button className='subtitulo' color={recursoButton === "AF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AF")}>
+            <Button className='subtitulo' color={recursoButton == "AF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AF")}>
               Aportaciones Federales
             </Button>
-            <Button className='subtitulo' color={recursoButton === "AE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AE")}>
+            <Button className='subtitulo' color={recursoButton == "AE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AE")}>
               Aportaciones Estatales
             </Button>
           </ButtonGroup>

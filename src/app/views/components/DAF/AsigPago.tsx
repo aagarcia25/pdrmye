@@ -31,6 +31,7 @@ import {
   GridSelectionModel,
   GridToolbar,
   esES as gridEsES,
+  GridColumns,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import ModalPresupuesto from "./ModalPago";
@@ -342,18 +343,18 @@ const AsigPago = () => {
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 8) {
+      if (operacion == 8) {
         setEstatus(res.RESPONSE);
-      } else if (operacion === 12) {
+      } else if (operacion == 12) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 4) {
+      } else if (operacion == 4) {
         setAnios(res.RESPONSE);
-      } else if (operacion === 2) {
+      } else if (operacion == 2) {
         setMeses(res.RESPONSE);
-      } else if (operacion === 14) {
+      } else if (operacion == 14) {
         setProcesos(res.RESPONSE);
         setslideropen(false);
-      } else if (operacion === 5) {
+      } else if (operacion == 5) {
         setMunicipios(res.RESPONSE);
       }
     });
@@ -375,11 +376,11 @@ const AsigPago = () => {
     setIdproceso(v);
     //console.log(v);
     if (v !== "false") {
-      let subArray = procesos.filter((val) => val.value === v);
-      if (subArray[0]["label"] === "Anticipo de Participaciones") {
+      let subArray = procesos.filter((val) => val.value == v);
+      if (subArray[0]["label"] == "Anticipo de Participaciones") {
         setp1(1);
       } else if (
-        subArray[0]["label"] === "Solicitud de Anticipo de Participaciones"
+        subArray[0]["label"] == "Solicitud de Anticipo de Participaciones"
       ) {
         setp1(2);
       } else {
@@ -421,11 +422,11 @@ const AsigPago = () => {
     //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
     let data = {
-      P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_ANIO: idanio === "false" ? "" : idanio,
-      P_MES: idmes === "false" ? "" : idmes,
-      P_IDPROCESO: idProceso === "false" ? "" : idProceso,
-      P_IDESTATUS: idEstatus === "false" ? "" : idEstatus,
+      P_FONDO: idFondo == "false" ? "" : idFondo,
+      P_ANIO: idanio == "false" ? "" : idanio,
+      P_MES: idmes == "false" ? "" : idmes,
+      P_IDPROCESO: idProceso == "false" ? "" : idProceso,
+      P_IDESTATUS: idEstatus == "false" ? "" : idEstatus,
     };
     //console.log(data);
     DPCPServices.ConsultaDPCP(data).then((res) => {
@@ -579,7 +580,7 @@ const AsigPago = () => {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <div style={{ height: "60vh", width: "100%" , display : p1 === 1 ? "block":"none"}}>
+          <div style={{ height: "60vh", width: "100%" , display : p1 == 1 ? "block":"none"}}>
             <ThemeProvider theme={theme}>
                 <DataGrid
                   localeText={
@@ -605,7 +606,7 @@ const AsigPago = () => {
             </ThemeProvider>
           </div>
 
-          <div style={{ height: "60vh", width: "100%" , display : p1 === 2 ? "block":"none"}}>
+          <div style={{ height: "60vh", width: "100%" , display : p1 == 2 ? "block":"none"}}>
             <ThemeProvider theme={theme}>
                 <DataGrid
                   localeText={
@@ -631,7 +632,7 @@ const AsigPago = () => {
             </ThemeProvider>
           </div>
 
-          <div style={{ height: "60vh", width: "100%" , display : p1 === 3 ? "block":"none"}}>
+          <div style={{ height: "60vh", width: "100%" , display : p1 == 3 ? "block":"none"}}>
             <ThemeProvider theme={theme}>
                 <DataGrid
                   localeText={
