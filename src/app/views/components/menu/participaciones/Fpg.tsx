@@ -273,13 +273,10 @@ export const Fpg = () => {
                         />
             : ""}
 
-<<<<<<< Updated upstream
 
 
 
 
-=======
->>>>>>> Stashed changes
       {step === 0 ?
         <div style={{ height: 600, width: "100%" }}>
           <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />

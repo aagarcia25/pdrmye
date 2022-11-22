@@ -10,11 +10,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-<<<<<<< Updated upstream
 import { getMunicipios, getUser,  validaLocalStorage } from "../../../../../services/localStorage";
-=======
-import { getMunicipios, getUser, validaLocalStorage } from "../../../../../services/localStorage";
->>>>>>> Stashed changes
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";

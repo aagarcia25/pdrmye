@@ -38,11 +38,6 @@ const MunPoblacionModal = ({
   const [poblacion, setPoblacion] = useState<number>();
   const [municipios, setMunicipios] = useState<SelectValues[]>([]);
   const [munSeleccionado, setMunSeleccionado] = useState<string>();
-<<<<<<< Updated upstream
-=======
-
-
->>>>>>> Stashed changes
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const handleSelectMun = (v: SelectValues) => {

@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react'
-<<<<<<< Updated upstream
 
 import {   Checkbox, Typography, Grid, Tooltip, IconButton } from '@mui/material';
-=======
-import { Checkbox, Typography, Grid, Tooltip, IconButton } from '@mui/material';
->>>>>>> Stashed changes
 import { AuthService } from '../../../../../services/AuthService';
 import { Toast } from '../../../../../helpers/Toast';
 import { AlertS } from '../../../../../helpers/AlertS';

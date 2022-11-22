@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
 import { TextField, DialogActions,  DialogContent, FormControl, InputLabel, MenuItem, Select, Grid,  Button } from "@mui/material";
-=======
-import { TextField, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select, Grid, Button } from "@mui/material";
->>>>>>> Stashed changes
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
