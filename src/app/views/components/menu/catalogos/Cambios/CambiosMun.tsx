@@ -351,22 +351,22 @@ const CambiosMun = () => {
                                             <Box>
 
 
-                                                {origen?.Anio ? <Typography><h5>	{"	Año	: " + origen?.Anio}<br />	</h5></Typography> : ""}
-                                                {origen?.Personas ? <Typography><h5>	{"	Personas	: " + origen?.Personas}<br />	</h5></Typography> : ""}
-                                                {origen?.CarenciaProm ? <Typography><h5>	{"	Carencia Promedio	: " + origen?.CarenciaProm}<br />	</h5></Typography> : ""}
-                                                {origen?.Nombre ? <Typography><h5>	{"	Nombre	: " + origen?.Nombre}<br />	</h5></Typography> : ""}
-                                                {origen?.Porcentaje ? <Typography><h5>	{"	Porcentaje	: " + origen?.Porcentaje}<br />	</h5></Typography> : ""}
+                                                {origen?.Anio ? <Typography>         <h5>	{"	Año	: " + origen?.Anio}<br />	</h5></Typography> : ""}
+                                                {origen?.Personas ? <Typography>     <h5>	{"	Personas	: " + origen?.Personas}<br />	</h5></Typography> : ""}
+                                                {origen?.CarenciaProm ? <Typography> <h5>	{"	Carencia Promedio	: " + origen?.CarenciaProm}<br />	</h5></Typography> : ""}
+                                                {origen?.Nombre ? <Typography>       <h5>	{"	Nombre	: " + origen?.Nombre}<br />	</h5></Typography> : ""}
+                                                {origen?.Porcentaje ? <Typography>   <h5>	{"	Porcentaje	: " + origen?.Porcentaje}<br />	</h5></Typography> : ""}
                                                 {origen?.ClaveBancaria ? <Typography><h5>	{"	Clave Bancaria	: " + origen?.ClaveBancaria}<br />	</h5></Typography> : ""}
-                                                {origen?.Cuenta ? <Typography><h5>	{"	Cuenta	: " + origen?.Cuenta}<br />	</h5></Typography> : ""}
-                                                {origen?.Importe ? <Typography><h5>	{"	Importe	: " + origen?.Importe}<br />	</h5></Typography> : ""}
-                                                {origen?.Coeficiente ? <Typography><h5>	{"	Coeficiente	: " + origen?.Coeficiente}<br />	</h5></Typography> : ""}
-                                                {origen?.Version ? <Typography><h5>	{"	Version	: " + origen?.Version}<br />	</h5></Typography> : ""}
-                                                {origen?.totalPob ? <Typography><h5>	{"	Poblacion Total	: " + origen?.totalPob}<br />	</h5></Typography> : ""}
-                                                {origen?.Facturacion ? <Typography><h5>	{"	Facturacion	: " + origen?.Facturacion}<br />	</h5></Typography> : ""}
-                                                {origen?.Total ? <Typography><h5>	{"	Total	: " + origen?.Total}<br />	</h5></Typography> : ""}
-                                                {origen?.anio ? <Typography><h5>	{"	Año	: " + origen?.anio}<br />	</h5></Typography> : ""}
-                                                {origen?.Pob ? <Typography><h5>	{"	Poblacion Total	: " + origen?.Pob}<br />	</h5></Typography> : ""}
-                                                {origen?.Recaudacion ? <Typography><h5>	{"	Recaudacion	: " + origen?.Recaudacion}<br />	</h5></Typography> : ""}
+                                                {origen?.Cuenta ? <Typography>       <h5>	{"	Cuenta	: " + origen?.Cuenta}<br />	</h5></Typography> : ""}
+                                                {origen?.Importe ? <Typography>      <h5>	{"	Importe	: " + origen?.Importe}<br />	</h5></Typography> : ""}
+                                                {origen?.Coeficiente ? <Typography>  <h5>	{"	Coeficiente	: " + origen?.Coeficiente}<br />	</h5></Typography> : ""}
+                                                {origen?.Version ? <Typography>      <h5>	{"	Version	: " + origen?.Version}<br />	</h5></Typography> : ""}
+                                                {origen?.totalPob ? <Typography>     <h5>	{"	Poblacion Total	: " + origen?.totalPob}<br />	</h5></Typography> : ""}
+                                                {origen?.Facturacion ? <Typography>  <h5>	{"	Facturacion	: " + origen?.Facturacion}<br />	</h5></Typography> : ""}
+                                                {origen?.Total ? <Typography>        <h5>	{"	Total	: " + origen?.Total}<br />	</h5></Typography> : ""}
+                                                {origen?.anio ? <Typography>         <h5>	{"	Año	: " + origen?.anio}<br />	</h5></Typography> : ""}
+                                                {origen?.Pob ? <Typography>          <h5>	{"	Poblacion Total	: " + origen?.Pob}<br />	</h5></Typography> : ""}
+                                                {origen?.Recaudacion ? <Typography>  <h5>	{"	Recaudacion	: " + origen?.Recaudacion}<br />	</h5></Typography> : ""}
                                                 {origen?.Km2 ? <Typography><h5>	{"	KM2	: " + origen?.Km2}<br />	</h5></Typography> : ""}
                                                 {origen?.Mes ? <Typography><h5>	{"	Mes	: " + origen?.Mes}<br />	</h5></Typography> : ""}
                                                 {origen?.Movimientos ? <Typography><h5>	{"	Movimientos	: " + origen?.Movimientos}<br />	</h5></Typography> : ""}
@@ -403,7 +403,7 @@ const CambiosMun = () => {
                                                     {solicitud?.Coeficiente ? <Typography><h5>	{"	Coeficiente	: " + solicitud?.Coeficiente}<br />	</h5></Typography> : ""}
                                                     {solicitud?.Version ? <Typography><h5>	{"	Version	: " + solicitud?.Version}<br />	</h5></Typography> : ""}
                                                     {solicitud?.totalPob ? <Typography><h5>	{"	Poblacion Total	: " + solicitud?.totalPob}<br />	</h5></Typography> : ""}
-                                                    {solicitud?.Facturacion ? <Typography><h5>	{"	Total	: " + solicitud?.Facturacion}<br />	</h5></Typography> : ""}
+                                                    {solicitud?.Facturacion ? <Typography><h5>	{"	Facturacion	: " + solicitud?.Facturacion}<br />	</h5></Typography> : ""}
                                                     {solicitud?.Total ? <Typography><h5>	{"	Total	: " + solicitud?.Total}<br />	</h5></Typography> : ""}
                                                     {solicitud?.anio ? <Typography><h5>	{"	Año	: " + solicitud?.anio}<br />	</h5></Typography> : ""}
                                                     {solicitud?.Pob ? <Typography><h5>	{"	Poblacion Total	: " + solicitud?.Pob}<br />	</h5></Typography> : ""}

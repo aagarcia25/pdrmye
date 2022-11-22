@@ -1,5 +1,5 @@
 import { Grid,  Typography } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
@@ -15,6 +15,8 @@ import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import ButtonsMunicipio from "../../catalogos/Utilerias/ButtonsMunicipio";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import Slider from "../../../Slider";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import React from "react";
 
 export const CalculoGarantiaComponente = () => {
   const [slideropen, setslideropen] = useState(true);
@@ -29,6 +31,9 @@ export const CalculoGarantiaComponente = () => {
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
   const [plantilla, setPlantilla] = useState("");
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+  
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -180,11 +185,14 @@ export const CalculoGarantiaComponente = () => {
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
         if (res.SUCCESS) {
+          consulta({ NUMOPERACION: 4 });
           Toast.fire({
             icon: "success",
             title: "Carga Exitosa!",
           });
+
         } else {
+          consulta({ NUMOPERACION: 4 });
           AlertS.fire({
             title: "Error!",
             text: res.STRMESSAGE,
@@ -197,11 +205,63 @@ export const CalculoGarantiaComponente = () => {
       });
     } 
     else if (data.tipo == 2) {
+      console.log("borrado de toda la tabla")
+      console.log(selectionModel)
+
+      if(selectionModel.length!==0){
+      Swal.fire({
+        icon: "question",
+        title: selectionModel.length +" Registros Se Eliminaran!!",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+  
+          let data = {
+           NUMOPERACION: 5,
+           OBJS: selectionModel,
+           CHUSER: user.id
+          };
+  
+          calculosServices.CalculoGarantia(data).then((res) => {
+            if (res.SUCCESS) {
+              Toast.fire({
+                icon: "success",
+                title: "Borrado!",
+              });
+  
+              consulta({ NUMOPERACION: 4 });
+            } else {
+              AlertS.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+  
+        } else if (result.isDenied) {
+          Swal.fire("No se realizaron cambios", "", "info");
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Seleccione Registros Para Borrar",
+        confirmButtonText: "Aceptar",
+      });
+    }
 
 
 
     }
 
+  };
+
+  const handleBorrar = (v: any) => {
+    setSelectionModel(v);
   };
 
   const consulta = (data: any) => {
@@ -261,11 +321,9 @@ export const CalculoGarantiaComponente = () => {
       <ButtonsMunicipio
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"CA"}      />
-
-
-
-      <MUIXDataGrid columns={columns} rows={calculoGarantia} />
-      {open ? (
+        < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} borrar={eliminar} modulo={"Garantia"}   />
+      
+        {open ? (
         <CalculoGarantiaModal
           open={open}
           modo={modo}
