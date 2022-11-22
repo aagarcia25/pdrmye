@@ -1,9 +1,14 @@
 import {
+  Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -37,7 +42,7 @@ const MunicipiosUsuarioResponsable = ({
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 1) {
+      if (operacion == 1) {
         setUsuarios(res.RESPONSE);
         setUsuariosDelegado(res.RESPONSE);
         setslideropen(false);

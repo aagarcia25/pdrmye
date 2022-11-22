@@ -62,6 +62,9 @@ const CalendarCModal = ({
    const [nombreEvento, setNombreEvento] = useState("");
   const [finEvento, setFinEvento] = useState(Fecha_min);
   const [inicioEvento, setInicioEvento] = useState(Fecha_min);
+  const [departamento, setDepartamento] = useState("");
+  const [eventoRepetitivo, setEventoRepetitivo] = useState(Boolean);
+  const [values, setValues] = useState<eventoc[]>();
   //Usandose en select departamentos
   const [departamentos, setDepartamentos] = useState("");
 
@@ -77,7 +80,7 @@ const CalendarCModal = ({
   };
 
   const handleSend = () => {
-    if (nombreEvento === null || nombreEvento === "") {
+    if (nombreEvento == null || nombreEvento == "") {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -112,7 +115,7 @@ const CalendarCModal = ({
   };
 
   const handleRequest = (data: any) => {
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
     } else if (tipo == 2) {
@@ -220,7 +223,7 @@ const CalendarCModal = ({
     sx={{ margin:"0%",padding:"0"}}
     >
     
-      {modoModal === "Editar Evento" ? (
+      {modoModal == "Editar Evento" ? (
         Date.parse(inicioEventoMin) > Date.parse(inicioEvento) ? (
           <Container  maxWidth="lg" sx={{margin:"5%" }}>
 
@@ -304,7 +307,7 @@ const CalendarCModal = ({
                   // fullWidth
                   variant="standard"
                   onChange={(v) => setNombreEvento(v.target.value)}
-                  error={nombreEvento === null ? true : false}
+                  error={nombreEvento == null ? true : false}
                   InputProps={{}}
                 />
 
@@ -320,7 +323,7 @@ const CalendarCModal = ({
                     inputProps: { min: inicioEventoMin, max: finEventoMax },
                   }}
                   onChange={handleFechaInicio}
-                  error={inicioEvento === "" ? true : false}
+                  error={inicioEvento == "" ? true : false}
                 />
                 <Typography>Fecha de fin del evento*</Typography>
                 <Input
@@ -367,7 +370,7 @@ const CalendarCModal = ({
         ""
       )}
 
-      {modoModal === "Agregar Evento" ? (
+      {modoModal == "Agregar Evento" ? (
         Date.parse(inicioEventoMin) > Date.parse(inicioEvento) ? (
           ////// SI EL EVENTO YA INICIO NO DEJA Agregar y solo muestra ReadOnly
           <Container maxWidth="lg" sx={{ paddingTop: "5%" }}>
@@ -430,7 +433,7 @@ const CalendarCModal = ({
                           variant="standard"
                           sx={{ paddingBottom:"2%" }}
                           onChange={(v) => setNombreEvento(v.target.value)}
-                          error={nombreEvento === null ? true : false}
+                          error={nombreEvento == null ? true : false}
                           InputProps={{}}
                         />
 
@@ -447,7 +450,7 @@ const CalendarCModal = ({
                             inputProps: { min: inicioEventoMin, max: finEvento },
                           }}
                           onChange={handleFechaInicio}
-                          error={inicioEvento === "" ? true : false}
+                          error={inicioEvento == "" ? true : false}
                         />
 
                         <Typography variant="h6"  paddingTop={3} > Fecha de fin del evento</Typography>

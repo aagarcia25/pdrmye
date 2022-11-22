@@ -1,18 +1,29 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
   Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   TextField,
   InputAdornment,
+  DialogActions,
   Button,
   Grid,
 } from "@mui/material";
+import { porcentage } from '../../CustomToolbar'
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getUser, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getPU, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { UserReponse } from "../../../../../interfaces/user/UserReponse";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
@@ -29,6 +40,10 @@ const MunTerritorioModal = ({
   handleClose: Function,
   dt: any
 }) => {
+
+
+
+
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
@@ -37,6 +52,9 @@ const MunTerritorioModal = ({
   const [IdMunicipio, setIdMunicipio] = useState<object>();
   const [values, setValues] = useState<Imunicipio[]>();
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
+
+
+
 
   const municipiosc = () => {
     let data = {};
@@ -49,8 +67,11 @@ const MunTerritorioModal = ({
     setValues(m);
   };
 
+
+
+
   const handleSend = () => {
-    if (territorio === null) {
+    if (territorio == null) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -77,10 +98,10 @@ const MunTerritorioModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
 
       editar(data);
@@ -181,7 +202,7 @@ const MunTerritorioModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setTerritorio(Number(v.target.value))}
-              error={territorio === null ? true : false}
+              error={territorio == null ? true : false}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start"></InputAdornment>
@@ -202,7 +223,7 @@ const MunTerritorioModal = ({
           >
             <Grid item xs={4} sm={3} md={2} lg={1}
             >
-              <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+              <Button className={tipo==1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo==1?"Guardar":"Actualizar"}</Button>
             </Grid>
           </Grid>
         </Grid>

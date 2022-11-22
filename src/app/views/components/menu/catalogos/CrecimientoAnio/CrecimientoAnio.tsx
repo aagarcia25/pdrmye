@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
+import {
+  Box,
+  IconButton,
+} from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
@@ -52,12 +58,12 @@ const CrecimientoAnio = () => {
     },
   ];
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   }
@@ -142,13 +148,13 @@ const CrecimientoAnio = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "CRECANIO") {
         //console.log(item)
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.Referencia) == "EDIT") {
           setEditar(true);
         }
       }

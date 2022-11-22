@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+
 import {
   Box, Grid, Typography,
 } from "@mui/material";
+
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import {
   getPermisos,
@@ -10,12 +12,14 @@ import {
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import MunFacturacionModal from "./MunFacturacionModal";
-import { Moneda } from "../../CustomToolbar";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import { currencyFormatter, Moneda } from "../../CustomToolbar";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
@@ -93,12 +97,12 @@ export const MunFacturacion = () => {
 
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setData(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   }
@@ -182,7 +186,7 @@ export const MunFacturacion = () => {
 
   const handleUpload = (data: any) => {
 
-    if (data.tipo === 1) {
+    if (data.tipo == 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -207,7 +211,7 @@ export const MunFacturacion = () => {
   
       });
     } 
-    else if (data.tipo === 2) {
+    else if (data.tipo == 2) {
 
       if(selectionModel.length!==0){
       Swal.fire({
@@ -261,7 +265,10 @@ export const MunFacturacion = () => {
         confirmButtonText: "Aceptar",
       });
     }
+
+
     }
+
   };
 
 
@@ -304,10 +311,10 @@ export const MunFacturacion = () => {
         //console.log(item)
         setNombreMenu(item.Menu);
 
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.Referencia) == "EDIT") {
           setEditar(true);
         }
       }
@@ -322,6 +329,7 @@ export const MunFacturacion = () => {
   return (
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
+
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
@@ -338,6 +346,8 @@ export const MunFacturacion = () => {
           onInputChange={handleFilterChange}
           placeholder={"Seleccione Año"} label={""} disabled={false} />
       </Box>
+
+
       <ButtonsMunicipio
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"MUNFA"} />

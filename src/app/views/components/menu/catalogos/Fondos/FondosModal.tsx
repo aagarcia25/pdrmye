@@ -1,6 +1,9 @@
 import {
+  Dialog,
+  DialogTitle,
   DialogContent,
   TextField,
+  DialogActions,
   Button,
   FormControlLabel,
   Checkbox,
@@ -63,7 +66,7 @@ const FondosModal = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
-    if((event.target as HTMLInputElement).value === "Estatal"){
+    if((event.target as HTMLInputElement).value == "Estatal"){
       setEstatal(true);
       setFederal(false);
     }else{
@@ -116,17 +119,17 @@ const FondosModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
       editar(data);
     }
   };
 
   const handleSend = () => {
-    if (Clave === null || Descripcion === null ){
+    if (Clave == null || Descripcion == null ){
       AlertS.fire({
         title: "",
         text: "Favor de Completar los Campos",
@@ -165,20 +168,20 @@ const FondosModal = ({
         setDescripcion(dt?.row?.Descripcion);
         setTipoFondo(dt?.row?.idtipo);
   
-        if(dt?.row?.AplicaCalculo === 1){
+        if(dt?.row?.AplicaCalculo == 1){
           setAplicaCalculo(true);
         }else{
           setAplicaCalculo(false);
         }
   
-        if(dt?.row?.Vigente === 1){
+        if(dt?.row?.Vigente == 1){
           setVigente(true);
         }else{
           setVigente(false);
         }
       
        
-        if(dt?.row?.Estatal === 1){
+        if(dt?.row?.Estatal == 1){
           setValue("Estatal");
           setEstatal(true);
           setFederal(false);
@@ -221,7 +224,7 @@ const FondosModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setClave(v.target.value)}
-                error={Clave === null ? true : false}
+                error={Clave == null ? true : false}
               />
             </Grid>
             <Grid item xs={12}>
@@ -236,7 +239,7 @@ const FondosModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setDescripcion(v.target.value)}
-                error={Descripcion === null ? true : false}
+                error={Descripcion == null ? true : false}
               />
             </Grid>
 
@@ -317,7 +320,7 @@ const FondosModal = ({
         >
           <Grid item xs={4} sm={3} md={2} lg={1}
           >
-            <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+            <Button className={tipo==1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo==1?"Guardar":"Actualizar"}</Button>
           </Grid>
         </Grid>
 

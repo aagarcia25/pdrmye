@@ -1,10 +1,11 @@
-import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Button, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
 import PlantillaBienvenido from "./PlantillaBienvenido";
 import MobileStepper from "@mui/material/MobileStepper";
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import { AlignHorizontalCenter, ImageSearch, KeyboardArrowLeft, KeyboardArrowRight, Padding } from "@mui/icons-material";
 import { COLOR } from "../../styles/colors";
+import CardComponente from "./CardComponente";
 import { AlertS } from "../../helpers/AlertS";
 import { Toast } from "../../helpers/Toast";
 import { CatalogosServices } from "../../services/catalogosServices";
@@ -123,7 +124,7 @@ export default function Bienvenido({ user }: { user: any }) {
         sx={{
           width: "100%",
           height: "100%",
-          display: user.PERFILES[0].Referencia === "MUN" ? "block" : "none",
+          display: user.PERFILES[0].Referencia == "MUN" ? "block" : "none",
         }}
       >
         {/*CONTENIDO DE LA VISTA DE BIENVENIDA DE LOS MUNICIPIOS*/}
@@ -296,7 +297,7 @@ export default function Bienvenido({ user }: { user: any }) {
 
       <Box
         sx={{
-          display: user.PERFILES[0].Referencia === "ORG" ? "block" : "none",
+          display: user.PERFILES[0].Referencia == "ORG" ? "block" : "none",
         }}
       >
         MUNICIPIOS
@@ -304,7 +305,7 @@ export default function Bienvenido({ user }: { user: any }) {
 
       <Box
         sx={{
-          display: user.PERFILES[0].Referencia === "ADMIN" ? "block" : "none",
+          display: user.PERFILES[0].Referencia == "ADMIN" ? "block" : "none",
         }}
       >
         <PlantillaBienvenido
@@ -322,7 +323,7 @@ export default function Bienvenido({ user }: { user: any }) {
 
       <Box
         sx={{
-          display: user.PERFILES[0].Referencia === "ANA" ? "block" : "none",
+          display: user.PERFILES[0].Referencia == "ANA" ? "block" : "none",
         }}
       >
         <PlantillaBienvenido
@@ -340,7 +341,7 @@ export default function Bienvenido({ user }: { user: any }) {
 
       <Box
         sx={{
-          display: user.PERFILES[0].Referencia === "COOR" ? "block" : "none",
+          display: user.PERFILES[0].Referencia == "COOR" ? "block" : "none",
         }}
       >
 
@@ -363,7 +364,7 @@ export default function Bienvenido({ user }: { user: any }) {
 
       <Box
         sx={{
-          display: user.PERFILES[0].Referencia === "DIR" ? "block" : "none",
+          display: user.PERFILES[0].Referencia == "DIR" ? "block" : "none",
         }}
       >
         <PlantillaBienvenido

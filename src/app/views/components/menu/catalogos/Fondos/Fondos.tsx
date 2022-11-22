@@ -14,6 +14,7 @@ import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import FondosView from "./FondosView";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import ModalForm from "../../../componentes/ModalForm";
 import FondosTipoView from "./FondosTipoView";
 const Fondos = () => {
 
@@ -119,12 +120,12 @@ const Fondos = () => {
 
   ];
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   }
@@ -223,16 +224,16 @@ const Fondos = () => {
       if (String(item.ControlInterno) === "FONDOS") {
         setNombreMenu(item.Menu);
         //console.log(item.Menu)
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.Referencia) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.Referencia) == "EDIT") {
           setEditar(true);
         }
-        if (String(item.Referencia) === "VIS") {
+        if (String(item.Referencia) == "VIS") {
           setView(true);
         }
       }
@@ -277,6 +278,7 @@ const Fondos = () => {
         ""
       )}
 
+
       <Grid container
         sx={{justifyContent: "center"}}>
         <Grid item xs={10} sx={{textAlign:"center"}}>
@@ -286,8 +288,13 @@ const Fondos = () => {
         </Grid>
       </Grid>
 
+
+
+
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={fondos} />
+
+
     </div>
   );
 };

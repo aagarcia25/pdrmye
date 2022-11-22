@@ -7,11 +7,7 @@ import {
     styled,
     Paper,
 } from "@mui/material";
-<<<<<<< Updated upstream
 import React, { useEffect, useState } from "react";
-=======
-import { useEffect, useState } from "react";
->>>>>>> Stashed changes
 import { GridColDef } from '@mui/x-data-grid';
 
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
@@ -117,7 +113,11 @@ const FondosView = ({
                 }
             });
         }
+
+
     };
+
+
 
     const columns: GridColDef[] = [
         {

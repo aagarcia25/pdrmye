@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
 import { TextField, DialogActions,  DialogContent, FormControl, InputLabel, MenuItem, Select, Grid,  Button } from "@mui/material";
-=======
-import { TextField, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select, Grid, Button } from "@mui/material";
->>>>>>> Stashed changes
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
@@ -39,9 +35,9 @@ const MenuModal = ({
 
   const handleSend = () => {
     if (
-      Menu === "" ||
-      Descripcion === "" ||
-      Path === ""
+      Menu == "" ||
+      Descripcion == "" ||
+      Path == ""
     ) {
       AlertS.fire({
         title: "Error!",
@@ -70,7 +66,7 @@ const MenuModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: tipo === 1 ? "Registro Agregado!" : "Registro Editado!",
+          title: tipo == 1 ? "Registro Agregado!" : "Registro Editado!",
         });
         handleClose();
       } else {
@@ -122,16 +118,18 @@ const MenuModal = ({
 
   return (
     <div>
-      <ModalForm title={tipo === 1 ? "Nuevo Registro" : "Editar Registro"} handleClose={handleClose}>
+      <ModalForm title={tipo == 1 ? "Nuevo Registro" : "Editar Registro"} handleClose={handleClose}>
         <Slider open={openSlider}></Slider>
 
         <DialogContent>
-          <Grid container
-            sx={{
-              justifyContent: "center"
+
+
+          <Grid container 
+              sx={{
+                justifyContent: "center"
 
             }}
-
+          
           >
 
             <Grid item sm={8}>
@@ -145,7 +143,7 @@ const MenuModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setMenu(v.target.value)}
-                error={Menu === "" ? true : false}
+                error={Menu == "" ? true : false}
               />
             </Grid>
             <Grid item sm={8}>
@@ -160,7 +158,7 @@ const MenuModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setDescripcion(v.target.value)}
-                error={Descripcion === "" ? true : false}
+                error={Descripcion == "" ? true : false}
               />
             </Grid>
             <Grid item sm={8}>
@@ -185,8 +183,8 @@ const MenuModal = ({
                 </Select>
               </FormControl>
 
-            </Grid>
-            <Grid item sm={8}>
+             </Grid>
+             <Grid item sm={8}>
 
 
               <TextField
@@ -199,7 +197,7 @@ const MenuModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setPath(v.target.value)}
-                error={Path === "" ? true : false}
+                error={Path == "" ? true : false}
               />
             </Grid>
             <Grid item sm={8}>
@@ -215,7 +213,7 @@ const MenuModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setNivel(v.target.value)}
-                error={Nivel === null ? true : false}
+                error={Nivel == null ? true : false}
               />
             </Grid>
             <Grid item sm={8}>
@@ -231,7 +229,7 @@ const MenuModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setOrden(v.target.value)}
-                error={Orden === "" ? true : false}
+                error={Orden == "" ? true : false}
               />
             </Grid>
 
@@ -239,7 +237,7 @@ const MenuModal = ({
         </DialogContent>
 
         <DialogActions>
-          <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+          <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
         </DialogActions>
 
       </ModalForm>

@@ -2,7 +2,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import validator from 'validator';
-import { AlertS } from "../../../helpers/AlertS";
+import { AlertD, AlertS } from "../../../helpers/AlertS";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { Toast } from "../../../helpers/Toast";
 import { getUser } from "../../../services/localStorage";
@@ -15,7 +15,9 @@ const AgregarContactoMunicipio = () => {
 
     const [uploadFile, setUploadFile] = useState("");
     const [nombreArchivo, setNombreArchivo] = useState("");
+    // const [tipoArchivo, setTipoArchivo] = useState("");
     const [newImage, setNewImage] = useState(Object);
+
     const [municipio, setMunicipio] = useState("")
     const [tesorero, setTesorero] = useState("")
     const [responsable, setResponable] = useState("")
@@ -23,9 +25,10 @@ const AgregarContactoMunicipio = () => {
     const [telefono, setTelefono] = useState("")
     const [horario, setHorario] = useState("")
     const [web, setWeb] = useState("")
+
+
     const [verificaForm, setVerificaFrom] = useState(false);
     const [openDialogConfirmacion, setOpenDialogConfirmacion] = useState(false);
-
     const [dato, setDato] = useState<IDatoMunicipio>(
         {
             id:"",
@@ -81,6 +84,7 @@ const AgregarContactoMunicipio = () => {
                 {
                     setDato(res.RESPONSE)
                     setNuevoRegistro(false)
+                    
                     
                 }else{
                     setNuevoRegistro(true)
