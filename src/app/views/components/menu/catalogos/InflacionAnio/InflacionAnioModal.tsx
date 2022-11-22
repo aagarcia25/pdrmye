@@ -37,7 +37,7 @@ const InflacionAnioModal = ({
 
 
   const handleSend = () => {
-    if (anio == "" || inflacion == "") {
+    if (anio === "" || inflacion === "") {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -58,10 +58,10 @@ const InflacionAnioModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo == 1) {
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -127,7 +127,7 @@ const InflacionAnioModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
+            error={anio === "" ? true : false}
           />
 
           <TextField
@@ -140,7 +140,7 @@ const InflacionAnioModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setInflacion(v.target.value)}
-            error={inflacion == "" ? true : false}
+            error={inflacion === "" ? true : false}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="start">%</InputAdornment>
