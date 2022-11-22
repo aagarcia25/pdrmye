@@ -10,7 +10,11 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+<<<<<<< Updated upstream
 import { getMunicipios, getUser,  validaLocalStorage } from "../../../../../services/localStorage";
+=======
+import { getMunicipios, getUser, validaLocalStorage } from "../../../../../services/localStorage";
+>>>>>>> Stashed changes
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
@@ -29,10 +33,6 @@ const MunPobrezaExtremaModal = ({
   handleClose: Function,
   dt: any
 }) => {
-
-
-
-
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState<number>();
@@ -44,8 +44,6 @@ const MunPobrezaExtremaModal = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
 
-
-
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -56,12 +54,8 @@ const MunPobrezaExtremaModal = ({
     let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
     setValues(m);
   };
-
-
-
-
   const handleSend = () => {
-    if (poblacion == null || anio == null || carenciaProm == null || IdMunicipio == null) {
+    if (poblacion === null || anio === null || carenciaProm === null || IdMunicipio === null) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -88,10 +82,10 @@ const MunPobrezaExtremaModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo == 1) {
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
 
       editar(data);
@@ -162,12 +156,7 @@ const MunPobrezaExtremaModal = ({
 
 
   }, [dt]);
-
-
-
   return (
-
-
     <div>
       <ModalForm title={modo} handleClose={handleClose}>
         <Grid container
@@ -179,7 +168,6 @@ const MunPobrezaExtremaModal = ({
             alignItems: "center",
             flexDirection: "row",
           }}
-
         >
           <Grid item xs={7} sm={8} md={8} lg={8}>
           <Box>
@@ -198,9 +186,9 @@ const MunPobrezaExtremaModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setAnio(Number(v.target.value))}
-                error={anio == null ? true : false}
+                error={anio === null ? true : false}
                 InputProps={{
-                  readOnly: tipo == 1 ? false : true,
+                  readOnly: tipo === 1 ? false : true,
 
                 }}
               />
@@ -215,9 +203,9 @@ const MunPobrezaExtremaModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setAnio(Number(v.target.value))}
-                error={anio == null ? true : false}
+                error={anio === null ? true : false}
                 InputProps={{
-                  readOnly: tipo == 1 ? false : true,
+                  readOnly: tipo === 1 ? false : true,
 
                 }}
               />
@@ -235,7 +223,7 @@ const MunPobrezaExtremaModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setPoblacion(Number(v.target.value))}
-              error={poblacion == null ? true : false}
+              error={poblacion === null ? true : false}
             />
           </Grid>
 
@@ -253,7 +241,7 @@ const MunPobrezaExtremaModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setCarenciaProm(Number(v.target.value))}
-              error={carenciaProm == null ? true : false}
+              error={carenciaProm === null ? true : false}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">%</InputAdornment>
@@ -275,7 +263,7 @@ const MunPobrezaExtremaModal = ({
           >
             <Grid item xs={4} sm={3} md={2} lg={1}
             >
-              <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
+              <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
             </Grid>
           </Grid>
         </Grid>

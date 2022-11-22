@@ -4,7 +4,6 @@ import {
   Container,
   Dialog,
   DialogActions,
-  DialogContent,
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -34,13 +33,6 @@ export const PerfilesUsuarioModal = ({
   const [referencia, setReferencia] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  //IMPRESIONES DE CAMPOS
-  //console.log("---------Impresión de CAMPOS------");
-  //console.log("id", id);
-  //console.log("descripcion :", descripcion);
-  //console.log("referencia :", referencia);
-  //console.log("---------FIN-de-Impresión de CAMPOS------");
-
   const handleSend = () => {
     if (!descripcion || !referencia) {
       AlertS.fire({
@@ -56,18 +48,16 @@ export const PerfilesUsuarioModal = ({
         DESCRIPCION: descripcion,
         REFERENCIA: referencia,
       };
-      //console.log("data de modal", data);
       handleRequest(data);
       handleClose();
     }
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
-    if (tipo == 1) {
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -80,14 +70,12 @@ export const PerfilesUsuarioModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-        //console.log("Sé pudo agregar");
       } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        //console.log("No se pudo agregar");
       }
     });
   };
@@ -121,10 +109,10 @@ export const PerfilesUsuarioModal = ({
 
   return (
     <Dialog open={open} fullScreen>
-<ModalForm title={modo} handleClose={handleClose}>
+      <ModalForm title={modo} handleClose={handleClose}>
 
         <Box boxShadow={2}>
-        
+
           {modo === "Agregar Registro" ? (
             <Container maxWidth="sm" >
               <TextField
@@ -191,21 +179,21 @@ export const PerfilesUsuarioModal = ({
           ) : (
             ""
           )}
-        <Box  display="flex" justifyContent="center" sx={{ paddingBottom:"2%", paddingTop:"1%" }} > 
-        <Box maxWidth={100} >
-        <DialogActions>
-        <Button className="actualizar" onClick={() => handleSend()}>
-          Actualizar
-        </Button>
-      </DialogActions>
-      </Box>
-      </Box> 
+          <Box display="flex" justifyContent="center" sx={{ paddingBottom: "2%", paddingTop: "1%" }} >
+            <Box maxWidth={100} >
+              <DialogActions>
+                <Button className="actualizar" onClick={() => handleSend()}>
+                  Actualizar
+                </Button>
+              </DialogActions>
+            </Box>
+          </Box>
 
         </Box>
-     
-    
 
-</ModalForm>
+
+
+      </ModalForm>
 
 
     </Dialog>

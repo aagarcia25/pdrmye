@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   Box,
@@ -18,8 +18,6 @@ import { getUser } from "../../services/localStorage";
 import "../../styles/globals.css";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { MailServices } from "../../services/MailServices";
-import { Subject } from "@mui/icons-material";
-import { bgcolor, margin } from "@mui/system";
 import { COLOR } from "../../styles/colors";
 
 const ListNotificationsModal = ({
@@ -97,7 +95,7 @@ const ListNotificationsModal = ({
 
   const handleUpload = () => {
 
-    if (newEncabezado == null || newMensaje == null || chuserDestin == null) {
+    if (newEncabezado === null || newMensaje === null || chuserDestin === null) {
       AlertS.fire({
         title: "Verificar!",
         text: "Verificar los campos!",

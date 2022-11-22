@@ -80,17 +80,17 @@ const CoeficientesModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo == 1) {
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
   };
 
   const handleSend = () => {
-    if (descripcion == "") {
+    if (descripcion === "") {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -115,7 +115,7 @@ const CoeficientesModal = ({
     } else {
       setId(dt?.row?.id);
       setDescripcion(dt?.row?.Descripcion);
-      if (dt?.row?.Vigente == "1") {
+      if (dt?.row?.Vigente === "1") {
         setChecked(true);
         setVigente(true);
       } else {
@@ -142,7 +142,7 @@ const CoeficientesModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setDescripcion(v.target.value)}
-              error={descripcion == "" ? true : false}
+              error={descripcion === "" ? true : false}
             />
 
 
