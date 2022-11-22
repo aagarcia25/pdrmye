@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { ta } from 'date-fns/locale';
-import { Button, ButtonGroup, Grid } from '@mui/material';
+import { Button, ButtonGroup, Grid, Typography } from '@mui/material';
 import MUIXDataGrid from '../MUIXDataGrid';
 import { GridColDef } from '@mui/x-data-grid';
 
@@ -126,21 +126,21 @@ const RecepcionRecursos = () => {
   return (
     <div>
       <Box sx={{ width: '100%', typography: 'body1' }}>
-        <Grid container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+        <Grid container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", paddingTop:"2%",paddingBottom:"2%" }}>
 
           <ButtonGroup variant="outlined" aria-label="outlined primary button group">
             
             <Button className='subtitulo'  color={recursoButton == "PF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PF")}> 
-             Participaciones Federales 
+             <Typography variant='h6'> Participaciones Federales   </Typography> 
              </Button>
             <Button className='subtitulo' color={recursoButton == "PE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PE")}>
-              Participaciones Estatales
+            <Typography variant='h6'> Participaciones Estatales  </Typography> 
             </Button>
             <Button className='subtitulo' color={recursoButton == "AF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AF")}>
-              Aportaciones Federales
+            <Typography variant='h6'> Aportaciones Federales   </Typography> 
             </Button>
             <Button className='subtitulo' color={recursoButton == "AE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AE")}>
-              Aportaciones Estatales
+            <Typography variant='h6'> Aportaciones Estatales  </Typography> 
             </Button>
           </ButtonGroup>
         </Grid>
