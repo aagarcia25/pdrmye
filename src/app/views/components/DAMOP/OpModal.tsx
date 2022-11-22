@@ -320,7 +320,7 @@ export const OpModal = (
                             <label className='contenido'>{data.Total}</label>
                         </Grid>
                         <Grid item xs={6} >
-                            <label className='subtitulo'>Fecha de Solicitud:</label>
+                            <label className='subtitulo'>{"Fecha de Solicitud:  "}</label>
                             <label className='contenido'>{data.FechaCreacion.slice(0,10)}</label>
                             <br />
                             <label className='contenido'>{data.Concepto}</label>
