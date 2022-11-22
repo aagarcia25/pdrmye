@@ -52,7 +52,7 @@ export const BancosModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
+    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -100,7 +100,7 @@ export const BancosModal = ({
 
   useEffect(() => {
     if (dt === "") {
-      console.log(dt);
+      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setNombre(dt?.row?.Nombre);

@@ -170,7 +170,7 @@ export const Municipios = () => {
   };
 
   const handleCC = (v: any) => {
-    console.log(v);
+    //console.log(v);
     setId(v.row.id);
     setNombreMun(v.row.Nombre)
     setOpenCC(true);
@@ -200,7 +200,7 @@ export const Municipios = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
         const user: RESPONSE = JSON.parse(String(getUser()));
 
         let data = {
@@ -208,7 +208,7 @@ export const Municipios = () => {
           CHID: v.row.id,
           CHUSER: user.id,
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.municipios(data).then((res) => {
           if (res.SUCCESS) {
@@ -265,7 +265,7 @@ export const Municipios = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        console.log(data);
+        //console.log(data);
         setMunicipio(res.RESPONSE);
       } else {
         AlertS.fire({
@@ -273,8 +273,8 @@ export const Municipios = () => {
           text: res.STRMESSAGE,
           icon: "error",
         });
-        console.log(res);
-        console.log(res.SUCCESS);
+        //console.log(res);
+        //console.log(res.SUCCESS);
       }
     });
   };
@@ -282,7 +282,7 @@ export const Municipios = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNICIPIOS") {
-        console.log(item);
+        //console.log(item);
         setNombreMenu(item.Menu);
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);

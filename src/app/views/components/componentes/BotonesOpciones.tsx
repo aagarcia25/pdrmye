@@ -32,11 +32,11 @@ const BotonesOpciones = ({
   area: string;
 }) => {
   const user: RESPONSE = JSON.parse(String(getUser()));
-  console.log("PERFIL DEL USUARIO" + user.PERFILES[0].Referencia);
-  console.log("DEPARTAMENTO DEL USUARIO" + user.DEPARTAMENTOS[0].NombreCorto);
+  //console.log("PERFIL DEL USUARIO" + user.PERFILES[0].Referencia);
+  //console.log("DEPARTAMENTO DEL USUARIO" + user.DEPARTAMENTOS[0].NombreCorto);
 
-  console.log("PERFIL DONDE SE ENCUENTRA EL CALCULO" + perfil);
-  console.log("AREA DONDE SE ENCUENTRA EL CALCULO" + area);
+  //console.log("PERFIL DONDE SE ENCUENTRA EL CALCULO" + perfil);
+  //console.log("AREA DONDE SE ENCUENTRA EL CALCULO" + area);
 
   return (
     <div>

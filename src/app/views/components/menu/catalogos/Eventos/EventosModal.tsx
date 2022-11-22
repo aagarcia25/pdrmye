@@ -74,15 +74,15 @@ const EventosModal = ({
 
 
   const testeoVariables = () => {
-    console.log("inicio de evento   " + inicioEvento)
-    console.log("fin de evento   " + finEvento)
-    console.log("noombre de evento    " + nameEvent)
-    console.log("detalles de evento   " + descripcion);
-    console.log("imagen   " + urlImage)
-    console.log("nuevo usl de imagen   "+ previewImage)
-    console.log("hoy   "+ hoy.getFullYear())
-    console.log("fecha de hoy   "+ Fecha_min)
-    console.log("numero de operacion  "+tipo)
+    //console.log("inicio de evento   " + inicioEvento)
+    //console.log("fin de evento   " + finEvento)
+    //console.log("noombre de evento    " + nameEvent)
+    //console.log("detalles de evento   " + descripcion);
+    //console.log("imagen   " + urlImage)
+    //console.log("nuevo usl de imagen   "+ previewImage)
+    //console.log("hoy   "+ hoy.getFullYear())
+    //console.log("fecha de hoy   "+ Fecha_min)
+    //console.log("numero de operacion  "+tipo)
    
   }
 
@@ -214,7 +214,7 @@ const EventosModal = ({
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "EVENTOS") {
-        console.log(item)
+        //console.log(item)
         if (String(item.Referencia) == "EDIT") {
           setEditar(true);
         }

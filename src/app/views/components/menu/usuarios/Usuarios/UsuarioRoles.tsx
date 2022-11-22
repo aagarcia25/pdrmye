@@ -76,7 +76,7 @@ const UsuarioRoles = ({
       IDUSUARIO:dt?.id,
       IDROL:v.id
     };
-    console.log(data);
+    //console.log(data);
     AuthService.RelacionarUsuarioRol(data).then((res) => {
       consulta();
 
@@ -95,10 +95,10 @@ const UsuarioRoles = ({
         OBJS: idRol,
         IDUSUARIO:dt.id
     };
-    console.log(data);
+    //console.log(data);
     setOpenSlider(true);
     AuthService.RelacionarUsuarioRol(data).then((res) => {
-       console.log(res.RESPONSE);
+       //console.log(res.RESPONSE);
        setOpenSlider(false);
        consulta();
     });
@@ -107,7 +107,7 @@ const UsuarioRoles = ({
 
 
   const consulta = () => {
-    console.log(dt)
+    //console.log(dt)
     let data = {
       CHID: dt?.id,
       TIPO: 1,

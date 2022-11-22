@@ -82,7 +82,7 @@ const Art14m = ({
         if (result.isConfirmed) {
           setslideropen(true);
           ArticulosServices.generarVersion(data).then((res) => {
-            console.log(res);
+            //console.log(res);
             setslideropen(false);
             handleclose();
           });

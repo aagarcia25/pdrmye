@@ -51,7 +51,7 @@ export const Departamentos = () => {
 
   const handleAccion=(v: any)=>{
    if(v.tipo ==1){
-    console.log(v);
+    //console.log(v);
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
@@ -66,7 +66,7 @@ export const Departamentos = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
         const user: RESPONSE = JSON.parse(String(getUser()));
 
         let data = {
@@ -74,7 +74,7 @@ export const Departamentos = () => {
           CHID: v.row.id,
           CHUSER: user.id,
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.departamentos(data).then((res) => {
           if (res.SUCCESS) {
@@ -122,7 +122,7 @@ export const Departamentos = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        console.log(res);
+        //console.log(res);
         setDepartamento(res.RESPONSE);
       } else {
         AlertS.fire({
@@ -138,7 +138,7 @@ export const Departamentos = () => {
    
     permisos.map((item: PERMISO) => {
     if (String(item.ControlInterno) === "DEP") {
-      console.log(item)
+      //console.log(item)
       if (String(item.Referencia) == "AGREG") {
         setAgregar(true);
       }

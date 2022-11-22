@@ -150,8 +150,8 @@ function App() {
   const verificatoken = (token: string) => {
 
     UserServices.verify({}, token.replaceAll('"','')).then((res) => {
-      console.log(token)
-      console.log(token.replaceAll('"',''))
+      //console.log(token)
+      //console.log(token.replaceAll('"',''))
         if (res.status == 200) {
           setPU(res.data.data);
           const user: UserReponse = JSON.parse(String(getPU()));
@@ -234,8 +234,8 @@ function App() {
       setToken(jwt);
       verificatoken(String(jwt));
     } else if (getToken() != null) {
-     // console.log('token');
-     // console.log(String(getToken()))
+     // //console.log('token');
+     // //console.log(String(getToken()))
       verificatoken(String(getToken()));
     } else {
       Swal.fire({

@@ -78,7 +78,7 @@ export const PerfilesUsuario = () => {
 
       const handleAccion=(v: any)=>{
         if(v.tipo ==1){
-          console.log(v)
+          //console.log(v)
           setTipoOperacion(2);
           setModo("Editar Registro");
           setOpen(true);
@@ -94,7 +94,7 @@ export const PerfilesUsuario = () => {
             denyButtonText: `Cancelar`,
           }).then((result) => {
             if (result.isConfirmed) {
-              console.log(v);
+              //console.log(v);
               const user: RESPONSE = JSON.parse(String(getUser()));
       
               let data = {
@@ -102,7 +102,7 @@ export const PerfilesUsuario = () => {
                 CHID: v.row.id,
                 CHUSER: user.id,
               };
-              console.log(data);
+              //console.log(data);
       
               AuthService.perfilindex(data).then((res) => {
                 if (res.SUCCESS) {
@@ -148,9 +148,9 @@ export const PerfilesUsuario = () => {
               icon: "success",
               title: "Consulta Exitosa!",
             });
-            console.log(data);
+            //console.log(data);
             setPerfilUsuario(res.RESPONSE);
-            console.log("parametroGeneral consulta", perfilUsuario);
+            //console.log("parametroGeneral consulta", perfilUsuario);
           } else {
             AlertS.fire({
               title: "Error!",

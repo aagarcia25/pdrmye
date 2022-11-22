@@ -113,14 +113,14 @@ export const MunPoblacion = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
 
         CatalogosServices.munpoblacion(data).then((res) => {
@@ -169,8 +169,8 @@ export const MunPoblacion = () => {
 
     } 
     else if (data.tipo == 2) {
-      console.log("borrado de toda la tabla")
-      console.log(selectionModel)
+      //console.log("borrado de toda la tabla")
+      //console.log(selectionModel)
 
       if(selectionModel.length!==0){
       Swal.fire({
@@ -188,7 +188,7 @@ export const MunPoblacion = () => {
            OBJS: selectionModel,
            CHUSER: user.id
           };
-          console.log(data);
+          //console.log(data);
   
           CatalogosServices.munpoblacion(data).then((res) => {
             if (res.SUCCESS) {

@@ -24,7 +24,7 @@ export const Perfil = () => {
   const [user,setUser]=useState<RESPONSE>(JSON.parse(String(getUser())));
   
   //CAMPOS EN USO DE USUARIO
-  // console.log(user.Nombre);
+  // //console.log(user.Nombre);
   //Abrir Dialog de imagen
   const [openDialog, setOpenDialog] = useState(false)
   const [nombre, setNombre] = useState(user.Nombre);
@@ -93,14 +93,14 @@ export const Perfil = () => {
     AuthService.adminUser(dat).then((res) => {
 
       if (res.SUCCESS) {
-        console.log("se guardo");
-        console.log(res.SUCCESS);
+        //console.log("se guardo");
+        //console.log(res.SUCCESS);
         Toast.fire({
           icon: "success",
           title: "Datos actualizados.",
         });
       } else {
-        console.log(res.SUCCESS);
+        //console.log(res.SUCCESS);
 
         Toast.fire({
           icon: "error",

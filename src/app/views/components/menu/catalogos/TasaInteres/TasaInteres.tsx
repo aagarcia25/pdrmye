@@ -45,7 +45,7 @@ export const TasaInteres = () => {
 
   useEffect(() => {
     CatalogosServices.getTasainteres(data).then((res) => {
-      //  console.log(res);
+      //  //console.log(res);
       setTasa(res.RESPONSE);
     });
   }, []);

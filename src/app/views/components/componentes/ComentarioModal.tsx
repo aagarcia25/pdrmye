@@ -63,7 +63,7 @@ const ComentarioModal = ({
     }
     useEffect(() => {
 
-        console.log(vrows);
+        //console.log(vrows);
 
 
     }, []);

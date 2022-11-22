@@ -97,7 +97,7 @@ const MunTerritorioModal = ({
 
 
   const handleRequest = (data: any) => {
-    console.log(data);
+    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -151,14 +151,14 @@ const MunTerritorioModal = ({
     municipiosc();
 
     if (dt === '') {
-      console.log(dt)
+      //console.log(dt)
 
     } else {
       setId(dt?.row?.id)
       setAnio(dt?.row?.Anio)
       setTerritorio(dt?.row?.Km2)
       setIdMunicipio(dt?.row?.idmunicipio)
-      console.log(dt)
+      //console.log(dt)
     }
 
     let data = { NUMOPERACION: 5 };
@@ -167,7 +167,7 @@ const MunTerritorioModal = ({
     });
 
 
-    console.log(dt)
+    //console.log(dt)
   }, [dt]);
 
 

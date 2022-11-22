@@ -36,15 +36,15 @@ export const CalculoGarantiaModal = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   //IMPRESIONES DE CAMPOS
-  console.log("---------Impresión de CAMPOS------");
-  console.log("id", id);
-  console.log("anio :", anio);
-  console.log("claveFondo :", claveFondo);
-  console.log("garantia :", garantia);
-  console.log("municipio :", municipio);
-  console.log("municipios :", municipios);
-  console.log("fondos :", fondos);
-  console.log("---------FIN-de-Impresión de CAMPOS------");
+  //console.log("---------Impresión de CAMPOS------");
+  //console.log("id", id);
+  //console.log("anio :", anio);
+  //console.log("claveFondo :", claveFondo);
+  //console.log("garantia :", garantia);
+  //console.log("municipio :", municipio);
+  //console.log("municipios :", municipios);
+  //console.log("fondos :", fondos);
+  //console.log("---------FIN-de-Impresión de CAMPOS------");
 
   const municipiosC = () => {
     let data = { NUMOPERACION: 4 };
@@ -82,14 +82,14 @@ export const CalculoGarantiaModal = ({
         IDMUNICIPIO: municipio,
         DELETED: 0,
       };
-      console.log("data de modal", data);
+      //console.log("data de modal", data);
       handleRequest(data);
       handleClose();
     }
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
+    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -106,14 +106,14 @@ export const CalculoGarantiaModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-        console.log("Sé pudo agregar");
+        //console.log("Sé pudo agregar");
       } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        console.log("No se pudo agregar");
+        //console.log("No se pudo agregar");
       }
     });
   };

@@ -145,14 +145,14 @@ export const MunFacturacion = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.munfacturacion(data).then((res) => {
           if (res.SUCCESS) {
@@ -230,7 +230,7 @@ export const MunFacturacion = () => {
            CHUSER: user.id,
           
           };
-          console.log(data);
+          //console.log(data);
   
           CatalogosServices.munfacturacion(data).then((res) => {
             if (res.SUCCESS) {
@@ -308,7 +308,7 @@ export const MunFacturacion = () => {
     downloadplantilla();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNFA") {
-        console.log(item)
+        //console.log(item)
         setNombreMenu(item.Menu);
 
         if (String(item.Referencia) == "ELIM") {

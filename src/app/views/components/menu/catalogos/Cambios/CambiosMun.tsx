@@ -152,10 +152,10 @@ const CambiosMun = () => {
         setOpenModal(true);
         setModoVer(false);
         setVrows(v.row);
-        console.log(v.row)
+        //console.log(v.row)
         setComentario(v?.row?.Comentario);
         setSolicitud(JSON.parse(String(v.row.Solicitud)));
-        console.log(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
+        //console.log(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setSolicitante(v?.row?.Solicitante)
         setIdSolicitante(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setOrigen(JSON.parse(String(v.row.Origen)));
@@ -169,10 +169,10 @@ const CambiosMun = () => {
         setOpenModal(true);
         setModoVer(true);
         setVrows(v.row);
-        console.log(v.row)
+        //console.log(v.row)
         setComentario(v?.row?.Comentario);
         setSolicitud(JSON.parse(String(v.row.Solicitud)));
-        console.log(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
+        //console.log(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setSolicitante(v?.row?.Solicitante)
         setIdSolicitante(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setOrigen(JSON.parse(String(v.row.Origen)));
@@ -188,7 +188,7 @@ const CambiosMun = () => {
 
     };
     const acciones = (v: any) => {
-        console.log(v);
+        //console.log(v);
 
         if (comentario) {
             Swal.fire({
@@ -209,7 +209,7 @@ const CambiosMun = () => {
                         COMENTARIO: comentario
                     }).then((res) => {
                         if (res.SUCCESS) {
-                            console.log(res.RESPONSE)
+                            //console.log(res.RESPONSE)
                             handleClose();
                         } else {
 
@@ -246,7 +246,7 @@ const CambiosMun = () => {
                     icon: "success",
                     title: "Consulta Exitosa!",
                 });
-                // console.log(res.RESPONSE);
+                // //console.log(res.RESPONSE);
                 setBitacoraAjustes(res.RESPONSE);
             } else {
                 AlertS.fire({

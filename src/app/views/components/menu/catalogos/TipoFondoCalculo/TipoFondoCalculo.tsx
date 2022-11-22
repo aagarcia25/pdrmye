@@ -117,7 +117,7 @@ const TipoFondoCalculo = () => {
   };
 
   const handleAccion = (v: any) => {
-    console.log(v)
+    //console.log(v)
     if (v.tipo == 2) {
       setTipoOperacion(2);
       setVrows(v.data);

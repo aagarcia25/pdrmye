@@ -167,7 +167,7 @@ const handleNewFile = (event: any) => {
 useEffect(() => {
   permisos.map((item: PERMISO) => {
     if (String(item.ControlInterno) === "AVISOS") {
-      console.log(item)
+      //console.log(item)
       if (String(item.Referencia) == "EDIT") {
         setEditar(true);
       }

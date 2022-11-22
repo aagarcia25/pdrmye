@@ -33,12 +33,12 @@ export const ParametrosGeneralesModal = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   //IMPRESIONES DE CAMPOS
-  console.log("---------Impresión de CAMPOS------");
-  console.log("id", id);
-  console.log("nombre", nombre);
-  console.log("valor", valor);
-  console.log("user", user);
-  console.log("---------FIN-de-Impresión de CAMPOS------");
+  //console.log("---------Impresión de CAMPOS------");
+  //console.log("id", id);
+  //console.log("nombre", nombre);
+  //console.log("valor", valor);
+  //console.log("user", user);
+  //console.log("---------FIN-de-Impresión de CAMPOS------");
 
   const handleSend = () => {
     if (nombre === null || valor === null) {
@@ -54,14 +54,14 @@ export const ParametrosGeneralesModal = ({
         NOMBRE: nombre,
         VALOR: valor,
       };
-      console.log("data de modal", data);
+      //console.log("data de modal", data);
       handleRequest(data);
       handleClose();
     }
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
+    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -78,14 +78,14 @@ export const ParametrosGeneralesModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-        console.log("Sé pudo agregar");
+        //console.log("Sé pudo agregar");
       } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        console.log("No se pudo agregar");
+        //console.log("No se pudo agregar");
       }
     });
   };

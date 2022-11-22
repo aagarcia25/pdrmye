@@ -79,7 +79,7 @@ const CoeficientesModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
+    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -111,7 +111,7 @@ const CoeficientesModal = ({
 
   useEffect(() => {
     if (dt === "") {
-      console.log(dt);
+      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setDescripcion(dt?.row?.Descripcion);

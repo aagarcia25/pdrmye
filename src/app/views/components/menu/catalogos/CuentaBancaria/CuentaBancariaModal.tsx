@@ -146,7 +146,7 @@ export const CuentaBancariaModal = ({
       setslideropen(false);
     } else {
       const formData = new FormData();
-       console.log(nameNewDoc)
+       //console.log(nameNewDoc)
       if(nameNewDoc !== undefined ){
         formData.append("RUTADOCUMENTO", newDoc, nameNewDoc) ;
       }
@@ -168,7 +168,7 @@ export const CuentaBancariaModal = ({
       formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
       CatalogosServices.CuentaBancaria(formData).then((res) => {
         setslideropen(false);
-        console.log("res en service", res);
+        //console.log("res en service", res);
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
@@ -177,7 +177,7 @@ export const CuentaBancariaModal = ({
           handleClose();
         } else {
           setslideropen(false);
-          console.log("res en Sí res.SUCCESS no tiene nada", res);
+          //console.log("res en Sí res.SUCCESS no tiene nada", res);
           Swal.fire("Error inesperado", "Error!", "error");
         }
       });
@@ -224,7 +224,7 @@ export const CuentaBancariaModal = ({
 
   useEffect(() => {
     if (dt === "") {
-      console.log(dt);
+      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setIdBancos(dt?.row?.idbanco);

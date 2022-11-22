@@ -111,14 +111,14 @@ export const MunPobreza = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.munpobreza(data).then((res) => {
           if (res.SUCCESS) {
@@ -172,8 +172,8 @@ export const MunPobreza = () => {
 
     } 
     else if (data.tipo == 2) {
-      console.log("borrado de toda la tabla")
-      console.log(selectionModel)
+      //console.log("borrado de toda la tabla")
+      //console.log(selectionModel)
 
       if(selectionModel.length!==0){
       Swal.fire({
@@ -191,7 +191,7 @@ export const MunPobreza = () => {
            OBJS: selectionModel,
            CHUSER: user.id
           };
-          console.log(data);
+          //console.log(data);
   
           CatalogosServices.munpobreza(data).then((res) => {
             if (res.SUCCESS) {
@@ -274,7 +274,7 @@ export const MunPobreza = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPOBREZA") {
-        console.log(item)
+        //console.log(item)
         setNombreMenu(item.Menu);
 
         if (String(item.Referencia) == "ELIM") {

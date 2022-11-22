@@ -84,7 +84,7 @@ const InflacionAnio = () => {
   };
 
   const handleEdit = (v: any) => {
-    console.log(v)
+    //console.log(v)
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
@@ -101,14 +101,14 @@ const InflacionAnio = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.inflacionAnio(data).then((res) => {
           if (res.SUCCESS) {
@@ -157,7 +157,7 @@ const InflacionAnio = () => {
     
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "INFANIO") {
-        console.log(item)
+        //console.log(item)
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }
