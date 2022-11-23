@@ -106,10 +106,10 @@ const UsuariosMunicipios = ({
       <Dialog open={open} fullScreen>
      
      
-      <Grid container spacing={1}>
+      <Grid container spacing={1} sx={{ bgcolor:"#CCCCCC", paddingTop:"1%", paddingBottom:"1%" }}>
         <Grid item xs={11} sm={11} md={11} lg={11}>
           <Box sx={{ display:"flex",justifyContent:"center"}}>
-          <Typography><h2>Roles Relacionados al Usuario</h2></Typography>
+          <Typography variant='h4'> Roles Relacionados al Usuario </Typography>
           </Box>
        
         </Grid>
@@ -128,7 +128,8 @@ const UsuariosMunicipios = ({
 
 
         <DialogContent dividers={true}>
-          <Grid container spacing={1}>
+        <Box boxShadow={3}>
+          <Grid container spacing={1}  sx={{ padding:"1%"}}>
             <Grid item xs={12} sm={12} md={12} lg={12}></Grid>
 
             <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -137,7 +138,7 @@ const UsuariosMunicipios = ({
                   margin: 0,
                 }}
               >
-                <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                <Typography sx={{ fontFamily: "sans-serif" }}>
                   Seleccione Municipios
                 </Typography>
 
@@ -157,14 +158,14 @@ const UsuariosMunicipios = ({
                 variant="contained"
                 onClick={() =>handleMunicipios()}
               >
-                <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                <Typography sx={{ fontFamily: "sans-serif", color:"white"  }}>
                   Relacionar Municipios
                 </Typography>
               </Button>
             </Grid>
 
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>
                 Municipios Relacionados
               </Typography>
             </Grid>
@@ -174,6 +175,7 @@ const UsuariosMunicipios = ({
               </div>
             </Grid>
           </Grid>
+          </Box>
         </DialogContent>
 
       </Dialog>
