@@ -125,7 +125,7 @@ const saveInfo = () => {
                 <Button
                   color="info"
                   onClick={() => saveInfo()}
-                  sx={{ fontFamily: "MontserratRegular" }}
+                  sx={{ fontFamily: "sans-serif" }}
                 >
                   Actualizar
                 </Button>
@@ -134,7 +134,7 @@ const saveInfo = () => {
                 <Button
                   color="error"
                   onClick={() => handleClose()}
-                  sx={{ fontFamily: "MontserratRegular" }}
+                  sx={{ fontFamily: "sans-serif" }}
                 >
                   Salir
                 </Button>
