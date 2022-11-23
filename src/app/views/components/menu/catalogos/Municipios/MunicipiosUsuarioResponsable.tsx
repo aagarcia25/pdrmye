@@ -1,14 +1,10 @@
 import {
   Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -42,7 +38,7 @@ const MunicipiosUsuarioResponsable = ({
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion == 1) {
+      if (operacion === 1) {
         setUsuarios(res.RESPONSE);
         setUsuariosDelegado(res.RESPONSE);
         setslideropen(false);
@@ -95,25 +91,28 @@ const saveInfo = () => {
     >
      
       <div>
+        <Box boxShadow={3} paddingTop={3}>
         <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <Typography>Usuario Responsable</Typography>
+        <Grid xs={3}> </Grid>
+        <Grid xs={5}>
+          <Grid item xs={12} paddingBottom={2}>
+            <Typography variant="h6"> Usuario Responsable </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} paddingBottom={2}>
             <SelectFrag
               value={userid}
               options={usuarios}
               onInputChange={handleChange1}
-              placeholder={"Seleccione Usuario"}
+              placeholder={"Sleccione Usuario"}
               label={""}
               disabled={false}
             />
           </Grid>
 
-          <Grid item xs={12}>
-            <Typography>Usuario Delegado</Typography>
+          <Grid item xs={12} paddingBottom={2}>
+            <Typography variant="h6">Usuario Delegado</Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} paddingBottom={2}>
             <SelectFrag
               value={usedelegadoid}
               options={usuariosDelegado}
@@ -124,29 +123,32 @@ const saveInfo = () => {
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12} paddingBottom={2}>
             <Grid container spacing={1}>
-              <Grid item xs={6} md={6} lg={6}>
+            <Grid item xs={8} md={8} lg={8}> </Grid>
+              <Grid item xs={2} md={2} lg={2}>
                 <Button
                   color="info"
                   onClick={() => saveInfo()}
-                  sx={{ fontFamily: "MontserratRegular" }}
+                  sx={{ fontFamily: "sans-serif" }}
                 >
                   Actualizar
                 </Button>
               </Grid>
-              <Grid item xs={6} md={6} lg={6}>
+              <Grid item xs={2} md={2} lg={2}>
                 <Button
                   color="error"
                   onClick={() => handleClose()}
-                  sx={{ fontFamily: "MontserratRegular" }}
+                  sx={{ fontFamily: "sans-serif" }}
                 >
                   Salir
                 </Button>
               </Grid>
             </Grid>
           </Grid>
+          </Grid>
         </Grid>
+        </Box>
       </div>
     </ModalForm>
     </>

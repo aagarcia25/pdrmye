@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogContent,
   TextField,
   DialogActions,
   Grid,
@@ -36,16 +35,11 @@ const UsuariosModal = ({
   dt: any;
 }) => {
 
-
-
   const [id, setId] = useState<string>();
-
   const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
   const [idDepartamento, setIdDepartamento] = useState<string>("");
   const [perfiles, setPerfiles] = useState<SelectValues[]>([]);
   const [idPerfil, setIdPerfil] = useState<string>("");
-
-
   const [Nombre, setNombre] = useState<string>();
   const [ApellidoPaterno, setApellidoPaterno] = useState<string>();
   const [ApellidoMaterno, setApellidoMaterno] = useState<string>();
@@ -55,24 +49,16 @@ const UsuariosModal = ({
   const [curp, setCurp] = useState<string>();
   const [telefono, setTelefono] = useState<string>();
   const [celular, setCelular] = useState<string>();
-
   const [CorreoElectronico, setCorreoElectronico] = useState<string>();
   const [emailValid, setEmailValid] = useState<boolean>();
   const [telValid, setTelValid] = useState<boolean>();
   const [celValid, setCelValid] = useState<boolean>();
-
-
   const [tokenValid, setTokenValid] = useState<boolean>();
-
   const user: RESPONSE = JSON.parse(String(getUser()));
   const token = JSON.parse(String(getToken()));
   const [emailError, setEmailError] = useState('')
   const [telError, setTelError] = useState('')
   const [celError, setCelError] = useState('')
-  
-
-
-
 
   const loadFilter = (tipo: number) => {
     let data = { NUMOPERACION: tipo };
@@ -131,18 +117,18 @@ const UsuariosModal = ({
 
   const handleSend = () => {
     if (
-      !Nombre||
-      !ApellidoPaterno||
-      !ApellidoMaterno||
-      !NombreUsuario||
-      !CorreoElectronico||
-      !emailValid||
+      !Nombre ||
+      !ApellidoPaterno ||
+      !ApellidoMaterno ||
+      !NombreUsuario ||
+      !CorreoElectronico ||
+      !emailValid ||
       !telValid ||
-      !telefono||
-      !curp||
-      !rfc||
-      !idDepartamento||
-      !idPerfil||
+      !telefono ||
+      !curp ||
+      !rfc ||
+      !idDepartamento ||
+      !idPerfil ||
       !celular
     ) {
       AlertS.fire({
@@ -158,9 +144,9 @@ const UsuariosModal = ({
         CorreoElectronico: CorreoElectronico,
         IdUsuarioModificador: user.id,
         Curp: curp,
-        Rfc: rfc ,
+        Rfc: rfc,
         Celular: celular,
-        Telefono:telefono
+        Telefono: telefono
       };
       handleRequest(data);
     }
@@ -169,7 +155,7 @@ const UsuariosModal = ({
   const handleRequest = (data: any) => {
 
 
-    if (tipo == 5) {
+    if (tipo === 5) {
       let dat = {
         NUMOPERACION: tipo,
         CHUSER: user.id,
@@ -182,9 +168,9 @@ const UsuariosModal = ({
         PUESTO: puesto,
         IDDEPARTAMENTO: idDepartamento,
         IDPERFIL: idPerfil,
-        CURP: curp ,
-        RFC: rfc ,
-        CELULAR:  telefono
+        CURP: curp,
+        RFC: rfc,
+        CELULAR: telefono
       };
 
       AuthService.adminUser(dat).then((res) => {
@@ -201,7 +187,7 @@ const UsuariosModal = ({
       UserServices.signup(data, token).then((resUser) => {
 
 
-        if (resUser.status == 201) {
+        if (resUser.status === 201) {
 
           let data = {
             NUMOPERACION: 5,
@@ -225,12 +211,12 @@ const UsuariosModal = ({
                     AM: ApellidoMaterno,
                     NUSER: NombreUsuario,
                     CORREO: CorreoElectronico,
-                    IDDEPARTAMENTO: idDepartamento  ,
-                    IDPERFIL: idPerfil ,
-                    PUESTO: puesto ,
-                    CURP: curp ,
-                    RFC: rfc ,
-                    CELULAR:  telefono
+                    IDDEPARTAMENTO: idDepartamento,
+                    IDPERFIL: idPerfil,
+                    PUESTO: puesto,
+                    CURP: curp,
+                    RFC: rfc,
+                    CELULAR: telefono
 
                   };
 
@@ -244,10 +230,10 @@ const UsuariosModal = ({
                       };
                       UserServices.linkuserapp(datLink, token).then((resLink) => {
 
-                        if (resLink.status == 201) {
+                        if (resLink.status === 201) {
                           Toast.fire({
                             icon: "success",
-                            title: tipo == 3 ? "¡Registro exitoso!" : ""
+                            title: tipo === 3 ? "¡Registro exitoso!" : ""
                           });
                           handleClose("Registro Exitoso");
 
@@ -264,7 +250,7 @@ const UsuariosModal = ({
 
         }
 
-        else if (resUser.status == 409) {
+        else if (resUser.status === 409) {
           AlertS.fire({
             title: "Error!",
             text: resUser.data.msg,
@@ -277,20 +263,11 @@ const UsuariosModal = ({
 
   useEffect(() => {
 
-
-    const user: UserReponse = JSON.parse(String(getPU()));
-    const today = Date();
-    const dateExp = new Date(user.exp);
-    const dateIni = new Date(Number(user.iat));
-
-    //const diferencia=(today-user.exp) )
-
-
     let d = {
 
     }
     UserServices.verify(d, token).then((resAppLogin) => {
-      resAppLogin.status == 200 ?
+      resAppLogin.status === 200 ?
         setTokenValid(true)
         :
         setTokenValid(false);
@@ -319,11 +296,11 @@ const UsuariosModal = ({
   return (
     <div>
       <Dialog open={open} fullScreen >
-        <Grid container spacing={1} sx={{ bgcolor:"#CCCCCC", paddingBottom:"1%",paddingTop:"1%" }}>
-        <Grid item xs={12} sm={2} md={2} lg={2} ></Grid>
+        <Grid container spacing={1} sx={{ bgcolor: "#CCCCCC", paddingBottom: "1%", paddingTop: "1%" }}>
+          <Grid item xs={12} sm={2} md={2} lg={2} ></Grid>
           <Grid item xs={12} sm={8} md={8} lg={8} >
-            <Box sx={{ display: "flex", justifyContent: "center"}}>
-              <Typography variant="h4"> {tipo == 3 ? "Nuevo Registro" : "Editar Registro"} </Typography>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Typography variant="h4"> {tipo === 3 ? "Nuevo Registro" : "Editar Registro"} </Typography>
             </Box>
 
           </Grid>
@@ -348,196 +325,194 @@ const UsuariosModal = ({
             flexDirection: "row",
           }}>
           <Grid item xs={11} sm={11} md={11} lg={11} >
-            <Box display="flex" flexWrap="wrap"  boxShadow={2} sx={{padding:"2%" }}>
-            <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight:"2%", paddingLeft:"2%"}}  > 
-            <TextField
-                    required
-                    margin="dense"
-                    id="nombre"
-                    label="Nombre"
-                    value={Nombre}
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                    onChange={(v) => setNombre(v.target.value)}
-                    error={Nombre == null ? true : false}
-                    InputLabelProps={{ shrink: true }}
-                  />
+            <Box display="flex" flexWrap="wrap" boxShadow={2} sx={{ padding: "2%" }}>
+              <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}  >
+                <TextField
+                  required
+                  margin="dense"
+                  id="nombre"
+                  label="Nombre"
+                  value={Nombre}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNombre(v.target.value)}
+                  error={Nombre === null ? true : false}
+                  InputLabelProps={{ shrink: true }}
+                />
 
-                  <TextField
-                    required
-                    margin="dense"
-                    id="ApellidoPaterno"
-                    label="Apellido Paterno"
-                    value={ApellidoPaterno}
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                    onChange={(v) => setApellidoPaterno(v.target.value)}
-                    error={ApellidoPaterno == null ? true : false}
-                    InputLabelProps={{ shrink: true }}
-                  />
+                <TextField
+                  required
+                  margin="dense"
+                  id="ApellidoPaterno"
+                  label="Apellido Paterno"
+                  value={ApellidoPaterno}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setApellidoPaterno(v.target.value)}
+                  error={ApellidoPaterno === null ? true : false}
+                  InputLabelProps={{ shrink: true }}
+                />
 
-                  <TextField
-                    required
-                    margin="dense"
-                    id="ApellidoMaterno"
-                    label="Apellido Materno"
-                    value={ApellidoMaterno}
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                    onChange={(v) => setApellidoMaterno(v.target.value)}
-                    error={ApellidoMaterno == null ? true : false}
-                    InputLabelProps={{ shrink: true }}
-                  />
+                <TextField
+                  required
+                  margin="dense"
+                  id="ApellidoMaterno"
+                  label="Apellido Materno"
+                  value={ApellidoMaterno}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setApellidoMaterno(v.target.value)}
+                  error={ApellidoMaterno === null ? true : false}
+                  InputLabelProps={{ shrink: true }}
+                />
 
-                  <TextField
-                    required
-                    margin="dense"
-                    id="NombreUsuario"
-                    label="Nombre Usuario"
-                    value={NombreUsuario}
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                    onChange={(v) => setNombreUsuario(v.target.value)}
-                    error={NombreUsuario == null ? true : false}
-                    InputLabelProps={{ shrink: true }}
-                  />
+                <TextField
+                  required
+                  margin="dense"
+                  id="NombreUsuario"
+                  label="Nombre Usuario"
+                  value={NombreUsuario}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNombreUsuario(v.target.value)}
+                  error={NombreUsuario === null ? true : false}
+                  InputLabelProps={{ shrink: true }}
+                />
 
-                  <TextField
-                    required
-                    margin="dense"
-                    id="CorreoElectronico"
-                    label="Correo Electronico"
-                    fullWidth
-                    value={CorreoElectronico}
-                    variant="standard"
-                    onChange={(e) => validateEmail(e)}
-                    error={emailValid == false || CorreoElectronico == null}
-                    InputLabelProps={{ shrink: true }}
-                  />
-                   <Typography variant="body2"> {emailError} </Typography>
+                <TextField
+                  required
+                  margin="dense"
+                  id="CorreoElectronico"
+                  label="Correo Electronico"
+                  fullWidth
+                  value={CorreoElectronico}
+                  variant="standard"
+                  onChange={(e) => validateEmail(e)}
+                  error={emailValid === false || CorreoElectronico == null}
+                  InputLabelProps={{ shrink: true }}
+                />
+                <Typography variant="body2"> {emailError} </Typography>
 
-                  <TextField
-                    required
-                    margin="dense"
-                    id="Puesto"
-                    label="Puesto"
-                    value={puesto}
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                    onChange={(v) => setPuesto(v.target.value)}
-                    error={puesto == null ? true : false}
-                    InputLabelProps={{ shrink: true }}
-                  />
-                  <TextField
-                    required
-                    margin="dense"
-                    id="RFC"
-                    label="RFC"
-                    value={rfc}
-                    type="text"
-                    fullWidth
-                    inputProps={{ maxLength: 13 }}
-                    variant="standard"
-                    onChange={(v) => setRfc(v.target.value.toUpperCase())}
-                    error={rfc == null ? true : false}
-                    InputLabelProps={{ shrink: true }}
-                  />
-            </Grid>
+                <TextField
+                  required
+                  margin="dense"
+                  id="Puesto"
+                  label="Puesto"
+                  value={puesto}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setPuesto(v.target.value)}
+                  error={puesto === null ? true : false}
+                  InputLabelProps={{ shrink: true }}
+                />
+                <TextField
+                  required
+                  margin="dense"
+                  id="RFC"
+                  label="RFC"
+                  value={rfc}
+                  type="text"
+                  fullWidth
+                  inputProps={{ maxLength: 13 }}
+                  variant="standard"
+                  onChange={(v) => setRfc(v.target.value.toUpperCase())}
+                  error={rfc === null ? true : false}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
 
-            <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight:"2%", paddingLeft:"2%"}}   > 
-            <TextField
-                    required
-                    margin="dense"
-                    id="curp"
-                    label="CURP"
-                    value={curp}
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                    onChange={(v) => setCurp(v.target.value.toUpperCase())}
-                    inputProps={{ maxLength: 18 }}
-                    error={curp == null ? true : false}
-                  />
-                  <TextField
-                    required
-                    margin="dense"
-                    id="telefono"
-                    label="Telefono"
-                    value={telefono}
-                    type="text"
-                    fullWidth
-                    inputProps={{ maxLength: 10, mask:"(___) ___-____"}}
-                    variant="standard"
-                    onChange={(e) => validateNumber(e)}
-                    error={!telValid|| !telefono}
-                    InputLabelProps={{ shrink: true }}
+              <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}   >
+                <TextField
+                  required
+                  margin="dense"
+                  id="curp"
+                  label="CURP"
+                  value={curp}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setCurp(v.target.value.toUpperCase())}
+                  inputProps={{ maxLength: 18 }}
+                  error={curp === null ? true : false}
+                />
+                <TextField
+                  required
+                  margin="dense"
+                  id="telefono"
+                  label="Telefono"
+                  value={telefono}
+                  type="text"
+                  fullWidth
+                  inputProps={{ maxLength: 10, mask: "(___) ___-____" }}
+                  variant="standard"
+                  onChange={(e) => validateNumber(e)}
+                  error={!telValid || !telefono}
+                  InputLabelProps={{ shrink: true }}
 
-                  />
-                  <Typography variant="body2"> {telError} </Typography>
-                  <br />
-                  <TextField
-                    required
-                    margin="dense"
-                    id="celular"
-                    label="Telefono Movil"
-                    value={celular}
-                    type="text"
-                    fullWidth
-                    inputProps={{ maxLength: 10, mask:"(___) ___-____"}}
-                    variant="standard"
-                    onChange={(e) => validateCel(e)}
-                    error={!celValid|| !celular}
-                    InputLabelProps={{ shrink: true }}
+                />
+                <Typography variant="body2"> {telError} </Typography>
+                <br />
+                <TextField
+                  required
+                  margin="dense"
+                  id="celular"
+                  label="Telefono Movil"
+                  value={celular}
+                  type="text"
+                  fullWidth
+                  inputProps={{ maxLength: 10, mask: "(___) ___-____" }}
+                  variant="standard"
+                  onChange={(e) => validateCel(e)}
+                  error={!celValid || !celular}
+                  InputLabelProps={{ shrink: true }}
 
-                  />
-                  <Typography variant="body2"> {celError} </Typography>
-                  <br />
-                  <Typography variant="body2"> Departamento: </Typography>
-                  <SelectFrag
-                    value={idDepartamento}
-                    options={departamento}
-                    onInputChange={handleFilterChange}
-                    placeholder={"Seleccione Departamento"}
-                    label={""}
-                    disabled={false}
-                  />
-                  <br />
-                   <Typography variant="body2"> Perfil: </Typography>
-                  <SelectFrag
-                    value={idPerfil}
-                    options={perfiles}
-                    onInputChange={handleFilterChangePerfil}
-                    placeholder={"Seleccione Perfil"}
-                    label={""}
-                    disabled={false}
-                  />
-              
-              <Grid xs={12} sm={12} md={12} lg={12} sx={{ paddingTop:"3%"}}  >
-              <Box maxHeight={1/2} flexDirection="row"> </Box>
-              <Box maxHeight={1/2} flexDirection="row">
-              <DialogActions>
-                <Button
-                  className="guardar"
-                  color="info"
-                  onClick={() => handleSend()}
-                >
-                 {tipo == 3 ? "Guardar" : "Actualizar"}
-                </Button>
-              </DialogActions>
-            </Box>
-            </Grid>
-            
-            </Grid>
+                />
+                <Typography variant="body2"> {celError} </Typography>
+                <br />
+                <Typography variant="body2"> Departamento: </Typography>
+                <SelectFrag
+                  value={idDepartamento}
+                  options={departamento}
+                  onInputChange={handleFilterChange}
+                  placeholder={"Seleccione Departamento"}
+                  label={""}
+                  disabled={false}
+                />
+                <br />
+                <Typography variant="body2"> Perfil: </Typography>
+                <SelectFrag
+                  value={idPerfil}
+                  options={perfiles}
+                  onInputChange={handleFilterChangePerfil}
+                  placeholder={"Seleccione Perfil"}
+                  label={""}
+                  disabled={false}
+                />
+
+                <Grid xs={12} sm={12} md={12} lg={12} sx={{ paddingTop: "3%" }}  >
+                  <Box maxHeight={1 / 2} flexDirection="row"> </Box>
+                  <Box maxHeight={1 / 2} flexDirection="row">
+                    <DialogActions>
+                      <Button
+                        className="guardar"
+                        color="info"
+                        onClick={() => handleSend()}
+                      >
+                        {tipo === 3 ? "Guardar" : "Actualizar"}
+                      </Button>
+                    </DialogActions>
+                  </Box>
+                </Grid>
+
+              </Grid>
             </Box>
           </Grid>
         </Grid>
-
-
       </Dialog>
     </div>
   );

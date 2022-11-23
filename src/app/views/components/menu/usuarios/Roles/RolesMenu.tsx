@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import {   Checkbox, Typography, Grid, Tooltip, IconButton } from '@mui/material';
+import { Checkbox, Typography, Grid, Tooltip, IconButton } from '@mui/material';
 import { AuthService } from '../../../../../services/AuthService';
 import { Toast } from '../../../../../helpers/Toast';
 import { AlertS } from '../../../../../helpers/AlertS';
@@ -12,10 +12,6 @@ import AsignarPermisoRol from './AsignarPermisoRol';
 import EliminarPermisosRol from './EliminarPermisosRol';
 import ModalForm from '../../../componentes/ModalForm';
 
-
-
-
-
 const RolesMenu = ({
   id,
   open,
@@ -25,9 +21,6 @@ const RolesMenu = ({
   open: boolean;
   handleClose: Function,
 }) => {
-
-
-
   const [data, setData] = useState([]);
   const [dt, setDt] = useState([]);
   const [openRel, setOpenRel] = useState(false);
@@ -51,10 +44,11 @@ const RolesMenu = ({
     setOpenPerRel(false);
     setOpenRel(false);
 
-    {
-      if (v === "saved")
-        consulta({ NUMOPERACION: 4 });
-    }
+
+    if (v === "saved") {
+      consulta({ NUMOPERACION: 4 });
+
+    };
   };
 
   const handleChange = (v: any) => {
@@ -143,18 +137,14 @@ const RolesMenu = ({
 
   useEffect(() => {
     consulta({ CHID: id });
-  }, []);
+  }, [id]);
 
   return (
     <div>
-
-
-
       <ModalForm title={' Relacion Menú a Rol'} handleClose={handleClose}>
-
         <Grid
           container
-          sx={{           
+          sx={{
             left: "50%",
             width: "100%",
             height: "80vh",
@@ -162,31 +152,27 @@ const RolesMenu = ({
             boxShadow: 50,
             p: 2,
             borderRadius: 3,
-            justifyContent:"center"
-            
+            justifyContent: "center"
+
           }}
         >
- 
-
-          <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center",   }}>
+          <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
             <Typography
               sx={{
                 textAlign: "center",
                 fontFamily: "sans-serif",
                 fontSize: "1.5vw",
                 color: "#808080",
-              
+
               }}
             >
               Para Eliminar el menú solo Marcar la Casilla
             </Typography>
           </Grid>
-
-
           <Grid item sm={12}
             sx={{
               height: "100%",
-              paddingTop:"1%"
+              paddingTop: "1%"
 
             }}
           >
@@ -198,7 +184,7 @@ const RolesMenu = ({
           <Grid item sm={12}
             sx={{
 
-      
+
             }}
           >
           </Grid>
@@ -231,7 +217,8 @@ const RolesMenu = ({
 
 
     </div>
-  )
+  );
 }
+
 
 export default RolesMenu

@@ -32,14 +32,6 @@ export const ParametrosGeneralesModal = ({
   const [valor, setValor] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  //IMPRESIONES DE CAMPOS
-  //console.log("---------Impresión de CAMPOS------");
-  //console.log("id", id);
-  //console.log("nombre", nombre);
-  //console.log("valor", valor);
-  //console.log("user", user);
-  //console.log("---------FIN-de-Impresión de CAMPOS------");
-
   const handleSend = () => {
     if (nombre === null || valor === null) {
       AlertS.fire({
@@ -62,10 +54,10 @@ export const ParametrosGeneralesModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo == 1) {
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }

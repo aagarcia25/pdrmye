@@ -154,12 +154,12 @@ export const Municipios = () => {
   ];
 
   const handleAccion = (v: any) => {
-    if (v.tipo == 1) {
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
       setData(v.data);
-    } else if (v.tipo == 2) {
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
     }
   };
@@ -284,23 +284,23 @@ export const Municipios = () => {
       if (String(item.ControlInterno) === "MUNICIPIOS") {
         //console.log(item);
         setNombreMenu(item.Menu);
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
-        if (String(item.Referencia) == "FIDE") {
+        if (String(item.Referencia) === "FIDE") {
           setFideicomiso(true);
         }
-        if (String(item.Referencia) == "VIEWCC") {
+        if (String(item.Referencia) === "VIEWCC") {
           setViewCC(true);
         }
 
-        if (String(item.Referencia) == "VIEWUR") {
+        if (String(item.Referencia) === "VIEWUR") {
           setViewUR(true);
         }
       }
@@ -322,8 +322,8 @@ export const Municipios = () => {
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography>
-            <h1>{nombreMenu}</h1>
+          <Typography variant="h3">
+           {nombreMenu}
           </Typography>
         </Grid>
       </Grid>

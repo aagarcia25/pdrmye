@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { Moneda } from "../../CustomToolbar";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 
@@ -13,13 +11,11 @@ import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import MunRecaudacionModal from "./MunRecaudacionModal";
-import MUIXDataGrid from "../../../MUIXDataGrid";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { fanios } from "../../../../../share/loadAnios";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
-import AccionesGrid from "../Utilerias/AccionesGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 
@@ -32,7 +28,6 @@ export const MunRecaudacion = () => {
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [modo, setModo] = useState("");
@@ -82,12 +77,12 @@ export const MunRecaudacion = () => {
   ];
 
   const handleAccion = (v: any) => {
-    if (v.tipo == 1) {
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setData(v.data);
-    } else if (v.tipo == 2) {
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
     }
   }
@@ -160,7 +155,7 @@ export const MunRecaudacion = () => {
 
   const handleUpload = (data: any) => {
 
-    if (data.tipo == 1) {
+    if (data.tipo === 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -182,7 +177,7 @@ export const MunRecaudacion = () => {
         }
       });
     } 
-    else if (data.tipo == 2) {
+    else if (data.tipo === 2) {
 
       if(selectionModel.length!==0){
       Swal.fire({
@@ -253,7 +248,7 @@ export const MunRecaudacion = () => {
       NUMOPERACION: 4,
       ANIO: v,
     };
-    if (v != "") {
+    if (v !== "") {
       consulta(data);
     }
   };
@@ -274,10 +269,10 @@ export const MunRecaudacion = () => {
         //console.log(item)
         setNombreMenu(item.Menu);
 
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -297,8 +292,8 @@ export const MunRecaudacion = () => {
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography>
-            <h1>{nombreMenu}</h1>
+          <Typography variant='h3'>
+            {nombreMenu}
           </Typography>
         </Grid>
       </Grid>

@@ -3,12 +3,10 @@ import { Box, Grid, Typography } from '@mui/material'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
-import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { AlertS } from "../../../../../helpers/AlertS";
 import Slider from "../../../Slider";
-import MUIXDataGrid from '../../../MUIXDataGrid'
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
@@ -33,7 +31,6 @@ export const MunPobrezaExtrema = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [nombreMenu, setNombreMenu] = useState("");
-  const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
@@ -95,12 +92,12 @@ export const MunPobrezaExtrema = () => {
   };
 
   const handleAccion = (v: any) => {
-    if (v.tipo == 1) {
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setData(v.data);
-    } else if (v.tipo == 2) {
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
     }
   }
@@ -162,7 +159,7 @@ export const MunPobrezaExtrema = () => {
 
   const handleUpload = (data: any) => {
 
-    if (data.tipo == 1) {
+    if (data.tipo === 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -173,7 +170,7 @@ export const MunPobrezaExtrema = () => {
       });
 
     } 
-    else if (data.tipo == 2) {
+    else if (data.tipo === 2) {
       //console.log("borrado de toda la tabla")
       //console.log(selectionModel)
 
@@ -239,7 +236,6 @@ export const MunPobrezaExtrema = () => {
     CatalogosServices.munpobrezaext(data).then((res) => {
       setPobrezaExtrema(res.RESPONSE);
 
-
     });
   };
 
@@ -272,10 +268,10 @@ export const MunPobrezaExtrema = () => {
       if (String(item.ControlInterno) === "MUNPOEX") {
         setNombreMenu(item.Menu);
 
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -307,8 +303,8 @@ export const MunPobrezaExtrema = () => {
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography>
-            <h1>{nombreMenu}</h1>
+          <Typography variant='h3'>
+            {nombreMenu}
           </Typography>
         </Grid>
       </Grid>

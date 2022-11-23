@@ -21,7 +21,6 @@ import ModalNew from "./ModalNew";
 import ModalAjuste from "./ModalAjuste";
 
 export const Fpg = () => {
-  const [openSlider, setOpenSlider] = useState(true);
   const [slideropen, setslideropen] = useState(false);
   const [data, setdata] = useState([]);
   const [step, setstep] = useState(0);
@@ -54,7 +53,6 @@ export const Fpg = () => {
   };
 
   const handleClose = (v: any) => {
-    setOpenSlider(false);
     consulta({ FONDO: objfondo?.Clave });
     setstep(0);
     setOpenDetalles(false);
@@ -174,8 +172,6 @@ export const Fpg = () => {
       width: 200,
       description: "Estatus",
     },
-
- 
   ];
 
   const consultafondo = (data: any) => {

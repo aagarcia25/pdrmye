@@ -30,7 +30,7 @@ export const Avisos = () => {
     { field: "id", headerName: "Identificador", hide: true, width: 150},
     { field: "fechaInicio", headerName: "Fecha de Inicio", width: 200 },
     { field: "FechaFin", headerName: "Expiracion", width: 200 },
-    { field: "Nombre", headerName: "Nombre", width: 100 },
+    { field: "Nombre", headerName: "Nombre", width: 250 },
     { field: "Descripcion", headerName: "Descripcion", width: 500 },
     {
       field: "Documento", headerName: "Documento", width: 100, renderCell: (v) => {
@@ -61,12 +61,12 @@ export const Avisos = () => {
 
 
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if(v.tipo ===1){
       setTipoOperacion(2);
       setModo("Editar");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+    }else if(v.tipo ===2){
       handleBorrar(v.data);
     }
   }
@@ -137,7 +137,7 @@ export const Avisos = () => {
 
 
   const handleClose = (v:string) => {
-if(v=="save"){
+if(v==="save"){
   let data = {
     NUMOPERACION: 4,
     CHUSER: String(user.id),
@@ -179,13 +179,13 @@ if(v=="save"){
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "AVISOS") {
         //console.log(item)
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }

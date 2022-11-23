@@ -50,7 +50,7 @@ export const Departamentos = () => {
   ];
 
   const handleAccion=(v: any)=>{
-   if(v.tipo ==1){
+   if(v.tipo ===1){
     //console.log(v);
     setTipoOperacion(2);
     setModo("Editar Registro");
@@ -139,13 +139,13 @@ export const Departamentos = () => {
     permisos.map((item: PERMISO) => {
     if (String(item.ControlInterno) === "DEP") {
       //console.log(item)
-      if (String(item.Referencia) == "AGREG") {
+      if (String(item.Referencia) === "AGREG") {
         setAgregar(true);
       }
-      if (String(item.Referencia) == "ELIM") {
+      if (String(item.Referencia) === "ELIM") {
         setEliminar(true);
       }
-      if (String(item.Referencia) == "EDIT") {
+      if (String(item.Referencia) === "EDIT") {
         setEditar(true);
       }
       

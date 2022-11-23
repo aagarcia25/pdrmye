@@ -1,19 +1,11 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
   Box,
   TextField,
-  DialogActions,
-  IconButton,
   Typography,
   Grid,
   Button,
-  InputAdornment,
 } from "@mui/material";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-import imagenGenerica from "../../../../../../app/assets/img/archivoImagen.jpg";
-import PdfLogo from "../../../../../../app/assets/img/PDF_file_icon.svg";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -23,8 +15,6 @@ import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import Swal from "sweetalert2";
 import ModalForm from "../../../componentes/ModalForm";
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 export const CuentaBancariaModal = ({
@@ -57,7 +47,6 @@ export const CuentaBancariaModal = ({
   const [newDoc, setNewDoc] = useState(Object);
   const [nameNewDoc, setNameNewDoc] = useState<string>();
   const [DocSubido, setDocSubido] = useState<boolean>(false);
-  const [sizeFile, setSizeFile] = useState<boolean>();
   const [newDocCarta, setNewDocCarta] = useState(Object);
   const [nameNewDocCarta, setNameNewDocCarta] = useState<string>();
   const [DocSubidoCarta, setDocSubidoCarta] = useState<boolean>(false);
@@ -242,9 +231,10 @@ export const CuentaBancariaModal = ({
 
   return (
 <div>
-    {tipo == 1 || tipo == 2 ? (
+    {tipo === 1 || tipo === 2 ? (
 
-        <ModalForm title={tipo == 1 ? "Agregar Datos Bancarios" : "Editar Registro"} handleClose={handleClose}>
+        <ModalForm title={tipo === 1 ? "Agregar Datos Bancarios" : "Editar Registro"} handleClose={handleClose}>
+           <Box boxShadow={3} >
           <Grid container
             sx={{
               mt: "2vh",
@@ -253,10 +243,13 @@ export const CuentaBancariaModal = ({
               justifyContent: "center",
               alignItems: "center",
               flexDirection: "row",
+              padding:"2%"
+              
             }}
 
           >
-            <Grid item xs={12} sm={8} md={8} lg={8}>
+           
+            <Grid item xs={12} sm={8} md={8} lg={8} paddingBottom={2}>
 
               <Box>
                 <SelectFrag
@@ -273,8 +266,8 @@ export const CuentaBancariaModal = ({
             </Grid>
 
 
-            <Grid item xs={12} sm={8} md={8} lg={8}>
-              <Box>
+            <Grid item xs={12} sm={8} md={8} lg={8} paddingBottom={3}>
+              <Box paddingBottom={2}>
                 <TextField
                   required
                   margin="dense"
@@ -291,7 +284,7 @@ export const CuentaBancariaModal = ({
 
               </Box>
 
-              <Box>
+              <Box paddingBottom={2}>
 
 
                 <TextField
@@ -311,8 +304,8 @@ export const CuentaBancariaModal = ({
                   }}
                   InputLabelProps={{ shrink: true }}
                 />
-              </Box>
-              <Box>
+              </Box >
+              <Box paddingBottom={2} >
 
                 <TextField
                   required
@@ -339,12 +332,12 @@ export const CuentaBancariaModal = ({
               <Grid item xs={3} sm={3} md={3} lg={3} alignContent="center" alignItems="center">
 
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
-                  <label >
+                  <Typography variant="h6">
                   {DocSubido ? "" : dt?.row?.NombreDocumento}
-                  </label>
+                  </Typography>
 
                 </Box>
-                <Box sx={{ width: "100%", height: "100%", border: "5px dashed  black" }}>
+                <Box sx={{ width: "50%", height: "50%", border: "3px dashed  grey", }}>
                   <input
                     id="imagencargada"
                     accept="application/pdf"
@@ -356,13 +349,13 @@ export const CuentaBancariaModal = ({
 
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
-                  <label >
+                <Typography variant="h6"> 
                     {DocSubido ? nameNewDoc : ""}
-                  </label>
+                  </Typography>
 
                 </Box>
-                <Grid item xs={12} sm={12} md={12} lg={12}
-                  sx={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Grid item xs={12} sm={12} md={12} lg={12 }
+                  sx={{ paddingTop:"1%", width: "50%", height: "50%", display: "flex", justifyContent: "center", alignItems: "center",  }}>
                   <Typography sx={{ textAlign: "center" }}>
                   {dt?.row?.NombreDocumento? "Arrastre El Nuevo Documento o Presione el icono Para Seleccionar" : "Arrastre El Documento o Presione el icono Para Seleccionar"} 
                     </Typography>
@@ -372,13 +365,13 @@ export const CuentaBancariaModal = ({
               {/* //// archivo de carta*/}
 
               <Grid item xs={3} sm={3} md={3} lg={3} alignContent="center" alignItems="center">
-              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
-                  <label >
+              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" , bgcolor:"green" }}>
+                  <Typography variant="h6">
                   {DocSubidoCarta ? "" : dt?.row?.NombreCarta}
-                  </label>
+                  </Typography>
 
                 </Box>
-                <Box sx={{ width: "100%", height: "100%", border: "5px dashed  black" }}>
+                <Box sx={{ width: "50%", height: "50%", border: "3px dashed  grey"  }}>
                   <input
                     id="imagencargada"
                     accept="application/pdf"
@@ -390,13 +383,12 @@ export const CuentaBancariaModal = ({
 
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
-                  <label >
+                <Typography variant="h6"> 
                     {DocSubidoCarta ? nameNewDocCarta : ""}
-                  </label>
-
+                  </Typography>
                 </Box>
                 <Grid item xs={12} sm={12} md={12} lg={12}
-                  sx={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  sx={{paddingTop:"1%", width: "50%", height: "50%", display: "flex", justifyContent: "center", alignItems: "center" ,  }}>
                   <Typography sx={{ textAlign: "center" }}>
                   {dt?.row?.NombreCarta? "Arrastre El Nuevo Documento Carta o Presione el icono Para Seleccionar" : "Arrastre El Documento Carta o Presione el icono Para Seleccionar"} 
                     </Typography>
@@ -417,10 +409,11 @@ export const CuentaBancariaModal = ({
             >
               <Grid item xs={4} sm={3} md={2} lg={1}
               >
-                <Button className={tipo == 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo == 1 ? "Guardar" : "Actualizar"}</Button>
+                <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
               </Grid>
             </Grid>
           </Grid>
+          </Box>
         </ModalForm>
       ) : (
         ""
@@ -494,10 +487,11 @@ export const CuentaBancariaModal = ({
                 </label>
 
               </Box>
-
+              
             </Grid>
+            
           </Grid>
-
+          
         </ModalForm>
 
       ) : ""}

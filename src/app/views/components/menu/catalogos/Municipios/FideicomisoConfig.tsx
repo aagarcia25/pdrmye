@@ -6,7 +6,6 @@ import {
   DialogActions,
   Grid,
   ToggleButton,
-  ToggleButtonGroup,
   Tooltip,
   Typography,
   ButtonGroup,
@@ -15,7 +14,7 @@ import {
   IconButton,
   Button,
 } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
@@ -25,9 +24,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CloseIcon from '@mui/icons-material/Close';
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
-import { AuthService } from "../../../../../services/AuthService";
 import Slider from "../../../Slider";
-import { SendToMobileOutlined } from "@mui/icons-material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { getUser } from "../../../../../services/localStorage";
 import validator from "validator";
@@ -117,7 +114,7 @@ const FideicomisoConfig = ({
   const validateCount = (e: any, tipo: number) => {
 
     var valor = e.target.value
-    if (tipo == 1) {
+    if (tipo === 1) {
       ///// clave
       setClaveBan(valor)
       if (validator.isNumeric(valor)) {
@@ -130,7 +127,7 @@ const FideicomisoConfig = ({
 
 
     } else
-      if (tipo == 2) {
+      if (tipo === 2) {
         ///// cuenta
         setCuenta(valor)
         if (validator.isNumeric(valor)) {
@@ -201,12 +198,12 @@ const FideicomisoConfig = ({
   const agregar = () => {
 
     if (
-      claveValid == false ||
-      cuentaValid == false ||
+      claveValid === false ||
+      cuentaValid === false ||
       nombre === null ||
       Number(porcentaje) >= 100 ||
       porcentaje === null ||
-      cuenta == null ||
+      cuenta === null ||
       claveBan === null) {
       AlertS.fire({
         title: "Error!",
@@ -216,7 +213,7 @@ const FideicomisoConfig = ({
     } else {
       let dat = {
         CHID: idFide,
-        NUMOPERACION: modo == "nuevo" ? 1 : 2,
+        NUMOPERACION: modo === "nuevo" ? 1 : 2,
         IDMUN: idMun,
         CHUSER: user.id,
         NOMBRE: nombre,
@@ -276,15 +273,15 @@ const FideicomisoConfig = ({
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen={true} >
+    <Dialog open={open} fullScreen={true}>
       <Slider open={openSlider} />
 
-      <DialogContent>
+      <DialogContent sx={{ padding:"0", margin:"0"}}>
 
-          <Grid container >
+          <Grid container  sx={{ paddingTop:"2%",bgcolor:"#CCCCCC"}}>
             <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
               <Typography
-                sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "3vw", color: "#000000", }}>
+                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
                 Municipio: {municipio}
               </Typography>
             </Grid>
@@ -292,10 +289,12 @@ const FideicomisoConfig = ({
 
           <Grid container direction="row"
             justifyContent="space-between"
-            alignItems="center">
+            alignItems="center"
+            sx={{ paddingLeft:"2%", paddingRight:"2%", paddingBottom:"2%"}}
+           >
             <Grid item >
               <ButtonGroup>
-                {modo == "visualizar" ?
+                {modo === "visualizar" ?
                   <Tooltip title="Agregar">
                     <ToggleButton value="check" onClick={() => { handleNuevoFideicomiso() }}>
                       <AddIcon />
@@ -303,7 +302,7 @@ const FideicomisoConfig = ({
                   </Tooltip>
                   : ""}
 
-                {modo == "nuevo" ?
+                {modo === "nuevo" ?
                   <Tooltip title="Regresar">
                     <ToggleButton value="check" onClick={() => { setModo("visualizar") }}>
                       <ArrowBackIosIcon />
@@ -312,8 +311,8 @@ const FideicomisoConfig = ({
 
                   : ""}
               </ButtonGroup>
-            </Grid>
-            <Grid item >
+            </Grid >
+            <Grid item  >
               <ButtonGroup>
                 <Tooltip title="Cerrar">
                   <ToggleButton value="check" color="error" onClick={() => { handleClose() }}>
@@ -325,17 +324,19 @@ const FideicomisoConfig = ({
             </Grid>
           </Grid>
 
-          {(modo == "visualizar") ?
+          {(modo === "visualizar") ?
 
-              <Grid item xs={12} sx={{ width: "100%", height: 300, }}>
+              <Grid item xs={12} sx={{ bgcolor:"white", width: "100%", height: 500, padding:"2%" }}>
+                <Box boxShadow={2} sx={{ width: "100%",height:"97%" }}>
                 <MUIXDataGridSimple columns={columns} rows={data} />
+                </Box>
               </Grid>
             : ""}
 
-        {(modo == "nuevo" || modo == "editar") ?
+        {(modo === "nuevo" || modo === "editar") ?
    
 
-            <Grid item xs={12} sx={{ width: "100%" }}>
+            <Grid item xs={12} sx={{  padding:"3%", bgcolor:"white", }}>
               <Container maxWidth="sm">
                 <TextField
                   required
@@ -346,7 +347,7 @@ const FideicomisoConfig = ({
                   fullWidth
                   variant="standard"
                   onChange={(v) => setNombre(v.target.value)}
-                  error={String(nombre).length == 0}
+                  error={String(nombre).length === 0}
                   InputLabelProps={{ shrink: true }}
                 />
                 <TextField
@@ -370,11 +371,11 @@ const FideicomisoConfig = ({
                   fullWidth
                   variant="standard"
                   onChange={(e) => validateCount(e, 2)}
-                  error={cuentaValid == false || !cuenta ? true : false}
+                  error={cuentaValid === false || !cuenta ? true : false}
                   inputProps={{ maxLength: 10 }}
                   InputLabelProps={{ shrink: true }}
                 />
-                <label>{cuentaError}</label>
+                <Typography variant="body2" > {cuentaError} </Typography>
                 <TextField
                   required
                   margin="dense"
@@ -384,11 +385,11 @@ const FideicomisoConfig = ({
                   fullWidth
                   variant="standard"
                   onChange={(e) => validateCount(e, 1)}
-                  error={claveValid == false || !claveBan ? true : false}
+                  error={claveValid === false || !claveBan ? true : false}
                   inputProps={{ maxLength: 18 }}
                   InputLabelProps={{ shrink: true }}
                 />
-                <label>{claveError}</label>
+                <Typography variant="body2" > {claveError} </Typography>
                 <DialogActions>
 
                   <Button className="guardar" onClick={() => { agregar() }}>

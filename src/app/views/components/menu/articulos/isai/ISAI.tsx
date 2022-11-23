@@ -56,7 +56,7 @@ const ISAI = () => {
     { field: "Version", headerName: "Versión", width: 150 },
     { field: "FechaCreacion", headerName: "Fecha de Creación", width: 200 },
     { field: "municipio", headerName: "Municipio", width: 250 },
-    { field: "Importe", headerName: "Importe", width: 250,...Moneda },
+    { field: "Importe", headerName: "Importe", width: 500,...Moneda },
     { field: "Coeficiente", headerName: "Coeficiente", width: 250 },
     { field: "UC", headerName: "Usuario Creo", width: 350 },
     { field: "UM", headerName: "Usuario Modifico", width: 350 },
@@ -82,7 +82,7 @@ const ISAI = () => {
         },
       },
     {field: "id",headerName: "Versión",},
-    { field: "Importe", headerName: "Importe", width: 350,...Moneda },
+    { field: "Importe", headerName: "Importe", width: 500,...Moneda },
     { field: "UC", headerName: "Usuario Creo", width: 350 },
     { field: "UM", headerName: "Usuario Modifico", width: 350 },
   ];
@@ -116,11 +116,11 @@ const ISAI = () => {
 
   const handleAccion = (v: any) => {
     //console.log(v)
-    if (v.tipo == 2) {
+    if (v.tipo === 2) {
       setTipoOperacion(2);
       setVrows(v.data);
       setOpen(true);
-    } else if (v.tipo == 3) {
+    } else if (v.tipo === 3) {
       Swal.fire({
         icon: "info",
         title: "Estas seguro de eliminar este registro?",
@@ -233,13 +233,13 @@ const ISAI = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "ISAI") {
         setNombreMenu(item.Menu);
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -257,7 +257,7 @@ const ISAI = () => {
       <Slider open={slideropen}></Slider>
       <Title titulo={nombreMenu} tooltip={"Coeficiente Generado para el cálculo del ISAI"}></Title>
       
-      <div style={{ height: 600, width: "100%" ,display : modo == 0 ? "block":"none"}}>
+      <div style={{ height: 600, width: "100%" ,display : modo === 0 ? "block":"none"}}>
       <Box >
         {agregar ?
         <>
@@ -282,7 +282,7 @@ const ISAI = () => {
       <MUIXDataGrid columns={columns0} rows={dataTipoFondo} />
       </div>
 
-      <div style={{height: 600, width: "100%", display : modo == 1 ? "block":"none"}}>
+      <div style={{height: 600, width: "100%", display : modo === 1 ? "block":"none"}}>
       <Box >
       <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
       <Tooltip title="Regresar">
@@ -334,7 +334,7 @@ const ISAI = () => {
                 fullWidth
                 variant="standard"
                 onChange={(v) => setTipoCalculo(v.target.value)}
-                error={tipoCalculo == null ? true : false}
+                error={tipoCalculo === null ? true : false}
               />
             </Grid>
 

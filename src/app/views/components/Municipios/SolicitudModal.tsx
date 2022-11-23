@@ -1,29 +1,21 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import { Box, Container, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
+import { Box, Container, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
 import Swal from "sweetalert2";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../services/localStorage";
+import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { getUser } from "../../../services/localStorage";
 import Slider from "../Slider";
-import { Titulo } from "../menu/catalogos/Utilerias/AgregarCalculoUtil/Titulo";
-import BotonesAPD from "../componentes/BotonesAPD";
-import UploadFileIcon from '@mui/icons-material/UploadFile';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-
 import { CatalogosServices } from '../../../services/catalogosServices';
 import { Toast } from '../../../helpers/Toast';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import validator from 'validator';
-import { border, borderColor } from '@mui/system';
 import { AlertS } from '../../../helpers/AlertS';
 import ModalForm from '../componentes/ModalForm';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -73,7 +65,7 @@ export const SolicitudModal = (
     const handleNext = () => {
 
 
-        if (concepto?.length != 0 && total?.valueOf != null && totalValid == true && sizeFile != true) {
+        if (concepto?.length != 0 && total?.valueOf != null && totalValid === true && sizeFile != true) {
             if (activeStep === steps.length - 1) {
 
             }
@@ -92,18 +84,18 @@ export const SolicitudModal = (
 
             let d = {
                 CHID: data.id,
-                NUMOPERACION: modo == "editar" ? 9 : 1,
+                NUMOPERACION: modo === "editar" ? 9 : 1,
                 CHUSER: user.id,
                 CONCEPTO: concepto,
                 TOTAL: total,
-                ESTATUS: modo == "editar" ? "MUN_ACT" : "MUN_INICIO",
+                ESTATUS: modo === "editar" ? "MUN_ACT" : "MUN_INICIO",
                 ANIO: hoy.getFullYear(),
                 MES: (hoy.getMonth() + 1),
-                COMENTARIO: modo == "editar" ? "EDICION DE INFORMACION ANTES DE ENVIAR" : "INICIO DE OPERACION"
+                COMENTARIO: modo === "editar" ? "EDICION DE INFORMACION ANTES DE ENVIAR" : "INICIO DE OPERACION"
                 //idMunicipio 
             };
 
-            if (DocSubido && sizeFile == false) {
+            if (DocSubido && sizeFile === false) {
                 Swal.fire({
                     icon: "info",
                     title: "Solicitar",
@@ -121,10 +113,10 @@ export const SolicitudModal = (
                                 if (DocSubido) {
                                     const formData = new FormData();
                                     formData.append("CHID", data.id);
-                                    formData.append("NUMOPERACION", modo == "editar" ? "2" : "1");
+                                    formData.append("NUMOPERACION", modo === "editar" ? "2" : "1");
                                     formData.append("MUNICIPIOS", newDoc);
-                                    formData.append("IDSOLICITUD", modo == "editar" ? String(data.id) : res.RESPONSE);
-                                    formData.append("COMENTARIO", modo == "editar" ? "Edicion de archivo" : "carga de archivo");
+                                    formData.append("IDSOLICITUD", modo === "editar" ? String(data.id) : res.RESPONSE);
+                                    formData.append("COMENTARIO", modo === "editar" ? "Edicion de archivo" : "carga de archivo");
 
                                     CatalogosServices.subirArchivo(formData).then((res) => {
                                         if (res.SUCCESS) {
@@ -187,8 +179,6 @@ export const SolicitudModal = (
                                 }
                                 );
                                 handleClose();
-
-
                             } else {
                                 AlertS.fire({
                                     title: "Error!",
@@ -202,8 +192,6 @@ export const SolicitudModal = (
                         handleReset();
                     }
                 });
-
-
 
             }
 
@@ -244,15 +232,10 @@ export const SolicitudModal = (
         setDocSubido(true);
     };
 
-
     const Clean = () => {
         setNewDoc(null);
         setDocSubido(false);
         setNameNewDoc("");
-
-    };
-    const Cl = () => {
-
 
     };
 
@@ -273,25 +256,26 @@ export const SolicitudModal = (
     return (
         <div style={{ height: "100%", width: "100%" }}>
             <ModalForm title={'Solicitud de Anticipo de Participaciones'} handleClose={handleClose}>
-                <Slider open={openSlider}></Slider>
+                {/* <Slider open={openSlider}></Slider> */}
 
 
                 <DialogTitle textAlign="center">  </DialogTitle>
-                {modoSol == "ver" ?
+                {modoSol === "ver" ?
                     <Grid
                         container
                         direction="row"
                         justifyContent="center"
                         alignItems="center"
+                        
                     >
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
-                        <Grid item xs={.5} >
-                            <Tooltip title={"Vizualizar Detalles"}>
-                                <IconButton onClick={() => setModoSol("verDetalles")}>
-                                    <ArrowBackIosNewIcon   sx={{ width: "100%", height: "100%" }}/>
-                                </IconButton>
-                            </Tooltip>
-                        </Grid>
+                        <Grid item xs={12} sm={12} md={12} lg={12} >
+                            <Grid item xs={.5} >
+                                <Tooltip title={"Vizualizar Detalles"}>
+                                    <IconButton onClick={() => setModoSol("verDetalles")}>
+                                        <ArrowBackIosNewIcon sx={{ width: "100%", height: "100%" }} />
+                                    </IconButton>
+                                </Tooltip>
+                            </Grid>
                         </Grid>
 
 
@@ -305,10 +289,10 @@ export const SolicitudModal = (
                         </Grid>
                     </Grid>
                     : ""}
-                {modoSol == "nuevo" || modoSol == "editar" ?
+                {modoSol === "nuevo" || modoSol == "editar" ?
 
-                    <DialogContent dividers={true}>
-
+                    <DialogContent>
+                        <Box boxShadow={3}>
                         <Grid
                             container
                             direction="row"
@@ -343,7 +327,7 @@ export const SolicitudModal = (
                                 ) : (
                                     <React.Fragment>
 
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, }}>
                                             <Button color="warning" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 2, padding: 2 }}>
                                                 Atrás
                                             </Button>
@@ -358,9 +342,9 @@ export const SolicitudModal = (
                             </Grid>
                         </Grid>
 
-                        {(activeStep + 1) == 1 ?
+                        {(activeStep + 1) === 1 ?
                             <Grid container
-                                sx={{ justifyContent: "center", width: '100%' }} >
+                                sx={{ justifyContent: "center", width: '100%'}} >
 
                                 <Grid item xs={8}>
                                     <Grid container xs={12}>
@@ -402,7 +386,7 @@ export const SolicitudModal = (
                             </Grid>
                             : ""}
 
-                        {(activeStep + 1) == 3 ?
+                        {(activeStep + 1) === 3 ?
                             <Container maxWidth="sm">
                                 <Box sx={{ width: '100%', paddingTop: "2" }}>
                                     <Grid container xs={12} spacing={1} sx={{ justifyContent: "center" }}>
@@ -453,18 +437,18 @@ export const SolicitudModal = (
                                 </Box>
                             </Container>
                             : ""}
-                        {(activeStep + 1) == 2 ?
+                        {(activeStep + 1) === 2 ?
                             <Container maxWidth="sm" >
                                 <Box sx={{ bgcolor: 'rgb(255, 255, 255)', }}>
                                     { //////////empiezan debajo del titulo
                                         //// imagen carga y previsualizacion
                                     }
                                     {DocSubido ?
-                                        <Grid container justifyContent="space-between" alignItems="center">
-                                            <Grid item xs={10} sm={10} md={8} lg={8} justifyContent="center" alignItems="center">
-                                                <label >
+                                        <Grid container justifyContent="space-between" alignItems="center" paddingBottom={1}>
+                                            <Grid item xs={8} sm={8} md={6} lg={6} justifyContent="center" alignItems="center">
+                                            <Typography>
                                                     {nameNewDoc}
-                                                </label>
+                                             </Typography>
                                             </Grid>
                                             <Grid item xs={1.5} sm={1.5} md={1.5} lg={1.5} justifyContent="rigth" alignItems="rigth">
                                                 <Tooltip title={"Limpiar campo"}>
@@ -476,9 +460,9 @@ export const SolicitudModal = (
                                         </Grid>
 
                                         : ""}
-                                    <Grid container direction="row" justifyContent="center" alignItems="center">
+                                    <Grid container direction="row" justifyContent="center" alignItems="center" paddingBottom={3}>
 
-                                        <Grid container sx={{ border: "5px dashed  black" }} justifyContent="center" alignItems="center">
+                                        <Grid container sx={{ border: "3px dashed  grey" }} justifyContent="center" alignItems="center">
                                             {nameNewDoc === "" ?
                                                 <Tooltip title={"Cargar Archivo"}>
                                                     <IconButton component="label">
@@ -491,7 +475,7 @@ export const SolicitudModal = (
                                                             }}
                                                             type="file"
                                                         />
-                                                        <CloudUploadIcon sx={{ width: "100%", height: "100%" }} />
+                                                        <CloudUploadIcon sx={{ width: "60%", height: "60%" }} />
                                                     </IconButton>
                                                 </Tooltip>
 
@@ -508,66 +492,78 @@ export const SolicitudModal = (
                                                             }}
                                                             type="file"
                                                         />
-                                                        <PictureAsPdfOutlinedIcon sx={{ width: "100%", height: "100%" }} />
+                                                        <PictureAsPdfOutlinedIcon sx={{ width: "60%", height: "60%" }} />
                                                     </IconButton>
                                                 </Tooltip>
-
                                             }
-
                                         </Grid>
-
-
-
-
                                     </Grid>
                                 </Box>
                             </Container>
                             : ""}
+                            </Box>
                     </DialogContent>
                     : ""}
-                {modoSol == "verDetalles" ?
-                    <DialogContent dividers={true}>
+                {modoSol === "verDetalles" ?
+                    <DialogContent >
+                        <Box boxShadow={3}>
                         <Grid
                             container
                             direction="row"
                             justifyContent="center"
                             alignItems="center"
                         >
-                            <Grid item xs={4}>
+                            <Grid item xs={4} sx={{paddingBottom:"2%" }}>
+
+                                <Typography color="grey" paddingBottom={1} sx={{ textAlign:"center" }}>
                                 <label className='subtitulo'>Solicitante:</label>
-                                <br />
+                                </Typography>
+
+                                <Typography  paddingBottom={2} sx={{  textAlign:"center" }}>
                                 <label className='contenido'>{data.Solicitante}</label>
-                                <br />
-                                <br />
-                                <br />
+                                </Typography>
+                                
+                                <Typography  color="grey" paddingBottom={1} sx={{  textAlign:"center" }}>
                                 <label className='subtitulo'>Concepto:</label>
-                                <br />
+                                </Typography>
+
+                                <Typography paddingBottom={2} sx={{textAlign:"center" }}>
                                 <label className='contenido'>{data.Concepto}</label>
-                                <br />
-                                <br />
-                                <br />
+                                </Typography>
+
+                                <Typography color="grey" paddingBottom={1} sx={{  textAlign:"center" }}>
                                 <label className='subtitulo'>Total:</label>
-                                <br />
+                               </Typography>
+
+                                <Typography  paddingBottom={2} sx={{textAlign:"center" }}>
                                 <label className='contenido'>{data.Total}</label>
+                                </Typography>
+                                
                                 {data.NombreArchivo && data.RutaArchivo ?
                                     <>
-                                        <br />
-                                        <br />
+                                        <Typography color="grey" paddingBottom={1} sx={{  textAlign:"center" }}>
                                         <label className='subtitulo'>Archivo:</label>
-                                        <br />
+                                        </Typography>
+                                        <Typography  paddingBottom={2} sx={{textAlign:"center" }}>
                                         <label className='contenido'>{data.NombreArchivo}</label>
-                                        <br />
-                                        <Grid  item xs={1.5}>
-                                        <Tooltip title={"Vizualizar Documento"}>
-                                            <IconButton onClick={() => setModoSol("ver")}>
-                                                <DescriptionIcon  sx={{ width: "100%", height: "100%" }}/>
-                                            </IconButton>
-                                        </Tooltip>
+                                        </Typography>
+
+                                        <Grid item>
+                                            <Box display="flex" justifyContent="center">
+                                            <Box maxWidth={80}>
+                                            <Tooltip title={"Vizualizar Documento"}>
+                                                <IconButton onClick={() => setModoSol("ver")}>
+                                                    <DescriptionIcon sx={{ width: "100%", height: "100%" }} />
+                                                </IconButton>
+                                            </Tooltip>
+                                            </Box>
+                                            </Box>
                                         </Grid>
                                     </>
                                     : ""}
                             </Grid>
                         </Grid>
+                        </Box>
                     </DialogContent>
                     : ""}
 

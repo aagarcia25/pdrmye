@@ -22,7 +22,6 @@ const InflacionAnio = () => {
   const [dataInflacionAnio, setDataInflacionAnio] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
 
@@ -77,13 +76,7 @@ const InflacionAnio = () => {
     setVrows("");
   };
 
-  const handleEdit = (v: any) => {
-    //console.log(v)
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setVrows(v);
-  };
+
 
   const handleDelete = (v: any) => {
     Swal.fire({
@@ -152,7 +145,7 @@ const InflacionAnio = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "INFANIO") {
         if (String(item.Referencia) === "AGREG") {
-          setAgregar(true);
+          // setAgregar(true);
         }
         if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
@@ -164,8 +157,6 @@ const InflacionAnio = () => {
     });
     consulta({ NUMOPERACION: 4 })
   }, []);
-
-
 
   return (
     <div style={{ height: 600, width: "100%" }}>

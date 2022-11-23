@@ -25,7 +25,6 @@ export const MunTerritorio = () => {
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
@@ -66,12 +65,12 @@ export const MunTerritorio = () => {
 
   ];
   const handleAccion = (v: any) => {
-    if (v.tipo == 1) {
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setOpen(true);
       setData(v.data);
       setModo("Editar Registro");
-    } else if (v.tipo == 2) {
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
 
     }
@@ -137,7 +136,7 @@ export const MunTerritorio = () => {
 
   const handleUpload = (data: any) => {
 
-    if (data.tipo == 1) {
+    if (data.tipo === 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -163,7 +162,7 @@ export const MunTerritorio = () => {
       });
 
     } 
-    else if (data.tipo == 2) {
+    else if (data.tipo === 2) {
       //console.log("borrado de toda la tabla")
       //console.log(selectionModel)
 
@@ -248,10 +247,10 @@ export const MunTerritorio = () => {
       if (String(item.ControlInterno) === "MUNTERR") {
         //console.log(item)
         setNombreMenu(item.Menu);
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
        
@@ -269,7 +268,7 @@ export const MunTerritorio = () => {
 
 
   return (
-    <div style={{ height: 500, width: "100%" }}>
+    <div style={{ height: 500, width: "100%", padding:"2%" }}>
       <Slider open={slideropen}></Slider>
 
       {open ?
@@ -286,8 +285,8 @@ export const MunTerritorio = () => {
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography>
-            <h1>{nombreMenu}</h1>
+          <Typography variant="h4">
+            {nombreMenu}
           </Typography>
         </Grid>
       </Grid>

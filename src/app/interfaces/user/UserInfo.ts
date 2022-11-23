@@ -83,7 +83,7 @@ export interface MunicipioCambios {
     Importe?: string;
     Coeficiente?: string;
     Version?: string;
-    Facturacion?: string;
+    Facturacion?: number;
     totalPob?: string;
     Total?: string;
     anio?: string;
