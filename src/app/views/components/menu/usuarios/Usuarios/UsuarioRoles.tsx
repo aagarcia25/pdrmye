@@ -138,14 +138,14 @@ const UsuarioRoles = ({
         
         >
 
-        <Grid container spacing={1}>
+        <Grid container spacing={1} sx={{ bgcolor:"#CCCCCC", paddingTop:"1%", paddingBottom:"1%" }}>
         <Grid item xs={11} sm={11} md={11} lg={11}>
-          <Box sx={{ display:"flex",justifyContent:"center"}}>
-          <Typography><h2>Roles Relacionados al Usuario</h2></Typography>
+          <Box sx={{ display:"flex",justifyContent:"center", }}>
+          <Typography variant='h4'> Roles Relacionados al Usuario </Typography>
           </Box>
        
         </Grid>
-        <Grid item xs={1} sm={1} md={1} lg={1}>
+        <Grid item xs={1} sm={1} md={1} lg={1} >
         <Button variant="outlined" >
         <IconButton
           aria-label="close"
@@ -158,9 +158,9 @@ const UsuarioRoles = ({
         </Grid>
          </Grid>
 
-        <DialogContent dividers={true}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={12} md={12} lg={12}></Grid>
+        <DialogContent dividers={true} >
+          <Box boxShadow={3}>
+          <Grid container spacing={1} sx={{ padding:"1%"}}>
 
             <Grid item xs={12} sm={12} md={12} lg={12}>
               <Box
@@ -168,7 +168,7 @@ const UsuarioRoles = ({
                   margin: 0,
                 }}
               >
-                <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                <Typography sx={{ fontFamily: "sans-serif" }}>
                   Seleccione Rol
                 </Typography>
 
@@ -188,14 +188,14 @@ const UsuarioRoles = ({
                 variant="contained"
                 onClick={() =>handleMunicipios()}
               >
-                <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                <Typography sx={{ fontFamily: "sans-serif", color:"white" }}>
                   Relacionar Roles
                 </Typography>
               </Button>
             </Grid>
 
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>
                 Roles Relacionados
               </Typography>
             </Grid>
@@ -205,6 +205,7 @@ const UsuarioRoles = ({
               </div>
             </Grid>
           </Grid>
+          </Box>
         </DialogContent>
 
         {/* <DialogActions>
