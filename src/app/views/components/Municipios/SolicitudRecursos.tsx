@@ -444,7 +444,7 @@ const SolicitudRecursos = () => {
           sx={{ justifyContent: "center", width: '100%' }} >
 
           <Grid container>
-            <Grid item xs={1} >
+            <Grid item xs={1} sx={{ paddingLeft:"1%" }}>
               {agregar ?
                 <Tooltip title={"Agregar"}>
                   <ToggleButton value="check" onClick={() => Solicitar()}>
