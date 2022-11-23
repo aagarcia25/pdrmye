@@ -291,8 +291,8 @@ export const SolicitudModal = (
                     : ""}
                 {modoSol === "nuevo" || modoSol == "editar" ?
 
-                    <DialogContent dividers={true}>
-
+                    <DialogContent>
+                        <Box boxShadow={3}>
                         <Grid
                             container
                             direction="row"
@@ -327,7 +327,7 @@ export const SolicitudModal = (
                                 ) : (
                                     <React.Fragment>
 
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, }}>
                                             <Button color="warning" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 2, padding: 2 }}>
                                                 Atrás
                                             </Button>
@@ -344,7 +344,7 @@ export const SolicitudModal = (
 
                         {(activeStep + 1) === 1 ?
                             <Grid container
-                                sx={{ justifyContent: "center", width: '100%' }} >
+                                sx={{ justifyContent: "center", width: '100%'}} >
 
                                 <Grid item xs={8}>
                                     <Grid container xs={12}>
@@ -444,11 +444,11 @@ export const SolicitudModal = (
                                         //// imagen carga y previsualizacion
                                     }
                                     {DocSubido ?
-                                        <Grid container justifyContent="space-between" alignItems="center">
-                                            <Grid item xs={10} sm={10} md={8} lg={8} justifyContent="center" alignItems="center">
-                                                <label >
+                                        <Grid container justifyContent="space-between" alignItems="center" paddingBottom={1}>
+                                            <Grid item xs={8} sm={8} md={6} lg={6} justifyContent="center" alignItems="center">
+                                            <Typography>
                                                     {nameNewDoc}
-                                                </label>
+                                             </Typography>
                                             </Grid>
                                             <Grid item xs={1.5} sm={1.5} md={1.5} lg={1.5} justifyContent="rigth" alignItems="rigth">
                                                 <Tooltip title={"Limpiar campo"}>
@@ -460,9 +460,9 @@ export const SolicitudModal = (
                                         </Grid>
 
                                         : ""}
-                                    <Grid container direction="row" justifyContent="center" alignItems="center">
+                                    <Grid container direction="row" justifyContent="center" alignItems="center" paddingBottom={3}>
 
-                                        <Grid container sx={{ border: "5px dashed  black" }} justifyContent="center" alignItems="center">
+                                        <Grid container sx={{ border: "3px dashed  grey" }} justifyContent="center" alignItems="center">
                                             {nameNewDoc === "" ?
                                                 <Tooltip title={"Cargar Archivo"}>
                                                     <IconButton component="label">
@@ -475,7 +475,7 @@ export const SolicitudModal = (
                                                             }}
                                                             type="file"
                                                         />
-                                                        <CloudUploadIcon sx={{ width: "100%", height: "100%" }} />
+                                                        <CloudUploadIcon sx={{ width: "60%", height: "60%" }} />
                                                     </IconButton>
                                                 </Tooltip>
 
@@ -492,7 +492,7 @@ export const SolicitudModal = (
                                                             }}
                                                             type="file"
                                                         />
-                                                        <PictureAsPdfOutlinedIcon sx={{ width: "100%", height: "100%" }} />
+                                                        <PictureAsPdfOutlinedIcon sx={{ width: "60%", height: "60%" }} />
                                                     </IconButton>
                                                 </Tooltip>
                                             }
@@ -501,6 +501,7 @@ export const SolicitudModal = (
                                 </Box>
                             </Container>
                             : ""}
+                            </Box>
                     </DialogContent>
                     : ""}
                 {modoSol === "verDetalles" ?
