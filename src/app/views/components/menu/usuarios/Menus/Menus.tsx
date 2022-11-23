@@ -11,6 +11,7 @@ import { getPermisos, getUser } from "../../../../../services/localStorage";
 import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import { Grid } from "@mui/material";
 
 const Menus = () => {
   const [dt, setDt] = useState([]);
@@ -171,6 +172,7 @@ const Menus = () => {
 
   return (
     <div>
+      <Grid sx={{padding:"1%" }}>
       {open ? (
         <MenuRelPermisos
           open={open}
@@ -193,6 +195,7 @@ const Menus = () => {
 
       <ButtonsAdd handleOpen={handleOpenModal} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
+      </Grid>
     </div>
   );
 };

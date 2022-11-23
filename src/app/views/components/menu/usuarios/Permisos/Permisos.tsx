@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react'
 import Swal from 'sweetalert2';
@@ -161,7 +162,7 @@ const Permisos = () => {
   }, []);
   return (
     <div>
-
+      <Grid sx={{padding:"1%" }} > 
 {open ? (
       <PermisosModal
         open={open}
@@ -178,6 +179,7 @@ const Permisos = () => {
               columns={columns}
               rows={data}
             />
+      </Grid>
     </div>
   )
 }
