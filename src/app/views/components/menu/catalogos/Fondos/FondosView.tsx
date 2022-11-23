@@ -56,8 +56,6 @@ const FondosView = ({
     const handleChange = (v: any) => {
 
         if (openRel != true) {
-            //console.log("ajuste -- " + v?.row);
-            //console.log("id ajuste --- " + v?.row?.id,);
             AuthService.FondosRelAjuste(
                 {
                     TIPO: 1,
@@ -85,8 +83,6 @@ const FondosView = ({
             });
         }
         else {
-            //console.log("ajuste -- " + v?.row);
-            //console.log("id ajuste --- " + v?.row?.id,);
             AuthService.FondosRelAjuste(
                 {
                     TIPO: 2,
@@ -132,7 +128,7 @@ const FondosView = ({
                 return <Checkbox onChange={() => handleChange(v)} />;
             },
         },
-        { field: "Descripcion", headerName: "Descripcion", width: 200 },
+        { field: "Descripcion", headerName: "Descripcion", width: 400 },
     ];
 
 

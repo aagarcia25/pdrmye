@@ -114,7 +114,7 @@ const FondosTipoView = ({
                 return <Checkbox onChange={() => handleChange(v)} />;
             },
         },
-        { field: "Descripcion", headerName: "Descripcion", width: 200 },
+        { field: "Descripcion", headerName: "Descripcion", width: 400 },
     ];
 
 

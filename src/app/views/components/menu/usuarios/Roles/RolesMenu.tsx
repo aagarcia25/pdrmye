@@ -43,10 +43,10 @@ const RolesMenu = ({
     setOpenPerRel(false);
     setOpenRel(false);
 
-    {
+    
       if (v === "saved")
         consulta({ NUMOPERACION: 4 });
-    }
+    
   };
 
   const handleChange = (v: any) => {
