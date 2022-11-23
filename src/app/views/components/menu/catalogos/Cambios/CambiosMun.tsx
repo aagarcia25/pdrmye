@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Card, CardActions, CardContent, Dialog, Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
+import { Box,     Card,     CardContent,  Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { Toast } from "../../../../../helpers/Toast";
@@ -66,7 +66,7 @@ const CambiosMun = () => {
                 return (
                     <>
                         {
-                            ((user.DEPARTAMENTOS[0].NombreCorto == "CPH" && user.PERFILES[0].Referencia == "COOR") && (v.row.Aplicado == 0 && v.row.deleted == 0) ? (
+                            ((user.DEPARTAMENTOS[0].NombreCorto === "CPH" && user.PERFILES[0].Referencia === "COOR") && (v.row.Aplicado === 0 && v.row.deleted === 0) ? (
                                 <>
                                     <Tooltip title="Atender Solicitud">
                                         <IconButton color="info" onClick={() => handlevalidar(v)}>
