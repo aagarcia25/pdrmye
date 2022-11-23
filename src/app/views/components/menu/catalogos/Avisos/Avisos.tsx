@@ -30,7 +30,7 @@ export const Avisos = () => {
     { field: "id", headerName: "Identificador", hide: true, width: 150},
     { field: "fechaInicio", headerName: "Fecha de Inicio", width: 200 },
     { field: "FechaFin", headerName: "Expiracion", width: 200 },
-    { field: "Nombre", headerName: "Nombre", width: 100 },
+    { field: "Nombre", headerName: "Nombre", width: 250 },
     { field: "Descripcion", headerName: "Descripcion", width: 500 },
     {
       field: "Documento", headerName: "Documento", width: 100, renderCell: (v) => {
