@@ -512,38 +512,51 @@ export const SolicitudModal = (
                             justifyContent="center"
                             alignItems="center"
                         >
-                            <Grid item xs={4}>
-                                <Typography color="grey">
+                            <Grid item xs={4} sx={{paddingBottom:"2%" }}>
+
+                                <Typography color="grey" paddingBottom={1} sx={{ textAlign:"center" }}>
                                 <label className='subtitulo'>Solicitante:</label>
                                 </Typography>
-                                <br />
+
+                                <Typography  paddingBottom={2} sx={{  textAlign:"center" }}>
                                 <label className='contenido'>{data.Solicitante}</label>
-                                <br />
-                                <br />
-                                <br />
+                                </Typography>
+                                
+                                <Typography  color="grey" paddingBottom={1} sx={{  textAlign:"center" }}>
                                 <label className='subtitulo'>Concepto:</label>
-                                <br />
+                                </Typography>
+
+                                <Typography paddingBottom={2} sx={{textAlign:"center" }}>
                                 <label className='contenido'>{data.Concepto}</label>
-                                <br />
-                                <br />
-                                <br />
+                                </Typography>
+
+                                <Typography color="grey" paddingBottom={1} sx={{  textAlign:"center" }}>
                                 <label className='subtitulo'>Total:</label>
-                                <br />
+                               </Typography>
+
+                                <Typography  paddingBottom={2} sx={{textAlign:"center" }}>
                                 <label className='contenido'>{data.Total}</label>
+                                </Typography>
+                                
                                 {data.NombreArchivo && data.RutaArchivo ?
                                     <>
-                                        <br />
-                                        <br />
+                                        <Typography color="grey" paddingBottom={1} sx={{  textAlign:"center" }}>
                                         <label className='subtitulo'>Archivo:</label>
-                                        <br />
+                                        </Typography>
+                                        <Typography  paddingBottom={2} sx={{textAlign:"center" }}>
                                         <label className='contenido'>{data.NombreArchivo}</label>
-                                        <br />
-                                        <Grid item xs={1.5}>
+                                        </Typography>
+
+                                        <Grid item>
+                                            <Box display="flex" justifyContent="center">
+                                            <Box maxWidth={80}>
                                             <Tooltip title={"Vizualizar Documento"}>
                                                 <IconButton onClick={() => setModoSol("ver")}>
                                                     <DescriptionIcon sx={{ width: "100%", height: "100%" }} />
                                                 </IconButton>
                                             </Tooltip>
+                                            </Box>
+                                            </Box>
                                         </Grid>
                                     </>
                                     : ""}
