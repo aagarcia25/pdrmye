@@ -273,12 +273,12 @@ const FideicomisoConfig = ({
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen={true} >
+    <Dialog open={open} fullScreen={true}>
       <Slider open={openSlider} />
 
-      <DialogContent>
+      <DialogContent sx={{ padding:"0", margin:"0"}}>
 
-          <Grid container >
+          <Grid container  sx={{ paddingTop:"2%",bgcolor:"#CCCCCC"}}>
             <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
               <Typography
                 sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
@@ -289,7 +289,9 @@ const FideicomisoConfig = ({
 
           <Grid container direction="row"
             justifyContent="space-between"
-            alignItems="center">
+            alignItems="center"
+            sx={{ paddingLeft:"2%", paddingRight:"2%", paddingBottom:"2%"}}
+           >
             <Grid item >
               <ButtonGroup>
                 {modo === "visualizar" ?
@@ -309,8 +311,8 @@ const FideicomisoConfig = ({
 
                   : ""}
               </ButtonGroup>
-            </Grid>
-            <Grid item >
+            </Grid >
+            <Grid item  >
               <ButtonGroup>
                 <Tooltip title="Cerrar">
                   <ToggleButton value="check" color="error" onClick={() => { handleClose() }}>
@@ -324,15 +326,17 @@ const FideicomisoConfig = ({
 
           {(modo === "visualizar") ?
 
-              <Grid item xs={12} sx={{ width: "100%", height: 300, }}>
+              <Grid item xs={12} sx={{ bgcolor:"white", width: "100%", height: 500, padding:"2%" }}>
+                <Box boxShadow={2} sx={{ width: "100%",height:"97%" }}>
                 <MUIXDataGridSimple columns={columns} rows={data} />
+                </Box>
               </Grid>
             : ""}
 
         {(modo === "nuevo" || modo === "editar") ?
    
 
-            <Grid item xs={12} sx={{ width: "100%" }}>
+            <Grid item xs={12} sx={{  padding:"3%", bgcolor:"white", }}>
               <Container maxWidth="sm">
                 <TextField
                   required
@@ -371,7 +375,7 @@ const FideicomisoConfig = ({
                   inputProps={{ maxLength: 10 }}
                   InputLabelProps={{ shrink: true }}
                 />
-                <label>{cuentaError}</label>
+                <Typography variant="body2" > {cuentaError} </Typography>
                 <TextField
                   required
                   margin="dense"
@@ -385,7 +389,7 @@ const FideicomisoConfig = ({
                   inputProps={{ maxLength: 18 }}
                   InputLabelProps={{ shrink: true }}
                 />
-                <label>{claveError}</label>
+                <Typography variant="body2" > {claveError} </Typography>
                 <DialogActions>
 
                   <Button className="guardar" onClick={() => { agregar() }}>
