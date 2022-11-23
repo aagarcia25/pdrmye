@@ -53,24 +53,24 @@ const Fondos = () => {
           <Grid container>
 
 
-              <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+            <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
 
 
-              {view ?
-                <Tooltip title={"Visualizar Ajustes"}>
-                  <IconButton onClick={() => handleView(v)}>
-                    <RemoveRedEyeIcon />
-                  </IconButton>
-                </Tooltip>
-                : ""}
+            {view ?
+              <Tooltip title={"Visualizar Ajustes"}>
+                <IconButton onClick={() => handleView(v)}>
+                  <RemoveRedEyeIcon />
+                </IconButton>
+              </Tooltip>
+              : ""}
 
-              {view ?
-                <Tooltip title={"Visualizar Tipo de Cálculos"}>
-                  <IconButton onClick={() => handleViewAjustes(v)}>
-                    <MiscellaneousServicesIcon />
-                  </IconButton>
-                </Tooltip>
-                : ""}
+            {view ?
+              <Tooltip title={"Visualizar Tipo de Cálculos"}>
+                <IconButton onClick={() => handleViewAjustes(v)}>
+                  <MiscellaneousServicesIcon />
+                </IconButton>
+              </Tooltip>
+              : ""}
 
 
           </Grid>
@@ -115,6 +115,26 @@ const Fondos = () => {
     },
     { field: "idtipo", headerName: "idtipo", width: 150, hide: true },
     { field: "dtipo", headerName: "Tipo", width: 250 },
+    { field: "PorcentajeDistribucion	", headerName: "	PorcentajeDistribucion	", width: 150, },
+    { field: "Garantia", headerName: "Garantia	", width: 150, },
+    { field: "Articulo", headerName: "Articulo	", width: 150, },
+    { field: "Comentarios", hide: true },
+    { field: "NumProyecto", headerName: "NumProyecto	", width: 150, },
+    { field: "ConceptoEgreso", headerName: "ConceptoEgreso", width: 150, },
+    { field: "Clasificador01", headerName:"ADMINISTRATIVO	", width: 150, },
+    { field: "Clasificador02", headerName:"FUNCIONAL	", width: 150, },
+    { field: "Clasificador03", headerName:"PROGRAMÁTICO	", width: 150, },
+    { field: "Clasificador04", headerName:"OBJETO DE GASTO (PARTIDA)	", width: 150, },
+    { field: "Clasificador05", headerName:"TIPO DEL GASTO	", width: 150, },
+    { field: "Clasificador06", headerName:"FUENTE DE FINANCIAMIENTO	", width: 150, },
+    { field: "Clasificador07", headerName:"RAMO-FONDO CONVENIO	", width: 150, },
+    { field: "Clasificador08", headerName:"AÑO DEL RECURSO	", width: 150, },
+    { field: "Clasificador09", headerName:"CONTROL INTERNO	", width: 150, },
+    { field: "Clasificador10", headerName:"GEOGRÁFICA	", width: 150, },
+    { field: "Clasificador11", headerName:"PROYECTO/PROGRAMA	", width: 150, },
+    { field: "ClasificacionOP", headerName: "ClasificacionOP", width: 150, },
+    { field: "Orden	", hide: true},
+
 
 
   ];
@@ -266,20 +286,20 @@ const Fondos = () => {
         ""
       )}
 
-   {(openViewAjustes) ? (
-       
-       <FondosTipoView
-       handleClose={handleClose}
-       dt={vrows}
-     />
+      {(openViewAjustes) ? (
+
+        <FondosTipoView
+          handleClose={handleClose}
+          dt={vrows}
+        />
 
       ) : (
         ""
       )}
 
       <Grid container
-        sx={{justifyContent: "center"}}>
-        <Grid item xs={10} sx={{textAlign:"center"}}>
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
           <Typography>
             <h1>{nombreMenu}</h1>
           </Typography>
@@ -293,3 +313,7 @@ const Fondos = () => {
 };
 
 export default Fondos;
+
+
+
+

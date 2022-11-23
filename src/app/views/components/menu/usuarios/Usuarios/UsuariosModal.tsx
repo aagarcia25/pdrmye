@@ -305,7 +305,7 @@ const UsuariosModal = ({
 
           </Grid>
           <Grid item xs={12} sm={2} md={2} lg={2}  >
-            <Button variant="outlined">
+            <Button variant="outlined"  onClick={() => handleClose()}>
               <Tooltip title="Salir">
                 <IconButton
                   aria-label="close"
