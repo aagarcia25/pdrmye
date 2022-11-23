@@ -322,8 +322,8 @@ export const Municipios = () => {
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography>
-            <h1>{nombreMenu}</h1>
+          <Typography variant="h3">
+           {nombreMenu}
           </Typography>
         </Grid>
       </Grid>
