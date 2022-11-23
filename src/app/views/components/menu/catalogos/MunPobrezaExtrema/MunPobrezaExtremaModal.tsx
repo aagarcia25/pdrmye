@@ -8,12 +8,10 @@ import {
 } from "@mui/material";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getUser,  validaLocalStorage } from "../../../../../services/localStorage";
+import { getUser,  validaLocalStorage } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
 const MunPobrezaExtremaModal = ({
@@ -36,19 +34,19 @@ const MunPobrezaExtremaModal = ({
   const [porcentaje, setPorcentage] = useState<number>();
   const [carenciaProm, setCarenciaProm] = useState<number>();
   const [IdMunicipio, setIdMunicipio] = useState<object>();
-  const [values, setValues] = useState<Imunicipio[]>();
+  //const [values, setValues] = useState<Imunicipio[]>();
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [municipio, setMunicipios] = useState<SelectValues[]>([]);
+  //const [municipio, setMunicipios] = useState<SelectValues[]>([]);
 
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
       CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
+    //    setMunicipios(res.RESPONSE);
       });
     }
-    let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
-    setValues(m);
+    // let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
+   /// setValues(m);
   };
   const handleSend = () => {
     if (poblacion === null || anio === null || carenciaProm === null || IdMunicipio === null) {
@@ -107,9 +105,9 @@ const MunPobrezaExtremaModal = ({
       }
     });
   };
-  const handle = () => {
+  // const handle = () => {
 
-  };
+  // };
 
   const editar = (data: any) => {
     CatalogosServices.munpobrezaext(data).then((res) => {
@@ -145,10 +143,10 @@ const MunPobrezaExtremaModal = ({
       setCarenciaProm(dt?.row?.CarenciaProm)
     }
 
-    let data = { NUMOPERACION: 5 };
-    CatalogosServices.SelectIndex(data).then((res) => {
-      setMunicipios(res.RESPONSE);
-    });
+    // let data = { NUMOPERACION: 5 };
+    // CatalogosServices.SelectIndex(data).then((res) => {
+    //   setMunicipios(res.RESPONSE);
+    // });
 
 
   }, [dt]);

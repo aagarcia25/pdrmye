@@ -59,6 +59,7 @@ import CambiosMun from '../views/components/menu/catalogos/Cambios/CambiosMun';
 import AuthSolicitudes from '../views/components/DPCP/AuthSolicitudes';
 import Participaciones from '../views/components/DAMOP/Participaciones';
 import { Divisas } from '../views/components/menu/catalogos/Divisas/Divisas';
+import AjustesCalculos from '../views/components/menu/catalogos/AjustesCalculos/AjustesCalculos';
 
 
 
@@ -100,7 +101,9 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/bancos'                     element={<Bancos />} />
         <Route path='/inicio/catalogos/cuentabancaria'             element={<CuentaBancaria idmunicipio={''} municipio={''}/>} />
         <Route path='/inicio/catalogos/SolicitudCambios'           element={<CambiosMun/>} />
-        <Route path='/inicio/catalogos/divisas'           element={<Divisas/>} />
+        <Route path='/inicio/catalogos/divisas'                    element={<Divisas/>} />
+        <Route path='/inicio/catalogos/ajustes'                    element={<AjustesCalculos/>} />
+
 
 
         {/* FIN SECCION DE CATALOGOS */}

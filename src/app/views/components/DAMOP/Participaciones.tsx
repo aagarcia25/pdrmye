@@ -194,7 +194,7 @@ const Participaciones = () => {
           OBJS: selectionModel,
           CHUSER:user.id
       };
-
+      console.log(selectionModel);
 
                   AlertS.fire({
                       title: "Solicitud Enviada",

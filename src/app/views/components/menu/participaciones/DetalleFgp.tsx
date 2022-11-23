@@ -58,12 +58,9 @@ const DetalleFgp = ({
   const [area, setArea] = useState("");
   //Permisos
   const [data, setData] = useState([]);
-  const [vrows, setvrows] = useState({});
   const [autorizar, setAutorizar] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-  const [editar, setEditar] = useState<boolean>(false);
-  const [eliminar, setEliminar] = useState<boolean>(false);
   //Modals
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
@@ -104,7 +101,6 @@ const DetalleFgp = ({
         case 3: //Autorizar Analista
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_ENV_COOR");
-          setvrows(data);
           setOpenModal(true);
           setperfilDestino("COOR");
           setArea("CPH")
@@ -112,7 +108,6 @@ const DetalleFgp = ({
         case 4: //Autorizar Coordinador
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("DAMOP_INICIO");
-          setvrows(data);
           setOpenModal(true);
           setperfilDestino("ANA");
           setArea("DAMOP")
@@ -124,7 +119,6 @@ const DetalleFgp = ({
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_REG_ANA");
           setperfilDestino("ANA");
-          setvrows(data);
           setArea("CPH")
           setOpenModal(true);
           break;
@@ -253,7 +247,7 @@ const DetalleFgp = ({
     calculosServices.getColumns(data).then((res) => {
       if (res.SUCCESS) {
         const cl: columnasCal[] = res.RESPONSE;
-        cl.map((item) => {
+        cl?.map((item) => {
           //console.log(item.keys);
           switch (item.keys) {
             case 0:
@@ -494,10 +488,10 @@ const DetalleFgp = ({
         }
 
         if (String(item.Referencia) === "ELIM") {
-          setEliminar(true);
+         // setEliminar(true);
         }
         if (String(item.Referencia) === "EDIT") {
-          setEditar(true);
+        //  setEditar(true);
         }
       }
     });
@@ -639,9 +633,9 @@ const DetalleFgp = ({
                 )}
 
                 {autorizar &&
-                  direccion?.value == "CPH" &&
-                  perfil?.value == "COOR" &&
-                  user.PERFILES[0].Referencia == "COOR" ? (
+                  direccion?.value === "CPH" &&
+                  perfil?.value === "COOR" &&
+                  user.PERFILES[0].Referencia === "COOR" ? (
                   <Tooltip title={"Autorizar Coordinador"}>
                     <ToggleButton
                       value="check"
