@@ -71,7 +71,7 @@ const RecepcionRecursos = () => {
     { field: "Nombre", headerName: "Municipio", width: 250 },
 
     { field: "NombreCorto", headerName: "Nombre Corto", width: 250 },
-    { field: "OrdenSFTGNL", headerName: "Orden SFTGNL", width: 120 },
+    // { field: "OrdenSFTGNL", headerName: "Orden SFTGNL", width: 120 },
     { field: "ClaveSIREGOB", headerName: "Clave SIREGOB", width: 120 },
     { field: "ClaveINEGI", headerName: "Clave INEGI", width: 120 },
     {
@@ -131,16 +131,24 @@ const RecepcionRecursos = () => {
           <ButtonGroup variant="outlined" aria-label="outlined primary button group">
             
             <Button className='subtitulo'  color={recursoButton == "PF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PF")}> 
+            <Typography variant='body1'>
              Participaciones Federales 
+             </Typography>
              </Button>
             <Button className='subtitulo' color={recursoButton == "PE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("PE")}>
+            <Typography variant='body1'>
               Participaciones Estatales
+              </Typography>
             </Button>
             <Button className='subtitulo' color={recursoButton == "AF" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AF")}>
+            <Typography variant='body1'>
               Aportaciones Federales
+              </Typography>
             </Button>
             <Button className='subtitulo' color={recursoButton == "AE" ? "secondary" : "inherit"} onClick={() => handleAjustesRel("AE")}>
+            <Typography variant='body1'>
               Aportaciones Estatales
+              </Typography>
             </Button>
           </ButtonGroup>
         </Grid>
