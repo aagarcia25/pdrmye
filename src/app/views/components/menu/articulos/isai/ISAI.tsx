@@ -56,7 +56,7 @@ const ISAI = () => {
     { field: "Version", headerName: "Versión", width: 150 },
     { field: "FechaCreacion", headerName: "Fecha de Creación", width: 200 },
     { field: "municipio", headerName: "Municipio", width: 250 },
-    { field: "Importe", headerName: "Importe", width: 250,...Moneda },
+    { field: "Importe", headerName: "Importe", width: 500,...Moneda },
     { field: "Coeficiente", headerName: "Coeficiente", width: 250 },
     { field: "UC", headerName: "Usuario Creo", width: 350 },
     { field: "UM", headerName: "Usuario Modifico", width: 350 },
@@ -82,7 +82,7 @@ const ISAI = () => {
         },
       },
     {field: "id",headerName: "Versión",},
-    { field: "Importe", headerName: "Importe", width: 350,...Moneda },
+    { field: "Importe", headerName: "Importe", width: 500,...Moneda },
     { field: "UC", headerName: "Usuario Creo", width: 350 },
     { field: "UM", headerName: "Usuario Modifico", width: 350 },
   ];
