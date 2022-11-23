@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
@@ -22,13 +21,16 @@ import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SaveButton from "../../../componentes/SaveButton";
 import Title from "../../../componentes/Title";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+import React from "react";
+import ButtonsMunBase from "../Utilerias/ButtonsMunBase";
 
 const AjustesCalculos = () => {
     //   VALORES POR DEFAULT
     const [open, setOpen] = useState(false);
-    const [tipoOperacion, setTipoOperacion] = useState(0);
-    const [dataTipoFondo, setDataTipoFondo] = useState([]);
-    const [slideropen, setslideropen] = useState(false);
+    const [tipoOperacion, setTipoOperacion] = useState<number>(0);
+    const [dataAjustes, setDataAjustes] = useState([]);
     const user: RESPONSE = JSON.parse(String(getUser()));
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [agregar, setAgregar] = useState<boolean>(false);
@@ -36,8 +38,11 @@ const AjustesCalculos = () => {
     const [eliminar, setEliminar] = useState<boolean>(false);
     const [nombreMenu, setNombreMenu] = useState("");
     const [vrows, setVrows] = useState({});
-    const [ajusteCalculo, setAjusteCalculo] = useState("");
+    const [ajuste, setAjuste] = useState("");
     const [keys, setKeys] = useState("");
+    const [idAjuste, setIdAjuste] = useState("");
+    const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+
 
 
     const columns: GridColDef[] = [
@@ -61,7 +66,7 @@ const AjustesCalculos = () => {
                             <Tooltip title={"Editar Registro"}>
                                 <IconButton
                                     color="info"
-                                    onClick={() => handleAccion({ tipo: 2, data: v })}
+                                    onClick={() => handleAccion({ tipo: 2, data: v.row })}
                                 >
                                     <ModeEditOutlineIcon />
                                 </IconButton>
@@ -74,7 +79,7 @@ const AjustesCalculos = () => {
                             <Tooltip title={"Eliminar Registro"}>
                                 <IconButton
                                     color="error"
-                                    onClick={() => handleAccion({ tipo: 3, data: v })}
+                                    onClick={() => handleAccion({ tipo: 3, data: v.row })}
                                 >
                                     <DeleteForeverIcon />
                                 </IconButton>
@@ -92,76 +97,55 @@ const AjustesCalculos = () => {
         { field: "keys", headerName: "Keys", width: 100 },
     ];
 
-    const handlesave = (v: any) => {
+    const handlesave = () => {
 
-        let data = {
-            NUMOPERACION: tipoOperacion,
-            DESCRIPCION: ajusteCalculo,
-            CHUSER: user.id,
-            CHID: v.id,
-            KEYS: keys,
-        };
-        CatalogosServices.AjustesIndex(data).then((res) => {
-            if (res.SUCCESS) {
-                Toast.fire({
-                    icon: "success",
-                    title: "Registro Agregado!",
-                });
-                consulta();
-            } else {
+        if (tipoOperacion === 1) {
+
+            if (ajuste === "" || keys === "") {
                 AlertS.fire({
-                    title: "Error!",
-                    text: res.STRMESSAGE,
+                    title: "Revise los Campos!",
                     icon: "error",
                 });
+            } else {
+                let data = {
+                    NUMOPERACION: tipoOperacion,
+                    DESCRIPCION: ajuste,
+                    CHUSER: user.id,
+                    CHID: idAjuste,
+                    KEYS: keys,
+                };
+                CatalogosServices.AjustesIndex(data).then((res) => {
+                    if (res.SUCCESS) {
+                        Toast.fire({
+                            icon: "success",
+                            title: "Registro Agregado!",
+                        });
+                        consulta();
+                    } else {
+                        AlertS.fire({
+                            title: "Error!",
+                            text: res.STRMESSAGE,
+                            icon: "error",
+                        });
+                    }
+                });
             }
-        });
-
+        }
+        if (tipoOperacion === 2) {
+            handleEditar();
+        }
     };
+
 
     const handleAccion = (v: any) => {
         if (v.tipo === 2) {
             setTipoOperacion(2);
             setVrows(v.data);
-            setAjusteCalculo(v?.data?.row?.Descripcion);
-            setKeys(v?.data?.row?.keys);
+            setAjuste(v?.data?.Descripcion);
+            setKeys(v?.data?.keys);
+            setIdAjuste(v?.data?.id);
             setOpen(true);
-            Swal.fire({
-                icon: "info",
-                title: "Estas seguro de eliminar este registro?",
-                showDenyButton: true,
-                showCancelButton: false,
-                confirmButtonText: "Confirmar",
-                denyButtonText: `Cancelar`,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let data = {
-                        CHUSER: user.id,
-                        CHID: v?.data?.row?.id,
-                        NUMOPERACION: v.tipo,
-                        DESCRIPCION: ajusteCalculo,
-                        KEYS: keys,
-                    };
 
-                    CatalogosServices.AjustesIndex(data).then((res) => {
-                        if (res.SUCCESS) {
-                            Toast.fire({
-                                icon: "success",
-                                title: "Registro Eliminado!",
-                            });
-                            consulta();
-                        } else {
-                            AlertS.fire({
-                                title: "Error!",
-                                text: res.STRMESSAGE,
-                                icon: "error",
-                            });
-                        }
-                    });
-                } else if (result.isDenied) {
-                    Swal.fire("No se realizaron cambios", "", "info");
-                }
-            });
         } else if (v.tipo === 3) {
             Swal.fire({
                 icon: "info",
@@ -199,30 +183,135 @@ const AjustesCalculos = () => {
             });
         }
     };
+    const handleBorrar = (v: any) => {
+        setSelectionModel(v);
+    };
+
+
 
     const handleClose = () => {
         consulta();
-        setVrows({});
+        setVrows([]);
+        setAjuste("");
+        setKeys("");
         setOpen(false);
     };
+    const handleEditar = () => {
 
-    const handleOpen = () => {
-        setTipoOperacion(1);
-        setOpen(true);
-        setAjusteCalculo("");
-        setVrows({});
+        if (ajuste === "" || keys === "") {
+            AlertS.fire({
+                title: "Revise los Campos!",
+                icon: "error",
+            });
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Estas seguro de Editar este Registro?",
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: "Confirmar",
+                denyButtonText: `Cancelar`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let data = {
+                        CHUSER: user.id,
+                        CHID: idAjuste,
+                        NUMOPERACION: tipoOperacion,
+                        DESCRIPCION: ajuste,
+                        KEYS: keys,
+                    };
+
+                    CatalogosServices.AjustesIndex(data).then((res) => {
+                        if (res.SUCCESS) {
+                            Toast.fire({
+                                icon: "success",
+                                title: "Registro Editado!",
+                            });
+                            consulta();
+                        } else {
+                            AlertS.fire({
+                                title: "Error!",
+                                text: res.STRMESSAGE,
+                                icon: "error",
+                            });
+                        }
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire("No se realizaron cambios", "", "info");
+                }
+            });
+        }
+    };
+    const handleOpen = (accion: any) => {
+
+        if (accion === 1) {
+            setTipoOperacion(1);
+            setAjuste("");
+            setVrows([]);
+            setKeys("");
+            setOpen(true);
+        }
+        if (accion === 2) {
+            if (selectionModel.length !== 0) {
+                Swal.fire({
+                    icon: "question",
+                    title: selectionModel.length + " Registros Se Eliminaran!!",
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: "Confirmar",
+                    denyButtonText: `Cancelar`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        let data = {
+                            NUMOPERACION: 6,
+                            OBJS: selectionModel,
+                            CHUSER: user.id
+                        };
+                        //console.log(data);
+
+                        CatalogosServices.AjustesIndex(data).then((res) => {
+                            if (res.SUCCESS) {
+                                Toast.fire({
+                                    icon: "success",
+                                    title: "Borrado!",
+                                });
+
+                                consulta();
+
+                            } else {
+                                AlertS.fire({
+                                    title: "Error!",
+                                    text: res.STRMESSAGE,
+                                    icon: "error",
+                                });
+                            }
+                        });
+
+                    } else if (result.isDenied) {
+                        Swal.fire("No se realizaron cambios", "", "info");
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Seleccione Registros Para Borrar",
+                    confirmButtonText: "Aceptar",
+                });
+            }
+
+        }
+
     };
 
     const consulta = () => {
         let data = {
             NUMOPERACION: 4,
         };
-
         CatalogosServices.AjustesIndex(data).then((res) => {
             if (res.SUCCESS) {
-
-                setDataTipoFondo(res.RESPONSE);
-                handleClose();
+                setDataAjustes(res.RESPONSE);
+                setOpen(false);
             } else {
                 AlertS.fire({
                     title: "Error!",
@@ -254,16 +343,18 @@ const AjustesCalculos = () => {
 
     return (
         <div style={{ height: 600, width: "100%" }}>
-            <Slider open={slideropen}></Slider>
             <Title titulo={nombreMenu} tooltip={"Cátalogo para Agregar Ajustes a los Cálculos"}></Title>
-            <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-            <MUIXDataGrid columns={columns} rows={dataTipoFondo} />
+            <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" >
+                <ButtonsMunBase
+                    handleOpen={handleOpen}
+                    agregar={agregar} eliminar={eliminar} />
 
-            {open ? (
+            </Grid>
+            <MUIXDataGridMun columns={columns} rows={dataAjustes} modulo={nombreMenu} handleBorrar={handleBorrar} borrar={eliminar} />
+
+            {open ?
                 <ModalForm
-                    title={
-                        tipoOperacion === 1 ? "Agregar Registro" : "Modificar Registro"
-                    }
+                    title={tipoOperacion === 1 ? "Agregar Registro" : "Modificar Registro"}
                     handleClose={handleClose}
                 >
                     <Grid
@@ -286,13 +377,13 @@ const AjustesCalculos = () => {
                             <TextField
                                 required
                                 margin="dense"
-                                label="Descripción"
-                                value={ajusteCalculo}
+                                label="Ajuste"
+                                value={ajuste}
                                 type="text"
                                 fullWidth
                                 variant="standard"
-                                onChange={(v) => setAjusteCalculo(v.target.value)}
-                                error={ajusteCalculo === "" ? true : false}
+                                onChange={(v) => setAjuste(v.target.value)}
+                                error={ajuste === "" ? true : false}
                             />
                         </Grid>
 
@@ -307,7 +398,7 @@ const AjustesCalculos = () => {
                                 margin="dense"
                                 label="Keys"
                                 value={keys}
-                                type="text"
+                                type="number"
                                 fullWidth
                                 variant="standard"
                                 onChange={(v) => setKeys(v.target.value)}
@@ -317,14 +408,14 @@ const AjustesCalculos = () => {
 
                         <SaveButton
                             vrow={vrows}
-                            handleAccion={() => handlesave}
+                            handleAccion={handlesave}
                             tipoOperacion={tipoOperacion}
                         ></SaveButton>
                     </Grid>
                 </ModalForm>
-            ) : (
+                :
                 ""
-            )}
+            }
         </div>
     );
 };
