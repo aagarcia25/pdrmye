@@ -256,7 +256,7 @@ export const SolicitudModal = (
     return (
         <div style={{ height: "100%", width: "100%" }}>
             <ModalForm title={'Solicitud de Anticipo de Participaciones'} handleClose={handleClose}>
-                <Slider open={openSlider}></Slider>
+                {/* <Slider open={openSlider}></Slider> */}
 
 
                 <DialogTitle textAlign="center">  </DialogTitle>
@@ -266,8 +266,9 @@ export const SolicitudModal = (
                         direction="row"
                         justifyContent="center"
                         alignItems="center"
+                        
                     >
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} >
                             <Grid item xs={.5} >
                                 <Tooltip title={"Vizualizar Detalles"}>
                                     <IconButton onClick={() => setModoSol("verDetalles")}>
@@ -503,7 +504,8 @@ export const SolicitudModal = (
                     </DialogContent>
                     : ""}
                 {modoSol === "verDetalles" ?
-                    <DialogContent dividers={true}>
+                    <DialogContent >
+                        <Box boxShadow={3}>
                         <Grid
                             container
                             direction="row"
@@ -511,20 +513,18 @@ export const SolicitudModal = (
                             alignItems="center"
                         >
                             <Grid item xs={4}>
+                                <Typography color="grey">
                                 <label className='subtitulo'>Solicitante:</label>
-                                <br />
+                                </Typography>
+                                
                                 <label className='contenido'>{data.Solicitante}</label>
-                                <br />
-                                <br />
-                                <br />
+                               
                                 <label className='subtitulo'>Concepto:</label>
-                                <br />
+                               
                                 <label className='contenido'>{data.Concepto}</label>
-                                <br />
-                                <br />
-                                <br />
+                                
                                 <label className='subtitulo'>Total:</label>
-                                <br />
+                               
                                 <label className='contenido'>{data.Total}</label>
                                 {data.NombreArchivo && data.RutaArchivo ?
                                     <>
@@ -545,6 +545,7 @@ export const SolicitudModal = (
                                     : ""}
                             </Grid>
                         </Grid>
+                        </Box>
                     </DialogContent>
                     : ""}
 
