@@ -44,18 +44,11 @@ const RolesMenu = ({
     setOpenPerRel(false);
     setOpenRel(false);
 
-<<<<<<< Updated upstream
-    
-      if (v === "saved")
-        consulta({ NUMOPERACION: 4 });
-    
-=======
 
     if (v === "saved") {
       consulta({ NUMOPERACION: 4 });
 
     };
->>>>>>> Stashed changes
   };
 
   const handleChange = (v: any) => {

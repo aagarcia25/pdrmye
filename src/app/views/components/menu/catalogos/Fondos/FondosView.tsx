@@ -43,11 +43,7 @@ const FondosView = ({
 
     const handleChange = (v: any) => {
 
-<<<<<<< Updated upstream
-        if (openRel != true) {
-=======
         if (openRel !== true) {
->>>>>>> Stashed changes
             AuthService.FondosRelAjuste(
                 {
                     TIPO: 1,
@@ -75,10 +71,7 @@ const FondosView = ({
             });
         }
         else {
-<<<<<<< Updated upstream
-=======
    
->>>>>>> Stashed changes
             AuthService.FondosRelAjuste(
                 {
                     TIPO: 2,
