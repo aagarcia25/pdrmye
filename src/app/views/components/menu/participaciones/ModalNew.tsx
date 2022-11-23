@@ -36,11 +36,7 @@ const ModalNew = ({
   const [monto, setMonto] = useState<number>();
   const [nameNewDoc, setNameNewDoc] = useState("");
   const [file, setFile] = useState(Object);
-  const [slideropen, setslideropen] = useState(false);
   const [Czero, setCzero]= useState<boolean>(false);
-
-
-
 
   const handleSelectMes = (v: SelectValues) => {
     setIdmes(String(v));
@@ -122,7 +118,6 @@ const ModalNew = ({
 
 
   const handleSend = () => {
-    setslideropen(true);
         if (clave === "ICV") {
           icv();
         } else if (clave === "ISR NOMINA") {
@@ -150,7 +145,6 @@ const ModalNew = ({
           }
   
         }
-        setslideropen(false);
 
   };
 

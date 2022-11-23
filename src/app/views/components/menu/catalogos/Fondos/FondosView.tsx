@@ -4,10 +4,8 @@ import {
     Grid,
     Button,
     ButtonGroup,
-    styled,
-    Paper,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GridColDef } from '@mui/x-data-grid';
 
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
@@ -31,23 +29,13 @@ const FondosView = ({
 
     const [data, setData] = useState([]);
     const [openRel, setOpenRel] = useState(true);
-    const [openSlider, setOpenSlider] = useState<boolean>();
     const [descripcion, setDescripcion] = useState<string>();
     const [idFondo, setIdFondo] = useState<string>();
 
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    }));
+
     const consulta = (data: any) => {
-        setOpenSlider(true);
         AuthService.FondosAjustes(data).then((res) => {
             setData(res.RESPONSE);
-            setOpenSlider(false);
-            //console.log(res)
         });
 
     };
@@ -55,7 +43,11 @@ const FondosView = ({
 
     const handleChange = (v: any) => {
 
+<<<<<<< Updated upstream
         if (openRel != true) {
+=======
+        if (openRel !== true) {
+>>>>>>> Stashed changes
             AuthService.FondosRelAjuste(
                 {
                     TIPO: 1,
@@ -83,6 +75,10 @@ const FondosView = ({
             });
         }
         else {
+<<<<<<< Updated upstream
+=======
+   
+>>>>>>> Stashed changes
             AuthService.FondosRelAjuste(
                 {
                     TIPO: 2,
@@ -144,8 +140,6 @@ const FondosView = ({
 
     useEffect(() => {
         handleAjustesRel();
-        //console.log(dt?.row);
-        //console.log("id fondo--- " + dt?.row?.id);
         setDescripcion(dt?.row?.Descripcion);
         setIdFondo(dt?.row?.id);
     }, []);
@@ -164,8 +158,6 @@ const FondosView = ({
                         flexDirection: "row",
                     }}
                 >
-
-
                     <Grid container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
 
                         <ButtonGroup variant="outlined" aria-label="outlined primary button group">

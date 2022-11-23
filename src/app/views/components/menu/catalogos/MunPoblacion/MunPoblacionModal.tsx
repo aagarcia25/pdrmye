@@ -9,10 +9,8 @@ import {
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { municipiosc } from "../../../../../share/loadMunicipios";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import ModalForm from "../../../componentes/ModalForm";
 
 const MunPoblacionModal = ({
@@ -36,13 +34,10 @@ const MunPoblacionModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState<number>();
   const [poblacion, setPoblacion] = useState<number>();
-  const [municipios, setMunicipios] = useState<SelectValues[]>([]);
   const [munSeleccionado, setMunSeleccionado] = useState<string>();
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  const handleSelectMun = (v: SelectValues) => {
-    setMunSeleccionado(v.value);
-  };
+
 
 
   const handleSend = () => {
@@ -120,7 +115,6 @@ const MunPoblacionModal = ({
 
  
   useEffect(() => {
-    setMunicipios(municipiosc());
 
     if (dt === '') {
       //console.log(dt)

@@ -5,7 +5,6 @@ import { Toast } from "../../../../../helpers/Toast";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AuthService } from "../../../../../services/AuthService";
 import { getUser } from "../../../../../services/localStorage";
-import Slider from "../../../Slider";
 import ModalForm from "../../../componentes/ModalForm";
 
 const MenuModal = ({
@@ -22,7 +21,6 @@ const MenuModal = ({
 }) => {
 
 
-  const [openSlider, setOpenSlider] = useState(false);
   const [Menu, setMenu] = useState("");
   const [Descripcion, setDescripcion] = useState("");
   const [MenuPadre, setMenuPadre] = useState("");
@@ -119,7 +117,6 @@ const MenuModal = ({
   return (
     <div>
       <ModalForm title={tipo === 1 ? "Nuevo Registro" : "Editar Registro"} handleClose={handleClose}>
-        <Slider open={openSlider}></Slider>
 
         <DialogContent>
           <Grid container
