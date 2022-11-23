@@ -516,15 +516,19 @@ export const SolicitudModal = (
                                 <Typography color="grey">
                                 <label className='subtitulo'>Solicitante:</label>
                                 </Typography>
-                                
+                                <br />
                                 <label className='contenido'>{data.Solicitante}</label>
-                               
+                                <br />
+                                <br />
+                                <br />
                                 <label className='subtitulo'>Concepto:</label>
-                               
+                                <br />
                                 <label className='contenido'>{data.Concepto}</label>
-                                
+                                <br />
+                                <br />
+                                <br />
                                 <label className='subtitulo'>Total:</label>
-                               
+                                <br />
                                 <label className='contenido'>{data.Total}</label>
                                 {data.NombreArchivo && data.RutaArchivo ?
                                     <>
