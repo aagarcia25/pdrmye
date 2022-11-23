@@ -362,7 +362,7 @@ const CambiosMun = () => {
                                                 {origen?.Coeficiente ? <Typography><h5>{"Coeficiente: "+       origen?.Coeficiente}   <br/></h5></Typography>:""}
                                                 {origen?.Version ?     <Typography><h5>{"Version: "+           origen?.Version}       <br/></h5></Typography>:""}
                                                 {origen?.totalPob ?    <Typography><h5>{"Poblacion Total: "+   origen?.totalPob}      <br/></h5></Typography>:""}
-                                                {origen?.Facturacion ? <Typography><h5>{"Facturacion: "+       origen?.Facturacion}   <br/></h5></Typography>:""}
+                                                {Number(origen?.Facturacion) >= 0 ? <Typography><h5>{"Facturacion: "+       origen?.Facturacion}   <br/></h5></Typography>:""}
                                                 {origen?.Total ?       <Typography><h5>{"Total: "+             origen?.Total}         <br/></h5></Typography>:""}
                                                 {origen?.anio ?        <Typography><h5>{"Año: "+               origen?.anio}          <br/></h5></Typography>:""}
                                                 {origen?.Pob ?         <Typography><h5>{"Poblacion Total: "+   origen?.Pob}           <br/></h5></Typography>:""}
@@ -397,7 +397,7 @@ const CambiosMun = () => {
                                                 {solicitud?.Coeficiente ?  <Typography><h5>{"Coeficiente: " +       solicitud?.Coeficiente}       <br/></h5></Typography>:""}
                                                 {solicitud?.Version ?      <Typography><h5>{"Version: " +           solicitud?.Version}               <br/></h5></Typography>:""}
                                                 {solicitud?.totalPob ?     <Typography><h5>{"Poblacion Total: " +   solicitud?.totalPob}      <br/></h5></Typography>:""}
-                                                {solicitud?.Facturacion ?  <Typography><h5>{"Facturacion: " +       solicitud?.Facturacion}       <br/></h5></Typography>:""}
+                                                {Number(solicitud?.Facturacion) >= 0 ?  <Typography><h5>{"Facturacion: " +       solicitud?.Facturacion}       <br/></h5></Typography>:""}
                                                 {solicitud?.Total ?        <Typography><h5>{"Total: " + solicitud?.Total}                   <br/></h5></Typography>:""}
                                                 {solicitud?.anio ?         <Typography><h5>{"Año: " + solicitud?.anio}                      <br/></h5></Typography>:""}
                                                 {solicitud?.Pob ?          <Typography><h5>{"Poblacion Total: " + solicitud?.Pob}           <br/></h5></Typography>:""}
