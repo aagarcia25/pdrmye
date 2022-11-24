@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
@@ -15,6 +15,9 @@ import FondosView from "./FondosView";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import FondosTipoView from "./FondosTipoView";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import React from "react";
+import ButtonsMunBase from "../Utilerias/ButtonsMunBase";
 const Fondos = () => {
 
   const [modo, setModo] = useState("");
@@ -33,6 +36,7 @@ const Fondos = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [view, setView] = useState<boolean>(false);
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
   const columns: GridColDef[] = [
     {
@@ -132,7 +136,7 @@ const Fondos = () => {
     { field: "Clasificador09", headerName:"CONTROL INTERNO	", width: 150, },
     { field: "Clasificador10", headerName:"GEOGRÁFICA	", width: 150, },
     { field: "Clasificador11", headerName:"PROYECTO/PROGRAMA	", width: 150, },
-    { field: "ClasificacionOP", headerName: "ClasificacionOP", width: 150, },
+    { field: "ClasificacionOP", headerName: "Clasificacion OP", width: 150, },
     { field: "Orden	", hide: true},
 
 
@@ -154,7 +158,7 @@ const Fondos = () => {
     setOpen(false);
     setOpenView(false);
     setOpenViewAjustes(false);
-    consulta({ NUMOPERACION: 4 });
+    consulta();
   };
 
   const handleView = (v: any) => {
@@ -168,14 +172,69 @@ const Fondos = () => {
   };
 
 
-  const handleOpen = (v: any) => {
-    setTipoOperacion(1);
-    setModo("Agregar Registro");
-    setOpen(true);
-    setVrows("");
+  const handleOpen = (accion: any) => {
+
+    if (accion === 1) {
+      setTipoOperacion(1);
+      setModo("Agregar Registro");
+      setOpen(true);
+      setVrows("");
+  }
+  if (accion === 2) {
+      if (selectionModel.length !== 0) {
+          Swal.fire({
+              icon: "question",
+              title: selectionModel.length + " Registros Se Eliminaran!!",
+              showDenyButton: true,
+              showCancelButton: false,
+              confirmButtonText: "Confirmar",
+              denyButtonText: `Cancelar`,
+          }).then((result) => {
+              if (result.isConfirmed) {
+
+                  let data = {
+                      NUMOPERACION: 7,
+                      OBJS: selectionModel,
+                      CHUSER: user.id
+                  };
+                  //console.log(data);
+
+                  CatalogosServices.fondos(data).then((res) => {
+                      if (res.SUCCESS) {
+                          Toast.fire({
+                              icon: "success",
+                              title: "Borrado!",
+                          });
+
+                          consulta();
+
+                      } else {
+                          AlertS.fire({
+                              title: "Error!",
+                              text: res.STRMESSAGE,
+                              icon: "error",
+                          });
+                      }
+                  });
+
+              } else if (result.isDenied) {
+                  Swal.fire("No se realizaron cambios", "", "info");
+              }
+          });
+      } else {
+          Swal.fire({
+              icon: "warning",
+              title: "Seleccione Registros Para Borrar",
+              confirmButtonText: "Aceptar",
+          });
+      }
+
+  }
   };
 
-
+  const handleBorrar = (v: any) => {
+    setSelectionModel(v);
+};
 
   const handleDelete = (v: any) => {
     Swal.fire({
@@ -203,7 +262,7 @@ const Fondos = () => {
               title: "Registro Eliminado!",
             });
 
-            consulta({ NUMOPERACION: 4 });
+            consulta();
           } else {
             AlertS.fire({
               title: "Error!",
@@ -218,7 +277,10 @@ const Fondos = () => {
     });
   };
 
-  const consulta = (data: any) => {
+  const consulta = () => {
+    let data = {
+      NUMOPERACION: 4,
+    };
     CatalogosServices.fondos(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -257,14 +319,13 @@ const Fondos = () => {
         }
       }
     });
-    consulta({ NUMOPERACION: 4 });
+    consulta();
   }, []);
 
   return (
     <div style={{ height: 600, width: "100%" }}>
       {(open) ? (
         <FondosModal
-          open={open}
           modo={modo}
           tipo={tipoOperacion}
           handleClose={handleClose}
@@ -305,9 +366,8 @@ const Fondos = () => {
           </Typography>
         </Grid>
       </Grid>
-
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGrid columns={columns} rows={fondos} />
+      <ButtonsMunBase handleOpen={handleOpen} agregar={agregar} eliminar={eliminar} />
+      <MUIXDataGridMun columns={columns} rows={fondos} modulo={nombreMenu} handleBorrar={handleBorrar} borrar={eliminar} />
     </div>
   );
 };

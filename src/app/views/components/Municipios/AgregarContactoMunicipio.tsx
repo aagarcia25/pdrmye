@@ -25,26 +25,34 @@ const AgregarContactoMunicipio = () => {
     const [web, setWeb] = useState("")
     const [verificaForm, setVerificaFrom] = useState(false);
     const [openDialogConfirmacion, setOpenDialogConfirmacion] = useState(false);
-
-    const [dato, setDato] = useState<IDatoMunicipio>(
-        {
-            id:"",
-            idMunicipio: "",
-            Municipio: "",
-            Tesorero: "",
-            Responsable: "",
-            Domicilio: "",
-            Horario: "",
-            Telefono: "",
-            Web: "",
-            Escudo: "",
-        }
-    )
     const [editar, setEditar] = useState(false)
     const [nuevoRegistro, setNuevoRegistro] = useState(true)
     const [actualizarDatos,setActualizaaDatos]= useState(true)
 
     const formData = new FormData();
+    const [dato, setDato] = useState<IDatoMunicipio>(
+        {
+            id:"",
+            idMunicipio:"",
+            Municipio:"",
+            NombreArchivo:"",
+            Escudo:"",
+            Domicilio:"",
+            Rfc:"",
+            Telefono:"",
+            CorreoMunicipio:"",
+            Web:"",
+            Tesorero:"",
+            TelefonoTesorero:"",
+            CelularTesorero:"",
+            CorreoTesorero:"",
+            Enlace:"",
+            CelularEnlace:"",
+            CorreoEnlace:"",
+            Horario:"",
+        }
+    )
+    
 
     useEffect(() => {
         consulta()
@@ -55,7 +63,7 @@ const AgregarContactoMunicipio = () => {
         setUploadFile(dato.Escudo)
         setMunicipio(dato.Municipio)
         setTesorero(dato.Tesorero)
-        setResponable(dato.Responsable)
+        setResponable(dato.Enlace)
         setDomicilio(dato.Domicilio)
         setTelefono(dato.Telefono)
         setHorario(dato.Horario)
@@ -68,7 +76,6 @@ const AgregarContactoMunicipio = () => {
         formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
         obtenerLista(formData);
     }
-    // "6bcf4613-3f7f-11ed-af5a-040300000000"
     const obtenerLista = (data: any) => {
         CatalogosServices.municipioInformacion(data).then((res) => {
             if (res.SUCCESS) {
@@ -87,12 +94,6 @@ const AgregarContactoMunicipio = () => {
                 }
             } else { 
                 setNuevoRegistro(true)
-                // AlertS.fire({
-                //     title: "Error!",
-                //     text: res.STRMESSAGE,
-                //     icon: "error",
-                // });
-               
 
             }
         });
@@ -102,7 +103,6 @@ const AgregarContactoMunicipio = () => {
         setUploadFile(URL.createObjectURL(event.target.files[0]));
         setNombreArchivo(event.target.value.split("\\")[2]);
         let file = event.target!.files[0]!;
-        // setTipoArchivo((event.target.value.split(".")[1]))
         setNewImage(file);
     }
 
@@ -157,8 +157,6 @@ const AgregarContactoMunicipio = () => {
         formData.append("HORARIO", horario);
         formData.append("WEB", web);
         if(nombreArchivo!==""){formData.append("ESCUDO", newImage, nombreArchivo);}else{formData.append("ESCUDO", "");}
-        //console.log(nuevoRegistro);
-        
         agregar(formData);
     }
     
@@ -202,9 +200,7 @@ const AgregarContactoMunicipio = () => {
         //Box padre
         <Box sx={{ bgcolor:"#EEEEEE", display: "flex", width: "100%", height: "100%", justifyContent: "center", alignItems: "center" }}>
             <Box  boxShadow={3}  sx={{  bgcolor:"white", display: "flex", width: "100%", height: "90%", justifyContent: "center", alignItems: "center" }}>
-                {/* Box delimitador con border */}
                 <Box sx={{ display: "flex", width: "80%", height: "90%", justifyContent: "center", alignItems: "center" }}>
-                    {/* Box de contenido */}
 
                     {editar ?
                         <Box sx={{  display: "flex", width: "90%", height: "98%", backgroundColor: "white", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
@@ -338,7 +334,6 @@ const AgregarContactoMunicipio = () => {
                         </Box>
                         :
                         <Box  sx={{ display: "flex", width: "90%", height: "100%", backgroundColor: "white", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                            {/* Box de imagen */}
 
                             <Box  sx={{width: "20vh", height: "20vh", border: "2px solid  #CCCCCC", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                                 {nuevoRegistro?<AddPhotoAlternateIcon sx={{ width: "60%", height: "60%" }} /> :<img src={dato.Escudo} style={{ objectFit: "scale-down", width: "100%", height: "100%" }} />}
@@ -346,35 +341,43 @@ const AgregarContactoMunicipio = () => {
                             <Box sx={{ height: "3%", }}></Box>
 
                             <Box boxShadow={3} sx={{paddingTop:"2%", bgcolor: "rgb(252,252,252)", paddingBottom:"2%", display: "flex", alignItems: "center", width: "90%", flexDirection: "column", justifyContent: "center", height: "auto" }}>
-                                <Box sx={{ display: "flex", paddingBottom:"1%", justifyContent: "space-between", width: "100%" }}>
+                                <Box sx={{ display: "flex", paddingBottom:"0%", justifyContent: "space-between", width: "100%" }}>
                                     <Typography sx={{ fontFamily: "sans-serif", fontWeight: 'bold', fontSize: "1.3rem", color:"#808080", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2rem" }}
                                     > Municipio: </Typography>
                                     <Typography sx={{ fontFamily: "sans-serif",  fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Municipio === "" ? "Sin información" : dato.Municipio} </Typography>
                                 </Box>
 
-                                <Box sx={{ display: "flex", paddingBottom:"1%", justifyContent: "space-between", width: "100%" }}>
-                                    <Typography sx={{ fontFamily: "sans-serif",  fontWeight: 'bold', fontSize: "1.3rem", color:"#808080", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
-                                    > Tesorero: </Typography>
-                                    <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
-                                    > {dato.Tesorero === "" ? "Sin información" : dato.Tesorero} </Typography>
-                                </Box>
-
-                                <Box sx={{ display: "flex",paddingBottom:"1%",  justifyContent: "space-between", width: "100%" }}>
-                                    <Typography sx={{ fontFamily: "sans-serif",  fontWeight: 'bold', fontSize: "1.3rem", color:"#808080",width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
-                                    > Responsable: </Typography>
-                                    <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
-                                    > {dato.Responsable === "" ? "Sin información" : dato.Responsable} </Typography>
-                                </Box>
-
-                                <Box sx={{ display: "flex",paddingBottom:"1%", justifyContent: "space-between", width: "100%" }}>
+                                <Box sx={{ display: "flex",paddingBottom:"0%", justifyContent: "space-between", width: "100%" }}>
                                     <Typography sx={{ fontFamily: "sans-serif",  fontWeight: 'bold', fontSize: "1.3rem", color:"#808080", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Domicilio: </Typography>
                                     <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Domicilio === "" ? "Sin información" : dato.Domicilio} </Typography>
                                 </Box>
 
-                                <Box sx={{ display: "flex", paddingBottom:"1%", justifyContent: "space-between", width: "100%" }}>
+                                <Box sx={{ display: "flex", paddingBottom:"0%", justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif", fontWeight: 'bold', fontSize: "1.3rem", color:"#808080", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2rem" }}
+                                    > RFC: </Typography>
+                                    <Typography sx={{ fontFamily: "sans-serif",  fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Municipio === "" ? "Sin información" : dato.Municipio} </Typography>
+                                </Box>
+
+                                <Box sx={{ display: "flex", paddingBottom:"0%", justifyContent: "space-between", width: "90%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",   fontWeight: 'bold', fontSize: "1.3rem", color:"#808080",width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Telefono: </Typography>
+                                    <Typography sx={{ fontFamily:  "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Telefono === "" ? "Sin informacion." : dato.Telefono} </Typography>
+                                </Box>
+
+
+                                <Box sx={{ display: "flex", paddingBottom:"0%", justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif", fontWeight: 'bold', fontSize: "1.3rem", color:"#808080", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2rem" }}
+                                    > Correo: </Typography>
+                                    <Typography sx={{ fontFamily: "sans-serif",  fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Municipio === "" ? "Sin información" : dato.Municipio} </Typography>
+                                </Box>
+
+                                <Box sx={{ display: "flex", paddingBottom:"0%", justifyContent: "space-between", width: "100%" }}>
                                     <Typography sx={{ fontFamily: "sans-serif",  fontWeight: 'bold', fontSize: "1.3rem", color:"#808080",width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Web: </Typography>
                                     <Typography sx={{ fontFamily: "sans-serif",  fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
@@ -382,12 +385,58 @@ const AgregarContactoMunicipio = () => {
                                 </Box>
 
 
-                                <Box sx={{ display: "flex", paddingBottom:"1%", justifyContent: "space-between", width: "90%" }}>
+                                <Box sx={{ display: "flex", paddingBottom:"0%", justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",  fontWeight: 'bold', fontSize: "1.3rem", color:"#808080", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Tesorero: </Typography>
+                                    <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Tesorero === "" ? "Sin información" : dato.Tesorero} </Typography>
+                                </Box>
+
+                                <Box sx={{ display: "flex", paddingBottom:"0%", justifyContent: "space-between", width: "90%" }}>
                                     <Typography sx={{ fontFamily: "sans-serif",   fontWeight: 'bold', fontSize: "1.3rem", color:"#808080",width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
                                     > Telefono: </Typography>
                                     <Typography sx={{ fontFamily:  "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
                                     > {dato.Telefono === "" ? "Sin informacion." : dato.Telefono} </Typography>
                                 </Box>
+
+                              
+
+                                <Box sx={{ display: "flex", paddingBottom:"0%", justifyContent: "space-between", width: "90%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",   fontWeight: 'bold', fontSize: "1.3rem", color:"#808080",width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Celular: </Typography>
+                                    <Typography sx={{ fontFamily:  "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Telefono === "" ? "Sin informacion." : dato.Telefono} </Typography>
+                                </Box>
+
+                                <Box sx={{ display: "flex", paddingBottom:"0%", justifyContent: "space-between", width: "90%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",   fontWeight: 'bold', fontSize: "1.3rem", color:"#808080",width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Correo: </Typography>
+                                    <Typography sx={{ fontFamily:  "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Telefono === "" ? "Sin informacion." : dato.Telefono} </Typography>
+                                </Box>
+
+                                <Box sx={{ display: "flex",paddingBottom:"0%",  justifyContent: "space-between", width: "100%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",  fontWeight: 'bold', fontSize: "1.3rem", color:"#808080",width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Enlace: </Typography>
+                                    <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Enlace === "" ? "Sin información" : dato.Enlace} </Typography>
+                                </Box>
+
+                                <Box sx={{ display: "flex", paddingBottom:"0%", justifyContent: "space-between", width: "90%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",   fontWeight: 'bold', fontSize: "1.3rem", color:"#808080",width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Celular: </Typography>
+                                    <Typography sx={{ fontFamily:  "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Telefono === "" ? "Sin informacion." : dato.Telefono} </Typography>
+                                </Box>
+
+                                <Box sx={{ display: "flex", paddingBottom:"0%", justifyContent: "space-between", width: "90%" }}>
+                                    <Typography sx={{ fontFamily: "sans-serif",   fontWeight: 'bold', fontSize: "1.3rem", color:"#808080",width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
+                                    > Correo: </Typography>
+                                    <Typography sx={{ fontFamily:  "sans-serif", fontSize: "1.5rem", width: "65%", display: "flex", justifyContent: "flex-start" }}
+                                    > {dato.Telefono === "" ? "Sin informacion." : dato.Telefono} </Typography>
+                                </Box>
+                               
+                                
 
                                 <Box sx={{ display: "flex", paddingBottom:"1%", justifyContent: "space-between", width: "90%" }}>
                                     <Typography sx={{ fontFamily: "sans-serif",  fontWeight: 'bold', fontSize: "1.3rem", color:"#808080", width: "35%", display: "flex", justifyContent: "flex-end", mr: "2vw" }}
@@ -436,14 +485,22 @@ export default AgregarContactoMunicipio;
 
 export interface IDatoMunicipio {
     id:string;
-    idMunicipio: string;
-    Municipio: string;
-    Tesorero: string;
-    Responsable: string;
-    Domicilio: string;
-    Horario: string;
-    Telefono: string;
-    Web: string;
-    Escudo: string;
+    idMunicipio:string;
+    Municipio:string;
+    NombreArchivo:string;
+    Escudo:string;
+    Domicilio:string;
+    Rfc:string;
+    Telefono:string;
+    CorreoMunicipio:string;
+    Web:string;
+    Tesorero:string;
+    TelefonoTesorero:string;
+    CelularTesorero:string;
+    CorreoTesorero:string;
+    Enlace:string;
+    CelularEnlace:string;
+    CorreoEnlace:string;
+    Horario:string;
   }
 
