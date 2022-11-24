@@ -199,7 +199,7 @@ const Fondos = () => {
                   };
                   //console.log(data);
 
-                  CatalogosServices.AjustesIndex(data).then((res) => {
+                  CatalogosServices.fondos(data).then((res) => {
                       if (res.SUCCESS) {
                           Toast.fire({
                               icon: "success",

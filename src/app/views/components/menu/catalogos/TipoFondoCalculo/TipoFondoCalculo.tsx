@@ -184,62 +184,62 @@ const TipoFondoCalculo = () => {
 
     if (accion === 1) {
       setTipoOperacion(1);
-    setOpen(true);
-    setTipoCalculo("");
-    setVrows({});
-    setModo("Nuevo Registro")
-  }
-
-  if (accion === 2) {
-    if (selectionModel.length !== 0) {
-        Swal.fire({
-            icon: "question",
-            title: selectionModel.length + " Registros Se Eliminaran!!",
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: "Confirmar",
-            denyButtonText: `Cancelar`,
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-                let data = {
-                    NUMOPERACION: 5,
-                    OBJS: selectionModel,
-                    CHUSER: user.id
-                };
-                //console.log(data);
-
-                CatalogosServices.AjustesIndex(data).then((res) => {
-                    if (res.SUCCESS) {
-                        Toast.fire({
-                            icon: "success",
-                            title: "Borrado!",
-                        });
-
-                        consulta();
-
-                    } else {
-                        AlertS.fire({
-                            title: "Error!",
-                            text: res.STRMESSAGE,
-                            icon: "error",
-                        });
-                    }
-                });
-
-            } else if (result.isDenied) {
-                Swal.fire("No se realizaron cambios", "", "info");
-            }
-        });
-    } else {
-        Swal.fire({
-            icon: "warning",
-            title: "Seleccione Registros Para Borrar",
-            confirmButtonText: "Aceptar",
-        });
+      setOpen(true);
+      setTipoCalculo("");
+      setVrows({});
+      setModo("Nuevo Registro")
     }
 
-}
+    if (accion === 2) {
+      if (selectionModel.length !== 0) {
+        Swal.fire({
+          icon: "question",
+          title: selectionModel.length + " Registros Se Eliminaran!!",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Confirmar",
+          denyButtonText: `Cancelar`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            let data = {
+              NUMOPERACION: 5,
+              OBJS: selectionModel,
+              CHUSER: user.id
+            };
+            //console.log(data);
+
+            CatalogosServices.TipoFondosCalculo(data).then((res) => {
+              if (res.SUCCESS) {
+                Toast.fire({
+                  icon: "success",
+                  title: "Borrado!",
+                });
+
+                consulta();
+
+              } else {
+                AlertS.fire({
+                  title: "Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
+            });
+
+          } else if (result.isDenied) {
+            Swal.fire("No se realizaron cambios", "", "info");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Seleccione Registros Para Borrar",
+          confirmButtonText: "Aceptar",
+        });
+      }
+
+    }
 
   };
 
@@ -249,11 +249,11 @@ const TipoFondoCalculo = () => {
   };
   const handleBorrar = (v: any) => {
     setSelectionModel(v);
-};
+  };
 
   const consulta = () => {
     let data = {
-      NUMOPERACION: 4,
+      NUMOPERACION: 4
     };
 
     CatalogosServices.TipoFondosCalculo(data).then((res) => {
