@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Checkbox, Typography, Grid, Tooltip, IconButton } from '@mui/material';
+import { Checkbox, Typography, Grid, Tooltip, IconButton, Box } from '@mui/material';
 import { AuthService } from '../../../../../services/AuthService';
 import { Toast } from '../../../../../helpers/Toast';
 import { AlertS } from '../../../../../helpers/AlertS';
@@ -142,6 +142,7 @@ const RolesMenu = ({
   return (
     <div>
       <ModalForm title={' Relacion Menú a Rol'} handleClose={handleClose}>
+        <Box sx={{ boxShadow: 3 }} > 
         <Grid
           container
           sx={{
@@ -156,7 +157,13 @@ const RolesMenu = ({
 
           }}
         >
-          <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+          <Grid item sm={12 }
+            sx={{
+              height: "100%"
+            }}
+          >
+            
+          <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center",  }}>
             <Typography
               sx={{
                 textAlign: "center",
@@ -169,26 +176,18 @@ const RolesMenu = ({
               Para Eliminar el menú solo Marcar la Casilla
             </Typography>
           </Grid>
-          <Grid item sm={12}
-            sx={{
-              height: "100%",
-              paddingTop: "1%"
-
-            }}
-          >
+          <Grid item sm={12}  
+          sx={{
+              height: "95%",
+              paddingTop: "1%",
+            }}>
             <MUIXDataGridSimple columns={columns} rows={data} />
-
           </Grid>
-
-
-          <Grid item sm={12}
-            sx={{
-
-
-            }}
-          >
+          </Grid>
+          <Grid >
           </Grid>
         </Grid>
+        </Box>
       </ModalForm>
 
       {openRel ? (

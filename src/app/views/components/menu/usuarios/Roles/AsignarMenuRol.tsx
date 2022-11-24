@@ -93,10 +93,7 @@ const AsignarMenuRol = ({
         <div>
             <Slider open={openSlider} ></Slider>
 
-<ModalForm title={" Relacionar Menú a Rol"} handleClose={handleClose}>
-
-<Box >
-      
+<ModalForm title={" Relacionar Menú a Rol"} handleClose={handleClose}>      
                     <Grid
                         container
                         sx={{
@@ -107,7 +104,15 @@ const AsignarMenuRol = ({
                             justifyContent:"center"
                         }}
                     >
-                          <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                        <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding:"1%" }}> 
+                        <Grid md={12}
+                            sx={{
+                                justifyContent: "center",
+                                alignItems: "center",
+                                height: "100%"
+                            }}
+                        >
+                               <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                             <Typography
                                 sx={{
                                     textAlign: "left",
@@ -119,29 +124,13 @@ const AsignarMenuRol = ({
                                 Para Relacionar el Menú solo Marca la Casilla
                             </Typography>
                         </Grid>
-
-                        <Grid md={12}
-                            sx={{
-                                width: "50%",
-                                height: "100%",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                flexDirection: "row",
-
-                            }}
-                        >
-
+                            <Grid 
+                            sx={{ height: "90%", margin:"1%"  }} >
                             <MUIXDataGridSimple columns={columns} rows={data} />
-
+                            </Grid>
                         </Grid>
-
-        
+                        </Box>
                     </Grid>
-              
-            </Box>
-    
-
 </ModalForm>
     </div>
     );
