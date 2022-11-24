@@ -36,7 +36,7 @@ const Art14m = ({
   const [monto, setMonto] = useState<number>();
 
 
-  const handleMontos = (v: number ) => {
+  const handleMontos = (v: any ) => {
     setmontoaniopasado(v);
     setMonto((importeDistri.reduce((a, b) => a + b, 0)) - v );
   };
@@ -79,7 +79,6 @@ const Art14m = ({
         if (result.isConfirmed) {
           setslideropen(true);
           ArticulosServices.generarVersion(data).then((res) => {
-            //console.log(res);
             setslideropen(false);
             handleclose();
           });
@@ -175,7 +174,7 @@ const Art14m = ({
           fondos.map((item: any,x) => {
             return(
          
-          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+          <Grid  key={x} container spacing={1} sx={{ justifyContent: "center" }}>
            
             <Grid item xs={4} sm={4} md={4} sx={{ textAlign: "center" }}>
             <Tooltip title={item.Descripcion}>
@@ -256,7 +255,7 @@ const Art14m = ({
                 id="montoaniopasado"
                 value={montoaniopasado}
                 error={montoaniopasado == null ? true : false}
-                onChange={(v) => handleMontos(parseInt(v.target.value))}
+                onChange={(v) => handleMontos(v.target.value)}
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
         </Grid>
