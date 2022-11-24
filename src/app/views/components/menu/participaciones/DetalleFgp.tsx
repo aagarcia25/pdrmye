@@ -81,6 +81,7 @@ const DetalleFgp = ({
   const [af, setAf] = useState(false);
 
   const closeTraz = () => {
+    setOpenSlider(false);
     setOpenTrazabilidad(false);
   };
 
@@ -373,17 +374,17 @@ const DetalleFgp = ({
     {
       field: "Mensual",
       headerName: "Importe",
-      width: 150,
+      width: 200,
       description: "Importe",
-      ...Moneda,
+     // ...Moneda,
     },
     {
       hide: pa ? false : true,
       field: "PrimerAjuste",
       headerName: "Primer Ajuste",
-      width: 150,
+      width: 200,
       description: "Importe",
-      ...Moneda,
+     // ...Moneda,
     },
     {
       hide: sa ? false : true,
@@ -468,9 +469,9 @@ const DetalleFgp = ({
     {
       field: "total",
       headerName: "Total",
-      width: 150,
+      width: 250,
       description: "Total",
-      ...Moneda,
+    //  ...Moneda,
     },
   ];
 
