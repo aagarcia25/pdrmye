@@ -11,7 +11,7 @@ import {
   RESPONSE,
 } from "../../interfaces/calendario/calendario";
 import { getUser } from "../../services/localStorage";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { Toast } from "../../helpers/Toast";
 import { AlertS } from "../../helpers/AlertS";
 import CalendarCModal from "./CalendarCModal";
@@ -184,9 +184,9 @@ const CalendarC = () => {
           <Button
             onClick={onClickAgregarEvento}
             variant="contained"
-            startIcon={<AddIcon />}
+            startIcon={<AddIcon sx={{ color:"white" }} />}
           >
-            Agregar Evento
+           <Typography sx={{ color:"white" }} > Agregar Evento </Typography>
           </Button>
         </Grid>
       </Grid>
