@@ -137,8 +137,8 @@ export const DepartamentosModal = ({
 
       <ModalForm title={"Editar Registro"} handleClose={handleClose}>
 
-      <Box boxShadow={2} sx={{ justifyContent: "center"}}>
-      <DialogContent >
+      <Box boxShadow={2} sx={{ justifyContent: "center", height:"100%"}}>
+      <DialogContent  sx={{ height:"600px"}}>
         
           
           {modo === "Agregar Registro" ? (
@@ -193,9 +193,9 @@ export const DepartamentosModal = ({
           )}
 
           {modo === "Editar Registro" ? (
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" sx={{height:"100%"}}>
               <TextField
-                sx={{ paddingBotton:"10" }}
+                sx={{ paddingBotton:"3%" }}
                 disabled
                 required
                 margin="dense"
@@ -225,7 +225,8 @@ export const DepartamentosModal = ({
               />
               <Box sx={{
                 margin: 1,
-                paddingBotton:"10"
+                paddingBotton:"2%",
+                paddingTop:"3%"
               }}>
                 <SelectFrag
                   value={String(responsable)}
@@ -243,7 +244,7 @@ export const DepartamentosModal = ({
         
       </DialogContent>
 
-      <DialogActions sx={{width:"80%"}}>
+      <DialogActions sx={{width:"80%", paddingBottom:"1%"}}>
         <Button className="actualizar" onClick={() => handleSend()}>
           Actualizar
         </Button>

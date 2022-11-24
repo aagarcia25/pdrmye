@@ -1,4 +1,4 @@
-import { TextField, DialogActions,  DialogContent, FormControl, InputLabel, MenuItem, Select, Grid,  Button } from "@mui/material";
+import { TextField, DialogActions,  DialogContent, FormControl, InputLabel, MenuItem, Select, Grid,  Button, Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
@@ -117,17 +117,17 @@ const MenuModal = ({
   return (
     <div>
       <ModalForm title={tipo === 1 ? "Nuevo Registro" : "Editar Registro"} handleClose={handleClose}>
-
-        <DialogContent>
+       
+        <Box sx={{ boxShadow: 3, high:"100%"  }}>
           <Grid container
             sx={{
-              justifyContent: "center"
-
+              justifyContent: "center",
+              high:"100%"
             }}
 
           >
 
-            <Grid item sm={8}>
+            <Grid item sm={8} >
               <TextField
                 required
                 margin="dense"
@@ -141,7 +141,7 @@ const MenuModal = ({
                 error={Menu === "" ? true : false}
               />
             </Grid>
-            <Grid item sm={8}>
+            <Grid item sm={8} >
 
               <TextField
                 required
@@ -227,14 +227,15 @@ const MenuModal = ({
                 error={Orden === "" ? true : false}
               />
             </Grid>
-
           </Grid>
-        </DialogContent>
 
+        <Grid sx={{ padding:"2%"}}>
         <DialogActions>
-          <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+        <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
         </DialogActions>
+        </Grid>             
 
+        </Box>
       </ModalForm>
     </div>
   );

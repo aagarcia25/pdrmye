@@ -457,13 +457,13 @@ const AsigPago = () => {
   return (
     <div>
       <Slider open={slideropen}></Slider>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} sx={{ padding:"2%"}}>
       <Grid item xs={12} sm={12} md={12} lg={12}>
         Módulo de Administración Financiera
       </Grid>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>
               Año:
             </Typography>
             <SelectFrag
@@ -477,7 +477,7 @@ const AsigPago = () => {
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>
               Mes:
             </Typography>
             <SelectFrag
@@ -491,7 +491,7 @@ const AsigPago = () => {
           </Grid>
 
           <Grid item xs={2}>
-            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>
               Procesos:
             </Typography>
             <SelectFrag
@@ -505,7 +505,7 @@ const AsigPago = () => {
           </Grid>
 
           <Grid item xs={2}>
-            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>
               Estatus:
             </Typography>
             <SelectFrag
@@ -519,7 +519,7 @@ const AsigPago = () => {
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>
               Fondo:
             </Typography>
             <SelectFrag
@@ -533,7 +533,7 @@ const AsigPago = () => {
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>
               Municipio:
             </Typography>
             <SelectFrag
@@ -574,7 +574,7 @@ const AsigPago = () => {
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <Typography sx={{ fontFamily: "MontserratMedium" }}>
+          <Typography sx={{ fontFamily: "sans-serif" }}>
             Para Realizar la consulta de Información es Requerido los filtros
           </Typography>
         </Grid>
@@ -622,7 +622,7 @@ const AsigPago = () => {
                   getRowHeight={() => "auto"}
                   checkboxSelection={checkboxSelection}
                   components={{ Toolbar: GridToolbar }}
-                  sx={{ fontFamily: "MontserratMedium" }}
+                  sx={{ fontFamily: "sans-serif" }}
                   onSelectionModelChange={(newSelectionModel: any) => {
                     setSelectionModel(newSelectionModel);
                   }}
@@ -648,7 +648,7 @@ const AsigPago = () => {
                   getRowHeight={() => "auto"}
                   checkboxSelection={checkboxSelection}
                   components={{ Toolbar: GridToolbar }}
-                  sx={{ fontFamily: "MontserratMedium" }}
+                  sx={{ fontFamily: "sans-serif" }}
                   onSelectionModelChange={(newSelectionModel: any) => {
                     setSelectionModel(newSelectionModel);
                   }}

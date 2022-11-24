@@ -110,7 +110,7 @@ const EliminarPermisosRol = ({
               height: "60vh",
               bgcolor: "rgb(255,255,255)",
               borderRadius: 3,
-              justifyContent: "center"
+              justifyContent: "center",
             }}
           >
 

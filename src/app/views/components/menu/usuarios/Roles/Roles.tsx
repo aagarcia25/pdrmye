@@ -137,7 +137,7 @@ const Roles = () => {
             </Tooltip>
 
             {editar ? (
-              <Tooltip title={"Editar Descripcion del Rol"}>
+              <Tooltip title={"Editar  Descripción del Rol"}>
                 <IconButton onClick={() => handleEditarRegistro(v)}>
                   <EditIcon />
                 </IconButton>
@@ -198,7 +198,7 @@ const Roles = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%", padding: "2%" }}>
+    <div style={{ height: 600, width: "100%", padding: "1%" }}>
       {openRel ? (
         <AsignarMenuRol
           open={openRel}

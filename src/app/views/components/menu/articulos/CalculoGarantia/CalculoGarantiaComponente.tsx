@@ -78,8 +78,8 @@ export const CalculoGarantiaComponente = () => {
     {
       field: "Garantia",
       headerName: "Garantía",
-      width: 150,
-      ...Moneda,
+      width: 250,
+    //  ...Moneda,
     },
     {
       field: "Distribucion",

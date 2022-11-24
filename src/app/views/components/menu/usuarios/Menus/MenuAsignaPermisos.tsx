@@ -112,7 +112,7 @@ const MenuAsignaPermisos = ({
               <Typography
                 sx={{
                   textAlign: "center",
-                  fontFamily: "MontserratBold",
+                  fontFamily: "sans-serif",
                   fontSize: "2vw",
                   color: "#454545",
                 }}

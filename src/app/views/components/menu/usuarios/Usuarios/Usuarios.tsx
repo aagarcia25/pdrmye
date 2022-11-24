@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
-import { Tooltip, IconButton } from "@mui/material";
+import { Tooltip, IconButton, Grid } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { GridColDef } from "@mui/x-data-grid";
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -175,7 +175,7 @@ const Usuarios = () => {
       width: 220,
       renderCell: (v) => {
         return (
-          <Box>
+          <Box >
             <Tooltip title={"Configurar Roles"}>
               <IconButton color="success" onClick={() => handleRolConf(v)}>
                 <AssignmentIndIcon />
@@ -268,7 +268,7 @@ const Usuarios = () => {
   }, []);
   return (
     <div>
-
+      <Grid sx={{ paddingTop:"1%"}}>
       {openRolConf ?
         <UsuarioRoles
           open={openRolConf}
@@ -303,6 +303,7 @@ const Usuarios = () => {
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
+      </Grid>
     </div>
   );
 };
