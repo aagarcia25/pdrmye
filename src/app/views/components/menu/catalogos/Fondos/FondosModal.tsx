@@ -25,51 +25,52 @@ import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import Slider from "../../../Slider";
+import { porcentage } from "../../CustomToolbar";
 
 const FondosModal = ({
-  open,
   modo,
   handleClose,
   tipo,
   dt,
 }: {
-  open: boolean;
   modo: string;
   tipo: number;
   handleClose: Function;
   dt: any;
 }) => {
-  const [TipofondoSelect, setTipoFondoSelect] = useState([]);
+  const [tipofondoSelect, setTipoFondoSelect] = useState([]);
   const [id, setId] = useState<string>();
-  const [Clave, setClave] = useState<string>();
-  const [Descripcion, setDescripcion] = useState<string>();
-  const [AplicaCalculo, setAplicaCalculo] = useState(false);
-  const [Vigente, setVigente] = useState(false);
-  const [Estatal, setEstatal] = useState(false);
-  const [Federal, setFederal] = useState(false);
-  const [Tipofondo, setTipoFondo] = useState("");
+  const [clave, setClave] = useState<string>();
+  const [descripcion, setDescripcion] = useState<string>();
+  const [aplicaCalculo, setAplicaCalculo] = useState(false);
+  const [vigente, setVigente] = useState(false);
+  const [estatal, setEstatal] = useState<boolean>();
+  const [federal, setFederal] = useState<boolean>();
+  const [subTipo, setSubTipo] = useState<boolean>(false);
+
+  const [tipofondo, setTipoFondo] = useState("");
+  const [tipofondoLabel, setTipoFondoLabel] = useState<string>();
   const [value, setValue] = React.useState<string>();
   const [valueGarantia, setValueGarantia] = React.useState<string>();
-
-  const [numProyecto, setNumProyecto] = React.useState("");
-  const [conceptoEgreso, setConceptoEgreso] = React.useState("");
-  const [clasificacionOP, setClasificacionOP] = React.useState<string>();
   const [orden, setOrden] = React.useState<string>();
   const [porDis, setPorDis] = React.useState<string>();
   const [garantia, setGarantia] = React.useState<boolean>(false);
   const [articulo, setArticulo] = React.useState<string>();
   const [comentarios, setComentarios] = React.useState<string>();
-  const [Clasificador01, setClasificador01] = React.useState<string>();
-  const [Clasificador02, setClasificador02] = React.useState<string>();
-  const [Clasificador03, setClasificador03] = React.useState<string>();
-  const [Clasificador04, setClasificador04] = React.useState<string>();
-  const [Clasificador05, setClasificador05] = React.useState<string>();
-  const [Clasificador06, setClasificador06] = React.useState<string>();
-  const [Clasificador07, setClasificador07] = React.useState<string>();
-  const [Clasificador08, setClasificador08] = React.useState<string>();
-  const [Clasificador09, setClasificador09] = React.useState<string>();
-  const [Clasificador10, setClasificador10] = React.useState<string>();
-  const [Clasificador11, setClasificador11] = React.useState<string>();
+  const [numProyecto, setNumProyecto] = React.useState("");
+  const [clasificacionOP, setClasificacionOP] = React.useState<string>();
+  const [conceptoEgreso, setConceptoEgreso] = React.useState("");
+  const [clasificador01, setClasificador01] = React.useState<string>();
+  const [clasificador02, setClasificador02] = React.useState<string>();
+  const [clasificador03, setClasificador03] = React.useState<string>();
+  const [clasificador04, setClasificador04] = React.useState<string>();
+  const [clasificador05, setClasificador05] = React.useState<string>();
+  const [clasificador06, setClasificador06] = React.useState<string>();
+  const [clasificador07, setClasificador07] = React.useState<string>();
+  const [clasificador08, setClasificador08] = React.useState<string>();
+  const [clasificador09, setClasificador09] = React.useState<string>();
+  const [clasificador10, setClasificador10] = React.useState<string>();
+  const [clasificador11, setClasificador11] = React.useState<string>();
 
   // const [value, setValue] = React.useState<string>();
   // const [value, setValue] = React.useState<string>();
@@ -93,7 +94,8 @@ const FondosModal = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
-    if ((event.target as HTMLInputElement).value === "Estatal") {
+    setSubTipo(true);
+        if ((event.target as HTMLInputElement).value === "Estatal") {
       setEstatal(true);
       setFederal(false);
     } else {
@@ -105,10 +107,8 @@ const FondosModal = ({
     setValueGarantia((event.target as HTMLInputElement).value);
     if ((event.target as HTMLInputElement).value === "si") {
       setGarantia(true);
-      console.log(true)
     } else {
       setGarantia(false);
-      console.log(false)
 
     }
   };
@@ -128,7 +128,8 @@ const FondosModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-      } else {
+        handleClose();
+            } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
@@ -145,6 +146,7 @@ const FondosModal = ({
           icon: "success",
           title: "Registro Editado!",
         });
+        handleClose();
       } else {
         AlertS.fire({
           title: "Error!",
@@ -160,6 +162,7 @@ const FondosModal = ({
     if (tipo === 1) {
       //AGREGAR
       agregar(data);
+
     } else if (tipo === 2) {
       //EDITAR
       editar(data);
@@ -167,7 +170,16 @@ const FondosModal = ({
   };
 
   const handleSend = () => {
-    if (Clave === null || Descripcion === null) {
+    if (
+      clave === null
+      || descripcion === null
+      || aplicaCalculo === null
+      || vigente === null
+      ||subTipo===false
+      || estatal === null
+      || federal === null
+      || porDis === null
+      || tipofondo === null) {
       AlertS.fire({
         title: "",
         text: "Favor de Completar los Campos",
@@ -178,18 +190,32 @@ const FondosModal = ({
         NUMOPERACION: tipo,
         CHID: id,
         CHUSER: user.id,
-        CLAVE: Clave,
-        DESCRIPCION: Descripcion,
-        APLICACALCULO: AplicaCalculo,
-        VIGENTE: Vigente,
-        ESTATAL: Estatal,
-        FEDERAL: Federal,
-        TIPO: Tipofondo,
-
-
-
-
-
+        CLAVE: clave,
+        DESCRIPCION: descripcion,
+        APLICACALCULO: aplicaCalculo,
+        VIGENTE: vigente,
+        ESTATAL: estatal,
+        FEDERAL: federal,
+        TIPO: tipofondo,
+        PORDISTRIBUCION: porDis,
+        GARANTIA: garantia,
+        ARTICULO: articulo,
+        COMENTARIO: comentarios,
+        NUMPROYECTO: numProyecto,
+        CONCEPTOEGRESO: conceptoEgreso,
+        CLASIFICADOR01: clasificador01,
+        CLASIFICADOR02: clasificador02,
+        CLASIFICADOR03: clasificador03,
+        CLASIFICADOR04: clasificador04,
+        CLASIFICADOR05: clasificador05,
+        CLASIFICADOR06: clasificador06,
+        CLASIFICADOR07: clasificador07,
+        CLASIFICADOR08: clasificador08,
+        CLASIFICADOR09: clasificador09,
+        CLASIFICADOR10: clasificador10,
+        CLASIFICADOR11: clasificador11,
+        CLASIFICACIONOP: clasificacionOP,
+        ORDEN: orden,
 
       };
 
@@ -207,10 +233,31 @@ const FondosModal = ({
       if (dt === "") {
         //console.log(dt);
       } else {
+
+        console.log(dt)
         setId(dt?.row?.id);
         setClave(dt?.row?.Clave);
         setDescripcion(dt?.row?.Descripcion);
         setTipoFondo(dt?.row?.idtipo);
+        setTipoFondoLabel(dt?.row?.dtipo);
+        setPorDis(dt?.row?.PorcentajeDistribucion);
+        setArticulo(dt?.row?.Articulo);
+        setNumProyecto(dt?.row?.NumProyecto);
+        setConceptoEgreso(dt?.row?.ConceptoEgreso);
+        setComentarios(dt?.row?.Comentarios);
+        setClasificador01(dt?.row?.Clasificador01);
+        setClasificador02(dt?.row?.Clasificador02);
+        setClasificador03(dt?.row?.Clasificador03);
+        setClasificador04(dt?.row?.Clasificador04);
+        setClasificador05(dt?.row?.Clasificador05);
+        setClasificador06(dt?.row?.Clasificador06);
+        setClasificador07(dt?.row?.Clasificador07);
+        setClasificador08(dt?.row?.Clasificador08);
+        setClasificador09(dt?.row?.Clasificador09);
+        setClasificador10(dt?.row?.Clasificador10);
+        setClasificador11(dt?.row?.Clasificador11);
+        setClasificacionOP(dt?.row?.ClasificacionOP);
+        setOrden(dt?.row?.Orden);
 
         if (dt?.row?.AplicaCalculo === 1) {
           setAplicaCalculo(true);
@@ -229,11 +276,19 @@ const FondosModal = ({
           setValue("Estatal");
           setEstatal(true);
           setFederal(false);
-        } else {
+        }
+        if (dt?.row?.Federal === 1) {
           setValue("Federal");
           setEstatal(false);
           setFederal(true);
         }
+        if (dt?.row?.Garantia === 1) {
+          setGarantia(true);
+
+        } else {
+          setGarantia(false);
+        }
+
       }
 
       setslideropen(false)
@@ -272,12 +327,12 @@ const FondosModal = ({
                     required
                     id="Clave"
                     label="Clave"
-                    value={Clave}
+                    value={clave}
                     type="text"
                     fullWidth
                     variant="standard"
                     onChange={(v) => setClave(v.target.value)}
-                    error={!Clave}
+                    error={!clave}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -287,21 +342,21 @@ const FondosModal = ({
                     required
                     id="Descripcion"
                     label="Descripcion"
-                    value={Descripcion}
+                    value={descripcion}
                     type="text"
                     fullWidth
                     variant="standard"
                     onChange={(v) => setDescripcion(v.target.value)}
-                    error={!Descripcion}
+                    error={!descripcion}
                   />
                 </Grid>
 
                 <Grid item xs={12}>
                   <FormControlLabel
-                    value={AplicaCalculo}
+                    value={aplicaCalculo}
                     control={
                       <Checkbox
-                        checked={AplicaCalculo}
+                        checked={aplicaCalculo}
                         onChange={handleAplicaCalculo}
                       />
                     }
@@ -309,10 +364,10 @@ const FondosModal = ({
                   />
 
                   <FormControlLabel
-                    value={Vigente}
+                    value={vigente}
                     control={
                       <Checkbox
-                        checked={Vigente}
+                        checked={vigente}
                         onChange={handleChangeVigencia} />
                     }
                     label="Vigente"
@@ -322,14 +377,14 @@ const FondosModal = ({
                 <Grid item xs={12}>
                   <br />
                   <FormControl variant="standard" fullWidth>
-                    <InputLabel>Tipo</InputLabel>
+                    <InputLabel>{tipofondo ? "Tipo Fondo" : tipofondoLabel}</InputLabel>
                     <Select
                       required
                       onChange={(v) => setTipoFondo(v.target.value)}
-                      value={Tipofondo}
-                      label="Tipo"
+                      value={tipofondo}
+                      label={tipofondoLabel ? tipofondoLabel : "Tipo Fondo"}
                     >
-                      {TipofondoSelect?.map((item: any) => {
+                      {tipofondoSelect?.map((item: any) => {
                         return (
                           <MenuItem key={item.id} value={item.id}>
                             {item.Descripcion}
@@ -347,8 +402,8 @@ const FondosModal = ({
                       row
                       aria-label="gender"
                       name="gender1"
-                      value={value}
                       onChange={handleChange}
+                      defaultValue={tipo === 2 ? dt?.row?.Estatal === 1 ? "Estatal" : "Federal" : ""}
                     >
                       <FormControlLabel
                         value="Estatal"
@@ -387,6 +442,7 @@ const FondosModal = ({
                       name="gender1"
                       value={valueGarantia}
                       onChange={handleGarantia}
+                      defaultValue={(tipo === 2) ? dt?.row?.Garantia === 1 ? "si" : "no" : ""}
                     >
                       <FormControlLabel
                         value="si"
@@ -464,7 +520,7 @@ const FondosModal = ({
                   margin="dense"
                   id="Clasificador01"
                   label="Administrativo"
-                  value={Clasificador01}
+                  value={clasificador01}
                   type="text"
                   fullWidth
                   variant="standard"
@@ -475,7 +531,7 @@ const FondosModal = ({
                   margin="dense"
                   id="Clasificador02"
                   label="Funcional"
-                  value={Clasificador02}
+                  value={clasificador02}
                   type="text"
                   fullWidth
                   variant="standard"
@@ -486,7 +542,7 @@ const FondosModal = ({
                   margin="dense"
                   id="Clasificador02"
                   label="Programático"
-                  value={Clasificador03}
+                  value={clasificador03}
                   type="text"
                   fullWidth
                   variant="standard"
@@ -497,7 +553,7 @@ const FondosModal = ({
                   margin="dense"
                   id="Clasificador04"
                   label="Objeto de Gasto (Partida)"
-                  value={Clasificador04}
+                  value={clasificador04}
                   type="text"
                   fullWidth
                   variant="standard"
@@ -508,7 +564,7 @@ const FondosModal = ({
                   margin="dense"
                   id="Clasificador05"
                   label="Tipo de Gasto"
-                  value={Clasificador05}
+                  value={clasificador05}
                   type="text"
                   fullWidth
                   variant="standard"
@@ -519,7 +575,7 @@ const FondosModal = ({
                   margin="dense"
                   id="Clasificador06"
                   label="Fuente de Financiamiento"
-                  value={Clasificador06}
+                  value={clasificador06}
                   type="text"
                   fullWidth
                   variant="standard"
@@ -530,7 +586,7 @@ const FondosModal = ({
                   margin="dense"
                   id="Clasificador07"
                   label="Ramo-Fondo Convenio"
-                  value={Clasificador07}
+                  value={clasificador07}
                   type="text"
                   fullWidth
                   variant="standard"
@@ -541,7 +597,7 @@ const FondosModal = ({
                   margin="dense"
                   id="Clasificador08"
                   label="Año del Recurso"
-                  value={Clasificador08}
+                  value={clasificador08}
                   type="text"
                   fullWidth
                   variant="standard"
@@ -552,7 +608,7 @@ const FondosModal = ({
                   margin="dense"
                   id="Clasificador09"
                   label="Control Interno"
-                  value={Clasificador09}
+                  value={clasificador09}
                   type="text"
                   fullWidth
                   variant="standard"
@@ -564,7 +620,7 @@ const FondosModal = ({
                   margin="dense"
                   id="Clasificador10"
                   label="Geográfica"
-                  value={Clasificador10}
+                  value={clasificador10}
                   type="text"
                   fullWidth
                   variant="standard"
@@ -576,7 +632,7 @@ const FondosModal = ({
                   margin="dense"
                   id="Clasificador11"
                   label="Proyecto/Programa"
-                  value={Clasificador11}
+                  value={clasificador11}
                   type="text"
                   fullWidth
                   variant="standard"

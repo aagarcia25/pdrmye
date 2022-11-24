@@ -5,8 +5,6 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
-import ButtonsAdd from "../Utilerias/ButtonsAdd";
-import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import {
     Box,
@@ -22,7 +20,6 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SaveButton from "../../../componentes/SaveButton";
 import Title from "../../../componentes/Title";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
-import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import React from "react";
 import ButtonsMunBase from "../Utilerias/ButtonsMunBase";
 
@@ -345,9 +342,7 @@ const AjustesCalculos = () => {
         <div style={{ height: 600, width: "100%" }}>
             <Title titulo={nombreMenu} tooltip={"Cátalogo para Agregar Ajustes a los Cálculos"}></Title>
             <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" >
-                <ButtonsMunBase
-                    handleOpen={handleOpen}
-                    agregar={agregar} eliminar={eliminar} />
+                <ButtonsMunBase handleOpen={handleOpen} agregar={agregar} eliminar={eliminar} />
 
             </Grid>
             <MUIXDataGridMun columns={columns} rows={dataAjustes} modulo={nombreMenu} handleBorrar={handleBorrar} borrar={eliminar} />
