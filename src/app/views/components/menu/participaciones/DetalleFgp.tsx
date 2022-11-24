@@ -81,6 +81,7 @@ const DetalleFgp = ({
   const [af, setAf] = useState(false);
 
   const closeTraz = () => {
+    setOpenSlider(false);
     setOpenTrazabilidad(false);
   };
 
