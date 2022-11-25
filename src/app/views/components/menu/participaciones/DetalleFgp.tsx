@@ -81,6 +81,7 @@ const DetalleFgp = ({
   const [af, setAf] = useState(false);
 
   const closeTraz = () => {
+    setOpenSlider(false);
     setOpenTrazabilidad(false);
   };
 
@@ -130,7 +131,7 @@ const DetalleFgp = ({
   };
 
   const Fnworkflow = (data: string) => {
-
+    setOpenSlider(true);
     let obj = {
       CHID: idCalculo,
       ESTATUS_DESTINO: estatusDestino,

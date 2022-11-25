@@ -118,11 +118,12 @@ const MenuModal = ({
     <div>
       <ModalForm title={tipo === 1 ? "Nuevo Registro" : "Editar Registro"} handleClose={handleClose}>
        
-        <Box sx={{ boxShadow: 3, high:"100%"  }}>
+        <Box sx={{ boxShadow: 3, high:"100%", }}>
           <Grid container
             sx={{
               justifyContent: "center",
-              high:"100%"
+              high:"100%",
+              paddingTop:"1%"
             }}
 
           >
