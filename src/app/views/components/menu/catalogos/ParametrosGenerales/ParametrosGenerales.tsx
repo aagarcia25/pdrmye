@@ -11,6 +11,7 @@ import MUIXDataGrid from "../../../MUIXDataGrid";
 import { ParametrosGeneralesModal } from "./ParametrosGeneralesModal";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import { Grid, Typography } from "@mui/material";
 
 export const ParametrosGenerales = () => {
   const [parametroGeneral, setParametroGeneral] = useState([]);
@@ -179,7 +180,14 @@ export const ParametrosGenerales = () => {
       ) : (
         ""
       )}
-
+      <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+                Parámetros Generales
+              </Typography>
+            </Grid>
+            </Grid>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={parametroGeneral} />
     </div>

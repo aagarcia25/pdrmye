@@ -13,6 +13,7 @@ import { getPermisos, getUser } from "../../../../../services/localStorage";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import { Grid, Typography } from "@mui/material";
 
 
 
@@ -245,6 +246,15 @@ export const Umas = () => {
       ) : (
         ""
       )}
+            <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+                UMAS
+              </Typography>
+            </Grid>
+            </Grid>
+            
        <ButtonsMunicipio
         url={""}
         handleUpload={handleUpload} controlInterno={"UMAS"} />
