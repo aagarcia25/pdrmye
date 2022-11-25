@@ -274,16 +274,18 @@ const AgregarContactoMunicipio = () => {
                                 style={{ zIndex: 2, opacity: 0, cursor: "pointer", position: "absolute" }}
                             />
                             {uploadFile === "" ?
-                                <AddPhotoAlternateIcon sx={{ width: "60%", height: "60%" }} /> :
+                                <AddPhotoAlternateIcon sx={{ width: "35%", height: "35%" }} /> :
                                 <img src={uploadFile} style={{ objectFit: "scale-down", }} />
                             }
                         </Grid>
                     </Grid>
 
-                    <Grid container direction="column" justifyContent="space-around" alignItems="center"  >
-                        <Grid container sx={{ paddingY: "1%", width: "90%", border: "3px solid  #CCCCCC", borderRadius: "20px", }}>
-                            <Grid container justifyContent="center" alignItems="center" >
-                                <Grid item xs={12} sm={12} md={11} lg={10} >
+                    <Grid container direction="column" justifyContent="center" alignItems="center" padding={3}  sx={{ bgcolor:"#CCCCCC" }} >
+                        <Box boxShadow={3} sx={{ bgcolor:"white", borderRadius: "20px" }}  > 
+                        
+                        <Grid container  sx={{  bgcolor:"white", padding: "2%", width: "100%" }}>
+                            <Grid container justifyContent="center" alignItems="center" sx={{  paddingTop: "1.5%", }} >
+                                <Grid item xs={12} sm={12} md={11} lg={11} >
                                     <TextField
                                         required
                                         multiline
@@ -292,7 +294,7 @@ const AgregarContactoMunicipio = () => {
                                         type="text"
                                         size="small"
                                         fullWidth
-                                        sx={{ paddingBottom: "1.2%",}}
+                                        sx={{ paddingBottom: "2%",}}
                                         variant="outlined"
                                         onChange={(v) => setMunicipio(v.target.value)}
                                         error={municipio === "" && verificaForm}
@@ -307,7 +309,7 @@ const AgregarContactoMunicipio = () => {
                                         type="text"
                                         size="small"
                                         fullWidth
-                                        sx={{ paddingBottom: "1.2%" }}
+                                        sx={{ paddingBottom: "2%" }}
                                         variant="outlined"
                                         onChange={(v) => setDomicilio(v.target.value)}
                                         error={domicilio === "" && verificaForm}
@@ -318,8 +320,8 @@ const AgregarContactoMunicipio = () => {
                             </Grid>
 
                             <Grid container justifyContent="center" alignItems="center" >
-                                <Grid item xs={12} sm={12} md={11} lg={10} >
-                                    <Grid container justifyContent="space-between" alignItems="center" >
+                                <Grid item xs={12} sm={12} md={11} lg={11} sx={{ paddingBottom:"2%"}}>
+                                    <Grid container justifyContent="space-between" alignItems="center"  >
                                         <Grid item xs={12} sm={6} md={4} lg={4} >
                                             <TextField
                                                 required
@@ -330,7 +332,7 @@ const AgregarContactoMunicipio = () => {
                                                 type="text"
                                                 size="small"
                                                 fullWidth
-                                                sx={{paddingBottom: "1.2%" }}
+                                                sx={{paddingBottom: "2%" }}
                                                 variant="outlined"
                                                 onChange={(v) => setRfc(v.target.value)}
                                                 error={rfc === "" && verificaForm}
@@ -338,7 +340,7 @@ const AgregarContactoMunicipio = () => {
 
                                             />
                                         </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4} >
+                                        <Grid item xs={12} sm={6} md={4} lg={4}  >
                                             <TextField
                                                 required
                                                 multiline
@@ -348,7 +350,7 @@ const AgregarContactoMunicipio = () => {
                                                 type="text"
                                                 size="small"
                                                 fullWidth
-                                                sx={{ paddingBottom: "1.2%" }}
+                                                sx={{ paddingBottom: "2%" }}
                                                 onChange={(v) => setTelMun(v.target.value)}
                                                 error={telMun === "" && verificaForm}
                                                 helperText={(telMun === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
@@ -359,10 +361,10 @@ const AgregarContactoMunicipio = () => {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid container justifyContent="center" alignItems="center">
-                                <Grid item xs={12} sm={12} md={11} lg={10} >
+                            <Grid container justifyContent="center" alignItems="center" >
+                                <Grid item xs={12} sm={12} md={11} lg={11} sx={{ paddingBottom:"2%"}} >
                                     <Grid container justifyContent="space-between" alignItems="center" >
-                                        <Grid item xs={12} sm={6} md={4} lg={4} >
+                                        <Grid item xs={12} sm={6} md={4} lg={4}  >
                                             <TextField
                                                 required
                                                 multiline
@@ -371,7 +373,7 @@ const AgregarContactoMunicipio = () => {
                                                 type="text"
                                                 size="small"
                                                 fullWidth
-                                                sx={{ paddingBottom: "1.2%" }}
+                                                sx={{ paddingBottom: "2%" }}
                                                 variant="outlined"
                                                 onChange={(v) => setMailMun(v.target.value)}
                                                 error={mailMun === "" && verificaForm}
@@ -389,7 +391,7 @@ const AgregarContactoMunicipio = () => {
                                                 type="text"
                                                 size="small"
                                                 fullWidth
-                                                sx={{ paddingBottom: "1.2%" }}
+                                                sx={{ paddingBottom: "2%" }}
                                                 onChange={(v) => setWeb(v.target.value)}
                                                 error={web === "" && verificaForm}
                                                 helperText={(web === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
@@ -399,8 +401,8 @@ const AgregarContactoMunicipio = () => {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid container justifyContent="center"
-                                alignItems="center" >
+                            <Grid container justifyContent="left"   alignItems="center" >
+                                <Grid item xs={12} sm={.5} md={.5} lg={.5} ></Grid>
                                 <Grid item xs={12} sm={6} md={4} lg={4} >
 
                                     <TextField
@@ -412,7 +414,7 @@ const AgregarContactoMunicipio = () => {
                                         type="text"
                                         size="small"
                                         fullWidth
-                                        sx={{ paddingBottom: "1.2%" }}
+                                        sx={{ paddingBottom: "2%" }}
                                         variant="outlined"
                                         onChange={(v) => setHorario(v.target.value)}
                                         error={horario === "" && verificaForm}
@@ -422,13 +424,11 @@ const AgregarContactoMunicipio = () => {
                                 </Grid>
                             </Grid>
                         </Grid>
-
-
-                        <Grid container sx={{ paddingY: "1%", width: "90%", border: "3px solid  #CCCCCC", borderRadius: "20px", }}>
+                        <Grid container sx={{ padding: "2%", width: "100%", bgcolor:"white" }}>
                             <Grid container justifyContent="space-evenly"
                                 alignItems="center"  >
                                 {/* ////////////// */}
-                                <Grid item xs={12} sm={12} md={11} lg={10} >
+                                <Grid item xs={12} sm={12} md={11} lg={11}  >
                                     <TextField
                                         required
                                         multiline
@@ -437,7 +437,7 @@ const AgregarContactoMunicipio = () => {
                                         type="text"
                                         size="small"
                                         fullWidth
-                                        sx={{ paddingBottom: "1.2%" }}
+                                        sx={{ paddingBottom: "2%" }}
                                         variant="outlined"
                                         onChange={(v) => setTesorero(v.target.value)}
                                         error={tesorero === "" && verificaForm}
@@ -446,12 +446,12 @@ const AgregarContactoMunicipio = () => {
                                     />
                                 </Grid>
                             </Grid>
-                            <Grid container justifyContent="space-evenly" alignItems="center"  >
-                                <Grid item xs={12} sm={12} md={11} lg={10} >
+                            <Grid container justifyContent="space-evenly" alignItems="center" >
+                                <Grid item xs={12} sm={12} md={11} lg={11} >
                                     <Grid container justifyContent="space-between" alignItems="center"  >
                                         <Grid item xs={12} sm={6} md={4} lg={4} >
                                             <Grid container justifyContent="space-between" alignItems="center"  >
-                                                <Grid item xs={12} sm={8} md={8} lg={8}>
+                                                <Grid item xs={12} sm={6} md={6} lg={6}>
                                                     <TextField
                                                         required
                                                         multiline
@@ -460,7 +460,7 @@ const AgregarContactoMunicipio = () => {
                                                         type="text"
                                                         size="small"
                                                         fullWidth
-                                                        sx={{ paddingBottom: "1.2%" }}
+                                                        sx={{ paddingBottom: "2%" }}
                                                         variant="outlined"
                                                         onChange={(v) => setTelTesorero(v.target.value)}
                                                         error={telTesorero === "" && verificaForm}
@@ -468,6 +468,7 @@ const AgregarContactoMunicipio = () => {
 
                                                     />
                                                 </Grid>
+                                                <Grid item xs={12} sm={2} md={2} lg={2}  ></Grid>
                                                 <Grid item xs={12} sm={4} md={4} lg={4}  >
                                                     <TextField
                                                         required
@@ -478,7 +479,7 @@ const AgregarContactoMunicipio = () => {
                                                         type="text"
                                                         size="small"
                                                         fullWidth
-                                                        sx={{ paddingBottom: "1.2%" }}
+                                                        sx={{ paddingBottom: "2%" }}
                                                         variant="outlined"
                                                         onChange={(v) => setExtTelTesorero(v.target.value)}
                                                         error={extTelTesorero === "" && verificaForm}
@@ -488,7 +489,9 @@ const AgregarContactoMunicipio = () => {
                                                 </Grid>
                                             </Grid>
                                         </Grid>
-                                        <Grid xs={12} sm={6} md={4} lg={4}  >
+                                        <Grid container justifyContent="space-between" alignItems="center"  xs={12} sm={6} md={4} lg={4} >
+                                        <Grid item xs={12} sm={2} md={2} lg={2}  ></Grid>
+                                        <Grid item xs={12} sm={10} md={10} lg={10}  >
                                             <TextField
                                                 required
                                                 // margin="dense"
@@ -497,14 +500,17 @@ const AgregarContactoMunicipio = () => {
                                                 type="text"
                                                 size="small"
                                                 fullWidth
-                                                sx={{ paddingBottom: "1.2%" }} variant="outlined"
+                                                sx={{ paddingBottom: "2%" }} variant="outlined"
                                                 onChange={(v) => setCelTesorero(v.target.value)}
                                                 error={celTesorero === "" && verificaForm}
                                                 helperText={(celTesorero === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
 
                                             />
                                         </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4} >
+                                        </Grid>
+                                        <Grid container justifyContent="space-between" alignItems="center"  xs={12} sm={6} md={4} lg={4} >
+                                        <Grid item xs={12} sm={2} md={2} lg={2}  ></Grid>
+                                        <Grid item xs={12} sm={10} md={10} lg={10}  >
                                             <TextField
                                                 required
                                                 multiline
@@ -514,22 +520,22 @@ const AgregarContactoMunicipio = () => {
                                                 type="text"
                                                 size="small"
                                                 fullWidth
-                                                sx={{ paddingBottom: "1.2%" }}
+                                                sx={{ paddingBottom: "2%" }}
                                                 variant="outlined"
                                                 onChange={(v) => setMailTesorero(v.target.value)}
                                                 error={mailTesorero === "" && verificaForm}
                                                 helperText={(mailTesorero === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
-
                                             />
+                                            </Grid>
                                         </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid container justifyContent="center" alignItems="center" sx={{ paddingY: "1%", width: "90%", border: "3px solid  #CCCCCC", borderRadius: "20px", }}>
+                        <Grid container justifyContent="center" alignItems="center" sx={{ bgcolor:"white", padding: "2%", width: "100%"}}>
 
-                            <Grid container justifyContent="center" alignItems="center" >
-                                <Grid item xs={12} sm={12} md={11} lg={10} >
+                            <Grid container justifyContent="center" alignItems="center">
+                                <Grid item xs={12} sm={12} md={11} lg={11}   sx={{ paddingBottom:"2%"}}>
                                     <TextField
                                         required
                                         multiline
@@ -538,7 +544,7 @@ const AgregarContactoMunicipio = () => {
                                         type="text"
                                         size="small"
                                         fullWidth
-                                        sx={{ paddingBottom: "1.2%" }}
+                                        sx={{ paddingBottom: "2%" }}
                                         variant="outlined"
                                         onChange={(v) => setEnlace(v.target.value)}
                                         error={enlace === "" && verificaForm}
@@ -548,7 +554,7 @@ const AgregarContactoMunicipio = () => {
                                 </Grid>
                             </Grid>
                             <Grid container justifyContent="center" alignItems="center" >
-                                <Grid item xs={12} sm={12} md={11} lg={10} >
+                                <Grid item xs={12} sm={12} md={11} lg={11} >
                                     <Grid container direction="row" justifyContent="space-between" alignItems="center">
                                         <Grid item xs={12} sm={6} md={4} lg={4} >
 
@@ -561,7 +567,7 @@ const AgregarContactoMunicipio = () => {
                                                 type="text"
                                                 size="small"
                                                 fullWidth
-                                                sx={{  paddingBottom: "1.2%" }}
+                                                sx={{  paddingBottom: "2%" }}
                                                 variant="outlined"
                                                 onChange={(v) => setEnlace(v.target.value)}
                                                 error={celEnlace === "" && verificaForm}
@@ -569,7 +575,7 @@ const AgregarContactoMunicipio = () => {
 
                                             />
                                         </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4}  >
+                                        <Grid item xs={12} sm={6} md={4} lg={4} paddingBottom="3%" >
                                             <TextField
                                                 required
                                                 multiline
@@ -579,27 +585,42 @@ const AgregarContactoMunicipio = () => {
                                                 type="text"
                                                 size="small"
                                                 fullWidth
-                                                sx={{  paddingBottom: "1.2%" }}
+                                                sx={{  paddingBottom: "2%" }}
                                                 variant="outlined"
                                                 onChange={(v) => setMailEnlace(v.target.value)}
                                                 error={mailEnlace === "" && verificaForm}
                                                 helperText={(mailEnlace === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
-
                                             />
                                         </Grid>
-                                    </Grid>
+                                        <Grid item xs={12} sm={12} md={12} lg={12}  >
+                                        <Box  display="flex" flexDirection="row-reverse">
+                                            <Box display="flex" flexDirection="row" >
+                                            <Box paddingRight={2}>
+                                            <Button variant="outlined" onClick={() => { limpiar() }}>Limpiar</Button>
+                                            </Box>
+                                            <Box  paddingRight={2}>
+                                            {nuevoRegistro ?
+                                                <Button variant="outlined" onClick={() => { onClickGuardar() }}>Guardar</Button> :
+                                                <Button variant="outlined" onClick={() => { onClickActualizar() }}>Guardar Cambios</Button>}
+                                            </Box>
+                                            <Box>
+                                            <Button variant="outlined" onClick={() => { limpiar(); setEditar(false); }}>Cancelar</Button>
+                                            </Box>
+                                            </Box>
+                                        </Box>
 
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
+                        
+                        </Box>
                     </Grid>
-                    <Grid container sx={{ paddingY: "1%" }} direction="row" justifyContent="space-evenly" alignItems="center" >
-                        <Button variant="outlined" onClick={() => { limpiar() }}>Limpiar</Button>
-                        {nuevoRegistro ?
-                            <Button variant="outlined" onClick={() => { onClickGuardar() }}>Guardar</Button> :
-                            <Button variant="outlined" onClick={() => { onClickActualizar() }}>Guardar Cambios</Button>}
-                        <Button variant="outlined" onClick={() => { limpiar(); setEditar(false); }}>Cancelar</Button>
-                    </Grid>
+                 
+                       
+                       
+                    
                 </>
                 :
                 <Grid container direction="column" justifyContent="center" alignItems="center"  >
