@@ -48,7 +48,6 @@ const ModalNew = ({
 
   const handleNewFile = (event: any) => {
     setFile(event?.target?.files?.[0] || "");
-    ///// SE VALIDA SI NO SE CARGO ARCHIVO EN EL INPUT PARA PODER EXTRAER EL NOMBRE
     if (event.target.files.length === 0) {
     } else {
       setNameNewDoc(event.target!.files[0]!.name);
@@ -295,7 +294,7 @@ const ModalNew = ({
         <Grid item xs={12} sm={12} md={12} 
           sx={{ 
             justifyContent: "center" ,
-            display : clave === 'ICV' ? 'block' :'none'
+            display : clave === 'ICV' || clave === 'ISR NOMINA' ? 'block' :'none'
              }}
         >
 

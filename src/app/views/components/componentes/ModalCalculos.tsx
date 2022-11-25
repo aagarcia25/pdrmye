@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Grid } from "@mui/material";
 import ModalForm from "./ModalForm";
+import Slider from "../Slider";
 
 const ModalCalculos = ({
   tipo,
@@ -12,9 +13,12 @@ const ModalCalculos = ({
   handleAccion: Function;
 }) => {
   const [mensaje, setMensaje] = useState<string>();
+  const [openSlider, setOpenSlider] = useState(false);
   return (
     <div>
       <ModalForm title={tipo} handleClose={handleClose}>
+      <Slider open={openSlider}></Slider>
+
         <Grid
           container
           spacing={1}
