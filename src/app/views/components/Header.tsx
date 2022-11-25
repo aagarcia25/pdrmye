@@ -158,7 +158,11 @@ export default function Header(props: HeaderProps) {
                 {props.name}
               </Typography>
               <Typography variant="caption" color="black">
-                {user.Puesto}
+                {(user.Puesto? user.Puesto+" ":" ") +
+                 (user?.PERFILES[0]?.Referencia!=="MUN"? user?.PERFILES[0]?.Descripcion+" ":" " ) +
+                 (user?.ROLES[0]?.Nombre=== "Municipio"? user.ROLES[0].Nombre+" ": " " )+
+                 (user?.DEPARTAMENTOS[0]?.NombreCorto!=="MUN"? user?.DEPARTAMENTOS[0]?.NombreCorto+" ": " " )+ 
+                 (user?.MUNICIPIO[0]?.Nombre? " "+user?.MUNICIPIO[0]?.Nombre+" ":" ") }
               </Typography>
 
             </Grid>
