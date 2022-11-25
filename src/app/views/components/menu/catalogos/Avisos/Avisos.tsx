@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Box, IconButton,    } from '@mui/material'
+import { Box, Grid, IconButton, Typography,    } from '@mui/material'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { Toast } from "../../../../../helpers/Toast";
-import { AlertS } from "../../../../../helpers/AlertS";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AvisosModal from './AvisosModal'
 import Swal from "sweetalert2";
@@ -12,6 +11,7 @@ import ButtonsAdd from '../Utilerias/ButtonsAdd';
 import { getPermisos, getUser } from '../../../../../services/localStorage';
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
+import { AlertS } from '../../../../../helpers/AlertS';
 
 
 export const Avisos = () => {
@@ -212,6 +212,15 @@ if(v==="save"){
       ) : (
         ""
       )}
+      <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+                Avisos
+              </Typography>
+            </Grid>
+            </Grid>
+            
       <Box>
       </Box>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
