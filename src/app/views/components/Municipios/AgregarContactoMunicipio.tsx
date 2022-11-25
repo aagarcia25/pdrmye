@@ -330,7 +330,7 @@ const AgregarContactoMunicipio = () => {
                                                 type="text"
                                                 size="small"
                                                 fullWidth
-                                                sx={{ width: "100%", paddingBottom: "1.2%" }}
+                                                sx={{paddingBottom: "1.2%" }}
                                                 variant="outlined"
                                                 onChange={(v) => setRfc(v.target.value)}
                                                 error={rfc === "" && verificaForm}
@@ -368,7 +368,6 @@ const AgregarContactoMunicipio = () => {
                                                 multiline
                                                 label="Correo Municipio"
                                                 value={mailMun}
-                                                inputProps={{ maxLength: 12 }}
                                                 type="text"
                                                 size="small"
                                                 fullWidth
@@ -437,7 +436,8 @@ const AgregarContactoMunicipio = () => {
                                         value={tesorero}
                                         type="text"
                                         size="small"
-                                        sx={{ width: "100%", paddingBottom: "1.2%" }}
+                                        fullWidth
+                                        sx={{ paddingBottom: "1.2%" }}
                                         variant="outlined"
                                         onChange={(v) => setTesorero(v.target.value)}
                                         error={tesorero === "" && verificaForm}
@@ -457,10 +457,10 @@ const AgregarContactoMunicipio = () => {
                                                         multiline
                                                         label="Telefono Tesorero"
                                                         value={telTesorero}
-                                                        inputProps={{ maxLength: 12 }}
                                                         type="text"
                                                         size="small"
-                                                        sx={{ width: "100%", paddingBottom: "1.2%" }}
+                                                        fullWidth
+                                                        sx={{ paddingBottom: "1.2%" }}
                                                         variant="outlined"
                                                         onChange={(v) => setTelTesorero(v.target.value)}
                                                         error={telTesorero === "" && verificaForm}
@@ -474,10 +474,11 @@ const AgregarContactoMunicipio = () => {
                                                         multiline
                                                         label="Ext "
                                                         value={extTelTesorero}
-                                                        inputProps={{ maxLength: 12 }}
+                                                        inputProps={{ maxLength: 5 }}
                                                         type="text"
                                                         size="small"
-                                                        sx={{ width: "100%", paddingBottom: "1.2%" }}
+                                                        fullWidth
+                                                        sx={{ paddingBottom: "1.2%" }}
                                                         variant="outlined"
                                                         onChange={(v) => setExtTelTesorero(v.target.value)}
                                                         error={extTelTesorero === "" && verificaForm}
@@ -495,7 +496,8 @@ const AgregarContactoMunicipio = () => {
                                                 value={celTesorero}
                                                 type="text"
                                                 size="small"
-                                                sx={{ width: "100%", paddingBottom: "1.2%" }} variant="outlined"
+                                                fullWidth
+                                                sx={{ paddingBottom: "1.2%" }} variant="outlined"
                                                 onChange={(v) => setCelTesorero(v.target.value)}
                                                 error={celTesorero === "" && verificaForm}
                                                 helperText={(celTesorero === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
@@ -511,7 +513,8 @@ const AgregarContactoMunicipio = () => {
                                                 value={mailTesorero}
                                                 type="text"
                                                 size="small"
-                                                sx={{ width: "100%", paddingBottom: "1.2%" }}
+                                                fullWidth
+                                                sx={{ paddingBottom: "1.2%" }}
                                                 variant="outlined"
                                                 onChange={(v) => setMailTesorero(v.target.value)}
                                                 error={mailTesorero === "" && verificaForm}
@@ -534,7 +537,8 @@ const AgregarContactoMunicipio = () => {
                                         value={enlace}
                                         type="text"
                                         size="small"
-                                        sx={{ width: "100%", paddingBottom: "1.2%" }}
+                                        fullWidth
+                                        sx={{ paddingBottom: "1.2%" }}
                                         variant="outlined"
                                         onChange={(v) => setEnlace(v.target.value)}
                                         error={enlace === "" && verificaForm}
@@ -556,7 +560,8 @@ const AgregarContactoMunicipio = () => {
                                                 inputProps={{ maxLength: 12 }}
                                                 type="text"
                                                 size="small"
-                                                sx={{ width: "100%", paddingBottom: "1.2%" }}
+                                                fullWidth
+                                                sx={{  paddingBottom: "1.2%" }}
                                                 variant="outlined"
                                                 onChange={(v) => setEnlace(v.target.value)}
                                                 error={celEnlace === "" && verificaForm}
@@ -573,7 +578,8 @@ const AgregarContactoMunicipio = () => {
                                                 value={mailEnlace}
                                                 type="text"
                                                 size="small"
-                                                sx={{ width: "100%", paddingBottom: "1.2%" }}
+                                                fullWidth
+                                                sx={{  paddingBottom: "1.2%" }}
                                                 variant="outlined"
                                                 onChange={(v) => setMailEnlace(v.target.value)}
                                                 error={mailEnlace === "" && verificaForm}
