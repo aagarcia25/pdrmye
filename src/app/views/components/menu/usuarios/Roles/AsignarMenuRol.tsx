@@ -20,18 +20,18 @@ const AsignarMenuRol = ({
     open: boolean;
     handleClose: Function;
 }) => {
-    const [data, setData] = useState([]);
+    const [dataAsignarMenuRol, setDataAsignarMenuRol] = useState([]);
 
-    const [openSlider, setOpenSlider] = useState(false);
+    const [openSliderAsignarMenuRol, setOpenSliderAsignarMenuRol] = useState(false);
 
-    const handleChange = (v: any) => {
-        let data = {
+    const handleChangeAsignarMenuRol = (v: any) => {
+        let dataAsignarMenuRol = {
             TIPO: 1,
             IDROL: id,
             IDMENU: v.id
         }
-        AuthService.rolespermisorelacionar(data).then((res) => {
-            setData(res.RESPONSE);
+        AuthService.rolespermisorelacionar(dataAsignarMenuRol).then((res) => {
+            setDataAsignarMenuRol(res.RESPONSE);
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
@@ -53,7 +53,7 @@ const AsignarMenuRol = ({
 
     };
 
-    const columns: GridColDef[] = [
+    const columnsAsignarMenuRol: GridColDef[] = [
         {
             field: "id",
             headerName: "Identificador",
@@ -68,7 +68,7 @@ const AsignarMenuRol = ({
             sortable: false,
             width: 10,
             renderCell: (v) => {
-                return <Checkbox onChange={() => handleChange(v)} />;
+                return <Checkbox onChange={() => handleChangeAsignarMenuRol(v)} />;
             },
         },
 
@@ -77,62 +77,72 @@ const AsignarMenuRol = ({
     ];
 
     const consulta = (data: any) => {
-        setOpenSlider(true);
+        setOpenSliderAsignarMenuRol(true);
         AuthService.menusinrelacionararol(data).then((res) => {
-            setData(res.RESPONSE);
-            setOpenSlider(false);
+            setDataAsignarMenuRol(res.RESPONSE);
+            setOpenSliderAsignarMenuRol(false);
         });
 
     };
 
     useEffect(() => {
-        consulta({ CHID: id  });
-    }, []);
+        consulta({ CHID: id });
+    }, [dataAsignarMenuRol]);
 
     return (
         <div>
-            <Slider open={openSlider} ></Slider>
+            <Slider open={openSliderAsignarMenuRol} ></Slider>
 
-<ModalForm title={" Relacionar Menú a Rol"} handleClose={handleClose}>      
-                    <Grid
-                        container
-                        sx={{
-                            left: "50%",
-                            width: "100%",
-                            height: "80vh",
-                            bgcolor: "rgb(255,255,255)",
-                            justifyContent:"center"
-                        }}
-                    >
-                        <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding:"1%" }}> 
-                        <Grid md={12}
-                            sx={{
-                                justifyContent: "center",
-                                alignItems: "center",
-                                height: "100%"
-                            }}
-                        >
-                               <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                            <Typography
+            <ModalForm title={" Relacionar Menú a Rol"} handleClose={handleClose}>
+                <Grid container>
+                    <Grid item xs={6} sm={6} md={6} lg={6}>
+
+                        <Box sx={{ boxShadow: 3 }} >
+                            <Grid
+                                container
                                 sx={{
-                                    textAlign: "left",
-                                    fontFamily: "sans-serif",
-                                    fontSize: "1.5vw",
-                                    color: "#808080",
+                                    left: "50%",
+                                    width: "100%",
+                                    height: "80vh",
+                                    bgcolor: "rgb(255,255,255)",
+                                    justifyContent: "center"
                                 }}
                             >
-                                Para Relacionar el Menú solo Marca la Casilla
-                            </Typography>
-                        </Grid>
-                            <Grid 
-                            sx={{ height: "90%", margin:"1%"  }} >
-                            <MUIXDataGridSimple columns={columns} rows={data} />
+                                <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding: "1%" }}>
+                                    <Grid md={12}
+                                        sx={{
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            height: "100%"
+                                        }}
+                                    >
+                                        <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                                            <Typography
+                                                sx={{
+                                                    textAlign: "left",
+                                                    fontFamily: "sans-serif",
+                                                    fontSize: "1.5vw",
+                                                    color: "#808080",
+                                                }}
+                                            >
+                                                Para Relacionar el Menú solo Marca la Casilla
+                                            </Typography>
+                                        </Grid>
+                                        <Grid
+                                            sx={{ height: "90%", margin: "1%" }} >
+                                            <MUIXDataGridSimple columns={columnsAsignarMenuRol} rows={dataAsignarMenuRol} />
+                                        </Grid>
+                                    </Grid>
+                                </Box>
                             </Grid>
-                        </Grid>
+
                         </Box>
+
                     </Grid>
-</ModalForm>
-    </div>
+
+                </Grid>
+            </ModalForm>
+        </div>
     );
 };
 

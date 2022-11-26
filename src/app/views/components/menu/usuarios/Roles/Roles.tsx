@@ -209,7 +209,7 @@ const Roles = () => {
         ""
       )}
       {open ? (
-        <RolesMenu open={open} handleClose={handleClose} id={id}></RolesMenu>
+        <RolesMenu open={open} handleClose={handleClose} idRol={id}></RolesMenu>
       ) : (
         ""
       )}
