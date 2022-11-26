@@ -131,7 +131,7 @@ const DetalleFgp = ({
   };
 
   const Fnworkflow = (data: string) => {
-
+    setOpenSlider(true);
     let obj = {
       CHID: idCalculo,
       ESTATUS_DESTINO: estatusDestino,

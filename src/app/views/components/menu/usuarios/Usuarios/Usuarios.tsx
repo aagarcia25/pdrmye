@@ -181,11 +181,7 @@ const Usuarios = () => {
                 <AssignmentIndIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Relacionar Municipios"}>
-              <IconButton color="info" onClick={() => handleMunicipios(v)}>
-                <Diversity3Icon />
-              </IconButton>
-            </Tooltip>
+          
             <Tooltip title={"Editar Registro"}>
               <IconButton color="info" onClick={() => handleEdit(v)}>
                 <ModeEditOutlineIcon />

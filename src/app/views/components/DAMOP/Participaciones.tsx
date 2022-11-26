@@ -22,6 +22,9 @@ import { getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
+import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
+import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
+import LanIcon from '@mui/icons-material/Lan';
 import {
   DataGrid,
   GridSelectionModel,
@@ -46,6 +49,7 @@ const Participaciones = () => {
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
   //Constantes de los filtros
+  const [numerooperacion, setnumerooperacion] = useState(0);
   const [idtipo, setIdTipo] = useState("");
   const [idFondo, setIdFondo] = useState("");
   const [idMunicipio, setidMunicipio] = useState("");
@@ -58,15 +62,21 @@ const Participaciones = () => {
     { field: "id", hide: true },
     {
       field: "Anio",
-      headerName: "Año",
+      headerName: "Ejercicio",
       width: 100,
-      description: "Año",
+      description: "Ejercicio",
     },
     {
       field: "Mes",
       headerName: "Mes",
       width: 100,
       description: "Mes",
+    },
+    {
+      field: "TipoSolicitud",
+      headerName: "Tipo",
+      width: 140,
+      description: "Tipo de Solicitud",
     },
     {
       field: "ClaveEstado",
@@ -81,6 +91,12 @@ const Participaciones = () => {
       description: "Municipio",
     },
     {
+      field: "Nombre",
+      headerName: "Beneficiario",
+      width: 150,
+      description: "Beneficiario",
+    },
+    {
       field: "Clave",
       headerName: "Fondo",
       width: 150,
@@ -90,6 +106,21 @@ const Participaciones = () => {
       field: "fondodes",
       headerName: "Descripción de Fondo",
       width: 250,
+    },
+    {
+      field: "uresclave",
+      headerName: "U. Resp",
+      width: 100,
+    },
+    {
+      field: "NumProyecto",
+      headerName: "Proyecto",
+      width: 150,
+    },
+    {
+      field: "ConceptoEgreso",
+      headerName: "Cpto. de  egreso",
+      width: 150,
     },
     {
       field: "tipocalculo",
@@ -113,6 +144,36 @@ const Participaciones = () => {
       width: 150,
       description: "Importe",
       ...Moneda,
+    },
+    {
+      field: "Divisa",
+      headerName: "Divisa",
+      width: 10,
+      description: "Divisa",
+    },
+    {
+      field: "Proveedor",
+      headerName: "Proveedor",
+      width: 100,
+      description: "Proveedor",
+    },
+    {
+      field: "Deudor",
+      headerName: "Deudor",
+      width: 100,
+      description: "Deudor",
+    },
+    {
+      field: "clasificacion",
+      headerName: "Clasificación",
+      width: 100,
+      description: "Clasificación de Solicitud de Pago",
+    },
+    {
+      field: "Observaciones",
+      headerName: "Observaciones",
+      width: 400,
+      description: "Observaciones",
     },
   ];
 
@@ -150,7 +211,7 @@ const Participaciones = () => {
   const Fnworkflow = (data: string) => {
 
     let obj = {
-      NUMOPERACION:1,
+      NUMOPERACION:numerooperacion,
       OBJS: selectionModel,
       CHUSER: user.id,
       COMENTARIO:data,
@@ -176,7 +237,19 @@ const Participaciones = () => {
     });
   };
 
-
+  const openmodalc = (operacion: number) => {
+    if(selectionModel.length >0 ){
+      setnumerooperacion(operacion);
+      setOpenModal(true);
+    }else{
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    }
+ 
+  };
 
   const SolicitudOrdenPago = () => {
 
@@ -262,6 +335,8 @@ const Participaciones = () => {
       ) : (
         ""
       )}
+
+      
       
       <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
@@ -331,7 +406,7 @@ const Participaciones = () => {
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={1}>
           <ToggleButtonGroup>
             <Tooltip title={"Solicitar Suficiencia Presupuestal"}>
-              <ToggleButton value="check" onClick={() => setOpenModal(true)}>
+              <ToggleButton value="check" onClick={() => openmodalc(1)}>
                 <AttachMoneyIcon />
               </ToggleButton>
             </Tooltip>
@@ -340,13 +415,37 @@ const Participaciones = () => {
               <SettingsSuggestIcon />
             </ToggleButton>
           </Tooltip>
+          <Tooltip title={"Asignar Comentario"}>
+            <ToggleButton value="check" onClick={() => openmodalc(2)}>
+              <FormatAlignLeftIcon />
+            </ToggleButton>
+          </Tooltip>
+          </ToggleButtonGroup>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={1}>
+          <ToggleButtonGroup>
+            <Tooltip title={"Cargar Plantilla para Generar Anticipo de Participaciones"}>
+              <ToggleButton value="check" onClick={() => openmodalc(1)}>
+                <DriveFolderUploadIcon />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Distribuir en Fideicomisos"}>
+              <ToggleButton value="check" onClick={() => openmodalc(1)}>
+                <LanIcon />
+              </ToggleButton>
+            </Tooltip>
+
+
+            
           </ToggleButtonGroup>
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} >
           <div
             style={{
-              height: "60vh",
+              height: "58vh",
               width: "100%",
             }}
           >
