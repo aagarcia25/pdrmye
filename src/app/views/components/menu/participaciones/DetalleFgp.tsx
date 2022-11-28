@@ -376,7 +376,7 @@ const DetalleFgp = ({
       headerName: "Importe",
       width: 200,
       description: "Importe",
-     // ...Moneda,
+      ...Moneda,
     },
     {
       hide: pa ? false : true,
@@ -471,7 +471,7 @@ const DetalleFgp = ({
       headerName: "Total",
       width: 250,
       description: "Total",
-    //  ...Moneda,
+      ...Moneda,
     },
   ];
 
