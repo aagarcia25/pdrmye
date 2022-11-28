@@ -36,6 +36,28 @@ export const ParametrosGenerales = () => {
       description: messages.dataTableColum.id,
     },
     {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 150,
+      renderCell: (v) => {
+        return (
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+        );
+      },
+    },
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creacion",
+      width: 200,
+    },
+    {
+      field: "CreadoP",
+      headerName: "Creado Por",
+      width: 200,
+    },
+    {
       field: "Nombre",
       headerName: "Nombre",
       width: 200,
@@ -46,19 +68,16 @@ export const ParametrosGenerales = () => {
       width: 250,
     },
     {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Campo de Acciones",
-      sortable: false,
-      width: 150,
-      renderCell: (v) => {
-        return (
-
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-
-        );
-      },
+      field: "slug",
+      headerName: "Referencia",
+      width: 250,
     },
+    {
+      field: "Descripcion",
+      headerName: "Descripcion",
+      width: 250,
+    },
+
   ];
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
@@ -67,6 +86,7 @@ export const ParametrosGenerales = () => {
       setOpen(true);
       setVrows(v.data);
       console.log(v.data);
+
     } else if (v.tipo === 2) {
       handleDelete(v.data);
     }

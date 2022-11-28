@@ -1,9 +1,8 @@
 import {
   Box,
+  Button,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
+  Grid,
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -12,6 +11,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
 import { ParametroServices } from "../../../../../services/ParametroServices";
+import ModalForm from "../../../componentes/ModalForm";
 
 export const ParametrosGeneralesModal = ({
   open,
@@ -30,14 +30,18 @@ export const ParametrosGeneralesModal = ({
   const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");
   const [valor, setValor] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [slug, setSlug] = useState("");
+
+
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const handleSend = () => {
-    if (nombre === null || valor === null) {
+    if (nombre === "" || valor === "" || slug=== ""|| descripcion==="") {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
-        icon: "error",
+        icon: "warning",
       });
     } else {
       let data = {
@@ -45,15 +49,15 @@ export const ParametrosGeneralesModal = ({
         NUMOPERACION: tipo,
         NOMBRE: nombre,
         VALOR: valor,
+        DESCRIPCION: descripcion,
+        SLUG: slug,
       };
-      //console.log("data de modal", data);
       handleRequest(data);
       handleClose();
     }
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     if (tipo === 1) {
       //AGREGAR
       agregar(data);
@@ -70,14 +74,12 @@ export const ParametrosGeneralesModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-        //console.log("Sé pudo agregar");
       } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        //console.log("No se pudo agregar");
       }
     });
   };
@@ -106,17 +108,17 @@ export const ParametrosGeneralesModal = ({
       setId(dt?.row?.id);
       setNombre(dt?.row?.Nombre);
       setValor(dt?.row?.Valor);
+      setDescripcion(dt?.row?.Descripcion);
+      setSlug(dt?.row?.slug);
     }
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen>
-      <DialogContent>
+
+    <ModalForm title={modo} handleClose={handleClose}>
+
         <Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
-          {(modo === "Agregar Registro") ?
+    
             <Container maxWidth="sm">
                 <TextField
             required
@@ -129,7 +131,7 @@ export const ParametrosGeneralesModal = ({
             variant="standard"
             onChange={(v) => setNombre(v.target.value)}
             error={!nombre ? true : false}
-            InputProps={{}}
+            inputProps={{maxLength: 50,}}
           />
           <TextField
             required
@@ -142,54 +144,62 @@ export const ParametrosGeneralesModal = ({
             variant="standard"
             onChange={(v) => setValor(v.target.value)}
             error={!valor ? true : false}
-            InputProps={{}}
+            inputProps={{maxLength: 100,}}
+            
+          />
+            <TextField
+            required
+            margin="dense"
+            id="slug"
+            label="Referencia"
+            value={slug}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setSlug(v.target.value)}
+            error={!slug ? true : false}
+            inputProps={{maxLength: 100,}}
+            
+          />
+            <TextField
+            required
+            margin="dense"
+            id="Descripcion"
+            label="Descripcion"
+            value={descripcion}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setDescripcion(v.target.value)}
+            error={!descripcion ? true : false}
+            inputProps={{maxLength: 200,}}
+            
           />
             </Container>
-          : ""
-          }
 
-{(modo === "Editar Registro") ?
-            <Container maxWidth="sm">
-                <TextField
-                disabled
-            required
-            margin="dense"
-            id="Nombre"
-            label="Nombre"
-            value={nombre}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setNombre(v.target.value)}
-            InputProps={{}}
-          />
-          <TextField
-            required
-            margin="dense"
-            id="Valor"
-            label="Valor"
-            value={valor}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setValor(v.target.value)}
-            error={!valor ? true : false}
-            InputProps={{}}
-          />
-            </Container>
-          : ""
-          }
+
+
           
         </Box>
-      </DialogContent>
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cerrar
-        </button>
-      </DialogActions>
-    </Dialog>
+
+        <Grid container
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+          >
+            <Grid item xs={4} sm={3} md={2} lg={1}
+            >
+              <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+            </Grid>
+          </Grid>
+   
+
+    </ModalForm>
+   
   );
 };
