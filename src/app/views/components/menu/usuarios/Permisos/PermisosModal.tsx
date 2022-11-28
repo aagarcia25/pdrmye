@@ -32,9 +32,9 @@ const PermisosModal = ({
   const [menus, setMenus] = useState<SelectValues[]>([]);
   const [idMenu, setIdMenu] = useState("");
   const [descripcion, setdescripcion] = useState("");
-
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [referencia, setReferencia] = useState("");
+
   const handleFilterChange2 = (v: string) => {
     setIdMenu(v);
   };
@@ -48,7 +48,7 @@ const PermisosModal = ({
     });
   };
   const handleSend = () => {
-    if (nombre === "" || descripcion === ""||referencia === "" || idMenu === "") {
+    if (nombre === "" || descripcion === "" || referencia === "" || idMenu === "") {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -71,7 +71,6 @@ const PermisosModal = ({
 
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     let titulo = "";
     if (tipo === 1) {
       //AGREGAR
@@ -99,10 +98,8 @@ const PermisosModal = ({
   };
 
   useEffect(() => {
-    console.log(dt);
     loadFilter(16);
     if (dt === "") {
-      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setNombre(dt?.row?.Permiso);
@@ -128,7 +125,7 @@ const PermisosModal = ({
                   onInputChange={handleFilterChange2}
                   placeholder={"Seleccione Menú"}
                   label={""}
-                  disabled={modo!=="Agregar Registro"}
+                  disabled={modo !== "Agregar Registro"}
                 />
               </Box>
 

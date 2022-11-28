@@ -173,33 +173,33 @@ const Permisos = () => {
   }, []);
   return (
     <div>
-      <Grid sx={{padding:"1%" }} > 
-{open ? (
-      <PermisosModal
-        open={open}
-        modo={modo}
-        tipo={tipoOperacion}
-        handleClose={handleClose}
-        dt={vrows}
-      />
-    ) : (
-      ""
-    )}
+      <Grid sx={{ padding: "1%" }} >
+        {open ? (
+          <PermisosModal
+            open={open}
+            modo={modo}
+            tipo={tipoOperacion}
+            handleClose={handleClose}
+            dt={vrows}
+          />
+        ) : (
+          ""
+        )}
 
-          <Grid container >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <Typography
-                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-                Privilegios de usuario 
-              </Typography>
-            </Grid>
-            </Grid>
+        <Grid container >
+          <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+            <Typography
+              sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+              Privilegios de usuario
+            </Typography>
+          </Grid>
+        </Grid>
 
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-       <MUIXDataGrid
-              columns={columns}
-              rows={data}
-            />
+        <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+        <MUIXDataGrid
+          columns={columns}
+          rows={data}
+        />
       </Grid>
     </div>
   )

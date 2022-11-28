@@ -302,7 +302,7 @@ municipio :string
             <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
               <Typography
                 sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-                Cuentas bancarias {municipio}
+                Municipio: {" "+municipio}
               </Typography>
             </Grid>
             </Grid>

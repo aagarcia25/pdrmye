@@ -53,7 +53,7 @@ export const ParametrosGenerales = () => {
       width: 150,
       renderCell: (v) => {
         return (
-          
+
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
 
         );
@@ -61,16 +61,17 @@ export const ParametrosGenerales = () => {
     },
   ];
   const handleAccion = (v: any) => {
-    if(v.tipo ===1){
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setVrows(v.data);
-    }else if(v.tipo ===2){
+      console.log(v.data);
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
     }
   }
-  
+
 
   const handleClose = () => {
     setOpen(false);
@@ -84,7 +85,7 @@ export const ParametrosGenerales = () => {
     setVrows("");
   };
 
-  
+
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
@@ -169,7 +170,7 @@ export const ParametrosGenerales = () => {
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-      {open ? (
+      {open ?
         <ParametrosGeneralesModal
           open={open}
           modo={modo}
@@ -177,17 +178,15 @@ export const ParametrosGenerales = () => {
           handleClose={handleClose}
           dt={vrows}
         />
-      ) : (
-        ""
-      )}
+        : ""}
       <Grid container >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <Typography
-                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-                Parámetros Generales
-              </Typography>
-            </Grid>
-            </Grid>
+        <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+          <Typography
+            sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+            Parámetros Generales
+          </Typography>
+        </Grid>
+      </Grid>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={parametroGeneral} />
     </div>
