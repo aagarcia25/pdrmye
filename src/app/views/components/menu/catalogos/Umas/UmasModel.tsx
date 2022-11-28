@@ -5,12 +5,15 @@ import {
   Box,
   TextField,
   DialogActions,
+  Grid,
+  Button,
 } from "@mui/material";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getUser} from "../../../../../services/localStorage";
+import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ModalForm from "../../../componentes/ModalForm";
 
 const UmasModel = ({
   open,
@@ -113,12 +116,14 @@ const UmasModel = ({
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen>
-      <DialogContent>
-        <Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{tipo === 1 ?"Agregar Registro" : "Editar Registro"}</label>
-          </Box>
+
+
+
+
+    <ModalForm title={tipo === 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+
+      <Grid container sx={{ justifyContent: "center", alignItems: "center", flexDirection: "row", }}>
+        <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}   >
           <TextField
             required
             margin="dense"
@@ -183,18 +188,18 @@ const UmasModel = ({
               inputMode: "numeric",
             }}
           />
-        </Box>
-      </DialogContent>
+        </Grid>
+      </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cancelar
-        </button>
-      </DialogActions>
-    </Dialog>
+      <Grid container
+        sx={{ mt: "2vh", width: "100%", height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }}>
+        <Grid item xs={4} sm={3} md={2} lg={1}>
+          <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+        </Grid>
+      </Grid>
+    </ModalForm>
+
+
   );
 };
 
