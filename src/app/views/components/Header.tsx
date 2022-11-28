@@ -24,6 +24,8 @@ import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { env_var } from "../../environments/env";
+import { Hidden } from '@mui/material';
+
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -154,6 +156,7 @@ export default function Header(props: HeaderProps) {
             </Grid>
             <Grid item xs/>
 
+             <Hidden smDown>
             <Grid item  xs={12} md={2}  sx={{ padding:"0", margin:"0" }}>
               <Typography variant="subtitle1" color="black">
                 {props.name}
@@ -170,10 +173,11 @@ export default function Header(props: HeaderProps) {
                  (user?.DEPARTAMENTOS[0]?.NombreCorto!=="MUN"? user?.DEPARTAMENTOS[0]?.Descripcion+" ": " " )+ 
                  (user?.MUNICIPIO[0]?.Nombre? " "+user?.MUNICIPIO[0]?.Nombre+" ":" ") }
               </Typography>
-
             </Grid>
-            
-            <Grid item  >
+            </Hidden>
+
+            <Hidden smDown>
+            <Grid item >
               <Tooltip title="Haz click para ver más">
                 <IconButton
                   ref={anchorRef}
@@ -255,7 +259,9 @@ export default function Header(props: HeaderProps) {
                 )}
               </Popper>
             </Grid>
+            </Hidden>
 
+            <Hidden smDown>
             <Grid item  >
               <Tooltip title="Bandeja de correo">
                 <Badge
@@ -290,7 +296,9 @@ export default function Header(props: HeaderProps) {
                 </Badge>
               </Tooltip>
             </Grid>
+            </Hidden>
 
+            <Hidden smDown>
             <Grid item >
               <Tooltip title="Calendario">
                 <IconButton
@@ -314,6 +322,8 @@ export default function Header(props: HeaderProps) {
                 </IconButton>
               </Tooltip>
             </Grid>
+            </Hidden>
+            
           </Grid>
         </Toolbar>
       </AppBar>
