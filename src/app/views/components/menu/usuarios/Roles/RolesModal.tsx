@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-    DialogContent,
     TextField,
     InputAdornment,
     DialogActions,
@@ -17,13 +16,13 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 
 const RolesModal = ({
-    open,
+    openRoles,
     modo,
     handleClose,
     tipo,
     dt
 }: {
-    open: boolean;
+    openRoles: boolean;
     modo: string;
     tipo: number;
     handleClose: Function,

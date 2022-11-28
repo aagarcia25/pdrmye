@@ -1,30 +1,28 @@
-import { IconButton, Tooltip } from "@mui/material";
+import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import RolesMenu from "./RolesMenu";
+import ConfiguracionRoles from "./ConfiguracionRoles";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import RolesModal from "./RolesModal";
-import AsignarMenuRol from "./AsignarMenuRol";
 import EditIcon from "@mui/icons-material/Edit";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import Swal from "sweetalert2";
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'; 
+import { AlertS } from "../../../../../helpers/AlertS";
 
 const Roles = () => {
   const [data, setData] = useState([]);
   const [dt, setDt] = useState([]);
-  const [openRel, setOpenRel] = useState(false);
   const [open, setOpen] = useState(false);
-  const [openRolesModalAdd, setOpenRolesModalAdd] = useState(false);
+  const [openRolesConf, setOpenRolesconf] = useState(false);
   const [id, setId] = useState("");
+  const [nameRol, setNameRol] = useState("");
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -35,17 +33,11 @@ const Roles = () => {
 
   const handleClose = (v: string) => {
     setOpen(false);
-    setOpenRel(false);
-    setOpenRolesModalAdd(false);
+    setOpenRolesconf(false);
 
     {
       if (v === "saved") consulta({ NUMOPERACION: 4 });
     }
-  };
-
-  const handleRel = (v: any) => {
-    setId(v.row.id);
-    setOpenRel(true);
   };
 
   const eliminar = (v: any) => {
@@ -85,18 +77,20 @@ const Roles = () => {
 
   const handleView = (v: any) => {
     setId(v.id);
+    setNameRol(v.row.Nombre)
     setOpen(true);
+
   };
   const handleOpen = () => {
     setTipoOperacion(1);
     setModo("Agregar Rol");
-    setOpenRolesModalAdd(true);
+    setOpenRolesconf(true);
   };
 
   const handleEditarRegistro = (v: any) => {
     setTipoOperacion(2);
     setModo("Editar Rol");
-    setOpenRolesModalAdd(true);
+    setOpenRolesconf(true);
     setDt(v);
   };
 
@@ -124,19 +118,11 @@ const Roles = () => {
           <Box>
             <Tooltip title={"Ver y Eliminar menus de el Rol"}>
               <IconButton onClick={() => handleView(v)}>
-                <RemoveRedEyeIcon />
+                <ManageAccountsIcon />
               </IconButton>
             </Tooltip>
 
-            <Tooltip
-              title={"Ver opciones de menu dsiponibles y asignarlas al Rol"}
-            >
-              <IconButton onClick={() => handleRel(v)}>
-                <AccountTreeIcon />
-              </IconButton>
-            </Tooltip>
-
-            {editar ? (
+             {editar ? (
               <Tooltip title={"Editar  Descripción del Rol"}>
                 <IconButton onClick={() => handleEditarRegistro(v)}>
                   <EditIcon />
@@ -199,31 +185,29 @@ const Roles = () => {
 
   return (
     <div style={{ height: 600, width: "100%", padding: "1%" }}>
-      {openRel ? (
-        <AsignarMenuRol
-          open={openRel}
-          handleClose={handleClose}
-          id={id}
-        ></AsignarMenuRol>
-      ) : (
-        ""
-      )}
+
       {open ? (
-        <RolesMenu open={open} handleClose={handleClose} idRol={id}></RolesMenu>
+        <ConfiguracionRoles handleClose={handleClose} idRol={id} NameRol={nameRol} open={false}></ConfiguracionRoles>
       ) : (
         ""
       )}
-      {openRolesModalAdd ? (
+      {openRolesConf ? (
         <RolesModal
-          open={openRolesModalAdd}
           modo={modo}
           handleClose={handleClose}
           tipo={tipoOperacion}
-          dt={dt}
-        />
+          dt={dt} openRoles={false}        />
       ) : (
         ""
       )}
+            <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+                Roles
+              </Typography>
+            </Grid>
+            </Grid>
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
