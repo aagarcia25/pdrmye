@@ -263,8 +263,8 @@ const AgregarContactoMunicipio = () => {
             {editar ?
 
                 <>
-                    <Grid container direction="column" justifyContent="center" alignItems="center"  >
-                        <Grid item xs={12}  >
+                    <Grid container direction="column" justifyContent="center" alignItems="center">
+                        <Grid item xs={12}   >
 
                             <input
                                 id="imagencargada"
@@ -623,158 +623,98 @@ const AgregarContactoMunicipio = () => {
                     
                 </>
                 :
-                <Grid container direction="column" justifyContent="center" alignItems="center"  >
+                <Grid container direction="column" justifyContent="center" alignItems="center"  sx={{ bgcolor:"#CCCCCC", paddingBottom:"5%"}}   >
 
 
                     <Grid container direction="column" justifyContent="center" alignItems="center"  >
-                        <Grid item xs={12} direction="row" justifyContent="center" alignItems="center" sx={{ border: "2px solid  #CCCCCC", borderRadius: "20px", }}>
-                            {nuevoRegistro ? <AddPhotoAlternateIcon sx={{ width: "60%", height: "60%" }} />
+                        
+                        <Grid item xs={12} direction="row" justifyContent="center" alignItems="center" sx={{ width: "9%", height: "9%", padding:"1%"}}>
+                        <Box boxShadow={3} padding={1}  sx={{ bgcolor:"white" }} >
+                            {nuevoRegistro ? <AddPhotoAlternateIcon sx={{ width: "0%", height: "50%" }} />
                                 :
                                 <img src={dato.Escudo} style={{ alignItems: "center", objectFit: "scale-down", width: "100%", height: "100%" }} />}
+                        </Box>
                         </Grid>
+                        
                     </Grid>
-                    <Grid container direction="row" justifyContent="center" alignItems="center">
-                        <Grid item xs={12} sm={10} md={8} lg={7} sx={{ border: "2px solid  #CCCCCC", borderRadius: "20px", }}>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" >
-                                    <label className="TypographyH6Gray"> Municipio: </label>
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.Municipio === "" ? "Sin información" : dato.Municipio}</label>
-                                </Grid>
+                    
+                    <Grid container direction="row" justifyContent="center" alignItems="center" >
+
+                        <Grid item xs={12} md={8}  sx={{ boder: "2px solid  #CCCCCC", borderRadius: "20px", bgcolor:"white", paddingTop:"1%", paddingBottom:"1%"}}>
+                        
+                            
+                            <Grid xs={12} md={12}  container paddingTop={1}>
+                                <Grid item xs={12} md={2}  textAlign="right" > <label className="TypographyH6Gray"> Municipio: </label> </Grid>
+                                <Grid item xs={12} md={4}  textAlign="left" > <label className="TypographyH6Black"> {dato.Municipio === "" ? "Sin información" : dato.Municipio}</label> </Grid>
+                                <Grid item xs={12} md={2} textAlign="right" > <label className="TypographyH6Gray"> Domicilio: </label> </Grid>
+                                <Grid item xs={12} md={4}  textAlign="left" > <label className="TypographyH6Black"> {dato.Domicilio === "" ? "Sin información" : dato.Domicilio}</label> </Grid>
                             </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Domicilio: </label>
+                         
+                            <Grid  xs={12} md={12} container paddingTop={1}>
 
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.Domicilio === "" ? "Sin información" : dato.Domicilio}</label>
+                                <Grid item xs={12} md={2}  textAlign="right" > <label className="TypographyH6Gray"> RFC: </label> </Grid>
+                                <Grid item xs={12} md={4}  textAlign="left" > <label className="TypographyH6Black"> {dato.Rfc === null ? "Sin información" : dato.Rfc}</label> </Grid>
+                                <Grid item xs={12} md={2} textAlign="right" > <label className="TypographyH6Gray"> Telefono: </label> </Grid>
+                                <Grid item xs={12} md={4}  textAlign="left" > <label className="TypographyH6Black"> {dato.Telefono === "" ? "Sin información" : dato.Telefono}</label> </Grid>
+    
+                            </Grid>
 
-                                </Grid>
+                            <Grid xs={12} md={12} container paddingTop={1} >
+
+                                <Grid item xs={12} md={2}  textAlign="right" > <label className="TypographyH6Gray"> Correo Municipio: </label> </Grid>
+                                <Grid item xs={12} md={4}  textAlign="left" > <label className="TypographyH6Black"> {dato.CorreoMunicipio === "" ? "Sin información" : dato.CorreoMunicipio}</label> </Grid>
+                                <Grid item xs={12} md={2}  textAlign="right" > <label className="TypographyH6Gray"> Pagina Web: </label>  </Grid>
+                                <Grid item xs={12} md={4} textAlign="left" > <label className="TypographyH6Black"> {dato.Web === "" ? "Sin información" : dato.Web}</label>  </Grid>
 
                             </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> RFC: </label>
 
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.Rfc === null ? "Sin información" : dato.Rfc}</label>
-
-                                </Grid>
+                            <Grid  xs={12} md={12} container paddingTop={3}>
+                                <Grid item xs={12} md={6}textAlign="right" > <label className="TypographyH6Gray"> Tesorero: </label> </Grid>
+                                <Grid item xs={12} md={6}textAlign="left" > <label className="TypographyH6Black"> {dato.Tesorero === "" ? "Sin información" : dato.Tesorero}</label> </Grid>  
                             </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Telefono: </label>
+                            
+                            <Grid  xs={12} md={12} container paddingTop={1}>
 
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.Telefono === "" ? "Sin información" : dato.Telefono}</label>
+                                <Grid item xs={12} md={2} textAlign="right" > <label className="TypographyH6Gray"> Telefono Tesorero:  </label>  </Grid>
+                                <Grid item xs={12} md={1} textAlign="left" >  <label className="TypographyH6Black"> {dato.TelefonoTesorero === "" ? "Sin información" : dato.TelefonoTesorero}</label> </Grid>
+                                <Grid item xs={12} md={3} textAlign="right" > <label className="TypographyH6Gray"> Ext  Telefono Tesorero:  </label> </Grid>
+                                <Grid item xs={12} md={2}textAlign="left" > <label className="TypographyH6Black"> {dato.ExtTelefonoTesorero === "" ? "Sin información" : dato.ExtTelefonoTesorero}</label> </Grid>
+                                <Grid item xs={12} md={2} textAlign="right" > <label className="TypographyH6Gray"> Celular Tesorero: </label> </Grid>
+                                <Grid item xs={12} md={2} textAlign="left" > <label className="TypographyH6Black"> {dato.CelularTesorero === "" ? "Sin información" : dato.CelularTesorero}</label> </Grid>
 
-                                </Grid>
                             </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Correo Municipio: </label>
 
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.CorreoMunicipio === "" ? "Sin información" : dato.CorreoMunicipio}</label>
-
-                                </Grid>
+                            <Grid xs={12} md={12} container paddingTop={3}>
+                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Enlace: </label> </Grid>
+                                <Grid item xs={6} textAlign="left" > <label className="TypographyH6Black"> {dato.Enlace === "" ? "Sin información" : dato.Enlace}</label>  </Grid>
                             </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Pagina Web: </label>
 
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.Web === "" ? "Sin información" : dato.Web}</label>
-
-                                </Grid>
+                            <Grid xs={12} md={12} container paddingTop={1}>
+                                <Grid item xs={2} textAlign="right" >  <label className="TypographyH6Gray"> Celular Enlace: </label> </Grid>
+                                <Grid item xs={2} textAlign="left" > <label className="TypographyH6Black"> {dato.CelularEnlace === "" ? "Sin información" : dato.CelularEnlace}</label> </Grid>
+                                <Grid item xs={2} textAlign="right" >  <label className="TypographyH6Gray"> Correo Enlace:  </label> </Grid>
+                                <Grid item xs={2} textAlign="left" > <label className="TypographyH6Black"> {dato.CorreoEnlace === "" ? "Sin información" : dato.CorreoEnlace}</label> </Grid>
+                                <Grid item xs={2} textAlign="right" > <label className="TypographyH6Gray"> Horario:  </label> </Grid>
+                                <Grid item xs={2} textAlign="left" > <label className="TypographyH6Black"> {dato.Horario === "" ? "Sin información" : dato.Horario}</label>  </Grid>
                             </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Tesorero: </label>
 
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.Tesorero === "" ? "Sin información" : dato.Tesorero}</label>
-
-                                </Grid>
-                            </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Telefono Tesorero:  </label>
-
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.TelefonoTesorero === "" ? "Sin información" : dato.TelefonoTesorero}</label>
-
-                                </Grid>
-                            </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Ext  Telefono Tesorero:  </label>
-
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.ExtTelefonoTesorero === "" ? "Sin información" : dato.ExtTelefonoTesorero}</label>
-
-                                </Grid>
-                            </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Celular Tesorero: </label>
-
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.CelularTesorero === "" ? "Sin información" : dato.CelularTesorero}</label>
-
-                                </Grid>
-                            </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Enlace: </label>
-
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.Enlace === "" ? "Sin información" : dato.Enlace}</label>
-
-                                </Grid>
-                            </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Celular Enlace: </label>
-
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.CelularEnlace === "" ? "Sin información" : dato.CelularEnlace}</label>
-
-                                </Grid>
-                            </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" >  <label className="TypographyH6Gray"> Correo Enlace:  </label>
-
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.CorreoEnlace === "" ? "Sin información" : dato.CorreoEnlace}</label>
-
-                                </Grid>
-                            </Grid>
-                            <Grid container>
-                                <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Horario:  </label>
-                                </Grid>
-                                <Grid item xs={6} textAlign="left" >
-                                    <label className="TypographyH6Black"> {dato.Horario === "" ? "Sin información" : dato.Horario}</label>
-
-
-                                </Grid>
-                            </Grid>
-                        </Grid>
-
-                    </Grid>
-
-                    <Box sx={{ display: "flex", width: "50%", justifyContent: "space-evenly" }}>
+                        <Grid xs={12} md={12} container paddingTop={5} >     
+                        <Grid xs={12} md={10} > </Grid>    
+                        <Grid xs={12} md={2} > 
+                        <Box sx={{ display: "flex", width: "50%", justifyContent: "space-evenly" }}>
                         {nuevoRegistro ? <Button variant="outlined" onClick={() => { setEditar(true) }}>Registrar</Button> : <Button variant="outlined" onClick={() => { setEditar(true) }}>Editar</Button>}
-                    </Box>
+                        </Box>
+                        </Grid>               
+                        </Grid>  
+                        
+                        </Grid>
 
-
-
+                    </Grid>
+                
                 </Grid>}
 
 
-
+                           
             <Dialog
                 open={openDialogConfirmacion}
                 onClose={() => setOpenDialogConfirmacion(false)}
@@ -797,7 +737,7 @@ const AgregarContactoMunicipio = () => {
                     }} color="success">Aceptar</Button>
                 </DialogActions>
             </Dialog>
-
+                   
         </>
     )
 }
