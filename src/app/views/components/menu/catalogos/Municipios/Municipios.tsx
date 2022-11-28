@@ -5,7 +5,6 @@ import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import MunicipiosModal from "./MunicipiosModal";
@@ -20,6 +19,7 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MunicipiosUsuarioResponsable from "./MunicipiosUsuarioResponsable";
 import { CuentaBancaria } from "../CuentaBancaria/CuentaBancaria";
 import ModalForm from "../../../componentes/ModalForm";
+import { AlertS } from "../../../../../helpers/AlertS";
 
 export const Municipios = () => {
   const [id, setId] = useState("");

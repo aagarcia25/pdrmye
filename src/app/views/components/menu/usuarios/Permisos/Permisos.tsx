@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react'
 import Swal from 'sweetalert2';
@@ -174,6 +174,16 @@ const Permisos = () => {
     ) : (
       ""
     )}
+
+          <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+                Privilegios de usuario 
+              </Typography>
+            </Grid>
+            </Grid>
+
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
        <MUIXDataGrid
               columns={columns}

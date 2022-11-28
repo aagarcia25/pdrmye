@@ -1,8 +1,7 @@
-import { IconButton, Tooltip } from "@mui/material";
+import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -15,6 +14,7 @@ import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import Swal from "sweetalert2";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'; 
+import { AlertS } from "../../../../../helpers/AlertS";
 
 const Roles = () => {
   const [data, setData] = useState([]);
@@ -200,6 +200,14 @@ const Roles = () => {
       ) : (
         ""
       )}
+            <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+                Roles
+              </Typography>
+            </Grid>
+            </Grid>
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
