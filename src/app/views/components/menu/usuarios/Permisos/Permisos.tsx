@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Swal from 'sweetalert2';
 import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
-import { PERMISO, RESPONSE} from '../../../../../interfaces/user/UserInfo';
+import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { AuthService } from '../../../../../services/AuthService';
 import { getPermisos, getUser } from '../../../../../services/localStorage';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
@@ -14,29 +14,29 @@ import PermisosModal from './PermisosModal';
 
 const Permisos = () => {
 
-    const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-    const user: RESPONSE = JSON.parse(String(getUser()));
-    const [agregar, setAgregar] = useState<boolean>(false);
-    const [editar, setEditar] = useState<boolean>(false);
-    const [eliminar, setEliminar] = useState<boolean>(false);
-    const [data, setData] = useState([]);
-    const [open, setOpen] = useState(false);
-    const [modo, setModo] = useState("");
-    const [tipoOperacion, setTipoOperacion] = useState(0);
-    const [vrows, setVrows] = useState({});
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [modo, setModo] = useState("");
+  const [tipoOperacion, setTipoOperacion] = useState(0);
+  const [vrows, setVrows] = useState({});
 
-    const handleClose = () => {
-      setOpen(false);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    const handleAccion = (v: any) => {
-      
-      if(v.tipo =1){
-        setTipoOperacion(2);
-        setModo("Editar Registro");
-        setVrows(v.data);
-        setOpen(true);
-      }else if(v.tipo ===2){
+  const handleAccion = (v: any) => {
+
+    if (v.tipo = 1) {
+      setTipoOperacion(2);
+      setModo("Editar Registro");
+      setVrows(v.data);
+      setOpen(true);
+    } else if (v.tipo === 2) {
 
       Swal.fire({
         icon: "info",
@@ -58,7 +58,7 @@ const Permisos = () => {
                 icon: "success",
                 title: "Registro Eliminado!",
               });
-              consulta({NUMOPERACION:4});
+              consulta({ NUMOPERACION: 4 });
             } else {
               AlertS.fire({
                 title: "Error!",
@@ -71,61 +71,72 @@ const Permisos = () => {
           Swal.fire("No se realizaron cambios", "", "info");
         }
       });
-     }
-
     }
 
-    const handleOpen = (v: any) => {
-      setTipoOperacion(1);
-      setModo("Agregar Registro");
-      setVrows("");
-      setOpen(true);
-    };
-     const columns: GridColDef[] = [
-         {
-           field: "id",
-           headerName: "Identificador",
-           hide: true,
-           width: 10,
-         },
-         {
-          field: "idmenu",
-          hide: true,
-          width: 10,
-        },
-         {
-          field: "menu",
-          headerName: "Módulo",
-          width: 300,
-        },
-         {
-           field: "Permiso",
-           headerName: "Permiso",
-           width: 300,
-         },
-         { field: "Descripcion", headerName: "Descripcion", width: 350 },
-        
-         {
-           field: "acciones",
-           headerName: "Acciones",
-           description: "Campo de Acciones",
-           sortable: false,
-           width: 100,
-           renderCell: (v) => {
-             return (
-               <BotonesAcciones 
-                 handleAccion={handleAccion}
-                 row={v}
-                 editar={editar}
-                 eliminar={eliminar}                  />
-             );
-           },
-         },
-       ];
+  }
+
+  const handleOpen = (v: any) => {
+    setTipoOperacion(1);
+    setModo("Agregar Registro");
+    setVrows("");
+    setOpen(true);
+  };
+  const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "Identificador",
+      hide: true,
+      width: 10,
+    },
+    {
+      field: "idmenu",
+      hide: true,
+      width: 10,
+    },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 100,
+      renderCell: (v) => {
+        return (
+          <BotonesAcciones
+            handleAccion={handleAccion}
+            row={v}
+            editar={editar}
+            eliminar={eliminar} />
+        );
+      },
+    }, {
+      field: "FechaCreacion",
+      headerName: "Fecha Creacion",
+      width: 200,
+    },
+    {
+      field: "CreadoPor",
+      headerName: "Creado Por",
+      width: 420,
+    },
+    {
+      field: "menu",
+      headerName: "Módulo",
+      width: 300,
+    },
+    {
+      field: "Permiso",
+      headerName: "Permiso",
+      width: 300,
+    },
+    {
+      field: "Descripcion", headerName: "Descripcion", width: 350
+    },
+
+  ];
 
 
-    
- const consulta = (data: any) => {
+
+  const consulta = (data: any) => {
     AuthService.permisosindex(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -158,27 +169,27 @@ const Permisos = () => {
         }
       }
     });
-    consulta({NUMOPERACION:4});
+    consulta({ NUMOPERACION: 4 });
   }, []);
   return (
     <div>
-      <Grid sx={{padding:"1%" }} > 
-{open ? (
-      <PermisosModal
-        open={open}
-        modo={modo}
-        tipo={tipoOperacion}
-        handleClose={handleClose}
-        dt={vrows}
-      />
-    ) : (
-      ""
-    )}
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-       <MUIXDataGrid
-              columns={columns}
-              rows={data}
-            />
+      <Grid sx={{ padding: "1%" }} >
+        {open ? (
+          <PermisosModal
+            open={open}
+            modo={modo}
+            tipo={tipoOperacion}
+            handleClose={handleClose}
+            dt={vrows}
+          />
+        ) : (
+          ""
+        )}
+        <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+        <MUIXDataGrid
+          columns={columns}
+          rows={data}
+        />
       </Grid>
     </div>
   )

@@ -102,12 +102,6 @@ const Roles = () => {
       width: 150,
     },
     {
-      field: "Nombre",
-      headerName: "Rol",
-      width: 250,
-    },
-    { field: "Descripcion", headerName: "Descripcion", width: 450 },
-    {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
@@ -145,6 +139,24 @@ const Roles = () => {
         );
       },
     },
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creacion",
+      width: 200,
+    },
+    {
+      field: "CreadoPor",
+      headerName: "Creado Por",
+      width: 250,
+    },
+    {
+      field: "Nombre",
+      headerName: "Rol",
+      width: 250,
+    },
+ 
+    { field: "Descripcion", headerName: "Descripcion", width: 450 },
+   
   ];
 
   const consulta = (data: any) => {

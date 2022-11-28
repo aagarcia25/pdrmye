@@ -37,16 +37,6 @@ export const PerfilesUsuario = () => {
       description: messages.dataTableColum.id,
     },
     {
-      field: "Descripcion",
-      headerName: "Descripción de perfil",
-      width: 420,
-    },
-    {
-      field: "Referencia",
-      headerName: "Referencia",
-      width: 120,
-    },
-    {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
@@ -63,6 +53,27 @@ export const PerfilesUsuario = () => {
         );
       },
     },
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creacion",
+      width: 200,
+    },
+    {
+      field: "CreadoPor",
+      headerName: "Creado Por",
+      width: 420,
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripción de perfil",
+      width: 420,
+    },
+    {
+      field: "Referencia",
+      headerName: "Referencia",
+      width: 120,
+    },
+
   ];
 
   const handleClose = () => {
@@ -134,9 +145,6 @@ export const PerfilesUsuario = () => {
     setOpen(true);
     setVrows("");
   };
-
-
-
 
   const consulta = (data: any) => {
     AuthService.perfilindex(data).then((res) => {
