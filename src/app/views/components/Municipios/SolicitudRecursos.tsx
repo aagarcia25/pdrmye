@@ -61,7 +61,7 @@ const SolicitudRecursos = () => {
   ///////////////////////////////////////////
   const consulta = () => {
 
-    if (user.DEPARTAMENTOS[0].NombreCorto === "DAMOP") {
+    if (user?.DEPARTAMENTOS[0]?.NombreCorto === "DAMOP") {
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
         setDepartamento("DAMOP")
 
@@ -69,14 +69,14 @@ const SolicitudRecursos = () => {
         //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
-    } else if (user.DEPARTAMENTOS[0].NombreCorto === "DPCP") {
+    } else if (user?.DEPARTAMENTOS[0]?.NombreCorto === "DPCP") {
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
         setDepartamento("DPCP")
         setSolicitud(res.RESPONSE);
         //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
-    } else if (user.DEPARTAMENTOS[0].NombreCorto === "MUN") {
+    } else if (user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN") {
 
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 4, CHUSER: user.id }).then((res) => {
         setDepartamento("MUN")

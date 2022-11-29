@@ -96,7 +96,7 @@ const AgregarContactoMunicipio = () => {
 
     const consulta = () => {
         formData.append("NUMOPERACION", "4");
-        formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
+        formData.append("IDMUNICIPIO", user?.MUNICIPIO[0]?.id);
         obtenerLista(formData);
     }
     const obtenerLista = (data: any) => {
@@ -640,7 +640,7 @@ const AgregarContactoMunicipio = () => {
                     
                     <Grid container direction="row" justifyContent="center" alignItems="center" >
 
-                        <Grid item xs={12} md={8}  sx={{ boder: "2px solid  #CCCCCC", borderRadius: "20px", bgcolor:"white", paddingTop:"1%", paddingBottom:"1%"}}>
+                        <Grid item xs={12} md={11}  sx={{ boder: "2px solid  #CCCCCC", borderRadius: "20px", bgcolor:"white", paddingTop:"1%", paddingBottom:"1%"}}>
                         
                             
                             <Grid xs={12} md={12}  container paddingTop={1}>
@@ -676,8 +676,8 @@ const AgregarContactoMunicipio = () => {
                             <Grid  xs={12} md={12} container paddingTop={1}>
 
                                 <Grid item xs={12} md={2} textAlign="right" > <label className="TypographyH6Gray"> Telefono Tesorero:  </label>  </Grid>
-                                <Grid item xs={12} md={1} textAlign="left" >  <label className="TypographyH6Black"> {dato.TelefonoTesorero === "" ? "Sin información" : dato.TelefonoTesorero}</label> </Grid>
-                                <Grid item xs={12} md={3} textAlign="right" > <label className="TypographyH6Gray"> Ext  Telefono Tesorero:  </label> </Grid>
+                                <Grid item xs={12} md={2} textAlign="left" >  <label className="TypographyH6Black"> {dato.TelefonoTesorero === "" ? "Sin información" : dato.TelefonoTesorero}</label> </Grid>
+                                <Grid item xs={12} md={2} textAlign="right" > <label className="TypographyH6Gray"> Ext  Telefono Tesorero:  </label> </Grid>
                                 <Grid item xs={12} md={2}textAlign="left" > <label className="TypographyH6Black"> {dato.ExtTelefonoTesorero === "" ? "Sin información" : dato.ExtTelefonoTesorero}</label> </Grid>
                                 <Grid item xs={12} md={2} textAlign="right" > <label className="TypographyH6Gray"> Celular Tesorero: </label> </Grid>
                                 <Grid item xs={12} md={2} textAlign="left" > <label className="TypographyH6Black"> {dato.CelularTesorero === "" ? "Sin información" : dato.CelularTesorero}</label> </Grid>

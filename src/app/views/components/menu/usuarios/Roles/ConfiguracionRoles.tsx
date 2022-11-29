@@ -210,9 +210,9 @@ open:boolean,
       <Slider open={openSlider} ></Slider>
       <ModalForm title={' Configuración de Rol'} handleClose={handleClose}>
 
-        <Grid container>
+        <Grid container sx={{ boxShadow: 50, borderRadius: 20,  }}>
           <Grid item xs={12} sm={12} md={12} lg={12}>
-            <Grid container sx={{ boxShadow: 50, borderRadius: 3, justifyContent: "center" }} >
+            <Grid container sx={{ boxShadow: 50, borderRadius: 20, justifyContent: "center" }} >
               <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }}>
                 {NameRol}
               </Typography>
