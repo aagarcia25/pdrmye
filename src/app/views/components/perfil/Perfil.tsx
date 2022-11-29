@@ -35,7 +35,7 @@ export const Perfil = () => {
   const [puesto, setPuesto] = useState(user.Puesto);
   const [ubicacion, setUbicacion] = useState(user.Ubicacion);
   const [tipo, setTipo] = useState("");
-  const [departamento, setDepartamento] = useState(user.DEPARTAMENTOS[0].NombreCorto);
+  const [departamento, setDepartamento] = useState(user.DEPARTAMENTOS[0]?.NombreCorto);
   const [departamentos, setDepartamentos] = useState("");
   //CARD 1
   const [botonEdicionFoto, setBotonEdicionFoto] = useState("Editar");

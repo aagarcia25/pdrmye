@@ -40,16 +40,16 @@ const UsuariosModal = ({
   const [idDepartamento, setIdDepartamento] = useState<string>("");
   const [perfiles, setPerfiles] = useState<SelectValues[]>([]);
   const [idPerfil, setIdPerfil] = useState<string>("");
-  const [Nombre, setNombre] = useState<string>();
-  const [ApellidoPaterno, setApellidoPaterno] = useState<string>();
-  const [ApellidoMaterno, setApellidoMaterno] = useState<string>();
-  const [NombreUsuario, setNombreUsuario] = useState<string>();
-  const [puesto, setPuesto] = useState<string>();
-  const [rfc, setRfc] = useState<string>();
-  const [curp, setCurp] = useState<string>();
-  const [telefono, setTelefono] = useState<string>();
-  const [celular, setCelular] = useState<string>();
-  const [CorreoElectronico, setCorreoElectronico] = useState<string>();
+  const [Nombre, setNombre] = useState<string>("");
+  const [ApellidoPaterno, setApellidoPaterno] = useState<string>("");
+  const [ApellidoMaterno, setApellidoMaterno] = useState<string>("");
+  const [NombreUsuario, setNombreUsuario] = useState<string>("");
+  const [puesto, setPuesto] = useState<string>("");
+  const [rfc, setRfc] = useState<string>("");
+  const [curp, setCurp] = useState<string>("");
+  const [telefono, setTelefono] = useState<string>("");
+  const [celular, setCelular] = useState<string>("");
+  const [CorreoElectronico, setCorreoElectronico] = useState<string>("");
   const [emailValid, setEmailValid] = useState<boolean>();
   const [telValid, setTelValid] = useState<boolean>();
   const [celValid, setCelValid] = useState<boolean>();
@@ -116,20 +116,35 @@ const UsuariosModal = ({
 
 
   const handleSend = () => {
+    let data = {
+      Nombre: Nombre,
+      ApellidoPaterno: ApellidoPaterno,
+      ApellidoMaterno: ApellidoMaterno,
+      NombreUsuario: NombreUsuario,
+      CorreoElectronico: CorreoElectronico,
+      IdUsuarioModificador: user.id,
+      Curp: curp,
+      Rfc: rfc,
+      Celular: celular,
+      Telefono: telefono
+
+
+    };
+
     if (
-      !Nombre ||
-      !ApellidoPaterno ||
-      !ApellidoMaterno ||
-      !NombreUsuario ||
-      !CorreoElectronico ||
-      !emailValid ||
-      !telValid ||
-      !telefono ||
-      !curp ||
-      !rfc ||
-      !idDepartamento ||
-      !idPerfil ||
-      !celular
+      Nombre ===""||
+      ApellidoPaterno ===""||
+      ApellidoMaterno ===""||
+      NombreUsuario ===""||
+      CorreoElectronico ===""||
+      emailValid === false||
+      telValid ===false||
+      telefono ===""||
+      curp ===""||
+      rfc ===""||
+      idDepartamento ===""||
+      idPerfil==="" ||
+      celular ===""
     ) {
       AlertS.fire({
         title: "Verificar los campos!",
@@ -436,7 +451,7 @@ const UsuariosModal = ({
                   type="text"
                   fullWidth
                   variant="standard"
-                  onChange={(v) => setCurp(v.target.value.toUpperCase())}
+                  onChange={(v) => setCurp(v.target.value)}
                   inputProps={{ maxLength: 18 }}
                   error={curp === null ? true : false}
                 />

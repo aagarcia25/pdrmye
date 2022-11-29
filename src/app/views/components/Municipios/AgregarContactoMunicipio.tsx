@@ -575,7 +575,7 @@ const AgregarContactoMunicipio = () => {
 
                                             />
                                         </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4} paddingBottom="3%" >
+                                        <Grid item xs={12} sm={6} md={4} lg={4} >
                                             <TextField
                                                 required
                                                 multiline
