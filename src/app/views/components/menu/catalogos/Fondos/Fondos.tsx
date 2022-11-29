@@ -24,13 +24,11 @@ const Fondos = () => {
   const [open, setOpen] = useState(false);
   const [openView, setOpenView] = useState(false);
   const [openViewAjustes, setOpenViewAjustes] = useState(false);
-
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [vrows, setVrows] = useState({});
   const [fondos, setFondos] = useState([]);
   const [nombreMenu, setNombreMenu] = useState("");
-
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);

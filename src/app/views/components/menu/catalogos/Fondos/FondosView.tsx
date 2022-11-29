@@ -181,35 +181,19 @@ const FondosView = ({
 
                         {openRel ?
 
-                            <Grid container
-                                sx={{
-                                    textAlign: 'center',
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-
-                                }}>
+                            <Grid container  sx={{ textAlign: 'center', display: "flex", justifyContent: "center",alignItems: "center", }}>
                                 <Grid item xs={12}>
                                     <br />
                                     <label className="Titulo">
-
                                     </label>
                                     <br />
                                 </Grid>
                                 <Grid item xs={12} >
-
                                     *Para Eliminar el Ajuste Seleccione la Casilla*
                                 </Grid>
                             </Grid>
                             :
-                            <Grid container
-                                sx={{
-                                    textAlign: 'center',
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-
-                                }}>
+                            <Grid container sx={{ textAlign: 'center',display: "flex", justifyContent: "center", alignItems: "center",}}>
                                 <Grid item xs={12} >
                                     <br />
                                     <label className="Titulo">
@@ -223,18 +207,12 @@ const FondosView = ({
                             </Grid>
                         }
                         <Box>
-
                             <br />
                             <label>{descripcion} </label>
                         </Box>
 
                         <Grid container sm={12} sx={{ alignItems: "center", justifyContent: "center", }}>
-
-                            <Grid item xs={12} sx={{
-                                width: "100%",
-                                // height: 300,
-                                height: "60vh",
-                            }}>
+                            <Grid item xs={12} sx={{ width: "100%",height: "60vh", }}>
                                 <MUIXDataGridSimple columns={columns} rows={data} />
                             </Grid>
                         </Grid>

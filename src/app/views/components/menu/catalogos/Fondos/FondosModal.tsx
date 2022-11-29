@@ -72,16 +72,9 @@ const FondosModal = ({
   const [clasificador10, setClasificador10] = React.useState<string>();
   const [clasificador11, setClasificador11] = React.useState<string>();
 
-  // const [value, setValue] = React.useState<string>();
-  // const [value, setValue] = React.useState<string>();
-  // const [value, setValue] = React.useState<string>();
 
   const user: RESPONSE = JSON.parse(String(getUser()));
-
   const [slideropen, setslideropen] = useState(false);
-
-
-
 
   const handleChangeVigencia = (event: React.ChangeEvent<HTMLInputElement>) => {
     setVigente(event.target.checked);
@@ -91,11 +84,10 @@ const FondosModal = ({
     setAplicaCalculo(event.target.checked);
   };
 
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
     setSubTipo(true);
-        if ((event.target as HTMLInputElement).value === "Estatal") {
+    if ((event.target as HTMLInputElement).value === "Estatal") {
       setEstatal(true);
       setFederal(false);
     } else {
@@ -129,7 +121,7 @@ const FondosModal = ({
           title: "Registro Agregado!",
         });
         handleClose();
-            } else {
+      } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
@@ -175,7 +167,7 @@ const FondosModal = ({
       || descripcion === null
       || aplicaCalculo === null
       || vigente === null
-      ||subTipo===false
+      || subTipo === false
       || estatal === null
       || federal === null
       || porDis === null
@@ -305,20 +297,16 @@ const FondosModal = ({
     <div>
       <Slider open={slideropen}></Slider>
       <ModalForm title={modo} handleClose={handleClose}>
-
         <DialogContent>
           <Grid container spacing={6}>
-
           </Grid>
         </DialogContent>
-
 
         <Grid item xs={11} sm={11} md={11} lg={11} >
           <Box display="flex" flexWrap="wrap" boxShadow={2} sx={{ padding: "2%" }}>
             <Grid container sx={{ paddingRight: "2%", paddingLeft: "2%" }}  >
 
               <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}  >
-
 
                 <Grid item xs={12}>
                   <TextField
