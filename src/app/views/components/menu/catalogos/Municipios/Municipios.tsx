@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import Slider from "../../../Slider";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { getMunicipio, getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import MunicipiosModal from "./MunicipiosModal";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { MUNICIPIO, PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
@@ -44,6 +44,7 @@ export const Municipios = () => {
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
 
   const columns: GridColDef[] = [
     {
@@ -280,6 +281,12 @@ export const Municipios = () => {
   };
 
   useEffect(() => {
+
+    mun.map((item: MUNICIPIO) => {
+  
+        //console.log(item);
+        setNombreMenu(item.Nombre);
+    });
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNICIPIOS") {
         //console.log(item);

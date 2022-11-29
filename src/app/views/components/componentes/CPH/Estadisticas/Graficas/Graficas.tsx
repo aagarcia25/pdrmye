@@ -23,7 +23,7 @@ export const Graficas = () => {
 
       <Grid container
         sx={{ justifyContent: "space-between" }}>
-        <Grid item xs={2.8} sx={{ textAlign: "center" }}>
+        <Grid item xs={2.8} sx={{ textAlign: "center"  }}>
           <Typography variant="h3">
            {"Graficas"}
           </Typography>
