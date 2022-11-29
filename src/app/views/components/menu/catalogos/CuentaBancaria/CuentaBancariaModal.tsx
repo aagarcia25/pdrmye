@@ -167,7 +167,7 @@ export const CuentaBancariaModal = ({
         } else {
           setslideropen(false);
           //console.log("res en Sí res.SUCCESS no tiene nada", res);
-          Swal.fire("Error inesperado", "Error!", "error");
+          Swal.fire("Verifique los campos", "Error!", "warning");
         }
       });
     }

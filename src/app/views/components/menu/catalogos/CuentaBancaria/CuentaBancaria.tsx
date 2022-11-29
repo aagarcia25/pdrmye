@@ -41,7 +41,7 @@ export const CuentaBancaria = ({
   const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
 
 
-  const handleAccion = (v: any) => {
+  const handleAccion = (v: any ,est:string) => {
     if (v.tipo === 1) {
       setTipoOperacion(2);
       setOpen(true);
@@ -88,7 +88,8 @@ export const CuentaBancaria = ({
         NUMOPERACION: 5,
         CHID: v.data.row.id,
         CHUSER: user.id,
-        //IDESTATUS: est
+        IDESTATUS: est,
+        COMENTARIOS: v.texto
       };
       //console.log(v);
 
