@@ -69,7 +69,7 @@ export const CuentaBancaria = ({
                 title: "Registro Eliminado!",
               });
 
-              consulta({ CHUSER: idmunicipio !== "" ? idmunicipio : user?.MUNICIPIO[0]?.id, NUMOPERACION: 4 });
+              consulta();
             } else {
               AlertS.fire({
                 title: "Error!",
@@ -100,7 +100,7 @@ export const CuentaBancaria = ({
             title: "Registro Enviado a Validación!",
           });
 
-          consulta({ CHUSER: idmunicipio !== "" ? idmunicipio : user.MUNICIPIO[0]?.id, NUMOPERACION: 4 });
+          consulta();
           handleClose();
         } else {
           AlertS.fire({
@@ -226,7 +226,7 @@ export const CuentaBancaria = ({
     setOpenModal(false);
     setslideropen(false);
     setOpen(false);
-    consulta({ CHUSER: idmunicipio !== "" ? idmunicipio : user.MUNICIPIO[0]?.id, NUMOPERACION: 4 });
+    consulta();
   };
 
   const handleOpen = (v: any) => {
@@ -235,7 +235,13 @@ export const CuentaBancaria = ({
     setVrows("");
   };
 
-  const consulta = (data: any) => {
+  const consulta = () => {
+
+    let data ={
+      CHUSER: idmunicipio !== "" ? idmunicipio : user.MUNICIPIO[0]?.id, 
+      NUMOPERACION: idmunicipio !== "" ?6:4,
+
+    };
     CatalogosServices.CuentaBancaria(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -243,6 +249,7 @@ export const CuentaBancaria = ({
           title: "Consulta Exitosa!",
         });
         setCuentaBancaria(res.RESPONSE);
+
       } else {
         AlertS.fire({
           title: "Error!",
@@ -276,7 +283,7 @@ export const CuentaBancaria = ({
         }
       }
     });
-    consulta({ CHUSER: idmunicipio !== "" ? idmunicipio : user.MUNICIPIO[0]?.id, NUMOPERACION: 4 });
+    consulta();
   }, []);
 
   return (
@@ -308,7 +315,7 @@ export const CuentaBancaria = ({
         <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
           <Typography
             sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-            Cuentas Bancarias: {nombreMun}
+            {idmunicipio !== "" ? "Municipio: "+nombreMun: "Cuentas Bancarias: "+nombreMun}
           </Typography>
         </Grid>
       </Grid>
