@@ -105,6 +105,7 @@ export const Divisas = () => {
     }
     const handleOpen = () => {
         setOpen(true);
+        setTipoOperacion(1);
         setNombreCorto("");
         setNombre("");
         setValor("");
