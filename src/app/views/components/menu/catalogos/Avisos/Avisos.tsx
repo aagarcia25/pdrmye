@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box, Grid, IconButton, Typography,    } from '@mui/material'
+import { Box, Grid, IconButton, Tooltip, Typography,    } from '@mui/material'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { Toast } from "../../../../../helpers/Toast";
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -36,10 +36,11 @@ export const Avisos = () => {
       field: "Documento", headerName: "Documento", width: 100, renderCell: (v) => {
         return (
           <Box>
-
+            <Tooltip title="Visualizar">
             <IconButton onClick={() => handleVisualizar(v)}>
               <VisibilityIcon />
             </IconButton>
+            </Tooltip>
           </Box>
         );
       }
