@@ -149,7 +149,7 @@ export const CuentaBancaria = ({
               </IconButton>
             </Tooltip>
 
-            {
+            { 
               ((v.row.EstatusDescripcion === "INICIO" || v.row.ControlInterno === "DAMOP_REGRESADO") && (user.DEPARTAMENTOS[0]?.NombreCorto === "MUN" && user.PERFILES[0]?.Referencia === "MUN") ? (
                 <>
                   <Tooltip title="Enviar a Validación">
@@ -165,11 +165,8 @@ export const CuentaBancaria = ({
                     eliminar={eliminar}
                   />
                 </>
-              ) : (
-                ""
-              )
-              )
-
+              ) : 
+                "")
             }
             {
               ((v.row.ControlInterno === "DAMOP_REVISION") && (user.DEPARTAMENTOS[0]?.NombreCorto === "DAMOP" && user.PERFILES[0]?.Referencia === "ANA") ? (
@@ -245,7 +242,6 @@ export const CuentaBancaria = ({
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        //console.log(res.RESPONSE);
         setCuentaBancaria(res.RESPONSE);
       } else {
         AlertS.fire({
@@ -258,7 +254,7 @@ export const CuentaBancaria = ({
   };
 
   useEffect(() => {
-    if (municipio[0] === null) {
+    if (!mun[0]) {
       setnombreMun(municipio)
     }
     else {
