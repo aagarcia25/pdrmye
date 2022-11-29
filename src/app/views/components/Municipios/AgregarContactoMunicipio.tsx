@@ -7,6 +7,7 @@ import { CatalogosServices } from "../../../services/catalogosServices";
 import { Toast } from "../../../helpers/Toast";
 import { getUser } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import Divider from '@mui/material/Divider';
 
 
 const AgregarContactoMunicipio = () => {
@@ -640,7 +641,7 @@ const AgregarContactoMunicipio = () => {
                     
                     <Grid container direction="row" justifyContent="center" alignItems="center" >
 
-                        <Grid item xs={12} md={11}  sx={{ boder: "2px solid  #CCCCCC", borderRadius: "20px", bgcolor:"white", paddingTop:"1%", paddingBottom:"1%"}}>
+                        <Grid item xs={12} md={10}  sx={{ boder: "2px solid  #CCCCCC", borderRadius: "20px", bgcolor:"white", paddingTop:"1%", paddingBottom:"1%"}}>
                         
                             
                             <Grid xs={12} md={12}  container paddingTop={1}>
@@ -668,6 +669,8 @@ const AgregarContactoMunicipio = () => {
 
                             </Grid>
 
+                            <Divider variant="middle" sx={{ padding:"1.3%" }} />
+
                             <Grid  xs={12} md={12} container paddingTop={3}>
                                 <Grid item xs={12} md={6}textAlign="right" > <label className="TypographyH6Gray"> Tesorero: </label> </Grid>
                                 <Grid item xs={12} md={6}textAlign="left" > <label className="TypographyH6Black"> {dato.Tesorero === "" ? "Sin información" : dato.Tesorero}</label> </Grid>  
@@ -683,6 +686,8 @@ const AgregarContactoMunicipio = () => {
                                 <Grid item xs={12} md={2} textAlign="left" > <label className="TypographyH6Black"> {dato.CelularTesorero === "" ? "Sin información" : dato.CelularTesorero}</label> </Grid>
 
                             </Grid>
+
+                            <Divider variant="middle" sx={{ padding:"1.3%" }} />
 
                             <Grid xs={12} md={12} container paddingTop={3}>
                                 <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Enlace: </label> </Grid>
