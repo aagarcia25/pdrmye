@@ -67,7 +67,7 @@ municipio :string
                 title: "Registro Eliminado!",
               });
 
-              consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0].id, NUMOPERACION: 4 });
+              consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user?.MUNICIPIO[0]?.id, NUMOPERACION: 4 });
             } else {
               AlertS.fire({
                 title: "Error!",
@@ -97,7 +97,7 @@ municipio :string
             title: "Registro Enviado a Validación!",
           });
 
-          consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0].id, NUMOPERACION: 4 });
+          consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0]?.id, NUMOPERACION: 4 });
           handleClose();
         } else {
           AlertS.fire({
@@ -148,7 +148,7 @@ municipio :string
             </Tooltip>
 
             {
-              ((v.row.EstatusDescripcion === "INICIO"|| v.row.ControlInterno === "DAMOP_REGRESADO")&& (user.DEPARTAMENTOS[0].NombreCorto === "MUN"&& user.PERFILES[0].Referencia==="MUN") ? (
+              ((v.row.EstatusDescripcion === "INICIO"|| v.row.ControlInterno === "DAMOP_REGRESADO")&& (user.DEPARTAMENTOS[0]?.NombreCorto === "MUN"&& user.PERFILES[0]?.Referencia==="MUN") ? (
                 <>
                 <Tooltip title="Enviar a Validación">
                   <IconButton color="info" onClick={() => handlevalidar(v)}>
@@ -170,7 +170,7 @@ municipio :string
               
             }
             {
-              ((v.row.ControlInterno === "DAMOP_REVISION")&& (user.DEPARTAMENTOS[0].NombreCorto === "DAMOP"&& user.PERFILES[0].Referencia==="ANA") ? (
+              ((v.row.ControlInterno === "DAMOP_REVISION")&& (user.DEPARTAMENTOS[0]?.NombreCorto === "DAMOP"&& user.PERFILES[0]?.Referencia==="ANA") ? (
              
              <>
              <Tooltip title="Revisar">
@@ -227,7 +227,7 @@ municipio :string
     setOpenModal(false);
     setslideropen(false);
     setOpen(false);
-    consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0].id, NUMOPERACION: 4 });
+    consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0]?.id, NUMOPERACION: 4 });
   };
 
   const handleOpen = (v: any) => {
@@ -270,7 +270,7 @@ municipio :string
         }
       }
     });
-    consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0].id, NUMOPERACION: 4 });
+    consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0]?.id, NUMOPERACION: 4 });
   }, []);
 
   return (
