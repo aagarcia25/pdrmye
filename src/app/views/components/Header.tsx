@@ -24,6 +24,8 @@ import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { env_var } from "../../environments/env";
+import { Hidden } from '@mui/material';
+
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -111,16 +113,17 @@ export default function Header(props: HeaderProps) {
 
   return (
     <React.Fragment>
-      <AppBar
-        style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco }}
+      <AppBar 
+        style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco,  padding:"0", margin:"0"  }}
         position="sticky"
         elevation={0}
         sx={{ width: "100%" }}
       >
-        <Toolbar>
-          <Grid container spacing={2} alignItems="center">
-            <Grid
-              sx={{
+        <Toolbar sx={{ padding:"0", margin:"0", width:"100%" }} >
+          <Grid container xs={12} md={12} spacing={2} alignItems="center" sx={{ padding:"0", margin:"0" }} >
+            <Grid   xs={12} sm={12} md={.4}  alignItems="center" alignContent="center"
+              sx={{ 
+               padding:"0", margin:"0",
                 display: {
 
 
@@ -138,7 +141,7 @@ export default function Header(props: HeaderProps) {
                 onClick={onDrawerToggle}
                 edge="start"
                 sx={{
-                  width: "2vw", height: "5vh",
+                  width: "3rem", height: "4rem",
                   fontSize: btnPerson,
                   p: 0.1,
                   backgroundColor: user.RutaFoto ? COLOR.negro : COLOR.blanco,
@@ -151,9 +154,10 @@ export default function Header(props: HeaderProps) {
 
 
             </Grid>
-            <Grid item xs />
+            <Grid item xs/>
 
-            <Grid item >
+             <Hidden smDown>
+            <Grid item  xs={12} md={2}  sx={{ padding:"0", margin:"0" }}>
               <Typography variant="subtitle1" color="black">
                 {props.name}
               </Typography>
@@ -169,9 +173,10 @@ export default function Header(props: HeaderProps) {
                  (user?.DEPARTAMENTOS[0]?.NombreCorto!=="MUN"? user?.DEPARTAMENTOS[0]?.Descripcion+" ": " " )+ 
                  (user?.MUNICIPIO[0]?.Nombre? " "+user?.MUNICIPIO[0]?.Nombre+" ":" ") }
               </Typography>
-
             </Grid>
+            </Hidden>
 
+            <Hidden smDown>
             <Grid item >
               <Tooltip title="Haz click para ver más">
                 <IconButton
@@ -254,8 +259,10 @@ export default function Header(props: HeaderProps) {
                 )}
               </Popper>
             </Grid>
+            </Hidden>
 
-            <Grid item>
+            <Hidden smDown>
+            <Grid item  >
               <Tooltip title="Bandeja de correo">
                 <Badge
                   anchorOrigin={{
@@ -289,8 +296,10 @@ export default function Header(props: HeaderProps) {
                 </Badge>
               </Tooltip>
             </Grid>
+            </Hidden>
 
-            <Grid item>
+            <Hidden smDown>
+            <Grid item >
               <Tooltip title="Calendario">
                 <IconButton
                   color="inherit"
@@ -313,6 +322,8 @@ export default function Header(props: HeaderProps) {
                 </IconButton>
               </Tooltip>
             </Grid>
+            </Hidden>
+            
           </Grid>
         </Toolbar>
       </AppBar>

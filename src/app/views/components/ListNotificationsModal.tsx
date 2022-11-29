@@ -19,6 +19,7 @@ import "../../styles/globals.css";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { MailServices } from "../../services/MailServices";
 import { COLOR } from "../../styles/colors";
+import Slider from "./Slider";
 
 const ListNotificationsModal = ({
   open,
@@ -47,9 +48,9 @@ const ListNotificationsModal = ({
   const [newEncabezado, setNewEncabezado] = useState<string>();
   const [newMensaje, setNewMensaje] = useState<string>()
   const [id, setId] = useState<string>();
-  const [values, setValues] = useState<Imunicipio[]>();
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
   const [chuserDestin, setChuserDestin] = useState<string>("");
+  const [openSlider, setOpenSlider] = useState<boolean>(false);
 
   const [name, setName] = useState<string>();
 
@@ -80,14 +81,6 @@ const ListNotificationsModal = ({
       }
     });
     handleClose("8");
-
-
-  }
-  const handletest = () => {
-    //console.log(newEncabezado + "---" + newMensaje + "---" + chuserDestin)
-
-
-
 
 
   }
@@ -176,6 +169,12 @@ const ListNotificationsModal = ({
   useEffect(() => {
     //console.log("data " + dt?.row);
     loadSelectUser();
+    setChuserDestin(destinatario);
+    if(dt===true){
+setOpenSlider(true)
+setChuserDestin(destinatario);
+setOpenSlider(false);
+    }
     if (dt === '') {
 
     } else {
@@ -200,6 +199,7 @@ const ListNotificationsModal = ({
     open={open}
     sx={{ margin:"0%",padding:"0%"}}
     >
+      <Slider open={openSlider}/>
       
       <Box maxWidth="100%" 
        sx={{
@@ -258,7 +258,7 @@ const ListNotificationsModal = ({
                   onInputChange={handleSelectUser}
                   placeholder={"Seleccionar Usuario"}
                   label={""}
-                  disabled={false}
+                  disabled={dt===true}
                 />
               </Box>
               <Box sx={{

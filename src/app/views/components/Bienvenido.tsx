@@ -9,12 +9,16 @@ import { AlertS } from "../../helpers/AlertS";
 import { Toast } from "../../helpers/Toast";
 import { CatalogosServices } from "../../services/catalogosServices";
 import FilterIcon from '@mui/icons-material/Filter';
+import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { getUser } from "../../services/localStorage";
 // import "@fontsource/poppins"; 
 
 export default function Bienvenido({ user }: { user: any }) {
   //VARAIBLES PARA LA VISTA DE MUNICIPIOS
   //IMAGENES PRUEBA
   const [imagenes, setImagenes] = useState<Array<imagenen>>([]);
+  const userInfo: RESPONSE = JSON.parse(String(getUser()));
+
 
   let dat = ({
     NUMOPERACION: 5,
@@ -166,7 +170,7 @@ export default function Bienvenido({ user }: { user: any }) {
                   color: COLOR.doradoNL,
                   fontFamily: "Poppins",
                 }}>
-                  ¡Bienvenido! Monterrey.
+                   { ("¡Bienvenid@!  ") }
                 </Typography>
               </Box>
 

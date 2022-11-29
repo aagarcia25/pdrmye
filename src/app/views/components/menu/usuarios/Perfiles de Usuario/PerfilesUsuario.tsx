@@ -5,12 +5,13 @@ import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { Toast } from "../../../../../helpers/Toast";
-import { AlertS } from "../../../../../helpers/AlertS";
 import { AuthService } from "../../../../../services/AuthService";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PerfilesUsuarioModal } from "./PerfilesUsuarioModal";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { Grid, Typography } from "@mui/material";
 
 
 
@@ -37,16 +38,6 @@ export const PerfilesUsuario = () => {
       description: messages.dataTableColum.id,
     },
     {
-      field: "Descripcion",
-      headerName: "Descripción de perfil",
-      width: 420,
-    },
-    {
-      field: "Referencia",
-      headerName: "Referencia",
-      width: 120,
-    },
-    {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
@@ -63,6 +54,27 @@ export const PerfilesUsuario = () => {
         );
       },
     },
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creacion",
+      width: 200,
+    },
+    {
+      field: "CreadoPor",
+      headerName: "Creado Por",
+      width: 420,
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripción de perfil",
+      width: 420,
+    },
+    {
+      field: "Referencia",
+      headerName: "Referencia",
+      width: 120,
+    },
+
   ];
 
   const handleClose = () => {
@@ -135,9 +147,6 @@ export const PerfilesUsuario = () => {
     setVrows("");
   };
 
-
-
-
   const consulta = (data: any) => {
     AuthService.perfilindex(data).then((res) => {
       if (res.SUCCESS) {
@@ -188,6 +197,15 @@ export const PerfilesUsuario = () => {
       ) : (
         ""
       )}
+            <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+                Perfil de usuario
+              </Typography>
+            </Grid>
+            </Grid>
+
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={perfilUsuario} />
     </div>

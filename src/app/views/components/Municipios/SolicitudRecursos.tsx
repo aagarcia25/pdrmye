@@ -426,7 +426,7 @@ const SolicitudRecursos = () => {
         <Grid container spacing={2} sx={{ justifyContent: "center", }} >
           <Grid item xs={12}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Titulo name={"Solicitud de Recurso "} />
+              <Titulo name={"Solicitud de Anticipo Participaciones "} />
             </Box>
           </Grid>
         </Grid>

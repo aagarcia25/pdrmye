@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
-import { Tooltip, IconButton, Grid } from "@mui/material";
+import { Tooltip, IconButton, Grid, Typography } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { GridColDef } from "@mui/x-data-grid";
-import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -18,6 +17,7 @@ import { getPermisos } from "../../../../../services/localStorage";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 import UsuariosMunicipios from "./UsuariosMunicipios";
 import UsuarioRoles from "./UsuarioRoles";
+import { AlertS } from "../../../../../helpers/AlertS";
 
 
 const Usuarios = () => {
@@ -295,6 +295,14 @@ const Usuarios = () => {
       ) : (
         ""
       )}
+            <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+                Usuarios
+              </Typography>
+            </Grid>
+            </Grid>
 
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />

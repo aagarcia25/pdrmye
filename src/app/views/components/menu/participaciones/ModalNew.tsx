@@ -34,6 +34,9 @@ const ModalNew = ({
   const [idTipoCalculo, setIdTipoCalculo] = useState("");
   // VARIABLES
   const [monto, setMonto] = useState<number>();
+  const [ieja, setieja] = useState<number>();
+
+
   const [nameNewDoc, setNameNewDoc] = useState("");
   const [file, setFile] = useState(Object);
   const [Czero, setCzero]= useState<boolean>(false);
@@ -123,7 +126,7 @@ const ModalNew = ({
           isrnomina();
         }else{
           
-          if (monto === null ) {
+          if (monto === null || ieja === null ) {
             AlertS.fire({
               title: "Error!",
               text: "Favor de Completar los Campos",
@@ -137,9 +140,9 @@ const ModalNew = ({
               ANIO: year,
               MES: idmes,
               ZERO:Czero,
-              TIPOCALCULO:idTipoCalculo
+              TIPOCALCULO:idTipoCalculo,
+              IEJA:ieja
             };
-            //console.log(data);
             agregar(data);
           }
   
@@ -257,7 +260,7 @@ const ModalNew = ({
         <Grid item xs={12} sm={12} md={12}
         sx={{ 
             justifyContent: "center" ,
-            display : clave !== 'ICV' ? 'block' :'none'
+            display : clave !== 'ICV' && clave !== 'FOULT' && clave !== 'FODES' && clave !== 'FOSEGMUN' && clave !== 'FODEM' ? 'block' :'none'
              }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
@@ -288,46 +291,37 @@ const ModalNew = ({
           </Grid>
         </Grid>
         
-
-
-
-        <Grid item xs={12} sm={12} md={12} 
-          sx={{ 
+        <Grid item xs={12} sm={12} md={12}
+        sx={{ 
             justifyContent: "center" ,
-            display : clave === 'ICV' || clave === 'ISR NOMINA' ? 'block' :'none'
+            display :  clave === 'FOSEGMUN' ? 'block' :'none'
              }}
         >
-
-          <Grid container spacing={0} >
+          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                Cargar Archivo:
+              Impto. Erog. Juegos Apuesta:
               </Typography>
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
-              <IconButton
-                aria-label="upload picture"
-                component="label"
-                size="large"
-              >
-                <input
-                  id="ICV"
-                  required
-                  type="file"
-                  hidden
-                  onChange={(event) => {
-                    handleNewFile(event);
-                  }}
-                />
-                <UploadFileIcon />
-              </IconButton>
-
-              <Box>
-                <label>{nameNewDoc}</label>
-              </Box>
+              <Input
+                sx={{ fontWeight: "MontserratMedium" }}
+                required
+                placeholder="1500000*"
+                id="ieja"
+                onChange={(v) => {
+                    setieja(Number(v.target.value))
+                }}
+                error={ieja? true : false}
+                type="ieja"
+                startAdornment={<InputAdornment position="start">$</InputAdornment>}
+              ></Input>
             </Grid>
           </Grid>
         </Grid>
+        
+
+   
 
 
 

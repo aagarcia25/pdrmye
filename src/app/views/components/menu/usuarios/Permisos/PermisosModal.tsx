@@ -34,6 +34,7 @@ const PermisosModal = ({
   const [descripcion, setdescripcion] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [referencia, setReferencia] = useState("");
+
   const handleFilterChange2 = (v: string) => {
     setIdMenu(v);
   };
@@ -47,7 +48,7 @@ const PermisosModal = ({
     });
   };
   const handleSend = () => {
-    if (nombre === "" || descripcion === "") {
+    if (nombre === "" || descripcion === "" || referencia === "" || idMenu === "") {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -70,7 +71,6 @@ const PermisosModal = ({
 
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     let titulo = "";
     if (tipo === 1) {
       //AGREGAR
@@ -98,14 +98,14 @@ const PermisosModal = ({
   };
 
   useEffect(() => {
-    //console.log(dt);
     loadFilter(16);
     if (dt === "") {
-      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setNombre(dt?.row?.Permiso);
       setdescripcion(dt?.row?.Descripcion);
+      setIdMenu(dt?.row?.idMenu)
+      setReferencia(dt?.row?.Referencia);
     }
   }, [dt]);
 
@@ -125,7 +125,7 @@ const PermisosModal = ({
                   onInputChange={handleFilterChange2}
                   placeholder={"Seleccione Menú"}
                   label={""}
-                  disabled={false}
+                  disabled={modo !== "Agregar Registro"}
                 />
               </Box>
 
@@ -166,7 +166,7 @@ const PermisosModal = ({
                 margin="dense"
                 required
                 id="ci"
-                label="Control sdfsdf Interno"
+                label="Control Interno"
                 value={referencia}
                 type="text"
                 fullWidth

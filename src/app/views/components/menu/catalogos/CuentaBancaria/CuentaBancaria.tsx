@@ -1,7 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -14,6 +13,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ModalAlert from "../../../componentes/ModalAlert";
+import { AlertS } from "../../../../../helpers/AlertS";
 
 export const CuentaBancaria = ({
 idmunicipio,
@@ -302,7 +302,7 @@ municipio :string
             <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
               <Typography
                 sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-                Municipio: {municipio}
+                Municipio: {" "+municipio}
               </Typography>
             </Grid>
             </Grid>
