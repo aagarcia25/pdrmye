@@ -56,6 +56,10 @@ export interface RESPONSE {
     DEPARTAMENTOS: DEPARTAMENTOS[];
     MUNICIPIO: MUNICIPIO[];
     tipo?: any;
+    Celular?: any;
+    Curp?: string;
+    idPerfil?: string;
+    idUsuarioCentral?:string;
 }
 
 export interface UserInfo {

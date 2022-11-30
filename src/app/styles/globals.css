@@ -327,6 +327,22 @@ label.contenido{
 
 }
 
+label.negro{
+  line-height: 1.2;
+  font-size: 1.4rem;
+  font-family: sans-serif;
+  color: black;
+
+}
+
+label.gris{
+  line-height: 1.2;
+  font-size: 1.4rem;
+  font-family: sans-serif;
+  color: gray;
+
+}
+
 .IconButton{
   line-height: 1.2;
   font-size: 1.1rem;
