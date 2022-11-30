@@ -199,7 +199,7 @@ export default function Bienvenido({ user }: { user: any }) {
                   // bgcolor:"blue",  
                   width: "100%",
                   textAlign: "center",
-                  fontFamily: "Poppins",
+                  fontFamily: "sans-serif",
                 }}>
                   Avisos:
                 </Typography>
@@ -211,11 +211,11 @@ export default function Bienvenido({ user }: { user: any }) {
                   // backgroundColor: "pink",
                   display: "flow",
                   alignItems: "center",
-                  fontFamily: "Poppins",
+                  fontFamily: "sans-serif",
 
                 }}
               >
-                <Typography sx={{ ml: 2, fontSize: "2rem", textAlign: "center", fontFamily: "Poppins" }}>
+                <Typography sx={{ ml: 2, fontSize: "2rem", textAlign: "center", fontFamily: "sans-serif" }}>
                   {imagenes[activeStep]?.Descripcion}
                 </Typography>
               </Box>
