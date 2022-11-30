@@ -128,7 +128,7 @@ export default function Header(props: HeaderProps) {
 
 
                   backgroundColor: COLOR.negro,
-                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+                  "&:hover": { backgroundColor: COLOR.negro},
                 },
               }}
               item
@@ -141,11 +141,11 @@ export default function Header(props: HeaderProps) {
                 onClick={onDrawerToggle}
                 edge="start"
                 sx={{
-                  width: "3rem", height: "4rem",
+                  // width: "3rem", height: "4rem",
+                  width: "100%",height:"100%",
                   fontSize: btnPerson,
-                  p: 0.1,
                   backgroundColor: user.RutaFoto ? COLOR.negro : COLOR.blanco,
-                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+                  "&:hover": { backgroundColor: COLOR.negro},
                 }}
               >
                 <MenuIcon />

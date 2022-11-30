@@ -26,6 +26,7 @@ import InsightsIcon from "@mui/icons-material/Insights";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import ModalCalculos from "../../componentes/ModalCalculos";
+import { CatalogosServices } from "../../../../services/catalogosServices";
 
 const DetalleFgp = ({
   idCalculo,
@@ -85,6 +86,10 @@ const DetalleFgp = ({
     setOpenTrazabilidad(false);
   };
 
+
+ 
+  
+
   // MANEJO DE ACCIONES
   const handleAcciones = (v: any) => {
     setOpenSlider(true);
@@ -99,30 +104,42 @@ const DetalleFgp = ({
         case 2: //Trazabilidad
           setOpenTrazabilidad(true);
           break;
-        case 3: //Autorizar Analista
+        case 3: //Cancelar
+          BorraCalculo();
+          break;
+
+         case 4: //AUTORIZAR CAPTURISTA
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino("CPH_ENV_VAL");
+          setOpenModal(true);
+          setperfilDestino("COOR");
+          setArea("CPH")
+          break;
+
+          case 5: //AUTORIZAR CAPTURISTA
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_ENV_COOR");
           setOpenModal(true);
           setperfilDestino("COOR");
           setArea("CPH")
           break;
-        case 4: //Autorizar Coordinador
-          setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino("DAMOP_INICIO");
-          setOpenModal(true);
-          setperfilDestino("ANA");
-          setArea("DAMOP")
-          break;
-        case 6: //Cancelar
-          BorraCalculo();
-          break;
-        case 7: //Regresar a Analista
+
+          case 6: //REGRESAR A VALIDADOR
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_REG_ANA");
-          setperfilDestino("ANA");
-          setArea("CPH")
           setOpenModal(true);
+          setperfilDestino("COOR");
+          setArea("CPH")
           break;
+
+          case 7: //REGRESAR A CAPTURISTA
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino("CPH_REG_CAP");
+          setOpenModal(true);
+          setperfilDestino("COOR");
+          setArea("CPH")
+          break;
+
 
         default:
           break;
@@ -130,14 +147,15 @@ const DetalleFgp = ({
     }
   };
 
-  const Fnworkflow = (data: string) => {
+  const Fnworkflow = (data: any) => {
     setOpenSlider(true);
     let obj = {
       CHID: idCalculo,
       ESTATUS_DESTINO: estatusDestino,
       CHUSER: user.id,
-      TEXTO: data,
+      TEXTO: data.mensaje,
       PERFIL_DESTINO: perfilDestino,
+      CHUSERASIGNADO: data.usuario,
       AREA: area
     };
 
@@ -167,7 +185,6 @@ const DetalleFgp = ({
       MES: mes.split(",")[0],
     };
 
-    //console.log(data);
     Swal.fire({
       icon: "question",
       title: "Borrar Cálculo",
@@ -212,6 +229,8 @@ const DetalleFgp = ({
       }
     });
   };
+
+
   const getPerfilCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -228,6 +247,7 @@ const DetalleFgp = ({
       }
     });
   };
+
   const getAreaCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -244,6 +264,7 @@ const DetalleFgp = ({
       }
     });
   };
+
   const columnas = (data: any) => {
     calculosServices.getColumns(data).then((res) => {
       if (res.SUCCESS) {
@@ -319,46 +340,7 @@ const DetalleFgp = ({
   };
   const columns = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
-    // {
-    //   field: "acciones",
-    //   headerName: "Acciones",
-    //   width: 100,
-    //   renderCell: (v: any) => {
-    //     return (
-    //       <BotonesAcciones
-    //         handleAccion={handleAcciones}
-    //         row={v}
-    //         editar={editar}
-    //         eliminar={eliminar}
-    //       />
-    //     );
-    //   },
-    // },
-    // {
-
-    //   field: "ComentarioPresupuesto",
-    //   headerName: "Observación DPCP",
-    //   width: 300,
-    //   description: "Observación DPCP",
-    // },
-    // {
-
-    //   field: "RutaArchivo",
-    //   headerName: "Documento DPCP",
-    //   width: 100,
-    //   renderCell: (v: any) => {
-    //     return v.row.RutaArchivo !== null ? (
-    //       <Box>
-    //         <Link href={v.row.RutaArchivo} underline="always">
-    //           Descargar
-    //         </Link>
-    //       </Box>
-    //     ) : (
-    //       ""
-    //     );
-    //   },
-    // },
-
+   
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -384,7 +366,7 @@ const DetalleFgp = ({
       headerName: "Primer Ajuste",
       width: 200,
       description: "Importe",
-     // ...Moneda,
+      ...Moneda,
     },
     {
       hide: sa ? false : true,
@@ -624,7 +606,7 @@ const DetalleFgp = ({
                   <Tooltip title={"Autorizar Analista"}>
                     <ToggleButton
                       value="check"
-                      onClick={() => handleAcciones(3)}
+                      onClick={() => handleAcciones(4)}
                     >
                       <DoneAllIcon />
                     </ToggleButton>

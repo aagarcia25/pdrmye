@@ -321,8 +321,46 @@ const ModalNew = ({
         </Grid>
         
 
-   
+        <Grid item xs={12} sm={12} md={12} 
+          sx={{ 
+            justifyContent: "center" ,
+            display : clave === 'ICV' || clave === 'ISR NOMINA' ? 'block' :'none'
+             }}
+        >
 
+          <Grid container spacing={0} >
+            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                Cargar Archivo:
+              </Typography>
+            </Grid>
+            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
+              <IconButton
+                aria-label="upload picture"
+                component="label"
+                size="large"
+              >
+                <input
+                  id="ICV"
+                  required
+                  type="file"
+                  hidden
+                  onChange={(event) => {
+                    handleNewFile(event);
+                  }}
+                />
+                <UploadFileIcon />
+              </IconButton>
+
+              <Box>
+                <label>{nameNewDoc}</label>
+              </Box>
+            </Grid>
+          </Grid>
+        </Grid>
+
+
+     
 
 
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
