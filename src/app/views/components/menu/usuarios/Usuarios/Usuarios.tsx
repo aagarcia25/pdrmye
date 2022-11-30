@@ -56,14 +56,15 @@ const Usuarios = () => {
   };
 
   const handleActivo = (v: any) => {
-
+ /*
     let data = "?userId=" + v.row.id;
     //console.log(data)
+  
     UserServices.ActivateUser(data).then((res) => {
       //console.log(res)
       //console.log(v.row.id);
 
-      if (res.status === 200) {
+     if (res.status === 200) {
 
         let dat = {
           NUMOPERACION: 6,
@@ -85,8 +86,7 @@ const Usuarios = () => {
 
         });
 
-      }
-      else if (res.status === 409) {
+      } else if (res.status === 409) {
         AlertS.fire({
           title: "Error!",
           text: res.data.msg,
@@ -94,6 +94,7 @@ const Usuarios = () => {
         });
       }
     });
+    */
 
 
   };

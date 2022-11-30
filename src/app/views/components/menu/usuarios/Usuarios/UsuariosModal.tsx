@@ -59,6 +59,7 @@ const UsuariosModal = ({
   const [emailError, setEmailError] = useState('')
   const [telError, setTelError] = useState('')
   const [celError, setCelError] = useState('')
+  const [ext, setExt] = useState<string>("");
 
   const loadFilter = (tipo: number) => {
     let data = { NUMOPERACION: tipo };
@@ -113,6 +114,7 @@ const UsuariosModal = ({
       setCelValid(false);
     }
   }
+
 
 
   const handleSend = () => {
@@ -180,12 +182,13 @@ const UsuariosModal = ({
         AM: ApellidoMaterno,
         NUSER: NombreUsuario,
         CORREO: CorreoElectronico,
-        PUESTO: puesto,
-        IDDEPARTAMENTO: idDepartamento,
-        IDPERFIL: idPerfil,
+        //PUESTO: puesto,
+        //IDDEPARTAMENTO: idDepartamento,
+        //IDPERFIL: idPerfil,
         CURP: curp,
         RFC: rfc,
-        CELULAR: telefono
+        CELULAR: telefono,
+        idTipoUsuario:""
       };
 
       AuthService.adminUser(dat).then((res) => {
@@ -199,6 +202,11 @@ const UsuariosModal = ({
       });
 
     } else {
+
+
+
+
+
       UserServices.signup(data, token).then((resUser) => {
 
 
@@ -206,15 +214,19 @@ const UsuariosModal = ({
 
           let data = {
             NUMOPERACION: 5,
-            NOMBRE: "AppName"
+            NOMBRE: "AppID"
           }
 
 
           ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
-
+              //createSolicitud 
+           
+           /*
             UserServices.apps(token).then((resAppLogin) => {
 
               resAppLogin.data.data.map((item: any) => {
+
+
                 if (item?.Nombre === restApp.RESPONSE.Valor) {
 
                   let dat = {
@@ -258,10 +270,20 @@ const UsuariosModal = ({
                     }
                   });
                 }
+
+
+
+
               });
-            });
+            });*/
 
           });
+
+
+
+
+
+
 
         }
 
@@ -273,7 +295,17 @@ const UsuariosModal = ({
           });
         }
       });
+
+
+
+
     }
+  
+  
+  
+  
+  
+  
   };
 
   useEffect(() => {
@@ -484,6 +516,23 @@ const UsuariosModal = ({
                   variant="standard"
                   onChange={(e) => validateCel(e)}
                   error={!celValid || !celular}
+                  InputLabelProps={{ shrink: true }}
+
+                />
+                <Typography variant="body2"> {celError} </Typography>
+                <br />
+                <TextField
+                  required
+                  margin="dense"
+                  id="ext"
+                  label="Ext"
+                  value={ext}
+                  type="text"
+                  fullWidth
+                  inputProps={{ maxLength: 4 }}
+                  variant="standard"
+                  onChange={(e) => setExt(e.target.value)}
+      
                   InputLabelProps={{ shrink: true }}
 
                 />

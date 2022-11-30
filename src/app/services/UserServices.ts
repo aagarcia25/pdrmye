@@ -31,13 +31,18 @@ export class UserServices {
         return await get('apps',token);
     }
 
-    public static async ActivateUser(data: any) {
-        return await getSingle('activate',data);
-    }
+    // public static async ActivateUser(data: any) {
+    //     return await getSingle('activate',data);
+    // }
+
+    
     public static async refreshToken(data: any) {
         return await put('refreshToken');
     }
     
+    public static async createsolicitud(data: any,token :string) {
+        return await post('create-solicitud', data,token);
+    }
 
 
 }
