@@ -335,9 +335,6 @@ const Fondos = () => {
 
       {(openView) ? (
         <FondosView
-          open={openView}
-          modo={modo}
-          tipo={tipoOperacion}
           handleClose={handleClose}
           dt={vrows}
         />
