@@ -570,7 +570,7 @@ const AgregarContactoMunicipio = () => {
                                                 fullWidth
                                                 sx={{  paddingBottom: "2%" }}
                                                 variant="outlined"
-                                                onChange={(v) => setEnlace(v.target.value)}
+                                                onChange={(v) => setCelEnlace(v.target.value)}
                                                 error={celEnlace === "" && verificaForm}
                                                 helperText={(celEnlace === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
 
