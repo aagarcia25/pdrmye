@@ -99,11 +99,16 @@ export interface MunicipioCambios {
     Mensual?: string;
     Anual?: string;
     Diario?: string;
+}
 
+export interface SolUser {
+    data: any[];
+}
 
-
-
-
+export interface SolUserData {
+    Respuesta: string;
+    Mensaje: string;
+    IdSolicitud: string;
 }
 
 

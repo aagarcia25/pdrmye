@@ -8,5 +8,5 @@ export const COLOR = {
     grisDivisionEntreElementos: '#808080',
     grisBotones:'#EEEEEE',
     rojo:'#fa4238',
-    verde:'#517b51',
+    verde:'#23FE09',
   }
