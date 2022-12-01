@@ -116,7 +116,7 @@ function App() {
 
      // if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
      // if(us.RESPONSE.PERFILES.length !==0){
-      if(us.RESPONSE.ROLES.length !==0){
+    //  if(us.RESPONSE.ROLES.length !==0){
         setRoles(us.RESPONSE.ROLES);
         setPermisos(us.RESPONSE.PERMISOS);
         setMenus(us.RESPONSE.MENUS);
@@ -130,9 +130,9 @@ function App() {
         setOpenSlider(false);
         setlogin(true);
         setAcceso(true);
-                }else{
-         mensaje("No tienes Relacionado un Rol","Favor de Verificar sus Permisos con el área de TI");
-       }
+     //           }else{
+    //     mensaje("No tienes Relacionado un Rol","Favor de Verificar sus Permisos con el área de TI");
+    //   }
     //  }else{
     //     mensaje("No tienes Relacionado un Perfil","Favor de Verificar sus Permisos con el área de TI");
     //  }
@@ -148,7 +148,7 @@ function App() {
 
   const verificatoken = (token: string) => {
 
-    UserServices.verify({}, token.replaceAll('"','')).then((res) => {
+    UserServices.verify({}).then((res) => {
       //console.log(token)
       //console.log(token.replaceAll('"',''))
         if (res.status === 200) {

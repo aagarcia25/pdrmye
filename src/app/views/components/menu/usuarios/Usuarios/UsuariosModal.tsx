@@ -55,7 +55,7 @@ const UsuariosModal = ({
   const [celValid, setCelValid] = useState<boolean>();
   const [tokenValid, setTokenValid] = useState<boolean>();
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const token = JSON.parse(String(getToken()));
+  
   const [emailError, setEmailError] = useState('')
   const [telError, setTelError] = useState('')
   const [celError, setCelError] = useState('')
@@ -207,7 +207,7 @@ const UsuariosModal = ({
 
 
 
-      UserServices.signup(data, token).then((resUser) => {
+      UserServices.signup(data).then((resUser) => {
 
 
         if (resUser.status === 201) {
@@ -313,7 +313,7 @@ const UsuariosModal = ({
     let d = {
 
     }
-    UserServices.verify(d, token).then((resAppLogin) => {
+    UserServices.verify(d).then((resAppLogin) => {
       resAppLogin.status === 200 ?
         setTokenValid(true)
         :
