@@ -233,7 +233,6 @@ function App() {
    
     //SE CARGAN LOS PARAMETROS GENERALES
     if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
-      console.log(jwt);
       setToken(jwt);
       verificatoken(String(jwt));
     } else if (getToken() != null) {
