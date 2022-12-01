@@ -2,9 +2,9 @@ import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { MUNICIPIO, PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { getMunicipio, getPermisos, getUser } from "../../../../../services/localStorage";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
@@ -16,11 +16,11 @@ import ModalAlert from "../../../componentes/ModalAlert";
 import { AlertS } from "../../../../../helpers/AlertS";
 
 export const CuentaBancaria = ({
-idmunicipio,
-municipio
-}:{
-idmunicipio :string,
-municipio :string
+  idmunicipio,
+  municipio
+}: {
+  idmunicipio: string,
+  municipio: string
 
 }) => {
 
@@ -37,7 +37,9 @@ municipio :string
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const [cuentaBancaria, setCuentaBancaria] = useState([]);
-  const [estatus, setEstatus] = useState("");
+  const [nombreMun, setnombreMun] = useState("");
+  const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
+
 
   const handleAccion = (v: any ,est:string) => {
     if (v.tipo === 1) {
@@ -67,7 +69,7 @@ municipio :string
                 title: "Registro Eliminado!",
               });
 
-              consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0].id, NUMOPERACION: 4 });
+              consulta();
             } else {
               AlertS.fire({
                 title: "Error!",
@@ -81,12 +83,13 @@ municipio :string
         }
       });
     } else if (v.tipo === 3) {
-     
-       let data = {
+
+      let data = {
         NUMOPERACION: 5,
         CHID: v.data.row.id,
         CHUSER: user.id,
-        IDESTATUS:est
+        IDESTATUS: est,
+        COMENTARIOS: v.texto
       };
       //console.log(v);
 
@@ -97,7 +100,7 @@ municipio :string
             title: "Registro Enviado a Validación!",
           });
 
-          consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0].id, NUMOPERACION: 4 });
+          consulta();
           handleClose();
         } else {
           AlertS.fire({
@@ -113,8 +116,6 @@ municipio :string
     }
   };
 
-
-
   const handleVisualizar = (v: any) => {
     setTipoOperacion(3);
     setOpen(true);
@@ -125,6 +126,7 @@ municipio :string
     setOpenModal(true);
     setVrows(v);
   };
+
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -147,42 +149,39 @@ municipio :string
               </IconButton>
             </Tooltip>
 
-            {
-              ((v.row.EstatusDescripcion === "INICIO"|| v.row.ControlInterno === "DAMOP_REGRESADO")&& (user.DEPARTAMENTOS[0].NombreCorto === "MUN"&& user.PERFILES[0].Referencia==="MUN") ? (
+            { 
+              ((v.row.EstatusDescripcion === "INICIO" || v.row.ControlInterno === "DAMOP_REGRESADO") && (user.DEPARTAMENTOS[0]?.NombreCorto === "MUN" && user.PERFILES[0]?.Referencia === "MUN") ? (
                 <>
-                <Tooltip title="Enviar a Validación">
-                  <IconButton color="info" onClick={() => handlevalidar(v)}>
-                    <SendIcon />
-                  </IconButton>
-                </Tooltip>
+                  <Tooltip title="Enviar a Validación">
+                    <IconButton color="info" onClick={() => handlevalidar(v)}>
+                      <SendIcon />
+                    </IconButton>
+                  </Tooltip>
 
-              <BotonesAcciones
-              handleAccion={() => handleAccion("","")}
-              row={v}
-              editar={editar}
-              eliminar={eliminar}
-               />
-              </>
-              ) : (
-                ""
-              )
-              )
-              
+                  <BotonesAcciones
+                    handleAccion={handleAccion}
+                    row={v}
+                    editar={editar}
+                    eliminar={eliminar}
+                  />
+                </>
+              ) : 
+                "")
             }
             {
-              ((v.row.ControlInterno === "DAMOP_REVISION")&& (user.DEPARTAMENTOS[0].NombreCorto === "DAMOP"&& user.PERFILES[0].Referencia==="ANA") ? (
-             
-             <>
-             <Tooltip title="Revisar">
-             <IconButton color="info" onClick={() => handlevalidar(v)}>
-               <SendIcon />
-             </IconButton>
-           </Tooltip>
-           </>):(""
+              ((v.row.ControlInterno === "DAMOP_REVISION") && (user.DEPARTAMENTOS[0]?.NombreCorto === "DAMOP" && user.PERFILES[0]?.Referencia === "ANA") ? (
 
-            ))}
+                <>
+                  <Tooltip title="Revisar">
+                    <IconButton color="info" onClick={() => handlevalidar(v)}>
+                      <SendIcon />
+                    </IconButton>
+                  </Tooltip>
+                </>) : (""
 
-            
+              ))}
+
+
           </>
         );
       },
@@ -227,7 +226,7 @@ municipio :string
     setOpenModal(false);
     setslideropen(false);
     setOpen(false);
-    consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0].id, NUMOPERACION: 4 });
+    consulta();
   };
 
   const handleOpen = (v: any) => {
@@ -236,15 +235,21 @@ municipio :string
     setVrows("");
   };
 
-  const consulta = (data: any) => {
+  const consulta = () => {
+
+    let data ={
+      CHUSER: idmunicipio !== "" ? idmunicipio : user.MUNICIPIO[0]?.id, 
+      NUMOPERACION: idmunicipio !== "" ?6:4,
+
+    };
     CatalogosServices.CuentaBancaria(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        //console.log(res.RESPONSE);
         setCuentaBancaria(res.RESPONSE);
+
       } else {
         AlertS.fire({
           title: "Error!",
@@ -256,6 +261,14 @@ municipio :string
   };
 
   useEffect(() => {
+    if (!mun[0]) {
+      setnombreMun(municipio)
+    }
+    else {
+      mun.map((item: MUNICIPIO) => {
+        setnombreMun(item.Nombre);
+      });
+    }
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "CUENTABANCARIA") {
         //console.log(item);
@@ -270,7 +283,7 @@ municipio :string
         }
       }
     });
-    consulta({ CHUSER: idmunicipio !=="" ?idmunicipio : user.MUNICIPIO[0].id, NUMOPERACION: 4 });
+    consulta();
   }, []);
 
   return (
@@ -286,26 +299,26 @@ municipio :string
         ""
       )}
 
-{openModal ? (
-            <ModalAlert
-             open={openModal}
-             tipo={texto}
-             handleClose={handleClose}
-             vrows={vrows}
-             handleAccion={handleAccion}
-             accion={3}/>  
-          ) : (
-            ""
-          )}
-          
-          <Grid container >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <Typography
-                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-                Municipio: {" "+municipio}
-              </Typography>
-            </Grid>
-            </Grid>
+      {openModal ? (
+        <ModalAlert
+          open={openModal}
+          tipo={texto}
+          handleClose={handleClose}
+          vrows={vrows}
+          handleAccion={handleAccion}
+          accion={3} />
+      ) : (
+        ""
+      )}
+
+      <Grid container >
+        <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+          <Typography
+            sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+            {idmunicipio !== "" ? "Municipio: "+nombreMun: "Cuentas Bancarias: "+nombreMun}
+          </Typography>
+        </Grid>
+      </Grid>
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={cuentaBancaria} />

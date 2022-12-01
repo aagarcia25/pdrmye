@@ -7,6 +7,7 @@ import { CatalogosServices } from "../../../services/catalogosServices";
 import { Toast } from "../../../helpers/Toast";
 import { getUser } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import Divider from '@mui/material/Divider';
 
 
 const AgregarContactoMunicipio = () => {
@@ -96,7 +97,7 @@ const AgregarContactoMunicipio = () => {
 
     const consulta = () => {
         formData.append("NUMOPERACION", "4");
-        formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
+        formData.append("IDMUNICIPIO", user?.MUNICIPIO[0]?.id);
         obtenerLista(formData);
     }
     const obtenerLista = (data: any) => {
@@ -569,13 +570,13 @@ const AgregarContactoMunicipio = () => {
                                                 fullWidth
                                                 sx={{  paddingBottom: "2%" }}
                                                 variant="outlined"
-                                                onChange={(v) => setEnlace(v.target.value)}
+                                                onChange={(v) => setCelEnlace(v.target.value)}
                                                 error={celEnlace === "" && verificaForm}
                                                 helperText={(celEnlace === "" && verificaForm) ? "No se pueden enviar campos vacios" : null}
 
                                             />
                                         </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4} paddingBottom="3%" >
+                                        <Grid item xs={12} sm={6} md={4} lg={4} >
                                             <TextField
                                                 required
                                                 multiline
@@ -640,7 +641,7 @@ const AgregarContactoMunicipio = () => {
                     
                     <Grid container direction="row" justifyContent="center" alignItems="center" >
 
-                        <Grid item xs={12} md={8}  sx={{ boder: "2px solid  #CCCCCC", borderRadius: "20px", bgcolor:"white", paddingTop:"1%", paddingBottom:"1%"}}>
+                        <Grid item xs={12} md={10}  sx={{ boder: "2px solid  #CCCCCC", borderRadius: "20px", bgcolor:"white", paddingTop:"1%", paddingBottom:"1%"}}>
                         
                             
                             <Grid xs={12} md={12}  container paddingTop={1}>
@@ -668,6 +669,8 @@ const AgregarContactoMunicipio = () => {
 
                             </Grid>
 
+                            <Divider variant="middle" sx={{ padding:"1.3%" }} />
+
                             <Grid  xs={12} md={12} container paddingTop={3}>
                                 <Grid item xs={12} md={6}textAlign="right" > <label className="TypographyH6Gray"> Tesorero: </label> </Grid>
                                 <Grid item xs={12} md={6}textAlign="left" > <label className="TypographyH6Black"> {dato.Tesorero === "" ? "Sin información" : dato.Tesorero}</label> </Grid>  
@@ -676,13 +679,15 @@ const AgregarContactoMunicipio = () => {
                             <Grid  xs={12} md={12} container paddingTop={1}>
 
                                 <Grid item xs={12} md={2} textAlign="right" > <label className="TypographyH6Gray"> Telefono Tesorero:  </label>  </Grid>
-                                <Grid item xs={12} md={1} textAlign="left" >  <label className="TypographyH6Black"> {dato.TelefonoTesorero === "" ? "Sin información" : dato.TelefonoTesorero}</label> </Grid>
-                                <Grid item xs={12} md={3} textAlign="right" > <label className="TypographyH6Gray"> Ext  Telefono Tesorero:  </label> </Grid>
+                                <Grid item xs={12} md={2} textAlign="left" >  <label className="TypographyH6Black"> {dato.TelefonoTesorero === "" ? "Sin información" : dato.TelefonoTesorero}</label> </Grid>
+                                <Grid item xs={12} md={2} textAlign="right" > <label className="TypographyH6Gray"> Ext  Telefono Tesorero:  </label> </Grid>
                                 <Grid item xs={12} md={2}textAlign="left" > <label className="TypographyH6Black"> {dato.ExtTelefonoTesorero === "" ? "Sin información" : dato.ExtTelefonoTesorero}</label> </Grid>
                                 <Grid item xs={12} md={2} textAlign="right" > <label className="TypographyH6Gray"> Celular Tesorero: </label> </Grid>
                                 <Grid item xs={12} md={2} textAlign="left" > <label className="TypographyH6Black"> {dato.CelularTesorero === "" ? "Sin información" : dato.CelularTesorero}</label> </Grid>
 
                             </Grid>
+
+                            <Divider variant="middle" sx={{ padding:"1.3%" }} />
 
                             <Grid xs={12} md={12} container paddingTop={3}>
                                 <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Enlace: </label> </Grid>

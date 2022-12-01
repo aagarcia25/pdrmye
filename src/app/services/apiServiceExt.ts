@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { env_var } from '../environments/env';
-
+import { getToken } from './localStorage';
+const token = JSON.parse(String(getToken()));
 export const postSingle = async function (url: string, body: any) {
     try {
         let resp = await axios.post(`${env_var.BASE_URL_EXT}` + url, body,
@@ -17,7 +18,7 @@ export const postSingle = async function (url: string, body: any) {
     }
 };
 
-export const post = async function (url: string, body: any, token: string) {
+export const post = async function (url: string, body: any) {
 
     try {
        
@@ -38,7 +39,7 @@ export const post = async function (url: string, body: any, token: string) {
     }
 };
 
-export const get = async function (url: string, token: string) {
+export const get = async function (url: string) {
 
     try {
         //console.log(token)

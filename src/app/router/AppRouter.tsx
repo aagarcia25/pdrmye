@@ -39,7 +39,7 @@ import Presupuesto from '../views/components/Organismos/Presupuesto/Presupuesto'
 import Nomina from '../views/components/Organismos/Nomina/Nomina';
 import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
-import {  getUser, islogin } from '../services/localStorage';
+import { getUser, islogin } from '../services/localStorage';
 import { RESPONSE } from '../interfaces/user/UserInfo';
 import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
 import { CalculoGarantiaComponente } from '../views/components/menu/articulos/CalculoGarantia/CalculoGarantiaComponente';
@@ -60,6 +60,8 @@ import AuthSolicitudes from '../views/components/DPCP/AuthSolicitudes';
 import Participaciones from '../views/components/DAMOP/Participaciones';
 import { Divisas } from '../views/components/menu/catalogos/Divisas/Divisas';
 import AjustesCalculos from '../views/components/menu/catalogos/AjustesCalculos/AjustesCalculos';
+import { Reportes } from '../views/components/componentes/CPH/Estadisticas/Reportes/Reportes';
+import { Graficas } from '../views/components/componentes/CPH/Estadisticas/Graficas/Graficas';
 
 
 
@@ -68,41 +70,41 @@ export const AppRouter = () => {
   const log = islogin();
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  
+
   return (
     <Inicio user={user}>
       <Routes>
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
-        <Route path='/'  element={log ? <Bienvenido user={user} /> : <AuthRouter />}     />
+        <Route path='/' element={log ? <Bienvenido user={user} /> : <AuthRouter />} />
         {/* SECCION DE CATALOGOS */}
-       
-      
-        <Route path='/inicio/catalogos/mun'                        element={<Municipios />} />
-        <Route path='/inicio/catalogos/tasa'                       element={<TasaInteres />} />
-        <Route path='/inicio/catalogos/munpob'                     element={<MunPoblacion />} />
-        <Route path='/inicio/catalogos/munfacturacion'             element={<MunFacturacion />}        />
-        <Route path='/inicio/catalogos/munproyec'                  element={<MunPobProyeccion />}        />
-        <Route path='/inicio/catalogos/munterritorio'              element={<MunTerritorio />}        />
-        <Route path='/inicio/catalogos/munpobrezaext'              element={<MunPobrezaExtrema />}     />
-        <Route path='/inicio/catalogos/munpobreza'                 element={<MunPobreza />}     />
-        <Route path='/inicio/catalogos/munrecaudacion'             element={<MunRecaudacion />}        />
-        <Route path='/inicio/catalogos/umas'                       element={<Umas />} />
-        <Route path='/inicio/catalogos/coeficientes'               element={<Coeficientes />}        />
-        <Route path='/inicio/catalogos/avisos'                     element={<Avisos />} />
-        <Route path='/inicio/catalogos/eventos'                    element={<Eventos />} />
-        <Route path='/inicio/catalogos/departamentos'              element={<Departamentos />}      />
-        <Route path='/inicio/catalogos/tipoFondo'                  element={<TipoFondo />}      />
-        <Route path='/inicio/catalogos/TipoFondoCalculo'           element={<TipoFondoCalculo />}      />
-        <Route path='/inicio/catalogos/inflacionMes'               element={<InflacionMes />}      />
-        <Route path='/inicio/catalogos/inflacionAnio'              element={<InflacionAnio />}      />
-        <Route path='/inicio/catalogos/fondos'                     element={<Fondos />}      />
-        <Route path='/inicio/catalogos/crecimientoAnio'            element={<CrecimientoAnio />}      />
-        <Route path='/inicio/catalogos/parametrosgenerales'        element={<ParametrosGenerales />} />
-        <Route path='/inicio/catalogos/bancos'                     element={<Bancos />} />
-        <Route path='/inicio/catalogos/cuentabancaria'             element={<CuentaBancaria idmunicipio={''} municipio={''}/>} />
-        <Route path='/inicio/catalogos/SolicitudCambios'           element={<CambiosMun/>} />
-        <Route path='/inicio/catalogos/divisas'                    element={<Divisas/>} />
-        <Route path='/inicio/catalogos/ajustes'                    element={<AjustesCalculos/>} />
+
+
+        <Route path='/inicio/catalogos/mun' element={<Municipios />} />
+        <Route path='/inicio/catalogos/tasa' element={<TasaInteres />} />
+        <Route path='/inicio/catalogos/munpob' element={<MunPoblacion />} />
+        <Route path='/inicio/catalogos/munfacturacion' element={<MunFacturacion />} />
+        <Route path='/inicio/catalogos/munproyec' element={<MunPobProyeccion />} />
+        <Route path='/inicio/catalogos/munterritorio' element={<MunTerritorio />} />
+        <Route path='/inicio/catalogos/munpobrezaext' element={<MunPobrezaExtrema />} />
+        <Route path='/inicio/catalogos/munpobreza' element={<MunPobreza />} />
+        <Route path='/inicio/catalogos/munrecaudacion' element={<MunRecaudacion />} />
+        <Route path='/inicio/catalogos/umas' element={<Umas />} />
+        <Route path='/inicio/catalogos/coeficientes' element={<Coeficientes />} />
+        <Route path='/inicio/catalogos/avisos' element={<Avisos />} />
+        <Route path='/inicio/catalogos/eventos' element={<Eventos />} />
+        <Route path='/inicio/catalogos/departamentos' element={<Departamentos />} />
+        <Route path='/inicio/catalogos/tipoFondo' element={<TipoFondo />} />
+        <Route path='/inicio/catalogos/TipoFondoCalculo' element={<TipoFondoCalculo />} />
+        <Route path='/inicio/catalogos/inflacionMes' element={<InflacionMes />} />
+        <Route path='/inicio/catalogos/inflacionAnio' element={<InflacionAnio />} />
+        <Route path='/inicio/catalogos/fondos' element={<Fondos />} />
+        <Route path='/inicio/catalogos/crecimientoAnio' element={<CrecimientoAnio />} />
+        <Route path='/inicio/catalogos/parametrosgenerales' element={<ParametrosGenerales />} />
+        <Route path='/inicio/catalogos/bancos' element={<Bancos />} />
+        <Route path='/inicio/catalogos/cuentabancaria' element={<CuentaBancaria idmunicipio={''} municipio={''} />} />
+        <Route path='/inicio/catalogos/SolicitudCambios' element={<CambiosMun />} />
+        <Route path='/inicio/catalogos/divisas' element={<Divisas />} />
+        <Route path='/inicio/catalogos/ajustes' element={<AjustesCalculos />} />
 
 
 
@@ -132,44 +134,47 @@ export const AppRouter = () => {
         <Route path='/inicio/participaciones/:fondo' element={log ? <Fpg /> : <AuthRouter />} />
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
-       {/* SECCION USUARIOS, ROLES, PERMISOS */}
-       <Route path='/inicio/usuario'   element={log ? <Usuarios /> : <AuthRouter />} />
-       <Route path='/inicio/roles'     element={log ? <Roles /> : <AuthRouter />} />
-       <Route path='/inicio/menus'     element={log ? <Menus /> : <AuthRouter />} />
-       <Route path='/inicio/permisos'  element={log ? <Permisos /> : <AuthRouter />} />
-       <Route path='/inicio/perfilesusuario'  element={log ? <PerfilesUsuario /> : <AuthRouter />} />
-       {/* FIN SECCION USUARIOS, ROLES, PERMISOS */}
+        {/* SECCION USUARIOS, ROLES, PERMISOS */}
+        <Route path='/inicio/usuario' element={log ? <Usuarios /> : <AuthRouter />} />
+        <Route path='/inicio/roles' element={log ? <Roles /> : <AuthRouter />} />
+        <Route path='/inicio/menus' element={log ? <Menus /> : <AuthRouter />} />
+        <Route path='/inicio/permisos' element={log ? <Permisos /> : <AuthRouter />} />
+        <Route path='/inicio/perfilesusuario' element={log ? <PerfilesUsuario /> : <AuthRouter />} />
+        {/* FIN SECCION USUARIOS, ROLES, PERMISOS */}
 
-       {/* SECCION ORGANISMOS */}
-       <Route path='/inicio/pensionesvitalicias'  element={log ? <PensionesVitalicias /> : <AuthRouter />} />
-       <Route path='/inicio/org/solicitudes'  element={log ? <Solicitudes /> : <AuthRouter />} />
-       <Route path='/inicio/contactoorganismos'  element={log ? <ContactoOrganismos /> : <AuthRouter />} />
-       <Route path='/inicio/presupuesto'  element={log ? <Presupuesto /> : <AuthRouter />} />
-       <Route path='/inicio/nomina'  element={log ? <Nomina /> : <AuthRouter />} />
-       {/* FIN DE SECCION DE ORGANISMOS */}
-       {/* SECCION MUNICIPIOS */}
-       <Route path='/inicio/contactomunicipio'  element={log ? <ContactoMunicipios /> : <AuthRouter />} />
-       <Route path='/inicio/agregarcontactomunicipio'  element={log ? <AgregarContactoMunicipio /> : <AuthRouter />} />
-       <Route path='/inicio/recursos'  element={log ? <RecepcionRecursos /> : <AuthRouter />} />
-       <Route path='/inicio/anticipop'  element={log ? <SolicitudRecursos /> : <AuthRouter />} />
-       <Route path='/inicio/listado/op'  element={log ? <Op /> : <AuthRouter />} />
-       {/* SECCION MUNICIPIOS */}
+        {/* SECCION ORGANISMOS */}
+        <Route path='/inicio/pensionesvitalicias' element={log ? <PensionesVitalicias /> : <AuthRouter />} />
+        <Route path='/inicio/org/solicitudes' element={log ? <Solicitudes /> : <AuthRouter />} />
+        <Route path='/inicio/contactoorganismos' element={log ? <ContactoOrganismos /> : <AuthRouter />} />
+        <Route path='/inicio/presupuesto' element={log ? <Presupuesto /> : <AuthRouter />} />
+        <Route path='/inicio/nomina' element={log ? <Nomina /> : <AuthRouter />} />
+        {/* FIN DE SECCION DE ORGANISMOS */}
+        {/* SECCION MUNICIPIOS */}
+        <Route path='/inicio/contactomunicipio' element={log ? <ContactoMunicipios /> : <AuthRouter />} />
+        <Route path='/inicio/agregarcontactomunicipio' element={log ? <AgregarContactoMunicipio /> : <AuthRouter />} />
+        <Route path='/inicio/recursos' element={log ? <RecepcionRecursos /> : <AuthRouter />} />
+        <Route path='/inicio/anticipop' element={log ? <SolicitudRecursos /> : <AuthRouter />} />
+        <Route path='/inicio/listado/op' element={log ? <Op /> : <AuthRouter />} />
+        {/* SECCION MUNICIPIOS */}
 
-       {/* DCCP */}
-       <Route path='/inicio/dpcp'  element={log ? <AsigPresupuestal /> : <AuthRouter />} />
-       <Route path='/inicio/dpcp/auth'  element={log ? <AuthSolicitudes /> : <AuthRouter />} />
-       AuthSolicitudes
-       {/* FIN DCCP */}
+        {/* DCCP */}
+        <Route path='/inicio/dpcp' element={log ? <AsigPresupuestal /> : <AuthRouter />} />
+        <Route path='/inicio/dpcp/auth' element={log ? <AuthSolicitudes /> : <AuthRouter />} />
+        AuthSolicitudes
+        {/* FIN DCCP */}
         {/* DAF */}
-        <Route path='/inicio/daf'  element={log ? <AsigPago /> : <AuthRouter />} />
-       {/* FIN DAF */}
+        <Route path='/inicio/daf' element={log ? <AsigPago /> : <AuthRouter />} />
+        {/* FIN DAF */}
 
-       {/* DAMOP */}
-       <Route path='/inicio/Municipio/anticipo/APD'              element={<AnticipoParticipaciones />} />
-       <Route path='/inicio/Municipio/participaciones'              element={<Participaciones />} />
-       {/* FIN DAMOP */}
+        {/* DAMOP */}
+        <Route path='/inicio/Municipio/anticipo/APD' element={<AnticipoParticipaciones />} />
+        <Route path='/inicio/Municipio/participaciones' element={<Participaciones />} />
+        {/* FIN DAMOP */}
 
-
+        {/* /// Estadisticas */}
+        <Route path='/estadisticas/reportes' element={<Reportes />} />
+        <Route path='/estadisticas/graficas' element={<Graficas />} />
+        {/* /// Fin Estadisticas */}
       </Routes>
     </Inicio>
   );

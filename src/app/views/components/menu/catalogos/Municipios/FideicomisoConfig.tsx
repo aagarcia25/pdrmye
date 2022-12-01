@@ -201,6 +201,8 @@ const FideicomisoConfig = ({
     setClaveBan(v?.row?.ClaveBancaria);
     setClaveSiregob(v?.row?.ClaveSiregob);
     setOpenSlider(false);
+    v?.row?.Cuenta?setClaveValid(true):setClaveValid(false);
+    v?.row?.ClaveBancaria? setCuentaValid (true): setCuentaValid (false);
     consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
 
   };
@@ -208,16 +210,21 @@ const FideicomisoConfig = ({
 
   const handleNuevoFideicomiso = () => {
     setModo("nuevo");
+    setNombre("");
+    setPorcentaje(0);
+    setCuenta("");
+    setClaveBan("");
+    setClaveSiregob("");
   };
 
 
   const agregar = () => {
 
     if (
-      claveValid === false 
+         claveValid === false 
       || cuentaValid === false 
       || nombre === null 
-      || Number(porcentaje) >= 100 
+      || (Number(porcentaje) >= 100&& Number(porcentaje) <=0 ) 
       || porcentaje === null 
       || cuenta === null 
       || claveBan === null
@@ -259,6 +266,7 @@ const FideicomisoConfig = ({
       setCuenta("");
       setClaveBan("");
       setModo("visualizar");
+      setClaveSiregob("");
       consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
     }
   };
@@ -386,7 +394,7 @@ const FideicomisoConfig = ({
                   variant="standard"
                   onChange={(v) => setPorcentaje(Number(v.target.value))}
                   inputProps={{ maxLength: 20 }}
-                  error={porcentaje ===0 || porcentaje >= 100}
+                  error={porcentaje <=0 || porcentaje >= 100}
                   InputLabelProps={{ shrink: true }}
                 />
                 <TextField

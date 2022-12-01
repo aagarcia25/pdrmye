@@ -34,6 +34,8 @@ export const Divisas = () => {
     const [valor, setValor] = useState<String>("");
     const [descripcion, setDescripcion] = useState<String>("");
     const [idDivisa, setIdDivisa] = useState<String>("");
+    const [divisa, setDivisa] = useState<String>("");
+
 
 
     const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
@@ -66,9 +68,12 @@ export const Divisas = () => {
             },
         },
         { field: "FechaCreacion", headerName: "Fecha Creación", width: 200 },
+        { field: "Divisa", headerName: "Divisa", width: 150 },
         { field: "Nombre", headerName: "Nombre", width: 150 },
         { field: "Valor", headerName: "Valor", width: 150 },
         { field: "Descripcion", headerName: "Descripcion", width: 150 },
+        
+
 
     ];
 
@@ -82,6 +87,7 @@ export const Divisas = () => {
             setNombreCorto(v?.data?.row?.NombreCorto);
             setValor(v?.data?.row?.Valor);
             setIdDivisa(v?.data?.row?.id);
+            setDivisa(v?.data?.row?.Divisa);
 
         } else if (v.tipo == 2) {
             handleDelete(v.data);
@@ -99,11 +105,13 @@ export const Divisas = () => {
     }
     const handleOpen = () => {
         setOpen(true);
+        setTipoOperacion(1);
         setNombreCorto("");
         setNombre("");
         setValor("");
         setDescripcion("");
         setIdDivisa("");
+        setDivisa("");
     };
 
 
@@ -122,7 +130,7 @@ export const Divisas = () => {
 
             Swal.fire({
                 icon: "info",
-                title: tipoOperacion===1?"Agregar Divisa o Tipo de Cambio?":"Editar Divisa o Tipo de Cambio?",
+                title: tipoOperacion === 1 ? "Agregar Divisa o Tipo de Cambio?" : "Editar Divisa o Tipo de Cambio?",
                 showDenyButton: true,
                 showCancelButton: false,
                 confirmButtonText: "Confirmar",
@@ -131,20 +139,21 @@ export const Divisas = () => {
                 if (result.isConfirmed) {
 
                     let data = {
-                        NUMOPERACION: tipoOperacion===1?1:2,
+                        NUMOPERACION: tipoOperacion === 1 ? 1 : 2,
                         CHUSER: user.id,
                         CHID: idDivisa,
                         NOMBRECORTO: nombreCorto,
                         NOMBRE: nombre,
                         VALOR: valor,
                         DESCRIPCION: descripcion,
+                        DIVISA: divisa,
                     };
 
                     CatalogosServices.divisas(data).then((res) => {
                         if (res.SUCCESS) {
                             Toast.fire({
                                 icon: "success",
-                                title:tipoOperacion===1?"Registro Agregado!":"Registro Editado!",
+                                title: tipoOperacion === 1 ? "Registro Agregado!" : "Registro Editado!",
                             });
 
                             handleClose();
@@ -344,6 +353,19 @@ export const Divisas = () => {
                             <TextField
                                 required
                                 margin="dense"
+                                id="Divisa"
+                                label="Divisa"
+                                value={divisa}
+                                type="number"
+                                fullWidth
+                                variant="standard"
+                                onChange={(v) => setDivisa(v.target.value)}
+                                error={!divisa ? true : false}
+                                InputLabelProps={{ shrink: true }}
+                            />
+                            <TextField
+                                required
+                                margin="dense"
                                 id="Nombre"
                                 label="Descripcion"
                                 value={descripcion}
@@ -354,6 +376,7 @@ export const Divisas = () => {
                                 error={!descripcion ? true : false}
                                 InputLabelProps={{ shrink: true }}
                             />
+
                         </Grid>
                         <Grid item md={12} sx={{ textAlign: "center" }}>
                             <Tooltip title="Agregar">

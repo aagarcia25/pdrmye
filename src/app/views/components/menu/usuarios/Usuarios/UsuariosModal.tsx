@@ -40,25 +40,26 @@ const UsuariosModal = ({
   const [idDepartamento, setIdDepartamento] = useState<string>("");
   const [perfiles, setPerfiles] = useState<SelectValues[]>([]);
   const [idPerfil, setIdPerfil] = useState<string>("");
-  const [Nombre, setNombre] = useState<string>();
-  const [ApellidoPaterno, setApellidoPaterno] = useState<string>();
-  const [ApellidoMaterno, setApellidoMaterno] = useState<string>();
-  const [NombreUsuario, setNombreUsuario] = useState<string>();
-  const [puesto, setPuesto] = useState<string>();
-  const [rfc, setRfc] = useState<string>();
-  const [curp, setCurp] = useState<string>();
-  const [telefono, setTelefono] = useState<string>();
-  const [celular, setCelular] = useState<string>();
-  const [CorreoElectronico, setCorreoElectronico] = useState<string>();
+  const [Nombre, setNombre] = useState<string>("");
+  const [ApellidoPaterno, setApellidoPaterno] = useState<string>("");
+  const [ApellidoMaterno, setApellidoMaterno] = useState<string>("");
+  const [NombreUsuario, setNombreUsuario] = useState<string>("");
+  const [puesto, setPuesto] = useState<string>("");
+  const [rfc, setRfc] = useState<string>("");
+  const [curp, setCurp] = useState<string>("");
+  const [telefono, setTelefono] = useState<string>("");
+  const [celular, setCelular] = useState<string>("");
+  const [CorreoElectronico, setCorreoElectronico] = useState<string>("");
   const [emailValid, setEmailValid] = useState<boolean>();
   const [telValid, setTelValid] = useState<boolean>();
   const [celValid, setCelValid] = useState<boolean>();
   const [tokenValid, setTokenValid] = useState<boolean>();
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const token = JSON.parse(String(getToken()));
+  
   const [emailError, setEmailError] = useState('')
   const [telError, setTelError] = useState('')
   const [celError, setCelError] = useState('')
+  const [ext, setExt] = useState<string>("");
 
   const loadFilter = (tipo: number) => {
     let data = { NUMOPERACION: tipo };
@@ -115,21 +116,37 @@ const UsuariosModal = ({
   }
 
 
+
   const handleSend = () => {
+    let data = {
+      Nombre: Nombre,
+      ApellidoPaterno: ApellidoPaterno,
+      ApellidoMaterno: ApellidoMaterno,
+      NombreUsuario: NombreUsuario,
+      CorreoElectronico: CorreoElectronico,
+      IdUsuarioModificador: user.id,
+      Curp: curp,
+      Rfc: rfc,
+      Celular: celular,
+      Telefono: telefono
+
+
+    };
+
     if (
-      !Nombre ||
-      !ApellidoPaterno ||
-      !ApellidoMaterno ||
-      !NombreUsuario ||
-      !CorreoElectronico ||
-      !emailValid ||
-      !telValid ||
-      !telefono ||
-      !curp ||
-      !rfc ||
-      !idDepartamento ||
-      !idPerfil ||
-      !celular
+      Nombre ===""||
+      ApellidoPaterno ===""||
+      ApellidoMaterno ===""||
+      NombreUsuario ===""||
+      CorreoElectronico ===""||
+      emailValid === false||
+      telValid ===false||
+      telefono ===""||
+      curp ===""||
+      rfc ===""||
+      idDepartamento ===""||
+      idPerfil==="" ||
+      celular ===""
     ) {
       AlertS.fire({
         title: "Verificar los campos!",
@@ -165,12 +182,13 @@ const UsuariosModal = ({
         AM: ApellidoMaterno,
         NUSER: NombreUsuario,
         CORREO: CorreoElectronico,
-        PUESTO: puesto,
-        IDDEPARTAMENTO: idDepartamento,
-        IDPERFIL: idPerfil,
+        //PUESTO: puesto,
+        //IDDEPARTAMENTO: idDepartamento,
+        //IDPERFIL: idPerfil,
         CURP: curp,
         RFC: rfc,
-        CELULAR: telefono
+        CELULAR: telefono,
+        idTipoUsuario:""
       };
 
       AuthService.adminUser(dat).then((res) => {
@@ -184,22 +202,31 @@ const UsuariosModal = ({
       });
 
     } else {
-      UserServices.signup(data, token).then((resUser) => {
+
+
+
+
+
+      UserServices.signup(data).then((resUser) => {
 
 
         if (resUser.status === 201) {
 
           let data = {
             NUMOPERACION: 5,
-            NOMBRE: "AppName"
+            NOMBRE: "AppID"
           }
 
 
           ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
-
+              //createSolicitud 
+           
+           /*
             UserServices.apps(token).then((resAppLogin) => {
 
               resAppLogin.data.data.map((item: any) => {
+
+
                 if (item?.Nombre === restApp.RESPONSE.Valor) {
 
                   let dat = {
@@ -243,10 +270,20 @@ const UsuariosModal = ({
                     }
                   });
                 }
+
+
+
+
               });
-            });
+            });*/
 
           });
+
+
+
+
+
+
 
         }
 
@@ -258,7 +295,17 @@ const UsuariosModal = ({
           });
         }
       });
+
+
+
+
     }
+  
+  
+  
+  
+  
+  
   };
 
   useEffect(() => {
@@ -266,7 +313,7 @@ const UsuariosModal = ({
     let d = {
 
     }
-    UserServices.verify(d, token).then((resAppLogin) => {
+    UserServices.verify(d).then((resAppLogin) => {
       resAppLogin.status === 200 ?
         setTokenValid(true)
         :
@@ -436,7 +483,7 @@ const UsuariosModal = ({
                   type="text"
                   fullWidth
                   variant="standard"
-                  onChange={(v) => setCurp(v.target.value.toUpperCase())}
+                  onChange={(v) => setCurp(v.target.value)}
                   inputProps={{ maxLength: 18 }}
                   error={curp === null ? true : false}
                 />
@@ -469,6 +516,23 @@ const UsuariosModal = ({
                   variant="standard"
                   onChange={(e) => validateCel(e)}
                   error={!celValid || !celular}
+                  InputLabelProps={{ shrink: true }}
+
+                />
+                <Typography variant="body2"> {celError} </Typography>
+                <br />
+                <TextField
+                  required
+                  margin="dense"
+                  id="ext"
+                  label="Ext"
+                  value={ext}
+                  type="text"
+                  fullWidth
+                  inputProps={{ maxLength: 4 }}
+                  variant="standard"
+                  onChange={(e) => setExt(e.target.value)}
+      
                   InputLabelProps={{ shrink: true }}
 
                 />

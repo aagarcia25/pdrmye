@@ -5,6 +5,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControl,
+  FormHelperText,
+  Grid,
   Stack,
   TextField,
   Typography,
@@ -26,16 +29,20 @@ export const Perfil = () => {
   //Abrir Dialog de imagen
   const [openDialog, setOpenDialog] = useState(false)
   const [nombre, setNombre] = useState(user.Nombre);
+  const [mensajeError, setMensajeError] = useState("*Ingrese Numeros*");
+  const [celValid, setCelVAlid] = useState<boolean>();
+  const [telValid, setTelValid] = useState<boolean>();
+  const [extValid, setExtValid] = useState<boolean>();
   const [nombreUsuario, setNombreUsuario] = useState(user.NombreUsuario);
   const [apellidoPaterno, setApellidoPaterno] = useState(user.ApellidoPaterno);
   const [apellidoMaterno, setApellidoMaterno] = useState(user.ApellidoMaterno);
   const [correoElectronico, setCorreoElectronico] = useState(user.CorreoElectronico);
-  const [telefono, setTelefono] = useState(user.Telefono);
-  const [rutaFoto, setRutaFoto] = useState("");
-  const [puesto, setPuesto] = useState(user.Puesto);
-  const [ubicacion, setUbicacion] = useState(user.Ubicacion);
+  const [telefono, setTelefono] = useState(user?.Telefono? user?.Telefono : "");
+  const [extencion, setExtencion] = useState(user?.extencion ? user?.extencion : "");
+  const [puesto, setPuesto] = useState(user.Puesto ? user.Puesto : "");
+  const [celular, setCelular] = useState(user?.Celular ? String(user?.Celular) : "");
   const [tipo, setTipo] = useState("");
-  const [departamento, setDepartamento] = useState(user.DEPARTAMENTOS[0].NombreCorto);
+  const [departamento, setDepartamento] = useState(user.DEPARTAMENTOS[0]?.Descripcion);
   const [departamentos, setDepartamentos] = useState("");
   //CARD 1
   const [botonEdicionFoto, setBotonEdicionFoto] = useState("Editar");
@@ -73,9 +80,40 @@ export const Perfil = () => {
       setOpenDialogConfirmacion(true);
   };
 
+  const validateCount = (valor: string, tipo: string) => {
+
+    if (validator.isNumeric(valor)) {
+      if (tipo === "cel") {
+        setCelVAlid(true)
+        setCelular(valor);
+
+      } else if (tipo === "tel") {
+        setTelValid(true);
+        setTelefono(valor);
+
+      } else if (tipo === "ext") {
+        setExtValid(true);
+        setExtencion(valor);
+
+      }
+    } else {
+      setMensajeError("*Ingrese Solo Numeros*")
+      if (tipo === "cel") {
+        setCelVAlid(false)
+        setCelular(valor);
+
+      } else if (tipo === "tel") {
+        setTelValid(false);
+        setTelefono(valor);
+
+      } else if (tipo === "ext") {
+        setExtValid(false);
+        setExtencion(valor);
+      }
+    }
+  }
 
   const onClickGuardarCambios = () => {
-
     onClickCancelarEditarTodo();
     setOpenDialogConfirmacion(false);
 
@@ -105,40 +143,34 @@ export const Perfil = () => {
     });
 
   };
-
   const onClickCancelarEditarTodo = () => {
 
     setBotonEdicionTodo("Guardar");
     if (botonEdicionTodo === "Guardar") {
       setBotonEdicionTodo("Editar");
     }
-    setTelefono(user.Telefono);
-    setUbicacion(user.Ubicacion);
+    setTelefono((user?.Telefono)?user?.Telefono:"");
+    setCelular(user?.Celular?user?.Celular:"");
     setPuesto(user.Puesto);
-    setDepartamento(user.DEPARTAMENTOS[0].NombreCorto);
+    setDepartamento(user?.DEPARTAMENTOS[0]?.Descripcion);
     setUser(JSON.parse(String(getUser())));
   };
 
-  const handleTotal = (v: string) => {
-    if ((validator.isNumeric(v) || v === "")) {
-      setTelefono(v)
-    }
-  };
+
 
   return (
 
-    <Box
-      sx={{
-        //Principal
-        width: "100%",
-        height: "100%",
-        backgroundColor: "#EEEEEE",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "0",
-        marginTop: ".5%",
-      }}
+    <Box sx={{
+      //Principal
+      width: "100%",
+      height: "100%",
+      backgroundColor: "#EEEEEE",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: "0",
+      marginTop: ".5%",
+    }}
     >
       <Box
         boxShadow={3}
@@ -266,105 +298,138 @@ export const Perfil = () => {
             bgcolor: "rgb(252,252,252)",
             flexDirection: "column"
           }}>
+
             <Typography align="center" variant="h5" sx={{ width: "100%", color: COLOR.azul, paddingTop: "2%" }}>
               Contacto y Ubicación
             </Typography>
+            <br />
+            <Grid container direction="column" justifyContent="center" alignItems="center">
+              <Grid item xs={10}>
+                <label className="negro">Departamento:</label>
+                <label className="gris"> {departamento} </label>
 
-            <Box display="flex" flexWrap="wrap" sx={{ paddingTop: "2%", justifyContent: "center" }}>
-              <Typography sx={{ paddingLeft: "2%", color: "#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex" }}>Departamento :</Typography>
-              <Typography sx={{ ml: "1%", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex" }}> {departamento} </Typography>
-              <Typography sx={{ paddingLeft: "10%", color: "#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex" }}>Correo electrónico :</Typography>
-              <Typography sx={{ ml: "1%", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex" }}> {correoElectronico}  </Typography>
-            </Box>
-
-
-
-            {botonEdicionTodo === "Editar" ?
-              <Box display="flex" flexWrap="wrap" sx={{ justifyContent: "center", paddingTop: "3%" }}>
-                <Typography sx={{ color: "#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", }}>Telefono :</Typography>
-                <Typography sx={{ ml: "1%", bgcolor: "#EEEEEE", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", flexDirection: "row" }}>  {telefono} </Typography>
-              </Box> :
-
-              <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ paddingBottom: ".5%", paddingTop: "2%" }}>
-                <Box sx={{ width: 500 }}> </Box>
-                <TextField
-                  disabled={botonEdicionTodo === "Editar" ? true : false}
-                  required
-                  inputProps={{ maxLength: 12 }}
-                  margin="dense"
-                  id="Telefono"
-                  label="Teléfono"
-                  value={telefono}
-                  type="text"
-                  fullWidth
-                  // sx={{ width: "40%",}}
-                  variant="outlined"
-                  onChange={(v) => handleTotal(v.target.value)}
-                  error={telefono === "" ? true : false}
-                />
-                <Box sx={{ width: 500 }}> </Box>
-              </Stack>
-
-            }
+              </Grid>
+              <br />
+              <Grid item xs={10}>
+                <label className="negro">Correo electrónico:</label>
+                <label className="gris"> {correoElectronico} </label>
+              </Grid>
+            </Grid>
 
 
 
             {botonEdicionTodo === "Editar" ?
-              <Box display="flex" flexWrap="wrap" sx={{ justifyContent: "center", paddingTop: "3%" }}>
-                <Typography sx={{ color: "#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", }}>Ubicación :</Typography>
-                <Typography sx={{ ml: "1%", bgcolor: "#EEEEEE", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", flexDirection: "row" }}>{ubicacion} </Typography>
-              </Box> :
-
-              <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ paddingBottom: ".5%" }}>
-                <Box sx={{ width: 500 }}> </Box>
-                <TextField
-                  disabled={botonEdicionTodo === "Editar" ? true : false}
-                  required
-                  margin="dense"
-                  id="Ubicacion"
-                  label="Ubicación"
-                  value={ubicacion}
-                  type="text"
-                  fullWidth
-                  // sx={{ width: "60%", }}
-                  variant="outlined"
-                  onChange={(v) => setUbicacion(v.target.value)}
-                  error={ubicacion === "" ? true : false}
-                />
-                <Box sx={{ width: 500 }}> </Box>
-              </Stack>
-
-            }
-
-            {botonEdicionTodo === "Editar" ?
-              <Box display="flex" flexWrap="wrap" sx={{ justifyContent: "center", paddingTop: "3%", paddingBottom: "2%" }}>
-                <Typography sx={{ color: "#808080", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", }}> Puesto :</Typography>
-                <Typography sx={{ ml: "1%", bgcolor: "#EEEEEE", fontFamily: "sans-serif", fontSize: "1.4rem", display: "flex", flexDirection: "row" }}> {puesto} </Typography>
-              </Box>
+              <>
+                <Grid container direction="column" justifyContent="center" alignItems="center" >
+                  <br />  <br />
+                  <Grid item xs={10}>
+                    <label className="negro">Telefono:</label>
+                    <label className="gris"> {telefono? telefono:"Sin Informacion"} </label>
+                  </Grid>
+                  <br />
+                  <Grid item xs={10}>
+                    <label className="negro">Extencion:</label>
+                    <label className="gris"> {extencion? extencion:"Sin Informacion"} </label>
+                  </Grid>                  <br />
+                  <Grid item xs={10}>
+                    <label className="negro">Celular:</label>
+                    <label className="gris"> {celular? celular:"Sin Informacion"} </label>
+                  </Grid>
+                  <br />
+                  <Grid item xs={10}>
+                    <label className="negro">Puesto:</label>
+                    <label className="gris"> {puesto? puesto:"Sin Informacion"} </label>
+                  </Grid>
+                </Grid>
+              </>
               :
-              // pagina 2 el puesto
 
-              <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ paddingBottom: "2%" }}>
+              <>
+                <Grid container direction="column" justifyContent="center" alignItems="center" >
+                  <br />  <br />
+                  <Grid item xs={10}>
+                    <TextField
+                      disabled={botonEdicionTodo === "Editar" ? true : false}
+                      required
+                      inputProps={{ maxLength: 12 }}
+                      margin="dense"
+                      id="Telefono"
+                      label="Teléfono"
+                      value={telefono}
+                      type="text"
+                      fullWidth
+                      variant="outlined"
+                      onChange={(v) => validateCount(v.target.value, "tel")}
+                      error={!telValid}
+                    />
+                  </Grid>
+                  <FormHelperText id="helper-text" error= {!telValid}>
+                      {telValid?"":String(telefono).length===0?"Campo Vacio": mensajeError}
+                  </FormHelperText>
+                  <br />
+                  <Grid item xs={10}>
+                    <TextField
+                      disabled={botonEdicionTodo === "Editar" ? true : false}
+                      inputProps={{ maxLength: 5 }}
+                      margin="dense"
+                      id="extencion"
+                      label="Extencion"
+                      value={extencion}
+                      type="text"
+                      fullWidth
+                      // sx={{ width: "40%",}}
+                      variant="outlined"
+                      onChange={(v) => validateCount(v.target.value, "ext")}
+                      error={!extValid}
+                    />
+                  </Grid>
+                  <FormHelperText id="helper-text" error= {!extValid}>
+                  {extValid?"": String(extencion).length===0?"Campo Vacio": mensajeError} 
+                  </FormHelperText>
+                  <br />
+                  <Grid item xs={10}>
+                    <TextField
+                      disabled={botonEdicionTodo === "Editar" ? true : false}
+                      required
+                      margin="dense"
+                      id="Celular"
+                      label="Celular"
+                      value={celular}
+                      type="text"
+                      fullWidth
+                      variant="outlined"
+                      onChange={(v) => validateCount(v.target.value, "cel")}
+                      error={!celValid}
+                    />
+                  </Grid>
+                  <FormHelperText id="helper-text" error= {!celValid}>
+                  {celValid?"":String(celular).length===0?"Campo Vacio": mensajeError} 
+                  </FormHelperText>
+                  <br />
+                  <Grid item xs={10}>
+                    <FormControl fullWidth >
+                      <TextField
+                        disabled={botonEdicionTodo === "Editar" ? true : false}
+                        required
+                        margin="dense"
+                        id="Puesto"
+                        label="Puesto"
+                        value={puesto}
+                        type="text"
+                        fullWidth
+                        // sx={{ width: 1/2 }}
+                        variant="outlined"
+                        onChange={(v) => setPuesto(v.target.value)}
+                        error={puesto === "" ? true : false}
+                      />
+                    </FormControl>
+                  </Grid>
+                </Grid>
 
-                <Box sx={{ width: 500 }}> </Box>
-                <TextField
-                  disabled={botonEdicionTodo === "Editar" ? true : false}
-                  required
-                  margin="dense"
-                  id="Puesto"
-                  label="Puesto"
-                  value={puesto}
-                  type="text"
-                  fullWidth
-                  // sx={{ width: 1/2 }}
-                  variant="outlined"
-                  onChange={(v) => setPuesto(v.target.value)}
-                  error={puesto === "" ? true : false}
-                />
-                <Box sx={{ width: 500 }}> </Box>
-              </Stack>
 
+              </>
             }
+
 
             {/* BOTON DE GUARDAR  */}
 

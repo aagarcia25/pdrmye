@@ -6,8 +6,8 @@ import {
 } from "@mui/material";
 import { AlertS } from "../../../helpers/AlertS";
 import ModalForm from "./ModalForm";
-import { getUser } from "../../../services/localStorage";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { getMunicipio, getUser } from "../../../services/localStorage";
+import { MUNICIPIO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import Swal from "sweetalert2";
 
 const ModalAlert = ({
@@ -29,8 +29,10 @@ const ModalAlert = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const [mensaje, setMensaje] = useState<string>();
+  const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
+  const [nombreMun, setnombreMun] = useState("");
 
-  const validacion = (v:string) => {
+  const validacion = (est:string) => {
     if (mensaje === "" || mensaje === null) {
       AlertS.fire({
         title: "Error!",
@@ -39,16 +41,18 @@ const ModalAlert = ({
       });
     } else {
       Swal.fire({
-        icon: v==="DAMOP_REGRESADO"? "error":"success",
+        icon: est==="DAMOP_REGRESADO"? "error":"success",
         title: "Enviar",
-        text: v==="DAMOP_REGRESADO"? "Desea Regresar La Solicitud":"Desea Autorizar La Cuenta",
+        text: est==="DAMOP_REGRESADO"? "Desea Regresar La Solicitud":"Desea Autorizar La Cuenta",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
         cancelButtonText: "Cancelar",
     }).then((result) => {
         if (result.isConfirmed) {
-          handleAccion({ data: vrows, texto: mensaje, tipo: accion },v)
+              console.log({ data: vrows, texto: mensaje, tipo: accion },est);
+              handleAccion({ data: vrows, texto: mensaje, tipo: accion },est)
+      
         }
         if (result.isDenied) {
         }
@@ -61,7 +65,10 @@ const ModalAlert = ({
   }
   useEffect(() => {
 
-    //console.log(vrows);
+    mun?.map((item: MUNICIPIO) => {
+      setnombreMun(item.Nombre);
+    });
+
 
 
   }, []);
@@ -86,7 +93,7 @@ const ModalAlert = ({
            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
               <Typography
                 sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "3vw", color: "#000000", }}>
-                Municipio: {vrows.Nombre}
+                Municipio: {nombreMun}
               </Typography>
             </Grid>
           <Grid item xs={12}>
