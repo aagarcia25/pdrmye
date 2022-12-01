@@ -147,8 +147,11 @@ function App() {
   };
 
   const verificatoken = (token: string) => {
+    let data ={ 
 
-    UserServices.verify({}).then((res) => {
+    };
+
+    UserServices.verify(data).then((res) => {
       //console.log(token)
       //console.log(token.replaceAll('"',''))
         if (res.status === 200) {
@@ -230,6 +233,7 @@ function App() {
    
     //SE CARGAN LOS PARAMETROS GENERALES
     if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
+      console.log(jwt);
       setToken(jwt);
       verificatoken(String(jwt));
     } else if (getToken() != null) {

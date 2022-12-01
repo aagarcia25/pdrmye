@@ -163,10 +163,8 @@ const Usuarios = () => {
 
   const columns: GridColDef[] = [
     {
-      field: "id",
-      headerName: "Identificador",
+      field: "Id",
       hide: true,
-      width: 150,
     },
     {
       field: "acciones",
@@ -205,23 +203,19 @@ const Usuarios = () => {
     { field: "Puesto", headerName: "Puesto", width: 200, },
     { field: "idDepartamento", headerName: "idDepartamento", width: 10, hide: true, },
     { field: "DepartamentoDescripcion", headerName: "Departamento", width: 300, },
-    { field: "idperfil", headerName: "idperfil", width: 10, hide: true, },
+    { field: "idPerfil",  hide: true, },
     { field: "PerfilDescripcion", headerName: "Perfil", width: 300, },
-
     {
-      field: "EstaActivo", headerName: "Activo", width: 100,
+      field: "EstaActivo",   headerName: "Activo", width: 100,
       renderCell: (v: any) => {
         return (
-          (Number(v.row.EstaActivo) === 0) ?
-            <Box>
-              <Tooltip title={"Activar Usuario"}>
-                <IconButton color="success" onClick={() => handleActivo(v)}>
-                  <HowToRegIcon />
-                </IconButton>
-              </Tooltip>
+          (Number(v.row.EstaActivo) === 1) ?
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", backgroundColor:"success" }} >
 
             </Box>
-            : "Activo"
+            :<Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", backgroundColor:"error" }} >
+
+            </Box>
 
         );
       },
@@ -236,6 +230,7 @@ const Usuarios = () => {
           title: v,
         });
         setData(res.RESPONSE);
+        console.log(res.RESPONSE);
       } else {
         AlertS.fire({
           title: "Error!",

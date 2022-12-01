@@ -37,7 +37,7 @@ export const Perfil = () => {
   const [apellidoPaterno, setApellidoPaterno] = useState(user.ApellidoPaterno);
   const [apellidoMaterno, setApellidoMaterno] = useState(user.ApellidoMaterno);
   const [correoElectronico, setCorreoElectronico] = useState(user.CorreoElectronico);
-  const [telefono, setTelefono] = useState(user?.Telefono? user?.Telefono : "");
+  const [telefono, setTelefono] = useState(user?.Telefono ? user?.Telefono : "");
   const [extencion, setExtencion] = useState(user?.extencion ? user?.extencion : "");
   const [puesto, setPuesto] = useState(user.Puesto ? user.Puesto : "");
   const [celular, setCelular] = useState(user?.Celular ? String(user?.Celular) : "");
@@ -121,9 +121,9 @@ export const Perfil = () => {
       NUMOPERACION: 5,
       CHUSER: user.id,
       CHID: user.id,
-      UBICACION: puesto,
-      PUESTO: puesto,
-      EXTENCION: puesto
+      EXTENCION: extencion,
+      TELEFONO: telefono,
+      CELULAR: celular,
     };
 
     AuthService.adminUser(dat).then((res) => {
@@ -149,8 +149,8 @@ export const Perfil = () => {
     if (botonEdicionTodo === "Guardar") {
       setBotonEdicionTodo("Editar");
     }
-    setTelefono((user?.Telefono)?user?.Telefono:"");
-    setCelular(user?.Celular?user?.Celular:"");
+    setTelefono((user?.Telefono) ? user?.Telefono : "");
+    setCelular(user?.Celular ? user?.Celular : "");
     setPuesto(user.Puesto);
     setDepartamento(user?.DEPARTAMENTOS[0]?.Descripcion);
     setUser(JSON.parse(String(getUser())));
@@ -201,36 +201,13 @@ export const Perfil = () => {
                 setOpenDialog(true)
               }}
 
-              sx={{
-                width: "7.4rem",
-                height: "7.4rem",
-                backgroundColor: "white",
-                borderRadius: '50%',
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-
-            >
-              {user.RutaFoto ? (
-                <img
-                  style={{
-                    objectFit: "scale-down",
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: '50%',
-                  }}
+              sx={{width: "7.4rem", height: "7.4rem",backgroundColor: "white", borderRadius: '50%', justifyContent: "center", cursor: "pointer",}} >
+              {user.RutaFoto ? 
+                <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
                   src={user.RutaFoto}
                 />
-              ) : (
-                <PersonIcon
-
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-
-                  }}
-                />
-              )}
+              : <PersonIcon sx={{width: "100%", height: "100%", }} />
+              }
 
 
             </Box>
@@ -316,192 +293,31 @@ export const Perfil = () => {
               </Grid>
             </Grid>
 
-
-
-            {botonEdicionTodo === "Editar" ?
-              <>
-                <Grid container direction="column" justifyContent="center" alignItems="center" >
-                  <br />  <br />
-                  <Grid item xs={10}>
-                    <label className="negro">Telefono:</label>
-                    <label className="gris"> {telefono? telefono:"Sin Informacion"} </label>
-                  </Grid>
-                  <br />
-                  <Grid item xs={10}>
-                    <label className="negro">Extencion:</label>
-                    <label className="gris"> {extencion? extencion:"Sin Informacion"} </label>
-                  </Grid>                  <br />
-                  <Grid item xs={10}>
-                    <label className="negro">Celular:</label>
-                    <label className="gris"> {celular? celular:"Sin Informacion"} </label>
-                  </Grid>
-                  <br />
-                  <Grid item xs={10}>
-                    <label className="negro">Puesto:</label>
-                    <label className="gris"> {puesto? puesto:"Sin Informacion"} </label>
-                  </Grid>
+            <>
+              <Grid container direction="column" justifyContent="center" alignItems="center" >
+                <br />  <br />
+                <Grid item xs={10}>
+                  <label className="negro">Telefono:</label>
+                  <label className="gris"> {telefono ? telefono : "Sin Informacion"} </label>
                 </Grid>
-              </>
-              :
-
-              <>
-                <Grid container direction="column" justifyContent="center" alignItems="center" >
-                  <br />  <br />
-                  <Grid item xs={10}>
-                    <TextField
-                      disabled={botonEdicionTodo === "Editar" ? true : false}
-                      required
-                      inputProps={{ maxLength: 12 }}
-                      margin="dense"
-                      id="Telefono"
-                      label="Teléfono"
-                      value={telefono}
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={(v) => validateCount(v.target.value, "tel")}
-                      error={!telValid}
-                    />
-                  </Grid>
-                  <FormHelperText id="helper-text" error= {!telValid}>
-                      {telValid?"":String(telefono).length===0?"Campo Vacio": mensajeError}
-                  </FormHelperText>
-                  <br />
-                  <Grid item xs={10}>
-                    <TextField
-                      disabled={botonEdicionTodo === "Editar" ? true : false}
-                      inputProps={{ maxLength: 5 }}
-                      margin="dense"
-                      id="extencion"
-                      label="Extencion"
-                      value={extencion}
-                      type="text"
-                      fullWidth
-                      // sx={{ width: "40%",}}
-                      variant="outlined"
-                      onChange={(v) => validateCount(v.target.value, "ext")}
-                      error={!extValid}
-                    />
-                  </Grid>
-                  <FormHelperText id="helper-text" error= {!extValid}>
-                  {extValid?"": String(extencion).length===0?"Campo Vacio": mensajeError} 
-                  </FormHelperText>
-                  <br />
-                  <Grid item xs={10}>
-                    <TextField
-                      disabled={botonEdicionTodo === "Editar" ? true : false}
-                      required
-                      margin="dense"
-                      id="Celular"
-                      label="Celular"
-                      value={celular}
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={(v) => validateCount(v.target.value, "cel")}
-                      error={!celValid}
-                    />
-                  </Grid>
-                  <FormHelperText id="helper-text" error= {!celValid}>
-                  {celValid?"":String(celular).length===0?"Campo Vacio": mensajeError} 
-                  </FormHelperText>
-                  <br />
-                  <Grid item xs={10}>
-                    <FormControl fullWidth >
-                      <TextField
-                        disabled={botonEdicionTodo === "Editar" ? true : false}
-                        required
-                        margin="dense"
-                        id="Puesto"
-                        label="Puesto"
-                        value={puesto}
-                        type="text"
-                        fullWidth
-                        // sx={{ width: 1/2 }}
-                        variant="outlined"
-                        onChange={(v) => setPuesto(v.target.value)}
-                        error={puesto === "" ? true : false}
-                      />
-                    </FormControl>
-                  </Grid>
+                <br />
+                <Grid item xs={10}>
+                  <label className="negro">Extencion:</label>
+                  <label className="gris"> {extencion ? extencion : "Sin Informacion"} </label>
+                </Grid>                  <br />
+                <Grid item xs={10}>
+                  <label className="negro">Celular:</label>
+                  <label className="gris"> {celular ? celular : "Sin Informacion"} </label>
                 </Grid>
+                <br />
+                <Grid item xs={10}>
+                  <label className="negro">Puesto:</label>
+                  <label className="gris"> {puesto ? puesto : "Sin Informacion"} </label>
+                </Grid>
+              </Grid>
+            </>
 
-
-              </>
-            }
-
-
-            {/* BOTON DE GUARDAR  */}
-
-            <Box display="flex" flexWrap="wrap" sx={{ paddingBottom: "2%" }}>
-
-              <Box sx={{ width: "70%" }}> </Box>
-              <Box sx={{ width: "28%" }} >
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    if (botonEdicionTodo === "Guardar") setOpenDialogConfirmacion(true)
-                    else onClickEditar();
-                  }}
-
-                  color="success"
-                  sx={{
-                    width: "50%",
-                    height: "auto",
-                    borderRadius: 1,
-                    "&:hover": {
-                      color: "#5048E5",
-                      backgroundColor: "#eeebf5",
-                    },
-                  }}
-                >
-
-                  <Typography sx={{ fontSize: "3" }}>
-                    {botonEdicionTodo}
-                  </Typography></Button>
-
-                {botonEdicionTodo === "Guardar" ? <Button
-                  variant="outlined"
-                  onClick={onClickCancelarEditarTodo}
-                  color="error"
-                  sx={{
-                    width: "50%",
-                    height: "auto",
-                    borderRadius: 1,
-                    "&:hover": {
-                      color: "#5048E5",
-                      backgroundColor: "#eeebf5",
-                    },
-                  }}
-                >
-
-                  <Typography sx={{ fontSize: "3" }}>
-                    Cancelar
-                  </Typography></Button> : null}
-              </Box>
-            </Box>
           </Box>
-
-          <Dialog
-            open={openDialogConfirmacion}
-            onClose={() => setOpenDialogConfirmacion(false)}
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Editar información"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                ¿ Desea cambiar la informacion ?
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={() => { setOpenDialogConfirmacion(false) }}>Cancelar</Button>
-              <Button color="success" onClick={() => onClickGuardarCambios()}>Aceptar</Button>
-              {/* onClickEditarTodo */}
-            </DialogActions>
-          </Dialog>
-
-
         </Box>
       </Box>
     </Box>
