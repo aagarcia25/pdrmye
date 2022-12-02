@@ -144,7 +144,7 @@ export default function Header(props: HeaderProps) {
                   // width: "3rem", height: "4rem",
                   width: "100%",height:"100%",
                   fontSize: btnPerson,
-                  backgroundColor: user.RutaFoto ? COLOR.negro : COLOR.blanco,
+                  backgroundColor: user.RutaFoto ? COLOR.negro : COLOR.negro,
                   "&:hover": { backgroundColor: COLOR.negro},
                 }}
               >
