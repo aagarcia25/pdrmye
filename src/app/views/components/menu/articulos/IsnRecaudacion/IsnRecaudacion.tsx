@@ -1,210 +1,147 @@
-import React from 'react'
-import { useEffect, useState } from "react";
-import { GridColDef } from "@mui/x-data-grid";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import Slider from "../../../Slider";
-import { Toast } from "../../../../../helpers/Toast";
+
+import React, { useEffect, useState } from 'react'
+import { Box, Grid, IconButton, Link, Tooltip, Typography } from '@mui/material'
+import { GridColDef, GridSelectionModel } from '@mui/x-data-grid'
+import { getPermisos, getUser } from '../../../../../services/localStorage'
+import { CatalogosServices } from '../../../../../services/catalogosServices'
+import { messages } from '../../../../styles'
+import Swal from 'sweetalert2'
+import { Toast } from '../../../../../helpers/Toast'
 import { AlertS } from "../../../../../helpers/AlertS";
-import Swal from "sweetalert2";
+import Slider from "../../../Slider";
+import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import SelectFrag from '../../../Fragmentos/SelectFrag'
+import { fanios } from "../../../../../share/loadAnios";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import BotonesAcciones from '../../../componentes/BotonesAcciones'
+import MUIXDataGridMun from '../../../MUIXDataGridMun'
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import {
-  Box,
-  Grid,
-  IconButton,
-  Link,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import ModalForm from "../../../componentes/ModalForm";
-import SaveButton from "../../../componentes/SaveButton";
-import Title from "../../../componentes/Title";
-import { Moneda } from "../../CustomToolbar";
+
+
 
 const IsnRecaudacion = () => {
-  //   VALORES POR DEFAULT
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const user: RESPONSE = JSON.parse(String(getUser()));
+  const [update, setUpdate] = useState(false);
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
-  const [dataTipoFondo, setDataTipoFondo] = useState([]);
-  const [slideropen, setslideropen] = useState(true);
-  const user: RESPONSE = JSON.parse(String(getUser()));
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [data, setData] = useState([]);
+  const [plantilla, setPlantilla] = useState("");
+  const [slideropen, setslideropen] = useState(false);
+  const [anios, setAnios] = useState<SelectValues[]>([]);
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+  const [modo, setModo] = useState("");
   const [nombreMenu, setNombreMenu] = useState("");
-  const [vrows, setVrows] = useState({});
-  const [tipoCalculo, setTipoCalculo] = useState("");
-  const [version, setVersion] = useState(0);
-  const [modo, setModo] =  useState(0);
-  const [plantilla, setPlantilla] = useState("");
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
 
-  const columns1: GridColDef[] = [
+  // VARIABLES PARA LOS FILTROS
+  const [filterAnio, setFilterAnio] = useState("");
+  //funciones
+
+
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "Identificador", width: 150, hide: true, description: messages.dataTableColum.id },
     {
-      field: "id",
-      headerName: "Identificador",
+      field: "idmunicipio",
+      headerName: "idmunicipio",
       hide: true,
+      width: 150,
     },
-    { field: "Version", headerName: "Versión", width: 150 },
-    { field: "FechaCreacion", headerName: "Fecha de Creación", width: 200 },
-    { field: "municipio", headerName: "Municipio", width: 250 },
-    { field: "Importe", headerName: "Importe", width: 500,...Moneda },
-    { field: "Coeficiente", headerName: "Coeficiente", width: 250 },
-    { field: "UC", headerName: "Usuario Creo", width: 350 },
-    { field: "UM", headerName: "Usuario Modifico", width: 350 },
-  ];
-
-  const columns0: GridColDef[] = [
     {
-        field: "acciones",
-        headerName: "Acciones",
-        description: "Campo de Acciones",
-        sortable: false,
-        width: 200,
-        renderCell: (v) => {
-          return (
-            <Box>
-              <Tooltip title={"Ver Detalle"}>
-                <IconButton onClick={() => handleView(v)}>
-                  <RemoveRedEyeIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          );
-        },
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 100,
+      renderCell: (v) => {
+        return (
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={update} eliminar={eliminar}></BotonesAcciones>
+
+        );
       },
-    {field: "id",headerName: "Versión",},
-    { field: "Importe", headerName: "Importe", width: 500,...Moneda },
-    { field: "UC", headerName: "Usuario Creo", width: 350 },
-    { field: "UM", headerName: "Usuario Modifico", width: 350 },
+    },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", width: 150 },
+    { field: "Anio", headerName: "Año", width: 150 },
+    { field: "Importe", headerName: "Importe", width: 150 },
+    { field: "Coeficiente", headerName: "Coeficiente", width: 150 },
   ];
-
-  const handlesave = (v: any) => {
-    
-    let data = {
-      NUMOPERACION: tipoOperacion,
-      DESCRIPCION: tipoCalculo,
-      CHUSER: user.id,
-      CHID:v.id
-    };
-
-    CatalogosServices.TipoFondosCalculo(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Eliminado!",
-        });
-        consulta(5);
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-
-  };
 
   const handleAccion = (v: any) => {
-    //console.log(v)
-    if (v.tipo === 2) {
+    if (v.tipo === 1) {
       setTipoOperacion(2);
-      setVrows(v.data);
+      setModo("Editar");
       setOpen(true);
-    } else if (v.tipo === 3) {
-      Swal.fire({
-        icon: "info",
-        title: "Estas seguro de eliminar este registro?",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Confirmar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          let data = {
-            NUMOPERACION: 3,
-            CHID: v.data.id,
-            CHUSER: user.id,
-          };
-
-          CatalogosServices.TipoFondosCalculo(data).then((res) => {
-            if (res.SUCCESS) {
-              Toast.fire({
-                icon: "success",
-                title: "Registro Eliminado!",
-              });
-              consulta(5);
-            } else {
-              AlertS.fire({
-                title: "Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              });
-            }
-          });
-        } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
-        }
-      });
+    } else if (v.tipo === 2) {
+      handleDelete(v.data);
     }
-  };
-
-  const handleView = (v: any) => {
-    consulta(4);
-    setVersion(v.id);
-    setModo(1)
-  };
-
-  const handleBack = () => {
-    consulta(5);
-    setModo(0)
-   
-  };
-  const handleClose = () => {
-    consulta(5);
-    setVrows({});
+  }
+  const handleClose = (v: string) => {
     setOpen(false);
-  };
+    consulta(4);
 
+  };
+  const handleBorrar = (v: any) => {
+    setSelectionModel(v);
+  };
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
-    setOpen(true);
-    setTipoCalculo("");
-    setVrows({});
+    setModo("Agregar Registro");
+    setOpen(false);
+   
   };
+  const handleDelete = (v: any) => {
+   Swal.fire({
+      icon: "info",
+      title: "Estas seguro de eliminar este registro?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Confirmar",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //console.log(v);
 
-  const consulta = (NUMOPERACION:number) => {
-    setslideropen(true);
-    let data = {
-      NUMOPERACION: NUMOPERACION,
-    };
+        let data = {
+          NUMOPERACION: 3,
+          CHID: v.row.id,
+          CHUSER: user.id
+        };
+        //console.log(data);
 
-    CatalogosServices.MUNISAI(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
+
+        CatalogosServices.munpoblacion(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Registro Eliminado!",
+            });
+
+
+          } else {
+            AlertS.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
         });
-        setDataTipoFondo(res.RESPONSE);
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
+
+      
+        consulta(4);
+
+      } else if (result.isDenied) {
+        Swal.fire("No se realizaron cambios", "", "info");
       }
-      setslideropen(false);
+
+
     });
+  
   };
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -212,17 +149,60 @@ const IsnRecaudacion = () => {
     let file = event?.target?.files?.[0] || "";
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlxs");
-    formData.append("NUMOPERACION", "1");
     formData.append("CHUSER",  user.id);
-    CatalogosServices.MUNISAI(formData).then((res) => {
+    formData.append("tipo", "MUNISNRECAUDACION");
+    CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
-      consulta(5);
+      consulta(4);
     });
+  };
+
+  const handleAgregar = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setslideropen(true);
+    let file = event?.target?.files?.[0] || "";
+    
+  };
+
+
+ 
+
+  const consulta = (NUMOPERACION:number) => {
+    setslideropen(true);
+    let data = {
+      NUMOPERACION: NUMOPERACION,
+      CHUSER: user.id,
+      ANIO: filterAnio
+    };
+
+    CatalogosServices.indexISN(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        setData(res.RESPONSE);
+      } else {
+        AlertS.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+      setslideropen(false);
+    });
+  };
+
+
+  const handleFilterChange = (v: string) => {
+    setFilterAnio(v);
+    if (v !== "") {
+      consulta(4);
+    }
   };
 
   const downloadplantilla = () => {
     let data = {
-      NUMOPERACION: "PLANTILLA DE CARGA_ISAI",
+      NUMOPERACION: "PLANTILLA DE CARGA_ISN_RECAUDACION",
     };
 
     CatalogosServices.descargaplantilla(data).then((res) => {
@@ -231,34 +211,55 @@ const IsnRecaudacion = () => {
   };
 
   useEffect(() => {
-    permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "ISNR") {
-        setNombreMenu(item.Menu);
-        if (String(item.Referencia) === "AGREG") {
-          setAgregar(true);
-        }
-        if (String(item.Referencia) === "ELIM") {
-          setEliminar(true);
-        }
-        if (String(item.Referencia) === "EDIT") {
-          setEditar(true);
-        }
-      }
-    });
     downloadplantilla();
-    consulta(5);
-  
+    setAnios(fanios());
+    permisos.map((item: PERMISO) => {
+        if (String(item.ControlInterno) === "ISNR") {
+          setNombreMenu(item.Menu);
+          if (String(item.Referencia) === "AGREG") {
+            setAgregar(true);
+          }
+          if (String(item.Referencia) === "ELIM") {
+            setEliminar(true);
+          }
+          if (String(item.Referencia) === "EDIT") {
+            setEditar(true);
+          }
+        }
+      });
+    consulta(4);
+
   }, []);
 
+
+
+
   return (
-    
-    
-    
-    <div >
+
+    <div style={{ height: 600, width: "100%", padding:"2%" }}>
       <Slider open={slideropen}></Slider>
-      <Title titulo={nombreMenu} tooltip={""}></Title>
-      
-      <div style={{ height: 600, width: "100%" ,display : modo === 0 ? "block":"none"}}>
+
+   
+
+
+
+     
+      <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+          <Typography variant='h3'>
+            {nombreMenu} 
+          </Typography>
+        </Grid>
+      </Grid>
+   <Box
+        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
+        <SelectFrag
+          options={anios}
+          onInputChange={handleFilterChange}
+          placeholder={"Seleccione Año"} label={''} disabled={false}
+          value={filterAnio} />
+      </Box>
       <Box >
         {agregar ?
         <>
@@ -279,78 +280,13 @@ const IsnRecaudacion = () => {
         </>
          :""}
       </Box>
-
-      <MUIXDataGrid columns={columns0} rows={dataTipoFondo} />
-      </div>
-
-      <div style={{height: 600, width: "100%", display : modo === 1 ? "block":"none"}}>
-      <Box >
-      <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-      <Tooltip title="Regresar">
-        <ToggleButton value="check" onClick={ () =>handleBack()}>
-          <ArrowBackIcon />
-        </ToggleButton>
-      </Tooltip>
-    </ToggleButtonGroup>
-      </Box>
-
-      <MUIXDataGrid columns={columns1} rows={dataTipoFondo} />
-      </div>
-      
+     < MUIXDataGridMun columns={columns} rows={data} handleBorrar={handleBorrar} borrar={eliminar} modulo={'POBLACION'}   />
 
 
-
-
-
-      {open ? (
-        <ModalForm
-          title={
-            tipoOperacion === 1 ? "Agregar Registro" : "Modificar Registro"
-          }
-          handleClose={handleClose}
-        >
-          <Grid
-            container
-            sx={{
-              mt: "2vh",
-              width: "100%",
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row",
-            }}
-          >
-            <Grid item xs={3} sm={3} md={3} lg={3}>
-              <Typography>
-                Descripción de Tipo de Cálculo:
-              </Typography>
-            </Grid>
-            <Grid item xs={9} sm={9} md={9} lg={9}>
-              <TextField
-                required
-                margin="dense"
-                label="Descripción"
-                value={tipoCalculo}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setTipoCalculo(v.target.value)}
-                error={tipoCalculo === null ? true : false}
-              />
-            </Grid>
-
-            <SaveButton
-              vrow={vrows}
-              handleAccion={handlesave}
-              tipoOperacion={tipoOperacion}
-            ></SaveButton>
-          </Grid>
-        </ModalForm>
-      ) : (
-        ""
-      )}
     </div>
-  );
-};
+
+
+  )
+}
 
 export default IsnRecaudacion;

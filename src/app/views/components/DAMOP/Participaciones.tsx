@@ -2,6 +2,8 @@ import {
   Button,
   createTheme,
   Grid,
+  IconButton,
+  Link,
   ThemeProvider,
   ToggleButton,
   ToggleButtonGroup,
@@ -25,6 +27,8 @@ import Slider from "../Slider";
 import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import LanIcon from '@mui/icons-material/Lan';
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+
 import {
   DataGrid,
   GridSelectionModel,
@@ -56,6 +60,18 @@ const Participaciones = () => {
   //Constantes para las columnas
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const [plantilla, setPlantilla] = useState("");
+
+
+  const downloadplantilla = () => {
+    let data = {
+      NUMOPERACION: "PLANTILLA CARGA ANTICIPO PARTICIPACIONES",
+    };
+
+    CatalogosServices.descargaplantilla(data).then((res) => {
+      setPlantilla(res.RESPONSE);
+    });
+  };
 
 
   const columnsParticipaciones = [
@@ -251,6 +267,21 @@ const Participaciones = () => {
  
   };
 
+
+  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setslideropen(true);
+    let file = event?.target?.files?.[0] || "";
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlxs");
+    formData.append("CHUSER",  user.id);
+    formData.append("tipo", "anticipoParticipaciones");
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+      handleClick();
+    });
+  };
+
+
   const SolicitudOrdenPago = () => {
 
     Swal.fire({
@@ -320,6 +351,7 @@ const Participaciones = () => {
     loadFilter(5);
     loadFilter(17);
     handleClick();
+    downloadplantilla();
   }, []);
 
   return (
@@ -424,22 +456,20 @@ const Participaciones = () => {
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={1}>
-          <ToggleButtonGroup>
-            <Tooltip title={"Cargar Plantilla para Generar Anticipo de Participaciones"}>
-              <ToggleButton value="check" onClick={() => openmodalc(1)}>
-                <DriveFolderUploadIcon />
-              </ToggleButton>
-            </Tooltip>
+        <Tooltip title="Descargar Plantilla">
+          <IconButton aria-label="upload documento" component="label" size="large">
+            <Link href={plantilla}>
+              <ArrowDownwardIcon />
+            </Link>
+            </IconButton>
+        </Tooltip>
 
-            <Tooltip title={"Distribuir en Fideicomisos"}>
-              <ToggleButton value="check" onClick={() => openmodalc(1)}>
-                <LanIcon />
-              </ToggleButton>
-            </Tooltip>
-
-
-            
-          </ToggleButtonGroup>
+        <Tooltip title="Cargar Plantilla">
+        <IconButton aria-label="upload documento" component="label" size="large">
+        <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
+        <DriveFolderUploadIcon />
+        </IconButton>
+        </Tooltip>
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} >

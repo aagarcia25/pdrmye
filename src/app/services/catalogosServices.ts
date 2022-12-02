@@ -151,5 +151,9 @@ export class CatalogosServices {
     public static async MUNISAI(data: any) {
         return await post('MUNISAI', data);
     }
+
+    public static async indexISN(data : any) {
+        return await post('indexISN', data);
+    };
     
 }
