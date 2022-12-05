@@ -384,7 +384,6 @@ const AvisosModal = ({
 
               <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
 
-                <button className="button cerrar" onClick={() => handleClose()}  >Cerrar</button>
                 <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
 
 
