@@ -154,7 +154,7 @@ const DetalleFgp = ({
     if (!perfilDestino || !data.mensaje) {
 
       AlertS.fire({
-        title: "Seleccione Destinatario",
+        title: "Verifique Los Campos",
         icon: "error",
       });
     }
