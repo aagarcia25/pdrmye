@@ -117,7 +117,7 @@ const DetalleFgp = ({
           case 5: //AUTORIZAR CAPTURISTA
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("DAMOP_INICIO");
-          setperfilDestino("COOR");
+          setperfilDestino("ANA");
           setArea("DAMOP");
           setOpenModal(true);
           break;
@@ -513,8 +513,10 @@ const DetalleFgp = ({
             <ModalCalculos
               tipo={tipoAccion}
               handleClose={handleClose}
-              handleAccion={Fnworkflow}
-            />
+              handleAccion={Fnworkflow} 
+              perfil={perfilDestino} 
+              area={area}         
+                 />
           ) : (
             ""
           )}

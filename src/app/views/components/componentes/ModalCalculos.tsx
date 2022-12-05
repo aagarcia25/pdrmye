@@ -8,10 +8,14 @@ import SelectFrag from "../Fragmentos/SelectFrag";
 
 const ModalCalculos = ({
   tipo,
+  perfil,
+  area,
   handleClose,
   handleAccion,
 }: {
   tipo: string;
+  perfil: string;
+  area: string;
   handleClose: Function;
   handleAccion: Function;
 }) => {
@@ -23,7 +27,9 @@ const ModalCalculos = ({
 
   const loadSelectUser = () => {
     let data = {
-      NUMOPERACION: 18
+      NUMOPERACION: 18,
+      AREA:area ,
+      PERFIL:perfil
     };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (res.SUCCESS) {
@@ -36,8 +42,6 @@ const ModalCalculos = ({
   
   const handleSelectUser = (e: any) => {
     setChuserDestin(e);
-    //console.log(e);
-
   };
 
 
