@@ -107,7 +107,13 @@ const Participaciones = () => {
       description: "Municipio",
     },
     {
-      field: "Nombre",
+      field: "ClaveBeneficiario",
+      headerName: "Cve. Beneficiario",
+      width: 150,
+      description: "Beneficiario",
+    },
+    {
+      field: "DescripcionBeneficiario",
       headerName: "Beneficiario",
       width: 150,
       description: "Beneficiario",
@@ -137,6 +143,11 @@ const Participaciones = () => {
       field: "ConceptoEgreso",
       headerName: "Cpto. de  egreso",
       width: 150,
+    },
+    {
+      field: "conceptoCheque",
+      headerName: "Cpto. de  Cheque",
+      width: 270,
     },
     {
       field: "tipocalculo",
