@@ -23,6 +23,7 @@ import xlsxLogo from '../../../../../../app/assets/img/xlsx_Logo.png'
 import docxLogo from '../../../../../../app/assets/img/docx_Logo.png'
 import "../../../../../styles/globals.css";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ModalForm from "../../../componentes/ModalForm";
 const AvisosModal = ({
   open,
   modo,
@@ -96,168 +97,341 @@ const AvisosModal = ({
     formData.append("FECHAFIN", String(finEvento));
     formData.append("CHUSER", String(user.id));
 
-    if (inicioEvento === null || finEvento === null || nameAviso === null || descripcion === null||nameAviso===null || (editDoc)? (newDoc===null):(newDoc==!null)) {     
+    if (inicioEvento === null || finEvento === null || nameAviso === null || descripcion === null || nameAviso === null || (editDoc) ? (newDoc === null) : (newDoc == !null)) {
 
-        AlertS.fire({
-          title: "Error!",
-          text: "Campos Vacios",
-          icon: "error",
-        });
-      }
-    
-else {
-  CatalogosServices.avisos(formData).then((res) => {
-      setslideropen(false);
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        }    
-        );
-
-        handleClose("save");
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: "Campos Requeridos Vacios",
-          icon: "error",
-        });
-        handleClose("cerrar");
-      }
-
-    });
-    
-  }
-};
-
-
-
-const handleFechaInicio = (event: React.ChangeEvent<HTMLInputElement>) => {
-  setInicioEvento(event.target.value.toString());
-};
-
-const handleFechaFin = (event: React.ChangeEvent<HTMLInputElement>) => {
-  setFinEvento(event.target.value.toString());
-
-};
-
-const handleNewFile = (event: any) => {
-
-  let file = event.target!.files[0]!;
-  ///// SE VALIDA SI NO SE CARGO ARCHIVO EN EL INPUT PARA PODER EXTRAER EL NOMBRE
-  if (event.target.files.length === 0) {
-  } else {
-    setNameNewDoc(event.target!.files[0]!.name);
-    setEditDoc(true);
-  }
-  /////////////////////////////
-  if (file && file.type.substr(0, 5) === "image") {
-    setNewDocPreviw(file);
-    setCleanUp(true);
-    setEditDoc(true);
-    setNewDoc(null);
-  }    /////////////////////////
-  setNewDoc(file);
-
-};
-
-
-useEffect(() => {
-  permisos.map((item: PERMISO) => {
-    if (String(item.ControlInterno) === "AVISOS") {
-      //console.log(item)
-      if (String(item.Referencia) === "EDIT") {
-        setEditar(true);
-      }
+      AlertS.fire({
+        title: "Error!",
+        text: "Campos Vacios",
+        icon: "error",
+      });
     }
-  });
 
-  municipiosc();
-  if (dt === '') {
-  } else {
-    setId(dt?.row?.id);
-    setIdMunicipio(dt?.row?.idmunicipio);
-    setUrlDoc(dt?.row?.Documento);
-    setFinEvento(dt?.row?.FechaFin);
-    setInicioEvento(dt?.row?.fechaInicio);
-    setNameAviso(dt?.row?.Nombre);
-    setDescripcion(dt?.row?.Descripcion);
-    setNameDocDownload(dt?.row?.NombreDocumento)
-  }
-}, [dt]);
-
-////previsualizar imagen
-useEffect(() => {
-  if (NewDocPreview) {
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewDoc(reader.result as string);
-    };
-    reader.readAsDataURL(NewDocPreview!);
-  }
-  else {
-    setPreviewDoc("o");
-  }
-}, [NewDocPreview]);
-
-
-return (
-  <Dialog open={open} keepMounted>
-
-
-
-    {(modoModal === "Agregar Aviso") ?
-      <Container maxWidth="sm" >
-        <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', }}>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
-            <label className="Titulo">{modoModal}</label>
-          </Box>
-
-          { //////////empiezan debajo del titulo
-            //// imagen carga y previsualizacion
+    else {
+      CatalogosServices.avisos(formData).then((res) => {
+        setslideropen(false);
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "Carga Exitosa!",
           }
+          );
 
-          <Box sx={{ width: '100%', }}>
+          handleClose("save");
+        } else {
+          AlertS.fire({
+            title: "Error!",
+            text: "Campos Requeridos Vacios",
+            icon: "error",
+          });
+          handleClose("cerrar");
+        }
 
-            <Box sx={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              p: 1,
-              m: 1,
-              bgcolor: 'background.paper',
-              borderRadius: 1,
-            }}>
-              {/////  mostrar logo y nombre de el archivo a cargar
+      });
+
+    }
+  };
+
+
+
+  const handleFechaInicio = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInicioEvento(event.target.value.toString());
+  };
+
+  const handleFechaFin = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFinEvento(event.target.value.toString());
+
+  };
+
+  const handleNewFile = (event: any) => {
+
+    let file = event.target!.files[0]!;
+    ///// SE VALIDA SI NO SE CARGO ARCHIVO EN EL INPUT PARA PODER EXTRAER EL NOMBRE
+    if (event.target.files.length === 0) {
+    } else {
+      setNameNewDoc(event.target!.files[0]!.name);
+      setEditDoc(true);
+    }
+    /////////////////////////////
+    if (file && file.type.substr(0, 5) === "image") {
+      setNewDocPreviw(file);
+      setCleanUp(true);
+      setEditDoc(true);
+      setNewDoc(null);
+    }    /////////////////////////
+    setNewDoc(file);
+
+  };
+
+
+  useEffect(() => {
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "AVISOS") {
+        //console.log(item)
+        if (String(item.Referencia) === "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
+
+    municipiosc();
+    if (dt === '') {
+    } else {
+      setId(dt?.row?.id);
+      setIdMunicipio(dt?.row?.idmunicipio);
+      setUrlDoc(dt?.row?.Documento);
+      setFinEvento(dt?.row?.FechaFin);
+      setInicioEvento(dt?.row?.fechaInicio);
+      setNameAviso(dt?.row?.Nombre);
+      setDescripcion(dt?.row?.Descripcion);
+      setNameDocDownload(dt?.row?.NombreDocumento)
+    }
+  }, [dt]);
+
+  ////previsualizar imagen
+  useEffect(() => {
+    if (NewDocPreview) {
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewDoc(reader.result as string);
+      };
+      reader.readAsDataURL(NewDocPreview!);
+    }
+    else {
+      setPreviewDoc("o");
+    }
+  }, [NewDocPreview]);
+
+
+  return (
+    <Dialog open={open} keepMounted>
+
+      <ModalForm title={modoModal} handleClose={handleClose}>
+
+
+
+        {(modoModal === "Agregar Aviso") ?
+          <Container maxWidth="sm" >
+            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', }}>
+    
+
+              { //////////empiezan debajo del titulo
+                //// imagen carga y previsualizacion
               }
-              <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', flexDirection: 'column', }}>
-                {(String(nameNewDoc).slice(-4) === ".bpm" || String(nameNewDoc).slice(-4) === ".BPM" ||
-                  String(nameNewDoc).slice(-4) === ".jpg" || String(nameNewDoc).slice(-4) === ".JPG" || String(String(nameNewDoc)).slice(-4) === ".png" || String(nameNewDoc).slice(-4) === ".PNG") ?
-                  <Box>
-                    <img src={previewDoc} style={{ objectFit: "scale-down", width: '100%', }} />
-                  </Box>
-                  : (String(nameNewDoc).slice(-4) === ".pdf" || String(nameNewDoc).slice(-4) === ".PDF") ?
+
+              <Box sx={{ width: '100%', }}>
+
+                <Box sx={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  p: 1,
+                  m: 1,
+                  bgcolor: 'background.paper',
+                  borderRadius: 1,
+                }}>
+                  {/////  mostrar logo y nombre de el archivo a cargar
+                  }
+                  <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', flexDirection: 'column', }}>
+                    {(String(nameNewDoc).slice(-4) === ".bpm" || String(nameNewDoc).slice(-4) === ".BPM" ||
+                      String(nameNewDoc).slice(-4) === ".jpg" || String(nameNewDoc).slice(-4) === ".JPG" || String(String(nameNewDoc)).slice(-4) === ".png" || String(nameNewDoc).slice(-4) === ".PNG") ?
+                      <Box>
+                        <img src={previewDoc} style={{ objectFit: "scale-down", width: '100%', }} />
+                      </Box>
+                      : (String(nameNewDoc).slice(-4) === ".pdf" || String(nameNewDoc).slice(-4) === ".PDF") ?
+
+                        <Box>
+                          <img src={PdfLogo} style={{ objectFit: "scale-down", width: '100%', }} />
+                        </Box>
+
+                        : (String(nameNewDoc).slice(-5) === ".pptx" || String(nameNewDoc).slice(-5) === ".PPTX") ?
+
+                          <Box>
+                            <img src={PptxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
+                          </Box>
+
+                          : (String(nameNewDoc).slice(-5) === ".xlsx" || String(nameNewDoc).slice(-5) === ".XLSX" || String(nameNewDoc).slice(-4) === ".xls" || String(nameNewDoc).slice(-4) === ".XLS") ?
+
+                            <Box>
+                              <img src={xlsxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
+                            </Box>
+
+                            : (String(nameNewDoc).slice(-5) === ".docx" || String(nameNewDoc).slice(-5) === ".DOCX" || String(nameNewDoc).slice(-4) === ".doc" || String(nameNewDoc).slice(-4) === ".DOC") ?
+
+                              <Box>
+                                <img src={docxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
+                              </Box>
+
+                              : <Box>
+                                <img src={imagenGenerica} style={{ objectFit: "scale-down", width: '100%', }} />
+                              </Box>}
 
                     <Box>
-                      <img src={PdfLogo} style={{ objectFit: "scale-down", width: '100%', }} />
+                      <label >{nameNewDoc}</label>
+                    </Box>
+                  </Box>
+                  <Box>
+                    <IconButton aria-label="upload picture" component="label" size="large" >
+                      <input
+                        required
+                        type="file"
+                        hidden
+                        onChange={(event) => {
+                          handleNewFile(event)
+                        }} />
+                      <UploadFileIcon />
+                    </IconButton>
+                  </Box>
+                </Box>
+
+              </Box>
+
+              {
+                //////////
+
+                //// inicio y fin de evento
+              }
+              <Box sx={{
+                p: 1,
+                m: 1,
+                bgcolor: 'background.paper',
+                borderRadius: 1,
+              }}>
+
+                <Box sx={{
+                  bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+                  p: 1,
+                  m: 1,
+                }}>
+                  <Box>
+
+                    <Box sx={{ justifyContent: 'center', display: 'flex', }} >
+                      <label >Inicio </label>
                     </Box>
 
-                    : (String(nameNewDoc).slice(-5) === ".pptx" || String(nameNewDoc).slice(-5) === ".PPTX") ?
+                    <Box>
+                      <input
+                        id="datetime-local"
+                        required
+                        type="datetime-local"
+
+                        min={inicioEventoMin}
+                        max={finEventoMax}
+                        onChange={handleFechaInicio}
+                      />
+
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ justifyContent: 'center', }}>
+                    <Box>
+                      <Box sx={{ justifyContent: 'center', display: 'flex', }} >
+                        <label >Fin</label>
+                      </Box>
+                      <Box>
+                        <input
+                          id="datetime-finaliza"
+                          required
+                          type="datetime-local"
+                          min={inicioEvento}
+                          onChange={handleFechaFin}
+                        />
+                      </Box>
+
+                    </Box>
+
+                  </Box>
+                </Box>
+              </Box>
+              {
+                //////////
+
+                //// añadir nombre y descripcion
+              }
+              <Box>
+
+
+                <label >Nombre</label>
+                <TextField
+                  required
+                  multiline
+                  margin="dense"
+                  id="anio"
+                  //value nombre de evento
+
+                  type="string"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNameAviso(v.target.value)}
+                  error={nameAviso === "" ? true : false}
+                />
+                <label >Descripcion</label>
+                <TextField
+                  multiline
+                  required
+                  margin="dense"
+                  id="anio"
+
+                  type="string"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setDescripcion(v.target.value)}
+                  error={descripcion == "" ? true : false}
+
+                />
+              </Box>
+
+              <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
+
+                <button className="button cerrar" onClick={() => handleClose()}  >Cerrar</button>
+                <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
+
+
+              </Box>
+
+            </Box>
+          </Container>
+          :
+          ""}
+
+
+
+        {(modoModal === "Aviso") ?
+
+          <Container maxWidth="sm" >
+
+            <Box >
+
+              <Box >
+
+                {(urlDoc.slice(-4) === ".pdf" || urlDoc.slice(-4) === ".PDF") ?
+
+                  <iframe id="inlineFrameExample"
+                    title="Inline Frame Example"
+                    width="500"
+                    height="350"
+                    src={urlDoc}
+                  />
+
+                  : (urlDoc.slice(-4) === ".bpm" || urlDoc.slice(-4) === ".BPM" ||
+                    urlDoc.slice(-4) === ".jpg" || urlDoc.slice(-4) === ".JPG" || urlDoc.slice(-4) === ".png" || urlDoc.slice(-4) === ".PNG") ?
+                    <Box>
+                      <img id="imagen" src={urlDoc} style={{ objectFit: "scale-down" }} />
+                    </Box>
+
+                    : (urlDoc.slice(-5) === ".pptx" || urlDoc.slice(-5) === ".PPTX") ?
 
                       <Box>
                         <img src={PptxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
                       </Box>
-
-                      : (String(nameNewDoc).slice(-5) === ".xlsx" || String(nameNewDoc).slice(-5) === ".XLSX" || String(nameNewDoc).slice(-4) === ".xls" || String(nameNewDoc).slice(-4) === ".XLS") ?
+                      : (urlDoc.slice(-5) === ".xlsx" || urlDoc.slice(-5) === ".XLSX" || urlDoc.slice(-4) === ".xls" || urlDoc.slice(-4) === ".XLS") ?
 
                         <Box>
                           <img src={xlsxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
                         </Box>
 
-                        : (String(nameNewDoc).slice(-5) === ".docx" || String(nameNewDoc).slice(-5) === ".DOCX" || String(nameNewDoc).slice(-4) === ".doc" || String(nameNewDoc).slice(-4) === ".DOC") ?
+                        : (urlDoc.slice(-5) === ".docx" || urlDoc.slice(-5) === ".DOCX" || urlDoc.slice(-4) === ".doc" || urlDoc.slice(-4) === ".DOC") ?
 
                           <Box>
                             <img src={docxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
@@ -265,14 +439,135 @@ return (
 
                           : <Box>
                             <img src={imagenGenerica} style={{ objectFit: "scale-down", width: '100%', }} />
-                          </Box>}
+                          </Box>
+                }
 
-                <Box>
-                  <label >{nameNewDoc}</label>
-                </Box>
               </Box>
               <Box>
-                <IconButton aria-label="upload picture" component="label" size="large" >
+                <Box>
+                  <label >
+                    {nameDocDownload}
+                  </label>
+
+                </Box>
+                {(urlDoc.slice(-4) === ".pdf" || urlDoc.slice(-4) === ".PDF" || urlDoc.slice(-4) === ".bpm" || urlDoc.slice(-4) === ".BPM" ||
+                  urlDoc.slice(-4) === ".jpg" || urlDoc.slice(-4) === ".JPG" || urlDoc.slice(-4) === ".png" || urlDoc.slice(-4) === ".PNG") ?
+                  <Box>
+                    <button >
+                      <a href={urlDoc} target="_blank" download={nameDocDownload}>
+                        Ver
+                      </a>
+
+                    </button>
+                  </Box>
+                  :
+                  <Box>
+                    <button >
+                      <a href={urlDoc} target="_blank" download={nameDocDownload}>
+                        Descargar
+                      </a>
+
+                    </button>
+                  </Box>
+
+                }
+
+
+              </Box>
+
+              <Box>
+                <Box
+                  sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '5px' }}>
+                  <h4>Nombre</h4>
+                </Box>
+
+                <label >
+                  {nameAviso}
+                </label>
+
+                <Box
+                  sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '5px' }}>
+                  <h4>Descripcion</h4>
+                </Box>
+                <label>
+                  {descripcion}
+                </label>
+              </Box>
+
+              <Box
+                sx={{
+                  bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+                  p: 1,
+                  m: 1,
+                }}>
+
+                <label >
+                  <h3>Inicio</h3>
+                  {inicioEvento}
+
+                </label>
+
+                <label>
+                  <h3>Fin</h3>
+                  {finEvento}
+                </label>
+
+              </Box>
+
+
+              <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
+
+                {editar ?
+                  <button className="editar" onClick={() => setModoModal("Editar")}>Editar</button>
+                  : ""}
+              </Box>
+            </Box>
+          </Container>
+          : ""
+        }
+
+        {(modoModal === "Editar") ?
+
+          ///// editar evento hora inicio fin y foto        
+
+          (Date.parse(inicioEventoMin) >= Date.parse(inicioEvento)) ?
+
+            ////// SI EL EVENTO YA INICIO NO DEJA EDITARLO
+            <Container maxWidth="sm" >
+
+              <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'column', }}>
+
+                <Box>
+
+                  <TextField
+                    margin="dense"
+                    multiline
+                    value=" El evento ya Inicio y/o Finalizo"
+                    type="string"
+                    fullWidth
+                    variant="outlined"
+                    color="warning"
+                    focused
+                    InputProps={{
+                      readOnly: true,
+                    }} />
+                </Box>
+
+              </Box>
+            </Container>
+            :
+            /////   EDITAR EVENTO SI ESTE AUN NO FINALIZA Y/O INICIA
+            <Container maxWidth="sm">
+
+              {/// input de infomacion 
+              }
+
+              <Box>
+                <img id="imagen" src={imagenGenerica} style={{ width: '350px', height: '100%', objectFit: "scale-down" }} />
+              </Box>
+
+              <Box>
+                <IconButton aria-label="upload picture" component="label" size="large">
                   <input
                     required
                     type="file"
@@ -283,418 +578,114 @@ return (
                   <UploadFileIcon />
                 </IconButton>
               </Box>
-            </Box>
-
-          </Box>
-
-          {
-            //////////
-
-            //// inicio y fin de evento
-          }
-          <Box sx={{
-            p: 1,
-            m: 1,
-            bgcolor: 'background.paper',
-            borderRadius: 1,
-          }}>
-
-            <Box sx={{
-              bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-              p: 1,
-              m: 1,
-            }}>
               <Box>
+                <label >
+                  {(nameNewDoc) ? nameNewDoc : nameDocDownload}
+                </label>
 
-                <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                  <label >Inicio </label>
-                </Box>
-
-                <Box>
-                  <input
-                    id="datetime-local"
-                    required
-                    type="datetime-local"
-
-                    min={inicioEventoMin}
-                    max={finEventoMax}
-                    onChange={handleFechaInicio}
-                  />
-
-                </Box>
               </Box>
 
-              <Box sx={{ justifyContent: 'center', }}>
-                <Box>
-                  <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                    <label >Fin</label>
+              <Box>
+                <Box
+                  sx={{ bgcolor: 'rgb(222, 225, 225)' }}>
+                  <h4>Nombre</h4>
+                </Box>
+
+                <TextField
+                  required
+                  multiline
+                  defaultValue={nameAviso}
+                  margin="dense"
+                  id="anio"
+                  type="string"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setNameAviso(v.target.value)}
+                  error={nameAviso === "" ? true : false}
+                />
+
+                <Box
+                  sx={{ bgcolor: 'rgb(222, 225, 225)' }}>
+                  <h4>Descripcion</h4>
+                </Box>
+                <TextField
+                  multiline
+                  required
+                  margin="dense"
+                  id="anio"
+                  defaultValue={descripcion}
+                  type="string"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setDescripcion(v.target.value)}
+                  error={descripcion === "" ? true : false}
+
+                />
+              </Box>
+
+
+              <Box sx={{
+                bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+                p: 1,
+                m: 1,
+              }}>
+                <Box sx={{ justifyContent: 'center', }}>
+
+                  <Box  >
+                    <label>Inicio de evento </label>
                   </Box>
+
+
                   <Box>
+
+
                     <input
-                      id="datetime-finaliza"
+                      id="datetime-inicia"
                       required
                       type="datetime-local"
-                      min={inicioEvento}
+                      defaultValue={inicioEvento}
+                      min={inicioEventoMin}
+                      max={finEvento}
+                      onChange={handleFechaInicio}
+                    />
+
+
+                  </Box>
+
+                </Box >
+
+                <Box sx={{ justifyContent: 'center', }}>
+
+                  <Box>
+                    <label >Fin de evento</label>
+                  </Box>
+
+                  <Box>
+                    <input
+                      id="datetime-local"
+                      required
+                      type="datetime-local"
+                      defaultValue={finEvento}
                       onChange={handleFechaFin}
                     />
                   </Box>
 
                 </Box>
-
               </Box>
-            </Box>
-          </Box>
-          {
-            //////////
+              {////// botones 
+              }
 
-            //// añadir nombre y descripcion
-          }
-          <Box>
-
-
-            <label >Nombre</label>
-            <TextField
-              required
-              multiline
-              margin="dense"
-              id="anio"
-              //value nombre de evento
-
-              type="string"
-              fullWidth
-              variant="standard"
-              onChange={(v) => setNameAviso(v.target.value)}
-              error={nameAviso === "" ? true : false}
-            />
-            <label >Descripcion</label>
-            <TextField
-              multiline
-              required
-              margin="dense"
-              id="anio"
-
-              type="string"
-              fullWidth
-              variant="standard"
-              onChange={(v) => setDescripcion(v.target.value)}
-              error={descripcion == "" ? true : false}
-
-            />
-          </Box>
-
-          <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
-
-            <button className="button cerrar" onClick={() => handleClose()}  >Cerrar</button>
-            <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
-
-
-          </Box>
-
-        </Box>
-      </Container>
-      :
-      ""}
-
-
-
-    {(modoModal === "Aviso") ?
-
-      <Container maxWidth="sm" >
-
-        <Box >
-
-          <Box >
-
-            {(urlDoc.slice(-4) === ".pdf" || urlDoc.slice(-4) === ".PDF") ?
-
-              <iframe id="inlineFrameExample"
-                title="Inline Frame Example"
-                width="500"
-                height="350"
-                src={urlDoc}
-              />
-
-              : (urlDoc.slice(-4) === ".bpm" || urlDoc.slice(-4) === ".BPM" ||
-                urlDoc.slice(-4) === ".jpg" || urlDoc.slice(-4) === ".JPG" || urlDoc.slice(-4) === ".png" || urlDoc.slice(-4) === ".PNG") ?
-                <Box>
-                  <img id="imagen" src={urlDoc} style={{ objectFit: "scale-down" }} />
-                </Box>
-
-                : (urlDoc.slice(-5) === ".pptx" || urlDoc.slice(-5) === ".PPTX") ?
-
-                  <Box>
-                    <img src={PptxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
-                  </Box>
-                  : (urlDoc.slice(-5) === ".xlsx" || urlDoc.slice(-5) === ".XLSX" || urlDoc.slice(-4) === ".xls" || urlDoc.slice(-4) === ".XLS") ?
-
-                    <Box>
-                      <img src={xlsxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
-                    </Box>
-
-                    : (urlDoc.slice(-5) === ".docx" || urlDoc.slice(-5) === ".DOCX" || urlDoc.slice(-4) === ".doc" || urlDoc.slice(-4) === ".DOC") ?
-
-                      <Box>
-                        <img src={docxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
-                      </Box>
-
-                      : <Box>
-                        <img src={imagenGenerica} style={{ objectFit: "scale-down", width: '100%', }} />
-                      </Box>
-
-
-            }
-
-          </Box>
-
-
-          <Box>
-            <Box>
-              <label >
-                {nameDocDownload}
-              </label>
-
-            </Box>
-            {(urlDoc.slice(-4) === ".pdf" || urlDoc.slice(-4) === ".PDF" || urlDoc.slice(-4) === ".bpm" || urlDoc.slice(-4) === ".BPM" ||
-              urlDoc.slice(-4) === ".jpg" || urlDoc.slice(-4) === ".JPG" || urlDoc.slice(-4) === ".png" || urlDoc.slice(-4) === ".PNG") ?
-              <Box>
-                <button >
-                  <a href={urlDoc} target="_blank" download={nameDocDownload}>
-                    Ver
-                  </a>
-
-                </button>
-              </Box>
-              :
-              <Box>
-                <button >
-                  <a href={urlDoc} target="_blank" download={nameDocDownload}>
-                    Descargar
-                  </a>
-
-                </button>
+              <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
+                <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
               </Box>
 
-            }
+            </Container>
 
-
-          </Box>
-
-          <Box>
-            <Box
-              sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '5px' }}>
-              <h4>Nombre</h4>
-            </Box>
-
-            <label >
-              {nameAviso}
-            </label>
-
-            <Box
-              sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '5px' }}>
-              <h4>Descripcion</h4>
-            </Box>
-            <label>
-              {descripcion}
-            </label>
-          </Box>
-
-          <Box
-            sx={{
-              bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-              p: 1,
-              m: 1,
-            }}>
-
-            <label >
-              <h3>Inicio</h3>
-              {inicioEvento}
-
-            </label>
-
-            <label>
-              <h3>Fin</h3>
-              {finEvento}
-            </label>
-
-          </Box>
-
-
-          <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
-
-            <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
-             {editar?
-             <button className="editar" onClick={() => setModoModal("Editar")}>Editar</button>
-             :""}
-          </Box>
-        </Box>
-      </Container>
-      : ""
-    }
-
-    {(modoModal === "Editar") ?
-
-      ///// editar evento hora inicio fin y foto        
-
-      (Date.parse(inicioEventoMin) >= Date.parse(inicioEvento)) ?
-
-        ////// SI EL EVENTO YA INICIO NO DEJA EDITARLO
-        <Container maxWidth="sm" >
-
-          <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'column', }}>
-
-            <Box>
-
-              <TextField
-                margin="dense"
-                multiline
-                value=" El evento ya Inicio y/o Finalizo"
-                type="string"
-                fullWidth
-                variant="outlined"
-                color="warning"
-                focused
-                InputProps={{
-                  readOnly: true,
-                }} />
-            </Box>
-            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }} >
-              <button className="cerrar" onClick={() => handleClose()}  >Cerrar</button>
-
-            </Box>
-          </Box>
-        </Container>
-        :
-        /////   EDITAR EVENTO SI ESTE AUN NO FINALIZA Y/O INICIA
-        <Container maxWidth="sm">
-
-          {/// input de infomacion 
-          }
-
-          <Box>
-            <img id="imagen" src={imagenGenerica} style={{ width: '350px', height: '100%', objectFit: "scale-down" }} />
-          </Box>
-
-          <Box>
-            <IconButton aria-label="upload picture" component="label" size="large">
-              <input
-                required
-                type="file"
-                hidden
-                onChange={(event) => {
-                  handleNewFile(event)
-                }} />
-              <UploadFileIcon />
-            </IconButton>
-          </Box>
-          <Box>
-            <label >
-              {(nameNewDoc) ? nameNewDoc : nameDocDownload}
-            </label>
-
-          </Box>
-
-          <Box>
-            <Box
-              sx={{ bgcolor: 'rgb(222, 225, 225)' }}>
-              <h4>Nombre</h4>
-            </Box>
-
-            <TextField
-              required
-              multiline
-              defaultValue={nameAviso}
-              margin="dense"
-              id="anio"
-              type="string"
-              fullWidth
-              variant="standard"
-              onChange={(v) => setNameAviso(v.target.value)}
-              error={nameAviso === "" ? true : false}
-            />
-
-            <Box
-              sx={{ bgcolor: 'rgb(222, 225, 225)' }}>
-              <h4>Descripcion</h4>
-            </Box>
-            <TextField
-              multiline
-              required
-              margin="dense"
-              id="anio"
-              defaultValue={descripcion}
-              type="string"
-              fullWidth
-              variant="standard"
-              onChange={(v) => setDescripcion(v.target.value)}
-              error={descripcion === "" ? true : false}
-
-            />
-          </Box>
-
-
-          <Box sx={{
-            bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-            p: 1,
-            m: 1,
-          }}>
-            <Box sx={{ justifyContent: 'center', }}>
-
-              <Box  >
-                <label>Inicio de evento </label>
-              </Box>
-
-
-              <Box>
-
-
-                <input
-                  id="datetime-inicia"
-                  required
-                  type="datetime-local"
-                  defaultValue={inicioEvento}
-                  min={inicioEventoMin}
-                  max={finEvento}
-                  onChange={handleFechaInicio}
-                />
-
-
-              </Box>
-
-            </Box >
-
-            <Box sx={{ justifyContent: 'center', }}>
-
-              <Box>
-                <label >Fin de evento</label>
-              </Box>
-
-              <Box>
-                <input
-                  id="datetime-local"
-                  required
-                  type="datetime-local"
-                  defaultValue={finEvento}
-                  onChange={handleFechaFin}
-                />
-              </Box>
-
-            </Box>
-          </Box>
-          {////// botones 
-          }
-
-          <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
-            <button className="cerrar" onClick={() => handleClose()}  >Cerrar</button>
-            <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
-          </Box>
-
-        </Container>
-
-      //////////evento finalizado                     
-      : ""}
-
-  </Dialog>
-);
+          //////////evento finalizado                     
+          : ""}
+      </ModalForm>
+    </Dialog>
+  );
 };
 
 export default AvisosModal;

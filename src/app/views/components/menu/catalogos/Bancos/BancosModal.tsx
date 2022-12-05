@@ -5,6 +5,7 @@ import {
   Box,
   TextField,
   DialogActions,
+  Grid,
 } from "@mui/material";
 
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -12,6 +13,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ModalForm from "../../../componentes/ModalForm";
 
 export const BancosModal = ({
   open,
@@ -24,14 +26,14 @@ export const BancosModal = ({
   handleClose: Function;
   dt: any;
 }) => {
-    // CAMPOS DE LOS FORMULARIOS
+  // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const handleSend = () => {
-    if (!nombre || !descripcion ) {
+    if (!nombre || !descripcion) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -45,7 +47,7 @@ export const BancosModal = ({
         NOMBRE: nombre,
         DESCRIPCION: descripcion,
       };
-      
+
       handleRequest(data);
       handleClose();
     }
@@ -70,7 +72,7 @@ export const BancosModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-        
+
       } else {
         AlertS.fire({
           title: "Error!",
@@ -109,56 +111,56 @@ export const BancosModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen>
-      <DialogContent>
-        <Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{tipo === 1 ?"Agregar Registro" : "Editar Registro"}</label>
-          </Box>
-          <TextField
-            required
-            margin="dense"
-            id="Nombre"
-            label="Nombre"
-            value={nombre}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setNombre(v.target.value)}
-            error={nombre === "" ? true : false}
-            InputProps={{
-              readOnly: tipo === 1 ? false : true,
-            }}
-          />
 
-          <TextField
-            required
-            margin="dense"
-            id="Descripcion"
-            label="Descripción"
-            value={descripcion}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setDescripcion(v.target.value)}
-            error={descripcion === "" ? true : false}
-            InputProps={{
-              
-            }}
-          />
 
-        </Box>
-      </DialogContent>
+    <>
+      <ModalForm title={tipo === 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+        <Grid container direction="row" justifyContent="center" alignItems="center">
+          <Grid item alignItems="center" justifyContent="center" xs={4}>
+            <TextField
+            sx={{ width: "100%",}}
+              required
+              margin="dense"
+              id="Nombre"
+              label="Nombre"
+              value={nombre}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setNombre(v.target.value)}
+              error={nombre === "" ? true : false}
+              InputProps={{
+                readOnly: tipo === 1 ? false : true,
+              }}
+            />
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cancelar
-        </button>
-      </DialogActions>
-    </Dialog>
+            <TextField
+              required
+              margin="dense"
+              id="Descripcion"
+              label="Descripción"
+              value={descripcion}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setDescripcion(v.target.value)}
+              error={descripcion === "" ? true : false}
+              InputProps={{
+
+              }}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid container direction="row" justifyContent="center" alignItems="center">
+          <Grid item alignItems="center" justifyContent="center" xs={2}>
+            <button  className={tipo === 1 ? "guardar" : "actualizar"}  onClick={() => handleSend()} >
+              {tipo === 1 ? "Agregar" : "Editar"}
+            </button>
+          </Grid>
+        </Grid>
+      </ModalForm>
+    </>
   );
 
 };
