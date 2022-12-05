@@ -362,8 +362,7 @@ const Participaciones = () => {
         <ModalCalculos
           tipo={"Comentarios"}
           handleClose={handleClose}
-          handleAccion={Fnworkflow}
-        />
+          handleAccion={Fnworkflow} perfil={""} area={""}        />
       ) : (
         ""
       )}

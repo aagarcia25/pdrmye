@@ -18,6 +18,7 @@ import MUIXDataGridMun from '../../../MUIXDataGridMun'
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Moneda } from '../../CustomToolbar'
 
 
 const IsnRecaudacion = () => {
@@ -68,8 +69,8 @@ const IsnRecaudacion = () => {
     { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Importe", headerName: "Importe", width: 150 },
-    { field: "Coeficiente", headerName: "Coeficiente", width: 150 },
+    { field: "Importe", headerName: "Importe", width: 150,...Moneda  },
+    { field: "Coeficiente", headerName: "Coeficiente", width: 250 },
   ];
 
   const handleAccion = (v: any) => {

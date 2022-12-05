@@ -68,6 +68,9 @@ export class calculosServices {
         return await post('spcalculo', data);
     }
 
+    public static async getResponsable(data: any) {
+        return await post('getResponsable', data);
+    }
     
     
     

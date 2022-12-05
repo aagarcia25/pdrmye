@@ -53,6 +53,7 @@ const DetalleFgp = ({
   const [status, setStatus] = useState<SelectValues>();
   const [perfil, setPerfil] = useState<SelectValues>();
   const [direccion, setDireccion] = useState<SelectValues>();
+  const [responsable, setResponsable] = useState<SelectValues>();
   const [openSlider, setOpenSlider] = useState(true);
   const [estatusDestino, setEstatusDestino] = useState("");
   const [perfilDestino, setperfilDestino] = useState("");
@@ -98,39 +99,47 @@ const DetalleFgp = ({
           setOpenTrazabilidad(true);
           break;
         case 3: //Cancelar
-          BorraCalculo();
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino("CPH_ENV_VAL");
+          setperfilDestino("VAL");
+          setArea("CPH");
+          setOpenModal(true);
           break;
 
          case 4: //AUTORIZAR CAPTURISTA
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino("CPH_ENV_VAL");
-          setOpenModal(true);
+          setEstatusDestino("CPH_ENV_COOR");
           setperfilDestino("COOR");
-          setArea("CPH")
+          setArea("CPH");
+          setOpenModal(true);
           break;
 
           case 5: //AUTORIZAR CAPTURISTA
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino("CPH_ENV_COOR");
+          setEstatusDestino("DAMOP_INICIO");
+          setperfilDestino("ANA");
+          setArea("DAMOP");
           setOpenModal(true);
-          setperfilDestino("COOR");
-          setArea("CPH")
           break;
 
           case 6: //REGRESAR A VALIDADOR
-          setTipoAccion("Favor de ingresar un comentario para la Autorización");
-          setEstatusDestino("CPH_REG_ANA");
-          setOpenModal(true);
-          setperfilDestino("COOR");
-          setArea("CPH")
+          BorraCalculo();
           break;
 
-          case 7: //REGRESAR A CAPTURISTA
+          case 7: //REGRESAR A analista
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_REG_CAP");
+          setperfilDestino("ANA");
+          setArea("CPH");
           setOpenModal(true);
-          setperfilDestino("COOR");
+          break;
+
+          case 8: //REGRESAR A validador
+          setTipoAccion("Favor de ingresar un comentario para la Autorización");
+          setEstatusDestino("CPH_REG_ANA");
+          setperfilDestino("VAL");
           setArea("CPH")
+          setOpenModal(true);
           break;
 
         default:
@@ -252,6 +261,23 @@ const DetalleFgp = ({
       }
     });
   };
+  const getResponsable = () => {
+    let data = {
+      IDCALCULO: idDetalle,
+    };
+    calculosServices.getResponsable(data).then((res) => {
+      if (res.SUCCESS) {
+        setResponsable(res.RESPONSE[0]);
+      } else {
+        AlertS.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
   const columnas = (data: any) => {
     calculosServices.getColumns(data).then((res) => {
       if (res.SUCCESS) {
@@ -471,6 +497,7 @@ const DetalleFgp = ({
     EstatusCalculo();
     getPerfilCalculo();
     getAreaCalculo();
+    getResponsable();
     columnas({ IDCALCULOTOTAL: idDetalle });
     consulta({ IDCALCULOTOTAL: idDetalle });
   }, []);
@@ -486,8 +513,10 @@ const DetalleFgp = ({
             <ModalCalculos
               tipo={tipoAccion}
               handleClose={handleClose}
-              handleAccion={Fnworkflow}
-            />
+              handleAccion={Fnworkflow} 
+              perfil={perfilDestino} 
+              area={area}         
+                 />
           ) : (
             ""
           )}
@@ -556,6 +585,9 @@ const DetalleFgp = ({
               <label>
                 Área Asignada: {direccion?.label} <br />
               </label>
+              <label>
+                Asignado a: {responsable?.label} <br />
+              </label>
             </Grid>
           </Grid>
 
@@ -584,11 +616,34 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {autorizar &&
+
+
+                {
+                  autorizar &&
+                  user.id === responsable?.value &&
                   direccion?.value === "CPH" &&
                   perfil?.value === "ANA" &&
                   user.PERFILES[0].Referencia === "ANA" ? (
-                  <Tooltip title={"Autorizar Analista"}>
+                  <Tooltip title={"Enviar a Validación"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(3)}
+                    >
+                      <DoneAllIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
+
+
+{
+                  autorizar &&
+                  user.id === responsable?.value &&
+                  direccion?.value === "CPH" &&
+                  perfil?.value === "VAL" &&
+                  user.PERFILES[0].Referencia === "VAL" ? (
+                  <Tooltip title={"Enviar a Coordinador"}>
                     <ToggleButton
                       value="check"
                       onClick={() => handleAcciones(4)}
@@ -598,16 +653,19 @@ const DetalleFgp = ({
                   </Tooltip>
                 ) : (
                   ""
-                )}
+                )} 
+
+
 
                 {autorizar &&
+                 user.id === responsable?.value &&
                   direccion?.value === "CPH" &&
                   perfil?.value === "COOR" &&
                   user.PERFILES[0].Referencia === "COOR" ? (
-                  <Tooltip title={"Autorizar Coordinador"}>
+                  <Tooltip title={"Enviar a DAMOP"}>
                     <ToggleButton
                       value="check"
-                      onClick={() => handleAcciones(4)}
+                      onClick={() => handleAcciones(5)}
                     >
                       <DoneAllIcon />
                     </ToggleButton>
@@ -617,9 +675,10 @@ const DetalleFgp = ({
                 )}
 
                 {cancelar &&
-                  direccion?.value === "CPH" &&
-                  perfil?.value === "ANA" &&
-                  user.PERFILES[0].Referencia === "ANA" ? (
+                 user.id === responsable?.value &&
+                 direccion?.value === "CPH" &&
+                 perfil?.value === "ANA" &&
+                 user.PERFILES[0].Referencia === "ANA" ? (
                   <Tooltip title={"Cancelar"}>
                     <ToggleButton
                       value="check"
@@ -632,10 +691,11 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {cancelar &&
+               {cancelar &&
+                 user.id === responsable?.value &&
                   direccion?.value === "CPH" &&
-                  perfil?.value === "COOR" &&
-                  user.PERFILES[0].Referencia === "COOR" ? (
+                  perfil?.value === "VAL" &&
+                  user.PERFILES[0].Referencia === "VAL" ? (
                   <Tooltip title={"Regresar a Analista"}>
                     <ToggleButton
                       value="check"
@@ -647,6 +707,28 @@ const DetalleFgp = ({
                 ) : (
                   ""
                 )}
+
+                {cancelar &&
+                 user.id === responsable?.value &&
+                  direccion?.value === "CPH" &&
+                  perfil?.value === "COOR" &&
+                  user.PERFILES[0].Referencia === "COOR" ? (
+                  <Tooltip title={"Regresar a Validador"}>
+                    <ToggleButton
+                      value="check"
+                      onClick={() => handleAcciones(8)}
+                    >
+                      <CompareArrowsIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
+
+
+
+
+
               </ToggleButtonGroup>
             </Box>
             <MUIXDataGrid columns={columns} rows={data} />
