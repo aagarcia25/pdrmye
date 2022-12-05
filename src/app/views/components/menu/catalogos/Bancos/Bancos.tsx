@@ -83,9 +83,6 @@ export const Bancos = () => {
       width: 150,
       description: messages.dataTableColum.id,
     },
-    { field: "Nombre", headerName: "Nombre", width: 150 },
-    { field: "Descripcion", headerName: "Descripción", width: 250 },
-
     {
       field: "acciones",
       headerName: "Acciones",
@@ -103,6 +100,10 @@ export const Bancos = () => {
         );
       },
     },
+    { field: "Nombre", headerName: "Nombre", width: 400 },
+    { field: "Descripcion", headerName: "Descripción", width: 400 },
+
+ 
   ];
 
   const handleClose = () => {
