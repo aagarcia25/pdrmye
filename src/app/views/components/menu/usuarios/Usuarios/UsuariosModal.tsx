@@ -13,7 +13,7 @@ import {
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { RESPONSE, SolUser, SolUserData } from "../../../../../interfaces/user/UserInfo";
 import { getPU, getToken, getUser } from "../../../../../services/localStorage";
 import validator from 'validator';
 import { UserServices } from "../../../../../services/UserServices";
@@ -23,6 +23,10 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import CloseIcon from '@mui/icons-material/Close';
 import { UserReponse } from "../../../../../interfaces/user/UserReponse";
+import Swal from "sweetalert2";
+import { render } from "react-dom";
+import SelectFragLogin from "../../../Fragmentos/SelectFragLogin";
+import { text } from "node:stream/consumers";
 const UsuariosModal = ({
   open,
   handleClose,
@@ -38,8 +42,12 @@ const UsuariosModal = ({
   const [id, setId] = useState<string>();
   const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
   const [idDepartamento, setIdDepartamento] = useState<string>("");
+  const [nameDep, setNameDep] = useState<string>("");
+
   const [perfiles, setPerfiles] = useState<SelectValues[]>([]);
   const [idPerfil, setIdPerfil] = useState<string>("");
+  const [namePerf, setNamePerf] = useState<string>("");
+
   const [Nombre, setNombre] = useState<string>("");
   const [ApellidoPaterno, setApellidoPaterno] = useState<string>("");
   const [ApellidoMaterno, setApellidoMaterno] = useState<string>("");
@@ -53,12 +61,16 @@ const UsuariosModal = ({
   const [emailValid, setEmailValid] = useState<boolean>();
   const [telValid, setTelValid] = useState<boolean>();
   const [celValid, setCelValid] = useState<boolean>();
+  const [extValid, setExtValid] = useState<boolean>(true);
+
   const [tokenValid, setTokenValid] = useState<boolean>();
+
   const user: RESPONSE = JSON.parse(String(getUser()));
-  
   const [emailError, setEmailError] = useState('')
   const [telError, setTelError] = useState('')
   const [celError, setCelError] = useState('')
+  const [extError, setExtError] = useState('')
+
   const [ext, setExt] = useState<string>("");
 
   const loadFilter = (tipo: number) => {
@@ -72,100 +84,141 @@ const UsuariosModal = ({
 
     });
   }
-  const handleFilterChange = (v: string) => {
-    setIdDepartamento(v);
+  const handleFilterChange = (v: any) => {
+    setIdDepartamento(v.value);
+    setNameDep(v.label);
   };
 
-  const handleFilterChangePerfil = (v: string) => {
-    setIdPerfil(v);
+  const handleFilterChangePerfil = (v: any) => {
+    setIdPerfil(v.value);
+    setNamePerf(v.label);
   };
 
+  const Validator = (v: string, tipo: string) => {
+    ///// clave
+    if (tipo === "email") {
+      if (validator.isEmail(v)) {
+        setCorreoElectronico(v)
+        setEmailError('email válido')
+        setEmailValid(true);
+      } else {
+        setCorreoElectronico(v)
+        setEmailError('Ingrese email válido')
+        setEmailValid(false);
+        setCorreoElectronico(v)
+      }
+    }
+    else if (tipo === "tel") {
+      if (validator.isNumeric(v)) {
+        setTelError('')
+        setTelValid(true);
+        setTelefono(v)
+      } else {
+        setTelError('Ingrese Numeros')
+        setTelValid(false);
+        setTelefono(v)
 
-  const validateEmail = (e: any) => {
-    var email = e.target.value
-    setCorreoElectronico(email);
-    if (validator.isEmail(email)) {
-      setEmailError('email válido')
-      setEmailValid(true);
-    } else {
-      setEmailError('Ingrese email válido')
-      setEmailValid(false);
+      }
     }
-  }
-  const validateNumber = (e: any) => {
-    var tel = e.target.value
-    setTelefono(tel);
-    if (validator.isNumeric(tel)) {
-      setTelError('')
-      setTelValid(true);
-    } else {
-      setTelError('Ingrese Numeros')
-      setTelValid(false);
+    else if (tipo === "ext") {
+      if (validator.isNumeric(v)) {
+        setExtError('')
+        setExtValid(true);
+        setExt(v)
+      } else {
+        setExtError('Ingrese Numeros')
+        setExtValid(false);
+        setExt(v)
+
+      }
     }
-  }
-  const validateCel = (e: any) => {
-    var cel = e.target.value
-    setCelular(cel);
-    if (validator.isNumeric(cel)) {
-      setCelError('')
-      setCelValid(true);
-    } else {
-      setCelError('Ingrese Numeros')
-      setCelValid(false);
+    else if (tipo === "cel") {
+      if (validator.isNumeric(v)) {
+        setCelError('')
+        setCelValid(true);
+        setCelular(v)
+      } else {
+        setCelError('Ingrese Numeros')
+        setCelValid(false);
+        setCelular(v)
+
+      }
     }
-  }
+  };
+
 
 
 
   const handleSend = () => {
-    let data = {
-      Nombre: Nombre,
-      ApellidoPaterno: ApellidoPaterno,
-      ApellidoMaterno: ApellidoMaterno,
-      NombreUsuario: NombreUsuario,
-      CorreoElectronico: CorreoElectronico,
-      IdUsuarioModificador: user.id,
-      Curp: curp,
-      Rfc: rfc,
-      Celular: celular,
-      Telefono: telefono
-
-
-    };
 
     if (
-      Nombre ===""||
-      ApellidoPaterno ===""||
-      ApellidoMaterno ===""||
-      NombreUsuario ===""||
-      CorreoElectronico ===""||
-      emailValid === false||
-      telValid ===false||
-      telefono ===""||
-      curp ===""||
-      rfc ===""||
-      idDepartamento ===""||
-      idPerfil==="" ||
-      celular ===""
+      Nombre === "" ||
+      ApellidoPaterno === "" ||
+      ApellidoMaterno === "" ||
+      NombreUsuario === "" ||
+      CorreoElectronico === "" ||
+      emailValid === false ||
+      telValid === false ||
+      telefono === "" ||
+      curp === "" ||
+      rfc === "" ||
+      idDepartamento === "" ||
+      idPerfil === "" ||
+      celular === "" ||
+      puesto === ""
     ) {
       AlertS.fire({
         title: "Verificar los campos!",
         icon: "warning",
       });
     } else {
-      let data = {
-        Nombre: Nombre,
-        ApellidoPaterno: ApellidoPaterno,
-        ApellidoMaterno: ApellidoMaterno,
-        NombreUsuario: NombreUsuario,
-        CorreoElectronico: CorreoElectronico,
-        IdUsuarioModificador: user.id,
-        Curp: curp,
-        Rfc: rfc,
-        Celular: celular,
-        Telefono: telefono
-      };
-      handleRequest(data);
+
+
+      Swal.fire({
+        icon: "info",
+        title: "Estas Seguro de Enviar ?",
+        html:
+          'Nombre: ' + Nombre + '  ' + ApellidoPaterno + ' ' + ApellidoMaterno + ' <br/>' +
+          'Nombre Usuario:  ' + NombreUsuario + '<br/> ' +
+          'Correo Electronico: ' + CorreoElectronico + '<br/> ' +
+          'Puesto: ' + puesto + '<br/> ' +
+          'RFC: ' + rfc + ' <br/> ' +
+          'CURP: ' + curp + '<br/>  ' +
+          'Telefono: ' + telefono + ' <br/> ' +
+          'Extencion: ' + ext + ' <br/> ' +
+          'Celular: ' + celular + ' <br/> ' +
+          'Departamento: ' + nameDep + '<br/>  ' +
+          'Perfil: ' + namePerf + '<br/>  '
+        ,
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          let data = {
+            Nombre: Nombre,
+            ApellidoPaterno: ApellidoPaterno,
+            ApellidoMaterno: ApellidoMaterno,
+            NombreUsuario: NombreUsuario,
+            CorreoElectronico: CorreoElectronico,
+            IdUsuarioModificador: user.id,
+            Curp: curp,
+            Rfc: rfc,
+            Telefono: telefono,
+            Ext: ext,
+            Celular: celular,
+            IdTipoUsuario: "",
+          };
+          handleRequest(data);
+
+        } else if (result.isDenied) {
+          Swal.fire("Solicitud no Realizada", "", "info");
+        }
+      });
+
+
     }
   };
 
@@ -177,18 +230,9 @@ const UsuariosModal = ({
         NUMOPERACION: tipo,
         CHUSER: user.id,
         CHID: id,
-        NOMBRE: Nombre,
-        AP: ApellidoPaterno,
-        AM: ApellidoMaterno,
-        NUSER: NombreUsuario,
-        CORREO: CorreoElectronico,
-        //PUESTO: puesto,
-        //IDDEPARTAMENTO: idDepartamento,
-        //IDPERFIL: idPerfil,
-        CURP: curp,
-        RFC: rfc,
-        CELULAR: telefono,
-        idTipoUsuario:""
+        PUESTO: puesto,
+        IDDEPARTAMENTO: idDepartamento,
+        IDPERFIL: "AppID",
       };
 
       AuthService.adminUser(dat).then((res) => {
@@ -198,115 +242,79 @@ const UsuariosModal = ({
             title: "¡Registro exitoso!"
           });
           handleClose("Registro Exitoso");
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "Error ",
+
+          });
+
         }
       });
 
     } else {
-
-
-
-
-
       UserServices.signup(data).then((resUser) => {
 
+        let dataAppId = {
+          NUMOPERACION: 5,
+          NOMBRE: "AppID"
+        }
 
-        if (resUser.status === 201) {
+        ParametroServices.ParametroGeneralesIndex(dataAppId).then((resAppId) => {
 
-          let data = {
-            NUMOPERACION: 5,
-            NOMBRE: "AppID"
+          if (resUser.status === 201) {
+            let datSol = {
+              IdUsuario: resUser?.data?.IdUsuario,
+              DatosAdicionales: "Departamento: " + nameDep + " Perfil: " + namePerf,
+              TipoSolicitud: "Alta",
+              CreadoPor: user.id,
+              IdApp: resAppId?.RESPONSE?.Valor,
+            };
+
+            UserServices.createsolicitud(datSol).then((resSol) => {
+    
+              
+            console.log(resSol.data.data[0][0].IdSolicitud)
+              if (resSol.data.data[0][0].Respuesta ==="201") {
+
+                let dat = {
+                  NUMOPERACION: tipo,
+                  CHUSER: user.id,
+                  idUsuarioCentral: resUser?.data?.IdUsuario,
+                  PUESTO: puesto,
+                  IDDEPARTAMENTO: idDepartamento,
+                  IDPERFIL: idPerfil,
+                  IDSOLICITUD: resSol.data.data[0][0].IdSolicitud
+                };
+
+                AuthService.adminUser(dat).then((res) => {
+                  if (res.SUCCESS) {
+                    Toast.fire({
+                      icon: "success",
+                      title: "¡Registro exitoso!"
+                    });
+                    handleClose("Registro Exitoso");
+                  }
+                });
+              }
+            });
+
           }
 
-
-          ParametroServices.ParametroGeneralesIndex(data).then((restApp) => {
-              //createSolicitud 
-           
-           /*
-            UserServices.apps(token).then((resAppLogin) => {
-
-              resAppLogin.data.data.map((item: any) => {
-
-
-                if (item?.Nombre === restApp.RESPONSE.Valor) {
-
-                  let dat = {
-                    NUMOPERACION: tipo,
-                    CHUSER: user.id,
-                    CHID: resUser.data.IdUsuario,
-                    NOMBRE: Nombre,
-                    AP: ApellidoPaterno,
-                    AM: ApellidoMaterno,
-                    NUSER: NombreUsuario,
-                    CORREO: CorreoElectronico,
-                    IDDEPARTAMENTO: idDepartamento,
-                    IDPERFIL: idPerfil,
-                    PUESTO: puesto,
-                    CURP: curp,
-                    RFC: rfc,
-                    CELULAR: telefono
-
-                  };
-
-                  AuthService.adminUser(dat).then((res) => {
-                    if (res.SUCCESS) {
-
-                      let datLink = {
-                        IdUsuario: resUser.data.IdUsuario,
-                        IdApp: item.Id,
-
-                      };
-                      UserServices.linkuserapp(datLink, token).then((resLink) => {
-
-                        if (resLink.status === 201) {
-                          Toast.fire({
-                            icon: "success",
-                            title: tipo === 3 ? "¡Registro exitoso!" : ""
-                          });
-                          handleClose("Registro Exitoso");
-
-                        }
-
-                      });
-                    }
-                  });
-                }
-
-
-
-
-              });
-            });*/
-
-          });
-
-
-
-
-
-
-
-        }
-
-        else if (resUser.status === 409) {
-          AlertS.fire({
-            title: "Error!",
-            text: resUser.data.msg,
-            icon: "error",
-          });
-        }
+          else {
+            AlertS.fire({
+              title: "Error!",
+              text: "Solicitud sin Exito",
+              icon: "error",
+            });
+          }
+        });
       });
-
-
-
-
     }
-  
-  
-  
-  
-  
-  
-  };
+  }
+
+
+
 
   useEffect(() => {
 
@@ -352,7 +360,7 @@ const UsuariosModal = ({
 
           </Grid>
           <Grid item xs={12} sm={2} md={2} lg={2}  >
-            <Button variant="outlined"  onClick={() => handleClose()}>
+            <Button variant="outlined" onClick={() => handleClose()}>
               <Tooltip title="Salir">
                 <IconButton
                   aria-label="close"
@@ -386,6 +394,9 @@ const UsuariosModal = ({
                   onChange={(v) => setNombre(v.target.value)}
                   error={Nombre === null ? true : false}
                   InputLabelProps={{ shrink: true }}
+                  inputProps={{
+                    maxLength: 20,
+                  }}
                 />
 
                 <TextField
@@ -400,6 +411,9 @@ const UsuariosModal = ({
                   onChange={(v) => setApellidoPaterno(v.target.value)}
                   error={ApellidoPaterno === null ? true : false}
                   InputLabelProps={{ shrink: true }}
+                  inputProps={{
+                    maxLength: 20,
+                  }}
                 />
 
                 <TextField
@@ -414,6 +428,9 @@ const UsuariosModal = ({
                   onChange={(v) => setApellidoMaterno(v.target.value)}
                   error={ApellidoMaterno === null ? true : false}
                   InputLabelProps={{ shrink: true }}
+                  inputProps={{
+                    maxLength: 20,
+                  }}
                 />
 
                 <TextField
@@ -428,6 +445,9 @@ const UsuariosModal = ({
                   onChange={(v) => setNombreUsuario(v.target.value)}
                   error={NombreUsuario === null ? true : false}
                   InputLabelProps={{ shrink: true }}
+                  inputProps={{
+                    maxLength: 30,
+                  }}
                 />
 
                 <TextField
@@ -438,9 +458,12 @@ const UsuariosModal = ({
                   fullWidth
                   value={CorreoElectronico}
                   variant="standard"
-                  onChange={(e) => validateEmail(e)}
+                  onChange={(e) => Validator(e.target.value, "email")}
                   error={emailValid === false || CorreoElectronico == null}
                   InputLabelProps={{ shrink: true }}
+                  inputProps={{
+                    maxLength: 100,
+                  }}
                 />
                 <Typography variant="body2"> {emailError} </Typography>
 
@@ -456,6 +479,9 @@ const UsuariosModal = ({
                   onChange={(v) => setPuesto(v.target.value)}
                   error={puesto === null ? true : false}
                   InputLabelProps={{ shrink: true }}
+                  inputProps={{
+                    maxLength: 200,
+                  }}
                 />
                 <TextField
                   required
@@ -470,6 +496,7 @@ const UsuariosModal = ({
                   onChange={(v) => setRfc(v.target.value.toUpperCase())}
                   error={rfc === null ? true : false}
                   InputLabelProps={{ shrink: true }}
+
                 />
               </Grid>
 
@@ -483,7 +510,7 @@ const UsuariosModal = ({
                   type="text"
                   fullWidth
                   variant="standard"
-                  onChange={(v) => setCurp(v.target.value)}
+                  onChange={(v) => setCurp(v.target.value.toUpperCase())}
                   inputProps={{ maxLength: 18 }}
                   error={curp === null ? true : false}
                 />
@@ -497,13 +524,12 @@ const UsuariosModal = ({
                   fullWidth
                   inputProps={{ maxLength: 10, mask: "(___) ___-____" }}
                   variant="standard"
-                  onChange={(e) => validateNumber(e)}
+                  onChange={(e) => Validator(e.target.value, "tel")}
                   error={!telValid || !telefono}
+                  helperText={telError}
                   InputLabelProps={{ shrink: true }}
 
                 />
-                <Typography variant="body2"> {telError} </Typography>
-                <br />
                 <TextField
                   required
                   margin="dense"
@@ -514,15 +540,13 @@ const UsuariosModal = ({
                   fullWidth
                   inputProps={{ maxLength: 10, mask: "(___) ___-____" }}
                   variant="standard"
-                  onChange={(e) => validateCel(e)}
+                  onChange={(e) => Validator(e.target.value, "cel")}
                   error={!celValid || !celular}
+                  helperText={celError}
                   InputLabelProps={{ shrink: true }}
 
                 />
-                <Typography variant="body2"> {celError} </Typography>
-                <br />
                 <TextField
-                  required
                   margin="dense"
                   id="ext"
                   label="Ext"
@@ -531,25 +555,28 @@ const UsuariosModal = ({
                   fullWidth
                   inputProps={{ maxLength: 4 }}
                   variant="standard"
-                  onChange={(e) => setExt(e.target.value)}
-      
+                  onChange={(e) => Validator(e.target.value, "ext")}
+                  helperText={"Opcional* " + extError}
                   InputLabelProps={{ shrink: true }}
+                  error={!extValid}
+
 
                 />
                 <Typography variant="body2"> {celError} </Typography>
                 <br />
                 <Typography variant="body2"> Departamento: </Typography>
-                <SelectFrag
+                <SelectFragLogin
                   value={idDepartamento}
                   options={departamento}
                   onInputChange={handleFilterChange}
                   placeholder={"Seleccione Departamento"}
                   label={""}
                   disabled={false}
+
                 />
                 <br />
                 <Typography variant="body2"> Perfil: </Typography>
-                <SelectFrag
+                <SelectFragLogin
                   value={idPerfil}
                   options={perfiles}
                   onInputChange={handleFilterChangePerfil}
@@ -567,7 +594,7 @@ const UsuariosModal = ({
                         color="info"
                         onClick={() => handleSend()}
                       >
-                        {tipo === 3 ? "Guardar" : "Actualizar"}
+                        {tipo === 3 ? "Solicitar" : "Solicitar Actualización"}
                       </Button>
                     </DialogActions>
                   </Box>

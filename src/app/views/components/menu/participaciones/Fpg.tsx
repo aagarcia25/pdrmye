@@ -156,13 +156,13 @@ export const Fpg = () => {
     {
       field: "Mes",
       headerName: "Mes",
-      width: 90,
+      width: 150,
       description: "Mes",
     },
     {
       field: "Total",
       headerName: "Total",
-      width: 300,
+      width: 600,
       description: "Total",
       ...Moneda,
     },
@@ -231,7 +231,7 @@ export const Fpg = () => {
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
 
-  }, [params.fondo]);
+  }, [params.fondo,nombreMenu]);
 
   return (
     <>

@@ -18,6 +18,7 @@ import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 import UsuariosMunicipios from "./UsuariosMunicipios";
 import UsuarioRoles from "./UsuarioRoles";
 import { AlertS } from "../../../../../helpers/AlertS";
+import { COLOR } from "../../../../../styles/colors";
 
 
 const Usuarios = () => {
@@ -25,9 +26,7 @@ const Usuarios = () => {
   const [openRolConf, setOpenRolConf] = useState(false);
   const [openConfigMun, setOpenConfigMun] = useState(false);
   const [openNew, setOpenNew] = useState(false);
-  const [userActive, setUserActive] = useState<boolean>();
   const [tipoOperacion, setTipoOperacion] = useState(0);
-  const [id, setId] = useState("");
   const [dt, setDt] = useState({});
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
@@ -56,45 +55,45 @@ const Usuarios = () => {
   };
 
   const handleActivo = (v: any) => {
- /*
-    let data = "?userId=" + v.row.id;
-    //console.log(data)
-  
-    UserServices.ActivateUser(data).then((res) => {
-      //console.log(res)
-      //console.log(v.row.id);
-
-     if (res.status === 200) {
-
-        let dat = {
-          NUMOPERACION: 6,
-          CHID: v.row.id,
-
-        };
-
-        AuthService.adminUser(dat).then((res) => {
-          if (res.SUCCESS) {
-            consulta({ NUMOPERACION: 4 }, "Activado");
-          } else {
-            AlertS.fire({
-              title: "Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
-            });
-          }
-
-
-        });
-
-      } else if (res.status === 409) {
-        AlertS.fire({
-          title: "Error!",
-          text: res.data.msg,
-          icon: "error",
-        });
-      }
-    });
-    */
+    /*
+       let data = "?userId=" + v.row.id;
+       //console.log(data)
+     
+       UserServices.ActivateUser(data).then((res) => {
+         //console.log(res)
+         //console.log(v.row.id);
+   
+        if (res.status === 200) {
+   
+           let dat = {
+             NUMOPERACION: 6,
+             CHID: v.row.id,
+   
+           };
+   
+           AuthService.adminUser(dat).then((res) => {
+             if (res.SUCCESS) {
+               consulta({ NUMOPERACION: 4 }, "Activado");
+             } else {
+               AlertS.fire({
+                 title: "Error!",
+                 text: res.STRMESSAGE,
+                 icon: "error",
+               });
+             }
+   
+   
+           });
+   
+         } else if (res.status === 409) {
+           AlertS.fire({
+             title: "Error!",
+             text: res.data.msg,
+             icon: "error",
+           });
+         }
+       });
+       */
 
 
   };
@@ -164,16 +163,14 @@ const Usuarios = () => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
       hide: true,
-      width: 150,
     },
     {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 220,
+      width: 150,
       renderCell: (v) => {
         return (
           <Box >
@@ -182,7 +179,7 @@ const Usuarios = () => {
                 <AssignmentIndIcon />
               </IconButton>
             </Tooltip>
-          
+
             <Tooltip title={"Editar Registro"}>
               <IconButton color="info" onClick={() => handleEdit(v)}>
                 <ModeEditOutlineIcon />
@@ -197,35 +194,39 @@ const Usuarios = () => {
         );
       },
     },
-    { field: "NombreUsuario", headerName: "Usuario", width: 150 },
-    { field: "Nombre", headerName: "Nombre", width: 150 },
-    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
-    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
-    { field: "CorreoElectronico", headerName: "Correo Electronico", width: 250, },
-    { field: "Puesto", headerName: "Puesto", width: 200, },
-    { field: "idDepartamento", headerName: "idDepartamento", width: 10, hide: true, },
-    { field: "DepartamentoDescripcion", headerName: "Departamento", width: 300, },
-    { field: "idperfil", headerName: "idperfil", width: 10, hide: true, },
-    { field: "PerfilDescripcion", headerName: "Perfil", width: 300, },
-
     {
-      field: "EstaActivo", headerName: "Activo", width: 100,
+      field: "EstaActivo", headerName: "Estado",
+      width: 100,
       renderCell: (v: any) => {
         return (
-          (Number(v.row.EstaActivo) === 0) ?
-            <Box>
-              <Tooltip title={"Activar Usuario"}>
-                <IconButton color="success" onClick={() => handleActivo(v)}>
-                  <HowToRegIcon />
-                </IconButton>
-              </Tooltip>
-
+          (Number(v.row.EstaActivo) === 1) ?
+            <Box sx={{ borderRadius: "15px", display: "flex", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", backgroundColor: COLOR.verde }} >
+              Activo
             </Box>
-            : "Activo"
+            : <Box sx={{ borderRadius: "15px", display: "flex", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", backgroundColor: COLOR.rojo }} >
+              Inactivo
+            </Box>
 
         );
       },
     },
+
+    { field: "UltimoInicioDeSesion", headerName: "Ultimo Inicio De Sesion", width: 200 },
+    { field: "NombreUsuario", headerName: "Nombre Usuario", width: 250, },
+    { field: "Nombre", headerName: "Nombre", width: 150 },
+    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
+    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
+    { field: "Rfc", headerName: "Rfc", width: 200, },
+    { field: "Curp", headerName: "Correo Curp", width: 120, },
+    { field: "Telefono", headerName: "Telefono", width: 120, },
+    { field: "Ext", headerName: "Ext", width: 100, },
+    { field: "Celular", headerName: "Celular", width: 120, },
+    { field: "Ubicacion", headerName: "Ubicacion", width: 250, },
+    { field: "CorreoElectronico", headerName: "Correo Electronico", width: 250, },
+    { field: "Puesto", headerName: "Puesto", width: 200, },
+    { field: "idDepartamento", hide: true, },
+    { field: "idPerfil", hide: true, },
+
   ];
 
   const consulta = (data: any, v: string) => {
@@ -236,6 +237,7 @@ const Usuarios = () => {
           title: v,
         });
         setData(res.RESPONSE);
+        console.log(res.RESPONSE);
       } else {
         AlertS.fire({
           title: "Error!",
@@ -265,49 +267,48 @@ const Usuarios = () => {
   }, []);
   return (
     <div>
-      <Grid sx={{ paddingTop:"1%"}}>
-      {openRolConf ?
-        <UsuarioRoles
-          open={openRolConf}
-          handleClose={handleClose}
-          dt={dt}
-        ></UsuarioRoles>
-        :
-        ""
-      }
-      {openNew ? (
-        <UsuariosModal
-          open={openNew}
-          tipo={tipoOperacion}
-          handleClose={handleClose}
-          dt={dt}
-        ></UsuariosModal>
-      ) : (
-        ""
-      )}
+      <Grid sx={{ paddingTop: "1%" }}>
+        {openRolConf ?
+          <UsuarioRoles
+            open={openRolConf}
+            handleClose={handleClose}
+            dt={dt}
+          ></UsuarioRoles>
+          :
+          ""
+        }
+        {openNew ? (
+          <UsuariosModal
+            open={openNew}
+            tipo={tipoOperacion}
+            handleClose={handleClose}
+            dt={dt}
+          ></UsuariosModal>
+        ) : (
+          ""
+        )}
+
+        {openConfigMun ? (
+          <UsuariosMunicipios
+            open={openConfigMun}
+            handleClose={handleClose}
+            dt={dt}
+          ></UsuariosMunicipios>
+        ) : (
+          ""
+        )}
+        <Grid container >
+          <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+            <Typography
+              sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+              Usuarios
+            </Typography>
+          </Grid>
+        </Grid>
 
 
-      {openConfigMun ? (
-        <UsuariosMunicipios
-          open={openConfigMun}
-          handleClose={handleClose}
-          dt={dt}
-        ></UsuariosMunicipios>
-      ) : (
-        ""
-      )}
-            <Grid container >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <Typography
-                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-                Usuarios
-              </Typography>
-            </Grid>
-            </Grid>
-
-
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGrid columns={columns} rows={data} />
+        <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+        <MUIXDataGrid columns={columns} rows={data} />
       </Grid>
     </div>
   );

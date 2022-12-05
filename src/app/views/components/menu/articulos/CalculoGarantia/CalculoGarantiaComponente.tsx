@@ -182,6 +182,7 @@ export const CalculoGarantiaComponente = () => {
       const formData = new FormData();
       formData.append("inputfile", file, "inputfile.xlsx");
       formData.append("tipo", "CalculoGarantia");
+      formData.append("CHUSER",  user.id);
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
         if (res.SUCCESS) {

@@ -62,6 +62,7 @@ import { Divisas } from '../views/components/menu/catalogos/Divisas/Divisas';
 import AjustesCalculos from '../views/components/menu/catalogos/AjustesCalculos/AjustesCalculos';
 import { Reportes } from '../views/components/componentes/CPH/Estadisticas/Reportes/Reportes';
 import { Graficas } from '../views/components/componentes/CPH/Estadisticas/Graficas/Graficas';
+import IsnRecaudacion from '../views/components/menu/articulos/IsnRecaudacion/IsnRecaudacion';
 
 
 
@@ -127,6 +128,7 @@ export const AppRouter = () => {
         <Route path='/inicio/articulos/art14d/:tipo/:id' element={<Art14f />} />
         <Route path='/inicio/articulos/calculogarantia' element={<CalculoGarantiaComponente />} />
         <Route path='/inicio/articulos/isai' element={<ISAI />} />
+        <Route path='/inicio/articulos/isnR' element={<IsnRecaudacion />} />
         {/* FIN SECCION DE ARTICULOS */}
 
 

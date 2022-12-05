@@ -102,7 +102,12 @@ export function BloqueoSesion({
             <Typography sx={{ mt: 1, fontSize: "1.8vw" }}>
               Haz click{" "}
               <Button
-                href={env_var.BASE_URL_LOGIN}
+              onClick={() => {
+                localStorage.clear();
+                var ventana = window.self;
+                ventana.location.replace(env_var.BASE_URL_LOGIN);
+             }}
+              
                 sx={{ mt: 1, fontSize: "1.6vw" }}
               >
                 aquí
