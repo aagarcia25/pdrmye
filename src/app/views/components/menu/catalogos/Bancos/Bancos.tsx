@@ -1,3 +1,4 @@
+import { Box, Button, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -155,14 +156,21 @@ export const Bancos = () => {
   return (
     <div style={{ height: 600, width: "100%" }}>
       {open ? (
-         <BancosModal
-         open={open}
-         tipo={tipoOperacion}
-         handleClose={handleClose}
-         dt={vrows}
-       />
+        <BancosModal
+          open={open}
+          tipo={tipoOperacion}
+          handleClose={handleClose}
+          dt={vrows}
+        />
       ) : ""}
 
+      <Grid container justifyContent="space-between" sx={{ bgcolor: "#CCCCCC" }}>
+        <Grid item md={12} textAlign="center" >
+          <Typography variant="h3" >
+            {"Bancos"}
+          </Typography>
+        </Grid>
+      </Grid>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={bancos} />
     </div>

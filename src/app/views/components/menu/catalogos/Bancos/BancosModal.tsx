@@ -118,7 +118,6 @@ export const BancosModal = ({
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item alignItems="center" justifyContent="center" xs={4}>
             <TextField
-            sx={{ width: "100%",}}
               required
               margin="dense"
               id="Nombre"
