@@ -19,6 +19,7 @@ import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectFragMulti from "../../../Fragmentos/SelectFragMulti";
 import CloseIcon from '@mui/icons-material/Close';
+import ModalForm from "../../../componentes/ModalForm";
 const UsuarioRoles = ({
   open,
   handleClose,
@@ -137,8 +138,9 @@ const UsuarioRoles = ({
         fullScreen
         
         >
+          <ModalForm title={"Roles Relacionados al Usuario"} handleClose={handleClose}> 
 
-        <Grid container spacing={1} sx={{ bgcolor:"#CCCCCC", paddingTop:"1%", paddingBottom:"1%" }}>
+        {/* <Grid container spacing={1} sx={{ bgcolor:"#CCCCCC", paddingTop:"1%", paddingBottom:"1%" }}>
         <Grid item xs={11} sm={11} md={11} lg={11}>
           <Box sx={{ display:"flex",justifyContent:"center", }}>
           <Typography variant='h4'> Roles Relacionados al Usuario </Typography>
@@ -146,7 +148,7 @@ const UsuarioRoles = ({
        
         </Grid>
         <Grid item xs={1} sm={1} md={1} lg={1} >
-        <Button variant="outlined" >
+        <Button variant="outlined"  onClick={() => handleClose()} >
         <IconButton
           aria-label="close"
           color="error"
@@ -156,7 +158,7 @@ const UsuarioRoles = ({
         </Button>
        
         </Grid>
-         </Grid>
+         </Grid> */}
 
         <DialogContent dividers={true} >
           <Box boxShadow={3}>
@@ -207,6 +209,8 @@ const UsuarioRoles = ({
           </Grid>
           </Box>
         </DialogContent>
+
+        </ModalForm>
 
         {/* <DialogActions>
           <button className="cerrar" onClick={() => handleClose()}>
