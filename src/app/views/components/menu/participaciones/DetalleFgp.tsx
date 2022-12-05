@@ -151,7 +151,7 @@ const DetalleFgp = ({
   const Fnworkflow = (data: any) => {
     setOpenSlider(true);
 
-    if (!perfilDestino) {
+    if (!perfilDestino || !data.mensaje) {
 
       AlertS.fire({
         title: "Seleccione Destinatario",
