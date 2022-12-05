@@ -17,7 +17,7 @@ import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import MUIXDataGridMun from '../../../MUIXDataGridMun'
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 
 const IsnRecaudacion = () => {
@@ -105,17 +105,13 @@ const IsnRecaudacion = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        //console.log(v);
-
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        //console.log(data);
 
-
-        CatalogosServices.munpoblacion(data).then((res) => {
+        CatalogosServices.indexISN(data).then((res) => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
@@ -131,10 +127,7 @@ const IsnRecaudacion = () => {
             });
           }
         });
-
-      
         consulta(4);
-
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
@@ -157,14 +150,52 @@ const IsnRecaudacion = () => {
     });
   };
 
-  const handleAgregar = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
+ const eliminacionMasiva=()=>{
+    if(selectionModel.length!==0){
+        Swal.fire({
+          icon: "question",
+          title: selectionModel.length +" Registros Se Eliminaran!!",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Confirmar",
+          denyButtonText: `Cancelar`,
+        }).then((result) => {
+          if (result.isConfirmed) {
     
-  };
+            let data = {
+             NUMOPERACION: 5,
+             OBJS: selectionModel,
+             CHUSER: user.id
+            };
+            CatalogosServices.indexISN(data).then((res) => {
+              if (res.SUCCESS) {
+                Toast.fire({
+                  icon: "success",
+                  title: "Borrado!",
+                });
+                consulta(4);
+              } else {
+                AlertS.fire({
+                  title: "Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
+            });
+    
+          } else if (result.isDenied) {
+            Swal.fire("No se realizaron cambios", "", "info");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Seleccione Registros Para Borrar",
+          confirmButtonText: "Aceptar",
+        });
+      }
 
-
- 
+ }
 
   const consulta = (NUMOPERACION:number) => {
     setslideropen(true);
@@ -238,12 +269,6 @@ const IsnRecaudacion = () => {
 
     <div style={{ height: 600, width: "100%", padding:"2%" }}>
       <Slider open={slideropen}></Slider>
-
-   
-
-
-
-     
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
@@ -277,10 +302,19 @@ const IsnRecaudacion = () => {
         <DriveFolderUploadIcon />
         </IconButton>
         </Tooltip>
+
+        <Tooltip title="Eliminación Masiva">
+            <IconButton aria-label="upload documento" component="label" size="large">
+              <DeleteForeverIcon onClick={() => eliminacionMasiva()} />
+            </IconButton>
+          </Tooltip>
+
         </>
+
+        
          :""}
       </Box>
-     < MUIXDataGridMun columns={columns} rows={data} handleBorrar={handleBorrar} borrar={eliminar} modulo={'POBLACION'}   />
+     < MUIXDataGridMun columns={columns} rows={data} handleBorrar={handleBorrar} borrar={eliminar} modulo={'ISN RECAUDACION'}   />
 
 
     </div>

@@ -65,9 +65,7 @@ const DetalleFgp = ({
   //Modals
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
-
   const [tipoAccion, setTipoAccion] = useState("");
-
   //Columnas
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
@@ -80,15 +78,10 @@ const DetalleFgp = ({
   const [cf, setCf] = useState(false);
   const [ae, setAe] = useState(false);
   const [af, setAf] = useState(false);
-
   const closeTraz = () => {
     setOpenSlider(false);
     setOpenTrazabilidad(false);
   };
-
-
- 
-  
 
   // MANEJO DE ACCIONES
   const handleAcciones = (v: any) => {
@@ -140,7 +133,6 @@ const DetalleFgp = ({
           setArea("CPH")
           break;
 
-
         default:
           break;
       }
@@ -175,7 +167,6 @@ const DetalleFgp = ({
       }
     });
   };
-
   const BorraCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -229,8 +220,6 @@ const DetalleFgp = ({
       }
     });
   };
-
-
   const getPerfilCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -247,7 +236,6 @@ const DetalleFgp = ({
       }
     });
   };
-
   const getAreaCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -264,7 +252,6 @@ const DetalleFgp = ({
       }
     });
   };
-
   const columnas = (data: any) => {
     calculosServices.getColumns(data).then((res) => {
       if (res.SUCCESS) {
@@ -456,7 +443,6 @@ const DetalleFgp = ({
       ...Moneda,
     },
   ];
-
   const EstablecePermisos = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === String(clave).replace(/\s/g, "")) {
@@ -488,7 +474,6 @@ const DetalleFgp = ({
     columnas({ IDCALCULOTOTAL: idDetalle });
     consulta({ IDCALCULOTOTAL: idDetalle });
   }, []);
-
 
 
   return (
