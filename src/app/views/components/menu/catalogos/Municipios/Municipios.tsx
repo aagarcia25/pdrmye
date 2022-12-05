@@ -82,7 +82,7 @@ export const Municipios = () => {
               ) : (
                 ""
               )}
-              {viewUR ? (
+              {true ? (
                 <Tooltip title={"Visualizar Usuario Responsable"}>
                   <IconButton onClick={() => handleUR(v)}>
                     <ManageAccountsIcon />

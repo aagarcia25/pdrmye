@@ -27,6 +27,7 @@ import Swal from "sweetalert2";
 import { render } from "react-dom";
 import SelectFragLogin from "../../../Fragmentos/SelectFragLogin";
 import { text } from "node:stream/consumers";
+import ModalForm from "../../../componentes/ModalForm";
 const UsuariosModal = ({
   open,
   handleClose,
@@ -272,10 +273,10 @@ const UsuariosModal = ({
             };
 
             UserServices.createsolicitud(datSol).then((resSol) => {
-    
-              
-            console.log(resSol.data.data[0][0].IdSolicitud)
-              if (resSol.data.data[0][0].Respuesta ==="201") {
+
+
+              console.log(resSol.data.data[0][0].IdSolicitud)
+              if (resSol.data.data[0][0].Respuesta === "201") {
 
                 let dat = {
                   NUMOPERACION: tipo,
@@ -350,29 +351,7 @@ const UsuariosModal = ({
 
   return (
     <div>
-      <Dialog open={open} fullScreen >
-        <Grid container spacing={1} sx={{ bgcolor: "#CCCCCC", paddingBottom: "1%", paddingTop: "1%" }}>
-          <Grid item xs={12} sm={2} md={2} lg={2} ></Grid>
-          <Grid item xs={12} sm={8} md={8} lg={8} >
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Typography variant="h4"> {tipo === 3 ? "Nuevo Registro" : "Editar Registro"} </Typography>
-            </Box>
-
-          </Grid>
-          <Grid item xs={12} sm={2} md={2} lg={2}  >
-            <Button variant="outlined" onClick={() => handleClose()}>
-              <Tooltip title="Salir">
-                <IconButton
-                  aria-label="close"
-                  color="error"
-                  onClick={() => handleClose()}>
-                  <CloseIcon />
-                </IconButton>
-              </Tooltip>
-            </Button>
-          </Grid>
-        </Grid>
-
+      <ModalForm title={tipo === 3 ? "Nuevo Registro" : "Editar Registro"} handleClose={handleClose}>
         <Grid container spacing={1}
           sx={{
             justifyContent: "center",
@@ -559,8 +538,6 @@ const UsuariosModal = ({
                   helperText={"Opcional* " + extError}
                   InputLabelProps={{ shrink: true }}
                   error={!extValid}
-
-
                 />
                 <Typography variant="body2"> {celError} </Typography>
                 <br />
@@ -572,7 +549,6 @@ const UsuariosModal = ({
                   placeholder={"Seleccione Departamento"}
                   label={""}
                   disabled={false}
-
                 />
                 <br />
                 <Typography variant="body2"> Perfil: </Typography>
@@ -584,7 +560,6 @@ const UsuariosModal = ({
                   label={""}
                   disabled={false}
                 />
-
                 <Grid xs={12} sm={12} md={12} lg={12} sx={{ paddingTop: "3%" }}  >
                   <Box maxHeight={1 / 2} flexDirection="row"> </Box>
                   <Box maxHeight={1 / 2} flexDirection="row">
@@ -599,12 +574,11 @@ const UsuariosModal = ({
                     </DialogActions>
                   </Box>
                 </Grid>
-
               </Grid>
             </Box>
           </Grid>
         </Grid>
-      </Dialog>
+      </ModalForm>
     </div>
   );
 };

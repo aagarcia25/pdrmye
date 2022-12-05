@@ -29,9 +29,10 @@ export const ListNotification = () => {
 
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", width: 150, hide: true },
-    { field: "deleted", headerName: "eliminado", width: 300, hide: true },
-    { field: "ModificadoPor", headerName: "ModificadoPor", width: 300, hide: true },
+    { field: "id", hide: true },
+    { field: "deleted",hide: true },
+    { field: "ModificadoPor", hide: true },
+    { field: "FechaCreacion", headerName: "Fecha Creacion", width: 200, },
     { field: "CreadoPor", headerName: "CreadoPor", width: 300, hide: true },
     { field: "origen", headerName: "Remitente", width: 300, hide: modo === "MessageSend" },
     { field: "destinatario", headerName: "Destinatario", width: 300, hide: modo === "viewMessageReading" || modo === "ViewMessage" },
