@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Typography,
+  Grid,
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { CatalogosServices } from "../../services/catalogosServices";
@@ -109,17 +110,17 @@ const ListNotificationsModal = ({
         if (res.SUCCESS) {
 
           let jsonobj = {
-            "texto":newMensaje
+            "texto": newMensaje
           }
 
-          let obj ={
-          referencia:1,
-          data:jsonobj,
-          to:"aagarcia@cecapmex.com",
-          subject:newEncabezado
+          let obj = {
+            referencia: 1,
+            data: jsonobj,
+            to: "aagarcia@cecapmex.com",
+            subject: newEncabezado
           };
 
-          MailServices.sendMail(obj).then(() =>{
+          MailServices.sendMail(obj).then(() => {
 
           });
 
@@ -170,10 +171,10 @@ const ListNotificationsModal = ({
     //console.log("data " + dt?.row);
     loadSelectUser();
     setChuserDestin(destinatario);
-    if(dt===true){
-setOpenSlider(true)
-setChuserDestin(destinatario);
-setOpenSlider(false);
+    if (dt === true) {
+      setOpenSlider(true)
+      setChuserDestin(destinatario);
+      setOpenSlider(false);
     }
     if (dt === '') {
 
@@ -194,21 +195,21 @@ setOpenSlider(false);
 
   return (
     <Dialog
-    fullWidth
-    fullScreen
-    open={open}
-    sx={{ margin:"0%",padding:"0%"}}
+      fullWidth
+      fullScreen
+      open={open}
+      sx={{ margin: "0%", padding: "0%" }}
     >
-      <Slider open={openSlider}/>
-      
-      <Box maxWidth="100%" 
-       sx={{
-        // justifyContent: 'space-between',
-        position: 'relative',
-        flexDirection: 'column',
-        margin:"4.5%",
-        // borderRadius: 2
-      }}>
+      <Slider open={openSlider} />
+
+      <Box maxWidth="100%"
+        sx={{
+          // justifyContent: 'space-between',
+          position: 'relative',
+          flexDirection: 'column',
+          margin: "4.5%",
+          // borderRadius: 2
+        }}>
 
         {(modo === "NewMessage") ?
           <Box boxShadow={2} maxWidth="95%">
@@ -224,7 +225,7 @@ setOpenSlider(false);
                 display: 'flex',
                 justifyContent: 'space-between',
                 position: 'relative',
-                
+
               }}>
                 <Box sx={{
                   position: 'relative',
@@ -258,7 +259,7 @@ setOpenSlider(false);
                   onInputChange={handleSelectUser}
                   placeholder={"Seleccionar Usuario"}
                   label={""}
-                  disabled={dt===true}
+                  disabled={dt === true}
                 />
               </Box>
               <Box sx={{
@@ -275,7 +276,7 @@ setOpenSlider(false);
                   sx={{
                     width: "100%",
                     height: "100%",
-                    paddingBottom:"1%"
+                    paddingBottom: "1%"
                   }}>
                   <Typography variant="h6" paddingBottom={.2}> Asunto.. </Typography>
                   <textarea
@@ -283,18 +284,18 @@ setOpenSlider(false);
                     spellCheck='true'
                     rows={2}
                     onChange={(v) => setNewEncabezado(v.target.value)}
-                    style={{ width: "100%", borderRadius: 10, fontFamily:"sans-serif"}} />
+                    style={{ width: "100%", borderRadius: 10, fontFamily: "sans-serif" }} />
                 </Box>
-              
+
                 <Box
                   sx={{
-                    paddingTop:"1%",
+                    paddingTop: "1%",
                     borderRadius: 2,
                     height: "95%",
                     width: "100%",
                   }}>
-                    <Typography variant="h6" paddingBottom={.2}> Mensaje.. </Typography>
-                 
+                  <Typography variant="h6" paddingBottom={.2}> Mensaje.. </Typography>
+
                   <textarea
                     required
                     spellCheck='true'
@@ -308,7 +309,7 @@ setOpenSlider(false);
               }
               <Box sx={{ position: 'relative', right: 5, top: -3, display: 'flex', flexDirection: 'row-reverse', }} >
 
-                <Box sx={{ width: "12%", padding:"1%"}} >
+                <Box sx={{ width: "12%", padding: "1%" }} >
                   <Button
                     className="enviar-mensaje" color="success" variant="contained" endIcon={<SendIcon />}
                     onClick={() => handleUpload()}>
@@ -324,244 +325,149 @@ setOpenSlider(false);
         }
 
         {(modo === "ViewMessage") ?
-          <Box sx={{
-            height: "100%",
-            justifyContent: 'space-between',
-            position: 'relative',
-            flexDirection: 'column',
 
-            display: 'flex',
-            borderRadius: 1
-          }}>
-            <Box sx={{
+            <Grid container >
+              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <label>De: {" " + remitente}</label>
+                    <br />
+                    <label>Para: {" " + destinatario}</label>
+                    <label >
+                      <h3>Asunto</h3>
+                    </label>
+                  </Grid>
+                </Grid>
+                <Box>
+                  <button className="cerrar-mensaje" color="error"
+                    onClick={() => handleViewChange()}>
+                    <CloseIcon />
+                  </button>
+                </Box>
+              </Grid>
 
-              display: 'flex',
-              justifyContent: 'space-between',
-              position: 'relative',
-
-              borderRadius: 1,
-
-            }}>
-              <Box sx={{
-                width: "100%",
-                position: 'relative',
-                flexDirection: 'column',
-                top: 1, left: 20,
-                borderRadius: 1
-              }}>
-
-                <label>De: {" " + remitente}</label>
-                <br />
-                <label>Para: {" " + destinatario}</label>
-
-                <label >
-
-                  <h3>Asunto</h3>
-                </label>
-
-
+              <Grid item xs={12}>
                 <textarea
                   value={encabezado}
                   readOnly
                   rows={2}
-                  onChange={(v) => setMensaje(v.target.value)}
                   style={{ width: "100%", borderRadius: 15, }} />
-
-                <label
-
-                > <h2> { } </h2>
-                </label>
-              </Box>
-              <Box>
-                <button className="cerrar-mensaje" color="error"
-                  onClick={() =>
-                    handleViewChange()}>
-                  <CloseIcon />
-                </button>
-
-
-              </Box>
-            </Box>
-
-            <Box sx={{
-              width: "91%",
-              position: 'relative',
-
-              left: 20,
-              flexDirection: 'column',
-              borderRadius: 1,
-              bgcolor: "rgb(245,245,245)",
-              borderColor: "rgb(255,240,225)",
-            }}>
-              <label >
-                <h3>Mensaje.. </h3>
-              </label>
-              <textarea
-                value={mensaje}
-                readOnly
-                rows={20}
-                onChange={(v) => setMensaje(v.target.value)}
-                style={{ width: "100%", borderRadius: 15, }} />
-
-            </Box>
-
-
-          </Box>
+              </Grid>
+              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
+                <Grid container>
+                  <label >
+                    <h3>Mensaje</h3>
+                  </label>
+                  <textarea
+                    value={mensaje}
+                    readOnly
+                    rows={15}
+                    onChange={(v) => setMensaje(v.target.value)}
+                    style={{ width: "100%", borderRadius: 15, }} />
+                </Grid>
+              </Grid>
+            </Grid>
+       
           :
           ""
         }
 
         {(modo === "viewMessageReading") ?
-          <Box sx={{
-            height: "100%",
-            justifyContent: 'space-between',
-            position: 'relative',
-            flexDirection: 'column',
 
-            display: 'flex',
-            borderRadius: 1
-          }}>
-            <Box sx={{
-
-              display: 'flex',
-              justifyContent: 'space-between',
-              position: 'relative',
-              borderRadius: 1,
-
-            }}>
-              <Box sx={{
-                position: 'relative',
-                flexDirection: 'column',
-                top: 1, left: 20,
-                width: "100%",
-                borderRadius: 1
-              }}>
-                <label>De: {" " + remitente}</label>
-                <br />
-                <label>Para: {" " + destinatario}</label>
-
-                <label >
-                  <h3>Asunto</h3>
-                </label>
-                <textarea
-                  value={encabezado}
-                  readOnly
-                  rows={2}
-                  style={{ width: "100%", borderRadius: 15, }} />
-              </Box>
+          <Grid container >
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <label>De: {" " + remitente}</label>
+                  <br />
+                  <label>Para: {" " + destinatario}</label>
+                  <label >
+                    <h3>Asunto</h3>
+                  </label>
+                </Grid>
+              </Grid>
               <Box>
                 <button className="cerrar-mensaje" color="error"
                   onClick={() => handleClose("7")}>
                   <CloseIcon />
                 </button>
-
-
               </Box>
-            </Box>
+            </Grid>
 
-            <Box sx={{
-              width: "91%",
-              position: 'relative',
-
-              left: 20,
-              flexDirection: 'column',
-              borderRadius: 1,
-              bgcolor: "rgb(245,245,245)",
-              borderColor: "rgb(255,240,225)",
-            }}>
-              <label >
-                <h3>Mensaje</h3>
-              </label>
+            <Grid item xs={12}>
               <textarea
-                value={mensaje}
+                value={encabezado}
                 readOnly
-                rows={15}
-                style={{ width: "100%", borderRadius: 15 }} />
-
-            </Box>
-
-
-          </Box>
+                rows={2}
+                style={{ width: "100%", borderRadius: 15, }} />
+            </Grid>
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
+              <Grid container>
+                <label >
+                  <h3>Mensaje</h3>
+                </label>
+                <textarea
+                  value={mensaje}
+                  readOnly
+                  rows={15}
+                  onChange={(v) => setMensaje(v.target.value)}
+                  style={{ width: "100%", borderRadius: 15, }} />
+              </Grid>
+            </Grid>
+          </Grid>
           :
           ""
         }
 
 
         {(modo === "MessageSend") ?
-          <Box sx={{
-            height: "100%",
-            justifyContent: 'space-between',
-            position: 'relative',
-            flexDirection: 'column',
+          <Grid container >
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
 
-            display: 'flex',
-            borderRadius: 1
-          }}>
-            <Box sx={{
+              <Grid container>
 
-              display: 'flex',
-              justifyContent: 'space-between',
-              position: 'relative',
+                <Grid item xs={12}>
+                  <label>De:{" " + remitente}</label>
+                  <br />
+                  <label>Para: {" " + destinatario}</label>
 
-              borderRadius: 1,
+                  <label >
+                    <h3>Asunto</h3>
+                  </label>
 
-            }}>
-              <Box sx={{
-                width: "100%",
-                position: 'relative',
-                flexDirection: 'column',
-                top: 1, left: 20,
-                borderRadius: 1
-              }}>
 
-                <label>De: {" " + remitente}</label>
-                <br />
-                <label>Para: {" " + destinatario}</label>
-
-                <label >
-                  <h3>Asunto</h3>
-                </label>
-
-                <textarea
-                  value={encabezado}
-                  readOnly
-                  rows={2}
-                  style={{ width: "100%", borderRadius: 15, }} />
-
-              </Box>
+                </Grid>
+              </Grid>
               <Box>
                 <button className="cerrar-mensaje" color="error"
                   onClick={() => handleClose("9")}>
                   <CloseIcon />
                 </button>
-
-
               </Box>
-            </Box>
-
-            <Box sx={{
-              width: "91%",
-              position: 'relative',
-              left: 20,
-              flexDirection: 'column',
-              borderRadius: 1,
-              bgcolor: "rgb(245,245,245)",
-              borderColor: "rgb(255,240,225)",
-            }}>
-              <label >
-                <h3>Mensaje</h3>
-              </label>
+            </Grid>
+            <Grid item xs={12}>
               <textarea
-                value={mensaje}
+                value={encabezado}
                 readOnly
-                rows={20}
-                onChange={(v) => setMensaje(v.target.value)}
+                rows={2}
                 style={{ width: "100%", borderRadius: 15, }} />
+            </Grid>
 
-            </Box>
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
+              <Grid container>
+                <label >
+                  <h3>Mensaje</h3>
+                </label>
+                <textarea
+                  value={mensaje}
+                  readOnly
+                  rows={15}
+                  onChange={(v) => setMensaje(v.target.value)}
+                  style={{ width: "100%", borderRadius: 15, }} />
+              </Grid>
 
-
-          </Box>
+            </Grid>
+          </Grid>
           :
           ""
         }
