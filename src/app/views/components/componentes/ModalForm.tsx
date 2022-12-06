@@ -49,6 +49,8 @@ const ModalForm = ({ children, title, handleClose }: Props) => {
         <DialogContent>
           <Box>{children}</Box>
         </DialogContent>
+
+        
       </Dialog>
     </div>
   );

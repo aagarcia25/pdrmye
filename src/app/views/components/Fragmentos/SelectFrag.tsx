@@ -1,10 +1,6 @@
 
-import Select, {
-  components,
-  ControlProps,
-  Props,
-  StylesConfig,
-} from 'react-select';
+import { Box } from '@mui/material';
+import Select from 'react-select';
 import SelectValues from '../../../interfaces/Select/SelectValues'
 
 const SelectFrag = ({
@@ -24,17 +20,8 @@ const SelectFrag = ({
 }
 
 ) => {
-
-  const styles: StylesConfig< false> = {
-    control: (css) => ({ ...css, paddingLeft: '1rem' }),
-  };
-
-
-
   return (
-
-
-      <Select
+      <Select 
         options={options}
         isDisabled={disabled}
         isClearable={true}

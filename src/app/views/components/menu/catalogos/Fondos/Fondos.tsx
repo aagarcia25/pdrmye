@@ -355,8 +355,16 @@ const Fondos = () => {
       )}
 
       <NombreCatalogo controlInterno={"FONDOS"} />
-      <ButtonsMunBase handleOpen={handleOpen} agregar={agregar} eliminar={eliminar} />
-      <MUIXDataGridMun columns={columns} rows={fondos} modulo={nombreMenu.toUpperCase().replace(' ','_')} handleBorrar={handleBorrar} borrar={eliminar} />
+      <Grid container sx={{ display: "flex", alignItems: "center", justifyContent: "center", }} >
+        <Grid item sm={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
+          <ButtonsMunBase handleOpen={handleOpen} agregar={agregar} eliminar={eliminar} />
+        </Grid>
+        <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+          <MUIXDataGridMun columns={columns} rows={fondos} modulo={nombreMenu.toUpperCase().replace(' ', '_')} handleBorrar={handleBorrar} borrar={eliminar} />
+        </Grid>
+      </Grid>
+
+
     </div>
   );
 };
