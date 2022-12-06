@@ -461,8 +461,7 @@ const Participaciones = () => {
         <ModalDAMOP
           tipo={"Comentarios"}
           handleClose={handleClose}
-          handleAccion={Fnworkflow}
-        />
+          handleAccion={Fnworkflow}        />
       ) : (
         ""
       )}
