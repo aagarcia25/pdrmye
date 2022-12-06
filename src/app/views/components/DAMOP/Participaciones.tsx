@@ -41,6 +41,7 @@ import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
 import ModalCalculos from "../componentes/ModalCalculos";
 import { DAMOPServices } from "../../../services/DAMOPServices";
+import ModalDAMOP from "../componentes/ModalDAMOP";
 
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -439,12 +440,10 @@ const Participaciones = () => {
       <Slider open={slideropen}></Slider>
 
       {openModal ? (
-        <ModalCalculos
+        <ModalDAMOP
           tipo={"Comentarios"}
           handleClose={handleClose}
           handleAccion={Fnworkflow}
-          perfil={""}
-          area={""}
         />
       ) : (
         ""
