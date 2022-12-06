@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { GridColDef } from "@mui/x-data-grid";
 import { messages } from "../../../../styles";
@@ -13,6 +13,11 @@ import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import { Grid, Typography } from "@mui/material";
 
+import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+
+
 export const ParametrosGenerales = () => {
   const [parametroGeneral, setParametroGeneral] = useState([]);
   const [modo, setModo] = useState("");
@@ -23,7 +28,8 @@ export const ParametrosGenerales = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-
+  const menu: MENU[] = JSON.parse(String(getMenus()));
+  const [nombreMenu, setNombreMenu] = useState("");
 
   //console.log("parametroGeneral", parametroGeneral);
 
@@ -96,6 +102,10 @@ export const ParametrosGenerales = () => {
   const handleClose = () => {
     setOpen(false);
     consulta({ NUMOPERACION: 4 });
+  };
+
+  const handleBorrar = () => {
+
   };
 
   const handleOpen = (v: any) => {
@@ -171,7 +181,17 @@ export const ParametrosGenerales = () => {
   };
 
   useEffect(() => {
+
+
     permisos.map((item: PERMISO) => {
+      menu.map((item: MENU) => {
+        item.items.map((itemsMenu: ITEMS) => {
+          if (String(itemsMenu.ControlInterno) === "PG") {
+            setNombreMenu(itemsMenu.Menu);
+          }
+        });
+      });
+
       if (String(item.ControlInterno) === "PG") {
         //console.log(item)
         if (String(item.Referencia) === "AGREG") {
@@ -199,16 +219,9 @@ export const ParametrosGenerales = () => {
           dt={vrows}
         />
         : ""}
-      <Grid container >
-        <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-          <Typography
-            sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-            Parámetros Generales
-          </Typography>
-        </Grid>
-      </Grid>
+      <NombreCatalogo controlInterno={"PG"} />
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGrid columns={columns} rows={parametroGeneral} />
+      <MUIXDataGridMun columns={columns} rows={parametroGeneral} modulo={nombreMenu.toUpperCase().replace(' ','_')} handleBorrar={handleBorrar} borrar={false} />
     </div>
   );
 };

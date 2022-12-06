@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
 import ModalForm from "./ModalForm";
-import Slider from "../Slider";
-import { CatalogosServices } from "../../../services/catalogosServices";
-import SelectValues from "../../../interfaces/Select/SelectValues";
-import SelectFrag from "../Fragmentos/SelectFrag";
 
 const ModalDAMOP = ({
   tipo,

@@ -26,7 +26,6 @@ const SelectFrag = ({
 
 
       <Select
-        value ={value != null ?options?.find(element => element.value === value) :[]}
         options={options}
         isDisabled={disabled}
         isClearable={true}
@@ -41,7 +40,7 @@ const SelectFrag = ({
         placeholder={(label != "") ? label : placeholder}
         styles={{
           menu: (base) => ({
-            position: 'fixed',
+            position: 'absolute',
 
             zIndex: 500,
             ...base

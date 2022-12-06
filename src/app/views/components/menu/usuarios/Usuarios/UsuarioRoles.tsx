@@ -125,7 +125,6 @@ const UsuarioRoles = ({
   useEffect(() => {
     loadFilter();
     consulta();
-    console.log(dt)
   }, [dt]);
 
 

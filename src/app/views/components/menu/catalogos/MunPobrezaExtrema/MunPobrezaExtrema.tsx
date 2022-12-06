@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Grid, Typography } from '@mui/material'
+import { Box,  } from '@mui/material'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -11,11 +11,13 @@ import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import { getPermisos, getUser } from '../../../../../services/localStorage'
+import { getMenus, getPermisos, getUser } from '../../../../../services/localStorage'
 import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import MUIXDataGridMun from '../../../MUIXDataGridMun'
+
+import NombreCatalogo from '../../../componentes/NombreCatalogo'
 
 export const MunPobrezaExtrema = () => {
 
@@ -34,8 +36,6 @@ export const MunPobrezaExtrema = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-
-
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
 
@@ -264,10 +264,12 @@ export const MunPobrezaExtrema = () => {
 
 
   useEffect(() => {
+    	
+
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPOEX") {
         setNombreMenu(item.Menu);
-
         if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
@@ -298,16 +300,7 @@ export const MunPobrezaExtrema = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-
-
-      <Grid container
-        sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography variant='h3'>
-            {nombreMenu}
-          </Typography>
-        </Grid>
-      </Grid>
+      <NombreCatalogo controlInterno={"MUNPOEX"} />
       <Box
         sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
         <SelectFrag
@@ -321,7 +314,7 @@ export const MunPobrezaExtrema = () => {
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"MUNPOEX"} />
 
-     < MUIXDataGridMun columns={columns} rows={PobrezaExtrema} handleBorrar={handleBorrar} borrar={eliminar} modulo={'POBREZA_EXTREMA'}   />
+     < MUIXDataGridMun columns={columns} rows={PobrezaExtrema} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')}   />
       {open ? (
         <MunPobrezaExtremaModal
           open={open}

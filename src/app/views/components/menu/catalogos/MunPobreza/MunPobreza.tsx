@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Grid, Typography, } from '@mui/material'
+import { Box, } from '@mui/material'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -13,10 +13,11 @@ import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import { getPermisos, getUser } from '../../../../../services/localStorage'
+import { getMenus, getPermisos, getUser } from '../../../../../services/localStorage'
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import MUIXDataGridMun from '../../../MUIXDataGridMun'
+import NombreCatalogo from '../../../componentes/NombreCatalogo'
 
 export const MunPobreza = () => {
 
@@ -34,7 +35,6 @@ export const MunPobreza = () => {
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
@@ -168,8 +168,6 @@ export const MunPobreza = () => {
 
     } 
     else if (data.tipo === 2) {
-      //console.log("borrado de toda la tabla")
-      //console.log(selectionModel)
 
       if(selectionModel.length!==0){
       Swal.fire({
@@ -187,7 +185,6 @@ export const MunPobreza = () => {
            OBJS: selectionModel,
            CHUSER: user.id
           };
-          //console.log(data);
   
           CatalogosServices.munpobreza(data).then((res) => {
             if (res.SUCCESS) {
@@ -268,11 +265,10 @@ export const MunPobreza = () => {
 
 
   useEffect(() => {
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPOBREZA") {
         //console.log(item)
-        setNombreMenu(item.Menu);
-
         if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
@@ -298,15 +294,7 @@ export const MunPobreza = () => {
 
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
-  
-      <Grid container
-        sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography variant='h3'>
-            {nombreMenu}
-          </Typography>
-        </Grid>
-      </Grid>
+      <NombreCatalogo controlInterno={"MUNPOBREZA"} />
       <Box
         sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
         <SelectFrag

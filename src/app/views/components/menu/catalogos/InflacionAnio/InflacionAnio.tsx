@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
@@ -11,6 +11,8 @@ import InflacionAnioModal from "./InflacionAnioModal";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
 
 
 const InflacionAnio = () => {
@@ -24,7 +26,7 @@ const InflacionAnio = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-
+  const [agregar, setAgregar] = useState<boolean>(false);
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -33,15 +35,12 @@ const InflacionAnio = () => {
       width: 150,
       description: messages.dataTableColum.id,
     },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Inflacion", headerName: "Inflación", width: 150 },
-
     {
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 100,
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
@@ -49,20 +48,25 @@ const InflacionAnio = () => {
         );
       },
     },
+    { field: "Anio", headerName: "Año", width: 150 },
+    { field: "Inflacion", headerName: "Inflación", width: 150 },
+
   ];
 
   const handleAccion = (v: any) => {
-    if(v.tipo === 1){
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setVrows(v.data);
-    }else if(v.tipo === 2){
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
     }
   }
-  
 
+  const handleBorrar = () => {
+
+  };
   const handleClose = () => {
     setOpen(false);
     consulta({ NUMOPERACION: 4 })
@@ -141,11 +145,11 @@ const InflacionAnio = () => {
 
 
   useEffect(() => {
-    
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "INFANIO") {
         if (String(item.Referencia) === "AGREG") {
-          // setAgregar(true);
+          setAgregar(true);
         }
         if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
@@ -171,9 +175,12 @@ const InflacionAnio = () => {
       ) : (
         ""
       )}
+      <NombreCatalogo controlInterno={"INFANIO"} />
 
-      <ButtonsAdd handleOpen={handleOpen} agregar={false} />
-      <MUIXDataGrid columns={columns} rows={dataInflacionAnio} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+      <MUIXDataGridMun columns={columns} rows={dataInflacionAnio} modulo={"INFANIO"} handleBorrar={handleBorrar} borrar={false} />
+
+      
     </div>
   )
 }

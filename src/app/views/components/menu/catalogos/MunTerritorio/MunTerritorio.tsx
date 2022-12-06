@@ -13,6 +13,8 @@ import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import { Grid, Typography } from "@mui/material";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
+
 
 export const MunTerritorio = () => {
 
@@ -245,7 +247,6 @@ export const MunTerritorio = () => {
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNTERR") {
-        //console.log(item)
         setNombreMenu(item.Menu);
         if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
@@ -282,20 +283,12 @@ export const MunTerritorio = () => {
         :
         ""
       }
-      <Grid container
-        sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography variant="h4">
-            {nombreMenu}
-          </Typography>
-        </Grid>
-      </Grid>
-
+        <NombreCatalogo controlInterno={"MUNTERR"} />
       <ButtonsMunicipio
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"MUNTERR"} />
 
-      <MUIXDataGridMun columns={columns} rows={territorio} handleBorrar={handleBorrar} borrar={eliminar} modulo={"TERRITORIO"}   />
+      <MUIXDataGridMun columns={columns} rows={territorio} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')}   />
 
     </div>
   );

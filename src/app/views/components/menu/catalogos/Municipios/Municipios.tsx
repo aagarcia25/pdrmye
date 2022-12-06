@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import Slider from "../../../Slider";
-import { getMunicipio, getPermisos, getUser } from "../../../../../services/localStorage";
+import { getMenus, getMunicipio, getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -20,6 +20,11 @@ import MunicipiosUsuarioResponsable from "./MunicipiosUsuarioResponsable";
 import { CuentaBancaria } from "../CuentaBancaria/CuentaBancaria";
 import ModalForm from "../../../componentes/ModalForm";
 import { AlertS } from "../../../../../helpers/AlertS";
+import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+
+
 
 export const Municipios = () => {
   const [id, setId] = useState("");
@@ -45,6 +50,9 @@ export const Municipios = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
+  const menu: MENU[] = JSON.parse(String(getMenus()));
+
+
 
   const columns: GridColDef[] = [
     {
@@ -175,7 +183,7 @@ export const Municipios = () => {
     setId(v.row.id);
     setNombreMun(v.row.Nombre)
     setOpenCC(true);
-    
+
   };
 
   const handleUR = (v: any) => {
@@ -236,27 +244,87 @@ export const Municipios = () => {
     });
   };
 
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "ANTICIPO_PARTICIPACIONES");
-    CatalogosServices.migraData(formData).then((res) => {
-      setslideropen(false);
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        });
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
+  const handleUpload = (data: any) => {
+
+      if (data.tipo === 1) {
+  
+        // setslideropen(true);
+        // let file = data.data?.target?.files?.[0] || "";
+        // const formData = new FormData();
+        // formData.append("inputfile", file, "inputfile.xlsx");
+        // formData.append("tipo", "MUNICIPIOS");
+        // CatalogosServices.migraData(formData).then((res) => {
+        //   setslideropen(false);
+        //   if (res.SUCCESS) {
+        //     Toast.fire({
+        //       icon: "success",
+        //       title: "Carga Exitosa!",
+        //     });
+        //   } else {
+        //     AlertS.fire({
+        //       title: "Error!",
+        //       text: res.STRMESSAGE,
+        //       icon: "error",
+        //     });
+        //   }
+        // });
       }
-    });
+      // else if (data.tipo === 2) {
+  
+      //   if (selectionModel.length !== 0) {
+      //     Swal.fire({
+      //       icon: "question",
+      //       title: selectionModel.length + " Registros Se Eliminaran!!",
+      //       showDenyButton: true,
+      //       showCancelButton: false,
+      //       confirmButtonText: "Confirmar",
+      //       denyButtonText: `Cancelar`,
+      //     }).then((result) => {
+      //       if (result.isConfirmed) {
+  
+      //         let data = {
+      //           NUMOPERACION: 5,
+      //           OBJS: selectionModel,
+      //           CHUSER: user.id,
+  
+      //         };
+      //         //console.log(data);
+  
+      //         CatalogosServices.munfacturacion(data).then((res) => {
+      //           if (res.SUCCESS) {
+      //             Toast.fire({
+      //               icon: "success",
+      //               title: "Borrado!",
+      //             });
+  
+      //             consulta({
+      //               NUMOPERACION: 4,
+      //               CHUSER: user.id,
+      //               ANIO: filterAnio,
+      //             });
+  
+      //           } else {
+      //             AlertS.fire({
+      //               title: "Error!",
+      //               text: res.STRMESSAGE,
+      //               icon: "error",
+      //             });
+      //           }
+      //         });
+  
+      //       } else if (result.isDenied) {
+      //         Swal.fire("No se realizaron cambios", "", "info");
+      //       }
+      //     });
+      //   } else {
+      //     Swal.fire({
+      //       icon: "warning",
+      //       title: "Seleccione Registros Para Borrar",
+      //       confirmButtonText: "Aceptar",
+      //     });
+      //   }
+      // }
+
   };
 
   const consulta = (data: any) => {
@@ -279,13 +347,32 @@ export const Municipios = () => {
       }
     });
   };
+  const handleBorrar = (v: any) => {
+  };
+
+  const downloadplantilla = () => {
+    let data = {
+      NUMOPERACION: "MUNICIPIOS",
+    };
+
+    CatalogosServices.descargaplantilla(data).then((res) => {
+      setPlantilla(res.RESPONSE);
+    });
+  };
 
   useEffect(() => {
 
+    menu.map((item: MENU) => {
+      item.items.map((itemsMenu: ITEMS) => {
+        if (String(itemsMenu.ControlInterno) === "MUNICIPIOS") {
+          setNombreMenu(itemsMenu.Menu);
+        }
+      });
+    });
     mun.map((item: MUNICIPIO) => {
-  
-        //console.log(item);
-        setNombreMenu(item.Nombre);
+
+      //console.log(item);
+      setNombreMenu(item.Nombre);
     });
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNICIPIOS") {
@@ -319,6 +406,7 @@ export const Municipios = () => {
     CatalogosServices.municipios(data).then((res) => {
       setMunicipio(res.RESPONSE);
     });
+    downloadplantilla();
   }, []);
 
   return (
@@ -326,22 +414,9 @@ export const Municipios = () => {
       <Slider open={slideropen}></Slider>
 
 
-      <Grid container
-        sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography variant="h3">
-           {nombreMenu}
-          </Typography>
-        </Grid>
-      </Grid>
+      <NombreCatalogo controlInterno={"MUNICIPIOS"} />
 
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleUpload}
-        controlInterno={"MUNICIPIOS"}
-      />
-
-      <MUIXDataGrid sx={{}} columns={columns} rows={municipio} />
+      <MUIXDataGridMun columns={columns} rows={municipio} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')} />
       {open ? (
         <MunicipiosModal
           open={open}
@@ -373,9 +448,9 @@ export const Municipios = () => {
       {openCC ? (
         // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
         <ModalForm title={"Cuentas Bancarias"} handleClose={handleClose}>
-            <CuentaBancaria idmunicipio={id} municipio={nombreMun} ></CuentaBancaria>
+          <CuentaBancaria idmunicipio={id} municipio={nombreMun} ></CuentaBancaria>
         </ModalForm>
-      
+
       ) : (
         ""
       )}

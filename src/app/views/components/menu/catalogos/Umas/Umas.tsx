@@ -9,11 +9,12 @@ import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
-import { Grid, Typography } from "@mui/material";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
+
 
 
 
@@ -30,15 +31,19 @@ export const Umas = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+  const [nombreMenu, setNombreMenu] = useState("");
 
-  const handleAccion=(v: any)=>{
-    if(v.tipo ===1){
+
+
+
+  const handleAccion = (v: any) => {
+    if (v.tipo === 1) {
       //console.log(v)
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
       setVrows(v.data);
-    }else if(v.tipo ===2){
+    } else if (v.tipo === 2) {
       Swal.fire({
         icon: "info",
         title: "Estas seguro de eliminar este registro?",
@@ -48,23 +53,23 @@ export const Umas = () => {
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-  
+
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.row.id,
             CHUSER: user.id
           };
           //console.log(data);
-  
+
           CatalogosServices.umas(data).then((res) => {
             if (res.SUCCESS) {
               Toast.fire({
                 icon: "success",
                 title: "Registro Eliminado!",
               });
-  
+
               consulta({ NUMOPERACION: 4 });
-  
+
             } else {
               AlertS.fire({
                 title: "Error!",
@@ -73,7 +78,7 @@ export const Umas = () => {
               });
             }
           });
-  
+
         } else if (result.isDenied) {
           Swal.fire("No se realizaron cambios", "", "info");
         }
@@ -94,7 +99,7 @@ export const Umas = () => {
       width: 200,
       renderCell: (v) => {
         return (
-          <BotonesAcciones 
+          <BotonesAcciones
             handleAccion={handleAccion}
             row={v}
             editar={editar}
@@ -133,67 +138,67 @@ export const Umas = () => {
     if (data.tipo === 1) {
 
 
-    } 
+    }
     else if (data.tipo === 2) {
       //console.log("borrado de toda la tabla")
       //console.log(selectionModel)
 
-      if(selectionModel.length!==0){
-      Swal.fire({
-        icon: "question",
-        title: selectionModel.length +" Registros Se Eliminaran!!",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Confirmar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-  
-          let data = {
-           NUMOPERACION: 5,
-           OBJS: selectionModel,
-           CHUSER: user.id
-          };
-          //console.log(data);
-  
-          CatalogosServices.umas(data).then((res) => {
-            if (res.SUCCESS) {
-              Toast.fire({
-                icon: "success",
-                title: "Borrado!",
-              });
-  
-              consulta({
-                NUMOPERACION: 4,
-                CHUSER: user.id
-              });
-  
-            } else {
-              AlertS.fire({
-                title: "Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              });
-            }
-          });
-  
-        } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
-        }
-      });
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Seleccione Registros Para Borrar",
-        confirmButtonText: "Aceptar",
-      });
-    }
+      if (selectionModel.length !== 0) {
+        Swal.fire({
+          icon: "question",
+          title: selectionModel.length + " Registros Se Eliminaran!!",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Confirmar",
+          denyButtonText: `Cancelar`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            let data = {
+              NUMOPERACION: 5,
+              OBJS: selectionModel,
+              CHUSER: user.id
+            };
+            //console.log(data);
+
+            CatalogosServices.umas(data).then((res) => {
+              if (res.SUCCESS) {
+                Toast.fire({
+                  icon: "success",
+                  title: "Borrado!",
+                });
+
+                consulta({
+                  NUMOPERACION: 4,
+                  CHUSER: user.id
+                });
+
+              } else {
+                AlertS.fire({
+                  title: "Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
+            });
+
+          } else if (result.isDenied) {
+            Swal.fire("No se realizaron cambios", "", "info");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Seleccione Registros Para Borrar",
+          confirmButtonText: "Aceptar",
+        });
+      }
 
 
     }
 
   };
-  
+
   const consulta = (data: any) => {
     CatalogosServices.umas(data).then((res) => {
       if (res.SUCCESS) {
@@ -216,9 +221,10 @@ export const Umas = () => {
 
 
   useEffect(() => {
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "UMAS") {
-        //console.log(item)
+        setNombreMenu(item.Menu);
         if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
@@ -228,7 +234,7 @@ export const Umas = () => {
         if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
-        
+
       }
     });
     consulta({ NUMOPERACION: 4 })
@@ -246,20 +252,10 @@ export const Umas = () => {
       ) : (
         ""
       )}
-            <Grid container >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <Typography
-                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-                UMAS
-              </Typography>
-            </Grid>
-            </Grid>
-            
-       <ButtonsMunicipio
-        url={""}
-        handleUpload={handleUpload} controlInterno={"UMAS"} />
+      <NombreCatalogo controlInterno={"UMAS"} />
+
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-     < MUIXDataGridMun columns={columns} rows={conUmas} handleBorrar={handleBorrar} borrar={eliminar} modulo={"UMAS"}   />
+      < MUIXDataGridMun columns={columns} rows={conUmas} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')} />
     </div>
   );
 };

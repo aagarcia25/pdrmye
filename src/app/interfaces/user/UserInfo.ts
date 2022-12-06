@@ -7,12 +7,33 @@ export interface ROLE {
 export interface MENU {
     Menu: string;
     Descripcion: string;
+    ControlInterno: string;
+    items: any;
 }
 
 export interface PERMISO {
     ControlInterno: string;
     Referencia: string;
     Menu: string;
+
+}
+
+export interface ITEMS {
+    id: string;
+    deleted: string;
+    UltimaActualizacion: string;
+    FechaCreacion: string;
+    ModificadoPor: string;
+    CreadoPor: string;
+    Menu: string;
+    Descripcion: string;
+    MenuPadre: string;
+    Icon: string;
+    Path: string;
+    Nivel: number;
+    Orden: number;
+    ControlInterno: string;
+    subitems: any[];
 }
 
 export interface PERFILES {
@@ -59,7 +80,7 @@ export interface RESPONSE {
     Celular?: any;
     Curp?: string;
     idPerfil?: string;
-    idUsuarioCentral?:string;
+    idUsuarioCentral?: string;
 }
 
 export interface UserInfo {

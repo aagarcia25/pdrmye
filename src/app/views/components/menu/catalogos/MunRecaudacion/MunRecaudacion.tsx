@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box} from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { Moneda } from "../../CustomToolbar";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
-
+import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -15,9 +15,10 @@ import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { fanios } from "../../../../../share/loadAnios";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
 export const MunRecaudacion = () => {
   const [open, setOpen] = useState(false);
@@ -33,7 +34,7 @@ export const MunRecaudacion = () => {
   const [modo, setModo] = useState("");
   const [nombreMenu, setNombreMenu] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-
+  const menu: MENU[] = JSON.parse(String(getMenus()));
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
   const [anios, setAnios] = useState<SelectValues[]>([]);
@@ -264,10 +265,15 @@ export const MunRecaudacion = () => {
   };
 
   useEffect(() => {
+    menu.map((item: MENU) => {
+      item.items.map((itemsMenu: ITEMS) => {
+        if (String(itemsMenu.ControlInterno) === "MUNRECAU") {
+          setNombreMenu(itemsMenu.Menu);
+        }
+      });
+    });
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNRECAU") {
-        //console.log(item)
-        setNombreMenu(item.Menu);
 
         if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
@@ -289,14 +295,7 @@ export const MunRecaudacion = () => {
   return (
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
-      <Grid container
-        sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography variant='h3'>
-            {nombreMenu}
-          </Typography>
-        </Grid>
-      </Grid>
+      <NombreCatalogo controlInterno={"MUNRECAU"} />
       <Box
         sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
         <SelectFrag
@@ -309,7 +308,7 @@ export const MunRecaudacion = () => {
       <ButtonsMunicipio
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"MUNRECAU"} />
-      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={"RECAUDACION"}   />
+      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')}   />
 
       {open ? (
         <MunRecaudacionModal

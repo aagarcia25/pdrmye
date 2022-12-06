@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Grid, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { GridColDef, GridSelectionModel } from '@mui/x-data-grid'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { messages } from '../../../../styles'
@@ -11,11 +11,12 @@ import MunPoblacionProyeccionModal from '../MunPobProyeccion/MunPoblacionProyecc
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
-import { getPermisos, getUser } from '../../../../../services/localStorage';
+import { MENU, PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { getMenus, getPermisos, getUser } from '../../../../../services/localStorage';
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import MUIXDataGridMun from '../../../MUIXDataGridMun';
+import NombreCatalogo from '../../../componentes/NombreCatalogo'
 
 
 export const MunPobProyeccion = () => {
@@ -32,10 +33,7 @@ export const MunPobProyeccion = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-  const [nombreMenu, setNombreMenu] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-
-
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
@@ -271,9 +269,9 @@ export const MunPobProyeccion = () => {
 
 
   useEffect(() => {
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPROYEC") {
-        setNombreMenu(item.Menu);
         if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
@@ -299,14 +297,7 @@ export const MunPobProyeccion = () => {
 
     <div style={{ height: 500, width: "100%" , padding:"2%"  }}>
       <Slider open={slideropen}></Slider>
-      <Grid container
-        sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography variant='h3'>
-            {nombreMenu}
-          </Typography>
-        </Grid>
-      </Grid>
+      <NombreCatalogo controlInterno={"MUNPROYEC"} />
       <Box
         sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
         <SelectFrag

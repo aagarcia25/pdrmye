@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import { GridColDef, GridSelectionModel } from '@mui/x-data-grid'
-import { getPermisos, getUser } from '../../../../../services/localStorage'
+import { getMenus, getPermisos, getUser } from '../../../../../services/localStorage'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
@@ -16,7 +16,7 @@ import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import MUIXDataGridMun from '../../../MUIXDataGridMun'
-
+import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
 
 
 export const MunPoblacion = () => {
@@ -34,7 +34,7 @@ export const MunPoblacion = () => {
   const [modo, setModo] = useState("");
   const [nombreMenu, setNombreMenu] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-
+  const menu: MENU[] = JSON.parse(String(getMenus()));
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
@@ -265,10 +265,18 @@ export const MunPoblacion = () => {
   useEffect(() => {
     downloadplantilla();
     setAnios(fanios());
+
+    menu.map((item: MENU) => {
+      item.items.map((itemsMenu: ITEMS) => {
+        if (String(itemsMenu.ControlInterno) === "MUNPO") {
+          setNombreMenu(itemsMenu.Menu);
+        }
+      });
+    });
+
     permisos.map((item: PERMISO) => {
     
       if (item.ControlInterno === "MUNPO"){
-        setNombreMenu(item.Menu);
         if (String(item.Referencia) === 'EDIT') {
           setUpdate(true);
         }

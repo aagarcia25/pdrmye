@@ -18,7 +18,14 @@ const MUIXDataGridMun = ({
     rows: any,
     borrar:boolean
 
-  }) => {
+  }
+  
+  
+  
+  ) => {
+
+
+
   return (
     <div style={{height: 600, width: "100%" }}>
       <ThemeProvider theme={theme}>
@@ -41,6 +48,7 @@ const MUIXDataGridMun = ({
               quickFilterProps: { debounceMs: 500 },
               csvOptions:{  fileName: modulo,
                              utf8WithBom: true,
+                             
                             }
             },
           }}
