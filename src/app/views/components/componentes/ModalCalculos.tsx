@@ -21,7 +21,7 @@ const ModalCalculos = ({
 }) => {
   
   const [mensaje, setMensaje] = useState<string>();
-  const [openSlider, setOpenSlider] = useState(false);
+  const [openSlider, setOpenSlider] = useState(true);
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
   const [chuserDestin, setChuserDestin] = useState<string>("");
 
@@ -34,6 +34,7 @@ const ModalCalculos = ({
     CatalogosServices.SelectIndex(data).then((res) => {
       if (res.SUCCESS) {
         setUsuarioSelect(res.RESPONSE);
+        setOpenSlider(false);
       } 
     });
   };

@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   createTheme,
   Grid,
@@ -15,7 +16,7 @@ import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
 import SendIcon from "@mui/icons-material/Send";
-import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -24,10 +25,11 @@ import { getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
-import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
+import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import LanIcon from '@mui/icons-material/Lan';
+import LanIcon from "@mui/icons-material/Lan";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 
 import {
   DataGrid,
@@ -46,7 +48,8 @@ const Participaciones = () => {
   //MODAL
   const [openModal, setOpenModal] = useState<boolean>(false);
   //Constantes para llenar los select
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tipos, setTipos] = useState<SelectValues[]>([]);
@@ -62,7 +65,6 @@ const Participaciones = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [plantilla, setPlantilla] = useState("");
 
-
   const downloadplantilla = () => {
     let data = {
       NUMOPERACION: "PLANTILLA CARGA ANTICIPO PARTICIPACIONES",
@@ -73,6 +75,7 @@ const Participaciones = () => {
     });
   };
 
+  const handleDescuento = (data: any) => {};
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -117,6 +120,28 @@ const Participaciones = () => {
       headerName: "Beneficiario",
       width: 150,
       description: "Beneficiario",
+    },
+    {
+      field: "acciones",
+      headerName: "Agregar Descuentos",
+      description: "Agregar Descuentos",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            {String(v.row.Clave) === "FGP" ? (
+              <Tooltip title="Agregar Descuentos">
+                <IconButton onClick={() => handleDescuento(v)}>
+                  <AttachMoneyIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Box>
+        );
+      },
     },
     {
       field: "Clave",
@@ -211,7 +236,7 @@ const Participaciones = () => {
         setFondos(res.RESPONSE);
       } else if (operacion === 5) {
         setMunicipios(res.RESPONSE);
-      }  else if (operacion === 17) {
+      } else if (operacion === 17) {
         setTipos(res.RESPONSE);
         setslideropen(false);
       }
@@ -234,16 +259,13 @@ const Participaciones = () => {
     setidMunicipio(v);
   };
 
-
   const Fnworkflow = (data: string) => {
-
     let obj = {
-      NUMOPERACION:numerooperacion,
+      NUMOPERACION: numerooperacion,
       OBJS: selectionModel,
       CHUSER: user.id,
-      COMENTARIO:data,
-      ESTATUS:'DPCP_INICIO'
-    
+      COMENTARIO: data,
+      ESTATUS: "DPCP_INICIO",
     };
 
     DAMOPServices.PA(obj).then((res) => {
@@ -265,26 +287,24 @@ const Participaciones = () => {
   };
 
   const openmodalc = (operacion: number) => {
-    if(selectionModel.length >0 ){
+    if (selectionModel.length > 0) {
       setnumerooperacion(operacion);
       setOpenModal(true);
-    }else{
+    } else {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
     }
- 
   };
-
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     setslideropen(true);
     let file = event?.target?.files?.[0] || "";
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlxs");
-    formData.append("CHUSER",  user.id);
+    formData.append("CHUSER", user.id);
     formData.append("tipo", "anticipoParticipaciones");
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
@@ -292,43 +312,92 @@ const Participaciones = () => {
     });
   };
 
+  const Disitribuir = () => {
+    if (selectionModel.length === 1) {
+      Swal.fire({
+        icon: "info",
+        title: "Distribucion",
+        text: "El Movimiento Seleccionado se distribura entre los Fideicomisos Relacionados al Municipio",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+        
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              DPCPServices.DistribucionFideicomisos(data).then((res) => {
+                if (res.SUCCESS) {
+                  Toast.fire({
+                    icon: "success",
+                    title: "Consulta Exitosa!",
+                  });
+                  handleClick();
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+
+
+
+        }
+      });
+    } else if(selectionModel.length > 1){
+      AlertS.fire({
+        title: "Error!",
+        text: "Solo se permite seleccionar un registro para La distribución",
+        icon: "error",
+      });
+    }else{
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    }
+  };
 
   const SolicitudOrdenPago = () => {
-
     Swal.fire({
       icon: "warning",
-      title:"Solicitar",
+      title: "Solicitar",
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
-  }).then(async (result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         let data = {
-          TIPO:1,
+          TIPO: 1,
           OBJS: selectionModel,
-          CHUSER:user.id
-      };
-      console.log(selectionModel);
+          CHUSER: user.id,
+        };
+        console.log(selectionModel);
 
-                  AlertS.fire({
-                      title: "Solicitud Enviada",
-                      icon: "success",
-
-                  }).then(async (result) => {
-                    if (result.isConfirmed) {
-                      handleClick();
-            
-                              
-                    }
-                    
-                });
-       
+        AlertS.fire({
+          title: "Solicitud Enviada",
+          icon: "success",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            handleClick();
+          }
+        });
       }
-      
-  });
-
-
+    });
   };
 
   const handleClick = () => {
@@ -373,19 +442,20 @@ const Participaciones = () => {
         <ModalCalculos
           tipo={"Comentarios"}
           handleClose={handleClose}
-          handleAccion={Fnworkflow} perfil={""} area={""}        />
+          handleAccion={Fnworkflow}
+          perfil={""}
+          area={""}
+        />
       ) : (
         ""
       )}
 
-      
-      
       <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={10} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
-                  Generación de Solicitudes de Participaciones y Aportaciones
+                Generación de Solicitudes de Participaciones y Aportaciones
               </Typography>
             </Grid>
           </Grid>
@@ -434,14 +504,14 @@ const Participaciones = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={12}  paddingBottom={2}>
+        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
           <Button
             onClick={handleClick}
             variant="contained"
             color="success"
-            endIcon={<SendIcon sx={{color:"white"}} />}
+            endIcon={<SendIcon sx={{ color: "white" }} />}
           >
-            <Typography sx={{ color:"white" }}> Buscar </Typography>
+            <Typography sx={{ color: "white" }}> Buscar </Typography>
           </Button>
         </Grid>
 
@@ -453,36 +523,56 @@ const Participaciones = () => {
               </ToggleButton>
             </Tooltip>
             <Tooltip title={"Generar Solicitud"}>
-            <ToggleButton value="check" onClick={() => SolicitudOrdenPago()}>
-              <SettingsSuggestIcon />
-            </ToggleButton>
-          </Tooltip>
-          <Tooltip title={"Asignar Comentario"}>
-            <ToggleButton value="check" onClick={() => openmodalc(2)}>
-              <FormatAlignLeftIcon />
-            </ToggleButton>
-          </Tooltip>
+              <ToggleButton value="check" onClick={() => SolicitudOrdenPago()}>
+                <SettingsSuggestIcon />
+              </ToggleButton>
+            </Tooltip>
+            <Tooltip title={"Asignar Comentario"}>
+              <ToggleButton value="check" onClick={() => openmodalc(2)}>
+                <FormatAlignLeftIcon />
+              </ToggleButton>
+            </Tooltip>
           </ToggleButtonGroup>
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={1}>
-        <Tooltip title="Descargar Plantilla">
-          <IconButton aria-label="upload documento" component="label" size="large">
-            <Link href={plantilla}>
-              <ArrowDownwardIcon />
-            </Link>
+          <Tooltip title="Descargar Plantilla">
+            <IconButton
+              aria-label="upload documento"
+              component="label"
+              size="large"
+            >
+              <Link href={plantilla}>
+                <ArrowDownwardIcon />
+              </Link>
             </IconButton>
-        </Tooltip>
+          </Tooltip>
 
-        <Tooltip title="Cargar Plantilla">
-        <IconButton aria-label="upload documento" component="label" size="large">
-        <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
-        <DriveFolderUploadIcon />
-        </IconButton>
-        </Tooltip>
+          <Tooltip title="Cargar Plantilla">
+            <IconButton
+              aria-label="upload documento"
+              component="label"
+              size="large"
+            >
+              <input
+                hidden
+                accept=".xlsx, .XLSX, .xls, .XLS"
+                type="file"
+                value=""
+                onChange={(v) => handleUpload(v)}
+              />
+              <DriveFolderUploadIcon />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title={"Distribuir en Fideicomisos"}>
+            <IconButton value="check" onClick={() => Disitribuir()}>
+              <AccountTreeIcon />
+            </IconButton>
+          </Tooltip>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={12} >
+        <Grid item xs={12} sm={12} md={12} lg={12}>
           <div
             style={{
               height: "58vh",
