@@ -69,6 +69,8 @@ const Participaciones = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
   const [descPlant, setDescPlant] = useState<boolean>(false);
+  const [disFide, setDisFide] = useState<boolean>(false);
+
 
 
   const downloadplantilla = () => {
@@ -449,6 +451,9 @@ const Participaciones = () => {
         else if (String(item.Referencia) === "DESCPLANT") {
           setDescPlant(true);
         }
+        else if (String(item.Referencia) === "DISFIDE") {
+          setDisFide(true);
+        }
       }
     });
   }, []);
@@ -461,7 +466,7 @@ const Participaciones = () => {
         <ModalDAMOP
           tipo={"Comentarios"}
           handleClose={handleClose}
-          handleAccion={Fnworkflow}        />
+          handleAccion={Fnworkflow} />
       ) : (
         ""
       )}
@@ -581,12 +586,13 @@ const Participaciones = () => {
                 <DriveFolderUploadIcon />
               </IconButton>
             </Tooltip> : ""}
-
-          <Tooltip title={"Distribuir en Fideicomisos"}>
-            <IconButton value="check" onClick={() => Disitribuir()}>
-              <AccountTreeIcon />
-            </IconButton>
-          </Tooltip>
+          {disFide ?
+            <Tooltip title={"Distribuir en Fideicomisos"}>
+              <IconButton value="check" onClick={() => Disitribuir()}>
+                <AccountTreeIcon />
+              </IconButton>
+            </Tooltip>
+            : ""}
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
