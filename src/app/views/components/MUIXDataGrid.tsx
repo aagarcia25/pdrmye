@@ -9,7 +9,7 @@ const theme = createTheme(coreEsES, gridEsES);
 
 export default function MUIXDataGrid(props: any) {
   return (
-    <div style={{height: 600, width: "100%", paddingRight:"1%", paddingLeft:"1%", paddingBottom:"1%" }}>
+    <div style={{height: 600, width: "100%" }}>
       <ThemeProvider theme={theme}>
         <DataGrid
           {...props.rows}
