@@ -6,71 +6,29 @@ import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import SelectFrag from "../Fragmentos/SelectFrag";
 
-const ModalCalculos = ({
+const ModalDAMOP = ({
   tipo,
-  perfil,
-  area,
   handleClose,
   handleAccion,
 }: {
   tipo: string;
-  perfil: string;
-  area: string;
   handleClose: Function;
   handleAccion: Function;
 }) => {
   
   const [mensaje, setMensaje] = useState<string>();
-  const [openSlider, setOpenSlider] = useState(true);
-  const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
-  const [chuserDestin, setChuserDestin] = useState<string>("");
-
-  const loadSelectUser = () => {
-    let data = {
-      NUMOPERACION: 18,
-      AREA:area ,
-      PERFIL:perfil
-    };
-    CatalogosServices.SelectIndex(data).then((res) => {
-      if (res.SUCCESS) {
-        setUsuarioSelect(res.RESPONSE);
-        setOpenSlider(false);
-      } 
-    });
-  };
-
-
-  
-  const handleSelectUser = (e: any) => {
-    setChuserDestin(e);
-  };
-
 
 
   useEffect(() => {
-    loadSelectUser();
+ 
   }, []);
 
 
   return (
     <div>
       <ModalForm title={tipo} handleClose={handleClose}>
-      <Slider open={openSlider}></Slider>
-
-      <Grid item xs={12}>
-            <h3> Asignar a :</h3>
-          </Grid>
-          <Grid item xs={12}>
-          <SelectFrag
-                  value={chuserDestin}
-                  options={usuarioSelect}
-                  onInputChange={handleSelectUser}
-                  placeholder={"Seleccionar Usuario"}
-                  label={""}
-                  disabled={false}
-                />
-          </Grid>
-          
+    
+        
         <Grid
           container
           spacing={1}
@@ -107,7 +65,7 @@ const ModalCalculos = ({
             >
                 <Button
                   className="actualizar"
-                  onClick={() => handleAccion({mensaje:mensaje,usuario:chuserDestin})}
+                  onClick={() => handleAccion({mensaje:mensaje})}
                 >
                   Guardar
                 </Button>
@@ -119,4 +77,4 @@ const ModalCalculos = ({
   );
 };
 
-export default ModalCalculos;
+export default ModalDAMOP;

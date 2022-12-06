@@ -45,7 +45,7 @@ const FideicomisoConfig = ({
   const [data, setData] = useState([]);
   const [openSlider, setOpenSlider] = useState(false);
   const [nombre, setNombre] = useState<string>("");
-  const [porcentaje, setPorcentaje] = useState<number>(0);
+  const [porcentaje, setPorcentaje] = useState<string>('0');
   const [claveBan, setClaveBan] = useState<string>("");
   const [claveSireGob, setClaveSiregob] = useState<string>("");
   const [cuenta, setCuenta] = useState<string>("");
@@ -182,7 +182,7 @@ const FideicomisoConfig = ({
       }
     });
     setNombre("");
-    setPorcentaje(0);
+    setPorcentaje("");
     setCuenta("");
     setClaveBan("");
     setModo("visualizar");
@@ -211,7 +211,7 @@ const FideicomisoConfig = ({
   const handleNuevoFideicomiso = () => {
     setModo("nuevo");
     setNombre("");
-    setPorcentaje(0);
+    setPorcentaje("0");
     setCuenta("");
     setClaveBan("");
     setClaveSiregob("");
@@ -262,7 +262,7 @@ const FideicomisoConfig = ({
         }
       });
       setNombre("");
-      setPorcentaje(0);
+      setPorcentaje("0");
       setCuenta("");
       setClaveBan("");
       setModo("visualizar");
@@ -389,12 +389,12 @@ const FideicomisoConfig = ({
                   margin="dense"
                   label="Porcentaje"
                   value={porcentaje}
-                  type="number"
+                  type="text"
                   fullWidth
                   variant="standard"
-                  onChange={(v) => setPorcentaje(Number(v.target.value))}
+                  onChange={(v) => setPorcentaje(v.target.value)}
                   inputProps={{ maxLength: 20 }}
-                  error={porcentaje <=0 || porcentaje >= 100}
+                  error={Number(porcentaje) <=0 || Number(porcentaje) >= 100}
                   InputLabelProps={{ shrink: true }}
                 />
                 <TextField

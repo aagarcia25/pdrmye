@@ -106,7 +106,7 @@ const DetalleFgp = ({
           setOpenModal(true);
           break;
 
-         case 4: //AUTORIZAR CAPTURISTA
+        case 4: //AUTORIZAR CAPTURISTA
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_ENV_COOR");
           setperfilDestino("COOR");
@@ -114,7 +114,7 @@ const DetalleFgp = ({
           setOpenModal(true);
           break;
 
-          case 5: //AUTORIZAR CAPTURISTA
+        case 5: //AUTORIZAR CAPTURISTA
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("DAMOP_INICIO");
           setperfilDestino("ANA");
@@ -122,11 +122,11 @@ const DetalleFgp = ({
           setOpenModal(true);
           break;
 
-          case 6: //REGRESAR A VALIDADOR
+        case 6: //REGRESAR A VALIDADOR
           BorraCalculo();
           break;
 
-          case 7: //REGRESAR A analista
+        case 7: //REGRESAR A analista
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_REG_CAP");
           setperfilDestino("ANA");
@@ -134,7 +134,7 @@ const DetalleFgp = ({
           setOpenModal(true);
           break;
 
-          case 8: //REGRESAR A validador
+        case 8: //REGRESAR A validador
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_REG_ANA");
           setperfilDestino("VAL");
@@ -150,31 +150,41 @@ const DetalleFgp = ({
 
   const Fnworkflow = (data: any) => {
     setOpenSlider(true);
-    let obj = {
-      CHID: idCalculo,
-      ESTATUS_DESTINO: estatusDestino,
-      CHUSER: user.id,
-      TEXTO: data.mensaje,
-      PERFIL_DESTINO: perfilDestino,
-      CHUSERASIGNADO: data.usuario,
-      AREA: area
-    };
 
-    calculosServices.indexCalculo(obj).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        handleClose();
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
+    if (!perfilDestino || !data.mensaje) {
+
+      AlertS.fire({
+        title: "Verifique Los Campos",
+        icon: "error",
+      });
+    }
+    else {
+      let obj = {
+        CHID: idCalculo,
+        ESTATUS_DESTINO: estatusDestino,
+        CHUSER: user.id,
+        TEXTO: data.mensaje,
+        PERFIL_DESTINO: perfilDestino,
+        CHUSERASIGNADO: data.usuario,
+        AREA: area
+      };
+
+      calculosServices.indexCalculo(obj).then((res) => {
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "Consulta Exitosa!",
+          });
+          handleClose();
+        } else {
+          AlertS.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
+      });
+    }
   };
   const BorraCalculo = () => {
     let data = {
@@ -353,7 +363,7 @@ const DetalleFgp = ({
   };
   const columns = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
-   
+
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -483,10 +493,10 @@ const DetalleFgp = ({
         }
 
         if (String(item.Referencia) === "ELIM") {
-         // setEliminar(true);
+          // setEliminar(true);
         }
         if (String(item.Referencia) === "EDIT") {
-        //  setEditar(true);
+          //  setEditar(true);
         }
       }
     });
@@ -513,10 +523,10 @@ const DetalleFgp = ({
             <ModalCalculos
               tipo={tipoAccion}
               handleClose={handleClose}
-              handleAccion={Fnworkflow} 
-              perfil={perfilDestino} 
-              area={area}         
-                 />
+              handleAccion={Fnworkflow}
+              perfil={perfilDestino}
+              area={area}
+            />
           ) : (
             ""
           )}
@@ -620,45 +630,45 @@ const DetalleFgp = ({
 
                 {
                   autorizar &&
-                  user.id === responsable?.value &&
-                  direccion?.value === "CPH" &&
-                  perfil?.value === "ANA" &&
-                  user.PERFILES[0].Referencia === "ANA" ? (
-                  <Tooltip title={"Enviar a Validación"}>
-                    <ToggleButton
-                      value="check"
-                      onClick={() => handleAcciones(3)}
-                    >
-                      <DoneAllIcon />
-                    </ToggleButton>
-                  </Tooltip>
-                ) : (
-                  ""
-                )}
+                    user.id === responsable?.value &&
+                    direccion?.value === "CPH" &&
+                    perfil?.value === "ANA" &&
+                    user.PERFILES[0].Referencia === "ANA" ? (
+                    <Tooltip title={"Enviar a Validación"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(3)}
+                      >
+                        <DoneAllIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
 
 
-{
+                {
                   autorizar &&
-                  user.id === responsable?.value &&
-                  direccion?.value === "CPH" &&
-                  perfil?.value === "VAL" &&
-                  user.PERFILES[0].Referencia === "VAL" ? (
-                  <Tooltip title={"Enviar a Coordinador"}>
-                    <ToggleButton
-                      value="check"
-                      onClick={() => handleAcciones(4)}
-                    >
-                      <DoneAllIcon />
-                    </ToggleButton>
-                  </Tooltip>
-                ) : (
-                  ""
-                )} 
+                    user.id === responsable?.value &&
+                    direccion?.value === "CPH" &&
+                    perfil?.value === "VAL" &&
+                    user.PERFILES[0].Referencia === "VAL" ? (
+                    <Tooltip title={"Enviar a Coordinador"}>
+                      <ToggleButton
+                        value="check"
+                        onClick={() => handleAcciones(4)}
+                      >
+                        <DoneAllIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
 
 
 
                 {autorizar &&
-                 user.id === responsable?.value &&
+                  user.id === responsable?.value &&
                   direccion?.value === "CPH" &&
                   perfil?.value === "COOR" &&
                   user.PERFILES[0].Referencia === "COOR" ? (
@@ -675,10 +685,10 @@ const DetalleFgp = ({
                 )}
 
                 {cancelar &&
-                 user.id === responsable?.value &&
-                 direccion?.value === "CPH" &&
-                 perfil?.value === "ANA" &&
-                 user.PERFILES[0].Referencia === "ANA" ? (
+                  user.id === responsable?.value &&
+                  direccion?.value === "CPH" &&
+                  perfil?.value === "ANA" &&
+                  user.PERFILES[0].Referencia === "ANA" ? (
                   <Tooltip title={"Cancelar"}>
                     <ToggleButton
                       value="check"
@@ -691,8 +701,8 @@ const DetalleFgp = ({
                   ""
                 )}
 
-               {cancelar &&
-                 user.id === responsable?.value &&
+                {cancelar &&
+                  user.id === responsable?.value &&
                   direccion?.value === "CPH" &&
                   perfil?.value === "VAL" &&
                   user.PERFILES[0].Referencia === "VAL" ? (
@@ -709,7 +719,7 @@ const DetalleFgp = ({
                 )}
 
                 {cancelar &&
-                 user.id === responsable?.value &&
+                  user.id === responsable?.value &&
                   direccion?.value === "CPH" &&
                   perfil?.value === "COOR" &&
                   user.PERFILES[0].Referencia === "COOR" ? (
