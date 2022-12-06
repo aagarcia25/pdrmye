@@ -1,4 +1,10 @@
-import Select from 'react-select'
+
+import Select, {
+  components,
+  ControlProps,
+  Props,
+  StylesConfig,
+} from 'react-select';
 import SelectValues from '../../../interfaces/Select/SelectValues'
 
 const SelectFrag = ({
@@ -15,9 +21,13 @@ const SelectFrag = ({
   placeholder: string,
   label: string,
   disabled:boolean
-}) => {
+}
 
+) => {
 
+  const styles: StylesConfig< false> = {
+    control: (css) => ({ ...css, paddingLeft: '1rem' }),
+  };
 
 
 
@@ -31,6 +41,7 @@ const SelectFrag = ({
         isClearable={true}
         isSearchable={true}
         backspaceRemovesValue={true}
+        //styles={styles}
         onChange={
           (v) => (v === null) ?
           onInputChange(String(disabled))
