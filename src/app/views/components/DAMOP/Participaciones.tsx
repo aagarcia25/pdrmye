@@ -49,8 +49,7 @@ const Participaciones = () => {
   //MODAL
   const [openModal, setOpenModal] = useState<boolean>(false);
   //Constantes para llenar los select
-  const [selectionModel, setSelectionModel] =
-    React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tipos, setTipos] = useState<SelectValues[]>([]);
@@ -380,32 +379,40 @@ const Participaciones = () => {
   };
 
   const SolicitudOrdenPago = () => {
-    Swal.fire({
-      icon: "warning",
-      title: "Solicitar",
-      showDenyButton: false,
-      showCancelButton: true,
-      confirmButtonText: "Aceptar",
-      cancelButtonText: "Cancelar",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        let data = {
-          TIPO: 1,
-          OBJS: selectionModel,
-          CHUSER: user.id,
-        };
-        console.log(selectionModel);
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: selectionModel.length +" Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            TIPO: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
 
-        AlertS.fire({
-          title: "Solicitud Enviada",
-          icon: "success",
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            handleClick();
-          }
-        });
-      }
-    });
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              handleClick();
+            }
+          });
+        }
+      });
+    }
   };
 
   const handleClick = () => {

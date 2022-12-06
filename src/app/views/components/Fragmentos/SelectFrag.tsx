@@ -32,7 +32,6 @@ const SelectFrag = ({
 
 
   return (
-    <div>
 
 
       <Select
@@ -52,13 +51,12 @@ const SelectFrag = ({
         styles={{
           menu: (base) => ({
             position: 'absolute',
-
+            paddingLeft: '1rem',
             zIndex: 500,
             ...base
           })
         }}
       />
-    </div>
   )
 }
 
