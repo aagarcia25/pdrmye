@@ -5,7 +5,7 @@ import {  Moneda } from "../CustomToolbar";
 import { getUser } from "../../../../services/localStorage";
 import { ArticulosServices } from "../../../../services/ArticulosServices";
 import MUIXDataGrid from "../../MUIXDataGrid";
-import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
+import { Box, Grid, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Slider from "../../Slider";
 
@@ -138,6 +138,20 @@ export const Art14f = () => {
     
     <Box sx={{}}>
        <Slider open={slideropen} ></Slider>
+
+       <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography variant='h3'>
+                {tipo == 1
+                  ? "Articulo 14 F I"
+                  : tipo === 2
+                    ? "Articulo 14 F II"
+                    : tipo === 3
+                      ? "Articulo 14 F III"
+                      : ""}
+              </Typography>
+            </Grid>
+          </Grid>
     <Box sx={{}}>
     <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
       <Tooltip title="Regresar">
