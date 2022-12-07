@@ -42,7 +42,7 @@ export const ParametrosGenerales = () => {
       description: messages.dataTableColum.id,
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,

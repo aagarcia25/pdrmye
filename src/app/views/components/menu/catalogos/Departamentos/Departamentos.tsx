@@ -31,7 +31,7 @@ export const Departamentos = () => {
     { field: "Descripcion", headerName: "Descripción", width: 450 },
     { field: "NAMEUSUARIO", headerName: "Responsable", width: 300 },
     { field: "Responsable", hide: true, },
-    { field: "acciones",
+    { field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,

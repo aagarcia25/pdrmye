@@ -19,6 +19,7 @@ import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { getPermisos } from "../../../../services/localStorage";
 import ModalNew from "./ModalNew";
 import ModalAjuste from "./ModalAjuste";
+import MUIXDataGridMun from "../../MUIXDataGridMun";
 
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
@@ -76,8 +77,8 @@ export const Fpg = () => {
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
-    {
-      field: "acciones",
+    { disableExport: true,
+      field: "acciones", 
       headerName: "Acciones",
       description: "Ver detalle de Cálculo",
       sortable: false,
@@ -210,6 +211,12 @@ export const Fpg = () => {
     });
   };
 
+
+
+  const handleBorrar = () => {
+
+  };
+
   let params = useParams();
 
   useEffect(() => {
@@ -282,7 +289,7 @@ export const Fpg = () => {
               <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
             </Grid>
             <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <MUIXDataGrid columns={columns} rows={data} />
+              <MUIXDataGridMun columns={columns} rows={data} modulo={nombreMenu} handleBorrar={handleBorrar} borrar={false} />
 
             </Grid>
           </Grid>

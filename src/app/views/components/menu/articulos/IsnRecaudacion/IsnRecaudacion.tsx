@@ -15,7 +15,7 @@ import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import MUIXDataGridMun from '../../../MUIXDataGridMun'
-import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
+import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Moneda } from '../../CustomToolbar'
@@ -52,7 +52,7 @@ const IsnRecaudacion = () => {
       hide: true,
       width: 150,
     },
-    {
+    { disableExport: true,
       field: "acciones",
       headerName: "Acciones",
       description: "Campo de Acciones",
@@ -69,7 +69,7 @@ const IsnRecaudacion = () => {
     { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", width: 150 },
     { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Importe", headerName: "Importe", width: 150,...Moneda  },
+    { field: "Importe", headerName: "Importe", width: 150, ...Moneda },
     { field: "Coeficiente", headerName: "Coeficiente", width: 250 },
   ];
 
@@ -94,10 +94,10 @@ const IsnRecaudacion = () => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(false);
-   
+
   };
   const handleDelete = (v: any) => {
-   Swal.fire({
+    Swal.fire({
       icon: "info",
       title: "Estas seguro de eliminar este registro?",
       showDenyButton: true,
@@ -135,7 +135,7 @@ const IsnRecaudacion = () => {
 
 
     });
-  
+
   };
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,7 +143,7 @@ const IsnRecaudacion = () => {
     let file = event?.target?.files?.[0] || "";
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlxs");
-    formData.append("CHUSER",  user.id);
+    formData.append("CHUSER", user.id);
     formData.append("tipo", "MUNISNRECAUDACION");
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
@@ -151,54 +151,54 @@ const IsnRecaudacion = () => {
     });
   };
 
- const eliminacionMasiva=()=>{
-    if(selectionModel.length!==0){
-        Swal.fire({
-          icon: "question",
-          title: selectionModel.length +" Registros Se Eliminaran!!",
-          showDenyButton: true,
-          showCancelButton: false,
-          confirmButtonText: "Confirmar",
-          denyButtonText: `Cancelar`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-    
-            let data = {
-             NUMOPERACION: 5,
-             OBJS: selectionModel,
-             CHUSER: user.id
-            };
-            CatalogosServices.indexISN(data).then((res) => {
-              if (res.SUCCESS) {
-                Toast.fire({
-                  icon: "success",
-                  title: "Borrado!",
-                });
-                consulta(4);
-              } else {
-                AlertS.fire({
-                  title: "Error!",
-                  text: res.STRMESSAGE,
-                  icon: "error",
-                });
-              }
-            });
-    
-          } else if (result.isDenied) {
-            Swal.fire("No se realizaron cambios", "", "info");
-          }
-        });
-      } else {
-        Swal.fire({
-          icon: "warning",
-          title: "Seleccione Registros Para Borrar",
-          confirmButtonText: "Aceptar",
-        });
-      }
+  const eliminacionMasiva = () => {
+    if (selectionModel.length !== 0) {
+      Swal.fire({
+        icon: "question",
+        title: selectionModel.length + " Registros Se Eliminaran!!",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
 
- }
+          let data = {
+            NUMOPERACION: 5,
+            OBJS: selectionModel,
+            CHUSER: user.id
+          };
+          CatalogosServices.indexISN(data).then((res) => {
+            if (res.SUCCESS) {
+              Toast.fire({
+                icon: "success",
+                title: "Borrado!",
+              });
+              consulta(4);
+            } else {
+              AlertS.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
 
-  const consulta = (NUMOPERACION:number) => {
+        } else if (result.isDenied) {
+          Swal.fire("No se realizaron cambios", "", "info");
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Seleccione Registros Para Borrar",
+        confirmButtonText: "Aceptar",
+      });
+    }
+
+  }
+
+  const consulta = (NUMOPERACION: number) => {
     setslideropen(true);
     let data = {
       NUMOPERACION: NUMOPERACION,
@@ -246,19 +246,19 @@ const IsnRecaudacion = () => {
     downloadplantilla();
     setAnios(fanios());
     permisos.map((item: PERMISO) => {
-        if (String(item.ControlInterno) === "ISNR") {
-          setNombreMenu(item.Menu);
-          if (String(item.Referencia) === "AGREG") {
-            setAgregar(true);
-          }
-          if (String(item.Referencia) === "ELIM") {
-            setEliminar(true);
-          }
-          if (String(item.Referencia) === "EDIT") {
-            setEditar(true);
-          }
+      if (String(item.ControlInterno) === "ISNR") {
+        setNombreMenu(item.Menu);
+        if (String(item.Referencia) === "AGREG") {
+          setAgregar(true);
         }
-      });
+        if (String(item.Referencia) === "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) === "EDIT") {
+          setEditar(true);
+        }
+      }
+    });
     consulta(4);
 
   }, []);
@@ -268,17 +268,17 @@ const IsnRecaudacion = () => {
 
   return (
 
-    <div style={{ height: 600, width: "100%", padding:"2%" }}>
+    <div style={{ height: 600, width: "100%", padding: "2%" }}>
       <Slider open={slideropen}></Slider>
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
           <Typography variant='h3'>
-            {nombreMenu} 
+            {nombreMenu}
           </Typography>
         </Grid>
       </Grid>
-   <Box
+      <Box
         sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
         <SelectFrag
           options={anios}
@@ -288,34 +288,34 @@ const IsnRecaudacion = () => {
       </Box>
       <Box >
         {agregar ?
-        <>
-          <Tooltip title="Descargar Plantilla">
-          <IconButton aria-label="upload documento" component="label" size="large">
-            <Link href={plantilla}>
-              <ArrowDownwardIcon />
-            </Link>
-            </IconButton>
-        </Tooltip>
+          <>
+            <Tooltip title="Descargar Plantilla">
+              <IconButton aria-label="upload documento" component="label" size="large">
+                <Link href={plantilla}>
+                  <ArrowDownwardIcon color="primary" />
+                </Link>
+              </IconButton>
+            </Tooltip>
 
-        <Tooltip title="Cargar Plantilla">
-        <IconButton aria-label="upload documento" component="label" size="large">
-        <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
-        <DriveFolderUploadIcon />
-        </IconButton>
-        </Tooltip>
+            <Tooltip title="Cargar Plantilla">
+              <IconButton aria-label="upload documento" component="label" size="large">
+                <input hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
+                <DriveFolderUploadIcon  color="primary"/>
+              </IconButton>
+            </Tooltip>
 
-        <Tooltip title="Eliminación Masiva">
-            <IconButton aria-label="upload documento" component="label" size="large">
-              <DeleteForeverIcon onClick={() => eliminacionMasiva()} />
-            </IconButton>
-          </Tooltip>
+            <Tooltip title="Eliminación Masiva">
+              <IconButton aria-label="upload documento" component="label" size="large">
+                <DeleteForeverIcon color="primary" onClick={() => eliminacionMasiva()} />
+              </IconButton  >
+            </Tooltip>
 
-        </>
+          </>
 
-        
-         :""}
+
+          : ""}
       </Box>
-     < MUIXDataGridMun columns={columns} rows={data} handleBorrar={handleBorrar} borrar={eliminar} modulo={'ISN RECAUDACION'}   />
+      < MUIXDataGridMun columns={columns} rows={data} handleBorrar={handleBorrar} borrar={eliminar} modulo={'ISN RECAUDACION'} />
 
 
     </div>

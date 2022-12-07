@@ -47,7 +47,7 @@ const TipoFondo = () => {
     },
     { field: "Descripcion", headerName: "Descripcion", width: 350 },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,

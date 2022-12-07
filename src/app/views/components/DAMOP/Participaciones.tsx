@@ -129,7 +129,7 @@ const Participaciones = () => {
       description: "Beneficiario",
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Agregar Descuentos",
       description: "Agregar Descuentos",
       sortable: false,

@@ -72,7 +72,7 @@ const FideicomisoConfig = ({
       hide: true,
     },
     {
-      field: "Acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Relacionar Roles",
       sortable: false,
