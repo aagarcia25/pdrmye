@@ -167,7 +167,7 @@ export const Art14f = () => {
         </Grid>
         <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
           <Typography variant='h5'>
-            {"Version: " + version}
+            {"Versión: " + version}
           </Typography>
         </Grid>
       </Grid>
