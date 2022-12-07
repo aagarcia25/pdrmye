@@ -22,7 +22,8 @@ import { AuthService } from "../../../services/AuthService";
 import { Toast } from "../../../helpers/Toast";
 import validator from 'validator';
 import { COLOR } from "../../../styles/colors";
-
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import PasswordIcon from '@mui/icons-material/Password';
 export const Perfil = () => {
   const [user, setUser] = useState<RESPONSE>(JSON.parse(String(getUser())));
 
@@ -159,167 +160,193 @@ export const Perfil = () => {
 
 
   return (
+    <>
 
-    <Box sx={{
-      //Principal
-      width: "100%",
-      height: "100%",
-      backgroundColor: "#EEEEEE",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      padding: "0",
-      marginTop: ".5%",
-    }}
-    >
-      <Box
-        boxShadow={3}
-        paddingBottom="2%"
-        sx={{
-          display: "flex",
-          width: "100%",
-          height: "auto",
-          justifyContent: "center",
-          backgroundColor: "white",
-          alignItems: "center"
-        }}>
+
+      <Box sx={{
+        //Principal
+        width: "100%",
+        height: "100%",
+        // backgroundColor: "#EEEEEE",
+        justifyContent: "center",
+        alignItems: "center",
+        display: "flex",
+      }}
+      >
 
         <Box
-          display="flex" flexDirection="row"
+          boxShadow={3}
+          paddingBottom="2%"
           sx={{
-            width: "80%",
+            display: "flex",
+            width: "100%",
             height: "auto",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-
-          {/* Imagen y tipo de usuario */}
-          <Box paddingTop={3}>
-            <Box boxShadow={3}
-              onClick={() => {
-                setOpenDialog(true)
-              }}
-
-              sx={{width: "7.4rem", height: "7.4rem",backgroundColor: "white", borderRadius: '50%', justifyContent: "center", cursor: "pointer",}} >
-              {user.RutaFoto ? 
-                <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
-                  src={user.RutaFoto}
-                />
-              : <PersonIcon sx={{width: "100%", height: "100%", }} />
-              }
-
-
-            </Box>
-            <DialogCambiarImagen open={openDialog} handleClose={handleCloseDialogImagen}></DialogCambiarImagen>
-
-          </Box>
-
-          {/* Informacion Basica */}
-          <Box boxShadow={3} sx={{
-            width: "90%",
-            height: "12%",
-            display: "flex",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            mt: "2rem",
-            borderRadius: "10px",
-            // border: "1px solid black",
-            bgcolor: "#051c2c",
+            justifyContent: "center",
+            backgroundColor: "white",
+            alignItems: "center"
           }}>
+          <Grid container direction="row" justifyContent="flex-end" alignItems="center">
+            <Grid item xs={2} sm={2} md={2} sx={{ justifyContent: "center", borderRadius: "10px", }} >
 
-            <Typography sx={{
-              width: "30%",
-              fontFamily: "sans-serif",
-              fontSize: "1rem",
-              color: "#CCCCCC"
-            }}
-            > Nombre:
-              <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
-                {nombre} </Typography>
-            </Typography>
-
-            <Typography sx={{
-              width: "30%",
-              fontFamily: "sans-serif",
-              fontSize: "1rem",
-              color: "#CCCCCC"
-            }}
-            > Apellido Paterno:
-              <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
-                {apellidoPaterno} </Typography>
-            </Typography>
-
-            <Typography sx={{
-              width: "30%",
-              fontFamily: "sans-serif",
-              fontSize: "1rem",
-              color: "#CCCCCC"
-            }}
-            > Apellido Materno:
-              <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
-                {apellidoMaterno} </Typography>
-            </Typography>
-          </Box>
-
-          <Box sx={{
-            height: "2%",
-          }}> </Box>
-
-          <Box boxShadow={2} sx={{
-            width: "90%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "space-evenly",
-            borderRadius: "10px",
-            bgcolor: "rgb(252,252,252)",
-            flexDirection: "column"
-          }}>
-
-            <Typography align="center" variant="h5" sx={{ width: "100%", color: COLOR.azul, paddingTop: "2%" }}>
-              Contacto y Ubicación
-            </Typography>
-            <br />
-            <Grid container direction="column" justifyContent="center" alignItems="center">
-              <Grid item xs={10}>
-                <label className="negro">Departamento:</label>
-                <label className="gris"> {departamento} </label>
-
-              </Grid>
-              <br />
-              <Grid item xs={10}>
-                <label className="negro">Correo electrónico:</label>
-                <label className="gris"> {correoElectronico} </label>
-              </Grid>
+              <Button
+                sx={{ width: "97%", backgroundColor: "#EEeEEE" }}
+                // onClick={() => handleDelete()}
+                startIcon={<AccountBoxIcon />}
+              >
+                Datos Generales
+              </Button>
+            </Grid>
+            <Grid item xs={2} sm={2} md={2} sx={{ justifyContent: "center", borderRadius: "10px", }}  >
+              <Button
+                sx={{ width: "97%", backgroundColor: "#EEeEEE" }}
+                // onClick={() => handleDelete()}
+                startIcon={<PasswordIcon />}
+              >
+                Cambiar Contraseña
+              </Button>
             </Grid>
 
-            <>
-              <Grid container direction="column" justifyContent="center" alignItems="center" >
-                <br />  <br />
+          </Grid>
+          <Grid container sx={{ justifyContent: "center", borderRadius: "10px", }} >
+
+          <Box
+            display="flex" flexDirection="row"
+            sx={{
+              width: "80%",
+              height: "auto",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+
+            {/* Imagen y tipo de usuario */}
+            <Box paddingTop={3}>
+              <Box boxShadow={3}
+                onClick={() => {
+                  setOpenDialog(true)
+                }}
+
+                sx={{ width: "7.4rem", height: "7.4rem", backgroundColor: "white", borderRadius: '50%', justifyContent: "center", cursor: "pointer", }} >
+                {user.RutaFoto ?
+                  <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
+                    src={user.RutaFoto}
+                  />
+                  : <PersonIcon sx={{ width: "100%", height: "100%", }} />
+                }
+
+
+              </Box>
+              <DialogCambiarImagen open={openDialog} handleClose={handleCloseDialogImagen}></DialogCambiarImagen>
+
+            </Box>
+
+            {/* Informacion Basica */}
+            <Box boxShadow={3} sx={{
+              width: "90%",
+              height: "12%",
+              display: "flex",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              mt: "2rem",
+              borderRadius: "10px",
+              // border: "1px solid black",
+              bgcolor: "#051c2c",
+            }}>
+
+              <Typography sx={{
+                width: "30%",
+                fontFamily: "sans-serif",
+                fontSize: "1rem",
+                color: "#CCCCCC"
+              }}
+              > Nombre:
+                <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
+                  {nombre} </Typography>
+              </Typography>
+
+              <Typography sx={{
+                width: "30%",
+                fontFamily: "sans-serif",
+                fontSize: "1rem",
+                color: "#CCCCCC"
+              }}
+              > Apellido Paterno:
+                <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
+                  {apellidoPaterno} </Typography>
+              </Typography>
+
+              <Typography sx={{
+                width: "30%",
+                fontFamily: "sans-serif",
+                fontSize: "1rem",
+                color: "#CCCCCC"
+              }}
+              > Apellido Materno:
+                <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
+                  {apellidoMaterno} </Typography>
+              </Typography>
+            </Box>
+
+            <Box sx={{
+              height: "2%",
+            }}> </Box>
+
+            <Box boxShadow={2} sx={{
+              width: "90%",
+              height: "100%",
+              display: "flex",
+              justifyContent: "space-evenly",
+              borderRadius: "10px",
+              bgcolor: "rgb(252,252,252)",
+              flexDirection: "column"
+            }}>
+
+              <Typography align="center" variant="h5" sx={{ width: "100%", color: COLOR.azul, paddingTop: "2%" }}>
+                Contacto y Ubicación
+              </Typography>
+              <br />
+              <Grid container direction="column" justifyContent="center" alignItems="center">
                 <Grid item xs={10}>
-                  <label className="negro">Telefono:</label>
-                  <label className="gris"> {telefono ? telefono : "Sin Informacion"} </label>
+                  <label className="negro">Departamento:</label>
+                  <label className="gris"> {departamento} </label>
+
                 </Grid>
                 <br />
                 <Grid item xs={10}>
-                  <label className="negro">Extencion:</label>
-                  <label className="gris"> {extencion ? extencion : "Sin Informacion"} </label>
-                </Grid>                  <br />
-                <Grid item xs={10}>
-                  <label className="negro">Celular:</label>
-                  <label className="gris"> {celular ? celular : "Sin Informacion"} </label>
-                </Grid>
-                <br />
-                <Grid item xs={10}>
-                  <label className="negro">Puesto:</label>
-                  <label className="gris"> {puesto ? puesto : "Sin Informacion"} </label>
+                  <label className="negro">Correo electrónico:</label>
+                  <label className="gris"> {correoElectronico} </label>
                 </Grid>
               </Grid>
-            </>
 
+              <>
+                <Grid container direction="column" justifyContent="center" alignItems="center" >
+                  <br />  <br />
+                  <Grid item xs={10}>
+                    <label className="negro">Telefono:</label>
+                    <label className="gris"> {telefono ? telefono : "Sin Informacion"} </label>
+                  </Grid>
+                  <br />
+                  <Grid item xs={10}>
+                    <label className="negro">Extencion:</label>
+                    <label className="gris"> {extencion ? extencion : "Sin Informacion"} </label>
+                  </Grid>                  <br />
+                  <Grid item xs={10}>
+                    <label className="negro">Celular:</label>
+                    <label className="gris"> {celular ? celular : "Sin Informacion"} </label>
+                  </Grid>
+                  <br />
+                  <Grid item xs={10}>
+                    <label className="negro">Puesto:</label>
+                    <label className="gris"> {puesto ? puesto : "Sin Informacion"} </label>
+                  </Grid>
+                </Grid>
+              </>
+
+            </Box>
           </Box>
+          </Grid>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 };

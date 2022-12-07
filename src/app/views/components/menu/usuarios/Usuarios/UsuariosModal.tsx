@@ -305,8 +305,8 @@ const UsuariosModal = ({
           else {
             AlertS.fire({
               title: "Error!",
-              text: "Solicitud sin Exito",
-              icon: "error",
+              text: resAppId.RESPONSE,
+              icon: "warning",
             });
           }
         });
