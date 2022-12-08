@@ -17,7 +17,7 @@ const img3 = imga3;
 const img4 = imga2;
 
 const contentStyle: React.CSSProperties = {
-  height:"65vh",
+  height:"70vh",
   // color: '#fff',
   // lineHeight: '160px',
   // background: '#808080',
