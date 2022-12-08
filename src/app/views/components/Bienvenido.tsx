@@ -6,7 +6,7 @@ import { Box } from "@mui/system";
 // import "@fontsource/poppins"; 
 
 
-const img1 = require('/Users/lenovo/Documents/Projects/pdrmye/src/app/assets/img/error-404.jpg');
+const img1 = require('/Users/lenovo/Documents/Projects/pdrmye/src/app/assets/img/GOBIERNO_NL_LOGO-03.png');
 const img2 = require('/Users/lenovo/Documents/Projects/pdrmye/src/app/assets/img/imagen1.jpg');
 const img3 = require('/Users/lenovo/Documents/Projects/pdrmye/src/app/assets/img/imagen2.png');
 const img4 = require('/Users/lenovo/Documents/Projects/pdrmye/src/app/assets/img/imagen3.png');
@@ -104,6 +104,9 @@ export default function Bienvenido({ user }: { user: any }) {
 
   return (
       <Grid padding={1}>
+        <Grid item>
+
+        </Grid>
         <CarouselAp/>
         <Box > </Box>
       </Grid>
