@@ -3,13 +3,17 @@
 import PlantillaBienvenido from "./PlantillaBienvenido";
 import { Carousel } from 'antd';
 import { Box } from "@mui/system";
+import imga1 from '../../assets/img/imagen1.jpg'
+import imga2 from '../../assets/img/imagen2.png'
+import imga3 from '../../assets/img/imagen3.png'
+
 // import "@fontsource/poppins"; 
 
 
-const img1 = require('/Users/lenovo/Documents/Projects/pdrmye/src/app/assets/img/GOBIERNO_NL_LOGO-03.png');
-const img2 = require('/Users/lenovo/Documents/Projects/pdrmye/src/app/assets/img/imagen1.jpg');
-const img3 = require('/Users/lenovo/Documents/Projects/pdrmye/src/app/assets/img/imagen2.png');
-const img4 = require('/Users/lenovo/Documents/Projects/pdrmye/src/app/assets/img/imagen3.png');
+const img1 = imga1;
+const img2 = imga2;
+const img3 = imga3;
+const img4 = imga2;
 
 const contentStyle: React.CSSProperties = {
   height:"65vh",
