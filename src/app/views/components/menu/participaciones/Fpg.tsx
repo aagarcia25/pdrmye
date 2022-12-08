@@ -163,7 +163,7 @@ export const Fpg = () => {
     {
       field: "Total",
       headerName: "Total",
-      width: 600,
+      width: 800,
       description: "Total",
       ...Moneda,
     },
