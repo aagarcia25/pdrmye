@@ -6,6 +6,7 @@ import { CatalogosServices } from "../../services/catalogosServices";
 import { Toast } from "../../helpers/Toast";
 import { AlertS } from "../../helpers/AlertS";
 import { imagen } from "../../interfaces/user/User";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
 
 const contentStyle: React.CSSProperties = {
   height: "70vh",
@@ -17,6 +18,8 @@ const contentStyle: React.CSSProperties = {
 export default function Bienvenido({ user }: { user: any }) {
 
   const [imagen, setImagenes] = useState<Array<imagen>>([]);
+  const userInfo: RESPONSE = user;
+
   const consulta = (data: any) => {
     CatalogosServices.eventos(data).then((res) => {
       if (res.SUCCESS) {
@@ -53,6 +56,7 @@ export default function Bienvenido({ user }: { user: any }) {
   );
 
   useEffect(() => {
+    console.log(userInfo)
     consulta({
       NUMOPERACION: 5,
       CHUSER: user.id
@@ -63,7 +67,9 @@ export default function Bienvenido({ user }: { user: any }) {
     <Grid padding={1}>
       <Grid item>
       </Grid>
+      {userInfo?.PERFILES[0]?.Referencia==="MUN"?
       <CarouselAp />
+      :""}
       <Box > </Box>
     </Grid>
   );
