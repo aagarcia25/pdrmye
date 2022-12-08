@@ -93,16 +93,12 @@ export const Perfil = () => {
         if (result.isConfirmed) {
 
           let dat = {
-            IdUsuario: "",
+            IdUsuario: user.id,
             ContrasenaNueva: password,
           };
           UserServices.changepassword(dat).then((res) => {
             console.log(res)
             if (res.status === 200 && res.data.message === "Cambio de contraseña exitoso!") {
-              // Toast.fire({
-              //   icon: "success",
-              //   title: "¡Cambio de Contraseña exitoso!",
-              // });
               Swal.fire("¡Cambio de Contraseña exitoso!", "", "success");
               setPassword("");
               setConfPassword("");
@@ -111,7 +107,6 @@ export const Perfil = () => {
                 icon: "warning",
                 title: "¡Cambio de Contraseña Fallo!",
               });
-
             }
           });
 

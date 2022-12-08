@@ -66,7 +66,7 @@ const CambiosMun = () => {
                 return (
                     <>
                         {
-                            ((user.DEPARTAMENTOS[0].NombreCorto === "CPH" && user.PERFILES[0].Referencia === "COOR") && (v.row.Aplicado === 0 && v.row.deleted === 0) ? (
+                            ((user.DEPARTAMENTOS[0].NombreCorto === "CPH" && user.PERFILES[0].Referencia === "COOR") && (v.row.Aplicado === 0 && v.row.deleted === "0") ? (
                                 <>
                                     <Tooltip title="Atender Solicitud">
                                         <IconButton color="info" onClick={() => handlevalidar(v)}>
@@ -100,17 +100,17 @@ const CambiosMun = () => {
                 return (
                     <>
                         {
-                            ((v.row.Aplicado === 0 && v.row.deleted === 0) ? (
+                            ((v.row.Aplicado === 0 && v.row.deleted === "0") ? (
                                 <> <label> Espera de Autorizacion</label>  </>) : "")
 
                         }
                         {
-                            ((v.row.Aplicado === 0 && v.row.deleted === 1) ? (
+                            ((v.row.Aplicado === 0 && v.row.deleted === "1") ? (
                                 <> <label> Rechazado</label> </>) : "")
 
                         }
                         {
-                            ((v.row.Aplicado === 1 && v.row.deleted === 0) ? (
+                            ((v.row.Aplicado === 1 && v.row.deleted === "0") ? (
                                 <> <label> Autorizado</label></>) : "")
 
                         }
@@ -246,7 +246,7 @@ const CambiosMun = () => {
                     icon: "success",
                     title: "Consulta Exitosa!",
                 });
-                // //console.log(res.RESPONSE);
+                console.log(res.RESPONSE);
                 setBitacoraAjustes(res.RESPONSE);
             } else {
                 AlertS.fire({
