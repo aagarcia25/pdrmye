@@ -45,6 +45,12 @@ export default function MUIXDataGridSimple(props: any) {
               toolbarFiltersTooltipHide: "Quitar filtros",
               toolbarFiltersTooltipShow: "Ver filtros",
               toolbarQuickFilterPlaceholder:"Buscar",
+              toolbarExportLabel: 'Exportar',
+              toolbarExportCSV: 'Enviar a  CSV',
+              toolbarExportPrint: 'Imprimir',
+              columnMenuUnsort: 'Sin Orden',
+              columnMenuSortAsc: 'Ordenar Ascendente',
+              columnMenuSortDesc: 'Ordenar Descendente',
           }}
           />
         </ThemeProvider>
