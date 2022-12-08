@@ -80,6 +80,26 @@ export const put = async function (refreshToken: string) {
         return err.response
     }
 };
+export const putPass = async function (url: string , body: any) {
+
+    try {
+        //console.log(refreshToken)
+        let resp = await axios.put(`${env_var.BASE_URL_EXT}` + url ,body,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': JSON.parse(String(getToken()))
+                   
+                }
+            }
+
+        );
+        
+        return resp;
+    } catch (err: any) {
+        return err.response
+    }
+};
 
 
 export const getSingle = async function (url: string, body: any) {

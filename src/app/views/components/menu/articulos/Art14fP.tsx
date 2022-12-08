@@ -6,16 +6,19 @@ import { ArticulosServices } from "../../../../services/ArticulosServices";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import {
   Box,
+  Grid,
   IconButton,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import AutoModeIcon from "@mui/icons-material/AutoMode";
 import Slider from "../../Slider";
 import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import Art14m from "./Art14m";
+import MUIXDataGridMun from "../../MUIXDataGridMun";
 
 export const Art14fP = () => {
   const navigate = useNavigate();
@@ -30,9 +33,10 @@ export const Art14fP = () => {
     loaddata(tipo);
     setstep(0);
   };
-
+  const handleBorrar = () => {
+  };
   const handleView = (v: any) => {
-    navigate(`/inicio/articulos/art14d/${tipo}/${v.row.id}`);
+    navigate(`/inicio/articulos/art14d/${tipo}/${v.row.id}/${v.row.deleted}/${v.row.Version}`);
   };
 
   const handleVersion = () => {
@@ -42,7 +46,7 @@ export const Art14fP = () => {
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Ver detalle",
       sortable: false,
@@ -106,6 +110,19 @@ export const Art14fP = () => {
 
       <Box sx={{ display: step == 0 ? "block" : "none" }}>
         <Box>
+          <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography variant='h3'>
+                {tipo == 1
+                  ? "Articulo 14 F I"
+                  : tipo === 2
+                    ? "Articulo 14 F II"
+                    : tipo === 3
+                      ? "Articulo 14 F III"
+                      : ""}
+              </Typography>
+            </Grid>
+          </Grid>
           {agregar ? (
             <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
               <Tooltip title="Generar Nueva Versión">
@@ -119,7 +136,14 @@ export const Art14fP = () => {
           )}
         </Box>
         <div style={{ height: 600, width: "100%" }}>
-          <MUIXDataGrid columns={columns} rows={data} />
+          <MUIXDataGridMun columns={columns} rows={data} modulo={tipo == 1
+                  ? "Articulo_14_FI"
+                  : tipo === 2
+                    ? "Articulo_14_FII"
+                    : tipo === 3
+                      ? "Articulo_14_FIII"
+                      : ""} 
+                      handleBorrar={handleBorrar} borrar={false} />
         </div>
       </Box>
 
@@ -129,10 +153,10 @@ export const Art14fP = () => {
             tipo == 1
               ? "Articulo 14 F I"
               : tipo === 2
-              ? "Articulo 14 F II"
-              : tipo === 3
-              ? "Articulo 14 F III"
-              : ""
+                ? "Articulo 14 F II"
+                : tipo === 3
+                  ? "Articulo 14 F III"
+                  : ""
           }
           onClickBack={handleBack}
           tipo={tipo}

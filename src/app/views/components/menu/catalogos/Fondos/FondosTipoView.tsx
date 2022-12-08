@@ -61,7 +61,7 @@ const FondosTipoView = ({
         },
 
         {
-            field: "acciones",
+            field: "acciones",  disableExport: true,
             headerName: "",
             description: "Relacionar",
             sortable: false,
@@ -91,7 +91,7 @@ const FondosTipoView = ({
         },
         { field: "Descripcion", headerName: "Descripcion", width: 300 },
         {
-            field: "acciones",
+            field: "acciones",  disableExport: true,
             headerName: "",
             description: "Relacionar",
             sortable: false,

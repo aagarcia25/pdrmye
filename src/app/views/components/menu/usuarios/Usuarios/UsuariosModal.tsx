@@ -305,8 +305,8 @@ const UsuariosModal = ({
           else {
             AlertS.fire({
               title: "Error!",
-              text: "Solicitud sin Exito",
-              icon: "error",
+              text: resAppId.RESPONSE,
+              icon: "warning",
             });
           }
         });
@@ -339,7 +339,7 @@ const UsuariosModal = ({
       setCorreoElectronico(dt?.CorreoElectronico);
       setPuesto(dt?.Puesto);
       setIdDepartamento(dt?.idDepartamento);
-      setIdPerfil(dt?.idperfil);
+      setIdPerfil(dt?.idPerfil);
       setRfc(dt?.Rfc);
       setCurp(dt?.Curp);
       setTelefono(dt?.Telefono);

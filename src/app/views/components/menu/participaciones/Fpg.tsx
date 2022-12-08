@@ -19,6 +19,7 @@ import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { getPermisos } from "../../../../services/localStorage";
 import ModalNew from "./ModalNew";
 import ModalAjuste from "./ModalAjuste";
+import MUIXDataGridMun from "../../MUIXDataGridMun";
 
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
@@ -67,7 +68,7 @@ export const Fpg = () => {
     setIdtrazabilidad(v.row.id);
     setClave(v.row.Clave)
     setIdDetalle(String(v.row.id));
-    setMes(v.row.nummes +","+v.row.Mes);
+    setMes(v.row.nummes + "," + v.row.Mes);
     setstep(2);
     setOpenDetalles(true);
     setAnio(Number(v.row.Anio));
@@ -76,8 +77,8 @@ export const Fpg = () => {
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
-    {
-      field: "acciones",
+    { disableExport: true,
+      field: "acciones", 
       headerName: "Acciones",
       description: "Ver detalle de Cálculo",
       sortable: false,
@@ -92,31 +93,31 @@ export const Fpg = () => {
             </Tooltip>
 
 
-            {agregarajuste &&  String(v.row.estatus) === "INICIO" ? (
-            <Tooltip title="Agregar Ajuste">
-              <IconButton
-                onClick={() => handleAjuste(v)}
-                disabled={
-                  String(v.row.Clave) === "FISM" &&
-                  String(v.row.Clave) === "FORTAMUN"  
-                }
-              >
-                <AttachMoneyIcon />
-              </IconButton>
-            </Tooltip>
+            {agregarajuste && String(v.row.estatus) === "INICIO" ? (
+              <Tooltip title="Agregar Ajuste">
+                <IconButton
+                  onClick={() => handleAjuste(v)}
+                  disabled={
+                    String(v.row.Clave) === "FISM" &&
+                    String(v.row.Clave) === "FORTAMUN"
+                  }
+                >
+                  <AttachMoneyIcon />
+                </IconButton>
+              </Tooltip>
             ) : (
               ""
             )}
 
 
 
-         {verTrazabilidad ? (
-            <Tooltip title="Ver Trazabilidad">
-              <IconButton onClick={() => handleTraz(v)}>
-                <InsightsIcon />
-              </IconButton>
-            </Tooltip>
-             ) : (
+            {verTrazabilidad ? (
+              <Tooltip title="Ver Trazabilidad">
+                <IconButton onClick={() => handleTraz(v)}>
+                  <InsightsIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
               ""
             )}
           </Box>
@@ -162,7 +163,7 @@ export const Fpg = () => {
     {
       field: "Total",
       headerName: "Total",
-      width: 600,
+      width: 800,
       description: "Total",
       ...Moneda,
     },
@@ -210,6 +211,12 @@ export const Fpg = () => {
     });
   };
 
+
+
+  const handleBorrar = () => {
+
+  };
+
   let params = useParams();
 
   useEffect(() => {
@@ -231,7 +238,7 @@ export const Fpg = () => {
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
 
-  }, [params.fondo,nombreMenu]);
+  }, [params.fondo, nombreMenu]);
 
   return (
     <>
@@ -245,31 +252,31 @@ export const Fpg = () => {
       ) : (
         ""
       )}
-  
 
-   <Grid container
+
+      <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
-        <Tooltip title={objfondo?.Comentarios}>
-          <Typography>
-            <h1>{nombreMenu}</h1>
-          </Typography>
+          <Tooltip title={objfondo?.Comentarios}>
+            <Typography>
+              <h1>{nombreMenu}</h1>
+            </Typography>
           </Tooltip>
         </Grid>
       </Grid>
-    
+
       {openDetalles ?
-            <DetalleFgp
-              idCalculo={idtrazabilidad}  
-              openDetalles={openDetalles}
-              nombreFondo={objfondo?.Descripcion || ""}
-              idDetalle={idDetalle}
-              handleClose={handleClose}
-              clave={clave}
-              anio={anio}
-              mes={mes}
-                        />
-            : ""}
+        <DetalleFgp
+          idCalculo={idtrazabilidad}
+          openDetalles={openDetalles}
+          nombreFondo={objfondo?.Descripcion || ""}
+          idDetalle={idDetalle}
+          handleClose={handleClose}
+          clave={clave}
+          anio={anio}
+          mes={mes}
+        />
+        : ""}
 
 
 
@@ -277,28 +284,35 @@ export const Fpg = () => {
 
       {step === 0 ?
         <div style={{ height: 600, width: "100%" }}>
-          <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
-          <MUIXDataGrid columns={columns} rows={data} />
+          <Grid container sx={{ display: "flex", alignItems: "center", justifyContent: "center", }} >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
+              <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
+            </Grid>
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <MUIXDataGridMun columns={columns} rows={data} modulo={nombreMenu} handleBorrar={handleBorrar} borrar={false} />
+
+            </Grid>
+          </Grid>
         </div>
-       : ""}
+        : ""}
 
-  
+
       {step === 1 ?
-          <ModalNew
-            clave={objfondo?.Clave || ""}
-            titulo={objfondo?.Descripcion || ""}
-            onClickBack={handleClose }
-            />
-       : ""}
+        <ModalNew
+          clave={objfondo?.Clave || ""}
+          titulo={objfondo?.Descripcion || ""}
+          onClickBack={handleClose}
+        />
+        : ""}
 
-     {step === 2 ?
-          <ModalAjuste
-            idCalculo={idDetalle}
-            clave={objfondo?.Clave || ""}
-            titulo={objfondo?.Descripcion || ""}
-            onClickBack={handleClose }
-            />
-       : ""}
+      {step === 2 ?
+        <ModalAjuste
+          idCalculo={idDetalle}
+          clave={objfondo?.Clave || ""}
+          titulo={objfondo?.Descripcion || ""}
+          onClickBack={handleClose}
+        />
+        : ""}
 
 
 

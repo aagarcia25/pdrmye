@@ -8,6 +8,7 @@ import {
   InputAdornment,
   DialogActions,
   Button,
+  Grid,
 } from "@mui/material";
 
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -18,6 +19,7 @@ import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { municipiosc } from "../../../../../share/loadMunicipios";
+import ModalForm from "../../../componentes/ModalForm";
 
 
 
@@ -130,59 +132,62 @@ const InflacionMesModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen>
-      <DialogTitle>{modo}</DialogTitle>
-      <DialogContent>
-        <Box>
-          <TextField
-            required
-            margin="dense"
-            id="anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(Number(v.target.value))}
-            error={anio === null ? true : false}
-            InputProps={{
-              readOnly: tipo === 1 ? false : true,
-              inputMode: "numeric",
-            }}
-          />
+    
+      <ModalForm title={modo} handleClose={handleClose}>
+          <Grid container sx={{ width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
+            <Grid item xs={4} sm={3} md={4} lg={4} >
 
-          <SelectFrag
-            options={meses}
-            onInputChange={handleSelectMes}
-            placeholder={"Seleccione el Mes"}
-            label={""}
-            disabled={false} 
-            value={mes}      
-            />
+              <TextField
+                required
+                margin="dense"
+                id="anio"
+                label="Año"
+                value={anio}
+                type="number"
+                fullWidth
+                variant="standard"
+                onChange={(v) => setAnio(Number(v.target.value))}
+                error={anio === null ? true : false}
+                InputProps={{
+                  readOnly: tipo === 1 ? false : true,
+                  inputMode: "numeric",
+                }}
+              />
 
-          <TextField
-            margin="dense"
-            required
-            id="inflacion"
-            label="Inflación"
-            value={inflacion}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setInflacion(Number(v.target.value))}
-            error={inflacion === null ? true : false}
-            InputProps={{
-              endAdornment: <InputAdornment position="start">%</InputAdornment>,
-            }}
-          />
-        </Box>
-      </DialogContent>
+              <SelectFrag
+                options={meses}
+                onInputChange={handleSelectMes}
+                placeholder={"Seleccione el Mes"}
+                label={""}
+                disabled={false}
+                value={mes}
+                
+              />
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
-      </DialogActions>
-    </Dialog>
+              <TextField
+                margin="dense"
+                required
+                id="inflacion"
+                label="Inflación"
+                value={inflacion}
+                type="number"
+                fullWidth
+                variant="standard"
+                onChange={(v) => setInflacion(Number(v.target.value))}
+                error={inflacion === null ? true : false}
+                InputProps={{
+                  endAdornment: <InputAdornment position="start">%</InputAdornment>,
+                }}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container sx={{ mt: "2vh", width: "100%", height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
+            <Grid item xs={4} sm={3} md={2} lg={1} >
+              <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+            </Grid>
+          </Grid>
+      </ ModalForm>
   );
 };
 

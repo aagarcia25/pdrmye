@@ -47,7 +47,7 @@ const ConfigurarPermisosMenu = ({
     { field: "Permiso", headerName: "Permiso", width: 150 },
     { field: "Descripcion", headerName: "Descripcion", width: 300 },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "",
       description: "Relacionar Menus",
       sortable: false,
@@ -74,7 +74,7 @@ const ConfigurarPermisosMenu = ({
       width: 10,
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "",
       description: "Relacionar Menus",
       sortable: false,

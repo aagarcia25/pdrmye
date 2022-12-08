@@ -50,7 +50,7 @@ const AjustesCalculos = () => {
             width: 10,
         },
         {
-            field: "acciones",
+            field: "acciones",  disableExport: true,
             headerName: "Acciones",
             description: "Campo de Acciones",
             sortable: false,
@@ -345,7 +345,7 @@ const AjustesCalculos = () => {
                 <ButtonsMunBase handleOpen={handleOpen} agregar={agregar} eliminar={eliminar} />
 
             </Grid>
-            <MUIXDataGridMun columns={columns} rows={dataAjustes} modulo={nombreMenu} handleBorrar={handleBorrar} borrar={eliminar} />
+            <MUIXDataGridMun columns={columns} rows={dataAjustes} modulo={nombreMenu.toUpperCase().replace(' ','_')} handleBorrar={handleBorrar} borrar={eliminar} />
 
             {open ?
                 <ModalForm

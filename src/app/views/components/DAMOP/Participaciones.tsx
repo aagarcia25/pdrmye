@@ -20,8 +20,8 @@ import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getUser } from "../../../services/localStorage";
+import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { getPermisos, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
@@ -49,8 +49,7 @@ const Participaciones = () => {
   //MODAL
   const [openModal, setOpenModal] = useState<boolean>(false);
   //Constantes para llenar los select
-  const [selectionModel, setSelectionModel] =
-    React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tipos, setTipos] = useState<SelectValues[]>([]);
@@ -65,6 +64,13 @@ const Participaciones = () => {
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [plantilla, setPlantilla] = useState("");
+  /// Permisos
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [cargarPlant, setCargarPlant] = useState<boolean>(false);
+  const [descPlant, setDescPlant] = useState<boolean>(false);
+  const [disFide, setDisFide] = useState<boolean>(false);
+
+
 
   const downloadplantilla = () => {
     let data = {
@@ -76,7 +82,7 @@ const Participaciones = () => {
     });
   };
 
-  const handleDescuento = (data: any) => {};
+  const handleDescuento = (data: any) => { };
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -123,7 +129,7 @@ const Participaciones = () => {
       description: "Beneficiario",
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Agregar Descuentos",
       description: "Agregar Descuentos",
       sortable: false,
@@ -329,7 +335,7 @@ const Participaciones = () => {
             OBJS: selectionModel,
             CHUSER: user.id,
           };
-        
+
           AlertS.fire({
             title: "Solicitud Enviada",
             icon: "success",
@@ -357,13 +363,13 @@ const Participaciones = () => {
 
         }
       });
-    } else if(selectionModel.length > 1){
+    } else if (selectionModel.length > 1) {
       AlertS.fire({
         title: "Error!",
         text: "Solo se permite seleccionar un registro para La distribución",
         icon: "error",
       });
-    }else{
+    } else {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Seleccionar Registros",
@@ -373,32 +379,40 @@ const Participaciones = () => {
   };
 
   const SolicitudOrdenPago = () => {
-    Swal.fire({
-      icon: "warning",
-      title: "Solicitar",
-      showDenyButton: false,
-      showCancelButton: true,
-      confirmButtonText: "Aceptar",
-      cancelButtonText: "Cancelar",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        let data = {
-          TIPO: 1,
-          OBJS: selectionModel,
-          CHUSER: user.id,
-        };
-        console.log(selectionModel);
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: selectionModel.length +" Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            TIPO: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
 
-        AlertS.fire({
-          title: "Solicitud Enviada",
-          icon: "success",
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            handleClick();
-          }
-        });
-      }
-    });
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              handleClick();
+            }
+          });
+        }
+      });
+    }
   };
 
   const handleClick = () => {
@@ -433,6 +447,22 @@ const Participaciones = () => {
     loadFilter(17);
     handleClick();
     downloadplantilla();
+    permisos.map((item: PERMISO) => {
+      if (
+        String(item.ControlInterno) === "PARTMUN"
+      ) {
+        //console.log(item);
+        if (String(item.Referencia) === "AGREGPLANT") {
+          setCargarPlant(true);
+        }
+        else if (String(item.Referencia) === "DESCPLANT") {
+          setDescPlant(true);
+        }
+        else if (String(item.Referencia) === "DISFIDE") {
+          setDisFide(true);
+        }
+      }
+    });
   }, []);
 
   return (
@@ -443,7 +473,7 @@ const Participaciones = () => {
         <ModalDAMOP
           tipo={"Comentarios"}
           handleClose={handleClose}
-          handleAccion={Fnworkflow}        />
+          handleAccion={Fnworkflow} />
       ) : (
         ""
       )}
@@ -534,40 +564,42 @@ const Participaciones = () => {
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={1}>
-          <Tooltip title="Descargar Plantilla">
-            <IconButton
-              aria-label="upload documento"
-              component="label"
-              size="large"
-            >
-              <Link href={plantilla}>
-                <ArrowDownwardIcon />
-              </Link>
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Cargar Plantilla">
-            <IconButton
-              aria-label="upload documento"
-              component="label"
-              size="large"
-            >
-              <input
-                hidden
-                accept=".xlsx, .XLSX, .xls, .XLS"
-                type="file"
-                value=""
-                onChange={(v) => handleUpload(v)}
-              />
-              <DriveFolderUploadIcon />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title={"Distribuir en Fideicomisos"}>
-            <IconButton value="check" onClick={() => Disitribuir()}>
-              <AccountTreeIcon />
-            </IconButton>
-          </Tooltip>
+          {descPlant ?
+            <Tooltip title="Descargar Plantilla">
+              <IconButton
+                aria-label="upload documento"
+                component="label"
+                size="large"
+              >
+                <Link href={plantilla}>
+                  <ArrowDownwardIcon />
+                </Link>
+              </IconButton>
+            </Tooltip> : ""}
+          {cargarPlant ?
+            <Tooltip title="Cargar Plantilla">
+              <IconButton
+                aria-label="upload documento"
+                component="label"
+                size="large"
+              >
+                <input
+                  hidden
+                  accept=".xlsx, .XLSX, .xls, .XLS"
+                  type="file"
+                  value=""
+                  onChange={(v) => handleUpload(v)}
+                />
+                <DriveFolderUploadIcon />
+              </IconButton>
+            </Tooltip> : ""}
+          {disFide ?
+            <Tooltip title={"Distribuir en Fideicomisos"}>
+              <IconButton value="check" onClick={() => Disitribuir()}>
+                <AccountTreeIcon />
+              </IconButton>
+            </Tooltip>
+            : ""}
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12}>

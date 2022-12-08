@@ -102,7 +102,7 @@ export const AnticipoParticipaciones = () => {
         { field: "Descripcion", headerName: "Estatus", width: 120 },
         { field: "Comentario", headerName: "Comentarios", width: 200 },
         {
-            field: "acciones",
+            field: "acciones",  disableExport: true,
             headerName: "Acciones",
             description: "Ver detalle de Cálculo",
             sortable: false,

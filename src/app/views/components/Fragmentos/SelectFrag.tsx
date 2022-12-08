@@ -1,4 +1,6 @@
-import Select from 'react-select'
+
+import { Box } from '@mui/material';
+import Select from 'react-select';
 import SelectValues from '../../../interfaces/Select/SelectValues'
 
 const SelectFrag = ({
@@ -15,23 +17,17 @@ const SelectFrag = ({
   placeholder: string,
   label: string,
   disabled:boolean
-}) => {
+}
 
-
-
-
-
+) => {
   return (
-    <div>
-
-
-      <Select
-        value ={value != null ?options?.find(element => element.value === value) :[]}
+      <Select 
         options={options}
         isDisabled={disabled}
         isClearable={true}
         isSearchable={true}
         backspaceRemovesValue={true}
+        //styles={styles}
         onChange={
           (v) => (v === null) ?
           onInputChange(String(disabled))
@@ -41,14 +37,13 @@ const SelectFrag = ({
         placeholder={(label != "") ? label : placeholder}
         styles={{
           menu: (base) => ({
-            position: 'fixed',
-
+            position: 'absolute',
+            paddingLeft: '1rem',
             zIndex: 500,
             ...base
           })
         }}
       />
-    </div>
   )
 }
 

@@ -75,7 +75,7 @@ const AsigPago = () => {
   const columnsSolicitudAnticipoParticipaciones = [
     { field: "id", headerName: "Identificador", width: 100, hide: true },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Ver detalle de Cálculo",
       sortable: false,
@@ -167,7 +167,7 @@ const AsigPago = () => {
     { field: "id", headerName: "Identificador", width: 100, hide: true },
     { field: "idprincipal", headerName: "idcalculo", width: 10, hide: true },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Ver detalle de Cálculo",
       sortable: false,
@@ -252,7 +252,7 @@ const AsigPago = () => {
     { field: "id", headerName: "Identificador", width: 100, hide: true },
     { field: "idcalculo", headerName: "idcalculo", width: 10, hide: true },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Ver detalle de Cálculo",
       sortable: false,

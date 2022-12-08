@@ -47,7 +47,7 @@ const UsuarioRoles = ({
       width: 10,
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -135,8 +135,7 @@ const UsuarioRoles = ({
     <div>
       <Slider open={openSlider}></Slider>
 
-      <ModalForm title={"Roles Relacionados al Usuario"} handleClose={handleClose}>
-
+      <ModalForm title={("Roles Relacionados a: "+ dt?.Nombre+" "+ dt?.ApellidoPaterno+" "+dt?.ApellidoMaterno)} handleClose={handleClose}>
         <DialogContent dividers={true} >
           <Box boxShadow={3}>
             <Grid container spacing={1} sx={{ padding: "1%" }}>

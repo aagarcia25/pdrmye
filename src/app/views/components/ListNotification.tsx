@@ -41,7 +41,7 @@ export const ListNotification = () => {
     { field: "Visto", headerName: "Visto", width: 300, hide: true },
     { field: "Destinatario", headerName: "destinatario", width: 300, hide: true },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,

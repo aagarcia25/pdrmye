@@ -87,7 +87,7 @@ const Op = () => {
     { field: "IdEstatus", hide: true, },
     { field: "IdArchivo", hide: true, },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Ver detalle de Cálculo",
       sortable: false,

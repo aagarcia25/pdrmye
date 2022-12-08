@@ -18,7 +18,6 @@ const BotonesAcciones = ({
   }) => {
   return (
     <div>
-      <Box>
            {/* EDITAR */}
            {editar ? 
              <Tooltip title={"Editar Registro"}>
@@ -38,7 +37,6 @@ const BotonesAcciones = ({
             
             }
                      
-          </Box>
     </div>
   )
 }

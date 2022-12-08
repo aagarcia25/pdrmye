@@ -70,7 +70,7 @@ const MenuRelPermisos = ({
       width: 10,
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "",
       description: "Relacionar Menus",
       sortable: false,

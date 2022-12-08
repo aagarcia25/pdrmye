@@ -13,6 +13,7 @@ import {
   TextField,
   IconButton,
   Button,
+  RadioGroup,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
@@ -28,7 +29,8 @@ import Slider from "../../../Slider";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { getUser } from "../../../../../services/localStorage";
 import validator from "validator";
-
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
 const FideicomisoConfig = ({
   open,
   handleClose,
@@ -55,6 +57,7 @@ const FideicomisoConfig = ({
   const [claveError, setClaveError] = useState<string>();
   const [municipio, setMunicipio] = useState<string>("");
   const [modo, setModo] = useState<string>("visualizar");
+  const [monex, setMonex] = useState('0');
 
 
 
@@ -72,7 +75,7 @@ const FideicomisoConfig = ({
       hide: true,
     },
     {
-      field: "Acciones",
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Relacionar Roles",
       sortable: false,
@@ -201,8 +204,8 @@ const FideicomisoConfig = ({
     setClaveBan(v?.row?.ClaveBancaria);
     setClaveSiregob(v?.row?.ClaveSiregob);
     setOpenSlider(false);
-    v?.row?.Cuenta?setClaveValid(true):setClaveValid(false);
-    v?.row?.ClaveBancaria? setCuentaValid (true): setCuentaValid (false);
+    v?.row?.Cuenta ? setClaveValid(true) : setClaveValid(false);
+    v?.row?.ClaveBancaria ? setCuentaValid(true) : setCuentaValid(false);
     consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
 
   };
@@ -221,15 +224,14 @@ const FideicomisoConfig = ({
   const agregar = () => {
 
     if (
-         claveValid === false 
-      || cuentaValid === false 
-      || nombre === null 
-      || (Number(porcentaje) >= 100&& Number(porcentaje) <=0 ) 
-      || porcentaje === null 
-      || cuenta === null 
+      claveValid === false
+      || cuentaValid === false
+      || nombre === null
+      || (Number(porcentaje) >= 100 && Number(porcentaje) <= 0)
+      || porcentaje === null
+      || cuenta === null
       || claveBan === null
-      || claveSireGob === null) 
-      {
+      || claveSireGob === null) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Verificar los Campos",
@@ -282,9 +284,15 @@ const FideicomisoConfig = ({
 
   };
 
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMonex((event.target as HTMLInputElement).value);
+    console.log((event.target as HTMLInputElement).value);
+  };
   useEffect(() => {
     setModo("visualizar")
     setMunicipio(dt?.row?.Nombre)
+    setMonex(dt?.row?.Monex ? dt?.row?.Monex : 0)
     consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
     if (dt === "") {
     } else {
@@ -380,7 +388,7 @@ const FideicomisoConfig = ({
                   fullWidth
                   variant="standard"
                   onChange={(v) => setClaveSiregob(v.target.value)}
-                  error={claveSireGob ===""}
+                  error={claveSireGob === ""}
                   inputProps={{ maxLength: 18 }}
                   InputLabelProps={{ shrink: true }}
                 />
@@ -394,7 +402,7 @@ const FideicomisoConfig = ({
                   variant="standard"
                   onChange={(v) => setPorcentaje(v.target.value)}
                   inputProps={{ maxLength: 20 }}
-                  error={Number(porcentaje) <=0 || Number(porcentaje) >= 100}
+                  error={Number(porcentaje) <= 0 || Number(porcentaje) >= 100}
                   InputLabelProps={{ shrink: true }}
                 />
                 <TextField
@@ -420,20 +428,34 @@ const FideicomisoConfig = ({
                   fullWidth
                   variant="standard"
                   onChange={(e) => validateCount(e, 1)}
-                  error={claveValid === false || claveBan ===""}
+                  error={claveValid === false || claveBan === ""}
                   inputProps={{ maxLength: 18 }}
                   InputLabelProps={{ shrink: true }}
                 />
                 <Typography variant="body2" > {claveError} </Typography>
+                <label> Monex</label> <br/>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-error-radios"
+                  name="quiz"
+                  value={monex}
+                  onChange={handleRadioChange}
+                >
+                  <FormControlLabel value="0" control={<Radio color="error" />} label="No Aplica" />
+                  <FormControlLabel value="1" control={<Radio color="success" />} label="Si Aplica" />
+
+                </RadioGroup>
 
                 <DialogActions>
-
-                  <Button className="guardar" onClick={() => { agregar() }}>
-                    Guardar
-                  </Button>
-                  <Button className="regresar" onClick={() => { setModo("visualizar") }}>
-                    Cancelar
-                  </Button>
+                  <Grid container justifyContent="center" alignItems="center" alignContent="center">
+                    <Grid item paddingTop="10%" xs={6}>
+                      <Button
+                        onClick={() => agregar()}
+                        color={modo === "nuevo" ? "success" : "info"} fullWidth variant="outlined">
+                        {modo === "nuevo" ? "Guardar" : "Actualizar"}
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </DialogActions>
               </Container>
 

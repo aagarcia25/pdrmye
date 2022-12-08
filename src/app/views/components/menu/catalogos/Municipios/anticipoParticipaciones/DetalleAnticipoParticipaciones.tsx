@@ -57,7 +57,7 @@ export const DetalleAnticipoParticipaciones = (
         { field: "Anio", headerName: "Año", width: 120 },
         { field: "Total", headerName: "Total", width: 100 },
         {
-            field: "acciones",
+            field: "acciones",  disableExport: true,
             headerName: "Acciones",
             description: "Ver detalle de Cálculo",
             sortable: false,

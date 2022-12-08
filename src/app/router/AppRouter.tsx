@@ -125,7 +125,7 @@ export const AppRouter = () => {
 
         {/* SECCION DE ARTICULOS */}
         <Route path='/inicio/articulos/art14f/:tipo' element={<Art14fP />} />
-        <Route path='/inicio/articulos/art14d/:tipo/:id' element={<Art14f />} />
+        <Route path='/inicio/articulos/art14d/:tipo/:id/:activo/:version' element={<Art14f />} />
         <Route path='/inicio/articulos/calculogarantia' element={<CalculoGarantiaComponente />} />
         <Route path='/inicio/articulos/isai' element={<ISAI />} />
         <Route path='/inicio/articulos/isnR' element={<IsnRecaudacion />} />

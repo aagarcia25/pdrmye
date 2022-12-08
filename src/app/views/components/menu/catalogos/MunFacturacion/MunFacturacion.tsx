@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box, Grid, Typography,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import {
-  getPermisos,
-  getUser,
-} from "../../../../../services/localStorage";
+import { getPermisos, getUser, } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
@@ -22,8 +17,7 @@ import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
-
-
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
 export const MunFacturacion = () => {
 
@@ -37,11 +31,12 @@ export const MunFacturacion = () => {
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const [agregar, setAgregar] = useState<boolean>(false);
+  // const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+
 
 
   // VARIABLES PARA LOS FILTROS
@@ -65,7 +60,7 @@ export const MunFacturacion = () => {
       width: 150,
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -202,65 +197,65 @@ export const MunFacturacion = () => {
             icon: "error",
           });
         }
-  
-  
-  
-      });
-    } 
-    else if (data.tipo === 2) {
 
-      if(selectionModel.length!==0){
-      Swal.fire({
-        icon: "question",
-        title: selectionModel.length +" Registros Se Eliminaran!!",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Confirmar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-  
-          let data = {
-           NUMOPERACION: 5,
-           OBJS: selectionModel,
-           CHUSER: user.id,
-          
-          };
-          //console.log(data);
-  
-          CatalogosServices.munfacturacion(data).then((res) => {
-            if (res.SUCCESS) {
-              Toast.fire({
-                icon: "success",
-                title: "Borrado!",
-              });
-  
-              consulta({
-                NUMOPERACION: 4,
-                CHUSER: user.id,
-                ANIO: filterAnio,
-              });
-  
-            } else {
-              AlertS.fire({
-                title: "Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              });
-            }
-          });
-  
-        } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
-        }
-      });
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Seleccione Registros Para Borrar",
-        confirmButtonText: "Aceptar",
+
+
       });
     }
+    else if (data.tipo === 2) {
+
+      if (selectionModel.length !== 0) {
+        Swal.fire({
+          icon: "question",
+          title: selectionModel.length + " Registros Se Eliminaran!!",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Confirmar",
+          denyButtonText: `Cancelar`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            let data = {
+              NUMOPERACION: 5,
+              OBJS: selectionModel,
+              CHUSER: user.id,
+
+            };
+            //console.log(data);
+
+            CatalogosServices.munfacturacion(data).then((res) => {
+              if (res.SUCCESS) {
+                Toast.fire({
+                  icon: "success",
+                  title: "Borrado!",
+                });
+
+                consulta({
+                  NUMOPERACION: 4,
+                  CHUSER: user.id,
+                  ANIO: filterAnio,
+                });
+
+              } else {
+                AlertS.fire({
+                  title: "Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
+            });
+
+          } else if (result.isDenied) {
+            Swal.fire("No se realizaron cambios", "", "info");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Seleccione Registros Para Borrar",
+          confirmButtonText: "Aceptar",
+        });
+      }
     }
   };
 
@@ -299,11 +294,10 @@ export const MunFacturacion = () => {
   useEffect(() => {
     setAnios(fanios());
     downloadplantilla();
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNFA") {
-        //console.log(item)
         setNombreMenu(item.Menu);
-
         if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
@@ -320,16 +314,9 @@ export const MunFacturacion = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" , padding:"2%" }}>
+    <div style={{ height: 600, width: "100%", padding: "2%" }}>
       <Slider open={slideropen}></Slider>
-      <Grid container
-        sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography variant='h3'>
-            {nombreMenu}
-          </Typography>
-        </Grid>
-      </Grid>
+      <NombreCatalogo controlInterno={"MUNFA"} />
       <Box
         sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
         <SelectFrag
@@ -341,7 +328,7 @@ export const MunFacturacion = () => {
       <ButtonsMunicipio
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"MUNFA"} />
-      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={"FACTURACION"}   />
+      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')} />
 
       {open ? (
         <MunFacturacionModal

@@ -60,7 +60,7 @@ const FondosView = ({
             width: 10,
         },
         {
-            field: "acciones",
+            field: "acciones",  disableExport: true,
             description: "Relacionar Menus",
             sortable: false,
             width: 10,
@@ -90,7 +90,7 @@ const FondosView = ({
             field: "Descripcion", headerName: "Descripcion", width: 300
         },
         {
-            field: "acciones",
+            field: "acciones",  disableExport: true,
             description: "Relacionar Menus",
             headerName: "",
             sortable: false,

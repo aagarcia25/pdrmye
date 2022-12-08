@@ -1,31 +1,25 @@
 import { useEffect, useState } from "react";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
-import ButtonsAdd from "../Utilerias/ButtonsAdd";
-import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import {
   Box,
-  Grid,
   IconButton,
-  TextField,
   Tooltip,
-  Typography,
 } from "@mui/material";
-import ModalForm from "../../../componentes/ModalForm";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import SaveButton from "../../../componentes/SaveButton";
 import Title from "../../../componentes/Title";
 import TipoFondoCalculoModal from "./TipoFondoCalculoModal";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import React from "react";
 import ButtonsMunBase from "../Utilerias/ButtonsMunBase";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
 const TipoFondoCalculo = () => {
   //   VALORES POR DEFAULT
@@ -39,11 +33,10 @@ const TipoFondoCalculo = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-  const [nombreMenu, setNombreMenu] = useState("");
   const [vrows, setVrows] = useState({});
   const [tipoCalculo, setTipoCalculo] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-
+  const [nombreMenu, setNombreMenu] = useState("");
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -52,7 +45,7 @@ const TipoFondoCalculo = () => {
       width: 10,
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -275,6 +268,7 @@ const TipoFondoCalculo = () => {
 
 
   useEffect(() => {
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "TIPOCALCULO") {
         setNombreMenu(item.Menu);
@@ -295,9 +289,10 @@ const TipoFondoCalculo = () => {
   return (
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
-      <Title titulo={nombreMenu} tooltip={"Cátalogo para Agregar los tipos de Cálculos Permitidos generar"}></Title>
+
+      <NombreCatalogo controlInterno={"TIPOCALCULO"} />
       <ButtonsMunBase handleOpen={handleOpen} agregar={agregar} eliminar={eliminar} />
-      <MUIXDataGridMun columns={columns} rows={dataTipoFondo} modulo={nombreMenu} handleBorrar={handleBorrar} borrar={eliminar} />
+      <MUIXDataGridMun columns={columns} rows={dataTipoFondo} modulo={nombreMenu.toUpperCase().replace(' ','_')} handleBorrar={handleBorrar} borrar={eliminar} />
 
       {open ?
         <TipoFondoCalculoModal modo={modo} tipo={tipoOperacion} handleClose={handleClose} dt={vrows} />

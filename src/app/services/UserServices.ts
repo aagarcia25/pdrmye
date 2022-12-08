@@ -1,4 +1,4 @@
-import { get, getSingle, put } from "./apiServiceExt";
+import { get, getSingle, put, putPass } from "./apiServiceExt";
 import { post, postSingle } from "./apiServiceExt";
 
 
@@ -43,6 +43,11 @@ export class UserServices {
     public static async createsolicitud(data: any) {
         return await post('create-solicitud', data);
     }
+
+    public static async changepassword(data: any) {
+        return await putPass('change-password', data);
+    }
+
 
 
 }

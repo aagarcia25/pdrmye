@@ -8,6 +8,7 @@ import {
   InputAdornment,
   DialogActions,
   Button,
+  Grid,
 } from "@mui/material";
 
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -15,6 +16,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ModalForm from "../../../componentes/ModalForm";
 
 const InflacionAnioModal = ({
   open,
@@ -112,10 +114,13 @@ const InflacionAnioModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen>
-      <DialogTitle>{modo}</DialogTitle>
+
+      <ModalForm title={modo} handleClose={handleClose}>
       <DialogContent>
-        <Box>
+
+      <Grid container sx={{ mt: "2vh", width: "100%",height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
+          <Grid item xs={4} sm={3} md={4} lg={4} >
+    
           <TextField
             
             margin="dense"
@@ -147,14 +152,18 @@ const InflacionAnioModal = ({
               ),
             }}
           />
-        </Box>
+                </Grid>
+        </Grid>
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cancelar</Button>
+      <Grid container sx={{ mt: "2vh", width: "100%",height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
+          <Grid item xs={4} sm={3} md={2} lg={1} >
+            <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+          </Grid>
+        </Grid>
       </DialogActions>
-    </Dialog>
+      </ ModalForm>
   );
 };
 
