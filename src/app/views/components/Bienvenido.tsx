@@ -1,11 +1,12 @@
  import React from "react";
- import { Grid } from "@mui/material";
+ import { Grid, Typography } from "@mui/material";
 import PlantillaBienvenido from "./PlantillaBienvenido";
 import { Carousel } from 'antd';
 import { Box } from "@mui/system";
 import imga1 from '../../assets/img/imagen1.jpg'
 import imga2 from '../../assets/img/imagen2.png'
 import imga3 from '../../assets/img/imagen3.png'
+import { COLOR } from "../../styles/colors";
 
 // import "@fontsource/poppins"; 
 
@@ -107,13 +108,30 @@ const CarouselAp: React.FC = () => (
 export default function Bienvenido({ user }: { user: any }) {
 
   return (
-      <Grid padding={1}>
-        <Grid item>
+      <Grid >
 
+        <Grid item>
+        <Box paddingTop={1} paddingBottom={1}>
+        <Typography sx={{ 
+          ml:2,
+          fontSize:"2rem",
+          textAlign:"center",
+          color: COLOR.doradoNL,
+          fontFamily:"sans-serif" 
+          }}> 
+          {("¡Bienvenid@!")} 
+        </Typography>
+        </Box>
         </Grid>
-        <CarouselAp/>
-        <Box > </Box>
+
+        <Grid item padding={0} sx={{ 
+          height: "100%",
+          width: "100%",
+          background: COLOR.grisBotones,
+           }}> 
+        <CarouselAp />
+        </Grid>
       </Grid>
-     
   );
 }
+
