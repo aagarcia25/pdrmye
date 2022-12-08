@@ -27,7 +27,7 @@ export default function Bienvenido({ user }: { user: any }) {
 
   const CarouselAp: React.FC = () => (
 
-    <Carousel autoplay dotPosition={"top"}>
+    <Carousel autoplay >
       {
         imagen.map((item: imagen) => {
           return (
