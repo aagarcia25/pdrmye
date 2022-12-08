@@ -397,7 +397,7 @@ const AuthSolicitudes = () => {
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={10} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
-                Solicitudes de Participaciones y Aportaciones
+               Módulo de Suficiencia Presupuestal
               </Typography>
             </Grid>
           </Grid>
