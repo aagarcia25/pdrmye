@@ -56,7 +56,6 @@ export default function Bienvenido({ user }: { user: any }) {
   );
 
   useEffect(() => {
-    console.log(userInfo)
     consulta({
       NUMOPERACION: 5,
       CHUSER: user.id
