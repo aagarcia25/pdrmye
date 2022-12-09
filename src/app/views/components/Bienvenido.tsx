@@ -3,11 +3,11 @@ import { Box, Grid, Typography } from "@mui/material";
 import PlantillaBienvenido from "./PlantillaBienvenido";
 import { Carousel } from 'antd';
 import { CatalogosServices } from "../../services/catalogosServices";
-import { Toast } from "../../helpers/Toast";
 import { AlertS } from "../../helpers/AlertS";
 import { imagen } from "../../interfaces/user/User";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { COLOR } from "../../styles/colors";
+import { Hidden } from '@mui/material';
 
 
 
@@ -39,6 +39,7 @@ export default function Bienvenido({ user }: { user: any }) {
                   height: "60vh",
                   width: "100%",
                   background: '#FFFFFF',
+                  borderRadius:"0",
                 }}
                 alt="NUEVO LEÓN"
                 src={item.Imagen}
@@ -60,16 +61,18 @@ export default function Bienvenido({ user }: { user: any }) {
 
   return (
     <Grid padding={0} >
+      
       <Grid item paddingTop="2%" paddingBottom="2%"> 
       <Box display="flex" justifyContent="center">
       <Box >
-      <Typography variant="h5" color="initial"> {(" ¡Bienvenid@! ")} </Typography>
+      <Typography variant="h4" color= {COLOR.azul}> {(" ¡Bienvenid@! ")} </Typography>
       </Box>
       </Box>
       </Grid>
 
+      <Hidden smDown>
       <Grid height="100%" width="100%" bgcolor= {COLOR.grisBotones}  >
-      <Grid item alignContent="center" bgcolor= "white">
+      <Grid item alignContent="center">
       <Box boxShadow={3}> 
       {userInfo?.PERFILES[0]?.Referencia==="MUN"?
       <CarouselAp />
@@ -77,8 +80,7 @@ export default function Bienvenido({ user }: { user: any }) {
       </Box>
       </Grid>
       </Grid>
-      {/* <Grid height="3%" width="100%"> </Grid>
-      <Grid bgcolor= {COLOR.grisTarjetaBienvenido} height="15%" width="100%" paddingTop="2%"> </Grid> */}
+      </Hidden>
 
     </Grid>
   );
