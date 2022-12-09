@@ -1,137 +1,76 @@
- import React from "react";
- import { Grid, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Grid } from "@mui/material";
 import PlantillaBienvenido from "./PlantillaBienvenido";
 import { Carousel } from 'antd';
-import { Box } from "@mui/system";
-import imga1 from '../../assets/img/imagen1.jpg'
-import imga2 from '../../assets/img/imagen2.png'
-import imga3 from '../../assets/img/imagen3.png'
-import { COLOR } from "../../styles/colors";
-
-// import "@fontsource/poppins"; 
-
-
-const img1 = imga1;
-const img2 = imga2;
-const img3 = imga3;
-const img4 = imga2;
+import { CatalogosServices } from "../../services/catalogosServices";
+import { Toast } from "../../helpers/Toast";
+import { AlertS } from "../../helpers/AlertS";
+import { imagen } from "../../interfaces/user/User";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
 
 const contentStyle: React.CSSProperties = {
-  height:"70vh",
-  // color: '#fff',
-  // lineHeight: '160px',
-  // background: '#808080',
+  height: "70vh",
   alignContent: "center",
-  margin:"1%",
+  margin: "1%",
 };
 
 
-const CarouselAp: React.FC = () => (
-  <Carousel autoplay>
-
-    <div>
-    <Box style={contentStyle} display="flex" justifyContent="center" > 
-    <Box
-        boxShadow={3}
-        component="img"
-        style={{ objectFit: "scale-down", }}
-        sx={{
-          height: "100%",
-          width: "100%",
-          maxHeight:{xs:"40%", md:"100%"},
-          background: '#08c4b3',
-        }}
-        alt="NUEVO LEÓN"
-        src={img1}
-      />
-    </Box>
-    </div>
-
-    <div>
-    <Box style={contentStyle} display="flex" justifyContent="center" >
-    <Box
-         boxShadow={3}
-        component="img"
-        style={{ objectFit: "scale-down", }}
-        sx={{
-          height: "100%",
-          width: "100%",
-          maxHeight:{xs:"40%", md:"100%"},
-          background: '#05a7e8',                                                                                                                                                                 
-        }}
-        alt="NUEVO LEÓN"
-        src={img2}
-      />
-    </Box>
-    </div>
-
-    <div>
-    <Box style={contentStyle} display="flex" justifyContent="center"> 
-    <Box
-        boxShadow={3}
-        component="img"
-        style={{ objectFit: "scale-down", }}
-        sx={{
-          height: "100%",
-          width: "100%",
-          maxHeight:{xs:"40%", md:"100%"},
-          background: '#08c4b3', 
-        }}
-        alt="NUEVO LEÓN"
-        src={img3}
-      />
-    </Box>
-    </div>
-
-    <div>
-    <Box style={contentStyle} display="flex" justifyContent="center" > 
-    <Box
-        boxShadow={3}
-        component="img"
-        style={{ objectFit: "scale-down", }}
-        sx={{
-          height: "100%",
-          width: "100%",
-          maxHeight:{xs:"40%", md:"100%"},
-          background: '#05a7e8', 
-        }}
-        alt="NUEVO LEÓN"
-        src={img4}
-      />
-    </Box>
-    </div>
-    
-
-  </Carousel>
-);
-
 export default function Bienvenido({ user }: { user: any }) {
 
+  const [imagen, setImagenes] = useState<Array<imagen>>([]);
+  const userInfo: RESPONSE = user;
+
+  const consulta = (data: any) => {
+    CatalogosServices.eventos(data).then((res) => {
+      if (res.SUCCESS) {
+        setImagenes(res.RESPONSE);
+      } 
+    });
+  };
+
+  const CarouselAp: React.FC = () => (
+
+    <Carousel autoplay >
+      {
+        imagen.map((item: imagen) => {
+          return (
+            <Box style={contentStyle} display="flex" justifyContent="center" >
+              <Box
+                boxShadow={3}
+                component="img"
+                style={{ objectFit: "scale-down", }}
+                sx={{
+                  height: "100%",
+                  width: "100%",
+                  maxHeight: { xs: "40%", md: "100%" },
+                  background: '#FFFFFF',
+                }}
+                alt="NUEVO LEÓN"
+                src={item.Imagen}
+              />
+            </Box>
+          );
+        })
+      }
+    </Carousel>
+  );
+
+  useEffect(() => {
+    consulta({
+      NUMOPERACION: 5,
+      CHUSER: user.id
+    });
+  }, []);
+
   return (
-      <Grid >
-
-        <Grid item>
-        <Box paddingTop={1} paddingBottom={1}>
-        <Typography sx={{ 
-          ml:2,
-          fontSize:"2rem",
-          textAlign:"center",
-          color: COLOR.doradoNL,
-          fontFamily:"sans-serif" 
-          }}> 
-          {("¡Bienvenid@!")} 
-        </Typography>
-        </Box>
-        </Grid>
-
-        <Grid item padding={0} sx={{ 
-          height: "100%",
-          width: "100%",
-          background: COLOR.grisBotones,
-           }}> 
-        <CarouselAp />
-        </Grid>
+    <Grid padding={1}>
+      <Grid item>
       </Grid>
+      {userInfo?.PERFILES[0]?.Referencia==="MUN"?
+      <CarouselAp />
+      :""}
+      <Box > </Box>
+    </Grid>
   );
 }
 
