@@ -1,33 +1,26 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
   TextField,
   DialogActions,
   Grid,
   Typography,
   Box,
   Button,
-  IconButton,
-  Tooltip,
 } from "@mui/material";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import { RESPONSE, SolUser, SolUserData } from "../../../../../interfaces/user/UserInfo";
-import { getPU, getToken, getUser } from "../../../../../services/localStorage";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getUser, setToken } from "../../../../../services/localStorage";
 import validator from 'validator';
 import { UserServices } from "../../../../../services/UserServices";
 import { ParametroServices } from "../../../../../services/ParametroServices";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
-import CloseIcon from '@mui/icons-material/Close';
-import { UserReponse } from "../../../../../interfaces/user/UserReponse";
 import Swal from "sweetalert2";
-import { render } from "react-dom";
 import SelectFragLogin from "../../../Fragmentos/SelectFragLogin";
-import { text } from "node:stream/consumers";
 import ModalForm from "../../../componentes/ModalForm";
+import { useLocation } from "react-router";
 const UsuariosModal = ({
   open,
   handleClose,
@@ -39,7 +32,8 @@ const UsuariosModal = ({
   handleClose: Function;
   dt: any;
 }) => {
-
+  const query = new URLSearchParams(useLocation().search);
+  const jwt = query.get("jwt");
   const [id, setId] = useState<string>();
   const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
   const [idDepartamento, setIdDepartamento] = useState<string>("");
@@ -73,6 +67,8 @@ const UsuariosModal = ({
   const [extError, setExtError] = useState('')
 
   const [ext, setExt] = useState<string>("");
+
+
 
   const loadFilter = (tipo: number) => {
     let data = { NUMOPERACION: tipo };
@@ -223,6 +219,29 @@ const UsuariosModal = ({
     }
   };
 
+  const RfToken = () => {
+    UserServices.verify({}).then((resAppLogin) => {
+      resAppLogin.status === 200 ?
+        setTokenValid(true)
+        :
+        setTokenValid(false);
+        UserServices.refreshToken().then((resAppLogin) => {
+         if( resAppLogin.status === 200 ){
+            setTokenValid(true);
+            setToken(jwt);
+         }
+          else{
+            setTokenValid(false);
+            Toast.fire({
+              icon: "error",
+              title: "Sesión Demasiado Antigua",
+  
+            });
+          }
+        });
+    });
+  };
+
   const handleRequest = (data: any) => {
 
 
@@ -242,7 +261,6 @@ const UsuariosModal = ({
             icon: "success",
             title: "¡Registro exitoso!"
           });
-          handleClose("Registro Exitoso");
         } else {
           Toast.fire({
             icon: "error",
@@ -254,63 +272,71 @@ const UsuariosModal = ({
       });
 
     } else {
-      UserServices.signup(data).then((resUser) => {
-
-        let dataAppId = {
-          NUMOPERACION: 5,
-          NOMBRE: "AppID"
-        }
-
-        ParametroServices.ParametroGeneralesIndex(dataAppId).then((resAppId) => {
-
-          if (resUser.status === 201) {
-            let datSol = {
-              IdUsuario: resUser?.data?.IdUsuario,
-              DatosAdicionales: "Departamento: " + nameDep + " Perfil: " + namePerf,
-              TipoSolicitud: "Alta",
-              CreadoPor: user.id,
-              IdApp: resAppId?.RESPONSE?.Valor,
-            };
-
-            UserServices.createsolicitud(datSol).then((resSol) => {
 
 
-              console.log(resSol.data.data[0][0].IdSolicitud)
-              if (resSol.data.data[0][0].Respuesta === "201") {
+      if(tokenValid=== true){
+        UserServices.signup(data).then((resUser) => {
 
-                let dat = {
-                  NUMOPERACION: tipo,
-                  CHUSER: user.id,
-                  idUsuarioCentral: resUser?.data?.IdUsuario,
-                  PUESTO: puesto,
-                  IDDEPARTAMENTO: idDepartamento,
-                  IDPERFIL: idPerfil,
-                  IDSOLICITUD: resSol.data.data[0][0].IdSolicitud
-                };
-
-                AuthService.adminUser(dat).then((res) => {
-                  if (res.SUCCESS) {
-                    Toast.fire({
-                      icon: "success",
-                      title: "¡Registro exitoso!"
-                    });
-                    handleClose("Registro Exitoso");
-                  }
-                });
-              }
-            });
-
+          let dataAppId = {
+            NUMOPERACION: 5,
+            NOMBRE: "AppID"
           }
 
-          else {
-            AlertS.fire({
-              title: "Error!",
-              text: resAppId.RESPONSE,
-              icon: "warning",
-            });
-          }
+          ParametroServices.ParametroGeneralesIndex(dataAppId).then((resAppId) => {
+
+            if (resUser.status === 201) {
+              let datSol = {
+                IdUsuario: resUser?.data?.IdUsuario,
+                DatosAdicionales: "Departamento: " + nameDep + " Perfil: " + namePerf,
+                TipoSolicitud: "Alta",
+                CreadoPor: user.id,
+                IdApp: resAppId?.RESPONSE?.Valor,
+              };
+
+              UserServices.createsolicitud(datSol).then((resSol) => {
+
+
+                console.log(resSol.data.data[0][0].IdSolicitud)
+                if (resSol.data.data[0][0].Respuesta === "201") {
+
+                  let dat = {
+                    NUMOPERACION: tipo,
+                    CHUSER: user.id,
+                    idUsuarioCentral: resUser?.data?.IdUsuario,
+                    PUESTO: puesto,
+                    IDDEPARTAMENTO: idDepartamento,
+                    IDPERFIL: idPerfil,
+                    IDSOLICITUD: resSol.data.data[0][0].IdSolicitud
+                  };
+
+                  AuthService.adminUser(dat).then((res) => {
+                    if (res.SUCCESS) {
+                      Toast.fire({
+                        icon: "success",
+                        title: "¡Registro exitoso!"
+                      });
+                      handleClose("Registro Exitoso");
+                    }
+                  });
+                }
+              });
+
+            }
+
+            else {
+              AlertS.fire({
+                title: "Error!",
+                text: resAppId.RESPONSE,
+                icon: "warning",
+              });
+              RfToken();
+            }
+          });
         });
-      });
+      } else {
+        RfToken();
+      }
+
     }
   }
 
@@ -319,15 +345,13 @@ const UsuariosModal = ({
 
   useEffect(() => {
 
-    let d = {
-
-    }
-    UserServices.verify(d).then((resAppLogin) => {
+    UserServices.verify({}).then((resAppLogin) => {
       resAppLogin.status === 200 ?
         setTokenValid(true)
         :
         setTokenValid(false);
     });
+
 
     if (dt === "") {
     } else {
