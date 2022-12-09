@@ -10,6 +10,7 @@ import { CatalogosServices } from "./app/services/catalogosServices";
 import {
   getBloqueo,
   getPU,
+  getRfToken,
   getToken,
   setBloqueo,
   setDepartamento,
@@ -20,6 +21,7 @@ import {
   setPerfiles,
   setPermisos,
   setPU,
+  setRfToken,
   setRoles,
   setToken,
   setUser,
@@ -42,6 +44,8 @@ function App() {
   const [isIdle, setIsIdle] = useState(false);
   const query = new URLSearchParams(useLocation().search);
   const jwt = query.get("jwt");
+  const refjwt = query.get("rf");
+
   const [openSlider, setOpenSlider] = useState(true);
   const [acceso, setAcceso] = useState(false);
 
@@ -49,13 +53,13 @@ function App() {
 
 
   const parametros = () => {
-  let data = {
-    NUMOPERACION: 5,
-    NOMBRE: "AMBIENTE"
-  }
-  ParametroServices.ParametroGeneralesIndex(data).then((res) => {
-    localStorage.setItem("Ambiente", JSON.stringify(res.RESPONSE.Valor));
-  });
+    let data = {
+      NUMOPERACION: 5,
+      NOMBRE: "AMBIENTE"
+    }
+    ParametroServices.ParametroGeneralesIndex(data).then((res) => {
+      localStorage.setItem("Ambiente", JSON.stringify(res.RESPONSE.Valor));
+    });
 
   };
 
@@ -114,31 +118,31 @@ function App() {
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
 
-     // if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
-     // if(us.RESPONSE.PERFILES.length !==0){
-    //  if(us.RESPONSE.ROLES.length !==0){
-        setRoles(us.RESPONSE.ROLES);
-        setPermisos(us.RESPONSE.PERMISOS);
-        setMenus(us.RESPONSE.MENUS);
-        setPerfiles(us.RESPONSE.PERFILES);
-        setDepartamento(us.RESPONSE.DEPARTAMENTOS);
-        setMunicipio(us.RESPONSE.MUNICIPIO);
-        loadMunicipios();
-        loadMeses();
-        loadAnios();
-        parametros();
-        setOpenSlider(false);
-        setlogin(true);
-        setAcceso(true);
-     //           }else{
-    //     mensaje("No tienes Relacionado un Rol","Favor de Verificar sus Permisos con el área de TI");
-    //   }
-    //  }else{
-    //     mensaje("No tienes Relacionado un Perfil","Favor de Verificar sus Permisos con el área de TI");
-    //  }
-   // }else{
-  //       mensaje("No tienes Relacionado un Departamento","Favor de Verificar sus Permisos con el área de TI");
-  //}
+      // if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
+      // if(us.RESPONSE.PERFILES.length !==0){
+      //  if(us.RESPONSE.ROLES.length !==0){
+      setRoles(us.RESPONSE.ROLES);
+      setPermisos(us.RESPONSE.PERMISOS);
+      setMenus(us.RESPONSE.MENUS);
+      setPerfiles(us.RESPONSE.PERFILES);
+      setDepartamento(us.RESPONSE.DEPARTAMENTOS);
+      setMunicipio(us.RESPONSE.MUNICIPIO);
+      loadMunicipios();
+      loadMeses();
+      loadAnios();
+      parametros();
+      setOpenSlider(false);
+      setlogin(true);
+      setAcceso(true);
+      //           }else{
+      //     mensaje("No tienes Relacionado un Rol","Favor de Verificar sus Permisos con el área de TI");
+      //   }
+      //  }else{
+      //     mensaje("No tienes Relacionado un Perfil","Favor de Verificar sus Permisos con el área de TI");
+      //  }
+      // }else{
+      //       mensaje("No tienes Relacionado un Departamento","Favor de Verificar sus Permisos con el área de TI");
+      //}
 
 
 
@@ -146,36 +150,31 @@ function App() {
     });
   };
 
-  const verificatoken = (token: string) => {
-    let data ={ 
+  const verificatoken = () => {
 
-    };
+    UserServices.verify({}).then((res) => {
+      if (res.status === 200) {
+        setPU(res.data.data);
+        const user: UserReponse = JSON.parse(String(getPU()));
+        buscaUsuario(user.IdUsuario);
+      } else if (res.status === 401) {
+        setOpenSlider(false);
+        setlogin(false);
+        setAcceso(false);
+        Swal.fire({
+          title: "Mensaje: " + res.data.msg,
+          showDenyButton: false,
+          showCancelButton: false,
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            localStorage.clear();
+            var ventana = window.self;
+            ventana.location.replace(env_var.BASE_URL_LOGIN);
+          }
+        });
+      }
 
-    UserServices.verify(data).then((res) => {
-      //console.log(token)
-      //console.log(token.replaceAll('"',''))
-        if (res.status === 200) {
-          setPU(res.data.data);
-          const user: UserReponse = JSON.parse(String(getPU()));
-          buscaUsuario(user.IdUsuario);
-        } else if (res.status === 401) {
-          setOpenSlider(false);
-          setlogin(false);
-          setAcceso(false);
-          Swal.fire({
-            title: "Mensaje: " + res.data.msg,
-            showDenyButton: false,
-            showCancelButton: false,
-            confirmButtonText: "Aceptar",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              localStorage.clear();
-              var ventana = window.self;
-              ventana.location.replace(env_var.BASE_URL_LOGIN);
-            }
-          });
-        }
-    
     });
   };
 
@@ -230,15 +229,15 @@ function App() {
 
 
   useLayoutEffect(() => {
-   
+
     //SE CARGAN LOS PARAMETROS GENERALES
     if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
       setToken(jwt);
-      verificatoken(String(jwt));
+      setRfToken(refjwt);
+      verificatoken();
     } else if (getToken() != null) {
-     // //console.log('token');
-     // //console.log(String(getToken()))
-      verificatoken(String(getToken()));
+      // //console.log('token');
+      verificatoken();
     } else {
       Swal.fire({
         title: "Token no valido",
@@ -248,7 +247,7 @@ function App() {
       }).then((result) => {
         if (result.isConfirmed) {
           localStorage.clear();
-          
+
           var ventana = window.self;
           ventana.location.replace(env_var.BASE_URL_LOGIN);
         }
