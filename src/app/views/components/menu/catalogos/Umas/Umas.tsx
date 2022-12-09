@@ -16,9 +16,6 @@ import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
 
-
-
-
 export const Umas = () => {
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
@@ -33,9 +30,6 @@ export const Umas = () => {
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
 
-
-
-
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
       //console.log(v)
@@ -46,7 +40,7 @@ export const Umas = () => {
     } else if (v.tipo === 2) {
       Swal.fire({
         icon: "info",
-        title: "Estas seguro de eliminar este registro?",
+        title: "Solicitar La Eliminación?",
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: "Confirmar",
@@ -65,7 +59,7 @@ export const Umas = () => {
             if (res.SUCCESS) {
               Toast.fire({
                 icon: "success",
-                title: "Registro Eliminado!",
+                title: "Solicitud Enviada!",
               });
 
               consulta({ NUMOPERACION: 4 });
@@ -112,7 +106,6 @@ export const Umas = () => {
     { field: "Mensual", headerName: "Mensual", width: 150 },
     { field: "Anual", headerName: "Anual", width: 150 },
 
-
   ];
 
   const handleClose = () => {
@@ -136,7 +129,6 @@ export const Umas = () => {
   const handleUpload = (data: any) => {
 
     if (data.tipo === 1) {
-
 
     }
     else if (data.tipo === 2) {
@@ -202,10 +194,6 @@ export const Umas = () => {
   const consulta = (data: any) => {
     CatalogosServices.umas(data).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
         setUmas(res.RESPONSE);
       } else {
         AlertS.fire({
@@ -255,7 +243,7 @@ export const Umas = () => {
       <NombreCatalogo controlInterno={"UMAS"} />
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      < MUIXDataGridMun columns={columns} rows={conUmas} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')} />
+      < MUIXDataGridMun columns={columns} rows={conUmas} handleBorrar={handleBorrar} borrar={false} modulo={nombreMenu.toUpperCase().replace(' ','_')} />
     </div>
   );
 };

@@ -149,7 +149,7 @@ export const MunFacturacion = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "Solicitud Enviada!",
             });
 
             let data = {

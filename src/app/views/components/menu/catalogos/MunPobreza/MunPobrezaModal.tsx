@@ -111,8 +111,9 @@ const MunPobrezaModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "Solicitud De Edición Enviada!",
         });
+        handleClose();
       } else {
         AlertS.fire({
           title: "Error!",

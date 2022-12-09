@@ -114,7 +114,7 @@ const MunPobrezaExtremaModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Solicitud de Edicion Enviada!",
+          title: "Solicitud De Edición Enviada!",
         });
       } else {
         AlertS.fire({

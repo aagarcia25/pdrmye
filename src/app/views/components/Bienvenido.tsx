@@ -74,9 +74,7 @@ export default function Bienvenido({ user }: { user: any }) {
       <Grid height="100%" width="100%" bgcolor= {COLOR.grisBotones}  >
       <Grid item alignContent="center">
       <Box boxShadow={3}> 
-      {userInfo?.PERFILES[0]?.Referencia==="MUN"?
       <CarouselAp />
-      :""}
       </Box>
       </Grid>
       </Grid>

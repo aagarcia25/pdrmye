@@ -62,11 +62,11 @@ export const MunPoblacion = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "totalPob", headerName: "Total Población", width: 150 },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación",  width: 150 },
+    { field: "ClaveEstado",   headerName: "Clave Estado",   description: "Clave Estado",    width: 100 },
+    { field: "Nombre",        headerName: "Municipio",      description: "Municipio",       width: 150 },
+    { field: "Anio",          headerName: "Año",            description: "Año",             width: 150 },
+    { field: "totalPob",      headerName: "Total Población",description: "Total Población", width: 150 },
 
   ];
 
@@ -101,7 +101,7 @@ export const MunPoblacion = () => {
   const handleDelete = (v: any) => {
    Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title:  "Solicitar La Eliminación?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -122,7 +122,7 @@ export const MunPoblacion = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "Solicitud Enviada!",
             });
 
 
@@ -301,7 +301,7 @@ export const MunPoblacion = () => {
 
   return (
 
-    <div style={{ height: 600, width: "100%", padding:"2%" }}>
+    <div style={{ height: 600, width: "100%",}}>
       <Slider open={slideropen}></Slider>
 
    

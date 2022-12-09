@@ -9,12 +9,14 @@ import {
   Switch,
   FormControlLabel,
   FormGroup,
+  Grid,
 } from "@mui/material";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+import ModalForm from "../../../componentes/ModalForm";
 
 const MunFacturacionModal = ({
   open,
@@ -120,7 +122,7 @@ const MunFacturacionModal = ({
         icon: "error",
       });
     } else {
-      
+
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
@@ -152,13 +154,13 @@ const MunFacturacionModal = ({
       //AGREGAR
       //console.log("A AGREGAR");
       agregar(data);
-      
+
     } else if (tipo === 2) {
       //EDITAR
       //console.log("A EDITAR");
 
       editar(data);
-      
+
     }
   };
 
@@ -182,6 +184,7 @@ const MunFacturacionModal = ({
   };
 
   const editar = (data: any) => {
+    console.log(data);
     CatalogosServices.municipios(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -206,12 +209,12 @@ const MunFacturacionModal = ({
       //SE PINTAN LOS CAMPOS
       setId(dt?.row?.id);
       setNombre(dt?.row?.Nombre);
-      setClaveEstado(dt?.row?.ClaveEstado);
+      setClaveEstado(dt?.row?.ClaveEstado? dt?.row?.ClaveEstado:"");
       setMam(dt?.row?.MAM);
-      setDescentralizado(dt?.row?.Descentralizado);
-      setNombreCorto(dt?.row?.NombreCorto);
-      setOrdenSFTGNL(dt?.row?.OrdenSFTGNL);
-      setClaveSIREGOB(dt?.row?.ClaveSIREGOB);
+      setDescentralizado(dt?.row?.Descentralizado?dt?.row?.Descentralizado:"");
+      setNombreCorto(dt?.row?.NombreCorto?dt?.row?.NombreCorto:"");
+      setOrdenSFTGNL(dt?.row?.OrdenSFTGNL?dt?.row?.OrdenSFTGNL:"");
+      setClaveSIREGOB(dt?.row?.ClaveSIREGOB?dt?.row?.ClaveSIREGOB:"");
       setClaveINEGI(dt?.row?.ClaveINEGI);
       setArtF1(dt?.row?.ArtF1);
       setArtF2(dt?.row?.ArtF2);
@@ -220,12 +223,12 @@ const MunFacturacionModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen>
-      <DialogContent>
-        <Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
+    <ModalForm title={modo} handleClose={handleClose}>
+
+      <Grid container direction="row" justifyContent="center" alignItems="center">
+        <Grid item alignItems="center" justifyContent="center" xs={5}>
+
+
           <TextField
             required
             margin="dense"
@@ -381,18 +384,18 @@ const MunFacturacionModal = ({
               label={checkedArtF3 ? textoDeAfirmacion : textoDeNegacion}
             />
           </FormGroup>
-        </Box>
-      </DialogContent>
+        </Grid>
+      </Grid>
+      <Grid container direction="row" justifyContent="center" alignItems="center">
+        <Grid item alignItems="center" justifyContent="center" xs={1}>
+          <button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()} >
+            {tipo === 1 ? "Agregar" : "Editar"}
+          </button>
+        </Grid>
+      </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cerrar
-        </button>
-      </DialogActions>
-    </Dialog>
+
+    </ModalForm>
   );
 };
 

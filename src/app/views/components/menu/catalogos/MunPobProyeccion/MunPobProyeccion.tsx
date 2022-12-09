@@ -60,11 +60,11 @@ export const MunPobProyeccion = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "anio", headerName: "Año", width: 150 },
-    { field: "Pob", headerName: "Poblacion", width: 150 },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación",width: 150 },
+    { field: "ClaveEstado",   headerName: "Clave Estado",   description: "Clave Estado",  width: 100 },
+    { field: "Nombre",        headerName: "Municipio",      description: "Municipio",     width: 150 },
+    { field: "anio",          headerName: "Año",            description: "Año",           width: 150 },
+    { field: "Pob",           headerName: "Población",      description: "Población",     width: 150 },
 
 
   ];
@@ -295,7 +295,7 @@ export const MunPobProyeccion = () => {
   return (
 
 
-    <div style={{ height: 500, width: "100%" , padding:"2%"  }}>
+    <div style={{ height: 500, width: "100%" ,  }}>
       <Slider open={slideropen}></Slider>
       <NombreCatalogo controlInterno={"MUNPROYEC"} />
       <Box

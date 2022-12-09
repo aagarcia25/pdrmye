@@ -1,4 +1,4 @@
-import { Box, ToggleButtonGroup, Tooltip, Link, IconButton } from "@mui/material";
+import { Box, ToggleButtonGroup, Tooltip, Link, IconButton, ToggleButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
@@ -49,27 +49,25 @@ const ButtonsMunicipio = ({
       <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
         {descargarPlantilla ?
           <Tooltip title="Descargar Plantilla">
-            <IconButton aria-label="upload documento" component="label" size="large">
-              <Link href={url}>
-                <ArrowDownwardIcon />
-              </Link>
-            </IconButton>
+            <ToggleButton value="check"  >
+              <ArrowDownwardIcon onClick={() => window.open(url)} />
+            </ToggleButton>
           </Tooltip>
           : ""}
         {cargarPlantilla ?
           <Tooltip title="Cargar Plantilla">
-            <IconButton aria-label="upload documento" component="label" size="large">
+            <ToggleButton value="check">
               <input hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload({ tipo: 1, data: v })} />
               <DriveFolderUploadIcon />
-            </IconButton>
+            </ToggleButton>
           </Tooltip>
           : ""}
 
         {elimasiva ?
           <Tooltip title="Eliminación Masiva">
-            <IconButton aria-label="upload documento" component="label" size="large">
+            <ToggleButton value="check">
               <DeleteForeverIcon onClick={() => handleUpload({ tipo: 2, data: {} })} />
-            </IconButton>
+            </ToggleButton >
           </Tooltip>
           : ""}
 

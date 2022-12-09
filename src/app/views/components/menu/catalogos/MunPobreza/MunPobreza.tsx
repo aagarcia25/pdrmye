@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, } from '@mui/material'
+import { Box, FormLabel, } from '@mui/material'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -62,12 +62,20 @@ export const MunPobreza = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Total", headerName: "Total", width: 150 },
-    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 300, ...porcentage },
+    { field: "FechaCreacion",  headerName: "Fecha Creación",    description: "Fecha Creación",    width: 150 },
+    { field: "ClaveEstado",    headerName: "Clave Estado",      description: "Clave Estado",      width: 100 },
+    { field: "Nombre",         headerName: "Municipio",         description: "Municipio",         width: 150 },
+    { field: "Anio",           headerName: "Año",               description: "Año",               width: 150 },
+    { field: "Total",          headerName: "Total",             description: "Total",             width: 100 },
+    { field: "CarenciaProm",   headerName: "Carencia Promedio", description: "Carencia Promedio", width: 200,
+    renderCell: (v) => {
+      return (
+        <>
+        {v.row.CarenciaProm+"%"}
+        </>
+      );
+    }, 
+  },
 
   ];
 
@@ -100,7 +108,7 @@ export const MunPobreza = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title:  "Solicitar La Eliminación?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -120,7 +128,7 @@ export const MunPobreza = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "Solicitud Enviada!",
             });
 
             let data = {
