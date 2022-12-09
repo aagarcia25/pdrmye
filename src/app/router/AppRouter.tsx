@@ -134,6 +134,7 @@ export const AppRouter = () => {
 
         {/* SECCION PARTICIPACIONES FEDERALES Y ESTATALES */}
         <Route path='/inicio/participaciones/:fondo' element={log ? <Fpg /> : <AuthRouter />} />
+        <Route path='/inicio/convenios/:fondo' element={log ? <Fpg /> : <AuthRouter />} />
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
         {/* SECCION USUARIOS, ROLES, PERMISOS */}

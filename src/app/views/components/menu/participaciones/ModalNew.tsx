@@ -66,6 +66,7 @@ const ModalNew = ({
     formData.append("CHUSER", user.id);
     formData.append("ANIO", String(year));
     formData.append("MES", idmes);
+    formData.append("CLAVE", clave);
     formData.append("TIPOCALCULO", idTipoCalculo);
     CatalogosServices.migraData(formData).then((res) => {
      
@@ -120,7 +121,7 @@ const ModalNew = ({
 
 
   const handleSend = () => {
-        if (clave === "ICV") {
+        if (clave === "ICV" ||clave === "HIDROCARBUROS"  ) {
           icv();
         } else if (clave === "ISR NOMINA") {
           isrnomina();
@@ -260,7 +261,7 @@ const ModalNew = ({
         <Grid item xs={12} sm={12} md={12}
         sx={{ 
             justifyContent: "center" ,
-            display : clave !== 'ICV' && clave !== 'FOULT' && clave !== 'FODES' && clave !== 'FOSEGMUN' && clave !== 'FODEM' ? 'block' :'none'
+            display :clave !== 'HIDROCARBUROS' && clave !== 'ICV' && clave !== 'FOULT' && clave !== 'FODES' && clave !== 'FOSEGMUN' && clave !== 'FODEM' ? 'block' :'none'
              }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
@@ -324,7 +325,7 @@ const ModalNew = ({
         <Grid item xs={12} sm={12} md={12} 
           sx={{ 
             justifyContent: "center" ,
-            display : clave === 'ICV' || clave === 'ISR NOMINA' ? 'block' :'none'
+            display : clave === 'ICV' || clave === 'HIDROCARBUROS' || clave === 'ISR NOMINA' ? 'block' :'none'
              }}
         >
 

@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import PlantillaBienvenido from "./PlantillaBienvenido";
 import { Carousel } from 'antd';
 import { CatalogosServices } from "../../services/catalogosServices";
-import { Toast } from "../../helpers/Toast";
 import { AlertS } from "../../helpers/AlertS";
 import { imagen } from "../../interfaces/user/User";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { COLOR } from "../../styles/colors";
+import { Hidden } from '@mui/material';
 
-const contentStyle: React.CSSProperties = {
-  height: "70vh",
-  alignContent: "center",
-  margin: "1%",
-};
+
 
 
 export default function Bienvenido({ user }: { user: any }) {
@@ -34,21 +31,21 @@ export default function Bienvenido({ user }: { user: any }) {
       {
         imagen.map((item: imagen) => {
           return (
-            <Box style={contentStyle} display="flex" justifyContent="center" >
+            <Box  display="flex" justifyContent="center" >
               <Box
-                boxShadow={3}
                 component="img"
                 style={{ objectFit: "scale-down", }}
                 sx={{
-                  height: "100%",
+                  height: "60vh",
                   width: "100%",
-                  maxHeight: { xs: "40%", md: "100%" },
                   background: '#FFFFFF',
+                  borderRadius:"0",
                 }}
                 alt="NUEVO LEÓN"
                 src={item.Imagen}
               />
             </Box>
+            
           );
         })
       }
@@ -63,13 +60,28 @@ export default function Bienvenido({ user }: { user: any }) {
   }, []);
 
   return (
-    <Grid padding={1}>
-      <Grid item>
+    <Grid padding={0} >
+      
+      <Grid item paddingTop="2%" paddingBottom="2%"> 
+      <Box display="flex" justifyContent="center">
+      <Box >
+      <Typography variant="h4" color= {COLOR.azul}> {(" ¡Bienvenid@! ")} </Typography>
+      </Box>
+      </Box>
       </Grid>
+
+      <Hidden smDown>
+      <Grid height="100%" width="100%" bgcolor= {COLOR.grisBotones}  >
+      <Grid item alignContent="center">
+      <Box boxShadow={3}> 
       {userInfo?.PERFILES[0]?.Referencia==="MUN"?
       <CarouselAp />
       :""}
-      <Box > </Box>
+      </Box>
+      </Grid>
+      </Grid>
+      </Hidden>
+
     </Grid>
   );
 }

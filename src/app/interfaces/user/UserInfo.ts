@@ -67,7 +67,7 @@ export interface RESPONSE {
     Puesto?: any;
     EstaActivo?: number;
     Ubicacion?: any;
-    extencion?: any;
+    Ext?: any;
     Telefono?: any;
     idDepartamento?: any;
     ROLES: ROLE[];

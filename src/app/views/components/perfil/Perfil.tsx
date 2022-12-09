@@ -2,61 +2,39 @@ import {
   BottomNavigation,
   BottomNavigationAction,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  FormControl,
   FormHelperText,
   Grid,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useState } from "react";
-import { getUser } from "../../../services/localStorage";
+import { useEffect, useState } from "react";
+import { getUser, setToken } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import PersonIcon from "@mui/icons-material/Person";
 import { DialogCambiarImagen } from "./DialogCambiarImagen";
-import { AuthService } from "../../../services/AuthService";
 import { Toast } from "../../../helpers/Toast";
-import validator from 'validator';
 import { COLOR } from "../../../styles/colors";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import React from "react";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { UserServices } from "../../../services/UserServices";
-import { text } from "stream/consumers";
 import Swal from "sweetalert2";
+import { useLocation } from "react-router";
 export const Perfil = () => {
   const [user, setUser] = useState<RESPONSE>(JSON.parse(String(getUser())));
 
   //Abrir Dialog de imagen
+  const query = new URLSearchParams(useLocation().search);
+  const jwt = query.get("jwt");
   const [openDialog, setOpenDialog] = useState(false)
-  const [nombre, setNombre] = useState(user.Nombre);
-  const [nombreUsuario, setNombreUsuario] = useState(user.NombreUsuario);
-  const [apellidoPaterno, setApellidoPaterno] = useState(user.ApellidoPaterno);
-  const [apellidoMaterno, setApellidoMaterno] = useState(user.ApellidoMaterno);
-  const [correoElectronico, setCorreoElectronico] = useState(user.CorreoElectronico);
-  const [telefono, setTelefono] = useState(user?.Telefono ? user?.Telefono : "");
-  const [extencion, setExtencion] = useState(user?.extencion ? user?.extencion : "");
-  const [puesto, setPuesto] = useState(user.Puesto ? user.Puesto : "");
-  const [celular, setCelular] = useState(user?.Celular ? String(user?.Celular) : "");
-  const [tipo, setTipo] = useState("");
-  const [departamento, setDepartamento] = useState(user.DEPARTAMENTOS[0]?.Descripcion);
-  const [departamentos, setDepartamentos] = useState("");
   //CARD 1
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
-
-
-  user.Nombre = nombre;
-  const [openDialogConfirmacion, setOpenDialogConfirmacion] = useState(false);
-
+  const [tokenValid, setTokenValid] = useState<boolean>();
   const [value, setValue] = useState('general');
+
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -67,10 +45,37 @@ export const Perfil = () => {
   const handleCloseDialogImagen = () => {
     setOpenDialog(false);
   };
-  const handleOpenDialogImagen = () => {
-    setOpenDialog(true);
-  };
+
   //PRIMER CARD FUNCIONES
+
+  const RfToken = () => {
+    UserServices.verify({}).then((res) => {
+      if (res.status === 200) {
+        setTokenValid(true)
+        console.log("verify true")
+        onClickChangePassword();
+      } else if (res.status === 401) {
+        console.log("verify false")
+        UserServices.refreshToken().then((resAppLogin) => {
+          if (resAppLogin.status === 200) {
+            setTokenValid(true);
+            setToken(jwt);
+            onClickChangePassword();
+          }
+          else {
+            setTokenValid(false);
+            Toast.fire({
+              icon: "error",
+              title: "Sesión Demasiado Antigua",
+            });
+          }
+        });
+
+      }
+
+    });
+  };
+
 
 
   const onClickChangePassword = () => {
@@ -79,9 +84,7 @@ export const Perfil = () => {
         icon: "warning",
         title: "¡Verifique Los Campos!"
       });
-
     } else {
-
       Swal.fire({
         icon: "question",
         title: "Cambiar Contraseña?",
@@ -96,29 +99,56 @@ export const Perfil = () => {
             IdUsuario: user.id,
             ContrasenaNueva: password,
           };
-          UserServices.changepassword(dat).then((res) => {
-            console.log(res)
-            if (res.status === 200 && res.data.message === "Cambio de contraseña exitoso!") {
-              Swal.fire("¡Cambio de Contraseña exitoso!", "", "success");
-              setPassword("");
-              setConfPassword("");
-            } else {
-              Toast.fire({
-                icon: "warning",
-                title: "¡Cambio de Contraseña Fallo!",
-              });
-            }
-          });
 
-        } else if (result.isDenied) {
-          Swal.fire("Solicitud no Realizada", "", "info");
+          if (tokenValid === true) {
+            UserServices.changepassword(dat).then((res) => {
+              if (res.status === 200 && res.data.message === "Cambio de contraseña exitoso!") {
+                Swal.fire("¡Cambio de Contraseña exitoso!", "", "success");
+                setPassword("");
+                setConfPassword("");
+              } else {
+                Toast.fire({
+                  icon: "warning",
+                  title: "¡Cambio de Contraseña Fallo!",
+                });
+              }
+            });
+          } else {
+            RfToken();
+          }
         }
       });
-
-
-
     }
   };
+
+  useEffect(() => {
+
+    UserServices.verify({}).then((res) => {
+      if (res.status === 200) {
+        setTokenValid(true)
+        console.log("verify true")
+      } else if (res.status === 401) {
+        console.log("verify false")
+        UserServices.refreshToken().then((resAppLogin) => {
+          if (resAppLogin.status === 200) {
+            setTokenValid(true);
+            setToken(jwt);
+          }
+          else {
+            setTokenValid(false);
+            Toast.fire({
+              icon: "error",
+              title: "Sesión Demasiado Antigua",
+            });
+          }
+        });
+
+      }
+
+    });
+
+
+  }, []);
 
 
 
@@ -220,7 +250,7 @@ export const Perfil = () => {
                     }}
                     > Nombre:
                       <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
-                        {nombre} </Typography>
+                        {user.Nombre} </Typography>
                     </Typography>
 
                     <Typography sx={{
@@ -231,7 +261,7 @@ export const Perfil = () => {
                     }}
                     > Apellido Paterno:
                       <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
-                        {apellidoPaterno} </Typography>
+                        {user.ApellidoPaterno} </Typography>
                     </Typography>
 
                     <Typography sx={{
@@ -242,7 +272,7 @@ export const Perfil = () => {
                     }}
                     > Apellido Materno:
                       <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
-                        {apellidoMaterno} </Typography>
+                        {user.ApellidoMaterno} </Typography>
                     </Typography>
                   </Box>
 
@@ -268,35 +298,33 @@ export const Perfil = () => {
                       <Grid container direction="column" justifyContent="center" alignItems="center">
                         <Grid item xs={10}>
                           <label className="negro">Departamento:</label>
-                          <label className="gris"> {departamento} </label>
-
+                          <label className="gris"> {user.DEPARTAMENTOS[0]?.Descripcion} </label>
                         </Grid>
                         <br />
                         <Grid item xs={10}>
                           <label className="negro">Correo electrónico:</label>
-                          <label className="gris"> {correoElectronico} </label>
+                          <label className="gris"> {user.CorreoElectronico} </label>
                         </Grid>
                       </Grid>
-
                       <Grid container direction="column" justifyContent="center" alignItems="center" >
                         <br />
                         <Grid item xs={10}>
                           <label className="negro">Telefono:</label>
-                          <label className="gris"> {telefono ? telefono : "Sin Informacion"} </label>
+                          <label className="gris"> {user.Telefono ? user.Telefono : "Sin Informacion"} </label>
                         </Grid>
                         <br />
                         <Grid item xs={10}>
                           <label className="negro">Extencion:</label>
-                          <label className="gris"> {extencion ? extencion : "Sin Informacion"} </label>
+                          <label className="gris"> {user.Ext ? user.Ext : "Sin Informacion"} </label>
                         </Grid>                  <br />
                         <Grid item xs={10}>
                           <label className="negro">Celular:</label>
-                          <label className="gris"> {celular ? celular : "Sin Informacion"} </label>
+                          <label className="gris"> {user.Celular ? user.Celular : "Sin Informacion"} </label>
                         </Grid>
                         <br />
                         <Grid item xs={10}>
                           <label className="negro">Puesto:</label>
-                          <label className="gris"> {puesto ? puesto : "Sin Informacion"} </label>
+                          <label className="gris"> {user.Puesto ? user.Puesto : "Sin Informacion"} </label>
                         </Grid>
                       </Grid>
                     </Grid>
