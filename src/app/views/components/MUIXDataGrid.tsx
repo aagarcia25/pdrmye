@@ -52,6 +52,8 @@ export default function MUIXDataGrid(props: any) {
             columnMenuUnsort: 'Sin Orden',
             columnMenuSortAsc: 'Ordenar Ascendente',
             columnMenuSortDesc: 'Ordenar Descendente',
+            columnHeaderSortIconLabel:'Ordenar',
+
  
             
         }}

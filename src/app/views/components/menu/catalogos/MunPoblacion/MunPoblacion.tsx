@@ -317,17 +317,14 @@ export const MunPoblacion = () => {
           </Typography>
         </Grid>
       </Grid>
-   <Box
-        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
-        <SelectFrag
-          options={anios}
-          onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={''} disabled={false}
-          value={filterAnio} />
-      </Box>
+
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNPO"} />
+        handleUpload={handleUpload} controlInterno={"MUNPO"} 
+        options={anios}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"} label={''} disabled={false}
+        value={filterAnio} />
      < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={'POBLACION'}   />
 
 

@@ -19,6 +19,7 @@ import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Moneda } from '../../CustomToolbar'
+import ButtonsMunicipio from '../../catalogos/Utilerias/ButtonsMunicipio'
 
 
 const IsnRecaudacion = () => {
@@ -139,7 +140,7 @@ const IsnRecaudacion = () => {
   };
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setslideropen(true);
+    // setslideropen(true);
     let file = event?.target?.files?.[0] || "";
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlxs");
@@ -278,43 +279,14 @@ const IsnRecaudacion = () => {
           </Typography>
         </Grid>
       </Grid>
-      <Box
-        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
-        <SelectFrag
-          options={anios}
-          onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={''} disabled={false}
-          value={filterAnio} />
-      </Box>
-      <Box >
-        {agregar ?
-          <>
-            <Tooltip title="Descargar Plantilla">
-              <IconButton aria-label="upload documento" component="label" size="large">
-                <Link href={plantilla}>
-                  <ArrowDownwardIcon color="primary" />
-                </Link>
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="Cargar Plantilla">
-              <IconButton aria-label="upload documento" component="label" size="large">
-                <input hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
-                <DriveFolderUploadIcon  color="primary"/>
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="Eliminación Masiva">
-              <IconButton aria-label="upload documento" component="label" size="large">
-                <DeleteForeverIcon color="primary" onClick={() => eliminacionMasiva()} />
-              </IconButton  >
-            </Tooltip>
-
-          </>
-
-
-          : ""}
-      </Box>
+     
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleUpload} controlInterno={"ISNR"} 
+        value={''}
+        options={anios}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"} label={""} disabled={false} />
       < MUIXDataGridMun columns={columns} rows={data} handleBorrar={handleBorrar} borrar={eliminar} modulo={'ISN RECAUDACION'} />
 
 

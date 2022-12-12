@@ -86,12 +86,8 @@ const saveInfo = () => {
   return (
     <>
     <Slider open={slideropen}></Slider>
-    <ModalForm
-      title={"Usuario Responsable del Municipio"}
-      handleClose={handleClose}
-    >
+    <ModalForm title={"Usuario Responsable del Municipio"} handleClose={handleClose} >
      
-      <div>
         <Box boxShadow={3} paddingTop={3}>
         <Grid container spacing={1}>
         <Grid xs={3}> </Grid>
@@ -125,9 +121,8 @@ const saveInfo = () => {
           </Grid>
 
           <Grid item xs={12} paddingBottom={2}>
-            <Grid container spacing={1}>
-            <Grid item xs={8} md={8} lg={8}> </Grid>
-              <Grid item xs={2} md={2} lg={2}>
+            <Grid container direction="row" justifyContent="center" alignItems="center" spacing={1} >
+            <Grid item xs={2} > 
                 <Button
                   color="info"
                   onClick={() => saveInfo()}
@@ -135,22 +130,12 @@ const saveInfo = () => {
                 >
                   Actualizar
                 </Button>
-              </Grid>
-              <Grid item xs={2} md={2} lg={2}>
-                <Button
-                  color="error"
-                  onClick={() => handleClose()}
-                  sx={{ fontFamily: "sans-serif" }}
-                >
-                  Salir
-                </Button>
-              </Grid>
+                </Grid>
             </Grid>
           </Grid>
           </Grid>
         </Grid>
         </Box>
-      </div>
     </ModalForm>
     </>
   );

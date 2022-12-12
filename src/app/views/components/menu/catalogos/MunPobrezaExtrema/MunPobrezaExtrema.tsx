@@ -301,18 +301,16 @@ export const MunPobrezaExtrema = () => {
       <Slider open={slideropen}></Slider>
 
       <NombreCatalogo controlInterno={"MUNPOEX"} />
-      <Box
-        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
-        <SelectFrag
-          value={filterAnio}
-          options={anios}
-          onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={""} disabled={false} />
-      </Box>
+
 
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNPOEX"} />
+        handleUpload={handleUpload} controlInterno={"MUNPOEX"} 
+        
+        value={filterAnio}
+          options={anios}
+          onInputChange={handleFilterChange}
+          placeholder={"Seleccione Año"} label={""} disabled={false}  />
 
       < MUIXDataGridMun columns={columns} rows={PobrezaExtrema} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} />
       {open ? (

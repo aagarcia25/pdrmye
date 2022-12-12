@@ -259,7 +259,7 @@ export const Fpg = () => {
         <Grid item xs={10} sx={{ textAlign: "center" }}>
           <Tooltip title={objfondo?.Comentarios}>
             <Typography>
-              <h1>{nombreMenu}</h1>
+              <h1>{objfondo?.Descripcion}</h1>
             </Typography>
           </Tooltip>
         </Grid>

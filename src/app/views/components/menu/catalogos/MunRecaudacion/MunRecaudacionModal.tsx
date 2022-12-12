@@ -115,6 +115,7 @@ const MunRecaudacionModal = ({
         Toast.fire({
           icon: "success",
           title: "Solicitud De Edición Enviada!",
+          
         });
       } else {
         AlertS.fire({

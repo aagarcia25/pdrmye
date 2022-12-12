@@ -381,8 +381,7 @@ export const AnticipoParticipaciones = () => {
                     <ButtonsMunicipio
                         url={"d"}
                         handleUpload={handleUpload}
-                        controlInterno={"MUNAPC"}
-                    />
+                        controlInterno={"MUNAPC"} value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={false}  />
                 </Grid>
                 <Grid item xs={3}>
 
