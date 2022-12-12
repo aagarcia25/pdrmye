@@ -111,7 +111,7 @@ export const MunRecaudacion = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title:  "Solicitar La Eliminación?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -131,7 +131,7 @@ export const MunRecaudacion = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "Solicitud Enviada!",
             });
 
             let data = {
@@ -296,18 +296,15 @@ export const MunRecaudacion = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
       <NombreCatalogo controlInterno={"MUNRECAU"} />
-      <Box
-        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
-        <SelectFrag
-          value={''}
-          options={anios}
-          onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={""} disabled={false} />
-      </Box>
 
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNRECAU"} />
+        handleUpload={handleUpload} controlInterno={"MUNRECAU"} 
+        value={''}
+        options={anios}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"} label={""} disabled={false} />
+        
       < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')}   />
 
       {open ? (

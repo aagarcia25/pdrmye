@@ -53,36 +53,12 @@ export const ParametrosGenerales = () => {
         );
       },
     },
-    {
-      field: "FechaCreacion",
-      headerName: "Fecha Creacion",
-      width: 200,
-    },
-    {
-      field: "CreadoP",
-      headerName: "Creado Por",
-      width: 200,
-    },
-    {
-      field: "Nombre",
-      headerName: "Nombre",
-      width: 200,
-    },
-    {
-      field: "Valor",
-      headerName: "Valor",
-      width: 250,
-    },
-    {
-      field: "slug",
-      headerName: "Referencia",
-      width: 250,
-    },
-    {
-      field: "Descripcion",
-      headerName: "Descripcion",
-      width: 250,
-    },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación",width: 200,},
+    { field: "CreadoP",       headerName: "Creado Por",     description: "Creado Por",    width: 200, },
+    { field: "Nombre",        headerName: "Nombre",         description: "Nombre",        width: 200,},
+    { field: "Valor",         headerName: "Valor",          description: "Valor",         width: 250, },
+    { field: "slug",          headerName: "Referencia",     description: "Referencia",    width: 250, },
+    { field: "Descripcion",   headerName: "Descripción",    description: "Descripción",   width: 250,},
 
   ];
   const handleAccion = (v: any) => {
@@ -91,7 +67,7 @@ export const ParametrosGenerales = () => {
       setModo("Editar ");
       setOpen(true);
       setVrows(v.data);
-      console.log(v.data);
+      // console.log(v.data);
 
     } else if (v.tipo === 2) {
       handleDelete(v.data);

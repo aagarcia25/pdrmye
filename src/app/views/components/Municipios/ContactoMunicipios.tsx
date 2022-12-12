@@ -102,74 +102,75 @@ setOpen(false);
             mostrar ?
               dato?.map((registro, x) =>
 
-                <Grid item xs={2} sm={4} md={4} key={x}>
-                  <Card  >
-                    <CardContent sx={{ display: "flex", justifyContent: "space-evenly" }}>
-                      <Box sx={{ width: "100%", display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <Grid item xs={2} sm={4} md={4} key={x} sx={{ bgcolor:"#EEEEEE" , margin:"0", padding:"0" }} >
+                  <Card  sx={{ margin:"2%"}} >
+                    <CardContent sx={{ display: "flex", justifyContent: "space-evenly"}}>
+                      <Box   sx={{  width: "100%", display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
 
-                        <Box sx={{ width: "35%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                          <img src={registro.Escudo} style={{ objectFit: "scale-down", }} />
+                        <Box sx={{ width: "50%", height:"50%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                          <img  src={registro.Escudo} style={{ objectFit:"scale-down", }} />
                         </Box>
-                        <Box sx={{ display: "flex", justifyContent: "center", flexDirection: "column" }}>
+
+                        <Box sx={{ display: "flex", justifyContent: "center", flexDirection: "column", paddingTop:"3%"}}>
                           <Box sx={{ width: "100%", display: "flex", }}>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "sans-serif", fontWeight: 700, fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }}  gutterBottom>
                               Municipio:
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "sans-serif", fontWeight: 500, fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} gutterBottom>
                               {registro?.Municipio}
                             </Typography>
                           </Box>
 
                           <Box sx={{ width: "100%", display: "flex", }}>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }} variant="body2" gutterBottom>
+                            <Typography sx={{fontFamily: "sans-serif", fontWeight: 700, fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }}  gutterBottom>
                               Tesorero:
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "sans-serif", fontWeight: 500, fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} gutterBottom>
                               {registro?.Tesorero}
                             </Typography>
                           </Box>
 
                           <Box sx={{ width: "100%", display: "flex", }}>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "sans-serif", fontWeight: 700, fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }}   gutterBottom>
                               Responsable:
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "sans-serif", fontWeight: 500,  fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }}  gutterBottom>
                               {registro?.Responsable}
                             </Typography>
                           </Box>
 
                           <Box sx={{ width: "100%", display: "flex", }}>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }} variant="body2" gutterBottom>
+                            <Typography sx={{fontFamily: "sans-serif", fontWeight: 700, fontSize: 14,  display: "flex", justifyContent: "flex-end", alignItems: "center" }}  gutterBottom>
                               Domicilio:
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "sans-serif", fontWeight: 500, fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }}   gutterBottom>
                               {registro?.Domicilio}
                             </Typography>
                           </Box>
 
                           <Box sx={{ width: "100%", display: "flex", }}>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }} variant="body2" gutterBottom>
+                            <Typography sx={{fontFamily: "sans-serif", fontWeight: 700,  fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }}   gutterBottom>
                               Teléfono:
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "sans-serif", fontWeight: 500, fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} gutterBottom>
                               {registro?.Telefono}
                             </Typography>
                           </Box>
 
                           <Box sx={{ width: "100%", display: "flex", }}>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "sans-serif", fontWeight: 700, fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }} gutterBottom>
                               Horario:
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} variant="body2" gutterBottom>
+                            <Typography sx={{  fontFamily: "sans-serif", fontWeight: 500, fontSize: 14,  display: "flex", justifyContent: "flex-start", ml: "1em" }}   gutterBottom>
                               {registro?.Horario}
                             </Typography>
                           </Box>
 
                           <Box sx={{ width: "100%", display: "flex", }}>
-                            <Typography sx={{ fontFamily: "MontserratBold", fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }} variant="body2" gutterBottom>
+                            <Typography sx={{ fontFamily: "sans-serif", fontWeight: 700, fontSize: 14, display: "flex", justifyContent: "flex-end", alignItems: "center" }}   gutterBottom>
                               Página Web:
                             </Typography>
-                            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }} variant="body2" gutterBottom>
+                            <Typography sx={{  fontFamily: "sans-serif", fontWeight: 500,  fontSize: 14, display: "flex", justifyContent: "flex-start", ml: "1em" }}   gutterBottom>
                               {registro?.Web}
                             </Typography>
                           </Box>
@@ -179,9 +180,17 @@ setOpen(false);
 
 
                     </CardContent>
+
                     <CardActions>
-                      <Button size="small" onClick={() => handleSend(String(registro?.idMunicipio))}>Enviar Mensaje</Button>
+
+                    <Box display="flex" justifyContent="center" sx={{ width: "100%" }}> 
+                      <Box >
+                        <Button size="medium"  variant="contained" color="info" onClick={() => handleSend(String(registro?.idMunicipio))}>  <Typography color="white"> Enviar Mensaje </Typography> </Button>
+                      </Box>
+                    </Box>
+
                     </CardActions>
+
                   </Card>
                 </Grid>
               )

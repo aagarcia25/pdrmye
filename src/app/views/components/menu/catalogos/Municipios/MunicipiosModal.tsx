@@ -9,12 +9,14 @@ import {
   Switch,
   FormControlLabel,
   FormGroup,
+  Grid,
 } from "@mui/material";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+import ModalForm from "../../../componentes/ModalForm";
 
 const MunFacturacionModal = ({
   open,
@@ -37,7 +39,9 @@ const MunFacturacionModal = ({
   const [descentralizado, setDescentralizado] = useState("");
   const [nombreCorto, setNombreCorto] = useState("");
   const [ordenSFTGNL, setOrdenSFTGNL] = useState("");
-  const [claveSIREGOB, setClaveSIREGOB] = useState("");
+  const [clavePSIREGOB, setClavePSIREGOB] = useState("");
+  const [claveDSIREGOB, setClaveDSIREGOB] = useState("");
+
   const [claveINEGI, setClaveINEGI] = useState("");
   const [artF1, setArtF1] = useState("");
   const [artF2, setArtF2] = useState("");
@@ -108,7 +112,8 @@ const MunFacturacionModal = ({
       descentralizado === "" ||
       nombreCorto === "" ||
       ordenSFTGNL === "" ||
-      claveSIREGOB === "" ||
+      clavePSIREGOB === "" ||
+      claveDSIREGOB === "" ||
       claveINEGI === "" ||
       artF1 === "" ||
       artF2 === "" ||
@@ -120,7 +125,7 @@ const MunFacturacionModal = ({
         icon: "error",
       });
     } else {
-      
+
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
@@ -131,7 +136,8 @@ const MunFacturacionModal = ({
         DESCENTRALIZADO: descentralizado,
         NOMBRECORTO: nombreCorto,
         ORDENSFTGNL: ordenSFTGNL,
-        CLAVESIREGOB: claveSIREGOB,
+        CLAVEPSIREGOB: clavePSIREGOB,
+        CLAVEDSIREGOB: claveDSIREGOB,
         CLAVEINEGI: claveINEGI,
         ARTF1: artF1,
         ARTF2: artF2,
@@ -152,13 +158,13 @@ const MunFacturacionModal = ({
       //AGREGAR
       //console.log("A AGREGAR");
       agregar(data);
-      
+
     } else if (tipo === 2) {
       //EDITAR
       //console.log("A EDITAR");
 
       editar(data);
-      
+
     }
   };
 
@@ -182,20 +188,19 @@ const MunFacturacionModal = ({
   };
 
   const editar = (data: any) => {
+    console.log(data);
     CatalogosServices.municipios(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
           title: "Registro Editado!",
         });
-        //console.log("Sé pudo editar");
       } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        //console.log("No se pudo editar");
       }
     });
   };
@@ -206,12 +211,13 @@ const MunFacturacionModal = ({
       //SE PINTAN LOS CAMPOS
       setId(dt?.row?.id);
       setNombre(dt?.row?.Nombre);
-      setClaveEstado(dt?.row?.ClaveEstado);
+      setClaveEstado(dt?.row?.ClaveEstado? dt?.row?.ClaveEstado:"");
       setMam(dt?.row?.MAM);
-      setDescentralizado(dt?.row?.Descentralizado);
-      setNombreCorto(dt?.row?.NombreCorto);
-      setOrdenSFTGNL(dt?.row?.OrdenSFTGNL);
-      setClaveSIREGOB(dt?.row?.ClaveSIREGOB);
+      setDescentralizado(dt?.row?.Descentralizado?dt?.row?.Descentralizado:"");
+      setNombreCorto(dt?.row?.NombreCorto?dt?.row?.NombreCorto:"");
+      setOrdenSFTGNL(dt?.row?.OrdenSFTGNL?dt?.row?.OrdenSFTGNL:"");
+      setClavePSIREGOB(dt?.row?.ClavePSIREGOB?dt?.row?.ClavePSIREGOB:"");
+      setClaveDSIREGOB(dt?.row?.ClaveDSIREGOB?dt?.row?.ClaveDSIREGOB:"");
       setClaveINEGI(dt?.row?.ClaveINEGI);
       setArtF1(dt?.row?.ArtF1);
       setArtF2(dt?.row?.ArtF2);
@@ -220,12 +226,12 @@ const MunFacturacionModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen>
-      <DialogContent>
-        <Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
+    <ModalForm title={modo} handleClose={handleClose}>
+
+      <Grid container direction="row" justifyContent="center" alignItems="center">
+        <Grid item alignItems="center" justifyContent="center" xs={5}>
+
+
           <TextField
             required
             margin="dense"
@@ -316,14 +322,27 @@ const MunFacturacionModal = ({
           <TextField
             required
             margin="dense"
-            id="claveSIREGOB"
-            label="Clave SIREGOB"
-            value={claveSIREGOB}
+            id="clavePSIREGOB"
+            label="Clave Proveedor SIREGOB"
+            value={clavePSIREGOB}
             type="text"
             fullWidth
             variant="standard"
-            onChange={(v) => setClaveSIREGOB(v.target.value)}
-            error={claveSIREGOB === "" ? true : false}
+            onChange={(v) => setClavePSIREGOB(v.target.value)}
+            error={clavePSIREGOB === "" ? true : false}
+            InputProps={{}}
+          />
+          <TextField
+            required
+            margin="dense"
+            id="clave Deudor SIREGOB"
+            label="Clave Deudor SIREGOB"
+            value={claveDSIREGOB}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setClaveDSIREGOB(v.target.value)}
+            error={claveDSIREGOB === "" ? true : false}
             InputProps={{}}
           />
           <TextField
@@ -381,18 +400,18 @@ const MunFacturacionModal = ({
               label={checkedArtF3 ? textoDeAfirmacion : textoDeNegacion}
             />
           </FormGroup>
-        </Box>
-      </DialogContent>
+        </Grid>
+      </Grid>
+      <Grid container direction="row" justifyContent="center" alignItems="center">
+        <Grid item alignItems="center" justifyContent="center" xs={1}>
+          <button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()} >
+            {tipo === 1 ? "Agregar" : "Editar"}
+          </button>
+        </Grid>
+      </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cerrar
-        </button>
-      </DialogActions>
-    </Dialog>
+
+    </ModalForm>
   );
 };
 

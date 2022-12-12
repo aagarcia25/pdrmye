@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, } from '@mui/material'
+import { Box, FormLabel, } from '@mui/material'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -50,7 +50,7 @@ export const MunPobreza = () => {
       width: 150,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -62,12 +62,21 @@ export const MunPobreza = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Total", headerName: "Total", width: 150 },
-    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 300, ...porcentage },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", description: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", description: "Municipio", width: 150 },
+    { field: "Anio", headerName: "Año", description: "Año", width: 150 },
+    { field: "Total", headerName: "Total", description: "Total", width: 100 },
+    {
+      field: "CarenciaProm", headerName: "Carencia Promedio", description: "Carencia Promedio", width: 200,
+      renderCell: (v) => {
+        return (
+          <>
+            {v.row.CarenciaProm + "%"}
+          </>
+        );
+      },
+    },
 
   ];
 
@@ -100,7 +109,7 @@ export const MunPobreza = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "Solicitar La Eliminación?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -120,7 +129,7 @@ export const MunPobreza = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "Solicitud Enviada!",
             });
 
             let data = {
@@ -166,59 +175,59 @@ export const MunPobreza = () => {
         setslideropen(false);
       });
 
-    } 
+    }
     else if (data.tipo === 2) {
 
-      if(selectionModel.length!==0){
-      Swal.fire({
-        icon: "question",
-        title: selectionModel.length +" Registros Se Eliminaran!!",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Confirmar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-  
-          let data = {
-           NUMOPERACION: 5,
-           OBJS: selectionModel,
-           CHUSER: user.id
-          };
-  
-          CatalogosServices.munpobreza(data).then((res) => {
-            if (res.SUCCESS) {
-              Toast.fire({
-                icon: "success",
-                title: "Borrado!",
-              });
-  
-              consulta({
-                NUMOPERACION: 4,
-                CHUSER: user.id,
-                ANIO: filterAnio,
-              });
-  
-            } else {
-              AlertS.fire({
-                title: "Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              });
-            }
-          });
-  
-        } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
-        }
-      });
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Seleccione Registros Para Borrar",
-        confirmButtonText: "Aceptar",
-      });
-    }
+      if (selectionModel.length !== 0) {
+        Swal.fire({
+          icon: "question",
+          title: selectionModel.length + " Registros Se Eliminaran!!",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Confirmar",
+          denyButtonText: `Cancelar`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            let data = {
+              NUMOPERACION: 5,
+              OBJS: selectionModel,
+              CHUSER: user.id
+            };
+
+            CatalogosServices.munpobreza(data).then((res) => {
+              if (res.SUCCESS) {
+                Toast.fire({
+                  icon: "success",
+                  title: "Borrado!",
+                });
+
+                consulta({
+                  NUMOPERACION: 4,
+                  CHUSER: user.id,
+                  ANIO: filterAnio,
+                });
+
+              } else {
+                AlertS.fire({
+                  title: "Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
+            });
+
+          } else if (result.isDenied) {
+            Swal.fire("No se realizaron cambios", "", "info");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Seleccione Registros Para Borrar",
+          confirmButtonText: "Aceptar",
+        });
+      }
 
 
     }
@@ -295,20 +304,17 @@ export const MunPobreza = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
       <NombreCatalogo controlInterno={"MUNPOBREZA"} />
-      <Box
-        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
-        <SelectFrag
-          options={anios}
-          onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={''} disabled={false}
-          value={''} />
-      </Box>
+
 
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNPOBREZA"} />
+        handleUpload={handleUpload} controlInterno={"MUNPOBREZA"}
+        options={anios}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"} label={''} disabled={false}
+        value={''} />
 
-      < MUIXDataGridMun columns={columns} rows={dataMunPobreza} handleBorrar={handleBorrar} borrar={eliminar} modulo={'POBREZA'}   />
+      < MUIXDataGridMun columns={columns} rows={dataMunPobreza} handleBorrar={handleBorrar} borrar={eliminar} modulo={'POBREZA'} />
 
       {open ? (
         <MunPobrezaModal

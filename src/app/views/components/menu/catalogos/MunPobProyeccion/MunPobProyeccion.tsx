@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { GridColDef, GridSelectionModel } from '@mui/x-data-grid'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { messages } from '../../../../styles'
@@ -48,7 +48,7 @@ export const MunPobProyeccion = () => {
       width: 150,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -60,11 +60,11 @@ export const MunPobProyeccion = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "anio", headerName: "Año", width: 150 },
-    { field: "Pob", headerName: "Poblacion", width: 150 },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", description: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", description: "Municipio", width: 150 },
+    { field: "anio", headerName: "Año", description: "Año", width: 150 },
+    { field: "Pob", headerName: "Población", description: "Población", width: 150 },
 
 
   ];
@@ -159,7 +159,7 @@ export const MunPobProyeccion = () => {
 
   const handleBorrar = (v: any) => {
     setSelectionModel(v);
-  
+
   };
 
 
@@ -175,63 +175,63 @@ export const MunPobProyeccion = () => {
         setslideropen(false);
       });
 
-    } 
+    }
     else if (data.tipo === 2) {
       //console.log("borrado de toda la tabla")
       //console.log(selectionModel)
 
-      if(selectionModel.length!==0){
-      Swal.fire({
-        icon: "question",
-        title: selectionModel.length +" Registros Se Eliminaran!!",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Confirmar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-  
-          let data = {
-           NUMOPERACION: 5,
-           OBJS: selectionModel,
-           CHUSER: user.id
-          };
-          //console.log(data);
-  
-          CatalogosServices.munproyec(data).then((res) => {
-            if (res.SUCCESS) {
-              Toast.fire({
-                icon: "success",
-                title: "Borrado!",
-              });
-  
-              consulta({
-                NUMOPERACION: 4,
-                CHUSER: user.id,
-                ANIO: filterAnio
+      if (selectionModel.length !== 0) {
+        Swal.fire({
+          icon: "question",
+          title: selectionModel.length + " Registros Se Eliminaran!!",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Confirmar",
+          denyButtonText: `Cancelar`,
+        }).then((result) => {
+          if (result.isConfirmed) {
 
-              });
-  
-            } else {
-              AlertS.fire({
-                title: "Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              });
-            }
-          });
-  
-        } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
-        }
-      });
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Seleccione Registros Para Borrar",
-        confirmButtonText: "Aceptar",
-      });
-    }
+            let data = {
+              NUMOPERACION: 5,
+              OBJS: selectionModel,
+              CHUSER: user.id
+            };
+            //console.log(data);
+
+            CatalogosServices.munproyec(data).then((res) => {
+              if (res.SUCCESS) {
+                Toast.fire({
+                  icon: "success",
+                  title: "Borrado!",
+                });
+
+                consulta({
+                  NUMOPERACION: 4,
+                  CHUSER: user.id,
+                  ANIO: filterAnio
+
+                });
+
+              } else {
+                AlertS.fire({
+                  title: "Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
+            });
+
+          } else if (result.isDenied) {
+            Swal.fire("No se realizaron cambios", "", "info");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Seleccione Registros Para Borrar",
+          confirmButtonText: "Aceptar",
+        });
+      }
 
 
     }
@@ -295,21 +295,24 @@ export const MunPobProyeccion = () => {
   return (
 
 
-    <div style={{ height: 500, width: "100%" , padding:"2%"  }}>
+    <div style={{ height: 500, width: "100%", }}>
       <Slider open={slideropen}></Slider>
       <NombreCatalogo controlInterno={"MUNPROYEC"} />
-      <Box
-        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
-        <SelectFrag
-          options={anios}
-          onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={""} disabled={false}
-          value={''} />
-      </Box>
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNPROYEC"} />
-      < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={'PROYECCION'}   />
+      <Grid container   direction="row"justifyContent="space-between"alignItems="center">
+        <Grid item xs={12}  >
+          <ButtonsMunicipio
+            url={plantilla}
+            handleUpload={handleUpload} controlInterno={"MUNPROYEC"} options={anios}
+            onInputChange={handleFilterChange}
+            placeholder={"Seleccione Año"} label={""} disabled={false}
+            value={''} />
+        </Grid>
+
+      </Grid>
+
+
+
+      < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={'PROYECCION'} />
       {open ? (
         <MunPoblacionProyeccionModal
           open={open}

@@ -26,14 +26,14 @@ export default function MUIXDataGrid(props: any) {
           components={{ Toolbar: GridToolbar }}
           sx={{ fontFamily: "Poppins,sans-serif"}}
           componentsProps={{
-            toolbar: {
-              label:"Buscar",
-              showQuickFilter: true,
-              quickFilterProps: { debounceMs: 500 },
-              csvOptions:{  fileName: 'Export',
-              utf8WithBom: true,
-             }
-            },
+            // toolbar: {
+            //   label:"Buscar",
+            //   showQuickFilter: true,
+            //   quickFilterProps: { debounceMs: 500 },
+            //   csvOptions:{  fileName: 'Export',
+            //   utf8WithBom: true,
+            //  }
+            // },
           }}
           localeText={{
             noRowsLabel: "No se ha encontrado datos.",
@@ -52,6 +52,8 @@ export default function MUIXDataGrid(props: any) {
             columnMenuUnsort: 'Sin Orden',
             columnMenuSortAsc: 'Ordenar Ascendente',
             columnMenuSortDesc: 'Ordenar Descendente',
+            columnHeaderSortIconLabel:'Ordenar',
+
  
             
         }}

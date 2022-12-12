@@ -241,13 +241,9 @@ export const CuentaBancariaModal = ({
               alignItems: "center",
               flexDirection: "row",
               padding:"2%"
-              
             }}
-
           >
-           
             <Grid item xs={12} sm={8} md={8} lg={8} paddingBottom={2}>
-
               <Box>
                 <SelectFrag
                   value={idBancos}
@@ -257,12 +253,8 @@ export const CuentaBancariaModal = ({
                   label={""}
                   disabled={false}
                 />
-
               </Box>
-
             </Grid>
-
-
             <Grid item xs={12} sm={8} md={8} lg={8} paddingBottom={3}>
               <Box paddingBottom={2}>
                 <TextField
@@ -282,8 +274,6 @@ export const CuentaBancariaModal = ({
               </Box>
 
               <Box paddingBottom={2}>
-
-
                 <TextField
                   required
                   margin="dense"

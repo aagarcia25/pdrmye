@@ -287,7 +287,7 @@ export const CuentaBancaria = ({
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: 600, width: "100%", paddingLeft:"1%", paddingRight:"1%"}}>
       {open ? (
         <CuentaBancariaModal
           open={open}

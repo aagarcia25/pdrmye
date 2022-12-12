@@ -96,7 +96,7 @@ export const MunTerritorio = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title:  "Solicitar La Eliminación?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -116,7 +116,7 @@ export const MunTerritorio = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Solicutud Enviada!",
+              title: "Solicitud Enviada!",
             });
 
             consulta();
@@ -269,7 +269,7 @@ export const MunTerritorio = () => {
 
 
   return (
-    <div style={{ height: 500, width: "100%", padding:"2%" }}>
+    <div style={{ height: 500, width: "100%",  }}>
       <Slider open={slideropen}></Slider>
 
       {open ?
@@ -286,7 +286,7 @@ export const MunTerritorio = () => {
         <NombreCatalogo controlInterno={"MUNTERR"} />
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNTERR"} />
+        handleUpload={handleUpload} controlInterno={"MUNTERR"} value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={true} />
 
       <MUIXDataGridMun columns={columns} rows={territorio} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')}   />
 

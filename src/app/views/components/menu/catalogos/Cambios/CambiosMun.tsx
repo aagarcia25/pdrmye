@@ -21,21 +21,16 @@ const CambiosMun = () => {
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [openValidacion, setOpenValidacion] = useState<boolean>(false);
-
     const [vrows, setVrows] = useState({});
     const [solicitud, setSolicitud] = useState<MunicipioCambios>();
     const [origen, setOrigen] = useState<MunicipioCambios>();
-
     const [labelCatalogo, setLabelCatalogo] = useState<string>();
     const [solicitante, setSolicitante] = useState<string>();
-
     const [comentario, setComentario] = useState<string>();
     const [idCambio, setIdCambio] = useState<string>();
     const [idSolicitante, setIdSolicitante] = useState<string>();
     const [modoVer, setModoVer] = useState<boolean>(false);
     const [municipio, setMunicipio] = useState<string>();
-
-
 
     const columns: GridColDef[] = [
         {
@@ -76,8 +71,6 @@ const CambiosMun = () => {
                                 </>
                             ) :
                                 ""
-
-
                             )
                         }
                         <>
@@ -92,6 +85,12 @@ const CambiosMun = () => {
             },
         },
         {
+            field: "FechaCreacion",
+            headerName: "Fecha Creación",
+            description: "Fecha Creación",
+            width: 180,
+        },
+        {
             field: "Aplicado",
             headerName: "Estatus",
             description: "Campo de Acciones",
@@ -102,27 +101,34 @@ const CambiosMun = () => {
                         {
                             ((v.row.Aplicado === 0 && v.row.deleted === "0") ? (
                                 <> <label> Espera de Autorizacion</label>  </>) : "")
-
                         }
                         {
                             ((v.row.Aplicado === 0 && v.row.deleted === "1") ? (
                                 <> <label> Rechazado</label> </>) : "")
-
                         }
                         {
                             ((v.row.Aplicado === 1 && v.row.deleted === "0") ? (
                                 <> <label> Autorizado</label></>) : "")
-
                         }
                     </>
                 );
             },
         },
-
         {
-            field: "FechaCreacion",
-            headerName: "Fecha Creacion",
+            field: "Comentario",
+            headerName: "Comentario",
+            description: "Comentario",
             width: 180,
+            renderCell: (v) => {
+                return (
+                    <>
+                        {
+                            ((v.row.Comentario === null) ? (
+                                <> <label> Sin Comentarios</label>  </>) : <label> {v.row.Comentario}</label> )
+                        }
+                    </>
+                );
+            },
         },
         {
             field: "nombreMunicipio",
@@ -143,8 +149,6 @@ const CambiosMun = () => {
         { tipo: 'MunTerritorio', label: 'Municipio Territorio', },
         { tipo: 'UMAS', label: 'UMAS', },
         { tipo: 'MunFideicomiso', label: 'Municipio Fideicomiso', },
-
-
     ]
 
 
@@ -152,10 +156,8 @@ const CambiosMun = () => {
         setOpenModal(true);
         setModoVer(false);
         setVrows(v.row);
-        //console.log(v.row)
         setComentario(v?.row?.Comentario);
         setSolicitud(JSON.parse(String(v.row.Solicitud)));
-        //console.log(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setSolicitante(v?.row?.Solicitante)
         setIdSolicitante(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setOrigen(JSON.parse(String(v.row.Origen)));
@@ -169,10 +171,8 @@ const CambiosMun = () => {
         setOpenModal(true);
         setModoVer(true);
         setVrows(v.row);
-        //console.log(v.row)
         setComentario(v?.row?.Comentario);
         setSolicitud(JSON.parse(String(v.row.Solicitud)));
-        //console.log(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setSolicitante(v?.row?.Solicitante)
         setIdSolicitante(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setOrigen(JSON.parse(String(v.row.Origen)));
@@ -302,7 +302,7 @@ const CambiosMun = () => {
 
                             <Grid container direction="row" justifyContent="center" alignItems="center">
                                 <Typography>
-                                    <h3>{String("Catalogo a Modificar: " + labelCatalogo)}</h3>
+                                    <h3>{String("Catálogo  a Modificar: " + labelCatalogo)}</h3>
                                 </Typography>
 
 

@@ -418,7 +418,7 @@ const SolicitudRecursos = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: 600, width: "100%", paddingLeft:"1%", paddingRight:"1%" }}>
       <Box>
 
         <Slider open={openSlider}></Slider>
