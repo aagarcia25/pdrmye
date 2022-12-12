@@ -67,7 +67,7 @@ export const ParametrosGenerales = () => {
       setModo("Editar ");
       setOpen(true);
       setVrows(v.data);
-      console.log(v.data);
+      // console.log(v.data);
 
     } else if (v.tipo === 2) {
       handleDelete(v.data);

@@ -71,6 +71,7 @@ const MUIXDataGridMun = ({
             columnMenuUnsort: 'Sin Orden',
             columnMenuSortAsc: 'Ordenar Ascendente',
             columnMenuSortDesc: 'Ordenar Descendente',
+            columnHeaderSortIconLabel:'Ordenar',
             
         }}
          

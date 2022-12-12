@@ -23,6 +23,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import { clearScreenDown } from "readline";
 
 
 
@@ -112,54 +113,19 @@ export const Municipios = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 120 },
-    { field: "Nombre", headerName: "Municipio", width: 250 },
-
-    { field: "NombreCorto", headerName: "Nombre Corto", width: 250 },
-    { field: "OrdenSFTGNL", headerName: "Orden SFTGNL", width: 120 },
-    { field: "ClaveSIREGOB", headerName: "Clave SIREGOB", width: 120 },
-    { field: "ClaveINEGI", headerName: "Clave INEGI", width: 120 },
-    {
-      field: "MAM",
-      headerName: "Área Metropolitana",
-      width: 100,
-      renderCell: (v) => {
-        return v.row.MAM === 1 ? "SI" : "NO";
-      },
-    },
-    {
-      field: "Descentralizado",
-      headerName: "Descentralizado",
-      width: 100,
-      renderCell: (v) => {
-        return v.row.Descentralizado === 1 ? "SI" : "NO";
-      },
-    },
-    {
-      field: "ArtF1",
-      headerName: "ARTF1",
-      width: 100,
-      renderCell: (v) => {
-        return v.row.ArtF1 === "1" ? "SI" : "NO";
-      },
-    },
-    {
-      field: "ArtF2",
-      headerName: "ARTF2",
-      width: 100,
-      renderCell: (v) => {
-        return v.row.ArtF2 === "1" ? "SI" : "NO";
-      },
-    },
-    {
-      field: "ArtF3",
-      headerName: "ARTF3",
-      width: 100,
-      renderCell: (v) => {
-        return v.row.ArtF3 === "1" ? "SI" : "NO";
-      },
-    },
+    { field: "FechaCreacion",   headerName: "Fecha Creación",         description: "Fecha Creación",            width: 150 },
+    { field: "ClaveEstado",     headerName: "Clave Estado",           description: "Clave Estado",              width: 120 },
+    { field: "Nombre",          headerName: "Municipio",              description: "Municipio",                 width: 250 },
+    { field: "NombreCorto",     headerName: "Nombre Corto",           description: "Nombre Corto",              width: 250 },
+    { field: "OrdenSFTGNL",     headerName: "Orden SFTGNL",           description: "Orden SFTGNL",              width: 120 },
+    { field: "ClavePSIREGOB",   headerName: "Clave Proveedor SIREGOB",description: "Clave Proveedor SIREGOB",   width: 120 },
+    { field: "ClaveDSIREGOB",   headerName: "Clave Deudor SIREGOB",   description: "Clave Deudor SIREGOB",      width: 120 },
+    { field: "ClaveINEGI",      headerName: "Clave INEGI",            description: "Clave INEGI",               width: 120 },
+    { field: "MAM",             headerName: "Área Metropolitana",     description: "Área Metropolitana",        width: 100,renderCell: (v) => { return v.row.MAM === 1 ? "SI" : "NO"; }, },
+    { field: "Descentralizado", headerName: "Descentralizado",        description: "Descentralizado",           width: 100, renderCell: (v) => { return v.row.Descentralizado === 1 ? "SI" : "NO";}, },
+    { field: "ArtF1",           headerName: "ARTF1",                  description: "ARTF1",                     width: 100,renderCell: (v) => {return v.row.ArtF1 === "1" ? "SI" : "NO"; }, },
+    { field: "ArtF2",           headerName: "ARTF2",                  description: "ARTF2",                     width: 100, renderCell: (v) => { return v.row.ArtF2 === "1" ? "SI" : "NO";}, },
+    { field: "ArtF3",           headerName: "ARTF3",                  description: "ARTF3",                     width: 100, renderCell: (v) => {return v.row.ArtF3 === "1" ? "SI" : "NO";},},  
   ];
 
   const handleAccion = (v: any) => {
@@ -179,7 +145,6 @@ export const Municipios = () => {
   };
 
   const handleCC = (v: any) => {
-    //console.log(v);
     setId(v.row.id);
     setNombreMun(v.row.Nombre)
     setOpenCC(true);
@@ -209,7 +174,6 @@ export const Municipios = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        //console.log(v);
         const user: RESPONSE = JSON.parse(String(getUser()));
 
         let data = {
@@ -217,7 +181,6 @@ export const Municipios = () => {
           CHID: v.row.id,
           CHUSER: user.id,
         };
-        //console.log(data);
 
         CatalogosServices.municipios(data).then((res) => {
           if (res.SUCCESS) {
@@ -288,7 +251,6 @@ export const Municipios = () => {
       //           CHUSER: user.id,
   
       //         };
-      //         //console.log(data);
   
       //         CatalogosServices.munfacturacion(data).then((res) => {
       //           if (res.SUCCESS) {
@@ -330,20 +292,15 @@ export const Municipios = () => {
   const consulta = (data: any) => {
     CatalogosServices.municipios(data).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        //console.log(data);
+        
         setMunicipio(res.RESPONSE);
+       
       } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        //console.log(res);
-        //console.log(res.SUCCESS);
       }
     });
   };
@@ -371,12 +328,10 @@ export const Municipios = () => {
     });
     mun.map((item: MUNICIPIO) => {
 
-      //console.log(item);
       setNombreMenu(item.Nombre);
     });
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNICIPIOS") {
-        //console.log(item);
         setNombreMenu(item.Menu);
         if (String(item.Referencia) === "AGREG") {
           setAgregar(true);

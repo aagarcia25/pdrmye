@@ -60,7 +60,7 @@ export const MunFacturacion = () => {
       width: 150,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -317,18 +317,15 @@ export const MunFacturacion = () => {
     <div style={{ height: 600, width: "100%", padding: "2%" }}>
       <Slider open={slideropen}></Slider>
       <NombreCatalogo controlInterno={"MUNFA"} />
-      <Box
-        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
-        <SelectFrag
-          value={''}
-          options={anios}
-          onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={""} disabled={false} />
-      </Box>
+
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNFA"} />
-      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')} />
+        handleUpload={handleUpload} controlInterno={"MUNFA"} 
+        value={''}
+        options={anios}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"} label={""} disabled={false} />
+      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} />
 
       {open ? (
         <MunFacturacionModal

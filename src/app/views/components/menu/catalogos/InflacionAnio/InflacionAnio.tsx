@@ -48,8 +48,8 @@ const InflacionAnio = () => {
         );
       },
     },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Inflacion", headerName: "Inflación", width: 150 },
+    { field: "Anio",      headerName: "Año",      description: "Año",       width: 150 },
+    { field: "Inflacion", headerName: "Inflación",description: "Inflación", width: 150 },
 
   ];
 

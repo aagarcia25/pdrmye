@@ -7,7 +7,6 @@ import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import InflacionMesModal from "./InflacionMesModal";
-import MUIXDataGrid from "../../../MUIXDataGrid";
 import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
@@ -54,16 +53,16 @@ const InflacionMes = () => {
         );
       },
     },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Mes", headerName: "Mes", width: 150, hide: true, },
-    { field: "Descripcion", headerName: "Mes", width: 150 },
-    { field: "Inflacion", headerName: "Inflación", width: 150 },
+    { field: "Anio",        headerName: "Año",      description: "Año",       width: 150 },
+    { field: "Mes",         headerName: "Mes",      description: "Mes",       width: 150, hide: true, },
+    { field: "Descripcion", headerName: "Mes",      description: "Mes",       width: 150 },
+    { field: "Inflacion",   headerName: "Inflación",description: "Inflación", width: 150 },
   ];
 
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
       setTipoOperacion(2);
-      setModo("Editar ");
+      setModo("Editar");
       setOpen(true);
       setVrows(v.data);
     } else if (v.tipo === 2) {

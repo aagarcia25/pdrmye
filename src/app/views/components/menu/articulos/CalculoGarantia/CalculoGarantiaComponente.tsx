@@ -1,4 +1,4 @@
-import { Grid,  Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -33,7 +33,7 @@ export const CalculoGarantiaComponente = () => {
   const [plantilla, setPlantilla] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-  
+
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -44,8 +44,8 @@ export const CalculoGarantiaComponente = () => {
       hide: true,
     },
     {
-      
-      field: "acciones",  disableExport: true,
+
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -183,7 +183,7 @@ export const CalculoGarantiaComponente = () => {
       const formData = new FormData();
       formData.append("inputfile", file, "inputfile.xlsx");
       formData.append("tipo", "CalculoGarantia");
-      formData.append("CHUSER",  user.id);
+      formData.append("CHUSER", user.id);
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
         if (res.SUCCESS) {
@@ -201,60 +201,60 @@ export const CalculoGarantiaComponente = () => {
             icon: "error",
           });
         }
-  
-  
-  
+
+
+
       });
-    } 
+    }
     else if (data.tipo === 2) {
       //console.log("borrado de toda la tabla")
       //console.log(selectionModel)
 
-      if(selectionModel.length!==0){
-      Swal.fire({
-        icon: "question",
-        title: selectionModel.length +" Registros Se Eliminaran!!",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Confirmar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-  
-          let data = {
-           NUMOPERACION: 5,
-           OBJS: selectionModel,
-           CHUSER: user.id
-          };
-  
-          calculosServices.CalculoGarantia(data).then((res) => {
-            if (res.SUCCESS) {
-              Toast.fire({
-                icon: "success",
-                title: "Borrado!",
-              });
-  
-              consulta({ NUMOPERACION: 4 });
-            } else {
-              AlertS.fire({
-                title: "Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              });
-            }
-          });
-  
-        } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
-        }
-      });
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Seleccione Registros Para Borrar",
-        confirmButtonText: "Aceptar",
-      });
-    }
+      if (selectionModel.length !== 0) {
+        Swal.fire({
+          icon: "question",
+          title: selectionModel.length + " Registros Se Eliminaran!!",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Confirmar",
+          denyButtonText: `Cancelar`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            let data = {
+              NUMOPERACION: 5,
+              OBJS: selectionModel,
+              CHUSER: user.id
+            };
+
+            calculosServices.CalculoGarantia(data).then((res) => {
+              if (res.SUCCESS) {
+                Toast.fire({
+                  icon: "success",
+                  title: "Borrado!",
+                });
+
+                consulta({ NUMOPERACION: 4 });
+              } else {
+                AlertS.fire({
+                  title: "Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
+            });
+
+          } else if (result.isDenied) {
+            Swal.fire("No se realizaron cambios", "", "info");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Seleccione Registros Para Borrar",
+          confirmButtonText: "Aceptar",
+        });
+      }
 
 
 
@@ -308,7 +308,7 @@ export const CalculoGarantiaComponente = () => {
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-    <Slider open={slideropen}></Slider>
+      <Slider open={slideropen}></Slider>
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
@@ -318,14 +318,22 @@ export const CalculoGarantiaComponente = () => {
         </Grid>
       </Grid>
 
+      <Grid container>
+        <Grid item>        <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+        </Grid>
+        <Grid item> <ButtonsMunicipio
+          url={plantilla}
+          handleUpload={handleUpload} controlInterno={"CA"}
+          value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={false} />
+        </Grid>
 
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleUpload} controlInterno={"CA"}      />
-        < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} borrar={eliminar} modulo={"Garantia"}   />
-      
-        {open ? (
+
+
+      </Grid>
+
+      < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} borrar={eliminar} modulo={"Garantia"} />
+
+      {open ? (
         <CalculoGarantiaModal
           open={open}
           modo={modo}
