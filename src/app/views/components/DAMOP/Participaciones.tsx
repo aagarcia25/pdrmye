@@ -30,7 +30,7 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import LanIcon from "@mui/icons-material/Lan";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
-
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import {
   DataGrid,
   GridSelectionModel,
@@ -42,12 +42,14 @@ import Swal from "sweetalert2";
 import ModalCalculos from "../componentes/ModalCalculos";
 import { DAMOPServices } from "../../../services/DAMOPServices";
 import ModalDAMOP from "../componentes/ModalDAMOP";
+import { REQAnticipo } from "./REQAnticipo";
 
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
   //MODAL
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModalAnticipo, setOpenModalAnticipo] = useState<boolean>(false);
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
@@ -252,6 +254,7 @@ const Participaciones = () => {
 
   const handleClose = () => {
     setOpenModal(false);
+    setOpenModalAnticipo(false);
   };
 
   const handleFilterChange1 = (v: string) => {
@@ -304,6 +307,12 @@ const Participaciones = () => {
         icon: "error",
       });
     }
+  };
+
+  
+  const openmodalAnticipo = () => {
+
+      setOpenModalAnticipo(true);
   };
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -478,6 +487,14 @@ const Participaciones = () => {
         ""
       )}
 
+
+
+
+
+{openModalAnticipo ? ( <REQAnticipo  tipo={1} handleClose={handleClose} dt={""} />):("")}
+
+
+
       <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
@@ -558,6 +575,11 @@ const Participaciones = () => {
             <Tooltip title={"Asignar Comentario"}>
               <ToggleButton value="check" onClick={() => openmodalc(2)}>
                 <FormatAlignLeftIcon />
+              </ToggleButton>
+            </Tooltip>
+            <Tooltip title={"Generar Anticipo"}>
+              <ToggleButton value="check" onClick={() => openmodalAnticipo()}>
+                <CurrencyExchangeIcon />
               </ToggleButton>
             </Tooltip>
           </ToggleButtonGroup>
