@@ -200,7 +200,7 @@ if(v==="save"){
 
   return (
 
-    <div style={{ height: 600, width: "100%", paddingTop:"2%" }} >
+    <div style={{ height: 600, width: "100%", paddingTop:"2%", paddingLeft:"1%", paddingRight:"1%"}} >
 
       {open ? (
         <AvisosModal
@@ -214,7 +214,7 @@ if(v==="save"){
         ""
       )}
       <Grid container >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Typography
                 sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
                 Avisos

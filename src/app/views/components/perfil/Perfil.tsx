@@ -384,8 +384,7 @@ export const Perfil = () => {
                     <Grid item paddingTop="10%" xs={6}>
                       <Button
                         onClick={() => onClickChangePassword()}
-                        color="success" fullWidth variant="contained">
-                        Cambiar
+                        color="primary" fullWidth variant="contained"> <Typography color="white"> Cambiar </Typography>
                       </Button>
                     </Grid>
                   </Grid>

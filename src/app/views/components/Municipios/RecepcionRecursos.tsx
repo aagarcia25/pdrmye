@@ -125,8 +125,8 @@ const RecepcionRecursos = () => {
 
   return (
     <div>
-      <Box sx={{ width: '100%', typography: 'body1' }}>
-        <Grid container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", paddingTop:"2%",paddingBottom:"2%" }}>
+      <Box sx={{ width: '100%', typography: 'body1', paddingLeft:"1%", paddingRight:"1%" }}>
+        <Grid container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
 
           <ButtonGroup variant="outlined" aria-label="outlined primary button group">
             
