@@ -44,16 +44,11 @@ export const MunRecaudacion = () => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
       hide: true,
-      width: 150,
-      description: messages.dataTableColum.id,
     },
     {
       field: "idmunicipio",
-      headerName: "idmunicipio",
       hide: true,
-      width: 150,
     },
     {
       field: "acciones",  disableExport: true,
@@ -68,11 +63,19 @@ export const MunRecaudacion = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 400 },
-    { field: "Anio", headerName: "Año", width: 100 },
-    { field: "Recaudacion", headerName: "Recaudacion", width: 150, ...Moneda },
+    { field: "FechaCreacion",  headerName: "Fecha Creación",description: "Fecha Creación",width: 150 },
+    { field: "ClaveEstado",    headerName: "Clave Estado",  description: "Clave Estado",  width: 100 },
+    { field: "Nombre",         headerName: "Municipio",     description: "Municipio",     width: 400 },
+    { field: "Anio",           headerName: "Año",           description: "Año",           width: 100 },
+    { field: "Recaudacion",    headerName: "Recaudación",   description: "Recaudación",   width: 150,  
+    renderCell: (v) => {
+      return (
+        <>
+        {"$"+v.row.Recaudacion}
+        </>
+      );
+    },
+  },
 
 
   ];
