@@ -252,17 +252,21 @@ const EventosModal = ({
           <label className="Titulo">{modoModal}</label>
 
         </Box>
+
+        
         <ModalForm title={modoModal} handleClose={handleClose}>
           {(modoModal === "Agregar Evento") ?
-            <Container maxWidth="sm" >
-              <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', }}>
+
+            <Box boxShadow={3} padding="1%">
+            <Container  maxWidth="sm" >
+              <Box sx={{  width: '100%' }}>
 
                 {
                   //////////empiezan debajo del titulo
 
                   //// imagen carga y previsualizacion
                 }
-                <Box sx={{ width: '100%', }}>
+                <Box  sx={{ width: '100%' }}>
 
                   <Box sx={{
                     display: 'flex',
@@ -270,19 +274,18 @@ const EventosModal = ({
                     flexDirection: 'column',
                     justifyContent: 'center',
                     p: 1,
-                    m: 1,
                     bgcolor: 'background.paper',
-                    borderRadius: 1,
+                    borderRadius: 0,
                   }}>
-                    <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', }}>
+                    <Box   sx={{ display: 'flex', width: '100%', justifyContent: 'center', }}>
                       {(cleanUp) ?
-                        <Box
+                        <Box 
                         >
-                          <img src={previewImage} style={{ objectFit: "scale-down", width: '100%', }} />
+                          <img src={previewImage} style={{ objectFit: "scale-down", width: '100%', borderRadius:"0"}} />
                         </Box>
                         : ""}
                     </Box>
-                    <Box>
+                    <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', }}>
                       <IconButton aria-label="upload picture" component="label" size="large" >
                         <input
                           required
@@ -363,7 +366,7 @@ const EventosModal = ({
 
                   //// añadir nombre y descripcion
                 }
-                <Box>
+                <Box paddingBottom={3}>
 
 
                   <label >Nombre</label>
@@ -378,7 +381,7 @@ const EventosModal = ({
                     error={nameEvent === "" ? true : false}
                   />
                   <label
-                  >Descripcion</label>
+                  >Descripción</label>
                   <TextField
                     multiline
                     required
@@ -394,7 +397,7 @@ const EventosModal = ({
                   />
                 </Box>
 
-                <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
+                <Box  paddingBottom={2} sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
 
                   <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
 
@@ -405,11 +408,13 @@ const EventosModal = ({
 
               </Box>
             </Container>
+            </Box>
             : ""}
 
           {(modoModal === "Evento") ?
+          <Box boxShadow={3} padding={2}> 
             <Container maxWidth="sm" >
-              <Box  >
+              <Box >
 
                 <Box >
                   <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
@@ -417,7 +422,7 @@ const EventosModal = ({
 
                 <Box>
                   <Box
-                    sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '5px' }}>
+                    sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '0px', textAlign:"center" }}>
                     <h4>Nombre</h4>
                   </Box>
 
@@ -426,8 +431,8 @@ const EventosModal = ({
                   </label>
 
                   <Box
-                    sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '5px' }}>
-                    <h4>Descripcion</h4>
+                    sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '0px', textAlign:"center"  }}>
+                    <h4>Descripción</h4>
                   </Box>
                   <label>
                     {descripcion}
@@ -457,11 +462,12 @@ const EventosModal = ({
 
                 <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
 
-                  {edit ? <button className="editar" onClick={() => setModoModal("Editar")}>Editar</button>
+                  {edit ? <button className="editar" onClick={() => setModoModal("Editar")}> Editar </button>
                     : ""}
                 </Box>
               </Box>
             </Container>
+            </Box>
             : ""
           }
 
@@ -472,6 +478,7 @@ const EventosModal = ({
             (Date.parse(inicioEventoMin) >= Date.parse(inicioEvento)) ?
 
               ////// SI EL EVENTO YA INICIO NO DEJA EDITARLO
+              <Box> 
               <Container maxWidth="sm" >
 
                 <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'column', }}>
@@ -496,6 +503,7 @@ const EventosModal = ({
                   </Box>
                 </Box>
               </Container>
+              </Box>
               :
               /////   EDITAR EVENTO SI ESTE AUN NO FINALIZA Y/O INICIA
               <Container maxWidth="sm">
@@ -504,11 +512,11 @@ const EventosModal = ({
                 }
 
                 {(editImage) ?
-                  <Box>
+                  <Box style={{ width: '80%', height: '80%'}}>
                     <img id="imagen" src={previewImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
                   </Box>
                   :
-                  <Box>
+                  <Box  style={{ width: '80%', height: '80%'}}>
                     <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
                   </Box>
                 }
@@ -547,7 +555,7 @@ const EventosModal = ({
 
                   <Box
                     sx={{ bgcolor: 'rgb(222, 225, 225)' }}>
-                    <label>Descripcion</label>
+                    <label>Descripción</label>
                   </Box>
                   <TextField
                     multiline
@@ -612,8 +620,8 @@ const EventosModal = ({
                 {////// botones 
                 }
 
-                <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
-                  <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
+                <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse' }}>
+                  <button className="guardar" onClick={() => handleUpload()} > Guardar </button>
                 </Box>
 
               </Container>
