@@ -47,7 +47,7 @@ export const Eventos = () => {
         return (
 
           <Box>
-            <IconButton onClick={() => handleVisualizar(v)}>
+            <IconButton sx={{ borderRadius:"0", }} onClick={() => handleVisualizar(v)} >
               <img id="imagen" src={v.row.Imagen} style={{ width: "2vw", objectFit: "scale-down" }} />
             </IconButton>
           </Box>
@@ -208,7 +208,7 @@ export const Eventos = () => {
   return (
 
 
-    <div style={{ height: 600, width: "100%" }} >
+    <div style={{ height: 600, width: "100%", paddingLeft:"1%", paddingRight:"1%" }} >
 
       {open ? <EventosModal
         open={open}
@@ -219,7 +219,7 @@ export const Eventos = () => {
       />
         : ""}
 
-      <Box sx={{}}>
+      <Box>
        
       </Box>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
