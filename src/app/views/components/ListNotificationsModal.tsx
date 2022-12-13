@@ -352,27 +352,25 @@ const ListNotificationsModal = ({
                       <Box sx={{ width:"75%"}}></Box>
 
                       <Box sx={{ width:"5%", textAlign:"center"}}>
-                      <Typography  variant="h6" > Par3a:  </Typography>
+                      <Typography  variant="h6" > Para:  </Typography>
                       </Box>
                       <Box sx={{ width:"20%", background:COLOR.grisBotones, textAlign:"center"}}> 
                       <Typography  variant="body1" > {" " + destinatario} </Typography>
                       </Box>
                       <Box sx={{ width:"75%"}}></Box>
 
-                      <Box> 
-                      <Typography  variant="h6"  > 
-                      Asunto
-                      </Typography>
-                      </Box>
-
                   </Box>
                   </Grid>
                 </Grid>
              
-              <Grid item xs={12} sx={{  paddingLeft:"2%", paddingRight:"2%",  borderRadius: 0, }}>
+              <Grid item xs={12} sx={{  paddingLeft:"2%", paddingRight:"2%",  borderRadius: 0, paddingTop:"1%"  }}>
+              <Box> 
+                <Typography  variant="h6"  > 
+               Asunto
+                </Typography>
+               </Box>
 
-
-              <Box>
+              <Box sx={{ width:"98%", alignItems:"center"}}>
                 <textarea
                   value={encabezado}
                   readOnly
@@ -382,17 +380,21 @@ const ListNotificationsModal = ({
 
               </Grid>
 
-              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
+              <Grid item xs={12} sx={{ justifyContent: 'space-between', borderRadius: 0,  paddingLeft:"2%", paddingRight:"2%", paddingBottom:"2%"}}>
                 <Grid container>
-                  <label >
-                    <h3>Mensaje sj</h3>
-                  </label>
+                <Box> 
+                <Typography  variant="h6"  > Mensaje  </Typography> 
+                </Box>
+
+                <Box sx={{ width:"98%", alignItems:"center"  }}>
                   <textarea
                     value={mensaje}
                     readOnly
                     rows={15}
                     onChange={(v) => setMensaje(v.target.value)}
                     style={{ width: "100%", borderRadius: 15, }} />
+                </Box>
+                
                 </Grid>
               </Grid>
             </Grid>
