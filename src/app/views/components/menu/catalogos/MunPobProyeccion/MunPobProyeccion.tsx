@@ -253,6 +253,10 @@ export const MunPobProyeccion = () => {
     setFilterAnio(v);
     if (v != "false") {
       consulta(data);
+    }else {
+      consulta({ NUMOPERACION: 4,ANIO: "",});
+      setFilterAnio("");
+
     }
   };
 

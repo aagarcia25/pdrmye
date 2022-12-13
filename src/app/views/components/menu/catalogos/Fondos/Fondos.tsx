@@ -80,7 +80,7 @@ const Fondos = () => {
         );
       },
     },
-    { field: "FechaCreacion",            headerName: "Fecha Creación",            description: "Fecha Creación",               width: 150, },
+    { field: "FechaCreacion",            headerName: "Fecha Creación",            description: "Fecha Creación",               width: 180, },
     { field: "Clave",                    headerName: "Clave",                     description: "Clave",                        width: 150 },
     { field: "Descripcion",              headerName: "Descripción",               description: "Descripción",                  width: 450 },
     { field: "AplicaCalculo",            headerName: "Aplica Cálculo",            description: "Aplica Cálculo",               width: 120, renderCell: (v) => {return <Box>{v.row.AplicaCalculo === 1 ? "SI" : "No"}</Box>; },},

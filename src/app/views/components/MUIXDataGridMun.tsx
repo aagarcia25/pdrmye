@@ -28,6 +28,7 @@ const MUIXDataGridMun = ({
           rows={rows}
           density="compact"
           rowsPerPageOptions={[10, 25, 50, 100]}
+          
           disableSelectionOnClick
           disableColumnFilter
           disableColumnSelector
@@ -67,6 +68,7 @@ const MUIXDataGridMun = ({
             columnMenuSortAsc: 'Ordenar Ascendente',
             columnMenuSortDesc: 'Ordenar Descendente',
             columnHeaderSortIconLabel: 'Ordenar',
+            
             // columnMenuFilter:'Menú'
 
           }}

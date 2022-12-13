@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 import MunTerritorioModal from "./MunTerritorioModal";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
@@ -59,10 +59,18 @@ export const MunTerritorio = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 180 },
     { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Km2", headerName: "Area", width: 150 },
+    { field: "Km2", headerName: "Área", width: 150 ,
+     renderCell: (v) => {
+      return (
+        <Box  sx={{width: "100%",  display: 'flex',flexDirection: 'row-reverse',}}>
+          {v.row.Km2+" km²"}
+        </Box>
+      );
+    },
+  },
 
 
   ];

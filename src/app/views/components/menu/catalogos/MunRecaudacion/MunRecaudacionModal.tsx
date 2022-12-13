@@ -181,7 +181,7 @@ const MunRecaudacionModal = ({
           </Box>
 
           <Box>
-            <label > <br /> Recaudacion: <br /></label>
+            <label > <br /> Recaudación: <br /></label>
           </Box>
 
           <TextField
