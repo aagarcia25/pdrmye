@@ -281,6 +281,31 @@ const Participaciones = () => {
       headerName: "Observaciones",
       width: 400,
       description: "Observaciones",
+    },{
+      field: "NumSolEgreso",
+      headerName: "Nº De Solicitud De Egreso",
+      width: 200,
+      description: "Número De Solicitud De Egreso",
+    },{
+      field: "NumEgreso",
+      headerName: "Nº De Egreso",
+      width: 200,
+      description: "Número De Egreso",
+    },{
+      field: "NumOrdenPago",
+      headerName: "Nº De Orden De Pago",
+      width: 200,
+      description: "Número De Orden De Pago",
+    },{
+      field: "NumRequerimientoAnt",
+      headerName: "Nº De Requerimiento De Anticipo",
+      width: 200,
+      description: "Número De Requerimiento De Anticipo",
+    },{
+      field: "NumCheque",
+      headerName: "Nº De Cheque",
+      width: 200,
+      description: "Número De Cheque",
     },
   ];
 
