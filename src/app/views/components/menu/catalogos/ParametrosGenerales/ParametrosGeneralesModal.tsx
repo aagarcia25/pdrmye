@@ -45,6 +45,7 @@ export const ParametrosGeneralesModal = ({
       });
     } else {
       let data = {
+        CHUSER:user.id,
         CHID:id,
         NUMOPERACION: tipo,
         NOMBRE: nombre,
