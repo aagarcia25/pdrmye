@@ -7,7 +7,7 @@ import EventosModal from './EventosModal';
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
-import "../../../../../styles/globals.css";
+// import "../../../../../styles/globals.css";
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import ButtonsAdd from '../Utilerias/ButtonsAdd'
 import { getPermisos, getUser } from '../../../../../services/localStorage'

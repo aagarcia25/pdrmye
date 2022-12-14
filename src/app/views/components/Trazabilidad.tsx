@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 
 import {
   TimelineItem,
@@ -17,6 +18,9 @@ import {
   Button,
   Box,
   Typography,
+  Grid,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 
 import Slider from "./Slider";
@@ -36,7 +40,7 @@ const Trazabilidad = ({
   const [data, setdata] = useState<Itrazabilidad[]>([]);
 
   const consulta = () => {
-  
+
     let data = {
       CHID: id,
     };
@@ -57,21 +61,35 @@ const Trazabilidad = ({
 
   return (
     <div>
-     
+
       <Box>
         <Dialog open={open} fullWidth={open}
-        scroll={"paper"}>
-        <Slider open={openSlider}></Slider>
-          <DialogTitle>Trazabilidad</DialogTitle>
+          scroll={"paper"}>
+          <Slider open={openSlider}></Slider>
+          <Grid container xs={12}  direction="row"  justifyContent="space-between" alignItems="flex-start" >
+            <Grid item xs={6}>
+            <DialogTitle>Trazabilidad</DialogTitle>
+            </Grid>
+            <Grid item xs={6} container alignContent="rigth"   justifyContent="flex-end" alignItems="center">
+            <Button variant="contained" color="error" onClick={() => handleClose()}>
+              <Tooltip title="Salir">
+                <IconButton aria-label="close" color="primary" onClick={() => handleClose()}>
+                  <CloseIcon />
+                </IconButton>
+              </Tooltip>
+            </Button>
+            </Grid>
+          </Grid>
+
           <DialogContent dividers={true}>
 
-          <Timeline position="alternate">
-            {data.map((it) => {
-              return (
-              
+            <Timeline position="alternate">
+              {data.map((it) => {
+                return (
+
                   <TimelineItem key={Math.random()}>
-                    <TimelineOppositeContent  key={Math.random()}>
-                    {it.FechaCreacion}
+                    <TimelineOppositeContent key={Math.random()}>
+                      {it.FechaCreacion}
                     </TimelineOppositeContent>
                     <TimelineSeparator key={Math.random()}>
                       <TimelineDot color="success" />
@@ -79,21 +97,21 @@ const Trazabilidad = ({
                     </TimelineSeparator>
                     <TimelineContent sx={{ py: "12px", px: 2 }} key={Math.random()}>
                       <Typography variant="h6" component="span">
-                      {it.Nombre}
+                        {it.Nombre}
                       </Typography>
                       <Typography>{it.Descripcion}</Typography>
                       <Typography>{it.Comentario}</Typography>
                     </TimelineContent>
                   </TimelineItem>
-              
-              );
-            })}
 
-          </Timeline>
+                );
+              })}
+
+            </Timeline>
           </DialogContent>
 
           <DialogActions>
-            <Button onClick={() => handleClose()}>Salir</Button>
+
           </DialogActions>
         </Dialog>
       </Box>

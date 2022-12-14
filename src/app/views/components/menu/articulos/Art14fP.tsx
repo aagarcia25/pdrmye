@@ -63,13 +63,12 @@ export const Art14fP = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha de Creación", width: 150 },
-    { field: "UC", headerName: "Creado Por", width: 150 },
-    { field: "Version", headerName: "Versión", width: 150 },
-    { field: "Articulo", headerName: "Articulo", width: 150 },
+    { field: "FechaCreacion", headerName: "Fecha de Creación",description: "Fecha de Creación", width: 150 },
+    { field: "UC",            headerName: "Creado Por",       description: "Creado Por",        width: 150 },
+    { field: "Version",       headerName: "Versión",          description: "Versión",           width: 150 },
+    { field: "Articulo",      headerName: "Articulo",         description: "Articulo",          width: 150 },
     {
-      field: "deleted",
-      headerName: "Activo",
+      field: "deleted",      headerName: "Activo",            description: "Activo",
       width: 150,
       renderCell: (v) => {
         return v.row.deleted === "0" ? "SI" : "NO";
@@ -114,11 +113,11 @@ export const Art14fP = () => {
             <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
               <Typography variant='h3'>
                 {tipo == 1
-                  ? "Articulo 14 F I"
+                  ? "Artículo 14 F I"
                   : tipo === 2
-                    ? "Articulo 14 F II"
+                    ? "Artículo 14 F II"
                     : tipo === 3
-                      ? "Articulo 14 F III"
+                      ? "Artículo 14 F III"
                       : ""}
               </Typography>
             </Grid>
@@ -151,11 +150,11 @@ export const Art14fP = () => {
         <Art14m
           titulo={
             tipo == 1
-              ? "Articulo 14 F I"
+              ? "Artículo 14 F I"
               : tipo === 2
-                ? "Articulo 14 F II"
+                ? "Artículo 14 F II"
                 : tipo === 3
-                  ? "Articulo 14 F III"
+                  ? "Artículo 14 F III"
                   : ""
           }
           onClickBack={handleBack}

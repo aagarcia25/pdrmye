@@ -9,19 +9,16 @@ import {
 
 } from "@mui/material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, getPermisos, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
-
 import imagenGenerica from '../../../../../../app/assets/img/archivoImagen.jpg'
 import PdfLogo from '../../../../../../app/assets/img/PDF_file_icon.svg'
 import PptxLogo from '../../../../../../app/assets/img/pptx_Logo.png'
 import xlsxLogo from '../../../../../../app/assets/img/xlsx_Logo.png'
 import docxLogo from '../../../../../../app/assets/img/docx_Logo.png'
-import "../../../../../styles/globals.css";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 const AvisosModal = ({

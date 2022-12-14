@@ -24,7 +24,19 @@ export default function MUIXDataGridSimple(props: any) {
             pageSize={20}
             columns={props.columns}
             rows={props.rows}
-            sx={{ fontFamily: "sans-serif",  }}
+            sx={{ fontFamily: "sans-serif", 
+            '& .super-app-theme--cell': {
+              backgroundColor: 'rgba(224, 183, 60, 0.55)',
+              color: '#1a3e72',
+              fontWeight: '600',
+            },
+            '& .super-app.negative': {
+              color: "rgb(182, 60, 60)",
+            },
+            '& .super-app.positive': {
+              color: '#000000',
+            },
+          }}
             componentsProps={{
               toolbar: {
                 showQuickFilter: true,

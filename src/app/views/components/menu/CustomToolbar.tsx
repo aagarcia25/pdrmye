@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import {
   GridToolbarContainer,
   GridToolbarColumnsButton,
@@ -6,6 +7,7 @@ import {
   GridToolbarExport,
   GridColTypeDef,
   GridToolbarQuickFilter,
+  GridCellParams,
 } from "@mui/x-data-grid";
 
 export function CustomToolbar() {
@@ -14,7 +16,7 @@ export function CustomToolbar() {
       <GridToolbarColumnsButton />
       <GridToolbarFilterButton />
       <GridToolbarDensitySelector />
-      {/* <GridToolbarExport /> */}
+      <GridToolbarExport />
       <GridToolbarQuickFilter />
      </GridToolbarContainer>
   );
@@ -27,8 +29,20 @@ export const currencyFormatter = new Intl.NumberFormat("es-US", {
   currency: "USD",
 });
 
-export const Moneda: GridColTypeDef = { type: "number", valueFormatter: ({ value }) => currencyFormatter.format(value),headerAlign:"left", 
+export const Moneda: GridColTypeDef = { type: "number", valueFormatter: ({ value }) => currencyFormatter.format(value),headerAlign:"left",
+cellClassName: (params: GridCellParams<number>) => {
+  if (params.value == null) {
+    return '';
+  }
+
+  return clsx('super-app', {
+    negative: params.value < 0,
+    positive: params.value > 0,
+  });
+},
 };
+
+
 
 
 

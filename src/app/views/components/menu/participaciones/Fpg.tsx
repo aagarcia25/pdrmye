@@ -10,7 +10,6 @@ import { AlertS } from "../../../../helpers/AlertS";
 import InfoIcon from "@mui/icons-material/Info";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InsightsIcon from "@mui/icons-material/Insights";
-import MUIXDataGrid from "../../MUIXDataGrid";
 import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
 import Trazabilidad from "../../Trazabilidad";
 import Slider from "../../Slider";
@@ -57,6 +56,7 @@ export const Fpg = () => {
     consulta({ FONDO: objfondo?.Clave });
     setstep(0);
     setOpenDetalles(false);
+    setOpenTrazabilidad(false);
   };
 
   const handleAjuste = (v: any) => {
@@ -69,7 +69,6 @@ export const Fpg = () => {
     setClave(v.row.Clave)
     setIdDetalle(String(v.row.id));
     setMes(v.row.nummes + "," + v.row.Mes);
-    setstep(2);
     setOpenDetalles(true);
     setAnio(Number(v.row.Anio));
 
@@ -77,8 +76,9 @@ export const Fpg = () => {
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
-    { disableExport: true,
-      field: "acciones", 
+    {
+      disableExport: true,
+      field: "acciones",
       headerName: "Acciones",
       description: "Ver detalle de Cálculo",
       sortable: false,
@@ -138,19 +138,19 @@ export const Fpg = () => {
     },
     {
       field: "Descripcion",
-      headerName: "Descripcion",
+      headerName: "Descripción",
       width: 300,
-      description: "Descripcion del Fondo",
+      description: "Descripción del Fondo",
     },
     {
       field: "Tipo",
-      headerName: "Tipo",
+      headerName: "Tipo De Cálculo",
       width: 150,
-      description: "Tipo Cálculo",
+      description: "Tipo De Cálculo",
     },
     {
       field: "Anio",
-      headerName: "Anio",
+      headerName: "Año",
       width: 60,
       description: "Año",
     },
@@ -163,7 +163,7 @@ export const Fpg = () => {
     {
       field: "Total",
       headerName: "Total",
-      width: 800,
+      width: 180,
       description: "Total",
       ...Moneda,
     },
@@ -278,17 +278,14 @@ export const Fpg = () => {
         />
         : ""}
 
-
-
-
-
       {step === 0 ?
         <div style={{ height: 600, width: "100%" }}>
           <Grid container sx={{ display: "flex", alignItems: "center", justifyContent: "center", }} >
             <Grid item sm={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
               <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
             </Grid>
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+            <Grid item sm={12} sx={{
+              display: "flex", alignItems: "center", justifyContent: "center", }}>
               <MUIXDataGridMun columns={columns} rows={data} modulo={nombreMenu} handleBorrar={handleBorrar} borrar={false} />
 
             </Grid>
@@ -314,8 +311,8 @@ export const Fpg = () => {
         />
         : ""}
 
-
-
     </>
   );
 };
+
+

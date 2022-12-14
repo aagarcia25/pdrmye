@@ -14,7 +14,7 @@ import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipio
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, getPermisos, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { PhotoCamera } from "@mui/icons-material";
-import "../../../../../styles/globals.css";
+// import "../../../../../styles/globals.css";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 

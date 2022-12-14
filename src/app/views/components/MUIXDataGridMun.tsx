@@ -26,16 +26,27 @@ const MUIXDataGridMun = ({
         <DataGrid
           columns={columns}
           rows={rows}
+          error={rows.value<0 }
           density="compact"
           rowsPerPageOptions={[10, 25, 50, 100]}
-          
           disableSelectionOnClick
           disableColumnFilter
           disableColumnSelector
           disableDensitySelector
           getRowHeight={() => 'auto'}
           components={{ Toolbar: GridToolbar }}
-          sx={{ fontFamily: "Poppins,sans-serif" }}
+          sx={{ fontFamily: "Poppins,sans-serif" , 
+          '& .super-app-theme--cell': {
+            backgroundColor: 'rgba(224, 183, 60, 0.55)',
+            color: '#1a3e72',
+            fontWeight: '600',
+          },
+          '& .super-app.negative': {
+            color: "rgb(182, 60, 60)",
+          },
+          '& .super-app.positive': {
+            color: '#000000',
+          }, }}
           componentsProps={{
             toolbar: {
               label: "Buscar",

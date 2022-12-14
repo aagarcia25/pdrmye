@@ -11,6 +11,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import clsx from 'clsx';
 import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
@@ -36,6 +37,8 @@ import {
   GridSelectionModel,
   GridToolbar,
   esES as gridEsES,
+  GridCellParams,
+  GridRowParams,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
@@ -131,7 +134,7 @@ const Participaciones = () => {
       description: "Beneficiario",
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Agregar Descuentos",
       description: "Agregar Descuentos",
       sortable: false,
@@ -204,6 +207,13 @@ const Participaciones = () => {
       headerName: "Importe",
       width: 150,
       description: "Importe",
+      ...Moneda,
+    },
+    {
+      field: "Presupuesto",
+      headerName: "Presupuesto",
+      width: 150,
+      description: "Presupuesto",
       ...Moneda,
     },
     {
@@ -309,10 +319,10 @@ const Participaciones = () => {
     }
   };
 
-  
+
   const openmodalAnticipo = () => {
 
-      setOpenModalAnticipo(true);
+    setOpenModalAnticipo(true);
   };
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -398,7 +408,7 @@ const Participaciones = () => {
       Swal.fire({
         icon: "warning",
         title: "Solicitar",
-        text: selectionModel.length +" Elementos Seleccionados",
+        text: selectionModel.length + " Elementos Seleccionados",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -491,7 +501,7 @@ const Participaciones = () => {
 
 
 
-{openModalAnticipo ? ( <REQAnticipo  tipo={1} handleClose={handleClose} dt={""} />):("")}
+      {openModalAnticipo ? (<REQAnticipo tipo={1} handleClose={handleClose} dt={""} />) : ("")}
 
 
 
@@ -642,8 +652,29 @@ const Participaciones = () => {
                 disableColumnSelector
                 disableDensitySelector
                 getRowHeight={() => "auto"}
+                getRowClassName={(params) =>
+                  {
+                    if (params.row.Presupuesto == null) {
+                      return '';
+                    }
+                    return clsx('super-app', {
+                      negative: params.row.Presupuesto <= 0,
+                      positive: params.row.Presupuesto > 0,
+                    });
+                  }
+                } 
                 components={{ Toolbar: GridToolbar }}
-                sx={{ fontFamily: "Poppins,sans-serif" }}
+                sx={{
+                  fontFamily: "Poppins,sans-serif",
+                  '& .super-app.negative': {
+                    backgroundColor: "rgb(196, 40, 40, 0.384)",
+                    fontWeight: '600',
+                  },
+                  '& .super-app.positive': {
+                    backgroundColor: 'rgb(16, 145, 80, 0.567)',
+                    fontWeight: '600',
+                  },
+                }}
                 componentsProps={{
                   toolbar: {
                     label: "buscar",
