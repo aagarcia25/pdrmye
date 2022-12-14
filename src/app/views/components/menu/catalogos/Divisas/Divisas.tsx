@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Grid, TextField, Tooltip, Typography, } from '@mui/material'
+import { Box, Button, Grid, TextField, Tooltip, Typography, } from '@mui/material'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { messages } from '../../../../styles'
@@ -283,7 +283,7 @@ export const Divisas = () => {
     return (
 
 
-        <div style={{ height: 600, width: "100%" }}>
+        <div style={{ height: 600, width: "100%", padding:"1%" }}>
             <Slider open={slideropen}></Slider>
 
             <Grid container
@@ -308,8 +308,12 @@ export const Divisas = () => {
             {open ?
                 <ModalForm title={'Agregar Divisa o Tipo de Cambio'} handleClose={handleClose}>
                     <Grid container sx={{ justifyContent: "center" }} direction="row" columns={{ md: 12 }}>
+                    <Box boxShadow={3} sx={{ width:"100%", padding:"2%" }}>  
+ 
+                        <Grid item md={12}direction="row"  sx={{ textAlign: "center" }}>
 
-                        <Grid item md={2} sx={{ textAlign: "center" }}>
+                            <Box display="flex" justifyContent="center" m={0} p={0} sx={{ width:"100%", paddingBottom:"2%" }} > 
+                            <Box sx={{ width:"40%" }} >
                             <TextField
                                 required
                                 margin="dense"
@@ -376,8 +380,10 @@ export const Divisas = () => {
                                 error={!descripcion ? true : false}
                                 InputLabelProps={{ shrink: true }}
                             />
-
+                            </Box>
+                            </Box>
                         </Grid>
+                         
                         <Grid item md={12} sx={{ textAlign: "center" }}>
                             <Tooltip title="Agregar">
                                 <Button className={tipoOperacion === 1 ? "guardar" : "actualizar"} value="check" onClick={() => handleNuevo()}>
@@ -385,6 +391,7 @@ export const Divisas = () => {
                                 </Button>
                             </Tooltip>
                         </Grid>
+                    </Box>
                     </Grid>
                 </ModalForm> : ""}
 
