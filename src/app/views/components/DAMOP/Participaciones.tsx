@@ -32,6 +32,7 @@ import LanIcon from "@mui/icons-material/Lan";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {
   DataGrid,
   GridSelectionModel,
@@ -151,6 +152,16 @@ const Participaciones = () => {
             ) : (
               ""
             )}
+
+         {String(v.row.Clave) === "FGP" ? (
+              <Tooltip title="Agregar Retenciones">
+                <IconButton onClick={() => handleDescuento(v)}>
+                  <RestartAltIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
           </Box>
         );
       },
@@ -202,13 +213,7 @@ const Participaciones = () => {
       width: 600,
       hide: false,
     },
-    {
-      field: "total",
-      headerName: "Importe",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
+   
     {
       field: "Presupuesto",
       headerName: "Presupuesto",
@@ -240,6 +245,36 @@ const Participaciones = () => {
       width: 100,
       description: "Clasificación de Solicitud de Pago",
     },
+    
+    {
+      field: "total",
+      headerName: "Total",
+      width: 150,
+      description: "Total",
+      ...Moneda,
+    },
+    {
+      field: "Retenciones",
+      headerName: "Retenciones",
+      width: 150,
+      description: "Retenciones",
+      ...Moneda,
+    },
+    {
+      field: "Descuentos",
+      headerName: "Descuentos",
+      width: 150,
+      description: "Descuentos",
+      ...Moneda,
+    },
+    {
+      field: "IMPORTE",
+      headerName: "IMPORTE",
+      width: 150,
+      description: "IMPORTE",
+      ...Moneda,
+    },
+
     {
       field: "Observaciones",
       headerName: "Observaciones",
