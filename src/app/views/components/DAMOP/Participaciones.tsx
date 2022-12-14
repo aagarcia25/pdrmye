@@ -214,13 +214,7 @@ const Participaciones = () => {
       hide: false,
     },
    
-    {
-      field: "Presupuesto",
-      headerName: "Presupuesto",
-      width: 150,
-      description: "Presupuesto",
-      ...Moneda,
-    },
+    
     {
       field: "Divisa",
       headerName: "Divisa",
@@ -245,12 +239,19 @@ const Participaciones = () => {
       width: 100,
       description: "Clasificación de Solicitud de Pago",
     },
+    {
+      field: "Presupuesto",
+      headerName: "Presupuesto SIREGOB",
+      width: 150,
+      description: "Presupuesto SIREGOB",
+      ...Moneda,
+    },
     
     {
       field: "total",
-      headerName: "Total",
+      headerName: "Total Neto",
       width: 150,
-      description: "Total",
+      description: "Total Neto",
       ...Moneda,
     },
     {
@@ -268,10 +269,10 @@ const Participaciones = () => {
       ...Moneda,
     },
     {
-      field: "IMPORTE",
-      headerName: "IMPORTE",
+      field: "importe",
+      headerName: "Importe Total",
       width: 150,
-      description: "IMPORTE",
+      description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
       ...Moneda,
     },
 
@@ -693,8 +694,8 @@ const Participaciones = () => {
                       return '';
                     }
                     return clsx('super-app', {
-                      negative: params.row.Presupuesto <= 0,
-                      positive: params.row.Presupuesto > 0,
+                      negative: params.row.Presupuesto !== params.row.total,
+                      positive: params.row.Presupuesto == params.row.total,
                     });
                   }
                 } 
