@@ -55,10 +55,10 @@ export const ParametrosGenerales = () => {
     },
     { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación",width: 200,},
     { field: "CreadoP",       headerName: "Creado Por",     description: "Creado Por",    width: 200, },
-    { field: "Nombre",        headerName: "Nombre",         description: "Nombre",        width: 200,},
+    { field: "Nombre",        headerName: "Nombre",         description: "Nombre",        width: 360,},
     { field: "Valor",         headerName: "Valor",          description: "Valor",         width: 250, },
     { field: "slug",          headerName: "Referencia",     description: "Referencia",    width: 250, },
-    { field: "Descripcion",   headerName: "Descripción",    description: "Descripción",   width: 250,},
+    { field: "Descripcion",   headerName: "Descripción",    description: "Descripción",   width: 450,},
 
   ];
   const handleAccion = (v: any) => {
