@@ -71,7 +71,7 @@ const Trazabilidad = ({
             <DialogTitle>Trazabilidad</DialogTitle>
             </Grid>
             <Grid item xs={6} container alignContent="rigth"   justifyContent="flex-end" alignItems="center">
-            <Button variant="contained" color="error" onClick={() => handleClose()}>
+            <Button variant="outlined" color="error" onClick={() => handleClose()}>
               <Tooltip title="Salir">
                 <IconButton aria-label="close" color="primary" onClick={() => handleClose()}>
                   <CloseIcon />
@@ -99,7 +99,8 @@ const Trazabilidad = ({
                       <Typography variant="h6" component="span">
                         {it.Nombre}
                       </Typography>
-                      <Typography>{it.Descripcion}</Typography>
+                      <br/>
+                      <label >{it.Descripcion}</label>
                       <Typography>{it.Comentario}</Typography>
                     </TimelineContent>
                   </TimelineItem>
