@@ -265,19 +265,20 @@ const AgregarContactoMunicipio = () => {
 
                 <>
                     <Grid container direction="column" justifyContent="center" alignItems="center">
-                        <Grid item xs={12}   >
+                        <Grid item xs={12}  >
 
                             <input
                                 id="imagencargada"
                                 accept="image/*"
                                 onChange={(v) => { enCambioFile(v) }}
                                 type="file"
-                                style={{ zIndex: 2, opacity: 0, cursor: "pointer", position: "absolute" }}
+                                style={{ zIndex: 2, opacity: 0, cursor: "pointer", position: "absolute", }}
                             />
                             {uploadFile === "" ?
-                                <AddPhotoAlternateIcon sx={{ width: "35%", height: "35%" }} /> :
+                                <AddPhotoAlternateIcon sx={{ width: "35%", height: "35%", }} /> :
                                 <img src={uploadFile} style={{ objectFit: "scale-down", }} />
                             }
+                            
                         </Grid>
                     </Grid>
 
@@ -630,10 +631,10 @@ const AgregarContactoMunicipio = () => {
                     <Grid container direction="column" justifyContent="center" alignItems="center"  >
                         
                         <Grid item xs={12} direction="row" justifyContent="center" alignItems="center" sx={{ width: "9%", height: "9%", padding:"1%"}}>
-                        <Box boxShadow={3} padding={1}  sx={{ bgcolor:"white" }} >
-                            {nuevoRegistro ? <AddPhotoAlternateIcon sx={{ width: "0%", height: "50%" }} />
+                        <Box boxShadow={3} padding={1}  sx={{ bgcolor:"white", }} >
+                            {nuevoRegistro ? <AddPhotoAlternateIcon sx={{ width: "0%", height: "50%",  }} />
                                 :
-                                <img src={dato.Escudo} style={{ alignItems: "center", objectFit: "scale-down", width: "100%", height: "100%" }} />}
+                                <img src={dato.Escudo} style={{ alignItems: "center", objectFit: "scale-down", width: "100%", height: "100%", borderRadius:"0"}} />}
                         </Box>
                         </Grid>
                         
