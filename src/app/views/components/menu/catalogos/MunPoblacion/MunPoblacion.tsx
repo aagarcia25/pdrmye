@@ -247,8 +247,13 @@ export const MunPoblacion = () => {
       NUMOPERACION: 4,
       ANIO: v,
     };
-    if (v !== "") {
+    if (v !== "false") {
+      setFilterAnio(v);
       consulta(data);
+    } else {
+      consulta({ NUMOPERACION: 4,ANIO: "",});
+      setFilterAnio("");
+
     }
   };
 

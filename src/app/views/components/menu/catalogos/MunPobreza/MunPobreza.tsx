@@ -62,20 +62,14 @@ export const MunPobreza = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 150 },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 180 },
     { field: "ClaveEstado", headerName: "Clave Estado", description: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", description: "Municipio", width: 150 },
     { field: "Anio", headerName: "Año", description: "Año", width: 150 },
     { field: "Total", headerName: "Total", description: "Total", width: 100 },
     {
-      field: "CarenciaProm", headerName: "Carencia Promedio", description: "Carencia Promedio", width: 200,
-      renderCell: (v) => {
-        return (
-          <>
-            {v.row.CarenciaProm + "%"}
-          </>
-        );
-      },
+      field: "CarenciaProm", headerName: "Carencia Promedio", description: "Carencia Promedio", width: 150, ...porcentage
+      
     },
 
   ];
@@ -241,23 +235,17 @@ export const MunPobreza = () => {
   };
 
   const handleFilterChange = (v: string) => {
-    if (v === null) {
-      let data = {
-        NUMOPERACION: 4,
-
-      };
-      setFilterAnio("");
-    } else {
-
-      let data = {
-        NUMOPERACION: 4,
-        ANIO: v,
-      };
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: v,
+    };
+    if (v !== "false") {
       setFilterAnio(v);
+      consulta(data);
+    } else {
+      consulta({ NUMOPERACION: 4,ANIO: "",});
+      setFilterAnio("");
 
-      if (v !== "") {
-        consulta(data);
-      }
     }
   };
 

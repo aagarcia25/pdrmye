@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Box} from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { Moneda } from "../../CustomToolbar";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { messages } from "../../../../styles";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
 import Slider from "../../../Slider";
@@ -11,7 +8,6 @@ import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import MunRecaudacionModal from "./MunRecaudacionModal";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { fanios } from "../../../../../share/loadAnios";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
@@ -19,6 +15,7 @@ import { getMenus, getPermisos, getUser } from "../../../../../services/localSto
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import { Moneda } from "../../CustomToolbar";
 
 export const MunRecaudacion = () => {
   const [open, setOpen] = useState(false);
@@ -39,21 +36,15 @@ export const MunRecaudacion = () => {
   const [filterAnio, setFilterAnio] = useState("");
   const [anios, setAnios] = useState<SelectValues[]>([]);
   //funciones
-  const handleFilterMes = () => { };
 
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
       hide: true,
-      width: 150,
-      description: messages.dataTableColum.id,
     },
     {
       field: "idmunicipio",
-      headerName: "idmunicipio",
       hide: true,
-      width: 150,
     },
     {
       field: "acciones",  disableExport: true,
@@ -68,11 +59,21 @@ export const MunRecaudacion = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 400 },
-    { field: "Anio", headerName: "Año", width: 100 },
-    { field: "Recaudacion", headerName: "Recaudacion", width: 150, ...Moneda },
+    { field: "FechaCreacion",  headerName: "Fecha Creación",description: "Fecha Creación",width: 180 },
+    { field: "ClaveEstado",    headerName: "Clave Estado",  description: "Clave Estado",  width: 100 },
+    { field: "Nombre",         headerName: "Municipio",     description: "Municipio",     width: 400 },
+    { field: "Anio",           headerName: "Año",           description: "Año",           width: 100 },
+    { field: "Recaudacion",    headerName: "Recaudación",   description: "Recaudación",   width: 150, ...Moneda
+    //  renderCell: (v) => {
+    //   return (
+    //     <>
+     
+     
+    //     </>
+    //   );
+    // },
+    
+  },
 
 
   ];
@@ -118,14 +119,12 @@ export const MunRecaudacion = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        //console.log(data);
 
         CatalogosServices.munrecaudacion(data).then((res) => {
           if (res.SUCCESS) {
@@ -196,7 +195,6 @@ export const MunRecaudacion = () => {
            OBJS: selectionModel,
            CHUSER: user.id
           };
-          //console.log(data);
   
           CatalogosServices.munrecaudacion(data).then((res) => {
             if (res.SUCCESS) {
@@ -230,10 +228,7 @@ export const MunRecaudacion = () => {
         confirmButtonText: "Aceptar",
       });
     }
-
-
     }
-
   };
 
   const consulta = (data: any) => {
@@ -243,14 +238,17 @@ export const MunRecaudacion = () => {
   };
 
   const handleFilterChange = (v: string) => {
-
-    setFilterAnio(v);
     let data = {
       NUMOPERACION: 4,
       ANIO: v,
     };
-    if (v !== "") {
+    if (v !== "false") {
+      setFilterAnio(v);
       consulta(data);
+    } else {
+      consulta({ NUMOPERACION: 4,ANIO: "",});
+      setFilterAnio("");
+
     }
   };
 

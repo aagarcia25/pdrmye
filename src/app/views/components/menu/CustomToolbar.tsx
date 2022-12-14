@@ -10,13 +10,13 @@ import {
 
 export function CustomToolbar() {
   return (
-    <GridToolbarContainer>
+   <GridToolbarContainer>
       <GridToolbarColumnsButton />
       <GridToolbarFilterButton />
       <GridToolbarDensitySelector />
-      <GridToolbarExport />
+      {/* <GridToolbarExport /> */}
       <GridToolbarQuickFilter />
-    </GridToolbarContainer>
+     </GridToolbarContainer>
   );
 }
 
@@ -27,12 +27,10 @@ export const currencyFormatter = new Intl.NumberFormat("es-US", {
   currency: "USD",
 });
 
-export const Moneda: GridColTypeDef = {
-  type: "number",
-  width: 130,
-  valueFormatter: ({ value }) => currencyFormatter.format(value),
-  cellClassName: "font-tabular-nums",
+export const Moneda: GridColTypeDef = { type: "number", valueFormatter: ({ value }) => currencyFormatter.format(value),headerAlign:"left", 
 };
+
+
 
 export const percentFormatter = new Intl.NumberFormat("percent", {
   style: "percent",
@@ -40,9 +38,4 @@ export const percentFormatter = new Intl.NumberFormat("percent", {
   maximumFractionDigits: 4,
 });
 
-export const porcentage: GridColTypeDef = {
-  type: "number",
-  width: 130,
-  valueFormatter: ({ value }) => percentFormatter.format(value / 100),
-  cellClassName: "font-tabular-nums",
-};
+export const porcentage: GridColTypeDef = { headerAlign:"left",align:"right", valueFormatter: ({ value }) => percentFormatter.format(value / 100),};

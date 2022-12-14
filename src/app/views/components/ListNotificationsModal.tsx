@@ -212,7 +212,7 @@ const ListNotificationsModal = ({
         }}>
 
         {(modo === "NewMessage") ?
-          <Box boxShadow={2} maxWidth="95%">
+          <Box boxShadow={2} maxWidth="95%" >
             <Box sx={{
               height: "60%",
               justifyContent: 'space-between',
@@ -325,149 +325,237 @@ const ListNotificationsModal = ({
         }
 
         {(modo === "ViewMessage") ?
-
+          <Box boxShadow={3}>
             <Grid container >
-              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
-                <Grid container>
-                  <Grid item xs={12}>
-                    <label>De: {" " + remitente}</label>
-                    <br />
-                    <label>Para: {" " + destinatario}</label>
-                    <label >
-                      <h3>Asunto</h3>
-                    </label>
-                  </Grid>
-                </Grid>
-                <Box>
+              <Grid item xs={12}  sx={{ bgcolor:"grey", padding:".8%" }}>
+
+              <Box  display="flex" flexDirection="row-reverse">
+              <Box>
                   <button className="cerrar-mensaje" color="error"
                     onClick={() => handleViewChange()}>
                     <CloseIcon />
                   </button>
                 </Box>
-              </Grid>
+                </Box>
+                </Grid>
 
-              <Grid item xs={12}>
+                <Grid container sx={{ bgcolor:"white", display: 'flex', justifyContent: 'space-between', borderRadius: 0, padding:"2%"   }} >
+                  <Grid item xs={12}>
+                  <Box  display="flex" flexWrap="wrap" alignItems="center" sx={{ width:"100%"}}>
+
+                      <Box sx={{ width:"5%", textAlign:"center"}}>
+                      <Typography  variant="h6"  > De: </Typography>
+                      </Box>
+                      <Box sx={{ width:"20%", background:COLOR.grisBotones, textAlign:"center"}}>
+                      <Typography  variant="body1"  >  {" " + remitente} </Typography>
+                      </Box> 
+                      <Box sx={{ width:"75%"}}></Box>
+
+                      <Box sx={{ width:"5%", textAlign:"center"}}>
+                      <Typography  variant="h6" > Para:  </Typography>
+                      </Box>
+                      <Box sx={{ width:"20%", background:COLOR.grisBotones, textAlign:"center"}}> 
+                      <Typography  variant="body1" > {" " + destinatario} </Typography>
+                      </Box>
+                      <Box sx={{ width:"75%"}}></Box>
+
+                  </Box>
+                  </Grid>
+                </Grid>
+             
+              <Grid item xs={12} sx={{  paddingLeft:"2%", paddingRight:"2%",  borderRadius: 0, paddingTop:"1%"  }}>
+              <Box> 
+                <Typography  variant="h6"  > 
+               Asunto
+                </Typography>
+               </Box>
+
+              <Box sx={{ width:"98%", alignItems:"center"}}>
                 <textarea
                   value={encabezado}
                   readOnly
                   rows={2}
                   style={{ width: "100%", borderRadius: 15, }} />
+              </Box>
+
               </Grid>
-              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
+
+              <Grid item xs={12} sx={{ justifyContent: 'space-between', borderRadius: 0,  paddingLeft:"2%", paddingRight:"2%", paddingBottom:"2%"}}>
                 <Grid container>
-                  <label >
-                    <h3>Mensaje</h3>
-                  </label>
+                <Box> 
+                <Typography  variant="h6"  > Mensaje  </Typography> 
+                </Box>
+
+                <Box sx={{ width:"98%", alignItems:"center"  }}>
                   <textarea
                     value={mensaje}
                     readOnly
                     rows={15}
                     onChange={(v) => setMensaje(v.target.value)}
                     style={{ width: "100%", borderRadius: 15, }} />
+                </Box>
+                
                 </Grid>
               </Grid>
             </Grid>
-       
+          </Box>
           :
           ""
         }
 
         {(modo === "viewMessageReading") ?
-
-          <Grid container >
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <label>De: {" " + remitente}</label>
-                  <br />
-                  <label>Para: {" " + destinatario}</label>
-                  <label >
-                    <h3>Asunto</h3>
-                  </label>
-                </Grid>
-              </Grid>
-              <Box>
-                <button className="cerrar-mensaje" color="error"
-                  onClick={() => handleClose("7")}>
-                  <CloseIcon />
-                </button>
-              </Box>
+          <Box boxShadow={3} >
+          <Grid container>
+         
+          <Grid item xs={12} sx={{ bgcolor:"grey", padding:".8%" }}> 
+          <Box display="flex" flexDirection="row-reverse" >
+            <Box>
+            <button className="cerrar-mensaje" color="error"
+            onClick={() => handleClose("7")}>
+            <CloseIcon />
+            </button>
+            </Box>
+            </Box>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 0, padding:"2%" }}>
+              <Grid container>
+                <Grid item xs={12}>
+
+                 <Box  display="flex" flexWrap="wrap" alignItems="center" sx={{ width:"100%"}}>
+
+                  <Box sx={{ width:"5%", textAlign:"center"}}>
+                  <Typography  variant="h6"  > De: </Typography>
+                  </Box>
+                  <Box sx={{ width:"20%", background:COLOR.grisBotones, textAlign:"center"}}>
+                  <Typography  variant="body1"  >  {" " + remitente} </Typography>
+                  </Box> 
+                  <Box sx={{ width:"75%"}}></Box>
+
+                  <Box sx={{ width:"5%", textAlign:"center"}}>
+                  <Typography  variant="h6" > Para:  </Typography>
+                  </Box>
+                  <Box sx={{ width:"20%", background:COLOR.grisBotones, textAlign:"center"}}> 
+                  <Typography  variant="body1" > {" " + destinatario} </Typography>
+                  </Box>
+                  <Box sx={{ width:"75%"}}></Box>
+                  
+                  </Box>
+                </Grid>
+              </Grid>
+           
+            </Grid>
+
+            <Grid item xs={12} sx={{ justifyContent: 'space-between', paddingLeft:"2%", paddingRight:"2%",  borderRadius: 0, }}>
+            <Box> 
+            <Typography  variant="h6"  > 
+            Asunto
+            </Typography>
+            </Box>
+
+            <Box sx={{ width:"98%", alignItems:"center", paddingTop:"1%" }}>
               <textarea
                 value={encabezado}
                 readOnly
                 rows={2}
-                style={{ width: "100%", borderRadius: 15, }} />
+                style={{ width: "100%", borderRadius: 10, }} />
+            </Box>
+
             </Grid>
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
+
+            <Grid item xs={12} sx={{ justifyContent: 'space-between', borderRadius: 0,  paddingLeft:"2%", paddingRight:"2%", paddingBottom:"2%"}}>
               <Grid container>
-                <label >
-                  <h3>Mensaje</h3>
-                </label>
+                <Box> 
+                <Typography  variant="h6"  > Mensaje  </Typography> 
+                </Box>
+
+                <Box sx={{ width:"98%", alignItems:"center", paddingTop:"1%" }}>
                 <textarea
                   value={mensaje}
                   readOnly
                   rows={15}
                   onChange={(v) => setMensaje(v.target.value)}
                   style={{ width: "100%", borderRadius: 15, }} />
+                </Box>
+
               </Grid>
             </Grid>
           </Grid>
+          </Box>
           :
           ""
         }
 
 
         {(modo === "MessageSend") ?
+        <Box boxShadow={3}>
           <Grid container >
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
+            <Grid item xs={12} >
 
-              <Grid container>
-
-                <Grid item xs={12}>
-                  <label>De:{" " + remitente}</label>
-                  <br />
-                  <label>Para: {" " + destinatario}</label>
-
-                  <label >
-                    <h3>Asunto</h3>
-                  </label>
-
-
-                </Grid>
-              </Grid>
+              <Grid container sx={{ borderRadius:0, bgcolor:"grey", padding:".8%" }}>  
+              <Box display="flex" flexDirection="row-reverse" sx={{ width:"100%" }}>
               <Box>
                 <button className="cerrar-mensaje" color="error"
                   onClick={() => handleClose("9")}>
                   <CloseIcon />
                 </button>
               </Box>
+              </Box>
+              </Grid>
+
+              <Grid container sx={{ bgcolor:"white", paddingTop:".8%", paddingLeft:"2%", paddingRight:"2%" }}>
+                <Grid item xs={12} >
+                <Box  display="flex" flexWrap="wrap" alignItems="center" sx={{ width:"100%"}}>
+
+                <Box sx={{ width:"5%", textAlign:"center"}}>
+                <Typography  variant="h6"  > De: </Typography>
+                </Box>
+                <Box sx={{ width:"20%", background:COLOR.grisBotones, textAlign:"center"}}>
+                <Typography  variant="body1"  >  {" " + remitente} </Typography> </Box>
+                <Box sx={{ width:"75%"}}></Box>
+                <Box sx={{ width:"5%", textAlign:"center"}}>
+                <Typography  variant="h6"  > Para:</Typography>
+                </Box> 
+                <Box sx={{ width:"20%", background:COLOR.grisBotones, textAlign:"center"}}>
+                <Typography  variant="body1"  >  {" " + destinatario} </Typography> </Box>
+                <Box sx={{ width:"75%"}}></Box>
+                </Box>
+                </Grid>
+              </Grid>
+             
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{ justifyContent: 'space-between', paddingLeft:"2%", paddingRight:"2%",  borderRadius: 0, paddingTop:"1%"  }} >
+            <Box>
+              <Typography variant="h6"> Asunto </Typography>
+            </Box>
+            <Box sx={{ width:"98%", alignItems:"center"}}>
               <textarea
                 value={encabezado}
                 readOnly
                 rows={2}
-                style={{ width: "100%", borderRadius: 15, }} />
+                style={{ width: "100%", borderRadius: 10, }} />
+                </Box>
             </Grid>
 
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', borderRadius: 1, }}>
+            <Grid item xs={12} sx={{ justifyContent: 'space-between', borderRadius: 0,  paddingLeft:"2%", paddingRight:"2%", paddingBottom:"2%"}}>
               <Grid container>
-                <label >
-                  <h3>Mensaje</h3>
-                </label>
+                 <Box> 
+                <Typography  variant="h6"  > Mensaje  </Typography> 
+                </Box>
+
+                <Box sx={{ width:"98%", alignItems:"center"  }}>
                 <textarea
                   value={mensaje}
                   readOnly
                   rows={15}
                   onChange={(v) => setMensaje(v.target.value)}
                   style={{ width: "100%", borderRadius: 15, }} />
-              </Grid>
+                </Box>
 
+              </Grid>
             </Grid>
           </Grid>
+        </Box>
           :
           ""
         }

@@ -1,9 +1,6 @@
 import {
     Box,
-    Checkbox,
     Grid,
-    Button,
-    ButtonGroup,
     Typography,
     Tooltip,
     IconButton,
@@ -55,19 +52,18 @@ const FondosView = ({
     const columnsRel: GridColDef[] = [
         {
             field: "id",
-            headerName: "Identificador",
             hide: true,
-            width: 10,
         },
         {
-            field: "acciones",  disableExport: true,
-            description: "Relacionar Menus",
+            headerName: "Acciones",
+            field: "acciones", disableExport: true,
+            description: "Acciones",
             sortable: false,
-            width: 10,
+            width: 80,
             renderCell: (v) => {
                 return (
 
-                    <Tooltip title={"Asignar Ajuste"}>
+                    <Tooltip title={"Presionar Para Asignar: " + v.row.Descripcion}>
                         <IconButton onClick={() => handleAjustesRel(v)}>
                             <ArrowBackIosIcon color='success' />
                         </IconButton>
@@ -77,7 +73,7 @@ const FondosView = ({
 
             },
         },
-        { field: "Descripcion", headerName: "Descripcion", width: 400 },
+        { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 400 },
     ];
     const columnsElim: GridColDef[] = [
         {
@@ -87,10 +83,10 @@ const FondosView = ({
             width: 10,
         },
         {
-            field: "Descripcion", headerName: "Descripcion", width: 300
+            field: "Descripcion", headerName: "Descripcion", description: "Descripción", width: 300
         },
         {
-            field: "acciones",  disableExport: true,
+            field: "acciones", disableExport: true,
             description: "Relacionar Menus",
             headerName: "",
             sortable: false,
@@ -98,7 +94,7 @@ const FondosView = ({
 
             renderCell: (v) => {
                 return (
-                    <Tooltip title={"Eliminar Ajuste"}>
+                    <Tooltip title={"Presionar Para Quitar El: " + v.row.Descripcion}>
                         <IconButton onClick={() => handleAjustesElim(v)}>
                             <ArrowForwardIosIcon color='error' />
                         </IconButton>
@@ -111,7 +107,7 @@ const FondosView = ({
 
     const handleAjustesRel = (v: any) => {
         setOpenSlider(true)
-        
+
         AuthService.FondosRelAjuste(
             {
                 TIPO: 1,
@@ -150,7 +146,7 @@ const FondosView = ({
                     title: "Ajuste Eliminado!",
                 });
                 consulta();
-             
+
             } else {
                 AlertS.fire({
                     title: "Error!",
@@ -165,7 +161,7 @@ const FondosView = ({
         setDescripcion(dt?.row?.Descripcion);
         setIdFondo(dt?.row?.id);
         consulta();
-       
+
 
     }, []);
 

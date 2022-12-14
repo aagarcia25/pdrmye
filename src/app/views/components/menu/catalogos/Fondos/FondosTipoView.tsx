@@ -44,16 +44,14 @@ const FondosTipoView = ({
             setDataARel(res.RESPONSE);
             setOpenSlider(false);
         });
-       
+
 
     };
 
     const columnsRel: GridColDef[] = [
         {
             field: "id",
-            headerName: "Identificador",
             hide: true,
-            width: 10,
         },
         {
             field: "idrelacion",
@@ -61,14 +59,14 @@ const FondosTipoView = ({
         },
 
         {
-            field: "acciones",  disableExport: true,
-            headerName: "",
+            field: "acciones", disableExport: true,
+            headerName: "Acciones",
             description: "Relacionar",
             sortable: false,
-            width: 10,
+            width: 80,
             renderCell: (v) => {
                 return (
-                    <Tooltip title={"Eliminar Ajuste"}>
+                    <Tooltip title={"Presione Para Relacionar Cálculo: " + v.row.Descripcion}>
                         <IconButton onClick={() => handleAjustesRel(v)}>
                             < ArrowBackIosIcon color='success' />
                         </IconButton>
@@ -76,7 +74,7 @@ const FondosTipoView = ({
                 );
             },
         },
-        { field: "Descripcion", headerName: "Descripcion", width: 400 },
+        { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 400 },
     ];
     const columnsElim: GridColDef[] = [
         {
@@ -89,17 +87,17 @@ const FondosTipoView = ({
             field: "idrelacion",
             hide: true,
         },
-        { field: "Descripcion", headerName: "Descripcion", width: 300 },
+        { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 300 },
         {
-            field: "acciones",  disableExport: true,
-            headerName: "",
+            field: "acciones", disableExport: true,
+            headerName: "Acciones",
             description: "Relacionar",
             sortable: false,
-            width: 10,
+            width: 80,
             renderCell: (v) => {
                 return (
 
-                    <Tooltip title={"Asignar Ajuste"}>
+                    <Tooltip title={"Presione Para Quitar Cálculo: " + v.row.Descripcion}>
                         <IconButton onClick={() => handleAjustesElim(v)}>
                             <ArrowForwardIosIcon color='error' />
                         </IconButton>
@@ -108,7 +106,7 @@ const FondosTipoView = ({
 
             },
         }
-       
+
     ];
 
     const handleAjustesRel = (v: any) => {
@@ -188,7 +186,7 @@ const FondosTipoView = ({
                     <Grid container sx={{ width: "100%", height: "100%", boxShadow: 50, borderRadius: 3, justifyContent: "center", alignItems: "center", }}>
                         <Box>
                             <br />
-                            <label> <h2>{"Fondo: "+descripcion} </h2></label>
+                            <label> <h2>{"Fondo: " + descripcion} </h2></label>
                         </Box>
                         <Grid container justifyContent="space-evenly" sx={{ boxShadow: 50, borderRadius: 20, }}>
                             <Grid item xs={6} sm={6} md={4} lg={4}>
@@ -197,7 +195,7 @@ const FondosTipoView = ({
                                         <Grid item sm={12} sx={{ height: "100%" }}>
                                             <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                                                 <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }}>
-                                                    Calculos Relacionados
+                                                    Cálculo Relacionados
                                                 </Typography>
                                             </Grid>
                                             <Grid item sm={12} sx={{ height: "90%", }}>
@@ -213,7 +211,7 @@ const FondosTipoView = ({
                                     <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding: "1%" }}>
                                         <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                                             <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }} >
-                                                Calculos Disponibles Para Relacionar
+                                                Cálculo Disponibles Para Relacionar
                                             </Typography>
                                         </Grid>
                                         <Grid item sm={12} sx={{ height: "90%", }}>

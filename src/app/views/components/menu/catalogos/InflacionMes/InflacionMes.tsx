@@ -7,11 +7,12 @@ import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import InflacionMesModal from "./InflacionMesModal";
-import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import { porcentage } from "../../CustomToolbar";
 
 
 
@@ -56,7 +57,7 @@ const InflacionMes = () => {
     { field: "Anio",        headerName: "Año",      description: "Año",       width: 150 },
     { field: "Mes",         headerName: "Mes",      description: "Mes",       width: 150, hide: true, },
     { field: "Descripcion", headerName: "Mes",      description: "Mes",       width: 150 },
-    { field: "Inflacion",   headerName: "Inflación",description: "Inflación", width: 150 },
+    { field: "Inflacion",   headerName: "Inflación",description: "Inflación", width: 150 , ...porcentage },
   ];
 
   const handleAccion = (v: any) => {

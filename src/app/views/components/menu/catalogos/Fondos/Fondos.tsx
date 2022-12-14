@@ -80,63 +80,34 @@ const Fondos = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150, },
-    { field: "Clave", headerName: "Clave", width: 150 },
-    { field: "Descripcion", headerName: "Descripcion", width: 450 },
-    {
-      field: "AplicaCalculo",
-      headerName: "Aplica Cálculo",
-      width: 120,
-      renderCell: (v) => {
-        return <Box>{v.row.AplicaCalculo === 1 ? "SI" : "No"}</Box>;
-      },
-    },
-    {
-      field: "Vigente",
-      headerName: "Vigente",
-      width: 100,
-      renderCell: (v) => {
-        return <Box>{v.row.Vigente === 1 ? "SI" : "No"}</Box>;
-      },
-    },
-    {
-      field: "Estatal",
-      headerName: "Estatal",
-      width: 100,
-
-      renderCell: (v) => {
-        return <Box>{v.row.Estatal === 1 ? "SI" : "No"}</Box>;
-      },
-    },
-    {
-      field: "Federal",
-      headerName: "Federal",
-      width: 100,
-      renderCell: (v) => {
-        return <Box>{v.row.Federal === 1 ? "SI" : "No"}</Box>;
-      },
-    },
-    { field: "idtipo", headerName: "idtipo", width: 150, hide: true },
-    { field: "dtipo", headerName: "Tipo", width: 250 },
-    { field: "PorcentajeDistribucion	", headerName: "	PorcentajeDistribucion	", width: 150, },
-    { field: "Garantia", headerName: "Garantia	", width: 150, },
-    { field: "Articulo", headerName: "Articulo	", width: 150, },
-    { field: "Comentarios", hide: true },
-    { field: "NumProyecto", headerName: "NumProyecto	", width: 150, },
-    { field: "ConceptoEgreso", headerName: "ConceptoEgreso", width: 150, },
-    { field: "Clasificador01", headerName: "ADMINISTRATIVO	", width: 150, },
-    { field: "Clasificador02", headerName: "FUNCIONAL	", width: 150, },
-    { field: "Clasificador03", headerName: "PROGRAMÁTICO	", width: 150, },
-    { field: "Clasificador04", headerName: "OBJETO DE GASTO (PARTIDA)	", width: 150, },
-    { field: "Clasificador05", headerName: "TIPO DEL GASTO	", width: 150, },
-    { field: "Clasificador06", headerName: "FUENTE DE FINANCIAMIENTO	", width: 150, },
-    { field: "Clasificador07", headerName: "RAMO-FONDO CONVENIO	", width: 150, },
-    { field: "Clasificador08", headerName: "AÑO DEL RECURSO	", width: 150, },
-    { field: "Clasificador09", headerName: "CONTROL INTERNO	", width: 150, },
-    { field: "Clasificador10", headerName: "GEOGRÁFICA	", width: 150, },
-    { field: "Clasificador11", headerName: "PROYECTO/PROGRAMA	", width: 150, },
-    { field: "ClasificacionOP", headerName: "Clasificacion OP", width: 150, },
-    { field: "Orden	", hide: true },
+    { field: "FechaCreacion",            headerName: "Fecha Creación",            description: "Fecha Creación",               width: 180, },
+    { field: "Clave",                    headerName: "Clave",                     description: "Clave",                        width: 150 },
+    { field: "Descripcion",              headerName: "Descripción",               description: "Descripción",                  width: 450 },
+    { field: "AplicaCalculo",            headerName: "Aplica Cálculo",            description: "Aplica Cálculo",               width: 120, renderCell: (v) => {return <Box>{v.row.AplicaCalculo === 1 ? "SI" : "No"}</Box>; },},
+    { field: "Vigente",                  headerName: "Vigente",                   description: "Vigente",                      width: 100, renderCell: (v) => { return <Box>{v.row.Vigente === 1 ? "SI" : "No"}</Box>;},},
+    { field: "Estatal",                  headerName: "Estatal",                   description: "Estatal",                      width: 100, renderCell: (v) => { return <Box>{v.row.Estatal === 1 ? "SI" : "No"}</Box>;},},
+    { field: "Federal",                  headerName: "Federal",                   description: "Federal",                      width: 100, renderCell: (v) => { return <Box>{v.row.Federal === 1 ? "SI" : "No"}</Box>;},},
+    { field: "idtipo",  hide: true },
+    { field: "dtipo",                    headerName: "Tipo",                      description: "Tipo",                         width: 250 },
+    { field: "PorcentajeDistribucion	", headerName: "Porcentaje De Distribución",description: "Porcentaje De Distribución",   width: 150, },
+    { field: "Garantia",                 headerName: "Garantía",                  description: "Garantía	",                   width: 80, },
+    { field: "Articulo",                 headerName: "Articulo",                  description: "Articulo	",                   width: 150, },
+    { field: "Comentarios",  hide: true },
+    { field: "NumProyecto",              headerName: "Número De Proyecto",        description: "Número De Proyecto	",         width: 150, },
+    { field: "ConceptoEgreso",           headerName: "Concepto De Egreso",        description: "Concepto De Egreso",           width: 150, },
+    { field: "Clasificador01",           headerName: "Administrativo",            description: "Administrativo	",             width: 150, },
+    { field: "Clasificador02",           headerName: "Funcional",                 description: "Funcional",                    width: 150, },
+    { field: "Clasificador03",           headerName: "Programático",              description: "Programático	",               width: 150, },
+    { field: "Clasificador04",           headerName: "Objeto De Gasto (Partida)", description: "Objeto De Gasto (Partida)",    width: 150, },
+    { field: "Clasificador05",           headerName: "Tipo De Gasto",             description: "Tipo De Gasto",                width: 150, },
+    { field: "Clasificador06",           headerName: "Fuente De Financiamiento",  description: "Fuente De Financiamiento",     width: 150, },
+    { field: "Clasificador07",           headerName: "Ramo-Fondoi Convenio",      description: "Ramo-Fondoi Convenio",         width: 150, },
+    { field: "Clasificador08",           headerName: "Año Del Recurso",           description: "Año Del Recurso",              width: 150, },
+    { field: "Clasificador09",           headerName: "Control Interno",           description: "Control Interno",              width: 150, },
+    { field: "Clasificador10",           headerName: "Geográfica",                description: "Geográfica",                   width: 150, },
+    { field: "Clasificador11",           headerName: "Proyecto/Programa",         description: "Proyecto/Programa",            width: 150, },
+    { field: "ClasificacionOP",          headerName: "Clasificación OP",          description: "Clasificación OP",             width: 150, },
+    { field: "Orden	",                   hide: true },
 
 
 
@@ -322,7 +293,7 @@ const Fondos = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: "100%", width: "100%" }}>
       {(open) ? (
         <FondosModal
           modo={modo}
@@ -355,11 +326,11 @@ const Fondos = () => {
       )}
 
       <NombreCatalogo controlInterno={"FONDOS"} />
-      <Grid container sx={{ display: "flex", alignItems: "center", justifyContent: "center", }} >
+      <Grid container sx={{  alignItems: "center", justifyContent: "center", }} >
         <Grid item sm={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
           <ButtonsMunBase handleOpen={handleOpen} agregar={agregar} eliminar={eliminar} />
         </Grid>
-        <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+        <Grid item sm={12} sx={{  alignItems: "center", justifyContent: "center", }}>
           <MUIXDataGridMun columns={columns} rows={fondos} modulo={nombreMenu.toUpperCase().replace(' ', '_')} handleBorrar={handleBorrar} borrar={eliminar} />
         </Grid>
       </Grid>

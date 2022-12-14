@@ -274,6 +274,11 @@ const FondosModal = ({
           setEstatal(false);
           setFederal(true);
         }
+        if (dt?.row?.Federal === 0 && dt?.row?.Estatal === 0) {
+          setValue("");
+          setEstatal(false);
+          setFederal(false);
+        }
         if (dt?.row?.Garantia === 1) {
           setGarantia(true);
 
@@ -328,8 +333,8 @@ const FondosModal = ({
                     InputLabelProps={{ shrink: true }}
                     margin="dense"
                     required
-                    id="Descripcion"
-                    label="Descripcion"
+                    id="Descripción"
+                    label="Descripción"
                     value={descripcion}
                     type="text"
                     fullWidth
@@ -391,7 +396,11 @@ const FondosModal = ({
                       aria-label="gender"
                       name="gender1"
                       onChange={handleChange}
-                      defaultValue={tipo === 2 ? dt?.row?.Estatal === 1 ? "Estatal" : "Federal" : ""}
+                      defaultValue={tipo === 2 ?
+                        dt?.row?.Estatal === 1 ? "Estatal" :
+                          dt?.row?.Federal === 1 ? "Federal" : ""
+                        :
+                        ""}
                     >
                       <FormControlLabel
                         value="Estatal"
@@ -410,7 +419,7 @@ const FondosModal = ({
                     margin="dense"
                     required
                     id="PorcentajeDistribucion"
-                    label="Porcentaje de Distribucion"
+                    label="Porcentaje de Distribución"
                     value={porDis}
                     type="number"
                     fullWidth
@@ -423,7 +432,7 @@ const FondosModal = ({
                   <br />
                   <FormControl component="fieldset" >
 
-                    <FormLabel component="legend">Garantia</FormLabel>
+                    <FormLabel component="legend">Garantía</FormLabel>
                     <RadioGroup
                       row
                       aria-label="gender"
@@ -452,7 +461,7 @@ const FondosModal = ({
                     margin="dense"
                     required
                     id="Articulo"
-                    label="Articulo"
+                    label="Artículo"
                     value={articulo}
                     type="number"
                     fullWidth
@@ -465,7 +474,7 @@ const FondosModal = ({
                     required
                     multiline
                     id="NumProyecto"
-                    label="Numero de Proyecto"
+                    label="Número de Proyecto"
                     value={numProyecto}
                     type="text"
                     fullWidth
@@ -478,7 +487,7 @@ const FondosModal = ({
                     margin="dense"
                     multiline
                     id="ConceptoEgreso"
-                    label="ConceptoEgreso"
+                    label="Concepto De Egreso"
                     value={conceptoEgreso}
                     type="number"
                     fullWidth
@@ -630,7 +639,7 @@ const FondosModal = ({
                   InputLabelProps={{ shrink: true }}
                   margin="dense"
                   id="ClasificacionOP"
-                  label="Clasificacion OP"
+                  label="Clasificación OP"
                   value={clasificacionOP}
                   type="text"
                   fullWidth

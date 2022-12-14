@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Box, } from '@mui/material'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -7,11 +6,10 @@ import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
 import { AlertS } from "../../../../../helpers/AlertS";
 import Slider from "../../../Slider";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import { getMenus, getPermisos, getUser } from '../../../../../services/localStorage'
+import { getPermisos, getUser } from '../../../../../services/localStorage'
 import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
@@ -61,12 +59,12 @@ export const MunPobrezaExtrema = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Personas", headerName: "Total", width: 150 },
-    { field: "CarenciaProm", headerName: "Carencia Promedio", width: 250, ...porcentage }
+    { field: "FechaCreacion",   headerName: "Fecha Creación",   description: "Fecha Creación",    width: 180 },
+    { field: "ClaveEstado",     headerName: "Clave Estado",     description: "Clave Estado",      width: 100 },
+    { field: "Nombre",          headerName: "Municipio",        description: "Municipio",         width: 150 },
+    { field: "Anio",            headerName: "Año",              description: "Año",               width: 150 },
+    { field: "Personas",        headerName: "Total",            description: "Total",             width: 150 },
+    { field: "CarenciaProm",    headerName: "Carencia Promedio",description: "Carencia Promedio", width: 180, ...porcentage }
 
 
   ];
@@ -244,10 +242,15 @@ export const MunPobrezaExtrema = () => {
     let data = {
       NUMOPERACION: 4,
       ANIO: v,
-
     };
+    if (v !== "false") {
+      setFilterAnio(v);
+      consulta(data);
+    } else {
+      consulta({ NUMOPERACION: 4,ANIO: "",});
+      setFilterAnio("");
 
-    consulta(data);
+    }
   };
 
 

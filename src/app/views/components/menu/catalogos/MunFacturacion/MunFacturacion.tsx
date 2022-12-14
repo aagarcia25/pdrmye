@@ -72,17 +72,11 @@ export const MunFacturacion = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 220 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    {
-      field: "Facturacion",
-      headerName: "Facturado",
-      width: 150,
-      align: "right",
-      ...Moneda
-    },
+    { field: "FechaCreacion", headerName: "Fecha Creación",description: "Fecha Creación", width: 180 },
+    { field: "ClaveEstado",   headerName: "Clave Estado",  description: "Clave Estado",   width: 100 },
+    { field: "Nombre",        headerName: "Municipio",     description: "Municipio",      width: 220 },
+    { field: "Anio",          headerName: "Año",           description: "Año",            width: 150 },
+    { field: "Facturacion",   headerName: "Facturado",     description: "Facturado",      width: 150, ...Moneda}
 
   ];
 
@@ -271,13 +265,17 @@ export const MunFacturacion = () => {
   };
 
   const handleFilterChange = (v: string) => {
-    setFilterAnio(v);
     let data = {
       NUMOPERACION: 4,
       ANIO: v,
     };
-    if (v != "") {
+    if (v !== "false") {
+      setFilterAnio(v);
       consulta(data);
+    } else {
+      consulta({ NUMOPERACION: 4,ANIO: "",});
+      setFilterAnio("");
+
     }
   };
 
