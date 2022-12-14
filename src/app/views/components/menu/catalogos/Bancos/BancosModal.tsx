@@ -114,8 +114,10 @@ export const BancosModal = ({
 
 
     <>
-      <ModalForm title={tipo === 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
-        <Grid container direction="row" justifyContent="center" alignItems="center">
+      <ModalForm title={tipo === 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose} >
+        <Box boxShadow={3}>
+        <Grid container direction="row" justifyContent="center" alignItems="center"  sx={{ padding:"2%" }}  >
+        <Grid item alignItems="center" justifyContent="center" xs={4}></Grid>
           <Grid item alignItems="center" justifyContent="center" xs={4}>
             <TextField
               required
@@ -149,15 +151,17 @@ export const BancosModal = ({
               }}
             />
           </Grid>
-        </Grid>
-
-        <Grid container direction="row" justifyContent="center" alignItems="center">
+          <Grid item alignItems="center" justifyContent="center" xs={4}></Grid>
+          <Grid item alignItems="center" justifyContent="center" xs={12} height={40}></Grid>
+          <Grid item alignItems="center" justifyContent="center" xs={5}></Grid>
           <Grid item alignItems="center" justifyContent="center" xs={2}>
             <button  className={tipo === 1 ? "guardar" : "actualizar"}  onClick={() => handleSend()} >
               {tipo === 1 ? "Agregar" : "Editar"}
             </button>
           </Grid>
+
         </Grid>
+        </Box>
       </ModalForm>
     </>
   );
