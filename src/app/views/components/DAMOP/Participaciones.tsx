@@ -218,7 +218,7 @@ const Participaciones = () => {
     {
       field: "Divisa",
       headerName: "Divisa",
-      width: 10,
+      width: 80,
       description: "Divisa",
     },
     {
@@ -726,14 +726,14 @@ const Participaciones = () => {
                 } 
                 components={{ Toolbar: GridToolbar }}
                 sx={{
-                  fontFamily: "Poppins,sans-serif",
+                  fontFamily: "Poppins,sans-serif", fontWeight: '600',
                   '& .super-app.negative': {
+                    color: "rgb(84, 3, 3)",
                     backgroundColor: "rgb(196, 40, 40, 0.384)",
-                    fontWeight: '600',
                   },
                   '& .super-app.positive': {
                     backgroundColor: 'rgb(16, 145, 80, 0.567)',
-                    fontWeight: '600',
+                   
                   },
                 }}
                 componentsProps={{

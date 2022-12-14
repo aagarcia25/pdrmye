@@ -31,7 +31,8 @@ export default function MUIXDataGridSimple(props: any) {
               fontWeight: '600',
             },
             '& .super-app.negative': {
-              color: "rgb(182, 60, 60)",
+              color: "rgb(84, 3, 3)",
+              backgroundColor: "rgb(196, 40, 40, 0.384)",
             },
             '& .super-app.positive': {
               color: '#000000',
