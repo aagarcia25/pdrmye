@@ -167,7 +167,7 @@ const FondosModal = ({
       || descripcion === null
       || aplicaCalculo === null
       || vigente === null
-      || subTipo === false
+      //|| subTipo === false
       || estatal === null
       || federal === null
       || porDis === null
