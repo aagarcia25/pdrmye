@@ -127,7 +127,7 @@ export const Fpg = () => {
     {
       field: "FechaCreacion",
       headerName: "Fecha Creación",
-      width: 150,
+      width: 180,
       description: "Fecha Creación",
     },
     {
@@ -151,7 +151,7 @@ export const Fpg = () => {
     {
       field: "Anio",
       headerName: "Año",
-      width: 60,
+      width: 80,
       description: "Año",
     },
     {
