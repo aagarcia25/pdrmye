@@ -186,6 +186,7 @@ const ISAI = () => {
     setslideropen(true);
     let data = {
       NUMOPERACION: NUMOPERACION,
+      VERSION:version
     };
 
     CatalogosServices.MUNISAI(data).then((res) => {
