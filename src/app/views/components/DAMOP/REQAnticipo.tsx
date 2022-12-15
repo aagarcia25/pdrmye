@@ -5,6 +5,7 @@ import {
   Input,
   FormControlLabel,
   Checkbox,
+  Box
   
 } from "@mui/material";
 import ModalForm from "../componentes/ModalForm";
@@ -176,21 +177,27 @@ export const REQAnticipo = ({
         title={"Generación de Requerimiento de Anticipo"}
         handleClose={handleClose}
       >
+        <Box
+        boxShadow={3}
+        component={Grid}
+        container
+        direction="row"
+        padding={4}
+        >
 
-<Grid
+        <Box
+          component={Grid}
           container
           direction="row"
           justifyContent="center"
           alignItems="center"
+          paddingBottom={3}
         >
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-             
-            </Grid>
-            <Grid item xs={3}>
-          
-            </Grid>
-            <Grid item xs={3}>
+          <Box component={Grid} container spacing={2}>
+            <Box  component={Grid} item xs={3}> </Box>
+            <Box  component={Grid} item xs={3}> </Box>
+
+            <Box component={Grid} item xs={3}>
             
              <FormControlLabel
                     value={ppt}
@@ -201,8 +208,9 @@ export const REQAnticipo = ({
                     }
                     label="Para Pago a terceros "
                   />
-            </Grid>
-            <Grid item xs={3}>
+            </Box>
+
+            <Box component={Grid} item xs={3}>
             <FormControlLabel
                     value={ddt}
                     control={
@@ -213,23 +221,25 @@ export const REQAnticipo = ({
                     label="De Deposito a terceros"
                   />
            
-            </Grid>
-          </Grid>
-        </Grid>
+            </Box>
+          </Box>
+        </Box>
 
-
-
-        <Grid
+        <Box
+          component={Grid}
           container
           direction="row"
           justifyContent="center"
           alignItems="center"
+          paddingBottom={3}
         >
-          <Grid container spacing={1}>
-            <Grid item xs={3}>
+          <Box  component={Grid} container spacing={1}>
+
+            <Box component={Grid} item xs={3}>
               Tipo:
-            </Grid>
-            <Grid item xs={3}>
+            </Box>
+
+            <Box  component={Grid} item xs={3}>
             <SelectFrag
                 value={idTipoAnticipo}
                 options={tiposAnticipos}
@@ -238,11 +248,13 @@ export const REQAnticipo = ({
                 label={""}
                 disabled={false}
               ></SelectFrag>
-            </Grid>
-            <Grid item xs={3}>
+            </Box>
+
+            <Box  component={Grid} item xs={3}>
               Clave:
-            </Grid>
-            <Grid item xs={3}>
+            </Box>
+
+            <Box component={Grid}  item xs={3}>
             <SelectFrag
                 value={idProveedor}
                 options={proveedores}
@@ -251,22 +263,25 @@ export const REQAnticipo = ({
                 label={""}
                 disabled={false}
               ></SelectFrag>
-            </Grid>
-          </Grid>
-        </Grid>
+            </Box>
 
+          </Box>
 
-        <Grid
+        </Box>
+
+        <Box
+          component={Grid} 
           container
           direction="row"
           justifyContent="center"
           alignItems="center"
+          paddingBottom={3}
         >
-          <Grid container spacing={1}>
-            <Grid item xs={3}>
+          <Box component={Grid}  container spacing={1}>
+            <Box  component={Grid} item xs={3}>
               Concepto:
-            </Grid>
-            <Grid item xs={3}>
+            </Box>
+            <Box  component={Grid} item xs={3}>
              
             <SelectFrag
                 value={idProveedor}
@@ -277,28 +292,29 @@ export const REQAnticipo = ({
                 disabled={false}
               ></SelectFrag>
 
-            </Grid>
-            <Grid item xs={3}>
-            
-            </Grid>
-            <Grid item xs={3}>
-           
-            </Grid>
-          </Grid>
-        </Grid>
+            </Box>
+            <Box   component={Grid} item xs={3}>
+            </Box>
+            <Box component={Grid}  item xs={3}>
+            </Box>
+          </Box>
 
+        </Box>
 
-        <Grid
+        <Box
+          component={Grid}
           container
           direction="row"
           justifyContent="center"
           alignItems="center"
+          paddingBottom={3}
         >
-          <Grid container spacing={1}>
-            <Grid item xs={3}>
+          <Box component={Grid} container spacing={1}>
+
+            <Box component={Grid} item xs={3}>
               Importe:
-            </Grid>
-            <Grid item xs={3}>
+            </Box>
+            <Box component={Grid} item xs={3}>
             <Input
                 sx={{ fontWeight: "MontserratMedium" }}
                 required
@@ -312,29 +328,30 @@ export const REQAnticipo = ({
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
-            </Grid>
-            <Grid item xs={3}>
-             
-            </Grid>
-            <Grid item xs={3}>
-           
-            </Grid>
-          </Grid>
-        </Grid>
+            </Box>
+            <Box component={Grid} item xs={3}>
+            </Box>
+            <Box component={Grid} item xs={3}>
+            </Box>
 
+          </Box>
+        </Box>
 
-
-        <Grid
+        <Box
+          component={Grid}
           container
           direction="row"
           justifyContent="center"
           alignItems="center"
+          paddingBottom={3}
         >
-          <Grid container spacing={1}>
-            <Grid item xs={3}>
+          <Box component={Grid} container spacing={1}>
+
+            <Box component={Grid} item xs={3}>
               Clasificación:
-            </Grid>
-            <Grid item xs={3}>
+            </Box>
+
+            <Box component={Grid} item xs={3}>
             <SelectFrag
                 value={clasificacion}
                 options={clasificiones}
@@ -343,56 +360,60 @@ export const REQAnticipo = ({
                 label={""}
                 disabled={false}
               ></SelectFrag>
-            </Grid>
-            <Grid item xs={3}>
-             
-            </Grid>
-            <Grid item xs={3}>
-           
-            </Grid>
-          </Grid>
-        </Grid>
+            </Box>
 
+            <Box component={Grid}  item xs={3}>
+            </Box>
 
+            <Box component={Grid}  item xs={3}>
+            </Box>
 
-        <Grid
+          </Box>
+
+        </Box>
+
+        <Box
+          component={Grid} 
           container
           direction="row"
           justifyContent="center"
           alignItems="center"
+          paddingBottom={7}
         >
-          <Grid container spacing={1}>
-            <Grid item xs={3}>
+        <Box component={Grid} container spacing={1}>
+            <Box component={Grid} item xs={3}>
               Observaciones:
-            </Grid>
-            <Grid item xs={9}>
+            </Box>
+            <Box component={Grid} item xs={9}>
             <TextField fullWidth label="" id="fullWidth"  value={observaciones} 
              onChange={(v) => {
               setObservaciones(v.target.value)
           }}
             />
-            </Grid>
+            </Box>
             
-          </Grid>
-        </Grid>
+        </Box>
+        </Box>
 
-
-
-        <Grid
+        <Box
+          component={Grid} 
           container
           direction="row"
-          justifyContent="center"
-          alignItems="center"
+          justifyContent="right"
+          alignItems="center" 
         >
-          <Grid item alignItems="center" justifyContent="center" xs={2}>
+         
+          <Box  component={Grid} item alignItems="center" justifyContent="center" xs={2}>
             <button
               className={tipo === 1 ? "guardar" : "actualizar"}
               onClick={() => handleSend()}
             >
               {tipo === 1 ? "Agregar" : "Editar"}
             </button>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
+      
+        </Box>
       </ModalForm>
     </>
   );
