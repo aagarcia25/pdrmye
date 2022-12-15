@@ -155,7 +155,7 @@ export const Bancos = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: 600, width: "100%" , padding:"1%"}}>
       {open ? (
         <BancosModal
           open={open}
@@ -165,7 +165,7 @@ export const Bancos = () => {
         />
       ) : ""}
 
-      <Grid container justifyContent="space-between" sx={{ bgcolor: "#CCCCCC" }}>
+      <Grid container justifyContent="space-between">
         <Grid item md={12} textAlign="center" >
           <Typography variant="h3" >
             {"Bancos"}

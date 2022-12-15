@@ -1,6 +1,7 @@
 import { useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router";
 import "./Fonts.css";
+import "./Globals.css"
 import Swal from "sweetalert2";
 import { UserInfo } from "./app/interfaces/user/UserInfo";
 import { UserReponse } from "./app/interfaces/user/UserReponse";
@@ -134,18 +135,6 @@ function App() {
       setOpenSlider(false);
       setlogin(true);
       setAcceso(true);
-      //           }else{
-      //     mensaje("No tienes Relacionado un Rol","Favor de Verificar sus Permisos con el área de TI");
-      //   }
-      //  }else{
-      //     mensaje("No tienes Relacionado un Perfil","Favor de Verificar sus Permisos con el área de TI");
-      //  }
-      // }else{
-      //       mensaje("No tienes Relacionado un Departamento","Favor de Verificar sus Permisos con el área de TI");
-      //}
-
-
-
 
     });
   };
@@ -236,7 +225,6 @@ function App() {
       setRfToken(refjwt);
       verificatoken();
     } else if (getToken() != null) {
-      // //console.log('token');
       verificatoken();
     } else {
       Swal.fire({

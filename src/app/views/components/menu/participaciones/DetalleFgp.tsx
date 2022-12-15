@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Dialog,
-  Grid,
-  ToggleButton,
-  ToggleButtonGroup,
-  Tooltip,
-} from "@mui/material";
+import {Box,Dialog,Grid, ToggleButton,ToggleButtonGroup,Tooltip,} from "@mui/material";
 import { Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
 import { AlertS } from "../../../../helpers/AlertS";
@@ -26,7 +19,6 @@ import InsightsIcon from "@mui/icons-material/Insights";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import ModalCalculos from "../../componentes/ModalCalculos";
-import { CatalogosServices } from "../../../../services/catalogosServices";
 
 const DetalleFgp = ({
   idCalculo,
@@ -58,6 +50,8 @@ const DetalleFgp = ({
   const [estatusDestino, setEstatusDestino] = useState("");
   const [perfilDestino, setperfilDestino] = useState("");
   const [area, setArea] = useState("");
+
+
   //Permisos
   const [data, setData] = useState([]);
   const [autorizar, setAutorizar] = useState<boolean>(false);
@@ -382,6 +376,7 @@ const DetalleFgp = ({
       width: 200,
       description: "Importe",
       ...Moneda,
+     
     },
     {
       hide: pa ? false : true,
@@ -390,6 +385,7 @@ const DetalleFgp = ({
       width: 200,
       description: "Importe",
       ...Moneda,
+     
     },
     {
       hide: sa ? false : true,
@@ -398,6 +394,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Importe",
       ...Moneda,
+     
     },
     {
       hide: ta ? false : true,
@@ -406,6 +403,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Importe",
       ...Moneda,
+    
     },
     {
       hide: ca ? false : true,
@@ -414,6 +412,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Importe",
       ...Moneda,
+    
     },
     {
       hide: ad ? false : true,
@@ -422,6 +421,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Importe",
       ...Moneda,
+     
     },
     {
       hide: as ? false : true,
@@ -430,6 +430,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Importe",
       ...Moneda,
+     
     },
     {
       hide: aa ? false : true,
@@ -438,6 +439,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Importe",
       ...Moneda,
+    
     },
     {
       hide: ae ? false : true,
@@ -446,6 +448,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Importe",
       ...Moneda,
+     
     },
     {
       hide: rf ? false : true,
@@ -454,6 +457,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Compensación FEIF",
       ...Moneda,
+     
     },
     {
       hide: cf ? false : true,
@@ -462,6 +466,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Retención FEIF",
       ...Moneda,
+     
     },
     {
       hide: af ? false : true,
@@ -470,6 +475,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Ajuste FOFIR",
       ...Moneda,
+      
     },
     {
       field: "total",
@@ -477,6 +483,7 @@ const DetalleFgp = ({
       width: 250,
       description: "Total",
       ...Moneda,
+    
     },
   ];
   const EstablecePermisos = () => {
@@ -601,7 +608,7 @@ const DetalleFgp = ({
             </Grid>
           </Grid>
 
-          <div style={{ height: 600, width: "100%" }}>
+          <Box sx={{ height: 600, width: "100%" ,  }}>
             <Box>
               <ToggleButtonGroup>
                 <Tooltip title={"Regresar"}>
@@ -742,7 +749,7 @@ const DetalleFgp = ({
               </ToggleButtonGroup>
             </Box>
             <MUIXDataGrid columns={columns} rows={data} />
-          </div>
+          </Box>
         </Dialog>
       </Box>
     </div>

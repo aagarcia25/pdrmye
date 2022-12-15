@@ -16,7 +16,6 @@ import { Imunicipio } from "../../interfaces/municipios/FilterMunicipios";
 import SelectFrag from "./Fragmentos/SelectFrag";
 import SelectValues from "../../interfaces/Select/SelectValues";
 import { getUser } from "../../services/localStorage";
-import "../../styles/globals.css";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { MailServices } from "../../services/MailServices";
 import { COLOR } from "../../styles/colors";

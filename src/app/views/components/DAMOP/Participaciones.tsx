@@ -11,6 +11,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import clsx from 'clsx';
 import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
@@ -37,6 +38,8 @@ import {
   GridSelectionModel,
   GridToolbar,
   esES as gridEsES,
+  GridCellParams,
+  GridRowParams,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
@@ -132,7 +135,7 @@ const Participaciones = () => {
       description: "Beneficiario",
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Agregar Descuentos",
       description: "Agregar Descuentos",
       sortable: false,
@@ -211,10 +214,11 @@ const Participaciones = () => {
       hide: false,
     },
    
+    
     {
       field: "Divisa",
       headerName: "Divisa",
-      width: 10,
+      width: 80,
       description: "Divisa",
     },
     {
@@ -235,12 +239,19 @@ const Participaciones = () => {
       width: 100,
       description: "Clasificación de Solicitud de Pago",
     },
+    {
+      field: "Presupuesto",
+      headerName: "Presupuesto SIREGOB",
+      width: 150,
+      description: "Presupuesto SIREGOB",
+      ...Moneda,
+    },
     
     {
       field: "total",
-      headerName: "Total",
+      headerName: "Total Neto",
       width: 150,
-      description: "Total",
+      description: "Total Neto",
       ...Moneda,
     },
     {
@@ -258,10 +269,10 @@ const Participaciones = () => {
       ...Moneda,
     },
     {
-      field: "IMPORTE",
-      headerName: "IMPORTE",
+      field: "importe",
+      headerName: "Importe Total",
       width: 150,
-      description: "IMPORTE",
+      description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
       ...Moneda,
     },
 
@@ -270,6 +281,31 @@ const Participaciones = () => {
       headerName: "Observaciones",
       width: 400,
       description: "Observaciones",
+    },{
+      field: "NumSolEgreso",
+      headerName: "Nº De Solicitud De Egreso",
+      width: 200,
+      description: "Número De Solicitud De Egreso",
+    },{
+      field: "NumEgreso",
+      headerName: "Nº De Egreso",
+      width: 200,
+      description: "Número De Egreso",
+    },{
+      field: "NumOrdenPago",
+      headerName: "Nº De Orden De Pago",
+      width: 200,
+      description: "Número De Orden De Pago",
+    },{
+      field: "NumRequerimientoAnt",
+      headerName: "Nº De Requerimiento De Anticipo",
+      width: 200,
+      description: "Número De Requerimiento De Anticipo",
+    },{
+      field: "NumCheque",
+      headerName: "Nº De Cheque",
+      width: 200,
+      description: "Número De Cheque",
     },
   ];
 
@@ -344,10 +380,10 @@ const Participaciones = () => {
     }
   };
 
-  
+
   const openmodalAnticipo = () => {
 
-      setOpenModalAnticipo(true);
+    setOpenModalAnticipo(true);
   };
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -433,7 +469,7 @@ const Participaciones = () => {
       Swal.fire({
         icon: "warning",
         title: "Solicitar",
-        text: selectionModel.length +" Elementos Seleccionados",
+        text: selectionModel.length + " Elementos Seleccionados",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -526,7 +562,7 @@ const Participaciones = () => {
 
 
 
-{openModalAnticipo ? ( <REQAnticipo  tipo={1} handleClose={handleClose} dt={""} />):("")}
+      {openModalAnticipo ? (<REQAnticipo tipo={1} handleClose={handleClose} dt={""} />) : ("")}
 
 
 
@@ -677,8 +713,29 @@ const Participaciones = () => {
                 disableColumnSelector
                 disableDensitySelector
                 getRowHeight={() => "auto"}
+                getRowClassName={(params) =>
+                  {
+                    if (params.row.Presupuesto == null) {
+                      return '';
+                    }
+                    return clsx('super-app', {
+                      negative: params.row.Presupuesto !== params.row.total,
+                      positive: params.row.Presupuesto == params.row.total,
+                    });
+                  }
+                } 
                 components={{ Toolbar: GridToolbar }}
-                sx={{ fontFamily: "Poppins,sans-serif" }}
+                sx={{
+                  fontFamily: "Poppins,sans-serif", fontWeight: '600',
+                  '& .super-app.negative': {
+                    color: "rgb(84, 3, 3)",
+                    backgroundColor: "rgb(196, 40, 40, 0.384)",
+                  },
+                  '& .super-app.positive': {
+                    backgroundColor: 'rgb(16, 145, 80, 0.567)',
+                   
+                  },
+                }}
                 componentsProps={{
                   toolbar: {
                     label: "buscar",

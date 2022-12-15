@@ -9,19 +9,16 @@ import {
 
 } from "@mui/material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, getPermisos, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
-
 import imagenGenerica from '../../../../../../app/assets/img/archivoImagen.jpg'
 import PdfLogo from '../../../../../../app/assets/img/PDF_file_icon.svg'
 import PptxLogo from '../../../../../../app/assets/img/pptx_Logo.png'
 import xlsxLogo from '../../../../../../app/assets/img/xlsx_Logo.png'
 import docxLogo from '../../../../../../app/assets/img/docx_Logo.png'
-import "../../../../../styles/globals.css";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 const AvisosModal = ({
@@ -211,15 +208,15 @@ const AvisosModal = ({
 
 
         {(modoModal === "Agregar Aviso") ?
-          <Container maxWidth="sm" >
-            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', }}>
+          <Container maxWidth="sm">
+            <Box boxShadow={3} sx={{ width: '100%', padding:"3%"}}>
     
 
               { //////////empiezan debajo del titulo
                 //// imagen carga y previsualizacion
               }
 
-              <Box sx={{ width: '100%', }}>
+              <Box sx={{ width: '100%',}}>
 
                 <Box sx={{
                   display: 'flex',
@@ -229,6 +226,7 @@ const AvisosModal = ({
                   p: 1,
                   m: 1,
                   bgcolor: 'background.paper',
+                  // bgcolor: 'green',
                   borderRadius: 1,
                 }}>
                   {/////  mostrar logo y nombre de el archivo a cargar
@@ -271,7 +269,7 @@ const AvisosModal = ({
                       <label >{nameNewDoc}</label>
                     </Box>
                   </Box>
-                  <Box>
+                  <Box >
                     <IconButton aria-label="upload picture" component="label" size="large" >
                       <input
                         required
@@ -382,7 +380,7 @@ const AvisosModal = ({
                 />
               </Box>
 
-              <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
+              <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', paddingTop:"2%" }}>
 
                 <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
 
