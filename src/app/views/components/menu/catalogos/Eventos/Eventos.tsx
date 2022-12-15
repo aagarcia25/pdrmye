@@ -48,7 +48,7 @@ export const Eventos = () => {
 
           <Box>
             <IconButton sx={{ borderRadius:"0", }} onClick={() => handleVisualizar(v)} >
-              <img id="imagen" src={v.row.Imagen} style={{ width: "2vw", objectFit: "scale-down" }} />
+              <img id="imagen" src={v.row.Imagen} style={{ width: "5vw", objectFit: "scale-down" }} />
             </IconButton>
           </Box>
         );
