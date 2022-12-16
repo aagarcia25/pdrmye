@@ -20,7 +20,6 @@ const env = {
     BASE_URL_LOGIN: 'http://10.200.4.106/'
     },
    
-
   };
 
  
