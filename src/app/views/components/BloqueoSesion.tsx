@@ -12,6 +12,8 @@ import { Fingerprint } from "@mui/icons-material";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { getUser } from "../../services/localStorage";
 import { useEffect, useState } from "react";
+import { env_var } from "../../environments/env";
+
 
 export function BloqueoSesion({
   handlePassword,
@@ -74,15 +76,9 @@ export function BloqueoSesion({
             }}
             placeholder="Contraseña"
           ></TextField>
-
-
-
-
           
           <Box
             sx={{
-              //width: "100vw",
-              //height: "100vh",
               marginTop : 3,
               display: "flex",
               alignItems: "center",
@@ -97,7 +93,7 @@ export function BloqueoSesion({
 
 
           <Typography sx={{ mt: 3, fontSize: "2vw" }}>
-            Ingrese su contraseña para recobrar su sesión.
+          Sesión pausada por inactividad, Ingrese contrseña
           </Typography>
           <Typography sx={{ mt: 5, fontSize: "1.8vw" }}>
             ¿Esa persona no es usted?{" "}
@@ -106,7 +102,12 @@ export function BloqueoSesion({
             <Typography sx={{ mt: 1, fontSize: "1.8vw" }}>
               Haz click{" "}
               <Button
-                href="http://10.200.4.106/"
+              onClick={() => {
+                localStorage.clear();
+                var ventana = window.self;
+                ventana.location.replace(env_var.BASE_URL_LOGIN);
+             }}
+              
                 sx={{ mt: 1, fontSize: "1.6vw" }}
               >
                 aquí

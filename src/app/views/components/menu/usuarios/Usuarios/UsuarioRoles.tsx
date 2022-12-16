@@ -9,7 +9,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, textAlign } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
 import { AuthService } from "../../../../../services/AuthService";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
@@ -18,7 +18,8 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectFragMulti from "../../../Fragmentos/SelectFragMulti";
-
+import CloseIcon from '@mui/icons-material/Close';
+import ModalForm from "../../../componentes/ModalForm";
 const UsuarioRoles = ({
   open,
   handleClose,
@@ -30,7 +31,7 @@ const UsuarioRoles = ({
 }) => {
 
 
-    
+
   const [openSlider, setOpenSlider] = useState<boolean>(true);
   const [idRol, setIdRol] = useState<SelectValues[]>([]);
   const [roles, setRoles] = useState<[]>([]);
@@ -46,7 +47,7 @@ const UsuarioRoles = ({
       width: 10,
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -71,12 +72,12 @@ const UsuarioRoles = ({
   };
 
   const handleDel = (v: any) => {
-    let data = { 
+    let data = {
       TIPO: 2,
-      IDUSUARIO:dt?.id,
-      IDROL:v.id
+      IDUSUARIO: dt?.id,
+      IDROL: v.id
     };
-    console.log(data);
+    //console.log(data);
     AuthService.RelacionarUsuarioRol(data).then((res) => {
       consulta();
 
@@ -91,23 +92,23 @@ const UsuarioRoles = ({
 
   const handleMunicipios = () => {
     let data = {
-        TIPO:1,
-        OBJS: idRol,
-        IDUSUARIO:dt.id
+      TIPO: 1,
+      OBJS: idRol,
+      IDUSUARIO: dt.id
     };
-    console.log(data);
+    //console.log(data);
     setOpenSlider(true);
     AuthService.RelacionarUsuarioRol(data).then((res) => {
-       console.log(res.RESPONSE);
-       setOpenSlider(false);
-       consulta();
+      //console.log(res.RESPONSE);
+      setOpenSlider(false);
+      consulta();
     });
   };
 
 
 
   const consulta = () => {
-    console.log(dt)
+    //console.log(dt)
     let data = {
       CHID: dt?.id,
       TIPO: 1,
@@ -115,7 +116,7 @@ const UsuarioRoles = ({
     AuthService.usuarioRol(data).then((res) => {
       setData(res.RESPONSE);
       setOpenSlider(false);
-     
+
     });
   };
 
@@ -133,63 +134,55 @@ const UsuarioRoles = ({
   return (
     <div>
       <Slider open={openSlider}></Slider>
-      <Dialog open={open} fullWidth={open}>
-        <DialogTitle>Municipios Relacionados al Usuario</DialogTitle>
-        <DialogContent dividers={true}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={12} md={12} lg={12}></Grid>
 
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Box
-                sx={{
-                  margin: 0,
-                }}
-              >
-                <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                  Seleccione Rol
+      <ModalForm title={("Roles Relacionados a: "+ dt?.Nombre+" "+ dt?.ApellidoPaterno+" "+dt?.ApellidoMaterno)} handleClose={handleClose}>
+        <DialogContent dividers={true} >
+          <Box boxShadow={3}>
+            <Grid container spacing={1} sx={{ padding: "1%" }}>
+
+              <Grid item xs={12} sm={12} md={12} lg={12}>
+                <Box sx={{ margin: 0, }}>
+                  <Typography sx={{ fontFamily: "sans-serif" }}>
+                    Seleccione Rol
+                  </Typography>
+
+                  <SelectFragMulti
+                    options={roles}
+                    onInputChange={handleFilterChange1}
+                    placeholder={"Seleccione Rol"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Box>
+              </Grid>
+
+              <Grid item xs={12} sm={12} md={12} lg={12}>
+                <Button
+                  color="success"
+                  variant="contained"
+                  onClick={() => handleMunicipios()}
+                >
+                  <Typography sx={{ fontFamily: "sans-serif", color: "white" }}>
+                    Relacionar Roles
+                  </Typography>
+                </Button>
+              </Grid>
+
+              <Grid item xs={12} sm={12} md={12} lg={12}>
+                <Typography sx={{ fontFamily: "sans-serif" }}>
+                  Roles Relacionados
                 </Typography>
-
-                <SelectFragMulti
-                  options={roles}
-                  onInputChange={handleFilterChange1}
-                  placeholder={"Seleccione Rol"}
-                  label={""}
-                  disabled={false}
-                />
-              </Box>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={12} >
+                <div style={{ height: 300, width: "100%" }}>
+                  <MUIXDataGridSimple columns={columns} rows={data} />
+                </div>
+              </Grid>
             </Grid>
-
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Button
-                color="success"
-                variant="contained"
-                onClick={() =>handleMunicipios()}
-              >
-                <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                  Relacionar Roles
-                </Typography>
-              </Button>
-            </Grid>
-
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                Roles Relacionados
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12} >
-            <div style={{ height: 300, width: "100%" }}>
-              <MUIXDataGridSimple columns={columns} rows={data} />
-              </div>
-            </Grid>
-          </Grid>
+          </Box>
         </DialogContent>
+      </ModalForm>
 
-        <DialogActions>
-          <button className="cerrar" onClick={() => handleClose()}>
-            Cerrar
-          </button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };

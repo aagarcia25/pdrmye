@@ -1,6 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -11,6 +11,7 @@ import { getPermisos, getUser } from "../../../../../services/localStorage";
 import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import { Grid } from "@mui/material";
 
 const Menus = () => {
   const [dt, setDt] = useState([]);
@@ -44,9 +45,9 @@ const Menus = () => {
   
 
   const handleAccion = (v: any) => {
-    if (v.tipo == 1) {
+    if (v.tipo === 1) {
       handleEditar(v.data);
-    } else if (v.tipo == 2) {
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
     }
   };
@@ -67,14 +68,14 @@ const Menus = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id,
         };
-        console.log(data);
+        //console.log(data);
         AuthService.menusindex(data).then((res) => {
           if (res.SUCCESS) {
             Toast.fire({
@@ -84,7 +85,7 @@ const Menus = () => {
 
             handleClose();
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -105,7 +106,7 @@ const Menus = () => {
       width: 150,
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -120,8 +121,7 @@ const Menus = () => {
         );
       },
     },
-    {
-      field: "Menu",
+    { field: "Menu",
       headerName: "Menu",
       width: 400,
     },
@@ -143,7 +143,7 @@ const Menus = () => {
         });
         setData(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -155,14 +155,14 @@ const Menus = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MENUS") {
-        console.log(item);
-        if (String(item.Referencia) == "AGREG") {
+        //console.log(item);
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -172,6 +172,7 @@ const Menus = () => {
 
   return (
     <div>
+      <Grid sx={{padding:"1%" }}>
       {open ? (
         <MenuRelPermisos
           open={open}
@@ -194,6 +195,7 @@ const Menus = () => {
 
       <ButtonsAdd handleOpen={handleOpenModal} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
+      </Grid>
     </div>
   );
 };

@@ -7,7 +7,9 @@ interface TituloProps {
 export function Titulo(props: TituloProps) {
   return (
   
-      <label className="titulo-FPG"><h2>{props.name}</h2></label>
+      <label className="titulo-FPG" >
+        <Typography variant="h4">{props.name}</Typography>
+        </label>
   
   );
 }

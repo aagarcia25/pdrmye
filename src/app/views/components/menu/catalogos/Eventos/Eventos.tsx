@@ -3,13 +3,11 @@ import { Box, IconButton, } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { messages } from '../../../../styles'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EventosModal from './EventosModal';
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
-import "../../../../../styles/globals.css";
+// import "../../../../../styles/globals.css";
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import ButtonsAdd from '../Utilerias/ButtonsAdd'
 import { getPermisos, getUser } from '../../../../../services/localStorage'
@@ -49,8 +47,8 @@ export const Eventos = () => {
         return (
 
           <Box>
-            <IconButton onClick={() => handleVisualizar(v)}>
-              <img id="imagen" src={v.row.Imagen} style={{ width: "2vw", objectFit: "scale-down" }} />
+            <IconButton sx={{ borderRadius:"0", }} onClick={() => handleVisualizar(v)} >
+              <img id="imagen" src={v.row.Imagen} style={{ width: "5vw", objectFit: "scale-down" }} />
             </IconButton>
           </Box>
         );
@@ -58,7 +56,7 @@ export const Eventos = () => {
       },
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -73,12 +71,12 @@ export const Eventos = () => {
 
   ];
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if(v.tipo ===1){
       setTipoOperacion(2);
       setModo("Editar");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+    }else if(v.tipo ===2){
       handleBorrar(v.data);
     }
   }
@@ -94,14 +92,14 @@ export const Eventos = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.eventos(data).then((res) => {
           if (res.SUCCESS) {
@@ -116,7 +114,7 @@ export const Eventos = () => {
             };
             consulta(data);
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -150,7 +148,7 @@ export const Eventos = () => {
   };
 
   const handleClose = () => {
-    console.log('cerrando');
+    //console.log('cerrando');
     setOpen(false);
     let data = {
       NUMOPERACION: 4,
@@ -177,7 +175,7 @@ export const Eventos = () => {
         });
         setEventos(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -189,20 +187,20 @@ export const Eventos = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "EVENTOS") {
-        console.log(item)
-        if (String(item.Referencia) == "AGREG") {
+        //console.log(item)
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
     });
     CatalogosServices.eventos(dat).then((res) => {
-      //  console.log(res);
+      //  //console.log(res);
       setEventos(res.RESPONSE);
     });
   }, []);
@@ -210,7 +208,7 @@ export const Eventos = () => {
   return (
 
 
-    <div style={{ height: 600, width: "100%" }} >
+    <div style={{ height: 600, width: "100%", paddingLeft:"1%", paddingRight:"1%" }} >
 
       {open ? <EventosModal
         open={open}
@@ -221,7 +219,7 @@ export const Eventos = () => {
       />
         : ""}
 
-      <Box sx={{}}>
+      <Box>
        
       </Box>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />

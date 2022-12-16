@@ -6,16 +6,17 @@ import {
   TextField,
   IconButton,
   Container,
-  
-  } from "@mui/material";
-import { Alert } from "../../../../../helpers/Alert";
+
+} from "@mui/material";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, getPermisos, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { PhotoCamera } from "@mui/icons-material";
-import "../../../../../styles/globals.css";
+// import "../../../../../styles/globals.css";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
+import ModalForm from "../../../componentes/ModalForm";
 
 
 const EventosModal = ({
@@ -23,7 +24,7 @@ const EventosModal = ({
   modo,
   handleClose,
   tipo,
- 
+
   dt
 }: {
 
@@ -31,14 +32,14 @@ const EventosModal = ({
   modo: string;
   tipo: number;
   handleClose: Function,
-  
+
   dt: any
 }) => {
 
   //////// trassicion
- 
+
   // CAMPOS DE LOS FORMULARIOS
- 
+
 
   const [id, setId] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -69,23 +70,6 @@ const EventosModal = ({
   const [cleanUp, setCleanUp] = useState<boolean>(false);
   const [editImage, setEditImage] = useState<boolean>(false);
 
-  //setInicioEvento(Fecha_min);
-  //////////////////////////////////
-
-
-  const testeoVariables = () => {
-    console.log("inicio de evento   " + inicioEvento)
-    console.log("fin de evento   " + finEvento)
-    console.log("noombre de evento    " + nameEvent)
-    console.log("detalles de evento   " + descripcion);
-    console.log("imagen   " + urlImage)
-    console.log("nuevo usl de imagen   "+ previewImage)
-    console.log("hoy   "+ hoy.getFullYear())
-    console.log("fecha de hoy   "+ Fecha_min)
-    console.log("numero de operacion  "+tipo)
-   
-  }
-
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -102,7 +86,7 @@ const EventosModal = ({
     setslideropen(true);
 
     const formData = new FormData();
-    (editImage)?formData.append("IMAGEN", newImage, nameNewImage):formData.append("IMAGEN","");    
+    (editImage) ? formData.append("IMAGEN", newImage, nameNewImage) : formData.append("IMAGEN", "");
     formData.append("NUMOPERACION", String(tipo));
     formData.append("CHID", id);
     formData.append("NOMBRE", nameEvent);
@@ -119,7 +103,7 @@ const EventosModal = ({
           title: "Carga Exitosa!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -129,7 +113,7 @@ const EventosModal = ({
 
 
     });
-   
+
     handleClose();
   };
 
@@ -150,7 +134,7 @@ const EventosModal = ({
     }
 
 
-    
+
 
     /////////////////////////////
 
@@ -164,15 +148,15 @@ const EventosModal = ({
     }    /////////////////////////
 
     setNewImage(file);
- 
+
 
   };
   const handleRequest = (data: any) => {
-   
-    if (tipo == 1) {
+
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -186,7 +170,7 @@ const EventosModal = ({
         });
 
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -202,7 +186,7 @@ const EventosModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -214,18 +198,18 @@ const EventosModal = ({
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "EVENTOS") {
-        console.log(item)
-        if (String(item.Referencia) == "EDIT") {
+        //console.log(item)
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
     });
     municipiosc();
-    
 
-    if (dt === '') {    
 
-     } else {
+    if (dt === '') {
+
+    } else {
       setId(dt?.row?.id)
       setDescripcion(dt?.row?.Descripcion)
       setUrlImage(dt?.row?.Imagen)
@@ -234,7 +218,7 @@ const EventosModal = ({
       setInicioEvento(dt?.row?.FechaInicio)
       setFinEvento(dt?.row?.FechaFin)
 
-      
+
     }
 
   }, [dt]);
@@ -257,52 +241,287 @@ const EventosModal = ({
   return (
 
 
-    <Dialog 
-    open={open}  
-    
+    <Dialog
+      open={open}
+
     >
 
-<Container maxWidth="sm" >
-      <Box sx={{ display: 'flex', justifyContent: 'center', }}>
-
-        {/// se setea el modo en modoModal para ver el tipo de el evento
-        }
-
-        <label className="Titulo">{modoModal}</label>
-
-      </Box>
-
-      {(modoModal === "Agregar Evento") ?
       <Container maxWidth="sm" >
-        <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', }}>
 
-          {
-            //////////empiezan debajo del titulo
+          <label className="Titulo">{modoModal}</label>
 
-            //// imagen carga y previsualizacion
-          }
-          <Box sx={{ width: '100%', }}>
+        </Box>
 
-            <Box sx={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              p: 1,
-              m: 1,
-              bgcolor: 'background.paper',
-              borderRadius: 1,
-            }}>
-              <Box   sx={{display: 'flex', width: '100%', justifyContent: 'center', }}>
-              {(cleanUp) ?
-                  <Box 
-                    >
-                    <img src={previewImage} style={{ objectFit: "scale-down", width: '100%', }} />
+        
+        <ModalForm title={modoModal} handleClose={handleClose}>
+          {(modoModal === "Agregar Evento") ?
+
+            <Box boxShadow={3} padding="1%">
+            <Container  maxWidth="sm" >
+              <Box sx={{  width: '100%' }}>
+
+                {
+                  //////////empiezan debajo del titulo
+
+                  //// imagen carga y previsualizacion
+                }
+                <Box  sx={{ width: '100%' }}>
+
+                  <Box sx={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    p: 1,
+                    bgcolor: 'background.paper',
+                    borderRadius: 0,
+                  }}>
+                    <Box   sx={{ display: 'flex', width: '100%', justifyContent: 'center', }}>
+                      {(cleanUp) ?
+                        <Box 
+                        >
+                          <img src={previewImage} style={{ objectFit: "scale-down", width: '100%', borderRadius:"0"}} />
+                        </Box>
+                        : ""}
+                    </Box>
+                    <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', }}>
+                      <IconButton aria-label="upload picture" component="label" size="large" >
+                        <input
+                          required
+                          type="file"
+                          hidden
+                          accept="image/*"
+                          onChange={(event) => {
+                            handleNewImage(event)
+                          }} />
+                        <PhotoCamera />
+                      </IconButton>
+                    </Box>
                   </Box>
-                  : ""}                              
+
+                </Box>
+
+                {
+                  //////////
+
+                  //// inicio y fin de evento
+                }
+                <Box sx={{
+                  p: 1,
+                  m: 1,
+                  bgcolor: 'background.paper',
+                  borderRadius: 1,
+                }}>
+
+                  <Box sx={{
+                    bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+                    p: 1,
+                    m: 1,
+                  }}>
+                    <Box>
+
+                      <Box sx={{ justifyContent: 'center', display: 'flex', }} >
+                        <label >Inicio </label>
+                      </Box>
+
+                      <Box>
+                        <input
+                          id="datetime-local"
+                          required
+                          type="datetime-local"
+
+                          min={inicioEventoMin}
+                          max={finEventoMax}
+                          onChange={handleFechaInicio}
+                        />
+
+
+
+                      </Box>
+                    </Box>
+
+                    <Box sx={{ justifyContent: 'center', }}>
+                      <Box>
+                        <Box sx={{ justifyContent: 'center', display: 'flex', }} >
+                          <label >Fin</label>
+                        </Box>
+                        <Box>
+                          <input
+                            id="datetime-finaliza"
+                            required
+                            type="datetime-local"
+                            min={inicioEvento}
+                            onChange={handleFechaFin}
+                          />
+                        </Box>
+
+                      </Box>
+
+                    </Box>
+                  </Box>
+                </Box>
+                {
+                  //////////
+
+                  //// añadir nombre y descripcion
+                }
+                <Box paddingBottom={3}>
+
+
+                  <label >Nombre</label>
+                  <TextField
+                    required
+                    multiline
+                    margin="dense"
+                    type="string"
+                    fullWidth
+                    variant="standard"
+                    onChange={(v) => setNameEvent(v.target.value)}
+                    error={nameEvent === "" ? true : false}
+                  />
+                  <label
+                  >Descripción</label>
+                  <TextField
+                    multiline
+                    required
+                    margin="dense"
+                    id="anio"
+
+                    type="string"
+                    fullWidth
+                    variant="standard"
+                    onChange={(v) => setDescripcion(v.target.value)}
+                    error={descripcion === "" ? true : false}
+
+                  />
+                </Box>
+
+                <Box  paddingBottom={2} sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
+
+                  <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
+
+
+
+                </Box>
+
+
               </Box>
-              <Box>
-                  <IconButton aria-label="upload picture" component="label" size="large" >
+            </Container>
+            </Box>
+            : ""}
+
+          {(modoModal === "Evento") ?
+          <Box boxShadow={3} padding={2}> 
+            <Container maxWidth="sm" >
+              <Box >
+
+                <Box >
+                  <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
+                </Box>
+
+                <Box>
+                  <Box
+                    sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '0px', textAlign:"center" }}>
+                    <h4>Nombre</h4>
+                  </Box>
+
+                  <label>
+                    {"Nombre " + nameEvent}
+                  </label>
+
+                  <Box
+                    sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius: '0px', textAlign:"center"  }}>
+                    <h4>Descripción</h4>
+                  </Box>
+                  <label>
+                    {descripcion}
+                  </label>
+                </Box>
+
+                <Box
+                  sx={{
+                    bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+                    p: 1,
+                    m: 1,
+                  }}>
+
+                  <label>
+                    <h3>Inicio</h3>
+                    {inicioEvento}
+
+                  </label>
+
+                  <label  >
+                    <h3>Fin</h3>
+                    {finEvento}
+                  </label>
+
+                </Box>
+
+
+                <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
+
+                  {edit ? <button className="editar" onClick={() => setModoModal("Editar")}> Editar </button>
+                    : ""}
+                </Box>
+              </Box>
+            </Container>
+            </Box>
+            : ""
+          }
+
+          {(modoModal === "Editar") ?
+
+            ///// editar evento hora inicio fin y foto        
+
+            (Date.parse(inicioEventoMin) >= Date.parse(inicioEvento)) ?
+
+              ////// SI EL EVENTO YA INICIO NO DEJA EDITARLO
+              <Box> 
+              <Container maxWidth="sm" >
+
+                <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'column', }}>
+
+                  <Box>
+
+                    <TextField
+                      margin="dense"
+                      multiline
+                      value=" El evento ya Inicio y/o Finalizo no se puede editar"
+                      type="string"
+                      fullWidth
+                      variant="outlined"
+                      color="warning"
+                      focused
+                      InputProps={{
+                        readOnly: true,
+                      }} />
+                  </Box>
+                  <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }} >
+
+                  </Box>
+                </Box>
+              </Container>
+              </Box>
+              :
+              /////   EDITAR EVENTO SI ESTE AUN NO FINALIZA Y/O INICIA
+              <Container maxWidth="sm">
+
+                {/// input de infomacion 
+                }
+
+                {(editImage) ?
+                  <Box style={{ width: '80%', height: '80%'}}>
+                    <img id="imagen" src={previewImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
+                  </Box>
+                  :
+                  <Box  style={{ width: '80%', height: '80%'}}>
+                    <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
+                  </Box>
+                }
+                <Box>
+                  <IconButton aria-label="upload picture" component="label" size="large">
                     <input
                       required
                       type="file"
@@ -313,336 +532,104 @@ const EventosModal = ({
                       }} />
                     <PhotoCamera />
                   </IconButton>
-                </Box> 
-            </Box>
-
-          </Box>
-
-          {
-            //////////
-
-            //// inicio y fin de evento
-          }
-          <Box sx={{           
-            p: 1,
-            m: 1,
-            bgcolor: 'background.paper',
-            borderRadius: 1,
-          }}>
-
-            <Box  sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-            p: 1,
-            m: 1,}}>
-              <Box>
-
-                <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                  <label >Inicio </label>
                 </Box>
 
                 <Box>
-                  <input
-                    id="datetime-local"
-                    required
-                    type="datetime-local"
-                    
-                    min={inicioEventoMin}
-                    max={finEventoMax}
-                    onChange={handleFechaInicio}
-                  />
-
-
-
-                </Box>
-              </Box>
-          
-              <Box sx={{ justifyContent: 'center', }}>
-                <Box>
-                  <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                  <label >Fin</label>
-                  </Box>
-                  <Box>
-                    <input
-                      id="datetime-finaliza"
-                      required
-                      type="datetime-local"
-                      min={inicioEvento}
-                      onChange={handleFechaFin}
-                    />
+                  <Box
+                    sx={{ bgcolor: 'rgb(222, 225, 225)' }}>
+                    <label>Nombre</label>
                   </Box>
 
-                </Box>
-
-              </Box>            
-            </Box>
-          </Box>
-          {
-            //////////
-
-            //// añadir nombre y descripcion
-          }
-          <Box>
-
-         
-          <label >Nombre</label>
-                <TextField
-                  required
-                  multiline
-                  margin="dense"
-                  type="string"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setNameEvent(v.target.value)}
-                  error={nameEvent == "" ? true : false}
-                />
-                 <label 
-                 >Descripcion</label>
-                <TextField
-                  multiline
-                  required
-                  margin="dense"
-                  id="anio"
-                  
-                  type="string"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setDescripcion(v.target.value)}
-                  error={descripcion == "" ? true : false}
-
-                />
-              </Box>
-
-              <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
-               
-              <button  className="button cerrar" onClick={() => handleClose()}  >Cerrar</button>
-               <button className= "guardar" onClick={() => handleUpload()} >Guardar</button>
-          
-          
-               
-              </Box>
-
-
-        </Box>
-        </Container>
-        : ""}
-
-      {(modoModal === "Evento") ?
-        <Container maxWidth="sm" >
-          <Box  >
-
-            <Box >
-              <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
-            </Box>
-
-            <Box>
-            <Box
-             sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius:'5px'}}>
-              <h4>Nombre</h4>  
-            </Box>
-
-            <label>                        
-            {"Nombre "+nameEvent}
-            </label>
-
-            <Box
-             sx={{ bgcolor: 'rgb(222, 225, 225)', borderRadius:'5px'}}>
-              <h4>Descripcion</h4>  
-            </Box>              
-            <label>                     
-            {descripcion}
-            </label>           
-            </Box>
-
-            <Box 
-            sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-            p: 1,
-            m: 1,}}>
-
-            <label>
-             <h3>Inicio</h3>            
-            {inicioEvento}           
-            
-            </label>
-
-             <label  >
-             <h3>Fin</h3>            
-            {finEvento}
-            </label>
-          
-            </Box>
-
-
-            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
-
-              <button  className= "cerrar" onClick={() => handleClose()}>Cerrar</button>
-              {edit? <button className = "editar" onClick={() => setModoModal("Editar")}>Editar</button>
-:""}        
-            </Box>
-          </Box>
-        </Container>
-        : ""
-      }
-
-      {(modoModal === "Editar") ?
-
-        ///// editar evento hora inicio fin y foto        
-
-        (Date.parse(inicioEventoMin) >= Date.parse(inicioEvento)) ?
-
-        ////// SI EL EVENTO YA INICIO NO DEJA EDITARLO
-        <Container maxWidth="sm" >
-           
-          <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'column', }}>
-
-            <Box>
-
-              <TextField
-                margin="dense"
-                multiline
-                value=" El evento ya Inicio y/o Finalizo no se puede editar"
-                type="string"
-                fullWidth
-                variant="outlined"
-                color="warning"
-                focused
-                InputProps={{
-                  readOnly: true,
-                }} />
-            </Box>
-            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }} >
-              <button className="cerrar" onClick={() => handleClose()}  >Cerrar</button>
-            
-            </Box>
-          </Box>
-           </Container>
-          :
-          /////   EDITAR EVENTO SI ESTE AUN NO FINALIZA Y/O INICIA
-          <Container maxWidth="sm">
-          
-            {/// input de infomacion 
-            }
-           
-            {(editImage) ?
-              <Box>
-                <img id="imagen" src={previewImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
-              </Box>
-              : 
-              <Box>
-                <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
-              </Box>
-            }
-             <Box>
-              <IconButton aria-label="upload picture" component="label" size="large">
-                <input
-                  required                  
-                  type="file"
-                  hidden
-                  accept="image/*"
-                  onChange={(event) => {
-                    handleNewImage(event)
-                  }} />
-                <PhotoCamera />
-              </IconButton>
-            </Box>
-
-            <Box>
-            <Box
-             sx={{ bgcolor: 'rgb(222, 225, 225)'}}>
-              <label>Nombre</label>  
-            </Box>
-
-              <TextField
-                  required
-                  multiline
-                  defaultValue={nameEvent}
-                  margin="dense"
-                  id="anio"
-                  type="string"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setNameEvent(v.target.value)}
-                  error={nameEvent == "" ? true : false}
-                />
-
-            <Box
-             sx={{ bgcolor: 'rgb(222, 225, 225)'}}>
-              <label>Descripcion</label>  
-            </Box>              
-            <TextField
-                  multiline
-                  required
-                  margin="dense"
-                  id="anio"
-                  defaultValue={descripcion}
-                  type="string"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setDescripcion(v.target.value)}
-                  error={descripcion == "" ? true : false}
-
-                />          
-            </Box>
-
-
-            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-            p: 1,
-            m: 1,}}>
-              <Box sx={{ justifyContent: 'center', }}>
-
-                <Box  >
-                  <label>Inicio de evento </label>
-                </Box>
-                <Box>
-                  <input
-                    id="datetime-inicia"
+                  <TextField
                     required
-                    type="datetime-local"
-                    defaultValue={inicioEvento}
-                    min={inicioEventoMin}
-                    max={finEvento}
-                    onChange={handleFechaInicio}
+                    multiline
+                    defaultValue={nameEvent}
+                    margin="dense"
+                    id="anio"
+                    type="string"
+                    fullWidth
+                    variant="standard"
+                    onChange={(v) => setNameEvent(v.target.value)}
+                    error={nameEvent === "" ? true : false}
                   />
-                </Box>
-              </Box >
 
-              <Box sx={{ justifyContent: 'center', }}>
-
-                <Box>
-                  <label >Fin de evento</label>
-                </Box>
-
-                <Box>
-                  <input
-                    id="datetime-local"
+                  <Box
+                    sx={{ bgcolor: 'rgb(222, 225, 225)' }}>
+                    <label>Descripción</label>
+                  </Box>
+                  <TextField
+                    multiline
                     required
-                    type="datetime-local"
-                    defaultValue={finEvento}
-                    min={inicioEvento}
-                    onChange={handleFechaFin}
+                    margin="dense"
+                    id="anio"
+                    defaultValue={descripcion}
+                    type="string"
+                    fullWidth
+                    variant="standard"
+                    onChange={(v) => setDescripcion(v.target.value)}
+                    error={descripcion === "" ? true : false}
+
                   />
                 </Box>
 
-              </Box>
 
-            </Box>
+                <Box sx={{
+                  bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+                  p: 1,
+                  m: 1,
+                }}>
+                  <Box sx={{ justifyContent: 'center', }}>
 
-           
+                    <Box  >
+                      <label>Inicio de evento </label>
+                    </Box>
+                    <Box>
+                      <input
+                        id="datetime-inicia"
+                        required
+                        type="datetime-local"
+                        defaultValue={inicioEvento}
+                        min={inicioEventoMin}
+                        max={finEvento}
+                        onChange={handleFechaInicio}
+                      />
+                    </Box>
+                  </Box >
 
-            {////// botones 
-            }
+                  <Box sx={{ justifyContent: 'center', }}>
 
-            <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
-              <button className="cerrar" onClick={() => handleClose()}  >Cerrar</button>
-              <button className= "guardar" onClick={() => handleUpload()} >Guardar</button>
-      
-              
+                    <Box>
+                      <label >Fin de evento</label>
+                    </Box>
 
-            </Box>
-          
-            </Container>
+                    <Box>
+                      <input
+                        id="datetime-local"
+                        required
+                        type="datetime-local"
+                        defaultValue={finEvento}
+                        min={inicioEvento}
+                        onChange={handleFechaFin}
+                      />
+                    </Box>
 
-        //////////evento finalizado                     
-        : ""}
-</Container>
+                  </Box>
+
+                </Box>
+
+                {////// botones 
+                }
+
+                <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse' }}>
+                  <button className="guardar" onClick={() => handleUpload()} > Guardar </button>
+                </Box>
+
+              </Container>
+
+            //////////evento finalizado                     
+            : ""}
+        </ModalForm>
+      </Container>
     </Dialog>
 
   );

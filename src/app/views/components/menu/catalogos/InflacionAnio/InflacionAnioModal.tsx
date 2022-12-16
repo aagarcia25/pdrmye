@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -8,13 +8,15 @@ import {
   InputAdornment,
   DialogActions,
   Button,
+  Grid,
 } from "@mui/material";
 
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ModalForm from "../../../componentes/ModalForm";
 
 const InflacionAnioModal = ({
   open,
@@ -37,8 +39,8 @@ const InflacionAnioModal = ({
 
 
   const handleSend = () => {
-    if (anio == "" || inflacion == "") {
-      Alert.fire({
+    if (anio === "" || inflacion === "") {
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -57,11 +59,11 @@ const InflacionAnioModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -75,7 +77,7 @@ const InflacionAnioModal = ({
           title: "Registro Agregado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -92,7 +94,7 @@ const InflacionAnioModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -103,7 +105,7 @@ const InflacionAnioModal = ({
 
   useEffect(() => {
     if (dt === "") {
-      console.log(dt);
+      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setAnio(dt?.row?.Anio);
@@ -112,10 +114,13 @@ const InflacionAnioModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open}>
-      <DialogTitle>{modo}</DialogTitle>
+
+      <ModalForm title={modo} handleClose={handleClose}>
       <DialogContent>
-        <Box>
+
+      <Grid container sx={{ mt: "2vh", width: "100%",height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
+          <Grid item xs={4} sm={3} md={4} lg={4} >
+    
           <TextField
             
             margin="dense"
@@ -127,7 +132,7 @@ const InflacionAnioModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
+            error={anio === "" ? true : false}
           />
 
           <TextField
@@ -140,21 +145,25 @@ const InflacionAnioModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setInflacion(v.target.value)}
-            error={inflacion == "" ? true : false}
+            error={inflacion === "" ? true : false}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="start">%</InputAdornment>
               ),
             }}
           />
-        </Box>
+                </Grid>
+        </Grid>
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => handleSend()}>Guardar</Button>
-        <Button onClick={() => handleClose()}>Cancelar</Button>
+      <Grid container sx={{ mt: "2vh", width: "100%",height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
+          <Grid item xs={4} sm={3} md={2} lg={1} >
+            <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+          </Grid>
+        </Grid>
       </DialogActions>
-    </Dialog>
+      </ ModalForm>
   );
 };
 

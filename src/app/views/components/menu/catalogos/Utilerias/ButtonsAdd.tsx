@@ -10,9 +10,9 @@ const ButtonsAdd = ({
   agregar: boolean;
 }) => {
   return (
-    <Box>
+    < >
       {agregar ? (
-        <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+        <ToggleButtonGroup color="primary" exclusive aria-label="Platform" >
           <Tooltip title="Agregar">
             <ToggleButton value="check" onClick={() => handleOpen(1)}>
               <AddIcon />
@@ -22,7 +22,7 @@ const ButtonsAdd = ({
       ) : (
         ""
       )}
-    </Box>
+    </>
   );
 };
 

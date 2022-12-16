@@ -5,15 +5,15 @@ import {
   Box,
   TextField,
   DialogActions,
+  Grid,
+  Button,
 } from "@mui/material";
-
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import {
-  getUser,
-} from "../../../../../services/localStorage";
+import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ModalForm from "../../../componentes/ModalForm";
 
 const UmasModel = ({
   open,
@@ -37,7 +37,7 @@ const UmasModel = ({
 
   const handleSend = () => {
     if (!diario || !anio || !mensual || !anual) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -58,11 +58,11 @@ const UmasModel = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
 
       editar(data);
@@ -77,7 +77,7 @@ const UmasModel = ({
           title: "Registro Agregado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -91,10 +91,11 @@ const UmasModel = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "Solicitud De Edición Enviada!",
         });
+        handleClose();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -105,7 +106,7 @@ const UmasModel = ({
 
   useEffect(() => {
     if (dt === "") {
-      console.log(dt);
+      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setAnio(dt?.row?.Anio);
@@ -116,12 +117,14 @@ const UmasModel = ({
   }, [dt]);
 
   return (
-    <Dialog open={open}>
-      <DialogContent>
-        <Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{tipo == 1 ?"Agregar Registro" : "Editar Registro"}</label>
-          </Box>
+
+
+
+
+    <ModalForm title={tipo === 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+
+      <Grid container sx={{ justifyContent: "center", alignItems: "center", flexDirection: "row", }}>
+        <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}   >
           <TextField
             required
             margin="dense"
@@ -132,9 +135,9 @@ const UmasModel = ({
             fullWidth
             variant="standard"
             onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
+            error={anio === "" ? true : false}
             InputProps={{
-              readOnly: tipo == 1 ? false : true,
+              readOnly: tipo === 1 ? false : true,
               inputMode: "numeric",
             }}
           />
@@ -149,7 +152,7 @@ const UmasModel = ({
             fullWidth
             variant="standard"
             onChange={(v) => setDiario(v.target.value)}
-            error={diario == "" ? true : false}
+            error={diario === "" ? true : false}
             InputProps={{
               inputMode: "decimal",
             }}
@@ -165,7 +168,7 @@ const UmasModel = ({
             fullWidth
             variant="standard"
             onChange={(v) => setMensual(v.target.value)}
-            error={mensual == "" ? true : false}
+            error={mensual === "" ? true : false}
             InputProps={{
               inputMode: "numeric",
             }}
@@ -181,23 +184,23 @@ const UmasModel = ({
             fullWidth
             variant="standard"
             onChange={(v) => setAnual(v.target.value)}
-            error={anual == "" ? true : false}
+            error={anual === "" ? true : false}
             InputProps={{
               inputMode: "numeric",
             }}
           />
-        </Box>
-      </DialogContent>
+        </Grid>
+      </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cancelar
-        </button>
-      </DialogActions>
-    </Dialog>
+      <Grid container
+        sx={{ mt: "2vh", width: "100%", height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }}>
+        <Grid item xs={4} sm={3} md={2} lg={1}>
+          <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+        </Grid>
+      </Grid>
+    </ModalForm>
+
+
   );
 };
 

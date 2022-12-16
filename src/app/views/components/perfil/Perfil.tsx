@@ -1,638 +1,409 @@
 import {
-  Avatar,
+  BottomNavigation,
+  BottomNavigationAction,
   Button,
-
+  FormHelperText,
   Grid,
   TextField,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
-import { getUser } from "../../../services/localStorage";
+import { getUser, setToken } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import PersonIcon from "@mui/icons-material/Person";
-
+import { DialogCambiarImagen } from "./DialogCambiarImagen";
+import { Toast } from "../../../helpers/Toast";
+import { COLOR } from "../../../styles/colors";
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import React from "react";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { UserServices } from "../../../services/UserServices";
+import Swal from "sweetalert2";
+import { useLocation } from "react-router";
 export const Perfil = () => {
-  const user: RESPONSE = JSON.parse(String(getUser()));
-  //CAMPOS EN USO DE USUARIO
-  console.log(user.Nombre);
+  const [user, setUser] = useState<RESPONSE>(JSON.parse(String(getUser())));
 
-  const [nombre, setNombre] = useState(user.Nombre);
-  const [nombreUsuario, setNombreUsuario] = useState(user.NombreUsuario);
-  const [apellidoPaterno, setApellidoPaterno] = useState(user.ApellidoPaterno);
-  const [apellidoMaterno, setApellidoMaterno] = useState(user.ApellidoMaterno);
-  const [correoElectronico, setCorreoElectronico] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [rutaFoto, setRutaFoto] = useState("");
-  const [puesto, setPuesto] = useState("");
-  const [ubicacion, setUbicacion] = useState("");
-  const [tipo, setTipo] = useState("");
-
-  const [departamento, setDepartamento] = useState("");
-  const [departamentos, setDepartamentos] = useState("");
-
+  //Abrir Dialog de imagen
+  const query = new URLSearchParams(useLocation().search);
+  const jwt = query.get("jwt");
+  const [openDialog, setOpenDialog] = useState(false)
   //CARD 1
-  const [botonEdicionFoto, setBotonEdicionFoto] = useState("Editar");
-  const [botonEdicionTodo, setBotonEdicionTodo] = useState("Editar");
+  const [password, setPassword] = useState("");
+  const [confPassword, setConfPassword] = useState("");
+  const [tokenValid, setTokenValid] = useState<boolean>();
+  const [value, setValue] = useState('general');
 
-  user.Nombre = nombre;
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+    setPassword("");
+    setConfPassword("")
+  };
+
+  const handleCloseDialogImagen = () => {
+    setOpenDialog(false);
+  };
 
   //PRIMER CARD FUNCIONES
-  const onClickEditarFoto = () => {
-    setBotonEdicionFoto("Guardar");
-    // PERMITIR ABRIR ARCHIVOS Y SELECCIONAR UNO EL CUAL
-    // LE MANDARÁ UN NUVO VALOR A LA IMAGEN QUE ESTA A
-    // LA IZQUIERDA DE GUARDAR
-    // HACER CONDICIÓON PARA MOSTRAR LA NUEVA IMAGEN
-    // APARECER UN NUEVO BOTÓN QUE PONGA CANCELAR
-    // Y CON ESE PAUSAR ACCIÓN DE MODIFICADO
-    if (botonEdicionFoto === "Guardar") {
-      setBotonEdicionFoto("Editar");
-      // MANDAR TIPO OPERACION 2, revisar municipios para su creación
+
+  const RfToken = () => {
+    UserServices.verify({}).then((res) => {
+      if (res.status === 200) {
+        setTokenValid(true)
+        console.log("verify true")
+        onClickChangePassword();
+      } else if (res.status === 401) {
+        console.log("verify false")
+        UserServices.refreshToken().then((resAppLogin) => {
+          if (resAppLogin.status === 200) {
+            setTokenValid(true);
+            setToken(jwt);
+            onClickChangePassword();
+          }
+          else {
+            setTokenValid(false);
+            Toast.fire({
+              icon: "error",
+              title: "Sesión Demasiado Antigua",
+            });
+          }
+        });
+
+      }
+
+    });
+  };
+
+
+
+  const onClickChangePassword = () => {
+    if ((password !== confPassword) || (password.length < 6)) {
+      Toast.fire({
+        icon: "warning",
+        title: "¡Verifique Los Campos!"
+      });
+    } else {
+      Swal.fire({
+        icon: "question",
+        title: "Cambiar Contraseña?",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          let dat = {
+            IdUsuario: user.id,
+            ContrasenaNueva: password,
+          };
+
+          if (tokenValid === true) {
+            UserServices.changepassword(dat).then((res) => {
+              if (res.status === 200 && res.data.message === "Cambio de contraseña exitoso!") {
+                Swal.fire("¡Cambio de Contraseña exitoso!", "", "success");
+                setPassword("");
+                setConfPassword("");
+              } else {
+                Toast.fire({
+                  icon: "warning",
+                  title: "¡Cambio de Contraseña Fallo!",
+                });
+              }
+            });
+          } else {
+            RfToken();
+          }
+        }
+      });
     }
   };
 
-  const onClickEditarTodo = () => {
-    setBotonEdicionTodo("Guardar");
-    //Avisos de que faltan algunos campos y avisar que sus compañeros no los podrán observar
-    if (botonEdicionTodo === "Guardar") {
-      setBotonEdicionTodo("Editar");
+  useEffect(() => {
 
-    }
-  };
+    UserServices.verify({}).then((res) => {
+      if (res.status === 200) {
+        setTokenValid(true)
+        console.log("verify true")
+      } else if (res.status === 401) {
+        console.log("verify false")
+        UserServices.refreshToken().then((resAppLogin) => {
+          if (resAppLogin.status === 200) {
+            setTokenValid(true);
+            setToken(jwt);
+          }
+          else {
+            setTokenValid(false);
+            Toast.fire({
+              icon: "error",
+              title: "Sesión Demasiado Antigua",
+            });
+          }
+        });
 
-  let st;
+      }
 
-  useEffect(() => { }, []);
+    });
+
+
+  }, []);
+
+
+
 
   return (
-    <Box
-      sx={{
+    <>
+      <Grid container direction="row" justifyContent="flex-end" alignItems="center" paddingTop="2%" >
+        <BottomNavigation showLabels sx={{ width: 500, borderRadius: "10px", }} value={value} onChange={handleChange}>
+          <BottomNavigationAction
+            sx={{ borderRadius: "20px", }}
+            //  sx={{ backgroundColor: "blue",}} 
+            label="Información General"
+            value="general"
+            icon={<AccountBoxIcon />}
+          />
+          <BottomNavigationAction
+            sx={{ borderRadius: "20px", }}
+            // sx={{ backgroundColor: "blue", }}
+            label="Cambiar Contraseña"
+            value="password"
+            icon={<VpnKeyIcon />}
+          />
+        </BottomNavigation>
+      </Grid>
+
+      <Box sx={{
         //Principal
         width: "100%",
         height: "100%",
-        backgroundColor: "white",
-        display: "flex",
+        // backgroundColor: "#EEEEEE",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-start",
+        display: "flex",
       }}
-    >
-      <Box
-        sx={{
-          width: "80%",
-          height: "80%",
-          //backgroundColor: "blue"
-        }}
       >
         <Box
+          boxShadow={3}
+          paddingBottom="2%"
           sx={{
-            //EspacioTitulo
-            width: "100%",
-            height: "15%",
-            //backgroundColor: "skyblue",
             display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <Box
-            sx={{
-              //Titulo
-              width: "100%",
-              height: "50%",
-              //  backgroundColor: "skyblue",
-            }}
-          >
-            <Typography
-              sx={{
-                //Tamaño
-                fontSize: "2.5vw",
-                fontWeight: "bold",
-              }}
-            >
-              Perfil
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              height: "50%",
-            }}
-          ></Box>
-        </Box>
-        <Box
-          sx={{
             width: "100%",
-            height: "100%",
-            //  backgroundColor: "green"
-          }}
-        >
-          <Box
-            sx={{
-              //CARD #1
-              width: "100%",
-              height: "50%",
-              bgcolor: "rgb(252,252,252)",
-              borderRadius: 2,
-              boxShadow: 2,
-              mt: 1,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Box
-              sx={{
-                //CARD CONTENT
-                width: "95%",
-                height: "90%",
-                //backgroundColor: "red",
-                display: "flex",
-              }}
-            >
-
-
-              <Box
-                sx={{
-                  width: "25%",
-                  height: "100%",
-                  // backgroundColor: "blue"
-                }}
-              >
-                <Grid container>
-                  <Grid
-                    item
-                    xs={12}
-                    sx={{
-                      //Anio
-                      display: "flex",
-                      justifyContent: "start",
-                      // backgroundColor: "white",
-                    }}
-                  >
-                    <Typography sx={{ fontSize: "1.3vw", fontWeight: "Bold" }}>
-                      Información Personal
-                    </Typography>
-                  </Grid>
-                </Grid>
-                
-
-              </Box>
-              <Box
-                sx={{
-                  width: "75%",
-                  height: "100%",
-                  // backgroundColor: "orange"
-                }}
-              >
+            height: "auto",
+            justifyContent: "center",
+            backgroundColor: "white",
+            alignItems: "center"
+          }}>
+          <Grid container>
+            {value === "general" ?
+              < Grid container sx={{ justifyContent: "center", borderRadius: "10px", }} >
                 <Box
+                  display="flex" flexDirection="row"
                   sx={{
-                    //Foto y botón
-                    width: "100%",
-                    height: "25%",
-                    // backgroundColor: "red",
-                    display: "flex",
+                    width: "80%",
+                    height: "auto",
+                    flexDirection: "column",
                     alignItems: "center",
-                    flexDirection: "row",
                   }}
                 >
-                  <Grid container>
-                    <Grid
-                      item
-                      xs={1.5}
-                      sx={{
-                        //Anio
-                        display: "flex",
-                        justifyContent: "start",
-                        // backgroundColor: "violet",
+
+                  {/* Imagen y tipo de usuario */}
+                  <Box paddingTop={3}>
+                    <Box boxShadow={3}
+                      onClick={() => {
+                        setOpenDialog(true)
                       }}
-                    >
-                      
-                      <Box sx={{
-                        width:"4vw",
-                        height:"6vh",
-                        backgroundColor:"white",
-                        borderRadius: '50%',
-                        border:3,
-                        borderColor:"black",
-                        display:"flex",
-                        justifyContent:"center",
-                        alignItems:"center"
-                      }}>
-                         {user.RutaFoto ? (
-                        <img
-                          style={{
-                            objectFit: "scale-down",
-                            width: "3vw",
-                          }}
+
+                      sx={{ width: "7.4rem", height: "7.4rem", backgroundColor: "white", borderRadius: '50%', justifyContent: "center", cursor: "pointer", }} >
+                      {user.RutaFoto ?
+                        <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
                           src={user.RutaFoto}
                         />
-                      ) : (
-                        <PersonIcon
-                          sx={{
-                            width: "10vw",
-                            height: "4vh",
-                            
-                          }}
-                        />
-                      )}
+                        : <PersonIcon sx={{ width: "100%", height: "100%", }} />
+                      }
 
-                      </Box>
-                      
-                      <Box
-                    sx={{
-                      width: "25%",
-                      height: "100%",
-                      justifyContent: "start",
-                      backgroundColor: "white",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}>
+
+                    </Box>
+                    <DialogCambiarImagen open={openDialog} handleClose={handleCloseDialogImagen}></DialogCambiarImagen>
 
                   </Box>
-                    </Grid>
-                    <Grid
-                      item //Botón Cambiar
-                      xs={1}
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        // backgroundColor: "white",
-                      }}
-                    >
-                      <Button
-                        onClick={onClickEditarFoto}
-                        sx={{
-                          width: "2vw",
-                          height: "3vh",
-                          backgroundColor: "white",
-                          borderColor: "#5048E7",
-                          borderRadius: 1,
-                          color: "#5048E5",
-                          "&:hover": {
-                            color: "#5048E5",
-                            backgroundColor: "#eeebf5",
-                          },
-                        }}
-                      >
-                        <Typography sx={{ fontSize: "3" }}>
-                          {botonEdicionFoto}
-                        </Typography>
-                      </Button>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={9.5}
-                      sx={{
-                        //Anio
-                        display: "flex",
-                        justifyContent: "end",
-                        // backgroundColor: "pink",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Typography sx={{ fontWeight: "Bold" }}>
-                        Tipo de usuario: {tipo
-                          //VER COMO TRAER EL ROL DEL USUARIO!!!
-                        }
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Box>
 
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: "75%",
-                    //  backgroundColor: "brown",
+                  {/* Informacion Basica */}
+                  <Box boxShadow={3} sx={{
+                    width: "90%",
+                    height: "12%",
                     display: "flex",
-                    flexDirection: "row",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: "90%",
-                      height: "100%",
-                      //  backgroundColor: "green",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
+                    mt: "2rem",
+                    borderRadius: "10px",
+                    // border: "1px solid black",
+                    bgcolor: "#051c2c",
+                  }}>
+
+                    <Typography sx={{
+                      width: "30%",
+                      fontFamily: "sans-serif",
+                      fontSize: "1rem",
+                      color: "#CCCCCC"
                     }}
-                  >
-                    <TextField
-                      disabled={botonEdicionTodo === "Editar" ? true : false}
-                      required
-                      margin="dense"
-                      id="Nombre"
-                      label="Nombre"
-                      value={nombre}
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={(v) => setNombre(v.target.value)}
-                      error={nombre == "" ? true : false}
-                    />
-                    <TextField
-                      disabled={botonEdicionTodo === "Editar" ? true : false}
-                      required
-                      margin="dense"
-                      id="ApellidoPaterno"
-                      label="Apellido Paterno"
-                      value={apellidoPaterno}
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={(v) => setApellidoPaterno(v.target.value)}
-                      error={apellidoPaterno == "" ? true : false}
-                    />
-                    <TextField
-                      disabled={botonEdicionTodo === "Editar" ? true : false}
-                      required
-                      margin="dense"
-                      id="ApellidoMaterno"
-                      label="Apellido Materno"
-                      value={apellidoMaterno}
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={(v) => setApellidoMaterno(v.target.value)}
-                      error={apellidoMaterno == "" ? true : false}
-                    />
-                  </Box>
-                  <Box
-                    sx={{
-                      width: "10%",
-                      height: "100%",
-                      //  backgroundColor: "orange",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
+                    > Nombre:
+                      <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
+                        {user.Nombre} </Typography>
+                    </Typography>
+
+                    <Typography sx={{
+                      width: "30%",
+                      fontFamily: "sans-serif",
+                      fontSize: "1rem",
+                      color: "#CCCCCC"
                     }}
-                  >
-                    <Grid
-                      item
-                      xs={12}
-                      sx={{
-                        height: "5vh",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        // backgroundColor: "blue",
-                      }}
-                    ></Grid>
+                    > Apellido Paterno:
+                      <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
+                        {user.ApellidoPaterno} </Typography>
+                    </Typography>
+
+                    <Typography sx={{
+                      width: "30%",
+                      fontFamily: "sans-serif",
+                      fontSize: "1rem",
+                      color: "#CCCCCC"
+                    }}
+                    > Apellido Materno:
+                      <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
+                        {user.ApellidoMaterno} </Typography>
+                    </Typography>
                   </Box>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              //CARD #2
-              width: "100%",
-              height: "50%",
-              bgcolor: "rgb(252,252,252)",
-              borderRadius: 2,
-              boxShadow: 2,
-              mt: 1,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Box
-              sx={{
-                //CARD CONTENT
-                width: "95%",
-                height: "90%",
-                //  backgroundColor: "red",
-                display: "flex",
-              }}
-            >
-              <Box
-                sx={{
-                  //Subtitle
-                  width: "25%",
-                  height: "100%",
-                  //  backgroundColor: "yellow",
-                }}
-              >
-                <Typography sx={{ fontSize: "1.3vw", fontWeight: "Bold" }}>
-                  Contacto y ubicación
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  //Content
-                  width: "75%",
-                  height: "100%",
-                  //  backgroundColor: "orange",
-                  display: "flex",
-                  flexDirection: "row",
-                }}
-              >
-                <Box
-                  sx={{
-                    // Todos los Textfields
+
+                  <Box sx={{
+                    height: "2%",
+                  }}> </Box>
+
+                  <Box boxShadow={2} sx={{
                     width: "90%",
                     height: "100%",
-                    //  backgroundColor: "purple",
                     display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      //Textfields Email/Tellphone
-                      width: "100%",
-                      height: "25%",
-                      display: "flex",
-                      flexDirection: "row",
-                      backgrounColor: "blue",
-                      mb: 1,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        //Textfields correo
-                        width: "48%",
-                        height: "100%",
-                        //  backgroundColor: "red",
-                      }}
-                    >
-                      <TextField
-                        disabled={botonEdicionTodo === "Editar" ? true : false}
-                        required
-                        margin="dense"
-                        id="CorreoElectronico"
-                        label="Correo Eléctronico"
-                        value={correoElectronico}
-                        type="email"
-                        fullWidth
-                        variant="outlined"
-                        onChange={(v) => setCorreoElectronico(v.target.value)}
-                        error={correoElectronico == "" ? true : false}
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        //Espacio entre Correo y telefono
-                        width: "4%",
-                        height: "100%",
-                        // backgroundColor: "gray",
-                      }}
-                    ></Box>
-                    <Box
-                      sx={{
-                        //Textfield tellphone box
-                        width: "48%",
-                        height: "100%",
-                        //  backgroundColor: "white",
-                      }}
-                    >
-                      <TextField
-                        disabled={botonEdicionTodo === "Editar" ? true : false}
-                        required
-                        margin="dense"
-                        id="Telefono"
-                        label="Teléfono"
-                        value={telefono}
-                        type="number"
-                        fullWidth
-                        variant="outlined"
-                        onChange={(v) => setTelefono(v.target.value)}
-                        error={telefono == "" ? true : false}
-                      />
-                    </Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      //Textfields Ubicación y Puesto
-                      width: "100%",
-                      height: "25%",
-                      display: "flex",
-                      flexDirection: "row",
-                      // backgrounColor:"blue",
-                      mb: 1,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        //Textfields ubicacion
-                        width: "48%",
-                        height: "100%",
-                        //  backgroundColor: "white",
-                      }}
-                    >
-                      <TextField
-                        disabled={botonEdicionTodo === "Editar" ? true : false}
-                        required
-                        margin="dense"
-                        id="Ubicacion"
-                        label="Ubicación"
-                        value={ubicacion}
-                        type="text"
-                        fullWidth
-                        variant="outlined"
-                        onChange={(v) => setUbicacion(v.target.value)}
-                        error={ubicacion == "" ? true : false}
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        //Espacio entre Ubicación y Puesto
-                        width: "4%",
-                        height: "100%",
-                        // backgroundColor: "gray",
-                      }}
-                    ></Box>
-                    <Box
-                      sx={{
-                        //Textfield puesto box
-                        width: "48%",
-                        height: "100%",
-                        // backgroundColor: "red",
-                      }}
-                    >
-                      <TextField
-                        disabled={botonEdicionTodo === "Editar" ? true : false}
-                        required
-                        margin="dense"
-                        id="Puesto"
-                        label="Puesto"
-                        value={puesto}
-                        type="text"
-                        fullWidth
-                        variant="outlined"
-                        onChange={(v) => setPuesto(v.target.value)}
-                        error={puesto == "" ? true : false}
-                      />
-                    </Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      //Textfield Departamento
-                      width: "100%",
-                      height: "25%",
-                      display: "flex",
-                      flexDirection: "row",
-                      //  backgrounColor:"blue"
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        //Textfields ubicacion
-                        width: "100%",
-                        height: "100%",
-                        // backgroundColor: "pink",
-                      }}
-                    >
-                      <TextField
-                        disabled={botonEdicionTodo === "Editar" ? true : false}
-                        required
-                        margin="dense"
-                        id="Departamento"
-                        label="Departamento"
-                        value={departamento}
-                        type="text"
-                        fullWidth
-                        variant="outlined"
-                        onChange={(v) => setDepartamento(v.target.value)}
-                        error={departamento == "" ? true : false}
-                      />
-                    </Box>
-                  </Box>
-                  <Box sx={{
-                    width: "100%",
-                    height: "13%",
-                    //  backgroundColor:"red",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "end"
+                    justifyContent: "space-evenly",
+                    borderRadius: "10px",
+                    bgcolor: "rgb(252,252,252)",
+                    flexDirection: "column"
                   }}>
-                    <Button
-                      onClick={onClickEditarTodo}
-                      sx={{
-                        width: "2vw",
-                        height: "3vh",
-                        backgroundColor: "white",
-                        borderColor: "#5048E7",
-                        borderRadius: 1,
-                        color: "#5048E5",
-                        "&:hover": {
-                          color: "#5048E5",
-                          backgroundColor: "#eeebf5",
-                        },
-                      }}
-                    > <Typography sx={{ fontSize: "3" }}>
-                        {botonEdicionTodo}
-                      </Typography></Button>
+
+                    <Typography align="center" variant="h5" sx={{ width: "100%", color: COLOR.azul, paddingTop: "2%" }}>
+                      Contacto y Ubicación
+                    </Typography>
+                    <br />
+                    <Grid>
+                      <Grid container direction="column" justifyContent="center" alignItems="center">
+                        <Grid item xs={10}>
+                          <label className="negro">Departamento:</label>
+                          <label className="gris"> {user.DEPARTAMENTOS[0]?.Descripcion} </label>
+                        </Grid>
+                        <br />
+                        <Grid item xs={10}>
+                          <label className="negro">Correo electrónico:</label>
+                          <label className="gris"> {user.CorreoElectronico} </label>
+                        </Grid>
+                      </Grid>
+                      <Grid container direction="column" justifyContent="center" alignItems="center" >
+                        <br />
+                        <Grid item xs={10}>
+                          <label className="negro">Telefono:</label>
+                          <label className="gris"> {user.Telefono ? user.Telefono : "Sin Informacion"} </label>
+                        </Grid>
+                        <br />
+                        <Grid item xs={10}>
+                          <label className="negro">Extencion:</label>
+                          <label className="gris"> {user.Ext ? user.Ext : "Sin Informacion"} </label>
+                        </Grid>                  <br />
+                        <Grid item xs={10}>
+                          <label className="negro">Celular:</label>
+                          <label className="gris"> {user.Celular ? user.Celular : "Sin Informacion"} </label>
+                        </Grid>
+                        <br />
+                        <Grid item xs={10}>
+                          <label className="negro">Puesto:</label>
+                          <label className="gris"> {user.Puesto ? user.Puesto : "Sin Informacion"} </label>
+                        </Grid>
+                      </Grid>
+                    </Grid>
                   </Box>
                 </Box>
+              </Grid>
+              : ""
+            }
+            {value === "password" ?
+              < Grid container paddingTop="5%" direction="column" justifyContent="center" alignItems="center" >
+                <Grid item >
+                  <Grid item xs={12} sx={{}}>
+                    <label> Ingrese  Nueva Contraseña</label>
+                    <TextField
+                      sx={{ minl: "center", borderRadius: "10px", }}
+                      required
+                      margin="dense"
+                      value={password}
+                      type="password"
+                      fullWidth
+                      variant="outlined"
+                      onChange={(v) => setPassword(v.target.value)}
+                      error={password.length < 6 ? true : false}
+                      inputProps={{
+                        maxLength: 100,
+                        minLength: 6
+                      }}
+                    />
+                    <FormHelperText id="component-helper-text">
+                      <>
+                        <InfoOutlinedIcon /> <label> Mínimo 6 Caracteres</label>
+                      </>
+
+                    </FormHelperText>
+                  </Grid>
+
+                  <Grid item xs={12} sx={{}}>
+
+                    <label> Confirme  Contraseña</label>
+                    <TextField
+                      required
+                      margin="dense"
+                      value={confPassword}
+                      type="password"
+                      fullWidth
+                      variant="outlined"
+                      onChange={(v) => setConfPassword(v.target.value)}
+                      error={(password !== confPassword) ? true : false}
+                      inputProps={{
+                        maxLength: 100,
+                        minLength: 6
+                      }}
+
+                    />
+                  </Grid>
+                  <Grid container justifyContent="center" alignItems="center" alignContent="center">
+                    <Grid item paddingTop="10%" xs={6}>
+                      <Button
+                        onClick={() => onClickChangePassword()}
+                        color="primary" fullWidth variant="contained"> <Typography color="white"> Cambiar </Typography>
+                      </Button>
+                    </Grid>
+                  </Grid>
 
 
 
-              </Box>
-            </Box>
-          </Box>
+                </Grid >
+
+              </Grid>
+
+              : ""}
+
+
+          </Grid>
         </Box>
       </Box>
-    </Box>
+
+
+
+    </>
   );
 };

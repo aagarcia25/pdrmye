@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Container,
   Dialog,
   DialogActions,
@@ -7,13 +8,14 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import ModalForm from "../../../componentes/ModalForm";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 
 export const DepartamentosModal = ({
   open,
@@ -37,8 +39,8 @@ export const DepartamentosModal = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const handleSend = () => {
-    if (!nombreCorto || !descripcion || !responsable|| responsable=="") {
-      Alert.fire({
+    if (!nombreCorto || !descripcion || !responsable || responsable == "") {
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -52,29 +54,29 @@ export const DepartamentosModal = ({
         DESCRIPCION: descripcion,
         RESPONSABLE: responsable,
       };
-      console.log("data de modal", data);
+      //console.log("data de modal", data);
       handleRequest(data);
       handleClose();
     }
   };
-  
+
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
-      CatalogosServices.SelectIndex(data).then((res) => {
-          setUsuarios(res.RESPONSE);
-      });
-    }
+    CatalogosServices.SelectIndex(data).then((res) => {
+      setUsuarios(res.RESPONSE);
+    });
+  }
 
-    const handleChange = (v: string) => {
-      console.log(v)
-       v=="false"?setResponsable(""):setResponsable(v);
+  const handleChange = (v: string) => {
+    //console.log(v)
+    v === "false" ? setResponsable("") : setResponsable(v);
   };
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -88,7 +90,7 @@ export const DepartamentosModal = ({
           title: "Registro Agregado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -105,7 +107,7 @@ export const DepartamentosModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -115,13 +117,13 @@ export const DepartamentosModal = ({
   };
 
   useEffect(() => {
-    console.log(dt?.row)
+    //console.log(dt?.row)
     loadFilter(10);
     if (dt === "") {
     } else {
       //SE PINTAN LOS CAMPOS
       setId(dt?.row?.id);
-      console.log(dt?.row?.id)
+      //console.log(dt?.row?.id)
       setNombreCorto(dt?.row?.NombreCorto);
       setDescripcion(dt?.row?.Descripcion);
       setResponsable(dt?.row?.Responsable);
@@ -129,15 +131,21 @@ export const DepartamentosModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open}>
-      <DialogContent>
-        <Box sx={{ justifyContent: "center", height:450 }}>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
+
+
+    <Dialog open={open} fullScreen sx={{ margin:"0%",padding:"0%"}}>
+
+      <ModalForm title={"Editar Registro"} handleClose={handleClose}>
+
+      <Box boxShadow={2} sx={{ justifyContent: "center", height:"100%"}}>
+      <DialogContent  sx={{ height:"600px"}}>
+        
+          
           {modo === "Agregar Registro" ? (
-            <Container maxWidth="sm">
+            <Container maxWidth="md"   >
+             
               <TextField
+                sx={{ paddingBottom:"1%"}}
                 required
                 margin="dense"
                 id="NombreCorto"
@@ -150,7 +158,9 @@ export const DepartamentosModal = ({
                 error={!nombreCorto ? true : false}
                 InputProps={{}}
               />
+              
               <TextField
+              sx={{ paddingBottom:"2%"}}
                 required
                 margin="dense"
                 id="Descripcion"
@@ -163,10 +173,12 @@ export const DepartamentosModal = ({
                 error={!descripcion ? true : false}
                 InputProps={{}}
               />
-                   <Box sx={{
-                margin:1
-               }}>
+              <Box sx={{
+                paddingTop:3,
+                paddingBottom: 3
+              }}>
                 <SelectFrag
+             
                   value={String(responsable)}
                   options={usuarios}
                   onInputChange={handleChange}
@@ -174,15 +186,16 @@ export const DepartamentosModal = ({
                   label={""}
                   disabled={false}
                 />
-                </Box>
+              </Box>
             </Container>
           ) : (
             ""
           )}
 
           {modo === "Editar Registro" ? (
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" sx={{height:"100%"}}>
               <TextField
+                sx={{ paddingBotton:"3%" }}
                 disabled
                 required
                 margin="dense"
@@ -197,6 +210,7 @@ export const DepartamentosModal = ({
                 InputProps={{}}
               />
               <TextField
+                sx={{ paddingBotton:"2%" }}
                 required
                 margin="dense"
                 id="Descripcion"
@@ -210,8 +224,10 @@ export const DepartamentosModal = ({
                 InputProps={{}}
               />
               <Box sx={{
-                margin:1
-               }}>
+                margin: 1,
+                paddingBotton:"2%",
+                paddingTop:"3%"
+              }}>
                 <SelectFrag
                   value={String(responsable)}
                   options={usuarios}
@@ -220,21 +236,25 @@ export const DepartamentosModal = ({
                   label={""}
                   disabled={false}
                 />
-                </Box>
+              </Box>
             </Container>
           ) : (
             ""
           )}
-        </Box>
+        
       </DialogContent>
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cerrar
-        </button>
+
+      <DialogActions sx={{width:"80%", paddingBottom:"1%"}}>
+        <Button className="actualizar" onClick={() => handleSend()}>
+          Actualizar
+        </Button>
+ 
       </DialogActions>
+
+      </Box>
+
+      </ModalForm>
+
     </Dialog>
   );
 };

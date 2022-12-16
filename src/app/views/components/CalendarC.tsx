@@ -11,9 +11,9 @@ import {
   RESPONSE,
 } from "../../interfaces/calendario/calendario";
 import { getUser } from "../../services/localStorage";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { Toast } from "../../helpers/Toast";
-import { Alert } from "../../helpers/Alert";
+import { AlertS } from "../../helpers/AlertS";
 import CalendarCModal from "./CalendarCModal";
 import Swal from "sweetalert2";
 import { UserReponse } from "../../interfaces/user/UserReponse";
@@ -31,11 +31,11 @@ const CalendarC = () => {
   const [id, setId] = useState("");
   const today = new Date();
 
-  console.log("modo", modo);
+  //console.log("modo", modo);
 
   const onSelectEvent = (v: any) => {
 
-    console.log(v);
+    //console.log(v);
     setId(v.id);
     setTipoOperacion(2);
     setModo("Editar Evento");
@@ -60,7 +60,7 @@ const CalendarC = () => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
-    console.log("SelectSlot fecha inicio", Fecha_inicio, " Fecha fin ", Fecha_fin);
+    //console.log("SelectSlot fecha inicio", Fecha_inicio, " Fecha fin ", Fecha_fin);
 
   };
 
@@ -101,7 +101,7 @@ const CalendarC = () => {
 
             handleClose();
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -135,7 +135,7 @@ const CalendarC = () => {
         });
         setEventos(eveitem);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -147,12 +147,12 @@ const CalendarC = () => {
 
 
   const moviendoEventos = (v: any) => {
-    console.log(v);
+    //console.log(v);
 
   }
 
   useEffect(() => {
-    consulta({ NUMOPERACION: 4 });
+    consulta({ NUMOPERACION: 4 ,CHUSER:user.id});
   }, []);
 
   return (
@@ -169,11 +169,13 @@ const CalendarC = () => {
       ) : (
         ""
       )}
-      <Grid container spacing={1}>
+      <Grid container spacing={1} paddingTop={4}>
         <Grid
           item
           xs={12}
           sx={{
+            paddingTop:"1%",
+            paddingRight:"2%",
             mb: 1,
             display: "flex",
             justifyContent: "right",
@@ -182,13 +184,14 @@ const CalendarC = () => {
           <Button
             onClick={onClickAgregarEvento}
             variant="contained"
-            startIcon={<AddIcon />}
+            startIcon={<AddIcon sx={{ color:"white" }} />}
           >
-            Agregar Evento
+           <Typography sx={{ color:"white" }} > Agregar Evento </Typography>
           </Button>
         </Grid>
       </Grid>
       <Calendar
+        
         culture="es"
         localizer={localizer}
         events={eventos}
@@ -197,7 +200,8 @@ const CalendarC = () => {
         startAccessor="start"
         endAccessor="end"
         style={{
-          height: "calc( 80vh - 80px )",
+          height: "calc( 80rem - 80% )",
+          margin:"2%",
         }}
         messages={getMessagesES()}
         onSelectEvent={(v) => onSelectEvent(v)}

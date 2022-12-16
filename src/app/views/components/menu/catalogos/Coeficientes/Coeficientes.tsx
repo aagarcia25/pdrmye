@@ -10,7 +10,7 @@ import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import CoeficientesModal from "./CoeficientesModal";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -25,7 +25,6 @@ export const Coeficientes = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [dataCoeficientes, setDataCoeficientes] = useState([]);
-  const [slideropen, setslideropen] = useState(false);
   const [vrows, setVrows] = useState({});
   const user: RESPONSE = JSON.parse(String(getUser()));
 
@@ -40,14 +39,14 @@ export const Coeficientes = () => {
       renderCell: (v) => {
         return (
           <Box>
-            {v.row.Vigente == 1 ? 'Vigente' : 'No Vigente'}
+            {v.row.Vigente === 1 ? 'Vigente' : 'No Vigente'}
           </Box>
         );
       },
     },
 
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -84,7 +83,7 @@ export const Coeficientes = () => {
   };
 
   const handleEdit = (v: any) => {
-    console.log(v);
+    //console.log(v);
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
@@ -108,7 +107,7 @@ export const Coeficientes = () => {
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.coeficientes(data).then((res) => {
           if (res.SUCCESS) {
@@ -125,7 +124,7 @@ export const Coeficientes = () => {
 
 
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -148,7 +147,7 @@ export const Coeficientes = () => {
         });
         setDataCoeficientes(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",

@@ -8,7 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -46,7 +46,7 @@ const TipoFondoModal = ({
           title: "Registro Agregado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -63,7 +63,7 @@ const TipoFondoModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -73,19 +73,19 @@ const TipoFondoModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
   };
 
   const handleSend = () => {
-    if (descripcion == "") {
-      Alert.fire({
+    if (descripcion === "") {
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -107,7 +107,7 @@ const TipoFondoModal = ({
   useEffect(() => {
 
     if (dt === '') {
-      console.log(dt)
+      //console.log(dt)
     } else {
       setId(dt?.row?.id)
       setDescripcion(dt?.row?.Descripcion)
@@ -120,7 +120,7 @@ const TipoFondoModal = ({
 
   return (
     <div>
-      <Dialog open={open}>
+      <Dialog open={open} fullScreen>
         <DialogTitle>{modo}</DialogTitle>
         <DialogContent>
           <Box>
@@ -134,7 +134,7 @@ const TipoFondoModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setClave(v.target.value)}
-              error={clave == "" ? true : false}
+              error={clave === "" ? true : false}
             />
 
             <TextField
@@ -147,7 +147,7 @@ const TipoFondoModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setDescripcion(v.target.value)}
-              error={descripcion == "" ? true : false}
+              error={descripcion === "" ? true : false}
             />
           </Box>
         </DialogContent>

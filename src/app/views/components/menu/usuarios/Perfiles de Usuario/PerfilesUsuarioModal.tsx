@@ -1,17 +1,18 @@
 import {
   Box,
+  Button,
   Container,
   Dialog,
   DialogActions,
-  DialogContent,
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AuthService } from "../../../../../services/AuthService";
 import { getUser } from "../../../../../services/localStorage";
+import ModalForm from "../../../componentes/ModalForm";
 
 export const PerfilesUsuarioModal = ({
   open,
@@ -32,16 +33,9 @@ export const PerfilesUsuarioModal = ({
   const [referencia, setReferencia] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  //IMPRESIONES DE CAMPOS
-  console.log("---------Impresión de CAMPOS------");
-  console.log("id", id);
-  console.log("descripcion :", descripcion);
-  console.log("referencia :", referencia);
-  console.log("---------FIN-de-Impresión de CAMPOS------");
-
   const handleSend = () => {
     if (!descripcion || !referencia) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -54,18 +48,16 @@ export const PerfilesUsuarioModal = ({
         DESCRIPCION: descripcion,
         REFERENCIA: referencia,
       };
-      console.log("data de modal", data);
       handleRequest(data);
       handleClose();
     }
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -78,14 +70,12 @@ export const PerfilesUsuarioModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-        console.log("Sé pudo agregar");
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        console.log("No se pudo agregar");
       }
     });
   };
@@ -98,7 +88,7 @@ export const PerfilesUsuarioModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -118,14 +108,13 @@ export const PerfilesUsuarioModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open}>
-      <DialogContent>
-        <Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
+    <Dialog open={open} fullScreen>
+      <ModalForm title={modo} handleClose={handleClose}>
+
+        <Box boxShadow={2}>
+
           {modo === "Agregar Registro" ? (
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" >
               <TextField
                 required
                 margin="dense"
@@ -190,16 +179,23 @@ export const PerfilesUsuarioModal = ({
           ) : (
             ""
           )}
+          <Box display="flex" justifyContent="center" sx={{ paddingBottom: "2%", paddingTop: "1%" }} >
+            <Box maxWidth={100} >
+              <DialogActions>
+                <Button className="actualizar" onClick={() => handleSend()}>
+                  Actualizar
+                </Button>
+              </DialogActions>
+            </Box>
+          </Box>
+
         </Box>
-      </DialogContent>
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cerrar
-        </button>
-      </DialogActions>
+
+
+
+      </ModalForm>
+
+
     </Dialog>
   );
 };

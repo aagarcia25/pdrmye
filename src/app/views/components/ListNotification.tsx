@@ -3,19 +3,15 @@ import {
   Box,
   Button,
   IconButton,
-  Tooltip,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { getPermisos, getUser } from "../../services/localStorage";
+import { getUser } from "../../services/localStorage";
 import { CatalogosServices } from "../../services/catalogosServices";
 import MUIXDataGrid from "./MUIXDataGrid";
 import AddIcon from '@mui/icons-material/Add';
-import SendIcon from '@mui/icons-material/Send';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import InboxIcon from '@mui/icons-material/Inbox';
 import ListNotificationsModal from "./ListNotificationsModal";
-import { PERMISO, RESPONSE } from "../../interfaces/user/UserInfo";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { COLOR } from "../../styles/colors";
 
 
@@ -33,18 +29,19 @@ export const ListNotification = () => {
 
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", width: 150, hide: true },
-    { field: "deleted", headerName: "eliminado", width: 300, hide: true },
-    { field: "ModificadoPor", headerName: "ModificadoPor", width: 300, hide: true },
+    { field: "id", hide: true },
+    { field: "deleted",hide: true },
+    { field: "ModificadoPor", hide: true },
+    { field: "FechaCreacion", headerName: "Fecha Creacion", width: 200, },
     { field: "CreadoPor", headerName: "CreadoPor", width: 300, hide: true },
-    { field: "origen", headerName: "Remitente", width: 300, hide: modo == "MessageSend" },
-    { field: "destinatario", headerName: "Destinatario", width: 300, hide: modo == "viewMessageReading" || modo == "ViewMessage" },
+    { field: "origen", headerName: "Remitente", width: 300, hide: modo === "MessageSend" },
+    { field: "destinatario", headerName: "Destinatario", width: 300, hide: modo === "viewMessageReading" || modo === "ViewMessage" },
     { field: "Encabezado", headerName: "Encabezado", width: 300, },
     { field: "Descripcion", headerName: "Mensage", width: 300, hide: true },
     { field: "Visto", headerName: "Visto", width: 300, hide: true },
     { field: "Destinatario", headerName: "destinatario", width: 300, hide: true },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -70,7 +67,7 @@ export const ListNotification = () => {
 
   const viewMessageModal = (v: any) => {
     setTipoOperacion(6);
-    console.log(v.row)
+    //console.log(v.row)
     if (v.row.Visto === "0") {
       setDestinatario(v.row.destinatario)
       setRemitente(v.row.origen)
@@ -122,13 +119,13 @@ export const ListNotification = () => {
 
   const testeoVariables = () => {
 
-    console.log("tipo de operacio  " + tipoOperacion);
-    console.log("modo de operacion  " + modo);
+    //console.log("tipo de operacio  " + tipoOperacion);
+    //console.log("modo de operacion  " + modo);
 
   }
 
   const handleClose = (v: string) => {
-    console.log("valor de v  " + v)
+    //console.log("valor de v  " + v)
     if (v === "9") {
       setModo("MessageSend");
       setOpen(false);
@@ -158,7 +155,7 @@ export const ListNotification = () => {
 
   useEffect(() => {
 
-    console.log(user.PERFILES[0].Referencia)
+    //console.log(user.PERFILES[0].Referencia)
     setPerfil(user.PERFILES[0].Referencia)
 
     let dat = {
@@ -175,7 +172,7 @@ export const ListNotification = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: "90%", width: "100%", paddingTop:"3%" }}>
 
       {open ? (
         <ListNotificationsModal
@@ -193,14 +190,15 @@ export const ListNotification = () => {
 
       <Box sx={{
         display: 'flex',
+        height:"90%",
         justifyContent: 'content-position',
         p: 1,
         m: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 2,
+        // bgcolor:"red",
+        // bgcolor: 'background.paper',
       }} >
 
-        <Box sx={{ height: "600px", width: "150px", borderRadius: 3 }}>
+        <Box sx={{ width: "150px", paddingRight:".5%"}}>
 
           <Box sx={{ position: 'relative', top: 10, left: 7, width: "90%", justifyContent: 'center', display: 'flex', borderRadius: 1 }}>
             {perfil != "MUN" ?
@@ -226,12 +224,12 @@ export const ListNotification = () => {
               className="notificaciones"
               onClick={() => viewMessageSend(9)}
               sx={{
-                backgroundColor: modo == "MessageSend" ? COLOR.grisTarjetaBienvenido : COLOR.blanco,
+                backgroundColor: modo === "MessageSend" ? COLOR.grisTarjetaBienvenido : COLOR.blanco,
                 "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
               }}
             >
               Enviados
-              <SendIcon />
+              {/* <SendIcon /> */}
             </Button>
             :""}
 
@@ -240,12 +238,12 @@ export const ListNotification = () => {
               className="notificaciones"
               onClick={() => viewMessage(8)}
               sx={{
-                backgroundColor: modo == "ViewMessage" ? COLOR.grisTarjetaBienvenido : COLOR.blanco,
+                backgroundColor: modo === "ViewMessage" ? COLOR.grisTarjetaBienvenido : COLOR.blanco,
                 "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
               }}
             >
               Recibidos
-              <InboxIcon />
+              {/* <InboxIcon /> */}
             </Button>
 
 
@@ -259,7 +257,7 @@ export const ListNotification = () => {
               }}
             >
               Leidos
-              <AutoStoriesIcon />
+              {/* <AutoStoriesIcon /> */}
             </Button>
 
 
@@ -271,19 +269,12 @@ export const ListNotification = () => {
           </Box>
         </Box>
 
-
-        <Box sx={{ left: 7, height: "600px", width: "90%", borderRadius: 3 }} >
-
-
-
-
-          <Box sx={{ height: "600px", width: "100%", borderRadius: 3 }}>
-            <MUIXDataGrid
+        
+        <Box sx={{ left: 7, height: "600px", width: "90%", display:"flow"}} >
+        
+            <MUIXDataGrid 
               columns={columns} rows={notificacion} />
-          </Box>
-
-
-
+        
         </Box>
 
       </Box>

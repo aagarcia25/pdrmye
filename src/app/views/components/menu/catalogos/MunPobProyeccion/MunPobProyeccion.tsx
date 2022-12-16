@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { Box, IconButton } from '@mui/material'
-import { GridColDef } from '@mui/x-data-grid'
+import { Box, Grid } from '@mui/material'
+import { GridColDef, GridSelectionModel } from '@mui/x-data-grid'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { messages } from '../../../../styles'
 import Swal from 'sweetalert2'
 import { Toast } from '../../../../../helpers/Toast'
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Slider from "../../../Slider";
 import MunPoblacionProyeccionModal from '../MunPobProyeccion/MunPoblacionProyeccionModal';
-import MUIXDataGrid from '../../../MUIXDataGrid'
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
-import { getPermisos, getUser } from '../../../../../services/localStorage';
+import { MENU, PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { getMenus, getPermisos, getUser } from '../../../../../services/localStorage';
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio';
-import AccionesGrid from '../Utilerias/AccionesGrid';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
+import MUIXDataGridMun from '../../../MUIXDataGridMun';
+import NombreCatalogo from '../../../componentes/NombreCatalogo'
 
 
 export const MunPobProyeccion = () => {
@@ -35,8 +33,7 @@ export const MunPobProyeccion = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-
-
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
@@ -50,41 +47,89 @@ export const MunPobProyeccion = () => {
       hide: true,
       width: 150,
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "anio", headerName: "Año", width: 150 },
-    { field: "Pob", headerName: "Poblacion", width: 150 },
-
     {
-      field: "acciones",
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 100,
       renderCell: (v) => {
         return (
-
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
 
         );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", description: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", description: "Municipio", width: 150 },
+    { field: "anio", headerName: "Año", description: "Año", width: 150 },
+    { field: "Pob", headerName: "Población", description: "Población", width: 150 },
+
 
   ];
   const handleAccion = (v: any) => {
-    if (v.tipo == 1) {
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setData(v.data);
-    } else if (v.tipo == 2) {
-      handleBorrar(v.data);
+    } else if (v.tipo === 2) {
+      handleDelete(v.data);
     }
   }
 
+  const handleDelete = (v: any) => {
+
+    Swal.fire({
+      icon: "info",
+      title: "Estas seguro de eliminar este registro?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Confirmar",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        let data = {
+          NUMOPERACION: 3,
+          CHID: v.row.id,
+          CHUSER: user.id
+        };
+
+
+        CatalogosServices.munpobrezaext(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Solicitud de Eliminado Enviada!",
+            });
+
+            let data = {
+              NUMOPERACION: 4,
+              ANIO: filterAnio,
+            };
+            consulta(data);
+          } else {
+            AlertS.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+
+      } else if (result.isDenied) {
+        Swal.fire("No se realizaron cambios", "", "info");
+      }
+
+
+    });
+  };
+
 
   const handleClose = () => {
-    console.log('cerrando');
+    //console.log('cerrando');
     setOpen(false);
     let data = {
       NUMOPERACION: 4,
@@ -105,7 +150,7 @@ export const MunPobProyeccion = () => {
 
 
   const handleEditar = (v: any) => {
-    console.log(v)
+    //console.log(v)
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
@@ -113,88 +158,89 @@ export const MunPobProyeccion = () => {
   };
 
   const handleBorrar = (v: any) => {
+    setSelectionModel(v);
 
-    Swal.fire({
-      icon: "info",
-      title: "Estas seguro de eliminar este registro?",
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: "Confirmar",
-      denyButtonText: `Cancelar`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log(v);
+  };
 
-        let data = {
-          NUMOPERACION: 3,
-          CHID: v.row.id,
-          CHUSER: user.id
-        };
-        console.log(data);
 
-        CatalogosServices.munproyec(data).then((res) => {
-          if (res.SUCCESS) {
-            Toast.fire({
-              icon: "success",
-              title: "Registro Eliminado!",
-            });
+  const handleUpload = (data: any) => {
+
+    if (data.tipo === 1) {
+      setslideropen(true);
+      let file = data.data?.target?.files?.[0] || "";
+      const formData = new FormData();
+      formData.append("inputfile", file, "inputfile.xlxs");
+      formData.append("tipo", "MunProyec");
+      CatalogosServices.migraData(formData).then((res) => {
+        setslideropen(false);
+      });
+
+    }
+    else if (data.tipo === 2) {
+      //console.log("borrado de toda la tabla")
+      //console.log(selectionModel)
+
+      if (selectionModel.length !== 0) {
+        Swal.fire({
+          icon: "question",
+          title: selectionModel.length + " Registros Se Eliminaran!!",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Confirmar",
+          denyButtonText: `Cancelar`,
+        }).then((result) => {
+          if (result.isConfirmed) {
 
             let data = {
-              NUMOPERACION: 4,
-              ANIO: filterAnio,
+              NUMOPERACION: 5,
+              OBJS: selectionModel,
+              CHUSER: user.id
             };
-            consulta(data);
-          } else {
-            Alert.fire({
-              title: "Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
+            //console.log(data);
+
+            CatalogosServices.munproyec(data).then((res) => {
+              if (res.SUCCESS) {
+                Toast.fire({
+                  icon: "success",
+                  title: "Borrado!",
+                });
+
+                consulta({
+                  NUMOPERACION: 4,
+                  CHUSER: user.id,
+                  ANIO: filterAnio
+
+                });
+
+              } else {
+                AlertS.fire({
+                  title: "Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
             });
+
+          } else if (result.isDenied) {
+            Swal.fire("No se realizaron cambios", "", "info");
           }
         });
-
-      } else if (result.isDenied) {
-        Swal.fire("No se realizaron cambios", "", "info");
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Seleccione Registros Para Borrar",
+          confirmButtonText: "Aceptar",
+        });
       }
 
 
-    });
-  };
+    }
 
-  const handleAgregar = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlxs");
-    formData.append("tipo", "MunProyec");
-    CatalogosServices.migraData(formData).then((res) => {
-      setslideropen(false);
-    });
   };
-
 
   const consulta = (data: any) => {
     CatalogosServices.munproyec(data).then((res) => {
-
-      console.log('respuesta' + res.RESPONSE + res.NUMCODE);
-
-
-
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-
-        setPoblacion(res.RESPONSE);
-
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+      setPoblacion(res.RESPONSE);
     });
   };
 
@@ -205,8 +251,12 @@ export const MunPobProyeccion = () => {
       ANIO: v,
     };
     setFilterAnio(v);
-    if (v != "") {
+    if (v != "false") {
       consulta(data);
+    }else {
+      consulta({ NUMOPERACION: 4,ANIO: "",});
+      setFilterAnio("");
+
     }
   };
 
@@ -223,19 +273,25 @@ export const MunPobProyeccion = () => {
 
 
   useEffect(() => {
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPROYEC") {
-        console.log(item)
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
     });
     setAnios(fanios());
     downloadplantilla();
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: "",
+
+    };
+    consulta(data);
   }, []);
 
 
@@ -243,19 +299,24 @@ export const MunPobProyeccion = () => {
   return (
 
 
-    <div style={{ height: 500, width: "100%" }}>
+    <div style={{ height: 500, width: "100%", }}>
       <Slider open={slideropen}></Slider>
+      <NombreCatalogo controlInterno={"MUNPROYEC"} />
+      <Grid container   direction="row"justifyContent="space-between"alignItems="center">
+        <Grid item xs={12}  >
+          <ButtonsMunicipio
+            url={plantilla}
+            handleUpload={handleUpload} controlInterno={"MUNPROYEC"} options={anios}
+            onInputChange={handleFilterChange}
+            placeholder={"Seleccione Año"} label={""} disabled={false}
+            value={''} />
+        </Grid>
 
-      <Box
-        sx={{ display: 'flex', flexDirection: 'row-reverse', }}>
-        <SelectFrag
-          options={anios}
-          onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={""} disabled={false}
-          value={''} />
-      </Box>
+      </Grid>
 
 
+
+      < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={'PROYECCION'} />
       {open ? (
         <MunPoblacionProyeccionModal
           open={open}
@@ -267,15 +328,6 @@ export const MunPobProyeccion = () => {
       ) : (
         ""
       )}
-
-      <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleAgregar} controlInterno={"MUNPROYEC"} />
-      <MUIXDataGrid columns={columns} rows={Poblacion} />
-
     </div>
-
-
-
   )
 }

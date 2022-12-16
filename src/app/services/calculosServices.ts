@@ -13,6 +13,10 @@ export class calculosServices {
     public static async indexCalculo(data: any) {
         return await post('indexCalculo', data);
     }
+
+    public static async infoCalculo(data: any) {
+        return await post('infoCalculo', data);
+    }
     
     public static async CalculoPrincipalindex(data: any) {
         return await post('CalculoPrincipalindex', data);
@@ -55,14 +59,21 @@ export class calculosServices {
     public static async getAreaCalculo(data: any) {
         return await post('getAreaCalculo', data);
     }
-    public static async wf(data: any) {
-        return await post('wf', data);
-    }
-
+    
     public static async CalculoArchivo(data: any) {
         return await post('CalculoArchivo', data);
     }
 
+    public static async spcalculo(data: any) {
+        return await post('spcalculo', data);
+    }
+
+    public static async getResponsable(data: any) {
+        return await post('getResponsable', data);
+    }
+    
+    
+    
     
 
 }

@@ -1,98 +1,207 @@
-import { Box, Button, Grid, IconButton, Link, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  createTheme,
+  Grid,
+  IconButton,
+  ThemeProvider,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import clsx from 'clsx';
 import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
-import SelectFrag from "../Fragmentos/Select/SelectFrag";
-import SendIcon from '@mui/icons-material/Send';
-import { Alert } from "../../../helpers/Alert";
-import { calculosServices } from "../../../services/calculosServices";
-import { columnasCal } from "../../../interfaces/calculos/columnasCal";
+import SelectFrag from "../Fragmentos/SelectFrag";
+import SendIcon from "@mui/icons-material/Send";
+import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
-import MUIXDataGrid from "../MUIXDataGrid";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getUser } from "../../../services/localStorage";
+import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { getPermisos, getUser } from "../../../services/localStorage";
+import { DPCPServices } from "../../../services/DPCPServices";
+import { Toast } from "../../../helpers/Toast";
+import Slider from "../Slider";
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import {
+  DataGrid,
+  GridSelectionModel,
+  GridToolbar,
+  esES as gridEsES,
+} from "@mui/x-data-grid";
+import { esES as coreEsES } from "@mui/material/locale";
+
+
+
 
 const AsigPresupuestal = () => {
+  const theme = createTheme(coreEsES, gridEsES);
+  const [slideropen, setslideropen] = useState(true);
+  //MODAL
+  //Constantes para llenar los select
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const [fondos, setFondos] = useState<SelectValues[]>([]);
+  const [municipio, setMunicipios] = useState<SelectValues[]>([]);
+  const [tipos, setTipos] = useState<SelectValues[]>([]);
+  const [checkboxSelection, setCheckboxSelection] = useState(true);
+  const [vrows, setVrows] = useState<{}>("");
+  //Constantes de los filtros
+  const [idtipo, setIdTipo] = useState("");
+  const [idFondo, setIdFondo] = useState("");
+  const [idMunicipio, setidMunicipio] = useState("");
+  //Constantes para las columnas
+  const [data, setData] = useState([]);
+  const user: RESPONSE = JSON.parse(String(getUser()));
+
+  /// Permisos
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const handleDescuento = (data: any) => { };
+
+  const columnsParticipaciones = [
+    { field: "id", hide: true },
+    {
+      field: "Anio",
+      headerName: "Ejercicio",
+      width: 80,
+      description: "Ejercicio",
+    },
+    {
+      field: "Mes",
+      headerName: "Mes",
+      width: 100,
+      description: "Mes",
+    },
+    {
+      field: "uresclave",
+      headerName: "U. Resp",
+      width: 65,
+    },
+    // {
+    //   field: "TipoSolicitud",
+    //   headerName: "Tipo",
+    //   width: 140,
+    //   description: "Tipo de Solicitud",
+    // },
+    {
+      field: "ClaveEstado",
+      headerName: "Clave Estado",
+      width: 100,
+      description: "Clave Estado",
+    },
+    {
+      field: "Nombre",
+      headerName: "Municipio",
+      width: 150,
+      description: "Municipio",
+    },
+    {
+      field: "fondodes",
+      headerName: "Descripción de Fondo",
+      width: 250,
+    },
+    {
+      field: "ClavePresupuestal",
+      headerName: "Clave Presupuestal",
+      width: 600,
+      hide: false,
+    },
+    
+    {
+      field: "estatus",
+      headerName: "Estatus",
+      width: 150,
+    },
+    {
+      field: "Presupuesto",
+      headerName: "Presupuesto SIREGOB",
+      width: 150,
+      description: "Presupuesto SIREGOB",
+      ...Moneda,
+    },
+    {
+      field: "total",
+      headerName: "Total Neto",
+      width: 150,
+      description: "Total Neto",
+      ...Moneda,
+    },
+    /*{
+      field: "Retenciones",
+      headerName: "Retenciones",
+      width: 150,
+      description: "Retenciones",
+      ...Moneda,
+    },
+    {
+      field: "Descuentos",
+      headerName: "Descuentos",
+      width: 150,
+      description: "Descuentos",
+      ...Moneda,
+    },
+    {
+      field: "importe",
+      headerName: "Importe Total",
+      width: 150,
+      description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
+      ...Moneda,
+    },*/
+
+  ];
+
+  const loadFilter = (operacion: number) => {
+    let data = { NUMOPERACION: operacion };
+    CatalogosServices.SelectIndex(data).then((res) => {
+      if (operacion === 12) {
+        setFondos(res.RESPONSE);
+      } else if (operacion === 5) {
+        setMunicipios(res.RESPONSE);
+      } else if (operacion === 17) {
+        setTipos(res.RESPONSE);
+        setslideropen(false);
+      }
+    });
+  };
+
+ 
+
+  const handleFilterChange1 = (v: string) => {
+    setIdTipo(v);
+  };
+
+  const handleFilterChange2 = (v: string) => {
+    setIdFondo(v);
+  };
+
+  const handleFilterChange3 = (v: string) => {
+    setidMunicipio(v);
+  };
+
+  
+ 
+ 
+
+ 
 
 
-    //Constantes para llenar los select
-    const [estatus, setEstatus] = useState<SelectValues[]>([]);
-    const [fondos, setFondos] = useState<SelectValues[]>([]);
-    const [anios, setAnios] = useState<SelectValues[]>([]);
-    const [mes, setMeses] = useState<SelectValues[]>([]);
+  const handleClick = () => {
+    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
-
-    //Constantes de los filtros
-    const [idEstatus, setIdEstatus] = useState("");
-    const [idFondo, setIdFondo] = useState("");
-    const [idanio, setIdanio] = useState("");
-    const [idmes, setIdmes] = useState("");
-//Constantes para las columnas 
-const [data, setData] = useState([]);
-const [pa, setPa] = useState(false);
-const [sa, setSa] = useState(false);
-const [ta, setTa] = useState(false);
-const [ca, setCa] = useState(false);
-const [ad, setAd] = useState(false);
-const [as, setAs] = useState(false);
-const [aa, setAa] = useState(false);
-const [rf, setRf] = useState(false);
-const [cf, setCf] = useState(false);
-const [ae, setAe] = useState(false);
-const [af, setAf] = useState(false);
-const [presupuesto, setPresupuesto] = useState<boolean>(false);
-const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
-const user: RESPONSE = JSON.parse(String(getUser()));
-
-const columnas = (data: any) => {
-    calculosServices.getColumns(data).then((res) => {
+    let data = {
+      P_FONDO: idFondo === "false" ? "" : idFondo,
+      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
+      P_IDTIPO: idtipo === "false" ? "" : idtipo,
+    };
+    //console.log(data);
+    DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
-        const cl: columnasCal[] = res.RESPONSE;
-        cl.map((item) => {
-          console.log(item.keys);
-          switch (item.keys) {
-            case 0:
-              break;
-            case 1:
-              setPa(true);
-              break;
-            case 2:
-              setSa(true);
-              break;
-            case 3:
-              setTa(true);
-              break;
-            case 4:
-              setCa(true);
-              break;
-            case 5:
-              setAd(true);
-              break;
-            case 6:
-              setAa(true);
-              break;
-            case 7:
-              setAs(true);
-              break;
-            case 8:
-              setRf(true);
-              break;
-            case 9:
-              setCf(true);
-              break;
-            case 10:
-              setAe(true);
-              break;
-            case 11:
-              setAf(true);
-              break;
-            default:
-              break;
-          }
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
         });
+        setData(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -101,320 +210,177 @@ const columnas = (data: any) => {
     });
   };
 
-
-  const agregarPresupuesto = (data: any) => {
-   
-  };
-
-
-
-  const columns = [
-    { field: "id", headerName: "Identificador", width: 150, hide: true },
-    {
-      field: "ClaveEstado",
-      headerName: "Clave Estado",
-      width: 150,
-      description: "Identificador del Municipio",
-    },
-    {
-      field: "Nombre",
-      headerName: "Municipio",
-      width: 250,
-      description: "Nombre del Municipio",
-    },
-    {
-      field: "Mensual",
-      headerName: "Importe",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-    {
-      hide: pa ? false : true,
-      field: "PrimerAjuste",
-      headerName: "Primer Ajuste",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-    {
-      hide: sa ? false : true,
-      field: "SegundoAjuste",
-      headerName: "Segundo Ajuste",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-    {
-      hide: ta ? false : true,
-      field: "TercerAjuste",
-      headerName: "Tercer Ajuste",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-    {
-      hide: ca ? false : true,
-      field: "CuartoAjuste",
-      headerName: "Cuarto Ajuste",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-    {
-      hide: ad ? false : true,
-      field: "AjusteAnual",
-      headerName: "Ajuste Anual",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-    {
-      hide: as ? false : true,
-      field: "AjusteSemestral",
-      headerName: "Ajuste Semestral",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-    {
-      hide: aa ? false : true,
-      field: "AjusteDefinitivo",
-      headerName: "Ajuste Definitivo",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-    {
-      hide: ae ? false : true,
-      field: "AjusteEstatal",
-      headerName: "Ajuste Estatal",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-    {
-      hide: rf ? false : true,
-      field: "CompensacionFEIF",
-      headerName: "Compensación FEIF",
-      width: 150,
-      description: "Compensación FEIF",
-      ...Moneda,
-    },
-    {
-      hide: cf ? false : true,
-      field: "RetencionFEIF",
-      headerName: "Retención FEIF",
-      width: 150,
-      description: "Retención FEIF",
-      ...Moneda,
-    },
-    {
-      hide: af ? false : true,
-      field: "AjusteFofir",
-      headerName: "Ajuste FOFIR",
-      width: 150,
-      description: "Ajuste FOFIR",
-      ...Moneda,
-    },
-    {
-      field: "total",
-      headerName: "Total",
-      width: 150,
-      description: "Total",
-      ...Moneda,
-    },
-
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
-      sortable: false,
-      width: 150,
-      renderCell: (v: any) => {
-        return (
-          <Box>
-          
-              <Tooltip title="Asignar Presupuesto">
-                <IconButton onClick={() => agregarPresupuesto(v)}>
-                  <AttachMoneyIcon />
-                </IconButton>
-              </Tooltip>
-           
-          </Box>
-        );
-      },
-    },
-
-    {
-      hide: presupuesto ? false : true,
-      field: "ComentarioPresupuesto",
-      headerName: "Observación DPCP",
-      width: 300,
-      description: "Observación DPCP",
-    },
-
-    {
-      hide: presupuesto ? false : true,
-      field: "RutaArchivo",
-      headerName: "Documento DPCP",
-      width: 100,
-      renderCell: (v: any) => {
-        return v.row.RutaArchivo !== null ? (
-          <Box>
-            <Link href={v.row.RutaArchivo} underline="always">
-              Descargar
-            </Link>
-          </Box>
-        ) : (
-          ""
-        );
-      },
-    },
-  ];
-
-const loadFilter = (operacion: number) => {
-        let data = { NUMOPERACION: operacion };
-          CatalogosServices.SelectIndex(data).then((res) => {
-          
-            if(operacion == 8){
-                setEstatus(res.RESPONSE);
-            }else if(operacion == 12){
-                setFondos(res.RESPONSE);
-            }else if(operacion == 4){
-                setAnios(res.RESPONSE);
-            }else if(operacion == 2){
-                setMeses(res.RESPONSE);
-            }
-           
-          });
+  useEffect(() => {
+    loadFilter(12);
+    loadFilter(5);
+    loadFilter(17);
+    handleClick();
+  /*  permisos.map((item: PERMISO) => {
+      if (
+        String(item.ControlInterno) === "PARTMUN"
+      ) {
+        //console.log(item);
+        if (String(item.Referencia) === "AGREGPLANT") {
+          setCargarPlant(true);
         }
-
-    const handleFilterChange1 = (v: string) => {
-            setIdEstatus(v);
-    };
-
-    const handleFilterChange2 = (v: string) => {
-        setIdFondo(v);
-    };
-
-    const handleFilterChange3 = (v: string) => {
-        setIdFondo(v);
-    };
-
-    const handleFilterChange4 = (v: string) => {
-        setIdFondo(v);
-    };
-
-
-const handleClick = () => {
-   
-};
-        
-
-        useEffect(() => {  
-            loadFilter(2);
-            loadFilter(4);  
-            loadFilter(8);
-            loadFilter(12);
-          }, []);     
+        else if (String(item.Referencia) === "DESCPLANT") {
+          setDescPlant(true);
+        }
+        else if (String(item.Referencia) === "DISFIDE") {
+          setDisFide(true);
+        }
+      }
+    });*/
+  }, []);
 
   return (
     <div>
-      <Grid container spacing={1}>
-        
+      <Slider open={slideropen}></Slider>
+
+     
+
+
+
+
+
+    
+
+      <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-        <Grid item xs={2}>
-         <Typography   sx={{ fontFamily: "MontserratMedium"}}>Procesos:</Typography>
-          <SelectFrag
-                  value={idEstatus}
-                  options={estatus}
-                  onInputChange={handleFilterChange1}
-                  placeholder={"Seleccione Estatus"}
-                  label={""}
-                  disabled={false}
-                />
+          <Grid container sx={{ justifyContent: "center" }}>
+            <Grid item xs={10} sx={{ textAlign: "center" }}>
+              <Typography variant="h4" paddingBottom={2}>
+              Módulo de Validación de Presupuesto
+              </Typography>
+            </Grid>
           </Grid>
-          
-         <Grid item xs={2}>
-         <Typography   sx={{ fontFamily: "MontserratMedium"}}>Procesos:</Typography>
-          <SelectFrag
-                  value={idEstatus}
-                  options={estatus}
-                  onInputChange={handleFilterChange1}
-                  placeholder={"Seleccione Estatus"}
-                  label={""}
-                  disabled={false}
-                />
-          </Grid>
+        </Grid>
 
-
-          <Grid item  xs={2} sm={2} md={2} lg={2}>
-          <Typography   sx={{ fontFamily: "MontserratMedium"}}>Estatus:</Typography>
-          <SelectFrag
-                  value={idEstatus}
-                  options={estatus}
-                  onInputChange={handleFilterChange1}
-                  placeholder={"Seleccione Estatus"}
-                  label={""}
-                  disabled={false}
-                />
+        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+          <Grid item xs={2} sm={2} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+              Tipo:
+            </Typography>
+            <SelectFrag
+              value={idtipo}
+              options={tipos}
+              onInputChange={handleFilterChange1}
+              placeholder={"Seleccione Tipo"}
+              label={""}
+              disabled={false}
+            />
           </Grid>
-          <Grid item  xs={2} sm={2} md={2} lg={2}>
-          <Typography   sx={{ fontFamily: "MontserratMedium"}}>Año:</Typography>
-          <SelectFrag
-                  value={idanio}
-                  options={anios}
-                  onInputChange={handleFilterChange2}
-                  placeholder={"Seleccione Año"}
-                  label={""}
-                  disabled={false}
-                />
-          </Grid>
-
-          <Grid item  xs={2} sm={2} md={2} lg={2}>
-          <Typography   sx={{ fontFamily: "MontserratMedium"}}>Mes:</Typography>
-          <SelectFrag
-                  value={idmes}
-                  options={mes}
-                  onInputChange={handleFilterChange3}
-                  placeholder={"Seleccione Mes"}
-                  label={""}
-                  disabled={false}
-                />
+          <Grid item xs={2} sm={2} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+              Fondo:
+            </Typography>
+            <SelectFrag
+              value={idFondo}
+              options={fondos}
+              onInputChange={handleFilterChange2}
+              placeholder={"Seleccione Fondo"}
+              label={""}
+              disabled={false}
+            />
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2}>
-          <Typography   sx={{ fontFamily: "MontserratMedium"}}>Fondo:</Typography>
-          <SelectFrag
-                  value={idFondo}
-                  options={fondos}
-                  onInputChange={handleFilterChange4}
-                  placeholder={"Seleccione Fondo"}
-                  label={""}
-                  disabled={false}
-                />
+            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+              Municipio:
+            </Typography>
+            <SelectFrag
+              value={idMunicipio}
+              options={municipio}
+              onInputChange={handleFilterChange3}
+              placeholder={"Seleccione Municipio"}
+              label={""}
+              disabled={false}
+            />
           </Grid>
-        
-        
-       
         </Grid>
+
+        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
+          <Button
+            onClick={handleClick}
+            variant="contained"
+            color="success"
+            endIcon={<SendIcon sx={{ color: "white" }} />}
+          >
+            <Typography sx={{ color: "white" }}> Buscar </Typography>
+          </Button>
+        </Grid>
+
+    
 
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
-        <Button
-         onClick={handleClick}
-         variant="contained" 
-         color="success" 
-         endIcon={<SendIcon />}>
-        Buscar
-        </Button>
-        </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12}>
-        <Typography   sx={{ fontFamily: "MontserratMedium"}}>Para Realizar la consulta de Información es Requerido los filtros</Typography>
-        </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12}>
-        <MUIXDataGrid columns={columns} rows={data} />
+          <div
+            style={{
+              height: "58vh",
+              width: "100%",
+            }}
+          >
+            <ThemeProvider theme={theme}>
+              <DataGrid
+                columns={columnsParticipaciones}
+                rows={data}
+                density="compact"
+                rowsPerPageOptions={[10, 25, 50, 100]}
+                disableSelectionOnClick
+                disableColumnFilter
+                disableColumnSelector
+                disableDensitySelector
+                getRowHeight={() => "auto"}
+                getRowClassName={(params) =>
+                  {
+                    if (params.row.Presupuesto == null) {
+                      return '';
+                    }
+                    return clsx('super-app', {
+                      negative: params.row.Presupuesto !== params.row.total,
+                      positive: params.row.Presupuesto == params.row.total,
+                    });
+                  }
+                } 
+                components={{ Toolbar: GridToolbar }}
+                sx={{
+                  fontFamily: "Poppins,sans-serif", fontWeight: '600',
+                  '& .super-app.negative': {
+                    color: "rgb(84, 3, 3)",
+                    backgroundColor: "rgb(196, 40, 40, 0.384)",
+                  },
+                  '& .super-app.positive': {
+                    backgroundColor: 'rgb(16, 145, 80, 0.567)',
+                   
+                  },
+                }}
+                componentsProps={{
+                  toolbar: {
+                    label: "buscar",
+                    showQuickFilter: true,
+                    quickFilterProps: { debounceMs: 500 },
+                  },
+                }}
+                checkboxSelection={checkboxSelection}
+                onSelectionModelChange={(newSelectionModel: any) => {
+                  setSelectionModel(newSelectionModel);
+                }}
+                selectionModel={selectionModel}
+                localeText={{
+                  noRowsLabel: "No se ha encontrado datos.",
+                  noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+                  toolbarColumns: "Columnas",
+                  toolbarExport: "Exportar",
+                  toolbarColumnsLabel: "Seleccionar columnas",
+                  toolbarFilters: "Filtros",
+                  toolbarFiltersLabel: "Ver filtros",
+                  toolbarFiltersTooltipHide: "Quitar filtros",
+                  toolbarFiltersTooltipShow: "Ver filtros",
+                  toolbarQuickFilterPlaceholder: "Buscar",
+                }}
+              />
+            </ThemeProvider>
+          </div>
         </Grid>
       </Grid>
     </div>
@@ -422,3 +388,4 @@ const handleClick = () => {
 };
 
 export default AsigPresupuestal;
+

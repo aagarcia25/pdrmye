@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  IconButton,
-} from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import InflacionMesModal from "./InflacionMesModal";
-import MUIXDataGrid from "../../../MUIXDataGrid";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import { porcentage } from "../../CustomToolbar";
+
 
 
 
@@ -24,7 +21,7 @@ const InflacionMes = () => {
 
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
-  const [tipoOperacion, setTipoOperacion] = useState(0); 
+  const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const [dataInflacionMes, setDataInflacionMes] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -32,6 +29,10 @@ const InflacionMes = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+  const [nombreMenu, setNombreMenu] = useState("");
+
+
+
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -40,17 +41,12 @@ const InflacionMes = () => {
       width: 150,
       description: messages.dataTableColum.id,
     },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Mes", headerName: "Mes", width: 150, hide: true, },
-    { field: "Descripcion", headerName: "Mes", width: 150 },
-    { field: "Inflacion", headerName: "Inflación", width: 150 },
-
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 100,
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
@@ -58,23 +54,30 @@ const InflacionMes = () => {
         );
       },
     },
+    { field: "Anio",        headerName: "Año",      description: "Año",       width: 150 },
+    { field: "Mes",         headerName: "Mes",      description: "Mes",       width: 150, hide: true, },
+    { field: "Descripcion", headerName: "Mes",      description: "Mes",       width: 150 },
+    { field: "Inflacion",   headerName: "Inflación",description: "Inflación", width: 150 , ...porcentage },
   ];
 
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if (v.tipo === 1) {
       setTipoOperacion(2);
-      setModo("Editar ");
+      setModo("Editar");
       setOpen(true);
       setVrows(v.data);
-    }else if(v.tipo ==2){
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
     }
   }
-  
+
 
   const handleClose = () => {
     setOpen(false);
     consulta({ NUMOPERACION: 4 })
+
+  };
+  const handleBorrar = () => {
 
   };
 
@@ -86,7 +89,6 @@ const InflacionMes = () => {
   };
 
   const handleEdit = (v: any) => {
-    console.log(v)
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
@@ -103,14 +105,12 @@ const InflacionMes = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
 
         CatalogosServices.inflacionMes(data).then((res) => {
           if (res.SUCCESS) {
@@ -122,7 +122,7 @@ const InflacionMes = () => {
             consulta({ NUMOPERACION: 4 });
 
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -145,7 +145,7 @@ const InflacionMes = () => {
         });
         setDataInflacionMes(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -155,17 +155,18 @@ const InflacionMes = () => {
   };
 
   useEffect(() => {
-    
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "INFMES") {
-        console.log(item)
-        if (String(item.Referencia) == "AGREG") {
+        //console.log(item)
+        setNombreMenu(item.Menu);
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -188,9 +189,10 @@ const InflacionMes = () => {
       ) : (
         ""
       )}
+ 	        <NombreCatalogo controlInterno={"INFMES"} />
 
-      <ButtonsAdd handleOpen={handleOpen} agregar={false} />
-      <MUIXDataGrid columns={columns} rows={dataInflacionMes} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+      <MUIXDataGridMun columns={columns} rows={dataInflacionMes} modulo={nombreMenu.toUpperCase().replace(' ','_')} handleBorrar={handleBorrar} borrar={false} />
 
     </div>
   )

@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
-import { Tooltip, IconButton } from "@mui/material";
+import { Tooltip, IconButton, Grid, Typography } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { GridColDef } from "@mui/x-data-grid";
-import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import UsuariosModal from "./UsuariosModal";
@@ -19,6 +17,8 @@ import { getPermisos } from "../../../../../services/localStorage";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 import UsuariosMunicipios from "./UsuariosMunicipios";
 import UsuarioRoles from "./UsuarioRoles";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { COLOR } from "../../../../../styles/colors";
 
 
 const Usuarios = () => {
@@ -26,15 +26,13 @@ const Usuarios = () => {
   const [openRolConf, setOpenRolConf] = useState(false);
   const [openConfigMun, setOpenConfigMun] = useState(false);
   const [openNew, setOpenNew] = useState(false);
-  const [userActive, setUserActive] = useState<boolean>();
   const [tipoOperacion, setTipoOperacion] = useState(0);
-  const [id, setId] = useState("");
   const [dt, setDt] = useState({});
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-///////////////////////////////////////////
+  ///////////////////////////////////////////
 
 
   const handleMunicipios = (v: any) => {
@@ -50,51 +48,52 @@ const Usuarios = () => {
   };
 
   const handleEdit = (v: any) => {
-    console.log(v);
+    //console.log(v);
     setTipoOperacion(5);
     setDt(v.row);
     setOpenNew(true);
   };
 
   const handleActivo = (v: any) => {
-
-    let data = "?userId=" + v.row.id;
-    console.log(data)
-    UserServices.ActivateUser(data).then((res) => {
-      console.log(res)
-      console.log(v.row.id);
-
-      if (res.status == 200) {
-
-        let dat = {
-          NUMOPERACION: 6,
-          CHID: v.row.id,
-
-        };
-
-        AuthService.adminUser(dat).then((res) => {
-          if (res.SUCCESS) {           
-            consulta({ NUMOPERACION: 4 }, "Activado");
-          } else {
-            Alert.fire({
-              title: "Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
-            });
-          }
-
-
-        });
-
-      }
-      else if (res.status == 409) {
-        Alert.fire({
-          title: "Error!",
-          text: res.data.msg,
-          icon: "error",
-        });
-      }
-    });
+    /*
+       let data = "?userId=" + v.row.id;
+       //console.log(data)
+     
+       UserServices.ActivateUser(data).then((res) => {
+         //console.log(res)
+         //console.log(v.row.id);
+   
+        if (res.status === 200) {
+   
+           let dat = {
+             NUMOPERACION: 6,
+             CHID: v.row.id,
+   
+           };
+   
+           AuthService.adminUser(dat).then((res) => {
+             if (res.SUCCESS) {
+               consulta({ NUMOPERACION: 4 }, "Activado");
+             } else {
+               AlertS.fire({
+                 title: "Error!",
+                 text: res.STRMESSAGE,
+                 icon: "error",
+               });
+             }
+   
+   
+           });
+   
+         } else if (res.status === 409) {
+           AlertS.fire({
+             title: "Error!",
+             text: res.data.msg,
+             icon: "error",
+           });
+         }
+       });
+       */
 
 
   };
@@ -110,14 +109,14 @@ const Usuarios = () => {
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-          console.log(v);
+          //console.log(v);
   
           let data = {
             NUMOPERACION: 3,
             CHID: v.row.id,
             CHUSER: user.id
           };
-          console.log(data);
+          //console.log(data);
   
           CatalogosServices.munfacturacion(data).then((res) => {
             if (res.SUCCESS) {
@@ -133,7 +132,7 @@ const Usuarios = () => {
               consulta(data);
   
             } else {
-              Alert.fire({
+              AlertS.fire({
                 title: "Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
@@ -147,14 +146,14 @@ const Usuarios = () => {
       });*/
   };
 
-  const handleClose = (v:string) => {
+  const handleClose = (v: string) => {
     setOpenConfigMun(false);
     setOpenNew(false);
     setOpenRolConf(false);
     consulta({ NUMOPERACION: 4 }, "Consulta Exitosa");
   };
-  
-  
+
+
   const handleRolConf = (v: any) => {
     setDt(v.row);
     setOpenRolConf(true);
@@ -164,29 +163,23 @@ const Usuarios = () => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
       hide: true,
-      width: 150,
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 220,
+      width: 150,
       renderCell: (v) => {
         return (
-          <Box>
+          <Box >
             <Tooltip title={"Configurar Roles"}>
               <IconButton color="success" onClick={() => handleRolConf(v)}>
                 <AssignmentIndIcon />
               </IconButton>
-            </Tooltip> 
-            <Tooltip title={"Relacionar Municipios"}>
-              <IconButton color="info" onClick={() => handleMunicipios(v)}>
-                <Diversity3Icon />
-              </IconButton>
             </Tooltip>
+
             <Tooltip title={"Editar Registro"}>
               <IconButton color="info" onClick={() => handleEdit(v)}>
                 <ModeEditOutlineIcon />
@@ -201,65 +194,70 @@ const Usuarios = () => {
         );
       },
     },
-    { field: "NombreUsuario", headerName: "Usuario", width: 150 },
-    { field: "Nombre", headerName: "Nombre", width: 150 },
-    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
-    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
-    { field: "CorreoElectronico",headerName: "Correo Electronico",     width: 250,   },
-    { field: "Puesto",headerName: "Puesto",     width: 200,   },
-    { field: "idDepartamento",headerName: "idDepartamento",     width: 10,  hide: true,  },
-    { field: "DepartamentoDescripcion",headerName: "Departamento",     width: 300,   },
-    { field: "idperfil",headerName: "idperfil",     width: 10,  hide: true,  },
-    { field: "PerfilDescripcion",headerName: "Perfil",     width: 300,   },
-   
     {
-      field: "EstaActivo", headerName: "Activo", width: 100,
+      field: "EstaActivo", headerName: "Estado",
+      width: 100,
       renderCell: (v: any) => {
         return (
-          (Number(v.row.EstaActivo) == 0) ?
-            <Box>
-              <Tooltip title={"Activar Usuario"}>
-                <IconButton color="success" onClick={() => handleActivo(v)}>
-                  <HowToRegIcon />
-                </IconButton>
-              </Tooltip>
-
+          (Number(v.row.EstaActivo) === 1) ?
+            <Box sx={{ borderRadius: "15px", display: "flex", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", backgroundColor: COLOR.verde }} >
+              Activo
             </Box>
-            : "Activo"
+            : <Box sx={{ borderRadius: "15px", display: "flex", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", backgroundColor: COLOR.rojo }} >
+              Inactivo
+            </Box>
 
         );
       },
     },
+
+    { field: "UltimoInicioDeSesion", headerName: "Ultimo Inicio De Sesion", width: 200 },
+    { field: "NombreUsuario", headerName: "Nombre Usuario", width: 250, },
+    { field: "Nombre", headerName: "Nombre", width: 150 },
+    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
+    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
+    { field: "Rfc", headerName: "Rfc", width: 200, },
+    { field: "Curp", headerName: "Correo Curp", width: 120, },
+    { field: "Telefono", headerName: "Telefono", width: 120, },
+    { field: "Ext", headerName: "Ext", width: 100, },
+    { field: "Celular", headerName: "Celular", width: 120, },
+    { field: "Ubicacion", headerName: "Ubicacion", width: 250, },
+    { field: "CorreoElectronico", headerName: "Correo Electronico", width: 250, },
+    { field: "Puesto", headerName: "Puesto", width: 200, },
+    { field: "idDepartamento", hide: true, },
+    { field: "idPerfil", hide: true, },
+
   ];
 
   const consulta = (data: any, v: string) => {
     AuthService.adminUser(data).then((res) => {
-        if (res.SUCCESS) {
-          Toast.fire({
-            icon: "success",
-            title: v,
-          });
-          setData(res.RESPONSE);
-        } else {
-          Alert.fire({
-            title: "Error!",
-            text: res.STRMESSAGE,
-            icon: "error",
-          });
-        }
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: v,
+        });
+        setData(res.RESPONSE);
+        console.log(res.RESPONSE);
+      } else {
+        AlertS.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
     });
   };
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "USUARIOS") {
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
 
@@ -269,44 +267,49 @@ const Usuarios = () => {
   }, []);
   return (
     <div>
-
-      {openRolConf ?
-        <UsuarioRoles
-          open={openRolConf}
-          handleClose={handleClose}
-          dt={dt}
+      <Grid sx={{ paddingTop: "1%" }}>
+        {openRolConf ?
+          <UsuarioRoles
+            open={openRolConf}
+            handleClose={handleClose}
+            dt={dt}
           ></UsuarioRoles>
-        :
-        ""
-      }
+          :
+          ""
+        }
+        {openNew ? (
+          <UsuariosModal
+            open={openNew}
+            tipo={tipoOperacion}
+            handleClose={handleClose}
+            dt={dt}
+          ></UsuariosModal>
+        ) : (
+          ""
+        )}
+
+        {openConfigMun ? (
+          <UsuariosMunicipios
+            open={openConfigMun}
+            handleClose={handleClose}
+            dt={dt}
+          ></UsuariosMunicipios>
+        ) : (
+          ""
+        )}
+        <Grid container >
+          <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+            <Typography
+              sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+              Usuarios
+            </Typography>
+          </Grid>
+        </Grid>
 
 
-
-      {openNew ? (
-        <UsuariosModal
-          open={openNew}
-          tipo={tipoOperacion}
-          handleClose={handleClose}
-          dt={dt}
-        ></UsuariosModal>
-      ) : (
-        ""
-      )}
-     
-
-{openConfigMun ? (
-        <UsuariosMunicipios
-          open={openConfigMun}
-          handleClose={handleClose}
-          dt={dt}
-        ></UsuariosMunicipios>
-      ) : (
-        ""
-      )}
-
-
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGrid columns={columns} rows={data} />
+        <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+        <MUIXDataGrid columns={columns} rows={data} />
+      </Grid>
     </div>
   );
 };

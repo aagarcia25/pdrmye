@@ -6,17 +6,18 @@ import {
   DialogActions,
   Grid,
   ToggleButton,
-  ToggleButtonGroup,
   Tooltip,
   Typography,
   ButtonGroup,
   Container,
   TextField,
   IconButton,
+  Button,
+  RadioGroup,
 } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import AddIcon from "@mui/icons-material/Add";
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
@@ -24,13 +25,12 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CloseIcon from '@mui/icons-material/Close';
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
-import { AuthService } from "../../../../../services/AuthService";
 import Slider from "../../../Slider";
-import { SendToMobileOutlined } from "@mui/icons-material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { getUser } from "../../../../../services/localStorage";
 import validator from "validator";
-
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
 const FideicomisoConfig = ({
   open,
   handleClose,
@@ -46,18 +46,18 @@ const FideicomisoConfig = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [data, setData] = useState([]);
   const [openSlider, setOpenSlider] = useState(false);
-  const [nombre, setNombre] = useState<string>();
-  const [porcentaje, setPorcentaje] = useState<number>(0);
-  const [claveBan, setClaveBan] = useState<string>();
-  const [cuenta, setCuenta] = useState<string>();
-  const [cuentaValid, setCuentaValid] = useState<boolean>();
-  const [claveValid, setClaveValid] = useState<boolean>();
+  const [nombre, setNombre] = useState<string>("");
+  const [porcentaje, setPorcentaje] = useState<string>('0');
+  const [claveBan, setClaveBan] = useState<string>("");
+  const [claveSireGob, setClaveSiregob] = useState<string>("");
+  const [cuenta, setCuenta] = useState<string>("");
+  const [cuentaValid, setCuentaValid] = useState<boolean>(false);
+  const [claveValid, setClaveValid] = useState<boolean>(false);
   const [cuentaError, setCuentaError] = useState<string>();
   const [claveError, setClaveError] = useState<string>();
-
-
-  const [municipio, setMunicipio] = useState<string>();
+  const [municipio, setMunicipio] = useState<string>("");
   const [modo, setModo] = useState<string>("visualizar");
+  const [monex, setMonex] = useState('0');
 
 
 
@@ -73,29 +73,13 @@ const FideicomisoConfig = ({
     }, {
       field: "IdMun",
       hide: true,
-    }, {
-      field: "Nombre",
-      headerName: "Nombre",
-      width: 500,
-    }, {
-      field: "Porcentaje",
-      headerName: "Porcentaje",
-      width: 120,
-    }, {
-      field: "ClaveBancaria",
-      headerName: "Clave Bancaria",
-      width: 250,
-    }, {
-      field: "Cuenta",
-      headerName: "cuenta",
-      width: 250,
     },
     {
-      field: "Acciones",
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Relacionar Roles",
       sortable: false,
-      width: 400,
+      width: 100,
       renderCell: (v) => {
         return (
           <Box>
@@ -111,12 +95,46 @@ const FideicomisoConfig = ({
 
       },
     },
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creacion",
+      width: 200,
+    },
+    {
+      field: "CreadoP",
+      headerName: "Creado Por",
+      width: 300,
+    },
+    {
+      field: "ClaveSiregob",
+      headerName: "Clave",
+      width: 100,
+    },
+    {
+      field: "Nombre",
+      headerName: "Nombre",
+      width: 500,
+    },
+    {
+      field: "Porcentaje",
+      headerName: "Porcentaje",
+      width: 120,
+    }, {
+      field: "ClaveBancaria",
+      headerName: "Clave Bancaria",
+      width: 250,
+    }, {
+      field: "Cuenta",
+      headerName: "Cuenta",
+      width: 250,
+    },
+
   ];
 
   const validateCount = (e: any, tipo: number) => {
 
     var valor = e.target.value
-    if (tipo == 1) {
+    if (tipo === 1) {
       ///// clave
       setClaveBan(valor)
       if (validator.isNumeric(valor)) {
@@ -129,7 +147,7 @@ const FideicomisoConfig = ({
 
 
     } else
-      if (tipo == 2) {
+      if (tipo === 2) {
         ///// cuenta
         setCuenta(valor)
         if (validator.isNumeric(valor)) {
@@ -159,7 +177,7 @@ const FideicomisoConfig = ({
         });
         consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -167,17 +185,15 @@ const FideicomisoConfig = ({
       }
     });
     setNombre("");
-    setPorcentaje(0);
+    setPorcentaje("");
     setCuenta("");
     setClaveBan("");
     setModo("visualizar");
-
     setOpenSlider(false);
   };
 
 
   const handleEdit = (v: any) => {
-    console.log(v?.row)
     setOpenSlider(true);
     setModo("editar");
     setIdMun(v?.row?.IdMun);
@@ -186,7 +202,10 @@ const FideicomisoConfig = ({
     setPorcentaje(v?.row?.Porcentaje);
     setCuenta(v?.row?.Cuenta);
     setClaveBan(v?.row?.ClaveBancaria);
+    setClaveSiregob(v?.row?.ClaveSiregob);
     setOpenSlider(false);
+    v?.row?.Cuenta ? setClaveValid(true) : setClaveValid(false);
+    v?.row?.ClaveBancaria ? setCuentaValid(true) : setCuentaValid(false);
     consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
 
   };
@@ -194,20 +213,26 @@ const FideicomisoConfig = ({
 
   const handleNuevoFideicomiso = () => {
     setModo("nuevo");
+    setNombre("");
+    setPorcentaje("0");
+    setCuenta("");
+    setClaveBan("");
+    setClaveSiregob("");
   };
 
 
   const agregar = () => {
 
     if (
-      claveValid == false ||
-      cuentaValid == false ||
-      nombre === null ||
-      Number(porcentaje) >= 100 ||
-      porcentaje === null ||
-      cuenta == null ||
-      claveBan === null) {
-      Alert.fire({
+      claveValid === false
+      || cuentaValid === false
+      || nombre === null
+      || (Number(porcentaje) >= 100 && Number(porcentaje) <= 0)
+      || porcentaje === null
+      || cuenta === null
+      || claveBan === null
+      || claveSireGob === null) {
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Verificar los Campos",
         icon: "error",
@@ -215,10 +240,11 @@ const FideicomisoConfig = ({
     } else {
       let dat = {
         CHID: idFide,
-        NUMOPERACION: modo == "nuevo" ? 1 : 2,
+        NUMOPERACION: modo === "nuevo" ? 1 : 2,
         IDMUN: idMun,
         CHUSER: user.id,
         NOMBRE: nombre,
+        CLAVESIREGOB: claveSireGob,
         PORCENTAJE: porcentaje,
         CLAVEBANCARIA: claveBan,
         CUENTA: cuenta,
@@ -229,21 +255,20 @@ const FideicomisoConfig = ({
             icon: "success",
             title: "Registro" + (modo === "nuevo" ? "Agregado!" : "Editado!"),
           });
-          console.log("Sé pudo agregar");
         } else {
-          Alert.fire({
+          AlertS.fire({
             title: "Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
-          console.log("No se pudo agregar");
         }
       });
       setNombre("");
-      setPorcentaje(0);
+      setPorcentaje("0");
       setCuenta("");
       setClaveBan("");
       setModo("visualizar");
+      setClaveSiregob("");
       consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
     }
   };
@@ -253,48 +278,51 @@ const FideicomisoConfig = ({
     setOpenSlider(true);
     CatalogosServices.MunFideicomiso(data).then((res) => {
       setData(res.RESPONSE);
-      console.log(res)
+      console.log(res.RESPONSE)
       setOpenSlider(false);
     });
 
   };
 
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMonex((event.target as HTMLInputElement).value);
+    console.log((event.target as HTMLInputElement).value);
+  };
   useEffect(() => {
-    console.log(user);
     setModo("visualizar")
     setMunicipio(dt?.row?.Nombre)
+    setMonex(dt?.row?.Monex ? dt?.row?.Monex : 0)
     consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
-    console.log(dt.row)
     if (dt === "") {
     } else {
-      //SE PINTAN LOS CAMPOS
       setIdMun(dt?.row?.id);
-
-
     }
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen={true} >
+    <Dialog open={open} fullScreen={true}>
       <Slider open={openSlider} />
 
-      <DialogContent>
+      <DialogContent sx={{ padding: "0", margin: "0" }}>
 
-          <Grid container >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <Typography
-                sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "3vw", color: "#000000", }}>
-                Municipio: {municipio}
-              </Typography>
-            </Grid>
+        <Grid container sx={{ paddingTop: "2%", bgcolor: "#CCCCCC" }}>
+          <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+            <Typography
+              sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+              Municipio: {municipio}
+            </Typography>
+          </Grid>
 
 
           <Grid container direction="row"
             justifyContent="space-between"
-            alignItems="center">
+            alignItems="center"
+            sx={{ paddingLeft: "2%", paddingRight: "2%", paddingBottom: "2%" }}
+          >
             <Grid item >
               <ButtonGroup>
-                {modo == "visualizar" ?
+                {modo === "visualizar" ?
                   <Tooltip title="Agregar">
                     <ToggleButton value="check" onClick={() => { handleNuevoFideicomiso() }}>
                       <AddIcon />
@@ -302,7 +330,7 @@ const FideicomisoConfig = ({
                   </Tooltip>
                   : ""}
 
-                {modo == "nuevo" ?
+                {modo === "nuevo" ?
                   <Tooltip title="Regresar">
                     <ToggleButton value="check" onClick={() => { setModo("visualizar") }}>
                       <ArrowBackIosIcon />
@@ -311,8 +339,8 @@ const FideicomisoConfig = ({
 
                   : ""}
               </ButtonGroup>
-            </Grid>
-            <Grid item >
+            </Grid >
+            <Grid item  >
               <ButtonGroup>
                 <Tooltip title="Cerrar">
                   <ToggleButton value="check" color="error" onClick={() => { handleClose() }}>
@@ -324,17 +352,19 @@ const FideicomisoConfig = ({
             </Grid>
           </Grid>
 
-          {(modo == "visualizar") ?
+          {(modo === "visualizar") ?
 
-              <Grid item xs={12} sx={{ width: "100%", height: 300, }}>
+            <Grid item xs={12} sx={{ bgcolor: "white", width: "100%", height: 500, padding: "2%" }}>
+              <Box boxShadow={2} sx={{ width: "100%", height: "97%" }}>
                 <MUIXDataGridSimple columns={columns} rows={data} />
-              </Grid>
+              </Box>
+            </Grid>
             : ""}
 
-        {(modo == "nuevo" || modo == "editar") ?
-   
+          {(modo === "nuevo" || modo === "editar") ?
 
-            <Grid item xs={12} sx={{ width: "100%" }}>
+
+            <Grid item xs={12} sx={{ padding: "3%", bgcolor: "white", }}>
               <Container maxWidth="sm">
                 <TextField
                   required
@@ -345,7 +375,21 @@ const FideicomisoConfig = ({
                   fullWidth
                   variant="standard"
                   onChange={(v) => setNombre(v.target.value)}
-                  error={String(nombre).length == 0}
+                  error={String(nombre).length === 0}
+                  inputProps={{ maxLength: 150 }}
+                  InputLabelProps={{ shrink: true }}
+                />
+                <TextField
+                  required
+                  margin="dense"
+                  label="Clave Fideicomiso"
+                  value={claveSireGob}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setClaveSiregob(v.target.value)}
+                  error={claveSireGob === ""}
+                  inputProps={{ maxLength: 18 }}
                   InputLabelProps={{ shrink: true }}
                 />
                 <TextField
@@ -353,11 +397,12 @@ const FideicomisoConfig = ({
                   margin="dense"
                   label="Porcentaje"
                   value={porcentaje}
-                  type="number"
+                  type="text"
                   fullWidth
                   variant="standard"
-                  onChange={(v) => setPorcentaje(Number(v.target.value))}
-                  error={!porcentaje ? true : false || porcentaje >= 100}
+                  onChange={(v) => setPorcentaje(v.target.value)}
+                  inputProps={{ maxLength: 20 }}
+                  error={Number(porcentaje) <= 0 || Number(porcentaje) >= 100}
                   InputLabelProps={{ shrink: true }}
                 />
                 <TextField
@@ -369,11 +414,11 @@ const FideicomisoConfig = ({
                   fullWidth
                   variant="standard"
                   onChange={(e) => validateCount(e, 2)}
-                  error={cuentaValid == false || !cuenta ? true : false}
+                  error={cuentaValid === false || cuenta === ""}
                   inputProps={{ maxLength: 10 }}
                   InputLabelProps={{ shrink: true }}
                 />
-                <label>{cuentaError}</label>
+                <Typography variant="body2" > {cuentaError} </Typography>
                 <TextField
                   required
                   margin="dense"
@@ -383,26 +428,41 @@ const FideicomisoConfig = ({
                   fullWidth
                   variant="standard"
                   onChange={(e) => validateCount(e, 1)}
-                  error={claveValid == false || !claveBan ? true : false}
+                  error={claveValid === false || claveBan === ""}
                   inputProps={{ maxLength: 18 }}
                   InputLabelProps={{ shrink: true }}
                 />
-                <label>{claveError}</label>
-                <DialogActions>
+                <Typography variant="body2" > {claveError} </Typography>
+                <label> Monex</label> <br/>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-error-radios"
+                  name="quiz"
+                  value={monex}
+                  onChange={handleRadioChange}
+                >
+                  <FormControlLabel value="0" control={<Radio color="error" />} label="No Aplica" />
+                  <FormControlLabel value="1" control={<Radio color="success" />} label="Si Aplica" />
 
-                  <button className="guardar" onClick={() => { agregar() }}>
-                    Guardar
-                  </button>
-                  <button className="cerrar" onClick={() => { setModo("visualizar") }}>
-                    Cancelar
-                  </button>
+                </RadioGroup>
+
+                <DialogActions>
+                  <Grid container justifyContent="center" alignItems="center" alignContent="center">
+                    <Grid item paddingTop="10%" xs={6}>
+                      <Button
+                        onClick={() => agregar()}
+                        color={modo === "nuevo" ? "success" : "info"} fullWidth variant="outlined">
+                        {modo === "nuevo" ? "Guardar" : "Actualizar"}
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </DialogActions>
               </Container>
 
             </Grid>
-         
-          : ""}
-          </Grid>
+
+            : ""}
+        </Grid>
       </DialogContent>
     </Dialog >
   );

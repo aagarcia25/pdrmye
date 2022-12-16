@@ -45,15 +45,15 @@ export const TasaInteres = () => {
 
   useEffect(() => {
     CatalogosServices.getTasainteres(data).then((res) => {
-      //  console.log(res);
+      //  //console.log(res);
       setTasa(res.RESPONSE);
     });
   }, []);
 
   return (
 
-
-    <div style={{ height: 600, width: "100%" }} >
+ 
+    <div style={{ height: 600, width: "100%",}} >
       <MUIXDataGrid columns={columns} rows={tasa} />
     </div>
 

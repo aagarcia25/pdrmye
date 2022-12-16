@@ -8,7 +8,7 @@ import { messages } from "../../../../styles";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 
 const MenuAsignaPermisos = ({
   dt,
@@ -48,7 +48,7 @@ const MenuAsignaPermisos = ({
         });
         consulta({ CHID: dt?.row?.id });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -67,7 +67,7 @@ const MenuAsignaPermisos = ({
       description: messages.dataTableColum.id,
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "",
       description: "Relacionar Permisos",
       sortable: false,
@@ -112,7 +112,7 @@ const MenuAsignaPermisos = ({
               <Typography
                 sx={{
                   textAlign: "center",
-                  fontFamily: "MontserratBold",
+                  fontFamily: "sans-serif",
                   fontSize: "2vw",
                   color: "#454545",
                 }}

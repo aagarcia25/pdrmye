@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import MunTerritorioModal from "./MunTerritorioModal";
-import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import AccionesGrid from "../Utilerias/AccionesGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import { Box, Grid, Typography } from "@mui/material";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
+
 
 export const MunTerritorio = () => {
 
@@ -25,10 +27,10 @@ export const MunTerritorio = () => {
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-
+  const [nombreMenu, setNombreMenu] = useState("");
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
   // VARIABLES PARA LOS FILTROS
 
@@ -45,95 +47,90 @@ export const MunTerritorio = () => {
       hide: true,
       width: 150,
     },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Km2", headerName: "Area", width: 150 },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 100,
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-          );
+        );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", width: 180 },
+    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", width: 150 },
+    { field: "Km2", headerName: "Área", width: 150 ,
+     renderCell: (v) => {
+      return (
+        <Box  sx={{width: "100%",  display: 'flex',flexDirection: 'row-reverse',}}>
+          {v.row.Km2+" km²"}
+        </Box>
+      );
+    },
+  },
+
 
   ];
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+      setModo("Editar Registro");
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
+
     }
   }
-  
 
   const handleClose = (v: string) => {
-    if (v == "close") {
-      setOpen(false);
-    }
-    else if (v == "save") {
-      setOpen(false);
-      let data = {
-        NUMOPERACION: 4,
-
-      };
-      consulta(data);
-
-    }
-    console.log('cerrando');
-
-
+    setOpen(false);
+    setOpen(false);
+    consulta();
   };
-
+  const handleBorrar = (v: any) => {
+    setSelectionModel(v);
+    //console.log(v)
+  };
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
     setData("");
   };
-
-
-
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title:  "Solicitar La Eliminación?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.munterritorio(data).then((res) => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "Solicitud Enviada!",
             });
 
-            let data = {
-              NUMOPERACION: 4,
-
-            };
-            consulta(data);
+            consulta();
 
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -147,49 +144,97 @@ export const MunTerritorio = () => {
     });
   };
 
+  const handleUpload = (data: any) => {
 
-
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "MunTerritorio");
-    CatalogosServices.migraData(formData).then((res) => {
+    if (data.tipo === 1) {
+      setslideropen(true);
+      let file = data.data?.target?.files?.[0] || "";
+      const formData = new FormData();
+      formData.append("inputfile", file, "inputfile.xlsx");
+      formData.append("tipo", "MunTerritorio");
       setslideropen(false);
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        });
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+      //console.log(file)
+      CatalogosServices.migraData(formData).then((res) => {
+        setslideropen(false);
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "Carga Exitosa!",
+          });
+          consulta();
+        } else {
+          AlertS.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
+      });
+
+    } 
+    else if (data.tipo === 2) {
+      //console.log("borrado de toda la tabla")
+      //console.log(selectionModel)
+
+      if(selectionModel.length!==0){
+      Swal.fire({
+        icon: "question",
+        title: selectionModel.length +" Registros Se Eliminaran!!",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+  
+          let data = {
+           NUMOPERACION: 5,
+           OBJS: selectionModel,
+           CHUSER: user.id
+          };
+          //console.log(data);
+  
+          CatalogosServices.munterritorio(data).then((res) => {
+            if (res.SUCCESS) {
+              Toast.fire({
+                icon: "success",
+                title: "Borrado!",
+              });
+  
+              consulta();
+  
+            } else {
+              AlertS.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+  
+        } else if (result.isDenied) {
+          Swal.fire("No se realizaron cambios", "", "info");
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Seleccione Registros Para Borrar",
+        confirmButtonText: "Aceptar",
+      });
+    }
 
 
+    }
 
-    });
   };
-
-  const consulta = (data: any) => {
-    CatalogosServices.munterritorio(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        setTerritorio(res.RESPONSE);
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
+  const consulta = () => {
+    let dat = ({
+      NUMOPERACION: 4,
+      CHUSER: user.id
+    })
+    CatalogosServices.munterritorio(dat).then((res) => {
+      setTerritorio(res.RESPONSE);
     });
   };
 
@@ -207,16 +252,17 @@ export const MunTerritorio = () => {
   };
 
   useEffect(() => {
-    
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNTERR") {
-        console.log(item)
-        if (String(item.Referencia) == "ELIM") {
+        setNombreMenu(item.Menu);
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
+       
       }
     });
     downloadplantilla();
@@ -224,24 +270,17 @@ export const MunTerritorio = () => {
 
   }, []);
 
-  let dat = ({
-    NUMOPERACION: 4,
-    CHUSER: user.id
-  })
+
   useEffect(() => {
-    CatalogosServices.munterritorio(dat).then((res) => {
-      setTerritorio(res.RESPONSE);
-    });
+    consulta();
   }, []);
 
 
   return (
-    <div style={{ height: 500, width: "100%" }}>
+    <div style={{ height: 500, width: "100%",  }}>
       <Slider open={slideropen}></Slider>
 
-
-
-      {open ? (
+      {open ?
         <MunTerritorioModal
           open={open}
           modo={modo}
@@ -249,14 +288,15 @@ export const MunTerritorio = () => {
           tipo={tipoOperacion}
           dt={data}
         />
-      ) : (
+        :
         ""
-      )}
-
+      }
+        <NombreCatalogo controlInterno={"MUNTERR"} />
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNTERR"}      />
-      <MUIXDataGrid columns={columns} rows={territorio} />
+        handleUpload={handleUpload} controlInterno={"MUNTERR"} value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={true} />
+
+      <MUIXDataGridMun columns={columns} rows={territorio} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')}   />
 
     </div>
   );

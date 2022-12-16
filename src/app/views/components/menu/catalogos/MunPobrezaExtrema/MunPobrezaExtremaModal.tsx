@@ -1,22 +1,17 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
   InputAdornment,
-  DialogActions,
+  Grid,
+  Button,
 } from "@mui/material";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getUser,  validaLocalStorage } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import ModalForm from "../../../componentes/ModalForm";
 
 
 const MunPobrezaExtremaModal = ({
@@ -32,10 +27,6 @@ const MunPobrezaExtremaModal = ({
   handleClose: Function,
   dt: any
 }) => {
-
-
-
-
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState<number>();
@@ -43,29 +34,23 @@ const MunPobrezaExtremaModal = ({
   const [porcentaje, setPorcentage] = useState<number>();
   const [carenciaProm, setCarenciaProm] = useState<number>();
   const [IdMunicipio, setIdMunicipio] = useState<object>();
-  const [values, setValues] = useState<Imunicipio[]>();
+  //const [values, setValues] = useState<Imunicipio[]>();
   const user: RESPONSE = JSON.parse(String(getUser()));
-
-
-
+  //const [municipio, setMunicipios] = useState<SelectValues[]>([]);
 
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
       CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
+    //    setMunicipios(res.RESPONSE);
       });
     }
-    let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
-    setValues(m);
+    // let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
+   /// setValues(m);
   };
-
-
-
-
   const handleSend = () => {
-    if (poblacion == null || anio == null || carenciaProm == null || IdMunicipio == null) {
-      Alert.fire({
+    if (poblacion === null || anio === null || carenciaProm === null || IdMunicipio === null) {
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -90,11 +75,11 @@ const MunPobrezaExtremaModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
 
       editar(data);
@@ -112,7 +97,7 @@ const MunPobrezaExtremaModal = ({
         });
 
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -120,16 +105,19 @@ const MunPobrezaExtremaModal = ({
       }
     });
   };
+  // const handle = () => {
+
+  // };
 
   const editar = (data: any) => {
     CatalogosServices.munpobrezaext(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "Solicitud De Edición Enviada!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -144,7 +132,7 @@ const MunPobrezaExtremaModal = ({
     municipiosc();
 
     if (dt === '') {
-      console.log(dt)
+      //console.log(dt)
 
     } else {
       setId(dt?.row?.id)
@@ -153,125 +141,134 @@ const MunPobrezaExtremaModal = ({
       setIdMunicipio(dt?.row?.idmunicipio)
       setPorcentage(dt?.row?.Porcentaje)
       setCarenciaProm(dt?.row?.CarenciaProm)
-
-
-
-
-
     }
 
+    // let data = { NUMOPERACION: 5 };
+    // CatalogosServices.SelectIndex(data).then((res) => {
+    //   setMunicipios(res.RESPONSE);
+    // });
+
+
   }, [dt]);
-
-
-
   return (
-    <Dialog open={open}>
-
-
-
-      <DialogContent>
-        <Box>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
-            <label className="Titulo">{modo}</label>
+    <div>
+      <ModalForm title={modo} handleClose={handleClose}>
+        <Grid container
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+          <Box>
+          <label className="Titulo">{dt?.row?.Nombre}</label>
           </Box>
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Municipio</InputLabel>
-            <Select
-              required
-              onChange={(v) => setIdMunicipio(Object(v.target.value))}
-              value={IdMunicipio}
-              label="Municipio"
-              inputProps={{
-                readOnly: tipo == 1 ? false : true,
-              }}
-            >
-              {values?.map((item: Imunicipio) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Nombre}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+          </Grid>
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+            {(modo === "Agregar Registro") ?
+              <TextField
+                required
+                margin="dense"
+                id="anio"
+                label="Año"
+                value={anio}
+                type="number"
+                fullWidth
+                variant="standard"
+                onChange={(v) => setAnio(Number(v.target.value))}
+                error={anio === null ? true : false}
+                InputProps={{
+                  readOnly: tipo === 1 ? false : true,
 
-          {(modo === "Agregar Registro") ?
+                }}
+              />
+              :
+              <TextField
+                required
+                margin="dense"
+                id="anio"
+                label="Año"
+                value={anio}
+                type="number"
+                fullWidth
+                variant="standard"
+                onChange={(v) => setAnio(Number(v.target.value))}
+                error={anio === null ? true : false}
+                InputProps={{
+                  readOnly: tipo === 1 ? false : true,
+
+                }}
+              />
+            }
+          </Grid>
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+
             <TextField
-              required
               margin="dense"
-              id="anio"
-              label="Año"
-              value={anio}
+              required
+              id="pob"
+              label="Total"
+              value={poblacion}
               type="number"
               fullWidth
               variant="standard"
-              onChange={(v) => setAnio(Number(v.target.value))}
-              error={anio == null ? true : false}
-              InputProps={{
-                readOnly: tipo == 1 ? false : true,
-
-              }}
+              onChange={(v) => setPoblacion(Number(v.target.value))}
+              error={poblacion === null ? true : false}
             />
-            :
+          </Grid>
+
+          <Grid item xs={7} sm={8} md={8} lg={8}>
+
             <TextField
-              required
+
               margin="dense"
-              id="anio"
-              label="Año"
-              value={anio}
-              type="number"
+              required
+              id="fac"
+
+              label="Carencia Promedio"
+              value={carenciaProm}
+              type="percent"
               fullWidth
               variant="standard"
-              onChange={(v) => setAnio(Number(v.target.value))}
-              error={anio == null ? true : false}
+              onChange={(v) => setCarenciaProm(Number(v.target.value))}
+              error={carenciaProm === null ? true : false}
               InputProps={{
-                readOnly: tipo == 1 ? false : true,
-
+                endAdornment: (
+                  <InputAdornment position="end">%</InputAdornment>
+                ),
               }}
             />
-          }
 
-          <TextField
-            margin="dense"
-            required
-            id="pob"
-            label="Total"
-            value={poblacion}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setPoblacion(Number(v.target.value))}
-            error={poblacion == null ? true : false}
-          />
+          </Grid>
 
-          <TextField
-
-            margin="dense"
-            required
-            id="fac"
-
-            label="Carencia Promedio"
-            value={carenciaProm}
-            type="percent"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setCarenciaProm(Number(v.target.value))}
-            error={carenciaProm == null ? true : false}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">%</InputAdornment>
-              ),
+          <Grid container
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
             }}
-          />
-        </Box>
-      </DialogContent>
+          >
+            <Grid item xs={4} sm={3} md={2} lg={1}
+            >
+              <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+            </Grid>
+          </Grid>
+        </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
-      </DialogActions>
-    </Dialog>
+      </ModalForm>
+    </div>
+
+
+
+
+
   );
 };
 

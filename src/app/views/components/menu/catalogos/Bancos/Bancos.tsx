@@ -1,7 +1,8 @@
+import { Box, Button, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -20,7 +21,7 @@ export const Bancos = () => {
   const [bancos, setBancos] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  console.log("bancos: ", bancos)
+  //console.log("bancos: ", bancos)
 
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
@@ -29,12 +30,12 @@ export const Bancos = () => {
 
   const handleAccion = (v: any) => {
     if (v.tipo == 1) {
-      console.log(v);
+      //console.log(v);
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo == 2) {
+    } else if (v.tipo === 2) {
       Swal.fire({
         icon: "info",
         title: "Estas seguro de eliminar este registro?",
@@ -49,7 +50,7 @@ export const Bancos = () => {
             CHID: v.data.row.id,
             CHUSER: user.id,
           };
-          console.log(data);
+          //console.log(data);
 
           CatalogosServices.Bancos(data).then((res) => {
             if (res.SUCCESS) {
@@ -60,7 +61,7 @@ export const Bancos = () => {
 
               consulta({ NUMOPERACION: 4 });
             } else {
-              Alert.fire({
+              AlertS.fire({
                 title: "Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
@@ -82,11 +83,8 @@ export const Bancos = () => {
       width: 150,
       description: messages.dataTableColum.id,
     },
-    { field: "Nombre", headerName: "Nombre", width: 150 },
-    { field: "Descripcion", headerName: "Descripción", width: 250 },
-
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -102,6 +100,10 @@ export const Bancos = () => {
         );
       },
     },
+    { field: "Nombre", headerName: "Nombre", width: 400 },
+    { field: "Descripcion", headerName: "Descripción", width: 400 },
+
+ 
   ];
 
   const handleClose = () => {
@@ -125,7 +127,7 @@ export const Bancos = () => {
         });
         setBancos(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -137,14 +139,14 @@ export const Bancos = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "BANCOS") {
-        console.log(item);
-        if (String(item.Referencia) == "AGREG") {
+        //console.log(item);
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -153,16 +155,23 @@ export const Bancos = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: 600, width: "100%" , padding:"1%"}}>
       {open ? (
-         <BancosModal
-         open={open}
-         tipo={tipoOperacion}
-         handleClose={handleClose}
-         dt={vrows}
-       />
+        <BancosModal
+          open={open}
+          tipo={tipoOperacion}
+          handleClose={handleClose}
+          dt={vrows}
+        />
       ) : ""}
 
+      <Grid container justifyContent="space-between">
+        <Grid item md={12} textAlign="center" >
+          <Typography variant="h3" >
+            {"Bancos"}
+          </Typography>
+        </Grid>
+      </Grid>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={bancos} />
     </div>

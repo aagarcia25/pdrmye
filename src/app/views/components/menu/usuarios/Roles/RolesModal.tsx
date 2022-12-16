@@ -1,31 +1,28 @@
 import { useEffect, useState } from "react";
 import {
-    Dialog,
-    DialogContent,
-    Box,
     TextField,
     InputAdornment,
     DialogActions,
+    Button,
+    Grid,
+    Box,
 } from "@mui/material";
 
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import { UserReponse } from "../../../../../interfaces/user/UserReponse";
-import { getPU, getUser } from "../../../../../services/localStorage";
+import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-
-
-
+import ModalForm from "../../../componentes/ModalForm";
 
 const RolesModal = ({
-    open,
+    openRoles,
     modo,
     handleClose,
     tipo,
     dt
 }: {
-    open: boolean;
+    openRoles: boolean;
     modo: string;
     tipo: number;
     handleClose: Function,
@@ -41,10 +38,10 @@ const RolesModal = ({
 
     const handleSend = () => {
 
-        if (modo == "Agregar Rol") {
+        if (modo === "Agregar Rol") {
 
-            if (nombre == null || descripcion == null || nombre == "" || descripcion == "") {
-                Alert.fire({
+            if (nombre === null || descripcion === null || nombre === "" || descripcion === "") {
+                AlertS.fire({
                     title: "Error!",
                     text: "Favor de Completar los Campos",
                     icon: "error",
@@ -61,10 +58,10 @@ const RolesModal = ({
                 handleClose("saved");
             }
         }
-        if (modo == "Editar Rol") {
+        if (modo === "Editar Rol") {
 
-            if (nombre == null || descripcion == null || nombre == "" || descripcion == "") {
-                Alert.fire({
+            if (nombre === null || descripcion === null || nombre === "" || descripcion === "") {
+                AlertS.fire({
                     title: "Error!",
                     text: "Favor de Completar los Campos",
                     icon: "error",
@@ -77,14 +74,10 @@ const RolesModal = ({
                     NOMBRE: nombre,
                     DESCRIPCION: descripcion,
                 };
-
                 handleRequest(data);
                 handleClose("saved");
             }
-
         }
-
-
     };
 
     const handleRequest = (data: any) => {
@@ -92,7 +85,7 @@ const RolesModal = ({
     };
 
     const handleTeste = () => {
-        console.log(user.id);
+        //console.log(user.id);
 
     };
     const agregar = (data: any) => {
@@ -104,7 +97,7 @@ const RolesModal = ({
                 });
 
             } else {
-                Alert.fire({
+                AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
@@ -126,7 +119,7 @@ const RolesModal = ({
             setId(dt?.row?.id)
 
 
-            if (modo == "Agregar Rol") {
+            if (modo === "Agregar Rol") {
 
                 setNombre('');
                 setDescripcion('');
@@ -136,67 +129,71 @@ const RolesModal = ({
 
     }, [dt]);
 
-
-
     return (
-        <Dialog open={open}>
-            <DialogContent>
-                <Box>
-                    <Box
-                        sx={{ display: 'flex', justifyContent: 'center', }}>
-                        <label className="Titulo">{modo}</label>
-                    </Box>
-                    {(modo == "Editar Rol") ?
-                        <Box
-                            sx={{ display: 'flex', justifyContent: 'center', }}>
-                            <label className="contenido">Solo se puede editar la descripcion *</label>
-                        </Box> : ""
+        <ModalForm title={modo} handleClose={handleClose}>
+            <Box sx={{ boxShadow: 3 }} > 
+            
+                <Grid container
+                    sx={{
+                        height: "30vh",
+                        justifyContent: "center"
+                    }}
+                >
+                    {(modo === "Editar Rol") ?
+                        <Grid sm={12}
+                            sx={{ display: 'flex', justifyContent: 'center', paddingTop:"1%"}}>
+                            <label className="contenido">  Solo se puede editar la Descripción * </label>
+                        </Grid> : ""
                     }
 
-                    <TextField
-                        required
-                        margin="dense"
-                        id="anio"
-                        label="Nombre"
-                        value={nombre}
-                        disabled={modo == "Editar Rol"}
-                        fullWidth
-                        variant="standard"
-                        onChange={(v) => setNombre(String(v.target.value))}
-                        error={nombre == null ? true : false}
-                        InputProps={{
-                            readOnly: tipo == 1 ? false : true,
+                    <Grid item sm={7}>
+                        <TextField
+                            required
+                            margin="dense"
+                            id="anio"
+                            label="Nombre"
+                            value={nombre}
+                            disabled={modo === "Editar Rol"}
+                            fullWidth
+                            variant="standard"
+                            onChange={(v) => setNombre(String(v.target.value))}
+                            error={nombre === null ? true : false}
+                            InputProps={{
+                                readOnly: tipo === 1 ? false : true,
+                            }}
+                        />
+                    </Grid>
+                    <Grid item sm={7}>
 
-                        }}
-                    />
+                        <TextField
+                            margin="dense"
+                            required
+                            id="fac"
+                            label="Descripcion"
+                            value={descripcion}
+                            multiline
+                            fullWidth
+                            variant="standard"
+                            onChange={(v) => setDescripcion(String(v.target.value))}
+                            error={descripcion === null ? true : false}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start"></InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Grid>
+                </Grid>
+           
 
-
-
-                    <TextField
-                        margin="dense"
-                        required
-                        id="fac"
-                        label="Descripcion"
-                        value={descripcion}
-                        multiline
-                        fullWidth
-                        variant="standard"
-                        onChange={(v) => setDescripcion(String(v.target.value))}
-                        error={descripcion == null ? true : false}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start"></InputAdornment>
-                            ),
-                        }}
-                    />
-                </Box>
-            </DialogContent>
-
-            <DialogActions>
-                <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-                <button className="cerrar" onClick={() => handleClose("cerrar")}>Cerrar</button>
+            <DialogActions sx={{ padding:"2%" }}>
+                <Button className="guardar" onClick={() => handleSend()}>Guardar</Button>
+                {/* <button className="cerrar" onClick={() => handleClose("cerrar")}>Cerrar</button> */}
             </DialogActions>
-        </Dialog>
+
+            </Box>                  
+        </ModalForm>
+
     );
 };
 

@@ -8,7 +8,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { messages } from "../../../../styles";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import TipoFondoModal from "./TipoFondoModal";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
@@ -47,7 +47,7 @@ const TipoFondo = () => {
     },
     { field: "Descripcion", headerName: "Descripcion", width: 350 },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -103,7 +103,7 @@ const TipoFondo = () => {
           CHID: v.row.id,
           CHUSER: user.id
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.tipofondo(data).then((res) => {
           if (res.SUCCESS) {
@@ -120,7 +120,7 @@ const TipoFondo = () => {
 
 
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -146,7 +146,7 @@ const TipoFondo = () => {
         });
         setDataTipoFondo(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -161,7 +161,7 @@ const TipoFondo = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNICIPIOS") {
-        console.log(item)
+        //console.log(item)
         if (String(item.Referencia) == "AGREG") {
           setAgregar(true);
         }

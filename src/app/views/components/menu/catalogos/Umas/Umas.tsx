@@ -1,17 +1,19 @@
+
+import React from "react";
 import { useEffect, useState } from "react";
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { messages } from "../../../../styles";
 import UmasModel from "./UmasModel";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
-import MUIXDataGrid from "../../../MUIXDataGrid";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
-
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
 
 export const Umas = () => {
@@ -21,56 +23,56 @@ export const Umas = () => {
   const [vrows, setVrows] = useState({});
   const [conUmas, setUmas] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
-
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+  const [nombreMenu, setNombreMenu] = useState("");
 
-  const handleAccion=(v: any)=>{
-    if(v.tipo ==1){
-      console.log(v)
+  const handleAccion = (v: any) => {
+    if (v.tipo === 1) {
+      //console.log(v)
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
       setVrows(v.data);
-    }else if(v.tipo ==2){
+    } else if (v.tipo === 2) {
       Swal.fire({
         icon: "info",
-        title: "Estas seguro de eliminar este registro?",
+        title: "Solicitar La Eliminación?",
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: "Confirmar",
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-  
+
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.row.id,
             CHUSER: user.id
           };
-          console.log(data);
-  
+          //console.log(data);
+
           CatalogosServices.umas(data).then((res) => {
             if (res.SUCCESS) {
               Toast.fire({
                 icon: "success",
-                title: "Registro Eliminado!",
+                title: "Solicitud Enviada!",
               });
-  
+
               consulta({ NUMOPERACION: 4 });
-  
+
             } else {
-              Alert.fire({
+              AlertS.fire({
                 title: "Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });
             }
           });
-  
+
         } else if (result.isDenied) {
           Swal.fire("No se realizaron cambios", "", "info");
         }
@@ -81,25 +83,17 @@ export const Umas = () => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
       hide: true,
-      width: 150,
-      description: messages.dataTableColum.id,
     },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Diario", headerName: "Diario", width: 150 },
-    { field: "Mensual", headerName: "Mensual", width: 150 },
-    { field: "Anual", headerName: "Anual", width: 150 },
-
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
       width: 200,
       renderCell: (v) => {
         return (
-          <BotonesAcciones 
+          <BotonesAcciones
             handleAccion={handleAccion}
             row={v}
             editar={editar}
@@ -107,6 +101,11 @@ export const Umas = () => {
         );
       },
     },
+    { field: "Anio", headerName: "Año", width: 150 },
+    { field: "Diario", headerName: "Diario", width: 150 },
+    { field: "Mensual", headerName: "Mensual", width: 150 },
+    { field: "Anual", headerName: "Anual", width: 150 },
+
   ];
 
   const handleClose = () => {
@@ -122,18 +121,82 @@ export const Umas = () => {
     setVrows("");
   };
 
+  const handleBorrar = (v: any) => {
+    setSelectionModel(v);
+  };
 
-  
+
+  const handleUpload = (data: any) => {
+
+    if (data.tipo === 1) {
+
+    }
+    else if (data.tipo === 2) {
+      //console.log("borrado de toda la tabla")
+      //console.log(selectionModel)
+
+      if (selectionModel.length !== 0) {
+        Swal.fire({
+          icon: "question",
+          title: selectionModel.length + " Registros Se Eliminaran!!",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Confirmar",
+          denyButtonText: `Cancelar`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            let data = {
+              NUMOPERACION: 5,
+              OBJS: selectionModel,
+              CHUSER: user.id
+            };
+            //console.log(data);
+
+            CatalogosServices.umas(data).then((res) => {
+              if (res.SUCCESS) {
+                Toast.fire({
+                  icon: "success",
+                  title: "Borrado!",
+                });
+
+                consulta({
+                  NUMOPERACION: 4,
+                  CHUSER: user.id
+                });
+
+              } else {
+                AlertS.fire({
+                  title: "Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
+            });
+
+          } else if (result.isDenied) {
+            Swal.fire("No se realizaron cambios", "", "info");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Seleccione Registros Para Borrar",
+          confirmButtonText: "Aceptar",
+        });
+      }
+
+
+    }
+
+  };
+
   const consulta = (data: any) => {
     CatalogosServices.umas(data).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
         setUmas(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -146,25 +209,24 @@ export const Umas = () => {
 
 
   useEffect(() => {
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "UMAS") {
-        console.log(item)
-        if (String(item.Referencia) == "AGREG") {
+        setNombreMenu(item.Menu);
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
-        
+
       }
     });
     consulta({ NUMOPERACION: 4 })
   }, []);
-
-
 
   return (
     <div style={{ height: 600, width: "100%" }}>
@@ -178,11 +240,10 @@ export const Umas = () => {
       ) : (
         ""
       )}
+      <NombreCatalogo controlInterno={"UMAS"} />
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGrid columns={columns} rows={conUmas} />
-
-
+      < MUIXDataGridMun columns={columns} rows={conUmas} handleBorrar={handleBorrar} borrar={false} modulo={nombreMenu.toUpperCase().replace(' ','_')} />
     </div>
   );
 };

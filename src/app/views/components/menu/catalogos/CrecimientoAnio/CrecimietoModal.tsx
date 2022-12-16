@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -10,7 +10,7 @@ import {
   Button,
 } from "@mui/material";
 
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
@@ -37,8 +37,8 @@ const CrecimietoModal = ({
 
 
   const handleSend = () => {
-    if (anio == "" || crecimiento == "") {
-      Alert.fire({
+    if (anio === "" || crecimiento === "") {
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -57,11 +57,11 @@ const CrecimietoModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -75,7 +75,7 @@ const CrecimietoModal = ({
           title: "Registro Agregado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -92,7 +92,7 @@ const CrecimietoModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -103,7 +103,7 @@ const CrecimietoModal = ({
 
   useEffect(() => {
     if (dt === "") {
-      console.log(dt);
+      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setAnio(dt?.row?.Anio);
@@ -112,7 +112,7 @@ const CrecimietoModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen>
       <DialogTitle>{modo}</DialogTitle>
       <DialogContent>
         <Box>
@@ -127,7 +127,7 @@ const CrecimietoModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setAnio(v.target.value)}
-            error={anio == "" ? true : false}
+            error={anio === "" ? true : false}
           />
 
           <TextField
@@ -140,7 +140,7 @@ const CrecimietoModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setCrecimiento(v.target.value)}
-            error={crecimiento == "" ? true : false}
+            error={crecimiento === "" ? true : false}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="start">%</InputAdornment>

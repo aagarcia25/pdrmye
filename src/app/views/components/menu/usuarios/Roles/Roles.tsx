@@ -1,33 +1,31 @@
-import { IconButton, Tooltip } from "@mui/material";
+import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import MUIXDataGrid from "../../../MUIXDataGrid";
-import RolesMenu from "./RolesMenu";
+import ConfiguracionRoles from "./ConfiguracionRoles";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import RolesModal from "./RolesModal";
-import AsignarMenuRol from "./AsignarMenuRol";
 import EditIcon from "@mui/icons-material/Edit";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
+import Swal from "sweetalert2";
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'; 
+import { AlertS } from "../../../../../helpers/AlertS";
 
 const Roles = () => {
   const [data, setData] = useState([]);
   const [dt, setDt] = useState([]);
-  const [openRel, setOpenRel] = useState(false);
   const [open, setOpen] = useState(false);
-  const [openRolesModalAdd, setOpenRolesModalAdd] = useState(false);
+  const [openRolesConf, setOpenRolesconf] = useState(false);
   const [id, setId] = useState("");
+  const [nameRol, setNameRol] = useState("");
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -35,17 +33,11 @@ const Roles = () => {
 
   const handleClose = (v: string) => {
     setOpen(false);
-    setOpenRel(false);
-    setOpenRolesModalAdd(false);
+    setOpenRolesconf(false);
 
     {
       if (v === "saved") consulta({ NUMOPERACION: 4 });
     }
-  };
-
-  const handleRel = (v: any) => {
-    setId(v.row.id);
-    setOpenRel(true);
   };
 
   const eliminar = (v: any) => {
@@ -54,37 +46,51 @@ const Roles = () => {
       CHUSER: user.id,
       CHID: String(v.row.id),
     };
-    AuthService.rolesindex(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Rol Eliminado!",
-        });
-        consulta({ NUMOPERACION: 4 });
-      } else {
-        Alert.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
+    Swal.fire({
+      icon: "error",
+      title: "Borrar El Rol",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Aceptar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        AuthService.rolesindex(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Rol Eliminado!",
+            });
+            consulta({ NUMOPERACION: 4 });
+          } else {
+            AlertS.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
         });
       }
     });
+
+
   };
 
   const handleView = (v: any) => {
     setId(v.id);
+    setNameRol(v.row.Nombre)
     setOpen(true);
+
   };
   const handleOpen = () => {
     setTipoOperacion(1);
     setModo("Agregar Rol");
-    setOpenRolesModalAdd(true);
+    setOpenRolesconf(true);
   };
 
   const handleEditarRegistro = (v: any) => {
     setTipoOperacion(2);
     setModo("Editar Rol");
-    setOpenRolesModalAdd(true);
+    setOpenRolesconf(true);
     setDt(v);
   };
 
@@ -96,13 +102,7 @@ const Roles = () => {
       width: 150,
     },
     {
-      field: "Nombre",
-      headerName: "Rol",
-      width: 250,
-    },
-    { field: "Descripcion", headerName: "Descripcion", width: 450 },
-    {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -112,20 +112,12 @@ const Roles = () => {
           <Box>
             <Tooltip title={"Ver y Eliminar menus de el Rol"}>
               <IconButton onClick={() => handleView(v)}>
-                <RemoveRedEyeIcon />
+                <ManageAccountsIcon />
               </IconButton>
             </Tooltip>
 
-            <Tooltip
-              title={"Ver opciones de menu dsiponibles y asignarlas al Rol"}
-            >
-              <IconButton onClick={() => handleRel(v)}>
-                <AccountTreeIcon />
-              </IconButton>
-            </Tooltip>
-
-            {editar ? (
-              <Tooltip title={"Editar Descripcion del Rol"}>
+             {editar ? (
+              <Tooltip title={"Editar  Descripción del Rol"}>
                 <IconButton onClick={() => handleEditarRegistro(v)}>
                   <EditIcon />
                 </IconButton>
@@ -147,11 +139,29 @@ const Roles = () => {
         );
       },
     },
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creacion",
+      width: 200,
+    },
+    {
+      field: "CreadoPor",
+      headerName: "Creado Por",
+      width: 250,
+    },
+    {
+      field: "Nombre",
+      headerName: "Rol",
+      width: 250,
+    },
+ 
+    { field: "Descripcion", headerName: "Descripcion", width: 450 },
+   
   ];
 
   const consulta = (data: any) => {
     AuthService.rolesindex(data).then((res) => {
-      console.log(res);
+      //console.log(res);
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -159,7 +169,7 @@ const Roles = () => {
         });
         setData(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -171,13 +181,13 @@ const Roles = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "ROLUSER") {
-        if (String(item.Referencia) == "AGREG") {
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminarP(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -186,32 +196,30 @@ const Roles = () => {
   }, []);
 
   return (
-    <div>
-      {openRel ? (
-        <AsignarMenuRol
-          open={openRel}
-          handleClose={handleClose}
-          id={id}
-        ></AsignarMenuRol>
-      ) : (
-        ""
-      )}
+    <div style={{ height: 600, width: "100%", padding: "1%" }}>
+
       {open ? (
-        <RolesMenu open={open} handleClose={handleClose} id={id}></RolesMenu>
+        <ConfiguracionRoles handleClose={handleClose} idRol={id} NameRol={nameRol} open={false}></ConfiguracionRoles>
       ) : (
         ""
       )}
-      {openRolesModalAdd ? (
+      {openRolesConf ? (
         <RolesModal
-          open={openRolesModalAdd}
           modo={modo}
           handleClose={handleClose}
           tipo={tipoOperacion}
-          dt={dt}
-        />
+          dt={dt} openRoles={false}        />
       ) : (
         ""
       )}
+            <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+                Roles
+              </Typography>
+            </Grid>
+            </Grid>
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />

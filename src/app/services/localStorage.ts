@@ -1,4 +1,3 @@
-import { UserReponse } from "../interfaces/user/UserReponse";
 
 
 //BLOQUEO DE PANTALLA
@@ -9,6 +8,9 @@ export const getBloqueo = (): boolean => {
 //TOKEN
 export const setToken = (user: any) => localStorage.setItem('token', JSON.stringify(user));
 export const getToken = () => localStorage.getItem('token');
+
+export const setRfToken = (user: any) => localStorage.setItem('Rftoken', JSON.stringify(user));
+export const getRfToken = () => localStorage.getItem('Rftoken');
 // USUARIOS
 export const setUser = (user: any) => localStorage.setItem('user', JSON.stringify(user));
 export const getUser = () => localStorage.getItem('user');
@@ -27,6 +29,9 @@ export const getPerfiles = () => localStorage.getItem('perfiles');
 // DEPARTAMENTO
 export const setDepartamento = (departamento: any) => localStorage.setItem('departamento', JSON.stringify(departamento));
 export const getDepartamento = () => localStorage.getItem('departamento');
+// MUNICIPIO
+export const setMunicipio = (municipio: any) => localStorage.setItem('municipio', JSON.stringify(municipio));
+export const getMunicipio = () => localStorage.getItem('municipio');
 
 //IDENTIFICAR QUE EL USUARIO YA ESTA LOGEADO
 export const setlogin = (data: any) => {

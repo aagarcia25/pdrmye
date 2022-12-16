@@ -1,134 +1,81 @@
 import {
-    Dialog,
-    DialogActions,
     Box,
-    Typography,
-    Checkbox,
-    IconButton,
-    Tooltip,
     Grid,
-    Button,
-    ButtonGroup,
-    styled,
-    Paper,
+    Typography,
+    Tooltip,
+    IconButton,
 } from "@mui/material";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import React, { useEffect, useState } from "react";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { useEffect, useState } from "react";
 import { GridColDef } from '@mui/x-data-grid';
 
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
-import { id } from "date-fns/locale";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
+import ModalForm from "../../../componentes/ModalForm";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Slider from "../../../Slider";
 
 const FondosView = ({
-    open,
     handleClose,
-    tipo,
     dt,
 }: {
-    open: boolean;
-    modo: string;
-    tipo: number;
     handleClose: Function;
     dt: any;
 }) => {
 
-    const [data, setData] = useState([]);
-    const [openRel, setOpenRel] = useState(true);
-    const [openSlider, setOpenSlider] = useState<boolean>();
+    const [dataADis, setDataADis] = useState([]);
+    const [dataRel, setDataARel] = useState([]);
+    const [openSlider, setOpenSlider] = useState(true);
+
     const [descripcion, setDescripcion] = useState<string>();
     const [idFondo, setIdFondo] = useState<string>();
 
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    }));
-    const consulta = (data: any) => {
-        setOpenSlider(true);
-        AuthService.FondosAjustes(data).then((res) => {
-            setData(res.RESPONSE);
-            setOpenSlider(false);
-            console.log(res)
+
+    const consulta = () => {
+        AuthService.FondosAjustes({ CHID: dt?.row?.id, TIPO: 1, }).then((res) => {
+            setDataARel(res.RESPONSE);
+            setOpenSlider(false)
         });
 
-    };
+        AuthService.FondosAjustes({ CHID: dt?.row?.id, TIPO: 2, }).then((res) => {
+            setDataADis(res.RESPONSE);
+            setOpenSlider(false)
 
+        });
 
-    const handleChange = (v: any) => {
-
-        if (openRel != true) {
-            console.log("ajuste -- " + v?.row);
-            console.log("id ajuste --- " + v?.row?.id,);
-            AuthService.FondosRelAjuste(
-                {
-                    TIPO: 1,
-                    IDAJUSTE: v?.row?.id,
-                    IDFONDO: idFondo,
-                }
-            ).then((res) => {
-                setData(res.RESPONSE);
-                if (res.SUCCESS) {
-                    Toast.fire({
-                        icon: "success",
-                        title: "Ajuste Asignado!",
-                    });
-                    consulta({
-                        CHID: dt?.row?.id,
-                        TIPO: 2,
-                    });
-                } else {
-                    Alert.fire({
-                        title: "Error!",
-                        text: res.STRMESSAGE,
-                        icon: "error",
-                    });
-                }
-            });
-        }
-        else {
-            console.log("ajuste -- " + v?.row);
-            console.log("id ajuste --- " + v?.row?.id,);
-            AuthService.FondosRelAjuste(
-                {
-                    TIPO: 2,
-                    IDAJUSTE: v?.row?.id,
-                    IDFONDO: idFondo,
-                }
-            ).then((res) => {
-                setData(res.RESPONSE);
-                if (res.SUCCESS) {
-                    Toast.fire({
-                        icon: "success",
-                        title: "Ajuste Eliminado!",
-                    });
-                    consulta({
-                        CHID: dt?.row?.id,
-                        TIPO: 1,
-                    });
-                } else {
-                    Alert.fire({
-                        title: "Error!",
-                        text: res.STRMESSAGE,
-                        icon: "error",
-                    });
-                }
-            });
-        }
-
-
-    };
+    }
 
 
 
-    const columns: GridColDef[] = [
+    const columnsRel: GridColDef[] = [
+        {
+            field: "id",
+            hide: true,
+        },
+        {
+            headerName: "Acciones",
+            field: "acciones", disableExport: true,
+            description: "Acciones",
+            sortable: false,
+            width: 80,
+            renderCell: (v) => {
+                return (
+
+                    <Tooltip title={"Presionar Para Asignar: " + v.row.Descripcion}>
+                        <IconButton onClick={() => handleAjustesRel(v)}>
+                            <ArrowBackIosIcon color='success' />
+                        </IconButton>
+                    </Tooltip>
+                );
+
+
+            },
+        },
+        { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 400 },
+    ];
+    const columnsElim: GridColDef[] = [
         {
             field: "id",
             headerName: "Identificador",
@@ -136,150 +83,136 @@ const FondosView = ({
             width: 10,
         },
         {
-            field: "acciones",
-            headerName: "",
+            field: "Descripcion", headerName: "Descripcion", description: "Descripción", width: 300
+        },
+        {
+            field: "acciones", disableExport: true,
             description: "Relacionar Menus",
+            headerName: "",
             sortable: false,
             width: 10,
+
             renderCell: (v) => {
-                return <Checkbox onChange={() => handleChange(v)} />;
+                return (
+                    <Tooltip title={"Presionar Para Quitar El: " + v.row.Descripcion}>
+                        <IconButton onClick={() => handleAjustesElim(v)}>
+                            <ArrowForwardIosIcon color='error' />
+                        </IconButton>
+                    </Tooltip>
+                );
             },
         },
-        { field: "Descripcion", headerName: "Descripcion", width: 200 },
     ];
 
 
-    const handleAjustesRel = () => {
-        setOpenRel(true);
-        consulta({ CHID: dt?.row?.id, TIPO: 1, });
+    const handleAjustesRel = (v: any) => {
+        setOpenSlider(true)
+
+        AuthService.FondosRelAjuste(
+            {
+                TIPO: 1,
+                IDAJUSTE: v?.row?.id,
+                IDFONDO: idFondo,
+            }
+        ).then((res) => {
+            if (res.SUCCESS) {
+                Toast.fire({
+                    icon: "success",
+                    title: "Ajuste Asignado!",
+                });
+                consulta();
+            } else {
+                AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                });
+            }
+        });
     };
 
-    const handleAjustesDis = () => {
-        setOpenRel(false);
-        consulta({ CHID: dt?.row?.id, TIPO: 2, });
+    const handleAjustesElim = (v: any) => {
+        setOpenSlider(true)
+        AuthService.FondosRelAjuste(
+            {
+                TIPO: 2,
+                IDAJUSTE: v?.row?.id,
+                IDFONDO: idFondo,
+            }
+        ).then((res) => {
+            if (res.SUCCESS) {
+                Toast.fire({
+                    icon: "success",
+                    title: "Ajuste Eliminado!",
+                });
+                consulta();
+
+            } else {
+                AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                });
+            }
+        });
     };
 
     useEffect(() => {
-        handleAjustesRel();
-        console.log(dt?.row);
-        console.log("id fondo--- " + dt?.row?.id);
         setDescripcion(dt?.row?.Descripcion);
         setIdFondo(dt?.row?.id);
+        consulta();
+
+
     }, []);
 
 
     return (
         <div>
-
-            <Dialog open={open} >
-                <Box
-                    sx={{
-                        mt: "2vh",
-                        width: "100%",
-                        height: "100%",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        flexDirection: "row",
-                    }}
-                >
-
-
-                    <Grid container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-
-                        <ButtonGroup variant="outlined" aria-label="outlined primary button group">
-                            <Button
-                                onClick={handleAjustesRel}
-                            >Ajustes Relacionados</Button>
-                            <Button
-                                onClick={handleAjustesDis}
-
-                            >Ajustes Disponibles Para Relacionar</Button>
-                        </ButtonGroup>
-                    </Grid>
-
-                    <Grid
-                        container
-                        sx={{
-                            display: "flex",
-                            width: "100%",
-                            height: "100%",
-                            bgcolor: "rgb(245,245,245)",
-                            boxShadow: 50,
-                            borderRadius: 3,
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                    >
-
-                        {openRel ?
-                            <Box>
-
-                                <Grid container
-                                    sx={{
-                                        textAlign: 'center',
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                    }}>
-                                    <Grid item xs={12}>
-                                        <br />
-                                        <label className="Titulo">
-                                            Ajustes Relacionados
-                                        </label>
-                                        <br />
-                                    </Grid>
-                                    <Grid item xs={12}>
-
-                                        *Para Eliminar el Ajuste Seleccione la Casilla*
-                                    </Grid>
-                                </Grid>
-                            </Box>
-                            :
-                            <Box>
-                                <Grid container
-                                    sx={{
-                                        textAlign: 'center',
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                    }}>
-                                    <Grid item xs={12}>
-                                        <br />
-                                        <label className="Titulo">
-                                            Ajustes Disponibles Para Relacionar
-                                        </label>
-                                        <br />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        *Para Asignar el Ajuste Seleccione la Casilla*
-                                    </Grid>
-                                </Grid>
-                            </Box>
-                        }
-                        <Box>
-
-                            <br />
-                            <label>{descripcion} </label>
-                        </Box>
-                    
-                    <Box sx={{ display: "flex"}}>
-                        <Grid container sm={12} sx={{ alignItems: "center", justifyContent: "center", }}>
-
-                            <Grid item xs={12} sx={{
-                                width: "100%",
-                                height: 300,
-                            }}>
-                                <MUIXDataGridSimple columns={columns} rows={data} />
-                            </Grid>
-                        </Grid>
+            <Slider open={openSlider} />
+            <ModalForm title={"       Relacion de Ajustes"} handleClose={handleClose}>
+                <Grid container sx={{ display: "flex", width: "100%", height: "100%", boxShadow: 50, borderRadius: 3, justifyContent: "center", alignItems: "center", }}  >
+                    <Box>
+                        <br />
+                        <label> <h2>{"Fondo: " + descripcion} </h2></label>
                     </Box>
-                    </Grid>
-                </Box>
 
-                <DialogActions>
-                    <button className="cerrar" onClick={() => handleClose()}>Cerrar</button>
-                </DialogActions>
-            </Dialog>
+                </Grid>
+                <Grid container justifyContent="space-evenly" sx={{ boxShadow: 50, borderRadius: 20, }}>
+                    <Grid item xs={6} sm={6} md={4} lg={4}>
+                        <Grid container sx={{ left: "50%", width: "100%", height: "70vh", bgcolor: "rgb(255,255,255)", boxShadow: 50, borderRadius: 3, justifyContent: "center" }} >
+                            <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding: "1%" }}>
+                                <Grid item sm={12} sx={{ height: "100%" }}>
+                                    <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                                        <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }}>
+                                            Ajustes Relacionados
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item sm={12} sx={{ height: "90%", }}>
+                                        <MUIXDataGridSimple columns={columnsElim} rows={dataRel} />
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        </Grid>
+                    </Grid>
+
+                    <Grid item xs={6} sm={6} md={4} lg={4}>
+                        <Grid container sx={{ left: "50%", width: "100%", height: "70vh", bgcolor: "rgb(255,255,255)", justifyContent: "center" }} >
+                            <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding: "1%" }}>
+                                <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                                    <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }} >
+                                        Ajustes Disponibles Para Relacionar
+                                    </Typography>
+                                </Grid>
+                                <Grid item sm={12} sx={{ height: "90%", }}>
+                                    <MUIXDataGridSimple columns={columnsRel} rows={dataADis} />
+                                </Grid>
+                            </Box>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+            </ModalForm>
+
         </div>
 
     )

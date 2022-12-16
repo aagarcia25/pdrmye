@@ -4,7 +4,7 @@ import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { getPermisos, getUser } from '../../../../../services/localStorage';
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import Swal from 'sweetalert2';
-import { Alert } from '../../../../../helpers/Alert';
+import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
 import { DepartamentosModal } from './DepartamentosModal';
 import ButtonsAdd from '../Utilerias/ButtonsAdd';
@@ -31,7 +31,7 @@ export const Departamentos = () => {
     { field: "Descripcion", headerName: "Descripción", width: 450 },
     { field: "NAMEUSUARIO", headerName: "Responsable", width: 300 },
     { field: "Responsable", hide: true, },
-    { field: "acciones",
+    { field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -50,8 +50,8 @@ export const Departamentos = () => {
   ];
 
   const handleAccion=(v: any)=>{
-   if(v.tipo ==1){
-    console.log(v);
+   if(v.tipo ===1){
+    //console.log(v);
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
@@ -66,7 +66,7 @@ export const Departamentos = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
         const user: RESPONSE = JSON.parse(String(getUser()));
 
         let data = {
@@ -74,7 +74,7 @@ export const Departamentos = () => {
           CHID: v.row.id,
           CHUSER: user.id,
         };
-        console.log(data);
+        //console.log(data);
 
         CatalogosServices.departamentos(data).then((res) => {
           if (res.SUCCESS) {
@@ -88,7 +88,7 @@ export const Departamentos = () => {
             };
             consulta(data);
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -122,10 +122,10 @@ export const Departamentos = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        console.log(res);
+        //console.log(res);
         setDepartamento(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -138,14 +138,14 @@ export const Departamentos = () => {
    
     permisos.map((item: PERMISO) => {
     if (String(item.ControlInterno) === "DEP") {
-      console.log(item)
-      if (String(item.Referencia) == "AGREG") {
+      //console.log(item)
+      if (String(item.Referencia) === "AGREG") {
         setAgregar(true);
       }
-      if (String(item.Referencia) == "ELIM") {
+      if (String(item.Referencia) === "ELIM") {
         setEliminar(true);
       }
-      if (String(item.Referencia) == "EDIT") {
+      if (String(item.Referencia) === "EDIT") {
         setEditar(true);
       }
       
@@ -155,7 +155,7 @@ export const Departamentos = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: 600, width: "100%", padding:"1%" }}>
        {open ? (
         <DepartamentosModal
           open={open}

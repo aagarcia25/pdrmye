@@ -1,25 +1,19 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
   InputAdornment,
-  DialogActions,
+  Grid,
+  Button,
 } from "@mui/material";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { municipiosc } from "../../../../../share/loadMunicipios";
+import ModalForm from "../../../componentes/ModalForm";
 
 
 const MunPobrezaModal = ({
@@ -50,8 +44,8 @@ const MunPobrezaModal = ({
 
 
   const handleSend = () => {
-    if (IdMunicipio == null || poblacion == null || anio == null || carenciaProm == null || poblacion == 0 || anio == 0 || carenciaProm == 0) {
-      Alert.fire({
+    if (IdMunicipio === null || poblacion === null || anio === null || carenciaProm === null || poblacion === 0 || anio === 0 || carenciaProm === 0) {
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -64,7 +58,7 @@ const MunPobrezaModal = ({
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         TOTAL: poblacion,
-        CARENCIAPROMEDIO: carenciaProm,
+        CARENCIAPROM: carenciaProm,
 
 
       };
@@ -76,11 +70,11 @@ const MunPobrezaModal = ({
 
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo=== 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
 
       editar(data);
@@ -103,7 +97,7 @@ const MunPobrezaModal = ({
         });
 
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -117,10 +111,11 @@ const MunPobrezaModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "Solicitud De Edición Enviada!",
         });
+        handleClose();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -135,7 +130,7 @@ const MunPobrezaModal = ({
     setMunicipios(municipiosc());
 
     if (dt === '') {
-      console.log(dt)
+      //console.log(dt)
 
     } else {
       setId(dt?.row?.id)
@@ -156,29 +151,27 @@ const MunPobrezaModal = ({
 
 
   return (
-    <Dialog open={open}>
 
 
+    <div>
+      <ModalForm title={tipo === 1 ?"Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+        <Grid container
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
 
-      <DialogContent>
-        <Box>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
-            <label className="Titulo">{tipo == 1 ?"Agregar Registro" : "Editar Registro"}</label>
+        >
+          <Grid item xs={12} sm={8} md={8} lg={8}>
+          <Box>
+          <label className="Titulo">{dt?.row?.Nombre}</label>
           </Box>
-
-
-
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Municipio</InputLabel>
-            <SelectFrag
-              value={''}
-              options={municipios}
-              onInputChange={handleFilterChange}
-              placeholder={"Seleccione Municipio"}
-              label={String(mun)} disabled={true} />
-          </FormControl>
-
+          </Grid>
+          <Grid item xs={12} sm={8} md={8} lg={8}>
           <Box>
             <label >  <br /> Año <br />{anio}</label>
           </Box>
@@ -196,9 +189,12 @@ const MunPobrezaModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setPoblacion(Number(v.target.value))}
-            error={poblacion == null ? true : false}
+            error={poblacion === null ? true : false}
           />
+          </Grid>
 
+
+          <Grid item xs={12} sm={8} md={8} lg={8}>
 
           <Box>
             <label > Carencia Promedio <br /></label>
@@ -213,22 +209,39 @@ const MunPobrezaModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setCarenciaProm(Number(v.target.value))}
-            error={carenciaProm == null ? true : false}
+            error={carenciaProm === null ? true : false}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">%</InputAdornment>
               ),
             }}
           />
-        </Box>
-      </DialogContent>
+          </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
 
-      </DialogActions>
-    </Dialog>
+
+
+          <Grid container
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+          >
+            <Grid item xs={4} sm={3} md={2} lg={1}
+            >
+              <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+            </Grid>
+          </Grid>
+        </Grid>
+
+      </ModalForm>
+    </div>
+
+
   );
 };
 

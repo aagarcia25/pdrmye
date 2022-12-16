@@ -1,25 +1,20 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
   Box,
   FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
   InputAdornment,
-  DialogActions,
+  Button,
+  Grid,
 } from "@mui/material";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import {  getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import SelectFrag from "../../../Fragmentos/Select/SelectFrag";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import ModalForm from "../../../componentes/ModalForm";
 
 
 const MunRecaudacionModal = ({
@@ -53,8 +48,8 @@ const MunRecaudacionModal = ({
 
 
   const handleSend = () => {
-    if (recaudacion == null || anio == null || IdMunicipio == null) {
-      Alert.fire({
+    if (recaudacion === null || anio ===null || IdMunicipio === null) {
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -79,11 +74,11 @@ const MunRecaudacionModal = ({
 
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
 
       editar(data);
@@ -105,7 +100,7 @@ const MunRecaudacionModal = ({
         });
 
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -119,10 +114,11 @@ const MunRecaudacionModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "Solicitud De Edición Enviada!",
+          
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -137,7 +133,7 @@ const MunRecaudacionModal = ({
     setMunicipios(municipiosc());
 
     if (dt === '') {
-      console.log(dt)
+      //console.log(dt)
 
     } else {
       setId(dt?.row?.id)
@@ -148,7 +144,7 @@ const MunRecaudacionModal = ({
 
 
 
-      console.log(dt)
+      //console.log(dt)
 
 
 
@@ -159,17 +155,25 @@ const MunRecaudacionModal = ({
 
 
   return (
-    <Dialog open={open}>
 
-      <DialogContent>
+    <div>
+    <ModalForm title={tipo === 1 ?"Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+      <Grid container
+        sx={{
+          mt: "2vh",
+          width: "100%",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+        }}
+
+      >
+        <Grid item xs={12} sm={8} md={6} lg={4}>
         <Box>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
           <FormControl variant="standard" fullWidth>
           <Box>
-            <label ><br /> Municipio: <br />{municipio}</label>
+          <label className="Titulo">{dt?.row?.Nombre}</label>
           </Box>
           </FormControl>
           <Box>
@@ -177,7 +181,7 @@ const MunRecaudacionModal = ({
           </Box>
 
           <Box>
-            <label > <br /> Recaudacion: <br /></label>
+            <label > <br /> Recaudación: <br /></label>
           </Box>
 
           <TextField
@@ -189,7 +193,7 @@ const MunRecaudacionModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setRecaudacion(Number(v.target.value))}
-            error={recaudacion == null ? true : false}
+            error={recaudacion === null ? true : false}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start"></InputAdornment>
@@ -199,13 +203,21 @@ const MunRecaudacionModal = ({
 
 
         </Box>
-      </DialogContent>
+        </Grid>
 
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-        <button className="cerrar" onClick={() => handleClose("close")}>Cerrar</button>
-      </DialogActions>
-    </Dialog>
+
+
+        <Grid container sx={{ mt: "2vh", width: "100%",height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
+          <Grid item xs={4} sm={3} md={2} lg={1} >
+            <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+          </Grid>
+        </Grid>
+      </Grid>
+
+    </ModalForm>
+  </div>
+
+
   );
 };
 

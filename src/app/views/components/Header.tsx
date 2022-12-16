@@ -24,6 +24,8 @@ import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { env_var } from "../../environments/env";
+import { Hidden } from '@mui/material';
+
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -32,8 +34,8 @@ interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps) {
-  const btnPerson = "2.5vw";
-  const btnAll = "3.0vw";
+  const btnPerson = "120%";
+  const btnAll = "130%";
 
   const user: RESPONSE = JSON.parse(String(getUser()));
   const navigate = useNavigate();
@@ -96,9 +98,6 @@ export default function Header(props: HeaderProps) {
     prevOpen.current = open;
   }, [open]);
 
-  function pathLogin(path: string) {
-    return path;
-  }
 
   let data = {
     NUMOPERACION: 5,
@@ -110,49 +109,75 @@ export default function Header(props: HeaderProps) {
       let result = res.RESPONSE;
       setCnotif(result[0].count);
     });
-  }, []);
+  });
 
   return (
     <React.Fragment>
-      <AppBar
-        style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco }}
+      <AppBar 
+        style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco,  padding:"0", margin:"0"  }}
         position="sticky"
         elevation={0}
+        sx={{ width: "100%" }}
       >
-        <Toolbar>
-          <Grid container spacing={2} alignItems="center">
-            <Grid
-              sx={{
+        <Toolbar sx={{ padding:"0", margin:"0", width:"100%" }} >
+          <Grid container xs={12} md={12} spacing={2} alignItems="center" sx={{ padding:"0", margin:"0" }} >
+            <Grid   xs={12} sm={12} md={.4}  alignItems="center" alignContent="center"
+              sx={{ 
+               padding:"0", margin:"0",
                 display: {
-                  sm: "none",
-                  xs: "block",
+
+
                   backgroundColor: COLOR.negro,
+                  "&:hover": { backgroundColor: COLOR.negro},
                 },
               }}
               item
             >
+
+
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
                 onClick={onDrawerToggle}
                 edge="start"
+                sx={{
+                  // width: "3rem", height: "4rem",
+                  width: "100%",height:"100%",
+                  fontSize: btnPerson,
+                  backgroundColor: user.RutaFoto ? COLOR.negro : COLOR.negro,
+                  "&:hover": { backgroundColor: COLOR.negro},
+                }}
               >
                 <MenuIcon />
               </IconButton>
-            </Grid>
-            <Grid item xs />
 
-            <Grid item>
+
+
+            </Grid>
+            <Grid item xs/>
+
+             <Hidden smDown>
+            <Grid item  xs={12} md={2}  sx={{ padding:"0", margin:"0" }}>
               <Typography variant="subtitle1" color="black">
                 {props.name}
               </Typography>
               <Typography variant="caption" color="black">
-               {user.Puesto} 
-              </Typography>
-             
-            </Grid>
 
-            <Grid item>
+                { (user.Puesto? user.Puesto+" ":" ") }
+               
+              </Typography>
+              <br/>
+              <Typography variant="caption" color="black">
+                {(user?.PERFILES[0]?.Referencia==="MUN"? "Enlace: ":" ") +
+                 (user?.ROLES[0]?.Nombre=== "Municipio"? user.ROLES[0].Nombre+" ": " " )+
+                 (user?.DEPARTAMENTOS[0]?.NombreCorto!=="MUN"? user?.DEPARTAMENTOS[0]?.Descripcion+" ": " " )+ 
+                 (user?.MUNICIPIO[0]?.Nombre? " "+user?.MUNICIPIO[0]?.Nombre+" ":" ") }
+              </Typography>
+            </Grid>
+            </Hidden>
+
+            <Hidden smDown>
+            <Grid item >
               <Tooltip title="Haz click para ver más">
                 <IconButton
                   ref={anchorRef}
@@ -163,39 +188,41 @@ export default function Header(props: HeaderProps) {
                   onClick={handleToggle}
                   color="inherit"
                   sx={{
-                    width: "3.8vw",
-                    height: "7vh",
+                    width: "2.9rem",
+                    height: "2.9rem",
                     fontSize: btnPerson,
                     p: 0.1,
-                    border: 4,
-                    borderColor: COLOR.negro,
-                    backgroundColor: user.RutaFoto?COLOR.blanco:COLOR.negro,
+                    border: 2,
+                    borderColor: COLOR.azul,
+                    backgroundColor: user.RutaFoto ? COLOR.blanco : COLOR.azul,
                     "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                   }}
                 >
                   {user.RutaFoto ? (
                     <img
                       style={{
-                        width: "3vw",
-                        height: "7vh",
                         objectFit: "scale-down",
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: '50%',
                       }}
                       src={user.RutaFoto}
                     />
                   ) : (
                     <PersonIcon sx={{
-                      width: "3vw", height: "7vh",
+                      width: "100%", height: "100%",
                       "&:hover": { color: COLOR.negro }
                     }} />
                   )}
-                  
+
                 </IconButton>
+                
               </Tooltip>
               <Popper
                 open={open}
-                anchorEl={anchorRef.current}
                 role={undefined}
                 placement="bottom-start"
+                anchorEl={anchorRef.current}
                 transition
                 disablePortal
               >
@@ -218,11 +245,11 @@ export default function Header(props: HeaderProps) {
                           onKeyDown={handleListKeyDown}
                         >
                           <MenuItem onClick={onConfigProfile}>
-                            <ManageAccountsIcon sx={{ color: COLOR.negro }} />
+                            <ManageAccountsIcon sx={{ color: COLOR.azul }} />
                             Configuración de perfil
                           </MenuItem>
                           <MenuItem onClick={onLogOut}>
-                            <LogoutIcon sx={{ color: COLOR.negro }} />
+                            <LogoutIcon sx={{ color: COLOR.azul }} />
                             Cerrar sesión
                           </MenuItem>
                         </MenuList>
@@ -232,8 +259,10 @@ export default function Header(props: HeaderProps) {
                 )}
               </Popper>
             </Grid>
+            </Hidden>
 
-            <Grid item>
+            <Hidden smDown>
+            <Grid item  >
               <Tooltip title="Bandeja de correo">
                 <Badge
                   anchorOrigin={{
@@ -247,7 +276,7 @@ export default function Header(props: HeaderProps) {
                     color="inherit"
                     sx={{
                       mt: 0.1,
-                      backgroundColor: COLOR.negro,
+                      backgroundColor: COLOR.azul,
                       "&:hover": {
                         backgroundColor: COLOR.grisTarjetaBienvenido,
                       },
@@ -259,7 +288,7 @@ export default function Header(props: HeaderProps) {
                         color: COLOR.blanco,
                         fontSize: btnAll,
                         "&:hover": {
-                          color: COLOR.negro,
+                          color: COLOR.azul,
                         },
                       }}
                     />
@@ -267,14 +296,16 @@ export default function Header(props: HeaderProps) {
                 </Badge>
               </Tooltip>
             </Grid>
+            </Hidden>
 
-            <Grid item>
+            <Hidden smDown>
+            <Grid item >
               <Tooltip title="Calendario">
                 <IconButton
                   color="inherit"
                   sx={{
                     mt: 0.1,
-                    backgroundColor: COLOR.negro,
+                    backgroundColor: COLOR.azul,
                     "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                   }}
                   onClick={onOpenCalendar}
@@ -284,13 +315,15 @@ export default function Header(props: HeaderProps) {
                       fontSize: btnAll,
                       color: COLOR.blanco,
                       "&:hover": {
-                        color: COLOR.negro,
+                        color: COLOR.azul,
                       },
                     }}
                   />
                 </IconButton>
               </Tooltip>
             </Grid>
+            </Hidden>
+            
           </Grid>
         </Toolbar>
       </AppBar>

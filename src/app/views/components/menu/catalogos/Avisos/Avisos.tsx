@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Box, IconButton,    } from '@mui/material'
+import { Box, Grid, IconButton, Tooltip, Typography,    } from '@mui/material'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AvisosModal from './AvisosModal'
 import Swal from "sweetalert2";
@@ -12,6 +11,7 @@ import ButtonsAdd from '../Utilerias/ButtonsAdd';
 import { getPermisos, getUser } from '../../../../../services/localStorage';
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
+import { AlertS } from '../../../../../helpers/AlertS';
 
 
 export const Avisos = () => {
@@ -30,22 +30,23 @@ export const Avisos = () => {
     { field: "id", headerName: "Identificador", hide: true, width: 150},
     { field: "fechaInicio", headerName: "Fecha de Inicio", width: 200 },
     { field: "FechaFin", headerName: "Expiracion", width: 200 },
-    { field: "Nombre", headerName: "Nombre", width: 100 },
+    { field: "Nombre", headerName: "Nombre", width: 250 },
     { field: "Descripcion", headerName: "Descripcion", width: 500 },
     {
       field: "Documento", headerName: "Documento", width: 100, renderCell: (v) => {
         return (
           <Box>
-
+            <Tooltip title="Visualizar">
             <IconButton onClick={() => handleVisualizar(v)}>
               <VisibilityIcon />
             </IconButton>
+            </Tooltip>
           </Box>
         );
       }
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -61,12 +62,12 @@ export const Avisos = () => {
 
 
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if(v.tipo ===1){
       setTipoOperacion(2);
       setModo("Editar");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ==2){
+    }else if(v.tipo ===2){
       handleBorrar(v.data);
     }
   }
@@ -102,7 +103,7 @@ export const Avisos = () => {
             };
             consulta(data);
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -137,7 +138,7 @@ export const Avisos = () => {
 
 
   const handleClose = (v:string) => {
-if(v=="save"){
+if(v==="save"){
   let data = {
     NUMOPERACION: 4,
     CHUSER: String(user.id),
@@ -159,7 +160,7 @@ if(v=="save"){
         });
         setAvisos(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -178,14 +179,14 @@ if(v=="save"){
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "AVISOS") {
-        console.log(item)
-        if (String(item.Referencia) == "AGREG") {
+        //console.log(item)
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -199,7 +200,7 @@ if(v=="save"){
 
   return (
 
-    <div style={{ height: 600, width: "100%" }} >
+    <div style={{ height: 600, width: "100%", paddingTop:"2%", paddingLeft:"1%", paddingRight:"1%"}} >
 
       {open ? (
         <AvisosModal
@@ -212,6 +213,15 @@ if(v=="save"){
       ) : (
         ""
       )}
+      <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Typography
+                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+                Avisos
+              </Typography>
+            </Grid>
+            </Grid>
+            
       <Box>
       </Box>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />

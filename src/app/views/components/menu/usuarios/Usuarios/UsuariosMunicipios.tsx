@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogTitle,
   Grid,
   IconButton,
   Typography,
@@ -18,6 +16,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectFragMulti from "../../../Fragmentos/SelectFragMulti";
+import CloseIcon from '@mui/icons-material/Close';
 
 const UsuariosMunicipios = ({
   open,
@@ -41,7 +40,7 @@ const UsuariosMunicipios = ({
       width: 10,
     },
     {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -79,7 +78,6 @@ const UsuariosMunicipios = ({
 
     setOpenSlider(true);
     AuthService.RelacionarUsuarioMunicipio(data).then((res) => {
-       console.log(res.RESPONSE);
        setOpenSlider(false);
       });
   };
@@ -98,7 +96,6 @@ const UsuariosMunicipios = ({
   };
 
   useEffect(() => {
-    console.log(dt)
     loadFilter();
     consulta();
   }, [dt]);
@@ -106,10 +103,33 @@ const UsuariosMunicipios = ({
   return (
     <div>
       <Slider open={openSlider}></Slider>
-      <Dialog open={open} fullWidth={open}>
-        <DialogTitle>Municipios Relacionados al Usuario</DialogTitle>
+      <Dialog open={open} fullScreen>
+     
+     
+      <Grid container spacing={1} sx={{ bgcolor:"#CCCCCC", paddingTop:"1%", paddingBottom:"1%" }}>
+        <Grid item xs={11} sm={11} md={11} lg={11}>
+          <Box sx={{ display:"flex",justifyContent:"center"}}>
+          <Typography variant='h4'> Roles Relacionados al Usuario </Typography>
+          </Box>
+       
+        </Grid>
+        <Grid item xs={1} sm={1} md={1} lg={1}>
+        <Button variant="outlined" >
+        <IconButton
+          aria-label="close"
+          color="error"
+          onClick={() => handleClose()}>
+          <CloseIcon />
+        </IconButton>
+        </Button>
+       
+        </Grid>
+     </Grid>
+
+
         <DialogContent dividers={true}>
-          <Grid container spacing={1}>
+        <Box boxShadow={3}>
+          <Grid container spacing={1}  sx={{ padding:"1%"}}>
             <Grid item xs={12} sm={12} md={12} lg={12}></Grid>
 
             <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -118,7 +138,7 @@ const UsuariosMunicipios = ({
                   margin: 0,
                 }}
               >
-                <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                <Typography sx={{ fontFamily: "sans-serif" }}>
                   Seleccione Municipios
                 </Typography>
 
@@ -138,14 +158,14 @@ const UsuariosMunicipios = ({
                 variant="contained"
                 onClick={() =>handleMunicipios()}
               >
-                <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                <Typography sx={{ fontFamily: "sans-serif", color:"white"  }}>
                   Relacionar Municipios
                 </Typography>
               </Button>
             </Grid>
 
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>
                 Municipios Relacionados
               </Typography>
             </Grid>
@@ -155,13 +175,9 @@ const UsuariosMunicipios = ({
               </div>
             </Grid>
           </Grid>
+          </Box>
         </DialogContent>
 
-        <DialogActions>
-          <button className="cerrar" onClick={() => handleClose()}>
-            Cerrar
-          </button>
-        </DialogActions>
       </Dialog>
     </div>
   );

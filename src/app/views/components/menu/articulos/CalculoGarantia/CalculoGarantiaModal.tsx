@@ -1,12 +1,10 @@
 import { Box, Container, Dialog, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getMunicipios, getUser } from "../../../../../services/localStorage";
+import { getUser } from "../../../../../services/localStorage";
 import { calculosServices } from "../../../../../services/calculosServices";
 import { Toast } from "../../../../../helpers/Toast";
-import { municipiosc } from "../../../../../share/loadMunicipios";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 
 export const CalculoGarantiaModal = ({
@@ -36,15 +34,15 @@ export const CalculoGarantiaModal = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   //IMPRESIONES DE CAMPOS
-  console.log("---------Impresión de CAMPOS------");
-  console.log("id", id);
-  console.log("anio :", anio);
-  console.log("claveFondo :", claveFondo);
-  console.log("garantia :", garantia);
-  console.log("municipio :", municipio);
-  console.log("municipios :", municipios);
-  console.log("fondos :", fondos);
-  console.log("---------FIN-de-Impresión de CAMPOS------");
+  //console.log("---------Impresión de CAMPOS------");
+  //console.log("id", id);
+  //console.log("anio :", anio);
+  //console.log("claveFondo :", claveFondo);
+  //console.log("garantia :", garantia);
+  //console.log("municipio :", municipio);
+  //console.log("municipios :", municipios);
+  //console.log("fondos :", fondos);
+  //console.log("---------FIN-de-Impresión de CAMPOS------");
 
   const municipiosC = () => {
     let data = { NUMOPERACION: 4 };
@@ -66,7 +64,7 @@ export const CalculoGarantiaModal = ({
 
   const handleSend = () => {
     if (!anio || !claveFondo || !municipio) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -82,18 +80,18 @@ export const CalculoGarantiaModal = ({
         IDMUNICIPIO: municipio,
         DELETED: 0,
       };
-      console.log("data de modal", data);
+      //console.log("data de modal", data);
       handleRequest(data);
       handleClose();
     }
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
-    if (tipo == 1) {
+    //console.log(data);
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -106,14 +104,14 @@ export const CalculoGarantiaModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-        console.log("Sé pudo agregar");
+        //console.log("Sé pudo agregar");
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        console.log("No se pudo agregar");
+        //console.log("No se pudo agregar");
       }
     });
   };
@@ -126,7 +124,7 @@ export const CalculoGarantiaModal = ({
           title: "Registro Editado!",
         });
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -152,7 +150,7 @@ export const CalculoGarantiaModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullScreen>
       <DialogContent>
         <Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>

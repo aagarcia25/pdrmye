@@ -64,6 +64,10 @@ export class AuthService {
         return await post('FondosRelAjuste', data);
     }
 
+    public static async tipoCalculo(data: any) {
+        return await post('tipoCalculo', data);
+    }
+
     public static async RelacionarUsuarioRol(data: any) {
         return await post('RelacionarUsuarioRol', data);
     }
@@ -97,8 +101,13 @@ export class AuthService {
     public static async RelacionarUsuarioMunicipio(data: any) {
         return await post('RelacionarUsuarioMunicipio', data);
     }
+    
+    public static async SaveImagen(data: any) {
+        return await post('SaveImagen', data);
+    }
 
-
+  
+    
 
     
 

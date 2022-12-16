@@ -1,12 +1,11 @@
-import { TextField, DialogActions, Dialog, DialogContent, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { Box } from "@mui/system";
+import { TextField, DialogActions,  DialogContent, FormControl, InputLabel, MenuItem, Select, Grid,  Button, Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AuthService } from "../../../../../services/AuthService";
 import { getUser } from "../../../../../services/localStorage";
-import Slider from "../../../Slider";
+import ModalForm from "../../../componentes/ModalForm";
 
 const MenuModal = ({
   open,
@@ -22,7 +21,6 @@ const MenuModal = ({
 }) => {
 
 
-  const [openSlider, setOpenSlider] = useState(false);
   const [Menu, setMenu] = useState("");
   const [Descripcion, setDescripcion] = useState("");
   const [MenuPadre, setMenuPadre] = useState("");
@@ -35,11 +33,11 @@ const MenuModal = ({
 
   const handleSend = () => {
     if (
-      Menu == "" ||
-      Descripcion == "" ||
-      Path == ""
+      Menu === "" ||
+      Descripcion === "" ||
+      Path === ""
     ) {
-      Alert.fire({
+      AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
@@ -61,16 +59,16 @@ const MenuModal = ({
   };
 
   const handleRequest = (data: any) => {
-    console.log(data);
+    //console.log(data);
     AuthService.menusindex(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: tipo == 1 ? "Registro Agregado!" : "Registro Editado!",
+          title: tipo === 1 ? "Registro Agregado!" : "Registro Editado!",
         });
         handleClose();
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -84,7 +82,7 @@ const MenuModal = ({
       if (res.SUCCESS) {
         setValues(res.RESPONSE);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -96,7 +94,7 @@ const MenuModal = ({
   useEffect(() => {
     consulta({ NUMOPERACION: 4 });
     if (vrows === '') {
-      console.log(vrows)
+      //console.log(vrows)
 
     } else {
       setMenu(vrows?.row?.Menu)
@@ -108,7 +106,7 @@ const MenuModal = ({
       setId(vrows?.row?.id)
 
 
-      console.log(vrows)
+      //console.log(vrows)
 
 
 
@@ -118,17 +116,19 @@ const MenuModal = ({
 
   return (
     <div>
-      <Slider open={openSlider}></Slider>
-      <Box>
-        <Dialog open={open}>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'center', }}>
+      <ModalForm title={tipo === 1 ? "Nuevo Registro" : "Editar Registro"} handleClose={handleClose}>
+       
+        <Box sx={{ boxShadow: 3, high:"100%", }}>
+          <Grid container
+            sx={{
+              justifyContent: "center",
+              high:"100%",
+              paddingTop:"1%"
+            }}
 
-            <label className="Titulo">{tipo == 1 ? "Nuevo Registro" : "Editar Registro"}
-            </label>
-          </Box>
-          <DialogContent>
-            <Box>
+          >
+
+            <Grid item sm={8} >
               <TextField
                 required
                 margin="dense"
@@ -139,8 +139,10 @@ const MenuModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setMenu(v.target.value)}
-                error={Menu == "" ? true : false}
+                error={Menu === "" ? true : false}
               />
+            </Grid>
+            <Grid item sm={8} >
 
               <TextField
                 required
@@ -152,9 +154,10 @@ const MenuModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setDescripcion(v.target.value)}
-                error={Descripcion == "" ? true : false}
+                error={Descripcion === "" ? true : false}
               />
-
+            </Grid>
+            <Grid item sm={8}>
 
 
               <FormControl variant="standard" fullWidth>
@@ -176,6 +179,9 @@ const MenuModal = ({
                 </Select>
               </FormControl>
 
+            </Grid>
+            <Grid item sm={8}>
+
 
               <TextField
                 required
@@ -187,8 +193,11 @@ const MenuModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setPath(v.target.value)}
-                error={Path == "" ? true : false}
+                error={Path === "" ? true : false}
               />
+            </Grid>
+            <Grid item sm={8}>
+
 
               <TextField
                 required
@@ -200,8 +209,11 @@ const MenuModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setNivel(v.target.value)}
-                error={Nivel == null ? true : false}
+                error={Nivel === null ? true : false}
               />
+            </Grid>
+            <Grid item sm={8}>
+
 
               <TextField
                 required
@@ -213,19 +225,19 @@ const MenuModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setOrden(v.target.value)}
-                error={Orden == "" ? true : false}
+                error={Orden === "" ? true : false}
               />
+            </Grid>
+          </Grid>
 
+        <Grid sx={{ padding:"2%"}}>
+        <DialogActions>
+        <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+        </DialogActions>
+        </Grid>             
 
-            </Box>
-          </DialogContent>
-
-          <DialogActions>
-            <button className="guardar" onClick={() => handleSend()}>Guardar</button>
-            <button className="cerrar" onClick={() => handleClose()}>Cancelar</button>
-          </DialogActions>
-        </Dialog>
-      </Box>
+        </Box>
+      </ModalForm>
     </div>
   );
 };

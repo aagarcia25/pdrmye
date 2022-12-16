@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { useEffect, useState } from "react";
+import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { GridColDef } from "@mui/x-data-grid";
 import { messages } from "../../../../styles";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
-import { Alert } from "../../../../../helpers/Alert";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { ParametroServices } from "../../../../../services/ParametroServices";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import { ParametrosGeneralesModal } from "./ParametrosGeneralesModal";
-import { Box, IconButton } from "@mui/material";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
-import AccionesGrid from "../Utilerias/AccionesGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import { Grid, Typography } from "@mui/material";
+
+import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+
 
 export const ParametrosGenerales = () => {
   const [parametroGeneral, setParametroGeneral] = useState([]);
@@ -26,9 +28,10 @@ export const ParametrosGenerales = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const menu: MENU[] = JSON.parse(String(getMenus()));
+  const [nombreMenu, setNombreMenu] = useState("");
 
-
-  console.log("parametroGeneral", parametroGeneral);
+  //console.log("parametroGeneral", parametroGeneral);
 
   const columns: GridColDef[] = [
     {
@@ -39,45 +42,46 @@ export const ParametrosGenerales = () => {
       description: messages.dataTableColum.id,
     },
     {
-      field: "Nombre",
-      headerName: "Nombre",
-      width: 200,
-    },
-    {
-      field: "Valor",
-      headerName: "Valor",
-      width: 250,
-    },
-    {
-      field: "acciones",
+      field: "acciones",  disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
       width: 150,
       renderCell: (v) => {
         return (
-          
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-
         );
       },
     },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación",width: 200,},
+    { field: "CreadoP",       headerName: "Creado Por",     description: "Creado Por",    width: 200, },
+    { field: "Nombre",        headerName: "Nombre",         description: "Nombre",        width: 360,},
+    { field: "Valor",         headerName: "Valor",          description: "Valor",         width: 250, },
+    { field: "slug",          headerName: "Referencia",     description: "Referencia",    width: 250, },
+    { field: "Descripcion",   headerName: "Descripción",    description: "Descripción",   width: 450,},
+
   ];
   const handleAccion = (v: any) => {
-    if(v.tipo ==1){
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setVrows(v.data);
-    }else if(v.tipo ==2){
+      // console.log(v.data);
+
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
     }
   }
-  
+
 
   const handleClose = () => {
     setOpen(false);
     consulta({ NUMOPERACION: 4 });
+  };
+
+  const handleBorrar = () => {
+
   };
 
   const handleOpen = (v: any) => {
@@ -87,7 +91,7 @@ export const ParametrosGenerales = () => {
     setVrows("");
   };
 
-  
+
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
@@ -98,7 +102,7 @@ export const ParametrosGenerales = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(v);
+        //console.log(v);
         const user: RESPONSE = JSON.parse(String(getUser()));
 
         let data = {
@@ -106,7 +110,7 @@ export const ParametrosGenerales = () => {
           CHID: v.row.id,
           CHUSER: user.id,
         };
-        console.log(data);
+        //console.log(data);
 
         ParametroServices.ParametroGeneralesIndex(data).then((res) => {
           if (res.SUCCESS) {
@@ -120,7 +124,7 @@ export const ParametrosGenerales = () => {
             };
             consulta(data);
           } else {
-            Alert.fire({
+            AlertS.fire({
               title: "Error!",
               text: res.STRMESSAGE,
               icon: "error",
@@ -132,9 +136,6 @@ export const ParametrosGenerales = () => {
       }
     });
   };
-
-  
-
   const consulta = (data: any) => {
     ParametroServices.ParametroGeneralesIndex(data).then((res) => {
       if (res.SUCCESS) {
@@ -142,11 +143,11 @@ export const ParametrosGenerales = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        console.log(data);
+        //console.log(data);
         setParametroGeneral(res.RESPONSE);
-        console.log("parametroGeneral consulta", parametroGeneral);
+        //console.log("parametroGeneral consulta", parametroGeneral);
       } else {
-        Alert.fire({
+        AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
@@ -156,16 +157,26 @@ export const ParametrosGenerales = () => {
   };
 
   useEffect(() => {
+
+
     permisos.map((item: PERMISO) => {
+      menu.map((item: MENU) => {
+        item.items.map((itemsMenu: ITEMS) => {
+          if (String(itemsMenu.ControlInterno) === "PG") {
+            setNombreMenu(itemsMenu.Menu);
+          }
+        });
+      });
+
       if (String(item.ControlInterno) === "PG") {
-        console.log(item)
-        if (String(item.Referencia) == "AGREG") {
+        //console.log(item)
+        if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) == "ELIM") {
+        if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) == "EDIT") {
+        if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
       }
@@ -175,7 +186,7 @@ export const ParametrosGenerales = () => {
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-      {open ? (
+      {open ?
         <ParametrosGeneralesModal
           open={open}
           modo={modo}
@@ -183,14 +194,10 @@ export const ParametrosGenerales = () => {
           handleClose={handleClose}
           dt={vrows}
         />
-      ) : (
-        ""
-      )}
-
+        : ""}
+      <NombreCatalogo controlInterno={"PG"} />
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGrid columns={columns} rows={parametroGeneral} />
-
-
+      <MUIXDataGridMun columns={columns} rows={parametroGeneral} modulo={nombreMenu.toUpperCase().replace(' ','_')} handleBorrar={handleBorrar} borrar={false} />
     </div>
   );
 };
