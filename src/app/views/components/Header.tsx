@@ -157,7 +157,7 @@ export default function Header(props: HeaderProps) {
             <Grid item xs/>
 
              <Hidden smDown>
-            <Grid item  xs={12} md={2} >
+            <Grid item  xs={12} md={2} paddingBottom={3}>
               <Typography variant="body1" color="black" >
                 {props.name}
               </Typography>
