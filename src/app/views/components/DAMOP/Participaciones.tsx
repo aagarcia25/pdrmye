@@ -707,7 +707,7 @@ const Participaciones = () => {
                 columns={columnsParticipaciones}
                 rows={data}
                 density="compact"
-                rowsPerPageOptions={[10, 25, 50, 100]}
+                rowsPerPageOptions={[10, 25, 50, 100, 200,300,400]}
                 disableSelectionOnClick
                 disableColumnFilter
                 disableColumnSelector

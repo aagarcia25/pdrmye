@@ -17,11 +17,12 @@ export default function MUIXDataGrid(props: any) {
           rows={props.rows}
           align
           density="compact"
-          rowsPerPageOptions={[10, 25, 50, 100]}
+          rowsPerPageOptions={[10, 25, 50, 255]}
           disableSelectionOnClick 
           disableColumnFilter
           disableColumnSelector
           disableDensitySelector
+rowHeight={255}
           getRowHeight={() => 'auto'}
           components={{ Toolbar: GridToolbar }}
           sx={{ fontFamily: "Poppins,sans-serif",  fontWeight: '600',
