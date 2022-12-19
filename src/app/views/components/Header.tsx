@@ -157,17 +157,15 @@ export default function Header(props: HeaderProps) {
             <Grid item xs/>
 
              <Hidden smDown>
-            <Grid item  xs={12} md={2}  sx={{ padding:"0", margin:"0" }}>
-              <Typography variant="subtitle1" color="black">
+            <Grid item  xs={12} md={2} >
+              <Typography variant="body1" color="black" >
                 {props.name}
               </Typography>
-              <Typography variant="caption" color="black">
-
+              <Typography variant="body2" color="black" >
                 { (user.Puesto? user.Puesto+" ":" ") }
-               
               </Typography>
-              <br/>
-              <Typography variant="caption" color="black">
+               
+              <Typography variant="body2" color="black">
                 {(user?.PERFILES[0]?.Referencia==="MUN"? "Enlace: ":" ") +
                  (user?.ROLES[0]?.Nombre=== "Municipio"? user.ROLES[0].Nombre+" ": " " )+
                  (user?.DEPARTAMENTOS[0]?.NombreCorto!=="MUN"? user?.DEPARTAMENTOS[0]?.Descripcion+" ": " " )+ 
