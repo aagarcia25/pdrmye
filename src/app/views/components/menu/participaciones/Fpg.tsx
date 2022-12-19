@@ -93,7 +93,7 @@ export const Fpg = () => {
             </Tooltip>
 
 
-            {agregarajuste && String(v.row.estatus) === "INICIO" ? (
+            {agregarajuste && String(v.row.estatus) === "Inicio" ? (
               <Tooltip title="Agregar Ajuste">
                 <IconButton
                   onClick={() => handleAjuste(v)}
