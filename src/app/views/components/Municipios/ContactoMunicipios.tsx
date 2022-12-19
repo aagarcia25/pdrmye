@@ -16,6 +16,7 @@ import { CatalogosServices } from "../../../services/catalogosServices";
 import { getUser } from "../../../services/localStorage";
 import ListNotificationsModal from "../ListNotificationsModal";
 import Slider from "../Slider";
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 
 
 const ContactoMunicipios = () => {
@@ -86,6 +87,8 @@ setOpen(false);
     });
   };
 
+ 
+
   return (
     <div>
 
@@ -106,10 +109,15 @@ setOpen(false);
                   <Card  sx={{ margin:"2%"}} >
                     <CardContent sx={{ display: "flex", justifyContent: "space-evenly"}}>
                       <Box   sx={{  width: "100%", display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+ 
+                      <Box sx={{ width: "50%", height:"50%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                      <img  src={registro.Escudo} style={{ objectFit:"scale-down", }} />
+                       </Box>
 
-                        <Box sx={{ width: "50%", height:"50%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                          <img  src={registro.Escudo} style={{ objectFit:"scale-down", }} />
-                        </Box>
+                        {/* ESTO ES LA IMAGEN DEL ICONO DE IMAGEN PARA PONERLO EN VEZ DEL ESCUDO  */}
+                       {/* <Box sx={{ width: "50%", height:"200px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                      <InsertPhotoIcon fontSize="small" sx={{ fontSize: 40 }}  />
+                         </Box> */}
 
                         <Box sx={{ display: "flex", justifyContent: "center", flexDirection: "column", paddingTop:"3%"}}>
                           <Box sx={{ width: "100%", display: "flex", }}>
