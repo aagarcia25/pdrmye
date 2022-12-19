@@ -579,7 +579,7 @@ const Participaciones = () => {
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>
               Tipo:
             </Typography>
             <SelectFrag
@@ -592,7 +592,7 @@ const Participaciones = () => {
             />
           </Grid>
           <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>
               Fondo:
             </Typography>
             <SelectFrag
@@ -605,8 +605,8 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+          <Grid item xs={2} sm={2} md={2} lg={2} paddingBottom={1}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>
               Municipio:
             </Typography>
             <SelectFrag
@@ -631,7 +631,7 @@ const Participaciones = () => {
           </Button>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={1}>
+        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
           <ToggleButtonGroup>
             <Tooltip title={"Solicitar Suficiencia Presupuestal"}>
               <ToggleButton value="check" onClick={() => openmodalc(1)}>
@@ -656,7 +656,7 @@ const Participaciones = () => {
           </ToggleButtonGroup>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={1}>
+        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}  >
           {descPlant ?
             <Tooltip title="Descargar Plantilla">
               <IconButton
