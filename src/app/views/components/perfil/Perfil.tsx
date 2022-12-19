@@ -154,7 +154,7 @@ export const Perfil = () => {
 
 
   return (
-    <>
+    <Grid>
       <Grid container direction="row" justifyContent="flex-end" alignItems="center" paddingTop="2%" >
         <BottomNavigation showLabels sx={{ width: 500, borderRadius: "10px", }} value={value} onChange={handleChange}>
           <BottomNavigationAction
@@ -173,15 +173,13 @@ export const Perfil = () => {
           />
         </BottomNavigation>
       </Grid>
-
-      <Box sx={{
+      <Grid sx={{
         //Principal
         width: "100%",
         height: "100%",
         // backgroundColor: "#EEEEEE",
         justifyContent: "center",
         alignItems: "flex-start",
-        display: "flex",
       }}
       >
         <Box
@@ -400,10 +398,7 @@ export const Perfil = () => {
 
           </Grid>
         </Box>
-      </Box>
-
-
-
-    </>
+      </Grid>
+    </Grid>
   );
 };
