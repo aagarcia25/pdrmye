@@ -216,9 +216,9 @@ export const Perfil = () => {
                       }}
 
                       sx={{ width: "7.4rem", height: "7.4rem", backgroundColor: "white", borderRadius: '50%', justifyContent: "center", cursor: "pointer", }} >
-                      {user.RutaFoto ?
+                      {user?.RutaFoto ?
                         <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
-                          src={user.RutaFoto}
+                          src={user?.RutaFoto}
                         />
                         : <PersonIcon sx={{ width: "100%", height: "100%", }} />
                       }
