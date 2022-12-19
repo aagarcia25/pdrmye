@@ -28,6 +28,7 @@ export const Fpg = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [anio, setAnio] = useState<number>(0);
   const [mes, setMes] = useState<string>("");
+  const [tipoCalculo, setTipoCalculo] = useState<string>("");
   const [idtrazabilidad, setIdtrazabilidad] = useState("");
   const [openDetalles, setOpenDetalles] = useState(false);
   const [clave, setClave] = useState("");
@@ -65,10 +66,12 @@ export const Fpg = () => {
   };
 
   const handleDetalle = (v: any) => {
+    console.log(v.row)
     setIdtrazabilidad(v.row.id);
     setClave(v.row.Clave)
     setIdDetalle(String(v.row.id));
     setMes(v.row.nummes + "," + v.row.Mes);
+    setTipoCalculo(v.row.Tipo)
     setOpenDetalles(true);
     setAnio(Number(v.row.Anio));
 
@@ -93,7 +96,7 @@ export const Fpg = () => {
             </Tooltip>
 
 
-            {agregarajuste && String(v.row.estatus) === "INICIO" ? (
+            {agregarajuste && String(v.row.estatus) === "Inicio" ? (
               <Tooltip title="Agregar Ajuste">
                 <IconButton
                   onClick={() => handleAjuste(v)}
@@ -274,8 +277,7 @@ export const Fpg = () => {
           handleClose={handleClose}
           clave={clave}
           anio={anio}
-          mes={mes}
-        />
+          mes={mes} tipoCalculo={tipoCalculo}        />
         : ""}
 
       {step === 0 ?

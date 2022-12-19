@@ -123,7 +123,7 @@ button.regresar {
 
 }
 button:hover {
-  background-color: hsl(240, 11%, 89%);
+  background-color: hsl(0, 0%, 100%);
   color: rgb(7, 7, 7);
 }
 
@@ -131,6 +131,12 @@ button:hover {
   background-color: hsl(208, 84%, 71%);
   color: white;
 }
+
+Button.cerrar:hover {
+ color: rgb(168, 29, 29);
+ background-color:rgba(255, 0, 0, 0.62);
+
+};
 
 /* .guardar:hover {
   background-color: hsl(126, 86%, 31%);
@@ -275,7 +281,6 @@ label{
   font-weight: 700;
   line-height: 1.71429;
   font-size: 2;
-  text-transform: capitalize;
   font-family:  sans-serif;
 
 }

@@ -123,7 +123,7 @@ const ModalNew = ({
   const handleSend = () => {
         if (clave === "ICV" ||clave === "HIDROCARBUROS"  || clave==='ISN100' || clave==='PREDIAL' ) {
           icv();
-        } else if (clave === "ISR NOMINA") {
+        } else if (clave === "ISR SALARIOS") {
           isrnomina();
         }else{
           
@@ -325,7 +325,7 @@ const ModalNew = ({
         <Grid item xs={12} sm={12} md={12} 
           sx={{ 
             justifyContent: "center" ,
-            display : clave === 'ICV' ||clave==='ISN100' ||clave==='PREDIAL' || clave === 'HIDROCARBUROS' || clave === 'ISR NOMINA' ? 'block' :'none'
+            display : clave === 'ICV' ||clave==='ISN100' ||clave==='PREDIAL' || clave === 'HIDROCARBUROS' || clave === 'ISR SALARIOS' ? 'block' :'none'
              }}
         >
 

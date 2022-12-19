@@ -9,11 +9,7 @@ import { AppRouter } from "./app/router/AppRouter";
 import { AuthService } from "./app/services/AuthService";
 import { CatalogosServices } from "./app/services/catalogosServices";
 import {
-  getBloqueo,
-  getPU,
-  getRfToken,
   getToken,
-  setBloqueo,
   setDepartamento,
   setlogin,
   setMenus,
@@ -21,7 +17,6 @@ import {
   setMunicipios,
   setPerfiles,
   setPermisos,
-  setPU,
   setRfToken,
   setRoles,
   setToken,
@@ -42,14 +37,13 @@ function App() {
   const navigate = useNavigate();
   //cambiar a 5 minutos
   const timeout = 600000;
-  const [isIdle, setIsIdle] = useState(false);
   const query = new URLSearchParams(useLocation().search);
   const jwt = query.get("jwt");
   const refjwt = query.get("rf");
-
   const [openSlider, setOpenSlider] = useState(true);
+  const [bloqueoStatus, setBloqueoStatus] = useState<boolean>();
+  const [userName, setUserName] = useState <string>();
   const [acceso, setAcceso] = useState(false);
-
 
 
 
@@ -139,13 +133,13 @@ function App() {
     });
   };
 
+
   const verificatoken = () => {
 
     UserServices.verify({}).then((res) => {
       if (res.status === 200) {
-        setPU(res.data.data);
-        const user: UserReponse = JSON.parse(String(getPU()));
-        buscaUsuario(user.IdUsuario);
+        setUserName(res.data.data.NombreUsuario)
+        buscaUsuario(res.data.data.IdUsuario);
       } else if (res.status === 401) {
         setOpenSlider(false);
         setlogin(false);
@@ -169,16 +163,16 @@ function App() {
 
   const handleOnActive = (v: string) => {
 
-    const user: UserReponse = JSON.parse(String(getPU()));
     let data = {
-      NombreUsuario: user.NombreUsuario,
+      NombreUsuario: userName,
       Contrasena: v,
     };
 
     UserServices.login(data).then((res) => {
       if (res.status === 200) {
-        setIsIdle(false);
-        setBloqueo(false);
+        console.log(res.data)
+        setBloqueoStatus(false)
+       
       } else if (res.status === 401) {
         Swal.fire({
           title: res.data.msg,
@@ -197,8 +191,7 @@ function App() {
   };
 
   const handleOnIdle = () => {
-    setBloqueo(true);
-    setIsIdle(true);
+    setBloqueoStatus(true);
   }
 
   const { } = useIdleTimer({
@@ -206,15 +199,7 @@ function App() {
     onIdle: handleOnIdle,
   });
 
-  function isbloqueado(): boolean {
-    let resul = false;
-    if (getBloqueo()) {
-      resul = true;
-    } else {
-      resul = isIdle;
-    }
-    return resul;
-  }
+
 
 
   useLayoutEffect(() => {
@@ -223,6 +208,7 @@ function App() {
     if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
       setToken(jwt);
       setRfToken(refjwt);
+
       verificatoken();
     } else if (getToken() != null) {
       verificatoken();
@@ -242,14 +228,14 @@ function App() {
       });
     }
 
-  }, [isIdle]);
+  }, [bloqueoStatus]);
 
 
 
   return (
     <div>
       <Slider open={openSlider}></Slider>
-      {isbloqueado() ? (
+      {bloqueoStatus ? (
         <BloqueoSesion handlePassword={handleOnActive} />
       ) : acceso ? (
         <AppRouter />

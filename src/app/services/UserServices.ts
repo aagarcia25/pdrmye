@@ -1,5 +1,5 @@
-import { get, getSingle, postRefresh, put, putPass } from "./apiServiceExt";
-import { post, postSingle } from "./apiServiceExt";
+import {   post, postRefresh, postSingle,  putPass } from "./apiServiceExt";
+
 
 
 export class UserServices {
@@ -17,25 +17,9 @@ export class UserServices {
         return await postSingle('login', data);
     }
     
-
     public static async signup(data: any) {
         return await post('sign-up', data);
     }
-
-
-   // public static async linkuserapp(data: any,token :string) {
-   //     return await post('link-userapp', data,token);
-   // }
-    
-   // public static async apps(token :string) {
-   //     return await get('apps',token);
-   // }
-
-    // public static async ActivateUser(data: any) {
-    //     return await getSingle('activate',data);
-    // }
-
-
     public static async refreshToken() {
         return await postRefresh('refresh-token');
     }

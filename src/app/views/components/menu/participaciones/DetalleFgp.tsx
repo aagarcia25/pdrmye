@@ -29,6 +29,7 @@ const DetalleFgp = ({
   clave,
   anio,
   mes,
+  tipoCalculo
 }: {
   idCalculo: string;
   openDetalles: Boolean;
@@ -38,6 +39,7 @@ const DetalleFgp = ({
   clave: string;
   anio: number;
   mes: string;
+  tipoCalculo: string;
 }) => {
   // Dire
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -567,7 +569,7 @@ const DetalleFgp = ({
             spacing={1}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <Grid item xs={1} sx={{ alignItems: "center" }}>
+            <Grid item xs={1} container  sx={{ justifyContent: "center"}}>
               <label className="subtitulo">
                 {anio}
                 <br />
@@ -579,9 +581,21 @@ const DetalleFgp = ({
             spacing={1}
             sx={{ justifyContent: "center", width: "100%" }}
           >
-            <Grid item xs={1}>
+            <Grid item container xs={1} sx={{ justifyContent: "center"}}>
               <label className="subtitulo">
                 {mes.split(",")[1]}
+                <br />
+              </label>
+            </Grid>
+          </Grid>
+          <Grid
+            container
+            spacing={1}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Grid item container xs={6} sx={{ alignItems: "center",justifyContent: "center" }}>
+              <label className="subtitulo">
+                {"*"+tipoCalculo+"*"}
                 <br />
               </label>
             </Grid>
