@@ -173,9 +173,8 @@ export default function Inicio({ children, user }: Props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container
-      // sx={{ display: "flex", minHeight: "100vh" }}
-      >
+      <Grid 
+      sx={{ display: "flex", minHeight: "100vh" }}>
         <CssBaseline />
         <Navigator
           PaperProps={{ style: { width: drawerWidth } }}
@@ -184,7 +183,7 @@ export default function Inicio({ children, user }: Props) {
           onClose={handleDrawerToggle}
         />
 
-        <Grid container sx={{  flexDirection: "column",width:"100%"}}>
+        <Grid sx={{  flexDirection: "column",width:"100%"}}>
           <Header
             onDrawerToggle={handleDrawerToggle}
             name={
