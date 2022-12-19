@@ -1,10 +1,7 @@
 
 
 //BLOQUEO DE PANTALLA
-export const setBloqueo = (is: Boolean) => localStorage.setItem('BLOQUEADO',JSON.stringify(is) );
-export const getBloqueo = (): boolean => {
-  return localStorage.getItem('BLOQUEADO') ===  'true' ? true : false;
-};
+
 //TOKEN
 export const setToken = (user: any) => localStorage.setItem('token', JSON.stringify(user));
 export const getToken = () => localStorage.getItem('token');
@@ -51,13 +48,7 @@ export const setMunicipios = (data: any) => {
   localStorage.setItem('FiltroMunicipios', JSON.stringify(data));
 };
 export const getMunicipios = () => localStorage.getItem('FiltroMunicipios');
-export const setPU = (data: any) => {
-  localStorage.setItem('PU', JSON.stringify(data));
-};
-export const getPU = ( ) => {
- return localStorage.getItem('PU');
 
-}
 export const getItem = (item:string ) :string => {
   return String(localStorage.getItem(item));
  }

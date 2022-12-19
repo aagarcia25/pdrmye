@@ -71,7 +71,7 @@ const Trazabilidad = ({
             <DialogTitle>Trazabilidad</DialogTitle>
             </Grid>
             <Grid item xs={6} container alignContent="rigth"   justifyContent="flex-end" alignItems="center">
-            <Button variant="outlined" color="error" onClick={() => handleClose()}>
+            <Button className="cerrar" variant="contained" color="inherit" onClick={() => handleClose()}>
               <Tooltip title="Salir">
                 <IconButton aria-label="close" color="primary" onClick={() => handleClose()}>
                   <CloseIcon />
