@@ -125,13 +125,14 @@ export default function Header(props: HeaderProps) {
                 <IconButton className="menu" color="inherit" onClick={() => onDrawerToggle()}
                   sx={{ width: "100%", height: "100%", }}>
                   <MenuIcon />
-                </IconButton>
+              </IconButton>
               </Button>
-            </Tooltip>
-          </Grid>
+              </Tooltip>
+            </Grid>
+      
 
           <Hidden smDown>
-            <Grid item container direction="row" justifyContent="flex-end" alignItems="center" xs={5} sm={4} md={5.5} xl={9} >
+            <Grid item container direction="row" justifyContent="flex-end" alignItems="center" xs={5} sm={6} md={8} xl={9} >
 
               <Grid xs={12} container direction="row" justifyContent="flex-end" alignItems="center">
                 <Typography variant="subtitle1" color="black">
