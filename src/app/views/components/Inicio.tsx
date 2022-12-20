@@ -7,6 +7,7 @@ import Header from "./Header";
 import { ReactNode } from "react";
 
 import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { Grid } from "@mui/material";
 
 let theme = createTheme({
   palette: {
@@ -172,7 +173,8 @@ export default function Inicio({ children, user }: Props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: "flex", minHeight: "100vh" }}>
+      <Grid 
+      sx={{ display: "flex", minHeight: "100vh" }}>
         <CssBaseline />
         <Navigator
           PaperProps={{ style: { width: drawerWidth } }}
@@ -181,7 +183,7 @@ export default function Inicio({ children, user }: Props) {
           onClose={handleDrawerToggle}
         />
 
-        <Box sx={{ flex: 1, display: "flex", flexDirection: "column",width:"100%"}}>
+        <Grid sx={{  flexDirection: "column",width:"100%"}}>
           <Header
             onDrawerToggle={handleDrawerToggle}
             name={
@@ -194,8 +196,8 @@ export default function Inicio({ children, user }: Props) {
             id={1}
           />
           {children}
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </ThemeProvider>
   );
 }

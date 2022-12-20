@@ -83,7 +83,7 @@ export const Fpg = () => {
       disableExport: true,
       field: "acciones",
       headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
+      description: "Acciones",
       sortable: false,
       width: 150,
       renderCell: (v) => {

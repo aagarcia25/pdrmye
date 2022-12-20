@@ -5,7 +5,6 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
-import Swal from "sweetalert2";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -87,100 +86,22 @@ const ISAI = () => {
     { field: "UM", headerName: "Usuario Modifico", width: 350 },
   ];
 
-  const handlesave = (v: any) => {
-    
-    let data = {
-      NUMOPERACION: tipoOperacion,
-      DESCRIPCION: tipoCalculo,
-      CHUSER: user.id,
-      CHID:v.id
-    };
-
-    CatalogosServices.TipoFondosCalculo(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Registro Eliminado!",
-        });
-        consulta(5);
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-
-  };
-
-  const handleAccion = (v: any) => {
-    //console.log(v)
-    if (v.tipo === 2) {
-      setTipoOperacion(2);
-      setVrows(v.data);
-      setOpen(true);
-    } else if (v.tipo === 3) {
-      Swal.fire({
-        icon: "info",
-        title: "Estas seguro de eliminar este registro?",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Confirmar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          let data = {
-            NUMOPERACION: 3,
-            CHID: v.data.id,
-            CHUSER: user.id,
-          };
-
-          CatalogosServices.TipoFondosCalculo(data).then((res) => {
-            if (res.SUCCESS) {
-              Toast.fire({
-                icon: "success",
-                title: "Registro Eliminado!",
-              });
-              consulta(5);
-            } else {
-              AlertS.fire({
-                title: "Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              });
-            }
-          });
-        } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
-        }
-      });
-    }
-  };
+ 
+ 
 
   const handleView = (v: any) => {
-    consulta(4);
     setVersion(v.id);
     setModo(1)
+    consulta(4);
   };
 
   const handleBack = () => {
-    consulta(5);
     setModo(0)
-   
-  };
-  const handleClose = () => {
     consulta(5);
-    setVrows({});
-    setOpen(false);
   };
 
-  const handleOpen = (v: any) => {
-    setTipoOperacion(1);
-    setOpen(true);
-    setTipoCalculo("");
-    setVrows({});
-  };
+
+ 
 
   const consulta = (NUMOPERACION:number) => {
     setslideropen(true);
@@ -297,58 +218,6 @@ const ISAI = () => {
       <MUIXDataGrid columns={columns1} rows={dataTipoFondo} />
       </div>
       
-
-
-
-
-
-      {open ? (
-        <ModalForm
-          title={
-            tipoOperacion === 1 ? "Agregar Registro" : "Modificar Registro"
-          }
-          handleClose={handleClose}
-        >
-          <Grid
-            container
-            sx={{
-              mt: "2vh",
-              width: "100%",
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row",
-            }}
-          >
-            <Grid item xs={3} sm={3} md={3} lg={3}>
-              <Typography>
-                Descripción de Tipo de Cálculo:
-              </Typography>
-            </Grid>
-            <Grid item xs={9} sm={9} md={9} lg={9}>
-              <TextField
-                required
-                margin="dense"
-                label="Descripción"
-                value={tipoCalculo}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setTipoCalculo(v.target.value)}
-                error={tipoCalculo === null ? true : false}
-              />
-            </Grid>
-
-            <SaveButton
-              vrow={vrows}
-              handleAccion={handlesave}
-              tipoOperacion={tipoOperacion}
-            ></SaveButton>
-          </Grid>
-        </ModalForm>
-      ) : (
-        ""
-      )}
     </div>
   );
 };

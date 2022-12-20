@@ -131,6 +131,15 @@ button:hover {
   background-color: hsl(208, 84%, 71%);
   color: white;
 }
+button.menu {
+  transition-duration: 0.2s;
+ color: rgb(5, 5, 5);
+ background-color: hsla(0, 0%, 100%, 0.491);
+}
+.menu:hover {
+  background-color: hsla(208, 13%, 49%, 0.491);
+  color: rgb(45, 47, 49);
+}
 
 Button.cerrar:hover {
  color: rgb(168, 29, 29);

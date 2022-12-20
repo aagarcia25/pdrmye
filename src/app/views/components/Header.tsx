@@ -24,8 +24,7 @@ import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { env_var } from "../../environments/env";
-import { Hidden } from '@mui/material';
-
+import { Button, Hidden } from '@mui/material';
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -113,217 +112,197 @@ export default function Header(props: HeaderProps) {
 
   return (
     <React.Fragment>
-      <AppBar 
-        style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco,  padding:"0", margin:"0"  }}
-        position="sticky"
+      <AppBar
+        style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco, padding: "0", margin: "0" }}
+         position="sticky"
         elevation={0}
         sx={{ width: "100%" }}
       >
-        <Toolbar sx={{ padding:"0", margin:"0", width:"100%" }} >
-          <Grid container xs={12} md={12} spacing={2} alignItems="center" sx={{ padding:"0", margin:"0" }} >
-            <Grid   xs={12} sm={12} md={.4}  alignItems="center" alignContent="center"
-              sx={{ 
-               padding:"0", margin:"0",
-                display: {
-
-
-                  backgroundColor: COLOR.negro,
-                  "&:hover": { backgroundColor: COLOR.negro},
-                },
-              }}
-              item
-            >
-
-
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={onDrawerToggle}
-                edge="start"
-                sx={{
-                  // width: "3rem", height: "4rem",
-                  width: "100%",height:"100%",
-                  fontSize: btnPerson,
-                  backgroundColor: user.RutaFoto ? COLOR.negro : COLOR.negro,
-                  "&:hover": { backgroundColor: COLOR.negro},
-                }}
-              >
-                <MenuIcon />
+        <Grid container xs={12} md={12} spacing={2} alignItems="center" justifyContent="space-between" sx={{ padding: "0", margin: "0" }} >
+          <Grid item container xs={12}  sm={1} justifyContent="center" alignItems="center" alignContent="center"  >
+            <Tooltip title="Menú">
+              <Button  sx={{ width: "100%", height: "100%", }} className="menu" color="inherit" variant="outlined" onClick={() => onDrawerToggle()}>
+                <IconButton className="menu" color="inherit" onClick={() => onDrawerToggle()}
+                  sx={{ width: "100%", height: "100%", }}>
+                  <MenuIcon />
               </IconButton>
-
-
-
-            </Grid>
-            <Grid item xs/>
-
-             <Hidden smDown>
-            <Grid item  xs={12} md={2} paddingBottom={3}>
-              <Typography variant="body1" color="black" >
-                {props.name}
-              </Typography>
-              <Typography variant="body2" color="black" >
-                { (user.Puesto? user.Puesto+" ":" ") }
-              </Typography>
-               
-              <Typography variant="body2" color="black">
-                {(user?.PERFILES[0]?.Referencia==="MUN"? "Enlace: ":" ") +
-                 (user?.ROLES[0]?.Nombre=== "Municipio"? user.ROLES[0].Nombre+" ": " " )+
-                 (user?.DEPARTAMENTOS[0]?.NombreCorto!=="MUN"? user?.DEPARTAMENTOS[0]?.Descripcion+" ": " " )+ 
-                 (user?.MUNICIPIO[0]?.Nombre? " "+user?.MUNICIPIO[0]?.Nombre+" ":" ") }
-              </Typography>
-            </Grid>
-            </Hidden>
-
-            <Hidden smDown>
-            <Grid item >
-              <Tooltip title="Haz click para ver más">
-                <IconButton
-                  ref={anchorRef}
-                  id="composition-button"
-                  aria-controls={open ? "composition-menu" : undefined}
-                  aria-expanded={open ? "true" : undefined}
-                  aria-haspopup="true"
-                  onClick={handleToggle}
-                  color="inherit"
-                  sx={{
-                    width: "2.9rem",
-                    height: "2.9rem",
-                    fontSize: btnPerson,
-                    p: 0.1,
-                    border: 2,
-                    borderColor: COLOR.azul,
-                    backgroundColor: user.RutaFoto ? COLOR.blanco : COLOR.azul,
-                    "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-                  }}
-                >
-                  {user.RutaFoto ? (
-                    <img
-                      style={{
-                        objectFit: "scale-down",
-                        width: "100%",
-                        height: "100%",
-                        borderRadius: '50%',
-                      }}
-                      src={user.RutaFoto}
-                    />
-                  ) : (
-                    <PersonIcon sx={{
-                      width: "100%", height: "100%",
-                      "&:hover": { color: COLOR.negro }
-                    }} />
-                  )}
-
-                </IconButton>
-                
+              </Button>
               </Tooltip>
-              <Popper
-                open={open}
-                role={undefined}
-                placement="bottom-start"
-                anchorEl={anchorRef.current}
-                transition
-                disablePortal
-              >
-                {({ TransitionProps, placement }) => (
-                  <Grow
-                    {...TransitionProps}
-                    style={{
-                      transformOrigin:
-                        placement === "bottom-start"
-                          ? "left top"
-                          : "left bottom",
+            </Grid>
+      
+
+          <Hidden smDown>
+            <Grid item container direction="row" justifyContent="flex-end" alignItems="center" xs={5} sm={6} md={8} xl={9} >
+
+              <Grid xs={12} container direction="row" justifyContent="flex-end" alignItems="center">
+                <Typography variant="subtitle1" color="black">
+                  {props.name}
+                </Typography>
+              </Grid>
+
+              <Grid xs={12} container direction="row" justifyContent="flex-end" alignItems="center">
+                <Typography variant="caption" color="black">
+                  {(user.Puesto ? user.Puesto + " " : " ")}
+                </Typography>
+              </Grid>
+              <Grid xs={12} container direction="row" justifyContent="flex-end" alignItems="center">
+                <Typography variant="caption" color="black">
+                  {(user?.PERFILES[0]?.Referencia === "MUN" ? "Enlace: " : " ") +
+                    (user?.ROLES[0]?.Nombre === "Municipio" ? user.ROLES[0].Nombre + " " : " ") +
+                    (user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN" ? user?.DEPARTAMENTOS[0]?.Descripcion + " " : " ") +
+                    (user?.MUNICIPIO[0]?.Nombre ? " " + user?.MUNICIPIO[0]?.Nombre + " " : " ")}
+                </Typography>
+              </Grid>
+
+            </Grid>
+          </Hidden>
+
+
+          <Grid item xs={5} sm={4} md={2.5} xl={1.5}   >
+            <Grid container item xs={12} direction="row" justifyContent="space-evenly" alignItems="center"  >
+              <Hidden smDown>
+                <Tooltip title="Haz click para ver más">
+                  <IconButton
+                    ref={anchorRef}
+                    id="composition-button"
+                    aria-controls={open ? "composition-menu" : undefined}
+                    aria-expanded={open ? "true" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                    color="inherit"
+                    sx={{
+                      width: "2.9rem",
+                      height: "2.9rem",
+                      fontSize: btnPerson,
+                      p: 0.1,
+                      border: 2,
+                      borderColor: COLOR.azul,
+                      backgroundColor: user.RutaFoto ? COLOR.blanco : COLOR.azul,
+                      "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                     }}
                   >
-                    <Paper>
-                      <ClickAwayListener onClickAway={handleClose}>
-                        <MenuList
-                          autoFocusItem={open}
-                          id="composition-menu"
-                          aria-labelledby="composition-button"
-                          onKeyDown={handleListKeyDown}
-                        >
-                          <MenuItem onClick={onConfigProfile}>
-                            <ManageAccountsIcon sx={{ color: COLOR.azul }} />
-                            Configuración de perfil
-                          </MenuItem>
-                          <MenuItem onClick={onLogOut}>
-                            <LogoutIcon sx={{ color: COLOR.azul }} />
-                            Cerrar sesión
-                          </MenuItem>
-                        </MenuList>
-                      </ClickAwayListener>
-                    </Paper>
-                  </Grow>
-                )}
-              </Popper>
-            </Grid>
-            </Hidden>
+                    {user.RutaFoto ? (
+                      <img
+                        style={{
+                          objectFit: "scale-down",
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: '50%',
+                        }}
+                        src={user.RutaFoto}
+                      />
+                    ) : (
+                      <PersonIcon sx={{
+                        width: "100%", height: "100%",
+                        "&:hover": { color: COLOR.negro }
+                      }} />
+                    )}
 
-            <Hidden smDown>
-            <Grid item  >
-              <Tooltip title="Bandeja de correo">
-                <Badge
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  badgeContent={cnotif}
-                  color="primary"
+                  </IconButton>
+
+                </Tooltip>
+                <Popper
+                  open={open}
+                  role={undefined}
+                  placement="bottom-start"
+                  anchorEl={anchorRef.current}
+                  transition
+                  disablePortal
                 >
+                  {({ TransitionProps, placement }) => (
+                    <Grow
+                      {...TransitionProps}
+                      style={{
+                        transformOrigin:
+                          placement === "bottom-start"
+                            ? "left top"
+                            : "left bottom",
+                      }}
+                    >
+                      <Paper>
+                        <ClickAwayListener onClickAway={handleClose}>
+                          <MenuList
+                            autoFocusItem={open}
+                            id="composition-menu"
+                            aria-labelledby="composition-button"
+                            onKeyDown={handleListKeyDown}
+                          >
+                            <MenuItem onClick={onConfigProfile}>
+                              <ManageAccountsIcon sx={{ color: COLOR.azul }} />
+                              Configuración de perfil
+                            </MenuItem>
+                            <MenuItem onClick={onLogOut}>
+                              <LogoutIcon sx={{ color: COLOR.azul }} />
+                              Cerrar sesión
+                            </MenuItem>
+                          </MenuList>
+                        </ClickAwayListener>
+                      </Paper>
+                    </Grow>
+                  )}
+                </Popper>
+              </Hidden>
+              <Hidden smDown>
+                <Tooltip title="Bandeja de correo">
+                  <Badge
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    badgeContent={cnotif}
+                    color="primary"
+                  >
+                    <IconButton
+                      color="inherit"
+                      sx={{
+                        mt: 0.1,
+                        backgroundColor: COLOR.azul,
+                        "&:hover": {
+                          backgroundColor: COLOR.grisTarjetaBienvenido,
+                        },
+                      }}
+                      onClick={onNotification}
+                    >
+                      <NotificationsNoneIcon
+                        sx={{
+                          color: COLOR.blanco,
+                          fontSize: btnAll,
+                          "&:hover": {
+                            color: COLOR.azul,
+                          },
+                        }}
+                      />
+                    </IconButton>
+                  </Badge>
+                </Tooltip>
+              </Hidden>
+              <Hidden smDown>
+                <Tooltip title="Calendario">
                   <IconButton
                     color="inherit"
                     sx={{
                       mt: 0.1,
                       backgroundColor: COLOR.azul,
-                      "&:hover": {
-                        backgroundColor: COLOR.grisTarjetaBienvenido,
-                      },
+                      "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
                     }}
-                    onClick={onNotification}
+                    onClick={onOpenCalendar}
                   >
-                    <NotificationsNoneIcon
+                    <CalendarMonthIcon
                       sx={{
-                        color: COLOR.blanco,
                         fontSize: btnAll,
+                        color: COLOR.blanco,
                         "&:hover": {
                           color: COLOR.azul,
                         },
                       }}
                     />
                   </IconButton>
-                </Badge>
-              </Tooltip>
+                </Tooltip>
+              </Hidden>
             </Grid>
-            </Hidden>
-
-            <Hidden smDown>
-            <Grid item >
-              <Tooltip title="Calendario">
-                <IconButton
-                  color="inherit"
-                  sx={{
-                    mt: 0.1,
-                    backgroundColor: COLOR.azul,
-                    "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-                  }}
-                  onClick={onOpenCalendar}
-                >
-                  <CalendarMonthIcon
-                    sx={{
-                      fontSize: btnAll,
-                      color: COLOR.blanco,
-                      "&:hover": {
-                        color: COLOR.azul,
-                      },
-                    }}
-                  />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-            </Hidden>
-            
           </Grid>
-        </Toolbar>
+
+        </Grid>
       </AppBar>
     </React.Fragment>
   );

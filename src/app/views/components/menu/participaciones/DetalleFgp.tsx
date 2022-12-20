@@ -374,18 +374,18 @@ const DetalleFgp = ({
     },
     {
       field: "Mensual",
-      headerName: "Importe",
+      headerName: "Mensual",
       width: 200,
-      description: "Importe",
+      description: "Mensual",
       ...Moneda,
      
     },
     {
       hide: pa ? false : true,
       field: "PrimerAjuste",
-      headerName: "Primer Ajuste",
+      headerName: "Primer Ajusté",
       width: 200,
-      description: "Importe",
+      description: "Primer Ajusté",
       ...Moneda,
      
     },
@@ -394,61 +394,61 @@ const DetalleFgp = ({
       field: "SegundoAjuste",
       headerName: "Segundo Ajuste",
       width: 150,
-      description: "Importe",
+      description: "Segundo Ajusté",
       ...Moneda,
      
     },
     {
       hide: ta ? false : true,
       field: "TercerAjuste",
-      headerName: "Tercer Ajuste",
+      headerName: "Tercer Ajusté",
       width: 150,
-      description: "Importe",
+      description: "Tercer Ajusté",
       ...Moneda,
     
     },
     {
       hide: ca ? false : true,
       field: "CuartoAjuste",
-      headerName: "Cuarto Ajuste",
+      headerName: "Cuarto Ajusté",
       width: 150,
-      description: "Importe",
+      description: "Cuarto Ajuste",
       ...Moneda,
     
     },
     {
       hide: ad ? false : true,
       field: "AjusteAnual",
-      headerName: "Ajuste Anual",
+      headerName: "Ajusté Anual",
       width: 150,
-      description: "Importe",
+      description: "Ajusté Anual",
       ...Moneda,
      
     },
     {
       hide: as ? false : true,
       field: "AjusteSemestral",
-      headerName: "Ajuste Semestral",
+      headerName: "Ajusté Semestral",
       width: 150,
-      description: "Importe",
+      description: "Ajusté Semestral",
       ...Moneda,
      
     },
     {
       hide: aa ? false : true,
       field: "AjusteDefinitivo",
-      headerName: "Ajuste Definitivo",
+      headerName: "Ajusté Definitivo",
       width: 150,
-      description: "Importe",
+      description: "Ajusté Definitivo",
       ...Moneda,
     
     },
     {
       hide: ae ? false : true,
       field: "AjusteEstatal",
-      headerName: "Ajuste Estatal",
+      headerName: "Ajusté Estatal",
       width: 150,
-      description: "Importe",
+      description: "Ajusté Estatal",
       ...Moneda,
      
     },
@@ -473,9 +473,9 @@ const DetalleFgp = ({
     {
       hide: af ? false : true,
       field: "AjusteFofir",
-      headerName: "Ajuste FOFIR",
+      headerName: "Ajusté FOFIR",
       width: 150,
-      description: "Ajuste FOFIR",
+      description: "Ajusté FOFIR",
       ...Moneda,
       
     },
