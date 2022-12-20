@@ -12,7 +12,7 @@ const ButtonsCalculo = ({
     <Box sx={{}}>
       {agregar ? (
         <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-          <Tooltip title="Agregar Calcúlo">
+          <Tooltip title="Agregar Cálculo">
             <ToggleButton value="check" onClick={() => handleOpen(1)}>
               <AddIcon />
             </ToggleButton>
