@@ -228,10 +228,13 @@ const MunFacturacionModal = ({
   return (
     <ModalForm title={modo} handleClose={handleClose}>
 
-      <Grid container direction="row" justifyContent="center" alignItems="center">
-        <Grid item alignItems="center" justifyContent="center" xs={5}>
+      <Grid container direction="row" justifyContent="center" alignItems="center"  >
+        <Grid item alignItems="center" justifyContent="center" xs={12} md={12} sx={{ padding:"2%" }}>
+         
 
-
+          <Box component={Grid} boxShadow={2} container direction="row"  xs={12} md={12} paddingTop={3} paddingBottom={3} > 
+          <Box component={Grid} item direction="row" xs={12} md={2} ></Box>
+          <Box component={Grid} item direction="row" xs={12} md={4} >
           <TextField
             required
             margin="dense"
@@ -259,6 +262,10 @@ const MunFacturacionModal = ({
             error={claveEstado === "" ? true : false}
             InputProps={{}}
           />
+
+          </Box>
+          <Box component={Grid} item direction="row" xs={12} md={2} ></Box>
+          <Box component={Grid} item direction="row" xs={12} md={4}>
 
           {
             //Switch de si y no en vez de 1 y 0
@@ -292,7 +299,14 @@ const MunFacturacionModal = ({
               }
             />
           </FormGroup>
+          </Box>
+          </Box>
 
+          <Box component={Grid} item direction="row" height={12} xs={12} md={12} ></Box>
+          <Box component={Grid} boxShadow={2} container direction="row" xs={12} md={12} paddingTop={3} paddingBottom={3} > 
+          <Box component={Grid} item direction="row" xs={12} md={2}></Box>
+          <Box component={Grid} item direction="row" xs={12} md={4}>
+          
           <TextField
             required
             margin="dense"
@@ -358,7 +372,12 @@ const MunFacturacionModal = ({
             error={claveINEGI === "" ? true : false}
             InputProps={{}}
           />
-
+          </Box>
+ 
+         <Box component={Grid} item direction="row" xs={12} md={2}  ></Box>
+          <Box component={Grid} item direction="row" xs={12} md={4}  >
+          <Box component={Grid}  container direction="row" xs={12} md={12} > 
+          <Box component={Grid}  item direction="row" xs={12} md={6} > 
           <FormGroup>
             <InputLabel>¿Aplica el ARTF1?</InputLabel>
             <FormControlLabel
@@ -400,16 +419,21 @@ const MunFacturacionModal = ({
               label={checkedArtF3 ? textoDeAfirmacion : textoDeNegacion}
             />
           </FormGroup>
-        </Grid>
-      </Grid>
-      <Grid container direction="row" justifyContent="center" alignItems="center">
-        <Grid item alignItems="center" justifyContent="center" xs={1}>
+          </Box>
+          
+
+          <Box component={Grid}  item direction="row" xs={12} md={12} sx={{ height:"100px" }}> </Box>
+          <Box component={Grid}  item direction="row" xs={12} md={8} > </Box>
+          <Box component={Grid}  item direction="row" xs={12} md={4} > 
           <button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()} >
             {tipo === 1 ? "Agregar" : "Editar"}
-          </button>
+          </button> 
+          </Box>
+          </Box>
+          </Box>
+          </Box>
         </Grid>
       </Grid>
-
 
     </ModalForm>
   );
