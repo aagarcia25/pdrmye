@@ -653,12 +653,11 @@ const Participaciones = () => {
                 <CurrencyExchangeIcon />
               </ToggleButton>
             </Tooltip>
-          </ToggleButtonGroup>
-        </Grid>
 
-        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}  >
-          {descPlant ?
-            <Tooltip title="Descargar Plantilla">
+
+            {descPlant ?
+            <Tooltip title={"Descargar Plantilla"}>
+              <ToggleButton value="check">
               <IconButton
                 aria-label="upload documento"
                 component="label"
@@ -668,9 +667,12 @@ const Participaciones = () => {
                   <ArrowDownwardIcon />
                 </Link>
               </IconButton>
-            </Tooltip> : ""}
-          {cargarPlant ?
-            <Tooltip title="Cargar Plantilla">
+              </ToggleButton>
+            </Tooltip>
+            : ""}
+  {cargarPlant ?
+            <Tooltip title={"Cargar Plantilla"}>
+              <ToggleButton value="check" >
               <IconButton
                 aria-label="upload documento"
                 component="label"
@@ -683,17 +685,25 @@ const Participaciones = () => {
                   value=""
                   onChange={(v) => handleUpload(v)}
                 />
-                <DriveFolderUploadIcon />
+              <DriveFolderUploadIcon />
               </IconButton>
-            </Tooltip> : ""}
-          {disFide ?
+              </ToggleButton>
+            </Tooltip>
+ : ""}
+            {disFide ?
             <Tooltip title={"Distribuir en Fideicomisos"}>
-              <IconButton value="check" onClick={() => Disitribuir()}>
-                <AccountTreeIcon />
-              </IconButton>
+              <ToggleButton value="check" onClick={() => Disitribuir()}>
+              <AccountTreeIcon />
+              </ToggleButton>
             </Tooltip>
             : ""}
+
+
+
+          </ToggleButtonGroup>
         </Grid>
+
+       
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <div
