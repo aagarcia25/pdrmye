@@ -368,10 +368,9 @@ export const Municipios = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-
       <NombreCatalogo controlInterno={"MUNICIPIOS"} />
 
-      <MUIXDataGridMun columns={columns} rows={municipio} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')} />
+      <MUIXDataGridMun columns={columns} rows={municipio} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNICIPIOS"} />
       {open ? (
         <MunicipiosModal
           open={open}

@@ -315,7 +315,7 @@ export const MunPobrezaExtrema = () => {
           onInputChange={handleFilterChange}
           placeholder={"Seleccione Año"} label={""} disabled={false}  />
 
-      < MUIXDataGridMun columns={columns} rows={PobrezaExtrema} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} />
+      <MUIXDataGridMun columns={columns} rows={PobrezaExtrema} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNPOEX"} />
       {open ? (
         <MunPobrezaExtremaModal
           open={open}

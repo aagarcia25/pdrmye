@@ -1,6 +1,9 @@
 import { DataGrid, esES as gridEsES, GridToolbar, } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
+import { useEffect, useState } from "react";
+import { PERMISO } from "../../interfaces/user/UserInfo";
+import { getPermisos } from "../../services/localStorage";
 
 
 const theme = createTheme(coreEsES, gridEsES);
@@ -10,16 +13,30 @@ const MUIXDataGridMun = ({
   handleBorrar,
   columns,
   rows,
-  borrar
+  controlInterno
 }: {
   modulo: string
   handleBorrar: Function,
   columns: any,
   rows: any,
-  borrar: boolean
+  controlInterno: string
 
 }
 ) => {
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [elimasiva, setelimasiva] = useState<boolean>(false);
+
+  useEffect(() => {
+
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === controlInterno) {
+      
+        if (String(item.Referencia) === "ELIMMAS") {
+          setelimasiva(true);
+        }
+      }
+    });
+  }, []);
   return (
     <div style={{ height: 600, width: "100%" }}>
       <ThemeProvider theme={theme}>
@@ -59,7 +76,7 @@ const MUIXDataGridMun = ({
               }
             },
           }}
-          checkboxSelection={borrar}
+          checkboxSelection={elimasiva}
           onSelectionModelChange={(newSelectionModel: any) => { handleBorrar(newSelectionModel); }}
           localeText={{
             noRowsLabel: "No se ha encontrado datos.",
@@ -79,11 +96,7 @@ const MUIXDataGridMun = ({
             columnMenuSortAsc: 'Ordenar Ascendente',
             columnMenuSortDesc: 'Ordenar Descendente',
             columnHeaderSortIconLabel: 'Ordenar',
-            
-            // columnMenuFilter:'Menú'
-
           }}
-
         />
       </ThemeProvider>
     </div>

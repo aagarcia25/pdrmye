@@ -292,7 +292,7 @@ const TipoFondoCalculo = () => {
 
       <NombreCatalogo controlInterno={"TIPOCALCULO"} />
       <ButtonsMunBase handleOpen={handleOpen} agregar={agregar} eliminar={eliminar} />
-      <MUIXDataGridMun columns={columns} rows={dataTipoFondo} modulo={nombreMenu.toUpperCase().replace(' ','_')} handleBorrar={handleBorrar} borrar={eliminar} />
+      <MUIXDataGridMun columns={columns} rows={dataTipoFondo} modulo={nombreMenu.toUpperCase().replace(' ', '_')} handleBorrar={handleBorrar} controlInterno={"TIPOCALCULO"}/>
 
       {open ?
         <TipoFondoCalculoModal modo={modo} tipo={tipoOperacion} handleClose={handleClose} dt={vrows} />

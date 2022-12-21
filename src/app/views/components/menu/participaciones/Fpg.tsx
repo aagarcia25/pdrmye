@@ -288,8 +288,7 @@ export const Fpg = () => {
             </Grid>
             <Grid item sm={12} sx={{
               display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <MUIXDataGridMun columns={columns} rows={data} modulo={nombreMenu} handleBorrar={handleBorrar} borrar={false} />
-
+              <MUIXDataGridMun columns={columns} rows={data} modulo={nombreMenu} handleBorrar={handleBorrar} controlInterno={String(params.fondo).replace(/\s/g, "")} />
             </Grid>
           </Grid>
         </div>

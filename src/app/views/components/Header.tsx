@@ -114,23 +114,21 @@ export default function Header(props: HeaderProps) {
     <React.Fragment>
       <AppBar
         style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco, padding: "0", margin: "0" }}
-         position="sticky"
+        position="sticky"
         elevation={0}
         sx={{ width: "100%" }}
       >
         <Grid container xs={12} md={12} spacing={2} alignItems="center" justifyContent="space-between" sx={{ padding: "0", margin: "0" }} >
-          <Grid item container xs={12}  sm={1} justifyContent="center" alignItems="center" alignContent="center"  >
+          <Grid item container xs={12} sm={1} justifyContent="center" alignItems="center" alignContent="center"  >
             <Tooltip title="Menú">
-              <Button  sx={{ width: "100%", height: "100%", }} className="menu" color="inherit" variant="outlined" onClick={() => onDrawerToggle()}>
+              <Button sx={{ width: "100%", height: "100%", }} className="menu" color="inherit" variant="outlined" onClick={() => onDrawerToggle()}>
                 <IconButton className="menu" color="inherit" onClick={() => onDrawerToggle()}
                   sx={{ width: "100%", height: "100%", }}>
                   <MenuIcon />
-              </IconButton>
+                </IconButton>
               </Button>
-              </Tooltip>
-            </Grid>
-      
-
+            </Tooltip>
+          </Grid>
           <Hidden smDown>
             <Grid item container direction="row" justifyContent="flex-end" alignItems="center" xs={5} sm={6} md={8} xl={9} >
 
@@ -156,8 +154,6 @@ export default function Header(props: HeaderProps) {
 
             </Grid>
           </Hidden>
-
-
           <Grid item xs={5} sm={4} md={2.5} xl={1.5}   >
             <Grid container item xs={12} direction="row" justifyContent="space-evenly" alignItems="center"  >
               <Hidden smDown>
@@ -301,7 +297,6 @@ export default function Header(props: HeaderProps) {
               </Hidden>
             </Grid>
           </Grid>
-
         </Grid>
       </AppBar>
     </React.Fragment>
