@@ -155,17 +155,15 @@ export const Perfil = () => {
 
   return (
     <Grid>
-      <Grid container direction="row" justifyContent="flex-end" alignItems="center" paddingTop="2%" >
+      <Grid container direction="row" justifyContent="flex-end" alignItems="center" paddingTop="2%" paddingBottom={1} >
         <BottomNavigation showLabels sx={{ width: 500, borderRadius: "10px", }} value={value} onChange={handleChange}>
           <BottomNavigationAction
-            sx={{ borderRadius: "20px", }}
             //  sx={{ backgroundColor: "blue",}} 
             label="Información General"
             value="general"
             icon={<AccountBoxIcon />}
           />
-          <BottomNavigationAction
-            sx={{ borderRadius: "20px", }}
+          <BottomNavigationAction 
             // sx={{ backgroundColor: "blue", }}
             label="Cambiar Contraseña"
             value="password"
