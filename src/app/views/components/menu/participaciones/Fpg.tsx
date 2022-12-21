@@ -14,7 +14,7 @@ import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
 import Trazabilidad from "../../Trazabilidad";
 import Slider from "../../Slider";
 import DetalleFgp from "./DetalleFgp";
-import { PERMISO } from "../../../../interfaces/user/UserInfo";
+import { FPG, PERMISO } from "../../../../interfaces/user/UserInfo";
 import { getPermisos } from "../../../../services/localStorage";
 import ModalNew from "./ModalNew";
 import ModalAjuste from "./ModalAjuste";
@@ -38,6 +38,8 @@ export const Fpg = () => {
   const [objfondo, setObjFondo] = useState<fondoinfo>();
   const [idDetalle, setIdDetalle] = useState("");
   const [nombreMenu, setNombreMenu] = useState("");
+  const [sumaTotal, setSumaTotal] = useState<Number>();
+
 
 
   const closeTraz = (v: any) => {
@@ -202,6 +204,13 @@ export const Fpg = () => {
           title: "Consulta Exitosa!",
         });
         setdata(res.RESPONSE);
+        var sumatotal = 0;
+        res.RESPONSE.map((item: FPG) => {
+          console.log(item.id+"  " + item.Total)
+          sumatotal = sumatotal + Number(item.Total)
+          setSumaTotal(sumatotal)
+        });
+        console.log(Number(sumaTotal))
         setslideropen(false);
       } else {
         AlertS.fire({
@@ -277,17 +286,26 @@ export const Fpg = () => {
           handleClose={handleClose}
           clave={clave}
           anio={anio}
-          mes={mes} tipoCalculo={tipoCalculo}        />
+          mes={mes} tipoCalculo={tipoCalculo} />
         : ""}
 
       {step === 0 ?
         <div style={{ height: 600, width: "100%" }}>
           <Grid container sx={{ display: "flex", alignItems: "center", justifyContent: "center", }} >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
-              <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
+            <Grid item sm={8} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
+              <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} /> 
             </Grid>
+
+            <Grid item sm={4} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
+             
+              <label>{"Total: "+"$"+String(sumaTotal)}</label>
+     
+            </Grid>
+          
             <Grid item sm={12} sx={{
-              display: "flex", alignItems: "center", justifyContent: "center", }}>
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              
               <MUIXDataGridMun columns={columns} rows={data} modulo={nombreMenu} handleBorrar={handleBorrar} controlInterno={String(params.fondo).replace(/\s/g, "")} />
             </Grid>
           </Grid>
