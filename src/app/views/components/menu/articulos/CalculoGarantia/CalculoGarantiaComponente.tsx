@@ -331,7 +331,7 @@ export const CalculoGarantiaComponente = () => {
 
       </Grid>
 
-      < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} borrar={eliminar} modulo={"Garantia"} />
+      < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} modulo={"Garantia"} controlInterno={"CA"} />
 
       {open ? (
         <CalculoGarantiaModal

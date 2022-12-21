@@ -1,4 +1,4 @@
-import { Dialog, TextField, DialogActions, Button } from '@mui/material';
+import { Dialog, TextField, DialogActions, Button, Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react'
 import { AlertS } from '../../../../../helpers/AlertS';
@@ -86,6 +86,7 @@ const PermisosModal = ({
           icon: "success",
           title: titulo,
         });
+        handleClose();
       } else {
         AlertS.fire({
           title: "Error!",
@@ -173,11 +174,11 @@ const PermisosModal = ({
                 variant="standard"
                 onChange={(v) => setReferencia(v.target.value)}
                 error={referencia === "" ? true : false}
-
               />
-
               <DialogActions>
-                <Button className="actualizar" onClick={() => handleSend()}>Actualizar</Button>
+                  <Grid  container   direction="row" justifyContent="center" alignItems="center" >
+                    <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+                </Grid>
               </DialogActions>
             </Box>
           </Box>

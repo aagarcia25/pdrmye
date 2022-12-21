@@ -33,6 +33,7 @@ export const MunPobProyeccion = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
   // VARIABLES PARA LOS FILTROS
@@ -60,7 +61,7 @@ export const MunPobProyeccion = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 150 },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 180 },
     { field: "ClaveEstado", headerName: "Clave Estado", description: "Clave Estado", width: 100 },
     { field: "Nombre", headerName: "Municipio", description: "Municipio", width: 150 },
     { field: "anio", headerName: "Año", description: "Año", width: 150 },
@@ -279,6 +280,7 @@ export const MunPobProyeccion = () => {
         if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
+  
         if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
@@ -315,8 +317,7 @@ export const MunPobProyeccion = () => {
       </Grid>
 
 
-
-      < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={'PROYECCION'} />
+      < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} modulo={'PROYECCION'} controlInterno={'MUNPROYEC'} />
       {open ? (
         <MunPoblacionProyeccionModal
           open={open}

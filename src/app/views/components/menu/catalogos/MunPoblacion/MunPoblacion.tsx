@@ -330,7 +330,7 @@ export const MunPoblacion = () => {
         onInputChange={handleFilterChange}
         placeholder={"Seleccione Año"} label={''} disabled={false}
         value={filterAnio} />
-     < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={'POBLACION'}   />
+     < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} modulo={'POBLACION'} controlInterno={'MUNPO'}   />
 
 
  {open ? (

@@ -303,7 +303,7 @@ export const MunRecaudacion = () => {
         onInputChange={handleFilterChange}
         placeholder={"Seleccione Año"} label={""} disabled={false} />
         
-      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')}   />
+      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNRECAU"}   />
 
       {open ? (
         <MunRecaudacionModal
