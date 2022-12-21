@@ -18,6 +18,12 @@ export class DPCPServices {
     public static async eliminarSolicitudes(data: any) {
         return await post('eliminarSolicitudes', data);
     }
+
+    
+    public static async integraSolicitudes(data: any) {
+        return await post('integraSolicitudes', data);
+    }
+    
     
 
 }

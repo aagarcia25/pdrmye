@@ -32,6 +32,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import CallMergeIcon from '@mui/icons-material/CallMerge';
 import {
   DataGrid,
   GridSelectionModel,
@@ -369,7 +370,7 @@ const Participaciones = () => {
   };
 
   const openmodalc = (operacion: number) => {
-    if (selectionModel.length > 0) {
+    if (selectionModel.length > 1) {
       setnumerooperacion(operacion);
       setOpenModal(true);
     } else {
@@ -506,6 +507,57 @@ const Participaciones = () => {
     }
   };
 
+  const integrarOperaciones = () => {
+    
+    if (selectionModel.length >1) {
+      Swal.fire({
+        icon: "info",
+        title: "Integración",
+        text: "Los Movimientos, Seleccionados se integración en una sola operación",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              DPCPServices.integraSolicitudes(data).then((res) => {
+                if (res.SUCCESS) {
+                  Toast.fire({
+                    icon: "success",
+                    title: "Consulta Exitosa!",
+                  });
+                  handleClick();
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+  
+    } else {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar mas de un Registros",
+        icon: "error",
+      });
+    }
+  };
 
   const SolicitudOrdenPago = () => {
     if (selectionModel.length === 0) {
@@ -673,6 +725,11 @@ const Participaciones = () => {
 
         <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
           <ToggleButtonGroup>
+          <Tooltip title={"Integrar Operaciones"}>
+              <ToggleButton value="check" onClick={() => integrarOperaciones()}>
+                <CallMergeIcon />
+              </ToggleButton>
+            </Tooltip>
             <Tooltip title={"Solicitar Suficiencia Presupuestal"}>
               <ToggleButton value="check" onClick={() => openmodalc(1)}>
                 <AttachMoneyIcon />
