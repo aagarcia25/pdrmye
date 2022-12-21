@@ -6,6 +6,7 @@ import {
   TextField,
   Container,
   IconButton,
+  Grid
 
 } from "@mui/material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
@@ -208,8 +209,9 @@ const AvisosModal = ({
 
 
         {(modoModal === "Agregar Aviso") ?
-          <Container maxWidth="sm">
-            <Box boxShadow={3} sx={{ width: '100%', padding:"3%"}}>
+          <Box component={Grid} container boxShadow={3} xs={12} md={12} >
+            <Box component={Grid} xs={12} md={3} ></Box>
+            <Box component={Grid} xs={12} md={6} container  sx={{ padding:"3%" }}>
     
 
               { //////////empiezan debajo del titulo
@@ -388,7 +390,7 @@ const AvisosModal = ({
               </Box>
 
             </Box>
-          </Container>
+          </Box>
           :
           ""}
 
