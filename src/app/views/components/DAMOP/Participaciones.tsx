@@ -11,7 +11,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import clsx from 'clsx';
+import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
@@ -28,25 +28,22 @@ import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
 import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import LanIcon from "@mui/icons-material/Lan";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import {
   DataGrid,
   GridSelectionModel,
   GridToolbar,
   esES as gridEsES,
-  GridCellParams,
-  GridRowParams,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
-import ModalCalculos from "../componentes/ModalCalculos";
 import { DAMOPServices } from "../../../services/DAMOPServices";
 import ModalDAMOP from "../componentes/ModalDAMOP";
 import { REQAnticipo } from "./REQAnticipo";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -55,7 +52,8 @@ const Participaciones = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openModalAnticipo, setOpenModalAnticipo] = useState<boolean>(false);
   //Constantes para llenar los select
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tipos, setTipos] = useState<SelectValues[]>([]);
@@ -76,8 +74,6 @@ const Participaciones = () => {
   const [descPlant, setDescPlant] = useState<boolean>(false);
   const [disFide, setDisFide] = useState<boolean>(false);
 
-
-
   const downloadplantilla = () => {
     let data = {
       NUMOPERACION: "PLANTILLA CARGA ANTICIPO PARTICIPACIONES",
@@ -88,7 +84,7 @@ const Participaciones = () => {
     });
   };
 
-  const handleDescuento = (data: any) => { };
+  const handleDescuento = (data: any) => {};
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -135,7 +131,8 @@ const Participaciones = () => {
       description: "Beneficiario",
     },
     {
-      field: "acciones", disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Agregar Descuentos",
       description: "Agregar Descuentos",
       sortable: false,
@@ -153,7 +150,7 @@ const Participaciones = () => {
               ""
             )}
 
-         {String(v.row.Clave) === "FGP" ? (
+            {String(v.row.Clave) === "FGP" ? (
               <Tooltip title="Agregar Retenciones">
                 <IconButton onClick={() => handleDescuento(v)}>
                   <RestartAltIcon />
@@ -213,8 +210,7 @@ const Participaciones = () => {
       width: 600,
       hide: false,
     },
-   
-    
+
     {
       field: "Divisa",
       headerName: "Divisa",
@@ -246,7 +242,7 @@ const Participaciones = () => {
       description: "Presupuesto SIREGOB",
       ...Moneda,
     },
-    
+
     {
       field: "total",
       headerName: "Total Neto",
@@ -281,27 +277,32 @@ const Participaciones = () => {
       headerName: "Observaciones",
       width: 400,
       description: "Observaciones",
-    },{
+    },
+    {
       field: "NumSolEgreso",
       headerName: "Nº De Solicitud De Egreso",
       width: 200,
       description: "Número De Solicitud De Egreso",
-    },{
+    },
+    {
       field: "NumEgreso",
       headerName: "Nº De Egreso",
       width: 200,
       description: "Número De Egreso",
-    },{
+    },
+    {
       field: "NumOrdenPago",
       headerName: "Nº De Orden De Pago",
       width: 200,
       description: "Número De Orden De Pago",
-    },{
+    },
+    {
       field: "NumRequerimientoAnt",
       headerName: "Nº De Requerimiento De Anticipo",
       width: 200,
       description: "Número De Requerimiento De Anticipo",
-    },{
+    },
+    {
       field: "NumCheque",
       headerName: "Nº De Cheque",
       width: 200,
@@ -380,9 +381,7 @@ const Participaciones = () => {
     }
   };
 
-
   const openmodalAnticipo = () => {
-
     setOpenModalAnticipo(true);
   };
 
@@ -438,9 +437,6 @@ const Participaciones = () => {
               });
             }
           });
-
-
-
         }
       });
     } else if (selectionModel.length > 1) {
@@ -457,6 +453,59 @@ const Participaciones = () => {
       });
     }
   };
+
+  const eliminar = () => {
+    
+    if (selectionModel.length !== 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Eliminación",
+        text: "El Movimiento Seleccionado se Eliminara",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              DPCPServices.eliminarSolicitudes(data).then((res) => {
+                if (res.SUCCESS) {
+                  Toast.fire({
+                    icon: "success",
+                    title: "Consulta Exitosa!",
+                  });
+                  handleClick();
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+  
+    } else {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    }
+  };
+
 
   const SolicitudOrdenPago = () => {
     if (selectionModel.length === 0) {
@@ -528,17 +577,13 @@ const Participaciones = () => {
     handleClick();
     downloadplantilla();
     permisos.map((item: PERMISO) => {
-      if (
-        String(item.ControlInterno) === "PARTMUN"
-      ) {
+      if (String(item.ControlInterno) === "PARTMUN") {
         //console.log(item);
         if (String(item.Referencia) === "AGREGPLANT") {
           setCargarPlant(true);
-        }
-        else if (String(item.Referencia) === "DESCPLANT") {
+        } else if (String(item.Referencia) === "DESCPLANT") {
           setDescPlant(true);
-        }
-        else if (String(item.Referencia) === "DISFIDE") {
+        } else if (String(item.Referencia) === "DISFIDE") {
           setDisFide(true);
         }
       }
@@ -553,18 +598,17 @@ const Participaciones = () => {
         <ModalDAMOP
           tipo={"Comentarios"}
           handleClose={handleClose}
-          handleAccion={Fnworkflow} />
+          handleAccion={Fnworkflow}
+        />
       ) : (
         ""
       )}
 
-
-
-
-
-      {openModalAnticipo ? (<REQAnticipo tipo={1} handleClose={handleClose} dt={""} />) : ("")}
-
-
+      {openModalAnticipo ? (
+        <REQAnticipo tipo={1} handleClose={handleClose} dt={""} />
+      ) : (
+        ""
+      )}
 
       <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
@@ -579,9 +623,7 @@ const Participaciones = () => {
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>
-              Tipo:
-            </Typography>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Tipo:</Typography>
             <SelectFrag
               value={idtipo}
               options={tipos}
@@ -592,9 +634,7 @@ const Participaciones = () => {
             />
           </Grid>
           <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>
-              Fondo:
-            </Typography>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFrag
               value={idFondo}
               options={fondos}
@@ -654,56 +694,67 @@ const Participaciones = () => {
               </ToggleButton>
             </Tooltip>
 
+            {descPlant ? (
+              <Tooltip title={"Descargar Plantilla"}>
+                <ToggleButton value="check">
+                  <IconButton
+                    aria-label="upload documento"
+                    component="label"
+                    size="large"
+                  >
+                    <Link href={plantilla}>
+                      <ArrowDownwardIcon />
+                    </Link>
+                  </IconButton>
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
-            {descPlant ?
-            <Tooltip title={"Descargar Plantilla"}>
-              <ToggleButton value="check">
-              <IconButton
-                aria-label="upload documento"
-                component="label"
-                size="large"
-              >
-                <Link href={plantilla}>
-                  <ArrowDownwardIcon />
-                </Link>
-              </IconButton>
-              </ToggleButton>
-            </Tooltip>
-            : ""}
-  {cargarPlant ?
-            <Tooltip title={"Cargar Plantilla"}>
-              <ToggleButton value="check" >
-              <IconButton
-                aria-label="upload documento"
-                component="label"
-                size="large"
-              >
-                <input
-                  hidden
-                  accept=".xlsx, .XLSX, .xls, .XLS"
-                  type="file"
-                  value=""
-                  onChange={(v) => handleUpload(v)}
-                />
-              <DriveFolderUploadIcon />
-              </IconButton>
-              </ToggleButton>
-            </Tooltip>
- : ""}
-            {disFide ?
-            <Tooltip title={"Distribuir en Fideicomisos"}>
-              <ToggleButton value="check" onClick={() => Disitribuir()}>
-              <AccountTreeIcon />
-              </ToggleButton>
-            </Tooltip>
-            : ""}
+            {cargarPlant ? (
+              <Tooltip title={"Cargar Plantilla"}>
+                <ToggleButton value="check">
+                  <IconButton
+                    aria-label="upload documento"
+                    component="label"
+                    size="large"
+                  >
+                    <input
+                      hidden
+                      accept=".xlsx, .XLSX, .xls, .XLS"
+                      type="file"
+                      value=""
+                      onChange={(v) => handleUpload(v)}
+                    />
+                    <DriveFolderUploadIcon />
+                  </IconButton>
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+            {disFide ? (
+              <Tooltip title={"Distribuir en Fideicomisos"}>
+                <ToggleButton value="check" onClick={() => Disitribuir()}>
+                  <AccountTreeIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
-
-
+            {cargarPlant ? ( 
+              <Tooltip title={"Eliminar Registro"}>
+                <ToggleButton  value="check"  onClick={() => eliminar()}>
+                  <DeleteForeverIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+               "" 
+             )} 
           </ToggleButtonGroup>
         </Grid>
-
-       
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <div
@@ -717,33 +768,31 @@ const Participaciones = () => {
                 columns={columnsParticipaciones}
                 rows={data}
                 density="compact"
-                rowsPerPageOptions={[10, 25, 50, 100, 200,300,400]}
+                rowsPerPageOptions={[10, 25, 50, 100, 200, 300, 400]}
                 disableSelectionOnClick
                 disableColumnFilter
                 disableColumnSelector
                 disableDensitySelector
                 getRowHeight={() => "auto"}
-                getRowClassName={(params) =>
-                  {
-                    if (params.row.Presupuesto == null) {
-                      return '';
-                    }
-                    return clsx('super-app', {
-                      negative: params.row.Presupuesto !== params.row.total,
-                      positive: params.row.Presupuesto == params.row.total,
-                    });
+                getRowClassName={(params) => {
+                  if (params.row.Presupuesto == null) {
+                    return "";
                   }
-                } 
+                  return clsx("super-app", {
+                    negative: params.row.Presupuesto !== params.row.total,
+                    positive: params.row.Presupuesto == params.row.total,
+                  });
+                }}
                 components={{ Toolbar: GridToolbar }}
                 sx={{
-                  fontFamily: "Poppins,sans-serif", fontWeight: '600',
-                  '& .super-app.negative': {
+                  fontFamily: "Poppins,sans-serif",
+                  fontWeight: "600",
+                  "& .super-app.negative": {
                     color: "rgb(84, 3, 3)",
                     backgroundColor: "rgb(196, 40, 40, 0.384)",
                   },
-                  '& .super-app.positive': {
-                    backgroundColor: 'rgb(16, 145, 80, 0.567)',
-                   
+                  "& .super-app.positive": {
+                    backgroundColor: "rgb(16, 145, 80, 0.567)",
                   },
                 }}
                 componentsProps={{
@@ -753,7 +802,7 @@ const Participaciones = () => {
                     quickFilterProps: { debounceMs: 500 },
                   },
                 }}
-                checkboxSelection={checkboxSelection}
+                checkboxSelection
                 onSelectionModelChange={(newSelectionModel: any) => {
                   setSelectionModel(newSelectionModel);
                 }}
