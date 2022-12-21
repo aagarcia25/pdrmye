@@ -364,8 +364,9 @@ const FideicomisoConfig = ({
           {(modo === "nuevo" || modo === "editar") ?
 
 
-            <Grid item xs={12} sx={{ padding: "3%", bgcolor: "white", }}>
-              <Container maxWidth="sm">
+            <Box boxShadow={2} component={Grid}  container xs={12} sx={{ padding: "1%", bgcolor: "white", }}>
+              <Box component={Grid} item xs={12} md={3.5} ></Box>
+              <Box component={Grid} item xs={12} md={5} >
                 <TextField
                   required
                   margin="dense"
@@ -448,7 +449,7 @@ const FideicomisoConfig = ({
 
                 <DialogActions>
                   <Grid container justifyContent="center" alignItems="center" alignContent="center">
-                    <Grid item paddingTop="10%" xs={6}>
+                    <Grid item paddingTop="5%" xs={6}>
                       <Button
                         onClick={() => agregar()}
                         color={modo === "nuevo" ? "success" : "info"} fullWidth variant="outlined">
@@ -457,9 +458,9 @@ const FideicomisoConfig = ({
                     </Grid>
                   </Grid>
                 </DialogActions>
-              </Container>
+              </Box>
 
-            </Grid>
+            </Box>
 
             : ""}
         </Grid>
