@@ -318,7 +318,7 @@ export const Perfil = () => {
                           <label className="gris"> {user.Celular ? user.Celular : "Sin Informacion"} </label>
                         </Grid>
                         <br />
-                        <Grid item xs={10}>
+                        <Grid item xs={10} paddingBottom={3}>
                           <label className="negro">Puesto:</label>
                           <label className="gris"> {user.Puesto ? user.Puesto : "Sin Informacion"} </label>
                         </Grid>
