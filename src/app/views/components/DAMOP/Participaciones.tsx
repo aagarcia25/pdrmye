@@ -31,7 +31,6 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import CallMergeIcon from '@mui/icons-material/CallMerge';
 import {
   DataGrid,
@@ -45,12 +44,14 @@ import { DAMOPServices } from "../../../services/DAMOPServices";
 import ModalDAMOP from "../componentes/ModalDAMOP";
 import { REQAnticipo } from "./REQAnticipo";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { Descuentos } from "./Descuentos";
 
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
   //MODAL
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModalDescuento, setOpenModalDescuento] = useState<boolean>(false);
   const [openModalAnticipo, setOpenModalAnticipo] = useState<boolean>(false);
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] =
@@ -85,7 +86,11 @@ const Participaciones = () => {
     });
   };
 
-  const handleDescuento = (data: any) => {};
+  const handleDescuento = (data: any) => {
+    setVrows(data);
+    setOpenModalDescuento(true);
+
+  };
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -151,15 +156,7 @@ const Participaciones = () => {
               ""
             )}
 
-            {String(v.row.Clave) === "FGP" ? (
-              <Tooltip title="Agregar Retenciones">
-                <IconButton onClick={() => handleDescuento(v)}>
-                  <RestartAltIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
+            
           </Box>
         );
       },
@@ -328,6 +325,7 @@ const Participaciones = () => {
   const handleClose = () => {
     setOpenModal(false);
     setOpenModalAnticipo(false);
+    setOpenModalDescuento(false);
   };
 
   const handleFilterChange1 = (v: string) => {
@@ -658,6 +656,13 @@ const Participaciones = () => {
 
       {openModalAnticipo ? (
         <REQAnticipo tipo={1} handleClose={handleClose} dt={""} />
+      ) : (
+        ""
+      )}
+
+     {openModalDescuento ? (
+        <Descuentos
+         tipo={1} handleClose={handleClose} dt={vrows} />
       ) : (
         ""
       )}

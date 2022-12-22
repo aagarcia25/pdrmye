@@ -25,5 +25,9 @@ export class DPCPServices {
     }
     
     
+    
+    public static async getDescuentos(data: any) {
+        return await post('getDescuentos', data);
+    }
 
 }
