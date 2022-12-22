@@ -114,7 +114,6 @@ setOpen(false);
                       <img  src={registro.Escudo} style={{ objectFit:"scale-down", }} />
                        </Box> */}
 
-                        
                        <Box sx={{ width: "50%", height:"200px", display: "flex", justifyContent: "center", alignItems: "center" }}>
                       <InsertPhotoIcon fontSize="small" sx={{ fontSize: 40 }}  />
                          </Box>
