@@ -105,6 +105,21 @@ const MunFacturacionModal = ({
   };
 
   const handleSend = () => {
+    console.log(
+      
+      "--- nombre          : ",nombre          , 
+      "--- claveEstado     : ",claveEstado     , 
+      "--- mam             : ",mam             , 
+      "--- descentralizado : ",descentralizado , 
+      "--- nombreCorto     : ",nombreCorto     , 
+      "--- ordenSFTGNL     : ",ordenSFTGNL     , 
+      "--- clavePSIREGOB   : ",clavePSIREGOB   , 
+      "--- claveDSIREGOB   : ",claveDSIREGOB   , 
+      "--- claveINEGI      : ",claveINEGI      , 
+      "--- artF1           : ",artF1           , 
+      "--- artF2           : ",artF2           , 
+      "--- artF3           : ",artF3           , 
+    )
     if (
       nombre === "" ||
       claveEstado === "" ||
@@ -213,15 +228,17 @@ const MunFacturacionModal = ({
       setNombre(dt?.row?.Nombre);
       setClaveEstado(dt?.row?.ClaveEstado? dt?.row?.ClaveEstado:"");
       setMam(dt?.row?.MAM);
-      setDescentralizado(dt?.row?.Descentralizado?dt?.row?.Descentralizado:"");
+      setDescentralizado(dt?.row?.Descentralizado===0? "0":"1");
       setNombreCorto(dt?.row?.NombreCorto?dt?.row?.NombreCorto:"");
       setOrdenSFTGNL(dt?.row?.OrdenSFTGNL?dt?.row?.OrdenSFTGNL:"");
       setClavePSIREGOB(dt?.row?.ClavePSIREGOB?dt?.row?.ClavePSIREGOB:"");
       setClaveDSIREGOB(dt?.row?.ClaveDSIREGOB?dt?.row?.ClaveDSIREGOB:"");
-      setClaveINEGI(dt?.row?.ClaveINEGI);
-      setArtF1(dt?.row?.ArtF1);
-      setArtF2(dt?.row?.ArtF2);
-      setArtF3(dt?.row?.ArtF3);
+      setClaveINEGI(dt?.row?.ClaveINEGI?dt?.row?.ClaveINEGI:"");
+      setArtF1(dt?.row?.ArtF1? dt?.row?.ArtF1:"");
+      setArtF2(dt?.row?.ArtF2? dt?.row?.ArtF2:"");
+      setArtF3(dt?.row?.ArtF3? dt?.row?.ArtF3:"");
+
+      console.log(dt?.row)
     }
   }, [dt]);
 

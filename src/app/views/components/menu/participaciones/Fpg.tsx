@@ -50,6 +50,10 @@ export const Fpg = () => {
     setOpenTrazabilidad(true);
   };
 
+  const handleHeader = (v : any ) => {
+    console.log(v)
+  };
+
 
   const handleOpen = (v: any) => {
     setstep(1);
@@ -96,8 +100,6 @@ export const Fpg = () => {
                 <InfoIcon />
               </IconButton>
             </Tooltip>
-
-
             {agregarajuste && String(v.row.estatus) === "Inicio" ? (
               <Tooltip title="Agregar Ajuste">
                 <IconButton
@@ -114,8 +116,6 @@ export const Fpg = () => {
               ""
             )}
 
-
-
             {verTrazabilidad ? (
               <Tooltip title="Ver Trazabilidad">
                 <IconButton onClick={() => handleTraz(v)}>
@@ -128,6 +128,7 @@ export const Fpg = () => {
           </Box>
         );
       },
+
     },
     {
       field: "FechaCreacion",
@@ -171,6 +172,10 @@ export const Fpg = () => {
       width: 180,
       description: "Total",
       ...Moneda,
+      // valueGetter:(v)=>{
+      //   handleHeader(v)
+      // },
+
     },
     {
       field: "estatus",
@@ -206,11 +211,11 @@ export const Fpg = () => {
         setdata(res.RESPONSE);
         var sumatotal = 0;
         res.RESPONSE.map((item: FPG) => {
-          console.log(item.id+"  " + item.Total)
-          sumatotal = sumatotal + Number(item.Total)
-          setSumaTotal(sumatotal)
-        });
-        console.log(Number(sumaTotal))
+      console.log(item.id + "  " + item.Total)
+      sumatotal = sumatotal + Number(item.Total)
+      setSumaTotal(sumatotal)
+    });
+    console.log(Number(sumaTotal))
         setslideropen(false);
       } else {
         AlertS.fire({
@@ -234,6 +239,7 @@ export const Fpg = () => {
   useEffect(() => {
     setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
+
       if (String(item.ControlInterno) === String(params.fondo).replace(/\s/g, "")) {
         if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
@@ -247,8 +253,10 @@ export const Fpg = () => {
       }
     });
 
+
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
+
 
   }, [params.fondo, nombreMenu]);
 
@@ -293,19 +301,14 @@ export const Fpg = () => {
         <div style={{ height: 600, width: "100%" }}>
           <Grid container sx={{ display: "flex", alignItems: "center", justifyContent: "center", }} >
             <Grid item sm={8} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
-              <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} /> 
+              <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
             </Grid>
-
             <Grid item sm={4} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
-             
-              <label>{"Total: "+"$"+String(sumaTotal)}</label>
-     
+              <label>{"Total: " + "$" + String(sumaTotal)}</label>
             </Grid>
-          
             <Grid item sm={12} sx={{
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>
-              
               <MUIXDataGridMun columns={columns} rows={data} modulo={nombreMenu} handleBorrar={handleBorrar} controlInterno={String(params.fondo).replace(/\s/g, "")} />
             </Grid>
           </Grid>

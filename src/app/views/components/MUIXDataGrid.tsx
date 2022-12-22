@@ -22,7 +22,7 @@ export default function MUIXDataGrid(props: any) {
           disableColumnFilter
           disableColumnSelector
           disableDensitySelector
-rowHeight={255}
+          rowHeight={255}
           getRowHeight={() => 'auto'}
           components={{ Toolbar: GridToolbar }}
           sx={{ fontFamily: "Poppins,sans-serif",  fontWeight: '600',

@@ -71,15 +71,12 @@ const Roles = () => {
         });
       }
     });
-
-
   };
 
   const handleView = (v: any) => {
     setId(v.id);
     setNameRol(v.row.Nombre)
     setOpen(true);
-
   };
   const handleOpen = () => {
     setTipoOperacion(1);
@@ -161,7 +158,6 @@ const Roles = () => {
 
   const consulta = (data: any) => {
     AuthService.rolesindex(data).then((res) => {
-      //console.log(res);
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
