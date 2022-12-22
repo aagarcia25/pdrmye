@@ -113,7 +113,7 @@ export default function Header(props: HeaderProps) {
   return (
     <React.Fragment>
       <AppBar
-        style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco, padding: "0", margin: "0" }}
+        style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco, paddingBottom: "1%", margin: "0" }}
         position="sticky"
         elevation={0}
         sx={{ width: "100%" }}
