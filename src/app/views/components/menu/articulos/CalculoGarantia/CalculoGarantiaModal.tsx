@@ -1,4 +1,4 @@
-import { Box, Container, Dialog, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
@@ -6,6 +6,7 @@ import { getUser } from "../../../../../services/localStorage";
 import { calculosServices } from "../../../../../services/calculosServices";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
+import ModalForm from "../../../componentes/ModalForm";
 
 export const CalculoGarantiaModal = ({
   open,
@@ -33,34 +34,24 @@ export const CalculoGarantiaModal = ({
 
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  //IMPRESIONES DE CAMPOS
-  //console.log("---------Impresión de CAMPOS------");
-  //console.log("id", id);
-  //console.log("anio :", anio);
-  //console.log("claveFondo :", claveFondo);
-  //console.log("garantia :", garantia);
-  //console.log("municipio :", municipio);
-  //console.log("municipios :", municipios);
-  //console.log("fondos :", fondos);
-  //console.log("---------FIN-de-Impresión de CAMPOS------");
 
   const municipiosC = () => {
     let data = { NUMOPERACION: 4 };
     CatalogosServices.municipios(data).then((res) => {
       setMunicipios(res.RESPONSE || "");
-     
+
     });
   };
 
   const todosFondos = () => {
     let data = { NUMOPERACION: 4 };
     CatalogosServices.fondos(data).then((res) => {
-        setFondos(res.RESPONSE || "");
-     
+      setFondos(res.RESPONSE || "");
+
     });
   };
 
-  
+
 
   const handleSend = () => {
     if (!anio || !claveFondo || !municipio) {
@@ -150,157 +141,150 @@ export const CalculoGarantiaModal = ({
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen>
-      <DialogContent>
+
+    <ModalForm title={modo} handleClose={handleClose}>
+
         <Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <label className="Titulo">{modo}</label>
-          </Box>
+
           {(modo === "Agregar Registro") ?
             <Container maxWidth="sm">
-          <FormControl variant="standard" fullWidth>
+              <FormControl variant="standard" fullWidth>
                 <InputLabel>Municipio</InputLabel>
                 <Select
                   required
                   onChange={(v) => setMunicipio(v.target.value)}
                   value={municipio}
                   label="Municipio"
-                  error={!municipio?true:false}
+                  error={!municipio ? true : false}
                 >
-                   {municipios?.map((item: any) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Nombre}
-                  </MenuItem>
-                );
-              })}
+                  {municipios?.map((item: any) => {
+                    return (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.Nombre}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
-            <FormControl variant="standard" fullWidth>
+              <FormControl variant="standard" fullWidth>
                 <InputLabel>Fondo</InputLabel>
                 <Select
                   required
                   onChange={(v) => setClaveFondo(v.target.value)}
                   value={claveFondo}
                   label="Fondo"
-                  error={!claveFondo?true:false}
+                  error={!claveFondo ? true : false}
                 >
-                   {fondos?.map((item: any) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Descripcion}
-                  </MenuItem>
-                );
-              })}
+                  {fondos?.map((item: any) => {
+                    return (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.Descripcion}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
-          <TextField
-            required
-            margin="dense"
-            id="Anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={!anio ? true : false}
-            InputProps={{}}
-          />
-          <TextField
-            required
-            margin="dense"
-            id="Garantia"
-            label="Garantía"
-            value={garantia}
-            type="decimal"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setGarantia(v.target.value)}
-            InputProps={{}}
-          />
-          </Container>
-          :""}
-          {(modo === "Editar Registro") ?
-            <Container maxWidth="sm">
-
-<FormControl variant="standard" fullWidth>
-                <InputLabel>Municipio</InputLabel>
-                <Select
-                  required
-                  onChange={(v) => setMunicipio(v.target.value)}
-                  value={municipio}
-                  label="Municipio"
-                  error={!municipio?true:false}
-                  disabled
-                >
-                   {municipios?.map((item: any) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Nombre}
-                  </MenuItem>
-                );
-              })}
-                </Select>
-              </FormControl>
-            <FormControl variant="standard" fullWidth>
-                <InputLabel>Fondo</InputLabel>
-                <Select
-                  required
-                  onChange={(v) => setClaveFondo(v.target.value)}
-                  value={claveFondo}
-                  label="Fondo"
-                  error={!claveFondo?true:false}
-                  disabled
-                >
-                   {fondos?.map((item: any) => {
-                return (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.Descripcion}
-                  </MenuItem>
-                );
-              })}
-                </Select>
-              </FormControl>
-          <TextField
-            required
-            margin="dense"
-            id="Anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={!anio ? true : false}
-            disabled
-            InputProps={{}}
-          />
-          <TextField
-            required
-            margin="dense"
-            id="Garantia"
-            label="Garantía"
-            value={garantia}
-            type="decimal"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setGarantia(v.target.value)}
-            InputProps={{}}
-          />
-
+              <TextField
+                required
+                margin="dense"
+                id="Anio"
+                label="Año"
+                value={anio}
+                type="number"
+                fullWidth
+                variant="standard"
+                onChange={(v) => setAnio(v.target.value)}
+                error={!anio ? true : false}
+                InputProps={{}}
+              />
+              <TextField
+                required
+                margin="dense"
+                id="Garantia"
+                label="Garantía"
+                value={garantia}
+                type="decimal"
+                fullWidth
+                variant="standard"
+                onChange={(v) => setGarantia(v.target.value)}
+                InputProps={{}}
+              />
             </Container>
-            :""}
+            :    <Container maxWidth="sm">
+
+            <FormControl variant="standard" fullWidth>
+              <InputLabel>Municipio</InputLabel>
+              <Select
+                required
+                onChange={(v) => setMunicipio(v.target.value)}
+                value={municipio}
+                label="Municipio"
+                error={!municipio ? true : false}
+                disabled
+              >
+                {municipios?.map((item: any) => {
+                  return (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.Nombre}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            <FormControl variant="standard" fullWidth>
+              <InputLabel>Fondo</InputLabel>
+              <Select
+                required
+                onChange={(v) => setClaveFondo(v.target.value)}
+                value={claveFondo}
+                label="Fondo"
+                error={!claveFondo ? true : false}
+                disabled
+              >
+                {fondos?.map((item: any) => {
+                  return (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.Descripcion}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            <TextField
+              required
+              margin="dense"
+              id="Anio"
+              label="Año"
+              value={anio}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setAnio(v.target.value)}
+              error={!anio ? true : false}
+              disabled
+              InputProps={{}}
+            />
+            <TextField
+              required
+              margin="dense"
+              id="Garantia"
+              label="Garantía"
+              value={garantia}
+              type="decimal"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setGarantia(v.target.value)}
+              InputProps={{}}
+            />
+
+          </Container>}
+          
         </Box>
-      </DialogContent>
-      <DialogActions>
-        <button className="guardar" onClick={() => handleSend()}>
-          Guardar
-        </button>
-        <button className="cerrar" onClick={() => handleClose()}>
-          Cerrar
-        </button>
-      </DialogActions>
-    </Dialog>
+
+        <Grid item xs={12} container  direction="row" justifyContent="center" alignItems="center">
+          <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+      </Grid>
+
+    </ModalForm>
   );
 };

@@ -485,6 +485,14 @@ const DetalleFgp = ({
       width: 250,
       description: "Total",
       ...Moneda,
+      renderHeader: () => (
+        <strong>
+          {'Birthday '}
+          <span role="img" aria-label="enjoy">
+            🎂
+          </span>
+        </strong>
+      ),
     
     },
   ];

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { Moneda } from "../CustomToolbar";
+import { currencyFormatter, Moneda } from "../CustomToolbar";
 import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
 import { calculosServices } from "../../../../services/calculosServices";
 import { Toast } from "../../../../helpers/Toast";
@@ -172,9 +172,11 @@ export const Fpg = () => {
       width: 180,
       description: "Total",
       ...Moneda,
-      // valueGetter:(v)=>{
-      //   handleHeader(v)
-      // },
+      renderHeader: () => (
+        <>
+          {"Total: "+currencyFormatter.format(Number(sumaTotal))}
+          </>
+      ),
 
     },
     {
@@ -300,12 +302,10 @@ export const Fpg = () => {
       {step === 0 ?
         <div style={{ height: 600, width: "100%" }}>
           <Grid container sx={{ display: "flex", alignItems: "center", justifyContent: "center", }} >
-            <Grid item sm={8} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
               <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
             </Grid>
-            <Grid item sm={4} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
-              <label>{"Total: " + "$" + String(sumaTotal)}</label>
-            </Grid>
+     
             <Grid item sm={12} sx={{
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>

@@ -63,7 +63,8 @@ const MUIXDataGridMun = ({
               backgroundColor: "rgb(196, 40, 40, 0.384)",
             },
             '& .super-app.positive': {
-              color: '#000000',
+              color: '#002200',
+              backgroundColor: "rgb(0, 40, 0, 0.384)",
             },
           }}
           componentsProps={{

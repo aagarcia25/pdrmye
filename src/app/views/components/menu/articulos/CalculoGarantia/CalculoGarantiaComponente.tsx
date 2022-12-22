@@ -57,37 +57,14 @@ export const CalculoGarantiaComponente = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 150 },
-    { field: "Nombre", headerName: "Municipio", width: 250 },
-    {
-      field: "clave",
-      hide: false,
-      headerName: "Clave Fondo",
-      width: 100,
-    },
-    {
-      field: "Descripcion",
-      headerName: "Descripción de fondo",
-      width: 420,
-    },
-    {
-      field: "Anio",
-      headerName: "Año",
-      width: 120,
-    },
-    {
-      field: "Garantia",
-      headerName: "Garantía",
-      width: 250,
-      ...Moneda,
-    },
-    {
-      field: "Distribucion",
-      headerName: "Distribucion",
-      width: 150,
-
-    },
+    { field: "FechaCreacion", headerName: "Fecha Creación",      description: "Fecha Creación",       width: 180 },
+    { field: "ClaveEstado",   headerName: "Clave Estado",        description: "Clave Estado",         width: 150 },
+    { field: "Nombre",        headerName: "Municipio",           description: "Municipio",            width: 250 },
+    { field: "clave",         headerName: "Clave Fondo",         description: "Clave Fondo",          width: 100 },
+    { field: "Descripcion",   headerName: "Descripción de fondo",description: "Descripción de fondo", width: 420 },
+    { field: "Anio",          headerName: "Año",                 description: "Año",                  width: 120 },
+    { field: "Garantia",      headerName: "Garantía",            description: "Garantía",             width: 250, ...Moneda, }, 
+    { field: "Distribucion",  headerName: "Distribucion",        description: "Distribucion",         width: 150 },
 
 
   ];
@@ -207,8 +184,7 @@ export const CalculoGarantiaComponente = () => {
       });
     }
     else if (data.tipo === 2) {
-      //console.log("borrado de toda la tabla")
-      //console.log(selectionModel)
+
 
       if (selectionModel.length !== 0) {
         Swal.fire({
@@ -255,9 +231,6 @@ export const CalculoGarantiaComponente = () => {
           confirmButtonText: "Aceptar",
         });
       }
-
-
-
     }
 
   };
@@ -319,20 +292,17 @@ export const CalculoGarantiaComponente = () => {
       </Grid>
 
       <Grid container>
-        <Grid item>        <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+        <Grid item>       
+         <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
         </Grid>
-        <Grid item> <ButtonsMunicipio
+        <Grid item> 
+        <ButtonsMunicipio
           url={plantilla}
           handleUpload={handleUpload} controlInterno={"CA"}
           value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={false} />
         </Grid>
-
-
-
       </Grid>
-
       < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} modulo={"Garantia"} controlInterno={"CA"} />
-
       {open ? (
         <CalculoGarantiaModal
           open={open}
