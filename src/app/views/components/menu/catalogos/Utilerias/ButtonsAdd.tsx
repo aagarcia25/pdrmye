@@ -1,7 +1,5 @@
-import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Box, ToggleButtonGroup, Tooltip, ToggleButton, Grid } from "@mui/material";
-import { Height } from "@mui/icons-material";
 
 const ButtonsAdd = ({
   handleOpen,

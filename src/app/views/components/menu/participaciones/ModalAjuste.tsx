@@ -168,7 +168,7 @@ const ModalAjuste = ({
     loadFilter(15);
     loadFilter(3);
     //loadInfoCalculo();
-  }, [,idCalculo]);
+  }, [idCalculo]);
 
   useEffect(() => {
     loadInfoCalculo();

@@ -381,9 +381,14 @@ const DetalleFgp = ({
     {
       field: "Mensual",
       headerName: "Mensual",
-      width: 200,
+      width: 220,
       description: "Mensual",
       ...Moneda,
+      // renderHeader: () => (
+      //   <>
+      //     {"Total Mensual: " + currencyFormatter.format(Number(sumaTotal))}
+      //   </>
+      // ),
 
     },
     {
@@ -491,11 +496,11 @@ const DetalleFgp = ({
       width: 250,
       description: "Total",
       ...Moneda,
-      // renderHeader: () => (
-      //   <>
-      //     {"Total: " + currencyFormatter.format(Number(sumaTotal))}
-      //   </>
-      // ),
+      renderHeader: () => (
+        <>
+          {"Total: " + currencyFormatter.format(Number(sumaTotal))}
+        </>
+      ),
 
     },
   ];
