@@ -18,6 +18,41 @@ export interface PERMISO {
 
 }
 
+export interface FPG {
+    id: string;
+    Clave: string;
+    Descripcion: string;
+    Anio: number;
+    nummes: number;
+    Mes: string;
+    Total: string;
+    estatus: string;
+    FechaCreacion: string;
+    Tipo: string;
+}
+
+export interface FPGDetalle {
+    id: string;
+    ClaveEstado: number;
+    Nombre: string;
+    idCalculoTotal: string;
+    Mensual: string;
+    PrimerAjuste: string;
+    SegundoAjuste: string;
+    TercerAjuste: string;
+    CuartoAjuste: string;
+    AjusteAnual: string;
+    AjusteSemestral: string;
+    AjusteDefinitivo: string;
+    AjusteEstatal: string;
+    AjusteFofir: string;
+    CompensacionFEIF: string;
+    RetencionFEIF: string;
+    total: string;
+    ComentarioPresupuesto?: any;
+    RutaArchivo?: any;
+}
+
 export interface ITEMS {
     id: string;
     deleted: string;

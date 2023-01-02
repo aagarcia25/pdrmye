@@ -105,6 +105,21 @@ const MunFacturacionModal = ({
   };
 
   const handleSend = () => {
+    console.log(
+      
+      "--- nombre          : ",nombre          , 
+      "--- claveEstado     : ",claveEstado     , 
+      "--- mam             : ",mam             , 
+      "--- descentralizado : ",descentralizado , 
+      "--- nombreCorto     : ",nombreCorto     , 
+      "--- ordenSFTGNL     : ",ordenSFTGNL     , 
+      "--- clavePSIREGOB   : ",clavePSIREGOB   , 
+      "--- claveDSIREGOB   : ",claveDSIREGOB   , 
+      "--- claveINEGI      : ",claveINEGI      , 
+      "--- artF1           : ",artF1           , 
+      "--- artF2           : ",artF2           , 
+      "--- artF3           : ",artF3           , 
+    )
     if (
       nombre === "" ||
       claveEstado === "" ||
@@ -213,25 +228,30 @@ const MunFacturacionModal = ({
       setNombre(dt?.row?.Nombre);
       setClaveEstado(dt?.row?.ClaveEstado? dt?.row?.ClaveEstado:"");
       setMam(dt?.row?.MAM);
-      setDescentralizado(dt?.row?.Descentralizado?dt?.row?.Descentralizado:"");
+      setDescentralizado(dt?.row?.Descentralizado===0? "0":"1");
       setNombreCorto(dt?.row?.NombreCorto?dt?.row?.NombreCorto:"");
       setOrdenSFTGNL(dt?.row?.OrdenSFTGNL?dt?.row?.OrdenSFTGNL:"");
       setClavePSIREGOB(dt?.row?.ClavePSIREGOB?dt?.row?.ClavePSIREGOB:"");
       setClaveDSIREGOB(dt?.row?.ClaveDSIREGOB?dt?.row?.ClaveDSIREGOB:"");
-      setClaveINEGI(dt?.row?.ClaveINEGI);
-      setArtF1(dt?.row?.ArtF1);
-      setArtF2(dt?.row?.ArtF2);
-      setArtF3(dt?.row?.ArtF3);
+      setClaveINEGI(dt?.row?.ClaveINEGI?dt?.row?.ClaveINEGI:"");
+      setArtF1(dt?.row?.ArtF1? dt?.row?.ArtF1:"");
+      setArtF2(dt?.row?.ArtF2? dt?.row?.ArtF2:"");
+      setArtF3(dt?.row?.ArtF3? dt?.row?.ArtF3:"");
+
+      console.log(dt?.row)
     }
   }, [dt]);
 
   return (
     <ModalForm title={modo} handleClose={handleClose}>
 
-      <Grid container direction="row" justifyContent="center" alignItems="center">
-        <Grid item alignItems="center" justifyContent="center" xs={5}>
+      <Grid container direction="row" justifyContent="center" alignItems="center"  >
+        <Grid item alignItems="center" justifyContent="center" xs={12} md={12} sx={{ padding:"2%" }}>
+         
 
-
+          <Box component={Grid} boxShadow={2} container direction="row"  xs={12} md={12} paddingTop={3} paddingBottom={3} > 
+          <Box component={Grid} item direction="row" xs={12} md={2} ></Box>
+          <Box component={Grid} item direction="row" xs={12} md={4} >
           <TextField
             required
             margin="dense"
@@ -259,6 +279,10 @@ const MunFacturacionModal = ({
             error={claveEstado === "" ? true : false}
             InputProps={{}}
           />
+
+          </Box>
+          <Box component={Grid} item direction="row" xs={12} md={2} ></Box>
+          <Box component={Grid} item direction="row" xs={12} md={4}>
 
           {
             //Switch de si y no en vez de 1 y 0
@@ -292,7 +316,14 @@ const MunFacturacionModal = ({
               }
             />
           </FormGroup>
+          </Box>
+          </Box>
 
+          <Box component={Grid} item direction="row" height={12} xs={12} md={12} ></Box>
+          <Box component={Grid} boxShadow={2} container direction="row" xs={12} md={12} paddingTop={3} paddingBottom={3} > 
+          <Box component={Grid} item direction="row" xs={12} md={2}></Box>
+          <Box component={Grid} item direction="row" xs={12} md={4}>
+          
           <TextField
             required
             margin="dense"
@@ -358,7 +389,12 @@ const MunFacturacionModal = ({
             error={claveINEGI === "" ? true : false}
             InputProps={{}}
           />
-
+          </Box>
+ 
+         <Box component={Grid} item direction="row" xs={12} md={2}  ></Box>
+          <Box component={Grid} item direction="row" xs={12} md={4}  >
+          <Box component={Grid}  container direction="row" xs={12} md={12} > 
+          <Box component={Grid}  item direction="row" xs={12} md={6} > 
           <FormGroup>
             <InputLabel>¿Aplica el ARTF1?</InputLabel>
             <FormControlLabel
@@ -400,16 +436,21 @@ const MunFacturacionModal = ({
               label={checkedArtF3 ? textoDeAfirmacion : textoDeNegacion}
             />
           </FormGroup>
-        </Grid>
-      </Grid>
-      <Grid container direction="row" justifyContent="center" alignItems="center">
-        <Grid item alignItems="center" justifyContent="center" xs={1}>
+          </Box>
+          
+
+          <Box component={Grid}  item direction="row" xs={12} md={12} sx={{ height:"100px" }}> </Box>
+          <Box component={Grid}  item direction="row" xs={12} md={8} > </Box>
+          <Box component={Grid}  item direction="row" xs={12} md={4} > 
           <button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()} >
             {tipo === 1 ? "Agregar" : "Editar"}
-          </button>
+          </button> 
+          </Box>
+          </Box>
+          </Box>
+          </Box>
         </Grid>
       </Grid>
-
 
     </ModalForm>
   );

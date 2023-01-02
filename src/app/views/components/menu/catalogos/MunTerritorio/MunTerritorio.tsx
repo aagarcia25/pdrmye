@@ -296,7 +296,7 @@ export const MunTerritorio = () => {
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"MUNTERR"} value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={true} />
 
-      <MUIXDataGridMun columns={columns} rows={territorio} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')}   />
+      <MUIXDataGridMun columns={columns} rows={territorio} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNTERR"}   />
 
     </div>
   );

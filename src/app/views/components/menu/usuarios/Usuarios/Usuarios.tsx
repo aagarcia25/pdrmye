@@ -237,7 +237,6 @@ const Usuarios = () => {
           title: v,
         });
         setData(res.RESPONSE);
-        console.log(res.RESPONSE);
       } else {
         AlertS.fire({
           title: "Error!",

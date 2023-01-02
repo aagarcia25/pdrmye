@@ -345,7 +345,7 @@ const AjustesCalculos = () => {
                 <ButtonsMunBase handleOpen={handleOpen} agregar={agregar} eliminar={eliminar} />
 
             </Grid>
-            <MUIXDataGridMun columns={columns} rows={dataAjustes} modulo={nombreMenu.toUpperCase().replace(' ','_')} handleBorrar={handleBorrar} borrar={eliminar} />
+            <MUIXDataGridMun columns={columns} rows={dataAjustes} modulo={nombreMenu.toUpperCase().replace(' ', '_')} handleBorrar={handleBorrar} controlInterno={"AJUSTECALC"} />
 
             {open ?
                 <ModalForm

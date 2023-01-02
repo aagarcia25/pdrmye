@@ -54,7 +54,7 @@ const ButtonsMunicipio = ({
         if (String(item.Referencia) === "AGREG") {
           setDescargarPlantilla(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.Referencia) === "ELIMMAS") {
           setelimasiva(true);
         }
       }
@@ -104,7 +104,7 @@ const ButtonsMunicipio = ({
             )}
 
             {elimasiva ? (
-              <Tooltip title="Eliminación Masiva">
+              <Tooltip title="Eliminación Masiva, Borra los Registros Seleccionados *No Requiere Autorización*">
                 <ToggleButton value="check">
                   <DeleteForeverIcon
                     onClick={() => handleUpload({ tipo: 2, data: {} })}

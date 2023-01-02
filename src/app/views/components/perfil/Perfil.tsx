@@ -154,18 +154,16 @@ export const Perfil = () => {
 
 
   return (
-    <>
-      <Grid container direction="row" justifyContent="flex-end" alignItems="center" paddingTop="2%" >
+    <Grid>
+      <Grid container direction="row" justifyContent="flex-end" alignItems="center" paddingTop="2%" paddingBottom={1} >
         <BottomNavigation showLabels sx={{ width: 500, borderRadius: "10px", }} value={value} onChange={handleChange}>
           <BottomNavigationAction
-            sx={{ borderRadius: "20px", }}
             //  sx={{ backgroundColor: "blue",}} 
             label="Información General"
             value="general"
             icon={<AccountBoxIcon />}
           />
-          <BottomNavigationAction
-            sx={{ borderRadius: "20px", }}
+          <BottomNavigationAction 
             // sx={{ backgroundColor: "blue", }}
             label="Cambiar Contraseña"
             value="password"
@@ -173,15 +171,13 @@ export const Perfil = () => {
           />
         </BottomNavigation>
       </Grid>
-
-      <Box sx={{
+      <Grid sx={{
         //Principal
         width: "100%",
         height: "100%",
         // backgroundColor: "#EEEEEE",
         justifyContent: "center",
         alignItems: "flex-start",
-        display: "flex",
       }}
       >
         <Box
@@ -216,9 +212,9 @@ export const Perfil = () => {
                       }}
 
                       sx={{ width: "7.4rem", height: "7.4rem", backgroundColor: "white", borderRadius: '50%', justifyContent: "center", cursor: "pointer", }} >
-                      {user.RutaFoto ?
+                      {user?.RutaFoto ?
                         <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
-                          src={user.RutaFoto}
+                          src={user?.RutaFoto}
                         />
                         : <PersonIcon sx={{ width: "100%", height: "100%", }} />
                       }
@@ -322,7 +318,7 @@ export const Perfil = () => {
                           <label className="gris"> {user.Celular ? user.Celular : "Sin Informacion"} </label>
                         </Grid>
                         <br />
-                        <Grid item xs={10}>
+                        <Grid item xs={10} paddingBottom={3}>
                           <label className="negro">Puesto:</label>
                           <label className="gris"> {user.Puesto ? user.Puesto : "Sin Informacion"} </label>
                         </Grid>
@@ -400,10 +396,7 @@ export const Perfil = () => {
 
           </Grid>
         </Box>
-      </Box>
-
-
-
-    </>
+      </Grid>
+    </Grid>
   );
 };

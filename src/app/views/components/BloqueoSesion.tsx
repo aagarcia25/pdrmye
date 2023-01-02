@@ -93,7 +93,7 @@ export function BloqueoSesion({
 
 
           <Typography sx={{ mt: 3, fontSize: "2vw" }}>
-          Sesión pausada por inactividad, Ingrese contrseña
+          Sesión pausada por inactividad, Ingrese contraseña
           </Typography>
           <Typography sx={{ mt: 5, fontSize: "1.8vw" }}>
             ¿Esa persona no es usted?{" "}

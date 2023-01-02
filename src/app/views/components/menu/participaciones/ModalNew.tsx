@@ -12,6 +12,7 @@ import { getUser } from "../../../../services/localStorage";
 import { Toast } from "../../../../helpers/Toast";
 import { AlertS } from "../../../../helpers/AlertS";
 import { calculosServices } from "../../../../services/calculosServices";
+import Slider from "../../Slider";
 
 const ModalNew = ({
   clave,
@@ -25,13 +26,16 @@ const ModalNew = ({
   
   const user: RESPONSE = JSON.parse(String(getUser()));
   let year: number = new Date().getFullYear();
+  const [slideropen, setslideropen] = useState(true);
   //LLENADO DE FILTRO
   const [mes, setMeses] = useState<SelectValues[]>([]);
   const [tipoCalculo, setTipoCalculo] = useState<SelectValues[]>([]);
+  const [versionCalculo, setversionCalculo] = useState<SelectValues[]>([]);
 
   //SETEO DE VALORES DE FILTRO
   const [idmes, setIdmes] = useState("");
   const [idTipoCalculo, setIdTipoCalculo] = useState("");
+  const [idVersionCalculo, setIdVersionCalculo] = useState("");
   // VARIABLES
   const [monto, setMonto] = useState<number>();
   const [ieja, setieja] = useState<number>();
@@ -47,6 +51,10 @@ const ModalNew = ({
 
   const handleSelect01 = (v: SelectValues) => {
     setIdTipoCalculo(String(v));
+  };
+
+  const handleSelect02 = (v: SelectValues) => {
+    setIdVersionCalculo(String(v));
   };
 
   const handleNewFile = (event: any) => {
@@ -68,6 +76,8 @@ const ModalNew = ({
     formData.append("MES", idmes);
     formData.append("CLAVE", clave);
     formData.append("TIPOCALCULO", idTipoCalculo);
+    formData.append("TIPOCALCULO", idTipoCalculo);
+    formData.append("IDVERSION", idVersionCalculo);
     CatalogosServices.migraData(formData).then((res) => {
      
       if (res.SUCCESS) {
@@ -98,6 +108,7 @@ const ModalNew = ({
     formData.append("MES", idmes);
     formData.append("IMPORTE", "0");
     formData.append("TIPOCALCULO", idTipoCalculo);
+    formData.append("IDVERSION", idVersionCalculo);
     CatalogosServices.migraData(formData).then((res) => {
       
       if (res.SUCCESS) {
@@ -142,7 +153,8 @@ const ModalNew = ({
               MES: idmes,
               ZERO:Czero,
               TIPOCALCULO:idTipoCalculo,
-              IEJA:ieja
+              IEJA:ieja,
+              IDVERSION: idVersionCalculo
             };
             agregar(data);
           }
@@ -176,6 +188,10 @@ const ModalNew = ({
         setMeses(res.RESPONSE);
       } else if (operacion === 15) {
         setTipoCalculo(res.RESPONSE);
+      } else if (operacion === 23) {
+        setversionCalculo(res.RESPONSE);
+        setIdVersionCalculo(res.RESPONSE[0]['value']);
+        setslideropen(false);
       }
     });
   };
@@ -183,10 +199,12 @@ const ModalNew = ({
   useEffect(() => {
     loadFilter(2);
     loadFilter(15);
+    loadFilter(23);
   }, []);
 
   return (
     <div>
+       <Slider open={slideropen}></Slider>
       <Grid container spacing={1} sx={{}}>
         <Grid item xs={3} md={2.1} lg={2.5}>
           <BtnRegresar onClick={onClickBack} />
@@ -250,6 +268,32 @@ const ModalNew = ({
                 options={tipoCalculo}
                 onInputChange={handleSelect01}
                 placeholder={"Seleccione el Tipo de Cálculo"}
+                label={""}
+                disabled={false}
+              ></SelectFrag>
+            </Grid>
+            <Grid item xs={4} sm={4} md={4}></Grid>
+          </Grid>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={12}
+        sx={{ 
+          justifyContent: "center" ,
+          display :clave === 'FFM30' ? 'block' :'none'
+           }}
+        >
+          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                Versión de Coeficiente:
+              </Typography>
+            </Grid>
+            <Grid item xs={2} sm={2} md={2} sx={{ textAlign: "left" }}>
+              <SelectFrag
+                value={idVersionCalculo}
+                options={versionCalculo}
+                onInputChange={handleSelect02}
+                placeholder={"Seleccione la versión"}
                 label={""}
                 disabled={false}
               ></SelectFrag>

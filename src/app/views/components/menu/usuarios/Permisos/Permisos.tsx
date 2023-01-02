@@ -27,6 +27,7 @@ const Permisos = () => {
 
   const handleClose = () => {
     setOpen(false);
+    consulta({ NUMOPERACION: 4 });
   };
 
   const handleAccion = (v: any) => {
@@ -139,17 +140,9 @@ const Permisos = () => {
   const consulta = (data: any) => {
     AuthService.permisosindex(data).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
         setData(res.RESPONSE);
       } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
+   
       }
     });
   };

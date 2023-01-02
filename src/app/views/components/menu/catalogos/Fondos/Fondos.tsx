@@ -331,7 +331,7 @@ const Fondos = () => {
           <ButtonsMunBase handleOpen={handleOpen} agregar={agregar} eliminar={eliminar} />
         </Grid>
         <Grid item sm={12} sx={{  alignItems: "center", justifyContent: "center", }}>
-          <MUIXDataGridMun columns={columns} rows={fondos} modulo={nombreMenu.toUpperCase().replace(' ', '_')} handleBorrar={handleBorrar} borrar={eliminar} />
+          <MUIXDataGridMun columns={columns} rows={fondos} modulo={nombreMenu.toUpperCase().replace(' ', '_')} handleBorrar={handleBorrar} controlInterno={"FONDOS"} />
         </Grid>
       </Grid>
 

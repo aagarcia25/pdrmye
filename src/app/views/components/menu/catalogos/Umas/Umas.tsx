@@ -243,7 +243,7 @@ export const Umas = () => {
       <NombreCatalogo controlInterno={"UMAS"} />
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      < MUIXDataGridMun columns={columns} rows={conUmas} handleBorrar={handleBorrar} borrar={false} modulo={nombreMenu.toUpperCase().replace(' ','_')} />
+      < MUIXDataGridMun columns={columns} rows={conUmas} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"UMAS"} />
     </div>
   );
 };

@@ -8,6 +8,8 @@ import {
   GridColTypeDef,
   GridToolbarQuickFilter,
   GridCellParams,
+  GridColumnHeaderParams,
+  GridColumnGroupHeaderClassNamePropType,
 } from "@mui/x-data-grid";
 
 export function CustomToolbar() {
@@ -40,7 +42,20 @@ cellClassName: (params: GridCellParams<number>) => {
     positive: params.value > 0,
   });
 },
+
+headerClassName: (params: GridColumnHeaderParams<number>) => {
+  if (params.field === null) {
+    return '';
+  }
+
+  return clsx('super-app', {
+    negative: Number(params.field) < 0,
+    positive: Number(params.field) > 0,
+  });
+},
 };
+
+
 
 
 
