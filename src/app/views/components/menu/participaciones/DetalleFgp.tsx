@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import {Box,Dialog,Grid, ToggleButton,ToggleButtonGroup,Tooltip,} from "@mui/material";
-import { Moneda } from "../CustomToolbar";
+import { Box, Dialog, Grid, ToggleButton, ToggleButtonGroup, Tooltip, } from "@mui/material";
+import { currencyFormatter, Moneda } from "../CustomToolbar";
 import { Toast } from "../../../../helpers/Toast";
 import { AlertS } from "../../../../helpers/AlertS";
 import { calculosServices } from "../../../../services/calculosServices";
@@ -8,7 +8,7 @@ import MUIXDataGrid from "../../MUIXDataGrid";
 import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
 import Slider from "../../Slider";
 import { getPermisos, getUser } from "../../../../services/localStorage";
-import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { FPGDetalle, PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import Trazabilidad from "../../Trazabilidad";
 import Swal from "sweetalert2";
@@ -52,6 +52,7 @@ const DetalleFgp = ({
   const [estatusDestino, setEstatusDestino] = useState("");
   const [perfilDestino, setperfilDestino] = useState("");
   const [area, setArea] = useState("");
+  const [sumaTotal, setSumaTotal] = useState<Number>();
 
 
   //Permisos
@@ -347,6 +348,11 @@ const DetalleFgp = ({
           title: "Consulta Exitosa!",
         });
         setData(res.RESPONSE);
+        var sumatotal = 0;
+        res.RESPONSE.map((item: FPGDetalle) => {
+          sumatotal = sumatotal + Number(item.total)
+          setSumaTotal(sumatotal)
+        });
       } else {
         AlertS.fire({
           title: "Error!",
@@ -378,7 +384,7 @@ const DetalleFgp = ({
       width: 200,
       description: "Mensual",
       ...Moneda,
-     
+
     },
     {
       hide: pa ? false : true,
@@ -387,7 +393,7 @@ const DetalleFgp = ({
       width: 200,
       description: "Primer Ajusté",
       ...Moneda,
-     
+
     },
     {
       hide: sa ? false : true,
@@ -396,7 +402,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Segundo Ajusté",
       ...Moneda,
-     
+
     },
     {
       hide: ta ? false : true,
@@ -405,7 +411,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Tercer Ajusté",
       ...Moneda,
-    
+
     },
     {
       hide: ca ? false : true,
@@ -414,7 +420,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Cuarto Ajuste",
       ...Moneda,
-    
+
     },
     {
       hide: ad ? false : true,
@@ -423,7 +429,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Ajusté Anual",
       ...Moneda,
-     
+
     },
     {
       hide: as ? false : true,
@@ -432,7 +438,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Ajusté Semestral",
       ...Moneda,
-     
+
     },
     {
       hide: aa ? false : true,
@@ -441,7 +447,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Ajusté Definitivo",
       ...Moneda,
-    
+
     },
     {
       hide: ae ? false : true,
@@ -450,7 +456,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Ajusté Estatal",
       ...Moneda,
-     
+
     },
     {
       hide: rf ? false : true,
@@ -459,7 +465,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Compensación FEIF",
       ...Moneda,
-     
+
     },
     {
       hide: cf ? false : true,
@@ -468,7 +474,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Retención FEIF",
       ...Moneda,
-     
+
     },
     {
       hide: af ? false : true,
@@ -477,7 +483,7 @@ const DetalleFgp = ({
       width: 150,
       description: "Ajusté FOFIR",
       ...Moneda,
-      
+
     },
     {
       field: "total",
@@ -485,15 +491,12 @@ const DetalleFgp = ({
       width: 250,
       description: "Total",
       ...Moneda,
-      renderHeader: () => (
-        <strong>
-          {'Birthday '}
-          <span role="img" aria-label="enjoy">
-            🎂
-          </span>
-        </strong>
-      ),
-    
+      // renderHeader: () => (
+      //   <>
+      //     {"Total: " + currencyFormatter.format(Number(sumaTotal))}
+      //   </>
+      // ),
+
     },
   ];
   const EstablecePermisos = () => {
@@ -577,7 +580,7 @@ const DetalleFgp = ({
             spacing={1}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <Grid item xs={1} container  sx={{ justifyContent: "center"}}>
+            <Grid item xs={1} container sx={{ justifyContent: "center" }}>
               <label className="subtitulo">
                 {anio}
                 <br />
@@ -589,7 +592,7 @@ const DetalleFgp = ({
             spacing={1}
             sx={{ justifyContent: "center", width: "100%" }}
           >
-            <Grid item container xs={1} sx={{ justifyContent: "center"}}>
+            <Grid item container xs={1} sx={{ justifyContent: "center" }}>
               <label className="subtitulo">
                 {mes.split(",")[1]}
                 <br />
@@ -601,9 +604,9 @@ const DetalleFgp = ({
             spacing={1}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <Grid item container xs={6} sx={{ alignItems: "center",justifyContent: "center" }}>
+            <Grid item container xs={6} sx={{ alignItems: "center", justifyContent: "center" }}>
               <label className="subtitulo">
-                {"*"+tipoCalculo+"*"}
+                {"*" + tipoCalculo + "*"}
                 <br />
               </label>
             </Grid>
@@ -630,7 +633,7 @@ const DetalleFgp = ({
             </Grid>
           </Grid>
 
-          <Box sx={{ height: 600, width: "100%" ,  }}>
+          <Box sx={{ height: 600, width: "100%", }}>
             <Box>
               <ToggleButtonGroup>
                 <Tooltip title={"Regresar"}>

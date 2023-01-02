@@ -31,6 +31,28 @@ export interface FPG {
     Tipo: string;
 }
 
+export interface FPGDetalle {
+    id: string;
+    ClaveEstado: number;
+    Nombre: string;
+    idCalculoTotal: string;
+    Mensual: string;
+    PrimerAjuste: string;
+    SegundoAjuste: string;
+    TercerAjuste: string;
+    CuartoAjuste: string;
+    AjusteAnual: string;
+    AjusteSemestral: string;
+    AjusteDefinitivo: string;
+    AjusteEstatal: string;
+    AjusteFofir: string;
+    CompensacionFEIF: string;
+    RetencionFEIF: string;
+    total: string;
+    ComentarioPresupuesto?: any;
+    RutaArchivo?: any;
+}
+
 export interface ITEMS {
     id: string;
     deleted: string;

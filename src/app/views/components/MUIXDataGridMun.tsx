@@ -71,35 +71,37 @@ const MUIXDataGridMun = ({
             toolbar: {
               label: "Buscar",
               showQuickFilter: true,
-        quickFilterProps: {debounceMs: 500, },
-        csvOptions: {
-          fileName: modulo,
-        utf8WithBom: true,
+              
+              quickFilterProps: { debounceMs: 500, },
+
+              csvOptions: {
+                fileName: modulo,
+                utf8WithBom: true,
 
               }
             },
           }}
-        checkboxSelection={elimasiva}
-        onSelectionModelChange={(newSelectionModel: any) => { handleBorrar(newSelectionModel); }}
-        localeText={{
-          noRowsLabel: "No se ha encontrado datos.",
-          noResultsOverlayLabel: "No se ha encontrado ningún resultado",
-          toolbarColumns: "Columnas",
-          toolbarExport: "Exportar",
-          toolbarColumnsLabel: "Seleccionar columnas",
-          toolbarFilters: "Filtros",
-          toolbarFiltersLabel: "Ver filtros",
-          toolbarFiltersTooltipHide: "Quitar filtros",
-          toolbarFiltersTooltipShow: "Ver filtros",
-          toolbarQuickFilterPlaceholder: "Buscar",
-          toolbarExportLabel: 'Exportar',
-          toolbarExportCSV: 'Enviar a  CSV',
-          toolbarExportPrint: 'Imprimir',
-          columnMenuUnsort: 'Sin Orden',
-          columnMenuSortAsc: 'Ordenar Ascendente',
-          columnMenuSortDesc: 'Ordenar Descendente',
-          columnHeaderSortIconLabel: 'Ordenar',
-        }}
+          checkboxSelection={elimasiva}
+          onSelectionModelChange={(newSelectionModel: any) => { handleBorrar(newSelectionModel); }}
+          localeText={{
+            noRowsLabel: "No se ha encontrado datos.",
+            noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+            toolbarColumns: "Columnas",
+            toolbarExport: "Exportar",
+            toolbarColumnsLabel: "Seleccionar columnas",
+            toolbarFilters: "Filtros",
+            toolbarFiltersLabel: "Ver filtros",
+            toolbarFiltersTooltipHide: "Quitar filtros",
+            toolbarFiltersTooltipShow: "Ver filtros",
+            toolbarQuickFilterPlaceholder: "Buscar",
+            toolbarExportLabel: 'Exportar',
+            toolbarExportCSV: 'Enviar a  CSV',
+            toolbarExportPrint: 'Imprimir',
+            columnMenuUnsort: 'Sin Orden',
+            columnMenuSortAsc: 'Ordenar Ascendente',
+            columnMenuSortDesc: 'Ordenar Descendente',
+            columnHeaderSortIconLabel: 'Ordenar',
+          }}
         />
       </ThemeProvider>
     </div>
