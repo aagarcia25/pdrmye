@@ -13,6 +13,7 @@ import { Toast } from "../../../../helpers/Toast";
 import { AlertS } from "../../../../helpers/AlertS";
 import { calculosServices } from "../../../../services/calculosServices";
 import Slider from "../../Slider";
+import { ParametroServices } from "../../../../services/ParametroServices";
 
 const ModalAjuste = ({
   idCalculo,  
@@ -27,7 +28,7 @@ const ModalAjuste = ({
 }) => {
   
   const user: RESPONSE = JSON.parse(String(getUser()));
-  let year: number = new Date().getFullYear();
+  const [year , setyear] = useState<number>();
   //LLENADO DE FILTRO
   const [mes, setMeses] = useState<SelectValues[]>([]);
   const [tipoCalculo, setTipoCalculo] = useState<SelectValues[]>([]);
@@ -43,6 +44,17 @@ const ModalAjuste = ({
   const [file, setFile] = useState(Object);
   const [slideropen, setslideropen] = useState(true);
   const [labelAjuste, setLabelAjuste] = useState<number>();
+
+  const parametros = () => {
+    let data = {
+      NUMOPERACION: 5,
+      NOMBRE: "ANIO_OPERACION"
+    }
+    ParametroServices.ParametroGeneralesIndex(data).then((res) => {
+      setyear(Number(res.RESPONSE.Valor));
+    });
+
+  };
 
   const handleNewFile = (event: any) => {
     setFile(event?.target?.files?.[0] || "");
@@ -150,7 +162,7 @@ const ModalAjuste = ({
 
 
   useEffect(() => {
-   
+    parametros();
     setNameNewDoc("");
     loadFilter(2);
     loadFilter(15);
