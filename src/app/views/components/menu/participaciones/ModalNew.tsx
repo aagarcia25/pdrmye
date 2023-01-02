@@ -13,6 +13,7 @@ import { Toast } from "../../../../helpers/Toast";
 import { AlertS } from "../../../../helpers/AlertS";
 import { calculosServices } from "../../../../services/calculosServices";
 import Slider from "../../Slider";
+import { ParametroServices } from "../../../../services/ParametroServices";
 
 const ModalNew = ({
   clave,
@@ -25,7 +26,7 @@ const ModalNew = ({
 }) => {
   
   const user: RESPONSE = JSON.parse(String(getUser()));
-  let year: number = new Date().getFullYear();
+  const [year , setyear] = useState<number>();
   const [slideropen, setslideropen] = useState(true);
   //LLENADO DE FILTRO
   const [mes, setMeses] = useState<SelectValues[]>([]);
@@ -63,6 +64,18 @@ const ModalNew = ({
     } else {
       setNameNewDoc(event.target!.files[0]!.name);
     }
+  };
+
+
+  const parametros = () => {
+    let data = {
+      NUMOPERACION: 5,
+      NOMBRE: "ANIO_OPERACION"
+    }
+    ParametroServices.ParametroGeneralesIndex(data).then((res) => {
+      setyear(Number(res.RESPONSE.Valor));
+    });
+
   };
 
 
@@ -197,6 +210,7 @@ const ModalNew = ({
   };
 
   useEffect(() => {
+    parametros();
     loadFilter(2);
     loadFilter(15);
     loadFilter(23);
