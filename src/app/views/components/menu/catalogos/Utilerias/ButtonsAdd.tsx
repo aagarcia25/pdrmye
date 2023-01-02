@@ -11,7 +11,7 @@ const ButtonsAdd = ({
   agregar: boolean;
 }) => {
   return (
-    <Box sx={{ alignItems: "center", height:"100%" }} >
+    <Box sx={{ alignItems: "center",  }} >
         <Grid
         container
         direction="row"
