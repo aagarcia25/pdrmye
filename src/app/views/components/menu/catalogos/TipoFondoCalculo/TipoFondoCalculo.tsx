@@ -84,7 +84,7 @@ const TipoFondoCalculo = () => {
       },
     },
     { field: "FechaCreacion" , headerName: "Fecha De Creación",           description: "Fecha De Creación",         width: 150 },
-    { field: "Descripcion"   , headerName: "Descripcion",                 description: "Descripcion",               width: 350 },
+    { field: "Descripcion"   , headerName: "Descripción",                 description: "Descripción",               width: 350 },
     { field: "NumProyecto"   , headerName: "Número De Proyecto	",        description: "Número De Proyecto	",      width: 150, },
     { field: "ConceptoEgreso", headerName: "Concepto De Egreso",          description: "Concepto De Egreso",        width: 150, },
     { field: "Clasificador01", headerName: "Administrativo	" ,           description: "Administrativo	" ,         width: 150, },
