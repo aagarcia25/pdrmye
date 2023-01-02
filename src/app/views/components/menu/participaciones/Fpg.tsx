@@ -50,7 +50,7 @@ export const Fpg = () => {
     setOpenTrazabilidad(true);
   };
 
-  const handleHeader = (v : any ) => {
+  const handleHeader = (v: any) => {
     console.log(v)
   };
 
@@ -174,8 +174,8 @@ export const Fpg = () => {
       ...Moneda,
       renderHeader: () => (
         <>
-          {"Total: "+currencyFormatter.format(Number(sumaTotal))}
-          </>
+          {"Total: " + currencyFormatter.format(Number(sumaTotal))}
+        </>
       ),
 
     },
@@ -213,11 +213,9 @@ export const Fpg = () => {
         setdata(res.RESPONSE);
         var sumatotal = 0;
         res.RESPONSE.map((item: FPG) => {
-      console.log(item.id + "  " + item.Total)
-      sumatotal = sumatotal + Number(item.Total)
-      setSumaTotal(sumatotal)
-    });
-    console.log(Number(sumaTotal))
+          sumatotal = sumatotal + Number(item.Total)
+          setSumaTotal(sumatotal)
+        });
         setslideropen(false);
       } else {
         AlertS.fire({
@@ -305,7 +303,7 @@ export const Fpg = () => {
             <Grid item sm={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
               <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
             </Grid>
-     
+
             <Grid item sm={12} sx={{
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>
