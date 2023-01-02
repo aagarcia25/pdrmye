@@ -24,3 +24,4 @@ yarn-error.log*
 /src/app/environments/env.ts
 /src/app/environments/*
 src/app/environments/env.ts
+src/app/environments/env.ts

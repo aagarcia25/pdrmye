@@ -197,7 +197,7 @@ export const ParametrosGenerales = () => {
         : ""}
       <NombreCatalogo controlInterno={"PG"} />
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGridMun columns={columns} rows={parametroGeneral} modulo={nombreMenu.toUpperCase().replace(' ','_')} handleBorrar={handleBorrar} borrar={false} />
+      <MUIXDataGridMun columns={columns} rows={parametroGeneral} modulo={nombreMenu.toUpperCase().replace(' ', '_')} handleBorrar={handleBorrar} controlInterno={"PG"}/>
     </div>
   );
 };

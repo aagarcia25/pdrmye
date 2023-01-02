@@ -20,6 +20,7 @@ export default function MUIXDataGridSimple(props: any) {
             disableColumnSelector
             disableDensitySelector
             rowsPerPageOptions={[12]}
+            getRowHeight={() => 'auto'}
             components={{ Toolbar: GridToolbar }}
             pageSize={20}
             columns={props.columns}

@@ -287,7 +287,7 @@ const IsnRecaudacion = () => {
         options={anios}
         onInputChange={handleFilterChange}
         placeholder={"Seleccione Año"} label={""} disabled={false} />
-      < MUIXDataGridMun columns={columns} rows={data} handleBorrar={handleBorrar} borrar={eliminar} modulo={'ISN RECAUDACION'} />
+      < MUIXDataGridMun columns={columns} rows={data} handleBorrar={handleBorrar} modulo={'ISN RECAUDACION'} controlInterno={'ISNR'} />
 
 
     </div>

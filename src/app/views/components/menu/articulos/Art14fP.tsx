@@ -136,13 +136,13 @@ export const Art14fP = () => {
         </Box>
         <div style={{ height: 600, width: "100%" }}>
           <MUIXDataGridMun columns={columns} rows={data} modulo={tipo == 1
-                  ? "Articulo_14_FI"
-                  : tipo === 2
-                    ? "Articulo_14_FII"
-                    : tipo === 3
-                      ? "Articulo_14_FIII"
-                      : ""} 
-                      handleBorrar={handleBorrar} borrar={false} />
+            ? "Articulo_14_FI"
+            : tipo === 2
+              ? "Articulo_14_FII"
+              : tipo === 3
+                ? "Articulo_14_FIII"
+                : ""}
+          handleBorrar={handleBorrar} controlInterno={""}  />
         </div>
       </Box>
 

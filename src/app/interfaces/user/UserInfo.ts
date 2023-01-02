@@ -18,6 +18,19 @@ export interface PERMISO {
 
 }
 
+export interface FPG {
+    id: string;
+    Clave: string;
+    Descripcion: string;
+    Anio: number;
+    nummes: number;
+    Mes: string;
+    Total: string;
+    estatus: string;
+    FechaCreacion: string;
+    Tipo: string;
+}
+
 export interface ITEMS {
     id: string;
     deleted: string;

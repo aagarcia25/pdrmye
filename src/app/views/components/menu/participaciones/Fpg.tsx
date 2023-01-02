@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { Moneda } from "../CustomToolbar";
+import { currencyFormatter, Moneda } from "../CustomToolbar";
 import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
 import { calculosServices } from "../../../../services/calculosServices";
 import { Toast } from "../../../../helpers/Toast";
@@ -14,7 +14,7 @@ import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
 import Trazabilidad from "../../Trazabilidad";
 import Slider from "../../Slider";
 import DetalleFgp from "./DetalleFgp";
-import { PERMISO } from "../../../../interfaces/user/UserInfo";
+import { FPG, PERMISO } from "../../../../interfaces/user/UserInfo";
 import { getPermisos } from "../../../../services/localStorage";
 import ModalNew from "./ModalNew";
 import ModalAjuste from "./ModalAjuste";
@@ -38,6 +38,8 @@ export const Fpg = () => {
   const [objfondo, setObjFondo] = useState<fondoinfo>();
   const [idDetalle, setIdDetalle] = useState("");
   const [nombreMenu, setNombreMenu] = useState("");
+  const [sumaTotal, setSumaTotal] = useState<Number>();
+
 
 
   const closeTraz = (v: any) => {
@@ -46,6 +48,10 @@ export const Fpg = () => {
   const handleTraz = (v: any) => {
     setIdtrazabilidad(v.row.id);
     setOpenTrazabilidad(true);
+  };
+
+  const handleHeader = (v : any ) => {
+    console.log(v)
   };
 
 
@@ -94,8 +100,6 @@ export const Fpg = () => {
                 <InfoIcon />
               </IconButton>
             </Tooltip>
-
-
             {agregarajuste && String(v.row.estatus) === "Inicio" ? (
               <Tooltip title="Agregar Ajuste">
                 <IconButton
@@ -112,8 +116,6 @@ export const Fpg = () => {
               ""
             )}
 
-
-
             {verTrazabilidad ? (
               <Tooltip title="Ver Trazabilidad">
                 <IconButton onClick={() => handleTraz(v)}>
@@ -126,6 +128,7 @@ export const Fpg = () => {
           </Box>
         );
       },
+
     },
     {
       field: "FechaCreacion",
@@ -169,6 +172,12 @@ export const Fpg = () => {
       width: 180,
       description: "Total",
       ...Moneda,
+      renderHeader: () => (
+        <>
+          {"Total: "+currencyFormatter.format(Number(sumaTotal))}
+          </>
+      ),
+
     },
     {
       field: "estatus",
@@ -202,6 +211,13 @@ export const Fpg = () => {
           title: "Consulta Exitosa!",
         });
         setdata(res.RESPONSE);
+        var sumatotal = 0;
+        res.RESPONSE.map((item: FPG) => {
+      console.log(item.id + "  " + item.Total)
+      sumatotal = sumatotal + Number(item.Total)
+      setSumaTotal(sumatotal)
+    });
+    console.log(Number(sumaTotal))
         setslideropen(false);
       } else {
         AlertS.fire({
@@ -225,6 +241,7 @@ export const Fpg = () => {
   useEffect(() => {
     setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
+
       if (String(item.ControlInterno) === String(params.fondo).replace(/\s/g, "")) {
         if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
@@ -238,8 +255,10 @@ export const Fpg = () => {
       }
     });
 
+
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
+
 
   }, [params.fondo, nombreMenu]);
 
@@ -277,7 +296,7 @@ export const Fpg = () => {
           handleClose={handleClose}
           clave={clave}
           anio={anio}
-          mes={mes} tipoCalculo={tipoCalculo}        />
+          mes={mes} tipoCalculo={tipoCalculo} />
         : ""}
 
       {step === 0 ?
@@ -286,10 +305,11 @@ export const Fpg = () => {
             <Grid item sm={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
               <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
             </Grid>
+     
             <Grid item sm={12} sx={{
-              display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <MUIXDataGridMun columns={columns} rows={data} modulo={nombreMenu} handleBorrar={handleBorrar} borrar={false} />
-
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <MUIXDataGridMun columns={columns} rows={data} modulo={nombreMenu} handleBorrar={handleBorrar} controlInterno={String(params.fondo).replace(/\s/g, "")} />
             </Grid>
           </Grid>
         </div>

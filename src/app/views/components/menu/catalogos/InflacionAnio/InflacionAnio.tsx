@@ -178,7 +178,7 @@ const InflacionAnio = () => {
       <NombreCatalogo controlInterno={"INFANIO"} />
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGridMun columns={columns} rows={dataInflacionAnio} modulo={"INFANIO"} handleBorrar={handleBorrar} borrar={false} />
+      <MUIXDataGridMun columns={columns} rows={dataInflacionAnio} modulo={"INFANIO"} handleBorrar={handleBorrar} controlInterno={"INFANIO"} />
 
       
     </div>

@@ -67,9 +67,7 @@ export const MunPobreza = () => {
     { field: "Nombre", headerName: "Municipio", description: "Municipio", width: 150 },
     { field: "Anio", headerName: "Año", description: "Año", width: 150 },
     { field: "Total", headerName: "Total", description: "Total", width: 100 },
-    {
-      field: "CarenciaProm", headerName: "Carencia Promedio", description: "Carencia Promedio", width: 150, ...porcentage
-      
+    { field: "CarenciaProm", headerName: "Carencia Promedio", description: "Carencia Promedio", width: 150, ...porcentage 
     },
 
   ];
@@ -302,7 +300,7 @@ export const MunPobreza = () => {
         placeholder={"Seleccione Año"} label={''} disabled={false}
         value={''} />
 
-      < MUIXDataGridMun columns={columns} rows={dataMunPobreza} handleBorrar={handleBorrar} borrar={eliminar} modulo={'POBREZA'} />
+      < MUIXDataGridMun columns={columns} rows={dataMunPobreza} handleBorrar={handleBorrar} modulo={'POBREZA'} controlInterno={"MUNPOBREZA"} />
 
       {open ? (
         <MunPobrezaModal

@@ -323,7 +323,7 @@ export const MunFacturacion = () => {
         options={anios}
         onInputChange={handleFilterChange}
         placeholder={"Seleccione Año"} label={""} disabled={false} />
-      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} />
+      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNFA"} />
 
       {open ? (
         <MunFacturacionModal

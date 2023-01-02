@@ -192,7 +192,7 @@ const InflacionMes = () => {
  	        <NombreCatalogo controlInterno={"INFMES"} />
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGridMun columns={columns} rows={dataInflacionMes} modulo={nombreMenu.toUpperCase().replace(' ','_')} handleBorrar={handleBorrar} borrar={false} />
+      <MUIXDataGridMun columns={columns} rows={dataInflacionMes} modulo={nombreMenu.toUpperCase().replace(' ', '_')} handleBorrar={handleBorrar} controlInterno={"INFMES"} />
 
     </div>
   )

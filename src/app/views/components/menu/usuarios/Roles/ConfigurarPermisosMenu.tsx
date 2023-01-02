@@ -44,8 +44,8 @@ const ConfigurarPermisosMenu = ({
       hide: true,
       width: 10,
     },
-    { field: "Permiso", headerName: "Permiso", width: 150 },
-    { field: "Descripcion", headerName: "Descripcion", width: 300 },
+    { field: "Permiso",     headerName: "Permiso",    description: "Permiso",     width: 150 },
+    { field: "Descripcion", headerName: "Descripción",description: "Descripción", width: 300 },
     {
       field: "acciones",  disableExport: true,
       headerName: "",
@@ -93,8 +93,8 @@ const ConfigurarPermisosMenu = ({
 
       },
     },
-    { field: "Permiso", headerName: "Permiso", width: 300 },
-    { field: "Descripcion", headerName: "Descripcion", width: 300 },
+    { field: "Permiso",     headerName: "Permiso",    description: "Permiso",     width: 300 },
+    { field: "Descripcion", headerName: "Descripción",description: "Descripción", width: 300 },
 
   ];
 

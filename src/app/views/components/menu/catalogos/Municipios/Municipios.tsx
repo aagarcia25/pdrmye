@@ -68,12 +68,13 @@ export const Municipios = () => {
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 250,
       renderCell: (v) => {
         return (
           <>
-            <Box>
-              {fideicomiso ? (
+          <Grid item xs={8}>
+
+                   {fideicomiso ? (
                 <Tooltip title={"Visualizar Fideicomisos"}>
                   <IconButton onClick={() => handleFideicomiso(v)}>
                     <RequestQuoteIcon />
@@ -100,20 +101,22 @@ export const Municipios = () => {
               ) : (
                 ""
               )}
-            </Box>
-            <Box>
+
+
+            </Grid>
+             <Grid item xs={4}>
               <BotonesAcciones
                 handleAccion={handleAccion}
                 row={v}
                 editar={editar}
                 eliminar={eliminar}
               ></BotonesAcciones>
-            </Box>
+              </Grid>
           </>
         );
       },
     },
-    { field: "FechaCreacion",   headerName: "Fecha Creación",         description: "Fecha Creación",            width: 150 },
+    { field: "FechaCreacion",   headerName: "Fecha Creación",         description: "Fecha Creación",            width: 180 },
     { field: "ClaveEstado",     headerName: "Clave Estado",           description: "Clave Estado",              width: 120 },
     { field: "Nombre",          headerName: "Municipio",              description: "Municipio",                 width: 250 },
     { field: "NombreCorto",     headerName: "Nombre Corto",           description: "Nombre Corto",              width: 250 },
@@ -368,10 +371,9 @@ export const Municipios = () => {
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-
       <NombreCatalogo controlInterno={"MUNICIPIOS"} />
 
-      <MUIXDataGridMun columns={columns} rows={municipio} handleBorrar={handleBorrar} borrar={eliminar} modulo={nombreMenu.toUpperCase().replace(' ','_')} />
+      <MUIXDataGridMun columns={columns} rows={municipio} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNICIPIOS"} />
       {open ? (
         <MunicipiosModal
           open={open}
