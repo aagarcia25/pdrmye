@@ -72,7 +72,6 @@ export const Fpg = () => {
   };
 
   const handleDetalle = (v: any) => {
-    console.log(v.row)
     setIdtrazabilidad(v.row.id);
     setClave(v.row.Clave)
     setIdDetalle(String(v.row.id));

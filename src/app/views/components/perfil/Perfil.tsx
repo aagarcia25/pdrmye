@@ -52,10 +52,8 @@ export const Perfil = () => {
     UserServices.verify({}).then((res) => {
       if (res.status === 200) {
         setTokenValid(true)
-        console.log("verify true")
         onClickChangePassword();
       } else if (res.status === 401) {
-        console.log("verify false")
         UserServices.refreshToken().then((resAppLogin) => {
           if (resAppLogin.status === 200) {
             setTokenValid(true);
@@ -126,9 +124,7 @@ export const Perfil = () => {
     UserServices.verify({}).then((res) => {
       if (res.status === 200) {
         setTokenValid(true)
-        console.log("verify true")
       } else if (res.status === 401) {
-        console.log("verify false")
         UserServices.refreshToken().then((resAppLogin) => {
           if (resAppLogin.status === 200) {
             setTokenValid(true);

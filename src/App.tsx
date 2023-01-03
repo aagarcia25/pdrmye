@@ -170,7 +170,6 @@ function App() {
 
     UserServices.login(data).then((res) => {
       if (res.status === 200) {
-        console.log(res.data)
         setBloqueoStatus(false)
        
       } else if (res.status === 401) {
