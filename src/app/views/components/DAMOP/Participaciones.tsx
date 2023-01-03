@@ -377,7 +377,7 @@ const Participaciones = () => {
   };
 
   const openmodalc = (operacion: number) => {
-    if (selectionModel.length > 1) {
+    if (selectionModel.length >= 1) {
       setnumerooperacion(operacion);
       setOpenModal(true);
     } else {
