@@ -95,7 +95,7 @@ export const Fpg = () => {
       renderCell: (v) => {
         return (
           <Box>
-            <Tooltip title="Ver detalle de Cálculo">
+            <Tooltip title="Ver Detalle de Cálculo">
               <IconButton onClick={() => handleDetalle(v)}>
                 <InfoIcon />
               </IconButton>

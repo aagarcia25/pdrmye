@@ -54,7 +54,7 @@ export const Art14fP = () => {
       renderCell: (v) => {
         return (
           <Box>
-            <Tooltip title="Ver detalle de Cálculo">
+            <Tooltip title="Ver Detalle de Cálculo">
               <IconButton onClick={() => handleView(v)}>
                 <InfoIcon />
               </IconButton>

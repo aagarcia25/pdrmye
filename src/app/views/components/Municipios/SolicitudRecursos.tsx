@@ -96,7 +96,7 @@ const SolicitudRecursos = () => {
     {
       field: "acciones",  disableExport: true,
       headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
+      description: "Ver Detalle de Cálculo",
       sortable: false,
       width: 150,
       renderCell: (v) => {
@@ -201,7 +201,7 @@ const SolicitudRecursos = () => {
     {
       field: "seguimiento",
       headerName: "Seguimiento",
-      description: "Ver detalle de Cálculo",
+      description: "Ver Detalle de Cálculo",
       sortable: false,
       width: 150,
       renderCell: (v) => {

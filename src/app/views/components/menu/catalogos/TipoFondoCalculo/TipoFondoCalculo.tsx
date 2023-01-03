@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import Title from "../../../componentes/Title";
 import TipoFondoCalculoModal from "./TipoFondoCalculoModal";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import React from "react";
@@ -84,7 +83,7 @@ const TipoFondoCalculo = () => {
       },
     },
     { field: "FechaCreacion" , headerName: "Fecha De Creación",           description: "Fecha De Creación",         width: 150 },
-    { field: "Descripcion"   , headerName: "Descripcion",                 description: "Descripcion",               width: 350 },
+    { field: "Descripcion"   , headerName: "Descripción",                 description: "Descripción",               width: 350 },
     { field: "NumProyecto"   , headerName: "Número De Proyecto	",        description: "Número De Proyecto	",      width: 150, },
     { field: "ConceptoEgreso", headerName: "Concepto De Egreso",          description: "Concepto De Egreso",        width: 150, },
     { field: "Clasificador01", headerName: "Administrativo	" ,           description: "Administrativo	" ,         width: 150, },

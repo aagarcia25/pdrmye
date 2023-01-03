@@ -104,13 +104,13 @@ export const AnticipoParticipaciones = () => {
         {
             field: "acciones",  disableExport: true,
             headerName: "Acciones",
-            description: "Ver detalle de Cálculo",
+            description: "Ver Detalle de Cálculo",
             sortable: false,
             width: 150,
             renderCell: (v) => {
                 return (
                     <Box>
-                        <Tooltip title="Ver detalle de Cálculo">
+                        <Tooltip title="Ver Detalle de Cálculo">
                             <IconButton onClick={() => handleDetalle(v)}>
                                 <InfoIcon />
                             </IconButton>
@@ -147,7 +147,7 @@ export const AnticipoParticipaciones = () => {
         {
             field: "seguimiento",
             headerName: "Seguimiento",
-            description: "Ver detalle de Cálculo",
+            description: "Ver Detalle de Cálculo",
             sortable: false,
             width: 150,
             renderCell: (v) => {
