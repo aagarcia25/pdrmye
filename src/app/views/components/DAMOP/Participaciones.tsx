@@ -58,12 +58,16 @@ const Participaciones = () => {
     React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
-  const [tipos, setTipos] = useState<SelectValues[]>([]);
+  const [tiposFondo, setTiposFondo] = useState<SelectValues[]>([]);
+  const [tiposSolicitud, setTiposSolicitud] = useState<SelectValues[]>([]);
+
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
   //Constantes de los filtros
   const [numerooperacion, setnumerooperacion] = useState(0);
-  const [idtipo, setIdTipo] = useState("");
+  const [idtipoFondo, setIdTipoFondo] = useState("");
+  const [idtipoSolicitud, setIdTipoSolicitud] = useState("");
+
   const [idFondo, setIdFondo] = useState("");
   const [idMunicipio, setidMunicipio] = useState("");
   //Constantes para las columnas
@@ -75,6 +79,8 @@ const Participaciones = () => {
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
   const [descPlant, setDescPlant] = useState<boolean>(false);
   const [disFide, setDisFide] = useState<boolean>(false);
+  const [intOperaciones, setIntOperaciones] = useState<boolean>(true);
+
 
   const downloadplantilla = () => {
     let data = {
@@ -114,7 +120,7 @@ const Participaciones = () => {
               ""
             )}
 
-            
+
           </Box>
         );
       },
@@ -177,8 +183,8 @@ const Participaciones = () => {
       width: 150,
       description: "Beneficiario",
     },
-  
-  
+
+
     {
       field: "uresclave",
       headerName: "U. Resp",
@@ -199,7 +205,7 @@ const Participaciones = () => {
       headerName: "Cpto. de  Cheque",
       width: 270,
     },
-   
+
     {
       field: "estatus",
       headerName: "Estatus",
@@ -325,7 +331,10 @@ const Participaciones = () => {
       } else if (operacion === 5) {
         setMunicipios(res.RESPONSE);
       } else if (operacion === 17) {
-        setTipos(res.RESPONSE);
+        setTiposFondo(res.RESPONSE);
+        setslideropen(false);
+      } else if (operacion === 24) {
+        setTiposSolicitud(res.RESPONSE);
         setslideropen(false);
       }
     });
@@ -338,15 +347,22 @@ const Participaciones = () => {
   };
 
   const handleFilterChange1 = (v: string) => {
-    setIdTipo(v);
+    setIdTipoFondo(v);
+
   };
 
   const handleFilterChange2 = (v: string) => {
     setIdFondo(v);
+    if (v.length <6){ setIntOperaciones(true)}
   };
 
   const handleFilterChange3 = (v: string) => {
     setidMunicipio(v);
+    if (v.length <6){ setIntOperaciones(true)}
+  };
+  const handleFilterChange4 = (v: string) => {
+    setIdTipoSolicitud(v);
+    if (v.length <6){ setIntOperaciones(true)}
   };
 
   const Fnworkflow = (data: string) => {
@@ -463,7 +479,7 @@ const Participaciones = () => {
   };
 
   const eliminar = () => {
-    
+
     if (selectionModel.length !== 0) {
       Swal.fire({
         icon: "error",
@@ -480,27 +496,27 @@ const Participaciones = () => {
             CHUSER: user.id,
           };
 
-              DPCPServices.eliminarSolicitudes(data).then((res) => {
-                if (res.SUCCESS) {
-                  AlertS.fire({
-                    title: "Información!",
-                    text: res.RESPONSE,
-                    icon: "success",
-                  });
-                 
-                } else {
-                  AlertS.fire({
-                    title: "Error!",
-                    text: res.STRMESSAGE,
-                    icon: "error",
-                  });
-                }
+          DPCPServices.eliminarSolicitudes(data).then((res) => {
+            if (res.SUCCESS) {
+              AlertS.fire({
+                title: "Información!",
+                text: res.RESPONSE,
+                icon: "success",
               });
-            
-       
+
+            } else {
+              AlertS.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+
+
         }
       });
-  
+
     } else {
       AlertS.fire({
         title: "Error!",
@@ -511,8 +527,8 @@ const Participaciones = () => {
   };
 
   const integrarOperaciones = () => {
-    
-    if (selectionModel.length >1) {
+
+    if (selectionModel.length > 1) {
       Swal.fire({
         icon: "info",
         title: "Integración",
@@ -552,7 +568,7 @@ const Participaciones = () => {
           });
         }
       });
-  
+
     } else {
       AlertS.fire({
         title: "Error!",
@@ -601,11 +617,14 @@ const Participaciones = () => {
 
   const handleClick = () => {
     //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
+    if (idtipoSolicitud || idFondo || idMunicipio) {
+      setIntOperaciones(false)
 
+    }
     let data = {
       P_FONDO: idFondo === "false" ? "" : idFondo,
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      P_IDTIPO: idtipo === "false" ? "" : idtipo,
+      P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
     };
     //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
@@ -629,6 +648,7 @@ const Participaciones = () => {
     loadFilter(12);
     loadFilter(5);
     loadFilter(17);
+    loadFilter(24);
     handleClick();
     downloadplantilla();
     permisos.map((item: PERMISO) => {
@@ -665,9 +685,9 @@ const Participaciones = () => {
         ""
       )}
 
-     {openModalDescuento ? (
+      {openModalDescuento ? (
         <Descuentos
-         tipo={1} handleClose={handleClose} dt={vrows} />
+          tipo={1} handleClose={handleClose} dt={vrows} />
       ) : (
         ""
       )}
@@ -683,19 +703,32 @@ const Participaciones = () => {
           </Grid>
         </Grid>
 
-        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>Tipo:</Typography>
+        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}  direction="row"
+  justifyContent="center"
+  alignItems="center" >
+          <Grid item xs={6} sm={4} md={3} lg={2.5}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
             <SelectFrag
-              value={idtipo}
-              options={tipos}
+              value={idtipoFondo}
+              options={tiposFondo}
               onInputChange={handleFilterChange1}
-              placeholder={"Seleccione Tipo"}
+              placeholder={"Seleccione Tipo De Fondo"}
               label={""}
               disabled={false}
             />
           </Grid>
-          <Grid item xs={2} sm={2} md={2} lg={2}>
+          <Grid item xs={6} sm={4} md={3} lg={2.5}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
+            <SelectFrag
+              value={idtipoSolicitud}
+              options={tiposSolicitud}
+              onInputChange={handleFilterChange4}
+              placeholder={"Seleccione Tipo De Solicitud"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
+          <Grid item xs={6} sm={4} md={3} lg={2.5}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFrag
               value={idFondo}
@@ -707,7 +740,7 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={2} sm={2} md={2} lg={2} paddingBottom={1}>
+          <Grid item xs={6} sm={4} md={3} lg={2.5} paddingBottom={1}>
             <Typography sx={{ fontFamily: "sans-serif" }}>
               Municipio:
             </Typography>
@@ -735,8 +768,8 @@ const Participaciones = () => {
 
         <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
           <ToggleButtonGroup>
-          <Tooltip title={"Integrar Operaciones"}>
-              <ToggleButton value="check" onClick={() => integrarOperaciones()}>
+            <Tooltip title={"Integrar Operaciones"}>
+              <ToggleButton value="check" disabled={ data.length ===0 || intOperaciones || idtipoSolicitud.length <6 || idFondo.length <6 || idMunicipio.length <6} onClick={() => integrarOperaciones()}>
                 <CallMergeIcon />
               </ToggleButton>
             </Tooltip>
@@ -811,15 +844,15 @@ const Participaciones = () => {
               ""
             )}
 
-            {cargarPlant ? ( 
+            {cargarPlant ? (
               <Tooltip title={"Eliminar Registro"}>
-                <ToggleButton  value="check"  onClick={() => eliminar()}>
+                <ToggleButton value="check" onClick={() => eliminar()}>
                   <DeleteForeverIcon />
                 </ToggleButton>
               </Tooltip>
             ) : (
-               "" 
-             )} 
+              ""
+            )}
           </ToggleButtonGroup>
         </Grid>
 
