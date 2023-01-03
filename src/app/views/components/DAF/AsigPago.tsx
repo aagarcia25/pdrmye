@@ -77,7 +77,7 @@ const AsigPago = () => {
     {
       field: "acciones",  disableExport: true,
       headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
+      description: "Ver Detalle de Cálculo",
       sortable: false,
       width: 150,
       renderCell: (v: any) => {
@@ -169,7 +169,7 @@ const AsigPago = () => {
     {
       field: "acciones",  disableExport: true,
       headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
+      description: "Ver Detalle de Cálculo",
       sortable: false,
       width: 150,
       renderCell: (v: any) => {
@@ -254,7 +254,7 @@ const AsigPago = () => {
     {
       field: "acciones",  disableExport: true,
       headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
+      description: "Ver Detalle de Cálculo",
       sortable: false,
       width: 150,
       renderCell: (v: any) => {
