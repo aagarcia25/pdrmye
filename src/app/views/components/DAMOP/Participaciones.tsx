@@ -95,6 +95,31 @@ const Participaciones = () => {
   const columnsParticipaciones = [
     { field: "id", hide: true },
     {
+      field: "acciones",
+      disableExport: true,
+      headerName: "Agregar Descuentos",
+      description: "Agregar Descuentos",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            {String(v.row.NumParticipacion) !== 'null' ? (
+              <Tooltip title="Agregar Descuentos">
+                <IconButton onClick={() => handleDescuento(v)}>
+                  <AttachMoneyIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+            
+          </Box>
+        );
+      },
+    },
+    {
       field: "Anio",
       headerName: "Ejercicio",
       width: 100,
@@ -125,41 +150,9 @@ const Participaciones = () => {
       description: "Municipio",
     },
     {
-      field: "ClaveBeneficiario",
-      headerName: "Cve. Beneficiario",
+      field: "tipocalculo",
+      headerName: "Tipo Cálculo",
       width: 150,
-      description: "Beneficiario",
-    },
-    {
-      field: "DescripcionBeneficiario",
-      headerName: "Beneficiario",
-      width: 150,
-      description: "Beneficiario",
-    },
-    {
-      field: "acciones",
-      disableExport: true,
-      headerName: "Agregar Descuentos",
-      description: "Agregar Descuentos",
-      sortable: false,
-      width: 150,
-      renderCell: (v: any) => {
-        return (
-          <Box>
-            {String(v.row.Clave) === "FGP" ? (
-              <Tooltip title="Agregar Descuentos">
-                <IconButton onClick={() => handleDescuento(v)}>
-                  <AttachMoneyIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-
-            
-          </Box>
-        );
-      },
     },
     {
       field: "Clave",
@@ -172,6 +165,20 @@ const Participaciones = () => {
       headerName: "Descripción de Fondo",
       width: 250,
     },
+    {
+      field: "ClaveBeneficiario",
+      headerName: "Cve. Beneficiario",
+      width: 150,
+      description: "Beneficiario",
+    },
+    {
+      field: "DescripcionBeneficiario",
+      headerName: "Beneficiario",
+      width: 150,
+      description: "Beneficiario",
+    },
+  
+  
     {
       field: "uresclave",
       headerName: "U. Resp",
@@ -192,11 +199,7 @@ const Participaciones = () => {
       headerName: "Cpto. de  Cheque",
       width: 270,
     },
-    {
-      field: "tipocalculo",
-      headerName: "Tipo Cálculo",
-      width: 150,
-    },
+   
     {
       field: "estatus",
       headerName: "Estatus",
@@ -275,6 +278,12 @@ const Participaciones = () => {
       headerName: "Observaciones",
       width: 400,
       description: "Observaciones",
+    },
+    {
+      field: "NumParticipacion",
+      headerName: "Nº De Participación",
+      width: 200,
+      description: "Número De Participación",
     },
     {
       field: "NumSolEgreso",
@@ -471,18 +480,14 @@ const Participaciones = () => {
             CHUSER: user.id,
           };
 
-          AlertS.fire({
-            title: "Solicitud Enviada",
-            icon: "success",
-          }).then(async (result) => {
-            if (result.isConfirmed) {
               DPCPServices.eliminarSolicitudes(data).then((res) => {
                 if (res.SUCCESS) {
-                  Toast.fire({
+                  AlertS.fire({
+                    title: "Información!",
+                    text: res.RESPONSE,
                     icon: "success",
-                    title: "Consulta Exitosa!",
                   });
-                  handleClick();
+                 
                 } else {
                   AlertS.fire({
                     title: "Error!",
@@ -491,8 +496,8 @@ const Participaciones = () => {
                   });
                 }
               });
-            }
-          });
+            
+       
         }
       });
   
@@ -667,7 +672,7 @@ const Participaciones = () => {
         ""
       )}
 
-      <Grid container spacing={1} padding={2}>
+      <Grid container spacing={1} padding={0}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={10} sx={{ textAlign: "center" }}>
@@ -717,7 +722,7 @@ const Participaciones = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
+        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
           <Button
             onClick={handleClick}
             variant="contained"
@@ -735,11 +740,11 @@ const Participaciones = () => {
                 <CallMergeIcon />
               </ToggleButton>
             </Tooltip>
-            <Tooltip title={"Solicitar Suficiencia Presupuestal"}>
+            {/* <Tooltip title={"Solicitar Suficiencia Presupuestal"}>
               <ToggleButton value="check" onClick={() => openmodalc(1)}>
                 <AttachMoneyIcon />
               </ToggleButton>
-            </Tooltip>
+            </Tooltip> */}
             <Tooltip title={"Generar Solicitud"}>
               <ToggleButton value="check" onClick={() => SolicitudOrdenPago()}>
                 <SettingsSuggestIcon />
