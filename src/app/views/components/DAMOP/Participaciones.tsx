@@ -625,6 +625,8 @@ const Participaciones = () => {
       P_FONDO: idFondo === "false" ? "" : idFondo,
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
+      P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
+
     };
     //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
@@ -740,10 +742,8 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={6} sm={4} md={3} lg={2.5} paddingBottom={1}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>
-              Municipio:
-            </Typography>
+          <Grid item xs={6} sm={4} md={3} lg={2.5}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
             <SelectFrag
               value={idMunicipio}
               options={municipio}
