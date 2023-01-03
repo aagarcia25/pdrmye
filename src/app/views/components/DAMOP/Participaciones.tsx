@@ -42,7 +42,7 @@ import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
 import { DAMOPServices } from "../../../services/DAMOPServices";
 import ModalDAMOP from "../componentes/ModalDAMOP";
-import { REQAnticipo } from "./REQAnticipo";
+
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Descuentos } from "./Descuentos";
 
@@ -111,7 +111,7 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {String(v.row.NumParticipacion) !== 'null' ? (
+            {String(v.row.NumParticipacion) !== 'null'  &&  String(v.row.NumEgreso) === 'null' ? (
               <Tooltip title="Agregar Descuentos">
                 <IconButton onClick={() => handleDescuento(v)}>
                   <AttachMoneyIcon />
@@ -120,6 +120,38 @@ const Participaciones = () => {
             ) : (
               ""
             )}
+
+         {String(v.row.NumParticipacion) !== 'null'  &&  String(v.row.NumEgreso) === 'null' ? (
+              <Tooltip title="Transferir Participación">
+                <IconButton onClick={() => handleDescuento(v)}>
+                  <AttachMoneyIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+    {String(v.row.NumParticipacion) !== 'null'  &&  String(v.row.NumEgreso) !== 'null'  &&  String(v.row.NumOrdenPago) === 'null' ? (
+              <Tooltip title="Autorizar egreso">
+                <IconButton onClick={() => handleDescuento(v)}>
+                  <AttachMoneyIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+
+{String(v.row.NumParticipacion) !== 'null'  &&  String(v.row.NumEgreso) !== 'null' &&  String(v.row.NumOrdenPago) === 'null' ? (
+              <Tooltip title="Generar Solicitud de Pago">
+                <IconButton onClick={() => handleDescuento(v)}>
+                  <AttachMoneyIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
 
 
           </Box>
@@ -430,6 +462,19 @@ const Participaciones = () => {
     });
   };
 
+  const handleUploadprestamos = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setslideropen(true);
+    let file = event?.target?.files?.[0] || "";
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlxs");
+    formData.append("CHUSER", user.id);
+    formData.append("tipo", "prestamosParticipaciones");
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+      handleClick();
+    });
+  };
+
   const Disitribuir = () => {
     if (selectionModel.length === 1) {
       Swal.fire({
@@ -709,11 +754,7 @@ const Participaciones = () => {
         ""
       )}
 
-      {openModalAnticipo ? (
-        <REQAnticipo tipo={1} handleClose={handleClose} dt={""} />
-      ) : (
-        ""
-      )}
+    
 
       {openModalDescuento ? (
         <Descuentos
@@ -796,6 +837,7 @@ const Participaciones = () => {
 
         <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
           <ToggleButtonGroup>
+
             <Tooltip title={"Integrar Operaciones"}>
               <ToggleButton value="check" 
               disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6} 
@@ -803,26 +845,47 @@ const Participaciones = () => {
                 <CallMergeIcon />
               </ToggleButton>
             </Tooltip>
-            {/* <Tooltip title={"Solicitar Suficiencia Presupuestal"}>
-              <ToggleButton value="check" onClick={() => openmodalc(1)}>
-                <AttachMoneyIcon />
-              </ToggleButton>
-            </Tooltip> */}
+           
+
             <Tooltip title={"Generar Solicitud"}>
               <ToggleButton value="check" onClick={() => SolicitudOrdenPago()}>
                 <SettingsSuggestIcon />
               </ToggleButton>
             </Tooltip>
+
             <Tooltip title={"Asignar Comentario"}>
               <ToggleButton value="check" onClick={() => openmodalc(2)}>
                 <FormatAlignLeftIcon />
               </ToggleButton>
             </Tooltip>
-            <Tooltip title={"Generar Anticipo"}>
-              <ToggleButton value="check" onClick={() => openmodalAnticipo()}>
-                <CurrencyExchangeIcon />
-              </ToggleButton>
-            </Tooltip>
+
+
+
+
+            {cargarPlant ? (
+              <Tooltip title={"Generar Anticipos"}>
+                <ToggleButton value="check">
+                  <IconButton
+                    aria-label="upload documento"
+                    component="label"
+                    size="large"
+                  >
+                    <input
+                      hidden
+                      accept=".xlsx, .XLSX, .xls, .XLS"
+                      type="file"
+                      value=""
+                      onChange={(v) => handleUploadprestamos(v)}
+                    />
+                    <CurrencyExchangeIcon />
+                  </IconButton>
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+
 
             {descPlant ? (
               <Tooltip title={"Descargar Plantilla"}>
