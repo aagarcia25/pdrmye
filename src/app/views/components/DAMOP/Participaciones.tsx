@@ -80,6 +80,7 @@ const Participaciones = () => {
   const [descPlant, setDescPlant] = useState<boolean>(false);
   const [disFide, setDisFide] = useState<boolean>(false);
   const [intOperaciones, setIntOperaciones] = useState<boolean>(true);
+  const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
 
 
   const downloadplantilla = () => {
@@ -336,6 +337,7 @@ const Participaciones = () => {
       } else if (operacion === 24) {
         setTiposSolicitud(res.RESPONSE);
         setslideropen(false);
+
       }
     });
   };
@@ -353,16 +355,22 @@ const Participaciones = () => {
 
   const handleFilterChange2 = (v: string) => {
     setIdFondo(v);
-    if (v.length <6){ setIntOperaciones(true)}
+    setIntOperaciones(true); setMunTieneFide (false);
+    // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false);  }
   };
 
   const handleFilterChange3 = (v: string) => {
     setidMunicipio(v);
-    if (v.length <6){ setIntOperaciones(true)}
+    setIntOperaciones(true); setMunTieneFide (false)
+    // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false) }
+
+
+
   };
   const handleFilterChange4 = (v: string) => {
     setIdTipoSolicitud(v);
-    if (v.length <6){ setIntOperaciones(true)}
+    setIntOperaciones(true); setMunTieneFide (false)
+    // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false) }
   };
 
   const Fnworkflow = (data: string) => {
@@ -622,6 +630,7 @@ const Participaciones = () => {
 
     }
     let data = {
+      TIPO: 1,
       P_FONDO: idFondo === "false" ? "" : idFondo,
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
@@ -644,9 +653,26 @@ const Participaciones = () => {
         });
       }
     });
+    let dataDis = {
+      TIPO: 2,
+      P_IDMUNICIPIO: idMunicipio,
+
+    };
+    //console.log(data);
+    DPCPServices.GetParticipaciones(dataDis).then((res) => {
+      if (res.SUCCESS) {
+        // setData(res.RESPONSE);
+        console.log(res.RESPONSE[0].numFideicomisos)
+        if(res.RESPONSE[0].numFideicomisos!==0){
+          setMunTieneFide(true);
+        }
+      } else {
+      }
+    });
   };
 
   useEffect(() => {
+    handleClick();
     loadFilter(12);
     loadFilter(5);
     loadFilter(17);
@@ -665,7 +691,9 @@ const Participaciones = () => {
         }
       }
     });
-  }, []);
+  }, [
+    // munTieneFide
+  ]);
 
   return (
     <div>
@@ -705,9 +733,9 @@ const Participaciones = () => {
           </Grid>
         </Grid>
 
-        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}  direction="row"
-  justifyContent="center"
-  alignItems="center" >
+        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12} direction="row"
+          justifyContent="center"
+          alignItems="center" >
           <Grid item xs={6} sm={4} md={3} lg={2.5}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
             <SelectFrag
@@ -769,7 +797,9 @@ const Participaciones = () => {
         <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
           <ToggleButtonGroup>
             <Tooltip title={"Integrar Operaciones"}>
-              <ToggleButton value="check" disabled={ data.length ===0 || intOperaciones || idtipoSolicitud.length <6 || idFondo.length <6 || idMunicipio.length <6} onClick={() => integrarOperaciones()}>
+              <ToggleButton value="check" 
+              disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6} 
+              onClick={() => integrarOperaciones()}>
                 <CallMergeIcon />
               </ToggleButton>
             </Tooltip>
@@ -836,7 +866,9 @@ const Participaciones = () => {
             )}
             {disFide ? (
               <Tooltip title={"Distribuir en Fideicomisos"}>
-                <ToggleButton value="check" onClick={() => Disitribuir()}>
+                <ToggleButton value="check" 
+                disabled={!munTieneFide ||data.length === 0 || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6} 
+                onClick={() => Disitribuir()}>
                   <AccountTreeIcon />
                 </ToggleButton>
               </Tooltip>
