@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import Title from "../../../componentes/Title";
 import TipoFondoCalculoModal from "./TipoFondoCalculoModal";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import React from "react";
