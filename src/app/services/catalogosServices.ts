@@ -155,5 +155,9 @@ export class CatalogosServices {
     public static async indexISN(data : any) {
         return await post('indexISN', data);
     };
+
+    public static async getliga(data : any) {
+        return await post('getliga', data);
+    };
     
 }

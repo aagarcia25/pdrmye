@@ -51,7 +51,7 @@ export const ListNotification = () => {
 
             {modo === "ViewMessage" ? (
               <Tooltip title={"Ir A"}>
-                <IconButton onClick={() => viewMessageModal(v)}>
+                <IconButton onClick={() => goa(v)}>
                   <DoubleArrowIcon />
                 </IconButton>
               </Tooltip>
@@ -83,7 +83,7 @@ export const ListNotification = () => {
       description: "Encabezado",
       width: 550,
     },
-    { field: "Descripcion", headerName: "Mensage", width: 550 },
+    { field: "Descripcion", headerName: "Mensaje", width: 550 },
     { field: "Visto", headerName: "Visto", width: 300, hide: true },
     {
       field: "Destinatario",
@@ -111,6 +111,21 @@ export const ListNotification = () => {
     setOpen(true);
     setData(v);
   };
+
+  
+
+  const goa = (v: any) => {
+   
+    console.log(v);
+   /* let dat = {
+      NUMOPERACION: v,
+      CHUSER: user.id,
+    };
+    CatalogosServices.getliga(dat).then((res) => {
+      setNotificacion(res.RESPONSE);
+    });*/
+  };
+
 
   const viewMessageReading = (v: number) => {
     setModo("viewMessageReading");
