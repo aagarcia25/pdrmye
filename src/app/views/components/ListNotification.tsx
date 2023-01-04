@@ -10,6 +10,7 @@ import ListNotificationsModal from "./ListNotificationsModal";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { COLOR } from "../../styles/colors";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
+import { useNavigate } from "react-router-dom";
 
 export const ListNotification = () => {
   const [notificacion, setNotificacion] = useState([]);
@@ -17,7 +18,7 @@ export const ListNotification = () => {
   const [modo, setModo] = useState("ViewMessage");
   const [destinatario, setDestinatario] = useState("");
   const [perfil, setPerfil] = useState<string>();
-
+  const navigate = useNavigate();
   const [remitente, setRemitente] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState<number>(8);
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -49,15 +50,15 @@ export const ListNotification = () => {
               </IconButton>
             </Tooltip>
 
-            {modo === "ViewMessage" ? (
+             {modo === "ViewMessage"  || modo === "viewMessageReading" ? ( 
               <Tooltip title={"Ir A"}>
                 <IconButton onClick={() => goa(v)}>
                   <DoubleArrowIcon />
                 </IconButton>
               </Tooltip>
-            ) : (
+             ) : (
               ""
-            )}
+            )} 
           </Box>
         );
       },
@@ -117,13 +118,13 @@ export const ListNotification = () => {
   const goa = (v: any) => {
    
     console.log(v);
-   /* let dat = {
-      NUMOPERACION: v,
-      CHUSER: user.id,
+    let dat = {
+      P_ID: v.row.idCalculo,
     };
     CatalogosServices.getliga(dat).then((res) => {
-      setNotificacion(res.RESPONSE);
-    });*/
+     // console.log(res.RESPONSE[0].route);
+       navigate(res.RESPONSE[0].route +"?id=" +v.row.idCalculo );
+    });
   };
 
 

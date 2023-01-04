@@ -4,7 +4,6 @@ import "./Fonts.css";
 import "./Globals.css"
 import Swal from "sweetalert2";
 import { UserInfo } from "./app/interfaces/user/UserInfo";
-import { UserReponse } from "./app/interfaces/user/UserReponse";
 import { AppRouter } from "./app/router/AppRouter";
 import { AuthService } from "./app/services/AuthService";
 import { CatalogosServices } from "./app/services/catalogosServices";

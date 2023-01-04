@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { currencyFormatter, Moneda } from "../CustomToolbar";
@@ -258,6 +258,15 @@ export const Fpg = () => {
 
 
   }, [params.fondo, nombreMenu]);
+
+  const query = new URLSearchParams(useLocation().search);
+  useEffect(() => {
+   const jwt = query.get("id");
+   if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
+    setIdDetalle(String(jwt));
+    setOpenDetalles(true);
+   }
+  }, [agregar]);
 
   return (
     <>
