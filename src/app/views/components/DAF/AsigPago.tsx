@@ -76,6 +76,11 @@ const AsigPago = () => {
       },
     },
     {
+      field: "estatus",
+      headerName: "Estatus",
+      width: 150,
+    },
+    {
       field: "NumOrdenPago",
       headerName: "Nº De Orden De Pago",
       width: 200,
@@ -121,11 +126,7 @@ const AsigPago = () => {
     },
     
 
-    {
-      field: "estatus",
-      headerName: "Estatus",
-      width: 150,
-    },
+   
    
     {
       field: "total",
@@ -197,7 +198,7 @@ const AsigPago = () => {
     //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
     let data = {
-      TIPO: 1,
+      TIPO: 4,
       P_FONDO: idFondo === "false" ? "" : idFondo,
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipo === "false" ? "" : idtipo,

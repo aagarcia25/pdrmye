@@ -59,10 +59,15 @@ const AuthSolicitudes = () => {
       description: "Ejercicio",
     },
     {
-      field: "Anio",
-      headerName: "Ejercicio",
-      width: 80,
-      description: "Ejercicio",
+      field: "estatus",
+      headerName: "Estatus",
+      width: 150,
+    },
+    {
+      field: "NumOrdenPago",
+      headerName: "Nº De Orden De Pago",
+      width: 200,
+      description: "Número De Orden De Pago",
     },
     {
       field: "Mes",
