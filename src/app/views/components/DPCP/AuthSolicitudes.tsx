@@ -3,6 +3,9 @@ import {
   createTheme,
   Grid,
   ThemeProvider,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import clsx from 'clsx';
@@ -25,7 +28,7 @@ import {
   esES as gridEsES,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const AuthSolicitudes = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -261,6 +264,16 @@ const AuthSolicitudes = () => {
           >
             <Typography sx={{ color: "white" }}> Buscar </Typography>
           </Button>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
+          <ToggleButtonGroup>
+            <Tooltip title={"Autorizar Solicitudes"}>
+              <ToggleButton  value="check" >
+                <CheckCircleIcon  />
+              </ToggleButton>
+            </Tooltip>
+          </ToggleButtonGroup>
         </Grid>
 
     
