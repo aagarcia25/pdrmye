@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -30,18 +31,15 @@ export const ListNotification = () => {
 
   const columns: GridColDef[] = [
     { field: "id", hide: true },
-    { field: "deleted",hide: true },
+    { field: "deleted", hide: true },
     { field: "ModificadoPor", hide: true },
-    { field: "FechaCreacion", headerName: "Fecha Creacion", width: 200, },
-    { field: "CreadoPor", headerName: "CreadoPor", width: 300, hide: true },
-    { field: "origen", headerName: "Remitente", width: 300, hide: modo === "MessageSend" },
-    { field: "destinatario", headerName: "Destinatario", width: 300, hide: modo === "viewMessageReading" || modo === "ViewMessage" },
-    { field: "Encabezado", headerName: "Encabezado", width: 300, },
-    { field: "Descripcion", headerName: "Mensage", width: 300, hide: true },
-    { field: "Visto", headerName: "Visto", width: 300, hide: true },
-    { field: "Destinatario", headerName: "destinatario", width: 300, hide: true },
+    { field: "CreadoPor", hide: true },
+    { field: "Descripcion", hide: true },
+    { field: "Visto", hide: true },
+    { field: "Destinatario", hide: true },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 200, },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -49,13 +47,19 @@ export const ListNotification = () => {
       renderCell: (v) => {
         return (
           <Box>
-            <IconButton onClick={() => viewMessageModal(v)}>
-              <VisibilityIcon />
-            </IconButton>
+            <Tooltip title={"Ver Mensaje"}>
+              <IconButton onClick={() => viewMessageModal(v)}>
+                <VisibilityIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
         );
       },
     },
+    { field: "origen", headerName: "Remitente", description: "Remitente", width: 300, hide: modo === "MessageSend" },
+    { field: "destinatario", headerName: "Destinatario", description: "Destinatario", width: 300, hide: modo === "viewMessageReading" || modo === "ViewMessage" },
+    { field: "Encabezado", headerName: "Encabezado", description: "Encabezado", width: 300, },
+
   ];
 
   const handleNuevoMensaje = () => {
@@ -172,7 +176,7 @@ export const ListNotification = () => {
   }, []);
 
   return (
-    <div style={{ height: "90%", width: "100%", paddingTop:"3%" }}>
+    <div style={{ height: "90%", width: "100%", paddingTop: "3%" }}>
 
       {open ? (
         <ListNotificationsModal
@@ -190,7 +194,7 @@ export const ListNotification = () => {
 
       <Box sx={{
         display: 'flex',
-        height:"90%",
+        height: "90%",
         justifyContent: 'content-position',
         p: 1,
         m: 1,
@@ -198,7 +202,7 @@ export const ListNotification = () => {
         // bgcolor: 'background.paper',
       }} >
 
-        <Box sx={{ width: "150px", paddingRight:".5%"}}>
+        <Box sx={{ width: "150px", paddingRight: ".5%" }}>
 
           <Box sx={{ position: 'relative', top: 10, left: 7, width: "90%", justifyContent: 'center', display: 'flex', borderRadius: 1 }}>
             {perfil != "MUN" ?
@@ -220,18 +224,18 @@ export const ListNotification = () => {
             borderRadius: 1
           }}>
             {perfil != "MUN" ?
-            <Button
-              className="notificaciones"
-              onClick={() => viewMessageSend(9)}
-              sx={{
-                backgroundColor: modo === "MessageSend" ? COLOR.grisTarjetaBienvenido : COLOR.blanco,
-                "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-              }}
-            >
-              Enviados
-              {/* <SendIcon /> */}
-            </Button>
-            :""}
+              <Button
+                className="notificaciones"
+                onClick={() => viewMessageSend(9)}
+                sx={{
+                  backgroundColor: modo === "MessageSend" ? COLOR.grisTarjetaBienvenido : COLOR.blanco,
+                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+                }}
+              >
+                Enviados
+                {/* <SendIcon /> */}
+              </Button>
+              : ""}
 
 
             <Button
@@ -256,7 +260,7 @@ export const ListNotification = () => {
                 "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
               }}
             >
-              Leidos
+              Leídos
               {/* <AutoStoriesIcon /> */}
             </Button>
 
@@ -269,12 +273,12 @@ export const ListNotification = () => {
           </Box>
         </Box>
 
-        
-        <Box sx={{ left: 7, height: "600px", width: "90%", display:"flow"}} >
-        
-            <MUIXDataGrid 
-              columns={columns} rows={notificacion} />
-        
+
+        <Box sx={{ left: 7, height: "600px", width: "90%", display: "flow" }} >
+
+          <MUIXDataGrid
+            columns={columns} rows={notificacion} />
+
         </Box>
 
       </Box>
