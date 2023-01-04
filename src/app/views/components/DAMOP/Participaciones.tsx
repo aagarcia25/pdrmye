@@ -113,7 +113,8 @@ const Participaciones = () => {
           <Box>
             {String(v.row.NumParticipacion) !== 'null'  &&  String(v.row.NumEgreso) === 'null' ? (
               <Tooltip title="Agregar Descuentos">
-                <IconButton onClick={() => handleDescuento(v)}>
+                <IconButton
+                onClick={() => handleDescuento(v)}>
                   <AttachMoneyIcon />
                 </IconButton>
               </Tooltip>
@@ -144,7 +145,7 @@ const Participaciones = () => {
 
 {String(v.row.NumParticipacion) !== 'null'  &&  String(v.row.NumEgreso) !== 'null' &&  String(v.row.NumOrdenPago) === 'null' ? (
               <Tooltip title="Generar Solicitud de Pago">
-                <IconButton onClick={() => handleDescuento(v)}>
+                <IconButton  onClick={() => handleDescuento(v)}>
                   <AttachMoneyIcon />
                 </IconButton>
               </Tooltip>
@@ -842,20 +843,20 @@ const Participaciones = () => {
               <ToggleButton value="check" 
               disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6} 
               onClick={() => integrarOperaciones()}>
-                <CallMergeIcon />
+                <CallMergeIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6?"inherit":"primary"} />
               </ToggleButton>
             </Tooltip>
            
 
             <Tooltip title={"Generar Solicitud"}>
-              <ToggleButton value="check" onClick={() => SolicitudOrdenPago()}>
-                <SettingsSuggestIcon />
+              <ToggleButton  value="check" onClick={() => SolicitudOrdenPago()}>
+                <SettingsSuggestIcon color="primary" />
               </ToggleButton>
             </Tooltip>
 
             <Tooltip title={"Asignar Comentario"}>
               <ToggleButton value="check" onClick={() => openmodalc(2)}>
-                <FormatAlignLeftIcon />
+                <FormatAlignLeftIcon color="primary"  />
               </ToggleButton>
             </Tooltip>
 
@@ -866,6 +867,7 @@ const Participaciones = () => {
               <Tooltip title={"Generar Anticipos"}>
                 <ToggleButton value="check">
                   <IconButton
+                  color="primary" 
                     aria-label="upload documento"
                     component="label"
                     size="large"
@@ -891,6 +893,7 @@ const Participaciones = () => {
               <Tooltip title={"Descargar Plantilla"}>
                 <ToggleButton value="check">
                   <IconButton
+                  color="primary" 
                     aria-label="upload documento"
                     component="label"
                     size="large"
@@ -909,6 +912,7 @@ const Participaciones = () => {
               <Tooltip title={"Cargar Plantilla"}>
                 <ToggleButton value="check">
                   <IconButton
+                  color="primary" 
                     aria-label="upload documento"
                     component="label"
                     size="large"
@@ -932,7 +936,7 @@ const Participaciones = () => {
                 <ToggleButton value="check" 
                 disabled={!munTieneFide ||data.length === 0 || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6} 
                 onClick={() => Disitribuir()}>
-                  <AccountTreeIcon />
+                  <AccountTreeIcon  color={!munTieneFide ||data.length === 0 || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6?"inherit":"primary"} />
                 </ToggleButton>
               </Tooltip>
             ) : (
@@ -942,7 +946,7 @@ const Participaciones = () => {
             {cargarPlant ? (
               <Tooltip title={"Eliminar Registro"}>
                 <ToggleButton value="check" onClick={() => eliminar()}>
-                  <DeleteForeverIcon />
+                  <DeleteForeverIcon color="error"  />
                 </ToggleButton>
               </Tooltip>
             ) : (
