@@ -111,7 +111,6 @@ function App() {
     };
     AuthService.adminUser(data).then((res2) => {
       const us: UserInfo = res2;
-      console.log(us.RESPONSE)
       setUser(us.RESPONSE);
 
       // if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
