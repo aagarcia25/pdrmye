@@ -210,7 +210,6 @@ const RecepcionRecursos = () => {
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipo === "false" ? "" : idtipo,
     };
-    //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -237,7 +236,6 @@ const RecepcionRecursos = () => {
       if (
         String(item.ControlInterno) === "PARTMUN"
       ) {
-        //console.log(item);
         if (String(item.Referencia) === "AGREGPLANT") {
           setCargarPlant(true);
         }

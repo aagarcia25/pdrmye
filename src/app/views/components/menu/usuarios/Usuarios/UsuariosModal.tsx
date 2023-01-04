@@ -296,7 +296,6 @@ const UsuariosModal = ({
               UserServices.createsolicitud(datSol).then((resSol) => {
 
 
-                console.log(resSol.data.data[0][0].IdSolicitud)
                 if (resSol.data.data[0][0].Respuesta === "201") {
 
                   let dat = {

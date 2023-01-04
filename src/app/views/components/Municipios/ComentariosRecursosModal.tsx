@@ -46,10 +46,8 @@ export const ComentariosRecursosModal = (
     ]
 
     const acciones = (v: string) => {
-        //console.log(v);
         const accion = perfiles.find(({ accion, per, dep }) => accion === String(v) && per === perfil && dep === departamento);
         if (accion?.accion === "autorizar") {
-            //console.log(accion.accion+" accion de la busqueda")
             let d = {
                 NUMOPERACION: 5,
                 CHID: data.id,
@@ -73,7 +71,6 @@ export const ComentariosRecursosModal = (
                 if (result.isConfirmed) {
                     CatalogosServices.SolicitudesInfo(d).then((res) => {
                         if (res.SUCCESS) {
-                            //console.log(res.RESPONSE)
                             handleClose();
                         } else {
 
@@ -91,7 +88,6 @@ export const ComentariosRecursosModal = (
 
         } else
             if (accion?.accion === "cancelar") {
-                //console.log("cancelado");
                 let d = {
                     NUMOPERACION: 5,
                     CHID: data.id,
@@ -114,7 +110,6 @@ export const ComentariosRecursosModal = (
                     if (result.isConfirmed) {
                         CatalogosServices.SolicitudesInfo(d).then((res) => {
                             if (res.SUCCESS) {
-                                //console.log(res.RESPONSE)
                                 handleClose();
                             } else {
 
