@@ -14,7 +14,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ListNotificationsModal from "./ListNotificationsModal";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { COLOR } from "../../styles/colors";
-
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 
 export const ListNotification = () => {
   const [notificacion, setNotificacion] = useState([]);
@@ -33,11 +33,7 @@ export const ListNotification = () => {
     { field: "id", hide: true },
     { field: "deleted", hide: true },
     { field: "ModificadoPor", hide: true },
-    { field: "CreadoPor", hide: true },
-    { field: "Descripcion", hide: true },
-    { field: "Visto", hide: true },
-    { field: "Destinatario", hide: true },
-    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 200, },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación",  width: 200, },
     {
       field: "acciones", disableExport: true,
       headerName: "Acciones",
@@ -47,18 +43,28 @@ export const ListNotification = () => {
       renderCell: (v) => {
         return (
           <Box>
-            <Tooltip title={"Ver Mensaje"}>
+             <Tooltip title={"Ver Mensaje"}>
               <IconButton onClick={() => viewMessageModal(v)}>
                 <VisibilityIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={"Ir A"}>
+              <IconButton onClick={() => viewMessageModal(v)}>
+                <DoubleArrowIcon />
               </IconButton>
             </Tooltip>
           </Box>
         );
       },
     },
+    { field: "CreadoPor", headerName: "CreadoPor",  width: 300, hide: true },
     { field: "origen", headerName: "Remitente", description: "Remitente", width: 300, hide: modo === "MessageSend" },
     { field: "destinatario", headerName: "Destinatario", description: "Destinatario", width: 300, hide: modo === "viewMessageReading" || modo === "ViewMessage" },
-    { field: "Encabezado", headerName: "Encabezado", description: "Encabezado", width: 300, },
+    { field: "Encabezado", headerName: "Encabezado",description: "Encabezado",  width: 550, },
+    { field: "Descripcion", headerName: "Mensage", width: 400, hide: true },
+    { field: "Visto", headerName: "Visto", width: 300, hide: true },
+    { field: "Destinatario", headerName: "destinatario", width: 300, hide: true },
+    
 
   ];
 
@@ -71,7 +77,6 @@ export const ListNotification = () => {
 
   const viewMessageModal = (v: any) => {
     setTipoOperacion(6);
-    //console.log(v.row)
     if (v.row.Visto === "0") {
       setDestinatario(v.row.destinatario)
       setRemitente(v.row.origen)
@@ -121,15 +126,9 @@ export const ListNotification = () => {
   };
 
 
-  const testeoVariables = () => {
-
-    //console.log("tipo de operacio  " + tipoOperacion);
-    //console.log("modo de operacion  " + modo);
-
-  }
+ 
 
   const handleClose = (v: string) => {
-    //console.log("valor de v  " + v)
     if (v === "9") {
       setModo("MessageSend");
       setOpen(false);
@@ -158,10 +157,7 @@ export const ListNotification = () => {
   }
 
   useEffect(() => {
-
-    //console.log(user.PERFILES[0].Referencia)
     setPerfil(user.PERFILES[0].Referencia)
-
     let dat = {
       NUMOPERACION: 8,
       CHUSER: user.id
@@ -223,21 +219,6 @@ export const ListNotification = () => {
             display: 'flex',
             borderRadius: 1
           }}>
-            {perfil != "MUN" ?
-              <Button
-                className="notificaciones"
-                onClick={() => viewMessageSend(9)}
-                sx={{
-                  backgroundColor: modo === "MessageSend" ? COLOR.grisTarjetaBienvenido : COLOR.blanco,
-                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-                }}
-              >
-                Enviados
-                {/* <SendIcon /> */}
-              </Button>
-              : ""}
-
-
             <Button
               className="notificaciones"
               onClick={() => viewMessage(8)}
@@ -249,6 +230,23 @@ export const ListNotification = () => {
               Recibidos
               {/* <InboxIcon /> */}
             </Button>
+
+            {perfil != "MUN" ?
+            <Button
+              className="notificaciones"
+              onClick={() => viewMessageSend(9)}
+              sx={{
+                backgroundColor: modo === "MessageSend" ? COLOR.grisTarjetaBienvenido : COLOR.blanco,
+                "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+              }}
+            >
+              Enviados
+              {/* <SendIcon /> */}
+            </Button>
+            :""}
+
+
+            
 
 
 
