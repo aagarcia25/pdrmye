@@ -75,12 +75,7 @@ const AuthSolicitudes = () => {
       headerName: "U. Resp",
       width: 65,
     },
-    // {
-    //   field: "TipoSolicitud",
-    //   headerName: "Tipo",
-    //   width: 140,
-    //   description: "Tipo de Solicitud",
-    // },
+    
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -124,27 +119,7 @@ const AuthSolicitudes = () => {
       description: "Total Neto",
       ...Moneda,
     },
-    /*{
-      field: "Retenciones",
-      headerName: "Retenciones",
-      width: 150,
-      description: "Retenciones",
-      ...Moneda,
-    },
-    {
-      field: "Descuentos",
-      headerName: "Descuentos",
-      width: 150,
-      description: "Descuentos",
-      ...Moneda,
-    },
-    {
-      field: "importe",
-      headerName: "Importe Total",
-      width: 150,
-      description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
-      ...Moneda,
-    },*/
+
 
   ];
 
@@ -187,7 +162,7 @@ const AuthSolicitudes = () => {
     //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
     let data = {
-      TIPO: 1,
+      TIPO: 3,
       P_FONDO: idFondo === "false" ? "" : idFondo,
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipo === "false" ? "" : idtipo,
