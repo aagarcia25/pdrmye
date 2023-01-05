@@ -17,6 +17,7 @@ import Slider from "../../Slider";
 import { ArticulosServices } from "../../../../services/ArticulosServices";
 import Swal from "sweetalert2";
 import { CatalogosServices } from "../../../../services/catalogosServices";
+import { isNull } from "util";
 
 const Art14m = ({
   titulo,
@@ -91,6 +92,8 @@ const Art14m = ({
 
 
   useEffect(() => {
+    setMonto(undefined);
+    setmontoaniopasado(undefined);
     handleFondos();
   }, [tipo]);
 
@@ -203,6 +206,7 @@ const Art14m = ({
                   let im =importeDistri ;
                       importeDistri[x]=(item.PorcentajeDistribucion / 100) * (numero[x]);
                                 setimporteDistri(im);
+                  handleMontos(montoaniopasado);
                   } }
                 error={monto === null ? true : false}
                 type="number"
