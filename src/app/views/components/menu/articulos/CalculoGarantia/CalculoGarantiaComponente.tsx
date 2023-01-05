@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Tooltip } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -286,9 +286,11 @@ export const CalculoGarantiaComponente = () => {
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
+        <Tooltip title="Cálculo que garantiza a los municipios recibir mínimo el mísmo monto del año anterior, y no menos">
           <Typography variant='h3'>
             {nombreMenu}
           </Typography>
+        </Tooltip>
         </Grid>
       </Grid>
 
