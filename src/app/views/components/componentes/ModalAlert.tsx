@@ -50,7 +50,6 @@ const ModalAlert = ({
         cancelButtonText: "Cancelar",
     }).then((result) => {
         if (result.isConfirmed) {
-              console.log({ data: vrows, texto: mensaje, tipo: accion },est);
               handleAccion({ data: vrows, texto: mensaje, tipo: accion },est)
       
         }

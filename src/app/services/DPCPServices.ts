@@ -14,7 +14,9 @@ export class DPCPServices {
     public static async DistribucionFideicomisos(data: any) {
         return await post('DistribucionFideicomisos', data);
     }
-
+    public static async GenSolParticipaciones(data: any) {
+        return await post('GenSolParticipaciones', data);
+    }
     public static async eliminarSolicitudes(data: any) {
         return await post('eliminarSolicitudes', data);
     }

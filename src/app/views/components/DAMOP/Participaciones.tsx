@@ -416,12 +416,15 @@ const Participaciones = () => {
 
     DAMOPServices.PA(obj).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
+        AlertS.fire({
+          title: res.RESPONSE,
           icon: "success",
-          title: "Consulta Exitosa!",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            handleClick();
+            handleClose();
+          }
         });
-        handleClick();
-        handleClose();
       } else {
         AlertS.fire({
           title: "Error!",
@@ -429,6 +432,8 @@ const Participaciones = () => {
           icon: "error",
         });
       }
+
+
     });
   };
 
@@ -587,7 +592,7 @@ const Participaciones = () => {
       Swal.fire({
         icon: "info",
         title: "Integración",
-        text: "Los Movimientos, Seleccionados se integración en una sola operación",
+        text: "Los Movimientos Seleccionados se integraran en una sola operación",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -652,7 +657,7 @@ const Participaciones = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           let data = {
-            TIPO: 1,
+            NUMOPERACION: 1,
             OBJS: selectionModel,
             CHUSER: user.id,
           };
@@ -662,7 +667,24 @@ const Participaciones = () => {
             icon: "success",
           }).then(async (result) => {
             if (result.isConfirmed) {
-              handleClick();
+              DPCPServices.GenSolParticipaciones(data).then((res) => {
+                if (res.SUCCESS) {
+                  AlertS.fire({
+                    icon: "success",
+                    title: res.RESPONSE,
+                  }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      handleClick();
+                    }
+                  });
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
             }
           });
         }
@@ -671,7 +693,6 @@ const Participaciones = () => {
   };
 
   const handleClick = () => {
-    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
     if (idtipoSolicitud || idFondo || idMunicipio) {
       setIntOperaciones(false)
 
@@ -684,7 +705,6 @@ const Participaciones = () => {
       P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
 
     };
-    //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -705,11 +725,8 @@ const Participaciones = () => {
       P_IDMUNICIPIO: idMunicipio,
 
     };
-    //console.log(data);
     DPCPServices.GetParticipaciones(dataDis).then((res) => {
       if (res.SUCCESS) {
-        // setData(res.RESPONSE);
-        console.log(res.RESPONSE[0].numFideicomisos)
         if (res.RESPONSE[0].numFideicomisos !== 0) {
           setMunTieneFide(true);
         }
@@ -733,7 +750,6 @@ const Participaciones = () => {
     downloadplantilla();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
-        //console.log(item);
         if (String(item.Referencia) === "AGREGPLANT") {
           setCargarPlant(true);
         } else if (String(item.Referencia) === "DESCPLANT") {
@@ -855,12 +871,12 @@ const Participaciones = () => {
 
 
             <Tooltip title={"Generar Solicitud"}>
-              <ToggleButton value="check" onClick={() => SolicitudOrdenPago()}>
-                <SettingsSuggestIcon color="primary" />
+              <ToggleButton disabled={idtipoSolicitud.length < 6 || intOperaciones} value="check" onClick={() => SolicitudOrdenPago()}>
+                <SettingsSuggestIcon color={idtipoSolicitud.length < 6 || intOperaciones ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip>
 
-            <Tooltip title={"Asignar Comentario"}>
+            <Tooltip title={"Asignar Observación"}>
               <ToggleButton value="check" onClick={() => openmodalc(2)}>
                 <FormatAlignLeftIcon color="primary" />
               </ToggleButton>
