@@ -21,7 +21,7 @@ import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { GetParticipaciones, PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
@@ -54,8 +54,7 @@ const Participaciones = () => {
   const [openModalDescuento, setOpenModalDescuento] = useState<boolean>(false);
   const [openModalAnticipo, setOpenModalAnticipo] = useState<boolean>(false);
   //Constantes para llenar los select
-  const [selectionModel, setSelectionModel] =
-    React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tiposFondo, setTiposFondo] = useState<SelectValues[]>([]);
@@ -111,10 +110,10 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {String(v.row.NumParticipacion) !== 'null'  &&  String(v.row.NumEgreso) === 'null' ? (
+            {String(v.row.NumParticipacion) !== 'null' && String(v.row.NumEgreso) === 'null' ? (
               <Tooltip title="Agregar Descuentos">
                 <IconButton
-                onClick={() => handleDescuento(v)}>
+                  onClick={() => handleDescuento(v)}>
                   <AttachMoneyIcon />
                 </IconButton>
               </Tooltip>
@@ -122,7 +121,7 @@ const Participaciones = () => {
               ""
             )}
 
-         {String(v.row.NumParticipacion) !== 'null'  &&  String(v.row.NumEgreso) === 'null' ? (
+            {String(v.row.NumParticipacion) !== 'null' && String(v.row.NumEgreso) === 'null' ? (
               <Tooltip title="Transferir Participación">
                 <IconButton onClick={() => handleDescuento(v)}>
                   <AttachMoneyIcon />
@@ -132,7 +131,7 @@ const Participaciones = () => {
               ""
             )}
 
-    {String(v.row.NumParticipacion) !== 'null'  &&  String(v.row.NumEgreso) !== 'null'  &&  String(v.row.NumOrdenPago) === 'null' ? (
+            {String(v.row.NumParticipacion) !== 'null' && String(v.row.NumEgreso) !== 'null' && String(v.row.NumOrdenPago) === 'null' ? (
               <Tooltip title="Autorizar egreso">
                 <IconButton onClick={() => handleDescuento(v)}>
                   <AttachMoneyIcon />
@@ -143,9 +142,9 @@ const Participaciones = () => {
             )}
 
 
-{String(v.row.NumParticipacion) !== 'null'  &&  String(v.row.NumEgreso) !== 'null' &&  String(v.row.NumOrdenPago) === 'null' ? (
+            {String(v.row.NumParticipacion) !== 'null' && String(v.row.NumEgreso) !== 'null' && String(v.row.NumOrdenPago) === 'null' ? (
               <Tooltip title="Generar Solicitud de Pago">
-                <IconButton  onClick={() => handleDescuento(v)}>
+                <IconButton onClick={() => handleDescuento(v)}>
                   <AttachMoneyIcon />
                 </IconButton>
               </Tooltip>
@@ -388,13 +387,13 @@ const Participaciones = () => {
 
   const handleFilterChange2 = (v: string) => {
     setIdFondo(v);
-    setIntOperaciones(true); setMunTieneFide (false);
+    setIntOperaciones(true); setMunTieneFide(false);
     // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false);  }
   };
 
   const handleFilterChange3 = (v: string) => {
     setidMunicipio(v);
-    setIntOperaciones(true); setMunTieneFide (false)
+    setIntOperaciones(true); setMunTieneFide(false)
     // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false) }
 
 
@@ -402,7 +401,7 @@ const Participaciones = () => {
   };
   const handleFilterChange4 = (v: string) => {
     setIdTipoSolicitud(v);
-    setIntOperaciones(true); setMunTieneFide (false)
+    setIntOperaciones(true); setMunTieneFide(false)
     // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false) }
   };
 
@@ -553,11 +552,13 @@ const Participaciones = () => {
           DPCPServices.eliminarSolicitudes(data).then((res) => {
             if (res.SUCCESS) {
               AlertS.fire({
-                title: "Información!",
-                text: res.RESPONSE,
+                title: res.RESPONSE,
                 icon: "success",
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  handleClick();
+                }
               });
-
             } else {
               AlertS.fire({
                 title: "Error!",
@@ -709,7 +710,7 @@ const Participaciones = () => {
       if (res.SUCCESS) {
         // setData(res.RESPONSE);
         console.log(res.RESPONSE[0].numFideicomisos)
-        if(res.RESPONSE[0].numFideicomisos!==0){
+        if (res.RESPONSE[0].numFideicomisos !== 0) {
           setMunTieneFide(true);
         }
       } else {
@@ -717,8 +718,13 @@ const Participaciones = () => {
     });
   };
 
+  // useEffect(() => {
+  // }, [
+  //    selectionModel
+  // ]);
+
+
   useEffect(() => {
-    handleClick();
     loadFilter(12);
     loadFilter(5);
     loadFilter(17);
@@ -755,7 +761,7 @@ const Participaciones = () => {
         ""
       )}
 
-    
+
 
       {openModalDescuento ? (
         <Descuentos
@@ -840,23 +846,23 @@ const Participaciones = () => {
           <ToggleButtonGroup>
 
             <Tooltip title={"Integrar Operaciones"}>
-              <ToggleButton value="check" 
-              disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6} 
-              onClick={() => integrarOperaciones()}>
-                <CallMergeIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6?"inherit":"primary"} />
+              <ToggleButton value="check"
+                disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6}
+                onClick={() => integrarOperaciones()}>
+                <CallMergeIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6 ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip>
-           
+
 
             <Tooltip title={"Generar Solicitud"}>
-              <ToggleButton  value="check" onClick={() => SolicitudOrdenPago()}>
+              <ToggleButton value="check" onClick={() => SolicitudOrdenPago()}>
                 <SettingsSuggestIcon color="primary" />
               </ToggleButton>
             </Tooltip>
 
             <Tooltip title={"Asignar Comentario"}>
               <ToggleButton value="check" onClick={() => openmodalc(2)}>
-                <FormatAlignLeftIcon color="primary"  />
+                <FormatAlignLeftIcon color="primary" />
               </ToggleButton>
             </Tooltip>
 
@@ -867,7 +873,7 @@ const Participaciones = () => {
               <Tooltip title={"Generar Anticipos"}>
                 <ToggleButton value="check">
                   <IconButton
-                  color="primary" 
+                    color="primary"
                     aria-label="upload documento"
                     component="label"
                     size="large"
@@ -893,7 +899,7 @@ const Participaciones = () => {
               <Tooltip title={"Descargar Plantilla"}>
                 <ToggleButton value="check">
                   <IconButton
-                  color="primary" 
+                    color="primary"
                     aria-label="upload documento"
                     component="label"
                     size="large"
@@ -912,7 +918,7 @@ const Participaciones = () => {
               <Tooltip title={"Cargar Plantilla"}>
                 <ToggleButton value="check">
                   <IconButton
-                  color="primary" 
+                    color="primary"
                     aria-label="upload documento"
                     component="label"
                     size="large"
@@ -933,10 +939,10 @@ const Participaciones = () => {
             )}
             {disFide ? (
               <Tooltip title={"Distribuir en Fideicomisos"}>
-                <ToggleButton value="check" 
-                disabled={!munTieneFide ||data.length === 0 || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6} 
-                onClick={() => Disitribuir()}>
-                  <AccountTreeIcon  color={!munTieneFide ||data.length === 0 || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6?"inherit":"primary"} />
+                <ToggleButton value="check"
+                  disabled={!munTieneFide || data.length === 0 || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6}
+                  onClick={() => Disitribuir()}>
+                  <AccountTreeIcon color={!munTieneFide || data.length === 0 || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6 ? "inherit" : "primary"} />
                 </ToggleButton>
               </Tooltip>
             ) : (
@@ -946,7 +952,7 @@ const Participaciones = () => {
             {cargarPlant ? (
               <Tooltip title={"Eliminar Registro"}>
                 <ToggleButton value="check" onClick={() => eliminar()}>
-                  <DeleteForeverIcon color="error"  />
+                  <DeleteForeverIcon color="error" />
                 </ToggleButton>
               </Tooltip>
             ) : (
@@ -1001,6 +1007,12 @@ const Participaciones = () => {
                     quickFilterProps: { debounceMs: 500 },
                   },
                 }}
+                isRowSelectable={(params) => (
+                  params.row.NumCheque === null
+                  // ||params.row.NumEgreso===null
+                  // ||params.row.NumRequerimientoAnt===null
+                  // ||params.row.NumOrdenPago===null
+                )}
                 checkboxSelection
                 onSelectionModelChange={(newSelectionModel: any) => {
                   setSelectionModel(newSelectionModel);

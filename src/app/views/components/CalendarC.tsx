@@ -16,7 +16,6 @@ import { Toast } from "../../helpers/Toast";
 import { AlertS } from "../../helpers/AlertS";
 import CalendarCModal from "./CalendarCModal";
 import Swal from "sweetalert2";
-import { UserReponse } from "../../interfaces/user/UserReponse";
 
 
 const CalendarC = () => {
