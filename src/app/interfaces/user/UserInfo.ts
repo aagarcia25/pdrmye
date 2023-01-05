@@ -18,6 +18,46 @@ export interface PERMISO {
 
 }
 
+export interface GetParticipaciones {
+    id: string;
+    NumProyecto: string;
+    ConceptoEgreso: number;
+    Anio: number;
+    Mes: string;
+    ClaveEstado: number;
+    Nombre: string;
+    Clave: string;
+    fondodes: string;
+    tipocalculo: string;
+    total: string;
+    Presupuesto: string;
+    Descripcion: string;
+    ClavePresupuestal: string;
+    estatus: string;
+    uresclave: string;
+    uresdes: string;
+    Divisa: string;
+    Proveedor: string;
+    Deudor: string;
+    TipoSolicitud: string;
+    Observaciones?: any;
+    clasificacion: string;
+    clasificacionDescripcion: string;
+    ClaveBeneficiario?: any;
+    DescripcionBeneficiario?: any;
+    conceptoCheque: string;
+    NumParticipacion?: any;
+    NumSolEgreso?: any;
+    NumEgreso?: any;
+    NumOrdenPago?: any;
+    NumRequerimientoAnt?: any;
+    NumCheque?: any;
+    Retenciones: string;
+    Descuentos: string;
+    importe: string;
+}
+
+
 export interface FPG {
     id: string;
     Clave: string;

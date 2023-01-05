@@ -58,7 +58,7 @@ const CalendarCModal = ({
   //CAMPOS
   const [id, setId] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [nombreEvento, setNombreEvento] = useState("");
+  const [nombreEvento, setNombreEvento] = useState<string>("");
   const [finEvento, setFinEvento] = useState(Fecha_min);
   const [inicioEvento, setInicioEvento] = useState(Fecha_min);
   //Usandose en select departamentos
@@ -66,23 +66,14 @@ const CalendarCModal = ({
   const [modoModal, setModoModal] = useState(modo);
 
   const handleSend = () => {
-    if (nombreEvento === null || nombreEvento === "") {
+    console.log(nombreEvento)
+    if (nombreEvento === null || nombreEvento === "" ||nombreEvento ===undefined) {
       AlertS.fire({
-        title: "Error!",
-        text: "Favor de Completar los Campos",
-        icon: "error",
+        title: "Favor de Completar los Campos",
+        icon: "warning",
       });
 
-    }
-    if (finEvento <= inicioEvento) {
-      AlertS.fire({
-        title: "Error!",
-        text: "La fecha fin del evento no puede ser antes de la fecha inicio.",
-        icon: "error",
-      });
-      setFinEvento(inicioEvento);
-    }
-    else {
+    } else if (nombreEvento !== null || nombreEvento !== ""||nombreEvento !==undefined) {
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
@@ -98,6 +89,15 @@ const CalendarCModal = ({
       handleRequest(data);
       handleClose();
     }
+    if (finEvento <= inicioEvento) {
+      AlertS.fire({
+        title: "Error!",
+        text: "La fecha fin del evento no puede ser antes de la fecha inicio.",
+        icon: "error",
+      });
+      setFinEvento(inicioEvento);
+    }
+   
   };
 
   const handleRequest = (data: any) => {
