@@ -108,7 +108,6 @@ export const ListNotification = () => {
     }
     setDestinatario(v.row.destinatario);
     setRemitente(v.row.origen);
-
     setOpen(true);
     setData(v);
   };
@@ -116,14 +115,23 @@ export const ListNotification = () => {
   
 
   const goa = (v: any) => {
-   
-    console.log(v);
+
+      CatalogosServices.Notificaciones({
+        NUMOPERACION: 6,
+        CHUSER: user.id,
+        CHID:v.row.id
+      }).then((res) => {
+       
+      });
+
+
     let dat = {
       P_ID: v.row.idCalculo,
     };
     CatalogosServices.getliga(dat).then((res) => {
      // console.log(res.RESPONSE[0].route);
        navigate(res.RESPONSE[0].route +"?id=" +v.row.idCalculo );
+       
     });
   };
 
@@ -170,6 +178,7 @@ export const ListNotification = () => {
       setOpen(false);
       viewMessageSend(9);
     }
+    
     if (v === "8") {
       setModo("ViewMessage");
       let dat = {
