@@ -50,9 +50,6 @@ export const Fpg = () => {
     setOpenTrazabilidad(true);
   };
 
-  const handleHeader = (v: any) => {
-    console.log(v)
-  };
 
 
   const handleOpen = (v: any) => {
@@ -263,6 +260,7 @@ export const Fpg = () => {
   useEffect(() => {
    const jwt = query.get("id");
    if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
+    setIdtrazabilidad(String(jwt));
     setIdDetalle(String(jwt));
     setClave(String(params.fondo));
     setOpenDetalles(true);
