@@ -88,6 +88,7 @@ export const Art14fP = () => {
 
   let params = useParams();
   useEffect(() => {
+    setstep(0);
     permisos.map((item: PERMISO) => {
       if (
         String(item.ControlInterno) === "ART14F1" ||
@@ -102,6 +103,8 @@ export const Art14fP = () => {
     });
     loaddata(Number(params.tipo));
   }, [params.tipo]);
+
+
 
   return (
     <>
