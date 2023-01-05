@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Input, Typography } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, Grid, IconButton, Input, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../services/catalogosServices";
@@ -45,6 +45,7 @@ const ModalNew = ({
   const [nameNewDoc, setNameNewDoc] = useState("");
   const [file, setFile] = useState(Object);
   const [Czero, setCzero]= useState<boolean>(false);
+  const [disti, setDisti]= useState<boolean>(false);
 
   const handleSelectMes = (v: SelectValues) => {
     setIdmes(String(v));
@@ -167,7 +168,8 @@ const ModalNew = ({
               ZERO:Czero,
               TIPOCALCULO:idTipoCalculo,
               IEJA:ieja,
-              IDVERSION: idVersionCalculo
+              IDVERSION: idVersionCalculo,
+              P_DIST:disti
             };
             agregar(data);
           }
@@ -207,6 +209,10 @@ const ModalNew = ({
         setslideropen(false);
       }
     });
+  };
+
+  const handleChangedisti = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDisti(event.target.checked);
   };
 
   useEffect(() => {
@@ -289,6 +295,30 @@ const ModalNew = ({
             <Grid item xs={4} sm={4} md={4}></Grid>
           </Grid>
         </Grid>
+
+
+        <Grid item xs={12} sm={12} md={12}>
+          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+              <Tooltip title={"Si se activa esta opción el cálculo se realizará con tomando la proporción de garantía del fondo"}>
+              <FormControlLabel
+                    value={disti}
+                    control={
+                      <Checkbox
+                        checked={disti}
+                        onChange={handleChangedisti} />
+                    }
+                    label="Distribuir por Garantía"
+                  />
+                  </Tooltip>
+              </Typography>
+            </Grid>
+            
+            <Grid item xs={4} sm={4} md={4}></Grid>
+          </Grid>
+        </Grid>
+
 
         <Grid item xs={12} sm={12} md={12}
         sx={{ 
