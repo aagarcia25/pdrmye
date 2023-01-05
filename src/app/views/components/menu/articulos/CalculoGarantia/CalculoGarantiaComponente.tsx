@@ -280,16 +280,18 @@ export const CalculoGarantiaComponente = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+
+    <div style={{ height: 600, width: "100%", padding: "2%" }}>
       <Slider open={slideropen}></Slider>
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography>
-            <h1>Calculo Garantía</h1>
+          <Typography variant='h3'>
+            {nombreMenu}
           </Typography>
         </Grid>
       </Grid>
+
 
       <Grid container>
         <Grid item>       
