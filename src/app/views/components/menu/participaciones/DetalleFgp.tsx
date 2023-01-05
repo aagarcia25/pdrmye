@@ -48,6 +48,7 @@ const DetalleFgp = ({
 
   const [anio, setAnio] = useState("");
   const [mes, setMes] = useState("");
+  const [nummes, setNumMes] = useState<Number>();
   const [tipoCalculo, setTipoCalculo] = useState("");
 
 
@@ -185,7 +186,7 @@ const DetalleFgp = ({
       CHUSER: user.id,
       CLAVE: clave,
       ANIO: anio,
-      MES: mes.split(",")[0],
+      MES: nummes,
     };
 
     Swal.fire({
@@ -365,6 +366,7 @@ const DetalleFgp = ({
     calculosServices.calculosdetail(data).then((res) => {
       if (res.SUCCESS) {
       // console.log(res.RESPONSE[0])
+        setNumMes(Number(res.RESPONSE[0].nummes));
         setAnio(res.RESPONSE[0].anio);
         setMes(res.RESPONSE[0].mes);
         setTipoCalculo(res.RESPONSE[0].tipocalculo);
