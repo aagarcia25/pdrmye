@@ -264,6 +264,7 @@ export const Fpg = () => {
    const jwt = query.get("id");
    if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
     setIdDetalle(String(jwt));
+    setClave(String(params.fondo));
     setOpenDetalles(true);
    }
   }, [agregar]);
@@ -296,13 +297,11 @@ export const Fpg = () => {
       {openDetalles ?
         <DetalleFgp
           idCalculo={idtrazabilidad}
-          openDetalles={openDetalles}
           nombreFondo={objfondo?.Descripcion || ""}
           idDetalle={idDetalle}
           handleClose={handleClose}
           clave={clave}
-          anio={anio}
-          mes={mes} tipoCalculo={tipoCalculo} />
+         />
         : ""}
 
       {step === 0 ?
