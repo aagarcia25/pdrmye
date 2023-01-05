@@ -139,12 +139,12 @@ export default function Header(props: HeaderProps) {
               </Grid>
 
               <Grid xs={12} container direction="row" justifyContent="flex-end" alignItems="center">
-                <Typography variant="caption" color="black">
-                  {(user.Puesto ? user.Puesto + " " : " ")}
+                <Typography  color="black">
+                  {(user?.PERFILES[0]?.Descripcion? user.PERFILES[0].Descripcion + " " : " ")}
                 </Typography>
               </Grid>
               <Grid xs={12} container direction="row" justifyContent="flex-end" alignItems="center">
-                <Typography variant="caption" color="black">
+                <Typography  color="black">
                   {(user?.PERFILES[0]?.Referencia === "MUN" ? "Enlace: " : " ") +
                     (user?.ROLES[0]?.Nombre === "Municipio" ? user.ROLES[0].Nombre + " " : " ") +
                     (user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN" ? user?.DEPARTAMENTOS[0]?.Descripcion + " " : " ") +

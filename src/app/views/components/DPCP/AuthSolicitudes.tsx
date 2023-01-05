@@ -3,6 +3,9 @@ import {
   createTheme,
   Grid,
   ThemeProvider,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import clsx from 'clsx';
@@ -25,7 +28,7 @@ import {
   esES as gridEsES,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const AuthSolicitudes = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -59,10 +62,15 @@ const AuthSolicitudes = () => {
       description: "Ejercicio",
     },
     {
-      field: "Anio",
-      headerName: "Ejercicio",
-      width: 80,
-      description: "Ejercicio",
+      field: "estatus",
+      headerName: "Estatus",
+      width: 150,
+    },
+    {
+      field: "NumOrdenPago",
+      headerName: "Nº De Orden De Pago",
+      width: 200,
+      description: "Número De Orden De Pago",
     },
     {
       field: "Mes",
@@ -75,12 +83,7 @@ const AuthSolicitudes = () => {
       headerName: "U. Resp",
       width: 65,
     },
-    // {
-    //   field: "TipoSolicitud",
-    //   headerName: "Tipo",
-    //   width: 140,
-    //   description: "Tipo de Solicitud",
-    // },
+    
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -124,27 +127,7 @@ const AuthSolicitudes = () => {
       description: "Total Neto",
       ...Moneda,
     },
-    /*{
-      field: "Retenciones",
-      headerName: "Retenciones",
-      width: 150,
-      description: "Retenciones",
-      ...Moneda,
-    },
-    {
-      field: "Descuentos",
-      headerName: "Descuentos",
-      width: 150,
-      description: "Descuentos",
-      ...Moneda,
-    },
-    {
-      field: "importe",
-      headerName: "Importe Total",
-      width: 150,
-      description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
-      ...Moneda,
-    },*/
+
 
   ];
 
@@ -187,6 +170,7 @@ const AuthSolicitudes = () => {
     //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
     let data = {
+      TIPO: 3,
       P_FONDO: idFondo === "false" ? "" : idFondo,
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipo === "false" ? "" : idtipo,
@@ -280,6 +264,16 @@ const AuthSolicitudes = () => {
           >
             <Typography sx={{ color: "white" }}> Buscar </Typography>
           </Button>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
+          <ToggleButtonGroup>
+            <Tooltip title={"Autorizar Solicitudes"}>
+              <ToggleButton  value="check" >
+                <CheckCircleIcon  />
+              </ToggleButton>
+            </Tooltip>
+          </ToggleButtonGroup>
         </Grid>
 
     

@@ -10,6 +10,10 @@ export class calculosServices {
         return await post('calculosInfodetalle', data);
     }
 
+    public static async calculosdetail(data: any) {
+        return await post('calculosdetail', data);
+    }
+
     public static async indexCalculo(data: any) {
         return await post('indexCalculo', data);
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { currencyFormatter, Moneda } from "../CustomToolbar";
@@ -72,7 +72,6 @@ export const Fpg = () => {
   };
 
   const handleDetalle = (v: any) => {
-    console.log(v.row)
     setIdtrazabilidad(v.row.id);
     setClave(v.row.Clave)
     setIdDetalle(String(v.row.id));
@@ -260,6 +259,16 @@ export const Fpg = () => {
 
   }, [params.fondo, nombreMenu]);
 
+  const query = new URLSearchParams(useLocation().search);
+  useEffect(() => {
+   const jwt = query.get("id");
+   if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
+    setIdDetalle(String(jwt));
+    setClave(String(params.fondo));
+    setOpenDetalles(true);
+   }
+  }, [agregar]);
+
   return (
     <>
       <Slider open={slideropen}></Slider>
@@ -288,13 +297,11 @@ export const Fpg = () => {
       {openDetalles ?
         <DetalleFgp
           idCalculo={idtrazabilidad}
-          openDetalles={openDetalles}
           nombreFondo={objfondo?.Descripcion || ""}
           idDetalle={idDetalle}
           handleClose={handleClose}
           clave={clave}
-          anio={anio}
-          mes={mes} tipoCalculo={tipoCalculo} />
+         />
         : ""}
 
       {step === 0 ?

@@ -52,10 +52,8 @@ export const Perfil = () => {
     UserServices.verify({}).then((res) => {
       if (res.status === 200) {
         setTokenValid(true)
-        console.log("verify true")
         onClickChangePassword();
       } else if (res.status === 401) {
-        console.log("verify false")
         UserServices.refreshToken().then((resAppLogin) => {
           if (resAppLogin.status === 200) {
             setTokenValid(true);
@@ -126,9 +124,7 @@ export const Perfil = () => {
     UserServices.verify({}).then((res) => {
       if (res.status === 200) {
         setTokenValid(true)
-        console.log("verify true")
       } else if (res.status === 401) {
-        console.log("verify false")
         UserServices.refreshToken().then((resAppLogin) => {
           if (resAppLogin.status === 200) {
             setTokenValid(true);
@@ -305,16 +301,16 @@ export const Perfil = () => {
                       <Grid container direction="column" justifyContent="center" alignItems="center" >
                         <br />
                         <Grid item xs={10}>
-                          <label className="negro">Telefono:</label>
+                          <label className="negro">Teléfono:</label>
                           <label className="gris"> {user.Telefono ? user.Telefono : "Sin Informacion"} </label>
                         </Grid>
                         <br />
                         <Grid item xs={10}>
-                          <label className="negro">Extencion:</label>
+                          <label className="negro">Extensión:</label>
                           <label className="gris"> {user.Ext ? user.Ext : "Sin Informacion"} </label>
                         </Grid>                  <br />
                         <Grid item xs={10}>
-                          <label className="negro">Celular:</label>
+                          <label className="negro">Teléfono Móvil:</label>
                           <label className="gris"> {user.Celular ? user.Celular : "Sin Informacion"} </label>
                         </Grid>
                         <br />

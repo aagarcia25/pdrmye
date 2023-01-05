@@ -108,6 +108,15 @@ button.guardar {
  color: rgb(11, 116, 63);
 
 }
+
+button.borrar-evento {
+  font-size: 20px;
+  transition-duration: 0.2s;
+ font-family:  sans-serif;
+ color: rgb(196, 72, 65);
+
+}
+
 button.actualizar {
   font-size: 20px;
   transition-duration: 0.2s;
@@ -146,6 +155,11 @@ Button.cerrar:hover {
  background-color:rgba(255, 0, 0, 0.62);
 
 };
+Button.guardar:hover {
+  color: rgb(29, 168, 50);
+  background-color:rgba(0, 255, 26, 0.62);
+ 
+ };
 
 /* .guardar:hover {
   background-color: hsl(126, 86%, 31%);
@@ -341,7 +355,7 @@ label.titulo-FPG{
   text-decoration: none;
   line-height: 1.2;
   font-size: 1.3rem;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-family:  sans-serif;
 
 }

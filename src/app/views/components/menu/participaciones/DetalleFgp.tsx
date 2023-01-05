@@ -22,24 +22,16 @@ import ModalCalculos from "../../componentes/ModalCalculos";
 
 const DetalleFgp = ({
   idCalculo,
-  openDetalles,
   idDetalle,
   nombreFondo,
   handleClose,
   clave,
-  anio,
-  mes,
-  tipoCalculo
 }: {
   idCalculo: string;
-  openDetalles: Boolean;
   idDetalle: string;
   nombreFondo: string;
   handleClose: Function;
   clave: string;
-  anio: number;
-  mes: string;
-  tipoCalculo: string;
 }) => {
   // Dire
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -53,6 +45,10 @@ const DetalleFgp = ({
   const [perfilDestino, setperfilDestino] = useState("");
   const [area, setArea] = useState("");
   const [sumaTotal, setSumaTotal] = useState<Number>();
+
+  const [anio, setAnio] = useState("");
+  const [mes, setMes] = useState("");
+  const [tipoCalculo, setTipoCalculo] = useState("");
 
 
   //Permisos
@@ -363,6 +359,26 @@ const DetalleFgp = ({
       setOpenSlider(false);
     });
   };
+
+  const init = (data: any) => {
+
+    calculosServices.calculosdetail(data).then((res) => {
+      if (res.SUCCESS) {
+      // console.log(res.RESPONSE[0])
+        setAnio(res.RESPONSE[0].anio);
+        setMes(res.RESPONSE[0].mes);
+        setTipoCalculo(res.RESPONSE[0].tipocalculo);
+      } else {
+        AlertS.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+      
+    });
+  };
+
   const columns = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
 
@@ -533,15 +549,17 @@ const DetalleFgp = ({
     getPerfilCalculo();
     getAreaCalculo();
     getResponsable();
+    init({ P_ID: idDetalle })
     columnas({ IDCALCULOTOTAL: idDetalle });
     consulta({ IDCALCULOTOTAL: idDetalle });
+    
   }, []);
 
 
   return (
     <div>
       <Box>
-        <Dialog open={Boolean(openDetalles)} fullScreen={true}>
+        <Dialog open={true} fullScreen={true}>
           <Slider open={openSlider}></Slider>
 
           {openModal ? (
@@ -599,7 +617,7 @@ const DetalleFgp = ({
           >
             <Grid item container xs={1} sx={{ justifyContent: "center" }}>
               <label className="subtitulo">
-                {mes.split(",")[1]}
+                {mes}
                 <br />
               </label>
             </Grid>

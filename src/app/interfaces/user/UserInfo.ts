@@ -116,6 +116,7 @@ export interface RESPONSE {
     Curp?: string;
     idPerfil?: string;
     idUsuarioCentral?: string;
+    numFideicomisos?: number;
 }
 
 export interface UserInfo {

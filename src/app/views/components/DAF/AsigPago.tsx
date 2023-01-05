@@ -4,13 +4,11 @@ import {
   createTheme,
   Grid,
   IconButton,
-  Link,
   ThemeProvider,
-  ToggleButton,
-  ToggleButtonGroup,
   Tooltip,
   Typography,
 } from "@mui/material";
+import clsx from 'clsx';
 import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
@@ -18,190 +16,96 @@ import SelectFrag from "../Fragmentos/SelectFrag";
 import SendIcon from "@mui/icons-material/Send";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getUser } from "../../../services/localStorage";
+import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { getPermisos, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {
   DataGrid,
-  esES,
   GridSelectionModel,
   GridToolbar,
   esES as gridEsES,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
-import ModalPresupuesto from "./ModalPago";
-
+import FilePresentIcon from '@mui/icons-material/FilePresent';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
-
   const [slideropen, setslideropen] = useState(true);
   //MODAL
-  const [openModal, setOpenModal] = useState<boolean>(false);
   //Constantes para llenar los select
-  const [estatus, setEstatus] = useState<SelectValues[]>([]);
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
-  const [anios, setAnios] = useState<SelectValues[]>([]);
-  const [mes, setMeses] = useState<SelectValues[]>([]);
-  const [procesos, setProcesos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
-  //
+  const [tipos, setTipos] = useState<SelectValues[]>([]);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
-
   //Constantes de los filtros
-  const [idEstatus, setIdEstatus] = useState("");
+  const [idtipo, setIdTipo] = useState("");
   const [idFondo, setIdFondo] = useState("");
-  const [idanio, setIdanio] = useState("");
-  const [idmes, setIdmes] = useState("");
-  const [idProceso, setIdproceso] = useState("");
   const [idMunicipio, setidMunicipio] = useState("");
-  //
-  const [p1, setp1] = useState(3);
-
   //Constantes para las columnas
   const [data, setData] = useState([]);
-  const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  const agregarPresupuesto = (data: any) => {
-    setVrows(data);
-    setOpenModal(true);
-  };
+  /// Permisos
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const handleDescuento = (data: any) => { };
 
-  const columnsSolicitudAnticipoParticipaciones = [
-    { field: "id", headerName: "Identificador", width: 100, hide: true },
+  const columnsParticipaciones = [
+    { field: "id", hide: true },
     {
-      field: "acciones",  disableExport: true,
-      headerName: "Acciones",
-      description: "Ver Detalle de Cálculo",
+      field: "acciones",
+      disableExport: true,
+      headerName: "Acción",
+      description: "Acción",
       sortable: false,
       width: 150,
       renderCell: (v: any) => {
         return (
           <Box>
-            <Tooltip title="Asignar Presupuesto">
-              <IconButton onClick={() => agregarPresupuesto(v)}>
-                <AttachMoneyIcon />
-              </IconButton>
-            </Tooltip>
+            
+              <Tooltip title="Subir SPEI">
+                <IconButton onClick={() => handleDescuento(v)}>
+                  <FilePresentIcon />
+                </IconButton>
+              </Tooltip>
           </Box>
         );
       },
     },
     {
-      field: "proceso",
-      headerName: "Proceso",
-      width: 250,
-      description: "Proceso",
+      field: "estatus",
+      headerName: "Estatus",
+      width: 150,
+    },
+    {
+      field: "NumOrdenPago",
+      headerName: "Nº De Orden De Pago",
+      width: 200,
+      description: "Número De Orden De Pago",
+    },
+   
+    {
+      field: "NumCheque",
+      headerName: "Nº De Cheque",
+      width: 200,
+      description: "Número De Cheque",
     },
     {
       field: "Anio",
-      headerName: "Año",
-      width: 100,
-      description: "Año",
+      headerName: "Ejercicio",
+      width: 80,
+      description: "Ejercicio",
     },
     {
-      field: "descripcionMes",
+      field: "Mes",
       headerName: "Mes",
-      width: 150,
+      width: 100,
       description: "Mes",
     },
-    {
-      field: "ClaveEstado",
-      headerName: "Clave Estado",
-      width: 100,
-      description: "Clave Estado",
-    },
-    {
-      field: "municipio",
-      headerName: "Municipio",
-      width: 150,
-      description: "Municipio",
-    },
-    {
-      field: "Concepto",
-      headerName: "Concepto",
-      width: 250,
-      description: "Concepto",
-    },
-
-    {
-      field: "Total",
-      headerName: "Importe",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-
-    {
-      field: "ComentarioPresupuesto",
-      headerName: "Observación DPCP",
-      width: 300,
-      description: "Observación DPCP",
-    },
-
-    {
-      field: "RutaArchivo",
-      headerName: "Documento DPCP",
-      width: 100,
-      renderCell: (v: any) => {
-        return v.row.RutaArchivo !== null ? (
-          <Box>
-            <Link href={v.row.RutaArchivo} underline="always">
-              Descargar
-            </Link>
-          </Box>
-        ) : (
-          ""
-        );
-      },
-    },
-  ];
-
-
-  const columnsAnticipoParticipaciones = [
-    { field: "id", headerName: "Identificador", width: 100, hide: true },
-    { field: "idprincipal", headerName: "idcalculo", width: 10, hide: true },
-    {
-      field: "acciones",  disableExport: true,
-      headerName: "Acciones",
-      description: "Ver Detalle de Cálculo",
-      sortable: false,
-      width: 150,
-      renderCell: (v: any) => {
-        return (
-          <Box>
-            <Tooltip title="Asignar Presupuesto">
-              <IconButton onClick={() => agregarPresupuesto(v)}>
-                <AttachMoneyIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        );
-      },
-    },
-    {
-      field: "proceso",
-      headerName: "Proceso",
-      width: 250,
-      description: "Proceso",
-    },
-    {
-      field: "Anio",
-      headerName: "Año",
-      width: 100,
-      description: "Año",
-    },
-    {
-      field: "mesdescripcion",
-      headerName: "Mes",
-      width: 150,
-      description: "Mes",
-    },
+  
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -214,221 +118,93 @@ const AsigPago = () => {
       width: 150,
       description: "Municipio",
     },
-
+   
     {
-      field: "Total",
-      headerName: "Importe",
-      width: 150,
-      description: "Importe",
-      ...Moneda,
-    },
-
-    {
-      field: "ComentarioPresupuesto",
-      headerName: "Observación DPCP",
-      width: 300,
-      description: "Observación DPCP",
-    },
-
-    {
-      field: "RutaArchivo",
-      headerName: "Documento DPCP",
-      width: 100,
-      renderCell: (v: any) => {
-        return v.row.RutaArchivo !== null ? (
-          <Box>
-            <Link href={v.row.RutaArchivo} underline="always">
-              Descargar
-            </Link>
-          </Box>
-        ) : (
-          ""
-        );
-      },
-    },
-  ];
-
-  const columnsParticipaciones = [
-    { field: "id", headerName: "Identificador", width: 100, hide: true },
-    { field: "idcalculo", headerName: "idcalculo", width: 10, hide: true },
-    {
-      field: "acciones",  disableExport: true,
-      headerName: "Acciones",
-      description: "Ver Detalle de Cálculo",
-      sortable: false,
-      width: 150,
-      renderCell: (v: any) => {
-        return (
-          <Box>
-            <Tooltip title="Asignar Presupuesto">
-              <IconButton onClick={() => agregarPresupuesto(v)}>
-                <AttachMoneyIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        );
-      },
-    },
-    {
-      field: "proceso",
-      headerName: "Proceso",
+      field: "fondodes",
+      headerName: "Descripción de Fondo",
       width: 250,
-      description: "Proceso",
     },
-    {
-      field: "fondodescripcion",
-      headerName: "Fondo",
-      width: 150,
-      description: "Fondo",
-    },
-    {
-      field: "Anio",
-      headerName: "Año",
-      width: 150,
-      description: "Año",
-    },
-    {
-      field: "Descripcion",
-      headerName: "Mes",
-      width: 250,
-      description: "Mes",
-    },
-    {
-      field: "ClaveEstado",
-      headerName: "Clave Estado",
-      width: 150,
-      description: "Clave Estado",
-    },
-    {
-      field: "municipio",
-      headerName: "Municipio",
-      width: 150,
-      description: "Municipio",
-    },
+    
 
+   
+   
     {
       field: "total",
-      headerName: "Importe",
+      headerName: "Total Neto",
       width: 150,
-      description: "Importe",
+      description: "Total Neto",
+      ...Moneda,
+    },
+    {
+      field: "Retenciones",
+      headerName: "Retenciones",
+      width: 150,
+      description: "Retenciones",
+      ...Moneda,
+    },
+    {
+      field: "Descuentos",
+      headerName: "Descuentos",
+      width: 150,
+      description: "Descuentos",
+      ...Moneda,
+    },
+    {
+      field: "importe",
+      headerName: "Importe Total",
+      width: 150,
+      description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
       ...Moneda,
     },
 
-    {
-      field: "ComentarioPresupuesto",
-      headerName: "Observación DPCP",
-      width: 300,
-      description: "Observación DPCP",
-    },
-
-    {
-      field: "RutaArchivo",
-      headerName: "Documento DPCP",
-      width: 100,
-      renderCell: (v: any) => {
-        return v.row.RutaArchivo !== null ? (
-          <Box>
-            <Link href={v.row.RutaArchivo} underline="always">
-              Descargar
-            </Link>
-          </Box>
-        ) : (
-          ""
-        );
-      },
-    },
   ];
 
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 8) {
-        setEstatus(res.RESPONSE);
-      } else if (operacion === 12) {
+      if (operacion === 12) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 4) {
-        setAnios(res.RESPONSE);
-      } else if (operacion === 2) {
-        setMeses(res.RESPONSE);
-      } else if (operacion === 14) {
-        setProcesos(res.RESPONSE);
-        setslideropen(false);
       } else if (operacion === 5) {
         setMunicipios(res.RESPONSE);
+      } else if (operacion === 17) {
+        setTipos(res.RESPONSE);
+        setslideropen(false);
       }
     });
   };
 
-  const handleClose = () => {
-    setOpenModal(false);
-  };
+ 
 
   const handleFilterChange1 = (v: string) => {
-    setIdanio(v);
+    setIdTipo(v);
   };
 
   const handleFilterChange2 = (v: string) => {
-    setIdmes(v);
-  };
-
-  const handleFilterChange3 = (v: string) => {
-    setIdproceso(v);
-    //console.log(v);
-    if (v !== "false") {
-      let subArray = procesos.filter((val) => val.value === v);
-      if (subArray[0]["label"] === "Anticipo de Participaciones") {
-        setp1(1);
-      } else if (
-        subArray[0]["label"] === "Solicitud de Anticipo de Participaciones"
-      ) {
-        setp1(2);
-      } else {
-        setp1(3);
-      }
-    }
-  };
-
-  const handleFilterChange4 = (v: string) => {
-    setIdEstatus(v);
-  };
-
-  const handleFilterChange5 = (v: string) => {
     setIdFondo(v);
   };
 
-  const handleFilterChange6 = (v: string) => {
+  const handleFilterChange3 = (v: string) => {
     setidMunicipio(v);
   };
 
-  const Fnworkflow = () => {
-    //setIdFondo(v);
-  };
-  const [selectionModel, setSelectionModel] =
-    React.useState<GridSelectionModel>([]);
-  const FinalizarProceso = () => {
-    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
-    //console.log(selectionModel);
-    setOpenModal(true);
-  };
+  
+ 
+ 
 
-  const AsignarPresupuesto = () => {
-    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
-    //console.log(selectionModel);
-    setOpenModal(true);
-  };
+ 
+
 
   const handleClick = () => {
     //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
     let data = {
+      TIPO: 4,
       P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_ANIO: idanio === "false" ? "" : idanio,
-      P_MES: idmes === "false" ? "" : idmes,
-      P_IDPROCESO: idProceso === "false" ? "" : idProceso,
-      P_IDESTATUS: idEstatus === "false" ? "" : idEstatus,
+      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
+      P_IDTIPO: idtipo === "false" ? "" : idtipo,
     };
     //console.log(data);
-    DPCPServices.ConsultaDPCP(data).then((res) => {
+    DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -446,100 +222,60 @@ const AsigPago = () => {
   };
 
   useEffect(() => {
-    loadFilter(2);
-    loadFilter(4);
-    loadFilter(8);
     loadFilter(12);
     loadFilter(5);
-    loadFilter(14);
+    loadFilter(17);
+    handleClick();
+  /*  permisos.map((item: PERMISO) => {
+      if (
+        String(item.ControlInterno) === "PARTMUN"
+      ) {
+        //console.log(item);
+        if (String(item.Referencia) === "AGREGPLANT") {
+          setCargarPlant(true);
+        }
+        else if (String(item.Referencia) === "DESCPLANT") {
+          setDescPlant(true);
+        }
+        else if (String(item.Referencia) === "DISFIDE") {
+          setDisFide(true);
+        }
+      }
+    });*/
   }, []);
 
   return (
     <div>
       <Slider open={slideropen}></Slider>
-      <Grid container spacing={1} sx={{ padding:"2%"}}>
-      <Grid item xs={12} sm={12} md={12} lg={12}>
-        Módulo de Administración Financiera
-      </Grid>
+
+     
+
+
+
+
+
+    
+
+      <Grid container spacing={1} padding={2}>
+        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+          <Grid container sx={{ justifyContent: "center" }}>
+            <Grid item xs={10} sx={{ textAlign: "center" }}>
+              <Typography variant="h4" paddingBottom={2}>
+              Módulo de Administración Financiera
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>
-              Año:
-            </Typography>
-            <SelectFrag
-              value={idanio}
-              options={anios}
-              onInputChange={handleFilterChange1}
-              placeholder={"Seleccione Año"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
-
-          <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>
-              Mes:
-            </Typography>
-            <SelectFrag
-              value={idmes}
-              options={mes}
-              onInputChange={handleFilterChange2}
-              placeholder={"Seleccione Mes"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
-
-          <Grid item xs={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>
-              Procesos:
-            </Typography>
-            <SelectFrag
-              value={idProceso}
-              options={procesos}
-              onInputChange={handleFilterChange3}
-              placeholder={"Seleccione Proceso"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
-
-          <Grid item xs={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>
-              Estatus:
-            </Typography>
-            <SelectFrag
-              value={idEstatus}
-              options={estatus}
-              onInputChange={handleFilterChange4}
-              placeholder={"Seleccione Estatus"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
-
-          <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>
-              Fondo:
-            </Typography>
-            <SelectFrag
-              value={idFondo}
-              options={fondos}
-              onInputChange={handleFilterChange5}
-              placeholder={"Seleccione Fondo"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
-
-          <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>
+            <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Municipio:
             </Typography>
             <SelectFrag
               value={idMunicipio}
               options={municipio}
-              onInputChange={handleFilterChange6}
+              onInputChange={handleFilterChange3}
               placeholder={"Seleccione Municipio"}
               label={""}
               disabled={false}
@@ -547,129 +283,90 @@ const AsigPago = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={12}>
+        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
           <Button
             onClick={handleClick}
             variant="contained"
             color="success"
-            endIcon={<SendIcon />}
+            endIcon={<SendIcon sx={{ color: "white" }} />}
           >
-            Buscar
+            <Typography sx={{ color: "white" }}> Buscar </Typography>
           </Button>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={12}>
-          <ToggleButtonGroup>
-            <Tooltip title={"Asignar Presupuesto"}>
-              <ToggleButton value="check" onClick={() => AsignarPresupuesto()}>
-                <AttachMoneyIcon />
-              </ToggleButton>
-            </Tooltip>
-            <Tooltip title={"Finalizar Proceso"}>
-              <ToggleButton value="check" onClick={() => FinalizarProceso()}>
-                <DoneAllIcon />
-              </ToggleButton>
-            </Tooltip>
-          </ToggleButtonGroup>
-        </Grid>
+    
+
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <Typography sx={{ fontFamily: "sans-serif" }}>
-            Para Realizar la consulta de Información es Requerido los filtros
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12}>
-          <div style={{ height: "60vh", width: "100%" , display : p1 === 1 ? "block":"none"}}>
+          <div
+            style={{
+              height: "58vh",
+              width: "100%",
+            }}
+          >
             <ThemeProvider theme={theme}>
-                <DataGrid
-                  localeText={
-                    esES.components.MuiDataGrid.defaultProps.localeText
+              <DataGrid
+                columns={columnsParticipaciones}
+                rows={data}
+                density="compact"
+                rowsPerPageOptions={[10, 25, 50, 100]}
+                disableSelectionOnClick
+                disableColumnFilter
+                disableColumnSelector
+                disableDensitySelector
+                getRowHeight={() => "auto"}
+                getRowClassName={(params) =>
+                  {
+                    if (params.row.Presupuesto == null) {
+                      return '';
+                    }
+                    return clsx('super-app', {
+                      negative: params.row.Presupuesto !== params.row.total,
+                      positive: params.row.Presupuesto == params.row.total,
+                    });
                   }
-                  columns={columnsAnticipoParticipaciones}
-                  rows={data}
-                  density="compact"
-                  rowsPerPageOptions={[10, 25, 50, 100]}
-                  disableSelectionOnClick
-                  disableColumnFilter
-                  disableColumnSelector
-                  disableDensitySelector
-                  getRowHeight={() => "auto"}
-                  checkboxSelection={checkboxSelection}
-                  components={{ Toolbar: GridToolbar }}
-                  sx={{ fontFamily: "MontserratMedium" }}
-                  onSelectionModelChange={(newSelectionModel: any) => {
-                    setSelectionModel(newSelectionModel);
-                  }}
-                  selectionModel={selectionModel}
-                />
-            </ThemeProvider>
-          </div>
-
-          <div style={{ height: "60vh", width: "100%" , display : p1 === 2 ? "block":"none"}}>
-            <ThemeProvider theme={theme}>
-                <DataGrid
-                  localeText={
-                    esES.components.MuiDataGrid.defaultProps.localeText
-                  }
-                  columns={columnsSolicitudAnticipoParticipaciones}
-                  rows={data}
-                  density="compact"
-                  rowsPerPageOptions={[10, 25, 50, 100]}
-                  disableSelectionOnClick
-                  disableColumnFilter
-                  disableColumnSelector
-                  disableDensitySelector
-                  getRowHeight={() => "auto"}
-                  checkboxSelection={checkboxSelection}
-                  components={{ Toolbar: GridToolbar }}
-                  sx={{ fontFamily: "sans-serif" }}
-                  onSelectionModelChange={(newSelectionModel: any) => {
-                    setSelectionModel(newSelectionModel);
-                  }}
-                  selectionModel={selectionModel}
-                />
-            </ThemeProvider>
-          </div>
-
-          <div style={{ height: "60vh", width: "100%" , display : p1 === 3 ? "block":"none"}}>
-            <ThemeProvider theme={theme}>
-                <DataGrid
-                  localeText={
-                    esES.components.MuiDataGrid.defaultProps.localeText
-                  }
-                  columns={columnsParticipaciones}
-                  rows={data}
-                  density="compact"
-                  rowsPerPageOptions={[10, 25, 50, 100]}
-                  disableSelectionOnClick
-                  disableColumnFilter
-                  disableColumnSelector
-                  disableDensitySelector
-                  getRowHeight={() => "auto"}
-                  checkboxSelection={checkboxSelection}
-                  components={{ Toolbar: GridToolbar }}
-                  sx={{ fontFamily: "sans-serif" }}
-                  onSelectionModelChange={(newSelectionModel: any) => {
-                    setSelectionModel(newSelectionModel);
-                  }}
-                  selectionModel={selectionModel}
-                />
+                } 
+                components={{ Toolbar: GridToolbar }}
+                sx={{
+                  fontFamily: "Poppins,sans-serif", fontWeight: '600',
+                  '& .super-app.negative': {
+                    color: "rgb(84, 3, 3)",
+                    backgroundColor: "rgb(196, 40, 40, 0.384)",
+                  },
+                  '& .super-app.positive': {
+                    backgroundColor: 'rgb(16, 145, 80, 0.567)',
+                   
+                  },
+                }}
+                componentsProps={{
+                  toolbar: {
+                    label: "buscar",
+                    showQuickFilter: true,
+                    quickFilterProps: { debounceMs: 500 },
+                  },
+                }}
+                checkboxSelection={checkboxSelection}
+                onSelectionModelChange={(newSelectionModel: any) => {
+                  setSelectionModel(newSelectionModel);
+                }}
+                selectionModel={selectionModel}
+                localeText={{
+                  noRowsLabel: "No se ha encontrado datos.",
+                  noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+                  toolbarColumns: "Columnas",
+                  toolbarExport: "Exportar",
+                  toolbarColumnsLabel: "Seleccionar columnas",
+                  toolbarFilters: "Filtros",
+                  toolbarFiltersLabel: "Ver filtros",
+                  toolbarFiltersTooltipHide: "Quitar filtros",
+                  toolbarFiltersTooltipShow: "Ver filtros",
+                  toolbarQuickFilterPlaceholder: "Buscar",
+                }}
+              />
             </ThemeProvider>
           </div>
         </Grid>
       </Grid>
-
-      {/* MODALES */}
-
-      {openModal ? (
-        <ModalPresupuesto
-          handleClose={handleClose}
-          vrows={vrows}
-          handleAccion={Fnworkflow}
-        ></ModalPresupuesto>
-      ) : (
-        ""
-      )}
     </div>
   );
 };

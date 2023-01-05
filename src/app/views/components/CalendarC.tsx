@@ -60,7 +60,6 @@ const CalendarC = () => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
-    //console.log("SelectSlot fecha inicio", Fecha_inicio, " Fecha fin ", Fecha_fin);
 
   };
 
@@ -73,7 +72,7 @@ const CalendarC = () => {
 
   const handleClose = () => {
     setOpen(false);
-    consulta({ NUMOPERACION: 4 });
+    consulta({ NUMOPERACION: 4 ,CHUSER:user.id});
   };
 
   const handleDelete = () => {
@@ -96,7 +95,7 @@ const CalendarC = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "Evento Eliminado!",
             });
 
             handleClose();
@@ -129,10 +128,7 @@ const CalendarC = () => {
           };
           eveitem.push(it);
         });
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
+  
         setEventos(eveitem);
       } else {
         AlertS.fire({
@@ -144,12 +140,6 @@ const CalendarC = () => {
     });
   };
 
-
-
-  const moviendoEventos = (v: any) => {
-    //console.log(v);
-
-  }
 
   useEffect(() => {
     consulta({ NUMOPERACION: 4 ,CHUSER:user.id});
@@ -191,7 +181,6 @@ const CalendarC = () => {
         </Grid>
       </Grid>
       <Calendar
-        
         culture="es"
         localizer={localizer}
         events={eventos}
