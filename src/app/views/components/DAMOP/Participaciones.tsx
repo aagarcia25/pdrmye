@@ -390,6 +390,7 @@ const Participaciones = () => {
     setOpenModalAnticipo(false);
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
+    handleClick();
   };
 
   const handleFilterChange1 = (v: string) => {

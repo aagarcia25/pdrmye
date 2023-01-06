@@ -33,6 +33,7 @@ import MUIXDataGrid from "../MUIXDataGrid";
 import ButtonsAdd from "../menu/catalogos/Utilerias/ButtonsAdd";
 import CloseIcon from "@mui/icons-material/Close";
 import Radio from '@mui/material/Radio';
+import Swal from "sweetalert2";
 export const Descuentos = ({
   handleClose,
   tipo,
@@ -65,7 +66,15 @@ export const Descuentos = ({
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", hide: true, width: 150 },
-    { field: "Tipo", headerName: "Tipo", width: 200 },
+    { field: "Tipo", headerName: "Tipo", width: 200,
+    renderCell: (v) => {
+      return (
+        <Box>
+          {v.row.Tipo === "1" ? "Descuentos" : "Retenciones"}
+        </Box>
+      );
+    },
+  },
     { field: "NumOperacion", headerName: "NumOperacion", width: 200 },
     { field: "OtrosCargos", headerName: "OtrosCargos", width: 200 },
     { field: "ParcialDescuento", headerName: "ParcialDescuento", width: 150, },
@@ -138,41 +147,65 @@ export const Descuentos = ({
     });
   };
   const handleAplicarDescuento = () => {
-    let data = {
-      CHID: dt.row.id,
-      CHUSER: user.id,
-      IDMUN: dt.row.idmunicipio,
-      TIPO: value === "Anticipo" ? 1 : 2,
-      NUMOP: numOperacion,
-      IDURES: user.idUResp,
-      IDDIVISA: dt.row.idDivisa,
-      DESPARCIAL: desPar,
-      OTROSCARGOS: otrosCar,
-      TOTAL: (desPar + otrosCar),
-      CVERET: value === "Anticipo" ? "" : Math.random() * 5000,
-      DESCRIPCION: ComentariosDes
+    if (value.length <1 ||desPar===0||numOperacion===""||numOperacion==="false"||(desPar + otrosCar)===0) {
+      AlertS.fire({
+        title: "Error!",
+        text: "Verificar Campos",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: "",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+       
+              let data = {
+                CHID: dt.row.id,
+                CHUSER: user.id,
+                IDMUN: dt.row.idmunicipio,
+                TIPO: value === "Anticipo" ? 1 : 2,
+                NUMOP: numOperacion,
+                IDURES: user.idUResp,
+                IDDIVISA: dt.row.idDivisa,
+                DESPARCIAL: desPar,
+                OTROSCARGOS: otrosCar,
+                TOTAL: (desPar + otrosCar),
+                CVERET: value === "Anticipo" ? "" : Math.random() * 5000,
+                DESCRIPCION: ComentariosDes
+              }
+              DPCPServices.setDescuentos(data).then((res) => {
+                if (res.SUCCESS) {
+          
+                  setValue("")
+                  // setOpenModalDes(false);
+                  setOtrosCar(0);
+                  setDesPar(0);
+                  setComentariosDes("")
+                  console.log(res.RESPONSE);
+                  Toast.fire({
+                    icon: "success",
+                    title: "Descuento Agregado!",
+                  });
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+      
+        }
+      });
     }
-    DPCPServices.setDescuentos(data).then((res) => {
-      if (res.SUCCESS) {
 
-        setValue("")
-        // setOpenModalDes(false);
-        setOtrosCar(0);
-        setDesPar(0);
-        setComentariosDes("")
-        console.log(res.RESPONSE);
-        Toast.fire({
-          icon: "success",
-          title: "Registro Agregado!",
-        });
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
+ 
 
 
   };
@@ -188,6 +221,7 @@ export const Descuentos = ({
   };
 
   const handleCloseModal = () => {
+    consulta();
     setValue("")
     setOpenModalDes(false);
     setOtrosCar(0);
