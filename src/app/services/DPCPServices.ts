@@ -33,4 +33,8 @@ export class DPCPServices {
         return await post('getDescuentos', data);
     }
 
+    public static async GetDetalleRegistro(data: any) {
+        return await post('GetDetalleRegistro', data);
+    }
+
 }

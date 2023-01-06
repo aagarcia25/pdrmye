@@ -47,6 +47,8 @@ import ModalDAMOP from "../componentes/ModalDAMOP";
 
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Descuentos } from "./Descuentos";
+import ParticipacionesDetalle from "./ParticipacionesDetalle";
+import ModalForm from "../componentes/ModalForm";
 
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -55,6 +57,7 @@ const Participaciones = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openModalDescuento, setOpenModalDescuento] = useState<boolean>(false);
   const [openModalAnticipo, setOpenModalAnticipo] = useState<boolean>(false);
+  const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
@@ -101,8 +104,9 @@ const Participaciones = () => {
   };
 
   
-  const handleDetalle = (v: any) => {
-   
+  const handleDetalle = (data: any) => {
+    setVrows(data);
+    setOpenModalDetalle(true);
 
   };
 
@@ -414,6 +418,7 @@ const Participaciones = () => {
     setOpenModal(false);
     setOpenModalAnticipo(false);
     setOpenModalDescuento(false);
+    setOpenModalDetalle(false);
   };
 
   const handleFilterChange1 = (v: string) => {
@@ -864,6 +869,18 @@ const Participaciones = () => {
       ) : (
         ""
       )}
+
+
+    {openModalDetalle ? (
+      <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
+        <ParticipacionesDetalle
+          handleClose={handleClose} data={vrows}  />
+            </ModalForm>
+         ) : (
+         ""
+      )}
+    
+       
 
 
 
