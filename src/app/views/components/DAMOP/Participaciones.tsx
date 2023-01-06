@@ -20,7 +20,6 @@ import SendIcon from "@mui/icons-material/Send";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import {  PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
@@ -50,6 +49,11 @@ import { Descuentos } from "./Descuentos";
 import ParticipacionesDetalle from "./ParticipacionesDetalle";
 import ModalForm from "../componentes/ModalForm";
 import AddIcon from '@mui/icons-material/Add';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import EditOffIcon from '@mui/icons-material/EditOff';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
@@ -954,7 +958,7 @@ const Participaciones = () => {
           </Button>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
+        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={-1}>
           <ToggleButtonGroup>
 
             <Tooltip title={"Integrar Operaciones"}>
@@ -1078,6 +1082,66 @@ const Participaciones = () => {
             ) : (
               ""
             )}
+          </ToggleButtonGroup>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
+          <ToggleButtonGroup>
+
+            <Tooltip title={"Finalizar solicitud de egreso"}>
+              <ToggleButton value="check">
+                <EditOffIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Autorizar solicitud de egreso"}>
+              <ToggleButton value="check">
+                <CheckCircleIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Transferir a egreso"}>
+              <ToggleButton value="check">
+                <ArrowUpwardIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Autorizar egresos"}>
+              <ToggleButton value="check">
+                <CheckCircleIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Finalizar egreso"}>
+              <ToggleButton value="check">
+                <EditOffIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Validar egreso"}>
+              <ToggleButton value="check">
+                <ThumbUpIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Generar solicitud de pago"}>
+              <ToggleButton value="check">
+                <AttachMoneyIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Finalizar requerimiento de anticipo"}>
+              <ToggleButton value="check">
+                <EditOffIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Autorizar requerimiento de anticipo"}>
+              <ToggleButton value="check">
+                <CheckCircleIcon  />
+              </ToggleButton>
+            </Tooltip>
+
           </ToggleButtonGroup>
         </Grid>
 
