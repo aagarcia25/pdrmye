@@ -874,7 +874,7 @@ const Participaciones = () => {
     {openModalDetalle ? (
       <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
         <ParticipacionesDetalle
-          handleClose={handleClose} data={vrows}  />
+         data={vrows}  />
             </ModalForm>
          ) : (
          ""

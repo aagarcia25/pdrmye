@@ -7,13 +7,11 @@ import { DPCPServices } from "../../../services/DPCPServices";
 
 const ParticipacionesDetalle = (
     {
-     data,
-     handleClose,
+     data
     }
     :
     {
      data: any;
-     handleClose: Function;
     }
 ) => {
 
