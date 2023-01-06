@@ -157,6 +157,7 @@ export interface RESPONSE {
     idPerfil?: string;
     idUsuarioCentral?: string;
     numFideicomisos?: number;
+    idUResp?: string;
 }
 
 export interface UserInfo {
