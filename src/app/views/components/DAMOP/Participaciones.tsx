@@ -64,6 +64,7 @@ const Participaciones = () => {
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tiposFondo, setTiposFondo] = useState<SelectValues[]>([]);
   const [tiposSolicitud, setTiposSolicitud] = useState<SelectValues[]>([]);
+  const [estatus, setEstatus] = useState<SelectValues[]>([]);
 
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
@@ -71,6 +72,7 @@ const Participaciones = () => {
   const [numerooperacion, setnumerooperacion] = useState(0);
   const [idtipoFondo, setIdTipoFondo] = useState("");
   const [idtipoSolicitud, setIdTipoSolicitud] = useState("");
+  const [idestatus, setIdEstatus] = useState("");
 
   const [idFondo, setIdFondo] = useState("");
   const [idMunicipio, setidMunicipio] = useState("");
@@ -408,11 +410,11 @@ const Participaciones = () => {
         setMunicipios(res.RESPONSE);
       } else if (operacion === 17) {
         setTiposFondo(res.RESPONSE);
-        setslideropen(false);
       } else if (operacion === 24) {
         setTiposSolicitud(res.RESPONSE);
         setslideropen(false);
-
+      } else if (operacion === 25) {
+        setEstatus(res.RESPONSE);
       }
     });
   };
@@ -447,6 +449,10 @@ const Participaciones = () => {
     setIdTipoSolicitud(v);
     setIntOperaciones(true); setMunTieneFide(false)
     // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false) }
+  };
+
+  const handleFilterChange5 = (v: string) => {
+    setIdEstatus(v);
   };
 
   const Fnworkflow = (data: string) => {
@@ -799,6 +805,7 @@ const Participaciones = () => {
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
       P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
+      P_IDESTATUS: idestatus === "false" ? "" : idestatus,
 
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
@@ -841,6 +848,7 @@ const Participaciones = () => {
     loadFilter(12);
     loadFilter(5);
     loadFilter(17);
+    loadFilter(25);
     loadFilter(24);
     handleClick();
     downloadplantilla();
@@ -895,6 +903,7 @@ const Participaciones = () => {
       )}
 
       <Grid container spacing={1} padding={0}>
+        
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={10} sx={{ textAlign: "center" }}>
@@ -908,7 +917,20 @@ const Participaciones = () => {
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12} direction="row"
           justifyContent="center"
           alignItems="center" >
-          <Grid item xs={6} sm={4} md={3} lg={2.5}>
+
+          <Grid item xs={6} sm={4} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
+            <SelectFrag
+              value={idestatus}
+              options={estatus}
+              onInputChange={handleFilterChange5}
+              placeholder={"Seleccione Estatus"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
+          
+          <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
             <SelectFrag
               value={idtipoFondo}
@@ -919,7 +941,7 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
-          <Grid item xs={6} sm={4} md={3} lg={2.5}>
+          <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
             <SelectFrag
               value={idtipoSolicitud}
@@ -930,7 +952,7 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
-          <Grid item xs={6} sm={4} md={3} lg={2.5}>
+          <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFrag
               value={idFondo}
@@ -942,7 +964,7 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={6} sm={4} md={3} lg={2.5}>
+          <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
             <SelectFrag
               value={idMunicipio}
