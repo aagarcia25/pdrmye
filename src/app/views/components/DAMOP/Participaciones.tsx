@@ -137,6 +137,11 @@ const Participaciones = () => {
       },
     },
 
+    {
+      field: "estatus",
+      headerName: "Estatus",
+      width: 200,
+    },
   
 
 
@@ -279,11 +284,7 @@ const Participaciones = () => {
       width: 270,
     },
 
-    {
-      field: "estatus",
-      headerName: "Estatus",
-      width: 200,
-    },
+   
     {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
@@ -291,30 +292,7 @@ const Participaciones = () => {
       hide: false,
     },
 
-    {
-      field: "Divisa",
-      headerName: "Divisa",
-      width: 80,
-      description: "Divisa",
-    },
-    {
-      field: "Proveedor",
-      headerName: "Proveedor",
-      width: 100,
-      description: "Proveedor",
-    },
-    {
-      field: "Deudor",
-      headerName: "Deudor",
-      width: 100,
-      description: "Deudor",
-    },
-    {
-      field: "clasificacion",
-      headerName: "Clasificación",
-      width: 100,
-      description: "Clasificación de Solicitud de Pago",
-    },
+    
     {
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
@@ -351,13 +329,26 @@ const Participaciones = () => {
       description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
       ...Moneda,
     },
-
+    
     {
-      field: "Observaciones",
-      headerName: "Observaciones",
-      width: 400,
-      description: "Observaciones",
+      field: "Proveedor",
+      headerName: "Proveedor",
+      width: 100,
+      description: "Proveedor",
     },
+    {
+      field: "Deudor",
+      headerName: "Deudor",
+      width: 100,
+      description: "Deudor",
+    },
+    {
+      field: "clasificacion",
+      headerName: "Clasificación",
+      width: 100,
+      description: "Clasificación de Solicitud de Pago",
+    },
+   
     {
       field: "NumParticipacion",
       headerName: "Nº De Participación",
@@ -393,6 +384,18 @@ const Participaciones = () => {
       headerName: "Nº De Cheque",
       width: 200,
       description: "Número De Cheque",
+    },
+    {
+      field: "Divisa",
+      headerName: "Divisa",
+      width: 80,
+      description: "Divisa",
+    },
+    {
+      field: "Observaciones",
+      headerName: "Observaciones",
+      width: 400,
+      description: "Observaciones",
     },
   ];
 

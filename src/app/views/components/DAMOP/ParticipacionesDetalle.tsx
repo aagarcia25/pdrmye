@@ -4,6 +4,7 @@ import MUIXDataGrid from '../MUIXDataGrid';
 import { Moneda } from "../menu/CustomToolbar";
 import { GridColDef } from "@mui/x-data-grid";
 import { DPCPServices } from "../../../services/DPCPServices";
+import Slider from "../Slider";
 
 const ParticipacionesDetalle = (
     {
@@ -14,7 +15,7 @@ const ParticipacionesDetalle = (
      data: any;
     }
 ) => {
-
+    const [slideropen, setslideropen] = useState(true);
     const [rows, setRows] = useState([]);
 
     const columns: GridColDef[] = [
@@ -33,6 +34,7 @@ const ParticipacionesDetalle = (
         DPCPServices.GetDetalleRegistro(data).then((res) => {
           if (res.SUCCESS) {
             setRows(res.RESPONSE);
+            setslideropen(false);
           }
         });
       };
@@ -43,6 +45,7 @@ const ParticipacionesDetalle = (
       
   return (
        <>
+       <Slider open={slideropen}></Slider>
       <MUIXDataGrid columns={columns} rows={rows} />
       </>
   )
