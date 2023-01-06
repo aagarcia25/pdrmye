@@ -32,6 +32,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CallMergeIcon from '@mui/icons-material/CallMerge';
+import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import {
   DataGrid,
   GridSelectionModel,
@@ -638,6 +639,58 @@ const Participaciones = () => {
     }
   };
 
+  const unificarSolicitudes = () => {
+
+    if (selectionModel.length > 1) {
+      Swal.fire({
+        icon: "info",
+        title: "Unificación",
+        text: "Los Movimientos Seleccionados se Unificaran en una sola operación",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              DPCPServices.unificarSolicitudes(data).then((res) => {
+                if (res.SUCCESS) {
+                  Toast.fire({
+                    icon: "success",
+                    title: "Consulta Exitosa!",
+                  });
+                  handleClick();
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+
+    } else {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar mas de un Registros",
+        icon: "error",
+      });
+    }
+  };
+
   const SolicitudOrdenPago = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
@@ -866,6 +919,14 @@ const Participaciones = () => {
                 disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6}
                 onClick={() => integrarOperaciones()}>
                 <CallMergeIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6 ? "inherit" : "primary"} />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Unificar Registros"}>
+              <ToggleButton value="check"
+                disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idMunicipio.length < 6}
+                onClick={() => unificarSolicitudes()}>
+                <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 ||  idMunicipio.length < 6 ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip>
 

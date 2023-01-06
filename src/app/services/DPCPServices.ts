@@ -20,13 +20,14 @@ export class DPCPServices {
     public static async eliminarSolicitudes(data: any) {
         return await post('eliminarSolicitudes', data);
     }
-
     
     public static async integraSolicitudes(data: any) {
         return await post('integraSolicitudes', data);
     }
     
-    
+    public static async unificarSolicitudes(data: any) {
+        return await post('unificarSolicitudes', data);
+    }
     
     public static async getDescuentos(data: any) {
         return await post('getDescuentos', data);
