@@ -21,7 +21,7 @@ import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import { GetParticipaciones, PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import {  PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
@@ -33,6 +33,7 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CallMergeIcon from '@mui/icons-material/CallMerge';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
+import InfoIcon from "@mui/icons-material/Info";
 import {
   DataGrid,
   GridSelectionModel,
@@ -99,8 +100,42 @@ const Participaciones = () => {
 
   };
 
+  
+  const handleDetalle = (v: any) => {
+   
+
+  };
+
   const columnsParticipaciones = [
     { field: "id", hide: true },
+
+    {
+      field: "Detalle",
+      disableExport: true,
+      headerName: "Ver Detalle",
+      description: "Ver Detalle",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            {v.row.detalle === 1  ? (
+              <Tooltip title="Ver Detalle del Registro">
+                <IconButton onClick={() => handleDetalle(v)}>
+                  <InfoIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Box>
+        );
+      },
+    },
+
+  
+
+
     {
       field: "acciones",
       disableExport: true,
