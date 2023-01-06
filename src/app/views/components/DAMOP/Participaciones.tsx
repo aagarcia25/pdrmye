@@ -49,7 +49,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Descuentos } from "./Descuentos";
 import ParticipacionesDetalle from "./ParticipacionesDetalle";
 import ModalForm from "../componentes/ModalForm";
-
+import AddIcon from '@mui/icons-material/Add';
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
@@ -150,10 +150,10 @@ const Participaciones = () => {
     {
       field: "acciones",
       disableExport: true,
-      headerName: "Agregar Descuentos",
-      description: "Agregar Descuentos",
+      headerName: "Descuentos",
+      description: "Descuentos",
       sortable: false,
-      width: 150,
+      width: 100,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -161,46 +161,12 @@ const Participaciones = () => {
               <Tooltip title="Agregar Descuentos">
                 <IconButton
                   onClick={() => handleDescuento(v)}>
-                  <AttachMoneyIcon />
+                  <AddIcon />
                 </IconButton>
               </Tooltip>
             ) : (
               ""
             )}
-
-            {String(v.row.NumParticipacion) !== 'null' && String(v.row.NumEgreso) === 'null' ? (
-              <Tooltip title="Transferir Participación">
-                <IconButton onClick={() => handleDescuento(v)}>
-                  <AttachMoneyIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-
-            {String(v.row.NumParticipacion) !== 'null' && String(v.row.NumEgreso) !== 'null' && String(v.row.NumOrdenPago) === 'null' ? (
-              <Tooltip title="Autorizar egreso">
-                <IconButton onClick={() => handleDescuento(v)}>
-                  <AttachMoneyIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-
-
-            {String(v.row.NumParticipacion) !== 'null' && String(v.row.NumEgreso) !== 'null' && String(v.row.NumOrdenPago) === 'null' ? (
-              <Tooltip title="Generar Solicitud de Pago">
-                <IconButton onClick={() => handleDescuento(v)}>
-                  <AttachMoneyIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-
-
-
           </Box>
         );
       },
