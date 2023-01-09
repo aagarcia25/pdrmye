@@ -20,7 +20,7 @@ import SendIcon from "@mui/icons-material/Send";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
-import {  PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
@@ -93,6 +93,23 @@ const Participaciones = () => {
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
 
 
+  const [DAMOP_INI,SETDAMOP_INI] = useState<boolean>(false);
+  const [DAMOP_FSE,SETDAMOP_FSE] = useState<boolean>(false);
+  const [DAMOP_ASE,SETDAMOP_ASE] = useState<boolean>(false);
+  const [DAMOP_TE,SETDAMOP_TE] = useState<boolean>(false);
+  const [DAMOP_AE,SETDAMOP_AE] = useState<boolean>(false);
+  const [DAMOP_FE,SETDAMOP_FE] = useState<boolean>(false);
+  const [DAMOP_VE,SETDAMOP_VE] = useState<boolean>(false);
+  const [DAMOP_GSE,SETDAMOP_GSE] = useState<boolean>(false);
+  const [DAMOP_ASP,SETDAMOP_ASP] = useState<boolean>(false);
+  const [DAMOP_FRA,SETDAMOP_FRA] = useState<boolean>(false);
+  const [DAMOP_ARA,SETDAMOP_ARA] = useState<boolean>(false);
+  const [DAMOP_FINALIZADO,SETDAMOP_FINALIZADO] = useState<boolean>(false);
+
+
+        
+
+
   const downloadplantilla = () => {
     let data = {
       NUMOPERACION: "PLANTILLA CARGA ANTICIPO PARTICIPACIONES",
@@ -109,7 +126,7 @@ const Participaciones = () => {
 
   };
 
-  
+
   const handleDetalle = (data: any) => {
     setVrows(data);
     setOpenModalDetalle(true);
@@ -118,7 +135,6 @@ const Participaciones = () => {
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
-
     {
       field: "Detalle",
       disableExport: true,
@@ -129,7 +145,7 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {v.row.detalle === 1  ? (
+            {v.row.detalle === 1 ? (
               <Tooltip title="Ver Detalle del Registro">
                 <IconButton onClick={() => handleDetalle(v)}>
                   <InfoIcon />
@@ -142,15 +158,11 @@ const Participaciones = () => {
         );
       },
     },
-
     {
       field: "estatus",
       headerName: "Estatus",
       width: 200,
     },
-  
-
-
     {
       field: "acciones",
       disableExport: true,
@@ -233,8 +245,6 @@ const Participaciones = () => {
       width: 150,
       description: "Beneficiario",
     },
-
-
     {
       field: "uresclave",
       headerName: "U. Resp",
@@ -256,15 +266,13 @@ const Participaciones = () => {
       width: 270,
     },
 
-   
+
     {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
       width: 600,
       hide: false,
     },
-
-    
     {
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
@@ -272,12 +280,11 @@ const Participaciones = () => {
       description: "Presupuesto SIREGOB",
       ...Moneda,
     },
-
     {
       field: "total",
-      headerName: "Total Neto",
+      headerName: "Total Bruto",
       width: 150,
-      description: "Total Neto",
+      description: "Total Bruto",
       ...Moneda,
     },
     {
@@ -296,12 +303,12 @@ const Participaciones = () => {
     },
     {
       field: "importe",
-      headerName: "Importe Total",
+      headerName: "Total Neto",
       width: 150,
-      description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
+      description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
       ...Moneda,
     },
-    
+
     {
       field: "Proveedor",
       headerName: "Proveedor",
@@ -320,7 +327,7 @@ const Participaciones = () => {
       width: 100,
       description: "Clasificación de Solicitud de Pago",
     },
-   
+
     {
       field: "NumParticipacion",
       headerName: "Nº De Participación",
@@ -424,6 +431,47 @@ const Participaciones = () => {
 
   const handleFilterChange5 = (v: string) => {
     setIdEstatus(v);
+
+    SETDAMOP_INI(false);
+    SETDAMOP_FSE(false);
+    SETDAMOP_ASE(false);
+    SETDAMOP_TE(false);
+    SETDAMOP_AE(false);
+    SETDAMOP_FE(false);
+    SETDAMOP_VE(false);
+    SETDAMOP_GSE(false);
+    SETDAMOP_ASP(false);
+    SETDAMOP_FRA(false);
+    SETDAMOP_ARA(false);
+    SETDAMOP_FINALIZADO(false);
+
+    if (v ==='a2d2adfc-8e12-11ed-a98c-040300000000'){
+     SETDAMOP_INI(true);
+    }else if(v ==='d117049e-8e12-11ed-a98c-040300000000'){
+      SETDAMOP_FSE(true);
+    }else if(v ==='e0f0d317-8e12-11ed-a98c-040300000000'){
+      SETDAMOP_ASE(true);
+    }else if(v ==='ef68291d-8e12-11ed-a98c-040300000000'){
+      SETDAMOP_TE(true);
+    }else if(v ==='fe7fae95-8e12-11ed-a98c-040300000000'){
+      SETDAMOP_AE(true);
+    }else if(v ==='0c1b887e-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_FE(true);
+    }else if(v ==='1a7d41ed-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_VE(true);
+    }else if(v ==='2a879241-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_GSE(true);
+    }else if(v ==='399a2ffe-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_ASP(true);
+    }else if(v ==='4a5cf61b-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_FRA(true);
+    }else if(v ==='596e5f1e-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_ARA(true);
+    }else if(v ==='67d9cdb6-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_FINALIZADO(true);
+    }
+
+
   };
 
   const Fnworkflow = (data: string) => {
@@ -853,16 +901,16 @@ const Participaciones = () => {
       )}
 
 
-    {openModalDetalle ? (
-      <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
-        <ParticipacionesDetalle
-         data={vrows}  />
-            </ModalForm>
-         ) : (
-         ""
+      {openModalDetalle ? (
+        <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
+          <ParticipacionesDetalle
+            data={vrows} />
+        </ModalForm>
+      ) : (
+        ""
       )}
-    
-       
+
+
 
 
 
@@ -874,7 +922,7 @@ const Participaciones = () => {
       )}
 
       <Grid container spacing={1} padding={0}>
-        
+
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={10} sx={{ textAlign: "center" }}>
@@ -900,7 +948,7 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
-          
+
           <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
             <SelectFrag
@@ -974,7 +1022,7 @@ const Participaciones = () => {
               <ToggleButton value="check"
                 disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idMunicipio.length < 6}
                 onClick={() => unificarSolicitudes()}>
-                <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 ||  idMunicipio.length < 6 ? "inherit" : "primary"} />
+                <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idMunicipio.length < 6 ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip>
 
@@ -1089,60 +1137,95 @@ const Participaciones = () => {
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
           <ToggleButtonGroup>
 
+          {DAMOP_FSE ? (
             <Tooltip title={"Finalizar solicitud de egreso"}>
               <ToggleButton value="check">
-                <EditOffIcon  />
+                <EditOffIcon />
               </ToggleButton>
             </Tooltip>
+             ) : (
+           ""
+               )}
 
+{DAMOP_ASE ? (
             <Tooltip title={"Autorizar solicitud de egreso"}>
               <ToggleButton value="check">
-                <CheckCircleIcon  />
+                <CheckCircleIcon />
               </ToggleButton>
             </Tooltip>
+  ) : (
+    ""
+        )}
 
+{DAMOP_TE ? (
             <Tooltip title={"Transferir a egreso"}>
               <ToggleButton value="check">
-                <ArrowUpwardIcon  />
+                <ArrowUpwardIcon />
               </ToggleButton>
             </Tooltip>
+) : (
+  ""
+      )}
 
+{DAMOP_AE ? (
             <Tooltip title={"Autorizar egresos"}>
               <ToggleButton value="check">
-                <CheckCircleIcon  />
+                <CheckCircleIcon />
               </ToggleButton>
             </Tooltip>
+) : (
+  ""
+      )}
 
+{DAMOP_FE ? (
             <Tooltip title={"Finalizar egreso"}>
               <ToggleButton value="check">
-                <EditOffIcon  />
+                <EditOffIcon />
               </ToggleButton>
             </Tooltip>
+) : (
+  ""
+      )}
 
+{DAMOP_VE ? (
             <Tooltip title={"Validar egreso"}>
               <ToggleButton value="check">
-                <ThumbUpIcon  />
+                <ThumbUpIcon />
               </ToggleButton>
             </Tooltip>
+) : (
+  ""
+      )}
 
+{DAMOP_GSE ? (
             <Tooltip title={"Generar solicitud de pago"}>
               <ToggleButton value="check">
-                <AttachMoneyIcon  />
+                <AttachMoneyIcon />
               </ToggleButton>
             </Tooltip>
+) : (
+  ""
+      )}
 
+{DAMOP_FRA ? (
             <Tooltip title={"Finalizar requerimiento de anticipo"}>
               <ToggleButton value="check">
-                <EditOffIcon  />
+                <EditOffIcon />
               </ToggleButton>
             </Tooltip>
+) : (
+  ""
+      )}
 
+{DAMOP_ARA ? (
             <Tooltip title={"Autorizar requerimiento de anticipo"}>
               <ToggleButton value="check">
-                <CheckCircleIcon  />
+                <CheckCircleIcon />
               </ToggleButton>
             </Tooltip>
-
+) : (
+  ""
+      )}
           </ToggleButtonGroup>
         </Grid>
 
