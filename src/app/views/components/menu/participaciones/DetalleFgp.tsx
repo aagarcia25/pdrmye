@@ -62,6 +62,7 @@ const DetalleFgp = ({
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [tipoAccion, setTipoAccion] = useState("");
   //Columnas
+  const [visibleselect, setvisibleselect] = useState<Number>(0);
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
   const [ta, setTa] = useState(false);
@@ -93,6 +94,7 @@ const DetalleFgp = ({
           setOpenTrazabilidad(true);
           break;
         case 3: //Cancelar
+          setvisibleselect(1);
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_ENV_VAL");
           setperfilDestino("VAL");
@@ -101,6 +103,7 @@ const DetalleFgp = ({
           break;
 
         case 4: //AUTORIZAR CAPTURISTA
+          setvisibleselect(1);
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_ENV_COOR");
           setperfilDestino("COOR");
@@ -109,6 +112,7 @@ const DetalleFgp = ({
           break;
 
         case 5: //AUTORIZAR CAPTURISTA
+          setvisibleselect(0);
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("DAMOP_INICIO");
           setperfilDestino("ANA");
@@ -121,6 +125,7 @@ const DetalleFgp = ({
           break;
 
         case 7: //REGRESAR A analista
+          setvisibleselect(1);
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_REG_CAP");
           setperfilDestino("ANA");
@@ -129,6 +134,7 @@ const DetalleFgp = ({
           break;
 
         case 8: //REGRESAR A validador
+          setvisibleselect(1);
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_REG_ANA");
           setperfilDestino("VAL");
@@ -570,8 +576,7 @@ const DetalleFgp = ({
               handleClose={handleClose}
               handleAccion={Fnworkflow}
               perfil={perfilDestino}
-              area={area}
-            />
+              area={area} visibleselect={visibleselect}            />
           ) : (
             ""
           )}

@@ -66,7 +66,7 @@ const IsnRecaudacion = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación",width: 150 },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación",width: 180 },
     { field: "ClaveEstado", headerName: "Clave Estado", description: "Clave Estado",width: 100 },
     { field: "Nombre", headerName: "Municipio", description: "Municipio",width: 150 },
     { field: "Anio", headerName: "Año", description: "Año",width: 150 },
@@ -274,7 +274,7 @@ const IsnRecaudacion = () => {
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
-        <Tooltip title="ISN Recaudaci+on">
+        <Tooltip title="ISN Recaudación">
           <Typography variant='h3'>
             {nombreMenu}
           </Typography>

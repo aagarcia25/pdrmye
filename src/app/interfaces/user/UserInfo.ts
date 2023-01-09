@@ -209,4 +209,13 @@ export interface SolUserData {
     IdSolicitud: string;
 }
 
-
+export interface getDescuentos {
+    id: string;
+    Tipo: string;
+    NumOperacion: number;
+    total: string;
+    OtrosCargos: string;
+    ParcialDescuento: string;
+    cveRetencion: number;
+    DescripcionDescuento?: any;
+}

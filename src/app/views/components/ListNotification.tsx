@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import React from 'react';
-import { Box, Button, IconButton, Tooltip } from "@mui/material";
+import { Box, Button, IconButton, Tooltip, Grid, Typography } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { getUser } from "../../services/localStorage";
@@ -13,8 +13,12 @@ import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { COLOR } from "../../styles/colors";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import { useNavigate } from "react-router-dom";
+import Slider from "./Slider";
+
 
 export const ListNotification = () => {
+  
+  const [slideropen, setslideropen] = useState(false);
   const [notificacion, setNotificacion] = useState([]);
   const [data, setData] = useState({});
   const [plantilla, setPlantilla] = useState("");
@@ -27,6 +31,7 @@ export const ListNotification = () => {
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [open, setOpen] = useState(false);
+  const [nombreMenu, setNombreMenu] = useState("");
 
   const handleBorrar = (v: any) => {
     setSelectionModel(v);
@@ -338,10 +343,11 @@ export const ListNotification = () => {
           </Box>
         </Box>
 
+
         <MUIXDataGridMun columns={columns} rows={notificacion} handleBorrar={handleBorrar} modulo={'Notificacion'} controlInterno={""} />
       </Box>
     </div>
-  );
-};
+  )
+}
 
 export default ListNotification;
