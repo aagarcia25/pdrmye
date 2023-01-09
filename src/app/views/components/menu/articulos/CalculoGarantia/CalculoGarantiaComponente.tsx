@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Tooltip } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -64,7 +64,7 @@ export const CalculoGarantiaComponente = () => {
     { field: "Descripcion",   headerName: "Descripción de fondo",description: "Descripción de fondo", width: 420 },
     { field: "Anio",          headerName: "Año",                 description: "Año",                  width: 120 },
     { field: "Garantia",      headerName: "Garantía",            description: "Garantía",             width: 250, ...Moneda, }, 
-    { field: "Distribucion",  headerName: "Distribucion",        description: "Distribucion",         width: 150 },
+    { field: "Distribucion",  headerName: "Distribución",        description: "Distribución",         width: 150 },
 
 
   ];
@@ -280,16 +280,20 @@ export const CalculoGarantiaComponente = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+
+    <div style={{ height: 600, width: "100%", padding: "2%" }}>
       <Slider open={slideropen}></Slider>
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography>
-            <h1>Calculo Garantía</h1>
+        <Tooltip title="Cálculo que garantiza a los municipios recibir mínimo el mísmo monto del año anterior, y no menos">
+          <Typography variant='h3'>
+            {nombreMenu}
           </Typography>
+        </Tooltip>
         </Grid>
       </Grid>
+
 
       <Grid container>
         <Grid item>       

@@ -20,8 +20,7 @@ import SendIcon from "@mui/icons-material/Send";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import { GetParticipaciones, PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import {  PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
@@ -32,6 +31,8 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CallMergeIcon from '@mui/icons-material/CallMerge';
+import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
+import InfoIcon from "@mui/icons-material/Info";
 import {
   DataGrid,
   GridSelectionModel,
@@ -45,7 +46,14 @@ import ModalDAMOP from "../componentes/ModalDAMOP";
 
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Descuentos } from "./Descuentos";
-
+import ParticipacionesDetalle from "./ParticipacionesDetalle";
+import ModalForm from "../componentes/ModalForm";
+import AddIcon from '@mui/icons-material/Add';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import EditOffIcon from '@mui/icons-material/EditOff';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
@@ -53,12 +61,14 @@ const Participaciones = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openModalDescuento, setOpenModalDescuento] = useState<boolean>(false);
   const [openModalAnticipo, setOpenModalAnticipo] = useState<boolean>(false);
+  const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tiposFondo, setTiposFondo] = useState<SelectValues[]>([]);
   const [tiposSolicitud, setTiposSolicitud] = useState<SelectValues[]>([]);
+  const [estatus, setEstatus] = useState<SelectValues[]>([]);
 
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
@@ -66,6 +76,7 @@ const Participaciones = () => {
   const [numerooperacion, setnumerooperacion] = useState(0);
   const [idtipoFondo, setIdTipoFondo] = useState("");
   const [idtipoSolicitud, setIdTipoSolicitud] = useState("");
+  const [idestatus, setIdEstatus] = useState("");
 
   const [idFondo, setIdFondo] = useState("");
   const [idMunicipio, setidMunicipio] = useState("");
@@ -98,15 +109,55 @@ const Participaciones = () => {
 
   };
 
+  
+  const handleDetalle = (data: any) => {
+    setVrows(data);
+    setOpenModalDetalle(true);
+
+  };
+
   const columnsParticipaciones = [
     { field: "id", hide: true },
+
+    {
+      field: "Detalle",
+      disableExport: true,
+      headerName: "Ver Detalle",
+      description: "Ver Detalle",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            {v.row.detalle === 1  ? (
+              <Tooltip title="Ver Detalle del Registro">
+                <IconButton onClick={() => handleDetalle(v)}>
+                  <InfoIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Box>
+        );
+      },
+    },
+
+    {
+      field: "estatus",
+      headerName: "Estatus",
+      width: 200,
+    },
+  
+
+
     {
       field: "acciones",
       disableExport: true,
-      headerName: "Agregar Descuentos",
-      description: "Agregar Descuentos",
+      headerName: "Descuentos",
+      description: "Descuentos",
       sortable: false,
-      width: 150,
+      width: 100,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -114,46 +165,12 @@ const Participaciones = () => {
               <Tooltip title="Agregar Descuentos">
                 <IconButton
                   onClick={() => handleDescuento(v)}>
-                  <AttachMoneyIcon />
+                  <AddIcon />
                 </IconButton>
               </Tooltip>
             ) : (
               ""
             )}
-
-            {String(v.row.NumParticipacion) !== 'null' && String(v.row.NumEgreso) === 'null' ? (
-              <Tooltip title="Transferir Participación">
-                <IconButton onClick={() => handleDescuento(v)}>
-                  <AttachMoneyIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-
-            {String(v.row.NumParticipacion) !== 'null' && String(v.row.NumEgreso) !== 'null' && String(v.row.NumOrdenPago) === 'null' ? (
-              <Tooltip title="Autorizar egreso">
-                <IconButton onClick={() => handleDescuento(v)}>
-                  <AttachMoneyIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-
-
-            {String(v.row.NumParticipacion) !== 'null' && String(v.row.NumEgreso) !== 'null' && String(v.row.NumOrdenPago) === 'null' ? (
-              <Tooltip title="Generar Solicitud de Pago">
-                <IconButton onClick={() => handleDescuento(v)}>
-                  <AttachMoneyIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-
-
-
           </Box>
         );
       },
@@ -239,11 +256,7 @@ const Participaciones = () => {
       width: 270,
     },
 
-    {
-      field: "estatus",
-      headerName: "Estatus",
-      width: 200,
-    },
+   
     {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
@@ -251,30 +264,7 @@ const Participaciones = () => {
       hide: false,
     },
 
-    {
-      field: "Divisa",
-      headerName: "Divisa",
-      width: 80,
-      description: "Divisa",
-    },
-    {
-      field: "Proveedor",
-      headerName: "Proveedor",
-      width: 100,
-      description: "Proveedor",
-    },
-    {
-      field: "Deudor",
-      headerName: "Deudor",
-      width: 100,
-      description: "Deudor",
-    },
-    {
-      field: "clasificacion",
-      headerName: "Clasificación",
-      width: 100,
-      description: "Clasificación de Solicitud de Pago",
-    },
+    
     {
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
@@ -311,13 +301,26 @@ const Participaciones = () => {
       description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
       ...Moneda,
     },
-
+    
     {
-      field: "Observaciones",
-      headerName: "Observaciones",
-      width: 400,
-      description: "Observaciones",
+      field: "Proveedor",
+      headerName: "Proveedor",
+      width: 100,
+      description: "Proveedor",
     },
+    {
+      field: "Deudor",
+      headerName: "Deudor",
+      width: 100,
+      description: "Deudor",
+    },
+    {
+      field: "clasificacion",
+      headerName: "Clasificación",
+      width: 100,
+      description: "Clasificación de Solicitud de Pago",
+    },
+   
     {
       field: "NumParticipacion",
       headerName: "Nº De Participación",
@@ -354,6 +357,18 @@ const Participaciones = () => {
       width: 200,
       description: "Número De Cheque",
     },
+    {
+      field: "Divisa",
+      headerName: "Divisa",
+      width: 80,
+      description: "Divisa",
+    },
+    {
+      field: "Observaciones",
+      headerName: "Observaciones",
+      width: 400,
+      description: "Observaciones",
+    },
   ];
 
   const loadFilter = (operacion: number) => {
@@ -365,11 +380,11 @@ const Participaciones = () => {
         setMunicipios(res.RESPONSE);
       } else if (operacion === 17) {
         setTiposFondo(res.RESPONSE);
-        setslideropen(false);
       } else if (operacion === 24) {
         setTiposSolicitud(res.RESPONSE);
         setslideropen(false);
-
+      } else if (operacion === 25) {
+        setEstatus(res.RESPONSE);
       }
     });
   };
@@ -378,6 +393,8 @@ const Participaciones = () => {
     setOpenModal(false);
     setOpenModalAnticipo(false);
     setOpenModalDescuento(false);
+    setOpenModalDetalle(false);
+    handleClick();
   };
 
   const handleFilterChange1 = (v: string) => {
@@ -405,6 +422,10 @@ const Participaciones = () => {
     // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false) }
   };
 
+  const handleFilterChange5 = (v: string) => {
+    setIdEstatus(v);
+  };
+
   const Fnworkflow = (data: string) => {
     let obj = {
       NUMOPERACION: numerooperacion,
@@ -416,12 +437,15 @@ const Participaciones = () => {
 
     DAMOPServices.PA(obj).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
+        AlertS.fire({
+          title: res.RESPONSE,
           icon: "success",
-          title: "Consulta Exitosa!",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            handleClick();
+            handleClose();
+          }
         });
-        handleClick();
-        handleClose();
       } else {
         AlertS.fire({
           title: "Error!",
@@ -429,6 +453,8 @@ const Participaciones = () => {
           icon: "error",
         });
       }
+
+
     });
   };
 
@@ -587,7 +613,7 @@ const Participaciones = () => {
       Swal.fire({
         icon: "info",
         title: "Integración",
-        text: "Los Movimientos, Seleccionados se integración en una sola operación",
+        text: "Los Movimientos Seleccionados se integraran en una sola operación",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -605,6 +631,58 @@ const Participaciones = () => {
           }).then(async (result) => {
             if (result.isConfirmed) {
               DPCPServices.integraSolicitudes(data).then((res) => {
+                if (res.SUCCESS) {
+                  Toast.fire({
+                    icon: "success",
+                    title: "Consulta Exitosa!",
+                  });
+                  handleClick();
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+
+    } else {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar mas de un Registros",
+        icon: "error",
+      });
+    }
+  };
+
+  const unificarSolicitudes = () => {
+
+    if (selectionModel.length > 1) {
+      Swal.fire({
+        icon: "info",
+        title: "Unificación",
+        text: "Los Movimientos Seleccionados se Unificaran en una sola operación",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              DPCPServices.unificarSolicitudes(data).then((res) => {
                 if (res.SUCCESS) {
                   Toast.fire({
                     icon: "success",
@@ -652,7 +730,7 @@ const Participaciones = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           let data = {
-            TIPO: 1,
+            NUMOPERACION: 1,
             OBJS: selectionModel,
             CHUSER: user.id,
           };
@@ -662,7 +740,24 @@ const Participaciones = () => {
             icon: "success",
           }).then(async (result) => {
             if (result.isConfirmed) {
-              handleClick();
+              DPCPServices.GenSolParticipaciones(data).then((res) => {
+                if (res.SUCCESS) {
+                  AlertS.fire({
+                    icon: "success",
+                    title: res.RESPONSE,
+                  }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      handleClick();
+                    }
+                  });
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
             }
           });
         }
@@ -671,7 +766,6 @@ const Participaciones = () => {
   };
 
   const handleClick = () => {
-    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
     if (idtipoSolicitud || idFondo || idMunicipio) {
       setIntOperaciones(false)
 
@@ -682,9 +776,9 @@ const Participaciones = () => {
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
       P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
+      P_IDESTATUS: idestatus === "false" ? "" : idestatus,
 
     };
-    //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -705,11 +799,8 @@ const Participaciones = () => {
       P_IDMUNICIPIO: idMunicipio,
 
     };
-    //console.log(data);
     DPCPServices.GetParticipaciones(dataDis).then((res) => {
       if (res.SUCCESS) {
-        // setData(res.RESPONSE);
-        console.log(res.RESPONSE[0].numFideicomisos)
         if (res.RESPONSE[0].numFideicomisos !== 0) {
           setMunTieneFide(true);
         }
@@ -728,12 +819,12 @@ const Participaciones = () => {
     loadFilter(12);
     loadFilter(5);
     loadFilter(17);
+    loadFilter(25);
     loadFilter(24);
     handleClick();
     downloadplantilla();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
-        //console.log(item);
         if (String(item.Referencia) === "AGREGPLANT") {
           setCargarPlant(true);
         } else if (String(item.Referencia) === "DESCPLANT") {
@@ -762,6 +853,18 @@ const Participaciones = () => {
       )}
 
 
+    {openModalDetalle ? (
+      <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
+        <ParticipacionesDetalle
+         data={vrows}  />
+            </ModalForm>
+         ) : (
+         ""
+      )}
+    
+       
+
+
 
       {openModalDescuento ? (
         <Descuentos
@@ -771,6 +874,7 @@ const Participaciones = () => {
       )}
 
       <Grid container spacing={1} padding={0}>
+        
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={10} sx={{ textAlign: "center" }}>
@@ -784,7 +888,20 @@ const Participaciones = () => {
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12} direction="row"
           justifyContent="center"
           alignItems="center" >
-          <Grid item xs={6} sm={4} md={3} lg={2.5}>
+
+          <Grid item xs={6} sm={4} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
+            <SelectFrag
+              value={idestatus}
+              options={estatus}
+              onInputChange={handleFilterChange5}
+              placeholder={"Seleccione Estatus"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
+          
+          <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
             <SelectFrag
               value={idtipoFondo}
@@ -795,7 +912,7 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
-          <Grid item xs={6} sm={4} md={3} lg={2.5}>
+          <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
             <SelectFrag
               value={idtipoSolicitud}
@@ -806,7 +923,7 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
-          <Grid item xs={6} sm={4} md={3} lg={2.5}>
+          <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFrag
               value={idFondo}
@@ -818,7 +935,7 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={6} sm={4} md={3} lg={2.5}>
+          <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
             <SelectFrag
               value={idMunicipio}
@@ -842,7 +959,7 @@ const Participaciones = () => {
           </Button>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
+        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={-1}>
           <ToggleButtonGroup>
 
             <Tooltip title={"Integrar Operaciones"}>
@@ -853,14 +970,22 @@ const Participaciones = () => {
               </ToggleButton>
             </Tooltip>
 
-
-            <Tooltip title={"Generar Solicitud"}>
-              <ToggleButton value="check" onClick={() => SolicitudOrdenPago()}>
-                <SettingsSuggestIcon color="primary" />
+            <Tooltip title={"Unificar Registros"}>
+              <ToggleButton value="check"
+                disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idMunicipio.length < 6}
+                onClick={() => unificarSolicitudes()}>
+                <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 ||  idMunicipio.length < 6 ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip>
 
-            <Tooltip title={"Asignar Comentario"}>
+
+            <Tooltip title={"Generar Solicitud"}>
+              <ToggleButton disabled={idtipoSolicitud.length < 6 || intOperaciones} value="check" onClick={() => SolicitudOrdenPago()}>
+                <SettingsSuggestIcon color={idtipoSolicitud.length < 6 || intOperaciones ? "inherit" : "primary"} />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Asignar Observación"}>
               <ToggleButton value="check" onClick={() => openmodalc(2)}>
                 <FormatAlignLeftIcon color="primary" />
               </ToggleButton>
@@ -958,6 +1083,66 @@ const Participaciones = () => {
             ) : (
               ""
             )}
+          </ToggleButtonGroup>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
+          <ToggleButtonGroup>
+
+            <Tooltip title={"Finalizar solicitud de egreso"}>
+              <ToggleButton value="check">
+                <EditOffIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Autorizar solicitud de egreso"}>
+              <ToggleButton value="check">
+                <CheckCircleIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Transferir a egreso"}>
+              <ToggleButton value="check">
+                <ArrowUpwardIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Autorizar egresos"}>
+              <ToggleButton value="check">
+                <CheckCircleIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Finalizar egreso"}>
+              <ToggleButton value="check">
+                <EditOffIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Validar egreso"}>
+              <ToggleButton value="check">
+                <ThumbUpIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Generar solicitud de pago"}>
+              <ToggleButton value="check">
+                <AttachMoneyIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Finalizar requerimiento de anticipo"}>
+              <ToggleButton value="check">
+                <EditOffIcon  />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Autorizar requerimiento de anticipo"}>
+              <ToggleButton value="check">
+                <CheckCircleIcon  />
+              </ToggleButton>
+            </Tooltip>
+
           </ToggleButtonGroup>
         </Grid>
 

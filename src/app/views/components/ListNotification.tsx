@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import React from 'react';
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { getUser } from "../../services/localStorage";
 import { CatalogosServices } from "../../services/catalogosServices";
 import MUIXDataGrid from "./MUIXDataGrid";
+import MUIXDataGridMun from "./MUIXDataGridMun";
 import AddIcon from "@mui/icons-material/Add";
 import ListNotificationsModal from "./ListNotificationsModal";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
@@ -15,14 +17,21 @@ import { useNavigate } from "react-router-dom";
 export const ListNotification = () => {
   const [notificacion, setNotificacion] = useState([]);
   const [data, setData] = useState({});
+  const [plantilla, setPlantilla] = useState("");
   const [modo, setModo] = useState("ViewMessage");
   const [destinatario, setDestinatario] = useState("");
   const [perfil, setPerfil] = useState<string>();
   const navigate = useNavigate();
   const [remitente, setRemitente] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState<number>(8);
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [open, setOpen] = useState(false);
+
+  const handleBorrar = (v: any) => {
+    setSelectionModel(v);
+  };
+
 
   const columns: GridColDef[] = [
     { field: "id", hide: true },
@@ -329,10 +338,10 @@ export const ListNotification = () => {
           </Box>
         </Box>
 
-        <Box sx={{ left: 7, height: "600px", width: "90%", display: "flow" }}>
-          <MUIXDataGrid columns={columns} rows={notificacion} />
-        </Box>
+        <MUIXDataGridMun columns={columns} rows={notificacion} handleBorrar={handleBorrar} modulo={'Notificacion'} controlInterno={""} />
       </Box>
     </div>
   );
 };
+
+export default ListNotification;

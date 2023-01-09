@@ -24,7 +24,7 @@ import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { env_var } from "../../environments/env";
-import { Button, Hidden } from '@mui/material';
+import { Box, Button, Hidden } from '@mui/material';
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -42,7 +42,6 @@ export default function Header(props: HeaderProps) {
   const { onDrawerToggle } = props;
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
-
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -104,6 +103,7 @@ export default function Header(props: HeaderProps) {
   };
 
   React.useEffect(() => {
+    // setPuesto(user?.Puesto? user.Puesto.toLowerCase(): " ")
     CatalogosServices.Notificaciones(data).then((res) => {
       let result = res.RESPONSE;
       setCnotif(result[0].count);
@@ -139,8 +139,9 @@ export default function Header(props: HeaderProps) {
               </Grid>
 
               <Grid xs={12} container direction="row" justifyContent="flex-end" alignItems="center">
-                <Typography  color="black">
-                  {(user?.PERFILES[0]?.Descripcion? user.PERFILES[0].Descripcion + " " : " ")}
+                <Typography  textTransform={"capitalize"}  color="black" >
+                {user?.Puesto? user.Puesto.toLowerCase(): ""}
+                 
                 </Typography>
               </Grid>
               <Grid xs={12} container direction="row" justifyContent="flex-end" alignItems="center">

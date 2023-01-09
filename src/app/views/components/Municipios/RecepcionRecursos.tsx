@@ -30,6 +30,9 @@ import {
 import { esES as coreEsES } from "@mui/material/locale";
 import FilePresentIcon from '@mui/icons-material/FilePresent';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import InfoIcon from "@mui/icons-material/Info";
+import ModalForm from "../componentes/ModalForm";
+import ParticipacionesDetalle from "../DAMOP/ParticipacionesDetalle";
 const RecepcionRecursos = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
@@ -48,13 +51,45 @@ const RecepcionRecursos = () => {
   //Constantes para las columnas
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const handleDescuento = (data: any) => { };
+  
+  const handleClose = () => {
+    setOpenModalDetalle(false);
+  };
 
+  const handleDetalle = (data: any) => {
+    setVrows(data);
+    setOpenModalDetalle(true);
+
+  };
   const columnsParticipaciones = [
     { field: "id", hide: true },
+    {
+      field: "Detalle",
+      disableExport: true,
+      headerName: "Ver Detalle",
+      description: "Ver Detalle",
+      sortable: false,
+      width: 100,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            {v.row.detalle === 1  ? (
+              <Tooltip title="Ver Detalle del Registro">
+                <IconButton onClick={() => handleDetalle(v)}>
+                  <InfoIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Box>
+        );
+      },
+    },
     {
       field: "acciones",
       disableExport: true,
@@ -258,7 +293,14 @@ const RecepcionRecursos = () => {
 
 
 
-
+      {openModalDetalle ? (
+      <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
+        <ParticipacionesDetalle
+          data={vrows}  />
+            </ModalForm>
+         ) : (
+         ""
+      )}
     
 
       <Grid container spacing={1} padding={2}>

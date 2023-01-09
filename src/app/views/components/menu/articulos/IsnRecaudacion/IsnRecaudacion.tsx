@@ -66,12 +66,12 @@ const IsnRecaudacion = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", width: 150 },
-    { field: "Anio", headerName: "Año", width: 150 },
-    { field: "Importe", headerName: "Importe", width: 150, ...Moneda },
-    { field: "Coeficiente", headerName: "Coeficiente", width: 250 },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación",width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", description: "Clave Estado",width: 100 },
+    { field: "Nombre", headerName: "Municipio", description: "Municipio",width: 150 },
+    { field: "Anio", headerName: "Año", description: "Año",width: 150 },
+    { field: "Importe", headerName: "Importe", description: "Importe",width: 150, ...Moneda },
+    { field: "Coeficiente", headerName: "Coeficiente", description: "Coeficiente",width: 250 },
   ];
 
   const handleAccion = (v: any) => {
@@ -274,9 +274,11 @@ const IsnRecaudacion = () => {
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
+        <Tooltip title="ISN Recaudaci+on">
           <Typography variant='h3'>
             {nombreMenu}
           </Typography>
+        </Tooltip>
         </Grid>
       </Grid>
      
