@@ -20,7 +20,7 @@ import SendIcon from "@mui/icons-material/Send";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
-import {  PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
@@ -109,7 +109,7 @@ const Participaciones = () => {
 
   };
 
-  
+
   const handleDetalle = (data: any) => {
     setVrows(data);
     setOpenModalDetalle(true);
@@ -118,7 +118,6 @@ const Participaciones = () => {
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
-
     {
       field: "Detalle",
       disableExport: true,
@@ -129,7 +128,7 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {v.row.detalle === 1  ? (
+            {v.row.detalle === 1 ? (
               <Tooltip title="Ver Detalle del Registro">
                 <IconButton onClick={() => handleDetalle(v)}>
                   <InfoIcon />
@@ -142,15 +141,11 @@ const Participaciones = () => {
         );
       },
     },
-
     {
       field: "estatus",
       headerName: "Estatus",
       width: 200,
     },
-  
-
-
     {
       field: "acciones",
       disableExport: true,
@@ -233,8 +228,6 @@ const Participaciones = () => {
       width: 150,
       description: "Beneficiario",
     },
-
-
     {
       field: "uresclave",
       headerName: "U. Resp",
@@ -256,15 +249,13 @@ const Participaciones = () => {
       width: 270,
     },
 
-   
+
     {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
       width: 600,
       hide: false,
     },
-
-    
     {
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
@@ -272,12 +263,11 @@ const Participaciones = () => {
       description: "Presupuesto SIREGOB",
       ...Moneda,
     },
-
     {
       field: "total",
-      headerName: "Total Neto",
+      headerName: "Total Bruto",
       width: 150,
-      description: "Total Neto",
+      description: "Total Bruto",
       ...Moneda,
     },
     {
@@ -296,12 +286,12 @@ const Participaciones = () => {
     },
     {
       field: "importe",
-      headerName: "Importe Total",
+      headerName: "Total Neto",
       width: 150,
-      description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
+      description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
       ...Moneda,
     },
-    
+
     {
       field: "Proveedor",
       headerName: "Proveedor",
@@ -320,7 +310,7 @@ const Participaciones = () => {
       width: 100,
       description: "Clasificación de Solicitud de Pago",
     },
-   
+
     {
       field: "NumParticipacion",
       headerName: "Nº De Participación",
@@ -853,16 +843,16 @@ const Participaciones = () => {
       )}
 
 
-    {openModalDetalle ? (
-      <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
-        <ParticipacionesDetalle
-         data={vrows}  />
-            </ModalForm>
-         ) : (
-         ""
+      {openModalDetalle ? (
+        <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
+          <ParticipacionesDetalle
+            data={vrows} />
+        </ModalForm>
+      ) : (
+        ""
       )}
-    
-       
+
+
 
 
 
@@ -874,7 +864,7 @@ const Participaciones = () => {
       )}
 
       <Grid container spacing={1} padding={0}>
-        
+
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={10} sx={{ textAlign: "center" }}>
@@ -900,7 +890,7 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
-          
+
           <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
             <SelectFrag
@@ -974,7 +964,7 @@ const Participaciones = () => {
               <ToggleButton value="check"
                 disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idMunicipio.length < 6}
                 onClick={() => unificarSolicitudes()}>
-                <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 ||  idMunicipio.length < 6 ? "inherit" : "primary"} />
+                <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idMunicipio.length < 6 ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip>
 
@@ -1091,55 +1081,55 @@ const Participaciones = () => {
 
             <Tooltip title={"Finalizar solicitud de egreso"}>
               <ToggleButton value="check">
-                <EditOffIcon  />
+                <EditOffIcon />
               </ToggleButton>
             </Tooltip>
 
             <Tooltip title={"Autorizar solicitud de egreso"}>
               <ToggleButton value="check">
-                <CheckCircleIcon  />
+                <CheckCircleIcon />
               </ToggleButton>
             </Tooltip>
 
             <Tooltip title={"Transferir a egreso"}>
               <ToggleButton value="check">
-                <ArrowUpwardIcon  />
+                <ArrowUpwardIcon />
               </ToggleButton>
             </Tooltip>
 
             <Tooltip title={"Autorizar egresos"}>
               <ToggleButton value="check">
-                <CheckCircleIcon  />
+                <CheckCircleIcon />
               </ToggleButton>
             </Tooltip>
 
             <Tooltip title={"Finalizar egreso"}>
               <ToggleButton value="check">
-                <EditOffIcon  />
+                <EditOffIcon />
               </ToggleButton>
             </Tooltip>
 
             <Tooltip title={"Validar egreso"}>
               <ToggleButton value="check">
-                <ThumbUpIcon  />
+                <ThumbUpIcon />
               </ToggleButton>
             </Tooltip>
 
             <Tooltip title={"Generar solicitud de pago"}>
               <ToggleButton value="check">
-                <AttachMoneyIcon  />
+                <AttachMoneyIcon />
               </ToggleButton>
             </Tooltip>
 
             <Tooltip title={"Finalizar requerimiento de anticipo"}>
               <ToggleButton value="check">
-                <EditOffIcon  />
+                <EditOffIcon />
               </ToggleButton>
             </Tooltip>
 
             <Tooltip title={"Autorizar requerimiento de anticipo"}>
               <ToggleButton value="check">
-                <CheckCircleIcon  />
+                <CheckCircleIcon />
               </ToggleButton>
             </Tooltip>
 

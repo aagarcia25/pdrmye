@@ -21,7 +21,7 @@ import {
 import ModalForm from "../componentes/ModalForm";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { AlertS } from "../../../helpers/AlertS";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { getDescuentos, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getUser } from "../../../services/localStorage";
 import { Toast } from "../../../helpers/Toast";
 import SelectFrag from "../Fragmentos/SelectFrag";
@@ -34,6 +34,7 @@ import ButtonsAdd from "../menu/catalogos/Utilerias/ButtonsAdd";
 import CloseIcon from "@mui/icons-material/Close";
 import Radio from '@mui/material/Radio';
 import Swal from "sweetalert2";
+import { currencyFormatter } from "../menu/CustomToolbar";
 export const Descuentos = ({
   handleClose,
   tipo,
@@ -57,29 +58,35 @@ export const Descuentos = ({
   const [numOperacionOp, setNumOperacionOp] = useState<SelectValues[]>([]);
   const [cveReten, setCveReten] = useState("");
   const [cveRetenOp, setCveRetenOp] = useState<SelectValues[]>([]);
-
-
-
-
-
+  const [sumDes, setSumDes] = useState<number>(0);
+  const [sumret, setSumRet] = useState<number>(0);
+  const [primerInicio, setPrimerInicio] = useState<boolean>(false);
 
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", hide: true, width: 150 },
-    { field: "Tipo", headerName: "Tipo", width: 200,
-    renderCell: (v) => {
-      return (
-        <Box>
-          {v.row.Tipo === "1" ? "Descuentos" : "Retenciones"}
-        </Box>
-      );
+    {
+      field: "Tipo", headerName: "Tipo", description: "Tipo", width: 200,
+      renderCell: (v) => {
+        return (
+          <Box>
+            {v.row.Tipo === "1" ? "Descuentos" : "Retenciones"}
+          </Box>
+        );
+      },
     },
-  },
-    { field: "NumOperacion", headerName: "NumOperacion", width: 200 },
-    { field: "OtrosCargos", headerName: "OtrosCargos", width: 200 },
-    { field: "ParcialDescuento", headerName: "ParcialDescuento", width: 150, },
-    { field: "total", headerName: "total", width: 200 },
-    { field: "cveRetencion", headerName: "cveRetencion",  width: 150, },
+    { field: "NumOperacion", headerName: "Num De Operación", description: "Numero De Operación", width: 200 },
+    {
+      field: "ParcialDescuento", headerName: "Descuento Parcial", description: "Descuento Parcial", width: 200,
+    },
+    {
+      field: "OtrosCargos", headerName: "Otros Cargos", description: "Otros Cargos", width: 200,
+    },
+    {
+      field: "total", headerName: "Total", description: "Total", width: 200,
+    },
+    { field: "cveRetencion", headerName: "Retención CVE", description: "Retención CVE", width: 150, },
+    { field: "DescripcionDescuento", headerName: "Descripción De Descuento", description: "Descripción De Descuento", width: 500, },
 
   ];
 
@@ -134,8 +141,22 @@ export const Descuentos = ({
     }
     DPCPServices.getDescuentos(data).then((res) => {
       if (res.SUCCESS) {
+        console.log(res.RESPONSE)
         setdataRow(res.RESPONSE)
-
+          var sumaDes = 0;
+          var sumaRet = 0;
+          res.RESPONSE.map((item: getDescuentos) => {
+            if (item.Tipo === "1") {
+              sumaDes = sumaDes + Number(item.total)
+              // setSumDes(sumDes + Number(item.total))
+            }
+            else if (item.Tipo === "2") {
+              sumaRet = sumaRet + Number(item.total)
+              // setSumRet(sumret + Number(item.total))
+            }
+          });
+          setSumDes(sumaDes);
+          setSumRet(sumaRet);
       } else {
         AlertS.fire({
           title: "Error!",
@@ -145,8 +166,13 @@ export const Descuentos = ({
       }
     });
   };
+
   const handleAplicarDescuento = () => {
-    if (value.length <1 ||desPar===0||numOperacion===""||numOperacion==="false"||(desPar + otrosCar)===0) {
+    if (value.length < 1
+      || desPar === 0
+      || numOperacion === ""
+      || numOperacion === "false"
+      || (desPar + otrosCar) === 0) {
       AlertS.fire({
         title: "Error!",
         text: "Verificar Campos",
@@ -163,63 +189,75 @@ export const Descuentos = ({
         cancelButtonText: "Cancelar",
       }).then(async (result) => {
         if (result.isConfirmed) {
-       
-              let data = {
-                CHID: dt.row.id,
-                CHUSER: user.id,
-                IDMUN: dt.row.idmunicipio,
-                TIPO: value === "Anticipo" ? 1 : 2,
-                NUMOP: numOperacion,
-                IDURES: user.idUResp,
-                IDDIVISA: dt.row.idDivisa,
-                DESPARCIAL: desPar,
-                OTROSCARGOS: otrosCar,
-                TOTAL: (desPar + otrosCar),
-                CVERET: value === "Anticipo" ? "" : Math.random() * 5000,
-                DESCRIPCION: ComentariosDes
-              }
-              DPCPServices.setDescuentos(data).then((res) => {
-                if (res.SUCCESS) {
-          
-                  setValue("")
-                  // setOpenModalDes(false);
-                  setOtrosCar(0);
-                  setDesPar(0);
-                  setComentariosDes("")
-                  Toast.fire({
-                    icon: "success",
-                    title: "Descuento Agregado!",
-                  });
-                } else {
-                  AlertS.fire({
-                    title: "Error!",
-                    text: res.STRMESSAGE,
-                    icon: "error",
-                  });
-                }
+
+          let data = {
+            CHID: dt.row.id,
+            CHUSER: user.id,
+            IDMUN: dt.row.idmunicipio,
+            TIPO: value === "Anticipo" ? 1 : 2,
+            NUMOP: numOperacion,
+            IDURES: user.idUResp,
+            IDDIVISA: dt.row.idDivisa,
+            DESPARCIAL: desPar,
+            OTROSCARGOS: otrosCar,
+            TOTAL: (desPar + otrosCar),
+            CVERET: value === "Anticipo" ? "" : Math.random() * 5000,
+            DESCRIPCION: ComentariosDes
+          }
+          DPCPServices.setDescuentos(data).then((res) => {
+            if (res.SUCCESS) {
+
+              setValue("")
+              // setOpenModalDes(false);
+              setOtrosCar(0);
+              setDesPar(0);
+              setComentariosDes("")
+              consulta();
+
+   
+              // dataRow.map((item: getDescuentos) => {
+
+              //   if (value === "Anticipo") {
+              //     setSumDes(sumDes + Number(item.OtrosCargos) + Number(item.ParcialDescuento))
+              //   }
+              //   else if (value === "RecuperacionAdeudos") {
+              //     setSumRet(sumret + Number(item.OtrosCargos) + Number(item.ParcialDescuento))
+              //   }
+
+              // });
+
+              Toast.fire({
+                icon: "success",
+                title: "Descuento Agregado!",
               });
-      
+            } else {
+              AlertS.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+
         }
       });
     }
-
- 
-
-
   };
 
   const handleSelectNumOp = (e: any) => {
     setNumOperacion(e);
   };
+
   const handleSelectCveRet = (e: any) => {
     setCveReten(e);
   };
+
   const handleOpen = () => {
     setOpenModalDes(true);
   };
 
   const handleCloseModal = () => {
-    consulta();
+    // consulta();
     setValue("")
     setOpenModalDes(false);
     setOtrosCar(0);
@@ -237,13 +275,10 @@ export const Descuentos = ({
     setOtrosCar(0);
     setDesPar(0);
     setComentariosDes("")
-
-
   };
 
-
-
   useEffect(() => {
+
 
     setNumOperacionOp([
       {
@@ -300,7 +335,7 @@ export const Descuentos = ({
       setId(dt?.row?.id);
 
     }
-  }, [dt]);
+  }, [dt, sumDes, sumret]);
 
   return (
     <>
@@ -314,7 +349,13 @@ export const Descuentos = ({
               <br />
               {" Municipio: " + dt.row.Nombre}
               <br />
-              {" Total: " + dt.row.total}
+              {" Total Bruto: " + dt.row.total}
+              <br />
+              {"Retenciones: " + sumret}
+              <br />
+              {"Descuentos: " + sumDes}
+              <br />
+              {" Total Neto: " + (Number(dt.row.total) - (sumret + sumDes))}
               <br />
               {" Tipo de Solcitud: " + dt.row.TipoSolicitud}
               <br />
@@ -437,7 +478,7 @@ export const Descuentos = ({
               </Grid>
               <Grid item xs={4}>
                 <TextField
-                  disabled={value === ""||value === "Anticipo"}
+                  disabled={value === "" || value === "Anticipo"}
                   required
                   margin="dense"
                   id="Proveedor"
@@ -468,19 +509,19 @@ export const Descuentos = ({
                 />
               </Grid>
             </Grid>
-            {value === "RecuperacionAdeudos"?    
-             <Grid container item xs={6}>
-              <label > Cve. Retención</label>
-              <SelectFrag
-                value={value === "RecuperacionAdeudos"? cveReten:""}
-                options={cveRetenOp}
-                onInputChange={handleSelectCveRet}
-                placeholder={"Cve. Retención"}
-                label={"Cve. Retención"}
-                disabled={value !== "RecuperacionAdeudos"}
-              />
-            </Grid>:""}
-        
+            {value === "RecuperacionAdeudos" ?
+              <Grid container item xs={6}>
+                <label > Cve. Retención</label>
+                <SelectFrag
+                  value={value === "RecuperacionAdeudos" ? cveReten : ""}
+                  options={cveRetenOp}
+                  onInputChange={handleSelectCveRet}
+                  placeholder={"Cve. Retención"}
+                  label={"Cve. Retención"}
+                  disabled={value !== "RecuperacionAdeudos"}
+                />
+              </Grid> : ""}
+
             <Grid container>
               <TextField
                 disabled={value === ""}
