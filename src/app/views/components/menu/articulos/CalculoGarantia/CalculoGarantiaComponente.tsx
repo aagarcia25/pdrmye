@@ -17,6 +17,8 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import Slider from "../../../Slider";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import React from "react";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { fanios } from "../../../../../share/loadAnios";
 
 export const CalculoGarantiaComponente = () => {
   const [slideropen, setslideropen] = useState(true);
@@ -33,6 +35,18 @@ export const CalculoGarantiaComponente = () => {
   const [plantilla, setPlantilla] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const [anios, setAnios] = useState<SelectValues[]>([]);
+
+    // VARIABLES PARA LOS FILTROS
+    const [filterAnio, setFilterAnio] = useState("");
+    //funciones
+
+  const handleFilterChange = (v: string) => {
+    setFilterAnio(v);
+    if (v !== "") {
+      consulta(4);
+    }
+  };
 
   const columns: GridColDef[] = [
     {
@@ -260,6 +274,7 @@ export const CalculoGarantiaComponente = () => {
 
   useEffect(() => {
     downloadplantilla();
+    setAnios(fanios());
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "CA") {
         //console.log(item)
@@ -297,27 +312,23 @@ export const CalculoGarantiaComponente = () => {
 
       <Grid container>
         <Grid item>       
-         <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+        
         </Grid>
         <Grid item> 
-        <ButtonsMunicipio
-          url={plantilla}
-          handleUpload={handleUpload} controlInterno={"CA"}
-          value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={false} />
+
         </Grid>
       </Grid>
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleUpload} controlInterno={"CA"} 
+        value={'CA'}
+        options={anios}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"} label={""} disabled={false} />
       < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} modulo={"Garantia"} controlInterno={"CA"} />
-      {open ? (
-        <CalculoGarantiaModal
-          open={open}
-          modo={modo}
-          tipo={tipoOperacion}
-          handleClose={handleClose}
-          dt={vrows}
-        />
-      ) : (
-        ""
-      )}
+      
+
 
     </div>
   );
