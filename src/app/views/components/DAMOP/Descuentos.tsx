@@ -134,7 +134,6 @@ export const Descuentos = ({
     }
     DPCPServices.getDescuentos(data).then((res) => {
       if (res.SUCCESS) {
-        console.log(res.RESPONSE);
         setdataRow(res.RESPONSE)
 
       } else {
@@ -187,7 +186,6 @@ export const Descuentos = ({
                   setOtrosCar(0);
                   setDesPar(0);
                   setComentariosDes("")
-                  console.log(res.RESPONSE);
                   Toast.fire({
                     icon: "success",
                     title: "Descuento Agregado!",
@@ -295,11 +293,9 @@ export const Descuentos = ({
 
 
     )
-    console.log(dt.row)
     consulta();
 
     if (dt === "") {
-      //console.log(dt);
     } else {
       setId(dt?.row?.id);
 
