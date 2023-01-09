@@ -1,6 +1,6 @@
 import { Grid, Typography, Tooltip } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
@@ -41,12 +41,22 @@ export const CalculoGarantiaComponente = () => {
     const [filterAnio, setFilterAnio] = useState("");
     //funciones
 
-  const handleFilterChange = (v: string) => {
-    setFilterAnio(v);
-    if (v !== "") {
-      consulta(4);
-    }
-  };
+    const handleFilterChange = (v: string) => {
+      setFilterAnio(v);
+  
+      let data = {
+        NUMOPERACION: 4,
+        ANIO: v,
+      };
+      if (v !== "false") {
+        setFilterAnio(v);
+        consulta(data);
+      } else {
+        consulta({ NUMOPERACION: 4,ANIO: "",});
+        setFilterAnio("");
+  
+      }
+    };
 
   const columns: GridColDef[] = [
     {
@@ -322,10 +332,10 @@ export const CalculoGarantiaComponente = () => {
       <ButtonsMunicipio
         url={plantilla}
         handleUpload={handleUpload} controlInterno={"CA"} 
-        value={'CA'}
         options={anios}
         onInputChange={handleFilterChange}
-        placeholder={"Seleccione Año"} label={""} disabled={false} />
+        placeholder={"Seleccione Año"} label={''} disabled={false} 
+        value={filterAnio}/>
       < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} modulo={"Garantia"} controlInterno={"CA"} />
       
 
