@@ -93,6 +93,23 @@ const Participaciones = () => {
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
 
 
+  const [DAMOP_INI,SETDAMOP_INI] = useState<boolean>(false);
+  const [DAMOP_FSE,SETDAMOP_FSE] = useState<boolean>(false);
+  const [DAMOP_ASE,SETDAMOP_ASE] = useState<boolean>(false);
+  const [DAMOP_TE,SETDAMOP_TE] = useState<boolean>(false);
+  const [DAMOP_AE,SETDAMOP_AE] = useState<boolean>(false);
+  const [DAMOP_FE,SETDAMOP_FE] = useState<boolean>(false);
+  const [DAMOP_VE,SETDAMOP_VE] = useState<boolean>(false);
+  const [DAMOP_GSE,SETDAMOP_GSE] = useState<boolean>(false);
+  const [DAMOP_ASP,SETDAMOP_ASP] = useState<boolean>(false);
+  const [DAMOP_FRA,SETDAMOP_FRA] = useState<boolean>(false);
+  const [DAMOP_ARA,SETDAMOP_ARA] = useState<boolean>(false);
+  const [DAMOP_FINALIZADO,SETDAMOP_FINALIZADO] = useState<boolean>(false);
+
+
+        
+
+
   const downloadplantilla = () => {
     let data = {
       NUMOPERACION: "PLANTILLA CARGA ANTICIPO PARTICIPACIONES",
@@ -414,6 +431,47 @@ const Participaciones = () => {
 
   const handleFilterChange5 = (v: string) => {
     setIdEstatus(v);
+
+    SETDAMOP_INI(false);
+    SETDAMOP_FSE(false);
+    SETDAMOP_ASE(false);
+    SETDAMOP_TE(false);
+    SETDAMOP_AE(false);
+    SETDAMOP_FE(false);
+    SETDAMOP_VE(false);
+    SETDAMOP_GSE(false);
+    SETDAMOP_ASP(false);
+    SETDAMOP_FRA(false);
+    SETDAMOP_ARA(false);
+    SETDAMOP_FINALIZADO(false);
+
+    if (v ==='a2d2adfc-8e12-11ed-a98c-040300000000'){
+     SETDAMOP_INI(true);
+    }else if(v ==='d117049e-8e12-11ed-a98c-040300000000'){
+      SETDAMOP_FSE(true);
+    }else if(v ==='e0f0d317-8e12-11ed-a98c-040300000000'){
+      SETDAMOP_ASE(true);
+    }else if(v ==='ef68291d-8e12-11ed-a98c-040300000000'){
+      SETDAMOP_TE(true);
+    }else if(v ==='fe7fae95-8e12-11ed-a98c-040300000000'){
+      SETDAMOP_AE(true);
+    }else if(v ==='0c1b887e-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_FE(true);
+    }else if(v ==='1a7d41ed-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_VE(true);
+    }else if(v ==='2a879241-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_GSE(true);
+    }else if(v ==='399a2ffe-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_ASP(true);
+    }else if(v ==='4a5cf61b-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_FRA(true);
+    }else if(v ==='596e5f1e-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_ARA(true);
+    }else if(v ==='67d9cdb6-8e13-11ed-a98c-040300000000'){
+      SETDAMOP_FINALIZADO(true);
+    }
+
+
   };
 
   const Fnworkflow = (data: string) => {
@@ -1079,60 +1137,95 @@ const Participaciones = () => {
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
           <ToggleButtonGroup>
 
+          {DAMOP_FSE ? (
             <Tooltip title={"Finalizar solicitud de egreso"}>
               <ToggleButton value="check">
                 <EditOffIcon />
               </ToggleButton>
             </Tooltip>
+             ) : (
+           ""
+               )}
 
+{DAMOP_ASE ? (
             <Tooltip title={"Autorizar solicitud de egreso"}>
               <ToggleButton value="check">
                 <CheckCircleIcon />
               </ToggleButton>
             </Tooltip>
+  ) : (
+    ""
+        )}
 
+{DAMOP_TE ? (
             <Tooltip title={"Transferir a egreso"}>
               <ToggleButton value="check">
                 <ArrowUpwardIcon />
               </ToggleButton>
             </Tooltip>
+) : (
+  ""
+      )}
 
+{DAMOP_AE ? (
             <Tooltip title={"Autorizar egresos"}>
               <ToggleButton value="check">
                 <CheckCircleIcon />
               </ToggleButton>
             </Tooltip>
+) : (
+  ""
+      )}
 
+{DAMOP_FE ? (
             <Tooltip title={"Finalizar egreso"}>
               <ToggleButton value="check">
                 <EditOffIcon />
               </ToggleButton>
             </Tooltip>
+) : (
+  ""
+      )}
 
+{DAMOP_VE ? (
             <Tooltip title={"Validar egreso"}>
               <ToggleButton value="check">
                 <ThumbUpIcon />
               </ToggleButton>
             </Tooltip>
+) : (
+  ""
+      )}
 
+{DAMOP_GSE ? (
             <Tooltip title={"Generar solicitud de pago"}>
               <ToggleButton value="check">
                 <AttachMoneyIcon />
               </ToggleButton>
             </Tooltip>
+) : (
+  ""
+      )}
 
+{DAMOP_FRA ? (
             <Tooltip title={"Finalizar requerimiento de anticipo"}>
               <ToggleButton value="check">
                 <EditOffIcon />
               </ToggleButton>
             </Tooltip>
+) : (
+  ""
+      )}
 
+{DAMOP_ARA ? (
             <Tooltip title={"Autorizar requerimiento de anticipo"}>
               <ToggleButton value="check">
                 <CheckCircleIcon />
               </ToggleButton>
             </Tooltip>
-
+) : (
+  ""
+      )}
           </ToggleButtonGroup>
         </Grid>
 
