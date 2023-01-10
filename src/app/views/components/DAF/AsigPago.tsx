@@ -58,6 +58,8 @@ const AsigPago = () => {
 
   const handleSpeis = (data: any) => {
     setOpenSpeis(true)
+    setVrows(data.row)
+
 
   };
 
@@ -364,7 +366,7 @@ const AsigPago = () => {
 
       </div>
 
-      {openSpeis ? <SpeisAdmin handleClose={handleclose} handleAccion={handleAccion} vrows={undefined} />
+      {openSpeis ? <SpeisAdmin handleClose={handleclose} handleAccion={handleAccion} vrows={vrows} />
        : ""}
     </>
   );

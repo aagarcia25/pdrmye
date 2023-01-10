@@ -15,7 +15,7 @@ import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
 import SendIcon from "@mui/icons-material/Send";
 import { AlertS } from "../../../helpers/AlertS";
-import { Moneda } from "../menu/CustomToolbar";
+import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
@@ -29,6 +29,7 @@ import {
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import Swal from "sweetalert2";
 
 const AuthSolicitudes = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -48,7 +49,7 @@ const AuthSolicitudes = () => {
   //Constantes para las columnas
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const [sumaTotal, setSumaTotal] = useState<Number>();
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const handleDescuento = (data: any) => { };
@@ -56,21 +57,21 @@ const AuthSolicitudes = () => {
   const columnsParticipaciones = [
     { field: "id", hide: true },
     {
-      field: "Anio",
-      headerName: "Numero de Solicitud",
-      width: 80,
-      description: "Ejercicio",
-    },
-    {
       field: "estatus",
       headerName: "Estatus",
       width: 150,
     },
     {
       field: "NumOrdenPago",
-      headerName: "Nº De Orden De Pago",
+      headerName: "Nº De Solicitud De Pago",
       width: 200,
-      description: "Número De Orden De Pago",
+      description: "Nº De Solicitud De Pago",
+    },
+    {
+      field: "Anio",
+      headerName: "Anio",
+      width: 100,
+      description: "Anio",
     },
     {
       field: "Mes",
@@ -107,27 +108,19 @@ const AuthSolicitudes = () => {
       width: 600,
       hide: false,
     },
-    
-    {
-      field: "estatus",
-      headerName: "Estatus",
-      width: 150,
-    },
-    {
-      field: "Presupuesto",
-      headerName: "Presupuesto SIREGOB",
-      width: 150,
-      description: "Presupuesto SIREGOB",
-      ...Moneda,
-    },
     {
       field: "total",
       headerName: "Total Neto",
       width: 150,
-      description: "Total Neto",
+      description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
       ...Moneda,
-    },
+      renderHeader: () => (
+        <>
+          {"Total: " + currencyFormatter.format(Number(sumaTotal))}
+        </>
+      ),
 
+    },
 
   ];
 
@@ -145,15 +138,6 @@ const AuthSolicitudes = () => {
     });
   };
 
- 
-
-  const handleFilterChange1 = (v: string) => {
-    setIdTipo(v);
-  };
-
-  const handleFilterChange2 = (v: string) => {
-    setIdFondo(v);
-  };
 
   const handleFilterChange3 = (v: string) => {
     setidMunicipio(v);
@@ -161,7 +145,57 @@ const AuthSolicitudes = () => {
 
   
  
- 
+  const SolicitudOrdenPago = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: selectionModel.length + " Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        
+        if (result.isConfirmed) {
+          let data = {
+            NUMOPERACION: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+              DPCPServices.AuthSolicitudPago(data).then((res) => {
+                if (res.SUCCESS) {
+                  AlertS.fire({
+                    icon: "success",
+                    title: res.RESPONSE,
+                  }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      handleClick();
+                    }
+                  });
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+        }
+    
+    
+      });
+
+
+    }
+  };
 
  
 
@@ -183,6 +217,14 @@ const AuthSolicitudes = () => {
           title: "Consulta Exitosa!",
         });
         setData(res.RESPONSE);
+
+        var sumatotal = 0;
+        res.RESPONSE.map((item: any) => {
+          sumatotal = sumatotal + Number(item.total)
+          setSumaTotal(sumatotal)
+        });
+
+
       } else {
         AlertS.fire({
           title: "Error!",
@@ -269,7 +311,9 @@ const AuthSolicitudes = () => {
         <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
           <ToggleButtonGroup>
             <Tooltip title={"Autorizar Solicitudes"}>
-              <ToggleButton  value="check" >
+              <ToggleButton  
+               value="check" 
+               onClick={() => SolicitudOrdenPago()}>
                 <CheckCircleIcon  />
               </ToggleButton>
             </Tooltip>
