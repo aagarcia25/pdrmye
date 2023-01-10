@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Tooltip } from '@mui/material';
 import { AlertS } from '../../../helpers/AlertS';
 import ModalForm from '../componentes/ModalForm';
@@ -7,6 +7,11 @@ import { GridColDef } from '@mui/x-data-grid';
 import ButtonsAdd from '../menu/catalogos/Utilerias/ButtonsAdd';
 import CloseIcon from '@mui/icons-material/Close';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { DAFServices } from '../../../services/DAFServices';
+import { Toast } from '../../../helpers/Toast';
+import { RESPONSE } from '../../../interfaces/user/UserInfo';
+import { getUser } from '../../../services/localStorage';
+import ArticleIcon from '@mui/icons-material/Article';
 const SpeisAdmin = ({
     handleClose,
     handleAccion,
@@ -17,19 +22,21 @@ const SpeisAdmin = ({
     vrows: any;
 }) => {
 
-
-
     const [mensaje, setMensaje] = useState<string>();
     const [addSpei, setAddSpei] = useState<boolean>(false);
+    const [verSpei, setVerSpei] = useState<boolean>(false);
+    const [ruta, setRuta] = useState<string>("");
+    const [name, setName] = useState<string>("");
+
+    const [nameSpei, setNameSpei] = useState<string>("");
+    const [speiFile, setSpeiFile] = useState(Object);
+    const [speis, setSpeis] = useState([]);
+
+    const user: RESPONSE = JSON.parse(String(getUser()));
+
 
     const columns: GridColDef[] = [
         { field: "id", headerName: "Identificador", hide: true, width: 150, },
-        {
-            field: "idmunicipio",
-            headerName: "idmunicipio",
-            hide: true,
-            width: 150,
-        },
         {
             field: "acciones", disableExport: true,
             headerName: "Acciones",
@@ -38,26 +45,41 @@ const SpeisAdmin = ({
             width: 100,
             renderCell: (v) => {
                 return (
-                    //   <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-                    <></>
+                    <Box>
+                        <Tooltip title="Ver Spei">
+                            <IconButton onClick={() => handleVerSpei(v)}>
+                                <ArticleIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Box>
                 );
             },
         },
         { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 180 },
-        { field: "ClaveEstado", headerName: "Clave Estado", description: "Clave Estado", width: 100 },
-        { field: "Nombre", headerName: "Municipio", description: "Municipio", width: 150 },
-        { field: "anio", headerName: "Año", description: "Año", width: 150 },
-        { field: "Pob", headerName: "Población", description: "Población", width: 150 },
+        { field: "Nombre", headerName: "Nombre Documento", description: "Nombre Documento", width: 650 },
 
 
     ];
 
     const handleBorrarMasivo = (v: string) => {
     };
-    const enCambioFile = (event: any) => {
-    };
+
     const handleCloseModal = () => {
         setAddSpei(false);
+        setVerSpei(false);
+    };
+
+
+    const handleNewSpei = (event: any) => {
+        let file = event.target!.files[0]!;
+        if (event.target.files.length !== 0 && event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF") {
+            setNameSpei(event.target!.files[0]!.name);
+            setSpeiFile(file);
+        } else {
+            setNameSpei("");
+            setSpeiFile(undefined);
+        }
+
     };
 
     const handleAgregarSpei = (v: string) => {
@@ -65,28 +87,72 @@ const SpeisAdmin = ({
         setAddSpei(true);
     };
 
-    const validacion = () => {
-        if (mensaje === "" || mensaje === null) {
-            AlertS.fire({
-                title: "Error!",
-                text: "Favor de llenar el campo Comentarios*",
-                icon: "error",
-            });
-        } else {
-            handleAccion({ data: vrows, texto: mensaje })
-        }
+    const handleVerSpei = (v: any) => {
+        setVerSpei(true);
+        setRuta(v.row.Route)
+        setName(v.row.Nombre)
+        console.log(v.row.Route)
+    };
 
-    }
+    const handleUploadSpei = (numOp: string) => {
+        const formData = new FormData();
+        nameSpei !== "" ? formData.append("SPEI", speiFile, nameSpei) : formData.append("SPEI", "");
+        formData.append("NUMOPERACION", numOp);
+        // formData.append("CHID", id);
+        formData.append("IDPA", vrows.id);
+        formData.append("CHUSER", user.id);
+
+        DAFServices.SpeiAdministracion(formData).then((res) => {
+            //   setslideropen(false);
+            if (res.SUCCESS) {
+                Toast.fire({
+                    icon: "success",
+                    title: "Carga Exitosa!",
+                });
+                setNameSpei("");
+                setSpeiFile(null)
+                consulta();
+                handleCloseModal();
+            } else {
+                AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                });
+            }
+        });
 
 
+    };
 
+    const consulta = () => {
+        console.log(vrows.id)
+        DAFServices.SpeiAdministracion({ NUMOPERACION: 4, }).then((res) => {
+            if (res.SUCCESS) {
+                Toast.fire({
+                    icon: "success",
+                    title: "Consulta Exitosa!",
+                });
+                setSpeis(res.RESPONSE);
+            } else {
+                AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                });
+            }
+        });
+    };
+    useEffect(() => {
+        consulta();
+    }, []);
     return (
         <>
             <ModalForm title={'Administración de  los Spei'} handleClose={handleClose}>
                 <Box>
                     <ButtonsAdd handleOpen={handleAgregarSpei} agregar={true} />
                     <Grid item xs={12}>
-                        <MUIXDataGridMun modulo={''} handleBorrar={handleBorrarMasivo} columns={columns} rows={[]} controlInterno={''} />
+                        <MUIXDataGridMun modulo={''} handleBorrar={handleBorrarMasivo} columns={columns} rows={speis} controlInterno={''} />
                     </Grid>
                 </Box>
             </ModalForm>
@@ -98,15 +164,15 @@ const SpeisAdmin = ({
                     <Grid container item justifyContent="space-between" xs={12}>
                         <DialogTitle>Agregar Spei</DialogTitle>
                         <Tooltip title="Cerrar">
-                                    <IconButton onClick={() => handleCloseModal()}  >
-                                        <CloseIcon />
-                                    </IconButton>
-                                </Tooltip>
+                            <IconButton onClick={() => handleCloseModal()}  >
+                                <CloseIcon />
+                            </IconButton>
+                        </Tooltip>
                     </Grid>
                     <DialogContent dividers={true}>
                         <Grid container spacing={1}>
                             <Grid item xs={12}>
-                                <h3>Nombre de archivo:</h3>
+                                <h3>Nombre de archivo: {" " + nameSpei ? nameSpei : ""}</h3>
                             </Grid>
                             <Grid item container justifyContent="center" xs={12}>
                                 <Tooltip title="Click para cargar un archivo">
@@ -114,7 +180,7 @@ const SpeisAdmin = ({
                                         <input
                                             id="imagencargada"
                                             accept="pdf"
-                                            onChange={(v) => { enCambioFile(v) }}
+                                            onChange={(v) => { handleNewSpei(v) }}
                                             type="file"
                                             style={{ zIndex: 2, opacity: 0, width: '100%', height: '80%', position: "absolute", cursor: "pointer", }} /
                                         >
@@ -125,10 +191,44 @@ const SpeisAdmin = ({
                         </Grid>
                     </DialogContent>
                     <DialogActions>
-                        <button className="guardar" onClick={() => handleCloseModal()}> Guardar </button>
+                        <button className="guardar" onClick={() => handleUploadSpei("1")}> Guardar </button>
                     </DialogActions>
                 </Dialog>
                 : ""}
+
+
+            {verSpei ?
+                <Dialog open={true}>
+                    <Grid container item justifyContent="space-between" xs={12}>
+                        <DialogTitle>Spei</DialogTitle>
+                        <Tooltip title="Cerrar">
+                            <IconButton onClick={() => handleCloseModal()}  >
+                                <CloseIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Grid>
+                    <DialogContent dividers={true}>
+                        <Grid container spacing={1}>
+                            <Grid item xs={12}>
+                                <h3>Nombre de archivo: {name}</h3>
+                            </Grid>
+                            <Grid item container justifyContent="center" xs={12}>
+                                <iframe
+                                    id="inlineFrameExample"
+                                    title="Inline Frame Example"
+                                    width="100%"
+                                    height="600"
+                                    src={ruta}
+                                />
+                            </Grid>
+                        </Grid>
+                    </DialogContent>
+
+                </Dialog>
+                :
+                ""}
+
+
         </>
 
     )

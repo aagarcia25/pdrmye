@@ -163,7 +163,6 @@ export const AppRouter = () => {
         {/* DCCP */}
         <Route path='/inicio/dpcp' element={log ? <AsigPresupuestal /> : <AuthRouter />} />
         <Route path='/inicio/dpcp/auth' element={log ? <AuthSolicitudes /> : <AuthRouter />} />
-        AuthSolicitudes
         {/* FIN DCCP */}
         {/* DAF */}
         <Route path='/inicio/daf' element={log ? <AsigPago /> : <AuthRouter />} />
