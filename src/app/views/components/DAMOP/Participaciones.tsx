@@ -19,7 +19,7 @@ import SelectFrag from "../Fragmentos/SelectFrag";
 import SendIcon from "@mui/icons-material/Send";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { AlertS } from "../../../helpers/AlertS";
-import { Moneda } from "../menu/CustomToolbar";
+import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
@@ -91,6 +91,7 @@ const Participaciones = () => {
   const [disFide, setDisFide] = useState<boolean>(false);
   const [intOperaciones, setIntOperaciones] = useState<boolean>(true);
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
+  const [sumaTotal, setSumaTotal] = useState<Number>();
 
 
   const [DAMOP_INI,SETDAMOP_INI] = useState<boolean>(false);
@@ -105,10 +106,8 @@ const Participaciones = () => {
   const [DAMOP_FRA,SETDAMOP_FRA] = useState<boolean>(false);
   const [DAMOP_ARA,SETDAMOP_ARA] = useState<boolean>(false);
   const [DAMOP_FINALIZADO,SETDAMOP_FINALIZADO] = useState<boolean>(false);
-
-
-        
-
+  const [DAMOP_PFI,SETDAMOP_PFI]= useState<boolean>(false);
+  const [DAMOP_PAUT,SETDAMOP_PAUT]= useState<boolean>(false);
 
   const downloadplantilla = () => {
     let data = {
@@ -173,7 +172,7 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {String(v.row.NumParticipacion) !== 'null' && String(v.row.NumEgreso) === 'null' ? (
+            {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? (
               <Tooltip title="Agregar Descuentos">
                 <IconButton
                   onClick={() => handleDescuento(v)}>
@@ -301,13 +300,22 @@ const Participaciones = () => {
       description: "Descuentos",
       ...Moneda,
     },
+    
+
     {
       field: "importe",
       headerName: "Total Neto",
       width: 150,
       description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
       ...Moneda,
+      renderHeader: () => (
+        <>
+          {"Total: " + currencyFormatter.format(Number(sumaTotal))}
+        </>
+      ),
+
     },
+
 
     {
       field: "Proveedor",
@@ -431,7 +439,8 @@ const Participaciones = () => {
 
   const handleFilterChange5 = (v: string) => {
     setIdEstatus(v);
-
+    SETDAMOP_PFI(false);
+    SETDAMOP_PAUT(false);
     SETDAMOP_INI(false);
     SETDAMOP_FSE(false);
     SETDAMOP_ASE(false);
@@ -469,9 +478,14 @@ const Participaciones = () => {
       SETDAMOP_ARA(true);
     }else if(v ==='67d9cdb6-8e13-11ed-a98c-040300000000'){
       SETDAMOP_FINALIZADO(true);
+    }else if(v ==='e6fd8a34-9073-11ed-a98c-040300000000'){
+      SETDAMOP_PFI(true);
+    }else if(v ==='f747b03c-9073-11ed-a98c-040300000000'){
+      SETDAMOP_PAUT(true);
     }
 
-
+   
+   
   };
 
   const Fnworkflow = (data: string) => {
@@ -519,6 +533,7 @@ const Participaciones = () => {
     }
   };
 
+  
   const openmodalAnticipo = () => {
     setOpenModalAnticipo(true);
   };
@@ -834,6 +849,11 @@ const Participaciones = () => {
           title: "Consulta Exitosa!",
         });
         setData(res.RESPONSE);
+        var sumatotal = 0;
+        res.RESPONSE.map((item: any) => {
+          sumatotal = sumatotal + Number(item.importe)
+          setSumaTotal(sumatotal)
+        });
       } else {
         AlertS.fire({
           title: "Error!",
@@ -1226,6 +1246,29 @@ const Participaciones = () => {
 ) : (
   ""
       )}
+
+
+{DAMOP_PFI ? (
+            <Tooltip title={"Finalizar Participación"}>
+              <ToggleButton value="check">
+                <EditOffIcon />
+              </ToggleButton>
+            </Tooltip>
+) : (
+  ""
+      )}
+
+{DAMOP_PAUT ? (
+            <Tooltip title={"Autorizar Participación"}>
+              <ToggleButton value="check">
+                <CheckCircleIcon />
+              </ToggleButton>
+            </Tooltip>
+) : (
+  ""
+      )}
+
+
           </ToggleButtonGroup>
         </Grid>
 
