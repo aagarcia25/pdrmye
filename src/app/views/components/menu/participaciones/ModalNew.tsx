@@ -169,7 +169,7 @@ const ModalNew = ({
               TIPOCALCULO:idTipoCalculo,
               IEJA:ieja,
               IDVERSION: idVersionCalculo,
-              P_DIST:disti
+              P_DIST: disti  ? 1 : 0
             };
             agregar(data);
           }
