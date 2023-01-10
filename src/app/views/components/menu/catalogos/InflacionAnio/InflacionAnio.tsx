@@ -13,6 +13,9 @@ import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import { porcentage } from "../../CustomToolbar";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { fanios } from "../../../../../share/loadAnios";
 
 
 const InflacionAnio = () => {
@@ -27,6 +30,31 @@ const InflacionAnio = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [agregar, setAgregar] = useState<boolean>(false);
+  const [plantilla, setPlantilla] = useState("");
+  const [anios, setAnios] = useState<SelectValues[]>([]);
+
+    // VARIABLES PARA LOS FILTROS
+    const [filterAnio, setFilterAnio] = useState("");
+    //funciones
+
+    const handleFilterChange = (v: string) => {
+      setFilterAnio(v);
+  
+      let data = {
+        NUMOPERACION: 4,
+        ANIO: v,
+      };
+      if (v !== "false") {
+        setFilterAnio(v);
+        consulta(data);
+      } else {
+        consulta({ NUMOPERACION: 4,ANIO: "",});
+        setFilterAnio("");
+  
+      }
+    };
+
+
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -178,6 +206,14 @@ const InflacionAnio = () => {
       <NombreCatalogo controlInterno={"INFANIO"} />
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+      <SelectFrag
+        value={plantilla}
+        options={anios}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"}
+        label={""}
+        disabled={false}
+      />
       <MUIXDataGridMun columns={columns} rows={dataInflacionAnio} modulo={"INFANIO"} handleBorrar={handleBorrar} controlInterno={"INFANIO"} />
 
       

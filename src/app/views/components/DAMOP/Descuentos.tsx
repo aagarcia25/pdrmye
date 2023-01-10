@@ -34,7 +34,8 @@ import ButtonsAdd from "../menu/catalogos/Utilerias/ButtonsAdd";
 import CloseIcon from "@mui/icons-material/Close";
 import Radio from '@mui/material/Radio';
 import Swal from "sweetalert2";
-import { currencyFormatter } from "../menu/CustomToolbar";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { currencyFormatter, Moneda } from "../menu/CustomToolbar";
 export const Descuentos = ({
   handleClose,
   tipo,
@@ -60,11 +61,30 @@ export const Descuentos = ({
   const [cveRetenOp, setCveRetenOp] = useState<SelectValues[]>([]);
   const [sumDes, setSumDes] = useState<number>(0);
   const [sumret, setSumRet] = useState<number>(0);
-  const [primerInicio, setPrimerInicio] = useState<boolean>(false);
+  const [sumaTotal, setSumaTotal] = useState<Number>();
 
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", hide: true, width: 150 },
+    {
+      field: "Acciones",
+      disableExport: true,
+      headerName: "Acciones",
+      description: "Acciones",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            <Tooltip title="Eliminar Descuento">
+              <IconButton onClick={() => handleEliminarDescuento(v)}>
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
     {
       field: "Tipo", headerName: "Tipo", description: "Tipo", width: 200,
       renderCell: (v) => {
@@ -77,13 +97,18 @@ export const Descuentos = ({
     },
     { field: "NumOperacion", headerName: "Num De Operación", description: "Numero De Operación", width: 200 },
     {
-      field: "ParcialDescuento", headerName: "Descuento Parcial", description: "Descuento Parcial", width: 200,
+      field: "ParcialDescuento", headerName: "Descuento Parcial", description: "Descuento Parcial", width: 200, ...Moneda
     },
     {
-      field: "OtrosCargos", headerName: "Otros Cargos", description: "Otros Cargos", width: 200,
+      field: "OtrosCargos", headerName: "Otros Cargos", description: "Otros Cargos", width: 200, ...Moneda
     },
     {
-      field: "total", headerName: "Total", description: "Total", width: 200,
+      field: "total", headerName: "Total", description: "Total", width: 200, ...Moneda,
+      renderHeader: () => (
+        <>
+          {"Total: " + (sumaTotal === undefined ? "0" : currencyFormatter.format(Number(sumaTotal)))}
+        </>
+      ),
     },
     { field: "cveRetencion", headerName: "Retención CVE", description: "Retención CVE", width: 150, },
     { field: "DescripcionDescuento", headerName: "Descripción De Descuento", description: "Descripción De Descuento", width: 500, },
@@ -135,28 +160,45 @@ export const Descuentos = ({
     });
   };
 
-  const consulta = () => {
+  const consulta = (v: string) => {
     let data = {
       CHID: dt.row.id,
     }
+
     DPCPServices.getDescuentos(data).then((res) => {
       if (res.SUCCESS) {
-        console.log(res.RESPONSE)
         setdataRow(res.RESPONSE)
-          var sumaDes = 0;
-          var sumaRet = 0;
+        var sumaDes = 0;
+        var sumaRet = 0;
+        var sumatotal = 0;
+        if (v === "add") {
           res.RESPONSE.map((item: getDescuentos) => {
             if (item.Tipo === "1") {
               sumaDes = sumaDes + Number(item.total)
-              // setSumDes(sumDes + Number(item.total))
             }
             else if (item.Tipo === "2") {
               sumaRet = sumaRet + Number(item.total)
-              // setSumRet(sumret + Number(item.total))
+            }
+
+          });
+        }
+        if (v === "remove") {
+          res.RESPONSE.map((item: getDescuentos) => {
+            if (item.Tipo === "1") {
+              sumaDes = sumaDes - Number(item.total)
+            }
+            else if (item.Tipo === "2") {
+              sumaRet = sumaRet - Number(item.total)
             }
           });
-          setSumDes(sumaDes);
-          setSumRet(sumaRet);
+        }
+        res.RESPONSE.map((item: getDescuentos) => {
+          sumatotal = sumatotal + Number(item.total)
+          setSumaTotal(sumatotal)
+        });
+
+        setSumDes(sumaDes);
+        setSumRet(sumaRet);
       } else {
         AlertS.fire({
           title: "Error!",
@@ -165,6 +207,49 @@ export const Descuentos = ({
         });
       }
     });
+  };
+
+  const handleEliminarDescuento = (v: any) => {
+    console.log(v)
+
+    Swal.fire({
+      icon: "warning",
+      title: "Solicitar",
+      text: "",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+
+        let data = {
+          NUMOPERACION: 2,
+          CHID: v.row.id,
+          CHUSER: user.id,
+        }
+        DPCPServices.setDescuentos(data).then((res) => {
+          if (res.SUCCESS) {
+            setValue("")
+            setOtrosCar(0);
+            setDesPar(0);
+            setComentariosDes("")
+            consulta("remove");
+            Toast.fire({
+              icon: "success",
+              title: "Descuento Eliminado!",
+            });
+          } else {
+            AlertS.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      }
+    });
+
   };
 
   const handleAplicarDescuento = () => {
@@ -179,68 +264,65 @@ export const Descuentos = ({
         icon: "error",
       });
     } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Solicitar",
-        text: "",
-        showDenyButton: false,
-        showCancelButton: true,
-        confirmButtonText: "Aceptar",
-        cancelButtonText: "Cancelar",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
+      if ((Number(dt.row.total) - (sumret + sumDes)) - (desPar + otrosCar) >= 0) {
+        Swal.fire({
+          icon: "warning",
+          title: "Solicitar",
+          text: "",
+          showDenyButton: false,
+          showCancelButton: true,
+          confirmButtonText: "Aceptar",
+          cancelButtonText: "Cancelar",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
 
-          let data = {
-            CHID: dt.row.id,
-            CHUSER: user.id,
-            IDMUN: dt.row.idmunicipio,
-            TIPO: value === "Anticipo" ? 1 : 2,
-            NUMOP: numOperacion,
-            IDURES: user.idUResp,
-            IDDIVISA: dt.row.idDivisa,
-            DESPARCIAL: desPar,
-            OTROSCARGOS: otrosCar,
-            TOTAL: (desPar + otrosCar),
-            CVERET: value === "Anticipo" ? "" : Math.random() * 5000,
-            DESCRIPCION: ComentariosDes
-          }
-          DPCPServices.setDescuentos(data).then((res) => {
-            if (res.SUCCESS) {
-
-              setValue("")
-              // setOpenModalDes(false);
-              setOtrosCar(0);
-              setDesPar(0);
-              setComentariosDes("")
-              consulta();
-
-   
-              // dataRow.map((item: getDescuentos) => {
-
-              //   if (value === "Anticipo") {
-              //     setSumDes(sumDes + Number(item.OtrosCargos) + Number(item.ParcialDescuento))
-              //   }
-              //   else if (value === "RecuperacionAdeudos") {
-              //     setSumRet(sumret + Number(item.OtrosCargos) + Number(item.ParcialDescuento))
-              //   }
-
-              // });
-
-              Toast.fire({
-                icon: "success",
-                title: "Descuento Agregado!",
-              });
-            } else {
-              AlertS.fire({
-                title: "Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              });
+            let data = {
+              NUMOPERACION: 1,
+              CHID: dt.row.id,
+              CHUSER: user.id,
+              IDMUN: dt.row.idmunicipio,
+              TIPO: value === "Anticipo" ? 1 : 2,
+              NUMOP: numOperacion,
+              IDURES: user.idUResp,
+              IDDIVISA: dt.row.idDivisa,
+              DESPARCIAL: desPar,
+              TOTAL: (desPar + otrosCar),
+              OTROSCARGOS: otrosCar,
+              CVERET: value === "Anticipo" ? "" : Math.random() * 5000,
+              DESCRIPCION: ComentariosDes
             }
-          });
+            DPCPServices.setDescuentos(data).then((res) => {
+              if (res.SUCCESS) {
+                setValue("")
+                setOtrosCar(0);
+                setDesPar(0);
+                setComentariosDes("")
+                consulta("add");
+                Toast.fire({
+                  icon: "success",
+                  title: "Descuento Agregado!",
+                });
+              } else {
+                AlertS.fire({
+                  title: "Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
+            });
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Solicitar",
+          text: "El descuento no puede dar como resultado un numero negativo",
+          showDenyButton: false,
+          confirmButtonText: "Aceptar",
+        });
 
-        }
-      });
+
+      }
     }
   };
 
@@ -257,7 +339,6 @@ export const Descuentos = ({
   };
 
   const handleCloseModal = () => {
-    // consulta();
     setValue("")
     setOpenModalDes(false);
     setOtrosCar(0);
@@ -269,17 +350,17 @@ export const Descuentos = ({
 
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNumOperacion("");
-    setCveReten("");
     setValue((event.target as HTMLInputElement).value);
     setOtrosCar(0);
     setDesPar(0);
     setComentariosDes("")
+    handleSelectNumOp("");
+    handleSelectCveRet("");
+    setOpenModalDes(false);
+    setOpenModalDes(true);
   };
 
   useEffect(() => {
-
-
     setNumOperacionOp([
       {
         "value": "1515",
@@ -328,16 +409,17 @@ export const Descuentos = ({
 
 
     )
-    consulta();
+    consulta("add");
 
     if (dt === "") {
     } else {
       setId(dt?.row?.id);
 
     }
-  }, [dt, sumDes, sumret]);
+  }, [dt]);
 
   return (
+
     <>
       <ModalForm title={"Edición de Descuentos"} handleClose={handleClose}>
         <Grid container>
@@ -424,7 +506,6 @@ export const Descuentos = ({
               </Grid>
               <Grid item xs={6}>
                 <label > Num. Operación</label>
-
                 <SelectFrag
                   value={numOperacion}
                   options={numOperacionOp}
@@ -509,6 +590,7 @@ export const Descuentos = ({
                 />
               </Grid>
             </Grid>
+
             {value === "RecuperacionAdeudos" ?
               <Grid container item xs={6}>
                 <label > Cve. Retención</label>
@@ -520,7 +602,8 @@ export const Descuentos = ({
                   label={"Cve. Retención"}
                   disabled={value !== "RecuperacionAdeudos"}
                 />
-              </Grid> : ""}
+              </Grid>
+              : ""}
 
             <Grid container>
               <TextField
