@@ -41,4 +41,10 @@ export class DPCPServices {
         return await post('GetDetalleRegistro', data);
     }
 
+    public static async AuthSolicitudPago(data: any) {
+        return await post('AuthSolicitudPago', data);
+    }
+
+
+    
 }
