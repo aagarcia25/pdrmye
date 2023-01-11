@@ -33,6 +33,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import InfoIcon from "@mui/icons-material/Info";
 import ModalForm from "../componentes/ModalForm";
 import ParticipacionesDetalle from "../DAMOP/ParticipacionesDetalle";
+import SpeisAdmin from "../DAF/SpeisAdmin";
 const RecepcionRecursos = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
@@ -52,12 +53,27 @@ const RecepcionRecursos = () => {
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
+  const [openVerSpei, setOpenVerSpei] = useState<boolean>(false);
+
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const handleDescuento = (data: any) => { };
-  
+
+  const handleAccion = () => { };
+
+
+  const handleVerSpei = (data: any) => {
+    setOpenVerSpei(true);
+    setData(data.row)
+
+
+  };
+
+
   const handleClose = () => {
     setOpenModalDetalle(false);
+    setOpenVerSpei(false);
+    handleClick();
   };
 
   const handleDetalle = (data: any) => {
@@ -77,7 +93,7 @@ const RecepcionRecursos = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {v.row.detalle === 1  ? (
+            {v.row.detalle === 1 ? (
               <Tooltip title="Ver Detalle del Registro">
                 <IconButton onClick={() => handleDetalle(v)}>
                   <InfoIcon />
@@ -100,21 +116,26 @@ const RecepcionRecursos = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            
+
+
+            {v.row.estatusCI === "DAF_SPEI" ?
               <Tooltip title="Subir CFDI">
                 <IconButton onClick={() => handleDescuento(v)}>
                   <FilePresentIcon />
                 </IconButton>
               </Tooltip>
-
+              : ""}
+            {v.row.estatusCI === "DAF_SPEI" ?
               <Tooltip title="Descargar SPEI">
-                <IconButton onClick={() => handleDescuento(v)}>
+                <IconButton onClick={() => handleVerSpei(v)}>
                   <FileDownloadIcon />
                 </IconButton>
               </Tooltip>
-          
+              : ""}
 
-       
+
+
+
           </Box>
         );
       },
@@ -131,7 +152,7 @@ const RecepcionRecursos = () => {
       width: 100,
       description: "Mes",
     },
-  
+
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -150,7 +171,7 @@ const RecepcionRecursos = () => {
       width: 200,
       description: "Número De Orden De Pago",
     },
-   
+
     {
       field: "NumCheque",
       headerName: "Nº De Cheque",
@@ -162,14 +183,14 @@ const RecepcionRecursos = () => {
       headerName: "Descripción de Fondo",
       width: 250,
     },
-    
+
 
     {
       field: "estatus",
       headerName: "Estatus",
       width: 150,
     },
-   
+
     {
       field: "total",
       headerName: "Total Neto",
@@ -215,7 +236,7 @@ const RecepcionRecursos = () => {
     });
   };
 
- 
+
 
   const handleFilterChange1 = (v: string) => {
     setIdTipo(v);
@@ -229,11 +250,11 @@ const RecepcionRecursos = () => {
     setidMunicipio(v);
   };
 
-  
- 
- 
 
- 
+
+
+
+
 
 
   const handleClick = () => {
@@ -267,48 +288,48 @@ const RecepcionRecursos = () => {
     loadFilter(5);
     loadFilter(17);
     handleClick();
-  /*  permisos.map((item: PERMISO) => {
-      if (
-        String(item.ControlInterno) === "PARTMUN"
-      ) {
-        if (String(item.Referencia) === "AGREGPLANT") {
-          setCargarPlant(true);
+    /*  permisos.map((item: PERMISO) => {
+        if (
+          String(item.ControlInterno) === "PARTMUN"
+        ) {
+          if (String(item.Referencia) === "AGREGPLANT") {
+            setCargarPlant(true);
+          }
+          else if (String(item.Referencia) === "DESCPLANT") {
+            setDescPlant(true);
+          }
+          else if (String(item.Referencia) === "DISFIDE") {
+            setDisFide(true);
+          }
         }
-        else if (String(item.Referencia) === "DESCPLANT") {
-          setDescPlant(true);
-        }
-        else if (String(item.Referencia) === "DISFIDE") {
-          setDisFide(true);
-        }
-      }
-    });*/
+      });*/
   }, []);
 
   return (
     <div>
       <Slider open={slideropen}></Slider>
 
-     
+
 
 
 
 
       {openModalDetalle ? (
-      <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
-        <ParticipacionesDetalle
-          data={vrows}  />
-            </ModalForm>
-         ) : (
-         ""
+        <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
+          <ParticipacionesDetalle
+            data={vrows} />
+        </ModalForm>
+      ) : (
+        ""
       )}
-    
+
 
       <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={10} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
-              Módulo de Recepción de Recursos
+                Módulo de Recepción de Recursos
               </Typography>
             </Grid>
           </Grid>
@@ -341,7 +362,7 @@ const RecepcionRecursos = () => {
           </Button>
         </Grid>
 
-    
+
 
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -374,17 +395,17 @@ const RecepcionRecursos = () => {
                 //   }
                 // } 
                 components={{ Toolbar: GridToolbar }}
-                 sx={{
-                   fontFamily: "Poppins,sans-serif", fontWeight: '600',
-                //   '& .super-app.negative': {
-                //     color: "rgb(84, 3, 3)",
-                //     backgroundColor: "rgb(196, 40, 40, 0.384)",
-                //   },
-                //   '& .super-app.positive': {
-                //     backgroundColor: 'rgb(16, 145, 80, 0.567)',
-                   
-                //   },
-                 }}
+                sx={{
+                  fontFamily: "Poppins,sans-serif", fontWeight: '600',
+                  //   '& .super-app.negative': {
+                  //     color: "rgb(84, 3, 3)",
+                  //     backgroundColor: "rgb(196, 40, 40, 0.384)",
+                  //   },
+                  //   '& .super-app.positive': {
+                  //     backgroundColor: 'rgb(16, 145, 80, 0.567)',
+
+                  //   },
+                }}
                 componentsProps={{
                   toolbar: {
                     label: "buscar",
@@ -414,6 +435,10 @@ const RecepcionRecursos = () => {
           </div>
         </Grid>
       </Grid>
+      {openVerSpei ?
+        <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={data} />
+        : ""}
+
     </div>
   );
 };

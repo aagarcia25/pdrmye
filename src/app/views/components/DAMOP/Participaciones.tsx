@@ -54,6 +54,9 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import ArticleIcon from '@mui/icons-material/Article';
+import SpeisAdmin from "../DAF/SpeisAdmin";
+
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
@@ -62,6 +65,8 @@ const Participaciones = () => {
   const [openModalDescuento, setOpenModalDescuento] = useState<boolean>(false);
   const [openModalAnticipo, setOpenModalAnticipo] = useState<boolean>(false);
   const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
+  const [openModalVerSpei, setOpenModalVerSpei] = useState<boolean>(false);
+
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
@@ -108,6 +113,8 @@ const Participaciones = () => {
   const [DAMOP_FINALIZADO,SETDAMOP_FINALIZADO] = useState<boolean>(false);
   const [DAMOP_PFI,SETDAMOP_PFI]= useState<boolean>(false);
   const [DAMOP_PAUT,SETDAMOP_PAUT]= useState<boolean>(false);
+  const [DAF_SPEI,SETDAF_SPEI]= useState<boolean>(false);
+
 
   const downloadplantilla = () => {
     let data = {
@@ -127,8 +134,13 @@ const Participaciones = () => {
 
 
   const handleDetalle = (data: any) => {
-    setVrows(data);
+    setVrows(data.row);
     setOpenModalDetalle(true);
+
+  };
+  const handleVerSpei = (data: any) => {
+    setVrows(data);
+    setOpenModalVerSpei(true);
 
   };
 
@@ -153,6 +165,16 @@ const Participaciones = () => {
             ) : (
               ""
             )}
+                {v.row.estatusCI==="DAF_SPEI"? (
+              <Tooltip title="Ver Spei">
+                <IconButton onClick={() => handleVerSpei(v)}>
+                  <ArticleIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+            
           </Box>
         );
       },
@@ -410,6 +432,10 @@ const Participaciones = () => {
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
     handleClick();
+    setOpenModalVerSpei(false);
+  };
+  const handleAccion = () => {
+   
   };
 
   const handleFilterChange1 = (v: string) => {
@@ -452,6 +478,7 @@ const Participaciones = () => {
     SETDAMOP_ASP(false);
     SETDAMOP_FRA(false);
     SETDAMOP_ARA(false);
+    SETDAF_SPEI(false);
     SETDAMOP_FINALIZADO(false);
 
     if (v ==='a2d2adfc-8e12-11ed-a98c-040300000000'){
@@ -482,6 +509,8 @@ const Participaciones = () => {
       SETDAMOP_PFI(true);
     }else if(v ==='f747b03c-9073-11ed-a98c-040300000000'){
       SETDAMOP_PAUT(true);
+    }else if(v ==='b825e8af-91e8-11ed-a912-705a0f328da6'){
+      SETDAF_SPEI(true);
     }
 
    
@@ -1346,6 +1375,10 @@ const Participaciones = () => {
           </div>
         </Grid>
       </Grid>
+      {openModalVerSpei?
+      
+    <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows}/>
+    :""}
     </div>
   );
 };

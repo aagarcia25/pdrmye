@@ -55,11 +55,14 @@ const SpeisAdmin = ({
                                 <ArticleIcon />
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title="Eliminar Archivo">
-                            <IconButton onClick={() => handleDeleteSpei(v)}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
+                        {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ?
+                            <Tooltip title="Eliminar Archivo">
+                                <IconButton onClick={() => handleDeleteSpei(v)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </Tooltip>
+                            : ""}
+
                     </Box>
                 );
             },
@@ -102,12 +105,12 @@ const SpeisAdmin = ({
         setName(v.row.Nombre)
     };
     const handleDeleteSpei = (data: any) => {
-      
+
         const formData = new FormData();
         formData.append("NUMOPERACION", "3");
         formData.append("CHID", data.id);
         formData.append("CHUSER", user.id);
-
+        formData.append("REGISTROS", speis[1] ? "1" : "0");
         Swal.fire({
             icon: "info",
             title: "Estas seguro de eliminar este registro?",
@@ -115,9 +118,9 @@ const SpeisAdmin = ({
             showCancelButton: false,
             confirmButtonText: "Confirmar",
             denyButtonText: `Cancelar`,
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-                
+
                 DAFServices.SpeiAdministracion(formData).then((res) => {
                     //   setslideropen(false);
                     if (res.SUCCESS) {
@@ -137,19 +140,20 @@ const SpeisAdmin = ({
                         });
                     }
                 });
-      
+
             } else if (result.isDenied) {
-              Swal.fire("No se realizaron cambios", "", "info");
+                Swal.fire("No se realizaron cambios", "", "info");
             }
-      
-      
-          });
- 
+
+
+        });
+
     };
 
     const handleUploadSpei = (numOp: string) => {
         const formData = new FormData();
         nameSpei !== "" ? formData.append("SPEI", speiFile, nameSpei) : formData.append("SPEI", "");
+        formData.append("NUMOPERACION", numOp);
         formData.append("NUMOPERACION", numOp);
         // formData.append("CHID", id);
         formData.append("IDPA", vrows.id);
@@ -202,7 +206,7 @@ const SpeisAdmin = ({
         <>
             <ModalForm title={'Administración de  los Spei'} handleClose={handleClose}>
                 <Box>
-                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={true} />
+                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={user.DEPARTAMENTOS[0].NombreCorto==="DAF"} />
                     <Grid item xs={12}>
                         <MUIXDataGridMun modulo={''} handleBorrar={handleBorrarMasivo} columns={columns} rows={speis} controlInterno={''} />
                     </Grid>
