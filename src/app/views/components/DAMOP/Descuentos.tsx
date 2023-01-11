@@ -210,7 +210,6 @@ export const Descuentos = ({
   };
 
   const handleEliminarDescuento = (v: any) => {
-    console.log(v)
 
     Swal.fire({
       icon: "warning",
@@ -249,7 +248,6 @@ export const Descuentos = ({
         });
       }
     });
-
   };
 
   const handleAplicarDescuento = () => {
@@ -354,10 +352,8 @@ export const Descuentos = ({
     setOtrosCar(0);
     setDesPar(0);
     setComentariosDes("")
-    handleSelectNumOp("");
+    handleSelectNumOp("false");
     handleSelectCveRet("");
-    setOpenModalDes(false);
-    setOpenModalDes(true);
   };
 
   useEffect(() => {
@@ -505,15 +501,33 @@ export const Descuentos = ({
                 />
               </Grid>
               <Grid item xs={6}>
-                <label > Num. Operación</label>
-                <SelectFrag
-                  value={numOperacion}
-                  options={numOperacionOp}
-                  onInputChange={handleSelectNumOp}
-                  placeholder={"Seleccionar Usuario"}
-                  label={"Num. Operación"}
-                  disabled={value === ""}
-                />
+
+                {value === "RecuperacionAdeudos" ?
+                    <Grid item xs={11.99}>
+                      <label > Num. Operación</label>
+                      <SelectFrag
+                        value={numOperacion}
+                        options={numOperacionOp}
+                        onInputChange={handleSelectNumOp}
+                        placeholder={"Seleccionar Usuario"}
+                        label={"Num.  Operación"}
+                        disabled={false}
+                      />
+                    </Grid>
+                  :
+                  <>
+                    <label > Num. Operación</label>
+                    <SelectFrag
+                      value={numOperacion}
+                      options={numOperacionOp}
+                      onInputChange={handleSelectNumOp}
+                      placeholder={"Seleccionar Usuario"}
+                      label={"Num. Operación"}
+                      disabled={value === "RecuperacionAdeudos"}
+                    />
+                  </>
+                }
+
               </Grid>
             </Grid>
 
