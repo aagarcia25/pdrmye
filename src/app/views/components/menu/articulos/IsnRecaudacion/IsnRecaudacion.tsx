@@ -44,6 +44,17 @@ const IsnRecaudacion = () => {
   const [filterAnio, setFilterAnio] = useState("");
   //funciones
 
+  const handleFilterChange = (v: string) => {
+    setFilterAnio(v);
+    // console.log(v);
+    if(v==="false"){
+      consulta(4,"");
+    } else {
+      consulta(4,v);
+    }
+    
+  };
+
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true, description: messages.dataTableColum.id },
@@ -85,7 +96,7 @@ const IsnRecaudacion = () => {
   }
   const handleClose = (v: string) => {
     setOpen(false);
-    consulta(4);
+    consulta(4,v);
 
   };
   const handleBorrar = (v: any) => {
@@ -129,7 +140,7 @@ const IsnRecaudacion = () => {
             });
           }
         });
-        consulta(4);
+        consulta(4,"");
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
@@ -148,7 +159,7 @@ const IsnRecaudacion = () => {
     formData.append("tipo", "MUNISNRECAUDACION");
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
-      consulta(4);
+      consulta(4,"");
     });
   };
 
@@ -175,7 +186,7 @@ const IsnRecaudacion = () => {
                 icon: "success",
                 title: "Borrado!",
               });
-              consulta(4);
+              consulta(4,"");
             } else {
               AlertS.fire({
                 title: "Error!",
@@ -199,12 +210,12 @@ const IsnRecaudacion = () => {
 
   }
 
-  const consulta = (NUMOPERACION: number) => {
+  const consulta = (NUMOPERACION: number, ANIO: string) => {
     setslideropen(true);
     let data = {
       NUMOPERACION: NUMOPERACION,
       CHUSER: user.id,
-      ANIO: filterAnio
+      ANIO: ANIO
     };
 
     CatalogosServices.indexISN(data).then((res) => {
@@ -226,12 +237,7 @@ const IsnRecaudacion = () => {
   };
 
 
-  const handleFilterChange = (v: string) => {
-    setFilterAnio(v);
-    if (v !== "") {
-      consulta(4);
-    }
-  };
+
 
   const downloadplantilla = () => {
     let data = {
@@ -260,7 +266,7 @@ const IsnRecaudacion = () => {
         }
       }
     });
-    consulta(4);
+    consulta(4,"");
 
   }, []);
 
