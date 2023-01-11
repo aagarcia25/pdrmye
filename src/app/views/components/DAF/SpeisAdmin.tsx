@@ -12,6 +12,9 @@ import { Toast } from '../../../helpers/Toast';
 import { RESPONSE } from '../../../interfaces/user/UserInfo';
 import { getUser } from '../../../services/localStorage';
 import ArticleIcon from '@mui/icons-material/Article';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Swal from 'sweetalert2';
+
 const SpeisAdmin = ({
     handleClose,
     handleAccion,
@@ -25,6 +28,7 @@ const SpeisAdmin = ({
     const [mensaje, setMensaje] = useState<string>();
     const [addSpei, setAddSpei] = useState<boolean>(false);
     const [verSpei, setVerSpei] = useState<boolean>(false);
+
     const [ruta, setRuta] = useState<string>("");
     const [name, setName] = useState<string>("");
 
@@ -49,6 +53,11 @@ const SpeisAdmin = ({
                         <Tooltip title="Ver Spei">
                             <IconButton onClick={() => handleVerSpei(v)}>
                                 <ArticleIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Eliminar Archivo">
+                            <IconButton onClick={() => handleDeleteSpei(v)}>
+                                <DeleteIcon />
                             </IconButton>
                         </Tooltip>
                     </Box>
@@ -91,7 +100,51 @@ const SpeisAdmin = ({
         setVerSpei(true);
         setRuta(v.row.Route)
         setName(v.row.Nombre)
-        console.log(v.row.Route)
+    };
+    const handleDeleteSpei = (data: any) => {
+      
+        const formData = new FormData();
+        formData.append("NUMOPERACION", "3");
+        formData.append("CHID", data.id);
+        formData.append("CHUSER", user.id);
+
+        Swal.fire({
+            icon: "info",
+            title: "Estas seguro de eliminar este registro?",
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+                
+                DAFServices.SpeiAdministracion(formData).then((res) => {
+                    //   setslideropen(false);
+                    if (res.SUCCESS) {
+                        Toast.fire({
+                            icon: "success",
+                            title: "Borrado Exitosa!",
+                        });
+                        setNameSpei("");
+                        setSpeiFile(null)
+                        consulta();
+                        handleCloseModal();
+                    } else {
+                        AlertS.fire({
+                            title: "Error!",
+                            text: res.STRMESSAGE,
+                            icon: "error",
+                        });
+                    }
+                });
+      
+            } else if (result.isDenied) {
+              Swal.fire("No se realizaron cambios", "", "info");
+            }
+      
+      
+          });
+ 
     };
 
     const handleUploadSpei = (numOp: string) => {
@@ -126,7 +179,6 @@ const SpeisAdmin = ({
     };
 
     const consulta = () => {
-        console.log(vrows.id)
         DAFServices.SpeiAdministracion({ NUMOPERACION: 4, }).then((res) => {
             if (res.SUCCESS) {
                 Toast.fire({
