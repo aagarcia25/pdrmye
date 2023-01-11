@@ -278,7 +278,6 @@ const FideicomisoConfig = ({
     setOpenSlider(true);
     CatalogosServices.MunFideicomiso(data).then((res) => {
       setData(res.RESPONSE);
-      console.log(res.RESPONSE)
       setOpenSlider(false);
     });
 
@@ -287,7 +286,6 @@ const FideicomisoConfig = ({
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMonex((event.target as HTMLInputElement).value);
-    console.log((event.target as HTMLInputElement).value);
   };
   useEffect(() => {
     setModo("visualizar")

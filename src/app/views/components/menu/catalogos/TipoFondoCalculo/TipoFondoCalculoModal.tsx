@@ -143,7 +143,6 @@ import {
           //console.log(dt);
         } else {
   
-          console.log(dt)
           setId(dt?.row?.id);
           setDescripcion(dt?.row?.Descripcion);
           setNumProyecto(dt?.row?.NumProyecto);
