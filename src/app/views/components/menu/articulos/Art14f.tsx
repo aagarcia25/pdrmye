@@ -112,7 +112,6 @@ export const Art14f = () => {
   const loaddata = (tipo: Number, idc: string, deleted: string, version: string) => {
     setDeleted(String(deleted));
     setVersion(String(version));
-    console.log(String(deleted));
     setslideropen(true);
     let data = {
       NUMOPERACION: 4,

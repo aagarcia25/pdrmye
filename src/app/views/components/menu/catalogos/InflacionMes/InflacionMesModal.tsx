@@ -123,7 +123,6 @@ const InflacionMesModal = ({
 
   useEffect(() => {
     setMeses(fmeses());
-    console.log(fmeses())
 
 
     if (dt === "") {

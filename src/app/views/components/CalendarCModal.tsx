@@ -66,7 +66,6 @@ const CalendarCModal = ({
   const [modoModal, setModoModal] = useState(modo);
 
   const handleSend = () => {
-    console.log(nombreEvento)
     if (nombreEvento === null || nombreEvento === "" ||nombreEvento ===undefined) {
       AlertS.fire({
         title: "Favor de Completar los Campos",

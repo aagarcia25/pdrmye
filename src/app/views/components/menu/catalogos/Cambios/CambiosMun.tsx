@@ -246,7 +246,6 @@ const CambiosMun = () => {
                     icon: "success",
                     title: "Consulta Exitosa!",
                 });
-                console.log(res.RESPONSE);
                 setBitacoraAjustes(res.RESPONSE);
             } else {
                 AlertS.fire({

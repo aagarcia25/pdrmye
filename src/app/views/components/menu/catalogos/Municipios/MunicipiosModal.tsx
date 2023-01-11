@@ -105,21 +105,7 @@ const MunFacturacionModal = ({
   };
 
   const handleSend = () => {
-    console.log(
-      
-      "--- nombre          : ",nombre          , 
-      "--- claveEstado     : ",claveEstado     , 
-      "--- mam             : ",mam             , 
-      "--- descentralizado : ",descentralizado , 
-      "--- nombreCorto     : ",nombreCorto     , 
-      "--- ordenSFTGNL     : ",ordenSFTGNL     , 
-      "--- clavePSIREGOB   : ",clavePSIREGOB   , 
-      "--- claveDSIREGOB   : ",claveDSIREGOB   , 
-      "--- claveINEGI      : ",claveINEGI      , 
-      "--- artF1           : ",artF1           , 
-      "--- artF2           : ",artF2           , 
-      "--- artF3           : ",artF3           , 
-    )
+
     if (
       nombre === "" ||
       claveEstado === "" ||
