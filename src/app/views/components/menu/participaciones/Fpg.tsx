@@ -233,6 +233,7 @@ export const Fpg = () => {
   let params = useParams();
 
   useEffect(() => {
+    setstep(0);
     setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
 
@@ -258,6 +259,7 @@ export const Fpg = () => {
 
   const query = new URLSearchParams(useLocation().search);
   useEffect(() => {
+    setstep(0);
    const jwt = query.get("id");
    if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
     setIdtrazabilidad(String(jwt));
@@ -323,8 +325,7 @@ export const Fpg = () => {
         <ModalNew
           clave={objfondo?.Clave || ""}
           titulo={objfondo?.Descripcion || ""}
-          onClickBack={handleClose}
-        />
+          onClickBack={handleClose} resetNum={0} resetSelect={""}        />
         : ""}
 
       {step === 2 ?

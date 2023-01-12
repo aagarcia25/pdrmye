@@ -19,10 +19,14 @@ const ModalNew = ({
   clave,
   titulo,
   onClickBack,
+  resetNum,
+  resetSelect
 }: {
   clave: string;
   titulo: string;
   onClickBack: Function;
+  resetNum: number;
+  resetSelect: string;
 }) => {
   
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -218,7 +222,10 @@ const ModalNew = ({
   };
 
   useEffect(() => {
-    setMonto(0);
+    setMonto(resetNum);
+    setIdmes(resetSelect);
+    setIdTipoCalculo(resetSelect);
+    
     parametros();
     loadFilter(2);
     loadFilter(15);
@@ -363,6 +370,7 @@ const ModalNew = ({
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
               <Input
+              value={monto}
                 sx={{ fontWeight: "MontserratMedium" }}
                 required
                 placeholder="1500000*"
