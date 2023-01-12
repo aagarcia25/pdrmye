@@ -11,6 +11,13 @@ export class DPCPServices {
         return await post('FinEgreso', data);
     }
 
+    public static async AutEgreso(data: any) {
+        return await post('AutEgreso', data);
+    }
+    public static async ValidarEgreso(data: any) {
+        return await post('ValidarEgreso', data);
+    }
+
     public static async AutParticipaciones(data: any) {
         return await post('AutParticipaciones', data);
     }

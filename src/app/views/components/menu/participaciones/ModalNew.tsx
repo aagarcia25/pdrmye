@@ -152,7 +152,9 @@ const ModalNew = ({
           isrnomina();
         }else{
           
-          if (monto === null || ieja === null ) {
+          if (monto === null || ieja === null || idmes=== null || idTipoCalculo===null
+             || idmes=== "false" || idTipoCalculo==="false" 
+             ) {
             AlertS.fire({
               title: "Error!",
               text: "Favor de Completar los Campos",
@@ -216,6 +218,7 @@ const ModalNew = ({
   };
 
   useEffect(() => {
+    setMonto(0);
     parametros();
     loadFilter(2);
     loadFilter(15);
@@ -301,7 +304,7 @@ const ModalNew = ({
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
-              <Tooltip title={"Si se activa esta opción el cálculo se realizará con tomando la proporción de garantía del fondo"}>
+              <Tooltip title={"Si se activa esta opción el cálculo se realizará tomando la proporción de garantía del fondo"}>
               <FormControlLabel
                     value={disti}
                     control={
@@ -402,7 +405,7 @@ const ModalNew = ({
                     setieja(Number(v.target.value))
                 }}
                 error={ieja? true : false}
-                type="ieja"
+                type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
             </Grid>

@@ -481,37 +481,37 @@ const Participaciones = () => {
     SETDAF_SPEI(false);
     SETDAMOP_FINALIZADO(false);
 
-    if (v ==='a2d2adfc-8e12-11ed-a98c-040300000000'){
-     SETDAMOP_INI(true);
-    }else if(v ==='d117049e-8e12-11ed-a98c-040300000000'){
-      SETDAMOP_FSE(true);
-    }else if(v ==='e0f0d317-8e12-11ed-a98c-040300000000'){
-      SETDAMOP_ASE(true);
-    }else if(v ==='ef68291d-8e12-11ed-a98c-040300000000'){
-      SETDAMOP_TE(true);
-    }else if(v ==='fe7fae95-8e12-11ed-a98c-040300000000'){
-      SETDAMOP_AE(true);
-    }else if(v ==='0c1b887e-8e13-11ed-a98c-040300000000'){
-      SETDAMOP_FE(true);
-    }else if(v ==='1a7d41ed-8e13-11ed-a98c-040300000000'){
-      SETDAMOP_VE(true);
-    }else if(v ==='2a879241-8e13-11ed-a98c-040300000000'){
-      SETDAMOP_GSE(true);
-    }else if(v ==='399a2ffe-8e13-11ed-a98c-040300000000'){
-      SETDAMOP_ASP(true);
-    }else if(v ==='4a5cf61b-8e13-11ed-a98c-040300000000'){
-      SETDAMOP_FRA(true);
-    }else if(v ==='596e5f1e-8e13-11ed-a98c-040300000000'){
-      SETDAMOP_ARA(true);
-    }else if(v ==='67d9cdb6-8e13-11ed-a98c-040300000000'){
-      SETDAMOP_FINALIZADO(true);
-    }else if(v ==='e6fd8a34-9073-11ed-a98c-040300000000'){
-      SETDAMOP_PFI(true);
-    }else if(v ==='f747b03c-9073-11ed-a98c-040300000000'){
-      SETDAMOP_PAUT(true);
-    }else if(v ==='b825e8af-91e8-11ed-a912-705a0f328da6'){
-      SETDAF_SPEI(true);
-    }
+    // if (v ==='a2d2adfc-8e12-11ed-a98c-040300000000'){
+    //  SETDAMOP_INI(true);
+    // }else if(v ==='d117049e-8e12-11ed-a98c-040300000000'){
+    //   SETDAMOP_FSE(true);
+    // }else if(v ==='e0f0d317-8e12-11ed-a98c-040300000000'){
+    //   SETDAMOP_ASE(true);
+    // }else if(v ==='ef68291d-8e12-11ed-a98c-040300000000'){
+    //   SETDAMOP_TE(true);
+    // }else if(v ==='fe7fae95-8e12-11ed-a98c-040300000000'){
+    //   SETDAMOP_AE(true);
+    // }else if(v ==='0c1b887e-8e13-11ed-a98c-040300000000'){
+    //   SETDAMOP_FE(true);
+    // }else if(v ==='1a7d41ed-8e13-11ed-a98c-040300000000'){
+    //   SETDAMOP_VE(true);
+    // }else if(v ==='2a879241-8e13-11ed-a98c-040300000000'){
+    //   SETDAMOP_GSE(true);
+    // }else if(v ==='399a2ffe-8e13-11ed-a98c-040300000000'){
+    //   SETDAMOP_ASP(true);
+    // }else if(v ==='4a5cf61b-8e13-11ed-a98c-040300000000'){
+    //   SETDAMOP_FRA(true);
+    // }else if(v ==='596e5f1e-8e13-11ed-a98c-040300000000'){
+    //   SETDAMOP_ARA(true);
+    // }else if(v ==='67d9cdb6-8e13-11ed-a98c-040300000000'){
+    //   SETDAMOP_FINALIZADO(true);
+    // }else if(v ==='e6fd8a34-9073-11ed-a98c-040300000000'){
+    //   SETDAMOP_PFI(true);
+    // }else if(v ==='f747b03c-9073-11ed-a98c-040300000000'){
+    //   SETDAMOP_PAUT(true);
+    // }else if(v ==='b825e8af-91e8-11ed-a912-705a0f328da6'){
+    //   SETDAF_SPEI(true);
+    // }
 
    
    
@@ -1074,11 +1074,153 @@ const Participaciones = () => {
       });
     }
   };
+ 
+  const handleAutEgresos = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: selectionModel.length + " Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            NUMOPERACION: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              DPCPServices.AutEgreso(data).then((res) => {
+                if (res.SUCCESS) {
+                  AlertS.fire({
+                    icon: "success",
+                    title: res.RESPONSE,
+                  }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      handleClick();
+                    }
+                  });
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  };
+
+
+  const handleValEgresos = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: selectionModel.length + " Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            NUMOPERACION: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              DPCPServices.ValidarEgreso(data).then((res) => {
+                if (res.SUCCESS) {
+                  AlertS.fire({
+                    icon: "success",
+                    title: res.RESPONSE,
+                  }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      handleClick();
+                    }
+                  });
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  };
+
   const handleClick = () => {
     if (idtipoSolicitud || idFondo || idMunicipio) {
       setIntOperaciones(false)
 
     }
+
+    if (idestatus ==='a2d2adfc-8e12-11ed-a98c-040300000000'){
+      SETDAMOP_INI(true);
+     }else if(idestatus ==='d117049e-8e12-11ed-a98c-040300000000'){
+       SETDAMOP_FSE(true);
+     }else if(idestatus ==='e0f0d317-8e12-11ed-a98c-040300000000'){
+       SETDAMOP_ASE(true);
+     }else if(idestatus ==='ef68291d-8e12-11ed-a98c-040300000000'){
+       SETDAMOP_TE(true);
+     }else if(idestatus ==='fe7fae95-8e12-11ed-a98c-040300000000'){
+       SETDAMOP_AE(true);
+     }else if(idestatus ==='0c1b887e-8e13-11ed-a98c-040300000000'){
+       SETDAMOP_FE(true);
+     }else if(idestatus ==='1a7d41ed-8e13-11ed-a98c-040300000000'){
+       SETDAMOP_VE(true);
+     }else if(idestatus ==='2a879241-8e13-11ed-a98c-040300000000'){
+       SETDAMOP_GSE(true);
+     }else if(idestatus ==='399a2ffe-8e13-11ed-a98c-040300000000'){
+       SETDAMOP_ASP(true);
+     }else if(idestatus ==='4a5cf61b-8e13-11ed-a98c-040300000000'){
+       SETDAMOP_FRA(true);
+     }else if(idestatus ==='596e5f1e-8e13-11ed-a98c-040300000000'){
+       SETDAMOP_ARA(true);
+     }else if(idestatus ==='67d9cdb6-8e13-11ed-a98c-040300000000'){
+       SETDAMOP_FINALIZADO(true);
+     }else if(idestatus ==='e6fd8a34-9073-11ed-a98c-040300000000'){
+       SETDAMOP_PFI(true);
+     }else if(idestatus ==='f747b03c-9073-11ed-a98c-040300000000'){
+       SETDAMOP_PAUT(true);
+     }else if(idestatus ==='b825e8af-91e8-11ed-a912-705a0f328da6'){
+       SETDAF_SPEI(true);
+     }
     let data = {
       TIPO: 1,
       P_FONDO: idFondo === "false" ? "" : idFondo,
@@ -1437,7 +1579,7 @@ const Participaciones = () => {
 
 {DAMOP_AE ? (
             <Tooltip title={"Autorizar egresos"}>
-              <ToggleButton value="check">
+              <ToggleButton value="check"  onClick={() => handleAutEgresos()}>
                 <CheckCircleIcon />
               </ToggleButton>
             </Tooltip>
@@ -1457,7 +1599,7 @@ const Participaciones = () => {
 
 {DAMOP_VE ? (
             <Tooltip title={"Validar egreso"}>
-              <ToggleButton value="check">
+              <ToggleButton value="check"  onClick={() => handleValEgresos()}>   
                 <ThumbUpIcon />
               </ToggleButton>
             </Tooltip>
