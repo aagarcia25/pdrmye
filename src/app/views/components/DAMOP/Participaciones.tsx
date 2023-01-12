@@ -99,17 +99,17 @@ const Participaciones = () => {
   const [sumaTotal, setSumaTotal] = useState<Number>();
 
 
-  const [DAMOP_INI,SETDAMOP_INI] = useState<boolean>(false);
-  const [DAMOP_FSE,SETDAMOP_FSE] = useState<boolean>(false);
-  const [DAMOP_ASE,SETDAMOP_ASE] = useState<boolean>(false);
-  const [DAMOP_TE,SETDAMOP_TE] = useState<boolean>(false);
-  const [DAMOP_AE,SETDAMOP_AE] = useState<boolean>(false);
-  const [DAMOP_FE,SETDAMOP_FE] = useState<boolean>(false);
-  const [DAMOP_VE,SETDAMOP_VE] = useState<boolean>(false);
-  const [DAMOP_GSE,SETDAMOP_GSE] = useState<boolean>(false);
-  const [DAMOP_ASP,SETDAMOP_ASP] = useState<boolean>(false);
-  const [DAMOP_FRA,SETDAMOP_FRA] = useState<boolean>(false);
-  const [DAMOP_ARA,SETDAMOP_ARA] = useState<boolean>(false);
+  const [DAMOP_INI, SETDAMOP_INI] = useState<boolean>(false);
+  const [DAMOP_FSE, SETDAMOP_FSE] = useState<boolean>(false);
+  const [DAMOP_ASE, SETDAMOP_ASE] = useState<boolean>(false);
+  const [DAMOP_TE,  SETDAMOP_TE] = useState<boolean>(false);
+  const [DAMOP_AE,  SETDAMOP_AE] = useState<boolean>(false);
+  const [DAMOP_FE,  SETDAMOP_FE] = useState<boolean>(false);
+  const [DAMOP_VE,  SETDAMOP_VE] = useState<boolean>(false);
+  const [DAMOP_GSE, SETDAMOP_GSE] = useState<boolean>(false);
+  const [DAMOP_ASP, SETDAMOP_ASP] = useState<boolean>(false);
+  const [DAMOP_FRA, SETDAMOP_FRA] = useState<boolean>(false);
+  const [DAMOP_ARA, SETDAMOP_ARA] = useState<boolean>(false);
   const [DAMOP_FINALIZADO,SETDAMOP_FINALIZADO] = useState<boolean>(false);
   const [DAMOP_PFI,SETDAMOP_PFI]= useState<boolean>(false);
   const [DAMOP_PAUT,SETDAMOP_PAUT]= useState<boolean>(false);
@@ -857,6 +857,223 @@ const Participaciones = () => {
     }
   };
 
+
+
+  const handleFinalizarParticipacion = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: selectionModel.length + " Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            NUMOPERACION: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              DPCPServices.FinParticipaciones(data).then((res) => {
+                if (res.SUCCESS) {
+                  AlertS.fire({
+                    icon: "success",
+                    title: res.RESPONSE,
+                  }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      handleClick();
+                    }
+                  });
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  };
+
+  
+  const handleTranEgreso = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: selectionModel.length + " Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            NUMOPERACION: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              DPCPServices.TransferirEgreso(data).then((res) => {
+                if (res.SUCCESS) {
+                  AlertS.fire({
+                    icon: "success",
+                    title: res.RESPONSE,
+                  }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      handleClick();
+                    }
+                  });
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  };
+  const handleAuthParticipacion = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: selectionModel.length + " Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            NUMOPERACION: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              DPCPServices.AutParticipaciones(data).then((res) => {
+                if (res.SUCCESS) {
+                  AlertS.fire({
+                    icon: "success",
+                    title: res.RESPONSE,
+                  }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      handleClick();
+                    }
+                  });
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  };
+
+  const handleFinEgreso = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: selectionModel.length + " Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            NUMOPERACION: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              DPCPServices.FinEgreso(data).then((res) => {
+                if (res.SUCCESS) {
+                  AlertS.fire({
+                    icon: "success",
+                    title: res.RESPONSE,
+                  }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      handleClick();
+                    }
+                  });
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  };
   const handleClick = () => {
     if (idtipoSolicitud || idFondo || idMunicipio) {
       setIntOperaciones(false)
@@ -891,11 +1108,12 @@ const Participaciones = () => {
         });
       }
     });
+
     let dataDis = {
       TIPO: 2,
       P_IDMUNICIPIO: idMunicipio,
-
     };
+
     DPCPServices.GetParticipaciones(dataDis).then((res) => {
       if (res.SUCCESS) {
         if (res.RESPONSE[0].numFideicomisos !== 0) {
@@ -1207,8 +1425,9 @@ const Participaciones = () => {
         )}
 
 {DAMOP_TE ? (
-            <Tooltip title={"Transferir a egreso"}>
-              <ToggleButton value="check">
+            <Tooltip title={"Transferir a egreso"}> 
+            {/* // GENERA EL NUM DE EGRESO */}
+              <ToggleButton value="check"  onClick={() => handleTranEgreso()}>
                 <ArrowUpwardIcon />
               </ToggleButton>
             </Tooltip>
@@ -1228,7 +1447,7 @@ const Participaciones = () => {
 
 {DAMOP_FE ? (
             <Tooltip title={"Finalizar egreso"}>
-              <ToggleButton value="check">
+              <ToggleButton value="check" onClick={() => handleFinEgreso()}>
                 <EditOffIcon />
               </ToggleButton>
             </Tooltip>
@@ -1247,7 +1466,9 @@ const Participaciones = () => {
       )}
 
 {DAMOP_GSE ? (
+   
             <Tooltip title={"Generar solicitud de pago"}>
+              {/* // GENERA N DE ORDEN DE PAGO */}
               <ToggleButton value="check">
                 <AttachMoneyIcon />
               </ToggleButton>
@@ -1279,8 +1500,8 @@ const Participaciones = () => {
 
 {DAMOP_PFI ? (
             <Tooltip title={"Finalizar Participación"}>
-              <ToggleButton value="check">
-                <EditOffIcon />
+              <ToggleButton value="check" onClick={() => handleFinalizarParticipacion()} >
+                <EditOffIcon  />
               </ToggleButton>
             </Tooltip>
 ) : (
@@ -1289,7 +1510,7 @@ const Participaciones = () => {
 
 {DAMOP_PAUT ? (
             <Tooltip title={"Autorizar Participación"}>
-              <ToggleButton value="check">
+              <ToggleButton value="check"  onClick={() => handleAuthParticipacion()}>
                 <CheckCircleIcon />
               </ToggleButton>
             </Tooltip>

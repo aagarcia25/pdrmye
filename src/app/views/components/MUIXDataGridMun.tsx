@@ -101,6 +101,7 @@ const MUIXDataGridMun = ({
             columnMenuSortAsc: 'Ordenar Ascendente',
             columnMenuSortDesc: 'Ordenar Descendente',
             columnHeaderSortIconLabel: 'Ordenar',
+            checkboxSelectionSelectRow:"Filas Seleccionadas",
           }}
         />
       </ThemeProvider>

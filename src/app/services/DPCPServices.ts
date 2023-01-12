@@ -3,6 +3,22 @@ import { post } from './apiService';
 export class DPCPServices {
 
     
+    public static async FinParticipaciones(data: any) {
+        return await post('FinParticipaciones', data);
+    }
+       
+    public static async FinEgreso(data: any) {
+        return await post('FinEgreso', data);
+    }
+
+    public static async AutParticipaciones(data: any) {
+        return await post('AutParticipaciones', data);
+    }
+
+    public static async TransferirEgreso(data: any) {
+        return await post('TransferirEgreso', data);
+    }
+
     public static async ConsultaDPCP(data: any) {
         return await post('ConsultaDPCP', data);
     }
