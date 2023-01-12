@@ -11,6 +11,10 @@ export class DPCPServices {
         return await post('FinEgreso', data);
     }
 
+    public static async GenNumOrdenePago(data: any) {
+        return await post('GenNumOrdenePago', data);
+    }
+    
     public static async AutEgreso(data: any) {
         return await post('AutEgreso', data);
     }

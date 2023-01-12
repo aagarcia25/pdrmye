@@ -1129,6 +1129,60 @@ const Participaciones = () => {
     }
   };
 
+  const handleGenNumOrdenPago = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: selectionModel.length + " Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let data = {
+            NUMOPERACION: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          AlertS.fire({
+            title: "Solicitud Enviada",
+            icon: "success",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              DPCPServices.GenNumOrdenePago(data).then((res) => {
+                if (res.SUCCESS) {
+                  AlertS.fire({
+                    icon: "success",
+                    title: res.RESPONSE,
+                  }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      handleClick();
+                    }
+                  });
+                } else {
+                  AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  };
+
 
   const handleValEgresos = () => {
     if (selectionModel.length === 0) {
@@ -1611,7 +1665,7 @@ const Participaciones = () => {
    
             <Tooltip title={"Generar solicitud de pago"}>
               {/* // GENERA N DE ORDEN DE PAGO */}
-              <ToggleButton value="check">
+              <ToggleButton value="check" onClick={() => handleGenNumOrdenPago()}>
                 <AttachMoneyIcon />
               </ToggleButton>
             </Tooltip>
