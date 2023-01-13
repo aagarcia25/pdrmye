@@ -194,16 +194,14 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? (
+            {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
               <Tooltip title="Agregar Descuentos">
                 <IconButton
                   onClick={() => handleDescuento(v)}>
                   <AddIcon />
                 </IconButton>
               </Tooltip>
-            ) : (
-              ""
-            )}
+            {/* ) : ( "")} */}
           </Box>
         );
       },

@@ -52,8 +52,8 @@ export const Descuentos = ({
   const [dataRow, setdataRow] = useState([]);
   const [openModalDes, setOpenModalDes] = useState<boolean>(false);
   const [value, setValue] = useState("");
-  const [desPar, setDesPar] = useState<number>(0);
-  const [otrosCar, setOtrosCar] = useState<number>(0);
+  const [desPar, setDesPar] = useState<string>();
+  const [otrosCar, setOtrosCar] = useState<string>();
   const [ComentariosDes, setComentariosDes] = useState("");
   const [numOperacion, setNumOperacion] = useState("");
   const [numOperacionOp, setNumOperacionOp] = useState<SelectValues[]>([]);
@@ -230,8 +230,8 @@ export const Descuentos = ({
         DPCPServices.setDescuentos(data).then((res) => {
           if (res.SUCCESS) {
             setValue("")
-            setOtrosCar(0);
-            setDesPar(0);
+            setOtrosCar("0");
+            setDesPar("0");
             setComentariosDes("")
             consulta("remove");
             Toast.fire({
@@ -252,17 +252,17 @@ export const Descuentos = ({
 
   const handleAplicarDescuento = () => {
     if (value.length < 1
-      || desPar === 0
+      || desPar === "0"
       || numOperacion === ""
       || numOperacion === "false"
-      || (desPar + otrosCar) === 0) {
+      || ((desPar !== undefined ? Number(desPar) : 0) + (otrosCar !== undefined ? Number(otrosCar) : 0)) === 0) {
       AlertS.fire({
         title: "Error!",
         text: "Verificar Campos",
         icon: "error",
       });
     } else {
-      if ((Number(dt.row.total) - (sumret + sumDes)) - (desPar + otrosCar) >= 0) {
+      if ((Number(dt.row.total) - (sumret + sumDes)) - ((desPar !== undefined ? Number(desPar) : 0) + (otrosCar !== undefined ? Number(otrosCar) : 0)) >= 0) {
         Swal.fire({
           icon: "warning",
           title: "Solicitar",
@@ -284,7 +284,7 @@ export const Descuentos = ({
               IDURES: user.idUResp,
               IDDIVISA: dt.row.idDivisa,
               DESPARCIAL: desPar,
-              TOTAL: (desPar + otrosCar),
+              TOTAL: ((desPar !== undefined ? Number(desPar) : 0) + Number(otrosCar)),
               OTROSCARGOS: otrosCar,
               CVERET: value === "Anticipo" ? "" : Math.random() * 5000,
               DESCRIPCION: ComentariosDes
@@ -292,8 +292,8 @@ export const Descuentos = ({
             DPCPServices.setDescuentos(data).then((res) => {
               if (res.SUCCESS) {
                 setValue("")
-                setOtrosCar(0);
-                setDesPar(0);
+                setOtrosCar("0");
+                setDesPar("0");
                 setComentariosDes("")
                 consulta("add");
                 Toast.fire({
@@ -339,8 +339,8 @@ export const Descuentos = ({
   const handleCloseModal = () => {
     setValue("")
     setOpenModalDes(false);
-    setOtrosCar(0);
-    setDesPar(0);
+    setOtrosCar("0");
+    setDesPar("0");
     setComentariosDes("")
     setNumOperacion("");
     setCveReten("");
@@ -349,8 +349,8 @@ export const Descuentos = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
-    setOtrosCar(0);
-    setDesPar(0);
+    setOtrosCar("0");
+    setDesPar("0");
     setComentariosDes("")
     handleSelectNumOp("false");
     handleSelectCveRet("");
@@ -487,13 +487,16 @@ export const Descuentos = ({
             </Grid>
             <Grid container >
               <Grid item xs={6}>
-
+                <Grid>
+                       <label>{value === "" ? "" : value === "Anticipo" ? "Proveedor" : "Deudor"}</label>
+                </Grid>
+           
                 <TextField
                   required
                   disabled
                   margin="dense"
                   id="Proveedor"
-                  label={value === "" ? "" : value === "Anticipo" ? "Proveedor" : "Deudor"}
+                  // label={value === "" ? "" : value === "Anticipo" ? "Proveedor" : "Deudor"}
                   value={value === "" ? "" : value === "Anticipo" ? dt.row.Proveedor : dt.row.Deudor}
                   type="text"
                   variant="outlined"
@@ -503,17 +506,17 @@ export const Descuentos = ({
               <Grid item xs={6}>
 
                 {value === "RecuperacionAdeudos" ?
-                    <Grid item xs={11.99}>
-                      <label > Num. Operación</label>
-                      <SelectFrag
-                        value={numOperacion}
-                        options={numOperacionOp}
-                        onInputChange={handleSelectNumOp}
-                        placeholder={"Seleccionar Usuario"}
-                        label={"Num.  Operación"}
-                        disabled={false}
-                      />
-                    </Grid>
+                  <Grid item xs={11.99}>
+                    <label > Num. Operación</label>
+                    <SelectFrag
+                      value={numOperacion}
+                      options={numOperacionOp}
+                      onInputChange={handleSelectNumOp}
+                      placeholder={"Seleccionar Usuario"}
+                      label={"Num.  Operación"}
+                      disabled={false}
+                    />
+                  </Grid>
                   :
                   <>
                     <label > Num. Operación</label>
@@ -529,77 +532,81 @@ export const Descuentos = ({
                 }
 
               </Grid>
-            </Grid>
 
-            <TextField
-              required
-              disabled={value === ""}
-              margin="dense"
-              id="uresclave"
-              label="Unidad Responsable"
-              value={dt.row.uresclave}
-              type="text"
-              variant="outlined"
-              InputLabelProps={{ shrink: true }}
-            />
-            <TextField
-              required
-              disabled
-              margin="dense"
-              id="Divisa"
-              label="Divisa"
-              value={dt.row.Divisa}
-              type="text"
-              variant="outlined"
-              InputLabelProps={{ shrink: true }}
-            />
+
+            </Grid>
+            <Grid container>
+              <Grid item xs={6}>
+                <label>Unidad Responsable</label>
+                <TextField
+                  required
+                  disabled
+                  margin="dense"
+                  id="uresclave"
+                  value={dt.row.uresclave}
+                  type="text"
+                  variant="outlined"
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <label>Otros Cargos</label>
+                <TextField
+                  required
+                  disabled
+                  margin="dense"
+                  id="Divisa"
+                  value={dt.row.Divisa}
+                  type="text"
+                  variant="outlined"
+                  InputLabelProps={{ shrink: true }}
+                />
+
+              </Grid>
+            </Grid>
 
             <Grid container>
               <Grid item xs={4}>
+                <label>Descuento Parcial</label>
                 <TextField
                   disabled={value === ""}
                   required
                   margin="dense"
                   id="Proveedor"
-                  label="Descuento Parcial"
+                  // label="Descuento Parcial"
                   value={desPar}
                   type="number"
-                  // fullWidth
                   variant="outlined"
-                  onChange={(v) => setDesPar(Number(v.target.value))}
-                  // error={!nombreCorto ? true : false}
+                  onChange={(v) => setDesPar(v.target.value)}
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
               <Grid item xs={4}>
+                <label>Otros Cargos</label>
                 <TextField
                   disabled={value === "" || value === "Anticipo"}
                   required
                   margin="dense"
                   id="Proveedor"
-                  label="Otros Cargos"
                   value={otrosCar}
                   type="number"
-                  // fullWidth
                   variant="outlined"
-                  onChange={(v) => setOtrosCar(Number(v.target.value))}
-                  // error={!nombreCorto ? true : false}
+                  onChange={(v) => setOtrosCar(v.target.value)}
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
               <Grid item xs={4}>
+                <label>Descuento Total</label>
                 <TextField
                   required
                   disabled
                   margin="dense"
                   id="Proveedor"
-                  label="Descuento Total"
-                  value={desPar + otrosCar}
-                  type="text"
-                  // fullWidth
+                  // label="Descuento Total"
+                  value={(desPar !== undefined ? Number(desPar) : 0) + Number(otrosCar)}
+                  type="number"
                   variant="outlined"
-                  // onChange={(v) => setNombreCorto(v.target.value)}
-                  // error={!nombreCorto ? true : false}
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
