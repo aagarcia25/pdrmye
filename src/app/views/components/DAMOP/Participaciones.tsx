@@ -134,7 +134,7 @@ const Participaciones = () => {
 
 
   const handleDetalle = (data: any) => {
-    setVrows(data.row);
+    setVrows(data);
     setOpenModalDetalle(true);
 
   };
