@@ -63,7 +63,7 @@ import AjustesCalculos from '../views/components/menu/catalogos/AjustesCalculos/
 import { Reportes } from '../views/components/componentes/CPH/Estadisticas/Reportes/Reportes';
 import { Graficas } from '../views/components/componentes/CPH/Estadisticas/Graficas/Graficas';
 import IsnRecaudacion from '../views/components/menu/articulos/IsnRecaudacion/IsnRecaudacion';
-
+import { ORG } from '../views/components/menu/catalogos/org/ORG';
 
 
 
@@ -106,7 +106,7 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/SolicitudCambios' element={<CambiosMun />} />
         <Route path='/inicio/catalogos/divisas' element={<Divisas />} />
         <Route path='/inicio/catalogos/ajustes' element={<AjustesCalculos />} />
-
+        <Route path='/inicio/catalogos/org' element={log ? <ORG/> : <AuthRouter />} /> 
 
 
         {/* FIN SECCION DE CATALOGOS */}
