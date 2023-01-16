@@ -44,7 +44,7 @@ const ModalNew = ({
   // VARIABLES
   const [monto, setMonto] = useState<number>();
   const [ieja, setieja] = useState<number>();
-
+  const [derecho, setDerecho] = useState<number>();
 
   const [nameNewDoc, setNameNewDoc] = useState("");
   const [file, setFile] = useState(Object);
@@ -157,7 +157,7 @@ const ModalNew = ({
         }else{
           
           if (monto === null || ieja === null || idmes=== null || idTipoCalculo===null
-             || idmes=== "false" || idTipoCalculo==="false" 
+             || idmes=== "false" || idTipoCalculo==="false" || derecho=== null
              ) {
             AlertS.fire({
               title: "Error!",
@@ -174,6 +174,7 @@ const ModalNew = ({
               ZERO:Czero,
               TIPOCALCULO:idTipoCalculo,
               IEJA:ieja,
+              DERECHO: derecho,
               IDVERSION: idVersionCalculo,
               P_DIST: disti  ? 1 : 0
             };
@@ -412,7 +413,30 @@ const ModalNew = ({
                 onChange={(v) => {
                     setieja(Number(v.target.value))
                 }}
-                error={ieja? true : false}
+                error={ieja? false : true}
+                type="number"
+                startAdornment={<InputAdornment position="start">$</InputAdornment>}
+              ></Input>
+            </Grid>
+          </Grid>
+          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+          <Grid item container xs={6} sm={6} md={6}  justifyContent="flex-end" sx={{ textAlign: "right" , alignContent: "right"}}>
+            <Grid item xs={12} sm={12} md={11} lg={6}  sx={{ textAlign: "right" }}>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+              Derechos por los servicios de Supervisión, Control y Expedición de Constancias de Ingreso:
+              </Typography>
+            </Grid>
+            </Grid>
+            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
+              <Input
+                sx={{paddingTop:2, fontWeight: "MontserratMedium" }}
+                required
+                placeholder="1500000*"
+                id="ieja"
+                onChange={(v) => {
+                    setDerecho(Number(v.target.value))
+                }}
+                error={derecho? false : true}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
