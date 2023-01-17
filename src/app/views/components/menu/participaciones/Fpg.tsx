@@ -168,9 +168,10 @@ export const Fpg = () => {
       width: 180,
       description: "Total",
       ...Moneda,
-      renderHeader: () => (
+      renderHeader: (v) => (
         <>
-          {"Total: " + currencyFormatter.format(Number(sumaTotal))}
+
+          {v.field?"Total: " + currencyFormatter.format(Number(sumaTotal)):""}
         </>
       ),
 
@@ -212,6 +213,9 @@ export const Fpg = () => {
           sumatotal = sumatotal + Number(item.Total)
           setSumaTotal(sumatotal)
         });
+        if (!res.RESPONSE[0]){
+          setSumaTotal(0)
+        }
         setslideropen(false);
       } else {
         AlertS.fire({
