@@ -28,7 +28,15 @@ img.rounded-corners {
   border-radius: 40px;
 }
 
+.Typography-Titulo-Menu{
 
+  font-family:sans-serif;
+  font-weight: bold;
+  color: rgb(207, 35, 35);
+  /* margin-right:5rem; */
+  font-size: 44px;
+
+}
 h1 {
   font-family:  sans-serif;
 
@@ -42,10 +50,18 @@ h3 {
 }
 h6 {
   font-family:sans-serif;
-  font-weight: bold;
-  color: rgb(129, 129, 129);
+  /* font-weight: bold; */
+  color: rgb(14, 13, 13);
   margin-right:2rem;
   /* mr: "2rem" */
+}
+
+h5 {
+  font-family:sans-serif;
+  font-weight: bold;
+  color: rgb(3, 3, 3);
+  margin-right:2rem;
+  margin-right:2rem;
 }
 
 
@@ -57,6 +73,33 @@ label.TypographyH6Gray{
   /* mr: "2rem" */
 }
 label.TypographyH6Black{
+  font-family:sans-serif;
+  font-weight: bold;
+  color: rgb(7, 7, 7);
+  margin-right:2rem;
+  /* mr: "2rem" */
+}
+label.nombre-archivo
+{
+  font-family:sans-serif;
+  font-weight: bold;
+  color: rgb(85, 83, 83);
+  font-size:  14px;
+  /* margin-right:1rem; */
+  /* mr: "2rem" */
+}
+
+.menu-Typography{
+
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 33px;
+}
+
+
+label.Typography{
   font-family:sans-serif;
   font-weight: bold;
   color: rgb(7, 7, 7);

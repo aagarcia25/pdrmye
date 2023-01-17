@@ -30,7 +30,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
 
 
   return (
-    <Drawer variant="permanent" {...other} {...logoFijo}>
+    <Drawer variant="permanent"  {...other} {...logoFijo}>
 
       <Grid container 
         position="sticky"
@@ -40,7 +40,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
         <img src={Logo} style={{ width: "100%"  }} onClick={() => navigate("/")} />
         </Grid>
         <Grid item sx={{width:"auto", textAlign:"center", paddingLeft:"3%"}}>
-          <Typography variant="subtitle1" > DISTRIBUCIÓN DE RECURSOS </Typography>
+          <Typography variant="h6" sx={{ fontWeight: '550' }}> DISTRIBUCIÓN DE RECURSOS </Typography>
           <Typography variant="subtitle1" > Ambiente:  { localStorage.getItem('Ambiente')} </Typography>
         </Grid> 
       </Grid>
@@ -48,7 +48,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
 
       <Box
         sx={{
-          overflow: "auto",
+          // overflow: "auto",
           scrollbarWidth: "thin",
           "&::-webkit-scrollbar": {
             width: "0.4em",
@@ -85,7 +85,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                
                 <ListItemText key={indexx}  primary={
                    <Tooltip title={item.Descripcion}>
-                   <Typography variant="button" sx={{ fontFamily: "sans-serif" }} gutterBottom>
+                   <Typography variant="caption" sx={{ fontFamily: "sans-serif" ,fontWeight: '600' }} gutterBottom>
                     {item.Menu}
                   </Typography>
                   </Tooltip>
@@ -106,7 +106,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                             </ListItemIcon> */}
                                <ListItemText key={index}  primary={
                                 <Tooltip title={subitem.Descripcion}>
-                                <Typography variant="caption" sx={{ fontFamily: "sans-serif" }} gutterBottom>
+                                <Typography className="menu-Typography" variant="caption" sx={{ fontFamily: "sans-serif" ,fontWeight: '550' }} gutterBottom>
                                 {  subitem.Menu}
                                 </Typography>
                                 </Tooltip>
@@ -131,7 +131,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                 </ListItemIcon>
                 <ListItemText key={Math.random()}  primary={
                                 <Tooltip title={item.Descripcion}>
-                                <Typography variant="caption" sx={{ fontFamily: "sans-serif" }} gutterBottom>
+                                <Typography className="menu-Typography" variant="h4" component="h2" sx={{ fontFamily: "sans-serif"}} gutterBottom>
                                 {  item.Menu}
                                 </Typography>
                                 </Tooltip>

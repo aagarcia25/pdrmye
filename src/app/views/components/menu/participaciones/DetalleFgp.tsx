@@ -803,7 +803,7 @@ const DetalleFgp = ({
 
               </ToggleButtonGroup>
             </Box>
-            <MUIXDataGrid columns={columns} rows={data} />
+            <MUIXDataGrid columns={columns} rows={data} modulo={nombreFondo+"-"+mes+"-"+anio} />
           </Box>
         </Dialog>
       </Box>
