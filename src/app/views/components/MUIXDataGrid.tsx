@@ -15,7 +15,6 @@ export default function MUIXDataGrid(props: any) {
           {...props.rows}
           columns={props.columns}
           rows={props.rows}
-          align
           density="compact"
           rowsPerPageOptions={[10, 25, 50, 255]}
           disableSelectionOnClick 
@@ -43,7 +42,9 @@ export default function MUIXDataGrid(props: any) {
                label:"Buscar",
                showQuickFilter: true,
                quickFilterProps: { debounceMs: 500 },
-               csvOptions:{  fileName: 'Export',
+               csvOptions:{ 
+                
+               fileName: props.modulo,
                utf8WithBom: true,
               }
              },
@@ -76,3 +77,4 @@ export default function MUIXDataGrid(props: any) {
     </div>
   );
 }
+
