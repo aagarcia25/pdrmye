@@ -1,4 +1,4 @@
-import {   post, postRefresh, postSingle,  putPass } from "./apiServiceExt";
+import {   get, post, postRefresh, postSingle,  putPass } from "./apiServiceExt";
 
 
 
@@ -17,15 +17,23 @@ export class UserServices {
         return await postSingle('login', data);
     }
     
-    public static async signup(data: any) {
+   /* public static async signup(data: any) {
         return await post('sign-up', data);
-    }
+    }*/
     public static async refreshToken() {
         return await postRefresh('refresh-token');
     }
     
     public static async createsolicitud(data: any) {
         return await post('create-solicitud', data);
+    }
+
+    public static async detalleSol(data: string) {
+        return await get('detalleSol?'+ data);
+    }
+
+    public static async solicitudesapp(data: string) {
+        return await get('solicitudes-app?'+ data);
     }
 
     public static async changepassword(data: any) {

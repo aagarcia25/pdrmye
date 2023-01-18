@@ -114,7 +114,7 @@ function App() {
 
       // if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
       // if(us.RESPONSE.PERFILES.length !==0){
-      //  if(us.RESPONSE.ROLES.length !==0){
+        if(us.RESPONSE.ROLES.length !==0){
       setRoles(us.RESPONSE.ROLES);
       setPermisos(us.RESPONSE.PERMISOS);
       setMenus(us.RESPONSE.MENUS);
@@ -128,7 +128,9 @@ function App() {
       setOpenSlider(false);
       setlogin(true);
       setAcceso(true);
-
+        }else{
+          mensaje('Información','No tiene Roles Configurados para ingresar al Sistema.');
+        }
     });
   };
 
