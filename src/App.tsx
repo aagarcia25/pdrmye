@@ -98,8 +98,7 @@ function App() {
       if (result.isConfirmed) {
         localStorage.clear();
         var ventana = window.self;
-        ventana.opener = window.self;
-        ventana.close();
+        ventana.location.replace(env_var.BASE_URL_LOGIN);
       }
     });
   }
@@ -114,7 +113,7 @@ function App() {
 
       // if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
       // if(us.RESPONSE.PERFILES.length !==0){
-        if(us.RESPONSE.ROLES.length !==0){
+        if(us.RESPONSE){
       setRoles(us.RESPONSE.ROLES);
       setPermisos(us.RESPONSE.PERMISOS);
       setMenus(us.RESPONSE.MENUS);

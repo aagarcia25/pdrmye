@@ -269,6 +269,9 @@ const UsuariosModal = ({
         }
       });
     } else {
+
+
+
       if (tokenValid === true) {
         let dataAppId = {
           NUMOPERACION: 5,
@@ -334,6 +337,8 @@ const UsuariosModal = ({
                     }
                   });
                 });
+              }else {
+                //alerta
               }
             });
           }
