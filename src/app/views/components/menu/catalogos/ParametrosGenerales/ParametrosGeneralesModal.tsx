@@ -121,19 +121,7 @@ export const ParametrosGeneralesModal = ({
         <Box>
     
             <Container maxWidth="sm">
-                <TextField
-            required
-            margin="dense"
-            id="Nombre"
-            label="Nombre"
-            value={nombre}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setNombre(v.target.value)}
-            error={!nombre ? true : false}
-            inputProps={{maxLength: 50,}}
-          />
+          <label className="Titulo">{nombre}</label>
           <TextField
             required
             margin="dense"
