@@ -1,4 +1,4 @@
-import {   get, post, postRefresh, postSingle,  putPass } from "./apiServiceExt";
+import {   get, post, postRefresh, postSingle,   putPass } from "./apiServiceExt";
 
 
 
@@ -8,6 +8,7 @@ export class UserServices {
     public static  verify(data: any) {
         return  post('verify', data);
     }
+
 
     public static async userDetail(data: any) {
         return await post('user-detail', data);

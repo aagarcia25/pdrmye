@@ -42,14 +42,14 @@ export const AnticipoParticipaciones = () => {
 
 
     const perfiles = [
-        { estatusRef: 'DAMOP_AUT_ANA', accion: 'enviar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_ANA_ENV_COOR' },
-        { estatusRef: 'DAMOP_AUT_COOR', accion: 'enviar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_COOR_ENV_DIR' },
-        { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_DIR_ENV_ DCCP' },
-        { estatusRef: 'DAMOP_INICIO', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
-        { estatusRef: 'INICIO', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_AUT_ANA',      accion: 'enviar',    per: 'ANA',  dep: "DAMOP", estatus: 'DAMOP_ANA_ENV_COOR' },
+        { estatusRef: 'DAMOP_AUT_COOR',     accion: 'enviar',    per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_COOR_ENV_DIR' },
+        { estatusRef: 'DAMOP_AUT_DIR',      accion: 'enviar',    per: 'DIR',  dep: "DAMOP", estatus: 'DAMOP_DIR_ENV_ DCCP' },
+        { estatusRef: 'DAMOP_INICIO',       accion: 'autorizar', per: 'ANA',  dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'INICIO',             accion: 'autorizar', per: 'ANA',  dep: "DAMOP", estatus: 'AUTORIZAR' },
         { estatusRef: 'DAMOP_ANA_ENV_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-        { estatusRef: 'DAMOP_COOR_ENV_DIR', accion: 'autorizar', per: 'DIR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-        { estatusRef: 'DAMOP_REG_COR_ANA', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_COOR_ENV_DIR', accion: 'autorizar', per: 'DIR',  dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_REG_COR_ANA',  accion: 'autorizar', per: 'ANA',  dep: "DAMOP", estatus: 'AUTORIZAR' },
         { estatusRef: 'DAMOP_REG_DIR_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
 
     ]

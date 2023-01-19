@@ -8,6 +8,7 @@ import { AppRouter } from "./app/router/AppRouter";
 import { AuthService } from "./app/services/AuthService";
 import { CatalogosServices } from "./app/services/catalogosServices";
 import {
+  getRfToken,
   getToken,
   setDepartamento,
   setlogin,
@@ -30,6 +31,9 @@ import Slider from "./app/views/components/Slider";
 import { env_var } from '../src/app/environments/env';
 import { useNavigate } from "react-router-dom";
 import { ParametroServices } from "./app/services/ParametroServices";
+import jwt_decode from "jwt-decode";
+import { UserLogin } from "./app/interfaces/user/User";
+import { Toast } from "./app/helpers/Toast";
 
 
 function App() {
@@ -41,10 +45,8 @@ function App() {
   const refjwt = query.get("rf");
   const [openSlider, setOpenSlider] = useState(true);
   const [bloqueoStatus, setBloqueoStatus] = useState<boolean>();
-  const [userName, setUserName] = useState <string>();
+  const [userName, setUserName] = useState<string>();
   const [acceso, setAcceso] = useState(false);
-
-
 
   const parametros = () => {
     let data = {
@@ -110,26 +112,26 @@ function App() {
     AuthService.adminUser(data).then((res2) => {
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
-
+      console.log(res2)
       // if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
       // if(us.RESPONSE.PERFILES.length !==0){
-        if(us.RESPONSE){
-      setRoles(us.RESPONSE.ROLES);
-      setPermisos(us.RESPONSE.PERMISOS);
-      setMenus(us.RESPONSE.MENUS);
-      setPerfiles(us.RESPONSE.PERFILES);
-      setDepartamento(us.RESPONSE.DEPARTAMENTOS);
-      setMunicipio(us.RESPONSE.MUNICIPIO);
-      loadMunicipios();
-      loadMeses();
-      loadAnios();
-      parametros();
-      setOpenSlider(false);
-      setlogin(true);
-      setAcceso(true);
-        }else{
-          mensaje('Información','No tiene Roles Configurados para ingresar al Sistema.');
-        }
+      if (us.RESPONSE) {
+        setRoles(us.RESPONSE.ROLES);
+        setPermisos(us.RESPONSE.PERMISOS);
+        setMenus(us.RESPONSE.MENUS);
+        setPerfiles(us.RESPONSE.PERFILES);
+        setDepartamento(us.RESPONSE.DEPARTAMENTOS);
+        setMunicipio(us.RESPONSE.MUNICIPIO);
+        loadMunicipios();
+        loadMeses();
+        loadAnios();
+        parametros();
+        setOpenSlider(false);
+        setlogin(true);
+        setAcceso(true);
+      } else {
+        mensaje('Información', 'No tiene Roles Configurados para ingresar al Sistema.');
+      }
     });
   };
 
@@ -137,27 +139,43 @@ function App() {
   const verificatoken = () => {
 
     UserServices.verify({}).then((res) => {
-      if (res.status === 200) {
+
+      if (res?.status === 200) {
+        console.log(res.data.data)
         setUserName(res.data.data.NombreUsuario)
         buscaUsuario(res.data.data.IdUsuario);
       } else if (res.status === 401) {
         setOpenSlider(false);
         setlogin(false);
         setAcceso(false);
+        // RfToken();
+
+      }
+    });
+  };
+  const RfToken = () => {
+    UserServices.refreshToken().then((resAppRfToken) => {
+      console.log(resAppRfToken)
+      if (resAppRfToken?.status === 200) {
+        setTokenValid(true);
+        setToken(resAppRfToken?.data.token);
+      } else {
+        setTokenValid(false);
         Swal.fire({
-          title: "Mensaje: " + res.data.msg,
+          title: "Sesión Demasiado Antigua",
           showDenyButton: false,
           showCancelButton: false,
           confirmButtonText: "Aceptar",
         }).then((result) => {
+
           if (result.isConfirmed) {
             localStorage.clear();
             var ventana = window.self;
             ventana.location.replace(env_var.BASE_URL_LOGIN);
           }
         });
+  
       }
-
     });
   };
 
@@ -171,7 +189,8 @@ function App() {
     UserServices.login(data).then((res) => {
       if (res.status === 200) {
         setBloqueoStatus(false)
-       
+        verificatoken();
+
       } else if (res.status === 401) {
         Swal.fire({
           title: res.data.msg,
@@ -182,6 +201,7 @@ function App() {
           if (result.isConfirmed) {
             localStorage.clear();
             var ventana = window.self;
+
             ventana.location.replace(env_var.BASE_URL_LOGIN);
           }
         });
@@ -202,31 +222,32 @@ function App() {
 
 
   useLayoutEffect(() => {
+    if (jwt) {
+      const decoded: UserLogin = jwt_decode(String(jwt));
+      console.log((decoded.exp - (Date.now() / 1000)) / 60)
+      if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
+        setToken(jwt);
+        setRfToken(refjwt);
+        verificatoken();
+        // RfToken(String(refjwt));
+      } else {
 
-    //SE CARGAN LOS PARAMETROS GENERALES
-    if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
-      setToken(jwt);
-      setRfToken(refjwt);
-
-      verificatoken();
-    } else if (getToken() != null) {
-      verificatoken();
+        Swal.fire({
+          title: "Token no valido",
+          showDenyButton: false,
+          showCancelButton: false,
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            localStorage.clear();
+            var ventana = window.self;
+            ventana.location.replace(env_var.BASE_URL_LOGIN);
+          }
+        });
+      }
     } else {
-      Swal.fire({
-        title: "Token no valido",
-        showDenyButton: false,
-        showCancelButton: false,
-        confirmButtonText: "Aceptar",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          localStorage.clear();
-
-          var ventana = window.self;
-          ventana.location.replace(env_var.BASE_URL_LOGIN);
-        }
-      });
+      verificatoken();
     }
-
   }, [bloqueoStatus]);
 
 
@@ -250,3 +271,7 @@ function App() {
 }
 
 export default App;
+function setTokenValid(arg0: boolean) {
+  throw new Error("Function not implemented.");
+}
+

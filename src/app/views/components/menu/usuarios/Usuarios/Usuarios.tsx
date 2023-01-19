@@ -19,6 +19,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { ParametroServices } from "../../../../../services/ParametroServices";
 import { Datum } from "../../../../../interfaces/user/solicitudes";
+import { getRowIdFromRowModel } from "@mui/x-data-grid/hooks/features/rows/gridRowsUtils";
 
 
 const Usuarios = () => {
@@ -133,15 +134,15 @@ const Usuarios = () => {
 
 
   const columnsSolicitud: GridColDef[] = [
-    { field: "id",      hide: true},
-    { field: "FechaDeCreacion", headerName: "Fecha De Creación", width: 250 },
-    { field: "UltimaModificacion", headerName: "Ultima Modificación", width: 250 },
-    { field: "NombreUsuario", headerName: "Nombre Usuario", width: 150, },
-    { field: "DatosAdicionales", headerName: "Datos Adicionales", width: 250 },
-    { field: "Estatus", headerName: "Estatus", width: 150 },
-    { field: "tipoSoli", headerName: "Tipo Solicitud", width: 150 },
-    { field: "AppNombre", headerName: "Nombre de la aplicación", width: 200, },
-    { field: "Mensaje", headerName: "Mensaje", width: 120, },
+    { field: "Id",     hide: true},
+    { field: "FechaDeCreacion",    headerName: "Fecha De Creación",      description: "Fecha De Creación",       width: 250 },
+    { field: "UltimaModificacion", headerName: "Ultima Modificación",    description: "Ultima Modificación",     width: 250 },
+    { field: "NombreUsuario",      headerName: "Nombre Usuario",         description: "Nombre Usuario",          width: 150, },
+    { field: "DatosAdicionales",   headerName: "Datos Adicionales",      description: "Datos Adicionales",       width: 250 },
+    { field: "Estatus",            headerName: "Estatus",                description: "Estatus",                 width: 150 },
+    { field: "tipoSoli",           headerName: "Tipo Solicitud",         description: "Tipo Solicitud",          width: 150 },
+    { field: "AppNombre",          headerName: "Nombre de la aplicación",description: "Nombre de la aplicación", width: 200, },
+    { field: "Mensaje",            headerName: "Mensaje",                description: "Mensaje",                 width: 120, },
   ];
 
   const columns: GridColDef[] = [
@@ -175,19 +176,19 @@ const Usuarios = () => {
         );
       },
     },
-    { field: "UltimoInicioDeSesion", headerName: "Ultimo Inicio De Sesion", width: 200 },
-    { field: "NombreUsuario", headerName: "Nombre Usuario", width: 250, },
-    { field: "Nombre", headerName: "Nombre", width: 150 },
-    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
-    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
-    { field: "Rfc", headerName: "Rfc", width: 200, },
-    { field: "Curp", headerName: "Correo Curp", width: 120, },
-    { field: "Telefono", headerName: "Telefono", width: 120, },
-    { field: "Ext", headerName: "Ext", width: 100, },
-    { field: "Celular", headerName: "Celular", width: 120, },
-    { field: "Ubicación", headerName: "Ubicación", width: 250, },
-    { field: "CorreoElectronico", headerName: "Correo Electronico", width: 250, },
-    { field: "Puesto", headerName: "Puesto", width: 200, },
+    { field: "UltimoInicioDeSesion",  headerName: "Ultimo Inicio De Sesion",description: "Ultimo Inicio De Sesion", width: 200 },
+    { field: "NombreUsuario",         headerName: "Nombre Usuario",         description: "Nombre Usuario",          width: 250, },
+    { field: "Nombre",                headerName: "Nombre",                 description: "Nombre",                  width: 150 },
+    { field: "ApellidoPaterno",       headerName: "Apellido Paterno",       description: "Apellido Paterno",        width: 150 },
+    { field: "ApellidoMaterno",       headerName: "Apellido Materno",       description: "Apellido Materno",        width: 150 },
+    { field: "Rfc",                   headerName: "Rfc",                    description: "Rfc",                     width: 200, },
+    { field: "Curp",                  headerName: "Correo Curp",            description: "Correo Curp",             width: 120, },
+    { field: "Telefono",              headerName: "Telefono",               description: "Telefono",                width: 120, },
+    { field: "Ext",                   headerName: "Ext",                    description: "Ext",                     width: 100, },
+    { field: "Celular",               headerName: "Celular",                description: "Celular",                 width: 120, },
+    { field: "Ubicación",             headerName: "Ubicación",              description: "Ubicación",               width: 250, },
+    { field: "CorreoElectronico",     headerName: "Correo Electronico",     description: "Correo Electronico",      width: 250, },
+    { field: "Puesto",                headerName: "Puesto",                 description: "Puesto",                  width: 200, },
     { field: "idDepartamento", hide: true, },
     { field: "idPerfil", hide: true, },
 

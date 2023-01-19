@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { env_var } from '../environments/env';
-import { getRfToken, getToken } from './localStorage';
+import {  getRfToken, getToken } from './localStorage';
 //const token = JSON.parse(String(getToken()));
 export const postSingle = async function (url: string, body: any) {
     try {
@@ -39,16 +39,18 @@ export const post = async function (url: string, body: any) {
     }
 };
 
+
+
 export const postRefresh = async function (url: string) {
 
     try {
         
        
-        let resp = await axios.post(`${env_var.BASE_URL_EXT}` + url , JSON.parse(String(getRfToken())),
+        let resp = await axios.post(`${env_var.BASE_URL_EXT}` + url ,{ refreshToken: String(getRfToken()).replace(/["']/g, ""),
+          },
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'Authorization': JSON.parse(String(getToken()))
                    
                 }
             }

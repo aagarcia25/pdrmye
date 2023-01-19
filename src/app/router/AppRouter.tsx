@@ -71,7 +71,6 @@ export const AppRouter = () => {
   const log = islogin();
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-
   return (
     <Inicio user={user}>
       <Routes>
@@ -138,7 +137,7 @@ export const AppRouter = () => {
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
         {/* SECCION USUARIOS, ROLES, PERMISOS */}
-        <Route path='/inicio/usuario' element={log ? <Usuarios /> : <AuthRouter />} />
+        <Route path='/inicio/usuario' element={log? <Usuarios /> : <AuthRouter />} />
         <Route path='/inicio/roles' element={log ? <Roles /> : <AuthRouter />} />
         <Route path='/inicio/menus' element={log ? <Menus /> : <AuthRouter />} />
         <Route path='/inicio/permisos' element={log ? <Permisos /> : <AuthRouter />} />

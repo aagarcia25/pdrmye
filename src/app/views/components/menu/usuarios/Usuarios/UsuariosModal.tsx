@@ -11,7 +11,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { AuthService } from "../../../../../services/AuthService";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getUser, setToken } from "../../../../../services/localStorage";
+import { getRfToken, getToken, getUser, setToken } from "../../../../../services/localStorage";
 import validator from "validator";
 import { UserServices } from "../../../../../services/UserServices";
 import { ParametroServices } from "../../../../../services/ParametroServices";
@@ -21,6 +21,10 @@ import Swal from "sweetalert2";
 import SelectFragLogin from "../../../Fragmentos/SelectFragLogin";
 import ModalForm from "../../../componentes/ModalForm";
 import { useLocation } from "react-router";
+import { SolicitudUsrTiDetalle } from "../../../../../interfaces/user/solicitudes";
+import jwt_decode from "jwt-decode";
+import { UserLogin } from "../../../../../interfaces/user/User";
+import { env_var } from "../../../../../environments/env";
 const UsuariosModal = ({
   handleClose,
   tipo,
@@ -31,13 +35,13 @@ const UsuariosModal = ({
   dt: any;
 }) => {
   const query = new URLSearchParams(useLocation().search);
-  const jwt = query.get("jwt");
   const [id, setId] = useState<string>();
   const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
   const [idDepartamento, setIdDepartamento] = useState<string>("");
   const [nameDep, setNameDep] = useState<string>("");
   const [uresp, setUresp] = useState<SelectValues[]>([]);
   const [idUresp, setIdUresp] = useState<string>("");
+  const [nameUresp, setNameUresp] = useState<string>("Sin Unidad Asignada");
   const [perfiles, setPerfiles] = useState<SelectValues[]>([]);
   const [idPerfil, setIdPerfil] = useState<string>("");
   const [namePerf, setNamePerf] = useState<string>("");
@@ -55,7 +59,7 @@ const UsuariosModal = ({
   const [telValid, setTelValid] = useState<boolean>();
   const [celValid, setCelValid] = useState<boolean>();
   const [extValid, setExtValid] = useState<boolean>(true);
-  const [usuariosiregob, setusuariosiregob] = useState<string>("");
+  const [usuariosiregob, setusuariosiregob] = useState<string>("Sin Usuario Asignado");
   const [tokenValid, setTokenValid] = useState<boolean>();
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [emailError, setEmailError] = useState("");
@@ -88,6 +92,7 @@ const UsuariosModal = ({
 
   const handleFilterChangeures = (v: any) => {
     setIdUresp(v.value);
+    setNameUresp(v.label);
   };
 
   const Validator = (v: string, tipo: string) => {
@@ -197,7 +202,14 @@ const UsuariosModal = ({
           "<br/>  " +
           "Perfil: " +
           namePerf +
+          "<br/>  " +
+          "Usuario Siregob: " +
+          usuariosiregob +
+          "<br/>  " +
+          "Unidad Responsable: " +
+          nameUresp +
           "<br/>  ",
+
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: "Confirmar",
@@ -226,21 +238,30 @@ const UsuariosModal = ({
     }
   };
 
+
   const RfToken = () => {
-    UserServices.verify({}).then((resAppLogin) => {
-      resAppLogin.status === 200 ? setTokenValid(true) : setTokenValid(false);
-      UserServices.refreshToken().then((resAppLogin) => {
-        if (resAppLogin.status === 200) {
-          setTokenValid(true);
-          setToken(jwt);
-        } else {
-          setTokenValid(false);
-          Toast.fire({
-            icon: "error",
-            title: "Sesión Demasiado Antigua",
-          });
-        }
-      });
+    UserServices.refreshToken().then((resAppRfToken) => {
+      console.log(resAppRfToken)
+      if (resAppRfToken?.status === 200) {
+        setTokenValid(true);
+        setToken(resAppRfToken?.data.token);
+      } else {
+        setTokenValid(false);
+        Swal.fire({
+          title: "Sesión Demasiado Antigua",
+          showDenyButton: false,
+          showCancelButton: false,
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+
+          if (result.isConfirmed) {
+            localStorage.clear();
+            var ventana = window.self;
+            ventana.location.replace(env_var.BASE_URL_LOGIN);
+          }
+        });
+  
+      }
     });
   };
 
@@ -268,90 +289,96 @@ const UsuariosModal = ({
           });
         }
       });
-    } else {
+    } else if (tipo === 3) {
 
+      const decoded: UserLogin = jwt_decode(String(getToken()));
 
+      if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
 
-      if (tokenValid === true) {
-        let dataAppId = {
-          NUMOPERACION: 5,
-          NOMBRE: "AppID",
-        };
+        UserServices.verify({}).then((resAppLogin) => {
 
-        ParametroServices.ParametroGeneralesIndex(dataAppId).then(
-          (resAppId) => {
-            let datSol = {
-              Nombre: Nombre,
-              APaterno: ApellidoPaterno,
-              AMaterno: ApellidoMaterno,
-              NombreUsuario: NombreUsuario,
-              Email: CorreoElectronico,
-              Curp: curp,
-              RFC: rfc,
-              Celular: celular,
-              Telefono: telefono,
-              Extencion: ext,
-              TipoSolicitud: "Alta",
-              DatosAdicionales:
-                "Departamento: " + nameDep + " Perfil: " + namePerf,
-              IdApp: resAppId?.RESPONSE?.Valor,
-              CreadoPor: user.id,
+          if (resAppLogin.status === 200) {
+            let dataAppId = {
+              NUMOPERACION: 5,
+              NOMBRE: "AppID",
             };
 
-            UserServices.createsolicitud(datSol).then((resSol) => {
-              console.log("respuesta de servicio de login");
-              console.log(resSol);
-              console.log(data.data);
+            ParametroServices.ParametroGeneralesIndex(dataAppId).then(
+              (resAppId) => {
 
-              if (resSol.data.data[0][0].Respuesta === "201") {
-                let url =
-                  "IdUsuario=" +
-                  user.id +
-                  "&IdSolicitud=" +
-                  resSol.data.data[0][0].IdSolicitud;
+                let datSol = {
+                  Nombre: Nombre,
+                  APaterno: ApellidoPaterno,
+                  AMaterno: ApellidoMaterno,
+                  NombreUsuario: NombreUsuario,
+                  Email: CorreoElectronico,
+                  Curp: curp,
+                  RFC: rfc,
+                  Celular: celular,
+                  Telefono: telefono,
+                  Extencion: ext,
+                  TipoSolicitud: "Alta",
+                  DatosAdicionales: "Departamento: " + nameDep + " Perfil: " + namePerf,
+                  IdApp: resAppId?.RESPONSE?.Valor,
+                  CreadoPor: user.id,
+                };
 
-                UserServices.detalleSol(url).then((resuser) => {
-                  console.log("respuesta de servicio de detalleSol");
-                  console.log(resuser);
-                  console.log(resuser.data);
+                UserServices.createsolicitud(datSol).then((resSol) => {
+                  console.log("respuesta de servicio de login");
+                  console.log(resSol);
+                  console.log(data.data);
 
-                  let dat = {
-                    NUMOPERACION: tipo,
-                    CHUSER: user.id,
-                    idUsuarioCentral: resuser?.data?.Id,
-                    PUESTO: puesto,
-                    IDDEPARTAMENTO: idDepartamento,
-                    IDPERFIL: idPerfil,
-                    IDSOLICITUD: resSol.data.data[0][0].IdSolicitud,
-                    IDURESP: idUresp,
-                    USUARIOSIREGOB: usuariosiregob,
-                  };
+                  if (resSol.data.data[0][0].Respuesta === "201") {
+                    let url = "IdUsuario=" + user.id + "&IdSolicitud=" + resSol.data.data[0][0].IdSolicitud;
+                    UserServices.detalleSol(url).then((resuser) => {
+                      console.log("respuesta de servicio de detalleSol");
+                      console.log(resuser);
+                      console.log(resuser.data);
+                      const resuserTi: SolicitudUsrTiDetalle = resuser.data;
+                      let dat = {
+                        NUMOPERACION: tipo,
+                        CHUSER: user.id,
+                        PUESTO: puesto,
+                        IDDEPARTAMENTO: idDepartamento,
+                        IDPERFIL: idPerfil,
+                        IDSOLICITUD: resuserTi.Id,
+                        IDURESP: idUresp,
+                        USUARIOSIREGOB: usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob,
+                        USUARIO: resuserTi.NombreUsuario
+                      };
 
-                  AuthService.adminUser(dat).then((res) => {
-                    if (res.SUCCESS) {
-                      Toast.fire({
-                        icon: "success",
-                        title: "¡Registro exitoso!",
+                      AuthService.adminUser(dat).then((res) => {
+                        if (res.SUCCESS) {
+                          Toast.fire({
+                            icon: "success",
+                            title: "¡Registro exitoso!",
+                          });
+                          handleClose("Registro Exitoso");
+                        }
                       });
-                      handleClose("Registro Exitoso");
-                    }
-                  });
+                    });
+                  } else {
+                    //alerta
+                  }
                 });
-              }else {
-                //alerta
               }
-            });
+            );
+          } else {
+            RfToken();
           }
-        );
-      } else {
-        RfToken();
+        });
+
       }
+
     }
   };
 
   useEffect(() => {
     UserServices.verify({}).then((resAppLogin) => {
       resAppLogin.status === 200 ? setTokenValid(true) : setTokenValid(false);
+      if (resAppLogin.status === 401){
+        RfToken();
+      }
     });
 
     if (dt === "") {
@@ -522,16 +549,15 @@ const UsuariosModal = ({
                 />
 
                 <TextField
-                  required
                   margin="dense"
                   id="usuariosiregob"
                   label="Usuario SIREGOB"
-                  value={usuariosiregob}
+                  value={usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob}
                   type="text"
                   fullWidth
                   variant="standard"
                   onChange={(v) => setusuariosiregob(v.target.value)}
-                  error={usuariosiregob === null ? true : false}
+                  // error={usuariosiregob === null ? true : false}
                   InputLabelProps={{ shrink: true }}
                   inputProps={{
                     maxLength: 20,
@@ -625,13 +651,13 @@ const UsuariosModal = ({
                   label={""}
                   disabled={false}
                 />
-
-                <Typography variant="body2"> U. Resp.: </Typography>
+                <br />
+                <Typography variant="body2"> U. Responsable: </Typography>
                 <SelectFragLogin
                   value={idUresp}
                   options={uresp}
                   onInputChange={handleFilterChangeures}
-                  placeholder={"Seleccione U. Resp."}
+                  placeholder={"Seleccione U. Responsable"}
                   label={""}
                   disabled={false}
                 />
