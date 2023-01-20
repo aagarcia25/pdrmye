@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Tooltip } from '@mui/material';
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Tooltip } from '@mui/material';
 import { AlertS } from '../../../helpers/AlertS';
 import ModalForm from '../componentes/ModalForm';
 import MUIXDataGridMun from '../MUIXDataGridMun';
@@ -7,15 +7,15 @@ import { GridColDef } from '@mui/x-data-grid';
 import ButtonsAdd from '../menu/catalogos/Utilerias/ButtonsAdd';
 import CloseIcon from '@mui/icons-material/Close';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import { DAFServices } from '../../../services/DAFServices';
 import { Toast } from '../../../helpers/Toast';
 import { RESPONSE } from '../../../interfaces/user/UserInfo';
 import { getUser } from '../../../services/localStorage';
 import ArticleIcon from '@mui/icons-material/Article';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
+import { MunServices } from '../../../services/MunServices';
 
-const SpeisAdmin = ({
+const CfdiAdmin = ({
     handleClose,
     handleAccion,
     vrows,
@@ -55,7 +55,7 @@ const SpeisAdmin = ({
                                 <ArticleIcon />
                             </IconButton>
                         </Tooltip>
-                        {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ?
+                        {user.DEPARTAMENTOS[0].NombreCorto === "MUN"||user.DEPARTAMENTOS[0].NombreCorto === "DAMOP" ?
                             <Tooltip title="Eliminar Archivo">
                                 <IconButton onClick={() => handleDeleteSpei(v)}>
                                     <DeleteIcon />
@@ -121,7 +121,7 @@ const SpeisAdmin = ({
         }).then((result) => {
             if (result.isConfirmed) {
 
-                DAFServices.SpeiAdministracion(formData).then((res) => {
+                MunServices.CfdiAdministracion(formData).then((res) => {
                     //   setslideropen(false);
                     if (res.SUCCESS) {
                         Toast.fire({
@@ -152,14 +152,14 @@ const SpeisAdmin = ({
 
     const handleUploadSpei = (numOp: string) => {
         const formData = new FormData();
-        nameSpei !== "" ? formData.append("SPEI", speiFile, nameSpei) : formData.append("SPEI", "");
+        nameSpei !== "" ? formData.append("CFDI", speiFile, nameSpei) : formData.append("CFDI", "");
         formData.append("NUMOPERACION", numOp);
         formData.append("NUMOPERACION", numOp);
         // formData.append("CHID", id);
         formData.append("IDPA", vrows.id);
         formData.append("CHUSER", user.id);
 
-        DAFServices.SpeiAdministracion(formData).then((res) => {
+        MunServices.CfdiAdministracion(formData).then((res) => {
             //   setslideropen(false);
             if (res.SUCCESS) {
                 Toast.fire({
@@ -183,7 +183,7 @@ const SpeisAdmin = ({
     };
 
     const consulta = () => {
-        DAFServices.SpeiAdministracion({ NUMOPERACION: 4, }).then((res) => {
+        MunServices.CfdiAdministracion({ NUMOPERACION: 4, }).then((res) => {
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
@@ -204,9 +204,9 @@ const SpeisAdmin = ({
     }, []);
     return (
         <>
-            <ModalForm title={'Administración de  los Spei'} handleClose={handleClose}>
+            <ModalForm title={'Administración de CFDI'} handleClose={handleClose}>
                 <Box>
-                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={user.DEPARTAMENTOS[0].NombreCorto==="DAF"} />
+                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={user.DEPARTAMENTOS[0].NombreCorto==="MUN"||user.DEPARTAMENTOS[0].NombreCorto==="DAMOP"} />
                     <Grid item xs={12}>
                         <MUIXDataGridMun modulo={''} handleBorrar={handleBorrarMasivo} columns={columns} rows={speis} controlInterno={''} />
                     </Grid>
@@ -218,7 +218,7 @@ const SpeisAdmin = ({
             {addSpei ?
                 <Dialog open={true}>
                     <Grid container item justifyContent="space-between" xs={12}>
-                        <DialogTitle>Agregar Spei</DialogTitle>
+                        <DialogTitle>Agregar CFDI</DialogTitle>
                         <Tooltip title="Cerrar">
                             <IconButton onClick={() => handleCloseModal()}  >
                                 <CloseIcon />
@@ -290,4 +290,4 @@ const SpeisAdmin = ({
     )
 }
 
-export default SpeisAdmin
+export default CfdiAdmin

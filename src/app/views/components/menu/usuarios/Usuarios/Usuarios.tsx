@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
-import { Tooltip, IconButton, Grid, Typography } from "@mui/material";
+import { Tooltip, IconButton, Grid, Typography, Tab } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { GridColDef } from "@mui/x-data-grid";
 import { Toast } from "../../../../../helpers/Toast";
@@ -10,19 +10,21 @@ import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import UsuariosModal from "./UsuariosModal";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import Diversity3Icon from '@mui/icons-material/Diversity3';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { UserServices } from "../../../../../services/UserServices";
-import { getPermisos } from "../../../../../services/localStorage";
-import { PERMISO } from "../../../../../interfaces/user/UserInfo";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import UsuariosMunicipios from "./UsuariosMunicipios";
 import UsuarioRoles from "./UsuarioRoles";
 import { AlertS } from "../../../../../helpers/AlertS";
-import { COLOR } from "../../../../../styles/colors";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { ParametroServices } from "../../../../../services/ParametroServices";
+import { Datum } from "../../../../../interfaces/user/solicitudes";
+import { getRowIdFromRowModel } from "@mui/x-data-grid/hooks/features/rows/gridRowsUtils";
 
 
 const Usuarios = () => {
   const [data, setData] = useState([]);
+  const [dataSolicitud, setDataSolicitud] = useState<Datum[]>([]);
   const [openRolConf, setOpenRolConf] = useState(false);
   const [openConfigMun, setOpenConfigMun] = useState(false);
   const [openNew, setOpenNew] = useState(false);
@@ -32,14 +34,28 @@ const Usuarios = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-  ///////////////////////////////////////////
+  const [value, setValue] = useState('1');
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    if(newValue ==='2'){
+      let dataAppId = {
+        NUMOPERACION: 5,
+        NOMBRE: "AppID",
+      };
 
-  const handleMunicipios = (v: any) => {
-    setDt(v);
-    setOpenConfigMun(true);
+      ParametroServices.ParametroGeneralesIndex(dataAppId).then(
+        (resAppId) => {
+                 UserServices.solicitudesapp('IdUsuario='+user.id+'&IdApp='+resAppId?.RESPONSE?.Valor).then((res) => {
+                 const sol: Datum[] = res.data.data;
+                 //const valo: Datum[] = sol;
+                 console.log(sol); 
+                 setDataSolicitud(sol);
+          });
+    });
+    }
+    setValue(newValue);
   };
-
 
   const handleOpen = () => {
     setTipoOperacion(3);
@@ -48,55 +64,12 @@ const Usuarios = () => {
   };
 
   const handleEdit = (v: any) => {
-    //console.log(v);
     setTipoOperacion(5);
     setDt(v.row);
     setOpenNew(true);
   };
 
-  const handleActivo = (v: any) => {
-    /*
-       let data = "?userId=" + v.row.id;
-       //console.log(data)
-     
-       UserServices.ActivateUser(data).then((res) => {
-         //console.log(res)
-         //console.log(v.row.id);
-   
-        if (res.status === 200) {
-   
-           let dat = {
-             NUMOPERACION: 6,
-             CHID: v.row.id,
-   
-           };
-   
-           AuthService.adminUser(dat).then((res) => {
-             if (res.SUCCESS) {
-               consulta({ NUMOPERACION: 4 }, "Activado");
-             } else {
-               AlertS.fire({
-                 title: "Error!",
-                 text: res.STRMESSAGE,
-                 icon: "error",
-               });
-             }
-   
-   
-           });
-   
-         } else if (res.status === 409) {
-           AlertS.fire({
-             title: "Error!",
-             text: res.data.msg,
-             icon: "error",
-           });
-         }
-       });
-       */
-
-
-  };
+ 
 
 
   const handleDelete = (v: any) => {
@@ -160,11 +133,20 @@ const Usuarios = () => {
   };
 
 
+  const columnsSolicitud: GridColDef[] = [
+    { field: "Id",     hide: true},
+    { field: "FechaDeCreacion",    headerName: "Fecha De Creación",      description: "Fecha De Creación",       width: 250 },
+    { field: "UltimaModificacion", headerName: "Ultima Modificación",    description: "Ultima Modificación",     width: 250 },
+    { field: "NombreUsuario",      headerName: "Nombre Usuario",         description: "Nombre Usuario",          width: 150, },
+    { field: "DatosAdicionales",   headerName: "Datos Adicionales",      description: "Datos Adicionales",       width: 250 },
+    { field: "Estatus",            headerName: "Estatus",                description: "Estatus",                 width: 150 },
+    { field: "tipoSoli",           headerName: "Tipo Solicitud",         description: "Tipo Solicitud",          width: 150 },
+    { field: "AppNombre",          headerName: "Nombre de la aplicación",description: "Nombre de la aplicación", width: 200, },
+    { field: "Mensaje",            headerName: "Mensaje",                description: "Mensaje",                 width: 120, },
+  ];
+
   const columns: GridColDef[] = [
-    {
-      field: "id",
-      hide: true,
-    },
+    { field: "id", hide: true,},
     {
       field: "acciones",  disableExport: true,
       headerName: "Acciones",
@@ -185,7 +167,7 @@ const Usuarios = () => {
                 <ModeEditOutlineIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Editar Registro"}>
+            <Tooltip title={"Eliminar Registro"}>
               <IconButton color="error" onClick={() => handleDelete(v)}>
                 <DeleteForeverIcon />
               </IconButton>
@@ -194,36 +176,19 @@ const Usuarios = () => {
         );
       },
     },
-    {
-      field: "EstaActivo", headerName: "Estado",
-      width: 100,
-      renderCell: (v: any) => {
-        return (
-          (Number(v.row.EstaActivo) === 1) ?
-            <Box sx={{ borderRadius: "15px", display: "flex", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", backgroundColor: COLOR.verde }} >
-              Activo
-            </Box>
-            : <Box sx={{ borderRadius: "15px", display: "flex", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", backgroundColor: COLOR.rojo }} >
-              Inactivo
-            </Box>
-
-        );
-      },
-    },
-
-    { field: "UltimoInicioDeSesion", headerName: "Ultimo Inicio De Sesion", width: 200 },
-    { field: "NombreUsuario", headerName: "Nombre Usuario", width: 250, },
-    { field: "Nombre", headerName: "Nombre", width: 150 },
-    { field: "ApellidoPaterno", headerName: "Apellido Paterno", width: 150 },
-    { field: "ApellidoMaterno", headerName: "Apellido Materno", width: 150 },
-    { field: "Rfc", headerName: "Rfc", width: 200, },
-    { field: "Curp", headerName: "Correo Curp", width: 120, },
-    { field: "Telefono", headerName: "Telefono", width: 120, },
-    { field: "Ext", headerName: "Ext", width: 100, },
-    { field: "Celular", headerName: "Celular", width: 120, },
-    { field: "Ubicacion", headerName: "Ubicacion", width: 250, },
-    { field: "CorreoElectronico", headerName: "Correo Electronico", width: 250, },
-    { field: "Puesto", headerName: "Puesto", width: 200, },
+    { field: "UltimoInicioDeSesion",  headerName: "Ultimo Inicio De Sesion",description: "Ultimo Inicio De Sesion", width: 200 },
+    { field: "NombreUsuario",         headerName: "Nombre Usuario",         description: "Nombre Usuario",          width: 250, },
+    { field: "Nombre",                headerName: "Nombre",                 description: "Nombre",                  width: 150 },
+    { field: "ApellidoPaterno",       headerName: "Apellido Paterno",       description: "Apellido Paterno",        width: 150 },
+    { field: "ApellidoMaterno",       headerName: "Apellido Materno",       description: "Apellido Materno",        width: 150 },
+    { field: "Rfc",                   headerName: "Rfc",                    description: "Rfc",                     width: 200, },
+    { field: "Curp",                  headerName: "Correo Curp",            description: "Correo Curp",             width: 120, },
+    { field: "Telefono",              headerName: "Telefono",               description: "Telefono",                width: 120, },
+    { field: "Ext",                   headerName: "Ext",                    description: "Ext",                     width: 100, },
+    { field: "Celular",               headerName: "Celular",                description: "Celular",                 width: 120, },
+    { field: "Ubicación",             headerName: "Ubicación",              description: "Ubicación",               width: 250, },
+    { field: "CorreoElectronico",     headerName: "Correo Electronico",     description: "Correo Electronico",      width: 250, },
+    { field: "Puesto",                headerName: "Puesto",                 description: "Puesto",                  width: 200, },
     { field: "idDepartamento", hide: true, },
     { field: "idPerfil", hide: true, },
 
@@ -269,7 +234,6 @@ const Usuarios = () => {
       <Grid sx={{ paddingTop: "1%" }}>
         {openRolConf ?
           <UsuarioRoles
-            open={openRolConf}
             handleClose={handleClose}
             dt={dt}
           ></UsuarioRoles>
@@ -278,7 +242,6 @@ const Usuarios = () => {
         }
         {openNew ? (
           <UsuariosModal
-            open={openNew}
             tipo={tipoOperacion}
             handleClose={handleClose}
             dt={dt}
@@ -306,8 +269,24 @@ const Usuarios = () => {
         </Grid>
 
 
+
+        <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList onChange={handleChange} aria-label="lab API tabs example">
+            <Tab label="Usuarios Activos" value="1" />
+            <Tab label="Solicitudes Pendientes" value="2" />
+          </TabList>
+        </Box>
+        <TabPanel value="1">
         <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
         <MUIXDataGrid columns={columns} rows={data} />
+        </TabPanel>
+        <TabPanel value="2">
+         <MUIXDataGrid columns={columnsSolicitud} rows={dataSolicitud} />
+        </TabPanel>
+      </TabContext>
+
+
       </Grid>
     </div>
   );

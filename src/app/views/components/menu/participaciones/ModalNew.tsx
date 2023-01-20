@@ -19,10 +19,14 @@ const ModalNew = ({
   clave,
   titulo,
   onClickBack,
+  resetNum,
+  resetSelect
 }: {
   clave: string;
   titulo: string;
   onClickBack: Function;
+  resetNum: number;
+  resetSelect: string;
 }) => {
   
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -40,7 +44,7 @@ const ModalNew = ({
   // VARIABLES
   const [monto, setMonto] = useState<number>();
   const [ieja, setieja] = useState<number>();
-
+  const [derecho, setDerecho] = useState<number>();
 
   const [nameNewDoc, setNameNewDoc] = useState("");
   const [file, setFile] = useState(Object);
@@ -90,7 +94,7 @@ const ModalNew = ({
     formData.append("MES", idmes);
     formData.append("CLAVE", clave);
     formData.append("TIPOCALCULO", idTipoCalculo);
-    formData.append("TIPOCALCULO", idTipoCalculo);
+    formData.append("DIST", disti  ? '1' : '0');
     formData.append("IDVERSION", idVersionCalculo);
     CatalogosServices.migraData(formData).then((res) => {
      
@@ -146,13 +150,15 @@ const ModalNew = ({
 
 
   const handleSend = () => {
-        if (clave === "ICV" ||clave === "HIDROCARBUROS"  || clave==='ISN100' || clave==='PREDIAL' ) {
+        if (clave === "ICV" ||clave === "HIDROCARBUROS"  || clave === "FOINMUN"  ||clave==='ISN100' || clave==='PREDIAL' ) {
           icv();
         } else if (clave === "ISR SALARIOS") {
           isrnomina();
         }else{
           
-          if (monto === null || ieja === null ) {
+          if (monto === null || ieja === null || idmes=== null || idTipoCalculo===null
+             || idmes=== "false" || idTipoCalculo==="false" || derecho=== null
+             ) {
             AlertS.fire({
               title: "Error!",
               text: "Favor de Completar los Campos",
@@ -168,6 +174,7 @@ const ModalNew = ({
               ZERO:Czero,
               TIPOCALCULO:idTipoCalculo,
               IEJA:ieja,
+              DERECHO: derecho,
               IDVERSION: idVersionCalculo,
               P_DIST: disti  ? 1 : 0
             };
@@ -216,6 +223,10 @@ const ModalNew = ({
   };
 
   useEffect(() => {
+    setMonto(resetNum);
+    setIdmes(resetSelect);
+    setIdTipoCalculo(resetSelect);
+    
     parametros();
     loadFilter(2);
     loadFilter(15);
@@ -301,7 +312,7 @@ const ModalNew = ({
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
-              <Tooltip title={"Si se activa esta opción el cálculo se realizará con tomando la proporción de garantía del fondo"}>
+              <Tooltip title={"Si se activa esta opción el cálculo se realizará tomando la proporción de garantía del fondo"}>
               <FormControlLabel
                     value={disti}
                     control={
@@ -349,7 +360,7 @@ const ModalNew = ({
         <Grid item xs={12} sm={12} md={12}
         sx={{ 
             justifyContent: "center" ,
-            display :clave !== 'HIDROCARBUROS' && clave !== 'ICV' && clave !== 'ISN100' && clave !== 'PREDIAL'  && clave !== 'FOULT' && clave !== 'FODES' && clave !== 'FOSEGMUN' && clave !== 'FODEM' ? 'block' :'none'
+            display :clave !== 'HIDROCARBUROS' && clave !== 'FOINMUN' && clave !== 'ICV' && clave !== 'ISN100' && clave !== 'PREDIAL'  && clave !== 'FOULT' && clave !== 'FODES' && clave !== 'FOSEGMUN' && clave !== 'FODEM' ? 'block' :'none'
              }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
@@ -360,6 +371,7 @@ const ModalNew = ({
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
               <Input
+              value={monto}
                 sx={{ fontWeight: "MontserratMedium" }}
                 required
                 placeholder="1500000*"
@@ -401,8 +413,31 @@ const ModalNew = ({
                 onChange={(v) => {
                     setieja(Number(v.target.value))
                 }}
-                error={ieja? true : false}
-                type="ieja"
+                error={ieja? false : true}
+                type="number"
+                startAdornment={<InputAdornment position="start">$</InputAdornment>}
+              ></Input>
+            </Grid>
+          </Grid>
+          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+          <Grid item container xs={6} sm={6} md={6}  justifyContent="flex-end" sx={{ textAlign: "right" , alignContent: "right"}}>
+            <Grid item xs={12} sm={12} md={11} lg={6}  sx={{ textAlign: "right" }}>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+              Derechos por los servicios de Supervisión, Control y Expedición de Constancias de Ingreso:
+              </Typography>
+            </Grid>
+            </Grid>
+            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
+              <Input
+                sx={{paddingTop:2, fontWeight: "MontserratMedium" }}
+                required
+                placeholder="1500000*"
+                id="ieja"
+                onChange={(v) => {
+                    setDerecho(Number(v.target.value))
+                }}
+                error={derecho? false : true}
+                type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
             </Grid>
@@ -413,7 +448,7 @@ const ModalNew = ({
         <Grid item xs={12} sm={12} md={12} 
           sx={{ 
             justifyContent: "center" ,
-            display : clave === 'ICV' ||clave==='ISN100' ||clave==='PREDIAL' || clave === 'HIDROCARBUROS' || clave === 'ISR SALARIOS' ? 'block' :'none'
+            display : clave === 'ICV' ||clave==='ISN100' ||clave==='PREDIAL' || clave === 'HIDROCARBUROS' || clave === 'FOINMUN' || clave === 'ISR SALARIOS' ? 'block' :'none'
              }}
         >
 

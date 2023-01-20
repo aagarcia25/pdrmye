@@ -5,6 +5,13 @@ export interface User{
    repeatPassword?:string
 }
 
+export interface UserLogin{
+   IdUsuario:string,
+   NombreUsuario:string,
+   exp:number,
+   iat:number
+}
+
 export interface imagen {
    CreadoPor: string;
    Descripcion: string;

@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
-  Dialog,
-  DialogActions,
   DialogContent,
-  DialogTitle,
   Grid,
   IconButton,
   Typography,
 } from "@mui/material";
-import { Box, textAlign } from "@mui/system";
+import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
 import { AuthService } from "../../../../../services/AuthService";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
@@ -18,14 +15,11 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectFragMulti from "../../../Fragmentos/SelectFragMulti";
-import CloseIcon from '@mui/icons-material/Close';
 import ModalForm from "../../../componentes/ModalForm";
 const UsuarioRoles = ({
-  open,
   handleClose,
   dt,
 }: {
-  open: boolean;
   handleClose: Function;
   dt: any;
 }) => {
@@ -77,7 +71,6 @@ const UsuarioRoles = ({
       IDUSUARIO: dt?.id,
       IDROL: v.id
     };
-    //console.log(data);
     AuthService.RelacionarUsuarioRol(data).then((res) => {
       consulta();
 

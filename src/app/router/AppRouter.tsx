@@ -63,14 +63,13 @@ import AjustesCalculos from '../views/components/menu/catalogos/AjustesCalculos/
 import { Reportes } from '../views/components/componentes/CPH/Estadisticas/Reportes/Reportes';
 import { Graficas } from '../views/components/componentes/CPH/Estadisticas/Graficas/Graficas';
 import IsnRecaudacion from '../views/components/menu/articulos/IsnRecaudacion/IsnRecaudacion';
-
+import { ORG } from '../views/components/menu/catalogos/org/ORG';
 
 
 
 export const AppRouter = () => {
   const log = islogin();
   const user: RESPONSE = JSON.parse(String(getUser()));
-
 
   return (
     <Inicio user={user}>
@@ -106,7 +105,7 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/SolicitudCambios' element={<CambiosMun />} />
         <Route path='/inicio/catalogos/divisas' element={<Divisas />} />
         <Route path='/inicio/catalogos/ajustes' element={<AjustesCalculos />} />
-
+        <Route path='/inicio/catalogos/org' element={log ? <ORG/> : <AuthRouter />} /> 
 
 
         {/* FIN SECCION DE CATALOGOS */}
@@ -138,7 +137,7 @@ export const AppRouter = () => {
         {/* FIN SECCION PARTICIPACIONES FEDERALES */}
 
         {/* SECCION USUARIOS, ROLES, PERMISOS */}
-        <Route path='/inicio/usuario' element={log ? <Usuarios /> : <AuthRouter />} />
+        <Route path='/inicio/usuario' element={log? <Usuarios /> : <AuthRouter />} />
         <Route path='/inicio/roles' element={log ? <Roles /> : <AuthRouter />} />
         <Route path='/inicio/menus' element={log ? <Menus /> : <AuthRouter />} />
         <Route path='/inicio/permisos' element={log ? <Permisos /> : <AuthRouter />} />

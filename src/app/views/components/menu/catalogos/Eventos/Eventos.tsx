@@ -30,31 +30,11 @@ export const Eventos = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
 
+  
+
   const columns: GridColDef[] = [
 
-    { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
-    { field: "Nombre", headerName: "Nombre", width: 200 },
-    {
-      field: "Descripcion", headerName: "Descripcion", width: 200, description: 'Descripcion', resizable: true,
-
-    },
-    { field: "FechaInicio", headerName: "Fecha de Inicio", width: 200 },
-    { field: "FechaFin", headerName: "Fecha de Finalizado", width: 200 },
-    {
-      field: "Imagen", headerName: "Imagen", width: 100,
-
-      renderCell: (v) => {
-        return (
-
-          <Box>
-            <IconButton sx={{ borderRadius:"0", }} onClick={() => handleVisualizar(v)} >
-              <img id="imagen" src={v.row.Imagen} style={{ width: "5vw", objectFit: "scale-down" }} />
-            </IconButton>
-          </Box>
-        );
-
-      },
-    },
+    { field: "id", hide: true, },
     {
       field: "acciones",  disableExport: true,
       headerName: "Acciones",
@@ -69,6 +49,24 @@ export const Eventos = () => {
       },
     },
 
+    { field: "Imagen", headerName: "Imagen",description: "Imagen",   width: 300,
+      renderCell: (v) => {
+        return (
+          <Box>
+            <IconButton sx={{ borderRadius:"0", }} onClick={() => handleVisualizar(v)} >
+              <img id="imagen" src={v.row.Imagen} style={{ width: "100%", objectFit: "scale-down" }} />
+            </IconButton>
+          </Box>
+        );
+
+      },
+    },
+    { field: "Nombre",      headerName: "Nombre",             description: "Nombre",              width: 200 },
+    { field: "Descripcion", headerName: "Descripción",        description: "Descripción",         width: 200, resizable: true,},
+    { field: "FechaInicio", headerName: "Fecha de Inicio",    description: "Fecha de Inicio",     width: 200 },
+    { field: "FechaFin",    headerName: "Fecha de Finalizado",description: "Fecha de Finalizado", width: 200 },
+    
+    
   ];
   const handleAccion = (v: any) => {
     if(v.tipo ===1){

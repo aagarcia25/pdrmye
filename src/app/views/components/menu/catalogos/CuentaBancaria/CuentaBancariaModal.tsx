@@ -123,7 +123,6 @@ export const CuentaBancariaModal = ({
 
   const handleSend = () => {
     setslideropen(true);
-    console.log(nombreCuenta, numeroCuenta, idBancos, clabeBancaria, newDoc, newDocCarta)
     if (tipo===1? !nombreCuenta ||!numeroCuenta || !idBancos ||!clabeBancaria || !newDoc || newDocCarta=== null: !nombreCuenta ||!numeroCuenta || !idBancos ||!clabeBancaria ) 
     {
       AlertS.fire({

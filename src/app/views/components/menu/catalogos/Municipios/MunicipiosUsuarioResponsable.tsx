@@ -54,7 +54,6 @@ const MunicipiosUsuarioResponsable = ({
 
   CatalogosServices.municipios(data).then((res) => {
     setUserId(res?.RESPONSE[0]?.idUsuario);
-    console.log(res?.RESPONSE[0])
     setuserdelegadoid(res?.RESPONSE[0]?.idUsuarioDelegado);
   });
 };

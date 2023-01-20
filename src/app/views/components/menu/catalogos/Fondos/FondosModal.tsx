@@ -226,7 +226,6 @@ const FondosModal = ({
         //console.log(dt);
       } else {
 
-        console.log(dt)
         setId(dt?.row?.id);
         setClave(dt?.row?.Clave);
         setDescripcion(dt?.row?.Descripcion);

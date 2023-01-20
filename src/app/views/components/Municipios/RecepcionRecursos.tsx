@@ -33,6 +33,10 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import InfoIcon from "@mui/icons-material/Info";
 import ModalForm from "../componentes/ModalForm";
 import ParticipacionesDetalle from "../DAMOP/ParticipacionesDetalle";
+import SpeisAdmin from "../DAF/SpeisAdmin";
+import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
+import CfdiAdmin from "../DAF/CfdiAdmin";
 const RecepcionRecursos = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
@@ -52,12 +56,33 @@ const RecepcionRecursos = () => {
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
+  const [openVerSpei, setOpenVerSpei] = useState<boolean>(false);
+  const [openVerCfdi, setOpenVerCfdi] = useState<boolean>(false);
+
+
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const handleDescuento = (data: any) => { };
-  
+
+  const handleAccion = () => { };
+
+
+  const handleVerSpei = (data: any) => {
+    setOpenVerSpei(true);
+    setData(data.row);
+  };
+
+  const handleSubirCfdi = (data: any) => {
+    setOpenVerCfdi(true);
+    setData(data.row);
+  };
+
+
   const handleClose = () => {
     setOpenModalDetalle(false);
+    setOpenVerSpei(false);
+    setOpenVerCfdi(false);
+    handleClick();
   };
 
   const handleDetalle = (data: any) => {
@@ -77,7 +102,7 @@ const RecepcionRecursos = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {v.row.detalle === 1  ? (
+            {v.row.detalle === 1 ? (
               <Tooltip title="Ver Detalle del Registro">
                 <IconButton onClick={() => handleDetalle(v)}>
                   <InfoIcon />
@@ -100,21 +125,26 @@ const RecepcionRecursos = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            
+
+
+            {v.row.estatusCI === "DAF_SPEI" || v.row.estatusCI === "MUN_CFDI" ?
               <Tooltip title="Subir CFDI">
-                <IconButton onClick={() => handleDescuento(v)}>
-                  <FilePresentIcon />
+                <IconButton onClick={() => handleSubirCfdi(v)}>
+                  <DriveFolderUploadIcon />
                 </IconButton>
               </Tooltip>
-
+              : ""}
+            {v.row.estatusCI === "DAF_SPEI" || v.row.estatusCI === "MUN_CFDI" ?
               <Tooltip title="Descargar SPEI">
-                <IconButton onClick={() => handleDescuento(v)}>
-                  <FileDownloadIcon />
+                <IconButton onClick={() => handleVerSpei(v)}>
+                  <FolderOpenIcon />
                 </IconButton>
               </Tooltip>
-          
+              : ""}
 
-       
+
+
+
           </Box>
         );
       },
@@ -131,7 +161,7 @@ const RecepcionRecursos = () => {
       width: 100,
       description: "Mes",
     },
-  
+
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -150,7 +180,7 @@ const RecepcionRecursos = () => {
       width: 200,
       description: "Número De Orden De Pago",
     },
-   
+
     {
       field: "NumCheque",
       headerName: "Nº De Cheque",
@@ -162,14 +192,14 @@ const RecepcionRecursos = () => {
       headerName: "Descripción de Fondo",
       width: 250,
     },
-    
+
 
     {
       field: "estatus",
       headerName: "Estatus",
       width: 150,
     },
-   
+
     {
       field: "total",
       headerName: "Total Neto",
@@ -215,8 +245,6 @@ const RecepcionRecursos = () => {
     });
   };
 
- 
-
   const handleFilterChange1 = (v: string) => {
     setIdTipo(v);
   };
@@ -229,21 +257,14 @@ const RecepcionRecursos = () => {
     setidMunicipio(v);
   };
 
-  
- 
- 
-
- 
-
-
   const handleClick = () => {
-    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
     let data = {
       TIPO: 1,
       P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
+      P_IDMUNICIPIO: user.MUNICIPIO[0]?.id ? user.MUNICIPIO[0]?.id : idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipo === "false" ? "" : idtipo,
+      DEP:user.MUNICIPIO[0]?.id ?"MUN":""
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
@@ -267,82 +288,79 @@ const RecepcionRecursos = () => {
     loadFilter(5);
     loadFilter(17);
     handleClick();
-  /*  permisos.map((item: PERMISO) => {
-      if (
-        String(item.ControlInterno) === "PARTMUN"
-      ) {
-        if (String(item.Referencia) === "AGREGPLANT") {
-          setCargarPlant(true);
+    /*  permisos.map((item: PERMISO) => {
+        if (
+          String(item.ControlInterno) === "PARTMUN"
+        ) {
+          if (String(item.Referencia) === "AGREGPLANT") {
+            setCargarPlant(true);
+          }
+          else if (String(item.Referencia) === "DESCPLANT") {
+            setDescPlant(true);
+          }
+          else if (String(item.Referencia) === "DISFIDE") {
+            setDisFide(true);
+          }
         }
-        else if (String(item.Referencia) === "DESCPLANT") {
-          setDescPlant(true);
-        }
-        else if (String(item.Referencia) === "DISFIDE") {
-          setDisFide(true);
-        }
-      }
-    });*/
+      });*/
   }, []);
 
   return (
     <div>
       <Slider open={slideropen}></Slider>
 
-     
-
-
-
-
       {openModalDetalle ? (
-      <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
-        <ParticipacionesDetalle
-          data={vrows}  />
-            </ModalForm>
-         ) : (
-         ""
+        <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
+          <ParticipacionesDetalle
+            data={vrows} />
+        </ModalForm>
+      ) : (
+        ""
       )}
-    
+
 
       <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={10} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
-              Módulo de Recepción de Recursos
+                Módulo de Recepción de Recursos
               </Typography>
             </Grid>
           </Grid>
         </Grid>
 
-        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          <Grid item xs={2} sm={2} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "MontserratMedium" }}>
-              Municipio:
-            </Typography>
-            <SelectFrag
-              value={idMunicipio}
-              options={municipio}
-              onInputChange={handleFilterChange3}
-              placeholder={"Seleccione Municipio"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
-          <Button
-            onClick={handleClick}
-            variant="contained"
-            color="success"
-            endIcon={<SendIcon sx={{ color: "white" }} />}
-          >
-            <Typography sx={{ color: "white" }}> Buscar </Typography>
-          </Button>
-        </Grid>
-
-    
-
+        {user.DEPARTAMENTOS[0]?.NombreCorto !== "MUN" ?
+          <>
+            <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+              <Grid item xs={3} sm={3} md={3} lg={3}>
+                <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                  Municipio:
+                </Typography>
+                <SelectFrag
+                  value={idMunicipio}
+                  options={municipio}
+                  onInputChange={handleFilterChange3}
+                  placeholder={"Seleccione Municipio"}
+                  label={""}
+                  disabled={false}
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
+              <Button
+                onClick={handleClick}
+                variant="contained"
+                color="success"
+                endIcon={<SendIcon sx={{ color: "white" }} />}
+              >
+                <Typography sx={{ color: "white" }}> Buscar </Typography>
+              </Button>
+            </Grid>
+          </>
+          :
+          ""
+        }
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <div
@@ -374,17 +392,17 @@ const RecepcionRecursos = () => {
                 //   }
                 // } 
                 components={{ Toolbar: GridToolbar }}
-                 sx={{
-                   fontFamily: "Poppins,sans-serif", fontWeight: '600',
-                //   '& .super-app.negative': {
-                //     color: "rgb(84, 3, 3)",
-                //     backgroundColor: "rgb(196, 40, 40, 0.384)",
-                //   },
-                //   '& .super-app.positive': {
-                //     backgroundColor: 'rgb(16, 145, 80, 0.567)',
-                   
-                //   },
-                 }}
+                sx={{
+                  fontFamily: "Poppins,sans-serif", fontWeight: '600',
+                  //   '& .super-app.negative': {
+                  //     color: "rgb(84, 3, 3)",
+                  //     backgroundColor: "rgb(196, 40, 40, 0.384)",
+                  //   },
+                  //   '& .super-app.positive': {
+                  //     backgroundColor: 'rgb(16, 145, 80, 0.567)',
+
+                  //   },
+                }}
                 componentsProps={{
                   toolbar: {
                     label: "buscar",
@@ -408,12 +426,20 @@ const RecepcionRecursos = () => {
                   toolbarFiltersTooltipHide: "Quitar filtros",
                   toolbarFiltersTooltipShow: "Ver filtros",
                   toolbarQuickFilterPlaceholder: "Buscar",
+                  checkboxSelectionSelectRow:"Filas Seleccionadas",
                 }}
               />
             </ThemeProvider>
           </div>
         </Grid>
       </Grid>
+      {openVerSpei ?
+        <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={data} />
+        : ""}
+      {openVerCfdi ?
+        <CfdiAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={data} />
+        : ""}
+
     </div>
   );
 };

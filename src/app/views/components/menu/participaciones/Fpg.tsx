@@ -168,9 +168,10 @@ export const Fpg = () => {
       width: 180,
       description: "Total",
       ...Moneda,
-      renderHeader: () => (
+      renderHeader: (v) => (
         <>
-          {"Total: " + currencyFormatter.format(Number(sumaTotal))}
+
+          {v.field?"Total: " + currencyFormatter.format(Number(sumaTotal)):""}
         </>
       ),
 
@@ -212,6 +213,9 @@ export const Fpg = () => {
           sumatotal = sumatotal + Number(item.Total)
           setSumaTotal(sumatotal)
         });
+        if (!res.RESPONSE[0]){
+          setSumaTotal(0)
+        }
         setslideropen(false);
       } else {
         AlertS.fire({
@@ -233,6 +237,7 @@ export const Fpg = () => {
   let params = useParams();
 
   useEffect(() => {
+    setstep(0);
     setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
 
@@ -258,6 +263,7 @@ export const Fpg = () => {
 
   const query = new URLSearchParams(useLocation().search);
   useEffect(() => {
+    setstep(0);
    const jwt = query.get("id");
    if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
     setIdtrazabilidad(String(jwt));
@@ -323,8 +329,7 @@ export const Fpg = () => {
         <ModalNew
           clave={objfondo?.Clave || ""}
           titulo={objfondo?.Descripcion || ""}
-          onClickBack={handleClose}
-        />
+          onClickBack={handleClose} resetNum={0} resetSelect={""}        />
         : ""}
 
       {step === 2 ?
