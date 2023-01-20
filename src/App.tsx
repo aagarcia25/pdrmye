@@ -39,7 +39,7 @@ import { Toast } from "./app/helpers/Toast";
 function App() {
   const navigate = useNavigate();
   //cambiar a 5 minutos
-  const timeout = 600000;
+  const timeout = 60000;
   const query = new URLSearchParams(useLocation().search);
   const jwt = query.get("jwt");
   const refjwt = query.get("rf");
@@ -112,7 +112,7 @@ function App() {
     AuthService.adminUser(data).then((res2) => {
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
-      console.log(res2)
+      console.log(res2.RESPONSE[0])
       // if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
       // if(us.RESPONSE.PERFILES.length !==0){
       if (us.RESPONSE) {
@@ -174,7 +174,7 @@ function App() {
             ventana.location.replace(env_var.BASE_URL_LOGIN);
           }
         });
-  
+
       }
     });
   };
@@ -187,10 +187,12 @@ function App() {
     };
 
     UserServices.login(data).then((res) => {
+      
       if (res.status === 200) {
-        setBloqueoStatus(false)
-        verificatoken();
-
+        setToken(res.data.token);
+        setRfToken(res.data.refreshToken);
+        
+        setBloqueoStatus(false);
       } else if (res.status === 401) {
         Swal.fire({
           title: res.data.msg,
@@ -222,7 +224,8 @@ function App() {
 
 
   useLayoutEffect(() => {
-    if (jwt) {
+    console.log(getToken() +"  --  "+getRfToken())
+    if ( getToken()===null || getRfToken()===null) {
       const decoded: UserLogin = jwt_decode(String(jwt));
       console.log((decoded.exp - (Date.now() / 1000)) / 60)
       if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {

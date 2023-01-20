@@ -292,7 +292,7 @@ const UsuariosModal = ({
     } else if (tipo === 3) {
 
       const decoded: UserLogin = jwt_decode(String(getToken()));
-
+      console.log(decoded);
       if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
 
         UserServices.verify({}).then((resAppLogin) => {
