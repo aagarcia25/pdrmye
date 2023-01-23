@@ -27,6 +27,7 @@ import jwt_decode from "jwt-decode";
 import { UserLogin } from "../../../../../interfaces/user/User";
 import { env_var } from "../../../../../environments/env";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
+import Slider from "../../../Slider";
 const UsuariosModal = ({
   handleClose,
   tipo,
@@ -37,7 +38,8 @@ const UsuariosModal = ({
   dt: any;
 }) => {
   const query = new URLSearchParams(useLocation().search);
-  const [id, setId] = useState<string>();
+  const [idRegistro, setIdRegistro] = useState<string>();
+  const [openSlider, setOpenSlider] = useState(true);
   const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
   const [idDepartamento, setIdDepartamento] = useState<string>("");
   const [nameDep, setNameDep] = useState<string>("");
@@ -71,16 +73,26 @@ const UsuariosModal = ({
   const [ext, setExt] = useState<string>("");
   const [value, setValue] = useState('1');
 
+  const AccionesSol = [
+    { accion: 'ALTA', TipoSol: 'ALTA', Mensaje: '¡Envio de Solicitud de Alta Exitoso!' },
+    { accion: 'BAJA', TipoSol: 'BAJA', Mensaje: '¡Envio de Solicitud de Baja Exitoso!' },
+    { accion: 'MODIFICACION', TipoSol: 'MODIFICACION', Mensaje: '¡Envio de Solicitud de Modificación Exitoso!' },
+    { accion: 'VINCULACION', TipoSol: 'VINCULACION', Mensaje: '¡Envio de Solicitud de Vinculación Exitoso!' }
+  ]
+
 
   const loadFilter = (tipo: number) => {
     let data = { NUMOPERACION: tipo };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (tipo === 7) {
         setDepartamentos(res.RESPONSE);
+        setOpenSlider(false);
       } else if (tipo === 9) {
         setPerfiles(res.RESPONSE);
+        setOpenSlider(false);
       } else if (tipo === 26) {
         setUresp(res.RESPONSE);
+        setOpenSlider(false);
       }
     });
   };
@@ -168,7 +180,7 @@ const UsuariosModal = ({
     } else {
       Swal.fire({
         icon: "info",
-        title: "Solicitud De "+ String (tipo === "ALTA"?  "Nuevo Usuario":"Modificación")+", Enviar?",
+        title: "Solicitud De " + String(tipo === "ALTA" ? "Nuevo Usuario" : "Modificación") + ", Enviar?",
         html:
           "Nombre: " +
           Nombre +
@@ -220,21 +232,64 @@ const UsuariosModal = ({
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-          let data = {
-            Nombre: Nombre,
-            ApellidoPaterno: ApellidoPaterno,
-            ApellidoMaterno: ApellidoMaterno,
-            NombreUsuario: NombreUsuario,
-            CorreoElectronico: CorreoElectronico,
-            IdUsuarioModificador: user.id,
-            Curp: curp,
-            Rfc: rfc,
-            Telefono: telefono,
-            Ext: ext,
-            Celular: celular,
-            IdTipoUsuario: "",
+
+          handleRequest();
+        } else if (result.isDenied) {
+          Swal.fire("Solicitud no Realizada", "", "info");
+        }
+      });
+    }
+  };
+
+  const handleEditarConfi = () => {
+    if (idDepartamento === "" || idPerfil === "" || idDepartamento === undefined || idPerfil === undefined) {
+      AlertS.fire({
+        title: "Verificar los campos!, Departamento y Perfil Son Obligatorios",
+        icon: "warning",
+      });
+    } else {
+      setOpenSlider(true);
+
+      Swal.fire({
+        icon: "question",
+        title: "Modificar Registros?",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          let dat = {
+            NUMOPERACION: 9,
+            CHUSER: user.id,
+            CHID: idRegistro,
+            IDDEPARTAMENTO: idDepartamento,
+            IDPERFIL: idPerfil,
+            IDURESP: idUresp === undefined ? "" : idUresp
           };
-          handleRequest(data);
+
+          AuthService.adminUser(dat).then((res) => {
+            if (res.SUCCESS) {
+              setOpenSlider(false);
+         
+
+              AlertS.fire({
+                title: res.RESPONSE,
+                icon: "success",
+              }).then((result) => {
+                if (result.isConfirmed) {
+
+                  handleClose();
+
+                }
+              });
+
+            }
+            else {
+              setOpenSlider(false);
+            }
+          });
         } else if (result.isDenied) {
           Swal.fire("Solicitud no Realizada", "", "info");
         }
@@ -269,207 +324,105 @@ const UsuariosModal = ({
     });
   };
 
-  const handleRequest = (data: any) => {
-    if (tipo === "BAJA") {
-      let dat = {
-        NUMOPERACION: tipo,
-        CHUSER: user.id,
-        CHID: id,
-        PUESTO: puesto,
-        IDDEPARTAMENTO: idDepartamento,
-        IDPERFIL: "AppID",
-      };
+  const handleRequest = () => {
+    // if (tipo === "BAJA") {
+    setOpenSlider(true)
+    const decoded: UserLogin = jwt_decode(String(getToken()));
+    // console.log(decoded);
+    if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
 
-      AuthService.adminUser(dat).then((res) => {
-        if (res.SUCCESS) {
-          Toast.fire({
-            icon: "success",
-            title: "¡Registro exitoso!",
-          });
+      UserServices.verify({}).then((resAppLogin) => {
+
+        if (resAppLogin.status === 200) {
+          let dataAppId = {
+            NUMOPERACION: 5,
+            NOMBRE: "AppID",
+          };
+
+          ParametroServices.ParametroGeneralesIndex(dataAppId).then(
+            (resAppId) => {
+
+              let datSol = {
+                Nombre: Nombre,
+                APaterno: ApellidoPaterno,
+                AMaterno: ApellidoMaterno,
+                NombreUsuario: NombreUsuario,
+                Email: CorreoElectronico,
+                Curp: curp,
+                RFC: rfc,
+                Celular: celular,
+                Telefono: telefono,
+                Extencion: ext ? ext : 0,
+                TipoSolicitud: AccionesSol.find(({ accion }) => accion === tipo)?.TipoSol,
+                DatosAdicionales: "",
+                IdApp: resAppId?.RESPONSE?.Valor,
+                CreadoPor: user.id,
+              };
+
+              UserServices.createsolicitud(datSol).then((resSol) => {
+
+
+                if (resSol.data.data[0][0].Respuesta === "201" && tipo === "ALTA") {
+
+                  let dat = {
+                    NUMOPERACION: 3,
+                    CHUSER: user.id,
+                    PUESTO: puesto,
+                    IDDEPARTAMENTO: idDepartamento,
+                    IDPERFIL: idPerfil,
+                    IDSOLICITUD: resSol.data.data[0][0].IdSolicitud,
+                    IDURESP: idUresp,
+                    USUARIOSIREGOB: usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob,
+                    USUARIO: NombreUsuario,
+                  };
+
+                  AuthService.adminUser(dat).then((res) => {
+                    if (res.SUCCESS) {
+                      setOpenSlider(false);
+                      Toast.fire({
+                        icon: "success",
+                        title: AccionesSol.find(({ accion }) => accion === tipo)?.Mensaje,
+                      });
+                      handleClose();
+
+                    }
+                  });
+
+                }
+
+                else if (resSol.data.data[0][0].Respuesta === "201" && tipo !== "ALTA") {
+                  setOpenSlider(false);
+                  Toast.fire({
+                    icon: "success",
+                    title: AccionesSol.find(({ accion }) => accion === tipo)?.Mensaje,
+                  });
+                  handleClose();
+
+                }
+
+                else if (resSol.data.data[0][0].Respuesta === "403") {
+                  setOpenSlider(false);
+                  Toast.fire({
+                    icon: "warning",
+                    title: resSol.data.data[0][0].Mensaje,
+                  });
+                }
+              });
+            }
+          );
         } else {
-          Toast.fire({
-            icon: "error",
-            title: "Error ",
-          });
+          // setBloqueoStatus(true);
+          // RfToken();
         }
       });
-    } else if (tipo === "ALTA") {
-
-      const decoded: UserLogin = jwt_decode(String(getToken()));
-      // console.log(decoded);
-      if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
-
-        UserServices.verify({}).then((resAppLogin) => {
-
-          if (resAppLogin.status === 200) {
-            let dataAppId = {
-              NUMOPERACION: 5,
-              NOMBRE: "AppID",
-            };
-
-            ParametroServices.ParametroGeneralesIndex(dataAppId).then(
-              (resAppId) => {
-
-                let datSol = {
-                  Nombre: Nombre,
-                  APaterno: ApellidoPaterno,
-                  AMaterno: ApellidoMaterno,
-                  NombreUsuario: NombreUsuario,
-                  Email: CorreoElectronico,
-                  Curp: curp,
-                  RFC: rfc,
-                  Celular: celular,
-                  Telefono: telefono,
-                  Extencion: ext ? ext : 0,
-                  TipoSolicitud: tipo,
-                  DatosAdicionales: "Departamento: " + nameDep + " Perfil: " + namePerf,
-                  IdApp: resAppId?.RESPONSE?.Valor,
-                  CreadoPor: user.id,
-                };
-
-                UserServices.createsolicitud(datSol).then((resSol) => {
-                  // console.log("respuesta de servicio de login");
-                  // console.log(resSol);
-                  // console.log(resSol.data.data[0][0].Respuesta==="201");
-
-                  if (resSol.data.data[0][0].Respuesta === "201") {
-                    let dat = {
-                      NUMOPERACION: 3,
-                      CHUSER: user.id,
-                      PUESTO: puesto,
-                      IDDEPARTAMENTO: idDepartamento,
-                      IDPERFIL: idPerfil,
-                      IDSOLICITUD: resSol.data.data[0][0].IdSolicitud,
-                      IDURESP: idUresp,
-                      USUARIOSIREGOB: usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob,
-                      USUARIO: NombreUsuario,
-                    };
-
-                    AuthService.adminUser(dat).then((res) => {
-                      if (res.SUCCESS) {
-                        Toast.fire({
-                          icon: "success",
-                          title: "¡Registro exitoso!",
-                        });
-                        handleClose("Registro Exitoso");
-                      }
-                    });
-                    // let url = "IdUsuario=" + user.id + "&IdSolicitud=" + resSol.data.data[0][0].IdSolicitud;
-                    // UserServices.detalleSol(url).then((resuser) => {
-                    //   console.log("respuesta de servicio de detalleSol");
-                    //   console.log(resuser);
-                    //   console.log(resuser.data);
-                    //   const resuserTi: SolicitudUsrTiDetalle = resuser.data;
-
-                    // });
-                  } else if (resSol.data.data[0][0].Respuesta === "403") {
-                    Toast.fire({
-                      icon: "warning",
-                      title: resSol.data.data[0][0].Mensaje,
-                    });
-                  }
-                });
-              }
-            );
-          } else {
-            RfToken();
-          }
-        });
-
-      }
-
-    }
-    
-    else if (tipo === "MODIFICACION") {
-
-      const decoded: UserLogin = jwt_decode(String(getToken()));
-      // console.log(decoded);
-      if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
-
-        UserServices.verify({}).then((resAppLogin) => {
-
-          if (resAppLogin.status === 200) {
-            let dataAppId = {
-              NUMOPERACION: 5,
-              NOMBRE: "AppID",
-            };
-
-            ParametroServices.ParametroGeneralesIndex(dataAppId).then(
-              (resAppId) => {
-
-                let datSol = {
-                  Nombre: Nombre,
-                  APaterno: ApellidoPaterno,
-                  AMaterno: ApellidoMaterno,
-                  NombreUsuario: NombreUsuario,
-                  Email: CorreoElectronico,
-                  Curp: curp,
-                  RFC: rfc,
-                  Celular: celular,
-                  Telefono: telefono,
-                  Extencion: ext ? ext : 0,
-                  TipoSolicitud: tipo,
-                  DatosAdicionales: "Departamento: " + nameDep + " Perfil: " + namePerf,
-                  IdApp: resAppId?.RESPONSE?.Valor,
-                  CreadoPor: user.id,
-                };
-
-                UserServices.createsolicitud(datSol).then((resSol) => {
-                  // console.log("respuesta de servicio de login");
-                  // console.log(resSol);
-                  // console.log(resSol.data.data[0][0].Respuesta==="201");
-
-                  if (resSol.data.data[0][0].Respuesta === "201") {
-                    let dat = {
-                      NUMOPERACION: 3,
-                      CHUSER: user.id,
-                      PUESTO: puesto,
-                      IDDEPARTAMENTO: idDepartamento,
-                      IDPERFIL: idPerfil,
-                      IDSOLICITUD: resSol.data.data[0][0].IdSolicitud,
-                      IDURESP: idUresp,
-                      USUARIOSIREGOB: usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob,
-                      USUARIO: NombreUsuario,
-                    };
-
-                    AuthService.adminUser(dat).then((res) => {
-                      if (res.SUCCESS) {
-                        Toast.fire({
-                          icon: "success",
-                          title: "¡Registro exitoso!",
-                        });
-                        handleClose("Registro Exitoso");
-                      }
-                    });
-                    // let url = "IdUsuario=" + user.id + "&IdSolicitud=" + resSol.data.data[0][0].IdSolicitud;
-                    // UserServices.detalleSol(url).then((resuser) => {
-                    //   console.log("respuesta de servicio de detalleSol");
-                    //   console.log(resuser);
-                    //   console.log(resuser.data);
-                    //   const resuserTi: SolicitudUsrTiDetalle = resuser.data;
-
-                    // });
-                  } else if (resSol.data.data[0][0].Respuesta === "403") {
-                    Toast.fire({
-                      icon: "warning",
-                      title: resSol.data.data[0][0].Mensaje,
-                    });
-                  }
-                });
-              }
-            );
-          } else {
-            RfToken();
-          }
-        });
-
-      }
 
     }
   };
 
   useEffect(() => {
+
     UserServices.verify({}).then((resAppLogin) => {
+
       resAppLogin.status === 200 ? setTokenValid(true) : setTokenValid(false);
       if (resAppLogin.status === 401) {
         RfToken();
@@ -478,7 +431,8 @@ const UsuariosModal = ({
 
     if (dt === "") {
     } else {
-      setId(dt?.id);
+      console.log(dt)
+      setIdRegistro(dt?.id);
       setNombre(dt?.Nombre);
       setApellidoPaterno(dt?.ApellidoPaterno);
       setApellidoMaterno(dt?.ApellidoMaterno);
@@ -498,6 +452,7 @@ const UsuariosModal = ({
       if (dt?.Celular) {
         setCelValid(true);
       }
+      setOpenSlider(false);
 
     }
 
@@ -518,6 +473,7 @@ const UsuariosModal = ({
         title={tipo === "ALTA" ? "Nuevo Registro" : "Editar Registro"}
         handleClose={handleClose}
       >
+        <Slider open={openSlider}/>
         <Grid
           container
           spacing={1}
@@ -882,7 +838,7 @@ const UsuariosModal = ({
                           <Button
                             className="guardar"
                             color="info"
-                            onClick={() => handleSend()}
+                            onClick={() => handleEditarConfi()}
                           >
                             {"Actualizar"}
                           </Button>
@@ -897,6 +853,7 @@ const UsuariosModal = ({
           </TabContext>
 
         </Grid>
+        
       </ModalForm>
     </div>
   );
