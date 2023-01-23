@@ -132,7 +132,7 @@ const Participaciones = () => {
   const handlecheque = (data: any ,tipo: number) => {
     setTipo(tipo);
     setOpenCheque(true)
-    setVrows(data.row)
+    setVrows(data)
   };
 
 
