@@ -210,8 +210,7 @@ const FondosModal = ({
         ORDEN: orden,
 
       };
-console.log(data)
-      // handleRequest(data);
+      handleRequest(data);
     }
   };
 
@@ -225,7 +224,6 @@ console.log(data)
       if (dt === "") {
         //console.log(dt);
       } else {
-console.log(dt.row)
         setId(dt?.row?.id);
         setClave(dt?.row?.Clave);
         setDescripcion(dt?.row?.Descripcion);
