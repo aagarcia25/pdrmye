@@ -63,6 +63,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import MoneyIcon from '@mui/icons-material/Money';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import { ModalCheque } from "../componentes/ModalCheque";
 
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -83,6 +84,8 @@ const Participaciones = () => {
 
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
+  const [openCheque, setOpenCheque] = useState(false);
+  const [tipo, setTipo] = useState(0);
   //Constantes de los filtros
   const [numerooperacion, setnumerooperacion] = useState(0);
   const [idtipoFondo, setIdTipoFondo] = useState("");
@@ -122,6 +125,17 @@ const Participaciones = () => {
   const [DAF_SPEI,SETDAF_SPEI]= useState<boolean>(false);
 
 
+  const handleclose = (data: any) => {
+    setOpenCheque(false);
+  };
+
+  const handlecheque = (data: any ,tipo: number) => {
+    setTipo(tipo);
+    setOpenCheque(true)
+    setVrows(data.row)
+  };
+
+
   const downloadplantilla = () => {
     let data = {
       NUMOPERACION: "PLANTILLA CARGA ANTICIPO PARTICIPACIONES",
@@ -149,6 +163,53 @@ const Participaciones = () => {
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
+    {
+      field: "Operaciones",
+      disableExport: true,
+      headerName: "Operaciones",
+      description: "Operaciones",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+           
+           <Tooltip title={"Asignar N° de Participación"}>
+              <IconButton value="check" onClick={() => handlecheque(v,2)}>
+                <LoopIcon/>
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={"Asignar N° de Solicitud de Egreso"}>
+              <IconButton value="check" onClick={() => handlecheque(v,3)}>
+                <MenuBookIcon/>
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={"Asignar N° de Egreso"}>
+              <IconButton value="check" onClick={() => handlecheque(v,4)}>
+                <MoneyIcon/>
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={"Asignar N° de Solicitud de Pago"}>
+              <IconButton value="check" onClick={() => handlecheque(v,5)}>
+                <MonetizationOnIcon/>
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
+              <IconButton value="check" onClick={() => handlecheque(v,6)}>
+                <LocalAtmIcon/>
+              </IconButton>
+            </Tooltip>
+           
+            
+          </Box>
+        );
+      },
+    },
+
     {
       field: "Detalle",
       disableExport: true,
@@ -1584,44 +1645,6 @@ const Participaciones = () => {
           </ToggleButtonGroup>
         </Grid>
 
-
-        <Grid item xs={12} sm={12} md={12} lg={12} >
-          <ToggleButtonGroup>
-
-            <Tooltip title={"Asignar N° de Participación"}>
-              <ToggleButton value="check" onClick={() => openmodalc(2)}>
-                <LoopIcon color="primary" />
-              </ToggleButton>
-            </Tooltip>
-
-            <Tooltip title={"Asignar N° de Solicitud de Egreso"}>
-              <ToggleButton value="check" onClick={() => openmodalc(2)}>
-                <MenuBookIcon color="primary" />
-              </ToggleButton>
-            </Tooltip>
-
-            <Tooltip title={"Asignar N° de Egreso"}>
-              <ToggleButton value="check" onClick={() => openmodalc(2)}>
-                <MoneyIcon color="primary" />
-              </ToggleButton>
-            </Tooltip>
-
-            <Tooltip title={"Asignar N° de Solicitud de Pago"}>
-              <ToggleButton value="check" onClick={() => openmodalc(2)}>
-                <MonetizationOnIcon color="primary" />
-              </ToggleButton>
-            </Tooltip>
-
-            <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
-              <ToggleButton value="check" onClick={() => openmodalc(2)}>
-                <LocalAtmIcon color="primary" />
-              </ToggleButton>
-            </Tooltip>
-            
-          </ToggleButtonGroup>
-        </Grid>
-
-
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
           <ToggleButtonGroup>
 
@@ -1819,8 +1842,8 @@ const Participaciones = () => {
       </Grid>
       {openModalVerSpei?
       
-    <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows}/>
-    :""}
+    <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows}/>:""}
+    {openCheque ? <ModalCheque tipo={tipo}   handleClose={handleclose}  vrows={vrows} />: ""}
     </div>
   );
 };

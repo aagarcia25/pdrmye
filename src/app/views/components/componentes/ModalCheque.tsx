@@ -28,6 +28,21 @@ export const ModalCheque = ({
   if(tipo == 1){
     setTitle('Asignar Número de Cheque');
     setLabel('Número de Cheque:');
+  }else if (tipo == 2){
+    setTitle('Asignar N° de Participación');
+    setLabel('Número de Participación:');
+  }else if (tipo == 3){
+    setTitle('Asignar N° de Solicitud de Egreso');
+    setLabel('Número de Solicitud de Egreso:');
+  }else if (tipo == 4){
+    setTitle('Asignar N° de Egreso');
+    setLabel('Número de Egreso:');
+  }else if (tipo == 5){
+    setTitle('Asignar N° de Solicitud de Pago');
+    setLabel('Número de Solicitud de Pago:');
+  }else if (tipo == 6){
+    setTitle('Asignar N° de Requerimiento de Anticipo');
+    setLabel('Número de Requerimiento de Anticipo:');
   }
 
 
