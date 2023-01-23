@@ -72,6 +72,10 @@ export class DPCPServices {
         return await post('AuthSolicitudPago', data);
     }
 
+    public static async AsignaOperacion(data: any) {
+        return await post('AsignaOperacion', data);
+    }
+
 
     
 }

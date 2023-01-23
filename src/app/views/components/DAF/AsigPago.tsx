@@ -30,6 +30,8 @@ import {
 import { esES as coreEsES } from "@mui/material/locale";
 import SpeisAdmin from "./SpeisAdmin";
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import ApprovalIcon from '@mui/icons-material/Approval';
+import { ModalCheque } from "../componentes/ModalCheque";
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
@@ -54,17 +56,23 @@ const AsigPago = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   ///// Modal de Administración de Speis
   const [openSpeis, setOpenSpeis] = useState(false);
+  const [openCheque, setOpenCheque] = useState(false);
 
 
   const handleSpeis = (data: any) => {
     setOpenSpeis(true)
     setVrows(data.row)
-
-
   };
+
+  const handlecheque = (data: any) => {
+    setOpenCheque(true)
+    setVrows(data.row)
+  };
+
 
   const handleclose = (data: any) => {
     setOpenSpeis(false)
+    setOpenCheque(false);
   };
 
   const handleAccion = (data: any) => {
@@ -87,6 +95,13 @@ const AsigPago = () => {
                 <FolderOpenIcon />
               </IconButton>
             </Tooltip>
+
+            <Tooltip title="Agregar Número de Cheque">
+              <IconButton onClick={() => handlecheque(v)}>
+                <ApprovalIcon />
+              </IconButton>
+            </Tooltip>
+
           </Box>
         );
       },
@@ -366,8 +381,8 @@ const AsigPago = () => {
 
       </div>
 
-      {openSpeis ? <SpeisAdmin handleClose={handleclose} handleAccion={handleAccion} vrows={vrows} />
-       : ""}
+      {openSpeis ? <SpeisAdmin  handleClose={handleclose} handleAccion={handleAccion} vrows={vrows} />: ""}
+      {openCheque ? <ModalCheque tipo={1} handleClose={handleclose}  vrows={vrows} />: ""}
     </>
   );
 };
