@@ -128,9 +128,9 @@ const Menus = () => {
     { field: "Descripcion", headerName: "Descripcion", width: 400 },
     { field: "menupadre", headerName: "Menú Padre", width: 400 },
     { field: "Path", headerName: "Path", width: 200 },
-    { field: "ControlInterno", headerName: "ControlInterno", width: 200 },
     { field: "Nivel", headerName: "Nivel", width: 100 },
     { field: "Orden", headerName: "Orden", width: 100 },
+    { field: "ControlInterno", headerName: "Control Interno", width: 200 },
    
   ];
 
@@ -184,7 +184,6 @@ const Menus = () => {
       )}
       {openModal ? (
         <MenuModal
-          open={openModal}
           handleClose={handleClose}
           tipo={tipoOperacion}
           vrows={vrows}
