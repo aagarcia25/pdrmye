@@ -57,13 +57,19 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ArticleIcon from '@mui/icons-material/Article';
 import SpeisAdmin from "../DAF/SpeisAdmin";
 
+
+import LoopIcon from '@mui/icons-material/Loop';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MoneyIcon from '@mui/icons-material/Money';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
   //MODAL
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openModalDescuento, setOpenModalDescuento] = useState<boolean>(false);
-  const [openModalAnticipo, setOpenModalAnticipo] = useState<boolean>(false);
   const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
   const [openModalVerSpei, setOpenModalVerSpei] = useState<boolean>(false);
 
@@ -129,19 +135,16 @@ const Participaciones = () => {
   const handleDescuento = (data: any) => {
     setVrows(data);
     setOpenModalDescuento(true);
-
   };
 
 
   const handleDetalle = (data: any) => {
     setVrows(data);
     setOpenModalDetalle(true);
-
   };
   const handleVerSpei = (data: any) => {
     setVrows(data);
     setOpenModalVerSpei(true);
-
   };
 
   const columnsParticipaciones = [
@@ -426,7 +429,6 @@ const Participaciones = () => {
 
   const handleClose = () => {
     setOpenModal(false);
-    setOpenModalAnticipo(false);
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
     handleClick();
@@ -444,21 +446,15 @@ const Participaciones = () => {
   const handleFilterChange2 = (v: string) => {
     setIdFondo(v);
     setIntOperaciones(true); setMunTieneFide(false);
-    // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false);  }
   };
 
   const handleFilterChange3 = (v: string) => {
     setidMunicipio(v);
     setIntOperaciones(true); setMunTieneFide(false)
-    // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false) }
-
-
-
   };
   const handleFilterChange4 = (v: string) => {
     setIdTipoSolicitud(v);
     setIntOperaciones(true); setMunTieneFide(false)
-    // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false) }
   };
 
   const handleFilterChange5 = (v: string) => {
@@ -561,9 +557,7 @@ const Participaciones = () => {
   };
 
   
-  const openmodalAnticipo = () => {
-    setOpenModalAnticipo(true);
-  };
+
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     setslideropen(true);
@@ -1318,11 +1312,6 @@ const Participaciones = () => {
     });
   };
 
-  // useEffect(() => {
-  // }, [
-  //    selectionModel
-  // ]);
-
 
   useEffect(() => {
     loadFilter(12);
@@ -1594,6 +1583,44 @@ const Participaciones = () => {
             )}
           </ToggleButtonGroup>
         </Grid>
+
+
+        <Grid item xs={12} sm={12} md={12} lg={12} >
+          <ToggleButtonGroup>
+
+            <Tooltip title={"Asignar N° de Participación"}>
+              <ToggleButton value="check" onClick={() => openmodalc(2)}>
+                <LoopIcon color="primary" />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Asignar N° de Solicitud de Egreso"}>
+              <ToggleButton value="check" onClick={() => openmodalc(2)}>
+                <MenuBookIcon color="primary" />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Asignar N° de Egreso"}>
+              <ToggleButton value="check" onClick={() => openmodalc(2)}>
+                <MoneyIcon color="primary" />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Asignar N° de Solicitud de Pago"}>
+              <ToggleButton value="check" onClick={() => openmodalc(2)}>
+                <MonetizationOnIcon color="primary" />
+              </ToggleButton>
+            </Tooltip>
+
+            <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
+              <ToggleButton value="check" onClick={() => openmodalc(2)}>
+                <LocalAtmIcon color="primary" />
+              </ToggleButton>
+            </Tooltip>
+            
+          </ToggleButtonGroup>
+        </Grid>
+
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
           <ToggleButtonGroup>
