@@ -28,7 +28,7 @@ const Usuarios = () => {
   const [openRolConf, setOpenRolConf] = useState(false);
   const [openConfigMun, setOpenConfigMun] = useState(false);
   const [openNew, setOpenNew] = useState(false);
-  const [tipoOperacion, setTipoOperacion] = useState(0);
+  const [tipoOperacion, setTipoOperacion] = useState("");
   const [dt, setDt] = useState({});
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
@@ -58,21 +58,26 @@ const Usuarios = () => {
   };
 
   const handleOpen = () => {
-    setTipoOperacion(3);
+    setTipoOperacion("ALTA");
     setDt("");
     setOpenNew(true);
   };
 
   const handleEdit = (v: any) => {
-    setTipoOperacion(5);
+    setTipoOperacion("MODIFICACION");
     setDt(v.row);
     setOpenNew(true);
   };
-
+  
+  const handleDelete = (v: any) => {
+    setTipoOperacion("BAJA");
+    setDt(v.row);
+    setOpenNew(true);
+  };
  
 
 
-  const handleDelete = (v: any) => {
+  // const handleDelete = (v: any) => {
     /*  Swal.fire({
         icon: "info",
         title: "Estas seguro de eliminar este registro?",
@@ -117,7 +122,7 @@ const Usuarios = () => {
           Swal.fire("No se realizaron cambios", "", "info");
         }
       });*/
-  };
+  // };
 
   const handleClose = (v: string) => {
     setOpenConfigMun(false);

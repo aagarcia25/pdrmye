@@ -27,7 +27,7 @@ export const Perfil = () => {
 
   //Abrir Dialog de imagen
   const query = new URLSearchParams(useLocation().search);
-  const jwt = query.get("jwt");
+  // const jwt = query.get("jwt");
   const [openDialog, setOpenDialog] = useState(false)
   //CARD 1
   const [password, setPassword] = useState("");
@@ -57,7 +57,7 @@ export const Perfil = () => {
         UserServices.refreshToken().then((resAppLogin) => {
           if (resAppLogin.status === 200) {
             setTokenValid(true);
-            setToken(jwt);
+            // setToken(jwt);
             onClickChangePassword();
           }
           else {
@@ -121,27 +121,27 @@ export const Perfil = () => {
 
   useEffect(() => {
 
-    UserServices.verify({}).then((res) => {
-      if (res.status === 200) {
-        setTokenValid(true)
-      } else if (res.status === 401) {
-        UserServices.refreshToken().then((resAppLogin) => {
-          if (resAppLogin.status === 200) {
-            setTokenValid(true);
-            setToken(jwt);
-          }
-          else {
-            setTokenValid(false);
-            Toast.fire({
-              icon: "error",
-              title: "Sesión Demasiado Antigua",
-            });
-          }
-        });
+    // UserServices.verify({}).then((res) => {
+    //   if (res.status === 200) {
+    //     setTokenValid(true)
+    //   } else if (res.status === 401) {
+    //     UserServices.refreshToken().then((resAppLogin) => {
+    //       if (resAppLogin.status === 200) {
+    //         setTokenValid(true);
+    //         // setToken(jwt);
+    //       }
+    //       else {
+    //         setTokenValid(false);
+    //         Toast.fire({
+    //           icon: "error",
+    //           title: "Sesión Demasiado Antigua",
+    //         });
+    //       }
+    //     });
 
-      }
+    //   }
 
-    });
+    // });
 
 
   }, []);
