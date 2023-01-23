@@ -174,6 +174,7 @@ const PermisosModal = ({
                 variant="standard"
                 onChange={(v) => setReferencia(v.target.value)}
                 error={referencia === "" ? true : false}
+                disabled ={tipo !== 1 }
               />
               <DialogActions>
                   <Grid  container   direction="row" justifyContent="center" alignItems="center" >
