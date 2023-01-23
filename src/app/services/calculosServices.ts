@@ -64,6 +64,9 @@ export class calculosServices {
         return await post('getAreaCalculo', data);
     }
     
+    public static async CalculoArchivo(data: any) {
+        return await post('CalculoArchivo', data);
+    }
 
     public static async spcalculo(data: any) {
         return await post('spcalculo', data);
