@@ -210,8 +210,8 @@ const FondosModal = ({
         ORDEN: orden,
 
       };
-
-      handleRequest(data);
+console.log(data)
+      // handleRequest(data);
     }
   };
 
@@ -225,11 +225,11 @@ const FondosModal = ({
       if (dt === "") {
         //console.log(dt);
       } else {
-
+console.log(dt.row)
         setId(dt?.row?.id);
         setClave(dt?.row?.Clave);
         setDescripcion(dt?.row?.Descripcion);
-        setTipoFondo(dt?.row?.idtipo);
+        setTipoFondo(dt?.row?.Tipo);
         setTipoFondoLabel(dt?.row?.dtipo);
         setPorDis(dt?.row?.PorcentajeDistribucion);
         setArticulo(dt?.row?.Articulo);
