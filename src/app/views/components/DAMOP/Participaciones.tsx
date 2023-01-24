@@ -173,37 +173,50 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-           
-           <Tooltip title={"Asignar N° de Participación"}>
-              <IconButton value="check" onClick={() => handlecheque(v,2)}>
-                <LoopIcon/>
-              </IconButton>
-            </Tooltip>
-
+           { String(v.row.NumParticipacion) === 'null' ?
+             <Tooltip title={"Asignar N° de Participación"}>
+             <IconButton value="check" onClick={() => handlecheque(v,2)}>
+             <LoopIcon/>
+             </IconButton>
+             </Tooltip>
+            :""
+           }
+          
+          { String(v.row.NumSolEgreso) === 'null' ?
             <Tooltip title={"Asignar N° de Solicitud de Egreso"}>
               <IconButton value="check" onClick={() => handlecheque(v,3)}>
                 <MenuBookIcon/>
               </IconButton>
             </Tooltip>
+ :""
+}
 
+{ String(v.row.NumEgreso) === 'null' ?
             <Tooltip title={"Asignar N° de Egreso"}>
               <IconButton value="check" onClick={() => handlecheque(v,4)}>
                 <MoneyIcon/>
               </IconButton>
             </Tooltip>
+:""
+}
 
+{ String(v.row.NumOrdenPago) === 'null' ?
             <Tooltip title={"Asignar N° de Solicitud de Pago"}>
               <IconButton value="check" onClick={() => handlecheque(v,5)}>
                 <MonetizationOnIcon/>
               </IconButton>
             </Tooltip>
+ :""
+}
 
+{ String(v.row.NumRequerimientoAnt) === 'null' ?
             <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
               <IconButton value="check" onClick={() => handlecheque(v,6)}>
                 <LocalAtmIcon/>
               </IconButton>
             </Tooltip>
-           
+        :""
+}    
             
           </Box>
         );
@@ -258,7 +271,8 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? (
+              {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
+            { String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? (
               <Tooltip title="Agregar Descuentos">
                 <IconButton
                   onClick={() => handleDescuento(v)}>

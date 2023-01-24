@@ -155,12 +155,10 @@ const SpeisAdmin = ({
         nameSpei !== "" ? formData.append("SPEI", speiFile, nameSpei) : formData.append("SPEI", "");
         formData.append("NUMOPERACION", numOp);
         formData.append("NUMOPERACION", numOp);
-        // formData.append("CHID", id);
         formData.append("IDPA", vrows.id);
         formData.append("CHUSER", user.id);
 
         DAFServices.SpeiAdministracion(formData).then((res) => {
-            //   setslideropen(false);
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
@@ -206,7 +204,8 @@ const SpeisAdmin = ({
         <>
             <ModalForm title={'Administración de  los Spei'} handleClose={handleClose}>
                 <Box>
-                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={user.DEPARTAMENTOS[0].NombreCorto==="DAF"} />
+                {/* agregar={user.DEPARTAMENTOS[0].NombreCorto==="DAF"} */}
+                    <ButtonsAdd handleOpen={handleAgregarSpei}  agregar={true} />
                     <Grid item xs={12}>
                         <MUIXDataGridMun modulo={''} handleBorrar={handleBorrarMasivo} columns={columns} rows={speis} controlInterno={''} />
                     </Grid>

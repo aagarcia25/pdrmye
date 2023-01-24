@@ -94,11 +94,16 @@ const AsigPago = () => {
               </IconButton>
             </Tooltip>
 
+
+            { String(v.row.NumCheque) === 'null' ?
             <Tooltip title="Agregar Número de Cheque">
-              <IconButton onClick={() => handlecheque(v)}>
-                <ApprovalIcon />
-              </IconButton>
+            <IconButton onClick={() => handlecheque(v)}>
+            <ApprovalIcon />
+            </IconButton>
             </Tooltip>
+            :""
+            }
+           
 
           </Box>
         );
