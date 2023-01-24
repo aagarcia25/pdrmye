@@ -287,7 +287,7 @@ const RecepcionRecursos = () => {
     loadFilter(12);
     loadFilter(5);
     loadFilter(17);
-    handleClick();
+   // handleClick();
     /*  permisos.map((item: PERMISO) => {
         if (
           String(item.ControlInterno) === "PARTMUN"
