@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
   Box,
   InputLabel,
   TextField,
-  DialogActions,
   Switch,
   FormControlLabel,
   FormGroup,
@@ -145,27 +142,16 @@ const MunFacturacionModal = ({
         ARTF3: artF3,
         DELETED: 0,
       };
-      //console.log("user props", user);
-      //console.log("user id", user.id);
-      //console.log("data de modal", data);
       handleRequest(data);
       handleClose();
     }
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     if (tipo === 1) {
-      //AGREGAR
-      //console.log("A AGREGAR");
       agregar(data);
-
     } else if (tipo === 2) {
-      //EDITAR
-      //console.log("A EDITAR");
-
       editar(data);
-
     }
   };
 
@@ -176,14 +162,12 @@ const MunFacturacionModal = ({
           icon: "success",
           title: "Registro Agregado!",
         });
-        //console.log("Sé pudo agregar");
       } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        //console.log("No se pudo agregar");
       }
     });
   };

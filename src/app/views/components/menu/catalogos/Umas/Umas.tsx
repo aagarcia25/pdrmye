@@ -9,9 +9,8 @@ import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
+import {  getPermisos, getUser } from "../../../../../services/localStorage";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
