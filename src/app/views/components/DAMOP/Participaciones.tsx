@@ -173,7 +173,7 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-           { String(v.row.NumParticipacion) === 'null' ?
+           { String(v.row.NumParticipacion) === 'null'  ?
              <Tooltip title={"Asignar N° de Participación"}>
              <IconButton value="check" onClick={() => handlecheque(v,2)}>
              <LoopIcon/>
@@ -182,23 +182,23 @@ const Participaciones = () => {
             :""
            }
           
-          { String(v.row.NumSolEgreso) === 'null' ?
+          { String(v.row.NumSolEgreso) === 'null'  && v.row.estatusCI ==="DAMOP_INI"  ?
             <Tooltip title={"Asignar N° de Solicitud de Egreso"}>
               <IconButton value="check" onClick={() => handlecheque(v,3)}>
                 <MenuBookIcon/>
               </IconButton>
             </Tooltip>
- :""
-}
+           :"" 
+          }
 
-{ String(v.row.NumEgreso) === 'null' ?
+{ String(v.row.NumEgreso) === 'null'  && v.row.estatusCI ==="DAMOP_TE"?
             <Tooltip title={"Asignar N° de Egreso"}>
               <IconButton value="check" onClick={() => handlecheque(v,4)}>
                 <MoneyIcon/>
               </IconButton>
             </Tooltip>
-:""
-}
+          :""
+         }
 
 { String(v.row.NumOrdenPago) === 'null' ?
             <Tooltip title={"Asignar N° de Solicitud de Pago"}>
@@ -1394,7 +1394,7 @@ const Participaciones = () => {
     loadFilter(17);
     loadFilter(25);
     loadFilter(24);
-    handleClick();
+   // handleClick();
     downloadplantilla();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
