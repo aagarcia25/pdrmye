@@ -14,6 +14,7 @@ import { getUser } from '../../../services/localStorage';
 import ArticleIcon from '@mui/icons-material/Article';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
+import Slider from '../Slider';
 
 const SpeisAdmin = ({
     handleClose,
@@ -28,7 +29,7 @@ const SpeisAdmin = ({
     const [mensaje, setMensaje] = useState<string>();
     const [addSpei, setAddSpei] = useState<boolean>(false);
     const [verSpei, setVerSpei] = useState<boolean>(false);
-
+    const [slideropen, setslideropen] = useState(false);
     const [ruta, setRuta] = useState<string>("");
     const [name, setName] = useState<string>("");
 
@@ -151,6 +152,7 @@ const SpeisAdmin = ({
     };
 
     const handleUploadSpei = (numOp: string) => {
+        setslideropen(true);
         const formData = new FormData();
         nameSpei !== "" ? formData.append("SPEI", speiFile, nameSpei) : formData.append("SPEI", "");
         formData.append("NUMOPERACION", numOp);
@@ -168,12 +170,14 @@ const SpeisAdmin = ({
                 setSpeiFile(null)
                 consulta();
                 handleCloseModal();
+                setslideropen(false);
             } else {
                 AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
+                setslideropen(false);
             }
         });
 
@@ -202,6 +206,7 @@ const SpeisAdmin = ({
     }, []);
     return (
         <>
+          <Slider open={slideropen}></Slider>
             <ModalForm title={'Administración de  los Spei'} handleClose={handleClose}>
                 <Box>
                 {/* agregar={user.DEPARTAMENTOS[0].NombreCorto==="DAF"} */}
