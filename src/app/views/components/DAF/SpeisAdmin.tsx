@@ -181,7 +181,7 @@ const SpeisAdmin = ({
     };
 
     const consulta = () => {
-        DAFServices.SpeiAdministracion({ NUMOPERACION: 4, }).then((res) => {
+        DAFServices.SpeiAdministracion({ NUMOPERACION: 4, P_IDPA:vrows.id}).then((res) => {
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",

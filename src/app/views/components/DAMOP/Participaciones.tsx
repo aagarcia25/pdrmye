@@ -209,7 +209,7 @@ const Participaciones = () => {
  :""
 }
 
-{ String(v.row.NumRequerimientoAnt) === 'null' ?
+{ String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI ==="DAMOP_TE" ?
             <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
               <IconButton value="check" onClick={() => handlecheque(v,6)}>
                 <LocalAtmIcon/>

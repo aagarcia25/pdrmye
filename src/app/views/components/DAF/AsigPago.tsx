@@ -59,12 +59,12 @@ const AsigPago = () => {
 
   const handleSpeis = (data: any) => {
     setOpenSpeis(true)
-    setVrows(data.row)
+    setVrows(data)
   };
 
   const handlecheque = (data: any) => {
     setOpenCheque(true)
-    setVrows(data.row)
+    setVrows(data)
   };
 
 
@@ -247,7 +247,7 @@ const AsigPago = () => {
     loadFilter(12);
     loadFilter(5);
     loadFilter(17);
-    handleClick();
+   // handleClick();
     /*  permisos.map((item: PERMISO) => {
         if (
           String(item.ControlInterno) === "PARTMUN"
