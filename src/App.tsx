@@ -29,15 +29,12 @@ import Validacion from "./app/views/components/Validacion";
 import { useIdleTimer } from "react-idle-timer";
 import Slider from "./app/views/components/Slider";
 import { env_var } from '../src/app/environments/env';
-import { useNavigate } from "react-router-dom";
 import { ParametroServices } from "./app/services/ParametroServices";
 import jwt_decode from "jwt-decode";
 import { UserLogin } from "./app/interfaces/user/User";
-import { Toast } from "./app/helpers/Toast";
 
 
 function App() {
-  const navigate = useNavigate();
   //cambiar a 5 minutos
   const timeout = 300000;
   const query = new URLSearchParams(useLocation().search);
@@ -169,32 +166,6 @@ function App() {
         setOpenSlider(false);
         setlogin(false);
         setAcceso(false);
-        // RfToken();
-
-      }
-    });
-  };
-  const RfToken = () => {
-    UserServices.refreshToken().then((resAppRfToken) => {
-      // console.log(resAppRfToken)
-      if (resAppRfToken?.status === 200) {
-        setTokenValid(true);
-        setToken(resAppRfToken?.data.token);
-      } else {
-        setTokenValid(false);
-        Swal.fire({
-          title: "Sesión Demasiado Antigua",
-          showDenyButton: false,
-          showCancelButton: false,
-          confirmButtonText: "Aceptar",
-        }).then((result) => {
-
-          if (result.isConfirmed) {
-            localStorage.clear();
-            var ventana = window.self;
-            ventana.location.replace(env_var.BASE_URL_LOGIN);
-          }
-        });
 
       }
     });

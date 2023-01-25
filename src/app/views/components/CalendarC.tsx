@@ -26,15 +26,11 @@ const CalendarC = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
-  const [data, setData] = useState([]);
   const [id, setId] = useState("");
   const today = new Date();
 
-  //console.log("modo", modo);
 
   const onSelectEvent = (v: any) => {
-
-    //console.log(v);
     setId(v.id);
     setTipoOperacion(2);
     setModo("Editar Evento");
@@ -148,7 +144,6 @@ const CalendarC = () => {
     <>
       {open ? (
         <CalendarCModal
-          open={open}
           modo={modo}
           tipo={tipoOperacion}
           handleClose={handleClose}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Box, FormLabel, } from '@mui/material'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -9,11 +8,10 @@ import { Toast } from '../../../../../helpers/Toast'
 import { AlertS } from "../../../../../helpers/AlertS";
 import MunPobrezaModal from './MunPobrezaModal'
 import Slider from "../../../Slider";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import { getMenus, getPermisos, getUser } from '../../../../../services/localStorage'
+import { getPermisos, getUser } from '../../../../../services/localStorage'
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import MUIXDataGridMun from '../../../MUIXDataGridMun'
@@ -33,7 +31,6 @@ export const MunPobreza = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-  const [nombreMenu, setNombreMenu] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
   // VARIABLES PARA LOS FILTROS
@@ -304,7 +301,6 @@ export const MunPobreza = () => {
 
       {open ? (
         <MunPobrezaModal
-          open={open}
           handleClose={handleClose}
           tipo={tipoOperacion}
           dt={data}

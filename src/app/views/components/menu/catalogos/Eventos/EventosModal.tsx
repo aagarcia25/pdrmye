@@ -14,7 +14,6 @@ import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipio
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, getPermisos, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { PhotoCamera } from "@mui/icons-material";
-// import "../../../../../styles/globals.css";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 
@@ -36,20 +35,14 @@ const EventosModal = ({
   dt: any
 }) => {
 
-  //////// trassicion
-
-  // CAMPOS DE LOS FORMULARIOS
-
 
   const [id, setId] = useState("");
   const [descripcion, setDescripcion] = useState("");
-
   const [nameNewImage, setNameNewImage] = useState("");
   const [newImage, setNewImage] = useState(Object);
   const [nameEvent, setNameEvent] = useState("");
   const [edit, setEditar] = useState<boolean>(false);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-
   const [finEventoMax, setFinEventoMax] = useState("2100-09-30 13:16:00");
   const [finEvento, setFinEvento] = useState("");
   const [urlImage, setUrlImage] = useState("");
@@ -63,8 +56,6 @@ const EventosModal = ({
   var Fecha_min = fecha + 'T' + hora;
   const [inicioEventoMin, setInicioEventoMin] = useState(Fecha_min);
   const [inicioEvento, setInicioEvento] = useState("")
-
-  ////////////////////////////////
   const [previewImage, setPreviewImage] = useState<string>();
   const [NewImagePreview, setNewImagePreviw] = useState<File>();
   const [cleanUp, setCleanUp] = useState<boolean>(false);
@@ -127,16 +118,11 @@ const EventosModal = ({
   const handleNewImage = (event: any) => {
 
     let file = event.target!.files[0]!;
-    ///// SE VALIDA SI NO SE CARGO ARCHIVO EN EL INPUT PARA PODER EXTRAER EL NOMBRE
     if (event.target.files.length === 0) {
     } else {
       setNameNewImage(event.target!.files[0]!.name);
     }
 
-
-
-
-    /////////////////////////////
 
     if (file && file.type.substr(0, 5) === "image") {
 
@@ -145,11 +131,9 @@ const EventosModal = ({
       setEditImage(true);
       setNewImage(null);
 
-    }    /////////////////////////
+    }    
 
     setNewImage(file);
-
-
   };
   const handleRequest = (data: any) => {
 

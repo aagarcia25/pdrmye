@@ -13,8 +13,6 @@ import {
   Select,
   FormLabel,
   Box,
-  Typography,
-  DialogActions,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -23,9 +21,7 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import Slider from "../../../Slider";
-import { porcentage } from "../../CustomToolbar";
 
 const FondosModal = ({
   modo,
