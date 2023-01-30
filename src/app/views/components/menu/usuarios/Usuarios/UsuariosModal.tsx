@@ -300,7 +300,6 @@ const UsuariosModal = ({
 
   const RfToken = () => {
     UserServices.refreshToken().then((resAppRfToken) => {
-      // console.log(resAppRfToken)
       if (resAppRfToken?.status === 200) {
         setTokenValid(true);
         setToken(resAppRfToken?.data.token);
@@ -328,7 +327,6 @@ const UsuariosModal = ({
     // if (tipo === "BAJA") {
     setOpenSlider(true)
     const decoded: UserLogin = jwt_decode(String(getToken()));
-    // console.log(decoded);
     if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
 
       UserServices.verify({}).then((resAppLogin) => {
@@ -431,7 +429,6 @@ const UsuariosModal = ({
 
     if (dt === "") {
     } else {
-      console.log(dt)
       setIdRegistro(dt?.id);
       setNombre(dt?.Nombre);
       setApellidoPaterno(dt?.ApellidoPaterno);

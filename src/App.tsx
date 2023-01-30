@@ -145,8 +145,11 @@ function App() {
         setOpenSlider(false);
         setlogin(true);
         setAcceso(true);
-      } else {
+      } else if(us.SUCCESS) {
         mensaje('','Información', us.STRMESSAGE +" Contactar Al Departamento Correspondiente");
+      }
+      else if(us.SUCCESS ==false && us.RESPONSE===""){
+        verificatoken();
       }
     });
   };

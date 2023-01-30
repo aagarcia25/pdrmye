@@ -190,40 +190,40 @@ const Participaciones = () => {
             </Tooltip>
            :"" 
           }
-
-{ String(v.row.NumEgreso) === 'null'  && v.row.estatusCI ==="DAMOP_TE"?
-            <Tooltip title={"Asignar N° de Egreso"}>
-              <IconButton value="check" onClick={() => handlecheque(v,4)}>
-                <MoneyIcon/>
-              </IconButton>
-            </Tooltip>
-          :""
-         }
-
-{ String(v.row.NumOrdenPago) === 'null' ?
-            <Tooltip title={"Asignar N° de Solicitud de Pago"}>
-              <IconButton value="check" onClick={() => handlecheque(v,5)}>
-                <MonetizationOnIcon/>
-              </IconButton>
-            </Tooltip>
- :""
-}
-
-{ String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI ==="DAMOP_TE" ?
-            <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
-              <IconButton value="check" onClick={() => handlecheque(v,6)}>
-                <LocalAtmIcon/>
-              </IconButton>
-            </Tooltip>
-        :""
-}    
             
-          </Box>
-        );
-      },
-    },
-
-    {
+            { String(v.row.NumEgreso) === 'null'  && v.row.estatusCI ==="DAMOP_TE"?
+                        <Tooltip title={"Asignar N° de Egreso"}>
+                          <IconButton value="check" onClick={() => handlecheque(v,4)}>
+                            <MoneyIcon/>
+                          </IconButton>
+                        </Tooltip>
+                      :""
+                     }
+            
+            { String(v.row.NumOrdenPago) === 'null' ?
+                        <Tooltip title={"Asignar N° de Solicitud de Pago"}>
+                          <IconButton value="check" onClick={() => handlecheque(v,5)}>
+                            <MonetizationOnIcon/>
+                          </IconButton>
+                        </Tooltip>
+             :""
+            }
+            
+            { String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI ==="DAMOP_TE" ?
+                        <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
+                          <IconButton value="check" onClick={() => handlecheque(v,6)}>
+                            <LocalAtmIcon/>
+                          </IconButton>
+                        </Tooltip>
+                    :""
+            }    
+                        
+                      </Box>
+                    );
+                  },
+                },
+            
+                {
       field: "Detalle",
       disableExport: true,
       headerName: "Ver Detalle",
@@ -1462,7 +1462,7 @@ const Participaciones = () => {
           justifyContent="center"
           alignItems="center" >
 
-          <Grid item xs={6} sm={4} md={2} lg={2}>
+          {/* <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
               value={idestatus}
@@ -1472,9 +1472,9 @@ const Participaciones = () => {
               label={""}
               disabled={false}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={6} sm={4} md={2} lg={2}>
+          {/* <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
             <SelectFrag
               value={idtipoFondo}
@@ -1484,7 +1484,7 @@ const Participaciones = () => {
               label={""}
               disabled={false}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
             <SelectFrag
@@ -1552,11 +1552,11 @@ const Participaciones = () => {
             </Tooltip>
 
 
-            <Tooltip title={"Generar Solicitud"}>
+            {/* <Tooltip title={"Generar Solicitud"}>
               <ToggleButton disabled={idtipoSolicitud.length < 6 || intOperaciones} value="check" onClick={() => SolicitudOrdenPago()}>
                 <SettingsSuggestIcon color={idtipoSolicitud.length < 6 || intOperaciones ? "inherit" : "primary"} />
               </ToggleButton>
-            </Tooltip>
+            </Tooltip> */}
 
             <Tooltip title={"Asignar Observación"}>
               <ToggleButton value="check" onClick={() => openmodalc(2)}>
