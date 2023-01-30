@@ -26,7 +26,7 @@ const SelectFragLogin = ({
 
 
       <Select
-        value ={value != null ?options.find(element => element.value === value) :[]}
+        value ={value !== null ?options.find(element => element.value === value) :[]}
         options={options}
         isDisabled={disabled}
         isClearable={true}
@@ -42,7 +42,6 @@ const SelectFragLogin = ({
         styles={{
           menu: (base) => ({
             position: 'fixed',
-
             zIndex: 500,
             ...base
           })

@@ -180,7 +180,6 @@ const InflacionMes = () => {
     <div style={{ height: 600, width: "100%" }}>
       {open ? (
         <InflacionMesModal
-          open={open}
           modo={modo}
           tipo={tipoOperacion}
           handleClose={handleClose}

@@ -2,10 +2,8 @@ import {
   Box,
   Button,
   Container,
-  Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Divider,
   FormControlLabel,
   FormGroup,
@@ -18,7 +16,6 @@ import { useEffect, useState } from "react";
 import { AlertS } from "../../helpers/AlertS";
 import { Toast } from "../../helpers/Toast";
 import { CalendarioService } from "../../services/calendarioService";
-import { CatalogosServices } from "../../services/catalogosServices";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
@@ -27,14 +24,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import ModalForm from "./componentes/ModalForm";
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 const CalendarCModal = ({
-  open,
   modo,
   handleClose,
   tipo,
   dt,
   handleDelete,
 }: {
-  open: boolean;
   modo: string;
   tipo: number;
   handleClose: Function;

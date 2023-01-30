@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { AuthRouter } from './AuthRouter';
 import { Eo404 } from '../views/components/Eo404';
 import Inicio from '../views/components/Inicio';

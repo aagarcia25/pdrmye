@@ -21,7 +21,6 @@ export const Divisas = () => {
     const [tipoOperacion, setTipoOperacion] = useState(1);
     const [data, setData] = useState({});
     const [divisas, setDivisas] = useState([]);
-    const [plantilla, setPlantilla] = useState("");
     const [slideropen, setslideropen] = useState(false);
     const user: RESPONSE = JSON.parse(String(getUser()));
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
