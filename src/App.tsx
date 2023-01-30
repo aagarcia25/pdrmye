@@ -133,8 +133,6 @@ function App() {
           }
         });
 
-
-
       }
       if (us.RESPONSE) {
         setRoles(us.RESPONSE.ROLES);
@@ -151,7 +149,7 @@ function App() {
         setlogin(true);
         setAcceso(true);
       } else {
-        mensaje('','Información', 'No tiene Roles Configurados para ingresar al Sistema.');
+        mensaje('','Información', us.STRMESSAGE +" Contactar Al Departamento Correspondiente");
       }
     });
   };
