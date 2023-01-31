@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Box,
   TextField,
   InputAdornment,
-  DialogActions,
   Button,
   Grid,
 } from "@mui/material";
@@ -18,20 +13,17 @@ import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { municipiosc } from "../../../../../share/loadMunicipios";
 import ModalForm from "../../../componentes/ModalForm";
 import { fmeses } from "../../../../../share/loadMeses";
 
 
 
 const InflacionMesModal = ({
-  open,
   modo,
   handleClose,
   tipo,
   dt,
 }: {
-  open: boolean;
   modo: string;
   tipo: number;
   handleClose: Function;

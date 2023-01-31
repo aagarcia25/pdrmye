@@ -8,8 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
-import { getUser, setToken } from "../../../services/localStorage";
+import { useState } from "react";
+import { getUser } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import PersonIcon from "@mui/icons-material/Person";
 import { DialogCambiarImagen } from "./DialogCambiarImagen";
@@ -21,15 +21,9 @@ import React from "react";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { UserServices } from "../../../services/UserServices";
 import Swal from "sweetalert2";
-import { useLocation } from "react-router";
 export const Perfil = () => {
   const [user, setUser] = useState<RESPONSE>(JSON.parse(String(getUser())));
-
-  //Abrir Dialog de imagen
-  const query = new URLSearchParams(useLocation().search);
-  const jwt = query.get("jwt");
   const [openDialog, setOpenDialog] = useState(false)
-  //CARD 1
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
   const [tokenValid, setTokenValid] = useState<boolean>();
@@ -57,7 +51,7 @@ export const Perfil = () => {
         UserServices.refreshToken().then((resAppLogin) => {
           if (resAppLogin.status === 200) {
             setTokenValid(true);
-            setToken(jwt);
+            // setToken(jwt);
             onClickChangePassword();
           }
           else {
@@ -119,32 +113,7 @@ export const Perfil = () => {
     }
   };
 
-  useEffect(() => {
-
-    UserServices.verify({}).then((res) => {
-      if (res.status === 200) {
-        setTokenValid(true)
-      } else if (res.status === 401) {
-        UserServices.refreshToken().then((resAppLogin) => {
-          if (resAppLogin.status === 200) {
-            setTokenValid(true);
-            setToken(jwt);
-          }
-          else {
-            setTokenValid(false);
-            Toast.fire({
-              icon: "error",
-              title: "Sesión Demasiado Antigua",
-            });
-          }
-        });
-
-      }
-
-    });
-
-
-  }, []);
+ 
 
 
 
@@ -154,13 +123,11 @@ export const Perfil = () => {
       <Grid container direction="row" justifyContent="flex-end" alignItems="center" paddingTop="2%" paddingBottom={1} >
         <BottomNavigation showLabels sx={{ width: 500, borderRadius: "10px", }} value={value} onChange={handleChange}>
           <BottomNavigationAction
-            //  sx={{ backgroundColor: "blue",}} 
             label="Información General"
             value="general"
             icon={<AccountBoxIcon />}
           />
           <BottomNavigationAction 
-            // sx={{ backgroundColor: "blue", }}
             label="Cambiar Contraseña"
             value="password"
             icon={<VpnKeyIcon />}
@@ -168,10 +135,8 @@ export const Perfil = () => {
         </BottomNavigation>
       </Grid>
       <Grid sx={{
-        //Principal
         width: "100%",
         height: "100%",
-        // backgroundColor: "#EEEEEE",
         justifyContent: "center",
         alignItems: "flex-start",
       }}
@@ -221,7 +186,6 @@ export const Perfil = () => {
 
                   </Box>
 
-                  {/* Informacion Basica */}
                   <Box boxShadow={3} sx={{
                     width: "90%",
                     height: "12%",
@@ -230,7 +194,6 @@ export const Perfil = () => {
                     alignItems: "center",
                     mt: "2rem",
                     borderRadius: "10px",
-                    // border: "1px solid black",
                     bgcolor: "#051c2c",
                   }}>
 

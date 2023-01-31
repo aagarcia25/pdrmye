@@ -119,9 +119,7 @@ const MunPoblacionProyeccionModal = ({
     });
   };
 
-  const handle = () => {
 
-  };
 
   useEffect(() => {
     setMun(municipiosc());

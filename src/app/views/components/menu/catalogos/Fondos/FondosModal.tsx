@@ -13,8 +13,6 @@ import {
   Select,
   FormLabel,
   Box,
-  Typography,
-  DialogActions,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -23,9 +21,7 @@ import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import Slider from "../../../Slider";
-import { porcentage } from "../../CustomToolbar";
 
 const FondosModal = ({
   modo,
@@ -210,7 +206,6 @@ const FondosModal = ({
         ORDEN: orden,
 
       };
-
       handleRequest(data);
     }
   };
@@ -225,11 +220,10 @@ const FondosModal = ({
       if (dt === "") {
         //console.log(dt);
       } else {
-
         setId(dt?.row?.id);
         setClave(dt?.row?.Clave);
         setDescripcion(dt?.row?.Descripcion);
-        setTipoFondo(dt?.row?.idtipo);
+        setTipoFondo(dt?.row?.Tipo);
         setTipoFondoLabel(dt?.row?.dtipo);
         setPorDis(dt?.row?.PorcentajeDistribucion);
         setArticulo(dt?.row?.Articulo);

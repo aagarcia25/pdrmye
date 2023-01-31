@@ -1,11 +1,9 @@
 import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
 import Navigator from "./Navigator";
 import Header from "./Header";
 import { ReactNode } from "react";
-
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { Grid } from "@mui/material";
 

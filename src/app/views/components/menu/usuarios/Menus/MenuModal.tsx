@@ -1,4 +1,4 @@
-import { TextField, DialogActions,  DialogContent, FormControl, InputLabel, MenuItem, Select, Grid,  Button, Box } from "@mui/material";
+import { TextField, DialogActions,   FormControl, InputLabel, MenuItem, Select, Grid,  Button, Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
@@ -8,13 +8,10 @@ import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
 
 const MenuModal = ({
-  open,
   tipo,
   handleClose,
   vrows
 }: {
-
-  open: boolean;
   tipo: number;
   handleClose: Function;
   vrows: any;
@@ -28,6 +25,7 @@ const MenuModal = ({
   const [Nivel, setNivel] = useState("");
   const [id, setId] = useState("");
   const [Orden, setOrden] = useState("");
+  const [cinterno, setCinterno] = useState("");
   const [values, setValues] = useState<any[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
 
@@ -52,14 +50,15 @@ const MenuModal = ({
         MENUPADRE: MenuPadre,
         PATH: Path,
         NIVEL: Nivel,
-        ORDEN: Orden
+        ORDEN: Orden,
+        CONTROLINTERNO:cinterno
+
       };
       handleRequest(data);
     }
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     AuthService.menusindex(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -104,11 +103,7 @@ const MenuModal = ({
       setNivel(vrows?.row?.Nivel)
       setOrden(vrows?.row?.Orden)
       setId(vrows?.row?.id)
-
-
-      //console.log(vrows)
-
-
+      setCinterno(vrows?.row?.ControlInterno);
 
     }
   }, [vrows]);
@@ -226,6 +221,20 @@ const MenuModal = ({
                 variant="standard"
                 onChange={(v) => setOrden(v.target.value)}
                 error={Orden === "" ? true : false}
+              />
+
+<TextField
+                required
+                margin="dense"
+                id="cinterno"
+                label="Control Interno"
+                value={cinterno}
+                type="text"
+                fullWidth
+                variant="standard"
+                onChange={(v) => setCinterno(v.target.value)}
+                error={cinterno === "" ? true : false}
+                disabled ={tipo !== 1 }
               />
             </Grid>
           </Grid>

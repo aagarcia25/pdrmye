@@ -1,5 +1,4 @@
-
-import { Box, FormControl } from '@mui/material';
+import {  FormControl } from '@mui/material';
 import Select from 'react-select';
 import SelectValues from '../../../interfaces/Select/SelectValues'
 
@@ -29,14 +28,12 @@ const SelectFrag = ({
       isClearable={true}
       isSearchable={true}
       backspaceRemovesValue={true}
-      //styles={styles}
       onChange={(v) => (v === null) ?
         onInputChange(String(disabled))
         :
         onInputChange(v.value)
       }
-      placeholder={(label != "") ? label : placeholder}
-      //  value={value}
+      placeholder={(label !== "") ? label : placeholder}
       styles={{
         menu: (base) => ({
           position: 'absolute',
