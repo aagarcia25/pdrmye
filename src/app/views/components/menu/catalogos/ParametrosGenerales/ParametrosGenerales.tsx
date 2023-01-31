@@ -7,12 +7,9 @@ import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { ParametroServices } from "../../../../../services/ParametroServices";
-import MUIXDataGrid from "../../../MUIXDataGrid";
 import { ParametrosGeneralesModal } from "./ParametrosGeneralesModal";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import { Grid, Typography } from "@mui/material";
-
 import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";

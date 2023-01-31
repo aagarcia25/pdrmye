@@ -262,7 +262,7 @@ const RecepcionRecursos = () => {
     let data = {
       TIPO: 1,
       P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_IDMUNICIPIO: user.MUNICIPIO[0]?.id ? user.MUNICIPIO[0]?.id : idMunicipio === "false" ? "" : idMunicipio,
+      P_IDMUNICIPIO:  idMunicipio,
       P_IDTIPO: idtipo === "false" ? "" : idtipo,
       DEP:user.MUNICIPIO[0]?.id ?"MUN":""
     };
@@ -287,7 +287,7 @@ const RecepcionRecursos = () => {
     loadFilter(12);
     loadFilter(5);
     loadFilter(17);
-    handleClick();
+   // handleClick();
     /*  permisos.map((item: PERMISO) => {
         if (
           String(item.ControlInterno) === "PARTMUN"

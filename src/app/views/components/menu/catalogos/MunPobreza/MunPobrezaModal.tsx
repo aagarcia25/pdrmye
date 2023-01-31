@@ -12,17 +12,14 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { municipiosc } from "../../../../../share/loadMunicipios";
 import ModalForm from "../../../componentes/ModalForm";
 
 
 const MunPobrezaModal = ({
-  open,
   handleClose,
   tipo,
   dt
 }: {
-  open: boolean;
   tipo: number;
   handleClose: Function,
   dt: any
@@ -35,8 +32,6 @@ const MunPobrezaModal = ({
   const [carenciaProm, setCarenciaProm] = useState<number>();
   const [IdMunicipio, setIdMunicipio] = useState<string>();
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [municipios, setMunicipios] = useState<SelectValues[]>([]);
-  const [mun, setMun] = useState<string>();
 
 
 
@@ -82,9 +77,6 @@ const MunPobrezaModal = ({
   };
 
 
-  const handleFilterChange = (event: SelectValues) => {
-    setIdMunicipio(event.value);
-  };
 
 
 
@@ -127,10 +119,8 @@ const MunPobrezaModal = ({
 
 
   useEffect(() => {
-    setMunicipios(municipiosc());
 
     if (dt === '') {
-      //console.log(dt)
 
     } else {
       setId(dt?.row?.id)
@@ -138,12 +128,6 @@ const MunPobrezaModal = ({
       setPoblacion(dt?.row?.Total)
       setIdMunicipio(dt?.row?.idmunicipio)
       setCarenciaProm(dt?.row?.CarenciaProm)
-      setMun(dt?.row?.Nombre)
-
-
-
-
-
     }
 
   }, [dt]);

@@ -4,7 +4,6 @@ import Grid from "@mui/material/Grid";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
@@ -24,7 +23,7 @@ import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { env_var } from "../../environments/env";
-import { Box, Button, Hidden } from '@mui/material';
+import { Button, Hidden } from '@mui/material';
 
 interface HeaderProps {
   onDrawerToggle: () => void;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { getPermisos, getUser, } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -11,7 +10,6 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import MunFacturacionModal from "./MunFacturacionModal";
 import { Moneda } from "../../CustomToolbar";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
@@ -42,8 +40,6 @@ export const MunFacturacion = () => {
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
 
-  //funciones
-  const handleFilterMes = () => { };
 
   const columns: GridColDef[] = [
     {

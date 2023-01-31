@@ -57,13 +57,20 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ArticleIcon from '@mui/icons-material/Article';
 import SpeisAdmin from "../DAF/SpeisAdmin";
 
+
+import LoopIcon from '@mui/icons-material/Loop';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MoneyIcon from '@mui/icons-material/Money';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import { ModalCheque } from "../componentes/ModalCheque";
+
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
   //MODAL
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openModalDescuento, setOpenModalDescuento] = useState<boolean>(false);
-  const [openModalAnticipo, setOpenModalAnticipo] = useState<boolean>(false);
   const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
   const [openModalVerSpei, setOpenModalVerSpei] = useState<boolean>(false);
 
@@ -77,6 +84,8 @@ const Participaciones = () => {
 
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
+  const [openCheque, setOpenCheque] = useState(false);
+  const [tipo, setTipo] = useState(0);
   //Constantes de los filtros
   const [numerooperacion, setnumerooperacion] = useState(0);
   const [idtipoFondo, setIdTipoFondo] = useState("");
@@ -116,6 +125,17 @@ const Participaciones = () => {
   const [DAF_SPEI,SETDAF_SPEI]= useState<boolean>(false);
 
 
+  const handleclose = (data: any) => {
+    setOpenCheque(false);
+  };
+
+  const handlecheque = (data: any ,tipo: number) => {
+    setTipo(tipo);
+    setOpenCheque(true)
+    setVrows(data)
+  };
+
+
   const downloadplantilla = () => {
     let data = {
       NUMOPERACION: "PLANTILLA CARGA ANTICIPO PARTICIPACIONES",
@@ -129,24 +149,81 @@ const Participaciones = () => {
   const handleDescuento = (data: any) => {
     setVrows(data);
     setOpenModalDescuento(true);
-
   };
 
 
   const handleDetalle = (data: any) => {
     setVrows(data);
     setOpenModalDetalle(true);
-
   };
   const handleVerSpei = (data: any) => {
     setVrows(data);
     setOpenModalVerSpei(true);
-
   };
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
     {
+      field: "Operaciones",
+      disableExport: true,
+      headerName: "Operaciones",
+      description: "Operaciones",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+           { String(v.row.NumParticipacion) === 'null'  ?
+             <Tooltip title={"Asignar N° de Participación"}>
+             <IconButton value="check" onClick={() => handlecheque(v,2)}>
+             <LoopIcon/>
+             </IconButton>
+             </Tooltip>
+            :""
+           }
+          
+          { String(v.row.NumSolEgreso) === 'null'  && v.row.estatusCI ==="DAMOP_INI"  ?
+            <Tooltip title={"Asignar N° de Solicitud de Egreso"}>
+              <IconButton value="check" onClick={() => handlecheque(v,3)}>
+                <MenuBookIcon/>
+              </IconButton>
+            </Tooltip>
+           :"" 
+          }
+            
+            { String(v.row.NumEgreso) === 'null'  && v.row.estatusCI ==="DAMOP_TE"?
+                        <Tooltip title={"Asignar N° de Egreso"}>
+                          <IconButton value="check" onClick={() => handlecheque(v,4)}>
+                            <MoneyIcon/>
+                          </IconButton>
+                        </Tooltip>
+                      :""
+                     }
+            
+            { String(v.row.NumOrdenPago) === 'null' ?
+                        <Tooltip title={"Asignar N° de Solicitud de Pago"}>
+                          <IconButton value="check" onClick={() => handlecheque(v,5)}>
+                            <MonetizationOnIcon/>
+                          </IconButton>
+                        </Tooltip>
+             :""
+            }
+            
+            { String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI ==="DAMOP_TE" ?
+                        <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
+                          <IconButton value="check" onClick={() => handlecheque(v,6)}>
+                            <LocalAtmIcon/>
+                          </IconButton>
+                        </Tooltip>
+                    :""
+            }    
+                        
+                      </Box>
+                    );
+                  },
+                },
+            
+                {
       field: "Detalle",
       disableExport: true,
       headerName: "Ver Detalle",
@@ -194,7 +271,8 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? (
+              {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
+            { String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? (
               <Tooltip title="Agregar Descuentos">
                 <IconButton
                   onClick={() => handleDescuento(v)}>
@@ -426,7 +504,6 @@ const Participaciones = () => {
 
   const handleClose = () => {
     setOpenModal(false);
-    setOpenModalAnticipo(false);
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
     handleClick();
@@ -444,21 +521,15 @@ const Participaciones = () => {
   const handleFilterChange2 = (v: string) => {
     setIdFondo(v);
     setIntOperaciones(true); setMunTieneFide(false);
-    // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false);  }
   };
 
   const handleFilterChange3 = (v: string) => {
     setidMunicipio(v);
     setIntOperaciones(true); setMunTieneFide(false)
-    // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false) }
-
-
-
   };
   const handleFilterChange4 = (v: string) => {
     setIdTipoSolicitud(v);
     setIntOperaciones(true); setMunTieneFide(false)
-    // if (v.length < 6) { setIntOperaciones(true); setMunTieneFide (false) }
   };
 
   const handleFilterChange5 = (v: string) => {
@@ -561,9 +632,7 @@ const Participaciones = () => {
   };
 
   
-  const openmodalAnticipo = () => {
-    setOpenModalAnticipo(true);
-  };
+
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     setslideropen(true);
@@ -1318,11 +1387,6 @@ const Participaciones = () => {
     });
   };
 
-  // useEffect(() => {
-  // }, [
-  //    selectionModel
-  // ]);
-
 
   useEffect(() => {
     loadFilter(12);
@@ -1330,7 +1394,7 @@ const Participaciones = () => {
     loadFilter(17);
     loadFilter(25);
     loadFilter(24);
-    handleClick();
+   // handleClick();
     downloadplantilla();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
@@ -1398,7 +1462,7 @@ const Participaciones = () => {
           justifyContent="center"
           alignItems="center" >
 
-          <Grid item xs={6} sm={4} md={2} lg={2}>
+          {/* <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
               value={idestatus}
@@ -1408,9 +1472,9 @@ const Participaciones = () => {
               label={""}
               disabled={false}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={6} sm={4} md={2} lg={2}>
+          {/* <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
             <SelectFrag
               value={idtipoFondo}
@@ -1420,7 +1484,7 @@ const Participaciones = () => {
               label={""}
               disabled={false}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
             <SelectFrag
@@ -1488,11 +1552,11 @@ const Participaciones = () => {
             </Tooltip>
 
 
-            <Tooltip title={"Generar Solicitud"}>
+            {/* <Tooltip title={"Generar Solicitud"}>
               <ToggleButton disabled={idtipoSolicitud.length < 6 || intOperaciones} value="check" onClick={() => SolicitudOrdenPago()}>
                 <SettingsSuggestIcon color={idtipoSolicitud.length < 6 || intOperaciones ? "inherit" : "primary"} />
               </ToggleButton>
-            </Tooltip>
+            </Tooltip> */}
 
             <Tooltip title={"Asignar Observación"}>
               <ToggleButton value="check" onClick={() => openmodalc(2)}>
@@ -1792,8 +1856,8 @@ const Participaciones = () => {
       </Grid>
       {openModalVerSpei?
       
-    <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows}/>
-    :""}
+    <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows}/>:""}
+    {openCheque ? <ModalCheque tipo={tipo}   handleClose={handleclose}  vrows={vrows} />: ""}
     </div>
   );
 };

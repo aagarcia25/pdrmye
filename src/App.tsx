@@ -29,17 +29,14 @@ import Validacion from "./app/views/components/Validacion";
 import { useIdleTimer } from "react-idle-timer";
 import Slider from "./app/views/components/Slider";
 import { env_var } from '../src/app/environments/env';
-import { useNavigate } from "react-router-dom";
 import { ParametroServices } from "./app/services/ParametroServices";
 import jwt_decode from "jwt-decode";
 import { UserLogin } from "./app/interfaces/user/User";
-import { Toast } from "./app/helpers/Toast";
 
 
 function App() {
-  const navigate = useNavigate();
   //cambiar a 5 minutos
-  const timeout = 60000;
+  const timeout = 300000;
   const query = new URLSearchParams(useLocation().search);
   const jwt = query.get("jwt");
   const refjwt = query.get("rf");
@@ -86,11 +83,11 @@ function App() {
     }
   };
 
-  const mensaje = (title: string, text: string) => {
+  const mensaje = (icon: string, title: string, text: string) => {
     setlogin(false);
     setAcceso(false);
     Swal.fire({
-      icon: 'warning',
+      icon: icon === "info"? "info": "warning" ,
       title: title,
       text: text,
       showDenyButton: false,
@@ -112,9 +109,28 @@ function App() {
     AuthService.adminUser(data).then((res2) => {
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
-      console.log(res2.RESPONSE[0])
+      // console.log(res2.RESPONSE[0])
       // if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
       // if(us.RESPONSE.PERFILES.length !==0){
+      if (String(us.RESPONSE) === "Primer Inicio") {
+        Swal.fire({
+          icon: "info",
+          title: 'Bienvenid@',
+          text: 'Su cuenta Se Confirmo Correctamente; Contacte al Departamento Corresponiente Para Asignar Rol y Permisos',
+          showDenyButton: false,
+          showCancelButton: false,
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            var ventana = window.self;
+            ventana.location.reload();
+            // location.reload();
+            // navigate("/Notification");
+
+          }
+        });
+
+      }
       if (us.RESPONSE) {
         setRoles(us.RESPONSE.ROLES);
         setPermisos(us.RESPONSE.PERMISOS);
@@ -129,8 +145,11 @@ function App() {
         setOpenSlider(false);
         setlogin(true);
         setAcceso(true);
-      } else {
-        mensaje('Información', 'No tiene Roles Configurados para ingresar al Sistema.');
+      } else if(us.SUCCESS) {
+        mensaje('','Información', us.STRMESSAGE +" Contactar Al Departamento Correspondiente");
+      }
+      else if(us.SUCCESS ==false && us.RESPONSE===""){
+        verificatoken();
       }
     });
   };
@@ -141,39 +160,13 @@ function App() {
     UserServices.verify({}).then((res) => {
 
       if (res?.status === 200) {
-        console.log(res.data.data)
+        // console.log(res.data.data)
         setUserName(res.data.data.NombreUsuario)
         buscaUsuario(res.data.data.IdUsuario);
       } else if (res.status === 401) {
         setOpenSlider(false);
         setlogin(false);
         setAcceso(false);
-        // RfToken();
-
-      }
-    });
-  };
-  const RfToken = () => {
-    UserServices.refreshToken().then((resAppRfToken) => {
-      console.log(resAppRfToken)
-      if (resAppRfToken?.status === 200) {
-        setTokenValid(true);
-        setToken(resAppRfToken?.data.token);
-      } else {
-        setTokenValid(false);
-        Swal.fire({
-          title: "Sesión Demasiado Antigua",
-          showDenyButton: false,
-          showCancelButton: false,
-          confirmButtonText: "Aceptar",
-        }).then((result) => {
-
-          if (result.isConfirmed) {
-            localStorage.clear();
-            var ventana = window.self;
-            ventana.location.replace(env_var.BASE_URL_LOGIN);
-          }
-        });
 
       }
     });
@@ -187,11 +180,11 @@ function App() {
     };
 
     UserServices.login(data).then((res) => {
-      
+
       if (res.status === 200) {
         setToken(res.data.token);
         setRfToken(res.data.refreshToken);
-        
+
         setBloqueoStatus(false);
       } else if (res.status === 401) {
         Swal.fire({
@@ -224,10 +217,15 @@ function App() {
 
 
   useLayoutEffect(() => {
-    console.log(getToken() +"  --  "+getRfToken())
-    if ( getToken()===null || getRfToken()===null) {
+
+    if (!jwt === false && getToken() !== null && getRfToken() !== null) {
+      localStorage.clear();
+
+    }
+
+    if (getToken() === null || getRfToken() === null) {
       const decoded: UserLogin = jwt_decode(String(jwt));
-      console.log((decoded.exp - (Date.now() / 1000)) / 60)
+      // console.log((decoded.exp - (Date.now() / 1000)) / 60)
       if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
         setToken(jwt);
         setRfToken(refjwt);

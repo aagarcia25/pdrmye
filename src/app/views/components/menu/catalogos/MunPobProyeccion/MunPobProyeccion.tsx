@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Grid } from '@mui/material'
+import {  Grid } from '@mui/material'
 import { GridColDef, GridSelectionModel } from '@mui/x-data-grid'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { messages } from '../../../../styles'
@@ -8,11 +8,10 @@ import { Toast } from '../../../../../helpers/Toast'
 import { AlertS } from "../../../../../helpers/AlertS";
 import Slider from "../../../Slider";
 import MunPoblacionProyeccionModal from '../MunPobProyeccion/MunPoblacionProyeccionModal';
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { MENU, PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
-import { getMenus, getPermisos, getUser } from '../../../../../services/localStorage';
+import {  PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import {  getPermisos, getUser } from '../../../../../services/localStorage';
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import MUIXDataGridMun from '../../../MUIXDataGridMun';

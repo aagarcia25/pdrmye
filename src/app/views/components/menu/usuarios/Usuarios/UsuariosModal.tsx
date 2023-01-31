@@ -6,6 +6,7 @@ import {
   Typography,
   Box,
   Button,
+  Tab,
 } from "@mui/material";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
@@ -25,17 +26,20 @@ import { SolicitudUsrTiDetalle } from "../../../../../interfaces/user/solicitude
 import jwt_decode from "jwt-decode";
 import { UserLogin } from "../../../../../interfaces/user/User";
 import { env_var } from "../../../../../environments/env";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import Slider from "../../../Slider";
 const UsuariosModal = ({
   handleClose,
   tipo,
   dt,
 }: {
-  tipo: number;
+  tipo: string;
   handleClose: Function;
   dt: any;
 }) => {
   const query = new URLSearchParams(useLocation().search);
-  const [id, setId] = useState<string>();
+  const [idRegistro, setIdRegistro] = useState<string>();
+  const [openSlider, setOpenSlider] = useState(true);
   const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
   const [idDepartamento, setIdDepartamento] = useState<string>("");
   const [nameDep, setNameDep] = useState<string>("");
@@ -67,16 +71,28 @@ const UsuariosModal = ({
   const [celError, setCelError] = useState("");
   const [extError, setExtError] = useState("");
   const [ext, setExt] = useState<string>("");
+  const [value, setValue] = useState('1');
+
+  const AccionesSol = [
+    { accion: 'ALTA', TipoSol: 'ALTA', Mensaje: '¡Envio de Solicitud de Alta Exitoso!' },
+    { accion: 'BAJA', TipoSol: 'BAJA', Mensaje: '¡Envio de Solicitud de Baja Exitoso!' },
+    { accion: 'MODIFICACION', TipoSol: 'MODIFICACION', Mensaje: '¡Envio de Solicitud de Modificación Exitoso!' },
+    { accion: 'VINCULACION', TipoSol: 'VINCULACION', Mensaje: '¡Envio de Solicitud de Vinculación Exitoso!' }
+  ]
+
 
   const loadFilter = (tipo: number) => {
     let data = { NUMOPERACION: tipo };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (tipo === 7) {
         setDepartamentos(res.RESPONSE);
+        setOpenSlider(false);
       } else if (tipo === 9) {
         setPerfiles(res.RESPONSE);
+        setOpenSlider(false);
       } else if (tipo === 26) {
         setUresp(res.RESPONSE);
+        setOpenSlider(false);
       }
     });
   };
@@ -164,7 +180,7 @@ const UsuariosModal = ({
     } else {
       Swal.fire({
         icon: "info",
-        title: "Estas Seguro de Enviar ?",
+        title: "Solicitud De " + String(tipo === "ALTA" ? "Nuevo Usuario" : "Modificación") + ", Enviar?",
         html:
           "Nombre: " +
           Nombre +
@@ -216,21 +232,64 @@ const UsuariosModal = ({
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-          let data = {
-            Nombre: Nombre,
-            ApellidoPaterno: ApellidoPaterno,
-            ApellidoMaterno: ApellidoMaterno,
-            NombreUsuario: NombreUsuario,
-            CorreoElectronico: CorreoElectronico,
-            IdUsuarioModificador: user.id,
-            Curp: curp,
-            Rfc: rfc,
-            Telefono: telefono,
-            Ext: ext,
-            Celular: celular,
-            IdTipoUsuario: "",
+
+          handleRequest();
+        } else if (result.isDenied) {
+          Swal.fire("Solicitud no Realizada", "", "info");
+        }
+      });
+    }
+  };
+
+  const handleEditarConfi = () => {
+    if (idDepartamento === "" || idPerfil === "" || idDepartamento === undefined || idPerfil === undefined) {
+      AlertS.fire({
+        title: "Verificar los campos!, Departamento y Perfil Son Obligatorios",
+        icon: "warning",
+      });
+    } else {
+      setOpenSlider(true);
+
+      Swal.fire({
+        icon: "question",
+        title: "Modificar Registros?",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          let dat = {
+            NUMOPERACION: 9,
+            CHUSER: user.id,
+            CHID: idRegistro,
+            IDDEPARTAMENTO: idDepartamento,
+            IDPERFIL: idPerfil,
+            IDURESP: idUresp === undefined ? "" : idUresp
           };
-          handleRequest(data);
+
+          AuthService.adminUser(dat).then((res) => {
+            if (res.SUCCESS) {
+              setOpenSlider(false);
+         
+
+              AlertS.fire({
+                title: res.RESPONSE,
+                icon: "success",
+              }).then((result) => {
+                if (result.isConfirmed) {
+
+                  handleClose();
+
+                }
+              });
+
+            }
+            else {
+              setOpenSlider(false);
+            }
+          });
         } else if (result.isDenied) {
           Swal.fire("Solicitud no Realizada", "", "info");
         }
@@ -241,7 +300,6 @@ const UsuariosModal = ({
 
   const RfToken = () => {
     UserServices.refreshToken().then((resAppRfToken) => {
-      console.log(resAppRfToken)
       if (resAppRfToken?.status === 200) {
         setTokenValid(true);
         setToken(resAppRfToken?.data.token);
@@ -260,130 +318,118 @@ const UsuariosModal = ({
             ventana.location.replace(env_var.BASE_URL_LOGIN);
           }
         });
-  
+
       }
     });
   };
 
-  const handleRequest = (data: any) => {
-    if (tipo === 5) {
-      let dat = {
-        NUMOPERACION: tipo,
-        CHUSER: user.id,
-        CHID: id,
-        PUESTO: puesto,
-        IDDEPARTAMENTO: idDepartamento,
-        IDPERFIL: "AppID",
-      };
+  const handleRequest = () => {
+    // if (tipo === "BAJA") {
+    setOpenSlider(true)
+    const decoded: UserLogin = jwt_decode(String(getToken()));
+    if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
 
-      AuthService.adminUser(dat).then((res) => {
-        if (res.SUCCESS) {
-          Toast.fire({
-            icon: "success",
-            title: "¡Registro exitoso!",
-          });
+      UserServices.verify({}).then((resAppLogin) => {
+
+        if (resAppLogin.status === 200) {
+          let dataAppId = {
+            NUMOPERACION: 5,
+            NOMBRE: "AppID",
+          };
+
+          ParametroServices.ParametroGeneralesIndex(dataAppId).then(
+            (resAppId) => {
+
+              let datSol = {
+                Nombre: Nombre,
+                APaterno: ApellidoPaterno,
+                AMaterno: ApellidoMaterno,
+                NombreUsuario: NombreUsuario,
+                Email: CorreoElectronico,
+                Curp: curp,
+                RFC: rfc,
+                Celular: celular,
+                Telefono: telefono,
+                Extencion: ext ? ext : 0,
+                TipoSolicitud: AccionesSol.find(({ accion }) => accion === tipo)?.TipoSol,
+                DatosAdicionales: "",
+                IdApp: resAppId?.RESPONSE?.Valor,
+                CreadoPor: user.id,
+              };
+
+              UserServices.createsolicitud(datSol).then((resSol) => {
+
+
+                if (resSol.data.data[0][0].Respuesta === "201" && tipo === "ALTA") {
+
+                  let dat = {
+                    NUMOPERACION: 3,
+                    CHUSER: user.id,
+                    PUESTO: puesto,
+                    IDDEPARTAMENTO: idDepartamento,
+                    IDPERFIL: idPerfil,
+                    IDSOLICITUD: resSol.data.data[0][0].IdSolicitud,
+                    IDURESP: idUresp,
+                    USUARIOSIREGOB: usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob,
+                    USUARIO: NombreUsuario,
+                  };
+
+                  AuthService.adminUser(dat).then((res) => {
+                    if (res.SUCCESS) {
+                      setOpenSlider(false);
+                      Toast.fire({
+                        icon: "success",
+                        title: AccionesSol.find(({ accion }) => accion === tipo)?.Mensaje,
+                      });
+                      handleClose();
+
+                    }
+                  });
+
+                }
+
+                else if (resSol.data.data[0][0].Respuesta === "201" && tipo !== "ALTA") {
+                  setOpenSlider(false);
+                  Toast.fire({
+                    icon: "success",
+                    title: AccionesSol.find(({ accion }) => accion === tipo)?.Mensaje,
+                  });
+                  handleClose();
+
+                }
+
+                else if (resSol.data.data[0][0].Respuesta === "403") {
+                  setOpenSlider(false);
+                  Toast.fire({
+                    icon: "warning",
+                    title: resSol.data.data[0][0].Mensaje,
+                  });
+                }
+              });
+            }
+          );
         } else {
-          Toast.fire({
-            icon: "error",
-            title: "Error ",
-          });
+          // setBloqueoStatus(true);
+          // RfToken();
         }
       });
-    } else if (tipo === 3) {
-
-      const decoded: UserLogin = jwt_decode(String(getToken()));
-      console.log(decoded);
-      if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
-
-        UserServices.verify({}).then((resAppLogin) => {
-
-          if (resAppLogin.status === 200) {
-            let dataAppId = {
-              NUMOPERACION: 5,
-              NOMBRE: "AppID",
-            };
-
-            ParametroServices.ParametroGeneralesIndex(dataAppId).then(
-              (resAppId) => {
-
-                let datSol = {
-                  Nombre: Nombre,
-                  APaterno: ApellidoPaterno,
-                  AMaterno: ApellidoMaterno,
-                  NombreUsuario: NombreUsuario,
-                  Email: CorreoElectronico,
-                  Curp: curp,
-                  RFC: rfc,
-                  Celular: celular,
-                  Telefono: telefono,
-                  Extencion: ext,
-                  TipoSolicitud: "Alta",
-                  DatosAdicionales: "Departamento: " + nameDep + " Perfil: " + namePerf,
-                  IdApp: resAppId?.RESPONSE?.Valor,
-                  CreadoPor: user.id,
-                };
-
-                UserServices.createsolicitud(datSol).then((resSol) => {
-                  console.log("respuesta de servicio de login");
-                  console.log(resSol);
-                  console.log(data.data);
-
-                  if (resSol.data.data[0][0].Respuesta === "201") {
-                    let url = "IdUsuario=" + user.id + "&IdSolicitud=" + resSol.data.data[0][0].IdSolicitud;
-                    UserServices.detalleSol(url).then((resuser) => {
-                      console.log("respuesta de servicio de detalleSol");
-                      console.log(resuser);
-                      console.log(resuser.data);
-                      const resuserTi: SolicitudUsrTiDetalle = resuser.data;
-                      let dat = {
-                        NUMOPERACION: tipo,
-                        CHUSER: user.id,
-                        PUESTO: puesto,
-                        IDDEPARTAMENTO: idDepartamento,
-                        IDPERFIL: idPerfil,
-                        IDSOLICITUD: resuserTi.Id,
-                        IDURESP: idUresp,
-                        USUARIOSIREGOB: usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob,
-                        USUARIO: resuserTi.NombreUsuario
-                      };
-
-                      AuthService.adminUser(dat).then((res) => {
-                        if (res.SUCCESS) {
-                          Toast.fire({
-                            icon: "success",
-                            title: "¡Registro exitoso!",
-                          });
-                          handleClose("Registro Exitoso");
-                        }
-                      });
-                    });
-                  } else {
-                    //alerta
-                  }
-                });
-              }
-            );
-          } else {
-            RfToken();
-          }
-        });
-
-      }
 
     }
   };
 
   useEffect(() => {
+
     UserServices.verify({}).then((resAppLogin) => {
+
       resAppLogin.status === 200 ? setTokenValid(true) : setTokenValid(false);
-      if (resAppLogin.status === 401){
+      if (resAppLogin.status === 401) {
         RfToken();
       }
     });
 
     if (dt === "") {
     } else {
-      setId(dt?.id);
+      setIdRegistro(dt?.id);
       setNombre(dt?.Nombre);
       setApellidoPaterno(dt?.ApellidoPaterno);
       setApellidoMaterno(dt?.ApellidoMaterno);
@@ -395,6 +441,16 @@ const UsuariosModal = ({
       setRfc(dt?.Rfc);
       setCurp(dt?.Curp);
       setTelefono(dt?.Telefono);
+      setCelular(dt?.Celular);
+      setExt(dt?.Ext !== 0 ? dt?.Ext : "");
+      if (dt?.Telefono) {
+        setTelValid(true);
+      }
+      if (dt?.Celular) {
+        setCelValid(true);
+      }
+      setOpenSlider(false);
+
     }
 
     loadFilter(7);
@@ -402,12 +458,19 @@ const UsuariosModal = ({
     loadFilter(26);
   }, [dt]);
 
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    if (tipo !== "ALTA") {
+      setValue(newValue);
+    }
+  };
+
   return (
     <div>
       <ModalForm
-        title={tipo === 3 ? "Nuevo Registro" : "Editar Registro"}
+        title={tipo === "ALTA" ? "Nuevo Registro" : "Editar Registro"}
         handleClose={handleClose}
       >
+        <Slider open={openSlider}/>
         <Grid
           container
           spacing={1}
@@ -417,271 +480,377 @@ const UsuariosModal = ({
             flexDirection: "row",
           }}
         >
-          <Grid item xs={11} sm={11} md={11} lg={11}>
-            <Box
-              display="flex"
-              flexWrap="wrap"
-              boxShadow={2}
-              sx={{ padding: "2%" }}
-            >
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={6}
-                lg={6}
-                sx={{ paddingRight: "2%", paddingLeft: "2%" }}
-              >
-                <TextField
-                  required
-                  margin="dense"
-                  id="nombre"
-                  label="Nombre"
-                  value={Nombre}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setNombre(v.target.value)}
-                  error={Nombre === null ? true : false}
-                  InputLabelProps={{ shrink: true }}
-                  inputProps={{
-                    maxLength: 20,
-                  }}
-                />
+          <TabContext value={value}>
+            <Grid container sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList onChange={handleChange} aria-label="lab API tabs example">
+                <Tab label="Información Usuario" value="1" />
+                {tipo !== "ALTA" ? <Tab label="Configuración Usuario" value="2" /> : ""}
+              </TabList>
+            </Grid>
+            <TabPanel value="1">
+              <Grid item xs={11} sm={11} md={11} lg={11}>
+                <Box
+                  display="flex"
+                  flexWrap="wrap"
+                  boxShadow={2}
+                  sx={{ padding: "2%" }}
+                >
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    lg={6}
+                    sx={{ paddingRight: "2%", paddingLeft: "2%" }}
+                  >
+                    <TextField
+                      required
+                      margin="dense"
+                      id="nombre"
+                      label="Nombre"
+                      value={Nombre}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      onChange={(v) => setNombre(v.target.value)}
+                      error={Nombre === null ? true : false}
+                      InputLabelProps={{ shrink: true }}
+                      inputProps={{
+                        maxLength: 20,
+                      }}
+                    />
 
-                <TextField
-                  required
-                  margin="dense"
-                  id="ApellidoPaterno"
-                  label="Apellido Paterno"
-                  value={ApellidoPaterno}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setApellidoPaterno(v.target.value)}
-                  error={ApellidoPaterno === null ? true : false}
-                  InputLabelProps={{ shrink: true }}
-                  inputProps={{
-                    maxLength: 20,
-                  }}
-                />
+                    <TextField
+                      required
+                      margin="dense"
+                      id="ApellidoPaterno"
+                      label="Apellido Paterno"
+                      value={ApellidoPaterno}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      onChange={(v) => setApellidoPaterno(v.target.value)}
+                      error={ApellidoPaterno === null ? true : false}
+                      InputLabelProps={{ shrink: true }}
+                      inputProps={{
+                        maxLength: 20,
+                      }}
+                    />
 
-                <TextField
-                  required
-                  margin="dense"
-                  id="ApellidoMaterno"
-                  label="Apellido Materno"
-                  value={ApellidoMaterno}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setApellidoMaterno(v.target.value)}
-                  error={ApellidoMaterno === null ? true : false}
-                  InputLabelProps={{ shrink: true }}
-                  inputProps={{
-                    maxLength: 20,
-                  }}
-                />
+                    <TextField
+                      required
+                      margin="dense"
+                      id="ApellidoMaterno"
+                      label="Apellido Materno"
+                      value={ApellidoMaterno}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      onChange={(v) => setApellidoMaterno(v.target.value)}
+                      error={ApellidoMaterno === null ? true : false}
+                      InputLabelProps={{ shrink: true }}
+                      inputProps={{
+                        maxLength: 20,
+                      }}
+                    />
 
-                <TextField
-                  required
-                  margin="dense"
-                  id="NombreUsuario"
-                  label="Nombre Usuario"
-                  value={NombreUsuario}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setNombreUsuario(v.target.value)}
-                  error={NombreUsuario === null ? true : false}
-                  InputLabelProps={{ shrink: true }}
-                  inputProps={{
-                    maxLength: 30,
-                  }}
-                />
+                    <TextField
+                      required
+                      disabled={tipo !== "ALTA"}
+                      margin="dense"
+                      id="NombreUsuario"
+                      label="Nombre Usuario"
+                      value={NombreUsuario}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      onChange={(v) => setNombreUsuario(v.target.value)}
+                      error={NombreUsuario === null ? true : false}
+                      InputLabelProps={{ shrink: true }}
+                      inputProps={{
+                        maxLength: 30,
+                      }}
+                    />
 
-                <TextField
-                  required
-                  margin="dense"
-                  id="CorreoElectronico"
-                  label="Correo Electronico"
-                  fullWidth
-                  value={CorreoElectronico}
-                  variant="standard"
-                  onChange={(e) => Validator(e.target.value, "email")}
-                  error={emailValid === false || CorreoElectronico == null}
-                  InputLabelProps={{ shrink: true }}
-                  inputProps={{
-                    maxLength: 100,
-                  }}
-                />
-                <Typography variant="body2"> {emailError} </Typography>
+                    <TextField
+                      disabled={tipo !== "ALTA"}
+                      required
+                      margin="dense"
+                      id="CorreoElectronico"
+                      label="Correo Electronico"
+                      fullWidth
+                      value={CorreoElectronico}
+                      variant="standard"
+                      onChange={(e) => Validator(e.target.value, "email")}
+                      error={emailValid === false || CorreoElectronico == null}
+                      InputLabelProps={{ shrink: true }}
+                      inputProps={{
+                        maxLength: 100,
+                      }}
+                    />
+                    <Typography variant="body2"> {emailError} </Typography>
 
-                <TextField
-                  required
-                  margin="dense"
-                  id="Puesto"
-                  label="Puesto"
-                  value={puesto}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setPuesto(v.target.value)}
-                  error={puesto === null ? true : false}
-                  InputLabelProps={{ shrink: true }}
-                  inputProps={{
-                    maxLength: 200,
-                  }}
-                />
-                <TextField
-                  required
-                  margin="dense"
-                  id="RFC"
-                  label="RFC"
-                  value={rfc}
-                  type="text"
-                  fullWidth
-                  inputProps={{ maxLength: 13 }}
-                  variant="standard"
-                  onChange={(v) => setRfc(v.target.value.toUpperCase())}
-                  error={rfc === null ? true : false}
-                  InputLabelProps={{ shrink: true }}
-                />
+                    <TextField
+                      required
+                      margin="dense"
+                      id="Puesto"
+                      label="Puesto"
+                      value={puesto}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      onChange={(v) => setPuesto(v.target.value)}
+                      error={puesto === null ? true : false}
+                      InputLabelProps={{ shrink: true }}
+                      inputProps={{
+                        maxLength: 200,
+                      }}
+                    />
+                    <TextField
+                      required
+                      margin="dense"
+                      id="RFC"
+                      label="RFC"
+                      value={rfc}
+                      type="text"
+                      fullWidth
+                      inputProps={{ maxLength: 13 }}
+                      variant="standard"
+                      onChange={(v) => setRfc(v.target.value.toUpperCase())}
+                      error={rfc === null ? true : false}
+                      InputLabelProps={{ shrink: true }}
+                    />
 
-                <TextField
-                  margin="dense"
-                  id="usuariosiregob"
-                  label="Usuario SIREGOB"
-                  value={usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setusuariosiregob(v.target.value)}
-                  // error={usuariosiregob === null ? true : false}
-                  InputLabelProps={{ shrink: true }}
-                  inputProps={{
-                    maxLength: 20,
-                  }}
-                ></TextField>
+                    <TextField
+                      margin="dense"
+                      id="usuariosiregob"
+                      label="Usuario SIREGOB"
+                      value={usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      onChange={(v) => setusuariosiregob(v.target.value)}
+                      // error={usuariosiregob === null ? true : false}
+                      InputLabelProps={{ shrink: true }}
+                      inputProps={{
+                        maxLength: 20,
+                      }}
+                    ></TextField>
+                  </Grid>
+
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    lg={6}
+                    sx={{ paddingRight: "2%", paddingLeft: "2%" }}
+                  >
+                    <TextField
+                      required
+                      margin="dense"
+                      id="curp"
+                      label="CURP"
+                      value={curp}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      onChange={(v) => setCurp(v.target.value.toUpperCase())}
+                      inputProps={{ maxLength: 18 }}
+                      error={curp === null ? true : false}
+                    />
+                    <TextField
+                      required
+                      margin="dense"
+                      id="telefono"
+                      label="Telefono"
+                      value={telefono}
+                      type="text"
+                      fullWidth
+                      inputProps={{ maxLength: 10, mask: "(___) ___-____" }}
+                      variant="standard"
+                      onChange={(e) => Validator(e.target.value, "tel")}
+                      error={!telValid || !telefono}
+                      helperText={telError}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                    <TextField
+                      required
+                      margin="dense"
+                      id="celular"
+                      label="Telefono Movil"
+                      value={celular}
+                      type="text"
+                      fullWidth
+                      inputProps={{ maxLength: 10, mask: "(___) ___-____" }}
+                      variant="standard"
+                      onChange={(e) => Validator(e.target.value, "cel")}
+                      error={!celValid || !celular}
+                      helperText={celError}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                    <TextField
+                      margin="dense"
+                      id="ext"
+                      label="Ext"
+                      value={ext}
+                      type="text"
+                      fullWidth
+                      inputProps={{ maxLength: 4 }}
+                      variant="standard"
+                      onChange={(e) => Validator(e.target.value, "ext")}
+                      helperText={"Opcional* " + extError}
+                      InputLabelProps={{ shrink: true }}
+                      error={!extValid}
+                    />
+                    <Typography variant="body2"> {celError} </Typography>
+                    <br />
+
+                    {tipo === "ALTA" ?
+                      <>
+                        <Typography variant="body2"> Departamento: </Typography>
+                        <SelectFragLogin
+                          value={idDepartamento}
+                          options={departamento}
+                          onInputChange={handleFilterChange}
+                          placeholder={"Seleccione Departamento"}
+                          label={""}
+                          disabled={false}
+                        />
+                        <br />
+                        <Typography variant="body2"> Perfil: </Typography>
+                        <SelectFragLogin
+                          value={idPerfil}
+                          options={perfiles}
+                          onInputChange={handleFilterChangePerfil}
+                          placeholder={"Seleccione Perfil"}
+                          label={""}
+                          disabled={false}
+                        />
+                        <br />
+                        <Typography variant="body2"> U. Responsable: </Typography>
+                        <SelectFragLogin
+                          value={idUresp}
+                          options={uresp}
+                          onInputChange={handleFilterChangeures}
+                          placeholder={"Seleccione U. Responsable"}
+                          label={""}
+                          disabled={false}
+                        />
+                      </>
+                      :
+                      ""
+                    }
+
+
+
+                  </Grid>
+                  <Grid xs={12} sm={12} md={12} lg={12} sx={{ paddingTop: "3%" }}>
+                    <Box maxHeight={1 / 2} flexDirection="row">
+                      {" "}
+                    </Box>
+                    <Box maxHeight={1 / 2} flexDirection="row">
+                      <DialogActions>
+                        <Button
+                          className="guardar"
+                          color="info"
+                          onClick={() => handleSend()}
+                        >
+                          {tipo === "ALTA" ? "Solicitar" : "Solicitar Actualización"}
+                        </Button>
+                      </DialogActions>
+                    </Box>
+                  </Grid>
+                </Box>
               </Grid>
 
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={6}
-                lg={6}
-                sx={{ paddingRight: "2%", paddingLeft: "2%" }}
-              >
-                <TextField
-                  required
-                  margin="dense"
-                  id="curp"
-                  label="CURP"
-                  value={curp}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setCurp(v.target.value.toUpperCase())}
-                  inputProps={{ maxLength: 18 }}
-                  error={curp === null ? true : false}
-                />
-                <TextField
-                  required
-                  margin="dense"
-                  id="telefono"
-                  label="Telefono"
-                  value={telefono}
-                  type="text"
-                  fullWidth
-                  inputProps={{ maxLength: 10, mask: "(___) ___-____" }}
-                  variant="standard"
-                  onChange={(e) => Validator(e.target.value, "tel")}
-                  error={!telValid || !telefono}
-                  helperText={telError}
-                  InputLabelProps={{ shrink: true }}
-                />
-                <TextField
-                  required
-                  margin="dense"
-                  id="celular"
-                  label="Telefono Movil"
-                  value={celular}
-                  type="text"
-                  fullWidth
-                  inputProps={{ maxLength: 10, mask: "(___) ___-____" }}
-                  variant="standard"
-                  onChange={(e) => Validator(e.target.value, "cel")}
-                  error={!celValid || !celular}
-                  helperText={celError}
-                  InputLabelProps={{ shrink: true }}
-                />
-                <TextField
-                  margin="dense"
-                  id="ext"
-                  label="Ext"
-                  value={ext}
-                  type="text"
-                  fullWidth
-                  inputProps={{ maxLength: 4 }}
-                  variant="standard"
-                  onChange={(e) => Validator(e.target.value, "ext")}
-                  helperText={"Opcional* " + extError}
-                  InputLabelProps={{ shrink: true }}
-                  error={!extValid}
-                />
-                <Typography variant="body2"> {celError} </Typography>
-                <br />
-                <Typography variant="body2"> Departamento: </Typography>
-                <SelectFragLogin
-                  value={idDepartamento}
-                  options={departamento}
-                  onInputChange={handleFilterChange}
-                  placeholder={"Seleccione Departamento"}
-                  label={""}
-                  disabled={false}
-                />
-                <br />
-                <Typography variant="body2"> Perfil: </Typography>
-                <SelectFragLogin
-                  value={idPerfil}
-                  options={perfiles}
-                  onInputChange={handleFilterChangePerfil}
-                  placeholder={"Seleccione Perfil"}
-                  label={""}
-                  disabled={false}
-                />
-                <br />
-                <Typography variant="body2"> U. Responsable: </Typography>
-                <SelectFragLogin
-                  value={idUresp}
-                  options={uresp}
-                  onInputChange={handleFilterChangeures}
-                  placeholder={"Seleccione U. Responsable"}
-                  label={""}
-                  disabled={false}
-                />
+            </TabPanel>
+            <TabPanel value="2">
+              <Grid item xs={11} sm={11} md={11} lg={11}>
+                <Box
+                  flexWrap="wrap"
+                  boxShadow={2}
+                  sx={{ padding: "2%" }}
+                >
 
-                <Grid xs={12} sm={12} md={12} lg={12} sx={{ paddingTop: "3%" }}>
-                  <Box maxHeight={1 / 2} flexDirection="row">
-                    {" "}
-                  </Box>
-                  <Box maxHeight={1 / 2} flexDirection="row">
-                    <DialogActions>
-                      <Button
-                        className="guardar"
-                        color="info"
-                        onClick={() => handleSend()}
-                      >
-                        {tipo === 3 ? "Solicitar" : "Solicitar Actualización"}
-                      </Button>
-                    </DialogActions>
-                  </Box>
-                </Grid>
+                  <Grid
+                    container
+                    item
+                    xs={12}
+                    sm={12}
+                    sx={{ paddingRight: "2%", paddingLeft: "2%" }}
+                  >
+
+                    <Grid item xs={10}>
+
+                      <Typography variant="body2"> Departamento: </Typography>
+                      <SelectFragLogin
+                        value={idDepartamento}
+                        options={departamento}
+                        onInputChange={handleFilterChange}
+                        placeholder={"Seleccione Departamento"}
+                        label={""}
+                        disabled={false}
+                      />
+                      <br />
+                    </Grid>
+
+                    <Grid item xs={10}>
+
+                      <Typography variant="body2"> Perfil: </Typography>
+                      <SelectFragLogin
+                        value={idPerfil}
+                        options={perfiles}
+                        onInputChange={handleFilterChangePerfil}
+                        placeholder={"Seleccione Perfil"}
+                        label={""}
+                        disabled={false}
+                      />
+                      <br />
+                    </Grid>
+
+                    <Grid item xs={10}>
+
+
+                      <Typography variant="body2"> U. Responsable: </Typography>
+                      <SelectFragLogin
+                        value={idUresp}
+                        options={uresp}
+                        onInputChange={handleFilterChangeures}
+                        placeholder={"Seleccione U. Responsable"}
+                        label={""}
+                        disabled={false}
+                      />
+
+                    </Grid>
+
+
+
+                    <Grid xs={12} sm={12} md={12} lg={12} sx={{ paddingTop: "3%" }}>
+                      <Box maxHeight={1 / 2} flexDirection="row">
+                        {" "}
+                      </Box>
+                      <Box maxHeight={1 / 2} flexDirection="row">
+                        <DialogActions>
+                          <Button
+                            className="guardar"
+                            color="info"
+                            onClick={() => handleEditarConfi()}
+                          >
+                            {"Actualizar"}
+                          </Button>
+                        </DialogActions>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Box>
               </Grid>
-            </Box>
-          </Grid>
+
+            </TabPanel>
+          </TabContext>
+
         </Grid>
+        
       </ModalForm>
     </div>
   );
