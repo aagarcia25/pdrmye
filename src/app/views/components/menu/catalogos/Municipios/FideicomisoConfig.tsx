@@ -76,57 +76,34 @@ const FideicomisoConfig = ({
     {
       field: "acciones", disableExport: true,
       headerName: "Acciones",
-      description: "Relacionar Roles",
+      description: "Acciones",
       sortable: false,
       width: 100,
       renderCell: (v) => {
         return (
           <Box>
+            <Tooltip title={"Editar Fideicomiso"}>
             <IconButton onClick={() => handleEdit(v)}>
               <ModeEditOutlineIcon />
             </IconButton>
+            </Tooltip>
+            <Tooltip title={"Eliminar Fideicomiso"}>
             <IconButton onClick={() => handleDelete(v)}>
               <DeleteForeverIcon />
             </IconButton>
-
+            </Tooltip>
           </Box>
         );
 
       },
     },
-    {
-      field: "FechaCreacion",
-      headerName: "Fecha Creacion",
-      width: 200,
-    },
-    {
-      field: "CreadoP",
-      headerName: "Creado Por",
-      width: 300,
-    },
-    {
-      field: "ClaveSiregob",
-      headerName: "Clave",
-      width: 100,
-    },
-    {
-      field: "Nombre",
-      headerName: "Nombre",
-      width: 500,
-    },
-    {
-      field: "Porcentaje",
-      headerName: "Porcentaje",
-      width: 120,
-    }, {
-      field: "ClaveBancaria",
-      headerName: "Clave Bancaria",
-      width: 250,
-    }, {
-      field: "Cuenta",
-      headerName: "Cuenta",
-      width: 250,
-    },
+    {field: "FechaCreacion", headerName: "Fecha de Creación", description: "Fecha de Creación", width: 200,},
+    {field: "CreadoP",       headerName: "Creador Por",       description: "Creador Por",       width: 300,},
+    {field: "ClaveSiregob",  headerName: "Clave",             description: "Clave",             width: 150,},
+    {field: "Nombre",        headerName: "Nombre",            description: "Nombre",            width: 500,},
+    {field: "Porcentaje",    headerName: "Porcentaje",        description: "Porcentaje",        width: 120,},
+    {field: "ClaveBancaria", headerName: "Clave Bancaria",    description: "Clave Bancaria",    width: 250,}, 
+    {field: "Cuenta",        headerName: "Cuenta",            description: "Cuenta",            width: 250,},
 
   ];
 
@@ -217,6 +194,19 @@ const FideicomisoConfig = ({
     setCuenta("");
     setClaveBan("");
     setClaveSiregob("");
+  };
+
+  const handleCloseFideicomiso = () => {
+    if (modo==="editar"){
+      setModo("visualizar");
+    }
+    else if (modo==="visualizar"){
+      handleClose();
+    }
+    else if(modo==="nuevo"){
+      setModo("visualizar");
+    }
+
   };
 
 
@@ -327,7 +317,7 @@ const FideicomisoConfig = ({
                   </Tooltip>
                   : ""}
 
-                {modo === "nuevo" ?
+                {modo === "nuevo" ||modo === "editar"   ?
                   <Tooltip title="Regresar">
                     <ToggleButton value="check" onClick={() => { setModo("visualizar") }}>
                       <ArrowBackIosIcon />
@@ -340,7 +330,7 @@ const FideicomisoConfig = ({
             <Grid item  >
               <ButtonGroup>
                 <Tooltip title="Cerrar">
-                  <ToggleButton value="check" color="error" onClick={() => { handleClose() }}>
+                  <ToggleButton value="check" color="error" onClick={() => { handleCloseFideicomiso() }}>
                     <CloseIcon />
                   </ToggleButton>
                 </Tooltip>
@@ -395,7 +385,7 @@ const FideicomisoConfig = ({
                   margin="dense"
                   label="Porcentaje"
                   value={porcentaje}
-                  type="text"
+                  type="number"
                   fullWidth
                   variant="standard"
                   onChange={(v) => setPorcentaje(v.target.value)}
