@@ -107,7 +107,7 @@ export const Municipios = () => {
                 handleAccion={handleAccion}
                 row={v}
                 editar={editar}
-                eliminar={eliminar}
+                eliminar={false}
               ></BotonesAcciones>
               </Grid>
           </>
