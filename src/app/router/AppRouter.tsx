@@ -71,8 +71,6 @@ export const AppRouter = () => {
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
         <Route path='/' element={log ? <Bienvenido user={user} /> : <AuthRouter />} />
         {/* SECCION DE CATALOGOS */}
-
-
         <Route path='/inicio/catalogos/mun' element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa' element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob' element={<MunPoblacion />} />
@@ -100,8 +98,6 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/divisas' element={<Divisas />} />
         <Route path='/inicio/catalogos/ajustes' element={<AjustesCalculos />} />
         <Route path='/inicio/catalogos/org' element={log ? <ORG/> : <AuthRouter />} /> 
-
-
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
@@ -139,7 +135,7 @@ export const AppRouter = () => {
         {/* FIN SECCION USUARIOS, ROLES, PERMISOS */}
 
         {/* SECCION ORGANISMOS */}
-        
+        <Route path='/inicio/org/operaciones' element={<Participaciones />} />
         {/* FIN DE SECCION DE ORGANISMOS */}
         {/* SECCION MUNICIPIOS */}
         <Route path='/inicio/contactomunicipio' element={log ? <ContactoMunicipios /> : <AuthRouter />} />
