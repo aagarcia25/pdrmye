@@ -30,12 +30,7 @@ import Usuarios from '../views/components/menu/usuarios/Usuarios/Usuarios';
 import Roles from '../views/components/menu/usuarios/Roles/Roles';
 import Permisos from '../views/components/menu/usuarios/Permisos/Permisos';
 import Menus from '../views/components/menu/usuarios/Menus/Menus';
-import PensionesVitalicias from '../views/components/Organismos/PensionesVitalicias/PensionesVitalicias';
-import Solicitudes from '../views/components/Organismos/Solicitudes/Solicitudes';
 import ContactoMunicipios from '../views/components/Municipios/ContactoMunicipios';
-import ContactoOrganismos from '../views/components/Organismos/contactoOrganismos/ContactoOrganismos';
-import Presupuesto from '../views/components/Organismos/Presupuesto/Presupuesto';
-import Nomina from '../views/components/Organismos/Nomina/Nomina';
 import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
 import { getUser, islogin } from '../services/localStorage';
@@ -76,8 +71,6 @@ export const AppRouter = () => {
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
         <Route path='/' element={log ? <Bienvenido user={user} /> : <AuthRouter />} />
         {/* SECCION DE CATALOGOS */}
-
-
         <Route path='/inicio/catalogos/mun' element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa' element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob' element={<MunPoblacion />} />
@@ -105,8 +98,6 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/divisas' element={<Divisas />} />
         <Route path='/inicio/catalogos/ajustes' element={<AjustesCalculos />} />
         <Route path='/inicio/catalogos/org' element={log ? <ORG/> : <AuthRouter />} /> 
-
-
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
@@ -144,11 +135,7 @@ export const AppRouter = () => {
         {/* FIN SECCION USUARIOS, ROLES, PERMISOS */}
 
         {/* SECCION ORGANISMOS */}
-        <Route path='/inicio/pensionesvitalicias' element={log ? <PensionesVitalicias /> : <AuthRouter />} />
-        <Route path='/inicio/org/solicitudes' element={log ? <Solicitudes /> : <AuthRouter />} />
-        <Route path='/inicio/contactoorganismos' element={log ? <ContactoOrganismos /> : <AuthRouter />} />
-        <Route path='/inicio/presupuesto' element={log ? <Presupuesto /> : <AuthRouter />} />
-        <Route path='/inicio/nomina' element={log ? <Nomina /> : <AuthRouter />} />
+        <Route path='/inicio/org/operaciones' element={<Participaciones />} />
         {/* FIN DE SECCION DE ORGANISMOS */}
         {/* SECCION MUNICIPIOS */}
         <Route path='/inicio/contactomunicipio' element={log ? <ContactoMunicipios /> : <AuthRouter />} />

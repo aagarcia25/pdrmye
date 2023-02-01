@@ -66,11 +66,11 @@ export const Divisas = () => {
                 );
             },
         },
-        { field: "FechaCreacion", headerName: "Fecha Creación", width: 200 },
-        { field: "Divisa", headerName: "Divisa", width: 150 },
-        { field: "Nombre", headerName: "Nombre", width: 150 },
-        { field: "Valor", headerName: "Valor", width: 150 },
-        { field: "Descripcion", headerName: "Descripcion", width: 150 },
+        { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 200 },
+        { field: "Divisa", headerName: "Divisa", description: "Divisa", width: 150 },
+        { field: "Nombre", headerName: "Nombre", description: "Nombre", width: 150 },
+        { field: "Valor", headerName: "Valor", description: "Valor", width: 150 },
+        { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 150 },
         
 
 
