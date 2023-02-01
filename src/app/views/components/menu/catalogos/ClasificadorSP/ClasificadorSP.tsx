@@ -42,7 +42,7 @@ export const ClasificadorSP = () => {
           },
         },
         { field: "Clasificacion",           headerName: "Clasificación",            description: "Clasificación",             width: 300 },
-        { field: "DescripcionClasificacion",headerName: "Descripcion Clasificación",description: "Descripcion Clasificación", width: 300 },
+        { field: "DescripcionClasificacion",headerName: "Descripción Clasificación",description: "Descripción Clasificación", width: 300 },
         { field: "tipo",                    headerName: "Tipo",                     description: "Tipo",                      width: 300 },
 
      
