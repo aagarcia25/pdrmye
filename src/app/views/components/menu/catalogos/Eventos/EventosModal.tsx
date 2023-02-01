@@ -108,23 +108,21 @@ const EventosModal = ({
             icon: "success",
             title: "Carga Exitosa!",
           });
+          handleClose();
         } else {
           AlertS.fire({
             title: "Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
+          handleClose();
         }
       });
-      let timerId = setTimeout((timerId) => handleCloseddd(timerId), 1000);
-      clearTimeout(timerId);
-    }
 
+    };
   };
-  const handleCloseddd = (timerId:string) => {
-    handleClose(timerId);
 
-  };
+
   const handleFechaInicio = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInicioEvento(event.target.value.toString());
 
@@ -412,9 +410,10 @@ const EventosModal = ({
                   </Box>
                 </Box>
               </Container>
+
+
             </Box>
             : ""}
-
 
         </ModalForm>
       </Container>

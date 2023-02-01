@@ -3,6 +3,9 @@ import { post, postDocument } from './apiService';
 
 export class CatalogosServices {
 
+    public static async IndexCatRetenciones(data: any) {
+        return await post('IndexCatRetenciones', data);
+    }
     public static async divisas(data: any) {
         return await post('divisas', data);
     }
