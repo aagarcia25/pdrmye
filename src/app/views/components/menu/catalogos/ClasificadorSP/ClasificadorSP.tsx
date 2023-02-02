@@ -135,7 +135,7 @@ export const ClasificadorSP = () => {
       useEffect(() => {
    
         permisos.map((item: PERMISO) => {
-        if (String(item.ControlInterno) === "CATRETEN") {
+        if (String(item.ControlInterno) === "CATCLASIFICACION") {
           //console.log(item)
           if (String(item.Referencia) === "AGREG") {
             setAgregar(true);
