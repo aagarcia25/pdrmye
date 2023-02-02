@@ -143,7 +143,7 @@ export const AppRouter = () => {
         {/* FIN SECCION USUARIOS, ROLES, PERMISOS */}
 
         {/* SECCION ORGANISMOS */}
-        <Route path='/inicio/org/operaciones' element={<Participaciones />} />
+        <Route path='/inicio/org/operaciones' element={<ORG />} />
         {/* FIN DE SECCION DE ORGANISMOS */}
         {/* SECCION MUNICIPIOS */}
         <Route path='/inicio/contactomunicipio' element={log ? <ContactoMunicipios /> : <AuthRouter />} />
