@@ -59,8 +59,8 @@ import { Graficas } from '../views/components/componentes/CPH/Estadisticas/Grafi
 import IsnRecaudacion from '../views/components/menu/articulos/IsnRecaudacion/IsnRecaudacion';
 import { ORG } from '../views/components/menu/catalogos/org/ORG';
 import { CatRet } from '../views/components/menu/catalogos/CatDescuentos/CatRet';
+import { CatTP  } from '../views/components/menu/catalogos/CatTiposDePago/CatTP';
 import { ClasificadorSP } from '../views/components/menu/catalogos/ClasificadorSP/ClasificadorSP';
-
 
 
 export const AppRouter = () => {
@@ -101,7 +101,9 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/ajustes' element={<AjustesCalculos />} />
         <Route path='/inicio/catalogos/org' element={log ? <ORG/> : <AuthRouter />} /> 
         <Route path='/inicio/catalogos/catretenciones' element={log ? <CatRet/> : <AuthRouter />} /> 
+        <Route path='/inicio/catalogos/catTiposDePago' element={log ? <CatTP/> : <AuthRouter />} /> 
         <Route path='/inicio/catalogos/catClasificacion' element={log ? <ClasificadorSP/> : <AuthRouter />} /> 
+
         
        
         {/* FIN SECCION DE CATALOGOS */}

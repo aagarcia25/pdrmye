@@ -11,9 +11,9 @@ import Swal from 'sweetalert2';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import { GridColDef } from '@mui/x-data-grid';
 import MUIXDataGrid from '../../../MUIXDataGrid';
-import { ClasificadorSPModal } from "./ClasificadorSPModal";
+import { CatTPModal } from "./CatTPModal";
 
-export const ClasificadorSP = () => {
+export const CatTP = () => {
     const [data, setData] = useState([]);
     const [modo, setModo] = useState("");
     const [open, setOpen] = useState(false);
@@ -41,12 +41,11 @@ export const ClasificadorSP = () => {
             );
           },
         },
-        { field: "Clasificacion",           headerName: "Clasificación",            description: "Clasificación",             width: 300 },
-        { field: "DescripcionClasificacion",headerName: "Descripción Clasificación",description: "Descripción Clasificación", width: 300 },
-        { field: "tipo",                    headerName: "Tipo",                     description: "Tipo",                      width: 300 },
-
-     
-    
+        { field: "Clave",                 headerName: "Clave",                         description: "Clave", width: 300 },
+        { field: "Descripcion",           headerName: "Descripción",                   description: "Descripción",     width: 450 },
+        { field: "Abreviacion",           headerName: "Abreviación",                   description: "Abreviación",   width: 300 },
+        { field: "DescripcionTipoPAgo",   headerName: "Descripción de Tipo de Pago",   description: "Descripción de Tipo de Pago",  width: 300 },
+        { field: "tipoPago",              headerName: "Tipo de pago",                  description: "Tipo de pago",   width: 300 },
       ];
     
       const handleAccion=(v: any)=>{
@@ -73,7 +72,7 @@ export const ClasificadorSP = () => {
               CHUSER: user.id,
             };
     
-            CatalogosServices.IndexClasificacionSP(data).then((res) => {
+            CatalogosServices.TiposDePagoSP(data).then((res) => {
               if (res.SUCCESS) {
                 Toast.fire({
                   icon: "success",
@@ -113,7 +112,7 @@ export const ClasificadorSP = () => {
       };
       
     const consulta = (data: any) => {
-        CatalogosServices.IndexClasificacionSP(data).then((res) => {
+        CatalogosServices.TiposDePagoSP(data).then((res) => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
@@ -135,7 +134,7 @@ export const ClasificadorSP = () => {
       useEffect(() => {
    
         permisos.map((item: PERMISO) => {
-        if (String(item.ControlInterno) === "CATCLASIFICACION") {
+        if (String(item.ControlInterno) === "CATTP") {
           //console.log(item)
           if (String(item.Referencia) === "AGREG") {
             setAgregar(true);
@@ -155,7 +154,7 @@ export const ClasificadorSP = () => {
   return (
     <div style={{ height: 600, width: "100%", padding:"1%" }}>
     {open ? (
-     <ClasificadorSPModal
+     <CatTPModal
        open={open}
        modo={modo}
        tipo={tipoOperacion}
