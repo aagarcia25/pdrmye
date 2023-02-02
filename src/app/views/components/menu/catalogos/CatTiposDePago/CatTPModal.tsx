@@ -68,7 +68,7 @@ export const CatTPModal = ({
         //EDITAR
         titulo = "Registro Editado!";
       }
-  CatalogosServices.IndexCatRetenciones(data).then((res) => {
+  CatalogosServices.TiposDePagoSP(data).then((res) => {
 
         if (res.SUCCESS) {
           Toast.fire({
@@ -91,7 +91,7 @@ export const CatTPModal = ({
       if (dt === "") {
       } else {
         setId(dt?.row?.id);
-        setClave(dt?.row?.clave);
+        setClave(dt?.row?.Clave);
         SetDescripcion(dt?.row?.Descripcion);
         setAbreviacion(dt?.row?.Abreviacion);
         setDescripcionTipoPago(dt?.row?.DescripcionTipoPago)
