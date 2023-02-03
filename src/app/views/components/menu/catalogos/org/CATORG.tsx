@@ -9,9 +9,9 @@ import Swal from 'sweetalert2';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import { GridColDef } from '@mui/x-data-grid';
 import MUIXDataGrid from '../../../MUIXDataGrid';
-import { ORGModal } from "./ORGModal";
+import { CATORGModal } from "./CATORGModal";
 
-export const ORG = () => {
+export const CATORG = () => {
     const [data, setData] = useState([]);
     const [modo, setModo] = useState("");
     const [open, setOpen] = useState(false);
@@ -166,7 +166,7 @@ export const ORG = () => {
   return (
     <div style={{ height: 600, width: "100%", padding:"1%" }}>
     {open ? (
-     <ORGModal
+     <CATORGModal
        open={open}
        modo={modo}
        tipo={tipoOperacion}
