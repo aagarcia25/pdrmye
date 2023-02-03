@@ -45,7 +45,6 @@ export const CatTP = () => {
         { field: "Descripcion",           headerName: "Descripción",                   description: "Descripción",     width: 450 },
         { field: "Abreviacion",           headerName: "Abreviación",                   description: "Abreviación",   width: 300 },
         { field: "DescripcionTipoPAgo",   headerName: "Descripción de Tipo de Pago",   description: "Descripción de Tipo de Pago",  width: 300 },
-        { field: "tipoPago",              headerName: "Tipo de pago",                  description: "Tipo de pago",   width: 300 },
       ];
     
       const handleAccion=(v: any)=>{

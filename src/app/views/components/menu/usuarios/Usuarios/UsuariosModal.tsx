@@ -617,7 +617,7 @@ const UsuariosModal = ({
                       inputProps={{ maxLength: 13 }}
                       variant="standard"
                       onChange={(v) => setRfc(v.target.value.toUpperCase())}
-                      error={rfc === null ? true : false}
+                      error={rfc.length !== 13 ? true : false}
                       InputLabelProps={{ shrink: true }}
                     />
 
@@ -657,7 +657,7 @@ const UsuariosModal = ({
                       variant="standard"
                       onChange={(v) => setCurp(v.target.value.toUpperCase())}
                       inputProps={{ maxLength: 18 }}
-                      error={curp === null ? true : false}
+                      error={curp.length !== 18 ? true : false}
                     />
                     <TextField
                       required
@@ -752,6 +752,23 @@ const UsuariosModal = ({
                     <Box maxHeight={1 / 2} flexDirection="row">
                       <DialogActions>
                         <Button
+                        disabled={
+                          Nombre === "" ||
+                          ApellidoPaterno === "" ||
+                          ApellidoMaterno === "" ||
+                          NombreUsuario === "" ||
+                          CorreoElectronico === "" ||
+                          emailValid === false ||
+                          telValid === false ||
+                          telefono === "" ||
+                          curp.length !==18||
+                          rfc.length !== 13 ||
+                          idDepartamento === "" ||
+                          idPerfil === "" ||
+                          celular === "" ||
+                          puesto === ""
+
+                        }
                           className="guardar"
                           color="info"
                           onClick={() => handleSend()}
