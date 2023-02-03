@@ -123,14 +123,15 @@ function App() {
         }).then((result) => {
           if (result.isConfirmed) {
             var ventana = window.self;
-            ventana.location.reload();
+            ventana.location.replace(env_var.BASE_URL_LOGIN)
+            // ventana.location.reload();
             // location.reload();
             // navigate("/Notification");
 
           }
         });
 
-      }
+      } 
       if (us.RESPONSE) {
         setRoles(us.RESPONSE.ROLES);
         setPermisos(us.RESPONSE.PERMISOS);
@@ -149,7 +150,24 @@ function App() {
         mensaje('','Información', us.STRMESSAGE +" Contactar Al Departamento Correspondiente");
       }
       else if(us.SUCCESS ==false && us.RESPONSE===""){
-        verificatoken();
+        Swal.fire({
+          icon: "info",
+          title: 'Bienvenid@',
+          text: us.STRMESSAGE,
+          showDenyButton: false,
+          showCancelButton: false,
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            var ventana = window.self;
+            ventana.location.replace(env_var.BASE_URL_LOGIN)
+            // ventana.location.reload();
+            // location.reload();
+            // navigate("/Notification");
+
+          }
+        });
+        // verificatoken();
       }
     });
   };
