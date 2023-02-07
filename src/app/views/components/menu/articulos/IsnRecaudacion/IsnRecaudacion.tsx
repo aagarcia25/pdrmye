@@ -159,6 +159,7 @@ const IsnRecaudacion = () => {
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
       formData.append("inputfile", file, "inputfile.xlxs");
+      formData.append("CHUSER", user.id);
       formData.append("tipo", "MUNISNRECAUDACION");
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
