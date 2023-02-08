@@ -21,12 +21,21 @@ export const ORGDetail = ({ idrow }: { idrow: string }) => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [openSlider, setOpenSlider] = useState(true);
   const [ures, setURes] = useState<SelectValues[]>([]);
+  const [listConceptos, setListConceptos]= useState<SelectValues[]>([]);
   const [idUResp, setidUResp] = useState("");
   const [mensaje, setMensaje] = useState<string>();
   const [importe, setImporte] = useState<string>();
+  const [claveConcepto,setClaveConcepto]= useState<string>("");
+
+
+
 
   const handleFilterChange1 = (v: string) => {
     setidUResp(v);
+  };
+
+  const handleFilterChange2 = (v: string) => {
+    setClaveConcepto(v);
   };
 
   const loadFilter = (tipo: number) => {
@@ -35,6 +44,8 @@ export const ORGDetail = ({ idrow }: { idrow: string }) => {
       if (tipo === 26) {
         setURes(res.RESPONSE);
         setOpenSlider(false);
+      }else if (tipo === 28){
+        setListConceptos(res.RESPONSE);
       }
     });
   };
@@ -42,6 +53,7 @@ export const ORGDetail = ({ idrow }: { idrow: string }) => {
   const handleDetalle = (data: any) => {};
 
   useEffect(() => {
+    loadFilter(28);
     loadFilter(26);
   }, []);
 
@@ -56,10 +68,10 @@ export const ORGDetail = ({ idrow }: { idrow: string }) => {
               Cpto de egreso:
             </Typography>
             <SelectFrag
-              value={idUResp}
-              options={ures}
-              onInputChange={handleFilterChange1}
-              placeholder={"Seleccione U.Resp"}
+              value={claveConcepto}
+              options={listConceptos}
+              onInputChange={handleFilterChange2}
+              placeholder={"Seleccione Cpto de"}
               label={""}
               disabled={false}
             />
