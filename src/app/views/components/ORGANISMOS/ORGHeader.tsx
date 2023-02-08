@@ -1,10 +1,7 @@
 import {
-    Box,
-    Button,
     createTheme,
     Grid,
-    IconButton,
-    Link,
+    TextField,
     ThemeProvider,
     ToggleButton,
     ToggleButtonGroup,
@@ -16,23 +13,10 @@ import {
   import SelectValues from "../../../interfaces/Select/SelectValues";
   import { CatalogosServices } from "../../../services/catalogosServices";
   import SelectFrag from "../Fragmentos/SelectFrag";
-  import SendIcon from "@mui/icons-material/Send";
-  import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
-  import { AlertS } from "../../../helpers/AlertS";
   import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
   import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
   import { getPermisos, getUser } from "../../../services/localStorage";
-  import { DPCPServices } from "../../../services/DPCPServices";
-  import { Toast } from "../../../helpers/Toast";
   import Slider from "../Slider";
-  import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
-  import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-  import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-  import AccountTreeIcon from "@mui/icons-material/AccountTree";
-  import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
-  import CallMergeIcon from "@mui/icons-material/CallMerge";
-  import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
-  import InfoIcon from "@mui/icons-material/Info";
   import {
     DataGrid,
     GridSelectionModel,
@@ -40,28 +24,9 @@ import {
     esES as gridEsES,
   } from "@mui/x-data-grid";
   import { esES as coreEsES } from "@mui/material/locale";
-  import Swal from "sweetalert2";
-  import { DAMOPServices } from "../../../services/DAMOPServices";
-  import ModalDAMOP from "../componentes/ModalDAMOP";
-  import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
   import ModalForm from "../componentes/ModalForm";
   import AddIcon from "@mui/icons-material/Add";
-  import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-  import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-  import EditOffIcon from "@mui/icons-material/EditOff";
-  import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-  import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-  import ArticleIcon from "@mui/icons-material/Article";
-  import SpeisAdmin from "../DAF/SpeisAdmin";
-  
-  import LoopIcon from "@mui/icons-material/Loop";
-  import MenuBookIcon from "@mui/icons-material/MenuBook";
-  import MoneyIcon from "@mui/icons-material/Money";
-  import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-  import LocalAtmIcon from "@mui/icons-material/LocalAtm";
-  import { ModalCheque } from "../componentes/ModalCheque";
-  import { ORGService } from "../../../services/ORGService";
-  import ButtonsCalculo from "../menu/catalogos/Utilerias/ButtonsCalculo";
+import { ORGDetail } from "./ORGDetail";
 
 export const ORGHeader = ({
     idrow,
@@ -71,12 +36,33 @@ export const ORGHeader = ({
   const theme = createTheme(coreEsES, gridEsES);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const [slideropen, setslideropen] = useState(false);//cambiar a true
+  const [openSlider, setOpenSlider] = useState(true);
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [sumaTotal, setSumaTotal] = useState<Number>();
+  const [ures, setURes] = useState<SelectValues[]>([]);
+  const [provedores, setProvedores] = useState<SelectValues[]>([]);
   const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
   const [vrows, setVrows] = useState<{}>("");
+  const [proyecto, setProyecto] = useState<string>('');
+
+
+
+ // Constantes para los campos
+  const [idUResp, setidUResp] = useState("");
+  const [idProveedor, setidProveedor] = useState("");
+
+  //Constantes para las columnas
+  const [data, setData] = useState([]);
+
+
+  const handleFilterChange1 = (v: string) => {
+    setidUResp(v);
+  };
+
+  const handleFilterChange2 = (v: string) => {
+    setidUResp(v);
+  };
 
 
   const handleClose = () => {
@@ -88,14 +74,68 @@ export const ORGHeader = ({
     setOpenModalDetalle(true);
   };
 
+  const columnsParticipaciones = [
+    { field: "id", hide: true },
+    {
+      field: "renglon",
+      headerName: "Renglón",
+      width: 100,
+      description: "Renglón",
+    },
+    {
+      field: "cveegreso",
+      headerName: "Cve. Egreso",
+      width: 100,
+      description: "Cve. Egreso",
+    },
+    {
+      field: "importe",
+      headerName: "Importe",
+      width: 140,
+      description: "Importe",
+      ...Moneda,
+    },
+    {
+      field: "ClaveProyecto",
+      headerName: "Clave Proyecto",
+      width: 150,
+      description: "Clave Proyecto",
+    },
+    {
+      field: "uresp",
+      headerName: "U. Resp",
+      width: 150,
+      description: "U. Resp",
+    }
+  
+  ];
+
+  
+  const loadFilter = (tipo: number) => {
+    let data = { NUMOPERACION: tipo };
+    CatalogosServices.SelectIndex(data).then((res) => {
+      if (tipo === 26) {
+        setURes(res.RESPONSE);
+      } else if (tipo === 27){
+        setProvedores(res.RESPONSE);
+        setOpenSlider(false);
+      }
+    });
+  };
+
+
+  useEffect(() => {
+    loadFilter(26);
+    loadFilter(27);
+  }, []);
 
   return (
     <div>
-    <Slider open={slideropen}></Slider>
+    <Slider open={openSlider}></Slider>
 
     {openModalDetalle ? (
       <ModalForm title={"Detalle de Solicitud"} handleClose={handleClose}>
-        <ORGHeader idrow={""}           />
+        <ORGDetail idrow={""}           />
       </ModalForm>
     ) : (
       ""
@@ -105,6 +145,85 @@ export const ORGHeader = ({
 
     <Grid container spacing={1} padding={0}>
 
+    <Grid container >
+
+
+     <Grid item xs={6} sm={4} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>U.Resp:</Typography>
+            <SelectFrag
+              value={idUResp}
+              options={ures}
+              onInputChange={handleFilterChange1}
+              placeholder={"Seleccione U.Resp"}
+              label={""}
+              disabled={false}
+            />
+      </Grid> 
+
+
+    </Grid>
+      
+     <Grid container  spacing={2}>
+
+
+     <Grid item xs={2} sm={2} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Proveedor:</Typography>
+            <SelectFrag
+              value={idProveedor}
+              options={provedores}
+              onInputChange={handleFilterChange2}
+              placeholder={"Seleccione Proveedor"}
+              label={""}
+              disabled={false}
+            />
+      </Grid> 
+
+      <Grid item xs={2} sm={2} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Proyecto:</Typography>
+            <TextField
+                      required
+                      value={proyecto}
+                      variant="standard"
+                      onChange={(v) => setProyecto(v.target.value)}
+                    />
+      </Grid> 
+
+
+    </Grid>  
+
+
+    <Grid container  spacing={2}>
+
+
+     <Grid item xs={2} sm={2} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>No. de Cuenta:</Typography>
+            <SelectFrag
+              value={idProveedor}
+              options={provedores}
+              onInputChange={handleFilterChange2}
+              placeholder={"Seleccione No. de Cuenta"}
+              label={""}
+              disabled={false}
+            />
+      </Grid> 
+
+      <Grid item xs={2} sm={2} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Concepto:</Typography>
+            <SelectFrag
+              value={idProveedor}
+              options={provedores}
+              onInputChange={handleFilterChange2}
+              placeholder={"Seleccione Concepto"}
+              label={""}
+              disabled={false}
+            />
+      </Grid> 
+
+
+    </Grid>  
+
+
+      
       <Grid item xs={12} sm={12} md={12} lg={12}>
         <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
           <Tooltip title="Agregar Registro">
@@ -122,10 +241,10 @@ export const ORGHeader = ({
             width: "100%",
           }}
         >
-          {/* <ThemeProvider theme={theme}>
+          <ThemeProvider theme={theme}>
             <DataGrid
-            //  columns={columnsParticipaciones}
-            //  rows={data}
+              columns={columnsParticipaciones}
+              rows={data}
               density="compact"
               rowsPerPageOptions={[10, 25, 50, 100, 200, 300, 400]}
               disableSelectionOnClick
@@ -170,7 +289,7 @@ export const ORGHeader = ({
                 toolbarQuickFilterPlaceholder: "Buscar",
               }}
             />
-          </ThemeProvider> */}
+          </ThemeProvider> 
         </div>
       </Grid>
     </Grid>
