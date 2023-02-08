@@ -278,10 +278,10 @@ const DetalleFgp = ({
     calculosServices.getResponsable(data).then((res) => {
       if (res.SUCCESS) {
         setResponsable(res.RESPONSE[0]);
-      } else {
+      }else if(res.RESPONSE[0] === null || res.RESPONSE[0] === ""){
         AlertS.fire({
           title: "Error!",
-          text: res.STRMESSAGE,
+          text: "No se ha asignado a un responsable",//res.STRMESSAGE,
           icon: "error",
         });
       }
