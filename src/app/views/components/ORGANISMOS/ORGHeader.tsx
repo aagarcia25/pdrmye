@@ -42,6 +42,7 @@ export const ORGHeader = ({
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const [ures, setURes] = useState<SelectValues[]>([]);
   const [provedores, setProvedores] = useState<SelectValues[]>([]);
+  const [conceptosCheque, setConceptosCheque] = useState<SelectValues[]>([]);
   const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
   const [vrows, setVrows] = useState<{}>("");
   const [proyecto, setProyecto] = useState<string>('');
@@ -51,6 +52,8 @@ export const ORGHeader = ({
  // Constantes para los campos
   const [idUResp, setidUResp] = useState("");
   const [idProveedor, setidProveedor] = useState("");
+  const [claveCheque,setClaveCheque] = useState("");
+
 
   //Constantes para las columnas
   const [data, setData] = useState([]);
@@ -62,6 +65,10 @@ export const ORGHeader = ({
 
   const handleFilterChange2 = (v: string) => {
     setidUResp(v);
+  };
+
+  const handleFilterChange3 = (v: string) => {
+    setClaveCheque(v);
   };
 
 
@@ -119,12 +126,15 @@ export const ORGHeader = ({
       } else if (tipo === 27){
         setProvedores(res.RESPONSE);
         setOpenSlider(false);
+      } else if (tipo === 29){
+        setConceptosCheque(res.RESPONSE);
       }
     });
   };
 
 
   useEffect(() => {
+    loadFilter(29);
     loadFilter(26);
     loadFilter(27);
   }, []);
@@ -210,9 +220,9 @@ export const ORGHeader = ({
       <Grid item xs={2} sm={2} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Concepto:</Typography>
             <SelectFrag
-              value={idProveedor}
-              options={provedores}
-              onInputChange={handleFilterChange2}
+              value={claveCheque}
+              options={conceptosCheque}
+              onInputChange={handleFilterChange3}
               placeholder={"Seleccione Concepto"}
               label={""}
               disabled={false}
