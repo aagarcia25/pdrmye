@@ -126,6 +126,7 @@ const ModalNew = ({
     formData.append("MES", idmes);
     formData.append("IMPORTE", "0");
     formData.append("TIPOCALCULO", idTipoCalculo);
+    formData.append("DIST", disti  ? '1' : '0');
     formData.append("IDVERSION", idVersionCalculo);
     CatalogosServices.migraData(formData).then((res) => {
       

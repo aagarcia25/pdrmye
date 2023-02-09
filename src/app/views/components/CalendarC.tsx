@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {
   calendario,
   eventoc,
-  RESPONSE,
+  RESPONSEC,
 } from "../../interfaces/calendario/calendario";
 import { getUser } from "../../services/localStorage";
 import { Button, Grid, Typography } from "@mui/material";
@@ -16,6 +16,7 @@ import { Toast } from "../../helpers/Toast";
 import { AlertS } from "../../helpers/AlertS";
 import CalendarCModal from "./CalendarCModal";
 import Swal from "sweetalert2";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
 
 
 const CalendarC = () => {
@@ -113,7 +114,7 @@ const CalendarC = () => {
       if (res.SUCCESS) {
         const even: calendario = res;
         let eveitem: eventoc[] = [];
-        even.RESPONSE.map((item: RESPONSE) => {
+        even.RESPONSE.map((item: RESPONSEC) => {
           let it = {
             id: item.id,
             title: item.NombreEvento,

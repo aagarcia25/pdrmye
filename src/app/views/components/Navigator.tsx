@@ -77,15 +77,15 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
 
                 (item?.items?.length !== 0) ?
                 
-                <div key={indexx}>
-                <ListItemButton key={indexx}   onClick={()=>handleClick(indexx)} >
+                <div key={indexx} >
+                <ListItemButton  sx={{ bgcolor: open === indexx? 'rgba(117, 114, 114, 0.291)' :'rgba(255, 255, 255, 0.291)' }} key={indexx}   onClick={()=>handleClick(indexx)} >
                 <ListItemIcon>
                 {/* <SendIcon /> */}
                 </ListItemIcon>
                
                 <ListItemText key={indexx}  primary={
                    <Tooltip title={item.Descripcion}>
-                   <Typography variant="caption" sx={{ fontFamily: "sans-serif" ,fontWeight: '600' }} gutterBottom>
+                   <Typography variant="caption" sx={{   fontFamily: "sans-serif" ,fontWeight:"800" }} gutterBottom>
                     {item.Menu}
                   </Typography>
                   </Tooltip>
@@ -98,7 +98,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                     item?.items?.map((subitem,index) =>{
                       return(
                         <Collapse key={index}   in={open===indexx} timeout="auto" unmountOnExit>
-                        <List key={index}  component="div" disablePadding>
+                        <List sx={{  borderRadius:"1"}} key={index}  component="div" disablePadding>
                           <Divider/>
                           <ListItemButton  key={index}  onClick={() => navigate(subitem.Path)}  sx={{ pl: 4 }}>
                             {/* <ListItemIcon>
@@ -107,7 +107,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                                <ListItemText key={index}  primary={
                                 <Tooltip title={subitem.Descripcion}>
                                 <Typography className="menu-Typography" variant="caption" sx={{ fontFamily: "sans-serif" ,fontWeight: '550' }} gutterBottom>
-                                {  subitem.Menu}
+                                { " >  "+ subitem.Menu}
                                 </Typography>
                                 </Tooltip>
                                 } />

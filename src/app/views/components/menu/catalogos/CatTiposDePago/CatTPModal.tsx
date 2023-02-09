@@ -23,10 +23,11 @@ export const CatTPModal = ({
   }) => {
 
     const [id, setId] = useState("");
+    const [clave, setClave] = useState("");
     const [descripcion, SetDescripcion] = useState("");
     const [abreviacion, setAbreviacion] = useState("");
     const [descripcionTipoPago, setDescripcionTipoPago] = useState("");
-    const [tipoPago, setTipoPago] = useState("");
+
 
      
     const user: RESPONSE = JSON.parse(String(getUser()));
@@ -35,7 +36,7 @@ export const CatTPModal = ({
   
  
     const handleSend = () => {
-      if (descripcion === "" || abreviacion === "" || descripcionTipoPago === "" || tipoPago === "") {
+      if (clave === "" || descripcion === "" || abreviacion === "" || descripcionTipoPago === "" ) {
         AlertS.fire({
           title: "Error!",
           text: "Favor de Completar los Campos",
@@ -46,10 +47,10 @@ export const CatTPModal = ({
           NUMOPERACION: tipo,
           CHID: id,
           CHUSER: user.id,
+          CLAVE: clave,
           DESCRIPCION: descripcion,
           ABREVIACION:abreviacion,
           DESCRIPCIONTIPOPAGO:descripcionTipoPago,
-          TIPOPAGO: tipoPago
         
   
         };
@@ -67,7 +68,7 @@ export const CatTPModal = ({
         //EDITAR
         titulo = "Registro Editado!";
       }
-  CatalogosServices.IndexCatRetenciones(data).then((res) => {
+  CatalogosServices.TiposDePagoSP(data).then((res) => {
 
         if (res.SUCCESS) {
           Toast.fire({
@@ -90,10 +91,10 @@ export const CatTPModal = ({
       if (dt === "") {
       } else {
         setId(dt?.row?.id);
+        setClave(dt?.row?.Clave);
         SetDescripcion(dt?.row?.Descripcion);
         setAbreviacion(dt?.row?.Abreviacion);
         setDescripcionTipoPago(dt?.row?.DescripcionTipoPago)
-        setTipoPago(dt?.row?.TipoPago);
       }
     }, [dt]);
   
@@ -106,7 +107,20 @@ export const CatTPModal = ({
   
               <Box maxWidth="100%" sx={{ padding: "2%" }}>
   
-   
+              <TextField
+                  required
+                  margin="dense"
+                  id="clave"
+                  label="Clave"
+                  value={clave}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(v) => setClave(v.target.value)}
+                  error={clave === "" ? true : false}
+                  InputLabelProps={{ shrink: true }}
+                  
+                />
   
                 <TextField
                   required
@@ -129,7 +143,7 @@ export const CatTPModal = ({
                   id="Abreviacion"
                   label="Abreviacion"
                   value={abreviacion}
-                  type="number"
+                  type="text"
                   fullWidth
                   variant="standard"
                   onChange={(v) => setAbreviacion(v.target.value)}
@@ -152,26 +166,13 @@ export const CatTPModal = ({
                   InputLabelProps={{ shrink: true }}
                 />
 
-               <TextField
-                  margin="dense"
-                  required
-                  id="tipoPago"
-                  label="Tipo de Pago"
-                  value={tipoPago}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setTipoPago(v.target.value)}
-                  error={tipoPago === "" ? true : false}
-                  InputLabelProps={{ shrink: true }}
-                />
-                  
+                 
                 <DialogActions>
                     <Grid  container   direction="row" justifyContent="center" alignItems="center" >
                       <Button
                       disabled={
-                        descripcion === "" || abreviacion === "" || descripcionTipoPago === "" || tipoPago === ""||
-                        descripcion === undefined || abreviacion === undefined || descripcionTipoPago === undefined || tipoPago === undefined
+                        clave === "" || descripcion === "" || abreviacion === "" || descripcionTipoPago === "" ||
+                        clave === undefined || descripcion === undefined || abreviacion === undefined || descripcionTipoPago === undefined
                       }
                       className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
                   </Grid>

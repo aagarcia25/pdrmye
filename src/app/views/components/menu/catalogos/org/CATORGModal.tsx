@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const ORGModal = ({
+export const CATORGModal = ({
     open,
     modo,
     handleClose,
