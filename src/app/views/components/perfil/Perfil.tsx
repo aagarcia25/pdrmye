@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getUser } from "../../../services/localStorage";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import PersonIcon from "@mui/icons-material/Person";
@@ -26,7 +26,7 @@ export const Perfil = () => {
   const [openDialog, setOpenDialog] = useState(false)
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
-  const [tokenValid, setTokenValid] = useState<boolean>();
+  const [tokenValid, setTokenValid] = useState<boolean>(false);
   const [value, setValue] = useState('general');
 
 
@@ -43,7 +43,9 @@ export const Perfil = () => {
   //PRIMER CARD FUNCIONES
 
   const RfToken = () => {
+  
     UserServices.verify({}).then((res) => {
+      console.log(tokenValid)
       if (res.status === 200) {
         setTokenValid(true)
         onClickChangePassword();
@@ -92,7 +94,7 @@ export const Perfil = () => {
             ContrasenaNueva: password,
           };
 
-          if (tokenValid === true) {
+          if (tokenValid) {
             UserServices.changepassword(dat).then((res) => {
               if (res.status === 200 && res.data.message === "Cambio de contraseña exitoso!") {
                 Swal.fire("¡Cambio de Contraseña exitoso!", "", "success");
@@ -115,7 +117,10 @@ export const Perfil = () => {
 
  
 
-
+  useEffect(() => {
+    RfToken();
+    // setSumaDescuentos(Number(dt.row.Descuentos) + Number(dt.row.RecAdeudos));
+}, []);
 
 
   return (
