@@ -47,7 +47,7 @@ open:boolean,
       renderCell: (v) => {
         return (
           <>
-            <Tooltip title={"Configuracion de Permisos"}>
+            <Tooltip title={"Configuración de Permisos"}>
               <IconButton onClick={() => handleViewPermisos(v)}>
                 <ManageAccountsIcon />
               </IconButton>

@@ -142,7 +142,7 @@ const RolesModal = ({
                     {(modo === "Editar Rol") ?
                         <Grid sm={12}
                             sx={{ display: 'flex', justifyContent: 'center', paddingTop:"1%"}}>
-                            <label className="contenido">  Solo se puede editar la Descripción * </label>
+                            <label className="contenido">  Sólo se puede editar la Descripción * </label>
                         </Grid> : ""
                     }
 
@@ -154,6 +154,7 @@ const RolesModal = ({
                             label="Nombre"
                             value={nombre}
                             disabled={modo === "Editar Rol"}
+                            multiline
                             fullWidth
                             variant="standard"
                             onChange={(v) => setNombre(String(v.target.value))}

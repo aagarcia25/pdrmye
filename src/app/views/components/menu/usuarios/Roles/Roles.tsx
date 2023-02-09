@@ -136,23 +136,10 @@ const Roles = () => {
         );
       },
     },
-    {
-      field: "FechaCreacion",
-      headerName: "Fecha Creacion",
-      width: 200,
-    },
-    {
-      field: "CreadoPor",
-      headerName: "Creado Por",
-      width: 250,
-    },
-    {
-      field: "Nombre",
-      headerName: "Rol",
-      width: 250,
-    },
- 
-    { field: "Descripcion", headerName: "Descripcion", width: 450 },
+    {field: "FechaCreacion",  headerName: "Fecha Creación",  description:"Fecha Creación",  width: 200,},
+    {field: "CreadoPor",      headerName: "Creado Por",      description:"Creado por",      width: 250,},
+    {field: "Nombre",         headerName: "Rol",             description:"Rol",             width: 250,},
+    { field: "Descripcion",   headerName: "Descripción",     description:"Descripción",     width: 450 },
    
   ];
 
