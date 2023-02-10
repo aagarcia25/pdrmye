@@ -45,7 +45,6 @@ export const Perfil = () => {
   const RfToken = () => {
   
     UserServices.verify({}).then((res) => {
-      console.log(tokenValid)
       if (res.status === 200) {
         setTokenValid(true)
         onClickChangePassword();

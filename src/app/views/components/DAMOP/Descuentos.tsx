@@ -320,11 +320,11 @@ export const Descuentos = ({
   };
 
   const handleSelectNumOp = (e: any) => {
-    setNumOperacion(e);
+    // setNumOperacion(e);
   };
 
   const handleSelectCveRet = (e: any) => {
-    setCveReten(e);
+    // setCveReten(e);
   };
 
   const handleOpen = () => {
@@ -349,6 +349,7 @@ export const Descuentos = ({
     setComentariosDes("")
     handleSelectNumOp("false");
     handleSelectCveRet("");
+    setNumOperacion("");
   };
 
   useEffect(() => {
@@ -424,13 +425,15 @@ export const Descuentos = ({
               <br />
               {" Total Bruto: " + dt.row.total}
               <br />
-              {"Retenciones: " + sumret}
+              {"Recuperación Adeudos: " + sumret}
               <br />
               {"Descuentos: " + sumDes}
               <br />
-              {" Total Neto: " + (Number(dt.row.total) - (sumret + sumDes))}
+              {"Retenciones: " + (Number(dt.row.Retenciones) )}
               <br />
-              {" Tipo de Solcitud: " + dt.row.TipoSolicitud}
+              {"Total Neto: " + (Number(dt.row.total) - (sumret + sumDes))}
+              <br />
+              {"Tipo de Solcitud: " + dt.row.TipoSolicitud}
               <br />
             </label>
           </Grid>
@@ -483,9 +486,9 @@ export const Descuentos = ({
             <Grid container >
               <Grid item xs={6}>
                 <Grid>
-                       <label>{value === "" ? "" : value === "Anticipo" ? "Proveedor" : "Deudor"}</label>
+                  <label>{value === "" ? "" : value === "Anticipo" ? "Proveedor" : "Deudor"}</label>
                 </Grid>
-           
+
                 <TextField
                   required
                   disabled
@@ -503,25 +506,47 @@ export const Descuentos = ({
                 {value === "RecuperacionAdeudos" ?
                   <Grid item xs={11.99}>
                     <label > Num. Operación</label>
-                    <SelectFrag
+                    {/* <SelectFrag
                       value={numOperacion}
                       options={numOperacionOp}
                       onInputChange={handleSelectNumOp}
                       placeholder={"Seleccionar Usuario"}
                       label={"Num.  Operación"}
                       disabled={false}
+                    /> */}
+                    <TextField
+                      required
+                      // disabled
+                      margin="dense"
+                      id="NumOperacion"
+                      value={numOperacion}
+                      type="number"
+                      variant="outlined"
+                      onChange={(v) => setNumOperacion(v.target.value)}
+                      InputLabelProps={{ shrink: true }}
                     />
                   </Grid>
                   :
                   <>
                     <label > Num. Operación</label>
-                    <SelectFrag
+                    {/* <SelectFrag
                       value={numOperacion}
                       options={numOperacionOp}
                       onInputChange={handleSelectNumOp}
                       placeholder={"Seleccionar Usuario"}
                       label={"Num. Operación"}
                       disabled={value === "RecuperacionAdeudos"}
+                    /> */}
+                    <TextField
+                      required
+                      // disabled
+                      margin="dense"
+                      id="NumOperacion"
+                      value={numOperacion}
+                      type="number"
+                      variant="outlined"
+                      onChange={(v) => setNumOperacion(v.target.value)}
+                      InputLabelProps={{ shrink: true }}
                     />
                   </>
                 }
@@ -610,13 +635,24 @@ export const Descuentos = ({
             {value === "RecuperacionAdeudos" ?
               <Grid container item xs={6}>
                 <label > Cve. Retención</label>
-                <SelectFrag
+                {/* <SelectFrag
                   value={value === "RecuperacionAdeudos" ? cveReten : ""}
                   options={cveRetenOp}
                   onInputChange={handleSelectCveRet}
                   placeholder={"Cve. Retención"}
                   label={"Cve. Retención"}
                   disabled={value !== "RecuperacionAdeudos"}
+                /> */}
+                <TextField
+                  required
+                  // disabled
+                  margin="dense"
+                  id="cveReten"
+                  value={cveReten}
+                  type="number"
+                  variant="outlined"
+                  onChange={(v) => setCveReten(v.target.value)}
+                  InputLabelProps={{ shrink: true }}
                 />
               </Grid>
               : ""}
@@ -624,10 +660,9 @@ export const Descuentos = ({
             <Grid container>
               <TextField
                 disabled={value === ""}
-                required
                 margin="dense"
                 id="Proveedor"
-                label="Descripción del Descuento"
+                label="Descripción del Descuento  *Opcional*"
                 value={ComentariosDes}
                 type="text"
                 fullWidth
@@ -642,7 +677,15 @@ export const Descuentos = ({
             </Grid>
           </DialogContent>
           <DialogActions>
-            <Button className="guardar" onClick={handleAplicarDescuento}>Aplicar</Button>
+            <Button className="guardar"
+              disabled={
+                value.length < 1
+                || desPar === "0"
+                || numOperacion === ""
+                || numOperacion === "false"
+                || ((desPar !== undefined ? Number(desPar) : 0) + (otrosCar !== undefined ? Number(otrosCar) : 0)) === 0
+                ||  (value === "RecuperacionAdeudos"? !cveReten :false)}
+              onClick={handleAplicarDescuento}>Aplicar</Button>
           </DialogActions>
         </Dialog>
         :

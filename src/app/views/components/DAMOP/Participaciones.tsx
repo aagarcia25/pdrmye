@@ -33,6 +33,7 @@ import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CallMergeIcon from '@mui/icons-material/CallMerge';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import InfoIcon from "@mui/icons-material/Info";
+import MoneyOffOutlinedIcon from '@mui/icons-material/MoneyOffOutlined';
 import {
   DataGrid,
   GridSelectionModel,
@@ -64,6 +65,7 @@ import MoneyIcon from '@mui/icons-material/Money';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { ModalCheque } from "../componentes/ModalCheque";
+import { Retenciones } from "./Retenciones";
 
 const Participaciones = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -71,6 +73,8 @@ const Participaciones = () => {
   //MODAL
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openModalDescuento, setOpenModalDescuento] = useState<boolean>(false);
+  const [openModalRetenciones, setOpenModalRetenciones] = useState<boolean>(false);
+
   const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
   const [openModalVerSpei, setOpenModalVerSpei] = useState<boolean>(false);
 
@@ -111,25 +115,25 @@ const Participaciones = () => {
   const [DAMOP_INI, SETDAMOP_INI] = useState<boolean>(false);
   const [DAMOP_FSE, SETDAMOP_FSE] = useState<boolean>(false);
   const [DAMOP_ASE, SETDAMOP_ASE] = useState<boolean>(false);
-  const [DAMOP_TE,  SETDAMOP_TE] = useState<boolean>(false);
-  const [DAMOP_AE,  SETDAMOP_AE] = useState<boolean>(false);
-  const [DAMOP_FE,  SETDAMOP_FE] = useState<boolean>(false);
-  const [DAMOP_VE,  SETDAMOP_VE] = useState<boolean>(false);
+  const [DAMOP_TE, SETDAMOP_TE] = useState<boolean>(false);
+  const [DAMOP_AE, SETDAMOP_AE] = useState<boolean>(false);
+  const [DAMOP_FE, SETDAMOP_FE] = useState<boolean>(false);
+  const [DAMOP_VE, SETDAMOP_VE] = useState<boolean>(false);
   const [DAMOP_GSE, SETDAMOP_GSE] = useState<boolean>(false);
   const [DAMOP_ASP, SETDAMOP_ASP] = useState<boolean>(false);
   const [DAMOP_FRA, SETDAMOP_FRA] = useState<boolean>(false);
   const [DAMOP_ARA, SETDAMOP_ARA] = useState<boolean>(false);
-  const [DAMOP_FINALIZADO,SETDAMOP_FINALIZADO] = useState<boolean>(false);
-  const [DAMOP_PFI,SETDAMOP_PFI]= useState<boolean>(false);
-  const [DAMOP_PAUT,SETDAMOP_PAUT]= useState<boolean>(false);
-  const [DAF_SPEI,SETDAF_SPEI]= useState<boolean>(false);
+  const [DAMOP_FINALIZADO, SETDAMOP_FINALIZADO] = useState<boolean>(false);
+  const [DAMOP_PFI, SETDAMOP_PFI] = useState<boolean>(false);
+  const [DAMOP_PAUT, SETDAMOP_PAUT] = useState<boolean>(false);
+  const [DAF_SPEI, SETDAF_SPEI] = useState<boolean>(false);
 
 
   const handleclose = (data: any) => {
     setOpenCheque(false);
   };
 
-  const handlecheque = (data: any ,tipo: number) => {
+  const handlecheque = (data: any, tipo: number) => {
     setTipo(tipo);
     setOpenCheque(true)
     setVrows(data)
@@ -149,6 +153,11 @@ const Participaciones = () => {
   const handleDescuento = (data: any) => {
     setVrows(data);
     setOpenModalDescuento(true);
+  };
+
+  const handleRetenciones = (data: any) => {
+    setVrows(data);
+    setOpenModalRetenciones(true);
   };
 
 
@@ -173,57 +182,57 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-           { String(v.row.NumParticipacion) === 'null'  ?
-             <Tooltip title={"Asignar N° de Participación"}>
-             <IconButton value="check" onClick={() => handlecheque(v,2)}>
-             <LoopIcon/>
-             </IconButton>
-             </Tooltip>
-            :""
-           }
-          
-          { String(v.row.NumSolEgreso) === 'null'  && v.row.estatusCI ==="DAMOP_INI"  ?
-            <Tooltip title={"Asignar N° de Solicitud de Egreso"}>
-              <IconButton value="check" onClick={() => handlecheque(v,3)}>
-                <MenuBookIcon/>
-              </IconButton>
-            </Tooltip>
-           :"" 
-          }
-            
-            { String(v.row.NumEgreso) === 'null'  && v.row.estatusCI ==="DAMOP_TE"?
-                        <Tooltip title={"Asignar N° de Egreso"}>
-                          <IconButton value="check" onClick={() => handlecheque(v,4)}>
-                            <MoneyIcon/>
-                          </IconButton>
-                        </Tooltip>
-                      :""
-                     }
-            
-            { String(v.row.NumOrdenPago) === 'null' ?
-                        <Tooltip title={"Asignar N° de Solicitud de Pago"}>
-                          <IconButton value="check" onClick={() => handlecheque(v,5)}>
-                            <MonetizationOnIcon/>
-                          </IconButton>
-                        </Tooltip>
-             :""
+            {String(v.row.NumParticipacion) === 'null' ?
+              <Tooltip title={"Asignar N° de Participación"}>
+                <IconButton value="check" onClick={() => handlecheque(v, 2)}>
+                  <LoopIcon />
+                </IconButton>
+              </Tooltip>
+              : ""
             }
-            
-            { String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI ==="DAMOP_TE" ?
-                        <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
-                          <IconButton value="check" onClick={() => handlecheque(v,6)}>
-                            <LocalAtmIcon/>
-                          </IconButton>
-                        </Tooltip>
-                    :""
-            }    
-                        
-                      </Box>
-                    );
-                  },
-                },
-            
-                {
+
+            {String(v.row.NumSolEgreso) === 'null' && v.row.estatusCI === "DAMOP_INI" ?
+              <Tooltip title={"Asignar N° de Solicitud de Egreso"}>
+                <IconButton value="check" onClick={() => handlecheque(v, 3)}>
+                  <MenuBookIcon />
+                </IconButton>
+              </Tooltip>
+              : ""
+            }
+
+            {String(v.row.NumEgreso) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
+              <Tooltip title={"Asignar N° de Egreso"}>
+                <IconButton value="check" onClick={() => handlecheque(v, 4)}>
+                  <MoneyIcon />
+                </IconButton>
+              </Tooltip>
+              : ""
+            }
+
+            {String(v.row.NumOrdenPago) === 'null' ?
+              <Tooltip title={"Asignar N° de Solicitud de Pago"}>
+                <IconButton value="check" onClick={() => handlecheque(v, 5)}>
+                  <MonetizationOnIcon />
+                </IconButton>
+              </Tooltip>
+              : ""
+            }
+
+            {String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
+              <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
+                <IconButton value="check" onClick={() => handlecheque(v, 6)}>
+                  <LocalAtmIcon />
+                </IconButton>
+              </Tooltip>
+              : ""
+            }
+
+          </Box>
+        );
+      },
+    },
+
+    {
       field: "Detalle",
       disableExport: true,
       headerName: "Ver Detalle",
@@ -242,7 +251,7 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-                {v.row.estatusCI==="DAF_SPEI"? (
+            {v.row.estatusCI === "DAF_SPEI" ? (
               <Tooltip title="Ver Spei">
                 <IconButton onClick={() => handleVerSpei(v)}>
                   <ArticleIcon />
@@ -251,7 +260,7 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-            
+
           </Box>
         );
       },
@@ -262,7 +271,7 @@ const Participaciones = () => {
       width: 200,
     },
     {
-      field: "acciones",
+      field: "AccionesDescuentos",
       disableExport: true,
       headerName: "Descuentos",
       description: "Descuentos",
@@ -271,15 +280,44 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-              {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
-            { String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? (
+            {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
+            {String(v.row.Clave) === 'FGP' && String(v.row.estatusCI) === 'DAMOP_TE' ? (
               <Tooltip title="Agregar Descuentos">
                 <IconButton
                   onClick={() => handleDescuento(v)}>
                   <AddIcon />
                 </IconButton>
               </Tooltip>
-             ) : ( "")} 
+            ) : ("")}
+           
+          </Box>
+        );
+      },
+    },
+    {
+      field: "AccionesRetenciones",
+      disableExport: true,
+      headerName: "Retenciones",
+      description: "Retenciones",
+      sortable: false,
+      width: 100,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
+            {String(v.row.Clave) === 'FGP' && String(v.row.estatusCI) === 'DAMOP_TE'? (
+              <>
+     
+                <Tooltip title="Admistrar Retenciones">
+                  <IconButton
+                    onClick={() => handleRetenciones(v)}>
+                    <MoneyOffOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </>
+            ) : ("")}
+
+
           </Box>
         );
       },
@@ -387,8 +425,15 @@ const Participaciones = () => {
     {
       field: "Retenciones",
       headerName: "Retenciones",
-      width: 150,
+      width: 200,
       description: "Retenciones",
+      ...Moneda,
+    },
+    {
+      field: "RecAdeudos",
+      headerName: "Recaudación de Adeudos",
+      width: 200,
+      description: "Recaudación de Adeudos",
       ...Moneda,
     },
     {
@@ -398,7 +443,7 @@ const Participaciones = () => {
       description: "Descuentos",
       ...Moneda,
     },
-    
+
 
     {
       field: "importe",
@@ -504,13 +549,14 @@ const Participaciones = () => {
 
   const handleClose = () => {
     setOpenModal(false);
+    setOpenModalRetenciones(false);
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
     handleClick();
     setOpenModalVerSpei(false);
   };
   const handleAccion = () => {
-   
+
   };
 
   const handleFilterChange1 = (v: string) => {
@@ -582,8 +628,8 @@ const Participaciones = () => {
     //   SETDAF_SPEI(true);
     // }
 
-   
-   
+
+
   };
 
   const Fnworkflow = (data: string) => {
@@ -630,9 +676,6 @@ const Participaciones = () => {
       });
     }
   };
-
-  
-
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     setslideropen(true);
@@ -924,8 +967,6 @@ const Participaciones = () => {
     }
   };
 
-
-
   const handleFinalizarParticipacion = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
@@ -980,7 +1021,6 @@ const Participaciones = () => {
     }
   };
 
-  
   const handleTranEgreso = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
@@ -1034,6 +1074,7 @@ const Participaciones = () => {
       });
     }
   };
+
   const handleAuthParticipacion = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
@@ -1141,7 +1182,7 @@ const Participaciones = () => {
       });
     }
   };
- 
+
   const handleAutEgresos = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
@@ -1311,37 +1352,37 @@ const Participaciones = () => {
 
     }
 
-    if (idestatus ==='a2d2adfc-8e12-11ed-a98c-040300000000'){
+    if (idestatus === 'a2d2adfc-8e12-11ed-a98c-040300000000') {
       SETDAMOP_INI(true);
-     }else if(idestatus ==='d117049e-8e12-11ed-a98c-040300000000'){
-       SETDAMOP_FSE(true);
-     }else if(idestatus ==='e0f0d317-8e12-11ed-a98c-040300000000'){
-       SETDAMOP_ASE(true);
-     }else if(idestatus ==='ef68291d-8e12-11ed-a98c-040300000000'){
-       SETDAMOP_TE(true);
-     }else if(idestatus ==='fe7fae95-8e12-11ed-a98c-040300000000'){
-       SETDAMOP_AE(true);
-     }else if(idestatus ==='0c1b887e-8e13-11ed-a98c-040300000000'){
-       SETDAMOP_FE(true);
-     }else if(idestatus ==='1a7d41ed-8e13-11ed-a98c-040300000000'){
-       SETDAMOP_VE(true);
-     }else if(idestatus ==='2a879241-8e13-11ed-a98c-040300000000'){
-       SETDAMOP_GSE(true);
-     }else if(idestatus ==='399a2ffe-8e13-11ed-a98c-040300000000'){
-       SETDAMOP_ASP(true);
-     }else if(idestatus ==='4a5cf61b-8e13-11ed-a98c-040300000000'){
-       SETDAMOP_FRA(true);
-     }else if(idestatus ==='596e5f1e-8e13-11ed-a98c-040300000000'){
-       SETDAMOP_ARA(true);
-     }else if(idestatus ==='67d9cdb6-8e13-11ed-a98c-040300000000'){
-       SETDAMOP_FINALIZADO(true);
-     }else if(idestatus ==='e6fd8a34-9073-11ed-a98c-040300000000'){
-       SETDAMOP_PFI(true);
-     }else if(idestatus ==='f747b03c-9073-11ed-a98c-040300000000'){
-       SETDAMOP_PAUT(true);
-     }else if(idestatus ==='b825e8af-91e8-11ed-a912-705a0f328da6'){
-       SETDAF_SPEI(true);
-     }
+    } else if (idestatus === 'd117049e-8e12-11ed-a98c-040300000000') {
+      SETDAMOP_FSE(true);
+    } else if (idestatus === 'e0f0d317-8e12-11ed-a98c-040300000000') {
+      SETDAMOP_ASE(true);
+    } else if (idestatus === 'ef68291d-8e12-11ed-a98c-040300000000') {
+      SETDAMOP_TE(true);
+    } else if (idestatus === 'fe7fae95-8e12-11ed-a98c-040300000000') {
+      SETDAMOP_AE(true);
+    } else if (idestatus === '0c1b887e-8e13-11ed-a98c-040300000000') {
+      SETDAMOP_FE(true);
+    } else if (idestatus === '1a7d41ed-8e13-11ed-a98c-040300000000') {
+      SETDAMOP_VE(true);
+    } else if (idestatus === '2a879241-8e13-11ed-a98c-040300000000') {
+      SETDAMOP_GSE(true);
+    } else if (idestatus === '399a2ffe-8e13-11ed-a98c-040300000000') {
+      SETDAMOP_ASP(true);
+    } else if (idestatus === '4a5cf61b-8e13-11ed-a98c-040300000000') {
+      SETDAMOP_FRA(true);
+    } else if (idestatus === '596e5f1e-8e13-11ed-a98c-040300000000') {
+      SETDAMOP_ARA(true);
+    } else if (idestatus === '67d9cdb6-8e13-11ed-a98c-040300000000') {
+      SETDAMOP_FINALIZADO(true);
+    } else if (idestatus === 'e6fd8a34-9073-11ed-a98c-040300000000') {
+      SETDAMOP_PFI(true);
+    } else if (idestatus === 'f747b03c-9073-11ed-a98c-040300000000') {
+      SETDAMOP_PAUT(true);
+    } else if (idestatus === 'b825e8af-91e8-11ed-a912-705a0f328da6') {
+      SETDAF_SPEI(true);
+    }
     let data = {
       TIPO: 1,
       P_FONDO: idFondo === "false" ? "" : idFondo,
@@ -1394,7 +1435,7 @@ const Participaciones = () => {
     loadFilter(17);
     loadFilter(25);
     loadFilter(24);
-   // handleClick();
+    // handleClick();
     downloadplantilla();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
@@ -1425,7 +1466,6 @@ const Participaciones = () => {
         ""
       )}
 
-
       {openModalDetalle ? (
         <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
           <ParticipacionesDetalle
@@ -1435,12 +1475,15 @@ const Participaciones = () => {
         ""
       )}
 
-
-
-
-
       {openModalDescuento ? (
         <Descuentos
+          tipo={1} handleClose={handleClose} dt={vrows} />
+      ) : (
+        ""
+      )}
+
+      {openModalRetenciones ? (
+        <Retenciones
           tipo={1} handleClose={handleClose} dt={vrows} />
       ) : (
         ""
@@ -1564,9 +1607,6 @@ const Participaciones = () => {
               </ToggleButton>
             </Tooltip>
 
-
-
-
             {cargarPlant ? (
               <Tooltip title={"Generar Anticipos"}>
                 <ToggleButton value="check">
@@ -1590,8 +1630,6 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-
-
 
             {descPlant ? (
               <Tooltip title={"Descargar Plantilla"}>
@@ -1662,119 +1700,119 @@ const Participaciones = () => {
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
           <ToggleButtonGroup>
 
-          {DAMOP_FSE ? (
-            <Tooltip title={"Finalizar solicitud de egreso"}>
-              <ToggleButton value="check">
-                <EditOffIcon />
-              </ToggleButton>
-            </Tooltip>
-             ) : (
-           ""
-               )}
+            {DAMOP_FSE ? (
+              <Tooltip title={"Finalizar solicitud de egreso"}>
+                <ToggleButton value="check">
+                  <EditOffIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
-{DAMOP_ASE ? (
-            <Tooltip title={"Autorizar solicitud de egreso"}>
-              <ToggleButton value="check">
-                <CheckCircleIcon />
-              </ToggleButton>
-            </Tooltip>
-  ) : (
-    ""
-        )}
+            {DAMOP_ASE ? (
+              <Tooltip title={"Autorizar solicitud de egreso"}>
+                <ToggleButton value="check">
+                  <CheckCircleIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
-{DAMOP_TE ? (
-            <Tooltip title={"Transferir a egreso"}> 
-            {/* // GENERA EL NUM DE EGRESO */}
-              <ToggleButton value="check"  onClick={() => handleTranEgreso()}>
-                <ArrowUpwardIcon />
-              </ToggleButton>
-            </Tooltip>
-) : (
-  ""
-      )}
+            {DAMOP_TE ? (
+              <Tooltip title={"Transferir a egreso"}>
+                {/* // GENERA EL NUM DE EGRESO */}
+                <ToggleButton value="check" onClick={() => handleTranEgreso()}>
+                  <ArrowUpwardIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
-{DAMOP_AE ? (
-            <Tooltip title={"Autorizar egresos"}>
-              <ToggleButton value="check"  onClick={() => handleAutEgresos()}>
-                <CheckCircleIcon />
-              </ToggleButton>
-            </Tooltip>
-) : (
-  ""
-      )}
+            {DAMOP_AE ? (
+              <Tooltip title={"Autorizar egresos"}>
+                <ToggleButton value="check" onClick={() => handleAutEgresos()}>
+                  <CheckCircleIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
-{DAMOP_FE ? (
-            <Tooltip title={"Finalizar egreso"}>
-              <ToggleButton value="check" onClick={() => handleFinEgreso()}>
-                <EditOffIcon />
-              </ToggleButton>
-            </Tooltip>
-) : (
-  ""
-      )}
+            {DAMOP_FE ? (
+              <Tooltip title={"Finalizar egreso"}>
+                <ToggleButton value="check" onClick={() => handleFinEgreso()}>
+                  <EditOffIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
-{DAMOP_VE ? (
-            <Tooltip title={"Validar egreso"}>
-              <ToggleButton value="check"  onClick={() => handleValEgresos()}>   
-                <ThumbUpIcon />
-              </ToggleButton>
-            </Tooltip>
-) : (
-  ""
-      )}
+            {DAMOP_VE ? (
+              <Tooltip title={"Validar egreso"}>
+                <ToggleButton value="check" onClick={() => handleValEgresos()}>
+                  <ThumbUpIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
-{DAMOP_GSE ? (
-   
-            <Tooltip title={"Generar solicitud de pago"}>
-              {/* // GENERA N DE ORDEN DE PAGO */}
-              <ToggleButton value="check" onClick={() => handleGenNumOrdenPago()}>
-                <AttachMoneyIcon />
-              </ToggleButton>
-            </Tooltip>
-) : (
-  ""
-      )}
+            {DAMOP_GSE ? (
 
-{DAMOP_FRA ? (
-            <Tooltip title={"Finalizar requerimiento de anticipo"}>
-              <ToggleButton value="check">
-                <EditOffIcon />
-              </ToggleButton>
-            </Tooltip>
-) : (
-  ""
-      )}
+              <Tooltip title={"Generar solicitud de pago"}>
+                {/* // GENERA N DE ORDEN DE PAGO */}
+                <ToggleButton value="check" onClick={() => handleGenNumOrdenPago()}>
+                  <AttachMoneyIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
-{DAMOP_ARA ? (
-            <Tooltip title={"Autorizar requerimiento de anticipo"}>
-              <ToggleButton value="check">
-                <CheckCircleIcon />
-              </ToggleButton>
-            </Tooltip>
-) : (
-  ""
-      )}
+            {DAMOP_FRA ? (
+              <Tooltip title={"Finalizar requerimiento de anticipo"}>
+                <ToggleButton value="check">
+                  <EditOffIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+            {DAMOP_ARA ? (
+              <Tooltip title={"Autorizar requerimiento de anticipo"}>
+                <ToggleButton value="check">
+                  <CheckCircleIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
 
-{DAMOP_PFI ? (
-            <Tooltip title={"Finalizar Participación"}>
-              <ToggleButton value="check" onClick={() => handleFinalizarParticipacion()} >
-                <EditOffIcon  />
-              </ToggleButton>
-            </Tooltip>
-) : (
-  ""
-      )}
+            {DAMOP_PFI ? (
+              <Tooltip title={"Finalizar Participación"}>
+                <ToggleButton value="check" onClick={() => handleFinalizarParticipacion()} >
+                  <EditOffIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
-{DAMOP_PAUT ? (
-            <Tooltip title={"Autorizar Participación"}>
-              <ToggleButton value="check"  onClick={() => handleAuthParticipacion()}>
-                <CheckCircleIcon />
-              </ToggleButton>
-            </Tooltip>
-) : (
-  ""
-      )}
+            {DAMOP_PAUT ? (
+              <Tooltip title={"Autorizar Participación"}>
+                <ToggleButton value="check" onClick={() => handleAuthParticipacion()}>
+                  <CheckCircleIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
 
           </ToggleButtonGroup>
@@ -1803,8 +1841,8 @@ const Participaciones = () => {
                     return "";
                   }
                   return clsx("super-app", {
-                    negative: params.row.Presupuesto !== params.row.total,
-                    positive: params.row.Presupuesto == params.row.total,
+                    // negative: params.row.Presupuesto !== params.row.total,
+                    // positive: params.row.Presupuesto == params.row.total,
                   });
                 }}
                 components={{ Toolbar: GridToolbar }}
@@ -1812,8 +1850,8 @@ const Participaciones = () => {
                   fontFamily: "Poppins,sans-serif",
                   fontWeight: "600",
                   "& .super-app.negative": {
-                    color: "rgb(84, 3, 3)",
-                    backgroundColor: "rgb(196, 40, 40, 0.384)",
+                  color: "rgb(84, 3, 3)",
+                  backgroundColor: "rgb(196, 40, 40, 0.384)",
                   },
                   "& .super-app.positive": {
                     backgroundColor: "rgb(16, 145, 80, 0.567)",
@@ -1854,10 +1892,10 @@ const Participaciones = () => {
           </div>
         </Grid>
       </Grid>
-      {openModalVerSpei?
-      
-    <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows}/>:""}
-    {openCheque ? <ModalCheque tipo={tipo}   handleClose={handleclose}  vrows={vrows} />: ""}
+      {openModalVerSpei ?
+
+        <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows} /> : ""}
+      {openCheque ? <ModalCheque tipo={tipo} handleClose={handleclose} vrows={vrows} /> : ""}
     </div>
   );
 };
