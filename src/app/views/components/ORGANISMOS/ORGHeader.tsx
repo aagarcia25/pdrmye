@@ -1,7 +1,6 @@
 import {
     createTheme,
     Grid,
-    IconButton,
     TextField,
     ThemeProvider,
     ToggleButton,
@@ -9,17 +8,14 @@ import {
     Tooltip,
     Typography,
   } from "@mui/material";
-  import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
-  import CheckBoxIcon from "@mui/icons-material/CheckBox";
+  import clsx from "clsx";
   import React, { useEffect, useState } from "react";
   import SelectValues from "../../../interfaces/Select/SelectValues";
   import { CatalogosServices } from "../../../services/catalogosServices";
   import SelectFrag from "../Fragmentos/SelectFrag";
-  import { Moneda, } from "../menu/CustomToolbar";
+  import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
   import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
   import { getPermisos, getUser } from "../../../services/localStorage";
-  import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-  import AddSharpIcon from '@mui/icons-material/AddSharp';
   import Slider from "../Slider";
   import {
     DataGrid,
@@ -50,15 +46,6 @@ export const ORGHeader = ({
   const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
   const [vrows, setVrows] = useState<{}>("");
   const [proyecto, setProyecto] = useState<string>('');
-  const [numCuenta, setNumCuenta] = useState<string>('');
-
-  const [HDetalle, setHDetalle] = useState<boolean>(true);
-  const [HHeader, setHHeader]   = useState<boolean>(true);
-  const [HCancel,setHCancel]    = useState<boolean>(true);
-  const [HSave,setHSave]        = useState<boolean>(true);
-  const [HAdd,setHAdd]          = useState<boolean>(false);
-  const [HEdit,setHEdit]        = useState<boolean>(true);
- 
 
 
 
@@ -70,15 +57,6 @@ export const ORGHeader = ({
 
   //Constantes para las columnas
   const [data, setData] = useState([]);
-
-  const handleEditar=()=>{
-    setHHeader(false);
-    setHDetalle(true);
-    setHCancel(false);
-    setHSave(false);
-
-  }
-
 
 
   const handleFilterChange1 = (v: string) => {
@@ -102,25 +80,6 @@ export const ORGHeader = ({
     setVrows(data);
     setOpenModalDetalle(true);
   };
-
-  const handleAdd = () => {
-    setHHeader(false);
-    setHDetalle(true);
-    setHCancel(false);
-    setHSave(false);
-    setHEdit(true);
-    setHAdd(true);
-  };
-
-  const handleCancel = () => {
-    setHHeader(true);
-    setHDetalle(true);
-    setHCancel(true);
-    setHSave(true);
-    setHAdd(false);
-    setHEdit(true);
-  };
-
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -194,54 +153,27 @@ export const ORGHeader = ({
 
 
 
-    <Grid container  >
+    <Grid container spacing={1} padding={0}>
 
-    <Grid container  >
-    <Grid item xs={12} sm={12} md={12} lg={12}>
-          
-          
-
-          <Tooltip title="Agregar Registro">
-              <IconButton   onClick={() => handleAdd()} color= {!HAdd ? "success":"inherit" }  disabled={HAdd} >
-                <AddSharpIcon />
-              </IconButton >
-            </Tooltip>
-            <Tooltip title="Editar Registro">
-              <IconButton   onClick={() => handleEditar()} color= {!HEdit ? "info":"inherit" } disabled={HEdit} >
-                <ModeEditOutlineIcon />
-              </IconButton >
-            </Tooltip>
-            <Tooltip title="Grabar Cambios">
-              <IconButton   onClick={() => handleAdd()}    color= {!HSave ? "success":"inherit" } disabled={HSave} >
-                <CheckBoxIcon />
-              </IconButton >
-            </Tooltip>
-            <Tooltip title="Cancelar Cambios">
-              <IconButton  onClick={() => handleCancel()} color= {!HCancel ? "error":"inherit" } disabled={HCancel} >
-                <CancelPresentationIcon />
-              </IconButton >
-            </Tooltip>
-          
-    </Grid>
-    </Grid>  
+    <Grid container >
 
 
-
-    <Grid container  spacing={1}>
-
-
-     <Grid item xs={2} sm={2} md={2} lg={2}>
-     <Typography sx={{ fontFamily: "sans-serif" }}>U.Resp:</Typography>
+     <Grid item xs={6} sm={4} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>U.Resp:</Typography>
             <SelectFrag
               value={idUResp}
               options={ures}
               onInputChange={handleFilterChange1}
               placeholder={"Seleccione U.Resp"}
               label={""}
-              disabled={HHeader}
+              disabled={false}
             />
       </Grid> 
 
+
+    </Grid>
+      
+     <Grid container  spacing={2}>
 
 
      <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -252,7 +184,7 @@ export const ORGHeader = ({
               onInputChange={handleFilterChange2}
               placeholder={"Seleccione Proveedor"}
               label={""}
-              disabled={HHeader}
+              disabled={false}
             />
       </Grid> 
 
@@ -263,20 +195,26 @@ export const ORGHeader = ({
                       value={proyecto}
                       variant="standard"
                       onChange={(v) => setProyecto(v.target.value)}
-                      disabled={HHeader}
                     />
       </Grid> 
 
 
-      <Grid item xs={2} sm={2} md={2} lg={2}>
+    </Grid>  
+
+
+    <Grid container  spacing={2}>
+
+
+     <Grid item xs={2} sm={2} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>No. de Cuenta:</Typography>
-            <TextField
-                      required
-                      value={numCuenta}
-                      variant="standard"
-                      onChange={(v) => setNumCuenta(v.target.value)}
-                      disabled={HHeader}
-                    />
+            <SelectFrag
+              value={idProveedor}
+              options={provedores}
+              onInputChange={handleFilterChange2}
+              placeholder={"Seleccione No. de Cuenta"}
+              label={""}
+              disabled={false}
+            />
       </Grid> 
 
       <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -287,7 +225,7 @@ export const ORGHeader = ({
               onInputChange={handleFilterChange3}
               placeholder={"Seleccione Concepto"}
               label={""}
-              disabled={HHeader}
+              disabled={false}
             />
       </Grid> 
 
@@ -295,23 +233,18 @@ export const ORGHeader = ({
     </Grid>  
 
 
-
-
-    <Grid container  >
-    <Grid item xs={12} sm={12} md={12} lg={12}>
-        <ToggleButtonGroup color="primary" exclusive aria-label="Platform"  disabled={HHeader}>
-          <Tooltip title="Agregar Detalle">
+      
+      <Grid item xs={12} sm={12} md={12} lg={12}>
+        <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+          <Tooltip title="Agregar Registro">
             <ToggleButton value="check" onClick={() => handleDetalle({})} >
               <AddIcon />
             </ToggleButton>
           </Tooltip>
         </ToggleButtonGroup>
-    </Grid>
-    </Grid>
+      </Grid>
 
-
-    <Grid container  >
-    <Grid item xs={12} sm={12} md={12} lg={12}>
+      <Grid item xs={12} sm={12} md={12} lg={12}>
         <div
           style={{
             height: "58vh",
@@ -368,9 +301,7 @@ export const ORGHeader = ({
             />
           </ThemeProvider> 
         </div>
-    </Grid>
-    </Grid>
-
+      </Grid>
     </Grid>
  
  
