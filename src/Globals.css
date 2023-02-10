@@ -151,6 +151,14 @@ button.guardar {
  color: rgb(11, 116, 63);
 
 }
+button.CerrarModal {
+  font-size: 20px;
+  transition-duration: 0.2s;
+ font-family:  sans-serif;
+ color: rgb(225, 60, 54);
+
+}
+
 
 button.editar {
   font-size: 20px;

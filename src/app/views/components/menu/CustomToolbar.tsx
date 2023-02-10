@@ -34,11 +34,11 @@ export const currencyFormatter = new Intl.NumberFormat("es-US", {
 export const Moneda: GridColTypeDef = { type: "number", valueFormatter: ({ value }) => currencyFormatter.format(value),headerAlign:"left",
 cellClassName: (params: GridCellParams<number>) => {
   if (params.value == null) {
-    return '';
+    return '0';
   }
 
   return clsx('super-app', {
-    negative: params.value < 0,
+    negative: params.value <= 0,
     positive: params.value > 0,
   });
 },
@@ -49,7 +49,7 @@ headerClassName: (params: GridColumnHeaderParams<number>) => {
   }
 
   return clsx('super-app', {
-    negative: Number(params.field) < 0,
+    negative: Number(params.field) < 1,
     positive: Number(params.field) > 0,
   });
 },
