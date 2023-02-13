@@ -50,22 +50,33 @@ export default function MUIXDataGridSimple(props: any) {
             }}
             localeText={{
               noRowsLabel: "No se ha encontrado datos.",
-              noResultsOverlayLabel: "No se ha encontrado ningún resultado",
-              toolbarColumns: "Columnas",
-              toolbarExport:"Exportar",
-              toolbarColumnsLabel: "Seleccionar columnas",
-              toolbarFilters: "Filtros",
-              toolbarFiltersLabel: "Ver filtros",
-              toolbarFiltersTooltipHide: "Quitar filtros",
-              toolbarFiltersTooltipShow: "Ver filtros",
-              toolbarQuickFilterPlaceholder:"Buscar",
-              toolbarExportLabel: 'Exportar',
-              toolbarExportCSV: 'Enviar a  CSV',
-              toolbarExportPrint: 'Imprimir',
-              columnMenuUnsort: 'Sin Orden',
-              columnMenuSortAsc: 'Ordenar Ascendente',
-              columnMenuSortDesc: 'Ordenar Descendente',
-            columnHeaderSortIconLabel:'Ordenar',
+                  noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+                  toolbarColumns: "Columnas",
+                  toolbarExport: "Exportar",
+                  toolbarColumnsLabel: "Seleccionar columnas",
+                  toolbarFilters: "Filtros",
+                  toolbarFiltersLabel: "Ver filtros",
+                  toolbarFiltersTooltipHide: "Quitar filtros",
+                  toolbarFiltersTooltipShow: "Ver filtros",
+                  toolbarQuickFilterPlaceholder: "Buscar",
+                  toolbarExportCSV: 'Descargar como CSV',
+                  toolbarExportPrint: 'Imprimir',
+                  checkboxSelectionSelectRow: "Filas seleccionadas",
+                  checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
+                  errorOverlayDefaultLabel: 'Ha ocurrido un error.',
+                  footerRowSelected: (count) =>
+                    count > 1 ?
+                      `${count.toLocaleString()} filas seleccionadas`
+                      :
+                      `${count.toLocaleString()} fila seleccionada`,
+                  footerTotalRows: 'Filas Totales:',
+                  columnMenuLabel: 'Menú',
+                  columnMenuShowColumns: 'Mostrar columnas',
+                  columnMenuFilter: 'Filtro',
+                  columnMenuHideColumn: 'Ocultar',
+                  columnMenuUnsort: 'Desordenar',
+                  columnMenuSortAsc: 'Ordenar ASC',
+                  columnMenuSortDesc: 'Ordenar DESC',
               
           }}
           />

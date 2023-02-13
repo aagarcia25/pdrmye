@@ -91,7 +91,8 @@ const MunicipiosUsuarioResponsable = ({
       Toast.fire({
         icon: "error",
         title:"Relacion Eliminada!",
-      }):
+      })
+      :
       Toast.fire({
         icon: "info",
         title: nuevaRelacion?"Registro Agregado!":"Registro Actualizado!",

@@ -31,6 +31,7 @@ import Radio from '@mui/material/Radio';
 import Swal from "sweetalert2";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { currencyFormatter, Moneda } from "../menu/CustomToolbar";
+import EditIcon from '@mui/icons-material/Edit';
 export const Descuentos = ({
   handleClose,
   tipo,
@@ -46,6 +47,9 @@ export const Descuentos = ({
 
   const [dataRow, setdataRow] = useState([]);
   const [openModalDes, setOpenModalDes] = useState<boolean>(false);
+  const [editarRegistro, setEditarRegistro] = useState<boolean>(false);
+  const [idRegistro, setIdRegistro] = useState<string>();
+
   const [value, setValue] = useState("");
   const [desPar, setDesPar] = useState<string>();
   const [otrosCar, setOtrosCar] = useState<string>();
@@ -74,6 +78,11 @@ export const Descuentos = ({
             <Tooltip title="Eliminar Descuento">
               <IconButton onClick={() => handleEliminarDescuento(v)}>
                 <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Editar Descuento">
+              <IconButton onClick={() => handleOpen(true, v)}>
+                <EditIcon />
               </IconButton>
             </Tooltip>
           </Box>
@@ -205,7 +214,7 @@ export const Descuentos = ({
   };
 
   const handleEliminarDescuento = (v: any) => {
-
+    console.log(v.row)
     Swal.fire({
       icon: "warning",
       title: "Solicitar",
@@ -229,6 +238,9 @@ export const Descuentos = ({
             setDesPar("0");
             setComentariosDes("")
             consulta("remove");
+
+            setSumDes(sumDes - Number(v.row.total))
+
             Toast.fire({
               icon: "success",
               title: "Descuento Eliminado!",
@@ -270,8 +282,9 @@ export const Descuentos = ({
           if (result.isConfirmed) {
 
             let data = {
-              NUMOPERACION: 1,
+              NUMOPERACION: !editarRegistro ? 1 : 3,
               CHID: dt.row.id,
+              IDDESCUENTO: idRegistro,
               CHUSER: user.id,
               IDMUN: dt.row.idmunicipio,
               TIPO: value === "Anticipo" ? 1 : 2,
@@ -295,6 +308,7 @@ export const Descuentos = ({
                   icon: "success",
                   title: "Descuento Agregado!",
                 });
+                handleCloseModal();
               } else {
                 AlertS.fire({
                   title: "Error!",
@@ -327,8 +341,21 @@ export const Descuentos = ({
     // setCveReten(e);
   };
 
-  const handleOpen = () => {
-    setOpenModalDes(true);
+  const handleOpen = (editar: boolean, data: any) => {
+    if (editar) {
+      setEditarRegistro(true);
+      setOpenModalDes(true);
+      setCveReten(data.row.cveRetencion);
+      setOtrosCar(data.row.OtrosCargos);
+      setDesPar(data.row.ParcialDescuento);
+      setNumOperacion(data.row.NumOperacion);
+      setComentariosDes(data.row.DescripcionDescuento);
+      setValue(data.row.Tipo === "1" ? "Anticipo" : "RecuperacionAdeudos");
+      setIdRegistro(data.row.id);
+
+    } else {
+      setOpenModalDes(true);
+    }
   };
 
   const handleCloseModal = () => {
@@ -429,7 +456,7 @@ export const Descuentos = ({
               <br />
               {"Descuentos: " + sumDes}
               <br />
-              {"Retenciones: " + (Number(dt.row.Retenciones) )}
+              {"Retenciones: " + (Number(dt.row.Retenciones))}
               <br />
               {"Total Neto: " + (Number(dt.row.total) - (sumret + sumDes))}
               <br />
@@ -442,14 +469,12 @@ export const Descuentos = ({
 
           </Grid>
         </Grid>
-        <ButtonsAdd handleOpen={handleOpen} agregar={true} />
+        <ButtonsAdd handleOpen={() => handleOpen(false, null)} agregar={true} />
         <MUIXDataGrid columns={columns} rows={dataRow} />
       </ModalForm>
 
       {openModalDes ?
-        <Dialog
-          open={openModalDes}
-        >
+        <Dialog open={openModalDes}>
           <Grid container justifyContent="space-between">
             <DialogTitle>Edición de Descuentos</DialogTitle>
             <Button variant="outlined" onClick={() => handleCloseModal()}>
@@ -506,14 +531,7 @@ export const Descuentos = ({
                 {value === "RecuperacionAdeudos" ?
                   <Grid item xs={11.99}>
                     <label > Num. Operación</label>
-                    {/* <SelectFrag
-                      value={numOperacion}
-                      options={numOperacionOp}
-                      onInputChange={handleSelectNumOp}
-                      placeholder={"Seleccionar Usuario"}
-                      label={"Num.  Operación"}
-                      disabled={false}
-                    /> */}
+
                     <TextField
                       required
                       // disabled
@@ -529,14 +547,7 @@ export const Descuentos = ({
                   :
                   <>
                     <label > Num. Operación</label>
-                    {/* <SelectFrag
-                      value={numOperacion}
-                      options={numOperacionOp}
-                      onInputChange={handleSelectNumOp}
-                      placeholder={"Seleccionar Usuario"}
-                      label={"Num. Operación"}
-                      disabled={value === "RecuperacionAdeudos"}
-                    /> */}
+
                     <TextField
                       required
                       // disabled
@@ -550,6 +561,7 @@ export const Descuentos = ({
                     />
                   </>
                 }
+
 
               </Grid>
 
@@ -601,6 +613,7 @@ export const Descuentos = ({
                   onChange={(v) => setDesPar(v.target.value)}
                   InputLabelProps={{ shrink: true }}
                 />
+
               </Grid>
               <Grid item xs={4}>
                 <label>Otros Cargos</label>
@@ -684,7 +697,7 @@ export const Descuentos = ({
                 || numOperacion === ""
                 || numOperacion === "false"
                 || ((desPar !== undefined ? Number(desPar) : 0) + (otrosCar !== undefined ? Number(otrosCar) : 0)) === 0
-                ||  (value === "RecuperacionAdeudos"? !cveReten :false)}
+                || (value === "RecuperacionAdeudos" ? !cveReten : false)}
               onClick={handleAplicarDescuento}>Aplicar</Button>
           </DialogActions>
         </Dialog>

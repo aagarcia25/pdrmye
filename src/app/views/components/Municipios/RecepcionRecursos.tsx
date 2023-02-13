@@ -426,7 +426,24 @@ const RecepcionRecursos = () => {
                   toolbarFiltersTooltipHide: "Quitar filtros",
                   toolbarFiltersTooltipShow: "Ver filtros",
                   toolbarQuickFilterPlaceholder: "Buscar",
-                  checkboxSelectionSelectRow:"Filas Seleccionadas",
+                  toolbarExportCSV: 'Descargar como CSV',
+                  toolbarExportPrint: 'Imprimir',
+                  checkboxSelectionSelectRow: "Filas seleccionadas",
+                  checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
+                  errorOverlayDefaultLabel: 'Ha ocurrido un error.',
+                  footerRowSelected: (count) =>
+                    count > 1 ?
+                      `${count.toLocaleString()} filas seleccionadas`
+                      :
+                      `${count.toLocaleString()} fila seleccionada`,
+                  footerTotalRows: 'Filas Totales:',
+                  columnMenuLabel: 'Menú',
+                  columnMenuShowColumns: 'Mostrar columnas',
+                  columnMenuFilter: 'Filtro',
+                  columnMenuHideColumn: 'Ocultar',
+                  columnMenuUnsort: 'Desordenar',
+                  columnMenuSortAsc: 'Ordenar ASC',
+                  columnMenuSortDesc: 'Ordenar DESC',
                 }}
               />
             </ThemeProvider>

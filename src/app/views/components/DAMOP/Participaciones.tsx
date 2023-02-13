@@ -39,6 +39,7 @@ import {
   GridSelectionModel,
   GridToolbar,
   esES as gridEsES,
+  nlNL,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
@@ -268,6 +269,8 @@ const Participaciones = () => {
     {
       field: "estatus",
       headerName: "Estatus",
+      description: "Estatus",
+
       width: 200,
     },
     {
@@ -282,14 +285,14 @@ const Participaciones = () => {
           <Box>
             {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
             {String(v.row.Clave) === 'FGP' && String(v.row.estatusCI) === 'DAMOP_TE' ? (
-              <Tooltip title="Agregar Descuentos">
+              <Tooltip title="Administrar Descuentos">
                 <IconButton
                   onClick={() => handleDescuento(v)}>
                   <AddIcon />
                 </IconButton>
               </Tooltip>
             ) : ("")}
-           
+
           </Box>
         );
       },
@@ -305,9 +308,9 @@ const Participaciones = () => {
         return (
           <Box>
             {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
-            {String(v.row.Clave) === 'FGP' && String(v.row.estatusCI) === 'DAMOP_TE'? (
+            {String(v.row.Clave) === 'FGP' && String(v.row.estatusCI) === 'DAMOP_TE' ? (
               <>
-     
+
                 <Tooltip title="Admistrar Retenciones">
                   <IconButton
                     onClick={() => handleRetenciones(v)}>
@@ -355,6 +358,7 @@ const Participaciones = () => {
     {
       field: "tipocalculo",
       headerName: "Tipo Cálculo",
+      description: "Tipo Cálculo",
       width: 150,
     },
     {
@@ -366,13 +370,14 @@ const Participaciones = () => {
     {
       field: "fondodes",
       headerName: "Descripción de Fondo",
+      description: "Descripción de Fondo",
       width: 250,
     },
     {
       field: "ClaveBeneficiario",
       headerName: "Cve. Beneficiario",
       width: 150,
-      description: "Beneficiario",
+      description: "Clave de Beneficiario",
     },
     {
       field: "DescripcionBeneficiario",
@@ -383,21 +388,27 @@ const Participaciones = () => {
     {
       field: "uresclave",
       headerName: "U. Resp",
+      description: "Unidad Responsable",
+
       width: 100,
     },
     {
       field: "NumProyecto",
       headerName: "Proyecto",
+      description: "Numero de Proyecto",
       width: 150,
     },
     {
       field: "ConceptoEgreso",
       headerName: "Cpto. de  egreso",
+      description: "Concepto de Egreso",
       width: 150,
     },
     {
       field: "conceptoCheque",
       headerName: "Cpto. de  Cheque",
+      description: "Concepto de Cheque",
+
       width: 270,
     },
 
@@ -405,6 +416,7 @@ const Participaciones = () => {
     {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
+      description: "Clave Presupuestal",
       width: 600,
       hide: false,
     },
@@ -1827,6 +1839,7 @@ const Participaciones = () => {
           >
             <ThemeProvider theme={theme}>
               <DataGrid
+                // localeText={nlNL.components.MuiDataGrid.defaultProps.localeText.}
                 columns={columnsParticipaciones}
                 rows={data}
                 density="compact"
@@ -1850,8 +1863,8 @@ const Participaciones = () => {
                   fontFamily: "Poppins,sans-serif",
                   fontWeight: "600",
                   "& .super-app.negative": {
-                  color: "rgb(84, 3, 3)",
-                  backgroundColor: "rgb(196, 40, 40, 0.384)",
+                    color: "rgb(84, 3, 3)",
+                    backgroundColor: "rgb(196, 40, 40, 0.384)",
                   },
                   "& .super-app.positive": {
                     backgroundColor: "rgb(16, 145, 80, 0.567)",
@@ -1886,6 +1899,24 @@ const Participaciones = () => {
                   toolbarFiltersTooltipHide: "Quitar filtros",
                   toolbarFiltersTooltipShow: "Ver filtros",
                   toolbarQuickFilterPlaceholder: "Buscar",
+                  toolbarExportCSV: 'Descargar como CSV',
+                  toolbarExportPrint: 'Imprimir',
+                  checkboxSelectionSelectRow: "Filas seleccionadas",
+                  checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
+                  errorOverlayDefaultLabel: 'Ha ocurrido un error.',
+                  footerRowSelected: (count) =>
+                    count > 1 ?
+                      `${count.toLocaleString()} filas seleccionadas`
+                      :
+                      `${count.toLocaleString()} fila seleccionada`,
+                  footerTotalRows: 'Filas Totales:',
+                  columnMenuLabel: 'Menú',
+                  columnMenuShowColumns: 'Mostrar columnas',
+                  columnMenuFilter: 'Filtro',
+                  columnMenuHideColumn: 'Ocultar',
+                  columnMenuUnsort: 'Desordenar',
+                  columnMenuSortAsc: 'Ordenar ASC',
+                  columnMenuSortDesc: 'Ordenar DESC',
                 }}
               />
             </ThemeProvider>
@@ -1893,7 +1924,6 @@ const Participaciones = () => {
         </Grid>
       </Grid>
       {openModalVerSpei ?
-
         <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows} /> : ""}
       {openCheque ? <ModalCheque tipo={tipo} handleClose={handleclose} vrows={vrows} /> : ""}
     </div>
