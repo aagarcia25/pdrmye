@@ -197,7 +197,7 @@ button:hover {
 
 .editar:hover {
   background-color: hsl(208, 84%, 71%);
-  color: white;
+  color: rgb(1, 16, 132);
 }
 button.menu {
   transition-duration: 0.2s;
