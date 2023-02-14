@@ -219,3 +219,16 @@ export interface getDescuentos {
     cveRetencion: number;
     DescripcionDescuento?: any;
 }
+
+
+export interface IndexPaRetenciones {
+    id: string;
+    Tipo: string;
+    NumOperacion: number;
+    total: string;
+    OtrosCargos: string;
+    ParcialDescuento: string;
+    cveRetencion: number;
+    DescripcionDescuento?: any;
+    importe:number;
+}
