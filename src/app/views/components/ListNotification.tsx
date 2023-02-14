@@ -144,7 +144,7 @@ export const ListNotification = () => {
     };
     CatalogosServices.getliga(dat).then((res) => {
      // console.log(res.RESPONSE[0].route);
-       navigate(res.RESPONSE[0].route +"?id=" +v.row.idCalculo );
+       navigate(res.RESPONSE[0].route +"?id=" +v.row.idCalculo +"?name=" );
        
     });
   };
