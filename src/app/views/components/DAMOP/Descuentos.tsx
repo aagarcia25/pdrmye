@@ -94,7 +94,7 @@ export const Descuentos = ({
       renderCell: (v) => {
         return (
           <Box>
-            {v.row.Tipo === "1" ? "Descuentos" : "Retenciones"}
+            {v.row.Tipo === "1" ? "Descuentos" : "Recuperacion de Adeudos"}
           </Box>
         );
       },
@@ -175,31 +175,34 @@ export const Descuentos = ({
         var sumaDes = 0;
         var sumaRet = 0;
         var sumatotal = 0;
-        if (v === "add") {
-          res.RESPONSE.map((item: getDescuentos) => {
-            if (item.Tipo === "1") {
-              sumaDes = sumaDes + Number(item.total)
-            }
-            else if (item.Tipo === "2") {
-              sumaRet = sumaRet + Number(item.total)
-            }
+        // if (v === "add") {
+        res.RESPONSE.map((item: getDescuentos) => {
+          if (item.Tipo === "1") {
+            sumaDes = sumaDes + Number(item.total)
+          }
+          else if (item.Tipo === "2") {
+            sumaRet = sumaRet + Number(item.total)
+          }
 
-          });
-        }
-        if (v === "remove") {
-          res.RESPONSE.map((item: getDescuentos) => {
-            if (item.Tipo === "1") {
-              sumaDes = sumaDes - Number(item.total)
-            }
-            else if (item.Tipo === "2") {
-              sumaRet = sumaRet - Number(item.total)
-            }
-          });
-        }
+        });
+        // }
+        // if (v === "remove") {
+        //   res.RESPONSE.map((item: getDescuentos) => {
+        //     if (item.Tipo === "1") {
+        //       sumaDes = sumaDes - Number(item.total)
+        //     }
+        //     else if (item.Tipo === "2") {
+        //       sumaRet = sumaRet - Number(item.total)
+        //     }
+        //   });
+        // }
         res.RESPONSE.map((item: getDescuentos) => {
           sumatotal = sumatotal + Number(item.total)
           setSumaTotal(sumatotal)
         });
+         if(res.RESPONSE.length===0){
+          setSumaTotal(sumatotal)
+         }
 
         setSumDes(sumaDes);
         setSumRet(sumaRet);
@@ -214,7 +217,6 @@ export const Descuentos = ({
   };
 
   const handleEliminarDescuento = (v: any) => {
-    console.log(v.row)
     Swal.fire({
       icon: "warning",
       title: "Solicitar",
@@ -258,6 +260,7 @@ export const Descuentos = ({
   };
 
   const handleAplicarDescuento = () => {
+    console.log(Number(desPar))
     if (value.length < 1
       || desPar === "0"
       || numOperacion === ""
@@ -299,11 +302,12 @@ export const Descuentos = ({
             }
             DPCPServices.setDescuentos(data).then((res) => {
               if (res.SUCCESS) {
-                setValue("")
+                setValue("");
                 setOtrosCar("0");
                 setDesPar("0");
-                setComentariosDes("")
+                setComentariosDes("");
                 consulta("add");
+                setEditarRegistro(false);
                 Toast.fire({
                   icon: "success",
                   title: "Descuento Agregado!",
@@ -361,6 +365,7 @@ export const Descuentos = ({
   const handleCloseModal = () => {
     setValue("")
     setOpenModalDes(false);
+    setEditarRegistro(false);
     setOtrosCar("0");
     setDesPar("0");
     setComentariosDes("")
@@ -450,15 +455,15 @@ export const Descuentos = ({
               <br />
               {" Municipio: " + dt.row.Nombre}
               <br />
-              {" Total Bruto: " + dt.row.total}
+              {" Total Bruto: $" + Number(dt.row.total).toLocaleString("es-US")}
               <br />
-              {"Recuperación Adeudos: " + sumret}
+              {"Recuperación Adeudos:  $" + Number(sumret).toLocaleString("es-US")}
               <br />
-              {"Descuentos: " + sumDes}
+              {"Descuentos: $" + Number(sumDes).toLocaleString("es-US")}
               <br />
-              {"Retenciones: " + (Number(dt.row.Retenciones))}
+              {"Retenciones: $" + (Number(dt.row.Retenciones).toLocaleString("es-US"))}
               <br />
-              {"Total Neto: " + (Number(dt.row.total) - (sumret + sumDes))}
+              {"Total Neto: $" + (Number(dt.row.total) - (sumret + sumDes)).toLocaleString("es-US")}
               <br />
               {"Tipo de Solcitud: " + dt.row.TipoSolicitud}
               <br />
@@ -511,6 +516,7 @@ export const Descuentos = ({
             <Grid container >
               <Grid item xs={6}>
                 <Grid>
+                  <label>Numero: </label>
                   <label>{value === "" ? "" : value === "Anticipo" ? "Proveedor" : "Deudor"}</label>
                 </Grid>
 
@@ -538,15 +544,18 @@ export const Descuentos = ({
                       margin="dense"
                       id="NumOperacion"
                       value={numOperacion}
-                      type="number"
+                      type="text"
                       variant="outlined"
                       onChange={(v) => setNumOperacion(v.target.value)}
+                      inputProps={{ maxLength: 11 }}
                       InputLabelProps={{ shrink: true }}
+                      error={String(Number(numOperacion)) === "NaN"}
                     />
                   </Grid>
                   :
                   <>
                     <label > Num. Operación</label>
+
 
                     <TextField
                       required
@@ -554,10 +563,12 @@ export const Descuentos = ({
                       margin="dense"
                       id="NumOperacion"
                       value={numOperacion}
-                      type="number"
+                      type="text"
                       variant="outlined"
                       onChange={(v) => setNumOperacion(v.target.value)}
+                      inputProps={{ maxLength: 11 }}
                       InputLabelProps={{ shrink: true }}
+                      error={String(Number(numOperacion)) === "NaN"}
                     />
                   </>
                 }
@@ -608,10 +619,13 @@ export const Descuentos = ({
                   id="Proveedor"
                   // label="Descuento Parcial"
                   value={desPar}
-                  type="number"
+                  type="text"
                   variant="outlined"
                   onChange={(v) => setDesPar(v.target.value)}
                   InputLabelProps={{ shrink: true }}
+                  inputProps={{ maxLength: 30 }}
+                  error={String(Number(desPar)) === "NaN"}
+
                 />
 
               </Grid>
@@ -623,10 +637,14 @@ export const Descuentos = ({
                   margin="dense"
                   id="Proveedor"
                   value={otrosCar}
-                  type="number"
+                  type="text"
                   variant="outlined"
                   onChange={(v) => setOtrosCar(v.target.value)}
                   InputLabelProps={{ shrink: true }}
+                  error={String(Number(otrosCar)) === "NaN"}
+                  inputProps={{ maxLength: 30 }}
+
+
                 />
               </Grid>
               <Grid item xs={4}>
@@ -662,10 +680,13 @@ export const Descuentos = ({
                   margin="dense"
                   id="cveReten"
                   value={cveReten}
-                  type="number"
+                  type="text"
                   variant="outlined"
                   onChange={(v) => setCveReten(v.target.value)}
                   InputLabelProps={{ shrink: true }}
+                  error={String(Number(cveReten)) === "NaN"}
+                  inputProps={{ maxLength: 30 }}
+
                 />
               </Grid>
               : ""}
@@ -697,7 +718,11 @@ export const Descuentos = ({
                 || numOperacion === ""
                 || numOperacion === "false"
                 || ((desPar !== undefined ? Number(desPar) : 0) + (otrosCar !== undefined ? Number(otrosCar) : 0)) === 0
-                || (value === "RecuperacionAdeudos" ? !cveReten : false)}
+                || (value === "RecuperacionAdeudos" ? !cveReten : false)
+                || String(Number(desPar)) === "NaN"
+                || String(Number(numOperacion)) === "NaN"
+                || String(Number(otrosCar)) === "NaN"
+                || String(Number(cveReten)) === "NaN"}
               onClick={handleAplicarDescuento}>Aplicar</Button>
           </DialogActions>
         </Dialog>

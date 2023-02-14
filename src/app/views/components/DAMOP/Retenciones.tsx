@@ -30,6 +30,7 @@ import ButtonsAdd from "../menu/catalogos/Utilerias/ButtonsAdd";
 import CloseIcon from "@mui/icons-material/Close";
 import Swal from "sweetalert2";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
 import { currencyFormatter, Moneda } from "../menu/CustomToolbar";
 
 
@@ -46,9 +47,11 @@ export const Retenciones = ({
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [idPA, setIdPA] = useState("");
     const [idRetencion, setIdRetencion] = useState("");
-
+    const [idReg, setIdReg] = useState("");
     const [dataRow, setdataRow] = useState([]);
     const [openModalDes, setOpenModalDes] = useState<boolean>(false);
+    const [editar, setEditar] = useState<boolean>(false);
+    
     const [value, setValue] = useState("");
     const [desPar, setDesPar] = useState<string>();
     const [otrosCar, setOtrosCar] = useState<string>();
@@ -61,6 +64,7 @@ export const Retenciones = ({
     const [claveRetencionOp, setclaveRetencionOp] = useState<SelectValuesCatRetenciones[]>([]);
     // const [sumaDescuentos, setSumaDescuentos] = useState<number>(0);
     const [totalRetenciones, setTotalRetenciones] = useState<number>(0);
+    const [sumaTotal, setSumaTotal] = useState<Number>();
 
 
     const columns: GridColDef[] = [
@@ -78,6 +82,11 @@ export const Retenciones = ({
                         <Tooltip title="Eliminar Retención">
                             <IconButton onClick={() => handleEliminarDescuento(v)}>
                                 <DeleteForeverIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Editar Descuento">
+                            <IconButton onClick={() => handleOpen(true, v)}>
+                                <EditIcon />
                             </IconButton>
                         </Tooltip>
                     </Box>
@@ -104,7 +113,7 @@ export const Retenciones = ({
             field: "importe", headerName: "Total", description: "Total", width: 200, ...Moneda,
             renderHeader: () => (
                 <>
-                    {"Total: " + (totalRetenciones === undefined ? "0" : currencyFormatter.format(Number(totalRetenciones)))}
+                    {"Total: " + (sumaTotal === undefined ? "0" : currencyFormatter.format(Number(sumaTotal)))}
                 </>
             ),
         },
@@ -144,9 +153,13 @@ export const Retenciones = ({
                     });
                 }
                 res.RESPONSE.map((item: IndexPaRetenciones) => {
-                    sumatotal = sumatotal + Number(item.total)
-                    // setSumaTotal(sumatotal)
+                    sumatotal = sumatotal + Number(item.importe)
+                    setSumaTotal(sumatotal)
                 });
+
+                if (res.RESPONSE.length ===0){
+                    setSumaTotal(0)
+                }
 
 
             } else {
@@ -174,11 +187,11 @@ export const Retenciones = ({
                 let data = {
                     NUMOPERACION: 2,
                     CHID: v.row.id,
-                    IDPA:idPA,
+                    IDPA: idPA,
                 }
                 DPCPServices.IndexPaRetenciones(data).then((res) => {
                     if (res.SUCCESS) {
-                   
+
                         consulta("remove");
                         setTotalRetenciones((totalRetenciones) - (v.row.importe));
                         setDescRet("");
@@ -220,7 +233,8 @@ export const Retenciones = ({
                 if (result.isConfirmed) {
 
                     let data = {
-                        NUMOPERACION: 1,
+                        IDREG: idReg,
+                        NUMOPERACION: editar?3: 1,
                         CHUSER: user.id,
                         IDMUNICIPIO: dt?.row?.idmunicipio,
                         TIPO: numOperacion,
@@ -228,7 +242,7 @@ export const Retenciones = ({
                         IDDIVISA: dt?.row?.idDivisa,
                         IMPORTE: importe,
                         IDRETENCION: idRetencion,
-                        CLAVE:numOperacion === "1" ? dt.row.Proveedor : dt.row.Deudor
+                        CLAVE: numOperacion === "1" ? dt.row.Proveedor : dt.row.Deudor
                     }
                     DPCPServices.IndexPaRetenciones(data).then((res) => {
                         if (res.SUCCESS) {
@@ -241,6 +255,7 @@ export const Retenciones = ({
                             setOpenModalDes(false)
                             setNumOperacion("");
                             setClaveRet("");
+                            setEditar(false);
 
 
                             Toast.fire({
@@ -280,20 +295,36 @@ export const Retenciones = ({
         // setCveReten(e);
     };
 
-    const handleOpen = () => {
-        setOpenModalDes(true);
+    const handleOpen = (editar: boolean, v: any) => {
+        if (editar) {
+            setNumOperacion(String(v.row.tipo));
+            setClaveRet(String(v.row.ClaveRetencion));
+            setDescRet(v.row.Des);
+            setValRet(v.row.Retencion);
+            setIdReg(v.row.id);
+            setOpenModalDes(true);
+            setImporte(v.row.importe);
+            setEditar(true);
+            setIdRetencion(v.row.IdRetencion);
+
+        }
+        else {
+            setOpenModalDes(true);
+
+        }
     };
 
     const handleCloseModal = () => {
-        setValue("")
+        setValue("");
         setOpenModalDes(false);
         setOtrosCar("0");
         setDesPar("0");
-        setImporte(0)
+        setImporte(0);
         setNumOperacion("");
         setClaveRet("");
         setDescRet("");
         setValRet("");
+        setEditar(false);
     };
 
 
@@ -378,15 +409,15 @@ export const Retenciones = ({
                             <br />
                             {"Municipio: " + dt.row.Nombre}
                             <br />
-                            {"Total Bruto: " + dt.row.total}
+                            {"Total Bruto: $" + Number(dt.row.total).toLocaleString("es-US")}
                             <br />
-                            {"Recuperación de adeudos: " + dt.row.RecAdeudos}
+                            {"Recuperación de adeudos: $" + Number(dt.row.RecAdeudos).toLocaleString("es-US")}
                             <br />
-                            {"Descuentos: " + dt.row.Descuentos}
+                            {"Descuentos: $" + Number(dt.row.Descuentos).toLocaleString("es-US")}
                             <br />
-                            {"Retenciones: " + (Number(dt.row.Retenciones) + Number(totalRetenciones))}
+                            {"Retenciones: $" + Number(sumaTotal?sumaTotal:0).toLocaleString("es-US")}
                             <br />
-                            {" Total Neto: " + (Number(dt.row.importe) - (Number(totalRetenciones)))}
+                            {" Total Neto: $" + ((Number(dt.row.total) - (Number(dt.row.RecAdeudos)+Number(dt.row.Descuentos)+ Number(sumaTotal?sumaTotal:0)))).toLocaleString("es-US")}
                             <br />
                             {" Tipo de Solcitud: " + dt.row.TipoSolicitud}
                             <br />
@@ -397,7 +428,7 @@ export const Retenciones = ({
 
                     </Grid>
                 </Grid>
-                <ButtonsAdd handleOpen={handleOpen} agregar={true} />
+                <ButtonsAdd handleOpen={() => handleOpen(false, {})} agregar={true} />
                 <MUIXDataGrid columns={columns} rows={dataRow} />
             </ModalForm>
 
@@ -462,7 +493,7 @@ export const Retenciones = ({
                         <Grid container justifyContent="space-between">
                             <Grid item xs={4}>
                                 <Grid>
-                                    <label>{"Clave: " + ((numOperacion === "false" ||numOperacion === "") ? "" : numOperacion === "1" ? "Acredor" : " Deudor")}</label>
+                                    <label>{"Clave: " + ((numOperacion === "false" || numOperacion === "") ? "" : numOperacion === "1" ? "Acredor" : " Deudor")}</label>
                                 </Grid>
 
                                 <TextField
@@ -471,7 +502,7 @@ export const Retenciones = ({
                                     margin="dense"
                                     id="Proveedor"
                                     // label={value === "" ? "" : value === "Anticipo" ? "Proveedor" : "Deudor"}
-                                    value={numOperacion === "false" ||numOperacion === "" ? "" : numOperacion === "1" ? dt.row.Proveedor : dt.row.Deudor}
+                                    value={numOperacion === "false" || numOperacion === "" ? "" : numOperacion === "1" ? dt.row.Proveedor : dt.row.Deudor}
                                     type="text"
                                     variant="outlined"
                                     InputLabelProps={{ shrink: true }}
@@ -530,24 +561,26 @@ export const Retenciones = ({
                                 margin="dense"
                                 id="Proveedor"
                                 value={importe ? importe : null}
-                                type="number"
+                                type="text"
                                 fullWidth
-                                inputProps={{ maxLength: 100 }}
                                 variant="outlined"
                                 onChange={(v) => setImporte(Number(v.target.value))}
                                 InputLabelProps={{ shrink: true }}
+                                inputProps={{ maxLength: 20 }}
+                                error={String(Number(importe)) === "NaN"}
                             />
                         </Grid>
                     </DialogContent>
                     <DialogActions>
-                        <Button className="guardar"
+                        <Button className= {editar?"actualizar":"guardar"}
                             disabled={
                                 claveRet === ""
                                 || numOperacion === ""
                                 || numOperacion === "false"
                                 || importe <= 0
+                                || String(Number(importe)) === "NaN"
                             }
-                            onClick={handleAplicarRetencion}>Aplicar</Button>
+                            onClick={handleAplicarRetencion}> {editar? "Actualizar": "Aplicar"}</Button>
                     </DialogActions>
                 </Dialog>
                 :

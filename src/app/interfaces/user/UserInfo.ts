@@ -230,4 +230,5 @@ export interface IndexPaRetenciones {
     ParcialDescuento: string;
     cveRetencion: number;
     DescripcionDescuento?: any;
+    importe:number;
 }
