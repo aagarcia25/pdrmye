@@ -3,6 +3,9 @@ import { post } from './apiService';
 export class DPCPServices {
 
     
+    public static async IndexPaRetenciones(data: any) {
+        return await post('IndexPaRetenciones', data);
+    }
     public static async FinParticipaciones(data: any) {
         return await post('FinParticipaciones', data);
     }

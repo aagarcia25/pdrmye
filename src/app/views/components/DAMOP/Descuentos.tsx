@@ -31,6 +31,7 @@ import Radio from '@mui/material/Radio';
 import Swal from "sweetalert2";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { currencyFormatter, Moneda } from "../menu/CustomToolbar";
+import EditIcon from '@mui/icons-material/Edit';
 export const Descuentos = ({
   handleClose,
   tipo,
@@ -46,6 +47,9 @@ export const Descuentos = ({
 
   const [dataRow, setdataRow] = useState([]);
   const [openModalDes, setOpenModalDes] = useState<boolean>(false);
+  const [editarRegistro, setEditarRegistro] = useState<boolean>(false);
+  const [idRegistro, setIdRegistro] = useState<string>();
+
   const [value, setValue] = useState("");
   const [desPar, setDesPar] = useState<string>();
   const [otrosCar, setOtrosCar] = useState<string>();
@@ -76,6 +80,11 @@ export const Descuentos = ({
                 <DeleteForeverIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title="Editar Descuento">
+              <IconButton onClick={() => handleOpen(true, v)}>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
         );
       },
@@ -85,7 +94,7 @@ export const Descuentos = ({
       renderCell: (v) => {
         return (
           <Box>
-            {v.row.Tipo === "1" ? "Descuentos" : "Retenciones"}
+            {v.row.Tipo === "1" ? "Descuentos" : "Recuperacion de Adeudos"}
           </Box>
         );
       },
@@ -166,31 +175,34 @@ export const Descuentos = ({
         var sumaDes = 0;
         var sumaRet = 0;
         var sumatotal = 0;
-        if (v === "add") {
-          res.RESPONSE.map((item: getDescuentos) => {
-            if (item.Tipo === "1") {
-              sumaDes = sumaDes + Number(item.total)
-            }
-            else if (item.Tipo === "2") {
-              sumaRet = sumaRet + Number(item.total)
-            }
+        // if (v === "add") {
+        res.RESPONSE.map((item: getDescuentos) => {
+          if (item.Tipo === "1") {
+            sumaDes = sumaDes + Number(item.total)
+          }
+          else if (item.Tipo === "2") {
+            sumaRet = sumaRet + Number(item.total)
+          }
 
-          });
-        }
-        if (v === "remove") {
-          res.RESPONSE.map((item: getDescuentos) => {
-            if (item.Tipo === "1") {
-              sumaDes = sumaDes - Number(item.total)
-            }
-            else if (item.Tipo === "2") {
-              sumaRet = sumaRet - Number(item.total)
-            }
-          });
-        }
+        });
+        // }
+        // if (v === "remove") {
+        //   res.RESPONSE.map((item: getDescuentos) => {
+        //     if (item.Tipo === "1") {
+        //       sumaDes = sumaDes - Number(item.total)
+        //     }
+        //     else if (item.Tipo === "2") {
+        //       sumaRet = sumaRet - Number(item.total)
+        //     }
+        //   });
+        // }
         res.RESPONSE.map((item: getDescuentos) => {
           sumatotal = sumatotal + Number(item.total)
           setSumaTotal(sumatotal)
         });
+         if(res.RESPONSE.length===0){
+          setSumaTotal(sumatotal)
+         }
 
         setSumDes(sumaDes);
         setSumRet(sumaRet);
@@ -205,7 +217,6 @@ export const Descuentos = ({
   };
 
   const handleEliminarDescuento = (v: any) => {
-
     Swal.fire({
       icon: "warning",
       title: "Solicitar",
@@ -229,6 +240,9 @@ export const Descuentos = ({
             setDesPar("0");
             setComentariosDes("")
             consulta("remove");
+
+            setSumDes(sumDes - Number(v.row.total))
+
             Toast.fire({
               icon: "success",
               title: "Descuento Eliminado!",
@@ -246,6 +260,7 @@ export const Descuentos = ({
   };
 
   const handleAplicarDescuento = () => {
+    console.log(Number(desPar))
     if (value.length < 1
       || desPar === "0"
       || numOperacion === ""
@@ -270,8 +285,9 @@ export const Descuentos = ({
           if (result.isConfirmed) {
 
             let data = {
-              NUMOPERACION: 1,
+              NUMOPERACION: !editarRegistro ? 1 : 3,
               CHID: dt.row.id,
+              IDDESCUENTO: idRegistro,
               CHUSER: user.id,
               IDMUN: dt.row.idmunicipio,
               TIPO: value === "Anticipo" ? 1 : 2,
@@ -286,15 +302,17 @@ export const Descuentos = ({
             }
             DPCPServices.setDescuentos(data).then((res) => {
               if (res.SUCCESS) {
-                setValue("")
+                setValue("");
                 setOtrosCar("0");
                 setDesPar("0");
-                setComentariosDes("")
+                setComentariosDes("");
                 consulta("add");
+                setEditarRegistro(false);
                 Toast.fire({
                   icon: "success",
                   title: "Descuento Agregado!",
                 });
+                handleCloseModal();
               } else {
                 AlertS.fire({
                   title: "Error!",
@@ -320,20 +338,34 @@ export const Descuentos = ({
   };
 
   const handleSelectNumOp = (e: any) => {
-    setNumOperacion(e);
+    // setNumOperacion(e);
   };
 
   const handleSelectCveRet = (e: any) => {
-    setCveReten(e);
+    // setCveReten(e);
   };
 
-  const handleOpen = () => {
-    setOpenModalDes(true);
+  const handleOpen = (editar: boolean, data: any) => {
+    if (editar) {
+      setEditarRegistro(true);
+      setOpenModalDes(true);
+      setCveReten(data.row.cveRetencion);
+      setOtrosCar(data.row.OtrosCargos);
+      setDesPar(data.row.ParcialDescuento);
+      setNumOperacion(data.row.NumOperacion);
+      setComentariosDes(data.row.DescripcionDescuento);
+      setValue(data.row.Tipo === "1" ? "Anticipo" : "RecuperacionAdeudos");
+      setIdRegistro(data.row.id);
+
+    } else {
+      setOpenModalDes(true);
+    }
   };
 
   const handleCloseModal = () => {
     setValue("")
     setOpenModalDes(false);
+    setEditarRegistro(false);
     setOtrosCar("0");
     setDesPar("0");
     setComentariosDes("")
@@ -349,6 +381,7 @@ export const Descuentos = ({
     setComentariosDes("")
     handleSelectNumOp("false");
     handleSelectCveRet("");
+    setNumOperacion("");
   };
 
   useEffect(() => {
@@ -422,15 +455,17 @@ export const Descuentos = ({
               <br />
               {" Municipio: " + dt.row.Nombre}
               <br />
-              {" Total Bruto: " + dt.row.total}
+              {" Total Bruto: $" + Number(dt.row.total).toLocaleString("es-US")}
               <br />
-              {"Retenciones: " + sumret}
+              {"Recuperación Adeudos:  $" + Number(sumret).toLocaleString("es-US")}
               <br />
-              {"Descuentos: " + sumDes}
+              {"Descuentos: $" + Number(sumDes).toLocaleString("es-US")}
               <br />
-              {" Total Neto: " + (Number(dt.row.total) - (sumret + sumDes))}
+              {"Retenciones: $" + (Number(dt.row.Retenciones).toLocaleString("es-US"))}
               <br />
-              {" Tipo de Solcitud: " + dt.row.TipoSolicitud}
+              {"Total Neto: $" + (Number(dt.row.total) - (sumret + sumDes)).toLocaleString("es-US")}
+              <br />
+              {"Tipo de Solcitud: " + dt.row.TipoSolicitud}
               <br />
             </label>
           </Grid>
@@ -439,14 +474,12 @@ export const Descuentos = ({
 
           </Grid>
         </Grid>
-        <ButtonsAdd handleOpen={handleOpen} agregar={true} />
+        <ButtonsAdd handleOpen={() => handleOpen(false, null)} agregar={true} />
         <MUIXDataGrid columns={columns} rows={dataRow} />
       </ModalForm>
 
       {openModalDes ?
-        <Dialog
-          open={openModalDes}
-        >
+        <Dialog open={openModalDes}>
           <Grid container justifyContent="space-between">
             <DialogTitle>Edición de Descuentos</DialogTitle>
             <Button variant="outlined" onClick={() => handleCloseModal()}>
@@ -483,9 +516,10 @@ export const Descuentos = ({
             <Grid container >
               <Grid item xs={6}>
                 <Grid>
-                       <label>{value === "" ? "" : value === "Anticipo" ? "Proveedor" : "Deudor"}</label>
+                  <label>Numero: </label>
+                  <label>{value === "" ? "" : value === "Anticipo" ? "Proveedor" : "Deudor"}</label>
                 </Grid>
-           
+
                 <TextField
                   required
                   disabled
@@ -503,28 +537,42 @@ export const Descuentos = ({
                 {value === "RecuperacionAdeudos" ?
                   <Grid item xs={11.99}>
                     <label > Num. Operación</label>
-                    <SelectFrag
+
+                    <TextField
+                      required
+                      // disabled
+                      margin="dense"
+                      id="NumOperacion"
                       value={numOperacion}
-                      options={numOperacionOp}
-                      onInputChange={handleSelectNumOp}
-                      placeholder={"Seleccionar Usuario"}
-                      label={"Num.  Operación"}
-                      disabled={false}
+                      type="text"
+                      variant="outlined"
+                      onChange={(v) => setNumOperacion(v.target.value)}
+                      inputProps={{ maxLength: 11 }}
+                      InputLabelProps={{ shrink: true }}
+                      error={String(Number(numOperacion)) === "NaN"}
                     />
                   </Grid>
                   :
                   <>
                     <label > Num. Operación</label>
-                    <SelectFrag
+
+
+                    <TextField
+                      required
+                      // disabled
+                      margin="dense"
+                      id="NumOperacion"
                       value={numOperacion}
-                      options={numOperacionOp}
-                      onInputChange={handleSelectNumOp}
-                      placeholder={"Seleccionar Usuario"}
-                      label={"Num. Operación"}
-                      disabled={value === "RecuperacionAdeudos"}
+                      type="text"
+                      variant="outlined"
+                      onChange={(v) => setNumOperacion(v.target.value)}
+                      inputProps={{ maxLength: 11 }}
+                      InputLabelProps={{ shrink: true }}
+                      error={String(Number(numOperacion)) === "NaN"}
                     />
                   </>
                 }
+
 
               </Grid>
 
@@ -546,7 +594,8 @@ export const Descuentos = ({
               </Grid>
 
               <Grid item xs={6}>
-                <label>Otros Cargos</label>
+                <label> Divisa </label>
+                <br/>
                 <TextField
                   required
                   disabled
@@ -555,6 +604,7 @@ export const Descuentos = ({
                   value={dt.row.Divisa}
                   type="text"
                   variant="outlined"
+                  
                   InputLabelProps={{ shrink: true }}
                 />
 
@@ -571,11 +621,15 @@ export const Descuentos = ({
                   id="Proveedor"
                   // label="Descuento Parcial"
                   value={desPar}
-                  type="number"
+                  type="text"
                   variant="outlined"
                   onChange={(v) => setDesPar(v.target.value)}
                   InputLabelProps={{ shrink: true }}
+                  inputProps={{ maxLength: 30 }}
+                  error={String(Number(desPar)) === "NaN"}
+
                 />
+
               </Grid>
               <Grid item xs={4}>
                 <label>Otros Cargos</label>
@@ -585,10 +639,14 @@ export const Descuentos = ({
                   margin="dense"
                   id="Proveedor"
                   value={otrosCar}
-                  type="number"
+                  type="text"
                   variant="outlined"
                   onChange={(v) => setOtrosCar(v.target.value)}
                   InputLabelProps={{ shrink: true }}
+                  error={String(Number(otrosCar)) === "NaN"}
+                  inputProps={{ maxLength: 30 }}
+
+
                 />
               </Grid>
               <Grid item xs={4}>
@@ -610,13 +668,27 @@ export const Descuentos = ({
             {value === "RecuperacionAdeudos" ?
               <Grid container item xs={6}>
                 <label > Cve. Retención</label>
-                <SelectFrag
+                {/* <SelectFrag
                   value={value === "RecuperacionAdeudos" ? cveReten : ""}
                   options={cveRetenOp}
                   onInputChange={handleSelectCveRet}
                   placeholder={"Cve. Retención"}
                   label={"Cve. Retención"}
                   disabled={value !== "RecuperacionAdeudos"}
+                /> */}
+                <TextField
+                  required
+                  // disabled
+                  margin="dense"
+                  id="cveReten"
+                  value={cveReten}
+                  type="text"
+                  variant="outlined"
+                  onChange={(v) => setCveReten(v.target.value)}
+                  InputLabelProps={{ shrink: true }}
+                  error={String(Number(cveReten)) === "NaN"}
+                  inputProps={{ maxLength: 30 }}
+
                 />
               </Grid>
               : ""}
@@ -624,10 +696,9 @@ export const Descuentos = ({
             <Grid container>
               <TextField
                 disabled={value === ""}
-                required
                 margin="dense"
                 id="Proveedor"
-                label="Descripción del Descuento"
+                label="Descripción del Descuento  *Opcional*"
                 value={ComentariosDes}
                 type="text"
                 fullWidth
@@ -642,7 +713,19 @@ export const Descuentos = ({
             </Grid>
           </DialogContent>
           <DialogActions>
-            <Button className="guardar" onClick={handleAplicarDescuento}>Aplicar</Button>
+            <Button className="guardar"
+              disabled={
+                value.length < 1
+                || desPar === "0"
+                || numOperacion === ""
+                || numOperacion === "false"
+                || ((desPar !== undefined ? Number(desPar) : 0) + (otrosCar !== undefined ? Number(otrosCar) : 0)) === 0
+                || (value === "RecuperacionAdeudos" ? !cveReten : false)
+                || String(Number(desPar)) === "NaN"
+                || String(Number(numOperacion)) === "NaN"
+                || String(Number(otrosCar)) === "NaN"
+                || String(Number(cveReten)) === "NaN"}
+              onClick={handleAplicarDescuento}>Aplicar</Button>
           </DialogActions>
         </Dialog>
         :

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Tooltip } from '@mui/material';
 import { AlertS } from '../../../helpers/AlertS';
 import { DPCPServices } from '../../../services/DPCPServices';
 import { RESPONSE } from '../../../interfaces/user/UserInfo';
@@ -7,67 +7,67 @@ import { getUser } from '../../../services/localStorage';
 
 
 export const ModalCheque = ({
-    vrows,
-    handleClose,
-    tipo,
-  }: {
-    vrows: any;
-    handleClose: Function;
-    tipo:number;
-  }) => {
+  vrows,
+  handleClose,
+  tipo,
+}: {
+  vrows: any;
+  handleClose: Function;
+  tipo: number;
+}) => {
 
 
- const [numeroOperacion, SetNumeroOperacion] = useState<string>();
- const user: RESPONSE = JSON.parse(String(getUser()));
- const [title, setTitle] = useState<string>();
- const [label, setLabel] = useState<string>();
- 
-
- useEffect(() => {
-
-  if(tipo == 1){
-    setTitle('Asignar Número de Cheque');
-    setLabel('Número de Cheque:');
-  }else if (tipo == 2){
-    setTitle('Asignar N° de Participación');
-    setLabel('Número de Participación:');
-  }else if (tipo == 3){
-    setTitle('Asignar N° de Solicitud de Egreso');
-    setLabel('Número de Solicitud de Egreso:');
-  }else if (tipo == 4){
-    setTitle('Asignar N° de Egreso');
-    setLabel('Número de Egreso:');
-  }else if (tipo == 5){
-    setTitle('Asignar N° de Solicitud de Pago');
-    setLabel('Número de Solicitud de Pago:');
-  }else if (tipo == 6){
-    setTitle('Asignar N° de Requerimiento de Anticipo');
-    setLabel('Número de Requerimiento de Anticipo:');
-  }
+  const [numeroOperacion, SetNumeroOperacion] = useState<string>();
+  const user: RESPONSE = JSON.parse(String(getUser()));
+  const [title, setTitle] = useState<string>();
+  const [label, setLabel] = useState<string>();
 
 
-}, []);
+  useEffect(() => {
+
+    if (tipo == 1) {
+      setTitle('Asignar Número de Cheque');
+      setLabel('Número de Cheque:');
+    } else if (tipo == 2) {
+      setTitle('Asignar N° de Participación');
+      setLabel('Número de Participación:');
+    } else if (tipo == 3) {
+      setTitle('Asignar N° de Solicitud de Egreso');
+      setLabel('Número de Solicitud de Egreso:');
+    } else if (tipo == 4) {
+      setTitle('Asignar N° de Egreso');
+      setLabel('Número de Egreso:');
+    } else if (tipo == 5) {
+      setTitle('Asignar N° de Solicitud de Pago');
+      setLabel('Número de Solicitud de Pago:');
+    } else if (tipo == 6) {
+      setTitle('Asignar N° de Requerimiento de Anticipo');
+      setLabel('Número de Requerimiento de Anticipo:');
+    }
+
+
+  }, []);
 
 
 
 
- const validacion = () => {
+  const validacion = () => {
 
-    if(numeroOperacion ===''){
+    if (numeroOperacion === '') {
       AlertS.fire({
         title: "Error!",
         text: "Favor de llenar el campo Comentarios*",
         icon: "error",
       });
-    }else{
+    } else {
 
       let data = {
         NUMOPERACION: tipo,
         ID: vrows.id,
         CHUSER: user.id,
-        OPERACION:numeroOperacion
+        OPERACION: numeroOperacion
       };
-      
+
       DPCPServices.AsignaOperacion(data).then((res) => {
         if (res.SUCCESS) {
           AlertS.fire({
@@ -92,28 +92,44 @@ export const ModalCheque = ({
 
 
     }
-     
-    
+
+
   }
 
   return (
     <div>
       <Box>
         <Dialog open={true}>
-          <DialogTitle>{title}</DialogTitle>
+          <Grid container justifyContent="space-between" >
+            <DialogTitle>{title}</DialogTitle>
+            <Tooltip title={"Cerrar"}>
+              <Button className="CerrarModal"
+                variant="outlined" color="error"
+                onClick={() => handleClose()} >
+                X
+              </Button>
+            </Tooltip>
+          </Grid>
+
           <DialogContent dividers={true}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                  <h3> {label}</h3>
+                <h3> {label}</h3>
               </Grid>
               <Grid item xs={12}>
-                <textarea
-                  required
-                  spellCheck="true"
-                  rows={2}
-                  onChange={(v) => SetNumeroOperacion(v.target.value)}
-                  style={{ width: "100%"}}
-                />
+              <TextField
+                      required
+                      // disabled
+                      margin="dense"
+                      id="NumOperacion"
+                      value={numeroOperacion}
+                      type="number"
+                      fullWidth
+                      variant="outlined"
+                      onChange={(v) => SetNumeroOperacion(v.target.value)}
+                      InputLabelProps={{ shrink: true }}
+                    />
+       
               </Grid>
 
             </Grid>
@@ -122,13 +138,12 @@ export const ModalCheque = ({
 
 
           <DialogActions>
-            <button className="guardar" onClick={() => validacion() } >
+            <Button color='success' className="guardar" onClick={() => validacion()}
+              disabled={!numeroOperacion} >
               Guardar
-            </button>
-            
-            <button className="salir" onClick={() => handleClose()}>
-              Salir
-            </button>
+            </Button>
+
+
           </DialogActions>
 
         </Dialog>
