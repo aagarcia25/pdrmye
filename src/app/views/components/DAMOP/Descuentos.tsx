@@ -594,7 +594,8 @@ export const Descuentos = ({
               </Grid>
 
               <Grid item xs={6}>
-                <label>Otros Cargos</label>
+                <label> Divisa </label>
+                <br/>
                 <TextField
                   required
                   disabled
@@ -603,6 +604,7 @@ export const Descuentos = ({
                   value={dt.row.Divisa}
                   type="text"
                   variant="outlined"
+                  
                   InputLabelProps={{ shrink: true }}
                 />
 
