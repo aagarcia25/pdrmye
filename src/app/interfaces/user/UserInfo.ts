@@ -22,6 +22,7 @@ export interface GetParticipaciones {
     id: string;
     NumProyecto: string;
     ConceptoEgreso: number;
+    NumOper: number;
     Anio: number;
     Mes: string;
     ClaveEstado: number;
