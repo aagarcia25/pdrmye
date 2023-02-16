@@ -175,6 +175,12 @@ const RecepcionRecursos = () => {
       description: "Municipio",
     },
     {
+      field: "NumOper",
+      headerName: "Nº De Operación",
+      description: "Nº De Operación",
+      width: 200,
+    },
+    {
       field: "NumOrdenPago",
       headerName: "Nº De Orden De Pago",
       width: 200,
