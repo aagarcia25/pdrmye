@@ -1877,11 +1877,15 @@ const Participaciones = () => {
                     backgroundColor: "rgb(16, 145, 80, 0.567)",
                   },
                 }}
+
                 componentsProps={{
                   toolbar: {
                     label: "buscar",
                     showQuickFilter: true,
                     quickFilterProps: { debounceMs: 500 },
+                    csvOptions:{  fileName: 'Export',
+                      utf8WithBom: true,
+                     }
                   },
                 }}
                 isRowSelectable={(params) => (

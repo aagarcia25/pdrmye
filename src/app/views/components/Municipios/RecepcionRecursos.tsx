@@ -414,6 +414,9 @@ const RecepcionRecursos = () => {
                     label: "buscar",
                     showQuickFilter: true,
                     quickFilterProps: { debounceMs: 500 },
+                    csvOptions:{  fileName: 'Export',
+                      utf8WithBom: true,
+                     }
                   },
                 }}
                 checkboxSelection={checkboxSelection}
