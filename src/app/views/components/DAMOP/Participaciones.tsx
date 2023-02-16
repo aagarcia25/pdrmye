@@ -274,6 +274,12 @@ const Participaciones = () => {
       width: 200,
     },
     {
+      field: "NumOper",
+      headerName: "Nº De Operación",
+      description: "Nº De Operación",
+      width: 200,
+    },
+    {
       field: "NumParticipacion",
       headerName: "Nº De Participación",
       width: 200,

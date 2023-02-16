@@ -72,16 +72,16 @@ const AsigPresupuestal = () => {
       description: "Mes",
     },
     {
+      field: "NumOper",
+      headerName: "Nº De Operación",
+      description: "Nº De Operación",
+      width: 200,
+    },
+    {
       field: "uresclave",
       headerName: "U. Resp",
       width: 65,
     },
-    // {
-    //   field: "TipoSolicitud",
-    //   headerName: "Tipo",
-    //   width: 140,
-    //   description: "Tipo de Solicitud",
-    // },
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -105,12 +105,6 @@ const AsigPresupuestal = () => {
       width: 600,
       hide: false,
     },
-    
-    // {
-    //   field: "estatus",
-    //   headerName: "Estatus",
-    //   width: 150,
-    // },
     {
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
@@ -125,27 +119,6 @@ const AsigPresupuestal = () => {
       description: "Total Neto",
       ...Moneda,
     },
-    /*{
-      field: "Retenciones",
-      headerName: "Retenciones",
-      width: 150,
-      description: "Retenciones",
-      ...Moneda,
-    },
-    {
-      field: "Descuentos",
-      headerName: "Descuentos",
-      width: 150,
-      description: "Descuentos",
-      ...Moneda,
-    },
-    {
-      field: "importe",
-      headerName: "Importe Total",
-      width: 150,
-      description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
-      ...Moneda,
-    },*/
 
   ];
 
