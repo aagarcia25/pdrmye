@@ -417,7 +417,7 @@ export const Retenciones = ({
                             <br />
                             {"Retenciones: $" + Number(sumaTotal?sumaTotal:0).toLocaleString("es-US")}
                             <br />
-                            {" Total Neto: $" + ((Number(dt.row.total) - (Number(dt.row.RecAdeudos)+Number(dt.row.Descuentos)+ Number(sumaTotal?sumaTotal:0)))).toLocaleString("es-US")}
+                            {" Total Neto: $" + ((Number(dt.row.total) - (Number(dt.row.RecAdeudos)+Number(dt.row.Descuentos)+ Number(sumaTotal?sumaTotal:0)))).toLocaleString("es-ES")}
                             <br />
                             {" Tipo de Solcitud: " + dt.row.TipoSolicitud}
                             <br />

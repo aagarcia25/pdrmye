@@ -34,6 +34,7 @@ import CallMergeIcon from '@mui/icons-material/CallMerge';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import InfoIcon from "@mui/icons-material/Info";
 import MoneyOffOutlinedIcon from '@mui/icons-material/MoneyOffOutlined';
+import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
 import {
   DataGrid,
   GridSelectionModel,
@@ -275,45 +276,45 @@ const Participaciones = () => {
     },
     {
       field: "NumOper",
-      headerName: "Nº De Operación",
+      headerName: "Numero De Operacion",
       description: "Nº De Operación",
       width: 200,
     },
     {
       field: "NumParticipacion",
-      headerName: "Nº De Participación",
+      headerName: "Numero De Participacion",
       width: 200,
       description: "Número De Participación",
     },
     {
       field: "NumSolEgreso",
-      headerName: "Nº De Solicitud De Egreso",
+      headerName: "Número De Solicitud De Egreso",
       width: 200,
       description: "Número De Solicitud De Egreso",
     },
     {
       field: "NumEgreso",
-      headerName: "Nº De Egreso",
+      headerName: "Numero De Egreso",
       width: 200,
       description: "Número De Egreso",
     },
     {
       field: "NumOrdenPago",
-      headerName: "Nº De Orden De Pago",
+      headerName: "Numero De Orden De Pago",
       width: 200,
-      description: "Número De Orden De Pago",
+      description: "Numero De Orden De Pago",
     },
     {
       field: "NumRequerimientoAnt",
-      headerName: "Nº De Requerimiento De Anticipo",
+      headerName: "Numero De Requerimiento De Anticipo",
       width: 200,
-      description: "Número De Requerimiento De Anticipo",
+      description: "Numero De Requerimiento De Anticipo",
     },
     {
       field: "NumCheque",
-      headerName: "Nº De Cheque",
+      headerName: "Numero De Cheque",
       width: 200,
-      description: "Número De Cheque",
+      description: "Numero De Cheque",
     },
 
     {
@@ -694,6 +695,19 @@ const Participaciones = () => {
         icon: "error",
       });
     }
+  };
+
+  const handleUploadPA = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setslideropen(true);
+    let file = event?.target?.files?.[0] || "";
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlxs");
+    formData.append("CHUSER", user.id);
+    formData.append("tipo", "updatePA");
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+      handleClick();
+    });
   };
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -1670,7 +1684,7 @@ const Participaciones = () => {
             )}
 
             {cargarPlant ? (
-              <Tooltip title={"Cargar Plantilla"}>
+              <Tooltip title={"Cargar Plantilla Anticipo de Participaciones"}>
                 <ToggleButton value="check">
                   <IconButton
                     color="primary"
@@ -1713,6 +1727,31 @@ const Participaciones = () => {
             ) : (
               ""
             )}
+
+{cargarPlant ? (
+              <Tooltip title={"Cargar Plantilla Migración"}>
+                <ToggleButton value="check">
+                  <IconButton
+                    color="primary"
+                    aria-label="upload documento"
+                    component="label"
+                    size="large"
+                  >
+                    <input
+                      hidden
+                      accept=".xlsx, .XLSX, .xls, .XLS"
+                      type="file"
+                      value=""
+                      onChange={(v) => handleUploadPA(v)}
+                    />
+                    <DriveFileMoveIcon />
+                  </IconButton>
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
           </ToggleButtonGroup>
         </Grid>
 
