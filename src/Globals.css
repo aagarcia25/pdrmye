@@ -88,6 +88,15 @@ label.nombre-archivo
   /* margin-right:1rem; */
   /* mr: "2rem" */
 }
+label.textoNormal {
+  font-family:sans-serif;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  font-size:  16px;
+  /* margin-right:1rem; */
+  /* mr: "2rem" */
+}
+
 
 .menu-Typography{
 
