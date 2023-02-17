@@ -22,8 +22,9 @@ const SelectFrag = ({
   return (
     <FormControl sx={{ width:"100%" }}  >
     <Select
-    value ={value != null ?options.find(element => element.value === value) :[]}
+    value ={value != "" ?options.find(element => element.value === value) :[]}
       options={options}
+      defaultValue={[]}
       isDisabled={disabled}
       isClearable={true}
       isSearchable={true}

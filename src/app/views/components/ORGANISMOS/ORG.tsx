@@ -4,35 +4,20 @@ import {
   createTheme,
   Grid,
   IconButton,
-  Link,
   ThemeProvider,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
   Typography,
 } from "@mui/material";
-import clsx from "clsx";
 import React, { useEffect, useState } from "react";
-import SelectValues from "../../../interfaces/Select/SelectValues";
-import { CatalogosServices } from "../../../services/catalogosServices";
-import SelectFrag from "../Fragmentos/SelectFrag";
 import SendIcon from "@mui/icons-material/Send";
-import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { AlertS } from "../../../helpers/AlertS";
-import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
+import { Moneda} from "../menu/CustomToolbar";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
-import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
-import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
-import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
-import CallMergeIcon from "@mui/icons-material/CallMerge";
-import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
-import InfoIcon from "@mui/icons-material/Info";
 import {
   DataGrid,
   GridSelectionModel,
@@ -40,29 +25,17 @@ import {
   esES as gridEsES,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
-import Swal from "sweetalert2";
 import { DAMOPServices } from "../../../services/DAMOPServices";
-import ModalDAMOP from "../componentes/ModalDAMOP";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ModalForm from "../componentes/ModalForm";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import EditOffIcon from "@mui/icons-material/EditOff";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import ArticleIcon from "@mui/icons-material/Article";
-import SpeisAdmin from "../DAF/SpeisAdmin";
-
-import LoopIcon from "@mui/icons-material/Loop";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-import MoneyIcon from "@mui/icons-material/Money";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import LocalAtmIcon from "@mui/icons-material/LocalAtm";
-import { ModalCheque } from "../componentes/ModalCheque";
 import { ORGService } from "../../../services/ORGService";
-import ButtonsCalculo from "../menu/catalogos/Utilerias/ButtonsCalculo";
 import { ORGHeader } from "./ORGHeader";
+import { indexCabecera } from "../../../interfaces/Damop/ResponseDAMOP";
 
 export const ORG = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -72,15 +45,17 @@ export const ORG = () => {
     React.useState<GridSelectionModel>([]);
   const [sumaTotal, setSumaTotal] = useState<Number>();
   //MODAL
-  const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
+  const [openModalCabecera, setOpenModalCabecera] = useState<boolean>(false);
+
   const [openModalVerSpei, setOpenModalVerSpei] = useState<boolean>(false);
 
   //Constantes para las columnas
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-
-  const [vrows, setVrows] = useState<{}>("");
+  const [modo, setModo] = useState<string>("");
+  const [orgData, setOrgData] = useState([]);
+  const [vrows, setVrows] = useState({});
   const [openCheque, setOpenCheque] = useState(false);
   const [tipo, setTipo] = useState(0);
 
@@ -93,21 +68,35 @@ export const ORG = () => {
   const [DAMOP_GSE, SETDAMOP_GSE] = useState<boolean>(false);
 
 
-  const handleClose = () => {
-    setOpenModalDetalle(false);
-    setOpenModalVerSpei(false);
+  const handleClose = (cerrar: string) => {
+      setOpenModalCabecera(false);
+      setVrows({});
+
   };
 
 
-  const handlecheque = (data: any, tipo: number) => {
-    setTipo(tipo);
-    setOpenCheque(true);
+  const handledetalles = (data: any) => {
+    setOpenModalCabecera(true);
     setVrows(data);
+    setModo("Ver")
   };
 
-  const handleDetalle = (data: any) => {
+  const handleAgregarRegistro = () => {
+    setOpenModalCabecera(true);
+    setModo("Nuevo")
+
+  };
+
+  const handleVer = (data: any) => {
     setVrows(data);
-    setOpenModalDetalle(true);
+    setOpenModalCabecera(true);
+    setModo("Ver")
+  };
+
+  const handleEditar = (data: any) => {
+    setVrows(data);
+    setOpenModalCabecera(true);
+    setModo("Editar")
   };
 
   const handleVerSpei = (data: any) => {
@@ -127,109 +116,60 @@ export const ORG = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {String(v.row.NumSolEgreso) === "null" &&
-            v.row.estatusCI === "DAMOP_INI" ? (
-              <Tooltip title={"Asignar N° de Solicitud de Egreso"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 3)}>
+              <Tooltip title={"Administrar Detalles"}>
+                <IconButton value="check" onClick={() => handledetalles(v)}>
                   <MenuBookIcon />
                 </IconButton>
               </Tooltip>
-            ) : (
-              ""
-            )}
 
-            {String(v.row.NumEgreso) === "null" &&
-            v.row.estatusCI === "DAMOP_TE" ? (
-              <Tooltip title={"Asignar N° de Egreso"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 4)}>
-                  <MoneyIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-
-            {String(v.row.NumOrdenPago) === "null" ? (
-              <Tooltip title={"Asignar N° de Solicitud de Pago"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 5)}>
-                  <MonetizationOnIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
           </Box>
         );
       },
     },
-
-    {
-      field: "Detalle",
-      disableExport: true,
-      headerName: "Ver Detalle",
-      description: "Ver Detalle",
-      sortable: false,
-      width: 150,
-      renderCell: (v: any) => {
-        return (
-          <Box>
-            {v.row.detalle === 1 ? (
-              <Tooltip title="Ver Detalle del Registro">
-                <IconButton onClick={() => handleDetalle(v)}>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-            {v.row.estatusCI === "DAF_SPEI" ? (
-              <Tooltip title="Ver Spei">
-                <IconButton onClick={() => handleVerSpei(v)}>
-                  <ArticleIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-          </Box>
-        );
-      },
-    },
-    {field: "estatus", headerName: "Estatus", width: 200,},
-    {field: "Anio",    headerName: "Ejercicio", width: 100,description: "Ejercicio",},
-    {field: "Mes",     headerName: "Mes", width: 100, description: "Mes",},
-    {field: "TipoSolicitud", headerName: "Tipo",width: 140,description: "Tipo de Solicitud",},
-    {field: "ClaveEstado", headerName: "Clave Estado", width: 100, description: "Clave Estado",},
-    {field: "Nombre", headerName: "Municipio", width: 150,description: "Municipio",},
-    {field: "tipocalculo", headerName: "Tipo Cálculo", width: 150,},
-    {field: "Clave", headerName: "Fondo", width: 150, description: "Fondo",},
-    {field: "fondodes", headerName: "Descripción de Fondo", width: 250,},
-    {field: "ClaveBeneficiario",headerName: "Cve. Beneficiario", width: 150, description: "Beneficiario",},
-    {field: "DescripcionBeneficiario", headerName: "Beneficiario", width: 150, description: "Beneficiario",},
-    {field: "uresclave",headerName: "U. Resp",width: 100,},
-    {field: "NumProyecto",headerName: "Proyecto",width: 150,},
-    {field: "ConceptoEgreso",headerName: "Cpto. de  egreso",width: 150,},
-    {field: "conceptoCheque",headerName: "Cpto. de  Cheque",width: 270, },
-    {field: "Presupuesto",headerName: "Presupuesto SIREGOB", width: 150,description: "Presupuesto SIREGOB", ...Moneda, },
-    {field: "total",  headerName: "Total Bruto",  width: 150,  description: "Total Bruto", ...Moneda,},
-    {field: "Retenciones", headerName: "Retenciones", width: 150, description: "Retenciones", ...Moneda,},
-    {field: "Descuentos", headerName: "Descuentos", width: 150, description: "Descuentos", ...Moneda,},
-    {field: "importe",   headerName: "Total Neto", width: 150, 
-    description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))", ...Moneda,
-      renderHeader: () => (
-        <>{"Total: " + currencyFormatter.format(Number(sumaTotal))}</>
-      ),
-    },
-    {field: "Proveedor",    headerName: "Proveedor",   width: 100,   description: "Proveedor",},
-    {field: "Deudor",    headerName: "Deudor",  width: 100, description: "Deudor",},
-    {field: "clasificacion",   headerName: "Clasificación",   width: 100,  description: "Clasificación de Solicitud de Pago",},
-    {field: "NumSolEgreso", headerName: "Nº De Solicitud De Egreso",   width: 200,   description: "Número De Solicitud De Egreso",},
-    {field: "NumEgreso",   headerName: "Nº De Egreso",    width: 200,    description: "Número De Egreso",},
-    {field: "NumOrdenPago",  headerName: "Nº De Orden De Pago",   width: 200,    description: "Número De Orden De Pago",},
-    {field: "NumCheque", headerName: "Nº De Cheque",  width: 200,  description: "Número De Cheque",},
-    {field: "Divisa",  headerName: "Divisa",  width: 80,  description: "Divisa",},
-    {field: "Observaciones", headerName: "Observaciones",  width: 400,  description: "Observaciones",},
+    { field: "estatus", headerName: "Estatus", width: 200, },
+    { field: "Organismo", headerName: "Organismo", width: 150, description: "Beneficiario", },
+    { field: "UResponsable", headerName: "U Responsable", width: 150, description: "Beneficiario", },
+    { field: "Observaciones", headerName: "Observaciones", width: 140, description: "Tipo de Solicitud", },
+    { field: "NumProyecto", headerName: "Numero de Proyecto", width: 100, description: "Clave Estado", },
+    { field: "NumEgreso", headerName: "Numero de Egreso", width: 150, description: "Municipio", },
+    { field: "NumOrdenPago", headerName: "Numero Orden de Pago", width: 150, },
+    { field: "NumCheque", headerName: "Numero de Cheque", width: 150, description: "Fondo", },
+    { field: "total", headerName: "Total", width: 250,...Moneda },
+   
+    { field: "Divisa", headerName: "Divisa", width: 100, },
+    { field: "Anio", headerName: "Año", width: 100, description: "Ejercicio", },
+    { field: "Mes", headerName: "Mes", width: 100, description: "Mes", },
+    
   ];
+  const Consulta = () => {
+
+    DAMOPServices.indexCabecera({NUMOPERACION: 4}).then((res) => {
+          if (res.SUCCESS) {
+            // setTotalRetenciones((totalRetenciones) + (importe));
+            // setDescRet("");
+            // setValRet("");
+            // setIdRetencion("")
+            // setImporte(0)
+            // consulta("add");
+            // setOpenModalDes(false)
+            // setNumOperacion("");
+            // setClaveRet("");
+            // setEditar(false);
+            setOrgData(res.RESPONSE)
+           
+          } else {
+            AlertS.fire({
+              title: "Error!",
+              text: "Error!",
+              icon: "error",
+            });
+          }
+        });
+      
+   
+  };
+
+  
 
   const handleClick = () => {
     let data = {
@@ -262,22 +202,30 @@ export const ORG = () => {
     });
   };
 
-  const handleTranEgreso = () => {};
-  const handleAutEgresos = () => {};
-  const handleFinEgreso = () => {};
-  const handleValEgresos = () => {};
-  const handleGenNumOrdenPago = () => {};
+  const handleTranEgreso = () => { };
+  const handleAutEgresos = () => { };
+  const handleFinEgreso = () => { };
+  const handleValEgresos = () => { };
+  const handleGenNumOrdenPago = () => { };
+
+
+  useEffect(() => {
+
+    Consulta();
+  }, []);
+
+
   return (
     <div>
       <Slider open={slideropen}></Slider>
 
-      {openModalDetalle ? (
-        <ModalForm title={"Registro de Solicitud"} handleClose={handleClose}>
-          <ORGHeader idrow={""}           />
-        </ModalForm>
-      ) : (
+      {openModalCabecera ?
+        <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} />
+        :
         ""
-      )}  
+      }
+
+      
 
 
 
@@ -319,7 +267,7 @@ export const ORG = () => {
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
           <Button
-            onClick={handleClick}
+            onClick={Consulta}
             variant="contained"
             color="success"
             endIcon={<SendIcon sx={{ color: "white" }} />}
@@ -421,7 +369,7 @@ export const ORG = () => {
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
             <Tooltip title="Agregar Registro">
-              <ToggleButton value="check" onClick={() => handleDetalle({})} >
+              <ToggleButton value="check" onClick={() => handleAgregarRegistro()} >
                 <AddIcon />
               </ToggleButton>
             </Tooltip>
@@ -438,7 +386,7 @@ export const ORG = () => {
             <ThemeProvider theme={theme}>
               <DataGrid
                 columns={columnsParticipaciones}
-                rows={data}
+                rows={orgData}
                 density="compact"
                 rowsPerPageOptions={[10, 25, 50, 100, 200, 300, 400]}
                 disableSelectionOnClick
@@ -514,11 +462,11 @@ export const ORG = () => {
           </div>
         </Grid>
       </Grid>
-   
-   
-   
+
+
+
     </div>
 
-    
+
   );
 };
