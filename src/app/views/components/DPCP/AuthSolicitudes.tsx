@@ -367,6 +367,9 @@ const AuthSolicitudes = () => {
                     label: "buscar",
                     showQuickFilter: true,
                     quickFilterProps: { debounceMs: 500 },
+                    csvOptions:{  fileName: 'AuthSolicitudes',
+                      utf8WithBom: true,
+                     }
                   },
                 }}
                 checkboxSelection={checkboxSelection}
