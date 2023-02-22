@@ -164,7 +164,7 @@ export const ORGHeader = ({
     let data = {
       NUMOPERACION: editarDetalle ? 2 : 1,
       CHUSER: user.id,
-      CHID: dataCab.id,
+      CHID: dataCab?.id? dataCab?.id:"",
       DESCRIPCION: descripcion,
       importe: importe,
       Clasificador01: adminDetalle,
@@ -276,7 +276,7 @@ export const ORGHeader = ({
 
   const handleGuardarSolicitud = () => {
     let data = {
-      CHID: dataCab.id,
+      CHID: dataCab?.id? dataCab?.id:"",
       NUMOPERACION: modo === "Ver" ? 2 : 1,
       CHUSER: user.id,
       IDORGANISMO: idProveedor,
