@@ -902,6 +902,7 @@ export const ORGHeader = ({
                             <Button onClick={() => handleAgregarDetalle()} color="success"
                               disabled={
                                 // !editarDetalle ||
+                                !DetalleEditar||
                                 DetalleAgregar ||
                                 String(Number(importe)) === "NaN"
                                 || descripcion === ""
@@ -935,7 +936,7 @@ export const ORGHeader = ({
 
                           <Tooltip title="Limpiar Campos de Detalle">
                             <Button onClick={() => handleLimpiarCamposDetalle()} color="warning"
-                              disabled={DetalleLimpiar}
+                              disabled={ !DetalleEditar|| DetalleLimpiar}
                             >
                               <CleaningServicesOutlinedIcon />
                             </Button  >
