@@ -126,7 +126,13 @@ export const ORGHeader = ({
   }
 
   const handleEditarDetalles = () => {
+    setModoDetalle("Editar");
     setEditarDetalle(true);
+    setDetalleEditar(true);
+    setDetalleAgregar(false);
+    setAgregarDetalle(false);
+    setDetalleLimpiar(false);
+
   }
 
   const handleCancelarCambiosDetalle = () => {
@@ -232,7 +238,7 @@ export const ORGHeader = ({
             SetRegGuardado(true);
             handleCloseAñadirDetalle();
             Consulta();
-            handleClose();
+            // handleClose();
             Toast.fire({
               icon: "success",
               title: "Cabecera Editada!",
@@ -317,7 +323,12 @@ export const ORGHeader = ({
 
 
   const handleDetallesCabecera = (v: any) => {
+    console.log("Ver")
     setModoDetalle("Ver");
+    setDetalleAgregar(true);
+    setDetalleLimpiar(true);
+    setDetalleEditar(false)
+
     setDataDetalles(v);
     handleAgregarDetalles();
     setIdClaveConcepto(v.row.ConceptoEgreso);
@@ -334,7 +345,6 @@ export const ORGHeader = ({
     setControlInternoDetalle(v.row.Clasificador09);
     setAreaGeoDetalle(v.row.Clasificador10);
     setProyProgramDetalle(v.row.Clasificador11);
-
     setVerDetalle(true);
     setIdDetalleCabecera(v.row.id);
     setIdOrg(v.row.idORG);
@@ -387,8 +397,33 @@ export const ORGHeader = ({
 
 
   const handleLimpiarCamposDetalle = () => {
-    setDescripcion("");
-    setImporte("");
+    console.log(modoDetalle)
+    if (modoDetalle === "Editar") {
+
+      setDescripcion("");
+      setImporte("");
+    } else if (modoDetalle==="Agregar"){
+      // setListConceptos("");
+      setIdClaveConcepto("");
+      setIdDetalleCabecera("");
+      setIdOrg("");
+      setImporte("");
+      setDescripcion("");
+      setAdminDetalle("");
+      setFuncionalDetalle("");
+      setProgramaticoDetalle("");
+      setObjGastoDetalle("");
+      setTipoGastoDetalle("");
+      setFuenteFinanDetalle("");
+      setRamoDetalle("");
+      setAnioDetalle("");
+      setControlInternoDetalle("");
+      setAreaGeoDetalle("");
+      setProyProgramDetalle("");
+
+
+    }
+
 
 
 
@@ -608,10 +643,6 @@ export const ORGHeader = ({
   useEffect(() => {
     Consulta();
 
-    if (modoDetalle === "Agregar") {
-
-
-    }
 
     if (modo === "Nuevo") {
       setLimpiar(true);
@@ -856,7 +887,9 @@ export const ORGHeader = ({
                           {
                             !openAgregarDetalle || verDetalle ?
                               <Tooltip title="Editar Detalle">
-                                <Button onClick={() => handleEditarDetalles()} color={!editarDetalle ? "info" : "inherit"} disabled={editarDetalle} >
+                                <Button onClick={() => handleEditarDetalles()} color="info"
+                                  disabled={DetalleEditar}
+                                >
                                   <ModeEditOutlineIcon />
                                 </Button>
                               </Tooltip>
@@ -864,10 +897,10 @@ export const ORGHeader = ({
                           }
 
                           <Tooltip title="Grabar Cambios">
-                            <Button onClick={() => handleAgregarDetalle()} color={editarDetalle || openAgregarDetalle
-                              ? "success" : "inherit"}
+                            <Button onClick={() => handleAgregarDetalle()} color="success"
                               disabled={
                                 // !editarDetalle ||
+                                DetalleAgregar ||
                                 String(Number(importe)) === "NaN"
                                 || descripcion === ""
                                 || idClaveConcepto === ""
@@ -892,14 +925,16 @@ export const ORGHeader = ({
                           </Tooltip>
                           {modoDetalle === "Agregar" ? "" :
                             <Tooltip title="Cancelar Cambios">
-                              <Button onClick={() => handleCancelarCambiosDetalle()} color={editarDetalle ? "error" : "inherit"} disabled={!editarDetalle} >
+                              <Button onClick={() => handleCancelarCambiosDetalle()} color="error"  >
                                 <CancelPresentationIcon />
                               </Button  >
                             </Tooltip>
                           }
 
                           <Tooltip title="Limpiar Campos de Detalle">
-                            <Button onClick={() => handleLimpiarCamposDetalle()} color={editarDetalle ? "warning" : "inherit"} disabled={!editarDetalle} >
+                            <Button onClick={() => handleLimpiarCamposDetalle()} color="warning"
+                              disabled={DetalleLimpiar}
+                            >
                               <CleaningServicesOutlinedIcon />
                             </Button  >
                           </Tooltip>
@@ -1002,7 +1037,7 @@ export const ORGHeader = ({
                     <Grid container spacing={1} padding={0} paddingTop={6}>
                       <Grid container justifyContent="space-around">
                         <Grid item xs={12} sm={10} md={5.8} lg={5}>
-                        <label className="textoNormal">Cpto de egreso:</label>  <br />
+                          <label className="textoNormal">Cpto de egreso:</label>  <br />
 
                           <SelectFrag
                             value={idClaveConcepto}
@@ -1011,8 +1046,8 @@ export const ORGHeader = ({
                             placeholder={"Seleccione Cpto de"}
                             label={""} disabled={verDetalle}
                           />
-                        <label className="textoNormal">Parcial a Pagar:</label>  <br />
-                          
+                          <label className="textoNormal">Parcial a Pagar:</label>  <br />
+
                           <TextField
                             required
                             value={importe}
@@ -1028,7 +1063,7 @@ export const ORGHeader = ({
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <label className="textoNormal">Descripción:</label>   <br />
+                          <label className="textoNormal">Descripción:</label>   <br />
                           <TextField
                             required
                             fullWidth
