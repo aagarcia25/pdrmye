@@ -74,6 +74,7 @@ const Participaciones = () => {
 
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
+  const [nombreArchivoExport, setNombreArchivoExport] = useState<string>("");
 
 
   const theme = createTheme(coreEsES, gridEsES);
@@ -1432,7 +1433,7 @@ const Participaciones = () => {
       P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
       P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
       P_IDESTATUS: idestatus === "false" ? "" : idestatus,
-      P_IDMES: mes === "" ? "" : mes,
+      P_IDMES: mes === "false" ? "" : mes,
 
 
     };
