@@ -268,56 +268,6 @@ const Participaciones = () => {
       },
     },
     {
-      field: "estatus",
-      headerName: "Estatus",
-      description: "Estatus",
-
-      width: 200,
-    },
-    {
-      field: "NumOper",
-      headerName: "Numero De Operacion",
-      description: "Nº De Operación",
-      width: 200,
-    },
-    {
-      field: "NumParticipacion",
-      headerName: "Numero De Participacion",
-      width: 200,
-      description: "Número De Participación",
-    },
-    {
-      field: "NumSolEgreso",
-      headerName: "Número De Solicitud De Egreso",
-      width: 200,
-      description: "Número De Solicitud De Egreso",
-    },
-    {
-      field: "NumEgreso",
-      headerName: "Numero De Egreso",
-      width: 200,
-      description: "Número De Egreso",
-    },
-    {
-      field: "NumOrdenPago",
-      headerName: "Numero De Orden De Pago",
-      width: 200,
-      description: "Numero De Orden De Pago",
-    },
-    {
-      field: "NumRequerimientoAnt",
-      headerName: "Numero De Requerimiento De Anticipo",
-      width: 200,
-      description: "Numero De Requerimiento De Anticipo",
-    },
-    {
-      field: "NumCheque",
-      headerName: "Numero De Cheque",
-      width: 200,
-      description: "Numero De Cheque",
-    },
-
-    {
       field: "AccionesDescuentos",
       disableExport: true,
       headerName: "Descuentos",
@@ -369,6 +319,58 @@ const Participaciones = () => {
         );
       },
     },
+   
+    {
+      field: "estatus",
+      headerName: "Estatus",
+      description: "Estatus",
+
+      width: 200,
+    },
+    {
+      field: "NumOper",
+      headerName: "Numero De Operacion",
+      description: "Nº De Operación",
+      width: 200,
+    },
+    {
+      field: "NumParticipacion",
+      headerName: "Numero De Participacion",
+      width: 200,
+      description: "Número De Participación",
+    },
+    {
+      field: "NumSolEgreso",
+      headerName: "Número De Solicitud De Egreso",
+      width: 200,
+      description: "Número De Solicitud De Egreso",
+    },
+    {
+      field: "NumEgreso",
+      headerName: "Numero De Egreso",
+      width: 200,
+      description: "Número De Egreso",
+    },
+    {
+      field: "NumOrdenPago",
+      headerName: "Numero De Orden De Pago",
+      width: 200,
+      description: "Numero De Orden De Pago",
+    },
+    {
+      field: "NumRequerimientoAnt",
+      headerName: "Numero De Requerimiento De Anticipo",
+      width: 200,
+      description: "Numero De Requerimiento De Anticipo",
+    },
+    {
+      field: "NumCheque",
+      headerName: "Numero De Cheque",
+      width: 200,
+      description: "Numero De Cheque",
+    },
+
+   
     {
       field: "Anio",
       headerName: "Ejercicio",
@@ -405,12 +407,12 @@ const Participaciones = () => {
       description: "Tipo Cálculo",
       width: 150,
     },
-    {
+   /* {
       field: "Clave",
       headerName: "Fondo",
       width: 150,
       description: "Fondo",
-    },
+    },*/
     {
       field: "fondodes",
       headerName: "Descripción de Fondo",
@@ -552,7 +554,7 @@ const Participaciones = () => {
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 12) {
+      if (operacion === 31) {
         setFondos(res.RESPONSE);
       } else if (operacion === 5) {
         setMunicipios(res.RESPONSE);
