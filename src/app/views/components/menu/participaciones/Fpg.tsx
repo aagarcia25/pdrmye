@@ -132,12 +132,12 @@ export const Fpg = () => {
       width: 180,
       description: "Fecha Creación",
     },
-    {
+    /*{
       field: "Clave",
       headerName: "Clave",
       width: 150,
       description: "Clave Fondo",
-    },
+    },*/
     {
       field: "Descripcion",
       headerName: "Descripción",
