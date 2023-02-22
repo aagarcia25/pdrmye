@@ -59,7 +59,6 @@ export const Municipios = () => {
       hide: true,
       headerName: "Identificador",
       width: 150,
-      description: messages.dataTableColum.id,
     },
     {
       field: "acciones",  disableExport: true,
