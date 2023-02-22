@@ -153,13 +153,23 @@ button.salir {
   font-family:   sans-serif;
 
 }
+
 button.guardar {
   font-size: 20px;
   transition-duration: 0.2s;
  font-family:  sans-serif;
  color: rgb(11, 116, 63);
-
 }
+
+button.guardarOrgCabecera {
+  font-size: 20px;
+  transition-duration: 0.2s;
+ font-family:  sans-serif;
+ color: rgb(13, 13, 13);
+ background-color: rgba(3, 126, 30, 0.595);
+}
+
+
 button.CerrarModal {
   font-size: 20px;
   transition-duration: 0.2s;
@@ -223,7 +233,13 @@ Button.cerrar:hover {
  background-color:rgba(255, 0, 0, 0.62);
 
 };
-Button.guardar:hover {
+button.guardarOrgCabecera:hover {
+  color: rgb(29, 168, 50);
+  background-color:rgba(10, 206, 30, 0.62);
+ 
+ };
+
+ Button.guardar:hover {
   color: rgb(29, 168, 50);
   background-color:rgba(0, 255, 26, 0.62);
  

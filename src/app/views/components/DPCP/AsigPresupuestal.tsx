@@ -333,6 +333,9 @@ const AsigPresupuestal = () => {
                     label: "buscar",
                     showQuickFilter: true,
                     quickFilterProps: { debounceMs: 500 },
+                    csvOptions:{  fileName: 'AsignacionPresup',
+                      utf8WithBom: true,
+                     }
                   },
                 }}
                 checkboxSelection={checkboxSelection}
