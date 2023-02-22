@@ -1476,7 +1476,7 @@ const Participaciones = () => {
 
   useEffect(() => {
     setMeses(fmeses());
-    loadFilter(12);
+    loadFilter(31);
     loadFilter(5);
     loadFilter(17);
     loadFilter(25);
