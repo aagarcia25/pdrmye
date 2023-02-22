@@ -354,6 +354,8 @@ export const ORGHeader = ({
   const handleAgregarDetalles = () => {
     setModoDetalle("Agregar");
     // setEditarDetalle(true)
+    setDetalleAgregar(false)
+    setDetalleLimpiar(false)
     setOpenAgregarDetalle(true);
     setidUResp(dataCab.IdUres);
     setidProveedor(dataCab.IdOrg);
