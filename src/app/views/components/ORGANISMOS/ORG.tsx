@@ -18,12 +18,7 @@ import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
 import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
-import {
-  DataGrid,
-  GridSelectionModel,
-  GridToolbar,
-  esES as gridEsES,
-} from "@mui/x-data-grid";
+import {DataGrid,GridSelectionModel, GridToolbar, esES as gridEsES,} from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import { DAMOPServices } from "../../../services/DAMOPServices";
 import AddIcon from "@mui/icons-material/Add";
@@ -33,9 +28,11 @@ import EditOffIcon from "@mui/icons-material/EditOff";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { ORGService } from "../../../services/ORGService";
 import { ORGHeader } from "./ORGHeader";
-import { indexCabecera } from "../../../interfaces/Damop/ResponseDAMOP";
+import Swal from "sweetalert2";
+
 
 export const ORG = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -68,9 +65,10 @@ export const ORG = () => {
   const [DAMOP_GSE, SETDAMOP_GSE] = useState<boolean>(false);
 
 
-  const handleClose = (cerrar: string) => {
+  const handleClose = () => {
       setOpenModalCabecera(false);
       setVrows({});
+      Consulta();
 
   };
 
@@ -121,7 +119,12 @@ export const ORG = () => {
                   <MenuBookIcon />
                 </IconButton>
               </Tooltip>
-
+              <Tooltip title={"Eliminar"}>
+                <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
+                  <DeleteForeverOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+              
           </Box>
         );
       },
@@ -169,7 +172,44 @@ export const ORG = () => {
    
   };
 
-  
+  const handleBorrarSolicitud = (v:any) => {
+
+    let data = {
+      NUMOPERACION: 3,
+      CHUSER: user?.id,
+      CHID : v?.row?.id
+    }
+
+    Swal.fire({
+      icon: "warning",
+      title: "Eliminar registro actual",
+      text: "",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        DAMOPServices.indexCabecera(data).then((res) => {
+          if (res.SUCCESS) {
+            handleClose();
+            Toast.fire({
+              icon: "success",
+              title: "Cabecera Borrada!",
+            });
+          } else {
+            AlertS.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      }
+    });
+
+  };
+
 
   const handleClick = () => {
     let data = {
@@ -240,32 +280,7 @@ export const ORG = () => {
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          spacing={1}
-          item
-          xs={12}
-          sm={12}
-          md={12}
-          lg={12}
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          {/* <Grid item xs={6} sm={4} md={2} lg={2}>
-          <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
-          <SelectFrag
-            value={idestatus}
-            options={estatus}
-            onInputChange={handleFilterChange5}
-            placeholder={"Seleccione Estatus"}
-            label={""}
-            disabled={false}
-          />
-        </Grid> */}
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
+        {/* <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
           <Button
             onClick={Consulta}
             variant="contained"
@@ -274,7 +289,7 @@ export const ORG = () => {
           >
             <Typography sx={{ color: "white" }}> Buscar </Typography>
           </Button>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={-1}>
           {/* <ToggleButtonGroup>

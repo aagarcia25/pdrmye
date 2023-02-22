@@ -16,5 +16,30 @@ export interface indexCabecera {
     IdUres: string;
     Divisa: string;
     Cuenta:string;
+    TipoSolicitud:string;
 
+}
+
+export interface indexDetalle {
+    id: string;
+    deleted: string;
+    UltimaActualizacion: string;
+    FechaCreacion: string;
+    ModificadoPor: string;
+    CreadoPor: string;
+    idORG: string;
+    Descripcion: string;
+    Clasificador01: string;
+    Clasificador02: string;
+    Clasificador03: string;
+    Clasificador04: string;
+    Clasificador05: string;
+    Clasificador06: string;
+    Clasificador07: string;
+    Clasificador08: string;
+    Clasificador09: string;
+    Clasificador10: string;
+    Clasificador11: string;
+    importe: string;
+    ConceptoEgreso: string;
 }
