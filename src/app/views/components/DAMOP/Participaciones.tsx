@@ -554,7 +554,7 @@ const Participaciones = () => {
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 12) {
+      if (operacion === 31) {
         setFondos(res.RESPONSE);
       } else if (operacion === 5) {
         setMunicipios(res.RESPONSE);
