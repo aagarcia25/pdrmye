@@ -68,8 +68,14 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { ModalCheque } from "../componentes/ModalCheque";
 import { Retenciones } from "./Retenciones";
+import { fmeses } from "../../../share/loadMeses";
 
 const Participaciones = () => {
+
+  const [meses, setMeses] = useState<SelectValues[]>([]);
+  const [mes, setMes] = useState<string>("");
+
+
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
   //MODAL
@@ -88,7 +94,6 @@ const Participaciones = () => {
   const [tiposSolicitud, setTiposSolicitud] = useState<SelectValues[]>([]);
   const [estatus, setEstatus] = useState<SelectValues[]>([]);
 
-  const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
   const [openCheque, setOpenCheque] = useState(false);
   const [tipo, setTipo] = useState(0);
@@ -134,7 +139,9 @@ const Participaciones = () => {
   const handleclose = (data: any) => {
     setOpenCheque(false);
   };
-
+  const handleSelectMes = (data: any) => {
+    setMes(data);
+  };
   const handlecheque = (data: any, tipo: number) => {
     setTipo(tipo);
     setOpenCheque(true)
@@ -1425,8 +1432,11 @@ const Participaciones = () => {
       P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
       P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
       P_IDESTATUS: idestatus === "false" ? "" : idestatus,
+      P_IDMES: mes === "" ? "" : mes,
+
 
     };
+    console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -1465,6 +1475,7 @@ const Participaciones = () => {
 
 
   useEffect(() => {
+    setMeses(fmeses());
     loadFilter(12);
     loadFilter(5);
     loadFilter(17);
@@ -1596,6 +1607,17 @@ const Participaciones = () => {
               label={""}
               disabled={false}
             />
+          </Grid>
+          <Grid item xs={6} sm={4} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
+            <SelectFrag
+            value={mes}
+            options={meses}
+            onInputChange={handleSelectMes}
+            placeholder={"Seleccione Mes"}
+            label={""}
+            disabled={false}
+          />
           </Grid>
         </Grid>
 
