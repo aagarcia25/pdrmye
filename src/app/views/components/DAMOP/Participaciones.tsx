@@ -69,6 +69,7 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { ModalCheque } from "../componentes/ModalCheque";
 import { Retenciones } from "./Retenciones";
 import { fmeses } from "../../../share/loadMeses";
+import SelectFragMulti from "../Fragmentos/SelectFragMulti";
 
 const Participaciones = () => {
 
@@ -89,7 +90,7 @@ const Participaciones = () => {
 
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  const [fondos, setFondos] = useState<SelectValues[]>([]);
+  const [fondos, setFondos] = useState<[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tiposSolicitud, setTiposSolicitud] = useState<SelectValues[]>([]);
   const [tiposFondo, setTiposFondo] = useState<SelectValues[]>([]);
@@ -109,8 +110,7 @@ const Participaciones = () => {
   const [idtipoFondo, setIdTipoFondo] = useState("");
   const [idtipoSolicitud, setIdTipoSolicitud] = useState("");
   const [idestatus, setIdEstatus] = useState("");
-
-  const [idFondo, setIdFondo] = useState("");
+  const [idFondo, setIdFondo] = useState<SelectValues[]>([]);
   const [idMunicipio, setidMunicipio] = useState("");
   //Constantes para las columnas
   const [data, setData] = useState([]);
@@ -598,14 +598,14 @@ const Participaciones = () => {
 
   };
 
-  const handleFilterChange2 = (v: string) => {
-    console.log(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label))
+  const handleFilterChange2 = (v: SelectValues[]) => {
+   // console.log(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label))
 
-    setNombreFondo(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label));
+   // setNombreFondo(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label));
 
     setIdFondo(v);
-
-    setIntOperaciones(true); setMunTieneFide(false);
+    setIntOperaciones(true); 
+    setMunTieneFide(false);
   };
 
   const handleFilterChange3 = (v: string) => {
@@ -1464,7 +1464,7 @@ const Participaciones = () => {
     }
     let data = {
       TIPO: 1,
-      P_FONDO: idFondo === "false" ? "" : idFondo,
+      P_FONDO: idFondo.length > 0 ? idFondo  : "",
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
       P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
@@ -1622,15 +1622,21 @@ const Participaciones = () => {
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} lg={2}>
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
-            <SelectFrag
-              value={idFondo}
+            <SelectFragMulti
               options={fondos}
               onInputChange={handleFilterChange2}
-              placeholder={"Seleccione Fondo"}
+              placeholder={"Seleccione Fondo(s)"}
               label={""}
               disabled={false}
             />
+
+
+
+
+
+
           </Grid>
 
           <Grid item xs={6} sm={4} md={2} lg={2}>
