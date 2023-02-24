@@ -69,6 +69,7 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { ModalCheque } from "../componentes/ModalCheque";
 import { Retenciones } from "./Retenciones";
 import { fmeses } from "../../../share/loadMeses";
+import SelectFragMulti from "../Fragmentos/SelectFragMulti";
 
 const Participaciones = () => {
 
@@ -89,22 +90,27 @@ const Participaciones = () => {
 
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  const [fondos, setFondos] = useState<SelectValues[]>([]);
+  const [fondos, setFondos] = useState<[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
-  const [tiposFondo, setTiposFondo] = useState<SelectValues[]>([]);
   const [tiposSolicitud, setTiposSolicitud] = useState<SelectValues[]>([]);
+  const [tiposFondo, setTiposFondo] = useState<SelectValues[]>([]);
   const [estatus, setEstatus] = useState<SelectValues[]>([]);
-
   const [vrows, setVrows] = useState<{}>("");
   const [openCheque, setOpenCheque] = useState(false);
   const [tipo, setTipo] = useState(0);
   //Constantes de los filtros
+  const [nombreFondo, setNombreFondo] = useState("");
+  const [nombreMunicipio, setNombreMunicipio] = useState("");
+  const [nombreMes, setNombreMes] = useState("");
+  const [nombreExport, setNombreExport] = useState("");
+
+
+
   const [numerooperacion, setnumerooperacion] = useState(0);
   const [idtipoFondo, setIdTipoFondo] = useState("");
   const [idtipoSolicitud, setIdTipoSolicitud] = useState("");
   const [idestatus, setIdEstatus] = useState("");
-
-  const [idFondo, setIdFondo] = useState("");
+  const [idFondo, setIdFondo] = useState<SelectValues[]>([]);
   const [idMunicipio, setidMunicipio] = useState("");
   //Constantes para las columnas
   const [data, setData] = useState([]);
@@ -140,9 +146,7 @@ const Participaciones = () => {
   const handleclose = (data: any) => {
     setOpenCheque(false);
   };
-  const handleSelectMes = (data: any) => {
-    setMes(data);
-  };
+
   const handlecheque = (data: any, tipo: number) => {
     setTipo(tipo);
     setOpenCheque(true)
@@ -327,7 +331,7 @@ const Participaciones = () => {
         );
       },
     },
-   
+
     {
       field: "estatus",
       headerName: "Estatus",
@@ -378,7 +382,7 @@ const Participaciones = () => {
       description: "Numero De Cheque",
     },
 
-   
+
     {
       field: "Anio",
       headerName: "Ejercicio",
@@ -415,12 +419,12 @@ const Participaciones = () => {
       description: "Tipo Cálculo",
       width: 150,
     },
-   /* {
-      field: "Clave",
-      headerName: "Fondo",
-      width: 150,
-      description: "Fondo",
-    },*/
+    /* {
+       field: "Clave",
+       headerName: "Fondo",
+       width: 150,
+       description: "Fondo",
+     },*/
     {
       field: "fondodes",
       headerName: "Descripción de Fondo",
@@ -594,18 +598,34 @@ const Participaciones = () => {
 
   };
 
-  const handleFilterChange2 = (v: string) => {
+  const handleFilterChange2 = (v: SelectValues[]) => {
+   // console.log(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label))
+
+   // setNombreFondo(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label));
+
     setIdFondo(v);
-    setIntOperaciones(true); setMunTieneFide(false);
+    setIntOperaciones(true); 
+    setMunTieneFide(false);
   };
 
   const handleFilterChange3 = (v: string) => {
+
+    console.log(municipio.find(({ value }) => value === v)?.label === undefined ? "" : String(municipio.find(({ value }) => value === v)?.label));
+    setNombreMunicipio(municipio.find(({ value }) => value === v)?.label === undefined ? "" : String(municipio.find(({ value }) => value === v)?.label));
+
     setidMunicipio(v);
     setIntOperaciones(true); setMunTieneFide(false)
   };
+
   const handleFilterChange4 = (v: string) => {
     setIdTipoSolicitud(v);
     setIntOperaciones(true); setMunTieneFide(false)
+  };
+  const handleSelectMes = (data: any) => {
+    console.log(meses.find(({ value }) => value === data)?.label === undefined ? "" : String(meses.find(({ value }) => value === data)?.label))
+    setNombreMes(meses.find(({ value }) => value === data)?.label === undefined ? "" : String(meses.find(({ value }) => value === data)?.label));
+
+    setMes(data);
   };
 
   const handleFilterChange5 = (v: string) => {
@@ -1390,6 +1410,22 @@ const Participaciones = () => {
   };
 
   const handleClick = () => {
+    if (nombreFondo !== "" || nombreMunicipio !== "" || nombreMes !== "") {
+      setNombreExport(String(
+        (nombreFondo === "" ? "" : nombreFondo)
+        + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
+        + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
+
+        console.log(String(
+          (nombreFondo === "" ? "" : nombreFondo)
+          + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
+          + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
+
+    } else {
+      setNombreExport("Participaciones y Aportaciones");
+      console.log("Participaciones y Aportaciones");
+    }
+
     if (idtipoSolicitud || idFondo || idMunicipio) {
       setIntOperaciones(false)
 
@@ -1428,7 +1464,7 @@ const Participaciones = () => {
     }
     let data = {
       TIPO: 1,
-      P_FONDO: idFondo === "false" ? "" : idFondo,
+      P_FONDO: idFondo.length > 0 ? idFondo  : "",
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
       P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
@@ -1437,7 +1473,6 @@ const Participaciones = () => {
 
 
     };
-    console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -1587,15 +1622,21 @@ const Participaciones = () => {
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} lg={2}>
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
-            <SelectFrag
-              value={idFondo}
+            <SelectFragMulti
               options={fondos}
               onInputChange={handleFilterChange2}
-              placeholder={"Seleccione Fondo"}
+              placeholder={"Seleccione Fondo(s)"}
               label={""}
               disabled={false}
             />
+
+
+
+
+
+
           </Grid>
 
           <Grid item xs={6} sm={4} md={2} lg={2}>
@@ -1612,13 +1653,13 @@ const Participaciones = () => {
           <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
             <SelectFrag
-            value={mes}
-            options={meses}
-            onInputChange={handleSelectMes}
-            placeholder={"Seleccione Mes"}
-            label={""}
-            disabled={false}
-          />
+              value={mes}
+              options={meses}
+              onInputChange={handleSelectMes}
+              placeholder={"Seleccione Mes"}
+              label={""}
+              disabled={false}
+            />
           </Grid>
         </Grid>
 
@@ -1753,7 +1794,7 @@ const Participaciones = () => {
               ""
             )}
 
-{cargarPlant ? (
+            {cargarPlant ? (
               <Tooltip title={"Cargar Plantilla Migración"}>
                 <ToggleButton value="check">
                   <IconButton
@@ -1947,9 +1988,11 @@ const Participaciones = () => {
                     label: "buscar",
                     showQuickFilter: true,
                     quickFilterProps: { debounceMs: 500 },
-                    csvOptions:{  fileName: 'Export',
+                    csvOptions: {
+                      fileName: nombreExport
+                      ,
                       utf8WithBom: true,
-                     }
+                    }
                   },
                 }}
                 isRowSelectable={(params) => (

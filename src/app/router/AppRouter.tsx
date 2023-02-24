@@ -63,6 +63,9 @@ import { CatTP  } from '../views/components/menu/catalogos/CatTiposDePago/CatTP'
 import { ClasificadorSP } from '../views/components/menu/catalogos/ClasificadorSP/ClasificadorSP';
 import { CATORG } from '../views/components/menu/catalogos/org/CATORG';
 import { ORG } from '../views/components/ORGANISMOS/ORG';
+import { Firma } from '../views/components/EFIRMA/Firma';
+import { Configuracione } from '../views/components/EFIRMA/Configuracione';
+import { TablaDocse } from '../views/components/EFIRMA/TablaDocse';
 
 
 export const AppRouter = () => {
@@ -172,6 +175,17 @@ export const AppRouter = () => {
         <Route path='/estadisticas/reportes' element={<Reportes />} />
         <Route path='/estadisticas/graficas' element={<Graficas />} />
         {/* /// Fin Estadisticas */}
+
+        {/* /// Firma Electronica */}
+        <Route path='/efirm/firma'  element={<Firma />} />
+        <Route path='/efirm/config' element={<Configuracione />} />
+        <Route path='/efirm/tabla'  element={<TablaDocse />} />
+        {/* /// Fin Firma Electronica */}
+
+
+
+
+
       </Routes>
     </Inicio>
   );

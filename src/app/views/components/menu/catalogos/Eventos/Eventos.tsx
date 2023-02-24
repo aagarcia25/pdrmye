@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box, IconButton, } from '@mui/material'
+import { Box, Grid, IconButton, Typography, } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { messages } from '../../../../styles'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -210,9 +210,14 @@ export const Eventos = () => {
       />
         : ""}
 
-      <Box>
-
-      </Box>
+ 
+      <Grid item xs={7} sm={10} md={11} lg={11} >
+            <Box sx={{ display: "flex", justifyContent: "center"}}>
+              <Typography variant="h4" >
+                {"Eventos"}
+              </Typography>
+            </Box>
+          </Grid>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={conEventos} />
 
