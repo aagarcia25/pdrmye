@@ -1587,7 +1587,7 @@ const Participaciones = () => {
           justifyContent="center"
           alignItems="center" >
 
-          {/* <Grid item xs={6} sm={4} md={2} lg={2}>
+          <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
               value={idestatus}
@@ -1597,7 +1597,7 @@ const Participaciones = () => {
               label={""}
               disabled={false}
             />
-          </Grid> */}
+          </Grid> 
 
           {/* <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
