@@ -16,3 +16,14 @@ export const AlertD = Swal.mixin({
     cancelButtonText: 'Cancel'
 });
 
+
+export const InputAlert = Swal.mixin({
+    input: 'textarea',
+    inputLabel: 'Message',
+    inputPlaceholder: 'Type your message here...',
+    inputAttributes: {
+      'aria-label': 'Type your message here'
+    },
+    showCancelButton: true
+  })
+  

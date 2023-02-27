@@ -90,7 +90,7 @@ const Participaciones = () => {
 
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  const [fondos, setFondos] = useState<[]>([]);
+  const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tiposSolicitud, setTiposSolicitud] = useState<SelectValues[]>([]);
   const [tiposFondo, setTiposFondo] = useState<SelectValues[]>([]);
@@ -110,7 +110,8 @@ const Participaciones = () => {
   const [idtipoFondo, setIdTipoFondo] = useState("");
   const [idtipoSolicitud, setIdTipoSolicitud] = useState("");
   const [idestatus, setIdEstatus] = useState("");
-  const [idFondo, setIdFondo] = useState<SelectValues[]>([]);
+
+  const [idFondo, setIdFondo] = useState("");
   const [idMunicipio, setidMunicipio] = useState("");
   //Constantes para las columnas
   const [data, setData] = useState([]);
@@ -598,14 +599,14 @@ const Participaciones = () => {
 
   };
 
-  const handleFilterChange2 = (v: SelectValues[]) => {
-   // console.log(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label))
+  const handleFilterChange2 = (v: string) => {
+    console.log(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label))
 
-   // setNombreFondo(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label));
+    setNombreFondo(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label));
 
     setIdFondo(v);
-    setIntOperaciones(true); 
-    setMunTieneFide(false);
+
+    setIntOperaciones(true); setMunTieneFide(false);
   };
 
   const handleFilterChange3 = (v: string) => {
@@ -1416,14 +1417,13 @@ const Participaciones = () => {
         + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
         + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
 
-        console.log(String(
-          (nombreFondo === "" ? "" : nombreFondo)
-          + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
-          + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
+        // console.log(String(
+        //   (nombreFondo === "" ? "" : nombreFondo)
+        //   + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
+        //   + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
 
     } else {
       setNombreExport("Participaciones y Aportaciones");
-      console.log("Participaciones y Aportaciones");
     }
 
     if (idtipoSolicitud || idFondo || idMunicipio) {
@@ -1464,7 +1464,7 @@ const Participaciones = () => {
     }
     let data = {
       TIPO: 1,
-      P_FONDO: idFondo.length > 0 ? idFondo  : "",
+      P_FONDO: idFondo === "false" ? "" : idFondo,
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
       P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
@@ -1587,7 +1587,7 @@ const Participaciones = () => {
           justifyContent="center"
           alignItems="center" >
 
-          <Grid item xs={6} sm={4} md={2} lg={2}>
+          {/* <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
               value={idestatus}
@@ -1597,7 +1597,7 @@ const Participaciones = () => {
               label={""}
               disabled={false}
             />
-          </Grid> 
+          </Grid> */}
 
           {/* <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
@@ -1622,21 +1622,15 @@ const Participaciones = () => {
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} lg={2}>
-
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
-            <SelectFragMulti
+            <SelectFrag
+              value={idFondo}
               options={fondos}
               onInputChange={handleFilterChange2}
-              placeholder={"Seleccione Fondo(s)"}
+              placeholder={"Seleccione Fondo"}
               label={""}
               disabled={false}
             />
-
-
-
-
-
-
           </Grid>
 
           <Grid item xs={6} sm={4} md={2} lg={2}>

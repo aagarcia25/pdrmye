@@ -150,6 +150,12 @@ const RecepcionRecursos = () => {
       },
     },
     {
+      field: "NumOper",
+      headerName: "Nº De Operación",
+      description: "Numero De Operación",
+      width: 200,
+    },
+    {
       field: "Anio",
       headerName: "Ejercicio",
       width: 80,
@@ -163,29 +169,28 @@ const RecepcionRecursos = () => {
     },
 
     {
+      // hide: (user.DEPARTAMENTOS[0]?.NombreCorto === "ORG") ,
+      hide: true ,
+
       field: "ClaveEstado",
       headerName: "Clave Estado",
       width: 100,
       description: "Clave Estado",
     },
     {
+      hide: (user.DEPARTAMENTOS[0]?.NombreCorto === "MUN"),
       field: "Nombre",
       headerName: "Municipio",
       width: 150,
       description: "Municipio",
     },
-    {
-      field: "NumOper",
-      headerName: "Nº De Operación",
-      description: "Nº De Operación",
-      width: 200,
-    },
-    {
-      field: "NumOrdenPago",
-      headerName: "Nº De Orden De Pago",
-      width: 200,
-      description: "Número De Orden De Pago",
-    },
+
+    // {
+    //   field: "NumOrdenPago",
+    //   headerName: "Nº De Orden De Pago",
+    //   width: 200,
+    //   description: "Número De Orden De Pago",
+    // },
 
     {
       field: "NumCheque",
@@ -194,6 +199,8 @@ const RecepcionRecursos = () => {
       description: "Número De Cheque",
     },
     {
+      hide: true ,
+
       field: "fondodes",
       headerName: "Descripción de Fondo",
       width: 250,
@@ -266,10 +273,8 @@ const RecepcionRecursos = () => {
   const handleClick = () => {
 
     let data = {
-      TIPO: 1,
-      P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_IDMUNICIPIO:  idMunicipio,
-      P_IDTIPO: idtipo === "false" ? "" : idtipo,
+      TIPO: 6,
+      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       DEP:user.MUNICIPIO[0]?.id ?"MUN":""
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
@@ -288,6 +293,9 @@ const RecepcionRecursos = () => {
       }
     });
   };
+
+
+
 
   useEffect(() => {
     loadFilter(12);
