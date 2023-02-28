@@ -11,9 +11,12 @@ import { getPermisos, getUser } from "../../../../../services/localStorage";
 import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import { Grid } from "@mui/material";
+import { Grid, Typography, Tooltip } from "@mui/material";
+import Slider from "../../../Slider";
 
 const Menus = () => {
+  const [slideropen, setslideropen] = useState(true);
+  const [nombreMenu, setNombreMenu] = useState("");
   const [dt, setDt] = useState([]);
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
@@ -121,16 +124,13 @@ const Menus = () => {
         );
       },
     },
-    { field: "Menu",
-      headerName: "Menu",
-      width: 400,
-    },
-    { field: "Descripcion", headerName: "Descripcion", width: 400 },
-    { field: "menupadre", headerName: "Menú Padre", width: 400 },
-    { field: "Path", headerName: "Path", width: 200 },
-    { field: "Nivel", headerName: "Nivel", width: 100 },
-    { field: "Orden", headerName: "Orden", width: 100 },
-    { field: "ControlInterno", headerName: "Control Interno", width: 200 },
+    { field: "Menu",     headerName: "Menú",  description: "Menú",    width: 400,    },
+    { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 400 },
+    { field: "menupadre", headerName: "Menú Padre", description: "Menú Padre", width: 400 },
+    { field: "Path", headerName: "Path", description: "Path", width: 200 },
+    { field: "Nivel", headerName: "Nivel", description: "Nivel", width: 100 },
+    { field: "Orden", headerName: "Orden", description: "Orden", width: 100 },
+    { field: "ControlInterno", headerName: "Control Interno", description: "Control Interno",  width: 200 },
    
   ];
 
@@ -156,6 +156,7 @@ const Menus = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MENUS") {
         //console.log(item);
+        setNombreMenu(item.Menu);
         if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
@@ -171,14 +172,16 @@ const Menus = () => {
   }, []);
 
   return (
+   
+
+      
     <div>
       <Grid sx={{padding:"1%" }}>
       {open ? (
         <MenuRelPermisos
           open={open}
           handleClose={handleClose}
-          dt={dt}
-        ></MenuRelPermisos>
+          dt={dt}></MenuRelPermisos>
       ) : (
         ""
       )}
@@ -191,11 +194,21 @@ const Menus = () => {
       ) : (
         ""
       )}
-
+          <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+        <Tooltip title={nombreMenu}>
+          <Typography variant='h3'>
+         {nombreMenu}
+          </Typography>
+        </Tooltip>
+        </Grid>
+      </Grid>
       <ButtonsAdd handleOpen={handleOpenModal} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
       </Grid>
     </div>
+    
   );
 };
 
