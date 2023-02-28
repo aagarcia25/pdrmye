@@ -114,7 +114,6 @@ export const ORGHeader = ({
   const [editarDetalle, setEditarDetalle] = useState<boolean>(false);
   const [DetalleEditar, setDetalleEditar] = useState<boolean>(true);
   const [DetalleAgregar, setDetalleAgregar] = useState<boolean>(true);
-  const [DetalleCancelar, setDetalleCancelar] = useState<boolean>(true);
   const [DetalleLimpiar, setDetalleLimpiar] = useState<boolean>(true);
 
   const handleEditar = () => {
@@ -323,7 +322,6 @@ export const ORGHeader = ({
 
 
   const handleDetallesCabecera = (v: any) => {
-    console.log("Ver")
     setModoDetalle("Ver");
     setDetalleAgregar(true);
     setDetalleLimpiar(true);
@@ -399,7 +397,6 @@ export const ORGHeader = ({
 
 
   const handleLimpiarCamposDetalle = () => {
-    console.log(modoDetalle)
     if (modoDetalle === "Editar") {
 
       setDescripcion("");
