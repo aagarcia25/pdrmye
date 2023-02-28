@@ -285,6 +285,7 @@ export const ORGHeader = ({
       IDURESP: idUResp,
       CUENTA: numCuenta,
       TIPOSOLICITUD: idTipoSolicitud,
+      ESTATUS: "DAMOP_ORG_ING_OP"
     }
 
     Swal.fire({
