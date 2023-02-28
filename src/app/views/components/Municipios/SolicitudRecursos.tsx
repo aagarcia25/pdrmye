@@ -297,15 +297,7 @@ const SolicitudRecursos = () => {
       });
 
     }
-    //else 
-    ///if (departamento == "DAMOP") {
-    //  if (perfil == "ANA" || perfil == "COOR"||perfil == "DIR") {
-    //  setOpenSeg(true);
-    //   setData(data.row);
-    //    setModo(estatus);
-    //  }
-
-    //}
+   
     else {
       setOpenSeg(true);
       setData(data.row)
