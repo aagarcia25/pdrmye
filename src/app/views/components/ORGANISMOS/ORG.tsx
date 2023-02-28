@@ -72,7 +72,13 @@ export const ORG = () => {
   ///////////// modal
   const [openModal, setOpenModal] = useState(false);
   const [modoModal, setModoModal] = useState<string>("");
-  const [inputModal, setInputModal] = useState<string>("");
+  const [inputModal, setInputModal] = useState<string>("  ");
+  const [idRegistro, setIdRegistro] = useState<string>("");
+  const [sigEstatus, setSigEstatus] = useState<string>("");
+  const [columnaTabla, setColumnaTabla] = useState<string>("");
+
+
+
 
 
   const [tipo, setTipo] = useState(0);
@@ -106,35 +112,35 @@ export const ORG = () => {
     ]
 
   const damopORG = [     
-    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Finalizar Solicitud de Egreso",      estREF:'DAMOP_ORG_ING_OP',         estSIG:'DAMOP_ORG_FIN_SOL_EGRE'    ,OpenMod: true, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Autorizar Solicitud de Egreso",      estREF:'DAMOP_ORG_FIN_SOL_EGRE',   estSIG:'DAMOP_ORG_AUT_SOL_EGRE'    ,OpenMod: false, ModModl:" "                         , componente : <DoneIcon />},
-    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Enviar Solicitud de egreso",         estREF:'DAMOP_ORG_AUT_SOL_EGRE',   estSIG:'DAMOP_ORG_ENV_SOL_EGRE'    ,OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Finalizar Solicitud de Egreso",      estREF:'DAMOP_ORG_ENV_SOL_EGRE',   estSIG:'DAMOP_ORG_FIN_EGR'         ,OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Autorizar Egreso",                   estREF:'DAMOP_ORG_FIN_EGR',        estSIG:'DAMOP_ORG_AUT_EGR'         ,OpenMod: false, ModModl:" "                         , componente : <DoneIcon />},
-    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Validar Egreso",                     estREF:'DAMOP_ORG_AUT_EGR',        estSIG:'DAMOP_ORG_VAL_EGR'         ,OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Generar Orden de Pago",              estREF:'DAMOP_ORG_VAL_EGR',        estSIG:'DAMOP_ORG_GEN_ORD_PAG'     ,OpenMod: true,  ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Finalizar Orden de Pago",            estREF:'DAMOP_ORG_GEN_ORD_PAG',    estSIG:'DAMOP_ORG_FIN_ORD_PAG'     ,OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"1",proceso:'FINALIZAR ORDEN DE PAGO',  acc:"Enviar a Autorizacion",              estREF:'DAMOP_ORG_FIN_ORD_PAG',    estSIG:'DAMOP_ORG_PEND_AUT_ORG_PAG',OpenMod: false, ModModl:" "                         , componente : <DoneIcon />},
-    { tSol:"2",proceso:'EGRESO',                   acc:"Finalizar Egreso ",                  estREF:'DAMOP_ORG_ING_OP',         estSIG:'DAMOP_ORG_FIN_EGR'         ,OpenMod: true,  ModModl:"Asignar Numero de Egreso " , componente : <ArrowForwardIosIcon />},
-    { tSol:"2",proceso:'EGRESO',                   acc:"Autorizar Egreso",                   estREF:'DAMOP_ORG_FIN_EGR',        estSIG:'DAMOP_ORG_AUT_EGR'         ,OpenMod: false, ModModl:" "                         , componente : <DoneIcon />},
-    { tSol:"2",proceso:'EGRESO',                   acc:"Validar Egreso",                     estREF:'DAMOP_ORG_AUT_EGR',        estSIG:'DAMOP_ORG_VAL_EGR'         ,OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"2",proceso:'EGRESO',                   acc:"Generar Orden de Pago",              estREF:'DAMOP_ORG_VAL_EGR',        estSIG:'DAMOP_ORG_GEN_ORD_PAG'     ,OpenMod: true,  ModModl:"Generar Orden de Pago"     , componente : <ArrowForwardIosIcon />},
-    { tSol:"2",proceso:'EGRESO',                   acc:"Finalizar Orden de Pago",            estREF:'DAMOP_ORG_GEN_ORD_PAG',    estSIG:'DAMOP_ORG_FIN_ORD_PAG'     ,OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"2",proceso:'FINALIZAR ORDEN DE PAGO',  acc:"Enviar a Autorizacion",              estREF:'DAMOP_ORG_FIN_ORD_PAG',    estSIG:'DAMOP_ORG_PEND_AUT_ORG_PAG',OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"3",proceso:'APORTACION',               acc:"Finalizar Aportacion",               estREF:'DAMOP_ORG_ING_OP',         estSIG:'DAMOP_ORG_FIN_APO'         ,OpenMod: true,  ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"3",proceso:'APORTACION',               acc:"Autorizar Aportacion",               estREF:'DAMOP_ORG_FIN_APO',        estSIG:'DAMOP_ORG_AUT_APO'         ,OpenMod: false, ModModl:" "                         , componente : <DoneIcon />},
-    { tSol:"3",proceso:'APORTACION',               acc:"Enviar Aportacion a Egreso",         estREF:'DAMOP_ORG_AUT_APO',        estSIG:'DAMOP_ORG_ENV_APO'         ,OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"3",proceso:'APORTACION',               acc:"Finalizar Solicitud de Egreso",      estREF:'DAMOP_ORG_ENV_APO',        estSIG:'DAMOP_ORG_FIN_EGR'         ,OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"3",proceso:'APORTACION',               acc:"Autorizar Solicitud de Egreso",      estREF:'DAMOP_ORG_FIN_EGR',        estSIG:'DAMOP_ORG_AUT_EGR'         ,OpenMod: false, ModModl:" "                         , componente : <DoneIcon />},
-    { tSol:"3",proceso:'APORTACION',               acc:"Validad Egreso",                     estREF:'DAMOP_ORG_AUT_EGR',        estSIG:'DAMOP_ORG_VAL_EGR'         ,OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"3",proceso:'APORTACION',               acc:"Generar Orden de Pago",              estREF:'DAMOP_ORG_VAL_EGR',        estSIG:'DAMOP_ORG_GEN_ORD_PAG'     ,OpenMod: true,  ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"3",proceso:'APORTACION',               acc:"Finalizar Orden de Pago",            estREF:'DAMOP_ORG_GEN_ORD_PAG',    estSIG:'DAMOP_ORG_FIN_ORD_PAG'     ,OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"3",proceso:'FINALIZAR ORDEN DE PAGO',  acc:"Enviar a Autorizacion",              estREF:'DAMOP_ORG_FIN_ORD_PAG',    estSIG:'DAMOP_ORG_PEND_AUT_ORG_PAG',OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"4",proceso:'REQUERIMIENTO DE ANTICIPO',acc:"Finalizar Requerimiento de Anticipo",estREF:'DAMOP_ORG_ING_OP',         estSIG:'DAMOP_ORG_FIN_REQ'         ,OpenMod: true,  ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"4",proceso:'REQUERIMIENTO DE ANTICIPO',acc:"Autoriza Requerimiento de Anticipo", estREF:'DAMOP_ORG_FIN_REQ',        estSIG:'DAMOP_ORG_AUT_REQ'         ,OpenMod: false, ModModl:" "                         , componente : <DoneIcon />},
-    { tSol:"4",proceso:'REQUERIMIENTO DE ANTICIPO',acc:"Generar Orden de Pago",              estREF:'DAMOP_ORG_AUT_REQ',        estSIG:'DAMOP_ORG_GEN_REQ_ORD_PAG' ,OpenMod: true, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"4",proceso:'REQUERIMIENTO DE ANTICIPO',acc:"Finalizar Orden de Pago",            estREF:'DAMOP_ORG_GEN_REQ_ORD_PAG',estSIG:'DAMOP_ORG_FIN_ORD_PAG'     ,OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
-    { tSol:"4",proceso:'FINALIZAR ORDEN DE PAGO',  acc:"Enviar a Autorizacion",              estREF:'DAMOP_ORG_FIN_ORD_PAG',    estSIG:'DAMOP_ORG_PEND_AUT_ORG_PAG',OpenMod: false, ModModl:" "                         , componente : <ArrowForwardIosIcon />},
+    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Finalizar Solicitud de Egreso",      estREF:'DAMOP_ORG_ING_OP',         estSIG:'DAMOP_ORG_FIN_SOL_EGRE'    ,OpenMod: true,  campo: "SolEgreso", ModModl:"Asignar Solicitud de Egreso"            ,componente : <ArrowForwardIosIcon />},
+    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Autorizar Solicitud de Egreso",      estREF:'DAMOP_ORG_FIN_SOL_EGRE',   estSIG:'DAMOP_ORG_AUT_SOL_EGRE'    ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Enviar Solicitud de egreso",         estREF:'DAMOP_ORG_AUT_SOL_EGRE',   estSIG:'DAMOP_ORG_ENV_SOL_EGRE'    ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Finalizar Solicitud de Egreso",      estREF:'DAMOP_ORG_ENV_SOL_EGRE',   estSIG:'DAMOP_ORG_FIN_EGR'         ,OpenMod: true, campo: "NumEgreso", ModModl:"Asignar Número de Egreso"                ,componente : <ArrowForwardIosIcon />},
+    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Autorizar Egreso",                   estREF:'DAMOP_ORG_FIN_EGR',        estSIG:'DAMOP_ORG_AUT_EGR'         ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Validar Egreso",                     estREF:'DAMOP_ORG_AUT_EGR',        estSIG:'DAMOP_ORG_VAL_EGR'         ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Generar Orden de Pago",              estREF:'DAMOP_ORG_VAL_EGR',        estSIG:'DAMOP_ORG_GEN_ORD_PAG'     ,OpenMod: true,  campo: "NumOrdenPago", ModModl:"Asignar Orden de Pag"                ,componente : <ArrowForwardIosIcon />},
+    { tSol:"1",proceso:'SOLICITUD DE EGRESO',      acc:"Finalizar Orden de Pago",            estREF:'DAMOP_ORG_GEN_ORD_PAG',    estSIG:'DAMOP_ORG_FIN_ORD_PAG'     ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"1",proceso:'FINALIZAR ORDEN DE PAGO',  acc:"Enviar a Autorizacion",              estREF:'DAMOP_ORG_FIN_ORD_PAG',    estSIG:'DAMOP_ORG_PEND_AUT_ORG_PAG',OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"2",proceso:'EGRESO',                   acc:"Finalizar Egreso ",                  estREF:'DAMOP_ORG_ING_OP',         estSIG:'DAMOP_ORG_FIN_EGR'         ,OpenMod: true,  campo: "NumEgreso", ModModl:"Asignar Número de Egreso"               ,componente : <ArrowForwardIosIcon />},
+    { tSol:"2",proceso:'EGRESO',                   acc:"Autorizar Egreso",                   estREF:'DAMOP_ORG_FIN_EGR',        estSIG:'DAMOP_ORG_AUT_EGR'         ,OpenMod: false, campo: " ",         ModModl:"Validar Registro Actual"                ,componente : <DoneIcon />},
+    { tSol:"2",proceso:'EGRESO',                   acc:"Validar Egreso",                     estREF:'DAMOP_ORG_AUT_EGR',        estSIG:'DAMOP_ORG_VAL_EGR'         ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"2",proceso:'EGRESO',                   acc:"Generar Orden de Pago",              estREF:'DAMOP_ORG_VAL_EGR',        estSIG:'DAMOP_ORG_GEN_ORD_PAG'     ,OpenMod: true,  campo: "NumOrdenPago", ModModl:"Asignar Orden de Pago"               ,componente : <ArrowForwardIosIcon />},
+    { tSol:"2",proceso:'EGRESO',                   acc:"Finalizar Orden de Pago",            estREF:'DAMOP_ORG_GEN_ORD_PAG',    estSIG:'DAMOP_ORG_FIN_ORD_PAG'     ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"2",proceso:'FINALIZAR ORDEN DE PAGO',  acc:"Enviar a Autorizacion",              estREF:'DAMOP_ORG_FIN_ORD_PAG',    estSIG:'DAMOP_ORG_PEND_AUT_ORG_PAG',OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"3",proceso:'APORTACION',               acc:"Finalizar Aportacion",               estREF:'DAMOP_ORG_ING_OP',         estSIG:'DAMOP_ORG_FIN_APO'         ,OpenMod: true,  campo: "NumAportacion", ModModl:"Asignar Número de Aportación"       ,componente : <ArrowForwardIosIcon />},
+    { tSol:"3",proceso:'APORTACION',               acc:"Autorizar Aportacion",               estREF:'DAMOP_ORG_FIN_APO',        estSIG:'DAMOP_ORG_AUT_APO'         ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"3",proceso:'APORTACION',               acc:"Enviar Aportacion a Egreso",         estREF:'DAMOP_ORG_AUT_APO',        estSIG:'DAMOP_ORG_ENV_APO'         ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"3",proceso:'APORTACION',               acc:"Finalizar Solicitud de Egreso",      estREF:'DAMOP_ORG_ENV_APO',        estSIG:'DAMOP_ORG_FIN_EGR'         ,OpenMod: true,  campo: "NumEgreso", ModModl:"Asignar Número de Egreso"               ,componente : <ArrowForwardIosIcon />},
+    { tSol:"3",proceso:'APORTACION',               acc:"Autorizar Solicitud de Egreso",      estREF:'DAMOP_ORG_FIN_EGR',        estSIG:'DAMOP_ORG_AUT_EGR'         ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"3",proceso:'APORTACION',               acc:"Validad Egreso",                     estREF:'DAMOP_ORG_AUT_EGR',        estSIG:'DAMOP_ORG_VAL_EGR'         ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"3",proceso:'APORTACION',               acc:"Generar Orden de Pago",              estREF:'DAMOP_ORG_VAL_EGR',        estSIG:'DAMOP_ORG_GEN_ORD_PAG'     ,OpenMod: true,  campo: "NumOrdenPago", ModModl:"Asignar Orden de Pag"                ,componente : <ArrowForwardIosIcon />},
+    { tSol:"3",proceso:'APORTACION',               acc:"Finalizar Orden de Pago",            estREF:'DAMOP_ORG_GEN_ORD_PAG',    estSIG:'DAMOP_ORG_FIN_ORD_PAG'     ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"3",proceso:'FINALIZAR ORDEN DE PAGO',  acc:"Enviar a Autorizacion",              estREF:'DAMOP_ORG_FIN_ORD_PAG',    estSIG:'DAMOP_ORG_PEND_AUT_ORG_PAG',OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"4",proceso:'REQUERIMIENTO DE ANTICIPO',acc:"Finalizar Requerimiento de Anticipo",estREF:'DAMOP_ORG_ING_OP',         estSIG:'DAMOP_ORG_FIN_REQ'         ,OpenMod: true,  campo: "NumReqAnticipo", ModModl:"Asignar Requerimiento de Anticipo ",componente : <ArrowForwardIosIcon />},
+    { tSol:"4",proceso:'REQUERIMIENTO DE ANTICIPO',acc:"Autoriza Requerimiento de Anticipo", estREF:'DAMOP_ORG_FIN_REQ',        estSIG:'DAMOP_ORG_AUT_REQ'         ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"4",proceso:'REQUERIMIENTO DE ANTICIPO',acc:"Generar Orden de Pago",              estREF:'DAMOP_ORG_AUT_REQ',        estSIG:'DAMOP_ORG_GEN_REQ_ORD_PAG' ,OpenMod: true,  campo: "NumOrdenPago", ModModl:"Asignar Orden de Pago"               ,componente : <ArrowForwardIosIcon />},
+    { tSol:"4",proceso:'REQUERIMIENTO DE ANTICIPO',acc:"Finalizar Orden de Pago",            estREF:'DAMOP_ORG_GEN_REQ_ORD_PAG',estSIG:'DAMOP_ORG_FIN_ORD_PAG'     ,OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
+    { tSol:"4",proceso:'FINALIZAR ORDEN DE PAGO',  acc:"Enviar a Autorizacion",              estREF:'DAMOP_ORG_FIN_ORD_PAG',    estSIG:'DAMOP_ORG_PEND_AUT_ORG_PAG',OpenMod: false, campo: " ", ModModl:" "                                              ,componente : <DoneIcon />},
   ]
 
   const handleClose = () => {
@@ -142,6 +148,7 @@ export const ORG = () => {
     setVrows({});
     Consulta();
     setOpenModal(false);
+    setInputModal("")
   };
 
 
@@ -245,13 +252,12 @@ export const ORG = () => {
     { field: "NumProyecto", headerName: "N° de Proyecto", description: "Numero de Proyecto", width: 150, },
     { field: "NumEgreso", headerName: "N° de Egreso", description: "Numero de Egreso", width: 150, },
     { field: "NumCheque", headerName: "N° de Cheque", description: "Numero de Cheque", width: 150, },
+    { field: "NumAportacion", headerName: "N° de Aportación", description: "Numero de Aportación", width: 150, },
     { field: "NumReqAnticipo", headerName: "N° de Requerimiento de Anticipo", description: "Numero de Requerimiento de Anticipo", width: 150, },
     { field: "total", headerName: "Total", width: 250, ...Moneda },
     { field: "TipoSolicitud", headerName: "Tipo Solicitud", description: "Tipo Solicitud", width: 200,
       renderCell: (v: any) => 
-      { 
-        return (<>{tipoSol.find(({ value }) => value === (String(v?.row?.TipoSolicitud)))?.label}</>);
-       },
+      {return (<>{tipoSol.find(({ value }) => value === (String(v?.row?.TipoSolicitud)))?.label}</>);},
     },
     { field: "Organismo", headerName: "Organismo", description: "Organismo", width: 150, },
     { field: "UResponsable", headerName: "U Responsable", description: "U Responsable", width: 150, },
@@ -278,13 +284,70 @@ export const ORG = () => {
   };
 
   const handleEnviar = (v: any) => {
-    setOpenModal(Boolean(damopORG.find(({ tSol, estREF }) => tSol === String(v?.row.TipoSolicitud) && estREF === v?.row.EstConInt)?.OpenMod));
-    setModoModal(String(damopORG.find(({ tSol, estREF }) => tSol === String(v?.row.TipoSolicitud) && estREF === v?.row.EstConInt)?.ModModl));
+      const modMod=  (String(damopORG.find(({ tSol, estREF }) => tSol === String(v?.row.TipoSolicitud) && estREF === v?.row.EstConInt)?.ModModl)); 
+      const estSig =(String(damopORG.find(({ tSol, estREF }) => tSol === String(v?.row.TipoSolicitud) && estREF === v?.row.EstConInt)?.estSIG));
+      setModoModal(modMod);
+      setIdRegistro  (v.row.id);
+      setSigEstatus(estSig);
+
+
+    if(Boolean(damopORG.find(({ tSol, estREF }) => tSol === String(v?.row.TipoSolicitud) && estREF === v?.row.EstConInt)?.OpenMod)===true){
+      setOpenModal(true);
+      setColumnaTabla(String(damopORG.find(({ tSol, estREF }) => tSol === String(v?.row.TipoSolicitud) && estREF === v?.row.EstConInt)?.campo));
+
+    } else{
+      setOpenModal(false);
+      handleEnviarSolicitud(v.row.id,estSig)
+      setColumnaTabla("");
+    }
    
   };
 
-  const handleEnviarSolicitud = (v: any) => {
+  const handleEnviarSolicitud = (idReg:string, estSig:string,  ) => {
+
+    let data = {
+      CHID: idReg?idReg:idRegistro,
+      NUMOPERACION: 5,
+      CHUSER: user.id,
+      ESTATUS: estSig? estSig: sigEstatus,
+      columnaTabla:columnaTabla,
+      valor: inputModal
+    }
+
+    Swal.fire({
+      icon: "warning",
+      title: openModal? "Enviar":"Validar",
+      text: "",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        DAMOPServices.indexCabecera(data).then((res) => {
+          if (res.SUCCESS) {
+            // SetRegGuardado(true);
+            handleClose();
+            Consulta();
+            // handleCloseAñadirDetalle();
+            Toast.fire({
+              icon: "success",
+              title: "Cabecera Agregada!",
+            });
+          } else {
+            AlertS.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      }
+    });
    
+
+
+
   };
 
   const handleBorrarSolicitud = (v: any) => {
@@ -326,36 +389,6 @@ export const ORG = () => {
   };
 
 
-  const handleClick = () => {
-    let data = {
-      /* TIPO: 1,
-      P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
-      P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
-      P_IDESTATUS: idestatus === "false" ? "" : idestatus,*/
-    };
-    ORGService.ListORG(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        setData(res.RESPONSE);
-        var sumatotal = 0;
-        res.RESPONSE.map((item: any) => {
-          sumatotal = sumatotal + Number(item.importe);
-          setSumaTotal(sumatotal);
-        });
-      } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-   });
-  };
 
   const handleTranEgreso = () => { };
   const handleAutEgresos = () => { };
@@ -376,7 +409,7 @@ export const ORG = () => {
     
 
     Consulta();
-  }, []);
+  }, [openModal]);
 
 
   return (
@@ -602,7 +635,7 @@ export const ORG = () => {
 
       <Dialog open={openModal} onClose={handleClose}>
         <Grid container   justifyContent="space-between">
-        <DialogTitle>    {modoModal}</DialogTitle> 
+        <DialogTitle>{modoModal}</DialogTitle> 
          <Button className="cerrar" onClick={handleClose} >
             <CloseIcon />
           </Button>
@@ -623,7 +656,7 @@ export const ORG = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleEnviarSolicitud} disabled={inputModal.trim()==="" || String(Number(inputModal)) === "NaN"}
+          <Button onClick={() => handleEnviarSolicitud("","")} disabled={inputModal.trim()==="" || String(Number(inputModal)) === "NaN"}
           >Enviar</Button>
         </DialogActions>
       </Dialog>
