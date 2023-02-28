@@ -183,7 +183,7 @@ export const ORG = () => {
     formData.append("tipo", "MigraOrganimos");
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
-      handleClick();
+      Consulta();
     });
   };
 
