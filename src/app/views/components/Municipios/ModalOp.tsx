@@ -12,7 +12,6 @@ const ModalOp = ({
   vrows: any;
 }) => {
 
-
   const [mensaje, setMensaje] = useState<string>();
 
   const validacion = () => {
@@ -25,7 +24,6 @@ const ModalOp = ({
     } else {
       handleAccion({ data: vrows, texto: mensaje })
     }
-
   }
 
   return (
