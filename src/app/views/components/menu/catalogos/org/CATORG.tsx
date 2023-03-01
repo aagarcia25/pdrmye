@@ -146,7 +146,7 @@ export const CATORG = () => {
       useEffect(() => {
    
         permisos.map((item: PERMISO) => {
-        if (String(item.ControlInterno) === "DEP") {
+        if (String(item.ControlInterno) === "CATORG") {
           //console.log(item)
           if (String(item.Referencia) === "AGREG") {
             setAgregar(true);
