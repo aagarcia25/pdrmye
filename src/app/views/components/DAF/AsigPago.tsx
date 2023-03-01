@@ -165,7 +165,7 @@ const AsigPago = () => {
       ...Moneda,
     },
     {
-      field: "Retenciones",
+      field: "RecAdeudos",
       headerName: "Retenciones",
       width: 150,
       description: "Retenciones",
