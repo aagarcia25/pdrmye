@@ -323,6 +323,18 @@ const UsuariosModal = ({
     });
   };
 
+
+  const excepciones = ( error:string) => {
+   
+if (error==="Ya existe solicitud para este usuario")
+  {
+
+    
+    console.log(error)
+
+  }
+  };
+
   const handleRequest = () => {
     // if (tipo === "BAJA") {
     setOpenSlider(true)
@@ -348,6 +360,7 @@ const UsuariosModal = ({
                 Email: CorreoElectronico,
                 Curp: curp,
                 RFC: rfc,
+                Puesto:puesto,
                 Celular: celular,
                 Telefono: telefono,
                 Extencion: ext ? ext : 0,
@@ -359,8 +372,15 @@ const UsuariosModal = ({
 
               UserServices.createsolicitud(datSol).then((resSol) => {
 
+                if (resSol?.status === 409) {
+                  setOpenSlider(false);
+                  Toast.fire({
+                    icon: "error",
+                    title: resSol?.data?.error? resSol?.data?.error : "",
+                  });
+                }
 
-                if (resSol.data.data[0][0].Respuesta === "201" && tipo === "ALTA") {
+                else if ((resSol?.data?.data[0][0].length!=0? resSol?.data?.data[0][0]?.Respuesta:" ") === "201" && tipo === "ALTA") {
 
                   let dat = {
                     NUMOPERACION: 3,
@@ -382,10 +402,8 @@ const UsuariosModal = ({
                         title: AccionesSol.find(({ accion }) => accion === tipo)?.Mensaje,
                       });
                       handleClose();
-
                     }
                   });
-
                 }
 
                 else if (resSol.data.data[0][0].Respuesta === "201" && tipo !== "ALTA") {
@@ -400,11 +418,13 @@ const UsuariosModal = ({
 
                 else if (resSol.data.data[0][0].Respuesta === "403") {
                   setOpenSlider(false);
+                  excepciones (resSol.data.data[0][0].Mensaje);
                   Toast.fire({
                     icon: "warning",
                     title: resSol.data.data[0][0].Mensaje,
                   });
                 }
+         
               });
             }
           );
