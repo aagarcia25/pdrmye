@@ -25,15 +25,19 @@ const MunicipiosUsuarioResponsable = ({
   const [userid, setUserId] = useState<string>("");
   const [usedelegadoid, setuserdelegadoid] = useState<string>("");
   const [nuevaRelacion, setNuevaRelacion] = useState<boolean>();
+  const [nuevoRegistro, setNuevoRegistro] = useState<boolean>(false);
+
   const [idReg, setIdReg] = useState<string>("");
 
 
   const handleChange1 = (v: string) => {
     setUserId(v);
+    setNuevoRegistro(true);
   };
 
   const handleChange2 = (v: string) => {
-    setuserdelegadoid(v);
+    setuserdelegadoid(v); 
+    setNuevoRegistro(true);
   };
 
   const handleSend = () => { };
@@ -59,13 +63,14 @@ const MunicipiosUsuarioResponsable = ({
 
       if (res.RESPONSE.length === 0) {
         setNuevaRelacion(true);
+        setuserdelegadoid(""); 
+        setUserId("");
       } else {
         setNuevaRelacion(false);
+        setUserId(res?.RESPONSE[0]?.idUsuario);
+        setuserdelegadoid(res?.RESPONSE[0]?.idUsuarioDelegado?res?.RESPONSE[0]?.idUsuarioDelegado:"");
+        setIdReg(res?.RESPONSE[0]?.id)
       }
-
-      setUserId(res?.RESPONSE[0]?.idUsuario);
-      setuserdelegadoid(res?.RESPONSE[0]?.idUsuarioDelegado);
-      setIdReg(res?.RESPONSE[0]?.id)
     });
   };
 
@@ -87,6 +92,10 @@ const MunicipiosUsuarioResponsable = ({
       //console.log(res.RESPONSE);
       if(res.SUCCESS){
       loadinfo();
+      setNuevoRegistro(false);
+      setuserdelegadoid(""); 
+      setUserId("");
+
       eliminar?
       Toast.fire({
         icon: "error",
@@ -98,16 +107,12 @@ const MunicipiosUsuarioResponsable = ({
         title: nuevaRelacion?"Registro Agregado!":"Registro Actualizado!",
       });
       }
-      
- 
     });
   };
 
   useEffect(() => {
-    // console.log(dt.row.Nombre);
     loadFilter(1);
     loadinfo();
-    console.log(userid +"   ---   "+usedelegadoid)
   }, []);
 
   return (
@@ -151,7 +156,9 @@ const MunicipiosUsuarioResponsable = ({
                 <Grid container direction="row" justifyContent="space-between" alignItems="center" spacing={1} >
                   {/* <Grid item container xs={12}   justifyContent="space-between" >  */}
                   <Button
-                    disabled={userid=== undefined || userid==="false" || usedelegadoid===undefined ||usedelegadoid==="false" }
+                    disabled={!nuevoRegistro || userid=== undefined || userid==="false" 
+                      // userid=== undefined || userid==="false" || usedelegadoid===undefined ||usedelegadoid==="false" 
+                    }
                     className="editar"
                     onClick={() => saveInfo(false)}
                     sx={{ fontFamily: "sans-serif" }}
