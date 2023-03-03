@@ -109,29 +109,12 @@ const Permisos = () => {
             eliminar={eliminar} />
         );
       },
-    }, {
-      field: "FechaCreacion",
-      headerName: "Fecha Creacion",
-      width: 200,
-    },
-    {
-      field: "CreadoPor",
-      headerName: "Creado Por",
-      width: 420,
-    },
-    {
-      field: "menu",
-      headerName: "Módulo",
-      width: 300,
-    },
-    {
-      field: "Permiso",
-      headerName: "Permiso",
-      width: 300,
-    },
-    {
-      field: "Descripcion", headerName: "Descripcion", width: 350
-    },
+    }, 
+    {field: "FechaCreacion",      headerName: "Fecha Creación",  description: "Fecha Creación",    width: 200,    },
+    {field: "CreadoPor",      headerName: "Creado Por",  description: "Creado Por",    width: 420,    },
+    {field: "menu",     headerName: "Módulo",   description: "Módulo",   width: 300,    },
+    {field: "Permiso",      headerName: "Permiso",    description: "Permiso",  width: 300,    },
+    {field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 350    },
 
   ];
 
