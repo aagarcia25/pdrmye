@@ -248,6 +248,9 @@ export const ORG = () => {
       },
     },
     { field: "EstatusDes", headerName: "Estatus", description: "Estatus", width: 200, },
+    { field: "Anio", headerName: "Año", width: 100, description: "Ejercicio", },
+    { field: "Mes", headerName: "Mes", width: 100, description: "Mes", },
+    { field: "UResponsable", headerName: "U Responsable", description: "U Responsable", width: 150, },
     { field: "NumOrdenPago", headerName: "N° Orden de Pago", description: "Numero Orden de Pago", width: 150, },
     { field: "NumProyecto", headerName: "N° de Proyecto", description: "Numero de Proyecto", width: 150, },
     { field: "NumEgreso", headerName: "N° de Egreso", description: "Numero de Egreso", width: 150, },
@@ -260,11 +263,10 @@ export const ORG = () => {
       {return (<>{tipoSol.find(({ value }) => value === (String(v?.row?.TipoSolicitud)))?.label}</>);},
     },
     { field: "Organismo", headerName: "Organismo", description: "Organismo", width: 150, },
-    { field: "UResponsable", headerName: "U Responsable", description: "U Responsable", width: 150, },
+  
     { field: "Observaciones", headerName: "Observaciones", description: "Observaciones", width: 300, },
     { field: "Divisa", headerName: "Divisa", width: 100, },
-    { field: "Anio", headerName: "Año", width: 100, description: "Ejercicio", },
-    { field: "Mes", headerName: "Mes", width: 100, description: "Mes", },
+   
 
   ];
   const Consulta = () => {

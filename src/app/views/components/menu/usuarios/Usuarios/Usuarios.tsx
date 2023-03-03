@@ -49,7 +49,6 @@ const Usuarios = () => {
                  UserServices.solicitudesapp('IdUsuario='+user.id+'&IdApp='+resAppId?.RESPONSE?.Valor).then((res) => {
                  const sol: Datum[] = res.data.data;
                  //const valo: Datum[] = sol;
-                 console.log(sol); 
                  setDataSolicitud(sol);
           });
     });
