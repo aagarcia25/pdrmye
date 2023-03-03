@@ -111,7 +111,7 @@ export const ORGDetail =
                   spellCheck="true"
                   rows={5}
                   multiline
-                  onChange={(v) => setDescripcion(v.target.value)}
+                  onChange={(v) => setDescripcion(v.target.value.trim())}
                   style={{ width: "100%" }}
 
                 />

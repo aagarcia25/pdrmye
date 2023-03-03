@@ -69,8 +69,15 @@ import { TablaDocse } from '../views/components/EFIRMA/TablaDocse';
 import RecepcionRecursosORG from '../views/components/ORGANISMOS/RecepcionRecursosORG';
 
 
-export const AppRouter = () => {
-  const log = islogin();
+export const AppRouter = (
+  {
+login 
+}:{
+login : boolean
+}
+
+) => {
+  const log = login;
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   return (
@@ -185,10 +192,6 @@ export const AppRouter = () => {
         <Route path='/efirm/config' element={<Configuracione />} />
         <Route path='/efirm/tabla'  element={<TablaDocse />} />
         {/* /// Fin Firma Electronica */}
-
-
-
-
 
       </Routes>
     </Inicio>
