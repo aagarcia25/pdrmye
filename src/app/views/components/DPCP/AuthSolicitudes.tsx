@@ -82,9 +82,9 @@ const AuthSolicitudes = () => {
     {
       field: "uresclave",
       headerName: "U. Resp",
-      width: 65,
+      width: 100,
     },
-    
+
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -143,8 +143,8 @@ const AuthSolicitudes = () => {
     setidMunicipio(v);
   };
 
-  
- 
+
+
   const SolicitudOrdenPago = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
@@ -162,7 +162,7 @@ const AuthSolicitudes = () => {
         confirmButtonText: "Aceptar",
         cancelButtonText: "Cancelar",
       }).then(async (result) => {
-        
+
         if (result.isConfirmed) {
           let data = {
             NUMOPERACION: 1,
@@ -170,34 +170,34 @@ const AuthSolicitudes = () => {
             CHUSER: user.id,
           };
 
-              DPCPServices.AuthSolicitudPago(data).then((res) => {
-                if (res.SUCCESS) {
-                  AlertS.fire({
-                    icon: "success",
-                    title: res.RESPONSE,
-                  }).then(async (result) => {
-                    if (result.isConfirmed) {
-                      handleClick();
-                    }
-                  });
-                } else {
-                  AlertS.fire({
-                    title: "Error!",
-                    text: res.STRMESSAGE,
-                    icon: "error",
-                  });
+          DPCPServices.AuthSolicitudPago(data).then((res) => {
+            if (res.SUCCESS) {
+              AlertS.fire({
+                icon: "success",
+                title: res.RESPONSE,
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  handleClick();
                 }
               });
+            } else {
+              AlertS.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
         }
-    
-    
+
+
       });
 
 
     }
   };
 
- 
+
 
 
   const handleClick = () => {
@@ -238,42 +238,42 @@ const AuthSolicitudes = () => {
     loadFilter(5);
     loadFilter(17);
     handleClick();
-  /*  permisos.map((item: PERMISO) => {
-      if (
-        String(item.ControlInterno) === "PARTMUN"
-      ) {
-        //console.log(item);
-        if (String(item.Referencia) === "AGREGPLANT") {
-          setCargarPlant(true);
+    /*  permisos.map((item: PERMISO) => {
+        if (
+          String(item.ControlInterno) === "PARTMUN"
+        ) {
+          //console.log(item);
+          if (String(item.Referencia) === "AGREGPLANT") {
+            setCargarPlant(true);
+          }
+          else if (String(item.Referencia) === "DESCPLANT") {
+            setDescPlant(true);
+          }
+          else if (String(item.Referencia) === "DISFIDE") {
+            setDisFide(true);
+          }
         }
-        else if (String(item.Referencia) === "DESCPLANT") {
-          setDescPlant(true);
-        }
-        else if (String(item.Referencia) === "DISFIDE") {
-          setDisFide(true);
-        }
-      }
-    });*/
+      });*/
   }, []);
 
   return (
     <div>
       <Slider open={slideropen}></Slider>
 
-     
 
 
 
 
 
-    
+
+
 
       <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={10} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
-              Módulo de Autorización de Solicitudes de Pago
+                Módulo de Autorización de Solicitudes de Pago
               </Typography>
             </Grid>
           </Grid>
@@ -309,16 +309,16 @@ const AuthSolicitudes = () => {
         <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
           <ToggleButtonGroup>
             <Tooltip title={"Autorizar Solicitudes"}>
-              <ToggleButton  
-               value="check" 
-               onClick={() => SolicitudOrdenPago()}>
-                <CheckCircleIcon  />
+              <ToggleButton
+                value="check"
+                onClick={() => SolicitudOrdenPago()}>
+                <CheckCircleIcon />
               </ToggleButton>
             </Tooltip>
           </ToggleButtonGroup>
         </Grid>
 
-    
+
 
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -339,17 +339,16 @@ const AuthSolicitudes = () => {
                 disableColumnSelector
                 disableDensitySelector
                 getRowHeight={() => "auto"}
-                getRowClassName={(params) =>
-                  {
-                    if (params.row.Presupuesto == null) {
-                      return '';
-                    }
-                    return clsx('super-app', {
-                      negative: params.row.Presupuesto !== params.row.total,
-                      positive: params.row.Presupuesto == params.row.total,
-                    });
+                getRowClassName={(params) => {
+                  if (params.row.Presupuesto == null) {
+                    return '';
                   }
-                } 
+                  return clsx('super-app', {
+                    negative: params.row.Presupuesto !== params.row.total,
+                    positive: params.row.Presupuesto == params.row.total,
+                  });
+                }
+                }
                 components={{ Toolbar: GridToolbar }}
                 sx={{
                   fontFamily: "Poppins,sans-serif", fontWeight: '600',
@@ -359,7 +358,7 @@ const AuthSolicitudes = () => {
                   },
                   '& .super-app.positive': {
                     backgroundColor: 'rgb(16, 145, 80, 0.567)',
-                   
+
                   },
                 }}
                 componentsProps={{
@@ -367,9 +366,10 @@ const AuthSolicitudes = () => {
                     label: "buscar",
                     showQuickFilter: true,
                     quickFilterProps: { debounceMs: 500 },
-                    csvOptions:{  fileName: 'AuthSolicitudes',
+                    csvOptions: {
+                      fileName: 'AuthSolicitudes',
                       utf8WithBom: true,
-                     }
+                    }
                   },
                 }}
                 checkboxSelection={checkboxSelection}
@@ -406,6 +406,10 @@ const AuthSolicitudes = () => {
                   columnMenuUnsort: 'Desordenar',
                   columnMenuSortAsc: 'Ordenar ASC',
                   columnMenuSortDesc: 'Ordenar DESC',
+                  columnHeaderFiltersTooltipActive: (count) =>
+                    count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+                  columnHeaderFiltersLabel: 'Mostrar filtros',
+                  columnHeaderSortIconLabel: 'Ordenar',
                 }}
               />
             </ThemeProvider>

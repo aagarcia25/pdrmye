@@ -288,10 +288,10 @@ export const ORG = () => {
       renderCell: (v: any) => { return (<>{tipoSol.find(({ value }) => value === (String(v?.row?.TipoSolicitud)))?.label}</>); },
     },
     { field: "Organismo", headerName: "Organismo", description: "Organismo", width: 150, },
-  
+
     { field: "Observaciones", headerName: "Observaciones", description: "Observaciones", width: 300, },
     { field: "Divisa", headerName: "Divisa", width: 100, },
-   
+
 
   ];
   const Consulta = () => {
@@ -550,7 +550,7 @@ export const ORG = () => {
                   </InputAdornment>
                 }
                 error={String(Number(numOrdenPago)) === "NaN"}
-               
+
               />
             </FormControl>
           </Grid>
@@ -780,6 +780,10 @@ export const ORG = () => {
                   columnMenuUnsort: 'Desordenar',
                   columnMenuSortAsc: 'Ordenar ASC',
                   columnMenuSortDesc: 'Ordenar DESC',
+                  columnHeaderFiltersTooltipActive: (count) =>
+                    count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+                  columnHeaderFiltersLabel: 'Mostrar filtros',
+                  columnHeaderSortIconLabel: 'Ordenar',
                 }}
               />
             </ThemeProvider>

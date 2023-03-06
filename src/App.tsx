@@ -14,6 +14,7 @@ import {
   setMenus,
   setMunicipio,
   setMunicipios,
+  setOrganismo,
   setPerfiles,
   setPermisos,
   setRfToken,
@@ -147,6 +148,7 @@ function App() {
         setPerfiles(us.RESPONSE.PERFILES);
         setDepartamento(us.RESPONSE.DEPARTAMENTOS);
         setMunicipio(us.RESPONSE.MUNICIPIO);
+        setOrganismo(us.RESPONSE.ORG);
         loadMunicipios();
         loadMeses();
         loadAnios();

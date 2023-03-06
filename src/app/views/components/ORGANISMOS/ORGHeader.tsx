@@ -163,7 +163,7 @@ export const ORGHeader = ({
     let data = {
       NUMOPERACION: editarDetalle ? 2 : 1,
       CHUSER: user.id,
-      CHID: dataCab?.id? dataCab?.id:"",
+      CHID: dataCab?.id ? dataCab?.id : "",
       DESCRIPCION: descripcion,
       importe: importe,
       Clasificador01: adminDetalle,
@@ -275,7 +275,7 @@ export const ORGHeader = ({
 
   const handleGuardarSolicitud = () => {
     let data = {
-      CHID: dataCab?.id? dataCab?.id:"",
+      CHID: dataCab?.id ? dataCab?.id : "",
       NUMOPERACION: modo === "Ver" ? 2 : 1,
       CHUSER: user.id,
       IDORGANISMO: idProveedor,
@@ -402,7 +402,7 @@ export const ORGHeader = ({
 
       setDescripcion("");
       setImporte("");
-    } else if (modoDetalle==="Agregar"){
+    } else if (modoDetalle === "Agregar") {
       // setListConceptos("");
       setIdClaveConcepto("");
       setIdDetalleCabecera("");
@@ -900,7 +900,7 @@ export const ORGHeader = ({
                             <Button onClick={() => handleAgregarDetalle()} color="success"
                               disabled={
                                 // !editarDetalle ||
-                                !DetalleEditar||
+                                !DetalleEditar ||
                                 DetalleAgregar ||
                                 String(Number(importe)) === "NaN"
                                 || descripcion === ""
@@ -934,7 +934,7 @@ export const ORGHeader = ({
 
                           <Tooltip title="Limpiar Campos de Detalle">
                             <Button onClick={() => handleLimpiarCamposDetalle()} color="warning"
-                              disabled={ !DetalleEditar|| DetalleLimpiar}
+                              disabled={!DetalleEditar || DetalleLimpiar}
                             >
                               <CleaningServicesOutlinedIcon />
                             </Button  >
@@ -1026,6 +1026,10 @@ export const ORGHeader = ({
                           columnMenuUnsort: 'Desordenar',
                           columnMenuSortAsc: 'Ordenar ASC',
                           columnMenuSortDesc: 'Ordenar DESC',
+                          columnHeaderFiltersTooltipActive: (count) =>
+                            count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+                          columnHeaderFiltersLabel: 'Mostrar filtros',
+                          columnHeaderSortIconLabel: 'Ordenar',
                         }}
                       />
                     </ThemeProvider>

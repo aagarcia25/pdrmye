@@ -156,14 +156,18 @@ export default function Header(props: HeaderProps) {
                 <Typography  color="black">
                   {(user?.PERFILES[0]?.Referencia === "MUN" ? "Enlace: " : " ") +
                     (user?.ROLES[0]?.Nombre === "Municipio" ? user.ROLES[0].Nombre + " " : " ") +
-                    (user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN" ? user?.DEPARTAMENTOS[0]?.Descripcion + " " : " ") +
-                    (user?.MUNICIPIO[0]?.Nombre ? " " + user?.MUNICIPIO[0]?.Nombre + " " : " ")}
+                    ((user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN")? user?.DEPARTAMENTOS[0]?.NombreCorto !== "ORG"? user?.DEPARTAMENTOS[0]?.Descripcion + " " : " ":"") +
+                    (user?.MUNICIPIO[0]?.Nombre ? " " + user?.MUNICIPIO[0]?.Nombre + " " : " ")
+                    +((user?.MUNICIPIO[0]?.Nombre || user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN" )? "": "* Sin Municipio asignado *")
+                    +(user?.ORG[0]?.Descripcion ? " " + user?.ORG[0]?.Descripcion + " " : " ")
+                    +((user?.ORG[0]?.Descripcion || user?.DEPARTAMENTOS[0]?.NombreCorto !== "ORG" )? "": "* Sin Organismo asignado *")
+                    }
                 </Typography>
               </Grid>
 
             </Grid>
           </Hidden>
-          <Grid item xs={5} sm={4} md={2.5} xl={1.5}   >
+          <Grid item xs={5} sm={4} md={2.9} lg={2.4} xl={1.9} >
             <Grid container item xs={12} direction="row" justifyContent="space-evenly" alignItems="center"  >
               <Hidden smDown>
                 <Tooltip title="Haz click para ver más">

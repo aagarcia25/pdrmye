@@ -308,7 +308,7 @@ export const OpModal = (
                         </Grid>
                         <Grid item xs={6} >
                             <label className='subtitulo'>{"Fecha de Solicitud:  "}</label>
-                            <label className='contenido'>{data.FechaCreacion.slice(0,10)}</label>
+                            <label className='contenido'>{data.FechaCreacion.slice(0, 10)}</label>
                             <br />
                             <label className='contenido'>{data.Concepto}</label>
                             <br />
@@ -357,10 +357,10 @@ export const OpModal = (
                             checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
                             errorOverlayDefaultLabel: 'Ha ocurrido un error.',
                             footerRowSelected: (count) =>
-                              count > 1 ?
-                                `${count.toLocaleString()} filas seleccionadas`
-                                :
-                                `${count.toLocaleString()} fila seleccionada`,
+                                count > 1 ?
+                                    `${count.toLocaleString()} filas seleccionadas`
+                                    :
+                                    `${count.toLocaleString()} fila seleccionada`,
                             footerTotalRows: 'Filas Totales:',
                             columnMenuLabel: 'Menú',
                             columnMenuShowColumns: 'Mostrar columnas',
@@ -369,13 +369,17 @@ export const OpModal = (
                             columnMenuUnsort: 'Desordenar',
                             columnMenuSortAsc: 'Ordenar ASC',
                             columnMenuSortDesc: 'Ordenar DESC',
+                            columnHeaderFiltersTooltipActive: (count) =>
+                                count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+                            columnHeaderFiltersLabel: 'Mostrar filtros',
+                            columnHeaderSortIconLabel: 'Ordenar',
                         }}
 
                     />
                 </div>
 
                 <Grid container>
-                    <Grid item xs={3}  textAlign="right">
+                    <Grid item xs={3} textAlign="right">
                         <label className='subtitulo'>Observaciones:</label>
                     </Grid>
                     <Grid item xs={6} >
