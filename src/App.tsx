@@ -76,7 +76,7 @@ function App() {
       CatalogosServices.SelectIndex(data).then((res) => {
        
         setMeses(res.RESPONSE);
-        // localStorage.setItem("Meses", JSON.stringify(res.RESPONSE));
+        localStorage.setItem("Meses", JSON.stringify(res.RESPONSE));
       });
 
       

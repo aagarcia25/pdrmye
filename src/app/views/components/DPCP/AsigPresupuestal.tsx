@@ -62,14 +62,16 @@ const AsigPresupuestal = () => {
     {
       field: "Anio",
       headerName: "Ejercicio",
-      width: 80,
       description: "Ejercicio",
+      width: 80,
+
     },
     {
       field: "Mes",
       headerName: "Mes",
-      width: 100,
       description: "Mes",
+      width: 100,
+
     },
     {
       field: "NumOper",
@@ -86,14 +88,14 @@ const AsigPresupuestal = () => {
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
-      width: 100,
       description: "Clave Estado",
+      width: 100,
     },
     {
       field: "Nombre",
       headerName: "Municipio",
-      width: 150,
       description: "Municipio",
+      width: 150,
     },
     {
       field: "fondodes",
@@ -307,16 +309,16 @@ const AsigPresupuestal = () => {
                 disableColumnSelector
                 disableDensitySelector
                 getRowHeight={() => "auto"}
-                getRowClassName={(params) => {
-                  if (params.row.Presupuesto == null) {
-                    return '';
-                  }
-                  return clsx('super-app', {
-                    negative: params.row.Presupuesto !== params.row.total,
-                    positive: params.row.Presupuesto == params.row.total,
-                  });
-                }
-                }
+                // getRowClassName={(params) => {
+                //   if (params.row.Presupuesto == null) {
+                //     return '';
+                //   }
+                //   return clsx('super-app', {
+                //     negative: params.row.Presupuesto !== params.row.total,
+                //     positive: params.row.Presupuesto == params.row.total,
+                //   });
+                // }
+                // }
                 components={{ Toolbar: GridToolbar }}
                 sx={{
                   fontFamily: "Poppins,sans-serif", fontWeight: '600',
