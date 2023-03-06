@@ -5,19 +5,24 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Toast } from "../../../../../helpers/Toast";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModalForm from "../../../componentes/ModalForm";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
-import Slider from "../../../Slider";
+import { Toast } from "../../../helpers/Toast";
+import SelectValues from "../../../interfaces/Select/SelectValues";
+import { CatalogosServices } from "../../../services/catalogosServices";
+import ModalForm from "../componentes/ModalForm";
+import SelectFrag from "../Fragmentos/SelectFrag";
+import Slider from "../Slider";
 
-const MunicipiosUsuarioResponsable = ({
+const UsuarioResponsable = ({
   handleClose,
-  dt,
+  id,
+  nombre,
+  tipo
 }: {
   handleClose: Function;
-  dt: any;
+  id: string;
+  nombre: string;
+  tipo: string;
+
 }) => {
   const [slideropen, setslideropen] = useState(true);
   const [usuarios, setUsuarios] = useState<SelectValues[]>([]);
@@ -36,14 +41,14 @@ const MunicipiosUsuarioResponsable = ({
   };
 
   const handleChange2 = (v: string) => {
-    setuserdelegadoid(v); 
+    setuserdelegadoid(v);
     setNuevoRegistro(true);
   };
 
   const handleSend = () => { };
 
   const loadFilter = (operacion: number) => {
-    let data = { NUMOPERACION: operacion };
+    let data = { NUMOPERACION: operacion, TIPO: tipo };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (operacion === 1) {
         setUsuarios(res.RESPONSE);
@@ -54,60 +59,115 @@ const MunicipiosUsuarioResponsable = ({
   };
 
   const loadinfo = () => {
+
+    if (tipo === "MUN") {
+
     let data = {
       NUMOPERACION: 5,
-      CHID: dt.id
+      CHID: id
     };
+
 
     CatalogosServices.municipios(data).then((res) => {
 
       if (res.RESPONSE.length === 0) {
         setNuevaRelacion(true);
-        setuserdelegadoid(""); 
+        setuserdelegadoid("");
         setUserId("");
       } else {
         setNuevaRelacion(false);
         setUserId(res?.RESPONSE[0]?.idUsuario);
-        setuserdelegadoid(res?.RESPONSE[0]?.idUsuarioDelegado?res?.RESPONSE[0]?.idUsuarioDelegado:"");
+        setuserdelegadoid(res?.RESPONSE[0]?.idUsuarioDelegado ? res?.RESPONSE[0]?.idUsuarioDelegado : "");
         setIdReg(res?.RESPONSE[0]?.id)
       }
     });
+  }
+  if (tipo === "ORG") {
+
+    let data = {
+      NUMOPERACION: 5,
+      CHID: id
+    };
+
+
+    CatalogosServices.Organismos(data).then((res) => {
+
+      if (res.RESPONSE.length === 0) {
+        setNuevaRelacion(true);
+        setuserdelegadoid("");
+        setUserId("");
+      } else {
+        setNuevaRelacion(false);
+        setUserId(res?.RESPONSE[0]?.idUsuarioRes);
+        setuserdelegadoid(res?.RESPONSE[0]?.idDelegado ? res?.RESPONSE[0]?.idDelegado : "");
+        setIdReg(res?.RESPONSE[0]?.id)
+      }
+    });
+  }
+
   };
 
 
-  const saveInfo = (eliminar:boolean) => {
+  const saveInfo = (eliminar: boolean) => {
     let data = {
       NUMOPERACION: nuevaRelacion ? 6 : 8,
       IDUSUARIO: userid,
-      IDUSUARIODELEGADO: usedelegadoid,
-      IDMUNICIPIO: dt.id,
-      CHID: idReg
+      IDUSUARIODELEGADO: usedelegadoid==="false"?"":usedelegadoid,
+      IdMunOrg: id,
+      CHID: idReg,
     };
     let dataElim = {
       NUMOPERACION: 9,
       CHID: idReg
     };
 
-    CatalogosServices.municipios(eliminar? dataElim :data).then((res) => {
-      //console.log(res.RESPONSE);
-      if(res.SUCCESS){
-      loadinfo();
-      setNuevoRegistro(false);
-      setuserdelegadoid(""); 
-      setUserId("");
+    if (tipo === "MUN") {
 
-      eliminar?
-      Toast.fire({
-        icon: "error",
-        title:"Relacion Eliminada!",
-      })
-      :
-      Toast.fire({
-        icon: "info",
-        title: nuevaRelacion?"Registro Agregado!":"Registro Actualizado!",
+
+      CatalogosServices.municipios(eliminar ? dataElim : data).then((res) => {
+        //console.log(res.RESPONSE);
+        if (res.SUCCESS) {
+          loadinfo();
+          setNuevoRegistro(false);
+          setuserdelegadoid("");
+          setUserId("");
+
+          eliminar ?
+            Toast.fire({
+              icon: "error",
+              title: "Relacion Eliminada!",
+            })
+            :
+            Toast.fire({
+              icon: "info",
+              title: nuevaRelacion ? "Registro Agregado!" : "Registro Actualizado!",
+            });
+        }
       });
-      }
-    });
+    }
+    if (tipo === "ORG") {
+     
+      CatalogosServices.Organismos(eliminar ? dataElim : data).then((res) => {
+        if (res.SUCCESS) {
+          loadinfo();
+          setNuevoRegistro(false);
+          setuserdelegadoid("");
+          setUserId("");
+
+          eliminar ?
+            Toast.fire({
+              icon: "error",
+              title: "Relacion Eliminada!",
+            })
+            :
+            Toast.fire({
+              icon: "info",
+              title: nuevaRelacion ? "Registro Agregado!" : "Registro Actualizado!",
+            });
+        }
+      });
+    }
+
   };
 
   useEffect(() => {
@@ -118,8 +178,11 @@ const MunicipiosUsuarioResponsable = ({
   return (
     <>
       <Slider open={slideropen}></Slider>
-      <ModalForm title={"Usuario Responsable del Municipio: " + dt?.row?.Nombre} handleClose={handleClose} >
-
+      <ModalForm title={
+        tipo === "MUN" ?
+          "Usuario Responsable del Municipio: " + nombre
+          : "Usuario Responsable del Organismo: " + nombre}
+        handleClose={handleClose} >
         <Box boxShadow={3} paddingTop={3}>
           <Grid container spacing={1}>
             <Grid xs={3}> </Grid>
@@ -156,14 +219,14 @@ const MunicipiosUsuarioResponsable = ({
                 <Grid container direction="row" justifyContent="space-between" alignItems="center" spacing={1} >
                   {/* <Grid item container xs={12}   justifyContent="space-between" >  */}
                   <Button
-                    disabled={!nuevoRegistro || userid=== undefined || userid==="false" 
+                    disabled={!nuevoRegistro || userid === undefined || userid === "false"
                       // userid=== undefined || userid==="false" || usedelegadoid===undefined ||usedelegadoid==="false" 
                     }
                     className="editar"
                     onClick={() => saveInfo(false)}
                     sx={{ fontFamily: "sans-serif" }}
                   >
-                   {nuevaRelacion?"Asignar":"Actualizar"} 
+                    {nuevaRelacion ? "Asignar" : "Actualizar"}
                   </Button>
                   {!nuevaRelacion ?
                     <Button
@@ -189,4 +252,4 @@ const MunicipiosUsuarioResponsable = ({
   );
 };
 
-export default MunicipiosUsuarioResponsable;
+export default UsuarioResponsable;

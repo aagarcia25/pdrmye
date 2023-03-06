@@ -856,7 +856,7 @@ export const ORGHeader = ({
                 fullWidth
                 multiline
                 rows={3}
-                onChange={(v) => setObservaciones(v.target.value)}
+                onChange={(v) => setObservaciones(v.target.value.trim())}
                 disabled={HHeader || agregarDetalle || regGuardado}
                 inputProps={{ maxLength: 300 }}
               />

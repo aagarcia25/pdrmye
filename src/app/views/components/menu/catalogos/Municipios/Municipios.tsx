@@ -14,7 +14,6 @@ import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import FideicomisoConfig from "./FideicomisoConfig";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import MunicipiosUsuarioResponsable from "./MunicipiosUsuarioResponsable";
 import { CuentaBancaria } from "../CuentaBancaria/CuentaBancaria";
 import ModalForm from "../../../componentes/ModalForm";
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -22,11 +21,15 @@ import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import { clearScreenDown } from "readline";
+import UsuarioResponsable from "../../../DAMOP/UsuarioResponsable";
 
 
 
 export const Municipios = () => {
   const [id, setId] = useState("");
+  const [idMun, setIdMun] = useState("");
+
+
   const [nombreMun, setNombreMun] = useState("");
 
   const [municipio, setMunicipio] = useState([]);
@@ -154,6 +157,8 @@ export const Municipios = () => {
   const handleUR = (v: any) => {
     setOpenUR(true);
     setData(v);
+    setIdMun(v.row.id);
+    setNombreMun(v.row.Nombre);
   };
 
   const handleClose = () => {
@@ -394,7 +399,7 @@ export const Municipios = () => {
       )}
 
       {openUR ? (
-        <MunicipiosUsuarioResponsable handleClose={handleClose} dt={data} />
+        <UsuarioResponsable handleClose={handleClose} id={idMun} nombre={nombreMun} tipo={"MUN"} />
       ) : (
         ""
       )}

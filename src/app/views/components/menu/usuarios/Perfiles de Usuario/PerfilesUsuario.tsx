@@ -54,26 +54,10 @@ export const PerfilesUsuario = () => {
         );
       },
     },
-    {
-      field: "FechaCreacion",
-      headerName: "Fecha Creacion",
-      width: 200,
-    },
-    {
-      field: "CreadoPor",
-      headerName: "Creado Por",
-      width: 420,
-    },
-    {
-      field: "Descripcion",
-      headerName: "Descripción de perfil",
-      width: 420,
-    },
-    {
-      field: "Referencia",
-      headerName: "Referencia",
-      width: 120,
-    },
+    {field: "FechaCreacion",   headerName: "Fecha Creación", description: "Fecha Creación",   width: 200,},
+    {field: "CreadoPor",    headerName: "Creado Por", description: "Creado Por",   width: 420,},
+    {field: "Descripcion",    headerName: "Descripción de perfil", description: "Descripción de perfil",   width: 420,},
+    {field: "Referencia",    headerName: "Referencia",  description: "Referencia",  width: 120,},
 
   ];
 

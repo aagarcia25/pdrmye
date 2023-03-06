@@ -3,7 +3,12 @@ import { getItem } from "../services/localStorage";
 
 
 
-export const fmeses =  function () {
+// export const fmeses =  function () {
+//     let m: SelectValues[] = JSON.parse(String(getItem('Meses')));
+//     return m;
+// };
+
+export const fmeses = function () {
     let m: SelectValues[] = JSON.parse(String(getItem('Meses')));
     return m;
 };

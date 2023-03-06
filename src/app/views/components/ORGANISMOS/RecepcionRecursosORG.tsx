@@ -129,19 +129,19 @@ const RecepcionRecursosORG = () => {
                 return (
                     <Box>
                         {/* {v.row.estatusCI === "DAF_SPEI" || v.row.estatusCI === "MUN_CFDI" ? */}
-                            <Tooltip title="Subir CFDI">
-                                <IconButton onClick={() => handleSubirCfdi(v)}>
-                                    <DriveFolderUploadIcon />
-                                </IconButton>
-                            </Tooltip>
-                            {/* : ""} */}
+                        <Tooltip title="Subir CFDI">
+                            <IconButton onClick={() => handleSubirCfdi(v)}>
+                                <DriveFolderUploadIcon />
+                            </IconButton>
+                        </Tooltip>
+                        {/* : ""} */}
                         {/* {v.row.estatusCI === "DAF_SPEI" || v.row.estatusCI === "MUN_CFDI" ? */}
-                            <Tooltip title="Descargar SPEI">
-                                <IconButton onClick={() => handleVerSpei(v)}>
-                                    <FolderOpenIcon />
-                                </IconButton>
-                            </Tooltip>
-                            {/* : ""} */}
+                        <Tooltip title="Descargar SPEI">
+                            <IconButton onClick={() => handleVerSpei(v)}>
+                                <FolderOpenIcon />
+                            </IconButton>
+                        </Tooltip>
+                        {/* : ""} */}
                     </Box>
                 );
             },
@@ -177,7 +177,7 @@ const RecepcionRecursosORG = () => {
             description: "Total",
             width: 200,
         },
-       
+
         {
             field: "Organismo",
             headerName: "Organismo",
@@ -224,7 +224,7 @@ const RecepcionRecursosORG = () => {
         setslideropen(true);
 
         let data = {
-            NUMOPERACION: 4,
+            NUMOPERACION: user.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ? 6 : 4,
             P_IDORG: idORG === "false" ? "" : idORG,
             // DEP: user.[0]?.id ? "MUN" : ""
         };
@@ -246,7 +246,17 @@ const RecepcionRecursosORG = () => {
     };
 
     useEffect(() => {
-        loadFilter(27);
+
+        if (user.DEPARTAMENTOS[0]?.NombreCorto !== "ORG") {
+            loadFilter(27);
+        } else if (user.DEPARTAMENTOS[0]?.NombreCorto === "ORG") {
+
+            handleClick()
+        }
+
+        setidORG(user.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ? user.ORG[0]?.id : "")
+
+
 
     }, []);
 
@@ -275,7 +285,7 @@ const RecepcionRecursosORG = () => {
                     </Grid>
                 </Grid>
 
-                {user.DEPARTAMENTOS[0]?.NombreCorto !== "MUN" ?
+                {user.DEPARTAMENTOS[0]?.NombreCorto !== "ORG" ?
                     <>
                         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
                             <Grid item xs={13} sm={12} md={8} lg={6}>

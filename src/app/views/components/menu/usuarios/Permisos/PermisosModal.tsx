@@ -141,9 +141,11 @@ const PermisosModal = ({
                 variant="standard"
                 onChange={(v) => setNombre(v.target.value)}
                 error={nombre === "" ? true : false}
+                inputProps={{ maxLength: 200 }}
                 InputProps={{
                   readOnly: tipo === 1 ? false : true,
                   inputMode: "numeric",
+                  
                 }}
               />
 
