@@ -173,7 +173,6 @@ const MunFacturacionModal = ({
   };
 
   const editar = (data: any) => {
-    console.log(data);
     CatalogosServices.municipios(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -208,7 +207,6 @@ const MunFacturacionModal = ({
       setArtF2(dt?.row?.ArtF2? dt?.row?.ArtF2:"");
       setArtF3(dt?.row?.ArtF3? dt?.row?.ArtF3:"");
 
-      console.log(dt?.row)
     }
   }, [dt]);
 

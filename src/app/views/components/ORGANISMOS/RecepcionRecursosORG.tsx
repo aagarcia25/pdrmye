@@ -403,6 +403,10 @@ const RecepcionRecursosORG = () => {
                                     columnMenuUnsort: 'Desordenar',
                                     columnMenuSortAsc: 'Ordenar ASC',
                                     columnMenuSortDesc: 'Ordenar DESC',
+                                    columnHeaderFiltersTooltipActive: (count) =>
+                                        count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+                                    columnHeaderFiltersLabel: 'Mostrar filtros',
+                                    columnHeaderSortIconLabel: 'Ordenar',
                                 }}
                             />
                         </ThemeProvider>

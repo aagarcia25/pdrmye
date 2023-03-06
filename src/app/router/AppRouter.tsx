@@ -85,7 +85,9 @@ login : boolean
       <Routes>
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
         <Route path='/' element={log ? <Bienvenido user={user} /> : <AuthRouter />} />
+    
         {/* SECCION DE CATALOGOS */}
+        
         <Route path='/inicio/catalogos/mun' element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa' element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob' element={<MunPoblacion />} />
@@ -117,8 +119,6 @@ login : boolean
         <Route path='/inicio/catalogos/catTiposDePago' element={log ? <CatTP/> : <AuthRouter />} /> 
         <Route path='/inicio/catalogos/catClasificacion' element={log ? <ClasificadorSP/> : <AuthRouter />} /> 
 
-        
-       
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
