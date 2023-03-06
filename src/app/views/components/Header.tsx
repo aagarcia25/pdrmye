@@ -24,7 +24,8 @@ import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { env_var } from "../../environments/env";
 import { Button, Hidden } from '@mui/material';
-
+import HelpIcon from '@mui/icons-material/Help';
+import { AlertS } from "../../helpers/AlertS";
 interface HeaderProps {
   onDrawerToggle: () => void;
   name: string;
@@ -69,6 +70,14 @@ export default function Header(props: HeaderProps) {
 
   const onOpenCalendar = () => {
     navigate("/Calendario");
+  };
+
+  const onOpenHelp = () => {
+    //navigate("/");
+    AlertS.fire({
+      title: "Sección de ayuda actualmente en Desarrollo",
+      icon: "info",
+    });
   };
 
   const onConfigProfile = () => {
@@ -284,6 +293,29 @@ export default function Header(props: HeaderProps) {
                     onClick={onOpenCalendar}
                   >
                     <CalendarMonthIcon
+                      sx={{
+                        fontSize: btnAll,
+                        color: COLOR.blanco,
+                        "&:hover": {
+                          color: COLOR.azul,
+                        },
+                      }}
+                    />
+                  </IconButton>
+                </Tooltip>
+              </Hidden>
+              <Hidden smDown>
+                <Tooltip title="Guía Rapida">
+                  <IconButton
+                    color="inherit"
+                    sx={{
+                      mt: 0.1,
+                      backgroundColor: COLOR.azul,
+                      "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+                    }}
+                    onClick={onOpenHelp}
+                  >
+                    <HelpIcon
                       sx={{
                         fontSize: btnAll,
                         color: COLOR.blanco,
