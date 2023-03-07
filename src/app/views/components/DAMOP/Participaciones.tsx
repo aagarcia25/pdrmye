@@ -220,14 +220,14 @@ const Participaciones = () => {
               : ""
             }
 
-            {String(v.row.NumOrdenPago) === 'null' ?
+            {/* {String(v.row.NumOrdenPago) === 'null' ? */}
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
                   <MonetizationOnIcon />
                 </IconButton>
               </Tooltip>
-              : ""
-            }
+              {/* : "" */}
+            {/* } */}
 
             {String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
               <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
@@ -1668,9 +1668,9 @@ const Participaciones = () => {
 
             <Tooltip title={"Integrar Operaciones"}>
               <ToggleButton value="check"
-                disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6}
+                disabled={data.length === 0 || intOperaciones }
                 onClick={() => integrarOperaciones()}>
-                <CallMergeIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6 ? "inherit" : "primary"} />
+                <CallMergeIcon color={data.length === 0 || intOperaciones  ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip>
 

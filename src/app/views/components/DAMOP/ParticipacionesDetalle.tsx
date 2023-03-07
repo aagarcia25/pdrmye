@@ -23,7 +23,7 @@ const ParticipacionesDetalle = (
         { field: "NumProyecto",   headerName: "Clave Proyecto", description:"Clave Proyecto" ,width: 150 },
         { field: "ConceptoEgreso",headerName: "Cve. Egreso", description:"Cve. Egreso", width: 100 },
         { field: "Descripcion",   headerName: "Concepto Egreso", description:"Concepto Egreso",width: 400 },
-        { field: "Retenciones",   headerName: "Retenciones", description:"Retenciones",width: 200 ,...Moneda },
+        { field: "RecAdeudos",   headerName: "Retenciones", description:"Retenciones",width: 200 ,...Moneda },
         { field: "Descuentos",    headerName: "Descuentos", description:"Descuentos",width: 200 ,...Moneda},
         { field: "importe",       headerName: "Total", description:"Total",width: 200 ,...Moneda},
       ];
