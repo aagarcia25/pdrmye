@@ -300,7 +300,5 @@ function App() {
 
 
 export default App;
-function setTokenValid(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}
+
 
