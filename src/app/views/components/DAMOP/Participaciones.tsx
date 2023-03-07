@@ -226,7 +226,7 @@ const Participaciones = () => {
                   <MonetizationOnIcon />
                 </IconButton>
               </Tooltip>
-              : ""
+              {/* : "" */}
             {/* } */}
 
             {String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
