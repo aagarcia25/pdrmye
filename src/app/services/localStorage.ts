@@ -30,6 +30,10 @@ export const getDepartamento = () => localStorage.getItem('departamento');
 export const setMunicipio = (municipio: any) => localStorage.setItem('municipio', JSON.stringify(municipio));
 export const getMunicipio = () => localStorage.getItem('municipio');
 
+//// ORGANISMO
+export const setOrganismo = (organismo: any) => localStorage.setItem('organismo', JSON.stringify(organismo));
+export const getOrganismo = () => localStorage.getItem('organismo');
+
 //IDENTIFICAR QUE EL USUARIO YA ESTA LOGEADO
 export const setlogin = (data: any) => {
   localStorage.setItem('login', JSON.stringify(data));

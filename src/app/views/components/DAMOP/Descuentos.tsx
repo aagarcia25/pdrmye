@@ -260,7 +260,6 @@ export const Descuentos = ({
   };
 
   const handleAplicarDescuento = () => {
-    console.log(Number(desPar))
     if (value.length < 1
       || desPar === "0"
       || numOperacion === ""

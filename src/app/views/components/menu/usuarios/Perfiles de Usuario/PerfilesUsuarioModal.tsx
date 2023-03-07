@@ -126,7 +126,7 @@ export const PerfilesUsuarioModal = ({
                 variant="standard"
                 onChange={(v) => setDescripcion(v.target.value)}
                 error={!descripcion ? true : false}
-                InputProps={{}}
+                inputProps={{ maxLength: 200 }}
               />
               <TextField
                 required
@@ -139,7 +139,7 @@ export const PerfilesUsuarioModal = ({
                 variant="standard"
                 onChange={(v) => setReferencia(v.target.value)}
                 error={!referencia ? true : false}
-                InputProps={{}}
+                inputProps={{ maxLength: 20 }}
               />
             </Container>
           ) : (

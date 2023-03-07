@@ -220,14 +220,14 @@ const Participaciones = () => {
               : ""
             }
 
-            {String(v.row.NumOrdenPago) === 'null' ?
+            {/* {String(v.row.NumOrdenPago) === 'null' ? */}
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
                   <MonetizationOnIcon />
                 </IconButton>
               </Tooltip>
               : ""
-            }
+            {/* } */}
 
             {String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
               <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
@@ -597,13 +597,13 @@ const Participaciones = () => {
 
   const handleFilterChange2 = (v: SelectValues[]) => {
     // console.log(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label))
- 
+
     // setNombreFondo(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label));
- 
-     setIdFondo(v);
-     setIntOperaciones(true); 
-     setMunTieneFide(false);
-   };
+
+    setIdFondo(v);
+    setIntOperaciones(true);
+    setMunTieneFide(false);
+  };
 
   const handleFilterChange3 = (v: string) => {
 
@@ -1413,10 +1413,10 @@ const Participaciones = () => {
         + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
         + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
 
-        // console.log(String(
-        //   (nombreFondo === "" ? "" : nombreFondo)
-        //   + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
-        //   + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
+      // console.log(String(
+      //   (nombreFondo === "" ? "" : nombreFondo)
+      //   + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
+      //   + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
 
     } else {
       setNombreExport("Participaciones y Aportaciones");
@@ -1460,7 +1460,7 @@ const Participaciones = () => {
     }
     let data = {
       TIPO: 1,
-      P_FONDO: idFondo.length > 0 ? idFondo  : "",
+      P_FONDO: idFondo.length > 0 ? idFondo : "",
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
       P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
@@ -1583,7 +1583,7 @@ const Participaciones = () => {
           justifyContent="center"
           alignItems="center" >
 
-           <Grid item xs={6} sm={4} md={2} lg={2}>
+          <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
               value={idestatus}
@@ -1593,7 +1593,7 @@ const Participaciones = () => {
               label={""}
               disabled={false}
             />
-          </Grid> 
+          </Grid>
 
           {/* <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
@@ -1668,9 +1668,9 @@ const Participaciones = () => {
 
             <Tooltip title={"Integrar Operaciones"}>
               <ToggleButton value="check"
-                disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6}
+                disabled={data.length === 0 || intOperaciones }
                 onClick={() => integrarOperaciones()}>
-                <CallMergeIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6 ? "inherit" : "primary"} />
+                <CallMergeIcon color={data.length === 0 || intOperaciones  ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip>
 
@@ -2024,6 +2024,10 @@ const Participaciones = () => {
                   columnMenuUnsort: 'Desordenar',
                   columnMenuSortAsc: 'Ordenar ASC',
                   columnMenuSortDesc: 'Ordenar DESC',
+                  columnHeaderFiltersTooltipActive: (count) =>
+                    count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+                  columnHeaderFiltersLabel: 'Mostrar filtros',
+                  columnHeaderSortIconLabel: 'Ordenar',
                 }}
               />
             </ThemeProvider>

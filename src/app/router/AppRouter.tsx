@@ -69,8 +69,15 @@ import { TablaDocse } from '../views/components/EFIRMA/TablaDocse';
 import RecepcionRecursosORG from '../views/components/ORGANISMOS/RecepcionRecursosORG';
 
 
-export const AppRouter = () => {
-  const log = islogin();
+export const AppRouter = (
+  {
+login 
+}:{
+login : boolean
+}
+
+) => {
+  const log = login;
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   return (
@@ -78,7 +85,9 @@ export const AppRouter = () => {
       <Routes>
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
         <Route path='/' element={log ? <Bienvenido user={user} /> : <AuthRouter />} />
+    
         {/* SECCION DE CATALOGOS */}
+        
         <Route path='/inicio/catalogos/mun' element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa' element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob' element={<MunPoblacion />} />
@@ -110,8 +119,6 @@ export const AppRouter = () => {
         <Route path='/inicio/catalogos/catTiposDePago' element={log ? <CatTP/> : <AuthRouter />} /> 
         <Route path='/inicio/catalogos/catClasificacion' element={log ? <ClasificadorSP/> : <AuthRouter />} /> 
 
-        
-       
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
@@ -185,10 +192,6 @@ export const AppRouter = () => {
         <Route path='/efirm/config' element={<Configuracione />} />
         <Route path='/efirm/tabla'  element={<TablaDocse />} />
         {/* /// Fin Firma Electronica */}
-
-
-
-
 
       </Routes>
     </Inicio>

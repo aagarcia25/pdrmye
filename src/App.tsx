@@ -11,10 +11,10 @@ import {
   getRfToken,
   getToken,
   setDepartamento,
-  setlogin,
   setMenus,
   setMunicipio,
   setMunicipios,
+  setOrganismo,
   setPerfiles,
   setPermisos,
   setRfToken,
@@ -32,6 +32,7 @@ import { env_var } from '../src/app/environments/env';
 import { ParametroServices } from "./app/services/ParametroServices";
 import jwt_decode from "jwt-decode";
 import { UserLogin } from "./app/interfaces/user/User";
+import SelectValues from "./app/interfaces/Select/SelectValues";
 
 
 function App() {
@@ -42,8 +43,11 @@ function App() {
   const refjwt = query.get("rf");
   const [openSlider, setOpenSlider] = useState(true);
   const [bloqueoStatus, setBloqueoStatus] = useState<boolean>();
+  const [login, setlogin] = useState<boolean>(false);
+
   const [userName, setUserName] = useState<string>();
   const [acceso, setAcceso] = useState(false);
+  const [meses, setMeses] = useState<SelectValues[]>([]);
 
   const parametros = () => {
     let data = {
@@ -68,9 +72,14 @@ function App() {
   const loadMeses = () => {
     let data = { NUMOPERACION: 2 };
     if (!validaLocalStorage("Meses")) {
+
       CatalogosServices.SelectIndex(data).then((res) => {
+       
+        setMeses(res.RESPONSE);
         localStorage.setItem("Meses", JSON.stringify(res.RESPONSE));
       });
+
+      
     }
   };
 
@@ -139,6 +148,7 @@ function App() {
         setPerfiles(us.RESPONSE.PERFILES);
         setDepartamento(us.RESPONSE.DEPARTAMENTOS);
         setMunicipio(us.RESPONSE.MUNICIPIO);
+        setOrganismo(us.RESPONSE.ORG);
         loadMunicipios();
         loadMeses();
         loadAnios();
@@ -214,7 +224,6 @@ function App() {
           if (result.isConfirmed) {
             localStorage.clear();
             var ventana = window.self;
-
             ventana.location.replace(env_var.BASE_URL_LOGIN);
           }
         });
@@ -277,7 +286,7 @@ function App() {
       {bloqueoStatus ? (
         <BloqueoSesion handlePassword={handleOnActive} />
       ) : acceso ? (
-        <AppRouter />
+        <AppRouter login={login} />
       ) : (
         openSlider ? "" : <Validacion />
       )}
@@ -289,8 +298,7 @@ function App() {
 
 }
 
+
 export default App;
-function setTokenValid(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}
+
 

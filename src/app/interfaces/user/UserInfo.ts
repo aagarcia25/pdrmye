@@ -122,6 +122,11 @@ export interface MUNICIPIO {
     Nombre: string;
 }
 
+export interface ORG {
+    id: string;
+    Descripcion: string;
+}
+
 export interface DEPARTAMENTOS {
     NombreCorto: string;
     Descripcion: string;
@@ -152,6 +157,7 @@ export interface RESPONSE {
     PERFILES: PERFILES[];
     DEPARTAMENTOS: DEPARTAMENTOS[];
     MUNICIPIO: MUNICIPIO[];
+    ORG: ORG[];
     tipo?: any;
     Celular?: any;
     Curp?: string;

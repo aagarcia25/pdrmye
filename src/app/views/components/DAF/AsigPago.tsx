@@ -95,15 +95,15 @@ const AsigPago = () => {
             </Tooltip>
 
 
-            { String(v.row.NumCheque) === 'null' ?
-            <Tooltip title="Agregar Número de Cheque">
-            <IconButton onClick={() => handlecheque(v)}>
-            <ApprovalIcon />
-            </IconButton>
-            </Tooltip>
-            :""
+            {String(v.row.NumCheque) === 'null' ?
+              <Tooltip title="Agregar Número de Cheque">
+                <IconButton onClick={() => handlecheque(v)}>
+                  <ApprovalIcon />
+                </IconButton>
+              </Tooltip>
+              : ""
             }
-           
+
 
           </Box>
         );
@@ -247,7 +247,7 @@ const AsigPago = () => {
     loadFilter(12);
     loadFilter(5);
     loadFilter(17);
-   // handleClick();
+    // handleClick();
     /*  permisos.map((item: PERMISO) => {
         if (
           String(item.ControlInterno) === "PARTMUN"
@@ -392,6 +392,10 @@ const AsigPago = () => {
                     columnMenuUnsort: 'Desordenar',
                     columnMenuSortAsc: 'Ordenar ASC',
                     columnMenuSortDesc: 'Ordenar DESC',
+                    columnHeaderFiltersTooltipActive: (count) =>
+                      count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+                    columnHeaderFiltersLabel: 'Mostrar filtros',
+                    columnHeaderSortIconLabel: 'Ordenar',
 
                   }}
                 />
@@ -403,8 +407,8 @@ const AsigPago = () => {
 
       </div>
 
-      {openSpeis ? <SpeisAdmin  handleClose={handleclose} handleAccion={handleAccion} vrows={vrows} />: ""}
-      {openCheque ? <ModalCheque tipo={1} handleClose={handleclose}  vrows={vrows} />: ""}
+      {openSpeis ? <SpeisAdmin handleClose={handleclose} handleAccion={handleAccion} vrows={vrows} /> : ""}
+      {openCheque ? <ModalCheque tipo={1} handleClose={handleclose} vrows={vrows} /> : ""}
     </>
   );
 };

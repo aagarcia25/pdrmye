@@ -62,48 +62,52 @@ const AsigPresupuestal = () => {
     {
       field: "Anio",
       headerName: "Ejercicio",
-      width: 80,
       description: "Ejercicio",
+      width: 80,
+
     },
     {
       field: "Mes",
       headerName: "Mes",
-      width: 100,
       description: "Mes",
+      width: 100,
+
     },
     {
       field: "NumOper",
       headerName: "Nº De Operación",
-      description: "Nº De Operación",
+      description: "Número De Operación",
       width: 200,
     },
     {
       field: "uresclave",
       headerName: "U. Resp",
-      width: 65,
+      description: "Unidad Responsable",
+      width: 80,
     },
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
-      width: 100,
       description: "Clave Estado",
+      width: 100,
     },
     {
       field: "Nombre",
       headerName: "Municipio",
-      width: 150,
       description: "Municipio",
+      width: 150,
     },
     {
       field: "fondodes",
       headerName: "Descripción de Fondo",
+      description: "Descripción de Fondo",
       width: 250,
     },
     {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
+      description: "Clave Presupuestal",
       width: 600,
-      hide: false,
     },
     {
       field: "Presupuesto",
@@ -136,7 +140,7 @@ const AsigPresupuestal = () => {
     });
   };
 
- 
+
 
   const handleFilterChange1 = (v: string) => {
     setIdTipo(v);
@@ -150,11 +154,11 @@ const AsigPresupuestal = () => {
     setidMunicipio(v);
   };
 
-  
- 
- 
 
- 
+
+
+
+
 
 
   const handleClick = () => {
@@ -189,42 +193,42 @@ const AsigPresupuestal = () => {
     loadFilter(5);
     loadFilter(17);
     handleClick();
-  /*  permisos.map((item: PERMISO) => {
-      if (
-        String(item.ControlInterno) === "PARTMUN"
-      ) {
-        //console.log(item);
-        if (String(item.Referencia) === "AGREGPLANT") {
-          setCargarPlant(true);
+    /*  permisos.map((item: PERMISO) => {
+        if (
+          String(item.ControlInterno) === "PARTMUN"
+        ) {
+          //console.log(item);
+          if (String(item.Referencia) === "AGREGPLANT") {
+            setCargarPlant(true);
+          }
+          else if (String(item.Referencia) === "DESCPLANT") {
+            setDescPlant(true);
+          }
+          else if (String(item.Referencia) === "DISFIDE") {
+            setDisFide(true);
+          }
         }
-        else if (String(item.Referencia) === "DESCPLANT") {
-          setDescPlant(true);
-        }
-        else if (String(item.Referencia) === "DISFIDE") {
-          setDisFide(true);
-        }
-      }
-    });*/
+      });*/
   }, []);
 
   return (
     <div>
       <Slider open={slideropen}></Slider>
 
-     
 
 
 
 
 
-    
+
+
 
       <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={10} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
-              Módulo de Validación de Presupuesto
+                Módulo de Validación de Presupuesto
               </Typography>
             </Grid>
           </Grid>
@@ -284,7 +288,7 @@ const AsigPresupuestal = () => {
           </Button>
         </Grid>
 
-    
+
 
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -305,17 +309,16 @@ const AsigPresupuestal = () => {
                 disableColumnSelector
                 disableDensitySelector
                 getRowHeight={() => "auto"}
-                getRowClassName={(params) =>
-                  {
-                    if (params.row.Presupuesto == null) {
-                      return '';
-                    }
-                    return clsx('super-app', {
-                      negative: params.row.Presupuesto !== params.row.total,
-                      positive: params.row.Presupuesto == params.row.total,
-                    });
-                  }
-                } 
+                // getRowClassName={(params) => {
+                //   if (params.row.Presupuesto == null) {
+                //     return '';
+                //   }
+                //   return clsx('super-app', {
+                //     negative: params.row.Presupuesto !== params.row.total,
+                //     positive: params.row.Presupuesto == params.row.total,
+                //   });
+                // }
+                // }
                 components={{ Toolbar: GridToolbar }}
                 sx={{
                   fontFamily: "Poppins,sans-serif", fontWeight: '600',
@@ -325,7 +328,7 @@ const AsigPresupuestal = () => {
                   },
                   '& .super-app.positive': {
                     backgroundColor: 'rgb(16, 145, 80, 0.567)',
-                   
+
                   },
                 }}
                 componentsProps={{
@@ -333,9 +336,10 @@ const AsigPresupuestal = () => {
                     label: "buscar",
                     showQuickFilter: true,
                     quickFilterProps: { debounceMs: 500 },
-                    csvOptions:{  fileName: 'AsignacionPresup',
+                    csvOptions: {
+                      fileName: 'AsignacionPresup',
                       utf8WithBom: true,
-                     }
+                    }
                   },
                 }}
                 checkboxSelection={checkboxSelection}
@@ -372,6 +376,10 @@ const AsigPresupuestal = () => {
                   columnMenuUnsort: 'Desordenar',
                   columnMenuSortAsc: 'Ordenar ASC',
                   columnMenuSortDesc: 'Ordenar DESC',
+                  columnHeaderFiltersTooltipActive: (count) =>
+                    count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+                  columnHeaderFiltersLabel: 'Mostrar filtros',
+                  columnHeaderSortIconLabel: 'Ordenar',
                 }}
               />
             </ThemeProvider>

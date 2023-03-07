@@ -1,5 +1,5 @@
-import { DataGrid,  esES as gridEsES, esES, GridToolbar,  } from "@mui/x-data-grid";
-import { createTheme,  ThemeProvider } from "@mui/material";
+import { DataGrid, esES as gridEsES, esES, GridToolbar, } from "@mui/x-data-grid";
+import { createTheme, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 import { CustomToolbar } from "./menu/CustomToolbar";
 
@@ -9,7 +9,7 @@ const theme = createTheme(coreEsES, gridEsES);
 
 export default function MUIXDataGrid(props: any) {
   return (
-    <div style={{height: 600, width: "100%" }}>
+    <div style={{ height: 600, width: "100%" }}>
       <ThemeProvider theme={theme}>
         <DataGrid
           {...props.rows}
@@ -17,38 +17,40 @@ export default function MUIXDataGrid(props: any) {
           rows={props.rows}
           density="compact"
           rowsPerPageOptions={[10, 25, 50, 100]}
-          disableSelectionOnClick 
+          disableSelectionOnClick
           disableColumnFilter
           disableColumnSelector
           disableDensitySelector
-          getRowId={(row) => row.Id?row.Id:row.id}
+          getRowId={(row) => row.Id ? row.Id : row.id}
           rowHeight={255}
           getRowHeight={() => 'auto'}
           components={{ Toolbar: GridToolbar }}
-          sx={{ fontFamily: "Poppins,sans-serif",  fontWeight: '600',
-          '& .super-app-theme--cell': {
-            backgroundColor: 'rgba(224, 183, 60, 0.55)',
-            color: '#1a3e72',
-          },
-          '& .super-app.negative': {
-            color: "rgb(84, 3, 3)",
-            backgroundColor: "rgb(196, 40, 40, 0.384)",
+          sx={{
+            fontFamily: "Poppins,sans-serif", fontWeight: '600',
+            '& .super-app-theme--cell': {
+              backgroundColor: 'rgba(224, 183, 60, 0.55)',
+              color: '#1a3e72',
+            },
+            '& .super-app.negative': {
+              color: "rgb(84, 3, 3)",
+              backgroundColor: "rgb(196, 40, 40, 0.384)",
 
-          },
-          '& .super-app.positive': {
-            color: '#000000',
-          },}}
+            },
+            '& .super-app.positive': {
+              color: '#000000',
+            },
+          }}
           componentsProps={{
-             toolbar: {
-               label:"Buscar",
-               showQuickFilter: true,
-               quickFilterProps: { debounceMs: 500 },
-               csvOptions:{ 
-                
-               fileName: props.modulo,
-               utf8WithBom: true,
+            toolbar: {
+              label: "Buscar",
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+              csvOptions: {
+
+                fileName: props.modulo,
+                utf8WithBom: true,
               }
-             },
+            },
           }}
           localeText={{
             noRowsLabel: "No se ha encontrado datos.",
@@ -79,11 +81,14 @@ export default function MUIXDataGrid(props: any) {
             columnMenuUnsort: 'Desordenar',
             columnMenuSortAsc: 'Ordenar ASC',
             columnMenuSortDesc: 'Ordenar DESC',
+            columnHeaderFiltersTooltipActive: (count) =>
+              count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+            columnHeaderFiltersLabel: 'Mostrar filtros',
+            columnHeaderSortIconLabel: 'Ordenar',
 
- 
-            
-        }}
-         
+
+          }}
+
         />
       </ThemeProvider>
     </div>

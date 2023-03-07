@@ -170,7 +170,7 @@ const RecepcionRecursos = () => {
 
     {
       // hide: (user.DEPARTAMENTOS[0]?.NombreCorto === "ORG") ,
-      hide: true ,
+      hide: true,
 
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -199,10 +199,10 @@ const RecepcionRecursos = () => {
       description: "Número De Cheque",
     },
     {
-      hide: true ,
-
+      hide: true,
       field: "fondodes",
       headerName: "Descripción de Fondo",
+      description: "Descripción de Fondo",
       width: 250,
     },
 
@@ -275,7 +275,7 @@ const RecepcionRecursos = () => {
     let data = {
       TIPO: 6,
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      DEP:user.MUNICIPIO[0]?.id ?"MUN":""
+      DEP: user.MUNICIPIO[0]?.id ? "MUN" : ""
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
@@ -301,7 +301,7 @@ const RecepcionRecursos = () => {
     loadFilter(12);
     loadFilter(5);
     loadFilter(17);
-   // handleClick();
+    // handleClick();
     /*  permisos.map((item: PERMISO) => {
         if (
           String(item.ControlInterno) === "PARTMUN"
@@ -422,9 +422,10 @@ const RecepcionRecursos = () => {
                     label: "buscar",
                     showQuickFilter: true,
                     quickFilterProps: { debounceMs: 500 },
-                    csvOptions:{  fileName: 'Export',
+                    csvOptions: {
+                      fileName: 'Export',
                       utf8WithBom: true,
-                     }
+                    }
                   },
                 }}
                 checkboxSelection={checkboxSelection}
@@ -461,6 +462,10 @@ const RecepcionRecursos = () => {
                   columnMenuUnsort: 'Desordenar',
                   columnMenuSortAsc: 'Ordenar ASC',
                   columnMenuSortDesc: 'Ordenar DESC',
+                  columnHeaderFiltersTooltipActive: (count) =>
+                    count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+                  columnHeaderFiltersLabel: 'Mostrar filtros',
+                  columnHeaderSortIconLabel: 'Ordenar',
                 }}
               />
             </ThemeProvider>

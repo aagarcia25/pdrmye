@@ -272,7 +272,7 @@ const UsuariosModal = ({
           AuthService.adminUser(dat).then((res) => {
             if (res.SUCCESS) {
               setOpenSlider(false);
-         
+
 
               AlertS.fire({
                 title: res.RESPONSE,
@@ -324,15 +324,12 @@ const UsuariosModal = ({
   };
 
 
-  const excepciones = ( error:string) => {
-   
-if (error==="Ya existe solicitud para este usuario")
-  {
+  const excepciones = (error: string) => {
 
-    
-    console.log(error)
+    if (error === "Ya existe solicitud para este usuario") {
 
-  }
+
+    }
   };
 
   const handleRequest = () => {
@@ -360,7 +357,7 @@ if (error==="Ya existe solicitud para este usuario")
                 Email: CorreoElectronico,
                 Curp: curp,
                 RFC: rfc,
-                Puesto:puesto,
+                Puesto: puesto,
                 Celular: celular,
                 Telefono: telefono,
                 Extencion: ext ? ext : 0,
@@ -376,11 +373,11 @@ if (error==="Ya existe solicitud para este usuario")
                   setOpenSlider(false);
                   Toast.fire({
                     icon: "error",
-                    title: resSol?.data?.error? resSol?.data?.error : "",
+                    title: resSol?.data?.error ? resSol?.data?.error : "",
                   });
                 }
 
-                else if ((resSol?.data?.data[0][0].length!=0? resSol?.data?.data[0][0]?.Respuesta:" ") === "201" && tipo === "ALTA") {
+                else if ((resSol?.data?.data[0][0].length != 0 ? resSol?.data?.data[0][0]?.Respuesta : " ") === "201" && tipo === "ALTA") {
 
                   let dat = {
                     NUMOPERACION: 3,
@@ -418,13 +415,13 @@ if (error==="Ya existe solicitud para este usuario")
 
                 else if (resSol.data.data[0][0].Respuesta === "403") {
                   setOpenSlider(false);
-                  excepciones (resSol.data.data[0][0].Mensaje);
+                  excepciones(resSol.data.data[0][0].Mensaje);
                   Toast.fire({
                     icon: "warning",
                     title: resSol.data.data[0][0].Mensaje,
                   });
                 }
-         
+
               });
             }
           );
@@ -490,7 +487,7 @@ if (error==="Ya existe solicitud para este usuario")
         title={tipo === "ALTA" ? "Nuevo Registro" : "Editar Registro"}
         handleClose={handleClose}
       >
-        <Slider open={openSlider}/>
+        <Slider open={openSlider} />
         <Grid
           container
           spacing={1}
@@ -772,23 +769,23 @@ if (error==="Ya existe solicitud para este usuario")
                     <Box maxHeight={1 / 2} flexDirection="row">
                       <DialogActions>
                         <Button
-                        disabled={
-                          Nombre === "" ||
-                          ApellidoPaterno === "" ||
-                          ApellidoMaterno === "" ||
-                          NombreUsuario === "" ||
-                          CorreoElectronico === "" ||
-                          emailValid === false ||
-                          telValid === false ||
-                          telefono === "" ||
-                          curp.length !==18||
-                          rfc.length !== 13 ||
-                          idDepartamento === "" ||
-                          idPerfil === "" ||
-                          celular === "" ||
-                          puesto === ""
+                          disabled={
+                            Nombre === "" ||
+                            ApellidoPaterno === "" ||
+                            ApellidoMaterno === "" ||
+                            NombreUsuario === "" ||
+                            CorreoElectronico === "" ||
+                            emailValid === false ||
+                            telValid === false ||
+                            telefono === "" ||
+                            curp.length !== 18 ||
+                            rfc.length !== 13 ||
+                            idDepartamento === "" ||
+                            idPerfil === "" ||
+                            celular === "" ||
+                            puesto === ""
 
-                        }
+                          }
                           className="guardar"
                           color="info"
                           onClick={() => handleSend()}
@@ -887,7 +884,7 @@ if (error==="Ya existe solicitud para este usuario")
           </TabContext>
 
         </Grid>
-        
+
       </ModalForm>
     </div>
   );
