@@ -70,24 +70,21 @@ import { ModalCheque } from "../componentes/ModalCheque";
 import { Retenciones } from "./Retenciones";
 import { fmeses } from "../../../share/loadMeses";
 import SelectFragMulti from "../Fragmentos/SelectFragMulti";
+import PolylineIcon from '@mui/icons-material/Polyline';
 
 const Participaciones = () => {
 
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
   const [nombreArchivoExport, setNombreArchivoExport] = useState<string>("");
-
-
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
   //MODAL
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openModalDescuento, setOpenModalDescuento] = useState<boolean>(false);
   const [openModalRetenciones, setOpenModalRetenciones] = useState<boolean>(false);
-
   const [openModalDetalle, setOpenModalDetalle] = useState<boolean>(false);
   const [openModalVerSpei, setOpenModalVerSpei] = useState<boolean>(false);
-
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<[]>([]);
@@ -249,7 +246,7 @@ const Participaciones = () => {
       headerName: "Ver Detalle",
       description: "Ver Detalle",
       sortable: false,
-      width: 150,
+      width: 100,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -282,7 +279,7 @@ const Participaciones = () => {
       headerName: "Descuentos",
       description: "Descuentos",
       sortable: false,
-      width: 100,
+      width: 98,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -306,7 +303,7 @@ const Participaciones = () => {
       headerName: "Retenciones",
       description: "Retenciones",
       sortable: false,
-      width: 100,
+      width: 98,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -338,47 +335,18 @@ const Participaciones = () => {
     },
     {
       field: "NumOper",
-      headerName: "Numero De Operacion",
+      headerName: "Nº De Operación",
       description: "Nº De Operación",
-      width: 200,
+      width: 130,
     },
-    {
-      field: "NumParticipacion",
-      headerName: "Numero De Participacion",
-      width: 200,
-      description: "Número De Participación",
-    },
-    {
-      field: "NumSolEgreso",
-      headerName: "Número De Solicitud De Egreso",
-      width: 200,
-      description: "Número De Solicitud De Egreso",
-    },
-    {
-      field: "NumEgreso",
-      headerName: "Numero De Egreso",
-      width: 200,
-      description: "Número De Egreso",
-    },
+   
     {
       field: "NumOrdenPago",
-      headerName: "Numero De Orden De Pago",
-      width: 200,
-      description: "Numero De Orden De Pago",
+      headerName: "Solicitud de Pago",
+      width: 140,
+      description: "Numero De Solicitud de Pago",
     },
-    {
-      field: "NumRequerimientoAnt",
-      headerName: "Numero De Requerimiento De Anticipo",
-      width: 200,
-      description: "Numero De Requerimiento De Anticipo",
-    },
-    {
-      field: "NumCheque",
-      headerName: "Numero De Cheque",
-      width: 200,
-      description: "Numero De Cheque",
-    },
-
+   
 
     {
       field: "Anio",
@@ -472,7 +440,7 @@ const Participaciones = () => {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
       description: "Clave Presupuestal",
-      width: 600,
+      width: 550,
       hide: false,
     },
     {
@@ -544,6 +512,36 @@ const Participaciones = () => {
       headerName: "Clasificación",
       width: 100,
       description: "Clasificación de Solicitud de Pago",
+    },
+    {
+      field: "NumParticipacion",
+      headerName: "Numero De Participacion",
+      width: 200,
+      description: "Número De Participación",
+    },
+    {
+      field: "NumSolEgreso",
+      headerName: "Número De Solicitud De Egreso",
+      width: 200,
+      description: "Número De Solicitud De Egreso",
+    },
+    {
+      field: "NumEgreso",
+      headerName: "Numero De Egreso",
+      width: 200,
+      description: "Número De Egreso",
+    },
+    {
+      field: "NumRequerimientoAnt",
+      headerName: "Numero De Requerimiento De Anticipo",
+      width: 200,
+      description: "Numero De Requerimiento De Anticipo",
+    },
+    {
+      field: "NumCheque",
+      headerName: "Numero De Cheque",
+      width: 200,
+      description: "Numero De Cheque",
     },
 
     {
@@ -916,6 +914,48 @@ const Participaciones = () => {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Seleccionar mas de un Registros",
+        icon: "error",
+      });
+    }
+  };
+
+
+
+  const integracionMasiva = () => {
+
+    if (idFondo.length == 1 &&  mes !== "false" &&  idestatus !== "false") {
+      Swal.fire({
+        icon: "info",
+        title: "Integración Masiva ",
+        text: "Los Movimientos de los diversos tipos de cálculos se unificaran en uno solo",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+         
+          setslideropen(true);
+          const formData = new FormData();
+          formData.append("CHUSER", user.id);
+          formData.append("IDESTATUS", idestatus);
+          formData.append("MES", mes);
+          formData.append("FONDO", String(idFondo[0].value));
+          formData.append("tipo", "integramasiva");
+          CatalogosServices.migraData(formData).then((res) => {
+            setslideropen(false);
+            handleClick();
+          });
+
+        }
+
+
+      });
+
+    } else {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de Seleccionar los filtros de fondo ,mes, estatus",
         icon: "error",
       });
     }
@@ -1674,13 +1714,7 @@ const Participaciones = () => {
               </ToggleButton>
             </Tooltip>
 
-            <Tooltip title={"Unificar Registros"}>
-              <ToggleButton value="check"
-                disabled={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idMunicipio.length < 6}
-                onClick={() => unificarSolicitudes()}>
-                <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idtipoSolicitud.length < 6 || idMunicipio.length < 6 ? "inherit" : "primary"} />
-              </ToggleButton>
-            </Tooltip>
+           
 
 
             {/* <Tooltip title={"Generar Solicitud"}>
@@ -1806,6 +1840,25 @@ const Participaciones = () => {
             ) : (
               ""
             )}
+
+          {cargarPlant ? (
+               <Tooltip title={"Integración Masiva por Fondo"}>
+               <ToggleButton value="check" onClick={() => integracionMasiva()}>
+                 <PolylineIcon  />
+               </ToggleButton>
+             </Tooltip>
+            ) : (
+              ""
+            )}
+
+             <Tooltip title={"Unificar Registros"}>
+              <ToggleButton value="check"
+                disabled={data.length === 0 || intOperaciones  || idMunicipio.length < 6}
+                onClick={() => unificarSolicitudes()}>
+                <CloseFullscreenIcon color={data.length === 0 || intOperaciones  || idMunicipio.length < 6 ? "inherit" : "primary"} />
+              </ToggleButton>
+            </Tooltip>
+
 
           </ToggleButtonGroup>
         </Grid>

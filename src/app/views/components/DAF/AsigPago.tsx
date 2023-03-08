@@ -81,8 +81,8 @@ const AsigPago = () => {
     {
       field: "acciones",
       disableExport: true,
-      headerName: "Acción",
-      description: "Acción",
+      headerName: "Acciones",
+      description: "Acciones",
       sortable: false,
       width: 150,
       renderCell: (v: any) => {
@@ -109,82 +109,18 @@ const AsigPago = () => {
         );
       },
     },
-    {
-      field: "estatus",
-      headerName: "Estatus",
-      width: 150,
-    },
-    {
-      field: "NumOrdenPago",
-      headerName: "Nº De Orden De Pago",
-      width: 200,
-      description: "Número De Orden De Pago",
-    },
-
-    {
-      field: "NumCheque",
-      headerName: "Nº De Cheque",
-      width: 200,
-      description: "Número De Cheque",
-    },
-    {
-      field: "Anio",
-      headerName: "Ejercicio",
-      width: 80,
-      description: "Ejercicio",
-    },
-    {
-      field: "Mes",
-      headerName: "Mes",
-      width: 100,
-      description: "Mes",
-    },
-
-    {
-      field: "ClaveEstado",
-      headerName: "Clave Estado",
-      width: 100,
-      description: "Clave Estado",
-    },
-    {
-      field: "Nombre",
-      headerName: "Municipio",
-      width: 150,
-      description: "Municipio",
-    },
-    {
-      field: "fondodes",
-      headerName: "Descripción de Fondo",
-      width: 250,
-    },
-    {
-      field: "total",
-      headerName: "Total Neto",
-      width: 150,
-      description: "Total Neto",
-      ...Moneda,
-    },
-    {
-      field: "RecAdeudos",
-      headerName: "Retenciones",
-      width: 150,
-      description: "Retenciones",
-      ...Moneda,
-    },
-    {
-      field: "Descuentos",
-      headerName: "Descuentos",
-      width: 150,
-      description: "Descuentos",
-      ...Moneda,
-    },
-    {
-      field: "importe",
-      headerName: "Importe Total",
-      width: 150,
-      description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
-      ...Moneda,
-    },
+    {field: "estatus",      headerName: "Estatus",      width: 150, description: "Estatus",   },
+    {field: "NumOrdenPago",      headerName: "Nº De Orden De Pago",      width: 200,description: "Número De Orden De Pago",    },
+    {field: "NumCheque",      headerName: "Nº De Cheque",      width: 200,      description: "Número De Cheque",    },
+    {field: "Anio",      headerName: "Ejercicio",      width: 80,      description: "Ejercicio",    },
+    {field: "Mes",      headerName: "Mes",      width: 100,      description: "Mes",    },
+    {field: "ClaveEstado",      headerName: "Clave Estado",      width: 100,      description: "Clave Estado",    },
+    {field: "Nombre",      headerName: "Municipio",      width: 150,      description: "Municipio",},
+    {field: "fondodes",      headerName: "Descripción de Fondo",      width: 250,   description: "Descripción de Fondo" },
+    {field: "total",      headerName: "Total Neto",      width: 150,      description: "Total Neto",      ...Moneda,    },
+    {field: "RecAdeudos",      headerName: "Retenciones",      width: 150,      description: "Retenciones",      ...Moneda,    },
+    {field: "Descuentos",      headerName: "Descuentos",      width: 150,      description: "Descuentos",      ...Moneda,    },
+    {field: "importe",      headerName: "Importe Total",      width: 150,      description: "Importe Total = Total Neto - (Retenciones + Descuentos)", ...Moneda,    },
 
   ];
 
