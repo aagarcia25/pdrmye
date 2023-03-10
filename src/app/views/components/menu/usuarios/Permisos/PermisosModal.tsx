@@ -162,7 +162,7 @@ const PermisosModal = ({
                 variant="standard"
                 onChange={(v) => setdescripcion(v.target.value)}
                 error={descripcion === "" ? true : false}
-
+                inputProps={{ maxLength: 200 }}
               />
 
               <TextField
@@ -176,6 +176,7 @@ const PermisosModal = ({
                 variant="standard"
                 onChange={(v) => setReferencia(v.target.value)}
                 error={referencia === "" ? true : false}
+                inputProps={{ maxLength: 50 }}
                 disabled ={tipo !== 1 }
               />
               <DialogActions>
