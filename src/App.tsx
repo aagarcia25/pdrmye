@@ -38,7 +38,8 @@ import SelectValues from "./app/interfaces/Select/SelectValues";
 function App() {
   //cambiar a 5 minutos
   const timeout = 300000;
-  const query = new URLSearchParams(useLocation().search);
+  const urlParams = window.location.search;
+  const query = new URLSearchParams(urlParams);
   const jwt = query.get("jwt");
   const refjwt = query.get("rf");
   const [openSlider, setOpenSlider] = useState(true);
@@ -47,6 +48,8 @@ function App() {
 
   const [userName, setUserName] = useState<string>();
   const [acceso, setAcceso] = useState(false);
+  const [contrseñaValida, setContraseñaValida] = useState(true);
+
   const [meses, setMeses] = useState<SelectValues[]>([]);
 
   const parametros = () => {
@@ -74,12 +77,12 @@ function App() {
     if (!validaLocalStorage("Meses")) {
 
       CatalogosServices.SelectIndex(data).then((res) => {
-       
+
         setMeses(res.RESPONSE);
         localStorage.setItem("Meses", JSON.stringify(res.RESPONSE));
       });
 
-      
+
     }
   };
 
@@ -96,7 +99,7 @@ function App() {
     setlogin(false);
     setAcceso(false);
     Swal.fire({
-      icon: icon === "info"? "info": "warning" ,
+      icon: icon === "info" ? "info" : "warning",
       title: title,
       text: text,
       showDenyButton: false,
@@ -140,7 +143,7 @@ function App() {
           }
         });
 
-      } 
+      }
       if (us.RESPONSE) {
         setRoles(us.RESPONSE.ROLES);
         setPermisos(us.RESPONSE.PERMISOS);
@@ -156,10 +159,10 @@ function App() {
         setOpenSlider(false);
         setlogin(true);
         setAcceso(true);
-      } else if(us.SUCCESS) {
-        mensaje('','Información', us.STRMESSAGE +" Contactar Al Departamento Correspondiente");
+      } else if (us.SUCCESS) {
+        mensaje('', 'Información', us.STRMESSAGE + " Contactar Al Departamento Correspondiente");
       }
-      else if(us.SUCCESS ==false && us.RESPONSE===""){
+      else if (us.SUCCESS == false && us.RESPONSE === "") {
         Swal.fire({
           icon: "info",
           title: 'Bienvenid@',
@@ -206,15 +209,17 @@ function App() {
       NombreUsuario: userName,
       Contrasena: v,
     };
-
+    setOpenSlider(true);
     UserServices.login(data).then((res) => {
 
       if (res.status === 200) {
+        setContraseñaValida(true);
         setToken(res.data.token);
         setRfToken(res.data.refreshToken);
-
+        setAcceso(true);
         setBloqueoStatus(false);
       } else if (res.status === 401) {
+        setContraseñaValida(false);
         Swal.fire({
           title: res.data.msg,
           showDenyButton: false,
@@ -222,6 +227,7 @@ function App() {
           confirmButtonText: "Aceptar",
         }).then((result) => {
           if (result.isConfirmed) {
+            setAcceso(false);
             localStorage.clear();
             var ventana = window.self;
             ventana.location.replace(env_var.BASE_URL_LOGIN);
@@ -233,6 +239,7 @@ function App() {
 
   const handleOnIdle = () => {
     setBloqueoStatus(true);
+    setAcceso(false);
   }
 
   const { } = useIdleTimer({
@@ -244,13 +251,13 @@ function App() {
 
 
   useLayoutEffect(() => {
+    // console.log("jwt:  " + jwt + " getToken:  " + getToken() + " getRfToken:  " + getRfToken() + "acceso:  " + acceso)
 
-    if (!jwt === false && getToken() !== null && getRfToken() !== null) {
+    if (!jwt === null && getToken() !== null && getRfToken() !== null) {
       localStorage.clear();
-
     }
 
-    if (getToken() === null || getRfToken() === null) {
+    if ((getToken() === null || getRfToken() === null) && jwt !== null && refjwt !== null) {
       const decoded: UserLogin = jwt_decode(String(jwt));
       // console.log((decoded.exp - (Date.now() / 1000)) / 60)
       if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
@@ -259,7 +266,6 @@ function App() {
         verificatoken();
         // RfToken(String(refjwt));
       } else {
-
         Swal.fire({
           title: "Token no valido",
           showDenyButton: false,
@@ -273,9 +279,14 @@ function App() {
           }
         });
       }
-    } else {
+    } else if ((getToken() !== null || getRfToken() !== null)) {
       verificatoken();
+    } else if (getToken() === null || getRfToken() === null) {
+      setBloqueoStatus(true);
+      setAcceso(false);
+      setOpenSlider(false);
     }
+
   }, [bloqueoStatus]);
 
 
@@ -287,17 +298,13 @@ function App() {
         <BloqueoSesion handlePassword={handleOnActive} />
       ) : acceso ? (
         <AppRouter login={login} />
-      ) : (
-        openSlider ? "" : <Validacion />
-      )}
+      ) :
+        !contrseñaValida ? <Validacion /> : ""
+      }
+
     </div>
   );
-
-
-
-
 }
-
 
 export default App;
 function setTokenValid(arg0: boolean) {
