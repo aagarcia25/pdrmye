@@ -29,7 +29,10 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
     open===x?setOpen(-1):setOpen(x);
     
   };
-
+  const consulta = (data: string) => {
+    navigate(data);
+    console.log(data)
+  };
 
   
 
@@ -41,7 +44,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
         alignContent="center"
         sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%" }}>
         <Grid item sx={{ width:"auto",higth:"5%" }}>
-        <img src={Logo} style={{ width: "100%"  }} onClick={() => navigate("/")} />
+        <img src={Logo} style={{ width: "100%"  }} onClick={() => consulta("/")} />
         </Grid>
         <Grid item sx={{width:"auto", textAlign:"center", paddingLeft:"3%"}}>
           <Typography variant="h6" sx={{ fontWeight: '550' }}> DISTRIBUCIÓN DE RECURSOS </Typography>
@@ -104,7 +107,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                         <Collapse key={index}   in={open===indexx} timeout="auto" unmountOnExit>
                         <List sx={{  borderRadius:"1"}} key={index}  component="div" disablePadding>
                           <Divider/>
-                          <ListItemButton  key={index}  onClick={() => navigate(subitem.Path)}  sx={{ pl: 4 }}>
+                          <ListItemButton  key={index}  onClick={() => consulta(subitem.Path)}  sx={{ pl: 4 }}>
                             {/* <ListItemIcon>
                               <ArrowForwardIcon />
                             </ListItemIcon> */}

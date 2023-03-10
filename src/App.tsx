@@ -51,7 +51,6 @@ function App() {
   const [contrseñaValida, setContraseñaValida] = useState(true);
 
   const [meses, setMeses] = useState<SelectValues[]>([]);
-
   const parametros = () => {
     let data = {
       NUMOPERACION: 5,
@@ -249,12 +248,13 @@ function App() {
 
 
 
-
   useLayoutEffect(() => {
+
     // console.log("jwt:  " + jwt + " getToken:  " + getToken() + " getRfToken:  " + getRfToken() + "acceso:  " + acceso)
 
     if (!jwt === null && getToken() !== null && getRfToken() !== null) {
       localStorage.clear();
+      // queryParams.delete('error');
     }
 
     if ((getToken() === null || getRfToken() === null) && jwt !== null && refjwt !== null) {

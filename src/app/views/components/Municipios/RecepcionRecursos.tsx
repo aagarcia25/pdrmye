@@ -8,7 +8,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import clsx from 'clsx';
 import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
@@ -28,8 +27,6 @@ import {
   esES as gridEsES,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
-import FilePresentIcon from '@mui/icons-material/FilePresent';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import InfoIcon from "@mui/icons-material/Info";
 import ModalForm from "../componentes/ModalForm";
 import ParticipacionesDetalle from "../DAMOP/ParticipacionesDetalle";
@@ -40,6 +37,7 @@ import CfdiAdmin from "../DAF/CfdiAdmin";
 const RecepcionRecursos = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
+ 
   //MODAL
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
@@ -48,10 +46,12 @@ const RecepcionRecursos = () => {
   const [tipos, setTipos] = useState<SelectValues[]>([]);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
+
   //Constantes de los filtros
   const [idtipo, setIdTipo] = useState("");
   const [idFondo, setIdFondo] = useState("");
   const [idMunicipio, setidMunicipio] = useState("");
+
   //Constantes para las columnas
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -59,13 +59,11 @@ const RecepcionRecursos = () => {
   const [openVerSpei, setOpenVerSpei] = useState<boolean>(false);
   const [openVerCfdi, setOpenVerCfdi] = useState<boolean>(false);
 
-
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const handleDescuento = (data: any) => { };
 
   const handleAccion = () => { };
-
 
   const handleVerSpei = (data: any) => {
     setOpenVerSpei(true);
@@ -76,7 +74,6 @@ const RecepcionRecursos = () => {
     setOpenVerCfdi(true);
     setData(data.row);
   };
-
 
   const handleClose = () => {
     setOpenModalDetalle(false);
@@ -293,9 +290,6 @@ const RecepcionRecursos = () => {
       }
     });
   };
-
-
-
 
   useEffect(() => {
     loadFilter(12);
