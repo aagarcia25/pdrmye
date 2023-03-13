@@ -714,7 +714,7 @@ export const ORGHeader = ({
                       || agregarDetalle
                       || idTipoSolicitud === ""
                       || idTipoSolicitud === "false"
-                      || observaciones === ""
+                      || String(observaciones).trim() === ""
                     } >
                     <CheckBoxIcon />
                   </Button  >
@@ -856,7 +856,7 @@ export const ORGHeader = ({
                 fullWidth
                 multiline
                 rows={3}
-                onChange={(v) => setObservaciones(v.target.value.trim())}
+                onChange={(v) => setObservaciones(v.target.value)}
                 disabled={HHeader || agregarDetalle || regGuardado}
                 inputProps={{ maxLength: 300 }}
               />
@@ -903,11 +903,10 @@ export const ORGHeader = ({
                                 !DetalleEditar ||
                                 DetalleAgregar ||
                                 String(Number(importe)) === "NaN"
-                                || descripcion === ""
+                                ||String(descripcion).trim()===""
                                 || idClaveConcepto === ""
                                 || idClaveConcepto === "false"
                                 || importe === ""
-                                || descripcion === ""
                                 || adminDetalle === ""
                                 || funcionalDetalle === ""
                                 || programaticoDetalle === ""

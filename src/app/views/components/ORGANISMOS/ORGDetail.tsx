@@ -108,6 +108,7 @@ export const ORGDetail =
                 <TextField
                   required
                   fullWidth
+                  value={descripcion}
                   spellCheck="true"
                   rows={5}
                   multiline
