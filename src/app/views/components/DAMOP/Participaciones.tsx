@@ -594,20 +594,13 @@ const Participaciones = () => {
   };
 
   const handleFilterChange2 = (v: SelectValues[]) => {
-    // console.log(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label))
-
-    // setNombreFondo(fondos.find(({ value }) => value === v)?.label === undefined ? "" : String(fondos.find(({ value }) => value === v)?.label));
-
     setIdFondo(v);
     setIntOperaciones(true);
     setMunTieneFide(false);
   };
 
   const handleFilterChange3 = (v: string) => {
-
-    console.log(municipio.find(({ value }) => value === v)?.label === undefined ? "" : String(municipio.find(({ value }) => value === v)?.label));
     setNombreMunicipio(municipio.find(({ value }) => value === v)?.label === undefined ? "" : String(municipio.find(({ value }) => value === v)?.label));
-
     setidMunicipio(v);
     setIntOperaciones(true); setMunTieneFide(false)
   };
@@ -617,9 +610,7 @@ const Participaciones = () => {
     setIntOperaciones(true); setMunTieneFide(false)
   };
   const handleSelectMes = (data: any) => {
-    console.log(meses.find(({ value }) => value === data)?.label === undefined ? "" : String(meses.find(({ value }) => value === data)?.label))
     setNombreMes(meses.find(({ value }) => value === data)?.label === undefined ? "" : String(meses.find(({ value }) => value === data)?.label));
-
     setMes(data);
   };
 

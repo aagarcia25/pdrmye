@@ -193,7 +193,7 @@ const RecepcionRecursos = () => {
       field: "NumCheque",
       headerName: "Nº De Cheque",
       width: 200,
-      description: "Número De Cheque",
+      description: "Póliza de Pago",
     },
     {
       hide: true,
