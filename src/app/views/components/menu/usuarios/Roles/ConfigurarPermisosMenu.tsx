@@ -182,27 +182,27 @@ const ConfigurarPermisosMenu = ({
               <Button variant="outlined" onClick={() => handleCloseAsignar()}>
                 <Tooltip title="Salir">
                   <IconButton aria-label="close" color="info" onClick={() => handleCloseAsignar()}>
-                    <ArrowBackIosIcon />
+                    <ArrowBackIosIcon/>
                   </IconButton>
                 </Tooltip>
               </Button>
             </Grid>
-            <Grid item xs={11}>
-              <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }}>
-                {("Rol: " + NameRol + " ") + dt?.row?.MENU}
+            <Grid item xs={12} sm={10}>
+              <Typography variant="h4" sx={{textAlign: "center"}}>
+                {("Rol: " + NameRol)}
               </Typography>
-              <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }}>
+              <Typography variant="h4" sx={{textAlign: "center"}}>
                 {("Menú: ") + dt?.row?.MENU}
               </Typography>
             </Grid>
             <Grid container sx={{ borderRadius: 3, justifyContent: "space-evenly", }} >
 
-              <Grid item xs={6} sm={6} md={4} lg={4}>
+              <Grid item xs={12} sm={12} md={5.6} lg={5}>
                 <Grid container sx={{ left: "50%", width: "100%", height: "75vh", bgcolor: "rgb(255,255,255)", boxShadow: 50, borderRadius: 3, justifyContent: "center" }} >
                   <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding: "1%" }}>
                     <Grid item sm={12} sx={{ height: "100%" }}>
                       <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                        <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }}>
+                        <Typography variant="h6"  sx={{ textAlign: "center"}}>
                           Permisos Asignado
                         </Typography>
                       </Grid>
@@ -216,11 +216,11 @@ const ConfigurarPermisosMenu = ({
                 </Grid>
               </Grid>
 
-              <Grid item xs={6} sm={6} md={4} lg={4}>
+              <Grid item xs={12} sm={12} md={5.6} lg={5}>
                 <Grid container sx={{ left: "50%", width: "100%", height: "75vh", bgcolor: "rgb(255,255,255)", justifyContent: "center" }} >
                   <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding: "1%" }}>
                     <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                      <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }} >
+                      <Typography variant="h6"  sx={{ textAlign: "center"}}>
                         Permisos Disponibles
                       </Typography>
                     </Grid>

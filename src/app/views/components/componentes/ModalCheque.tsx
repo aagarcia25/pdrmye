@@ -26,8 +26,8 @@ export const ModalCheque = ({
   useEffect(() => {
 
     if (tipo == 1) {
-      setTitle('Asignar Número de Cheque');
-      setLabel('Número de Cheque:');
+      setTitle('Asignar Póliza de Pago');
+      setLabel('Póliza de Pago:');
     } else if (tipo == 2) {
       setTitle('Asignar N° de Participación');
       setLabel('Número de Participación:');
@@ -123,7 +123,7 @@ export const ModalCheque = ({
                       margin="dense"
                       id="NumOperacion"
                       value={numeroOperacion}
-                      type="number"
+                      // type="number"
                       fullWidth
                       variant="outlined"
                       onChange={(v) => SetNumeroOperacion(v.target.value)}

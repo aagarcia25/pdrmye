@@ -1,9 +1,14 @@
 import {
   Box,
   Button,
+  Checkbox,
   createTheme,
+  FormControl,
+  FormControlLabel,
   Grid,
   IconButton,
+  InputAdornment,
+  OutlinedInput,
   ThemeProvider,
   Tooltip,
   Typography,
@@ -32,21 +37,32 @@ import SpeisAdmin from "./SpeisAdmin";
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import ApprovalIcon from '@mui/icons-material/Approval';
 import { ModalCheque } from "../componentes/ModalCheque";
+import SelectFragMulti from "../Fragmentos/SelectFragMulti";
+import { fmeses } from "../../../share/loadMeses";
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+
+
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
   //MODAL
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  const [fondos, setFondos] = useState<SelectValues[]>([]);
+  const [meses, setMeses] = useState<SelectValues[]>([]);
+  const [mes, setMes] = useState<string>("");
+  const [fondos, setFondos] = useState<[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tipos, setTipos] = useState<SelectValues[]>([]);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
+  const [checked, setChecked] = React.useState(true);
   const [vrows, setVrows] = useState<{}>("");
   //Constantes de los filtros
   const [idtipo, setIdTipo] = useState("");
   const [idFondo, setIdFondo] = useState("");
   const [idMunicipio, setidMunicipio] = useState("");
+  const [idestatus, setIdEstatus] = useState("");
+  const [nombreMes, setNombreMes] = useState("");
+  const [numOrdenPago, setNumOrdenPago] = useState("");
   //Constantes para las columnas
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -67,6 +83,9 @@ const AsigPago = () => {
     setVrows(data)
   };
 
+  const handleChangeMostrarTodo = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
 
   const handleclose = (data: any) => {
     setOpenSpeis(false)
@@ -96,7 +115,7 @@ const AsigPago = () => {
 
 
             {String(v.row.NumCheque) === 'null' ?
-              <Tooltip title="Agregar Número de Cheque">
+              <Tooltip title="Agregar Póliza de Pago">
                 <IconButton onClick={() => handlecheque(v)}>
                   <ApprovalIcon />
                 </IconButton>
@@ -110,8 +129,9 @@ const AsigPago = () => {
       },
     },
     {field: "estatus",      headerName: "Estatus",      width: 150, description: "Estatus",   },
-    {field: "NumOrdenPago",      headerName: "Nº De Orden De Pago",      width: 200,description: "Número De Orden De Pago",    },
-    {field: "NumCheque",      headerName: "Nº De Cheque",      width: 200,      description: "Número De Cheque",    },
+    {field: "NumOrdenPago",      headerName: "Solicitud de Pago",      width: 200,description: "Solicitud de Pago",    },
+    {field: "NumCheque",      headerName: "Póliza de Pago",      width: 200,      description: "Póliza de Pago",    },
+    {field: "importe",      headerName: "Importe Total",      width: 150,      description: "Importe Total = Total Neto - (Retenciones + Descuentos)", ...Moneda,    },
     {field: "Anio",      headerName: "Ejercicio",      width: 80,      description: "Ejercicio",    },
     {field: "Mes",      headerName: "Mes",      width: 100,      description: "Mes",    },
     {field: "ClaveEstado",      headerName: "Clave Estado",      width: 100,      description: "Clave Estado",    },
@@ -120,14 +140,14 @@ const AsigPago = () => {
     {field: "total",      headerName: "Total Neto",      width: 150,      description: "Total Neto",      ...Moneda,    },
     {field: "RecAdeudos",      headerName: "Retenciones",      width: 150,      description: "Retenciones",      ...Moneda,    },
     {field: "Descuentos",      headerName: "Descuentos",      width: 150,      description: "Descuentos",      ...Moneda,    },
-    {field: "importe",      headerName: "Importe Total",      width: 150,      description: "Importe Total = Total Neto - (Retenciones + Descuentos)", ...Moneda,    },
+    
 
   ];
 
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 12) {
+      if (operacion === 31) {
         setFondos(res.RESPONSE);
       } else if (operacion === 5) {
         setMunicipios(res.RESPONSE);
@@ -152,14 +172,28 @@ const AsigPago = () => {
     setidMunicipio(v);
   };
 
+
+  const handleSelectMes = (data: any) => {
+    setNombreMes(meses.find(({ value }) => value === data)?.label === undefined ? "" : String(meses.find(({ value }) => value === data)?.label));
+
+    setMes(data);
+  };
+
+
   const handleClick = () => {
     //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
+    
+
     let data = {
       TIPO: 4,
-      P_FONDO: idFondo === "false" ? "" : idFondo,
+      P_FONDO: idFondo.length > 0 ? idFondo : "",
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      P_IDTIPO: idtipo === "false" ? "" : idtipo,
+      P_IDESTATUS: idestatus === "false" ? "" : idestatus,
+      P_IDMES: mes === "false" ? "" : mes,
+      P_SOLICITUDPAGO: numOrdenPago ? numOrdenPago : "",
+      P_MOSTRARTODOS: checked 
+
     };
     //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
@@ -180,7 +214,8 @@ const AsigPago = () => {
   };
 
   useEffect(() => {
-    loadFilter(12);
+    setMeses(fmeses());
+    loadFilter(31);
     loadFilter(5);
     loadFilter(17);
     // handleClick();
@@ -218,6 +253,40 @@ const AsigPago = () => {
           </Grid>
 
           <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+
+          <Grid item xs={2} sm={2} md={2} lg={2}>
+          <Typography sx={{ fontFamily: "MontserratMedium" }}>
+          Solicitud de Pago:
+              </Typography>
+          <FormControl sx={{ width:"100%" }}  >
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={'text'}
+                size="small"
+                fullWidth
+                placeholder="Solicitud de Pago"
+                onChange={(v) => setNumOrdenPago(v.target.value.trim())}
+                value={numOrdenPago}
+                inputProps={{ maxLength: 10 }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <Tooltip title={"Limpiar campo"} >
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setNumOrdenPago("")}
+                        edge="end"
+                        disabled={!numOrdenPago}
+                      >
+                        <ClearOutlinedIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </InputAdornment>
+                }
+                error={String(Number(numOrdenPago)) === "NaN"}
+              />
+           </FormControl>
+            </Grid>
+
             <Grid item xs={2} sm={2} md={2} lg={2}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Municipio:
@@ -231,7 +300,43 @@ const AsigPago = () => {
                 disabled={false}
               />
             </Grid>
+            <Grid item xs={2} sm={2} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
+            <SelectFragMulti
+              options={fondos}
+              onInputChange={handleFilterChange2}
+              placeholder={"Seleccione Fondo(s)"}
+              label={""}
+              disabled={false}
+            />
+            </Grid>
+            <Grid item xs={2} sm={2} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
+            <SelectFrag
+              value={mes}
+              options={meses}
+              onInputChange={handleSelectMes}
+              placeholder={"Seleccione Mes"}
+              label={""}
+              disabled={false}
+            />
+            </Grid>
           </Grid>
+
+          <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+          <Grid item xs={2} sm={2} md={2} lg={2}>
+          <FormControlLabel control={
+            <Checkbox
+          checked={checked}
+          onChange={handleChangeMostrarTodo}
+          inputProps={{ 'aria-label': 'controlled' }}
+          />
+          }
+          label="Mostrar Todo" />
+          
+          </Grid>
+          </Grid>
+
 
           <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
             <Button
