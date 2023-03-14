@@ -165,10 +165,17 @@ const drawerWidth = 230;
 export default function Inicio({ children, user }: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
+  React.useEffect(() => {
+console.log(String(
+  user?.Nombre    + " " 
++ user?.ApellidoPaterno   +" " 
++ user?.ApellidoMaterno 
+))
+  });
   return (
     <ThemeProvider theme={theme}>
       <Grid 
@@ -184,11 +191,9 @@ export default function Inicio({ children, user }: Props) {
           <Header
             onDrawerToggle={handleDrawerToggle}
             name={
-              user?.Nombre=== null? "":user?.Nombre +
-              " " +
-              user?.ApellidoPaterno=== null? "": user?.ApellidoPaterno +
-              " " +
-              user?.ApellidoMaterno=== null? "": user.ApellidoMaterno
+                  user?.Nombre+ " " 
+            + user?.ApellidoPaterno+" " 
+            + user?.ApellidoMaterno
             }
             id={1}
           />

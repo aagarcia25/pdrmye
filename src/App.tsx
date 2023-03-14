@@ -1,15 +1,16 @@
 import { useLayoutEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { Route, useLocation, useNavigate } from "react-router";
 import "./Fonts.css";
 import "./Globals.css"
 import Swal from "sweetalert2";
-import { UserInfo } from "./app/interfaces/user/UserInfo";
+import { RESPONSE, UserInfo } from "./app/interfaces/user/UserInfo";
 import { AppRouter } from "./app/router/AppRouter";
 import { AuthService } from "./app/services/AuthService";
 import { CatalogosServices } from "./app/services/catalogosServices";
 import {
   getRfToken,
   getToken,
+  getUser,
   setDepartamento,
   setMenus,
   setMunicipio,
@@ -33,6 +34,9 @@ import { ParametroServices } from "./app/services/ParametroServices";
 import jwt_decode from "jwt-decode";
 import { UserLogin } from "./app/interfaces/user/User";
 import SelectValues from "./app/interfaces/Select/SelectValues";
+import { HashRouter, Link } from "react-router-dom";
+import Bienvenido from "./app/views/components/Bienvenido";
+import { AuthRouter } from "./app/router/AuthRouter";
 
 
 function App() {
@@ -45,7 +49,6 @@ function App() {
   const [openSlider, setOpenSlider] = useState(true);
   const [bloqueoStatus, setBloqueoStatus] = useState<boolean>();
   const [login, setlogin] = useState<boolean>(false);
-
   const [userName, setUserName] = useState<string>();
   const [acceso, setAcceso] = useState(false);
   const [contrseñaValida, setContraseñaValida] = useState(true);
@@ -58,6 +61,7 @@ function App() {
     }
     ParametroServices.ParametroGeneralesIndex(data).then((res) => {
       localStorage.setItem("Ambiente", JSON.stringify(res.RESPONSE.Valor));
+
     });
 
   };
@@ -120,9 +124,7 @@ function App() {
     AuthService.adminUser(data).then((res2) => {
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
-      // console.log(res2.RESPONSE[0])
-      // if(us.RESPONSE.DEPARTAMENTOS.length !==0 ){
-      // if(us.RESPONSE.PERFILES.length !==0){
+
       if (String(us.RESPONSE) === "Primer Inicio") {
         Swal.fire({
           icon: "info",
@@ -135,15 +137,11 @@ function App() {
           if (result.isConfirmed) {
             var ventana = window.self;
             ventana.location.replace(env_var.BASE_URL_LOGIN)
-            // ventana.location.reload();
-            // location.reload();
-            // navigate("/Notification");
-
           }
         });
 
       }
-      if (us.RESPONSE) {
+      if (us.SUCCESS && us.RESPONSE) {
         setRoles(us.RESPONSE.ROLES);
         setPermisos(us.RESPONSE.PERMISOS);
         setMenus(us.RESPONSE.MENUS);
@@ -158,10 +156,12 @@ function App() {
         setOpenSlider(false);
         setlogin(true);
         setAcceso(true);
-      } else if (us.SUCCESS) {
+
+      }
+      else if (us.SUCCESS) {
         mensaje('', 'Información', us.STRMESSAGE + " Contactar Al Departamento Correspondiente");
       }
-      else if (us.SUCCESS == false && us.RESPONSE === "") {
+      else if (us.SUCCESS === false && !us.RESPONSE) {
         Swal.fire({
           icon: "info",
           title: 'Bienvenid@',
@@ -173,9 +173,26 @@ function App() {
           if (result.isConfirmed) {
             var ventana = window.self;
             ventana.location.replace(env_var.BASE_URL_LOGIN)
-            // ventana.location.reload();
-            // location.reload();
-            // navigate("/Notification");
+
+
+          }
+        });
+        // verificatoken();
+      }
+      else if (us.SUCCESS === false && us.RESPONSE) {
+        console.log("Usuario temporalmente inactivo")
+        Swal.fire({
+          icon: "info",
+          title: us.RESPONSE,
+          // text: us.STRMESSAGE,
+          showDenyButton: false,
+          showCancelButton: false,
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            var ventana = window.self;
+            ventana.location.replace(env_var.BASE_URL_LOGIN)
+
 
           }
         });
@@ -193,6 +210,7 @@ function App() {
         // console.log(res.data.data)
         setUserName(res.data.data.NombreUsuario)
         buscaUsuario(res.data.data.IdUsuario);
+
       } else if (res.status === 401) {
         setOpenSlider(false);
         setlogin(false);
@@ -246,25 +264,20 @@ function App() {
     onIdle: handleOnIdle,
   });
 
-
-
   useLayoutEffect(() => {
 
-    // console.log("jwt:  " + jwt + " getToken:  " + getToken() + " getRfToken:  " + getRfToken() + "acceso:  " + acceso)
 
-    if (!jwt === null && getToken() !== null && getRfToken() !== null) {
+    if (jwt !== null && getToken() !== null && getRfToken() !== null) {
       localStorage.clear();
-      // queryParams.delete('error');
     }
 
     if ((getToken() === null || getRfToken() === null) && jwt !== null && refjwt !== null) {
       const decoded: UserLogin = jwt_decode(String(jwt));
-      // console.log((decoded.exp - (Date.now() / 1000)) / 60)
       if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
         setToken(jwt);
         setRfToken(refjwt);
         verificatoken();
-        // RfToken(String(refjwt));
+
       } else {
         Swal.fire({
           title: "Token no valido",
@@ -276,11 +289,13 @@ function App() {
             localStorage.clear();
             var ventana = window.self;
             ventana.location.replace(env_var.BASE_URL_LOGIN);
+
           }
         });
       }
-    } else if ((getToken() !== null || getRfToken() !== null)) {
-      verificatoken();
+    }
+    else if ((getToken() !== null || getRfToken() !== null)) {
+       verificatoken();
     } else if (getToken() === null || getRfToken() === null) {
       setBloqueoStatus(true);
       setAcceso(false);
@@ -290,17 +305,23 @@ function App() {
   }, [bloqueoStatus]);
 
 
+  // const user: RESPONSE = JSON.parse(String(getUser()));
 
   return (
     <div>
       <Slider open={openSlider}></Slider>
+
       {bloqueoStatus ? (
         <BloqueoSesion handlePassword={handleOnActive} />
-      ) : acceso ? (
-        <AppRouter login={login} />
-      ) :
+      ) : acceso ?
+        <>
+          <HashRouter basename={"/"}>
+            <AppRouter login={login} />
+          </HashRouter>
+        </> :
         !contrseñaValida ? <Validacion /> : ""
       }
+
 
     </div>
   );
