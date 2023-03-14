@@ -180,16 +180,15 @@ export default function Inicio({ children, user }: Props) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
         />
-
         <Grid sx={{  flexDirection: "column",width:"100%"}}>
           <Header
             onDrawerToggle={handleDrawerToggle}
             name={
-              user.Nombre +
+              user?.Nombre=== null? "":user?.Nombre +
               " " +
-              user.ApellidoPaterno +
+              user?.ApellidoPaterno=== null? "": user?.ApellidoPaterno +
               " " +
-              user.ApellidoMaterno
+              user?.ApellidoMaterno=== null? "": user.ApellidoMaterno
             }
             id={1}
           />

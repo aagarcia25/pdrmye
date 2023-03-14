@@ -39,6 +39,8 @@ export default function Header(props: HeaderProps) {
   const user: RESPONSE = JSON.parse(String(getUser()));
   const navigate = useNavigate();
   const [cnotif, setCnotif] = React.useState(0);
+  const [rutaFoto, setRutaFoto] = React.useState("");
+
   const { onDrawerToggle } = props;
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -104,13 +106,13 @@ export default function Header(props: HeaderProps) {
     prevOpen.current = open;
   }, [open]);
 
-
   let data = {
     NUMOPERACION: 5,
-    CHUSER: user.id,
+    CHUSER: user?.id? user?.id :"",
   };
 
   React.useEffect(() => {
+    setRutaFoto(String(user?.RutaFoto))
     // setPuesto(user?.Puesto? user.Puesto.toLowerCase(): " ")
     CatalogosServices.Notificaciones(data).then((res) => {
       let result = res.RESPONSE;
@@ -186,11 +188,12 @@ export default function Header(props: HeaderProps) {
                       p: 0.1,
                       border: 2,
                       borderColor: COLOR.azul,
-                      backgroundColor: user.RutaFoto ? COLOR.blanco : COLOR.azul,
+                      backgroundColor: user?.RutaFoto ? COLOR.blanco : COLOR.azul,
                       "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+                      
                     }}
                   >
-                    {user.RutaFoto ? (
+                    {rutaFoto ? (
                       <img
                         style={{
                           objectFit: "scale-down",
@@ -198,7 +201,7 @@ export default function Header(props: HeaderProps) {
                           height: "100%",
                           borderRadius: '50%',
                         }}
-                        src={user.RutaFoto}
+                        src={rutaFoto}
                       />
                     ) : (
                       <PersonIcon sx={{
@@ -206,8 +209,8 @@ export default function Header(props: HeaderProps) {
                         "&:hover": { color: COLOR.negro }
                       }} />
                     )}
-
                   </IconButton>
+
 
                 </Tooltip>
                 <Popper

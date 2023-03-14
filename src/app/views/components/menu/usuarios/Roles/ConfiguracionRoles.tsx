@@ -208,14 +208,12 @@ open:boolean,
   return (
     <>
       <Slider open={openSlider} ></Slider>
-      <ModalForm title={' Configuración de Rol'} handleClose={handleClose}>
+      <ModalForm title={' Configuración de Rol: '+NameRol} handleClose={handleClose}>
 
         <Grid container sx={{ boxShadow: 50, borderRadius: 20,  }}>
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <Grid container sx={{ boxShadow: 50, borderRadius: 20, justifyContent: "center" }} >
-              <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }}>
-                {NameRol}
-              </Typography>
+      
             </Grid>
           </Grid>
           <Grid item xs={6} sm={6} md={6} lg={6}>
@@ -223,7 +221,7 @@ open:boolean,
               <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding: "1%" }}>
                 <Grid item sm={12} sx={{ height: "100%" }}>
                   <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                    <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }}>
+                    <Typography variant="h6"  sx={{ textAlign: "center"}}>
                       Menús Relacionados al Rol
                     </Typography>
                   </Grid>
@@ -241,7 +239,7 @@ open:boolean,
             <Grid container sx={{ left: "50%", width: "100%", height: "80vh", bgcolor: "rgb(255,255,255)", justifyContent: "center" }} >
               <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding: "1%" }}>
                 <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                  <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }} >
+                  <Typography variant="h6"  sx={{ textAlign: "center"}}>
                     Menús Disponibles Para Relacionar al Rol
                   </Typography>
                 </Grid>

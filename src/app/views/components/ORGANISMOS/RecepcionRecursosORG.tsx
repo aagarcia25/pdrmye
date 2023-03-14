@@ -85,7 +85,7 @@ const RecepcionRecursosORG = () => {
         setOpenModalDetalle(false);
         setOpenVerSpei(false);
         setOpenVerCfdi(false);
-        handleClick();
+        handleClick("");
     };
 
     const handleDetalle = (data: any) => {
@@ -220,12 +220,12 @@ const RecepcionRecursosORG = () => {
         setidORG(v);
     };
 
-    const handleClick = () => {
+    const handleClick = (id: string) => {
         setslideropen(true);
 
         let data = {
             NUMOPERACION: user.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ? 6 : 4,
-            P_IDORG: idORG === "false" ? "" : idORG,
+            P_IDORG: idORG === "false" ? "" : id===""?idORG: id,
             // DEP: user.[0]?.id ? "MUN" : ""
         };
         DAMOPServices.indexCabecera(data).then((res) => {
@@ -250,11 +250,10 @@ const RecepcionRecursosORG = () => {
         if (user.DEPARTAMENTOS[0]?.NombreCorto !== "ORG") {
             loadFilter(27);
         } else if (user.DEPARTAMENTOS[0]?.NombreCorto === "ORG") {
+            // setidORG(user.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ? user.ORG[0]?.id : "")
+            handleClick(user.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ? user.ORG[0]?.id : "")
 
-            handleClick()
         }
-
-        setidORG(user.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ? user.ORG[0]?.id : "")
 
 
 
@@ -304,7 +303,7 @@ const RecepcionRecursosORG = () => {
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
                             <Button
-                                onClick={handleClick}
+                                onClick={()=>handleClick}
                                 variant="contained"
                                 color="success"
                                 endIcon={<SendIcon sx={{ color: "white" }} />}
