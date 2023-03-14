@@ -9,12 +9,12 @@ export const Firma = () => {
 
   return (
     <div>
-        <Firmado 
+        {/* <Firmado 
     jwtToken={String(getToken()).replace(/["']/g, "")}
       IdCentral={String(user.idUsuarioCentral)}
       NombreUsuario={user.NombreUsuario}
       IdApp="973ecf89-38ff-11ed-aed0-040300000000"
-      />
+      /> */}
     </div>
   )
 }
