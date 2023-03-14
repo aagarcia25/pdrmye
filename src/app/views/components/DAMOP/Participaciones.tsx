@@ -339,12 +339,36 @@ const Participaciones = () => {
       description: "Nº De Operación",
       width: 130,
     },
-   
+    {
+      field: "NumParticipacion",
+      headerName: "Numero De Participacion",
+      width: 200,
+      description: "Número De Participación",
+    },
+    {
+      field: "NumSolEgreso",
+      headerName: "Número De Solicitud De Egreso",
+      width: 200,
+      description: "Número De Solicitud De Egreso",
+    },
+    {
+      field: "NumEgreso",
+      headerName: "Numero De Egreso",
+      width: 200,
+      description: "Número De Egreso",
+    },
     {
       field: "NumOrdenPago",
       headerName: "Solicitud de Pago",
       width: 140,
       description: "Numero De Solicitud de Pago",
+    },
+   
+    {
+      field: "NumRequerimientoAnt",
+      headerName: "Numero De Requerimiento De Anticipo",
+      width: 200,
+      description: "Numero De Requerimiento De Anticipo",
     },
    
 
@@ -513,30 +537,7 @@ const Participaciones = () => {
       width: 100,
       description: "Clasificación de Solicitud de Pago",
     },
-    {
-      field: "NumParticipacion",
-      headerName: "Numero De Participacion",
-      width: 200,
-      description: "Número De Participación",
-    },
-    {
-      field: "NumSolEgreso",
-      headerName: "Número De Solicitud De Egreso",
-      width: 200,
-      description: "Número De Solicitud De Egreso",
-    },
-    {
-      field: "NumEgreso",
-      headerName: "Numero De Egreso",
-      width: 200,
-      description: "Número De Egreso",
-    },
-    {
-      field: "NumRequerimientoAnt",
-      headerName: "Numero De Requerimiento De Anticipo",
-      width: 200,
-      description: "Numero De Requerimiento De Anticipo",
-    },
+   
     {
       field: "NumCheque",
       headerName: "Numero De Cheque",
