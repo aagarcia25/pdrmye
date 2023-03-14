@@ -10,7 +10,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { DAFServices } from '../../../services/DAFServices';
 import { Toast } from '../../../helpers/Toast';
 import { RESPONSE } from '../../../interfaces/user/UserInfo';
-import { getUser } from '../../../services/localStorage';
+import { getToken, getUser } from '../../../services/localStorage';
 import ArticleIcon from '@mui/icons-material/Article';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
@@ -156,9 +156,9 @@ const SpeisAdmin = ({
         const formData = new FormData();
         nameSpei !== "" ? formData.append("SPEI", speiFile, nameSpei) : formData.append("SPEI", "");
         formData.append("NUMOPERACION", numOp);
-        formData.append("NUMOPERACION", numOp);
         formData.append("IDPA", vrows.id);
         formData.append("CHUSER", user.id);
+        formData.append("TOKEN", JSON.parse(String(getToken())));
 
         DAFServices.SpeiAdministracion(formData).then((res) => {
             if (res.SUCCESS) {
@@ -172,6 +172,7 @@ const SpeisAdmin = ({
                 handleCloseModal();
                 setslideropen(false);
             } else {
+                console.log(res);
                 AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
