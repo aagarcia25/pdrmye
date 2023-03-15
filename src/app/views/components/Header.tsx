@@ -193,7 +193,7 @@ export default function Header(props: HeaderProps) {
                       
                     }}
                   >
-                    {rutaFoto ? (
+                    {rutaFoto !==null ? (
                       <img
                         style={{
                           objectFit: "scale-down",

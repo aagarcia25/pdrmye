@@ -23,7 +23,7 @@ export function BloqueoSesion({
 
 
   const [password, setPassword] = useState("");
-  const user: RESPONSE =  JSON.parse(String(getUser()));
+  const user: RESPONSE = JSON.parse(String(getUser()===undefined? null :getUser()));
 
   useEffect(() => {
     
@@ -93,7 +93,7 @@ export function BloqueoSesion({
 
 
           <Typography sx={{ mt: 3, fontSize: "2vw" }}>
-          Sesión pausada por inactividad, Ingrese contraseña
+          Sesión pausada por inactividad o Recargar la Página, Ingrese contraseña por Seguridad
           </Typography>
           <Typography sx={{ mt: 5, fontSize: "1.8vw" }}>
             ¿Esa persona no es usted?{" "}
