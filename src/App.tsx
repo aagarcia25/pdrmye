@@ -53,6 +53,9 @@ function App() {
   const [acceso, setAcceso] = useState(false);
   const [contrseñaValida, setContraseñaValida] = useState(true);
 
+
+
+
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const parametros = () => {
     let data = {
@@ -61,6 +64,7 @@ function App() {
     }
     ParametroServices.ParametroGeneralesIndex(data).then((res) => {
       localStorage.setItem("Ambiente", JSON.stringify(res.RESPONSE.Valor));
+
 
     });
 
@@ -156,6 +160,7 @@ function App() {
         setOpenSlider(false);
         setlogin(true);
         setAcceso(true);
+        setBloqueoStatus(false);
 
       }
       else if (us.SUCCESS) {
@@ -180,7 +185,6 @@ function App() {
         // verificatoken();
       }
       else if (us.SUCCESS === false && us.RESPONSE) {
-        console.log("Usuario temporalmente inactivo")
         Swal.fire({
           icon: "info",
           title: us.RESPONSE,
@@ -202,15 +206,20 @@ function App() {
   };
 
 
-  const verificatoken = () => {
+  const verificatoken = (primerInicio: boolean) => {
 
     UserServices.verify({}).then((res) => {
 
       if (res?.status === 200) {
-        // console.log(res.data.data)
         setUserName(res.data.data.NombreUsuario)
         buscaUsuario(res.data.data.IdUsuario);
+        setBloqueoStatus(false);
+        setOpenSlider(false);
+        if(!primerInicio){
+          var ventana = window.self;
+          ventana.location.reload();
 
+        }
       } else if (res.status === 401) {
         setOpenSlider(false);
         setlogin(false);
@@ -221,9 +230,9 @@ function App() {
   };
 
   const handleOnActive = (v: string) => {
-
+    const decoded: UserLogin = jwt_decode(String(getToken()));
     let data = {
-      NombreUsuario: userName,
+      NombreUsuario: decoded.NombreUsuario,
       Contrasena: v,
     };
     setOpenSlider(true);
@@ -233,8 +242,15 @@ function App() {
         setContraseñaValida(true);
         setToken(res.data.token);
         setRfToken(res.data.refreshToken);
-        setAcceso(true);
-        setBloqueoStatus(false);
+        // setAcceso(true);
+        // setBloqueoStatus(false);
+        // setOpenSlider(false);
+        var ventana = window.self;
+        ventana.location.reload();
+        
+        if (!getUser() || getUser()===undefined){
+          verificatoken(false);
+        }
       } else if (res.status === 401) {
         setContraseñaValida(false);
         Swal.fire({
@@ -265,18 +281,19 @@ function App() {
   });
 
   useLayoutEffect(() => {
-
-
-    if (jwt !== null && getToken() !== null && getRfToken() !== null) {
+    if (jwt && refjwt && getToken() && getRfToken()) {
       localStorage.clear();
     }
 
-    if ((getToken() === null || getRfToken() === null) && jwt !== null && refjwt !== null) {
+    if (!getToken() && !getRfToken() && jwt !== null && refjwt !== null && !acceso && bloqueoStatus===undefined ) {
       const decoded: UserLogin = jwt_decode(String(jwt));
       if (((decoded.exp - (Date.now() / 1000)) / 60) > 1) {
         setToken(jwt);
         setRfToken(refjwt);
-        verificatoken();
+        var ventana = window.self;
+        ventana.location.replace("/");
+
+        // verificatoken(true);
 
       } else {
         Swal.fire({
@@ -294,30 +311,44 @@ function App() {
         });
       }
     }
-    else if ((getToken() !== null || getRfToken() !== null)) {
-       verificatoken();
-    } else if (getToken() === null || getRfToken() === null) {
-      setBloqueoStatus(true);
-      setAcceso(false);
-      setOpenSlider(false);
+
+
+    if (!jwt && !refjwt && bloqueoStatus===undefined  && !acceso && !login && getToken() && getRfToken()) {
+      const decoded: UserLogin = jwt_decode(String(getToken()));
+      if (((decoded.exp - (Date.now() / 1000)) / 60) > 44.5) {
+        verificatoken(true);
+      } else{
+        handleOnIdle();
+      }
+
     }
+    else {
+      setOpenSlider(false);
+
+    }
+    
 
   }, [bloqueoStatus]);
 
 
-  // const user: RESPONSE = JSON.parse(String(getUser()));
 
   return (
     <div>
       <Slider open={openSlider}></Slider>
 
+
+
+
       {bloqueoStatus ? (
         <BloqueoSesion handlePassword={handleOnActive} />
       ) : acceso ?
         <>
+
           <HashRouter basename={"/"}>
             <AppRouter login={login} />
           </HashRouter>
+
+
         </> :
         !contrseñaValida ? <Validacion /> : ""
       }

@@ -169,13 +169,7 @@ export default function Inicio({ children, user }: Props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  React.useEffect(() => {
-console.log(String(
-  user?.Nombre    + " " 
-+ user?.ApellidoPaterno   +" " 
-+ user?.ApellidoMaterno 
-))
-  });
+
   return (
     <ThemeProvider theme={theme}>
       <Grid 
