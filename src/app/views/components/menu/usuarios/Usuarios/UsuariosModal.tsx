@@ -40,6 +40,8 @@ const UsuariosModal = ({
   const query = new URLSearchParams(useLocation().search);
   const [idRegistro, setIdRegistro] = useState<string>();
   const [openSlider, setOpenSlider] = useState(true);
+  const [disableBaja, setDisableBaja] = useState(false);
+
   const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
   const [idDepartamento, setIdDepartamento] = useState<string>("");
   const [nameDep, setNameDep] = useState<string>("");
@@ -74,10 +76,10 @@ const UsuariosModal = ({
   const [value, setValue] = useState('1');
 
   const AccionesSol = [
-    { accion: 'ALTA', TipoSol: 'ALTA', Mensaje: '¡Envio de Solicitud de Alta Exitoso!' },
-    { accion: 'BAJA', TipoSol: 'BAJA', Mensaje: '¡Envio de Solicitud de Baja Exitoso!' },
-    { accion: 'MODIFICACION', TipoSol: 'MODIFICACION', Mensaje: '¡Envio de Solicitud de Modificación Exitoso!' },
-    { accion: 'VINCULACION', TipoSol: 'VINCULACION', Mensaje: '¡Envio de Solicitud de Vinculación Exitoso!' }
+    { accion: 'ALTA',         TipoSol: 'ALTA',         Mensaje: '¡Envio de Solicitud de Alta Exitoso!'        , mensajeBoton:"Solicitar Nuevo Registro"       , mensajeModal: "Nuevo Registro"      ,classNameCSS: "guardar" },
+    { accion: 'BAJA',         TipoSol: 'BAJA',         Mensaje: '¡Envio de Solicitud de Baja Exitoso!'        , mensajeBoton:"Solicitar Baja Registro"        , mensajeModal: "Baja Registro"       ,classNameCSS: "CerrarModal" },
+    { accion: 'MODIFICACION', TipoSol: 'MODIFICACION', Mensaje: '¡Envio de Solicitud de Modificación Exitoso!', mensajeBoton:"Solicitar Editar Registro"      , mensajeModal: "Editar Registro"     ,classNameCSS: "editar" },
+    { accion: 'VINCULACION',  TipoSol: 'VINCULACION',  Mensaje: '¡Envio de Solicitud de Vinculación Exitoso!' , mensajeBoton:"Solicitar Vinculacion Registro" , mensajeModal: "Vinculacion Registro",classNameCSS: "" }
   ]
 
 
@@ -180,7 +182,7 @@ const UsuariosModal = ({
     } else {
       Swal.fire({
         icon: "info",
-        title: "Solicitud De " + String(tipo === "ALTA" ? "Nuevo Usuario" : "Modificación") + ", Enviar?",
+        title: "Solicitud De " + String(AccionesSol.find(({ accion }) => accion === tipo)?.accion) + ", Enviar?",
         html:
           "Nombre: " +
           Nombre +
@@ -272,16 +274,12 @@ const UsuariosModal = ({
           AuthService.adminUser(dat).then((res) => {
             if (res.SUCCESS) {
               setOpenSlider(false);
-
-
               AlertS.fire({
                 title: res.RESPONSE,
                 icon: "success",
               }).then((result) => {
                 if (result.isConfirmed) {
-
                   handleClose();
-
                 }
               });
 
@@ -444,8 +442,11 @@ const UsuariosModal = ({
       }
     });
 
-    if (dt === "") {
-    } else {
+    if (dt !== "") {
+      if(tipo==="BAJA"){
+        setDisableBaja(true);
+
+      }
       setIdRegistro(dt?.id);
       setNombre(dt?.Nombre);
       setApellidoPaterno(dt?.ApellidoPaterno);
@@ -476,7 +477,7 @@ const UsuariosModal = ({
   }, [dt]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    if (tipo !== "ALTA") {
+    if (tipo === "MODIFICACION") {
       setValue(newValue);
     }
   };
@@ -484,7 +485,7 @@ const UsuariosModal = ({
   return (
     <div>
       <ModalForm
-        title={tipo === "ALTA" ? "Nuevo Registro" : "Editar Registro"}
+        title={String(AccionesSol.find(({ accion }) => accion === tipo)?.mensajeModal)}
         handleClose={handleClose}
       >
         <Slider open={openSlider} />
@@ -500,7 +501,7 @@ const UsuariosModal = ({
           <TabContext value={value}>
             <Grid container sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
-                <Tab label="Información Usuario" value="1" />
+                <Tab label="Información Usuario" value="1" disabled={tipo!=="MODIFICACION"}/>
                 {tipo !== "ALTA" ? <Tab label="Configuración Usuario" value="2" /> : ""}
               </TabList>
             </Grid>
@@ -535,6 +536,8 @@ const UsuariosModal = ({
                       inputProps={{
                         maxLength: 20,
                       }}
+                      disabled={disableBaja}
+
                     />
 
                     <TextField
@@ -552,6 +555,8 @@ const UsuariosModal = ({
                       inputProps={{
                         maxLength: 20,
                       }}
+                      disabled={disableBaja}
+
                     />
 
                     <TextField
@@ -569,11 +574,13 @@ const UsuariosModal = ({
                       inputProps={{
                         maxLength: 20,
                       }}
+                      disabled={disableBaja}
+
                     />
 
                     <TextField
                       required
-                      disabled={tipo !== "ALTA"}
+                      disabled={tipo !== "ALTA"|| disableBaja}
                       margin="dense"
                       id="NombreUsuario"
                       label="Nombre Usuario"
@@ -590,7 +597,7 @@ const UsuariosModal = ({
                     />
 
                     <TextField
-                      disabled={tipo !== "ALTA"}
+                      disabled={tipo !== "ALTA"||disableBaja}
                       required
                       margin="dense"
                       id="CorreoElectronico"
@@ -604,6 +611,7 @@ const UsuariosModal = ({
                       inputProps={{
                         maxLength: 100,
                       }}
+
                     />
                     <Typography variant="body2"> {emailError} </Typography>
 
@@ -622,6 +630,8 @@ const UsuariosModal = ({
                       inputProps={{
                         maxLength: 200,
                       }}
+                      disabled={disableBaja}
+
                     />
                     <TextField
                       required
@@ -636,6 +646,8 @@ const UsuariosModal = ({
                       onChange={(v) => setRfc(v.target.value.toUpperCase())}
                       error={rfc.length !== 13 ? true : false}
                       InputLabelProps={{ shrink: true }}
+                      disabled={disableBaja}
+
                     />
 
                     <TextField
@@ -651,7 +663,8 @@ const UsuariosModal = ({
                       InputLabelProps={{ shrink: true }}
                       inputProps={{
                         maxLength: 20,
-                      }}
+                      }} 
+                      disabled={disableBaja}
                     ></TextField>
                   </Grid>
 
@@ -675,6 +688,8 @@ const UsuariosModal = ({
                       onChange={(v) => setCurp(v.target.value.toUpperCase())}
                       inputProps={{ maxLength: 18 }}
                       error={curp.length !== 18 ? true : false}
+                      disabled={disableBaja}
+                    
                     />
                     <TextField
                       required
@@ -690,6 +705,8 @@ const UsuariosModal = ({
                       error={!telValid || !telefono}
                       helperText={telError}
                       InputLabelProps={{ shrink: true }}
+                      disabled={disableBaja}
+
                     />
                     <TextField
                       required
@@ -705,6 +722,8 @@ const UsuariosModal = ({
                       error={!celValid || !celular}
                       helperText={celError}
                       InputLabelProps={{ shrink: true }}
+                      disabled={disableBaja}
+
                     />
                     <TextField
                       margin="dense"
@@ -719,6 +738,8 @@ const UsuariosModal = ({
                       helperText={"Opcional* " + extError}
                       InputLabelProps={{ shrink: true }}
                       error={!extValid}
+                      disabled={disableBaja}
+
                     />
                     <Typography variant="body2"> {celError} </Typography>
                     <br />
@@ -786,11 +807,11 @@ const UsuariosModal = ({
                             puesto === ""
 
                           }
-                          className="guardar"
+                          className={String(AccionesSol.find(({ accion }) => accion === tipo)?.classNameCSS)}
                           color="info"
                           onClick={() => handleSend()}
                         >
-                          {tipo === "ALTA" ? "Solicitar" : "Solicitar Actualización"}
+                          {String(AccionesSol.find(({ accion }) => accion === tipo)?.mensajeBoton)}
                         </Button>
                       </DialogActions>
                     </Box>
