@@ -10,7 +10,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { DAFServices } from '../../../services/DAFServices';
 import { Toast } from '../../../helpers/Toast';
 import { RESPONSE } from '../../../interfaces/user/UserInfo';
-import { getUser } from '../../../services/localStorage';
+import { getToken, getUser } from '../../../services/localStorage';
 import ArticleIcon from '@mui/icons-material/Article';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
@@ -56,13 +56,13 @@ const SpeisAdmin = ({
                                 <ArticleIcon />
                             </IconButton>
                         </Tooltip>
-                        {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ?
+                        {/* {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ? */}
                             <Tooltip title="Eliminar Archivo">
                                 <IconButton onClick={() => handleDeleteSpei(v)}>
                                     <DeleteIcon />
                                 </IconButton>
                             </Tooltip>
-                            : ""}
+                            {/* : ""} */}
 
                     </Box>
                 );
@@ -112,6 +112,9 @@ const SpeisAdmin = ({
         formData.append("CHID", data.id);
         formData.append("CHUSER", user.id);
         formData.append("REGISTROS", speis[1] ? "1" : "0");
+        formData.append("TOKEN", JSON.parse(String(getToken())));
+
+
         Swal.fire({
             icon: "info",
             title: "Estas seguro de eliminar este registro?",
@@ -156,9 +159,9 @@ const SpeisAdmin = ({
         const formData = new FormData();
         nameSpei !== "" ? formData.append("SPEI", speiFile, nameSpei) : formData.append("SPEI", "");
         formData.append("NUMOPERACION", numOp);
-        formData.append("NUMOPERACION", numOp);
         formData.append("IDPA", vrows.id);
         formData.append("CHUSER", user.id);
+        formData.append("TOKEN", JSON.parse(String(getToken())));
 
         DAFServices.SpeiAdministracion(formData).then((res) => {
             if (res.SUCCESS) {
@@ -172,6 +175,7 @@ const SpeisAdmin = ({
                 handleCloseModal();
                 setslideropen(false);
             } else {
+                console.log(res);
                 AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
@@ -185,7 +189,13 @@ const SpeisAdmin = ({
     };
 
     const consulta = () => {
-        DAFServices.SpeiAdministracion({ NUMOPERACION: 4, P_IDPA:vrows.id}).then((res) => {
+        DAFServices.SpeiAdministracion(
+            {  NUMOPERACION: 4,
+               P_IDPA:vrows.id,
+               TOKEN: JSON.parse(String(getToken()))
+
+            }
+            ).then((res) => {
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",

@@ -284,7 +284,7 @@ const Participaciones = () => {
         return (
           <Box>
             {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
-            {String(v.row.Clave) === 'FGP' && String(v.row.estatusCI) === 'DAMOP_TE' ? (
+            {String(v.row.Clave) === 'FGP' && String(v.row.estatusCI) === 'DAMOP_INI' ? (
               <Tooltip title="Administrar Descuentos">
                 <IconButton
                   onClick={() => handleDescuento(v)}>
@@ -308,7 +308,7 @@ const Participaciones = () => {
         return (
           <Box>
             {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
-            {String(v.row.Clave) === 'FGP' && String(v.row.estatusCI) === 'DAMOP_TE' ? (
+            {String(v.row.Clave) === 'FGP' || String(v.row.Clave) === 'FFM70' || String(v.row.Clave) === 'FFM30'  && String(v.row.estatusCI) === 'DAMOP_INI' ? (
               <>
 
                 <Tooltip title="Admistrar Retenciones">
