@@ -26,7 +26,10 @@ const SpeisAdmin = ({
     vrows: any;
 }) => {
 
-    const [mensaje, setMensaje] = useState<string>();
+    const [documentPDF, setDocumentPDF] = useState<string>();
+    // const [documentType, setDocumentType] = useState<string>();
+    // const [documentPDF, setDocumentPDF] = useState<string>();
+
     const [addSpei, setAddSpei] = useState<boolean>(false);
     const [verSpei, setVerSpei] = useState<boolean>(false);
     const [slideropen, setslideropen] = useState(false);
@@ -57,12 +60,12 @@ const SpeisAdmin = ({
                             </IconButton>
                         </Tooltip>
                         {/* {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ? */}
-                            <Tooltip title="Eliminar Archivo">
-                                <IconButton onClick={() => handleDeleteSpei(v)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </Tooltip>
-                            {/* : ""} */}
+                        <Tooltip title="Eliminar Archivo">
+                            <IconButton onClick={() => handleDeleteSpei(v)}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
+                        {/* : ""} */}
 
                     </Box>
                 );
@@ -101,9 +104,12 @@ const SpeisAdmin = ({
     };
 
     const handleVerSpei = (v: any) => {
-        setVerSpei(true);
-        setRuta(v.row.Route)
-        setName(v.row.Nombre)
+        console.log(v.row);
+        getfile(v.row.Route)
+
+        // setVerSpei(true);
+        // setRuta(v.row.Route)
+        // setName(v.row.Nombre)
     };
     const handleDeleteSpei = (data: any) => {
 
@@ -184,24 +190,31 @@ const SpeisAdmin = ({
                 setslideropen(false);
             }
         });
-
-
     };
 
-    const getfile = () => {
+    const getfile = (name: string) => {
         DAFServices.SpeiAdministracion(
-            {  NUMOPERACION: 5,
-               P_IDPA:vrows.id,
-               TOKEN: JSON.parse(String(getToken()))
+            {
+                NUMOPERACION: 5,
+                NOMBRE: name,
+                TOKEN: JSON.parse(String(getToken()))
 
             }
-            ).then((res) => {
+        ).then((res) => {
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
                     title: "Consulta Exitosa!",
                 });
-                setSpeis(res.RESPONSE);
+                console.log(String(res.RESPONSE.RESPONSE.TIPO))
+                // var obj = document.createElement('object');
+                // obj.style.width = '100%';
+                // obj.style.height = '842pt';
+                // obj.type =res.RESPONSE.RESPONSE.TIPO;
+                // obj.data = 'data:application/pdf;base64,' + res.RESPONSE.RESPONS.FILE;
+                setDocumentPDF(String(res.RESPONSE.RESPONSE.FILE))
+                setVerSpei(true);
+                // setSpeis(res.RESPONSE);
             } else {
                 AlertS.fire({
                     title: "Error!",
@@ -214,12 +227,13 @@ const SpeisAdmin = ({
 
     const consulta = () => {
         DAFServices.SpeiAdministracion(
-            {  NUMOPERACION: 4,
-               P_IDPA:vrows.id,
-               TOKEN: JSON.parse(String(getToken()))
+            {
+                NUMOPERACION: 4,
+                P_IDPA: vrows.id,
+                TOKEN: JSON.parse(String(getToken()))
 
             }
-            ).then((res) => {
+        ).then((res) => {
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
@@ -240,11 +254,11 @@ const SpeisAdmin = ({
     }, []);
     return (
         <>
-          <Slider open={slideropen}></Slider>
+            <Slider open={slideropen}></Slider>
             <ModalForm title={'Administración de  los Spei'} handleClose={handleClose}>
                 <Box>
-                {/* agregar={user.DEPARTAMENTOS[0].NombreCorto==="DAF"} */}
-                    <ButtonsAdd handleOpen={handleAgregarSpei}  agregar={true} />
+                    {/* agregar={user.DEPARTAMENTOS[0].NombreCorto==="DAF"} */}
+                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={true} />
                     <Grid item xs={12}>
                         <MUIXDataGridMun modulo={''} handleBorrar={handleBorrarMasivo} columns={columns} rows={speis} controlInterno={''} />
                     </Grid>
@@ -292,33 +306,24 @@ const SpeisAdmin = ({
 
 
             {verSpei ?
-                <Dialog open={true}>
-                    <Grid container item justifyContent="space-between" xs={12}>
-                        <DialogTitle>Spei</DialogTitle>
-                        <Tooltip title="Cerrar">
-                            <IconButton onClick={() => handleCloseModal()}  >
-                                <CloseIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </Grid>
+                <ModalForm title={'Visualización'} handleClose={handleCloseModal} >
+          
                     <DialogContent dividers={true}>
                         <Grid container spacing={1}>
                             <Grid item xs={12}>
-                                <h3>Nombre de archivo: {name}</h3>
+                                {/* <h3>Nombre de archivo: {name}</h3> */}
                             </Grid>
                             <Grid item container justifyContent="center" xs={12}>
-                                <iframe
-                                    id="inlineFrameExample"
-                                    title="Inline Frame Example"
-                                    width="100%"
-                                    height="600"
-                                    src={ruta}
-                                />
+                               
+                                <object
+                                  width="100%"
+                                  height="700"
+                                data={`data:application/pdf;base64,${documentPDF}`} />
                             </Grid>
                         </Grid>
                     </DialogContent>
 
-                </Dialog>
+                </ModalForm>
                 :
                 ""}
 
