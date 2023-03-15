@@ -12,7 +12,6 @@ import { Fingerprint } from "@mui/icons-material";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { getToken, getUser } from "../../services/localStorage";
 import { useEffect, useState } from "react";
-import { env_var } from "../../environments/env";
 import { UserLogin } from "../../interfaces/user/User";
 import jwt_decode from "jwt-decode";
 
@@ -124,7 +123,7 @@ export function BloqueoSesion({
               onClick={() => {
                 localStorage.clear();
                 var ventana = window.self;
-                ventana.location.replace(env_var.BASE_URL_LOGIN);
+                ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
              }}
               
                 sx={{ mt: 1, fontSize: "1.6vw" }}
