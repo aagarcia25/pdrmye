@@ -1,16 +1,14 @@
 import { useLayoutEffect, useState } from "react";
-import { Route, useLocation, useNavigate } from "react-router";
 import "./Fonts.css";
 import "./Globals.css"
 import Swal from "sweetalert2";
-import { RESPONSE, UserInfo } from "./app/interfaces/user/UserInfo";
+import {  UserInfo } from "./app/interfaces/user/UserInfo";
 import { AppRouter } from "./app/router/AppRouter";
 import { AuthService } from "./app/services/AuthService";
 import { CatalogosServices } from "./app/services/catalogosServices";
 import {
   getRfToken,
   getToken,
-  getUser,
   setDepartamento,
   setMenus,
   setMunicipio,
@@ -34,14 +32,13 @@ import { ParametroServices } from "./app/services/ParametroServices";
 import jwt_decode from "jwt-decode";
 import { UserLogin } from "./app/interfaces/user/User";
 import SelectValues from "./app/interfaces/Select/SelectValues";
-import { HashRouter, Link } from "react-router-dom";
-import Bienvenido from "./app/views/components/Bienvenido";
-import { AuthRouter } from "./app/router/AuthRouter";
+import { HashRouter } from "react-router-dom";
+
 
 
 function App() {
   //cambiar a 5 minutos
-  const timeout = 300000;
+  const timeout = 500000;
   const urlParams = window.location.search;
   const query = new URLSearchParams(urlParams);
   const jwt = query.get("jwt");
@@ -190,6 +187,7 @@ function App() {
           confirmButtonText: "Aceptar",
         }).then((result) => {
           if (result.isConfirmed) {
+            localStorage.clear();
             var ventana = window.self;
             ventana.location.replace(env_var.BASE_URL_LOGIN)
 

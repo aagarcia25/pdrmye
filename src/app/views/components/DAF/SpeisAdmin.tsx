@@ -56,13 +56,13 @@ const SpeisAdmin = ({
                                 <ArticleIcon />
                             </IconButton>
                         </Tooltip>
-                        {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ?
+                        {/* {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ? */}
                             <Tooltip title="Eliminar Archivo">
                                 <IconButton onClick={() => handleDeleteSpei(v)}>
                                     <DeleteIcon />
                                 </IconButton>
                             </Tooltip>
-                            : ""}
+                            {/* : ""} */}
 
                     </Box>
                 );
@@ -112,6 +112,9 @@ const SpeisAdmin = ({
         formData.append("CHID", data.id);
         formData.append("CHUSER", user.id);
         formData.append("REGISTROS", speis[1] ? "1" : "0");
+        formData.append("TOKEN", JSON.parse(String(getToken())));
+
+
         Swal.fire({
             icon: "info",
             title: "Estas seguro de eliminar este registro?",
@@ -186,7 +189,13 @@ const SpeisAdmin = ({
     };
 
     const consulta = () => {
-        DAFServices.SpeiAdministracion({ NUMOPERACION: 4, P_IDPA:vrows.id}).then((res) => {
+        DAFServices.SpeiAdministracion(
+            {  NUMOPERACION: 4,
+               P_IDPA:vrows.id,
+               TOKEN: JSON.parse(String(getToken()))
+
+            }
+            ).then((res) => {
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
