@@ -188,6 +188,30 @@ const SpeisAdmin = ({
 
     };
 
+    const getfile = () => {
+        DAFServices.SpeiAdministracion(
+            {  NUMOPERACION: 5,
+               P_IDPA:vrows.id,
+               TOKEN: JSON.parse(String(getToken()))
+
+            }
+            ).then((res) => {
+            if (res.SUCCESS) {
+                Toast.fire({
+                    icon: "success",
+                    title: "Consulta Exitosa!",
+                });
+                setSpeis(res.RESPONSE);
+            } else {
+                AlertS.fire({
+                    title: "Error!",
+                    text: res.STRMESSAGE,
+                    icon: "error",
+                });
+            }
+        });
+    };
+
     const consulta = () => {
         DAFServices.SpeiAdministracion(
             {  NUMOPERACION: 4,

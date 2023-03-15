@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import { getFormDataHeader, getHeaderInfo, getHeaderInitial } from './tokenCreator';
-import { env_var } from '../environments/env';
 
 /**
  * MANEJO AUTOMATICO DE PETICIONES
@@ -25,7 +24,7 @@ export const postEasy = async function (url: string, body: any) {
     let header = await getHeaderInitial();
     try {
 
-        let resp = await axios.post(`${env_var.BASE_URL}` + url, body, header);
+        let resp = await axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + url, body, header);
         return handleResponse(resp);
     } catch (err: any) {
         return handleResponse(err.response)
@@ -37,7 +36,7 @@ export const postEasy = async function (url: string, body: any) {
 export const post = async function (url: string, body: any) {
     let header = await getHeaderInfo();
     try {
-        let resp = await axios.post(`${env_var.BASE_URL}` + url, body, header);
+        let resp = await axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + url, body, header);
         return handleResponse(resp.data);
     } catch (err: any) {
         return handleResponse(err.response)
@@ -47,7 +46,7 @@ export const post = async function (url: string, body: any) {
 export const get = async function (url: any, params: any = {}) {
     let header = await getHeaderInfo();
     try {
-        let resp = await axios.get(`${env_var.BASE_URL}` + url, { ...header, params });
+        let resp = await axios.get(process.env.REACT_APP_APPLICATION_BASE_URL + url, { ...header, params });
         return handleResponse(resp.data);
     } catch (err: any) {
         return handleResponse(err.response)
@@ -62,7 +61,7 @@ export const postDocument= async function ( url: string, body: FormData) {
 
     let header = await getFormDataHeader();
     try {
-        let resp = await axios.post(`${env_var.BASE_URL}` + url, body, header);
+        let resp = await axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + url, body, header);
         return handleResponse(resp.data);
     } catch (err: any) {
         return handleResponse(err.response)
