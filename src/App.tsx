@@ -29,7 +29,6 @@ import { BloqueoSesion } from "./app/views/components/BloqueoSesion";
 import Validacion from "./app/views/components/Validacion";
 import { useIdleTimer } from "react-idle-timer";
 import Slider from "./app/views/components/Slider";
-import { env_var } from '../src/app/environments/env';
 import { ParametroServices } from "./app/services/ParametroServices";
 import jwt_decode from "jwt-decode";
 import { UserLogin } from "./app/interfaces/user/User";
@@ -116,7 +115,7 @@ function App() {
       if (result.isConfirmed) {
         localStorage.clear();
         var ventana = window.self;
-        ventana.location.replace(env_var.BASE_URL_LOGIN);
+        ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
       }
     });
   }
@@ -140,7 +139,7 @@ function App() {
         }).then((result) => {
           if (result.isConfirmed) {
             var ventana = window.self;
-            ventana.location.replace(env_var.BASE_URL_LOGIN)
+            ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
           }
         });
 
@@ -177,7 +176,7 @@ function App() {
         }).then((result) => {
           if (result.isConfirmed) {
             var ventana = window.self;
-            ventana.location.replace(env_var.BASE_URL_LOGIN)
+            ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN))
 
 
           }
@@ -195,7 +194,7 @@ function App() {
         }).then((result) => {
           if (result.isConfirmed) {
             var ventana = window.self;
-            ventana.location.replace(env_var.BASE_URL_LOGIN)
+            ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
 
 
           }
@@ -263,7 +262,7 @@ function App() {
             setAcceso(false);
             localStorage.clear();
             var ventana = window.self;
-            ventana.location.replace(env_var.BASE_URL_LOGIN);
+            ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
           }
         });
       }
@@ -305,7 +304,7 @@ function App() {
           if (result.isConfirmed) {
             localStorage.clear();
             var ventana = window.self;
-            ventana.location.replace(env_var.BASE_URL_LOGIN);
+            ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
 
           }
         });

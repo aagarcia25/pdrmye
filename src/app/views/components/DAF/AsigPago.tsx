@@ -254,7 +254,7 @@ const AsigPago = () => {
 
           <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
 
-          <Grid item xs={2} sm={2} md={2} lg={2}>
+          <Grid item xs={12} sm={6} md={3} lg={2}>
           <Typography sx={{ fontFamily: "MontserratMedium" }}>
           Solicitud de Pago:
               </Typography>
@@ -287,7 +287,7 @@ const AsigPago = () => {
            </FormControl>
             </Grid>
 
-            <Grid item xs={2} sm={2} md={2} lg={2}>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Municipio:
               </Typography>
@@ -300,7 +300,7 @@ const AsigPago = () => {
                 disabled={false}
               />
             </Grid>
-            <Grid item xs={2} sm={2} md={2} lg={2}>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFragMulti
               options={fondos}
@@ -310,7 +310,7 @@ const AsigPago = () => {
               disabled={false}
             />
             </Grid>
-            <Grid item xs={2} sm={2} md={2} lg={2}>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
             <SelectFrag
               value={mes}
@@ -394,9 +394,16 @@ const AsigPago = () => {
                   }}
                   componentsProps={{
                     toolbar: {
-                      label: "buscar",
+                      label: "Buscar",
                       showQuickFilter: true,
-                      quickFilterProps: { debounceMs: 500 },
+        
+                      quickFilterProps: { debounceMs: 500, },
+        
+                      csvOptions: {
+                        fileName: 'Distribucion',
+                        utf8WithBom: true,
+        
+                      }
                     },
                   }}
                   checkboxSelection={checkboxSelection}

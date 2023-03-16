@@ -22,7 +22,6 @@ import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
-import { env_var } from "../../environments/env";
 import { Button, Hidden } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
 import { AlertS } from "../../helpers/AlertS";
@@ -66,7 +65,7 @@ export default function Header(props: HeaderProps) {
   const onLogOut = () => {
     localStorage.clear();
     var ventana = window.self;
-    ventana.location.replace(env_var.BASE_URL_LOGIN);
+    ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
 
   };
 

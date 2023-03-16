@@ -10,9 +10,11 @@ import { COLOR } from "../../styles/colors";
 import PersonIcon from "@mui/icons-material/Person";
 import { Fingerprint } from "@mui/icons-material";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
-import { getUser } from "../../services/localStorage";
+import { getToken, getUser } from "../../services/localStorage";
 import { useEffect, useState } from "react";
-import { env_var } from "../../environments/env";
+import { UserLogin } from "../../interfaces/user/User";
+import jwt_decode from "jwt-decode";
+
 
 
 export function BloqueoSesion({
@@ -23,11 +25,27 @@ export function BloqueoSesion({
 
 
   const [password, setPassword] = useState("");
-  const user: RESPONSE = JSON.parse(String(getUser()===undefined? null :getUser()));
+  const [apellPat, setApellPat] = useState("");
+  const [apellMat, setApellMat] = useState("");
+  const [name, setName] = useState("");
+
 
   useEffect(() => {
+    console.log(getUser())
     
-    
+  if(getUser()===null){
+    const decoded: UserLogin = jwt_decode(String(getToken()));
+    setApellMat("");
+    setApellPat("");
+    setName(decoded.NombreUsuario);
+
+
+  }else{
+  const user: RESPONSE = JSON.parse(String(getUser()===undefined? null :getUser()));
+  setApellMat(user?.ApellidoMaterno);
+  setApellPat(user?.ApellidoPaterno);
+  setName(user?.Nombre);
+  }
      
   }, [])
   
@@ -59,7 +77,7 @@ export function BloqueoSesion({
             alignItems: "center",
           }}
         >
-           <Typography sx={{ fontSize: "3vw" }}>{user?.Nombre + ' ' + user?.ApellidoPaterno + ' '+ user?.ApellidoMaterno}</Typography> 
+           <Typography sx={{ fontSize: "3vw" }}>{name + ' ' + apellPat + ' '+ apellMat}</Typography> 
           <TextField
             sx={{
               width: "50vw",
@@ -105,7 +123,7 @@ export function BloqueoSesion({
               onClick={() => {
                 localStorage.clear();
                 var ventana = window.self;
-                ventana.location.replace(env_var.BASE_URL_LOGIN);
+                ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
              }}
               
                 sx={{ mt: 1, fontSize: "1.6vw" }}
@@ -120,3 +138,5 @@ export function BloqueoSesion({
     </Box>
   );
 }
+
+

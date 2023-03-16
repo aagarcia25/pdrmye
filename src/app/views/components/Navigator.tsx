@@ -32,7 +32,6 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
   const consulta = (data: string) => {
     navigate(data);
 
-    console.log(data)
   };
 
   

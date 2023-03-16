@@ -25,7 +25,6 @@ import { useLocation } from "react-router";
 import { SolicitudUsrTiDetalle } from "../../../../../interfaces/user/solicitudes";
 import jwt_decode from "jwt-decode";
 import { UserLogin } from "../../../../../interfaces/user/User";
-import { env_var } from "../../../../../environments/env";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Slider from "../../../Slider";
 const UsuariosModal = ({
@@ -313,7 +312,7 @@ const UsuariosModal = ({
           if (result.isConfirmed) {
             localStorage.clear();
             var ventana = window.self;
-            ventana.location.replace(env_var.BASE_URL_LOGIN);
+            ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
           }
         });
 
