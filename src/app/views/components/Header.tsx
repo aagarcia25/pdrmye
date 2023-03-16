@@ -18,13 +18,15 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
-import { getUser } from "../../services/localStorage";
+import { getToken, getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { Button, Hidden } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
 import { AlertS } from "../../helpers/AlertS";
+import { base64ToArrayBuffer } from "../../helpers/Files";
+import Slider from "./Slider";
 interface HeaderProps {
   onDrawerToggle: () => void;
   name: string;
@@ -34,7 +36,7 @@ interface HeaderProps {
 export default function Header(props: HeaderProps) {
   const btnPerson = "120%";
   const btnAll = "130%";
-
+  const [openSlider, setOpenSlider] = React.useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const navigate = useNavigate();
   const [cnotif, setCnotif] = React.useState(0);
@@ -74,11 +76,29 @@ export default function Header(props: HeaderProps) {
   };
 
   const onOpenHelp = () => {
-    //navigate("/");
+    let guia = window.location.hash.replace('#','');
+    guia = guia.replace(/[^a-zA-Z0-9 ]/g,'');
+    
+    let data = {
+      NOMBRE: guia,
+      TOKEN: JSON.parse(String(getToken())),
+    };
+    CatalogosServices.obtenerguias(data).then((res) => {
+      var bufferArray = base64ToArrayBuffer(String(res.RESPONSE.RESPONSE.FILE));
+      var blobStore = new Blob([bufferArray], { type: "application/pdf" });
+     
+      var data = window.URL.createObjectURL(blobStore);
+      var link = document.createElement('a');
+      document.body.appendChild(link);
+      link.href = data;
+      window.open(link.href, "_blank");
+    });
+
+   /*
     AlertS.fire({
       title: "Sección de ayuda actualmente en Desarrollo",
       icon: "info",
-    });
+    });*/
   };
 
   const onConfigProfile = () => {
@@ -112,7 +132,6 @@ export default function Header(props: HeaderProps) {
 
   React.useEffect(() => {
     setRutaFoto(String(user?.RutaFoto))
-    // setPuesto(user?.Puesto? user.Puesto.toLowerCase(): " ")
     CatalogosServices.Notificaciones(data).then((res) => {
       let result = res.RESPONSE;
       setCnotif(result[0].count);
@@ -121,6 +140,7 @@ export default function Header(props: HeaderProps) {
 
   return (
     <React.Fragment>
+     
       <AppBar
         style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco, paddingBottom: "1%", margin: "0" }}
         position="sticky"

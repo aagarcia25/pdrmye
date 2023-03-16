@@ -177,4 +177,9 @@ export class CatalogosServices {
     public static async Organismos(data : any) {
         return await post('OrganismosIndex', data);
     };
+
+    public static async obtenerguias(data : any) {
+        return await post('obtenerguias', data);
+    };
+
 }
