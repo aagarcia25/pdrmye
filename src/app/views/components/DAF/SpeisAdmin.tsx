@@ -167,7 +167,7 @@ const SpeisAdmin = ({
             denyButtonText: `Cancelar`,
         }).then((result) => {
             if (result.isConfirmed) {
-
+                setslideropen(true);
                 DAFServices.SpeiAdministracion(formData).then((res) => {
                     //   setslideropen(false);
                     if (res.SUCCESS) {
@@ -178,8 +178,10 @@ const SpeisAdmin = ({
                         setNameSpei("");
                         setSpeiFile(null)
                         consulta();
+                        setslideropen(false);
                         handleCloseModal();
                     } else {
+                        setslideropen(false);
                         AlertS.fire({
                             title: "Error!",
                             text: res.STRMESSAGE,
