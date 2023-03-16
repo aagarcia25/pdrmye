@@ -39,6 +39,11 @@ const SpeisAdmin = ({
     const [nameSpei, setNameSpei] = useState<string>("");
     const [speiFile, setSpeiFile] = useState(Object);
     const [speis, setSpeis] = useState([]);
+    const [fileValid, setFileValid] = useState<boolean>(false);
+    const [mensajeError, setMensajeError] = useState<string>("Solo Archivos PDG");
+
+
+
 
     const user: RESPONSE = JSON.parse(String(getUser()));
 
@@ -83,17 +88,53 @@ const SpeisAdmin = ({
     const handleCloseModal = () => {
         setAddSpei(false);
         setVerSpei(false);
+        setNameSpei("");
+        setSpeiFile(undefined);
+        setFileValid(false);
     };
 
 
     const handleNewSpei = (event: any) => {
         let file = event.target!.files[0]!;
         if (event.target.files.length !== 0 && event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF") {
-            setNameSpei(event.target!.files[0]!.name);
-            setSpeiFile(file);
+
+            if (Number(event.target!.files[0]!.size) / 1024 <= 512) {
+                setNameSpei(event.target!.files[0]!.name);
+                setSpeiFile(file);
+                setFileValid(true);
+            } else {
+
+                Swal.fire({
+                    icon: "info",
+                    title: "Atencion",
+                    text: "Tamaño de archivo Exedido -Limitado a 500 Kb-",
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: "Aceptar",
+                    cancelButtonText: "Cancelar",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        setNameSpei("");
+                        setSpeiFile(undefined);
+                        setFileValid(false);
+                    }
+                    if (result.isDenied) {
+                    }
+                });
+
+
+            }
+
         } else {
             setNameSpei("");
             setSpeiFile(undefined);
+            setFileValid(false);
+            AlertS.fire({
+                title: "Atencion",
+                text: "Archivo invalido",
+                icon: "info",
+            });
+
         }
 
     };
@@ -104,12 +145,8 @@ const SpeisAdmin = ({
     };
 
     const handleVerSpei = (v: any) => {
-        console.log(v.row);
         getfile(v.row.Route)
 
-        // setVerSpei(true);
-        // setRuta(v.row.Route)
-        // setName(v.row.Nombre)
     };
     const handleDeleteSpei = (data: any) => {
 
@@ -181,7 +218,6 @@ const SpeisAdmin = ({
                 handleCloseModal();
                 setslideropen(false);
             } else {
-                console.log(res);
                 AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
@@ -206,15 +242,8 @@ const SpeisAdmin = ({
                     icon: "success",
                     title: "Consulta Exitosa!",
                 });
-                console.log(String(res.RESPONSE.RESPONSE.TIPO))
-                // var obj = document.createElement('object');
-                // obj.style.width = '100%';
-                // obj.style.height = '842pt';
-                // obj.type =res.RESPONSE.RESPONSE.TIPO;
-                // obj.data = 'data:application/pdf;base64,' + res.RESPONSE.RESPONS.FILE;
                 setDocumentPDF(String(res.RESPONSE.RESPONSE.FILE))
                 setVerSpei(true);
-                // setSpeis(res.RESPONSE);
             } else {
                 AlertS.fire({
                     title: "Error!",
@@ -296,10 +325,13 @@ const SpeisAdmin = ({
                                     </IconButton>
                                 </Tooltip>
                             </Grid>
+                            <Grid item xs={12}>
+                                <h3>Solo se Permiten Archivos PDF</h3>
+                            </Grid>
                         </Grid>
                     </DialogContent>
                     <DialogActions>
-                        <button className="guardar" onClick={() => handleUploadSpei("1")}> Guardar </button>
+                        <Button className="guardar" disabled={!fileValid} onClick={() => handleUploadSpei("1")}> Guardar </Button>
                     </DialogActions>
                 </Dialog>
                 : ""}
@@ -307,18 +339,17 @@ const SpeisAdmin = ({
 
             {verSpei ?
                 <ModalForm title={'Visualización'} handleClose={handleCloseModal} >
-          
+
                     <DialogContent dividers={true}>
                         <Grid container spacing={1}>
                             <Grid item xs={12}>
                                 {/* <h3>Nombre de archivo: {name}</h3> */}
                             </Grid>
                             <Grid item container justifyContent="center" xs={12}>
-                               
                                 <object
-                                  width="100%"
-                                  height="700"
-                                data={`data:application/pdf;base64,${documentPDF}`} />
+                                    width="100%"
+                                    height="700"
+                                    data={`data:application/pdf;base64,${documentPDF}`} />
                             </Grid>
                         </Grid>
                     </DialogContent>
