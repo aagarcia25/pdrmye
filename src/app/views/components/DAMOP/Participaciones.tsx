@@ -17,7 +17,6 @@ import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
 import SendIcon from "@mui/icons-material/Send";
-import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
@@ -40,7 +39,6 @@ import {
   GridSelectionModel,
   GridToolbar,
   esES as gridEsES,
-  nlNL,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
@@ -59,19 +57,17 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ArticleIcon from '@mui/icons-material/Article';
 import SpeisAdmin from "../DAF/SpeisAdmin";
-
-
-import LoopIcon from '@mui/icons-material/Loop';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import MoneyIcon from '@mui/icons-material/Money';
+import SegmentIcon from '@mui/icons-material/Segment';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { ModalCheque } from "../componentes/ModalCheque";
 import { Retenciones } from "./Retenciones";
 import { fmeses } from "../../../share/loadMeses";
 import SelectFragMulti from "../Fragmentos/SelectFragMulti";
 import PolylineIcon from '@mui/icons-material/Polyline';
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+
+
 
 const Participaciones = () => {
 
@@ -121,7 +117,8 @@ const Participaciones = () => {
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const [openTraz, setOpenTraz] = useState(false);
   const [idSolicitud, setIdSolicitud] = useState<string>();
-
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+  const [verSegmentar, setVerSegmentar] = useState<boolean>(false);
   const [DAMOP_INI, SETDAMOP_INI] = useState<boolean>(false);
   const [DAMOP_FSE, SETDAMOP_FSE] = useState<boolean>(false);
   const [DAMOP_ASE, SETDAMOP_ASE] = useState<boolean>(false);
@@ -178,6 +175,54 @@ const Participaciones = () => {
     //console.log(v.row.id);
   };
 
+  const handleClonar = (v: any) => {
+    setOpenTraz(true);
+    console.log(v.row.id);
+    setIdSolicitud(v.row.id);
+    //console.log(v.row.id);
+
+    Swal.fire({
+      icon: "info",
+      title: "Informacion",
+      text: "Los Movimientos Seleccionados se integraran en una sola operación",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let data = {
+          OBJS: selectionModel,
+          CHUSER: user.id,
+        };
+
+        AlertS.fire({
+          title: "Solicitud Enviada",
+          icon: "success",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            DPCPServices.integraSolicitudes(data).then((res) => {
+              if (res.SUCCESS) {
+                Toast.fire({
+                  icon: "success",
+                  title: "Consulta Exitosa!",
+                });
+                handleClick();
+              } else {
+                AlertS.fire({
+                  title: "Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+
+  };
+
   const handleDetalle = (data: any) => {
     setVrows(data);
     setOpenModalDetalle(true);
@@ -199,15 +244,38 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {/* {verTrazabilidad ? ( */}
+
+
+
+{verSegmentar ? ( 
+              <Tooltip title={"Clonar Operación"}>
+                <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
+                  <DoubleArrowIcon />
+                </IconButton>
+              </Tooltip>
+             ) : (
+              ""
+            )} 
+
+        {verSegmentar ? ( 
+              <Tooltip title={"Segmentar Operación"}>
+                <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
+                  <SegmentIcon />
+                </IconButton>
+              </Tooltip>
+             ) : (
+              ""
+            )} 
+
+             {verTrazabilidad ? ( 
               <Tooltip title={"Ver Trazabilidad"}>
                 <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
                   <InsightsIcon />
                 </IconButton>
               </Tooltip>
-            {/* ) : (
+             ) : (
               ""
-            )} */}
+            )} 
 
             {/* {String(v.row.NumParticipacion) === 'null' ?
               <Tooltip title={"Asignar N° de Participación"}>
@@ -557,12 +625,12 @@ const Participaciones = () => {
       description: "Clasificación de Solicitud de Pago",
     },
    
-    {
-      field: "NumCheque",
-      headerName: "Numero De Cheque",
-      width: 200,
-      description: "Numero De Cheque",
-    },
+    // {
+    //   field: "NumCheque",
+    //   headerName: "Numero De Cheque",
+    //   width: 200,
+    //   description: "Numero De Cheque",
+    // },
 
     {
       field: "Divisa",
@@ -602,7 +670,6 @@ const Participaciones = () => {
     setOpenModalRetenciones(false);
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
-   // handleClick();
     setOpenModalVerSpei(false);
   };
   const handleAccion = () => {
@@ -1578,6 +1645,10 @@ const Participaciones = () => {
           setDescPlant(true);
         } else if (String(item.Referencia) === "DISFIDE") {
           setDisFide(true);
+        } else if (String(item.Referencia) === "TRAZASPEIDAF") {
+          setVerTrazabilidad(true);
+        }else if (String(item.Referencia) === "SEGM"){
+          setVerSegmentar(true)
         }
       }
     });
@@ -2053,10 +2124,10 @@ const Participaciones = () => {
                   },
                 }}
                 isRowSelectable={(params) => (
-                  params.row.NumCheque === null
+                 // params.row.NumCheque === null
                   // ||params.row.NumEgreso===null
                   // ||params.row.NumRequerimientoAnt===null
-                  // ||params.row.NumOrdenPago===null
+                   params.row.NumOrdenPago===null
                 )}
                 checkboxSelection
                 onSelectionModelChange={(newSelectionModel: any) => {

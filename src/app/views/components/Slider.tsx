@@ -1,5 +1,4 @@
 import { Backdrop, CircularProgress } from '@mui/material'
-import React from 'react'
 
 
 
@@ -15,7 +14,7 @@ const Slider = ({
         sx={{ color: '#fff', zIndex: 2000 }}
         open={open}
          >
-        <CircularProgress color="inherit" />
+        <CircularProgress color="inherit" /> 
       </Backdrop>
     </div>
   )
