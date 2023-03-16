@@ -186,11 +186,11 @@ const Participaciones = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 150,
+      width: 80,
       renderCell: (v: any) => {
         return (
           <Box>
-            {String(v.row.NumParticipacion) === 'null' ?
+            {/* {String(v.row.NumParticipacion) === 'null' ?
               <Tooltip title={"Asignar N° de Participación"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 2)}>
                   <LoopIcon />
@@ -215,25 +215,25 @@ const Participaciones = () => {
                 </IconButton>
               </Tooltip>
               : ""
-            }
+            } */}
 
-            {/* {String(v.row.NumOrdenPago) === 'null' ? */}
+             {String(v.row.estatus)  === 'Ingresando Operación' ? 
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
                   <MonetizationOnIcon />
                 </IconButton>
               </Tooltip>
-              {/* : "" */}
-            {/* } */}
+               : "" 
+            } 
 
-            {String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
+            {/* {String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
               <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 6)}>
                   <LocalAtmIcon />
                 </IconButton>
               </Tooltip>
               : ""
-            }
+            } */}
 
           </Box>
         );
@@ -583,7 +583,7 @@ const Participaciones = () => {
     setOpenModalRetenciones(false);
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
-    handleClick();
+   // handleClick();
     setOpenModalVerSpei(false);
   };
   const handleAccion = () => {
