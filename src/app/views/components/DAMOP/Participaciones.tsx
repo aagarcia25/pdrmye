@@ -46,7 +46,7 @@ import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
 import { DAMOPServices } from "../../../services/DAMOPServices";
 import ModalDAMOP from "../componentes/ModalDAMOP";
-
+import InsightsIcon from "@mui/icons-material/Insights";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Descuentos } from "./Descuentos";
 import ParticipacionesDetalle from "./ParticipacionesDetalle";
@@ -71,6 +71,7 @@ import { Retenciones } from "./Retenciones";
 import { fmeses } from "../../../share/loadMeses";
 import SelectFragMulti from "../Fragmentos/SelectFragMulti";
 import PolylineIcon from '@mui/icons-material/Polyline';
+import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 
 const Participaciones = () => {
 
@@ -118,7 +119,8 @@ const Participaciones = () => {
   const [intOperaciones, setIntOperaciones] = useState<boolean>(true);
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
   const [sumaTotal, setSumaTotal] = useState<Number>();
-
+  const [openTraz, setOpenTraz] = useState(false);
+  const [idSolicitud, setIdSolicitud] = useState<string>();
 
   const [DAMOP_INI, SETDAMOP_INI] = useState<boolean>(false);
   const [DAMOP_FSE, SETDAMOP_FSE] = useState<boolean>(false);
@@ -139,6 +141,7 @@ const Participaciones = () => {
 
   const handleclose = (data: any) => {
     setOpenCheque(false);
+    setOpenTraz(false)
   };
 
   const handlecheque = (data: any, tipo: number) => {
@@ -168,6 +171,12 @@ const Participaciones = () => {
     setOpenModalRetenciones(true);
   };
 
+  const handleVerTazabilidad = (v: any) => {
+    setOpenTraz(true);
+       console.log(v.row.id);
+    setIdSolicitud(v.row.id);
+    //console.log(v.row.id);
+  };
 
   const handleDetalle = (data: any) => {
     setVrows(data);
@@ -186,10 +195,20 @@ const Participaciones = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 80,
+      width: 100,
       renderCell: (v: any) => {
         return (
           <Box>
+            {/* {verTrazabilidad ? ( */}
+              <Tooltip title={"Ver Trazabilidad"}>
+                <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
+                  <InsightsIcon />
+                </IconButton>
+              </Tooltip>
+            {/* ) : (
+              ""
+            )} */}
+
             {/* {String(v.row.NumParticipacion) === 'null' ?
               <Tooltip title={"Asignar N° de Participación"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 2)}>
@@ -2086,6 +2105,10 @@ const Participaciones = () => {
       {openModalVerSpei ?
         <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows} /> : ""}
       {openCheque ? <ModalCheque tipo={tipo} handleClose={handleclose} vrows={vrows} /> : ""}
+      {openTraz ? <TrazabilidadSolicitud dt={{ TIPO:4, SP:idSolicitud, }} open={openTraz} handleClose={handleclose} />
+                :
+                ""
+            }
     </div>
   );
 };
