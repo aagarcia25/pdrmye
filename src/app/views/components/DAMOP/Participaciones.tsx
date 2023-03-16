@@ -573,6 +573,7 @@ const Participaciones = () => {
         setslideropen(false);
       } else if (operacion === 25) {
         setEstatus(res.RESPONSE);
+        setIdEstatus(res.RESPONSE[0].value);
       }
     });
   };
@@ -1501,6 +1502,7 @@ const Participaciones = () => {
 
 
     };
+    setslideropen(true);
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -1513,12 +1515,14 @@ const Participaciones = () => {
           sumatotal = sumatotal + Number(item.importe)
           setSumaTotal(sumatotal)
         });
+        setslideropen(false);
       } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
+        setslideropen(false);
       }
     });
 
