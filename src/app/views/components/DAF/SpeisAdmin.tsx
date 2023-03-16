@@ -26,7 +26,10 @@ const SpeisAdmin = ({
     vrows: any;
 }) => {
 
-    const [mensaje, setMensaje] = useState<string>();
+    const [documentPDF, setDocumentPDF] = useState<string>();
+    // const [documentType, setDocumentType] = useState<string>();
+    // const [documentPDF, setDocumentPDF] = useState<string>();
+
     const [addSpei, setAddSpei] = useState<boolean>(false);
     const [verSpei, setVerSpei] = useState<boolean>(false);
     const [slideropen, setslideropen] = useState(false);
@@ -36,6 +39,11 @@ const SpeisAdmin = ({
     const [nameSpei, setNameSpei] = useState<string>("");
     const [speiFile, setSpeiFile] = useState(Object);
     const [speis, setSpeis] = useState([]);
+    const [fileValid, setFileValid] = useState<boolean>(false);
+    const [mensajeError, setMensajeError] = useState<string>("Solo Archivos PDG");
+
+
+
 
     const user: RESPONSE = JSON.parse(String(getUser()));
 
@@ -57,12 +65,12 @@ const SpeisAdmin = ({
                             </IconButton>
                         </Tooltip>
                         {/* {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ? */}
-                            <Tooltip title="Eliminar Archivo">
-                                <IconButton onClick={() => handleDeleteSpei(v)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </Tooltip>
-                            {/* : ""} */}
+                        <Tooltip title="Eliminar Archivo">
+                            <IconButton onClick={() => handleDeleteSpei(v)}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
+                        {/* : ""} */}
 
                     </Box>
                 );
@@ -80,17 +88,53 @@ const SpeisAdmin = ({
     const handleCloseModal = () => {
         setAddSpei(false);
         setVerSpei(false);
+        setNameSpei("");
+        setSpeiFile(undefined);
+        setFileValid(false);
     };
 
 
     const handleNewSpei = (event: any) => {
         let file = event.target!.files[0]!;
         if (event.target.files.length !== 0 && event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF") {
-            setNameSpei(event.target!.files[0]!.name);
-            setSpeiFile(file);
+
+            if (Number(event.target!.files[0]!.size) / 1024 <= 512) {
+                setNameSpei(event.target!.files[0]!.name);
+                setSpeiFile(file);
+                setFileValid(true);
+            } else {
+
+                Swal.fire({
+                    icon: "info",
+                    title: "Atencion",
+                    text: "Tamaño de archivo Exedido -Limitado a 500 Kb-",
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: "Aceptar",
+                    cancelButtonText: "Cancelar",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        setNameSpei("");
+                        setSpeiFile(undefined);
+                        setFileValid(false);
+                    }
+                    if (result.isDenied) {
+                    }
+                });
+
+
+            }
+
         } else {
             setNameSpei("");
             setSpeiFile(undefined);
+            setFileValid(false);
+            AlertS.fire({
+                title: "Atencion",
+                text: "Archivo invalido",
+                icon: "info",
+            });
+
         }
 
     };
@@ -101,9 +145,8 @@ const SpeisAdmin = ({
     };
 
     const handleVerSpei = (v: any) => {
-        setVerSpei(true);
-        setRuta(v.row.Route)
-        setName(v.row.Nombre)
+        getfile(v.row.Route)
+
     };
     const handleDeleteSpei = (data: any) => {
 
@@ -124,7 +167,7 @@ const SpeisAdmin = ({
             denyButtonText: `Cancelar`,
         }).then((result) => {
             if (result.isConfirmed) {
-
+                setslideropen(true);
                 DAFServices.SpeiAdministracion(formData).then((res) => {
                     //   setslideropen(false);
                     if (res.SUCCESS) {
@@ -135,8 +178,10 @@ const SpeisAdmin = ({
                         setNameSpei("");
                         setSpeiFile(null)
                         consulta();
+                        setslideropen(false);
                         handleCloseModal();
                     } else {
+                        setslideropen(false);
                         AlertS.fire({
                             title: "Error!",
                             text: res.STRMESSAGE,
@@ -175,7 +220,6 @@ const SpeisAdmin = ({
                 handleCloseModal();
                 setslideropen(false);
             } else {
-                console.log(res);
                 AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
@@ -184,24 +228,24 @@ const SpeisAdmin = ({
                 setslideropen(false);
             }
         });
-
-
     };
 
-    const getfile = () => {
+    const getfile = (name: string) => {
         DAFServices.SpeiAdministracion(
-            {  NUMOPERACION: 5,
-               P_IDPA:vrows.id,
-               TOKEN: JSON.parse(String(getToken()))
+            {
+                NUMOPERACION: 5,
+                NOMBRE: name,
+                TOKEN: JSON.parse(String(getToken()))
 
             }
-            ).then((res) => {
+        ).then((res) => {
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
                     title: "Consulta Exitosa!",
                 });
-                setSpeis(res.RESPONSE);
+                setDocumentPDF(String(res.RESPONSE.RESPONSE.FILE))
+                setVerSpei(true);
             } else {
                 AlertS.fire({
                     title: "Error!",
@@ -214,12 +258,13 @@ const SpeisAdmin = ({
 
     const consulta = () => {
         DAFServices.SpeiAdministracion(
-            {  NUMOPERACION: 4,
-               P_IDPA:vrows.id,
-               TOKEN: JSON.parse(String(getToken()))
+            {
+                NUMOPERACION: 4,
+                P_IDPA: vrows.id,
+                TOKEN: JSON.parse(String(getToken()))
 
             }
-            ).then((res) => {
+        ).then((res) => {
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
@@ -240,11 +285,11 @@ const SpeisAdmin = ({
     }, []);
     return (
         <>
-          <Slider open={slideropen}></Slider>
+            <Slider open={slideropen}></Slider>
             <ModalForm title={'Administración de  los Spei'} handleClose={handleClose}>
                 <Box>
-                {/* agregar={user.DEPARTAMENTOS[0].NombreCorto==="DAF"} */}
-                    <ButtonsAdd handleOpen={handleAgregarSpei}  agregar={true} />
+                    {/* agregar={user.DEPARTAMENTOS[0].NombreCorto==="DAF"} */}
+                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={true} />
                     <Grid item xs={12}>
                         <MUIXDataGridMun modulo={''} handleBorrar={handleBorrarMasivo} columns={columns} rows={speis} controlInterno={''} />
                     </Grid>
@@ -282,43 +327,36 @@ const SpeisAdmin = ({
                                     </IconButton>
                                 </Tooltip>
                             </Grid>
+                            <Grid item xs={12}>
+                                <h3>Solo se Permiten Archivos PDF</h3>
+                            </Grid>
                         </Grid>
                     </DialogContent>
                     <DialogActions>
-                        <button className="guardar" onClick={() => handleUploadSpei("1")}> Guardar </button>
+                        <Button className="guardar" disabled={!fileValid} onClick={() => handleUploadSpei("1")}> Guardar </Button>
                     </DialogActions>
                 </Dialog>
                 : ""}
 
 
             {verSpei ?
-                <Dialog open={true}>
-                    <Grid container item justifyContent="space-between" xs={12}>
-                        <DialogTitle>Spei</DialogTitle>
-                        <Tooltip title="Cerrar">
-                            <IconButton onClick={() => handleCloseModal()}  >
-                                <CloseIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </Grid>
+                <ModalForm title={'Visualización'} handleClose={handleCloseModal} >
+
                     <DialogContent dividers={true}>
                         <Grid container spacing={1}>
                             <Grid item xs={12}>
-                                <h3>Nombre de archivo: {name}</h3>
+                                {/* <h3>Nombre de archivo: {name}</h3> */}
                             </Grid>
                             <Grid item container justifyContent="center" xs={12}>
-                                <iframe
-                                    id="inlineFrameExample"
-                                    title="Inline Frame Example"
+                                <object
                                     width="100%"
-                                    height="600"
-                                    src={ruta}
-                                />
+                                    height="700"
+                                    data={`data:application/pdf;base64,${documentPDF}`} />
                             </Grid>
                         </Grid>
                     </DialogContent>
 
-                </Dialog>
+                </ModalForm>
                 :
                 ""}
 

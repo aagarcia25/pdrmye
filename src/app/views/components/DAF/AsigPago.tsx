@@ -394,9 +394,16 @@ const AsigPago = () => {
                   }}
                   componentsProps={{
                     toolbar: {
-                      label: "buscar",
+                      label: "Buscar",
                       showQuickFilter: true,
-                      quickFilterProps: { debounceMs: 500 },
+        
+                      quickFilterProps: { debounceMs: 500, },
+        
+                      csvOptions: {
+                        fileName: 'Distribucion',
+                        utf8WithBom: true,
+        
+                      }
                     },
                   }}
                   checkboxSelection={checkboxSelection}
