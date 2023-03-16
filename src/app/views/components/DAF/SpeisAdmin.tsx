@@ -280,7 +280,7 @@ const SpeisAdmin = ({
                 console.log(res.RESPONSE.RESPONSE)
                 
                 setDocumentPDF(String(res.RESPONSE.RESPONSE.FILE))
-                base64toPDF(String(res.RESPONSE.RESPONSE.FILE),String(res.RESPONSE.RESPONSE.NOMBRE) )
+               // base64toPDF(String(res.RESPONSE.RESPONSE.FILE),String(res.RESPONSE.RESPONSE.NOMBRE) )
                 
             } else {
                 AlertS.fire({
