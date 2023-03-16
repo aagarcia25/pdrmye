@@ -17,7 +17,6 @@ import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
 import SendIcon from "@mui/icons-material/Send";
-import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
@@ -40,13 +39,12 @@ import {
   GridSelectionModel,
   GridToolbar,
   esES as gridEsES,
-  nlNL,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
 import { DAMOPServices } from "../../../services/DAMOPServices";
 import ModalDAMOP from "../componentes/ModalDAMOP";
-
+import InsightsIcon from "@mui/icons-material/Insights";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Descuentos } from "./Descuentos";
 import ParticipacionesDetalle from "./ParticipacionesDetalle";
@@ -59,18 +57,17 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ArticleIcon from '@mui/icons-material/Article';
 import SpeisAdmin from "../DAF/SpeisAdmin";
-
-
-import LoopIcon from '@mui/icons-material/Loop';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import MoneyIcon from '@mui/icons-material/Money';
+import SegmentIcon from '@mui/icons-material/Segment';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { ModalCheque } from "../componentes/ModalCheque";
 import { Retenciones } from "./Retenciones";
 import { fmeses } from "../../../share/loadMeses";
 import SelectFragMulti from "../Fragmentos/SelectFragMulti";
 import PolylineIcon from '@mui/icons-material/Polyline';
+import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+
+
 
 const Participaciones = () => {
 
@@ -118,8 +115,10 @@ const Participaciones = () => {
   const [intOperaciones, setIntOperaciones] = useState<boolean>(true);
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
   const [sumaTotal, setSumaTotal] = useState<Number>();
-
-
+  const [openTraz, setOpenTraz] = useState(false);
+  const [idSolicitud, setIdSolicitud] = useState<string>();
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+  const [verSegmentar, setVerSegmentar] = useState<boolean>(false);
   const [DAMOP_INI, SETDAMOP_INI] = useState<boolean>(false);
   const [DAMOP_FSE, SETDAMOP_FSE] = useState<boolean>(false);
   const [DAMOP_ASE, SETDAMOP_ASE] = useState<boolean>(false);
@@ -139,6 +138,7 @@ const Participaciones = () => {
 
   const handleclose = (data: any) => {
     setOpenCheque(false);
+    setOpenTraz(false)
   };
 
   const handlecheque = (data: any, tipo: number) => {
@@ -168,6 +168,60 @@ const Participaciones = () => {
     setOpenModalRetenciones(true);
   };
 
+  const handleVerTazabilidad = (v: any) => {
+    setOpenTraz(true);
+       console.log(v.row.id);
+    setIdSolicitud(v.row.id);
+    //console.log(v.row.id);
+  };
+
+  const handleClonar = (v: any) => {
+    setOpenTraz(true);
+    console.log(v.row.id);
+    setIdSolicitud(v.row.id);
+    //console.log(v.row.id);
+
+    Swal.fire({
+      icon: "info",
+      title: "Informacion",
+      text: "Los Movimientos Seleccionados se integraran en una sola operación",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let data = {
+          OBJS: selectionModel,
+          CHUSER: user.id,
+        };
+
+        AlertS.fire({
+          title: "Solicitud Enviada",
+          icon: "success",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            DPCPServices.integraSolicitudes(data).then((res) => {
+              if (res.SUCCESS) {
+                Toast.fire({
+                  icon: "success",
+                  title: "Consulta Exitosa!",
+                });
+                handleClick();
+              } else {
+                AlertS.fire({
+                  title: "Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+
+  };
 
   const handleDetalle = (data: any) => {
     setVrows(data);
@@ -186,11 +240,44 @@ const Participaciones = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 150,
+      width: 100,
       renderCell: (v: any) => {
         return (
           <Box>
-            {String(v.row.NumParticipacion) === 'null' ?
+
+
+
+{verSegmentar ? ( 
+              <Tooltip title={"Clonar Operación"}>
+                <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
+                  <DoubleArrowIcon />
+                </IconButton>
+              </Tooltip>
+             ) : (
+              ""
+            )} 
+
+        {verSegmentar ? ( 
+              <Tooltip title={"Segmentar Operación"}>
+                <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
+                  <SegmentIcon />
+                </IconButton>
+              </Tooltip>
+             ) : (
+              ""
+            )} 
+
+             {verTrazabilidad ? ( 
+              <Tooltip title={"Ver Trazabilidad"}>
+                <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
+                  <InsightsIcon />
+                </IconButton>
+              </Tooltip>
+             ) : (
+              ""
+            )} 
+
+            {/* {String(v.row.NumParticipacion) === 'null' ?
               <Tooltip title={"Asignar N° de Participación"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 2)}>
                   <LoopIcon />
@@ -215,25 +302,25 @@ const Participaciones = () => {
                 </IconButton>
               </Tooltip>
               : ""
-            }
+            } */}
 
-            {/* {String(v.row.NumOrdenPago) === 'null' ? */}
+             {String(v.row.estatus)  === 'Ingresando Operación' ? 
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
                   <MonetizationOnIcon />
                 </IconButton>
               </Tooltip>
-              {/* : "" */}
-            {/* } */}
+               : "" 
+            } 
 
-            {String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
+            {/* {String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
               <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 6)}>
                   <LocalAtmIcon />
                 </IconButton>
               </Tooltip>
               : ""
-            }
+            } */}
 
           </Box>
         );
@@ -538,12 +625,12 @@ const Participaciones = () => {
       description: "Clasificación de Solicitud de Pago",
     },
    
-    {
-      field: "NumCheque",
-      headerName: "Numero De Cheque",
-      width: 200,
-      description: "Numero De Cheque",
-    },
+    // {
+    //   field: "NumCheque",
+    //   headerName: "Numero De Cheque",
+    //   width: 200,
+    //   description: "Numero De Cheque",
+    // },
 
     {
       field: "Divisa",
@@ -573,6 +660,7 @@ const Participaciones = () => {
         setslideropen(false);
       } else if (operacion === 25) {
         setEstatus(res.RESPONSE);
+        setIdEstatus(res.RESPONSE[0].value);
       }
     });
   };
@@ -582,7 +670,6 @@ const Participaciones = () => {
     setOpenModalRetenciones(false);
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
-    handleClick();
     setOpenModalVerSpei(false);
   };
   const handleAccion = () => {
@@ -1501,6 +1588,7 @@ const Participaciones = () => {
 
 
     };
+    setslideropen(true);
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -1513,12 +1601,14 @@ const Participaciones = () => {
           sumatotal = sumatotal + Number(item.importe)
           setSumaTotal(sumatotal)
         });
+        setslideropen(false);
       } else {
         AlertS.fire({
           title: "Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
+        setslideropen(false);
       }
     });
 
@@ -1555,6 +1645,10 @@ const Participaciones = () => {
           setDescPlant(true);
         } else if (String(item.Referencia) === "DISFIDE") {
           setDisFide(true);
+        } else if (String(item.Referencia) === "TRAZASPEIDAF") {
+          setVerTrazabilidad(true);
+        }else if (String(item.Referencia) === "SEGM"){
+          setVerSegmentar(true)
         }
       }
     });
@@ -2030,10 +2124,10 @@ const Participaciones = () => {
                   },
                 }}
                 isRowSelectable={(params) => (
-                  params.row.NumCheque === null
+                 // params.row.NumCheque === null
                   // ||params.row.NumEgreso===null
                   // ||params.row.NumRequerimientoAnt===null
-                  // ||params.row.NumOrdenPago===null
+                   params.row.NumOrdenPago===null
                 )}
                 checkboxSelection
                 onSelectionModelChange={(newSelectionModel: any) => {
@@ -2082,6 +2176,10 @@ const Participaciones = () => {
       {openModalVerSpei ?
         <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows} /> : ""}
       {openCheque ? <ModalCheque tipo={tipo} handleClose={handleclose} vrows={vrows} /> : ""}
+      {openTraz ? <TrazabilidadSolicitud dt={{ TIPO:4, SP:idSolicitud, }} open={openTraz} handleClose={handleclose} />
+                :
+                ""
+            }
     </div>
   );
 };

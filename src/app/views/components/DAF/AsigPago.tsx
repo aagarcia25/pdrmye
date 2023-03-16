@@ -40,6 +40,8 @@ import { ModalCheque } from "../componentes/ModalCheque";
 import SelectFragMulti from "../Fragmentos/SelectFragMulti";
 import { fmeses } from "../../../share/loadMeses";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import InsightsIcon from "@mui/icons-material/Insights";
+import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 
 
 const AsigPago = () => {
@@ -71,6 +73,14 @@ const AsigPago = () => {
   ///// Modal de Administración de Speis
   const [openSpeis, setOpenSpeis] = useState(false);
   const [openCheque, setOpenCheque] = useState(false);
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+  const [agregarPoliza, setAgregarPoliza] = useState<boolean>(false);
+
+
+  /// trazabilidad
+
+  const [openTraz, setOpenTraz] = useState(false);
+  const [idSolicitud, setIdSolicitud] = useState<string>();
 
 
   const handleSpeis = (data: any) => {
@@ -82,7 +92,10 @@ const AsigPago = () => {
     setOpenCheque(true)
     setVrows(data)
   };
-
+  const handleVerTazabilidad = (v: any) => {
+    setOpenTraz(true);
+    setIdSolicitud(v.row.NumOrdenPago)
+  };
   const handleChangeMostrarTodo = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
@@ -90,6 +103,7 @@ const AsigPago = () => {
   const handleclose = (data: any) => {
     setOpenSpeis(false)
     setOpenCheque(false);
+    setOpenTraz(false)
   };
 
   const handleAccion = (data: any) => {
@@ -113,34 +127,43 @@ const AsigPago = () => {
               </IconButton>
             </Tooltip>
 
-
-            {String(v.row.NumCheque) === 'null' ?
-              <Tooltip title="Agregar Póliza de Pago">
-                <IconButton onClick={() => handlecheque(v)}>
-                  <ApprovalIcon />
-                </IconButton>
-              </Tooltip>
+            {agregarPoliza ?
+              String(v.row.NumCheque) === 'null' ?
+                <Tooltip title="Agregar Póliza de Pago">
+                  <IconButton onClick={() => handlecheque(v)}>
+                    <ApprovalIcon />
+                  </IconButton>
+                </Tooltip>
+                : ""
               : ""
             }
-
+            {verTrazabilidad ? (
+              <Tooltip title={"Ver Trazabilidad"}>
+                <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
+                  <InsightsIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
           </Box>
         );
       },
     },
-    {field: "estatus",      headerName: "Estatus",      width: 150, description: "Estatus",   },
-    {field: "NumOrdenPago",      headerName: "Solicitud de Pago",      width: 200,description: "Solicitud de Pago",    },
-    {field: "NumCheque",      headerName: "Póliza de Pago",      width: 200,      description: "Póliza de Pago",    },
-    {field: "importe",      headerName: "Importe Total",      width: 150,      description: "Importe Total = Total Neto - (Retenciones + Descuentos)", ...Moneda,    },
-    {field: "Anio",      headerName: "Ejercicio",      width: 80,      description: "Ejercicio",    },
-    {field: "Mes",      headerName: "Mes",      width: 100,      description: "Mes",    },
-    {field: "ClaveEstado",      headerName: "Clave Estado",      width: 100,      description: "Clave Estado",    },
-    {field: "Nombre",      headerName: "Municipio",      width: 150,      description: "Municipio",},
-    {field: "fondodes",      headerName: "Descripción de Fondo",      width: 250,   description: "Descripción de Fondo" },
-    {field: "total",      headerName: "Total Neto",      width: 150,      description: "Total Neto",      ...Moneda,    },
-    {field: "RecAdeudos",      headerName: "Retenciones",      width: 150,      description: "Retenciones",      ...Moneda,    },
-    {field: "Descuentos",      headerName: "Descuentos",      width: 150,      description: "Descuentos",      ...Moneda,    },
-    
+    { field: "estatus", headerName: "Estatus", width: 150, description: "Estatus", },
+    { field: "NumOrdenPago", headerName: "Solicitud de Pago", width: 200, description: "Solicitud de Pago", },
+    { field: "NumCheque", headerName: "Póliza de Pago", width: 200, description: "Póliza de Pago", },
+    { field: "importe", headerName: "Importe Total", width: 150, description: "Importe Total = Total Neto - (Retenciones + Descuentos)", ...Moneda, },
+    { field: "Anio", headerName: "Ejercicio", width: 80, description: "Ejercicio", },
+    { field: "Mes", headerName: "Mes", width: 100, description: "Mes", },
+    //  {field: "ClaveEstado",      headerName: "Clave Estado",      width: 100,      description: "Clave Estado",    },
+    { field: "Nombre", headerName: "Proveedor", width: 150, description: "Municipio", },
+    { field: "fondodes", headerName: "Descripción", width: 250, description: "Descripción de Fondo" },
+    { field: "total", headerName: "Total Neto", width: 150, description: "Total Neto", ...Moneda, },
+    { field: "RecAdeudos", headerName: "Retenciones", width: 150, description: "Retenciones", ...Moneda, },
+    { field: "Descuentos", headerName: "Descuentos", width: 150, description: "Descuentos", ...Moneda, },
+
 
   ];
 
@@ -183,7 +206,7 @@ const AsigPago = () => {
   const handleClick = () => {
     //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
-    
+
 
     let data = {
       TIPO: 4,
@@ -192,7 +215,7 @@ const AsigPago = () => {
       P_IDESTATUS: idestatus === "false" ? "" : idestatus,
       P_IDMES: mes === "false" ? "" : mes,
       P_SOLICITUDPAGO: numOrdenPago ? numOrdenPago : "",
-      P_MOSTRARTODOS: checked 
+      P_MOSTRARTODOS: checked
 
     };
     //console.log(data);
@@ -235,6 +258,22 @@ const AsigPago = () => {
           }
         }
       });*/
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "DAFADMINPAG") {
+
+        if (String(item.Referencia) === "TRAZASPEIDAF") {
+          setVerTrazabilidad(true);
+          // setAnchoAcciones(anchoAcciones+50)
+        }
+        if (String(item.Referencia) === "POLIZASPEIDAF") {
+          setAgregarPoliza(true);
+          // setAnchoAcciones(anchoAcciones+50)
+        }
+
+
+      }
+    })
+
   }, []);
 
   return (
@@ -254,37 +293,37 @@ const AsigPago = () => {
 
           <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
 
-          <Grid item xs={12} sm={6} md={3} lg={2}>
-          <Typography sx={{ fontFamily: "MontserratMedium" }}>
-          Solicitud de Pago:
+            <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                Solicitud de Pago:
               </Typography>
-          <FormControl sx={{ width:"100%" }}  >
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={'text'}
-                size="small"
-                fullWidth
-                placeholder="Solicitud de Pago"
-                onChange={(v) => setNumOrdenPago(v.target.value.trim())}
-                value={numOrdenPago}
-                inputProps={{ maxLength: 10 }}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <Tooltip title={"Limpiar campo"} >
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={() => setNumOrdenPago("")}
-                        edge="end"
-                        disabled={!numOrdenPago}
-                      >
-                        <ClearOutlinedIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </InputAdornment>
-                }
-                error={String(Number(numOrdenPago)) === "NaN"}
-              />
-           </FormControl>
+              <FormControl sx={{ width: "100%" }}  >
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={'text'}
+                  size="small"
+                  fullWidth
+                  placeholder="Solicitud de Pago"
+                  onChange={(v) => setNumOrdenPago(v.target.value.trim())}
+                  value={numOrdenPago}
+                  inputProps={{ maxLength: 10 }}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <Tooltip title={"Limpiar campo"} >
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => setNumOrdenPago("")}
+                          edge="end"
+                          disabled={!numOrdenPago}
+                        >
+                          <ClearOutlinedIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </InputAdornment>
+                  }
+                  error={String(Number(numOrdenPago)) === "NaN"}
+                />
+              </FormControl>
             </Grid>
 
             <Grid item xs={12} sm={6} md={3} lg={2}>
@@ -301,40 +340,40 @@ const AsigPago = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
-            <SelectFragMulti
-              options={fondos}
-              onInputChange={handleFilterChange2}
-              placeholder={"Seleccione Fondo(s)"}
-              label={""}
-              disabled={false}
-            />
+              <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
+              <SelectFragMulti
+                options={fondos}
+                onInputChange={handleFilterChange2}
+                placeholder={"Seleccione Fondo(s)"}
+                label={""}
+                disabled={false}
+              />
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
-            <SelectFrag
-              value={mes}
-              options={meses}
-              onInputChange={handleSelectMes}
-              placeholder={"Seleccione Mes"}
-              label={""}
-              disabled={false}
-            />
+              <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
+              <SelectFrag
+                value={mes}
+                options={meses}
+                onInputChange={handleSelectMes}
+                placeholder={"Seleccione Mes"}
+                label={""}
+                disabled={false}
+              />
             </Grid>
           </Grid>
 
           <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          <Grid item xs={2} sm={2} md={2} lg={2}>
-          <FormControlLabel control={
-            <Checkbox
-          checked={checked}
-          onChange={handleChangeMostrarTodo}
-          inputProps={{ 'aria-label': 'controlled' }}
-          />
-          }
-          label="Mostrar Todo" />
-          
-          </Grid>
+            <Grid item xs={2} sm={2} md={2} lg={2}>
+              <FormControlLabel control={
+                <Checkbox
+                  checked={checked}
+                  onChange={handleChangeMostrarTodo}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+              }
+                label="Mostrar Todo" />
+
+            </Grid>
           </Grid>
 
 
@@ -396,13 +435,13 @@ const AsigPago = () => {
                     toolbar: {
                       label: "Buscar",
                       showQuickFilter: true,
-        
+
                       quickFilterProps: { debounceMs: 500, },
-        
+
                       csvOptions: {
                         fileName: 'Distribucion',
                         utf8WithBom: true,
-        
+
                       }
                     },
                   }}
@@ -457,6 +496,10 @@ const AsigPago = () => {
 
       {openSpeis ? <SpeisAdmin handleClose={handleclose} handleAccion={handleAccion} vrows={vrows} /> : ""}
       {openCheque ? <ModalCheque tipo={1} handleClose={handleclose} vrows={vrows} /> : ""}
+      {openTraz ? <TrazabilidadSolicitud dt={{ TIPO: 3, SP: idSolicitud, }} open={openTraz} handleClose={handleclose} />
+        :
+        ""
+      }
     </>
   );
 };

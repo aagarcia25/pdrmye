@@ -85,21 +85,21 @@ const AuthSolicitudes = () => {
       width: 100,
     },
 
-    {
+   /* {
       field: "ClaveEstado",
       headerName: "Clave Estado",
       width: 100,
       description: "Clave Estado",
-    },
+    },*/
     {
       field: "Nombre",
-      headerName: "Municipio",
+      headerName: "Proveedor",
       width: 150,
-      description: "Municipio",
+      description: "Proveedor",
     },
     {
       field: "fondodes",
-      headerName: "Descripción de Fondo",
+      headerName: "Descripción",
       width: 250,
     },
     {

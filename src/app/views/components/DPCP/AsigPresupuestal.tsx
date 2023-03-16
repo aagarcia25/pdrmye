@@ -77,7 +77,7 @@ const AsigPresupuestal = () => {
       field: "NumOper",
       headerName: "Nº De Operación",
       description: "Número De Operación",
-      width: 200,
+      width: 150,
     },
     {
       field: "uresclave",
@@ -85,29 +85,29 @@ const AsigPresupuestal = () => {
       description: "Unidad Responsable",
       width: 80,
     },
-    {
+   /* {
       field: "ClaveEstado",
       headerName: "Clave Estado",
       description: "Clave Estado",
       width: 100,
-    },
+    },*/
     {
       field: "Nombre",
-      headerName: "Municipio",
-      description: "Municipio",
+      headerName: "Proveedor",
+      description: "Proveedor",
       width: 150,
     },
     {
       field: "fondodes",
-      headerName: "Descripción de Fondo",
-      description: "Descripción de Fondo",
+      headerName: "Descripción",
+      description: "Descripción",
       width: 250,
     },
     {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
       description: "Clave Presupuestal",
-      width: 600,
+      width: 500,
     },
     {
       field: "Presupuesto",

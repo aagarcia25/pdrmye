@@ -31,7 +31,7 @@ export function BloqueoSesion({
 
 
   useEffect(() => {
-    console.log(getUser())
+    // console.log(getUser())
     
   if(getUser()===null){
     const decoded: UserLogin = jwt_decode(String(getToken()));
