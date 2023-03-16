@@ -15,6 +15,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
 import Slider from '../Slider';
+import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 
 const SpeisAdmin = ({
     handleClose,
@@ -31,6 +32,9 @@ const SpeisAdmin = ({
     // const [documentPDF, setDocumentPDF] = useState<string>();
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [agregar, setAgregar] = useState<boolean>(false);
+    const [PERMISOVerSpei, setPERMISOVerSpei] = useState<boolean>(false);
+    const [permisoDescargarSpei, setPermisoDescargarSpei] = useState<boolean>(false);
+
     const [editar, setEditar] = useState<boolean>(false);
     const [eliminar, setEliminar] = useState<boolean>(false);
     const [addSpei, setAddSpei] = useState<boolean>(false);
@@ -58,15 +62,17 @@ const SpeisAdmin = ({
             headerName: "Acciones",
             description: "Campo de Acciones",
             sortable: false,
-            width: 100,
+            width: 150,
             renderCell: (v) => {
                 return (
                     <Box>
+                         {PERMISOVerSpei?
                         <Tooltip title="Ver Spei">
                             <IconButton onClick={() => handleVerSpei(v)}>
                                 <ArticleIcon />
                             </IconButton>
                         </Tooltip>
+                        :""}
                         {/* {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ? */}
                         {eliminar?
                         <Tooltip title="Eliminar Archivo">
@@ -75,8 +81,13 @@ const SpeisAdmin = ({
                             </IconButton>
                         </Tooltip>
                         :""}
-                        
-                        {/* : ""} */}
+                         {permisoDescargarSpei?
+                         <Tooltip title="Descargar Spei">
+                            <IconButton onClick={() => handleDescargarSpei(v)}>
+                                <DownloadOutlinedIcon />
+                            </IconButton>
+                        </Tooltip>
+                        :""}
 
                     </Box>
                 );
@@ -99,7 +110,7 @@ const SpeisAdmin = ({
         setFileValid(false);
     };
 
-    function base64toPDF(data:string , name:string) {
+    function base64toPDF( data:string , name:string) {
         var bufferArray = base64ToArrayBuffer(data);
         var blobStore = new Blob([bufferArray], { type: "application/pdf" });
        
@@ -112,7 +123,7 @@ const SpeisAdmin = ({
         window.URL.revokeObjectURL(data);
         link.remove();
         console.log(link.remove())
-        setVerSpei(true);
+        // setVerSpei(true);
 
     }
     
@@ -178,7 +189,13 @@ const SpeisAdmin = ({
     };
 
     const handleVerSpei = (v: any) => {
-        getfile(v.row.Route)
+        getfile(v.row.Nombre , v.row.Route, false)
+        setVerSpei(true);
+
+    };
+
+    const handleDescargarSpei = (v: any) => {
+        getfile(v.row.Nombre , v.row.Route , true)
 
     };
     const handleDeleteSpei = (data: any) => {
@@ -263,7 +280,7 @@ const SpeisAdmin = ({
         });
     };
 
-    const getfile = (name: string) => {
+    const getfile = (nameFile:string, name: string , descargar: boolean) => {
         DAFServices.SpeiAdministracion(
             {
                 NUMOPERACION: 5,
@@ -280,8 +297,10 @@ const SpeisAdmin = ({
                 console.log(res.RESPONSE.RESPONSE)
                 
                 setDocumentPDF(String(res.RESPONSE.RESPONSE.FILE))
-                setVerSpei(true);
-               // base64toPDF(String(res.RESPONSE.RESPONSE.FILE),String(res.RESPONSE.RESPONSE.NOMBRE) )
+               if (descargar){
+                base64toPDF(  String(res.RESPONSE.RESPONSE.FILE),nameFile )
+               }
+              
                 
             } else {
                 AlertS.fire({
@@ -358,6 +377,12 @@ const SpeisAdmin = ({
               if (String(item.Referencia) === "ELIMSPEI") {
                 setEliminar(true);
               }
+              if (String(item.Referencia) === "DESCARGARSPEI") {
+                setPermisoDescargarSpei(true);
+              }
+              if (String(item.Referencia) === "VERSPEI") {
+                setPERMISOVerSpei(true);
+              }
              
       
             }
@@ -432,7 +457,7 @@ const SpeisAdmin = ({
                                 <object
                                     width="100%"
                                     height="700"
-                                    data={`data:application/pdf;base64,${documentPDF}`} />
+                                    data={`data:application/pdf;base64,${String(documentPDF)}`} />
                             </Grid>
                         </Grid>
                     </DialogContent>
