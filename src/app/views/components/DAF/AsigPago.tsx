@@ -91,10 +91,8 @@ const AsigPago = () => {
     setVrows(data)
   };
   const handleVerTazabilidad = (v: any) => {
-    console.log(v.row)
     setOpenTraz(true);
     setIdSolicitud(v.row.NumOrdenPago)
-    //console.log(v.row.id);
   };
   const handleChangeMostrarTodo = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);

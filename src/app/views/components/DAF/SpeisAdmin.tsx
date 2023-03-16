@@ -16,6 +16,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
 import Slider from '../Slider';
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
+import axios from 'axios';
 
 const SpeisAdmin = ({
     handleClose,
@@ -28,6 +29,8 @@ const SpeisAdmin = ({
 }) => {
 
     const [documentPDF, setDocumentPDF] = useState<string>();
+    const [filePDF, setFilePDF] = useState<File>();
+
     // const [documentType, setDocumentType] = useState<string>();
     // const [documentPDF, setDocumentPDF] = useState<string>();
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -40,6 +43,8 @@ const SpeisAdmin = ({
     const [addSpei, setAddSpei] = useState<boolean>(false);
     const [verSpei, setVerSpei] = useState<boolean>(false);
     const [slideropen, setslideropen] = useState(false);
+    const [URLruta, setURLRuta] = useState<string>("");
+
     const [ruta, setRuta] = useState<string>("");
     const [name, setName] = useState<string>("");
     const [anchoAcciones, setAnchoAcciones] = useState<number>(0);
@@ -63,33 +68,33 @@ const SpeisAdmin = ({
             headerName: "Acciones",
             description: "Campo de Acciones",
             sortable: false,
-            width: anchoAcciones!==0? 100: Number(anchoAcciones) ,
+            width: anchoAcciones,
             renderCell: (v) => {
                 return (
                     <Box>
-                         {PERMISOVerSpei?
-                        <Tooltip title="Ver Spei">
-                            <IconButton onClick={() => handleVerSpei(v)}>
-                                <ArticleIcon />
-                            </IconButton>
-                        </Tooltip>
-                        :""}
+                        {PERMISOVerSpei ?
+                            <Tooltip title="Ver Spei">
+                                <IconButton onClick={() => handleVerSpei(v)}>
+                                    <ArticleIcon />
+                                </IconButton>
+                            </Tooltip>
+                            : ""}
                         {/* {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ? */}
-                        {eliminar?
-                        <Tooltip title="Eliminar Archivo">
-                            <IconButton onClick={() => handleDeleteSpei(v)}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
-                        :""}
-                         {permisoDescargarSpei?
-                         <Tooltip title="Descargar Spei">
-                            <IconButton onClick={() => handleDescargarSpei(v)}>
-                                <DownloadOutlinedIcon />
-                            </IconButton>
-                        </Tooltip>
-                        :""}
-                    
+                        {eliminar ?
+                            <Tooltip title="Eliminar Archivo">
+                                <IconButton onClick={() => handleDeleteSpei(v)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </Tooltip>
+                            : ""}
+                        {permisoDescargarSpei ?
+                            <Tooltip title="Descargar Spei">
+                                <IconButton onClick={() => handleDescargarSpei(v)}>
+                                    <DownloadOutlinedIcon />
+                                </IconButton>
+                            </Tooltip>
+                            : ""}
+
 
                     </Box>
                 );
@@ -113,23 +118,32 @@ const SpeisAdmin = ({
     };
 
 
-    function base64toPDF( data:string , name:string) {
+    function base64toPDF(data: string, name: string, descargar: boolean) {
         var bufferArray = base64ToArrayBuffer(data);
         var blobStore = new Blob([bufferArray], { type: "application/pdf" });
-       
+
         var data = window.URL.createObjectURL(blobStore);
         var link = document.createElement('a');
         document.body.appendChild(link);
         link.href = data;
-        link.download = name+".pdf";
-        link.click();
-        window.URL.revokeObjectURL(data);
-        link.remove();
-        // setVerSpei(true);
+
+        if (!descargar) {
+            setURLRuta(link.href);
+            setVerSpei(true);
+            setslideropen(false);
+        }
+        if (descargar) {
+            link.download = name + ".pdf";
+            link.click();
+            window.URL.revokeObjectURL(data);
+            link.remove();
+            setslideropen(false);
+
+        }
 
     }
-    
-    function base64ToArrayBuffer(data:string) {
+
+    function base64ToArrayBuffer(data: string) {
         var bString = window.atob(data);
         var bLength = bString.length;
         var bytes = new Uint8Array(bLength);
@@ -144,7 +158,7 @@ const SpeisAdmin = ({
         let file = event.target!.files[0]!;
         if (event.target.files.length !== 0 && event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF") {
 
-            if (Number(event.target!.files[0]!.size) / 1024 <= 512) {
+            if (Number(event.target!.files[0]!.size) / 1024 <= 5120) {
                 setNameSpei(event.target!.files[0]!.name);
                 setSpeiFile(file);
                 setFileValid(true);
@@ -153,7 +167,7 @@ const SpeisAdmin = ({
                 Swal.fire({
                     icon: "info",
                     title: "Atencion",
-                    text: "Tamaño de archivo Exedido -Limitado a 500 Kb-",
+                    text: "Tamaño de archivo Exedido -Limitado a 5 MB-",
                     showDenyButton: false,
                     showCancelButton: false,
                     confirmButtonText: "Aceptar",
@@ -161,7 +175,7 @@ const SpeisAdmin = ({
                 }).then((result) => {
                     if (result.isConfirmed) {
                         setNameSpei("");
-                        setSpeiFile(undefined);
+                        setSpeiFile(null);
                         setFileValid(false);
                     }
                     if (result.isDenied) {
@@ -191,13 +205,13 @@ const SpeisAdmin = ({
     };
 
     const handleVerSpei = (v: any) => {
-        getfile(v.row.Nombre , v.row.Route, false)
-        setVerSpei(true);
+        getfile(v.row.Nombre, v.row.Route, false)
+        setslideropen(true);
 
     };
 
     const handleDescargarSpei = (v: any) => {
-        getfile(v.row.Nombre , v.row.Route , true)
+        getfile(v.row.Nombre, v.row.Route, true)
 
     };
     const handleDeleteSpei = (data: any) => {
@@ -282,7 +296,7 @@ const SpeisAdmin = ({
         });
     };
 
-    const getfile = (nameFile:string, name: string , descargar: boolean) => {
+    const getfile = (nameFile: string, name: string, descargar: boolean) => {
         DAFServices.SpeiAdministracion(
             {
                 NUMOPERACION: 5,
@@ -296,13 +310,9 @@ const SpeisAdmin = ({
                     icon: "success",
                     title: "Consulta Exitosa!",
                 });
-                
-                setDocumentPDF(String(res.RESPONSE.RESPONSE.FILE))
-               if (descargar){
-                base64toPDF(  String(res.RESPONSE.RESPONSE.FILE),nameFile )
-               }
-              
-                
+                base64toPDF(String(res.RESPONSE.RESPONSE.FILE), nameFile, descargar)
+
+
             } else {
                 AlertS.fire({
                     title: "Error!",
@@ -312,36 +322,26 @@ const SpeisAdmin = ({
             }
         });
     };
+    ///////////////////////////////////////////////
 
-    function resolveAfter2Seconds() {
-        return new Promise(resolve => {
-          setTimeout(() => {
-            resolve('resolved');
-          }, 2000);
-        });
-      }
-      
-      async function asyncCall() {
-        const result = await resolveAfter2Seconds();
-        // Expected output: "resolved"
-      }
-      
+    const dataUrlToFile = async (dataUrl: string, fileName: string, mimeType: string): Promise<Blob> => {
+        const binStr = (dataUrl);
+        const len = binStr.length;
+        const arr = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            arr[i] = binStr.charCodeAt(i);
+        }
+        return new Blob([arr], { type: mimeType });
+    }
+
+
     //   asyncCall();
 
-   async function uploadImage(b64img: string) {
-        var file = await urltoFile(b64img,'name.png','name.png');
+    //////////////////////////////////////////
+    //return a promise that resolves with a File instance
 
-      }
-      
-      //return a promise that resolves with a File instance
-      function  urltoFile(url:string, filename:string, mimeType:string){
-          return (fetch(url)
-              .then(function(res){return res.arrayBuffer();})
-              .then(function(buf){return new File([buf], filename,{type:mimeType});})
-          );
-      }
-      
-    
+
+
 
     const consulta = () => {
         DAFServices.SpeiAdministracion(
@@ -368,27 +368,29 @@ const SpeisAdmin = ({
         });
     };
     useEffect(() => {
+        var ancho = 0;
         permisos.map((item: PERMISO) => {
             if (String(item.ControlInterno) === "DAFADMINPAG") {
-              if (String(item.Referencia) === "AGREGSPEI") {
-                setAgregar(true);
-              }
-              if (String(item.Referencia) === "ELIMSPEI") {
-                setEliminar(true);
-                setAnchoAcciones(anchoAcciones+50)
-              }
-              if (String(item.Referencia) === "DESCARGARSPEI") {
-                setPermisoDescargarSpei(true);
-                setAnchoAcciones(anchoAcciones+50)
-              }
-              if (String(item.Referencia) === "VERSPEI") {
-                setPERMISOVerSpei(true);
-                setAnchoAcciones(anchoAcciones+50)
-              }
-             
-      
+
+
+                if (String(item.Referencia) === "AGREGSPEI") {
+                    setAgregar(true);
+                }
+                if (String(item.Referencia) === "ELIMSPEI") {
+                    setEliminar(true);
+                    ancho = ancho + 50;
+                }
+                if (String(item.Referencia) === "DESCARGARSPEI") {
+                    setPermisoDescargarSpei(true);
+                    ancho = ancho + 50;
+                }
+                if (String(item.Referencia) === "VERSPEI") {
+                    setPERMISOVerSpei(true);
+                    ancho = ancho + 50;
+                }
             }
-          });
+            setAnchoAcciones(ancho)
+        });
         consulta();
     }, []);
     return (
@@ -456,10 +458,10 @@ const SpeisAdmin = ({
                                 {/* <h3>Nombre de archivo: {name}</h3> */}
                             </Grid>
                             <Grid item container justifyContent="center" xs={12}>
-                                <object
+                                <iframe
                                     width="100%"
                                     height="700"
-                                    data={`data:application/pdf;base64,${String(documentPDF)}`} />
+                                    src={URLruta} />
                             </Grid>
                         </Grid>
                     </DialogContent>

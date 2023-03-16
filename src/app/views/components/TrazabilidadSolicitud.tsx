@@ -68,7 +68,7 @@ const TrazabilidadSolicitud = ({
             <Typography variant="h4" >Trazabilidad</Typography>
             {/* <DialogTitle>Trazabilidad</DialogTitle> */}
             </Grid>
-            <Grid item xs={1} sm={1} md={1} lg={1}  >
+            <Grid item xs={2.3} sm={1} md={1} lg={1}  >
                 <Tooltip title="Salir">
                   <Button variant="contained" className="cerrar" aria-label="close" color="error" onClick={() => handleClose()}>
                     <CloseIcon />
