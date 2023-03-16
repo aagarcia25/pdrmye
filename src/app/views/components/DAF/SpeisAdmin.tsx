@@ -42,6 +42,7 @@ const SpeisAdmin = ({
     const [slideropen, setslideropen] = useState(false);
     const [ruta, setRuta] = useState<string>("");
     const [name, setName] = useState<string>("");
+    const [anchoAcciones, setAnchoAcciones] = useState<number>(0);
 
     const [nameSpei, setNameSpei] = useState<string>("");
     const [speiFile, setSpeiFile] = useState(Object);
@@ -62,7 +63,7 @@ const SpeisAdmin = ({
             headerName: "Acciones",
             description: "Campo de Acciones",
             sortable: false,
-            width: 150,
+            width: anchoAcciones!==0? 100: Number(anchoAcciones) ,
             renderCell: (v) => {
                 return (
                     <Box>
@@ -88,6 +89,7 @@ const SpeisAdmin = ({
                             </IconButton>
                         </Tooltip>
                         :""}
+                    
 
                     </Box>
                 );
@@ -110,6 +112,7 @@ const SpeisAdmin = ({
         setFileValid(false);
     };
 
+
     function base64toPDF( data:string , name:string) {
         var bufferArray = base64ToArrayBuffer(data);
         var blobStore = new Blob([bufferArray], { type: "application/pdf" });
@@ -122,7 +125,6 @@ const SpeisAdmin = ({
         link.click();
         window.URL.revokeObjectURL(data);
         link.remove();
-        console.log(link.remove())
         // setVerSpei(true);
 
     }
@@ -294,7 +296,6 @@ const SpeisAdmin = ({
                     icon: "success",
                     title: "Consulta Exitosa!",
                 });
-                console.log(res.RESPONSE.RESPONSE)
                 
                 setDocumentPDF(String(res.RESPONSE.RESPONSE.FILE))
                if (descargar){
@@ -321,9 +322,7 @@ const SpeisAdmin = ({
       }
       
       async function asyncCall() {
-        console.log('calling');
         const result = await resolveAfter2Seconds();
-        console.log(result);
         // Expected output: "resolved"
       }
       
@@ -376,12 +375,15 @@ const SpeisAdmin = ({
               }
               if (String(item.Referencia) === "ELIMSPEI") {
                 setEliminar(true);
+                setAnchoAcciones(anchoAcciones+50)
               }
               if (String(item.Referencia) === "DESCARGARSPEI") {
                 setPermisoDescargarSpei(true);
+                setAnchoAcciones(anchoAcciones+50)
               }
               if (String(item.Referencia) === "VERSPEI") {
                 setPERMISOVerSpei(true);
+                setAnchoAcciones(anchoAcciones+50)
               }
              
       
