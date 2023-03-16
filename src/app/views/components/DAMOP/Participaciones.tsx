@@ -583,7 +583,7 @@ const Participaciones = () => {
     setOpenModalRetenciones(false);
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
-    handleClick();
+   // handleClick();
     setOpenModalVerSpei(false);
   };
   const handleAccion = () => {
