@@ -9,8 +9,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { DAFServices } from '../../../services/DAFServices';
 import { Toast } from '../../../helpers/Toast';
-import { RESPONSE } from '../../../interfaces/user/UserInfo';
-import { getToken, getUser } from '../../../services/localStorage';
+import { PERMISO, RESPONSE } from '../../../interfaces/user/UserInfo';
+import { getPermisos, getToken, getUser } from '../../../services/localStorage';
 import ArticleIcon from '@mui/icons-material/Article';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
@@ -29,7 +29,10 @@ const SpeisAdmin = ({
     const [documentPDF, setDocumentPDF] = useState<string>();
     // const [documentType, setDocumentType] = useState<string>();
     // const [documentPDF, setDocumentPDF] = useState<string>();
-
+    const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+    const [agregar, setAgregar] = useState<boolean>(false);
+    const [editar, setEditar] = useState<boolean>(false);
+    const [eliminar, setEliminar] = useState<boolean>(false);
     const [addSpei, setAddSpei] = useState<boolean>(false);
     const [verSpei, setVerSpei] = useState<boolean>(false);
     const [slideropen, setslideropen] = useState(false);
@@ -65,11 +68,14 @@ const SpeisAdmin = ({
                             </IconButton>
                         </Tooltip>
                         {/* {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ? */}
+                        {eliminar?
                         <Tooltip title="Eliminar Archivo">
                             <IconButton onClick={() => handleDeleteSpei(v)}>
                                 <DeleteIcon />
                             </IconButton>
                         </Tooltip>
+                        :""}
+                        
                         {/* : ""} */}
 
                     </Box>
@@ -93,6 +99,33 @@ const SpeisAdmin = ({
         setFileValid(false);
     };
 
+    function base64toPDF(data:string , name:string) {
+        var bufferArray = base64ToArrayBuffer(data);
+        var blobStore = new Blob([bufferArray], { type: "application/pdf" });
+       
+        var data = window.URL.createObjectURL(blobStore);
+        var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = data;
+        link.download = name+".pdf";
+        link.click();
+        window.URL.revokeObjectURL(data);
+        link.remove();
+        console.log(link.remove())
+        setVerSpei(true);
+
+    }
+    
+    function base64ToArrayBuffer(data:string) {
+        var bString = window.atob(data);
+        var bLength = bString.length;
+        var bytes = new Uint8Array(bLength);
+        for (var i = 0; i < bLength; i++) {
+            var ascii = bString.charCodeAt(i);
+            bytes[i] = ascii;
+        }
+        return bytes;
+    };
 
     const handleNewSpei = (event: any) => {
         let file = event.target!.files[0]!;
@@ -244,8 +277,11 @@ const SpeisAdmin = ({
                     icon: "success",
                     title: "Consulta Exitosa!",
                 });
+                console.log(res.RESPONSE.RESPONSE)
+                
                 setDocumentPDF(String(res.RESPONSE.RESPONSE.FILE))
-                setVerSpei(true);
+                base64toPDF(String(res.RESPONSE.RESPONSE.FILE),String(res.RESPONSE.RESPONSE.NOMBRE) )
+                
             } else {
                 AlertS.fire({
                     title: "Error!",
@@ -255,6 +291,38 @@ const SpeisAdmin = ({
             }
         });
     };
+
+    function resolveAfter2Seconds() {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve('resolved');
+          }, 2000);
+        });
+      }
+      
+      async function asyncCall() {
+        console.log('calling');
+        const result = await resolveAfter2Seconds();
+        console.log(result);
+        // Expected output: "resolved"
+      }
+      
+    //   asyncCall();
+
+   async function uploadImage(b64img: string) {
+        var file = await urltoFile(b64img,'name.png','name.png');
+
+      }
+      
+      //return a promise that resolves with a File instance
+      function  urltoFile(url:string, filename:string, mimeType:string){
+          return (fetch(url)
+              .then(function(res){return res.arrayBuffer();})
+              .then(function(buf){return new File([buf], filename,{type:mimeType});})
+          );
+      }
+      
+    
 
     const consulta = () => {
         DAFServices.SpeiAdministracion(
@@ -281,6 +349,18 @@ const SpeisAdmin = ({
         });
     };
     useEffect(() => {
+        permisos.map((item: PERMISO) => {
+            if (String(item.ControlInterno) === "DAFADMINPAG") {
+              if (String(item.Referencia) === "AGREGSPEI") {
+                setAgregar(true);
+              }
+              if (String(item.Referencia) === "ELIMSPEI") {
+                setEliminar(true);
+              }
+             
+      
+            }
+          });
         consulta();
     }, []);
     return (
@@ -289,7 +369,7 @@ const SpeisAdmin = ({
             <ModalForm title={'Administración de  los Spei'} handleClose={handleClose}>
                 <Box>
                     {/* agregar={user.DEPARTAMENTOS[0].NombreCorto==="DAF"} */}
-                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={true} />
+                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={agregar} />
                     <Grid item xs={12}>
                         <MUIXDataGridMun modulo={''} handleBorrar={handleBorrarMasivo} columns={columns} rows={speis} controlInterno={''} />
                     </Grid>
