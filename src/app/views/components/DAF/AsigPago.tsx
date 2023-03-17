@@ -74,6 +74,8 @@ const AsigPago = () => {
   const [openSpeis, setOpenSpeis] = useState(false);
   const [openCheque, setOpenCheque] = useState(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+  const [agregarPoliza, setAgregarPoliza] = useState<boolean>(false);
+
 
   /// trazabilidad
 
@@ -125,13 +127,14 @@ const AsigPago = () => {
               </IconButton>
             </Tooltip>
 
-
-            {String(v.row.NumCheque) === 'null' ?
-              <Tooltip title="Agregar Póliza de Pago">
-                <IconButton onClick={() => handlecheque(v)}>
-                  <ApprovalIcon />
-                </IconButton>
-              </Tooltip>
+            {agregarPoliza ?
+              String(v.row.NumCheque) === 'null' ?
+                <Tooltip title="Agregar Póliza de Pago">
+                  <IconButton onClick={() => handlecheque(v)}>
+                    <ApprovalIcon />
+                  </IconButton>
+                </Tooltip>
+                : ""
               : ""
             }
             {verTrazabilidad ? (
@@ -262,6 +265,11 @@ const AsigPago = () => {
           setVerTrazabilidad(true);
           // setAnchoAcciones(anchoAcciones+50)
         }
+        if (String(item.Referencia) === "POLIZASPEIDAF") {
+          setAgregarPoliza(true);
+          // setAnchoAcciones(anchoAcciones+50)
+        }
+
 
       }
     })
@@ -488,10 +496,10 @@ const AsigPago = () => {
 
       {openSpeis ? <SpeisAdmin handleClose={handleclose} handleAccion={handleAccion} vrows={vrows} /> : ""}
       {openCheque ? <ModalCheque tipo={1} handleClose={handleclose} vrows={vrows} /> : ""}
-      {openTraz ? <TrazabilidadSolicitud dt={{ TIPO:3, SP:idSolicitud, }} open={openTraz} handleClose={handleclose} />
-                :
-                ""
-            }
+      {openTraz ? <TrazabilidadSolicitud dt={{ TIPO: 3, SP: idSolicitud, }} open={openTraz} handleClose={handleclose} />
+        :
+        ""
+      }
     </>
   );
 };

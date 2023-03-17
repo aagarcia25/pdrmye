@@ -25,16 +25,13 @@ export const MunPobProyeccion = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [Poblacion, setPoblacion] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
   //funciones
@@ -260,16 +257,6 @@ export const MunPobProyeccion = () => {
     }
   };
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_PROYECCION",
-
-    };
-
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
 
 
   useEffect(() => {
@@ -286,7 +273,6 @@ export const MunPobProyeccion = () => {
       }
     });
     setAnios(fanios());
-    downloadplantilla();
     let data = {
       NUMOPERACION: 4,
       ANIO: "",
@@ -306,7 +292,7 @@ export const MunPobProyeccion = () => {
       <Grid container   direction="row"justifyContent="space-between"alignItems="center">
         <Grid item xs={12}  >
           <ButtonsMunicipio
-            url={plantilla}
+            url={"MUNICIPIO_PROYECCION.xlsx"}
             handleUpload={handleUpload} controlInterno={"MUNPROYEC"} options={anios}
             onInputChange={handleFilterChange}
             placeholder={"Seleccione Año"} label={""} disabled={false}

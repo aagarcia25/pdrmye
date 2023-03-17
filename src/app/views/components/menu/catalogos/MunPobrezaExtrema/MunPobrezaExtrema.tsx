@@ -25,7 +25,6 @@ export const MunPobrezaExtrema = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [PobrezaExtrema, setPobrezaExtrema] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -254,16 +253,6 @@ export const MunPobrezaExtrema = () => {
   };
 
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_POBREZA_EXTREMA",
-
-    };
-
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
 
 
   useEffect(() => {
@@ -283,7 +272,6 @@ export const MunPobrezaExtrema = () => {
     });
 
     setAnios(fanios());
-    downloadplantilla();
 
     let data = {
       NUMOPERACION: 4,
@@ -307,7 +295,7 @@ export const MunPobrezaExtrema = () => {
 
 
       <ButtonsMunicipio
-        url={plantilla}
+        url={"MUNICIPIO_POBREZA_EXTREMA.xlsx"}
         handleUpload={handleUpload} controlInterno={"MUNPOEX"} 
         
         value={filterAnio}

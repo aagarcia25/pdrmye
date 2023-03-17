@@ -17,6 +17,7 @@ import Swal from 'sweetalert2';
 import Slider from '../Slider';
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import axios from 'axios';
+import { base64ToArrayBuffer } from '../../../helpers/Files';
 
 const SpeisAdmin = ({
     handleClose,
@@ -143,16 +144,7 @@ const SpeisAdmin = ({
 
     }
 
-    function base64ToArrayBuffer(data: string) {
-        var bString = window.atob(data);
-        var bLength = bString.length;
-        var bytes = new Uint8Array(bLength);
-        for (var i = 0; i < bLength; i++) {
-            var ascii = bString.charCodeAt(i);
-            bytes[i] = ascii;
-        }
-        return bytes;
-    };
+  
 
     const handleNewSpei = (event: any) => {
         let file = event.target!.files[0]!;

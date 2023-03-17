@@ -20,7 +20,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../services/localStorage";
+import { getPermisos, getToken, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
@@ -66,6 +66,7 @@ import SelectFragMulti from "../Fragmentos/SelectFragMulti";
 import PolylineIcon from '@mui/icons-material/Polyline';
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import { base64ToArrayBuffer, dowloandfile } from "../../../helpers/Files";
 
 
 
@@ -149,13 +150,13 @@ const Participaciones = () => {
 
 
   const downloadplantilla = () => {
+    let name ="PLANTILLA CARGA ANTICIPO PARTICIPACIONES.xlsx";
     let data = {
-      NUMOPERACION: "PLANTILLA CARGA ANTICIPO PARTICIPACIONES",
+      TOKEN:JSON.parse(String(getToken())),
+      RUTA:'/PDRMYE/DAMOP/PLANTILLAS/',
+      NOMBRE: name,
     };
-
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
+    dowloandfile(data);
   };
 
   const handleDescuento = (data: any) => {
@@ -1636,7 +1637,6 @@ const Participaciones = () => {
     loadFilter(25);
     loadFilter(24);
     // handleClick();
-    downloadplantilla();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
         if (String(item.Referencia) === "AGREGPLANT") {
@@ -1841,17 +1841,8 @@ const Participaciones = () => {
 
             {descPlant ? (
               <Tooltip title={"Descargar Plantilla"}>
-                <ToggleButton value="check">
-                  <IconButton
-                    color="primary"
-                    aria-label="upload documento"
-                    component="label"
-                    size="large"
-                  >
-                    <Link href={plantilla}>
+                <ToggleButton value="check" onClick={() => downloadplantilla()}>
                       <ArrowDownwardIcon />
-                    </Link>
-                  </IconButton>
                 </ToggleButton>
               </Tooltip>
             ) : (

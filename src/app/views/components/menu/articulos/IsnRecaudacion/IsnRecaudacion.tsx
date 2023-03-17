@@ -10,14 +10,10 @@ import { Toast } from '../../../../../helpers/Toast'
 import { AlertS } from "../../../../../helpers/AlertS";
 import Slider from "../../../Slider";
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import SelectFrag from '../../../Fragmentos/SelectFrag'
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import MUIXDataGridMun from '../../../MUIXDataGridMun'
-import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Moneda } from '../../CustomToolbar'
 import ButtonsMunicipio from '../../catalogos/Utilerias/ButtonsMunicipio'
 
@@ -304,18 +300,9 @@ const IsnRecaudacion = () => {
 
 
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "PLANTILLA DE CARGA_ISN_RECAUDACION",
-    };
 
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
 
   useEffect(() => {
-    downloadplantilla();
     setAnios(fanios());
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "ISNR") {
@@ -354,7 +341,7 @@ const IsnRecaudacion = () => {
       </Grid>
      
       <ButtonsMunicipio
-        url={plantilla}
+        url={"PLANTILLA DE CARGA_ISN_RECAUDACION.xlsx"}
         handleUpload={handleUpload} controlInterno={"ISNR"} 
         value={''}
         options={anios}
