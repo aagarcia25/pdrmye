@@ -75,10 +75,10 @@ const UsuariosModal = ({
   const [value, setValue] = useState('1');
 
   const AccionesSol = [
-    { accion: 'ALTA',         TipoSol: 'ALTA',         Mensaje: '¡Envio de Solicitud de Alta Exitoso!'        , mensajeBoton:"Solicitar Nuevo Registro"       , mensajeModal: "Nuevo Registro"      ,classNameCSS: "guardar" },
-    { accion: 'BAJA',         TipoSol: 'BAJA',         Mensaje: '¡Envio de Solicitud de Baja Exitoso!'        , mensajeBoton:"Solicitar Baja Registro"        , mensajeModal: "Baja Registro"       ,classNameCSS: "CerrarModal" },
-    { accion: 'MODIFICACION', TipoSol: 'MODIFICACION', Mensaje: '¡Envio de Solicitud de Modificación Exitoso!', mensajeBoton:"Solicitar Editar Registro"      , mensajeModal: "Editar Registro"     ,classNameCSS: "editar" },
-    { accion: 'VINCULACION',  TipoSol: 'VINCULACION',  Mensaje: '¡Envio de Solicitud de Vinculación Exitoso!' , mensajeBoton:"Solicitar Vinculacion Registro" , mensajeModal: "Vinculacion Registro",classNameCSS: "" }
+    { accion: 'ALTA', TipoSol: 'ALTA', Mensaje: '¡Envio de Solicitud de Alta Exitoso!', mensajeBoton: "Solicitar Nuevo Registro", mensajeModal: "Nuevo Registro", classNameCSS: "guardar" },
+    { accion: 'BAJA', TipoSol: 'BAJA', Mensaje: '¡Envio de Solicitud de Baja Exitoso!', mensajeBoton: "Solicitar Baja Registro", mensajeModal: "Baja Registro", classNameCSS: "CerrarModal" },
+    { accion: 'MODIFICACION', TipoSol: 'MODIFICACION', Mensaje: '¡Envio de Solicitud de Modificación Exitoso!', mensajeBoton: "Solicitar Editar Registro", mensajeModal: "Editar Registro", classNameCSS: "editar" },
+    { accion: 'VINCULACION', TipoSol: 'VINCULACION', Mensaje: '¡Envio de Solicitud de Vinculación Exitoso!', mensajeBoton: "Solicitar Vinculacion Registro", mensajeModal: "Vinculacion Registro", classNameCSS: "" }
   ]
 
 
@@ -365,7 +365,6 @@ const UsuariosModal = ({
               };
 
               UserServices.createsolicitud(datSol).then((resSol) => {
-
                 if (resSol?.status === 409) {
                   setOpenSlider(false);
                   Toast.fire({
@@ -374,19 +373,29 @@ const UsuariosModal = ({
                   });
                 }
 
-                else if ((resSol?.data?.data[0][0].length != 0 ? resSol?.data?.data[0][0]?.Respuesta : " ") === "201" && tipo === "ALTA") {
+                else if ((resSol?.data?.data[0][0].length != 0 ? resSol?.data?.data[0][0]?.Respuesta : " ") === "201" && (tipo === "ALTA" || tipo === "BAJA")) {
+                  let dat = {};
+                  if (tipo === "ALTA") {
+                    dat = {
+                      NUMOPERACION: 3,
+                      CHUSER: user.id,
+                      PUESTO: puesto,
+                      IDDEPARTAMENTO: idDepartamento,
+                      IDPERFIL: idPerfil,
+                      IDSOLICITUD: resSol.data.data[0][0].IdSolicitud,
+                      IDURESP: idUresp,
+                      USUARIOSIREGOB: usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob,
+                      USUARIO: NombreUsuario,
+                    };
+                  }
+                  if (tipo === "BAJA") {
+                    dat = {
+                      NUMOPERACION: 10,
+                      CHUSER: user.id,
+                      CHID: idRegistro
+                    };
+                  }
 
-                  let dat = {
-                    NUMOPERACION: 3,
-                    CHUSER: user.id,
-                    PUESTO: puesto,
-                    IDDEPARTAMENTO: idDepartamento,
-                    IDPERFIL: idPerfil,
-                    IDSOLICITUD: resSol.data.data[0][0].IdSolicitud,
-                    IDURESP: idUresp,
-                    USUARIOSIREGOB: usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob,
-                    USUARIO: NombreUsuario,
-                  };
 
                   AuthService.adminUser(dat).then((res) => {
                     if (res.SUCCESS) {
@@ -442,7 +451,7 @@ const UsuariosModal = ({
     });
 
     if (dt !== "") {
-      if(tipo==="BAJA"){
+      if (tipo === "BAJA") {
         setDisableBaja(true);
 
       }
@@ -500,7 +509,7 @@ const UsuariosModal = ({
           <TabContext value={value}>
             <Grid container sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
-                <Tab label="Información Usuario" value="1" disabled={tipo!=="MODIFICACION"}/>
+                <Tab label="Información Usuario" value="1" disabled={tipo !== "MODIFICACION"} />
                 {tipo !== "ALTA" ? <Tab label="Configuración Usuario" value="2" /> : ""}
               </TabList>
             </Grid>
@@ -579,7 +588,7 @@ const UsuariosModal = ({
 
                     <TextField
                       required
-                      disabled={tipo !== "ALTA"|| disableBaja}
+                      disabled={tipo !== "ALTA" || disableBaja}
                       margin="dense"
                       id="NombreUsuario"
                       label="Nombre Usuario"
@@ -596,7 +605,7 @@ const UsuariosModal = ({
                     />
 
                     <TextField
-                      disabled={tipo !== "ALTA"||disableBaja}
+                      disabled={tipo !== "ALTA" || disableBaja}
                       required
                       margin="dense"
                       id="CorreoElectronico"
@@ -662,7 +671,7 @@ const UsuariosModal = ({
                       InputLabelProps={{ shrink: true }}
                       inputProps={{
                         maxLength: 20,
-                      }} 
+                      }}
                       disabled={disableBaja}
                     ></TextField>
                   </Grid>
@@ -688,7 +697,7 @@ const UsuariosModal = ({
                       inputProps={{ maxLength: 18 }}
                       error={curp.length !== 18 ? true : false}
                       disabled={disableBaja}
-                    
+
                     />
                     <TextField
                       required

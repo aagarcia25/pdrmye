@@ -9,4 +9,6 @@ export const COLOR = {
     grisBotones:'#EEEEEE',
     rojo:'#fa4238',
     verde:'#23FE09',
+    verdeBAndera:'#229954 ',
+
   }

@@ -196,9 +196,8 @@ const Roles = () => {
         ""
       )}
             <Grid container >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <Typography
-                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+            <Grid item container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography variant="h4">
                 Roles
               </Typography>
             </Grid>

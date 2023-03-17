@@ -20,6 +20,7 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { ParametroServices } from "../../../../../services/ParametroServices";
 import { Datum } from "../../../../../interfaces/user/solicitudes";
 import { getRowIdFromRowModel } from "@mui/x-data-grid/hooks/features/rows/gridRowsUtils";
+import { COLOR } from "../../../../../styles/colors";
 
 
 const Usuarios = () => {
@@ -38,7 +39,7 @@ const Usuarios = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    if(newValue ==='2'){
+    if (newValue === '2') {
       let dataAppId = {
         NUMOPERACION: 5,
         NOMBRE: "AppID",
@@ -46,12 +47,12 @@ const Usuarios = () => {
 
       ParametroServices.ParametroGeneralesIndex(dataAppId).then(
         (resAppId) => {
-                 UserServices.solicitudesapp('IdUsuario='+user.id+'&IdApp='+resAppId?.RESPONSE?.Valor).then((res) => {
-                 const sol: Datum[] = res.data.data;
-                 //const valo: Datum[] = sol;
-                 setDataSolicitud(sol);
+          UserServices.solicitudesapp('IdUsuario=' + user.id + '&IdApp=' + resAppId?.RESPONSE?.Valor).then((res) => {
+            const sol: Datum[] = res.data.data;
+            //const valo: Datum[] = sol;
+            setDataSolicitud(sol);
           });
-    });
+        });
     }
     setValue(newValue);
   };
@@ -67,60 +68,60 @@ const Usuarios = () => {
     setDt(v.row);
     setOpenNew(true);
   };
-  
+
   const handleDelete = (v: any) => {
     setTipoOperacion("BAJA");
     setDt(v.row);
     setOpenNew(true);
   };
- 
+
 
 
   // const handleDelete = (v: any) => {
-    /*  Swal.fire({
-        icon: "info",
-        title: "Estas seguro de eliminar este registro?",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Confirmar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          //console.log(v);
-  
-          let data = {
-            NUMOPERACION: 3,
-            CHID: v.row.id,
-            CHUSER: user.id
-          };
-          //console.log(data);
-  
-          CatalogosServices.munfacturacion(data).then((res) => {
-            if (res.SUCCESS) {
-              Toast.fire({
-                icon: "success",
-                title: "Registro Eliminado!",
-              });
-  
-              let data = {
-                NUMOPERACION: 4,
-                ANIO: filterAnio,
-              };
-              consulta(data);
-  
-            } else {
-              AlertS.fire({
-                title: "Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              });
-            }
-          });
-  
-        } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
-        }
-      });*/
+  /*  Swal.fire({
+      icon: "info",
+      title: "Estas seguro de eliminar este registro?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Confirmar",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //console.log(v);
+ 
+        let data = {
+          NUMOPERACION: 3,
+          CHID: v.row.id,
+          CHUSER: user.id
+        };
+        //console.log(data);
+ 
+        CatalogosServices.munfacturacion(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Registro Eliminado!",
+            });
+ 
+            let data = {
+              NUMOPERACION: 4,
+              ANIO: filterAnio,
+            };
+            consulta(data);
+ 
+          } else {
+            AlertS.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+ 
+      } else if (result.isDenied) {
+        Swal.fire("No se realizaron cambios", "", "info");
+      }
+    });*/
   // };
 
   const handleClose = (v: string) => {
@@ -138,21 +139,21 @@ const Usuarios = () => {
 
 
   const columnsSolicitud: GridColDef[] = [
-    { field: "Id",     hide: true},
-    { field: "FechaDeCreacion",    headerName: "Fecha De Creación",      description: "Fecha De Creación",       width: 250 },
-    { field: "UltimaModificacion", headerName: "Ultima Modificación",    description: "Ultima Modificación",     width: 250 },
-    { field: "NombreUsuario",      headerName: "Nombre Usuario",         description: "Nombre Usuario",          width: 150, },
-    { field: "DatosAdicionales",   headerName: "Datos Adicionales",      description: "Datos Adicionales",       width: 250 },
-    { field: "Estatus",            headerName: "Estatus",                description: "Estatus",                 width: 150 },
-    { field: "tipoSoli",           headerName: "Tipo Solicitud",         description: "Tipo Solicitud",          width: 150 },
-    { field: "AppNombre",          headerName: "Nombre de la aplicación",description: "Nombre de la aplicación", width: 200, },
-    { field: "Mensaje",            headerName: "Mensaje",                description: "Mensaje",                 width: 120, },
+    { field: "Id", hide: true },
+    { field: "FechaDeCreacion", headerName: "Fecha De Creación", description: "Fecha De Creación", width: 250 },
+    { field: "UltimaModificacion", headerName: "Ultima Modificación", description: "Ultima Modificación", width: 250 },
+    { field: "NombreUsuario", headerName: "Nombre Usuario", description: "Nombre Usuario", width: 150, },
+    { field: "DatosAdicionales", headerName: "Datos Adicionales", description: "Datos Adicionales", width: 250 },
+    { field: "Estatus", headerName: "Estatus", description: "Estatus", width: 150 },
+    { field: "tipoSoli", headerName: "Tipo Solicitud", description: "Tipo Solicitud", width: 150 },
+    { field: "AppNombre", headerName: "Nombre de la aplicación", description: "Nombre de la aplicación", width: 200, },
+    { field: "Mensaje", headerName: "Mensaje", description: "Mensaje", width: 120, },
   ];
 
   const columns: GridColDef[] = [
-    { field: "id", hide: true,},
+    { field: "id", hide: true, },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -180,19 +181,37 @@ const Usuarios = () => {
         );
       },
     },
-    { field: "UltimoInicioDeSesion",  headerName: "Ultimo Inicio De Sesion",description: "Ultimo Inicio De Sesion", width: 200 },
-    { field: "NombreUsuario",         headerName: "Nombre Usuario",         description: "Nombre Usuario",          width: 250, },
-    { field: "Nombre",                headerName: "Nombre",                 description: "Nombre",                  width: 150 },
-    { field: "ApellidoPaterno",       headerName: "Apellido Paterno",       description: "Apellido Paterno",        width: 150 },
-    { field: "ApellidoMaterno",       headerName: "Apellido Materno",       description: "Apellido Materno",        width: 150 },
-    { field: "Rfc",                   headerName: "Rfc",                    description: "Rfc",                     width: 200, },
-    { field: "Curp",                  headerName: "Correo Curp",            description: "Correo Curp",             width: 120, },
-    { field: "Telefono",              headerName: "Telefono",               description: "Telefono",                width: 120, },
-    { field: "Ext",                   headerName: "Ext",                    description: "Ext",                     width: 100, },
-    { field: "Celular",               headerName: "Celular",                description: "Celular",                 width: 120, },
-    { field: "Ubicación",             headerName: "Ubicación",              description: "Ubicación",               width: 250, },
-    { field: "CorreoElectronico",     headerName: "Correo Electronico",     description: "Correo Electronico",      width: 250, },
-    { field: "Puesto",                headerName: "Puesto",                 description: "Puesto",                  width: 200, },
+    {
+      field: "EstatusPDRMYE", disableExport: true,
+      headerName: "Estatus",
+      description: "Campo de Estatus",
+      sortable: false,
+      width: 100,
+      renderCell: (v) => {
+        return (
+          <Grid container>
+          <Box sx={{ borderRadius:10,  textAlign: "center", alignItem: "center", width: "100%", height: "100%", bgcolor: v.row.EstatusPDRMYE === "0" ? COLOR.verdeBAndera : COLOR.rojo }} >
+            <Typography>
+              {v.row.EstatusPDRMYE === "0" ? "Activo" : "Inactivo"}
+            </Typography>
+          </Box>
+          </Grid>
+        );
+      },
+    },
+    { field: "UltimoInicioDeSesion", headerName: "Ultimo Inicio De Sesion", description: "Ultimo Inicio De Sesion", width: 200 },
+    { field: "NombreUsuario", headerName: "Nombre Usuario", description: "Nombre Usuario", width: 250, },
+    { field: "Nombre", headerName: "Nombre", description: "Nombre", width: 150 },
+    { field: "ApellidoPaterno", headerName: "Apellido Paterno", description: "Apellido Paterno", width: 150 },
+    { field: "ApellidoMaterno", headerName: "Apellido Materno", description: "Apellido Materno", width: 150 },
+    { field: "Rfc", headerName: "Rfc", description: "Rfc", width: 200, },
+    { field: "Curp", headerName: "Correo Curp", description: "Correo Curp", width: 120, },
+    { field: "Telefono", headerName: "Telefono", description: "Telefono", width: 120, },
+    { field: "Ext", headerName: "Ext", description: "Ext", width: 100, },
+    { field: "Celular", headerName: "Celular", description: "Celular", width: 120, },
+    { field: "Ubicación", headerName: "Ubicación", description: "Ubicación", width: 250, },
+    { field: "CorreoElectronico", headerName: "Correo Electronico", description: "Correo Electronico", width: 250, },
+    { field: "Puesto", headerName: "Puesto", description: "Puesto", width: 200, },
     { field: "idDepartamento", hide: true, },
     { field: "idPerfil", hide: true, },
 
@@ -265,30 +284,28 @@ const Usuarios = () => {
         )}
         <Grid container >
           <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-            <Typography
-              sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+            <Typography variant="h4" >
               Usuarios
             </Typography>
           </Grid>
         </Grid>
 
 
-
         <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Usuarios Activos" value="1" />
-            <Tab label="Solicitudes Pendientes" value="2" />
-          </TabList>
-        </Box>
-        <TabPanel value="1">
-        <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-        <MUIXDataGrid columns={columns} rows={data} />
-        </TabPanel>
-        <TabPanel value="2">
-         <MUIXDataGrid columns={columnsSolicitud} rows={dataSolicitud} />
-        </TabPanel>
-      </TabContext>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <TabList onChange={handleChange} aria-label="lab API tabs example">
+              <Tab label="Usuarios Activos" value="1" />
+              <Tab label="Solicitudes Pendientes" value="2" />
+            </TabList>
+          </Box>
+          <TabPanel value="1">
+            <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+            <MUIXDataGrid columns={columns} rows={data} />
+          </TabPanel>
+          <TabPanel value="2">
+            <MUIXDataGrid columns={columnsSolicitud} rows={dataSolicitud} />
+          </TabPanel>
+        </TabContext>
 
 
       </Grid>
