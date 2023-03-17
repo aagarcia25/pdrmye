@@ -172,7 +172,7 @@ const AsigPago = () => {
     CatalogosServices.SelectIndex(data).then((res) => {
       if (operacion === 31) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 5) {
+      } else if (operacion === 32) {
         setMunicipios(res.RESPONSE);
       } else if (operacion === 17) {
         setTipos(res.RESPONSE);
@@ -239,7 +239,7 @@ const AsigPago = () => {
   useEffect(() => {
     setMeses(fmeses());
     loadFilter(31);
-    loadFilter(5);
+    loadFilter(32);
     loadFilter(17);
     // handleClick();
     /*  permisos.map((item: PERMISO) => {
@@ -328,7 +328,7 @@ const AsigPago = () => {
 
             <Grid item xs={12} sm={6} md={3} lg={2}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                Municipio:
+                Proveedor:
               </Typography>
               <SelectFrag
                 value={idMunicipio}
