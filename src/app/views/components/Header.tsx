@@ -231,7 +231,7 @@ export default function Header(props: HeaderProps) {
                       </IconButton>
                     </Badge>
                   </Tooltip>
-       </>, name: 'Bandeja de correo' },
+       </>, name: 'Notificaciones' },
     {
       icon: <>   <Tooltip title="Guía Rapida">
         <IconButton
@@ -253,7 +253,7 @@ export default function Header(props: HeaderProps) {
             }}
           />
         </IconButton>
-      </Tooltip>  </>, name: 'Guía Rapida'
+      </Tooltip>  </>, name: 'Guía'
     },
   
   ];
