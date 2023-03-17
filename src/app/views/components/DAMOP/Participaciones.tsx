@@ -171,7 +171,6 @@ const Participaciones = () => {
 
   const handleVerTazabilidad = (v: any) => {
     setOpenTraz(true);
-       console.log(v.row.id);
     setIdSolicitud(v.row.id);
     //console.log(v.row.id);
   };
