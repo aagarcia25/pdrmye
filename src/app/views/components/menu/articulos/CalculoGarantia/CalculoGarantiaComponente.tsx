@@ -7,9 +7,7 @@ import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
-import MUIXDataGrid from "../../../MUIXDataGrid";
 import { calculosServices } from "../../../../../services/calculosServices";
-import { CalculoGarantiaModal } from "./CalculoGarantiaModal";
 import { Moneda } from "../../CustomToolbar";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import ButtonsMunicipio from "../../catalogos/Utilerias/ButtonsMunicipio";
@@ -103,14 +101,7 @@ export const CalculoGarantiaComponente = () => {
     }
   }
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "PLANTILLA DE CARGA DE GARANTIA",
-    };
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
+
   const handleClose = () => {
     setOpen(false);
     consulta({ NUMOPERACION: 4 });
@@ -283,7 +274,6 @@ export const CalculoGarantiaComponente = () => {
   };
 
   useEffect(() => {
-    downloadplantilla();
     setAnios(fanios());
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "CA") {
@@ -330,7 +320,7 @@ export const CalculoGarantiaComponente = () => {
       </Grid>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <ButtonsMunicipio
-        url={plantilla}
+        url={"PLANTILLA DE CARGA DE GARANTIA.xlsx"}
         handleUpload={handleUpload} controlInterno={"CA"} 
         options={anios}
         onInputChange={handleFilterChange}

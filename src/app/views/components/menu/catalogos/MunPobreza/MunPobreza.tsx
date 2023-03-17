@@ -24,7 +24,6 @@ export const MunPobreza = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [dataMunPobreza, setDataMunPobreza] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -244,17 +243,7 @@ export const MunPobreza = () => {
     }
   };
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_POBREZA",
-
-    };
-
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
-
+ 
 
   useEffect(() => {
 
@@ -270,7 +259,6 @@ export const MunPobreza = () => {
       }
     });
     setAnios(fanios());
-    downloadplantilla();
 
     let data = {
       NUMOPERACION: 4,
@@ -290,7 +278,7 @@ export const MunPobreza = () => {
 
 
       <ButtonsMunicipio
-        url={plantilla}
+        url={"MUNICIPIO_POBREZA.xlsx"}
         handleUpload={handleUpload} controlInterno={"MUNPOBREZA"}
         options={anios}
         onInputChange={handleFilterChange}

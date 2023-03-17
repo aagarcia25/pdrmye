@@ -13,8 +13,9 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
-import { getPermisos } from "../../../../../services/localStorage";
+import { getPermisos, getToken } from "../../../../../services/localStorage";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { dowloandfile } from "../../../../../helpers/Files";
 
 const ButtonsMunicipio = ({
   controlInterno,
@@ -41,6 +42,19 @@ const ButtonsMunicipio = ({
   const [cargarPlantilla, setCargarPlantilla] = useState<boolean>(false);
   const [descargarPlantilla, setDescargarPlantilla] = useState<boolean>(false);
   const [elimasiva, setelimasiva] = useState<boolean>(false);
+
+
+  const downloadplantilla = () => {
+    let name =url;
+    let data = {
+      TOKEN:JSON.parse(String(getToken())),
+      RUTA:'/PDRMYE/DAMOP/PLANTILLAS/',
+      NOMBRE: name,
+    };
+    dowloandfile(data);
+
+  };
+
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
@@ -72,9 +86,9 @@ const ButtonsMunicipio = ({
         <Grid item xs={12} md={2}>
           <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
             {descargarPlantilla ? (
-              <Tooltip title="Descargar Plantilla">
-                <ToggleButton value="check">
-                  <ArrowDownwardIcon onClick={() => window.open(url)} />
+            <Tooltip title={"Descargar Plantilla"}>
+                <ToggleButton value="check" onClick={() => downloadplantilla()}>
+                      <ArrowDownwardIcon />
                 </ToggleButton>
               </Tooltip>
             ) : (

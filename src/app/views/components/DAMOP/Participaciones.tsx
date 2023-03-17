@@ -66,7 +66,7 @@ import SelectFragMulti from "../Fragmentos/SelectFragMulti";
 import PolylineIcon from '@mui/icons-material/Polyline';
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import { base64ToArrayBuffer } from "../../../helpers/Files";
+import { base64ToArrayBuffer, dowloandfile } from "../../../helpers/Files";
 
 
 
@@ -154,21 +154,9 @@ const Participaciones = () => {
     let data = {
       TOKEN:JSON.parse(String(getToken())),
       RUTA:'/PDRMYE/DAMOP/PLANTILLAS/',
-      NUMOPERACION: name,
+      NOMBRE: name,
     };
-
-    CatalogosServices.obtenerDoc(data).then((res) => {
-      var bufferArray = base64ToArrayBuffer( String(res.RESPONSE.RESPONSE.FILE) );
-      var blobStore = new Blob([bufferArray], { type: "application/pdf" });
-      var data = window.URL.createObjectURL(blobStore);
-      var link = document.createElement('a');
-      document.body.appendChild(link);
-      link.href = data;
-      link.download = name;
-      link.click();
-      window.URL.revokeObjectURL(data);
-      link.remove();
-    });
+    dowloandfile(data);
   };
 
   const handleDescuento = (data: any) => {
@@ -1649,7 +1637,6 @@ const Participaciones = () => {
     loadFilter(25);
     loadFilter(24);
     // handleClick();
-    downloadplantilla();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
         if (String(item.Referencia) === "AGREGPLANT") {
@@ -1854,17 +1841,8 @@ const Participaciones = () => {
 
             {descPlant ? (
               <Tooltip title={"Descargar Plantilla"}>
-                <ToggleButton value="check">
-                  <IconButton
-                    color="primary"
-                    aria-label="upload documento"
-                    component="label"
-                    size="large"
-                  >
-                    <Link href={plantilla}>
+                <ToggleButton value="check" onClick={() => downloadplantilla()}>
                       <ArrowDownwardIcon />
-                    </Link>
-                  </IconButton>
                 </ToggleButton>
               </Tooltip>
             ) : (
