@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { AuthService } from "../../../services/AuthService";
 import { RESPONSE, UserInfo } from "../../../interfaces/user/UserInfo";
-import { getUser, setDepartamento, setMenus, setPerfiles, setPermisos, setRoles } from "../../../services/localStorage";
+import { getToken, getUser, setDepartamento, setMenus, setPerfiles, setPermisos, setRoles } from "../../../services/localStorage";
 import { Toast } from "../../../helpers/Toast";
 
 export function DialogCambiarImagen({
@@ -30,6 +30,7 @@ export function DialogCambiarImagen({
         const formData = new FormData();
         formData.append("IMAGEN", newImage, nombreArchivo);
         formData.append("CHUSER", user.id);
+        formData.append("TOKEN", JSON.parse(String(getToken())));
 
 
         AuthService.SaveImagen(formData).then((res) => {
@@ -50,7 +51,7 @@ export function DialogCambiarImagen({
                   setMenus(us.RESPONSE.MENUS);
                   setPerfiles(us.RESPONSE.PERFILES);
                   setDepartamento(us.RESPONSE.DEPARTAMENTOS);
-                setUser(JSON.parse(String(getUser())));
+                  setUser(JSON.parse(String(getUser())));
                   
               });
         });
