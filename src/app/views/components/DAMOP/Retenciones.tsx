@@ -55,7 +55,7 @@ export const Retenciones = ({
     const [value, setValue] = useState("");
     const [desPar, setDesPar] = useState<string>();
     const [otrosCar, setOtrosCar] = useState<string>();
-    const [importe, setImporte] = useState(0);
+    const [importe, setImporte] = useState("");
     const [numOperacion, setNumOperacion] = useState("");
     const [claveRet, setClaveRet] = useState("");
     const [descRet, setDescRet] = useState("");
@@ -197,7 +197,7 @@ export const Retenciones = ({
                         setDescRet("");
                         setValRet("");
                         setIdRetencion("")
-                        setImporte(0)
+                        setImporte("")
                         setOpenModalDes(false)
                         setNumOperacion("");
                         setClaveRet("");
@@ -246,11 +246,11 @@ export const Retenciones = ({
                     }
                     DPCPServices.IndexPaRetenciones(data).then((res) => {
                         if (res.SUCCESS) {
-                            setTotalRetenciones((totalRetenciones) + (importe));
+                            setTotalRetenciones((totalRetenciones) + (Number(importe)));
                             setDescRet("");
                             setValRet("");
                             setIdRetencion("")
-                            setImporte(0)
+                            setImporte("0")
                             consulta("add");
                             setOpenModalDes(false)
                             setNumOperacion("");
@@ -319,7 +319,7 @@ export const Retenciones = ({
         setOpenModalDes(false);
         setOtrosCar("0");
         setDesPar("0");
-        setImporte(0);
+        setImporte("0");
         setNumOperacion("");
         setClaveRet("");
         setDescRet("");
@@ -332,7 +332,7 @@ export const Retenciones = ({
         setValue((event.target as HTMLInputElement).value);
         setOtrosCar("0");
         setDesPar("0");
-        setImporte(0)
+        setImporte("0")
         handleSelectNumOp("false");
         handleSelectCveRet("");
         setNumOperacion("");
@@ -564,7 +564,7 @@ export const Retenciones = ({
                                 type="text"
                                 fullWidth
                                 variant="outlined"
-                                onChange={(v) => setImporte(Number(v.target.value))}
+                                onChange={(v) => setImporte(v.target.value)}
                                 InputLabelProps={{ shrink: true }}
                                 inputProps={{ maxLength: 20 }}
                                 error={String(Number(importe)) === "NaN"}
@@ -577,7 +577,7 @@ export const Retenciones = ({
                                 claveRet === ""
                                 || numOperacion === ""
                                 || numOperacion === "false"
-                                || importe <= 0
+                                || Number(importe) <= 0
                                 || String(Number(importe)) === "NaN"
                             }
                             onClick={handleAplicarRetencion}> {editar? "Actualizar": "Aplicar"}</Button>

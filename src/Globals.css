@@ -245,6 +245,16 @@ button.menu {
   color: rgb(45, 47, 49);
 }
 
+button.menuHome {
+  transition-duration: 0.2s;
+ color: rgb(30, 29, 29);
+ background-color: hsl(0, 6%, 86%);
+}
+.menuHome:hover {
+  background-color: hsla(207, 5%, 68%, 0.491);
+  color: rgb(45, 47, 49);
+}
+
 Button.cerrar:hover {
  color: rgb(168, 29, 29);
  background-color:rgba(255, 0, 0, 0.62);
