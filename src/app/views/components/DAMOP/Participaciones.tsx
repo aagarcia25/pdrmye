@@ -176,53 +176,7 @@ const Participaciones = () => {
     //console.log(v.row.id);
   };
 
-  const handleClonar = (v: any) => {
-    setOpenTraz(true);
-    console.log(v.row.id);
-    setIdSolicitud(v.row.id);
-    //console.log(v.row.id);
 
-    Swal.fire({
-      icon: "info",
-      title: "Informacion",
-      text: "Los Movimientos Seleccionados se integraran en una sola operación",
-      showDenyButton: false,
-      showCancelButton: true,
-      confirmButtonText: "Aceptar",
-      cancelButtonText: "Cancelar",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        let data = {
-          OBJS: selectionModel,
-          CHUSER: user.id,
-        };
-
-        AlertS.fire({
-          title: "Solicitud Enviada",
-          icon: "success",
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            DPCPServices.integraSolicitudes(data).then((res) => {
-              if (res.SUCCESS) {
-                Toast.fire({
-                  icon: "success",
-                  title: "Consulta Exitosa!",
-                });
-                handleClick();
-              } else {
-                AlertS.fire({
-                  title: "Error!",
-                  text: res.STRMESSAGE,
-                  icon: "error",
-                });
-              }
-            });
-          }
-        });
-      }
-    });
-
-  };
 
   const handleDetalle = (data: any) => {
     setVrows(data);
@@ -246,27 +200,6 @@ const Participaciones = () => {
         return (
           <Box>
 
-
-
-{verSegmentar ? ( 
-              <Tooltip title={"Clonar Operación"}>
-                <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
-                  <DoubleArrowIcon />
-                </IconButton>
-              </Tooltip>
-             ) : (
-              ""
-            )} 
-
-        {verSegmentar ? ( 
-              <Tooltip title={"Segmentar Operación"}>
-                <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
-                  <SegmentIcon />
-                </IconButton>
-              </Tooltip>
-             ) : (
-              ""
-            )} 
 
              {verTrazabilidad ? ( 
               <Tooltip title={"Ver Trazabilidad"}>
