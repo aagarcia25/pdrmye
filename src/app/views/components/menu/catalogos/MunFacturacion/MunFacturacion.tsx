@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { getPermisos, getUser, } from "../../../../../services/localStorage";
+import { getPermisos,  getUser, } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
@@ -24,7 +24,6 @@ export const MunFacturacion = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [Facturacion, setFacturacion] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -275,19 +274,10 @@ export const MunFacturacion = () => {
     }
   };
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_FACTURACION",
-    };
-
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
+  
 
   useEffect(() => {
     setAnios(fanios());
-    downloadplantilla();
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNFA") {
@@ -313,7 +303,7 @@ export const MunFacturacion = () => {
       <NombreCatalogo controlInterno={"MUNFA"} />
 
       <ButtonsMunicipio
-        url={plantilla}
+        url={"MUNICIPIO_FACTURACION.xlsx"}
         handleUpload={handleUpload} controlInterno={"MUNFA"} 
         value={''}
         options={anios}

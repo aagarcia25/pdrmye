@@ -22,7 +22,6 @@ export const MunRecaudacion = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [Facturacion, setFacturacion] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -252,15 +251,7 @@ export const MunRecaudacion = () => {
     }
   };
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_RECAUDACION",
-    };
 
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
 
   useEffect(() => {
     menu.map((item: MENU) => {
@@ -282,7 +273,6 @@ export const MunRecaudacion = () => {
       }
     });
     setAnios(fanios());
-    downloadplantilla();
     let data = {
       NUMOPERACION: 4,
       ANIO: "",
@@ -296,7 +286,7 @@ export const MunRecaudacion = () => {
       <NombreCatalogo controlInterno={"MUNRECAU"} />
 
       <ButtonsMunicipio
-        url={plantilla}
+        url={"MUNICIPIO_RECAUDACION.xlsx"}
         handleUpload={handleUpload} controlInterno={"MUNRECAU"} 
         value={''}
         options={anios}

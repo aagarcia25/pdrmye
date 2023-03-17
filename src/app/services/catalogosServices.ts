@@ -182,4 +182,8 @@ export class CatalogosServices {
         return await post('obtenerguias', data);
     };
 
+    public static async obtenerDoc(data : any) {
+        return await post('obtenerDoc', data);
+    };
+
 }
