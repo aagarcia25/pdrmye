@@ -12,8 +12,6 @@ import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {  getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { municipiosc } from "../../../../../share/loadMunicipios";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import ModalForm from "../../../componentes/ModalForm";
 
 
@@ -39,9 +37,7 @@ const MunRecaudacionModal = ({
   const [anio, setAnio] = useState<number>();
   const [recaudacion, setRecaudacion] = useState<number>();
   const [IdMunicipio, setIdMunicipio] = useState<string>();
-  const [municipios, setMunicipios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [municipio, setMunicipio] = useState("");
 
 
 
@@ -85,10 +81,6 @@ const MunRecaudacionModal = ({
     }
   };
 
-  const handleFilterChange = (event: SelectValues) => {
-    setIdMunicipio(event.value);
-
-  };
 
 
   const agregar = (data: any) => {
@@ -130,7 +122,6 @@ const MunRecaudacionModal = ({
 
 
   useEffect(() => {
-    setMunicipios(municipiosc());
 
     if (dt === '') {
       //console.log(dt)
@@ -140,7 +131,6 @@ const MunRecaudacionModal = ({
       setAnio(dt?.row?.Anio)
       setRecaudacion(dt?.row?.Recaudacion)
       setIdMunicipio(dt?.row?.idmunicipio)
-      setMunicipio(dt?.row?.Nombre)
 
 
 
