@@ -231,13 +231,13 @@ export default function Header(props: HeaderProps) {
                       </IconButton>
                     </Badge>
                   </Tooltip>
-       </>, name: 'Share' },
+       </>, name: 'Notificaciones' },
     {
       icon: <>   <Tooltip title="Guía Rapida">
         <IconButton
           color="inherit"
           sx={{
-            mt: 0.1,
+            
             backgroundColor: COLOR.azul,
             "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
           }}
@@ -253,7 +253,7 @@ export default function Header(props: HeaderProps) {
             }}
           />
         </IconButton>
-      </Tooltip>  </>, name: 'Guía Rapida'
+      </Tooltip>  </>, name: 'Guía'
     },
   
   ];
