@@ -395,8 +395,7 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
-            {String(v.row.Clave) === 'FGP' || String(v.row.Clave) === 'FFM70' || String(v.row.Clave) === 'FFM30'  && String(v.row.estatusCI) === 'DAMOP_INI' ? (
+            {String(v.row.estatusCI) === 'DAMOP_INI' ? (
               <>
 
                 <Tooltip title="Admistrar Retenciones">
@@ -1875,9 +1874,9 @@ const Participaciones = () => {
             {disFide ? (
               <Tooltip title={"Distribuir en Fideicomisos"}>
                 <ToggleButton value="check"
-                  disabled={!munTieneFide || data.length === 0 || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6}
+                  disabled={!munTieneFide || idMunicipio.length < 6}
                   onClick={() => Disitribuir()}>
-                  <AccountTreeIcon color={!munTieneFide || data.length === 0 || idtipoSolicitud.length < 6 || idFondo.length < 6 || idMunicipio.length < 6 ? "inherit" : "primary"} />
+                  <AccountTreeIcon color={!munTieneFide || idMunicipio.length < 6 ? "inherit" : "primary"} />
                 </ToggleButton>
               </Tooltip>
             ) : (
