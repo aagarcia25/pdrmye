@@ -71,9 +71,9 @@ const AuthSolicitudes = () => {
     },
     {
       field: "Anio",
-      headerName: "Anio",
+      headerName: "Año",
       width: 100,
-      description: "Anio",
+      description: "Año",
     },
     {
       field: "Mes",

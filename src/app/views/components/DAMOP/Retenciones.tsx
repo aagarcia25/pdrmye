@@ -123,6 +123,8 @@ export const Retenciones = ({
     const consulta = (v: string) => {
         let data = {
             NUMOPERACION: 4,
+            IDMUNICIPIO:dt?.row?.idmunicipio,
+            IDPA: dt?.row?.id
         }
 
         DPCPServices.IndexPaRetenciones(data).then((res) => {
@@ -306,6 +308,7 @@ export const Retenciones = ({
             setImporte(v.row.importe);
             setEditar(true);
             setIdRetencion(v.row.IdRetencion);
+
 
         }
         else {
