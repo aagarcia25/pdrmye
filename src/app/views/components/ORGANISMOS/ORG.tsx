@@ -256,14 +256,17 @@ export const ORG = () => {
       renderCell: (v: any) => {
         return (
           <Box>
+            {damopORG.find(({ tSol, estREF }) => String(tSol) === String(v?.row.TipoSolicitud) && String(estREF) === v?.row.EstConInt)?.acc ?
             <Tooltip title={
-              damopORG.find(({ tSol, estREF }) => tSol === String(v?.row.TipoSolicitud) && estREF === v?.row.EstConInt)?.acc
+              damopORG.find(({ tSol, estREF }) => String(tSol) === String(v?.row.TipoSolicitud) && String(estREF) === v?.row.EstConInt)?.acc
             }>
               <IconButton value="check" onClick={() =>
                 handleEnviar(v)}>
-                {damopORG.find(({ tSol, estREF }) => tSol === String(v?.row.TipoSolicitud) && estREF === v?.row.EstConInt)?.componente}
+                {damopORG.find(({ tSol, estREF }) => String(tSol) === String(v?.row.TipoSolicitud) && String(estREF) === v?.row.EstConInt)?.componente}
               </IconButton>
             </Tooltip>
+          :"Sin Acciones"  
+          }
             {
               damopORG.find(({ tSol }) => tSol === v?.TipoSolicitud)?.acc
             }
@@ -283,13 +286,13 @@ export const ORG = () => {
     { field: "NumAportacion", headerName: "Aportación", description: "Numero de Aportación", width: 150, },
     { field: "NumReqAnticipo", headerName: "Requerimiento de Anticipo", description: "Numero de Requerimiento de Anticipo", width: 150, },
     { field: "NumCheque", headerName: "Póliza de Pago", description: "Póliza de Pago", width: 150, },
-    { field: "total", headerName: "Total", width: 250, ...Moneda },
+    { field: "total", headerName: "Total", description: "Total", width: 250, ...Moneda },
     {
       field: "TipoSolicitud", headerName: "Tipo Solicitud", description: "Tipo Solicitud", width: 200,
       renderCell: (v: any) => { return (<>{tipoSol.find(({ value }) => value === (String(v?.row?.TipoSolicitud)))?.label}</>); },
     },
     { field: "Observaciones", headerName: "Observaciones", description: "Observaciones", width: 300, },
-    { field: "Divisa", headerName: "Divisa", width: 100, },
+    { field: "Divisa", headerName: "Divisa",description: "Divisa", width: 100, },
   ];
   const Consulta = () => {
 
