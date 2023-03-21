@@ -17,6 +17,7 @@ export interface indexCabecera {
     Divisa: string;
     Cuenta:string;
     TipoSolicitud:string;
+    orden: number;
 
 }
 
