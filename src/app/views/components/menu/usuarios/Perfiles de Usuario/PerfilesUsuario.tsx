@@ -28,6 +28,7 @@ export const PerfilesUsuario = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
+  const [openModal, setOpenModal] = useState(false);
 
   const columns: GridColDef[] = [
     {
@@ -63,6 +64,7 @@ export const PerfilesUsuario = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setOpenModal(false);
     consulta({ NUMOPERACION: 4 });
   };
 
@@ -70,8 +72,10 @@ export const PerfilesUsuario = () => {
 
 
   const handleAccion = (v: any) => {
+    console.log(v)
+
     if (v.tipo === 1) {
-      //console.log(v)
+      //
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
@@ -86,28 +90,22 @@ export const PerfilesUsuario = () => {
         confirmButtonText: "Confirmar",
         denyButtonText: `Cancelar`,
       }).then((result) => {
-        if (result.isConfirmed) {
-          //console.log(v);
-          const user: RESPONSE = JSON.parse(String(getUser()));
-
-          let data = {
-            NUMOPERACION: 3,
-            CHID: v.row.id,
-            CHUSER: user.id,
-          };
+        if (result.isConfirmed) {   
           //console.log(data);
-
+          let data = {
+            CHID: v.data.row.id,
+            CHUSER: user.id,
+            NUMOPERACION: 3,
+      
+          };
           AuthService.perfilindex(data).then((res) => {
             if (res.SUCCESS) {
               Toast.fire({
                 icon: "success",
                 title: "Registro Eliminado!",
               });
-
-              let data = {
-                NUMOPERACION: 4,
-              };
-              consulta(data);
+  
+              handleClose();
             } else {
               AlertS.fire({
                 title: "Error!",
@@ -120,9 +118,9 @@ export const PerfilesUsuario = () => {
           Swal.fire("No se realizaron cambios", "", "info");
         }
       });
+    };
 
     }
-  }
 
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
