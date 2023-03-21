@@ -12,6 +12,7 @@ import {
   Tooltip,
   IconButton,
   RadioGroup,
+  FormControl,
 
 } from "@mui/material";
 import ModalForm from "../componentes/ModalForm";
@@ -32,6 +33,9 @@ import Swal from "sweetalert2";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { currencyFormatter, Moneda } from "../menu/CustomToolbar";
 import EditIcon from '@mui/icons-material/Edit';
+import SelectValuesCatRetenciones from "../../../interfaces/Select/SelectValues";
+import Select from 'react-select';
+
 export const Descuentos = ({
   handleClose,
   tipo,
@@ -61,7 +65,11 @@ export const Descuentos = ({
   const [sumDes, setSumDes] = useState<number>(0);
   const [sumret, setSumRet] = useState<number>(0);
   const [sumaTotal, setSumaTotal] = useState<Number>();
-
+  const [claveRetencionOp, setclaveRetencionOp] = useState<SelectValuesCatRetenciones[]>([]);
+  const [claveRet, setClaveRet] = useState("");
+  const [descRet, setDescRet] = useState("");
+  const [ValRet, setValRet] = useState("");
+  const [idRetencion, setIdRetencion] = useState("");
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", hide: true, width: 150 },
@@ -296,7 +304,7 @@ export const Descuentos = ({
               DESPARCIAL: desPar,
               TOTAL: ((desPar !== undefined ? Number(desPar) : 0) + Number(otrosCar)),
               OTROSCARGOS: otrosCar,
-              CVERET: value === "Anticipo" ? "" : Math.random() * 5000,
+              CVERET: value === "Anticipo" ? "" : cveReten,
               DESCRIPCION: ComentariosDes
             }
             DPCPServices.setDescuentos(data).then((res) => {
@@ -346,6 +354,8 @@ export const Descuentos = ({
 
   const handleOpen = (editar: boolean, data: any) => {
     if (editar) {
+      console.log(data)
+      setClaveRet(String(data.row.cveRetencion));
       setEditarRegistro(true);
       setOpenModalDes(true);
       setCveReten(data.row.cveRetencion);
@@ -370,6 +380,8 @@ export const Descuentos = ({
     setComentariosDes("")
     setNumOperacion("");
     setCveReten("");
+    setClaveRet("");
+    setDescRet("")
   };
 
 
@@ -381,8 +393,26 @@ export const Descuentos = ({
     handleSelectNumOp("false");
     handleSelectCveRet("");
     setNumOperacion("");
+    
+
   };
 
+  const onInputChange = (v: any) => {
+    if (v === "") {
+        setClaveRet("");
+        setDescRet("");
+        setValRet("");
+        setIdRetencion("")
+
+
+    } else {
+        setClaveRet(v.value);
+        setDescRet(v.Descripcion);
+        setValRet(v.retencion);
+        setIdRetencion(v.id)
+    }
+
+};
   useEffect(() => {
     setNumOperacionOp([
       {
@@ -439,6 +469,19 @@ export const Descuentos = ({
       setId(dt?.row?.id);
 
     }
+  CatalogosServices.IndexCatRetenciones({ NUMOPERACION: 5}).then((res) => {
+      if (res.SUCCESS) {
+console.log(res.RESPONSE)
+        setclaveRetencionOp(res.RESPONSE);
+          // handleClose();
+      } else {
+          AlertS.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+          });
+      }
+  });
   }, [dt]);
 
   return (
@@ -665,7 +708,7 @@ export const Descuentos = ({
             </Grid>
 
             {value === "RecuperacionAdeudos" ?
-              <Grid container item xs={6}>
+              <Grid container item xs={10} paddingBottom= {2}>
                 <label > Cve. Retención</label>
                 {/* <SelectFrag
                   value={value === "RecuperacionAdeudos" ? cveReten : ""}
@@ -675,29 +718,40 @@ export const Descuentos = ({
                   label={"Cve. Retención"}
                   disabled={value !== "RecuperacionAdeudos"}
                 /> */}
-                <TextField
-                  required
-                  // disabled
-                  margin="dense"
-                  id="cveReten"
-                  value={cveReten}
-                  type="text"
-                  variant="outlined"
-                  onChange={(v) => setCveReten(v.target.value)}
-                  InputLabelProps={{ shrink: true }}
-                  error={String(Number(cveReten)) === "NaN"}
-                  inputProps={{ maxLength: 30 }}
+                            <FormControl sx={{ width: "100%" }}   >
+                                <Select
+                                    value={claveRetencionOp.find(element => element.value === claveRet)}
+                                    options={claveRetencionOp}
+                                    isDisabled={numOperacion === "" || numOperacion === "false" || String(Number(numOperacion)) === "NaN"}
+                                    isClearable={true}
+                                    isSearchable={true}
+                                    backspaceRemovesValue={true}
+                                    onChange={(v) => (v === null) ?
+                                        onInputChange("")
+                                        :
+                                        onInputChange(v)
+                                    }
+                                    placeholder={(descRet !== "") ? descRet : ""}
+                                    styles={{
+                                        menu: (base) => ({
+                                            position: 'absolute',
+                                            paddingLeft: '1rem',
+                                            zIndex: 500,
+                                            ...base
+                                        })
+                                    }}
+                                />
+                            </FormControl>
 
-                />
               </Grid>
               : ""}
 
             <Grid container>
+            <label > Descripción del Descuento  *Opcional*</label>
               <TextField
                 disabled={value === ""}
                 margin="dense"
                 id="Proveedor"
-                label="Descripción del Descuento  *Opcional*"
                 value={ComentariosDes}
                 type="text"
                 fullWidth
@@ -719,11 +773,11 @@ export const Descuentos = ({
                 || numOperacion === ""
                 || numOperacion === "false"
                 || ((desPar !== undefined ? Number(desPar) : 0) + (otrosCar !== undefined ? Number(otrosCar) : 0)) === 0
-                || (value === "RecuperacionAdeudos" ? !cveReten : false)
+                || (value === "RecuperacionAdeudos" ? !claveRet : false)
                 || String(Number(desPar)) === "NaN"
                 || String(Number(numOperacion)) === "NaN"
                 || String(Number(otrosCar)) === "NaN"
-                || String(Number(cveReten)) === "NaN"}
+                || String(Number(claveRet)) === "NaN"}
               onClick={handleAplicarDescuento}>Aplicar</Button>
           </DialogActions>
         </Dialog>
