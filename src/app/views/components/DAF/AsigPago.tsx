@@ -151,18 +151,18 @@ const AsigPago = () => {
         );
       },
     },
-    { field: "estatus", headerName: "Estatus", width: 150, description: "Estatus", },
-    { field: "NumOrdenPago", headerName: "Solicitud de Pago", width: 200, description: "Solicitud de Pago", },
-    { field: "NumCheque", headerName: "Póliza de Pago", width: 200, description: "Póliza de Pago", },
-    { field: "importe", headerName: "Importe Total", width: 150, description: "Importe Total = Total Neto - (Retenciones + Descuentos)", ...Moneda, },
-    { field: "Anio", headerName: "Ejercicio", width: 80, description: "Ejercicio", },
-    { field: "Mes", headerName: "Mes", width: 100, description: "Mes", },
+    { field: "a2", headerName: "Estatus", width: 150, description: "Estatus", },
+    { field: "a3", headerName: "Solicitud de Pago", width: 200, description: "Solicitud de Pago", },
+    { field: "a4", headerName: "Póliza de Pago", width: 200, description: "Póliza de Pago", },
+    { field: "a5", headerName: "Importe Total", width: 150, description: "Importe Total = Total Neto - (Retenciones + Descuentos)", ...Moneda, },
+    { field: "a6", headerName: "Ejercicio", width: 80, description: "Ejercicio", },
+    { field: "a7", headerName: "Mes", width: 100, description: "Mes", },
     //  {field: "ClaveEstado",      headerName: "Clave Estado",      width: 100,      description: "Clave Estado",    },
-    { field: "Nombre", headerName: "Proveedor", width: 150, description: "Municipio", },
-    { field: "fondodes", headerName: "Descripción", width: 250, description: "Descripción de Fondo" },
-    { field: "total", headerName: "Total Neto", width: 150, description: "Total Neto", ...Moneda, },
-    { field: "RecAdeudos", headerName: "Retenciones", width: 150, description: "Retenciones", ...Moneda, },
-    { field: "Descuentos", headerName: "Descuentos", width: 150, description: "Descuentos", ...Moneda, },
+    { field: "a8", headerName: "Proveedor", width: 150, description: "Municipio", },
+    { field: "a9", headerName: "Descripción", width: 250, description: "Descripción de Fondo" },
+    { field: "a10", headerName: "Total Neto", width: 150, description: "Total Neto", ...Moneda, },
+    { field: "a11", headerName: "Retenciones", width: 150, description: "Retenciones", ...Moneda, },
+    { field: "a12", headerName: "Descuentos", width: 150, description: "Descuentos", ...Moneda, },
 
 
   ];
@@ -172,7 +172,7 @@ const AsigPago = () => {
     CatalogosServices.SelectIndex(data).then((res) => {
       if (operacion === 31) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 5) {
+      } else if (operacion === 32) {
         setMunicipios(res.RESPONSE);
       } else if (operacion === 17) {
         setTipos(res.RESPONSE);
@@ -239,7 +239,7 @@ const AsigPago = () => {
   useEffect(() => {
     setMeses(fmeses());
     loadFilter(31);
-    loadFilter(5);
+    loadFilter(32);
     loadFilter(17);
     // handleClick();
     /*  permisos.map((item: PERMISO) => {
@@ -328,7 +328,7 @@ const AsigPago = () => {
 
             <Grid item xs={12} sm={6} md={3} lg={2}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                Municipio:
+                Proveedor:
               </Typography>
               <SelectFrag
                 value={idMunicipio}

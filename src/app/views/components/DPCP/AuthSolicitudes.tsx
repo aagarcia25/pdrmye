@@ -140,7 +140,7 @@ const AuthSolicitudes = () => {
     CatalogosServices.SelectIndex(data).then((res) => {
       if (operacion === 12) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 5) {
+      } else if (operacion === 32) {
         setMunicipios(res.RESPONSE);
       } else if (operacion === 17) {
         setTipos(res.RESPONSE);
@@ -246,7 +246,7 @@ const AuthSolicitudes = () => {
 
   useEffect(() => {
     loadFilter(12);
-    loadFilter(5);
+    loadFilter(32);
     loadFilter(17);
     handleClick();
     /*  permisos.map((item: PERMISO) => {
@@ -293,13 +293,13 @@ const AuthSolicitudes = () => {
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid item xs={12} sm={6} md={6} lg={3}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
-              Municipio:
+              Proveedor:
             </Typography>
             <SelectFrag
               value={idMunicipio}
               options={municipio}
               onInputChange={handleFilterChange3}
-              placeholder={"Seleccione Municipio"}
+              placeholder={"Seleccione Proveedor"}
               label={""}
               disabled={false}
             />

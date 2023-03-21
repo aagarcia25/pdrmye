@@ -136,7 +136,7 @@ const RecepcionRecursosORG = () => {
                         </Tooltip>
                         {/* : ""} */}
                         {/* {v.row.estatusCI === "DAF_SPEI" || v.row.estatusCI === "MUN_CFDI" ? */}
-                        <Tooltip title="Descargar SPEI">
+                        <Tooltip title="Administración SPEI">
                             <IconButton onClick={() => handleVerSpei(v)}>
                                 <FolderOpenIcon />
                             </IconButton>
@@ -222,7 +222,7 @@ const RecepcionRecursosORG = () => {
 
     const handleClick = (id: string) => {
         setslideropen(true);
-
+console.log("id:  "+id);
         let data = {
             NUMOPERACION: user.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ? 6 : 4,
             P_IDORG: idORG === "false" ? "" : id===""?idORG: id,
@@ -303,7 +303,7 @@ const RecepcionRecursosORG = () => {
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
                             <Button
-                                onClick={()=>handleClick}
+                                onClick={()=>handleClick("")}
                                 variant="contained"
                                 color="success"
                                 endIcon={<SendIcon sx={{ color: "white" }} />}

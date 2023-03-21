@@ -56,6 +56,8 @@ const SpeisAdmin = ({
     const [fileValid, setFileValid] = useState<boolean>(false);
     const [mensajeError, setMensajeError] = useState<string>("Solo Archivos PDG");
 
+    const [tipoProv, setTipoProv] = useState<string>("");
+
 
 
 
@@ -144,7 +146,7 @@ const SpeisAdmin = ({
 
     }
 
-  
+
 
     const handleNewSpei = (event: any) => {
         let file = event.target!.files[0]!;
@@ -235,7 +237,7 @@ const SpeisAdmin = ({
                         });
                         setNameSpei("");
                         setSpeiFile(null)
-                        consulta();
+                        consulta("");
                         setslideropen(false);
                         handleCloseModal();
                     } else {
@@ -262,8 +264,9 @@ const SpeisAdmin = ({
         const formData = new FormData();
         nameSpei !== "" ? formData.append("SPEI", speiFile, nameSpei) : formData.append("SPEI", "");
         formData.append("NUMOPERACION", numOp);
-        formData.append("IDPA", vrows.id);
+        formData.append("IDPROV", vrows.id);
         formData.append("CHUSER", user.id);
+        formData.append("TPROV", tipoProv);
         formData.append("TOKEN", JSON.parse(String(getToken())));
 
         DAFServices.SpeiAdministracion(formData).then((res) => {
@@ -274,7 +277,7 @@ const SpeisAdmin = ({
                 });
                 setNameSpei("");
                 setSpeiFile(null)
-                consulta();
+                consulta("");
                 handleCloseModal();
                 setslideropen(false);
             } else {
@@ -335,12 +338,14 @@ const SpeisAdmin = ({
 
 
 
-    const consulta = () => {
+    const consulta = (tipoprov:string) => {
+
         DAFServices.SpeiAdministracion(
             {
                 NUMOPERACION: 4,
-                P_IDPA: vrows.id,
-                TOKEN: JSON.parse(String(getToken()))
+                P_IDPROV: vrows.id,
+                TOKEN: JSON.parse(String(getToken())),
+                TPROV: tipoprov? tipoprov:tipoProv
 
             }
         ).then((res) => {
@@ -360,6 +365,14 @@ const SpeisAdmin = ({
         });
     };
     useEffect(() => {
+        if (vrows?.Organismo) {
+            setTipoProv("o")
+            consulta("o");
+        }else{
+            setTipoProv("m")
+            consulta("m");
+        }
+        
         var ancho = 0;
         permisos.map((item: PERMISO) => {
             if (String(item.ControlInterno) === "DAFADMINPAG") {
@@ -383,7 +396,6 @@ const SpeisAdmin = ({
             }
             setAnchoAcciones(ancho)
         });
-        consulta();
     }, []);
     return (
         <>
