@@ -304,9 +304,10 @@ export const Descuentos = ({
               DESPARCIAL: desPar,
               TOTAL: ((desPar !== undefined ? Number(desPar) : 0) + Number(otrosCar)),
               OTROSCARGOS: otrosCar,
-              CVERET: value === "Anticipo" ? "" : cveReten,
+              CVERET: value === "Anticipo" ? "" : idRetencion,
               DESCRIPCION: ComentariosDes
             }
+            
             DPCPServices.setDescuentos(data).then((res) => {
               if (res.SUCCESS) {
                 setValue("");
