@@ -60,6 +60,8 @@ const AuthSolicitudes = () => {
       field: "estatus",
       headerName: "Estatus",
       width: 150,
+      description: "Estatus",
+
     },
     {
       field: "NumOrdenPago",
@@ -83,6 +85,8 @@ const AuthSolicitudes = () => {
       field: "uresclave",
       headerName: "U. Resp",
       width: 100,
+      description: "Unidad Responsable",
+
     },
 
    /* {
@@ -101,22 +105,29 @@ const AuthSolicitudes = () => {
       field: "fondodes",
       headerName: "Descripción",
       width: 250,
+      description: "Descripción",
+
     },
     {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
+      description: "Clave Presupuestal",
       width: 600,
       hide: false,
     },
     {
       field: "total",
       headerName: "Total Neto",
-      width: 150,
+      width: 280,
       description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
       ...Moneda,
       renderHeader: () => (
         <>
-          {"Total: " + currencyFormatter.format(Number(sumaTotal))}
+        <Tooltip  title={"Total Neto = (Total Bruto - (Retenciones + Descuentos))"}>
+          <Typography >
+          {"Total Neto: " + currencyFormatter.format(Number(sumaTotal))}
+          </Typography>
+          </Tooltip>
         </>
       ),
 
@@ -129,7 +140,7 @@ const AuthSolicitudes = () => {
     CatalogosServices.SelectIndex(data).then((res) => {
       if (operacion === 12) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 5) {
+      } else if (operacion === 32) {
         setMunicipios(res.RESPONSE);
       } else if (operacion === 17) {
         setTipos(res.RESPONSE);
@@ -235,7 +246,7 @@ const AuthSolicitudes = () => {
 
   useEffect(() => {
     loadFilter(12);
-    loadFilter(5);
+    loadFilter(32);
     loadFilter(17);
     handleClick();
     /*  permisos.map((item: PERMISO) => {
@@ -280,15 +291,15 @@ const AuthSolicitudes = () => {
         </Grid>
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          <Grid item xs={2} sm={2} md={2} lg={2}>
+          <Grid item xs={12} sm={6} md={6} lg={3}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
-              Municipio:
+              Proveedor:
             </Typography>
             <SelectFrag
               value={idMunicipio}
               options={municipio}
               onInputChange={handleFilterChange3}
-              placeholder={"Seleccione Municipio"}
+              placeholder={"Seleccione Proveedor"}
               label={""}
               disabled={false}
             />

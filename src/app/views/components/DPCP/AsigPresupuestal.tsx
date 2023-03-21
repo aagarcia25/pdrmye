@@ -131,7 +131,7 @@ const AsigPresupuestal = () => {
     CatalogosServices.SelectIndex(data).then((res) => {
       if (operacion === 12) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 5) {
+      } else if (operacion === 32) {
         setMunicipios(res.RESPONSE);
       } else if (operacion === 17) {
         setTipos(res.RESPONSE);
@@ -190,7 +190,7 @@ const AsigPresupuestal = () => {
 
   useEffect(() => {
     loadFilter(12);
-    loadFilter(5);
+    loadFilter(32);
     loadFilter(17);
     handleClick();
     /*  permisos.map((item: PERMISO) => {
@@ -264,13 +264,13 @@ const AsigPresupuestal = () => {
 
           <Grid item xs={2} sm={2} md={2} lg={2}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
-              Municipio:
+              Proveedor:
             </Typography>
             <SelectFrag
               value={idMunicipio}
               options={municipio}
               onInputChange={handleFilterChange3}
-              placeholder={"Seleccione Municipio"}
+              placeholder={"Seleccione Proveedor"}
               label={""}
               disabled={false}
             />
