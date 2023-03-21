@@ -276,23 +276,20 @@ export const ORG = () => {
     { field: "Anio", headerName: "Año", width: 100, description: "Ejercicio", },
     { field: "Mes", headerName: "Mes", width: 100, description: "Mes", },
     { field: "claveUR", headerName: "U Responsable", description: "U Responsable", width: 150, },
-    { field: "NumOrdenPago", headerName: "N° Orden de Pago", description: "Numero Orden de Pago", width: 150, },
-    { field: "NumProyecto", headerName: "N° de Proyecto", description: "Numero de Proyecto", width: 150, },
-    { field: "NumEgreso", headerName: "N° de Egreso", description: "Numero de Egreso", width: 150, },
-    { field: "NumCheque", headerName: "N° de Cheque", description: "Numero de Cheque", width: 150, },
-    { field: "NumAportacion", headerName: "N° de Aportación", description: "Numero de Aportación", width: 150, },
-    { field: "NumReqAnticipo", headerName: "N° de Requerimiento de Anticipo", description: "Numero de Requerimiento de Anticipo", width: 150, },
+    { field: "Organismo", headerName: "Organismo", description: "Organismo", width: 250, },
+    { field: "NumOrdenPago", headerName: "Solicitud de Pago", description: "Numero Orden de Pago", width: 150, },
+    { field: "NumProyecto", headerName: "Proyecto", description: "Numero de Proyecto", width: 150, },
+    { field: "NumEgreso", headerName: "Egreso", description: "Numero de Egreso", width: 150, },
+    { field: "NumAportacion", headerName: "Aportación", description: "Numero de Aportación", width: 150, },
+    { field: "NumReqAnticipo", headerName: "Requerimiento de Anticipo", description: "Numero de Requerimiento de Anticipo", width: 150, },
+    { field: "NumCheque", headerName: "Póliza de Pago", description: "Póliza de Pago", width: 150, },
     { field: "total", headerName: "Total", width: 250, ...Moneda },
     {
       field: "TipoSolicitud", headerName: "Tipo Solicitud", description: "Tipo Solicitud", width: 200,
       renderCell: (v: any) => { return (<>{tipoSol.find(({ value }) => value === (String(v?.row?.TipoSolicitud)))?.label}</>); },
     },
-    { field: "Organismo", headerName: "Organismo", description: "Organismo", width: 150, },
-
     { field: "Observaciones", headerName: "Observaciones", description: "Observaciones", width: 300, },
     { field: "Divisa", headerName: "Divisa", width: 100, },
-
-
   ];
   const Consulta = () => {
 
