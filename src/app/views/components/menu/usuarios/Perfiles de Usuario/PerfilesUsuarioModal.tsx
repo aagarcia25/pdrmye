@@ -159,7 +159,7 @@ export const PerfilesUsuarioModal = ({
                 variant="standard"
                 onChange={(v) => setDescripcion(v.target.value)}
                 error={!descripcion ? true : false}
-                InputProps={{}}
+                inputProps={{ maxLength: 100 }}
               />
               <TextField
                 disabled
@@ -173,7 +173,7 @@ export const PerfilesUsuarioModal = ({
                 variant="standard"
                 onChange={(v) => setReferencia(v.target.value)}
                 error={!referencia ? true : false}
-                InputProps={{}}
+                inputProps={{ maxLength: 20 }}
               />
             </Container>
           ) : (
@@ -182,16 +182,20 @@ export const PerfilesUsuarioModal = ({
           <Box display="flex" justifyContent="center" sx={{ paddingBottom: "2%", paddingTop: "1%" }} >
             <Box maxWidth={100} >
               <DialogActions>
-                <Button className="actualizar" onClick={() => handleSend()}>
-                  Actualizar
+                <Button 
+                className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}
+                disabled={!referencia ? true : false || !descripcion ? true : false}
+                
+                >
+                {tipo===1?"Guardar":"Actualizar"}
                 </Button>
               </DialogActions>
             </Box>
           </Box>
-
+    
         </Box>
 
-
+   
 
       </ModalForm>
 
