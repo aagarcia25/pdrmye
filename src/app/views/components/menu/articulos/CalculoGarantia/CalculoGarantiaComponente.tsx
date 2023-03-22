@@ -318,14 +318,14 @@ export const CalculoGarantiaComponente = () => {
 
         </Grid>
       </Grid>
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+      {/* <ButtonsAdd handleOpen={handleOpen} agregar={agregar} /> */}
       <ButtonsMunicipio
         url={"PLANTILLA DE CARGA DE GARANTIA.xlsx"}
-        handleUpload={handleUpload} controlInterno={"CA"} 
+        handleUpload={handleUpload} controlInterno={"CA"}
         options={anios}
         onInputChange={handleFilterChange}
-        placeholder={"Seleccione Año"} label={''} disabled={false} 
-        value={filterAnio}/>
+        placeholder={"Seleccione Año"} label={''} disabled={false}
+        value={filterAnio} handleOpen={handleOpen}/>
       < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} modulo={"Garantia"} controlInterno={"CA"} />
       
 

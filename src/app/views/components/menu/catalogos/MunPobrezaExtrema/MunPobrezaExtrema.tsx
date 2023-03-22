@@ -81,11 +81,12 @@ export const MunPobrezaExtrema = () => {
 
   }
 
-  const handleOpen = (v: any) => {
+  const handleOpen = () => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
-    setData(v);
+    console.log(open)
+    setData("");
   };
 
   const handleAccion = (v: any) => {
@@ -296,12 +297,12 @@ export const MunPobrezaExtrema = () => {
 
       <ButtonsMunicipio
         url={"MUNICIPIO_POBREZA_EXTREMA.xlsx"}
-        handleUpload={handleUpload} controlInterno={"MUNPOEX"} 
-        
+        handleUpload={handleUpload} controlInterno={"MUNPOEX"}
+
         value={filterAnio}
-          options={anios}
-          onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={""} disabled={false}  />
+        options={anios}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"} label={""} disabled={false} handleOpen={()=>handleOpen()}  />
 
       <MUIXDataGridMun columns={columns} rows={PobrezaExtrema} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNPOEX"} />
       {open ? (

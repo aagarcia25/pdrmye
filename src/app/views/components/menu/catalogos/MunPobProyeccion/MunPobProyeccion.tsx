@@ -142,7 +142,7 @@ export const MunPobProyeccion = () => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
-    setData("");
+    setData(v);
   };
 
 
@@ -296,7 +296,7 @@ export const MunPobProyeccion = () => {
             handleUpload={handleUpload} controlInterno={"MUNPROYEC"} options={anios}
             onInputChange={handleFilterChange}
             placeholder={"Seleccione Año"} label={""} disabled={false}
-            value={''} />
+            value={''} handleOpen={handleOpen} />
         </Grid>
 
       </Grid>

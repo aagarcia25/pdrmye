@@ -91,7 +91,7 @@ export const MunPobreza = () => {
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setOpen(true);
-    setData(v);
+    setData("");
   };
 
   const handleDelete = (v: any) => {
@@ -246,6 +246,7 @@ export const MunPobreza = () => {
  
 
   useEffect(() => {
+    setAnios(fanios());
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPOBREZA") {
@@ -283,7 +284,7 @@ export const MunPobreza = () => {
         options={anios}
         onInputChange={handleFilterChange}
         placeholder={"Seleccione Año"} label={''} disabled={false}
-        value={''} />
+        value={''} handleOpen={handleOpen} />
 
       < MUIXDataGridMun columns={columns} rows={dataMunPobreza} handleBorrar={handleBorrar} modulo={'POBREZA'} controlInterno={"MUNPOBREZA"} />
 
@@ -291,8 +292,7 @@ export const MunPobreza = () => {
         <MunPobrezaModal
           handleClose={handleClose}
           tipo={tipoOperacion}
-          dt={data}
-        />
+          dt={data} anios={anios}        />
       ) : (
         ""
       )}

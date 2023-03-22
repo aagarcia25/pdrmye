@@ -355,7 +355,6 @@ export const Descuentos = ({
 
   const handleOpen = (editar: boolean, data: any) => {
     if (editar) {
-      console.log(data)
       setClaveRet(String(data.row.cveRetencion));
       setEditarRegistro(true);
       setOpenModalDes(true);
@@ -472,7 +471,6 @@ export const Descuentos = ({
     }
   CatalogosServices.IndexCatRetenciones({ NUMOPERACION: 5}).then((res) => {
       if (res.SUCCESS) {
-console.log(res.RESPONSE)
         setclaveRetencionOp(res.RESPONSE);
           // handleClose();
       } else {

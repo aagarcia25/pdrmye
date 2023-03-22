@@ -304,11 +304,11 @@ export const MunFacturacion = () => {
 
       <ButtonsMunicipio
         url={"MUNICIPIO_FACTURACION.xlsx"}
-        handleUpload={handleUpload} controlInterno={"MUNFA"} 
+        handleUpload={handleUpload} controlInterno={"MUNFA"}
         value={''}
         options={anios}
         onInputChange={handleFilterChange}
-        placeholder={"Seleccione Año"} label={""} disabled={false} />
+        placeholder={"Seleccione Año"} label={""} disabled={false} handleOpen={handleOpen} />
       < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNFA"} />
 
       {open ? (

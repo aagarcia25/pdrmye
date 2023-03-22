@@ -267,6 +267,10 @@ export const AnticipoParticipaciones = () => {
         setData(v.row);
         setOpen(true);
     };
+    const handleOpen = () => {
+        //console.log(String(v.row.id))
+      
+    };
     const handleClonar = (v: any) => {
         //console.log(String(v.row.id))
         setIdPrincipal(String(v.row.id));
@@ -381,7 +385,7 @@ export const AnticipoParticipaciones = () => {
                     <ButtonsMunicipio
                         url={"d"}
                         handleUpload={handleUpload}
-                        controlInterno={"MUNAPC"} value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={false}  />
+                        controlInterno={"MUNAPC"} value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={false} handleOpen={handleOpen}  />
                 </Grid>
                 <Grid item xs={3}>
 
