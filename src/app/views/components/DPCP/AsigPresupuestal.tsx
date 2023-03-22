@@ -60,27 +60,27 @@ const AsigPresupuestal = () => {
   const columnsParticipaciones = [
     { field: "id", hide: true },
     {
-      field: "Anio",
+      field: "a3",
       headerName: "Ejercicio",
       description: "Ejercicio",
       width: 80,
 
     },
     {
-      field: "Mes",
+      field: "a5",
       headerName: "Mes",
       description: "Mes",
       width: 100,
 
     },
     {
-      field: "NumOper",
+      field: "a4",
       headerName: "Nº De Operación",
       description: "Número De Operación",
       width: 150,
     },
     {
-      field: "uresclave",
+      field: "a16",
       headerName: "U. Resp",
       description: "Unidad Responsable",
       width: 80,
@@ -92,32 +92,32 @@ const AsigPresupuestal = () => {
       width: 100,
     },*/
     {
-      field: "Nombre",
+      field: "a7",
       headerName: "Proveedor",
       description: "Proveedor",
       width: 150,
     },
     {
-      field: "fondodes",
+      field: "a13",
       headerName: "Descripción",
       description: "Descripción",
       width: 250,
     },
     {
-      field: "ClavePresupuestal",
+      field: "a14",
       headerName: "Clave Presupuestal",
       description: "Clave Presupuestal",
       width: 500,
     },
     {
-      field: "Presupuesto",
+      field: "a12",
       headerName: "Presupuesto SIREGOB",
       width: 200,
       description: "Presupuesto SIREGOB",
       ...Moneda,
     },
     {
-      field: "total",
+      field: "a11",
       headerName: "Total Neto",
       width: 200,
       description: "Total Neto",
@@ -235,7 +235,7 @@ const AsigPresupuestal = () => {
         </Grid>
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          <Grid item xs={2} sm={2} md={2} lg={2}>
+          <Grid item xs={12} sm={6} md={4} lg={3.5}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Tipo:
             </Typography>
@@ -248,7 +248,7 @@ const AsigPresupuestal = () => {
               disabled={false}
             />
           </Grid>
-          <Grid item xs={2} sm={2} md={2} lg={2}>
+          <Grid item xs={12} sm={6} md={4} lg={3.5}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Fondo:
             </Typography>
@@ -262,7 +262,7 @@ const AsigPresupuestal = () => {
             />
           </Grid>
 
-          <Grid item xs={2} sm={2} md={2} lg={2}>
+          <Grid item xs={12} sm={6} md={4} lg={3.5}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Proveedor:
             </Typography>

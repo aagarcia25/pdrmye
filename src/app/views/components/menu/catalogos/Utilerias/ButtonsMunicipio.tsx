@@ -83,14 +83,14 @@ const ButtonsMunicipio = ({
   return (
     <Box sx={{ alignItems: "center" }}>
       <Grid item
-        xs={9} md={12}
+        xs={12} md={12}
         container
         direction="row"
         justifyContent="space-between"
         alignItems="center"
       >
 
-        <Grid item xs={9} md={2}>
+        <Grid item  xs={12} sm={6} md={6} lg={3} >
           <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
             {agregar ? (
                 <Tooltip title="Agregar" >
@@ -148,7 +148,7 @@ const ButtonsMunicipio = ({
             )}
           </ToggleButtonGroup>
         </Grid>
-        <Grid item xs={12} md={2}>
+        <Grid item  xs={12} sm={6} md={4} lg={3} >
           {value === "na" ? (
             ""
           ) : (
