@@ -270,6 +270,7 @@ export const ORGHeader = ({
     setHCancel(true);
     setHSave(true);
     setHAdd(false);
+    handleLimpiarCamposHeader();
   };
 
 
@@ -400,10 +401,12 @@ export const ORGHeader = ({
   const handleLimpiarCamposDetalle = () => {
     if (modoDetalle === "Editar") {
 
-      setDescripcion("");
-      if (dataCab.orden < 16) {
-        setImporte("");
-      }
+        setDescripcion("");
+
+        if (dataCab.orden < 16) {
+          setImporte("");
+          
+        }
     } else if (modoDetalle === "Agregar") {
       // setListConceptos("");
       setIdClaveConcepto("");
@@ -695,7 +698,7 @@ export const ORGHeader = ({
 
               <ButtonGroup size="large">
                 <Tooltip title="Editar Cabecera">
-                  <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit} >
+                  <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit || dataCab.orden>=16} >
                     <ModeEditOutlineIcon />
                   </Button>
                 </Tooltip>
@@ -892,7 +895,7 @@ export const ORGHeader = ({
                             !openAgregarDetalle || verDetalle ?
                               <Tooltip title="Editar Detalle">
                                 <Button onClick={() => handleEditarDetalles()} color="info"
-                                  disabled={DetalleEditar}
+                                  disabled={DetalleEditar || dataCab.orden>=16}
                                 >
                                   <ModeEditOutlineIcon />
                                 </Button>
@@ -1066,7 +1069,7 @@ export const ORGHeader = ({
 
                             }}
                             error={String(Number(importe)) === "NaN"}
-                            disabled={verDetalle && !editarDetalle || dataCab.orden >= 16}
+                            disabled={verDetalle && !editarDetalle || dataCab.orden >= 16} // no se edita el importe cuanod está en estatus pendiente Autorizar OP
                           />
                         </Grid>
 
@@ -1081,7 +1084,7 @@ export const ORGHeader = ({
                             value={descripcion}
                             onChange={(v) => setDescripcion(v.target.value)}
                             style={{ width: "100%" }}
-                            disabled={verDetalle && !editarDetalle}
+                            disabled={verDetalle && !editarDetalle || dataCab.orden >= 16} // no se edita la descripción del detalle cuando está en estatus Autorizar OP
 
                           />
                         </Grid>
