@@ -282,7 +282,7 @@ export const MunTerritorio = () => {
         <NombreCatalogo controlInterno={"MUNTERR"} />
       <ButtonsMunicipio
         url={"MUNICIPIO_TERRITORIO.xlsx"}
-        handleUpload={handleUpload} controlInterno={"MUNTERR"} value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={true} />
+        handleUpload={handleUpload} controlInterno={"MUNTERR"} value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={true} handleOpen={handleOpen} />
 
       <MUIXDataGridMun columns={columns} rows={territorio} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNTERR"}   />
 

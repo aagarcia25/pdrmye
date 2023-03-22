@@ -12,25 +12,31 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 
 
 const MunPobrezaModal = ({
   handleClose,
   tipo,
-  dt
+  dt,
+  anios
+
 }: {
   tipo: number;
   handleClose: Function,
   dt: any
+  anios: SelectValues[];
 }) => {
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState<number>();
+  const [anio, setAnio] = useState<String>("");
   const [poblacion, setPoblacion] = useState<number>();
   const [carenciaProm, setCarenciaProm] = useState<number>();
   const [IdMunicipio, setIdMunicipio] = useState<string>();
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const [filterAnio, setFilterAnio] = useState("");
 
 
 
@@ -38,7 +44,7 @@ const MunPobrezaModal = ({
 
 
   const handleSend = () => {
-    if (IdMunicipio === null || poblacion === null || anio === null || carenciaProm === null || poblacion === 0 || anio === 0 || carenciaProm === 0) {
+    if (IdMunicipio === null || poblacion === null || anio === null || carenciaProm === null || poblacion === 0 || Number(anio) === 0 || carenciaProm === 0) {
       AlertS.fire({
         title: "Error!",
         text: "Favor de Completar los Campos",
@@ -115,7 +121,9 @@ const MunPobrezaModal = ({
     });
   };
 
-
+  const handleSelectAnio = (e: any) => {
+    setAnio(e);
+  };
 
   useEffect(() => {
 
@@ -156,7 +164,8 @@ const MunPobrezaModal = ({
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
           <Box>
-            <label >  <br /> Año <br />{anio}</label>
+            <label >  <br /> Año <br /></label>
+            <SelectFrag value={anio? String(anio):""} options={anios} onInputChange={handleSelectAnio} placeholder={String(anio)?String(anio):"Seleccione año"} label={""} disabled={false}></SelectFrag>
           </Box>
 
           <Box>

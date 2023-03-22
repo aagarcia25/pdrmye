@@ -222,7 +222,6 @@ const RecepcionRecursosORG = () => {
 
     const handleClick = (id: string) => {
         setslideropen(true);
-console.log("id:  "+id);
         let data = {
             NUMOPERACION: user.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ? 6 : 4,
             P_IDORG: idORG === "false" ? "" : id===""?idORG: id,

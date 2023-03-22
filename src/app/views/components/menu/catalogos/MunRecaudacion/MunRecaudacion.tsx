@@ -287,11 +287,11 @@ export const MunRecaudacion = () => {
 
       <ButtonsMunicipio
         url={"MUNICIPIO_RECAUDACION.xlsx"}
-        handleUpload={handleUpload} controlInterno={"MUNRECAU"} 
+        handleUpload={handleUpload} controlInterno={"MUNRECAU"}
         value={''}
         options={anios}
         onInputChange={handleFilterChange}
-        placeholder={"Seleccione Año"} label={""} disabled={false} />
+        placeholder={"Seleccione Año"} label={""} disabled={false} handleOpen={handleOpen} />
         
       < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNRECAU"}   />
 
@@ -301,8 +301,7 @@ export const MunRecaudacion = () => {
           modo={modo}
           handleClose={handleClose}
           tipo={tipoOperacion}
-          dt={data}
-        />
+          dt={data} anios={anios}        />
       ) : (
         ""
       )}

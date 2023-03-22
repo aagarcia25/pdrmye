@@ -13,6 +13,8 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {  getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
 const MunRecaudacionModal = ({
@@ -20,13 +22,16 @@ const MunRecaudacionModal = ({
   modo,
   handleClose,
   tipo,
-  dt
+  dt,
+  anios
 }: {
   open: boolean;
   modo: string;
   tipo: number;
   handleClose: Function,
-  dt: any
+  dt: any,
+  anios: SelectValues[];
+
 }) => {
 
 
@@ -34,7 +39,7 @@ const MunRecaudacionModal = ({
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState<number>();
+  const [anio, setAnio] = useState<string>("");
   const [recaudacion, setRecaudacion] = useState<number>();
   const [IdMunicipio, setIdMunicipio] = useState<string>();
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -119,7 +124,9 @@ const MunRecaudacionModal = ({
     });
   };
 
-
+  const handleSelectAnio = (e: any) => {
+    setAnio(e);
+  };
 
   useEffect(() => {
 
@@ -167,7 +174,8 @@ const MunRecaudacionModal = ({
           </Box>
           </FormControl>
           <Box>
-            <label ><br /> Año: <br />{anio}</label>
+            <label ><br /> Año: <br /></label>
+            <SelectFrag value={String(anio)} options={anios} onInputChange={handleSelectAnio} placeholder={String(anio)?anio==="false"?"":anio:"Seleccione año"} label={""} disabled={false}></SelectFrag>
           </Box>
 
           <Box>
@@ -199,7 +207,7 @@ const MunRecaudacionModal = ({
 
         <Grid container sx={{ mt: "2vh", width: "100%",height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
           <Grid item xs={4} sm={3} md={2} lg={1} >
-            <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+            <Button disabled={!recaudacion|| anio==="false"|| anio===""} className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
           </Grid>
         </Grid>
       </Grid>
