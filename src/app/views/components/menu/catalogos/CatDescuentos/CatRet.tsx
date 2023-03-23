@@ -12,162 +12,166 @@ import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import { GridColDef } from '@mui/x-data-grid';
 import MUIXDataGrid from '../../../MUIXDataGrid';
 import { CatRetModal } from "./CatRetModal";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
 export const CatRet = () => {
-    const [data, setData] = useState([]);
-    const [modo, setModo] = useState("");
-    const [open, setOpen] = useState(false);
-    const [tipoOperacion, setTipoOperacion] = useState(0);
-    const [vrows, setVrows] = useState({});
-    const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-    const [agregar, setAgregar] = useState<boolean>(false);
-    const [editar, setEditar] = useState<boolean>(false);
-    const [eliminar, setEliminar] = useState<boolean>(false);
+  const [data, setData] = useState([]);
+  const [modo, setModo] = useState("");
+  const [open, setOpen] = useState(false);
+  const [tipoOperacion, setTipoOperacion] = useState(0);
+  const [vrows, setVrows] = useState({});
+  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
 
-    const columns: GridColDef[] = [
-        {field: "id",hide: true},
-        { field: "acciones",  disableExport: true,
-          headerName: "Acciones",
-          description: "Campo de Acciones",
-          sortable: false,
-          width: 150,
-          renderCell: (v) => {
-            return (
-             <BotonesAcciones 
-                handleAccion={handleAccion}
-                row={v}
-                editar={editar}
-                eliminar={eliminar} />
-            );
-          },
-        },
-        { field: "ClaveRetencion", headerName: "Clave Retención",  description: "Clave Retención", width: 300 },
-        { field: "Retencion",      headerName: "Retención",        description: "Retención",       width: 300 },
-        { field: "ClaveAuxiliar",  headerName: "Clave Auxiliar",   description: "Clave Auxiliar",  width: 300 },
-        { field: "Descripcion",    headerName: "Descripción",      description: "Descripción",     width: 450 },
+  const columns: GridColDef[] = [
+    { field: "id", hide: true },
+    {
+      field: "acciones", disableExport: true,
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 150,
+      renderCell: (v) => {
+        return (
+          <BotonesAcciones
+            handleAccion={handleAccion}
+            row={v}
+            editar={editar}
+            eliminar={eliminar} />
+        );
+      },
+    },
+    { field: "ClaveRetencion", headerName: "Clave Retención", description: "Clave Retención", width: 300 },
+    { field: "Retencion", headerName: "Retención", description: "Retención", width: 300 },
+    { field: "ClaveAuxiliar", headerName: "Clave Auxiliar", description: "Clave Auxiliar", width: 300 },
+    { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 450 },
 
-        
-    
-      ];
-    
-      const handleAccion=(v: any)=>{
-       if(v.tipo ===1){
-        //console.log(v);
-        setTipoOperacion(2);
-        setModo("Editar Registro");
-        setOpen(true);
-        setVrows(v.data);
-       }else if(v.tipo ==2){
-        Swal.fire({
-          icon: "info",
-          title: "Estas seguro de eliminar este registro?",
-          showDenyButton: true,
-          showCancelButton: false,
-          confirmButtonText: "Confirmar",
-          denyButtonText: `Cancelar`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            const user: RESPONSE = JSON.parse(String(getUser()));
-            let data = {
-              NUMOPERACION: 3,
-              CHID: v.data.row.id,
-              CHUSER: user.id,
-            };
-    
-            CatalogosServices.IndexCatRetenciones(data).then((res) => {
-              if (res.SUCCESS) {
-                Toast.fire({
-                  icon: "success",
-                  title: "Registro Eliminado!",
-                });
-    
-                let data = {
-                  NUMOPERACION: 4,
-                };
-                consulta(data);
-              } else {
-                AlertS.fire({
-                  title: "Error!",
-                  text: res.STRMESSAGE,
-                  icon: "error",
-                });
-              }
-            });
-          } else if (result.isDenied) {
-            Swal.fire("No se realizaron cambios", "", "info");
-          }
-        });
-       }
-      };
-    
-      const handleClose = () => {
-        setOpen(false);
-        consulta({ NUMOPERACION: 4 });
-        
-      };
-    
-      const handleOpen = (v: any) => {
-        setTipoOperacion(1);
-        setModo("Agregar Registro");
-        setOpen(true);
-        setVrows(v);
-      };
-      
-    const consulta = (data: any) => {
-        CatalogosServices.IndexCatRetenciones(data).then((res) => {
-          if (res.SUCCESS) {
-            Toast.fire({
-              icon: "success",
-              title: "Consulta Exitosa!",
-            });
-            //console.log(res);
-            setData(res.RESPONSE);
-          } else {
-            AlertS.fire({
-              title: "Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
-            });
-          }
-        });
-      };
 
-      
-      useEffect(() => {
-   
-        permisos.map((item: PERMISO) => {
-        if (String(item.ControlInterno) === "CATRETEN") {
-          //console.log(item)
-          if (String(item.Referencia) === "AGREG") {
-            setAgregar(true);
-          }
-          if (String(item.Referencia) === "ELIM") {
-            setEliminar(true);
-          }
-          if (String(item.Referencia) === "EDIT") {
-            setEditar(true);
-          }
-          
+
+  ];
+
+  const handleAccion = (v: any) => {
+    if (v.tipo === 1) {
+      //console.log(v);
+      setTipoOperacion(2);
+      setModo("Editar Registro");
+      setOpen(true);
+      setVrows(v.data);
+    } else if (v.tipo == 2) {
+      Swal.fire({
+        icon: "info",
+        title: "Estas seguro de eliminar este registro?",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const user: RESPONSE = JSON.parse(String(getUser()));
+          let data = {
+            NUMOPERACION: 3,
+            CHID: v.data.row.id,
+            CHUSER: user.id,
+          };
+
+          CatalogosServices.IndexCatRetenciones(data).then((res) => {
+            if (res.SUCCESS) {
+              Toast.fire({
+                icon: "success",
+                title: "Registro Eliminado!",
+              });
+
+              let data = {
+                NUMOPERACION: 4,
+              };
+              consulta(data);
+            } else {
+              AlertS.fire({
+                title: "Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+        } else if (result.isDenied) {
+          Swal.fire("No se realizaron cambios", "", "info");
         }
       });
-      consulta({ NUMOPERACION: 4 });
-      }, []);
-      
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    consulta({ NUMOPERACION: 4 });
+
+  };
+
+  const handleOpen = (v: any) => {
+    setTipoOperacion(1);
+    setModo("Agregar Registro");
+    setOpen(true);
+    setVrows(v);
+  };
+
+  const consulta = (data: any) => {
+    CatalogosServices.IndexCatRetenciones(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Consulta Exitosa!",
+        });
+        //console.log(res);
+        setData(res.RESPONSE);
+      } else {
+        AlertS.fire({
+          title: "Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
+
+  useEffect(() => {
+
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "CATRETEN") {
+        //console.log(item)
+        if (String(item.Referencia) === "AGREG") {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) === "ELIM") {
+          setEliminar(true);
+        }
+        if (String(item.Referencia) === "EDIT") {
+          setEditar(true);
+        }
+
+      }
+    });
+    consulta({ NUMOPERACION: 4 });
+  }, []);
+
   return (
-    <div style={{ height: 600, width: "100%", padding:"1%" }}>
-    {open ? (
-     <CatRetModal
-       open={open}
-       modo={modo}
-       tipo={tipoOperacion}
-       handleClose={handleClose}
-       dt={vrows}
-     />
-   ) : (
-     ""
-   )}
-   <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-   <MUIXDataGrid columns={columns} rows={data} />
- </div>
+    <div style={{ height: 600, width: "100%", padding: "1%" }}>
+      {open ? (
+        <CatRetModal
+          open={open}
+          modo={modo}
+          tipo={tipoOperacion}
+          handleClose={handleClose}
+          dt={vrows}
+        />
+      ) : (
+        ""
+      )}
+      <NombreCatalogo controlInterno={"CATRETEN"} />
+
+      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+      <MUIXDataGrid columns={columns} rows={data} />
+    </div>
   )
 }

@@ -12,6 +12,7 @@ import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import { GridColDef } from '@mui/x-data-grid';
 import MUIXDataGrid from '../../../MUIXDataGrid';
 import { ClasificadorSPModal } from "./ClasificadorSPModal";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
 export const ClasificadorSP = () => {
     const [data, setData] = useState([]);
@@ -165,6 +166,8 @@ export const ClasificadorSP = () => {
    ) : (
      ""
    )}
+      <NombreCatalogo controlInterno={"CATCLASIFICACION"} />
+
    <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
    <MUIXDataGrid columns={columns} rows={data} />
  </div>
