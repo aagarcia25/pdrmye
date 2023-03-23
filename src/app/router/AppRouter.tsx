@@ -1,4 +1,4 @@
-import { Routes, Route, HashRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { AuthRouter } from './AuthRouter';
 import { Eo404 } from '../views/components/Eo404';
 import Inicio from '../views/components/Inicio';
@@ -33,7 +33,7 @@ import Menus from '../views/components/menu/usuarios/Menus/Menus';
 import ContactoMunicipios from '../views/components/Municipios/ContactoMunicipios';
 import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
-import { getUser, islogin } from '../services/localStorage';
+import { getUser } from '../services/localStorage';
 import { RESPONSE } from '../interfaces/user/UserInfo';
 import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
 import { CalculoGarantiaComponente } from '../views/components/menu/articulos/CalculoGarantia/CalculoGarantiaComponente';
@@ -54,10 +54,7 @@ import AuthSolicitudes from '../views/components/DPCP/AuthSolicitudes';
 import Participaciones from '../views/components/DAMOP/Participaciones';
 import { Divisas } from '../views/components/menu/catalogos/Divisas/Divisas';
 import AjustesCalculos from '../views/components/menu/catalogos/AjustesCalculos/AjustesCalculos';
-import { Reportes } from '../views/components/componentes/CPH/Estadisticas/Reportes/Reportes';
-import { Graficas } from '../views/components/componentes/CPH/Estadisticas/Graficas/Graficas';
 import IsnRecaudacion from '../views/components/menu/articulos/IsnRecaudacion/IsnRecaudacion';
-
 import { CatRet } from '../views/components/menu/catalogos/CatDescuentos/CatRet';
 import { CatTP } from '../views/components/menu/catalogos/CatTiposDePago/CatTP';
 import { ClasificadorSP } from '../views/components/menu/catalogos/ClasificadorSP/ClasificadorSP';
@@ -187,11 +184,6 @@ export const AppRouter = (
           <Route path='/inicio/Municipio/participaciones' element={<Participaciones />} />
           {/* FIN DAMOP */}
 
-          {/* /// Estadisticas */}
-          <Route path='/estadisticas/reportes' element={<Reportes />} />
-          <Route path='/estadisticas/graficas' element={<Graficas />} />
-          {/* /// Fin Estadisticas */}
-
           {/* /// Firma Electronica */}
           <Route path='/efirm/firma' element={<Firma />} />
           <Route path='/efirm/config' element={<Configuracione />} />
@@ -200,8 +192,6 @@ export const AppRouter = (
 
           {/* /// herramientas */}
           <Route path='/herramientas/reportes' element={log ? <Reporteador /> : <AuthRouter />} />
-
-          {/* <Route path='/herramientas/reportes'  element={<Reporteador />} /> */}
           {/* /// herramientas */}
 
 
