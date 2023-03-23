@@ -13,7 +13,6 @@ export function base64ToArrayBuffer(data: string) {
 
 export function dowloandfile(obj: any){
     CatalogosServices.obtenerDoc(obj).then((res) => {
-        console.log(res);
         var bufferArray = base64ToArrayBuffer( String(res.RESPONSE.RESPONSE.FILE) );
         var blobStore = new Blob([bufferArray], { type: "application/pdf" });
         var data = window.URL.createObjectURL(blobStore);

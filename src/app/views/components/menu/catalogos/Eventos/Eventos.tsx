@@ -15,6 +15,7 @@ import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import Slider from '../../../Slider'
 import { useIdleTimer } from 'react-idle-timer'
+import NombreCatalogo from '../../../componentes/NombreCatalogo'
 
 
 
@@ -209,15 +210,8 @@ export const Eventos = () => {
         dt={data}
       />
         : ""}
+      <NombreCatalogo controlInterno={"EVENTOS"} />
 
- 
-      <Grid item xs={7} sm={10} md={11} lg={11} >
-            <Box sx={{ display: "flex", justifyContent: "center"}}>
-              <Typography variant="h4" >
-                {"Eventos"}
-              </Typography>
-            </Box>
-          </Grid>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={conEventos} />
 

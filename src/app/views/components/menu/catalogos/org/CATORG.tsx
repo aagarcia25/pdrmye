@@ -13,6 +13,7 @@ import { CATORGModal } from "./CATORGModal";
 import { IconButton, Tooltip } from "@mui/material";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import UsuarioResponsable from "../../../DAMOP/UsuarioResponsable";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
 export const CATORG = () => {
   const [data, setData] = useState([]);
@@ -194,7 +195,7 @@ export const CATORG = () => {
 
   return (
     <div style={{ height: 600, width: "100%", padding: "1%" }}>
-          {openUR ? (
+      {openUR ? (
         <UsuarioResponsable handleClose={handleClose} id={idMun} nombre={nombreMun} tipo={"ORG"} />
       ) : (
         ""
@@ -210,6 +211,8 @@ export const CATORG = () => {
       ) : (
         ""
       )}
+
+      <NombreCatalogo controlInterno={"ORG"} />
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
     </div>

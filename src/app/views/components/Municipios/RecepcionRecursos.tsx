@@ -34,10 +34,11 @@ import SpeisAdmin from "../DAF/SpeisAdmin";
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import CfdiAdmin from "../DAF/CfdiAdmin";
+import NombreCatalogo from "../componentes/NombreCatalogo";
 const RecepcionRecursos = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
- 
+
   //MODAL
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
@@ -326,17 +327,8 @@ const RecepcionRecursos = () => {
         ""
       )}
 
-
+      <NombreCatalogo controlInterno={"RESTRANS"} />
       <Grid container spacing={1} padding={2}>
-        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          <Grid container sx={{ justifyContent: "center" }}>
-            <Grid item xs={10} sx={{ textAlign: "center" }}>
-              <Typography variant="h4" paddingBottom={2}>
-                Módulo de Recepción de Recursos
-              </Typography>
-            </Grid>
-          </Grid>
-        </Grid>
 
         {user.DEPARTAMENTOS[0]?.NombreCorto !== "MUN" ?
           <>

@@ -16,6 +16,7 @@ import { PERMISO } from "../../../../../interfaces/user/UserInfo";
 import { getPermisos, getToken } from "../../../../../services/localStorage";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { dowloandfile } from "../../../../../helpers/Files";
+import AddIcon from "@mui/icons-material/Add";
 
 const ButtonsMunicipio = ({
   controlInterno,
@@ -27,6 +28,7 @@ const ButtonsMunicipio = ({
   placeholder,
   label,
   disabled,
+  handleOpen
 }: {
   controlInterno: string;
   url: string;
@@ -37,18 +39,21 @@ const ButtonsMunicipio = ({
   placeholder: string;
   label: string;
   disabled: boolean;
+  handleOpen: Function;
+
 }) => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [cargarPlantilla, setCargarPlantilla] = useState<boolean>(false);
   const [descargarPlantilla, setDescargarPlantilla] = useState<boolean>(false);
   const [elimasiva, setelimasiva] = useState<boolean>(false);
+  const [agregar, setAgregar] = useState<boolean>(false);
 
 
   const downloadplantilla = () => {
-    let name =url;
+    let name = url;
     let data = {
-      TOKEN:JSON.parse(String(getToken())),
-      RUTA:'/PDRMYE/DAMOP/PLANTILLAS/',
+      TOKEN: JSON.parse(String(getToken())),
+      RUTA: '/PDRMYE/DAMOP/PLANTILLAS/',
       NOMBRE: name,
     };
     dowloandfile(data);
@@ -59,13 +64,13 @@ const ButtonsMunicipio = ({
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === controlInterno) {
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.Referencia)  === "AGREG" ) {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) === "CARGPLAN") {
           setCargarPlantilla(true);
         }
-        if (String(item.Referencia) === "AGREG") {
-          setCargarPlantilla(true);
-        }
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.Referencia) === "DESPLAN") {
           setDescargarPlantilla(true);
         }
         if (String(item.Referencia) === "ELIMMAS") {
@@ -77,18 +82,29 @@ const ButtonsMunicipio = ({
 
   return (
     <Box sx={{ alignItems: "center" }}>
-      <Grid
+      <Grid item
+        xs={12} md={12}
         container
         direction="row"
         justifyContent="space-between"
         alignItems="center"
       >
-        <Grid item xs={12} md={2}>
+
+        <Grid item  xs={12} sm={6} md={6} lg={3} >
           <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+            {agregar ? (
+                <Tooltip title="Agregar" >
+                  <ToggleButton value="check" onClick={() => handleOpen()}>
+                    <AddIcon />
+                  </ToggleButton>
+                </Tooltip>
+            ) : (
+              ""
+            )}
             {descargarPlantilla ? (
-            <Tooltip title={"Descargar Plantilla"}>
+              <Tooltip title={"Descargar Plantilla"}>
                 <ToggleButton value="check" onClick={() => downloadplantilla()}>
-                      <ArrowDownwardIcon />
+                  <ArrowDownwardIcon />
                 </ToggleButton>
               </Tooltip>
             ) : (
@@ -117,6 +133,8 @@ const ButtonsMunicipio = ({
               ""
             )}
 
+
+
             {elimasiva ? (
               <Tooltip title="Eliminación Masiva, Borra los Registros Seleccionados *No Requiere Autorización*">
                 <ToggleButton value="check">
@@ -130,7 +148,7 @@ const ButtonsMunicipio = ({
             )}
           </ToggleButtonGroup>
         </Grid>
-        <Grid item xs={12} md={2}>
+        <Grid item  xs={12} sm={6} md={4} lg={3} >
           {value === "na" ? (
             ""
           ) : (

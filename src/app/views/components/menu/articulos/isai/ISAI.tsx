@@ -26,6 +26,7 @@ import ModalForm from "../../../componentes/ModalForm";
 import SaveButton from "../../../componentes/SaveButton";
 import Title from "../../../componentes/Title";
 import { Moneda } from "../../CustomToolbar";
+import ButtonsMunicipio from "../../catalogos/Utilerias/ButtonsMunicipio";
 
 const ISAI = () => {
   //   VALORES POR DEFAULT
@@ -128,9 +129,10 @@ const ISAI = () => {
     });
   };
 
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = (data: any) => {
+    var  event :React.ChangeEvent<HTMLInputElement> = data.data;
     setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
+    let file = event.target?.files?.[0] || "";
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlxs");
     formData.append("NUMOPERACION", "1");
@@ -149,6 +151,10 @@ const ISAI = () => {
     CatalogosServices.descargaplantilla(data).then((res) => {
       setPlantilla(res.RESPONSE);
     });
+  };
+
+  const handleFilterChange = (v: string) => {
+
   };
 
   useEffect(() => {
@@ -181,7 +187,16 @@ const ISAI = () => {
       
       <div style={{ height: 600, width: "100%" ,display : modo === 0 ? "block":"none"}}>
       <Box >
-        {agregar ?
+
+
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleUpload} controlInterno={"ISAI"}
+        options={[]}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"} label={''} disabled={false}
+        value={""} handleOpen={handleFilterChange} />
+        {/* {agregar ?
         <>
           <Tooltip title="Descargar Plantilla">
           <IconButton aria-label="upload documento" component="label" size="large">
@@ -198,7 +213,7 @@ const ISAI = () => {
         </IconButton>
         </Tooltip>
         </>
-         :""}
+         :""} */}
       </Box>
 
       <MUIXDataGrid columns={columns0} rows={dataTipoFondo} />

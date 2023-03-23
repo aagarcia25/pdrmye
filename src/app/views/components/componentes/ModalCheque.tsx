@@ -21,10 +21,11 @@ export const ModalCheque = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [title, setTitle] = useState<string>();
   const [label, setLabel] = useState<string>();
-
+  const [proveedor, setProveedor] = useState<string>();
 
   useEffect(() => {
-
+    console.log(vrows)
+    setProveedor(vrows.row.Proveedor +' / '+vrows.row.Nombre);
     if (tipo == 1) {
       setTitle('Asignar Póliza de Pago');
       setLabel('Póliza de Pago:');
@@ -46,7 +47,7 @@ export const ModalCheque = ({
     }
 
 
-  }, []);
+  }, [vrows]);
 
 
 
@@ -113,6 +114,9 @@ export const ModalCheque = ({
 
           <DialogContent dividers={true}>
             <Grid container spacing={1}>
+            <Grid item xs={12}>
+                <h3> {proveedor}</h3>
+              </Grid>
               <Grid item xs={12}>
                 <h3> {label}</h3>
               </Grid>

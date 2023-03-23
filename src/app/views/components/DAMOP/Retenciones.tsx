@@ -46,7 +46,7 @@ export const Retenciones = ({
     // CAMPOS DE LOS FORMULARIOS
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [idPA, setIdPA] = useState("");
-    const [idRetencion, setIdRetencion] = useState("");
+
     const [idReg, setIdReg] = useState("");
     const [dataRow, setdataRow] = useState([]);
     const [openModalDes, setOpenModalDes] = useState<boolean>(false);
@@ -62,6 +62,7 @@ export const Retenciones = ({
     const [ValRet, setValRet] = useState("");
     const [numOperacionOp, setNumOperacionOp] = useState<SelectValues[]>([]);
     const [claveRetencionOp, setclaveRetencionOp] = useState<SelectValuesCatRetenciones[]>([]);
+    const [idRetencion, setIdRetencion] = useState("");
     // const [sumaDescuentos, setSumaDescuentos] = useState<number>(0);
     const [totalRetenciones, setTotalRetenciones] = useState<number>(0);
     const [sumaTotal, setSumaTotal] = useState<Number>();

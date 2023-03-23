@@ -9,13 +9,7 @@ const ButtonsAdd = ({
   agregar: boolean;
 }) => {
   return (
-    <Box sx={{ alignItems: "center",  }} >
-        <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
+    <>
       {agregar ? (
         <ToggleButtonGroup color="primary" exclusive aria-label="Platform"   >
           <Tooltip title="Agregar" >
@@ -27,8 +21,7 @@ const ButtonsAdd = ({
       ) : (
         ""
       )}
-      </Grid>
-    </Box>
+    </>
   );
 };
 
