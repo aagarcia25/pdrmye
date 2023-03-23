@@ -745,6 +745,11 @@ export const ORG = () => {
                     label: "buscar",
                     showQuickFilter: true,
                     quickFilterProps: { debounceMs: 500 },
+                    csvOptions: {
+                      fileName: 'Organismos'
+                      ,
+                      utf8WithBom: true,
+                    }
                   },
                 }}
                 checkboxSelection
