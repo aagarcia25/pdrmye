@@ -28,7 +28,6 @@ const IsnRecaudacion = () => {
   const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
-  const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [modo, setModo] = useState("");
@@ -298,7 +297,9 @@ const IsnRecaudacion = () => {
   };
 
 
-
+  const handleOpenn = () => {
+   
+  };
 
 
 
@@ -307,9 +308,7 @@ const IsnRecaudacion = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "ISNR") {
         setNombreMenu(item.Menu);
-        if (String(item.Referencia) === "AGREG") {
-          setAgregar(true);
-        }
+        
         if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
         }
@@ -342,11 +341,11 @@ const IsnRecaudacion = () => {
      
       <ButtonsMunicipio
         url={"PLANTILLA DE CARGA_ISN_RECAUDACION.xlsx"}
-        handleUpload={handleUpload} controlInterno={"ISNR"} 
+        handleUpload={handleUpload} controlInterno={"ISNR"}
         value={''}
         options={anios}
         onInputChange={handleFilterChange}
-        placeholder={"Seleccione Año"} label={""} disabled={false} />
+        placeholder={"Seleccione Año"} label={""} disabled={false} handleOpen={handleOpenn} />
       < MUIXDataGridMun columns={columns} rows={data} handleBorrar={handleBorrar} modulo={'ISN RECAUDACION'} controlInterno={'ISNR'} />
 
 

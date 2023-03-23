@@ -270,6 +270,7 @@ export const ORGHeader = ({
     setHCancel(true);
     setHSave(true);
     setHAdd(false);
+    handleLimpiarCamposHeader();
   };
 
 
@@ -400,8 +401,12 @@ export const ORGHeader = ({
   const handleLimpiarCamposDetalle = () => {
     if (modoDetalle === "Editar") {
 
-      setDescripcion("");
-      setImporte("");
+        setDescripcion("");
+
+        if (dataCab.orden < 16) {
+          setImporte("");
+          
+        }
     } else if (modoDetalle === "Agregar") {
       // setListConceptos("");
       setIdClaveConcepto("");
@@ -499,12 +504,13 @@ export const ORGHeader = ({
                 <MenuBookIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Eliminar"}>
-              <IconButton value="check" onClick={() => handleBorrarDetalle(v)}>
-                <DeleteForeverOutlinedIcon />
-              </IconButton>
-            </Tooltip>
-
+            {dataCab.orden < 16 ?
+              <Tooltip title={"Eliminar"}>
+                <IconButton value="check" onClick={() => handleBorrarDetalle(v)}>
+                  <DeleteForeverOutlinedIcon />
+                </IconButton>
+              </Tooltip> : ""
+            }
           </Box>
         );
       },
@@ -512,7 +518,7 @@ export const ORGHeader = ({
     {
       field: "FechaCreacion",
       headerName: "Fecha Creación",
-      width: 160,
+      width: 200,
       description: "Fecha Creación",
     },
     {
@@ -595,9 +601,9 @@ export const ORGHeader = ({
     },
     {
       field: "Clasificador11",
-      headerName: "Proy / Program",
-      width: 150,
-      description: "Proy / Program",
+      headerName: "Proyecto / Programa",
+      width: 200,
+      description: "Proyecto / Programa",
     },
   ];
 
@@ -642,7 +648,7 @@ export const ORGHeader = ({
 
   useEffect(() => {
     Consulta();
-
+    console.log(dataCab)
 
     if (modo === "Nuevo") {
       setLimpiar(true);
@@ -692,7 +698,7 @@ export const ORGHeader = ({
 
               <ButtonGroup size="large">
                 <Tooltip title="Editar Cabecera">
-                  <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit} >
+                  <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit || dataCab.orden>=16} >
                     <ModeEditOutlineIcon />
                   </Button>
                 </Tooltip>
@@ -872,9 +878,10 @@ export const ORGHeader = ({
                 <Grid item container direction="row" justifyContent="space-between" xs={12} paddingTop={1} paddingBottom={1}>
                   {!openAgregarDetalle ?
                     <Tooltip title="Agregar detalle">
-                      <Button disabled={openAgregarDetalle} className="guardarOrgCabecera" value="check" onClick={() => handleAgregarDetalles()}>
+                      <Button disabled={openAgregarDetalle || dataCab.orden >= 16} className={dataCab.orden >= 16 ? "" : "guardarOrgCabecera"} value="check" onClick={() => handleAgregarDetalles()}
+                      >
                         <AddIcon />
-                      </Button>
+                      </Button >
                     </Tooltip>
                     : ""}
 
@@ -888,7 +895,7 @@ export const ORGHeader = ({
                             !openAgregarDetalle || verDetalle ?
                               <Tooltip title="Editar Detalle">
                                 <Button onClick={() => handleEditarDetalles()} color="info"
-                                  disabled={DetalleEditar}
+                                  disabled={DetalleEditar || dataCab.orden>=16}
                                 >
                                   <ModeEditOutlineIcon />
                                 </Button>
@@ -903,7 +910,7 @@ export const ORGHeader = ({
                                 !DetalleEditar ||
                                 DetalleAgregar ||
                                 String(Number(importe)) === "NaN"
-                                ||String(descripcion).trim()===""
+                                || String(descripcion).trim() === ""
                                 || idClaveConcepto === ""
                                 || idClaveConcepto === "false"
                                 || importe === ""
@@ -1062,7 +1069,7 @@ export const ORGHeader = ({
 
                             }}
                             error={String(Number(importe)) === "NaN"}
-                            disabled={verDetalle && !editarDetalle}
+                            disabled={verDetalle && !editarDetalle || dataCab.orden >= 16} // no se edita el importe cuanod está en estatus pendiente Autorizar OP
                           />
                         </Grid>
 
@@ -1077,7 +1084,7 @@ export const ORGHeader = ({
                             value={descripcion}
                             onChange={(v) => setDescripcion(v.target.value)}
                             style={{ width: "100%" }}
-                            disabled={verDetalle && !editarDetalle}
+                            disabled={verDetalle && !editarDetalle || dataCab.orden >= 16} // no se edita la descripción del detalle cuando está en estatus Autorizar OP
 
                           />
                         </Grid>

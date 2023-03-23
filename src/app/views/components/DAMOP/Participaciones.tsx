@@ -4,7 +4,6 @@ import {
   createTheme,
   Grid,
   IconButton,
-  Link,
   ThemeProvider,
   ToggleButton,
   ToggleButtonGroup,
@@ -65,8 +64,8 @@ import { fmeses } from "../../../share/loadMeses";
 import SelectFragMulti from "../Fragmentos/SelectFragMulti";
 import PolylineIcon from '@mui/icons-material/Polyline';
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
-import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import { base64ToArrayBuffer, dowloandfile } from "../../../helpers/Files";
+import {dowloandfile } from "../../../helpers/Files";
+import { ModalSegmentos } from "../componentes/ModalSegmentos";
 
 
 
@@ -92,6 +91,7 @@ const Participaciones = () => {
   const [estatus, setEstatus] = useState<SelectValues[]>([]);
   const [vrows, setVrows] = useState<{}>("");
   const [openCheque, setOpenCheque] = useState(false);
+  const [openSegmento, setOpenSegmento] = useState(false);
   const [tipo, setTipo] = useState(0);
   //Constantes de los filtros
   const [nombreFondo, setNombreFondo] = useState("");
@@ -140,6 +140,7 @@ const Participaciones = () => {
   const handleclose = (data: any) => {
     setOpenCheque(false);
     setOpenTraz(false)
+    setOpenSegmento(false);
   };
 
   const handlecheque = (data: any, tipo: number) => {
@@ -172,9 +173,13 @@ const Participaciones = () => {
   const handleVerTazabilidad = (v: any) => {
     setOpenTraz(true);
     setIdSolicitud(v.row.id);
-    //console.log(v.row.id);
   };
 
+
+  const handleVerSegmentos= (v: any) => {
+    setVrows(v);
+    setOpenSegmento(true);
+  };
 
 
   const handleDetalle = (data: any) => {
@@ -200,6 +205,16 @@ const Participaciones = () => {
           <Box>
 
 
+           {verSegmentar ? ( 
+              <Tooltip title={"Segmentar Operación"}>
+                <IconButton value="check" onClick={() => handleVerSegmentos(v)}>
+                  <SegmentIcon />
+                </IconButton>
+              </Tooltip>
+             ) : (
+              ""
+            )} 
+
              {verTrazabilidad ? ( 
               <Tooltip title={"Ver Trazabilidad"}>
                 <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
@@ -209,6 +224,8 @@ const Participaciones = () => {
              ) : (
               ""
             )} 
+
+
 
             {/* {String(v.row.NumParticipacion) === 'null' ?
               <Tooltip title={"Asignar N° de Participación"}>
@@ -389,8 +406,6 @@ const Participaciones = () => {
       width: 200,
       description: "Numero De Requerimiento De Anticipo",
     },
-   
-
     {
       field: "Anio",
       headerName: "Ejercicio",
@@ -474,7 +489,6 @@ const Participaciones = () => {
       field: "conceptoCheque",
       headerName: "Cpto. de  Cheque",
       description: "Concepto de Cheque",
-
       width: 270,
     },
 
@@ -526,7 +540,7 @@ const Participaciones = () => {
     {
       field: "importe",
       headerName: "Total Neto",
-      width: 150,
+      width: 250,
       description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
       ...Moneda,
       renderHeader: () => (
@@ -2098,10 +2112,8 @@ const Participaciones = () => {
       {openModalVerSpei ?
         <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows} /> : ""}
       {openCheque ? <ModalCheque tipo={tipo} handleClose={handleclose} vrows={vrows} /> : ""}
-      {openTraz ? <TrazabilidadSolicitud dt={{ TIPO:4, SP:idSolicitud, }} open={openTraz} handleClose={handleclose} />
-                :
-                ""
-            }
+      {openSegmento ? <ModalSegmentos  handleClose={handleclose} vrows={vrows} /> : ""}
+      {openTraz ? <TrazabilidadSolicitud dt={{ TIPO:4, SP:idSolicitud, }} open={openTraz} handleClose={handleclose} /> :""}
     </div>
   );
 };

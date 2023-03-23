@@ -227,7 +227,7 @@ export const ORG = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 120,
+      width: 150,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -252,7 +252,7 @@ export const ORG = () => {
       headerName: "Acciones",
       description: "Acciones",
       sortable: false,
-      width: 100,
+      width: 150,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -279,20 +279,20 @@ export const ORG = () => {
     { field: "Anio", headerName: "Año", width: 100, description: "Ejercicio", },
     { field: "Mes", headerName: "Mes", width: 100, description: "Mes", },
     { field: "claveUR", headerName: "U Responsable", description: "U Responsable", width: 150, },
-    { field: "Organismo", headerName: "Organismo", description: "Organismo", width: 250, },
+    { field: "Organismo", headerName: "Organismo", description: "Organismo", width: 400, },
     { field: "NumOrdenPago", headerName: "Solicitud de Pago", description: "Numero Orden de Pago", width: 150, },
     { field: "NumProyecto", headerName: "Proyecto", description: "Numero de Proyecto", width: 150, },
     { field: "NumEgreso", headerName: "Egreso", description: "Numero de Egreso", width: 150, },
     { field: "NumAportacion", headerName: "Aportación", description: "Numero de Aportación", width: 150, },
-    { field: "NumReqAnticipo", headerName: "Requerimiento de Anticipo", description: "Numero de Requerimiento de Anticipo", width: 150, },
+    { field: "NumReqAnticipo", headerName: "Requerimiento de Anticipo", description: "Numero de Requerimiento de Anticipo", width: 250, },
     { field: "NumCheque", headerName: "Póliza de Pago", description: "Póliza de Pago", width: 150, },
-    { field: "total", headerName: "Total", description: "Total", width: 250, ...Moneda },
+    { field: "total", headerName: "Total", description: "Total", width: 170, ...Moneda },
     {
       field: "TipoSolicitud", headerName: "Tipo Solicitud", description: "Tipo Solicitud", width: 200,
       renderCell: (v: any) => { return (<>{tipoSol.find(({ value }) => value === (String(v?.row?.TipoSolicitud)))?.label}</>); },
     },
-    { field: "Observaciones", headerName: "Observaciones", description: "Observaciones", width: 300, },
-    { field: "Divisa", headerName: "Divisa",description: "Divisa", width: 100, },
+    { field: "Observaciones", headerName: "Observaciones", description: "Observaciones", width: 400, },
+    { field: "Divisa", headerName: "Divisa",description: "Divisa", width: 250, },
   ];
   const Consulta = () => {
 
@@ -745,6 +745,11 @@ export const ORG = () => {
                     label: "buscar",
                     showQuickFilter: true,
                     quickFilterProps: { debounceMs: 500 },
+                    csvOptions: {
+                      fileName: 'Organismos'
+                      ,
+                      utf8WithBom: true,
+                    }
                   },
                 }}
                 checkboxSelection

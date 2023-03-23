@@ -216,81 +216,9 @@ export const Municipios = () => {
 
       if (data.tipo === 1) {
   
-        // setslideropen(true);
-        // let file = data.data?.target?.files?.[0] || "";
-        // const formData = new FormData();
-        // formData.append("inputfile", file, "inputfile.xlsx");
-        // formData.append("tipo", "MUNICIPIOS");
-        // CatalogosServices.migraData(formData).then((res) => {
-        //   setslideropen(false);
-        //   if (res.SUCCESS) {
-        //     Toast.fire({
-        //       icon: "success",
-        //       title: "Carga Exitosa!",
-        //     });
-        //   } else {
-        //     AlertS.fire({
-        //       title: "Error!",
-        //       text: res.STRMESSAGE,
-        //       icon: "error",
-        //     });
-        //   }
-        // });
+
       }
-      // else if (data.tipo === 2) {
   
-      //   if (selectionModel.length !== 0) {
-      //     Swal.fire({
-      //       icon: "question",
-      //       title: selectionModel.length + " Registros Se Eliminaran!!",
-      //       showDenyButton: true,
-      //       showCancelButton: false,
-      //       confirmButtonText: "Confirmar",
-      //       denyButtonText: `Cancelar`,
-      //     }).then((result) => {
-      //       if (result.isConfirmed) {
-  
-      //         let data = {
-      //           NUMOPERACION: 5,
-      //           OBJS: selectionModel,
-      //           CHUSER: user.id,
-  
-      //         };
-  
-      //         CatalogosServices.munfacturacion(data).then((res) => {
-      //           if (res.SUCCESS) {
-      //             Toast.fire({
-      //               icon: "success",
-      //               title: "Borrado!",
-      //             });
-  
-      //             consulta({
-      //               NUMOPERACION: 4,
-      //               CHUSER: user.id,
-      //               ANIO: filterAnio,
-      //             });
-  
-      //           } else {
-      //             AlertS.fire({
-      //               title: "Error!",
-      //               text: res.STRMESSAGE,
-      //               icon: "error",
-      //             });
-      //           }
-      //         });
-  
-      //       } else if (result.isDenied) {
-      //         Swal.fire("No se realizaron cambios", "", "info");
-      //       }
-      //     });
-      //   } else {
-      //     Swal.fire({
-      //       icon: "warning",
-      //       title: "Seleccione Registros Para Borrar",
-      //       confirmButtonText: "Aceptar",
-      //     });
-      //   }
-      // }
 
   };
 

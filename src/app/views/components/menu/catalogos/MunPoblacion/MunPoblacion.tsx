@@ -95,7 +95,7 @@ export const MunPoblacion = () => {
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
-    setOpen(false);
+    setOpen(true);
     setData("");
   };
   const handleDelete = (v: any) => {
@@ -108,7 +108,6 @@ export const MunPoblacion = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        //console.log(v);
 
         let data = {
           NUMOPERACION: 3,
@@ -308,11 +307,6 @@ export const MunPoblacion = () => {
 
     <div style={{ height: 600, width: "100%",}}>
       <Slider open={slideropen}></Slider>
-
-   
-
-
-
      
       <Grid container
         sx={{ justifyContent: "center" }}>
@@ -325,11 +319,11 @@ export const MunPoblacion = () => {
 
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNPO"} 
+        handleUpload={handleUpload} controlInterno={"MUNPO"}
         options={anios}
         onInputChange={handleFilterChange}
         placeholder={"Seleccione Año"} label={''} disabled={false}
-        value={filterAnio} />
+        value={filterAnio} handleOpen={handleOpen} />
      < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} modulo={'POBLACION'} controlInterno={'MUNPO'}   />
 
 
