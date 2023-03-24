@@ -74,7 +74,7 @@ export const SolicitudModal = (
         }
         else {
             AlertS.fire({
-                title: "Atencion",
+                title: "Atención",
                 text: sizeFile ? "Tamaño de archivo Exedido -Limitado a 3Mb-" : "Verificar los campos",
                 icon: "info",
             });

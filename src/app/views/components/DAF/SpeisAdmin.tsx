@@ -160,7 +160,7 @@ const SpeisAdmin = ({
 
                 Swal.fire({
                     icon: "info",
-                    title: "Atencion",
+                    title: "Atención",
                     text: "Tamaño de archivo Exedido -Limitado a 5 MB-",
                     showDenyButton: false,
                     showCancelButton: false,
@@ -184,7 +184,7 @@ const SpeisAdmin = ({
             setSpeiFile(undefined);
             setFileValid(false);
             AlertS.fire({
-                title: "Atencion",
+                title: "Atención",
                 text: "Archivo invalido",
                 icon: "info",
             });
@@ -220,7 +220,7 @@ const SpeisAdmin = ({
 
         Swal.fire({
             icon: "info",
-            title: "Estas seguro de eliminar este registro?",
+            title: "¿Estás seguro de eliminar este registro??",
             showDenyButton: true,
             showCancelButton: false,
             confirmButtonText: "Confirmar",

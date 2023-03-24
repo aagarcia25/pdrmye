@@ -74,7 +74,7 @@ const CalendarC = () => {
   const handleDelete = () => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este evento?",
+      title: "Estás seguro de eliminar éste evento?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",

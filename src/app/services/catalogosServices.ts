@@ -174,6 +174,10 @@ export class CatalogosServices {
         return await post('getliga', data);
     };
     
+    public static async OrganismosIndex(data : any) {
+        return await post('OrganismosIndex', data);
+    };
+
     public static async Organismos(data : any) {
         return await post('OrganismosIndex', data);
     };

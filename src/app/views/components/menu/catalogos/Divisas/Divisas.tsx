@@ -119,7 +119,7 @@ export const Divisas = () => {
 
         if (!nombreCorto || !nombre || !valor || !descripcion) {
             AlertS.fire({
-                title: "Atencion",
+                title: "Atención",
                 text: "Verifique los campos",
                 icon: "warning",
             });
@@ -178,7 +178,7 @@ export const Divisas = () => {
     const handleDelete = (v: any) => {
         Swal.fire({
             icon: "info",
-            title: "Estas seguro de eliminar este registro?",
+            title: "¿Estás seguro de eliminar este registro??",
             showDenyButton: true,
             showCancelButton: false,
             confirmButtonText: "Confirmar",
