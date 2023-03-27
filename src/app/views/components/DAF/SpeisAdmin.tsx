@@ -56,7 +56,6 @@ const SpeisAdmin = ({
     const [fileValid, setFileValid] = useState<boolean>(false);
     const [mensajeError, setMensajeError] = useState<string>("Solo Archivos PDG");
 
-    const [tipoProv, setTipoProv] = useState<string>("");
 
 
 
@@ -205,7 +204,9 @@ const SpeisAdmin = ({
     };
 
     const handleDescargarSpei = (v: any) => {
-        getfile(v.row.Nombre, v.row.Route, true)
+        setslideropen(true);
+        getfile(v.row.Nombre, v.row.Route, true);
+        setslideropen(false);
 
     };
     const handleDeleteSpei = (data: any) => {
@@ -237,7 +238,7 @@ const SpeisAdmin = ({
                         });
                         setNameSpei("");
                         setSpeiFile(null)
-                        consulta("");
+                        consulta();
                         setslideropen(false);
                         handleCloseModal();
                     } else {
@@ -266,7 +267,7 @@ const SpeisAdmin = ({
         formData.append("NUMOPERACION", numOp);
         formData.append("IDPROV", vrows.id);
         formData.append("CHUSER", user.id);
-        formData.append("TPROV", tipoProv);
+        formData.append("TPROV", vrows.row.a17);
         formData.append("TOKEN", JSON.parse(String(getToken())));
 
         DAFServices.SpeiAdministracion(formData).then((res) => {
@@ -277,7 +278,7 @@ const SpeisAdmin = ({
                 });
                 setNameSpei("");
                 setSpeiFile(null)
-                consulta("");
+                consulta();
                 handleCloseModal();
                 setslideropen(false);
             } else {
@@ -338,14 +339,14 @@ const SpeisAdmin = ({
 
 
 
-    const consulta = (tipoprov:string) => {
-
+    const consulta = () => {
+        setslideropen(true);
         DAFServices.SpeiAdministracion(
             {
                 NUMOPERACION: 4,
                 P_IDPROV: vrows.id,
                 TOKEN: JSON.parse(String(getToken())),
-                TPROV: tipoprov? tipoprov:tipoProv
+                TPROV: vrows.row.a17
 
             }
         ).then((res) => {
@@ -355,24 +356,20 @@ const SpeisAdmin = ({
                     title: "Consulta Exitosa!",
                 });
                 setSpeis(res.RESPONSE);
+                setslideropen(false);
             } else {
                 AlertS.fire({
                     title: "Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
+                setslideropen(false);
             }
         });
     };
     useEffect(() => {
-        if (vrows?.Organismo) {
-            setTipoProv("o")
-            consulta("o");
-        }else{
-            setTipoProv("m")
-            consulta("m");
-        }
-        
+       
+        consulta();
         var ancho = 0;
         permisos.map((item: PERMISO) => {
             if (String(item.ControlInterno) === "DAFADMINPAG") {
