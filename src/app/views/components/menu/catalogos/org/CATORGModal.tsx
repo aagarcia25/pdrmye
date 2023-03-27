@@ -29,7 +29,7 @@ export const CATORGModal = ({
 }) => {
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [descripcion, setDescripcion] = useState("");
+  const [Descripcion, setDescripcion] = useState("");
   const [ClavePSIREGOB, setClavePSIREGOB] = useState("");
   const [ClaveDSIREGOB, setClaveDSIREGOB] = useState("");  
   const [Clasificador01, setClasificador01] = useState("");
@@ -47,7 +47,7 @@ export const CATORGModal = ({
 
 
   const handleSend = () => {
-    if  (!descripcion /*|| !ClavePSIREGOB || !ClaveDSIREGOB 
+    if  (!Descripcion /*|| !ClavePSIREGOB || !ClaveDSIREGOB 
       || !Clasificador01 
       || !Clasificador01 || !Clasificador02 || !Clasificador03 || !Clasificador04 
       || !Clasificador05 || !Clasificador06 || !Clasificador07 || !Clasificador08
@@ -63,7 +63,7 @@ export const CATORGModal = ({
         NUMOPERACION: tipo,
         CHID: id,
         CHUSER: user.id,
-        NOMBRE: descripcion,
+        DESCRIPCION: Descripcion,
       };
 
       handleRequest(data);
@@ -142,12 +142,12 @@ export const CATORGModal = ({
               margin="dense"
               id="Descripcion"
               label="Descripción"
-              value={descripcion}
+              value={Descripcion}
               type="text"
               fullWidth
               variant="standard"
               onChange={(v) => setDescripcion(v.target.value)}
-              error={descripcion === "" ? true : false}
+              error={Descripcion === "" ? true : false}
               inputProps={{ maxLength: 500 }}
             />
 
