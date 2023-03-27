@@ -514,21 +514,14 @@ const UsuariosModal = ({
               </TabList>
             </Grid>
             <TabPanel value="1">
-              <Grid item xs={11} sm={11} md={11} lg={11}>
+              <Grid item xs={12} >
                 <Box
                   display="flex"
                   flexWrap="wrap"
                   boxShadow={2}
                   sx={{ padding: "2%" }}
                 >
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={6}
-                    sx={{ paddingRight: "2%", paddingLeft: "2%" }}
-                  >
+                  <Grid item xs={12} md={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}>
                     <TextField
                       required
                       margin="dense"
@@ -676,14 +669,7 @@ const UsuariosModal = ({
                     ></TextField>
                   </Grid>
 
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={6}
-                    sx={{ paddingRight: "2%", paddingLeft: "2%" }}
-                  >
+                  <Grid item  xs={12}  md={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}>
                     <TextField
                       required
                       margin="dense"
@@ -797,6 +783,8 @@ const UsuariosModal = ({
                     </Box>
                     <Box maxHeight={1 / 2} flexDirection="row">
                       <DialogActions>
+
+
                         <Button
                           disabled={
                             Nombre === "" ||
