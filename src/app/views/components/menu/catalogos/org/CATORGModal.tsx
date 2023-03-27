@@ -47,7 +47,7 @@ export const CATORGModal = ({
 
 
   const handleSend = () => {
-    if  (!Descripcion /*|| !ClavePSIREGOB || !ClaveDSIREGOB 
+    if  (!Descripcion || !ClavePSIREGOB || !ClaveDSIREGOB /*
       || !Clasificador01 
       || !Clasificador01 || !Clasificador02 || !Clasificador03 || !Clasificador04 
       || !Clasificador05 || !Clasificador06 || !Clasificador07 || !Clasificador08
@@ -64,6 +64,8 @@ export const CATORGModal = ({
         CHID: id,
         CHUSER: user.id,
         DESCRIPCION: Descripcion,
+        ClavePSIREGOB: ClavePSIREGOB,
+        ClaveDSIREGOB: ClaveDSIREGOB,
       };
 
       handleRequest(data);
@@ -124,6 +126,8 @@ export const CATORGModal = ({
     } else {
       setId(dt?.row?.id);
       setDescripcion(dt?.row?.Descripcion);
+      setClavePSIREGOB(dt?.row?.ClavePSIREGOB);
+      setClaveDSIREGOB(dt?.row?.ClaveDSIREGOB);
     }
   }, [dt]);
 
@@ -162,6 +166,20 @@ export const CATORGModal = ({
               variant="standard"
               onChange={(v) => setClavePSIREGOB(v.target.value)}
               error={ClavePSIREGOB === "" ? true : false}
+              inputProps={{ maxLength: 10 }}
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="ClaveDSIREGOB"
+              label="Clave Deudor"
+              value={ClaveDSIREGOB}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClaveDSIREGOB(v.target.value)}
+              error={ClaveDSIREGOB === "" ? true : false}
               inputProps={{ maxLength: 10 }}
             />
 
