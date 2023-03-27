@@ -69,7 +69,7 @@ const ListNotificationsModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Mensaje Leido!",
+          title: "¡Mensaje Leído!",
         });
 
       } else {

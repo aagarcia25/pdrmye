@@ -113,7 +113,7 @@ const CfdiAdmin = ({
         formData.append("REGISTROS", speis[1] ? "1" : "0");
         Swal.fire({
             icon: "info",
-            title: "Estas seguro de eliminar este registro?",
+            title: "¿Estás seguro de eliminar este registro??",
             showDenyButton: true,
             showCancelButton: false,
             confirmButtonText: "Confirmar",

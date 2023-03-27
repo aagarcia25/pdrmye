@@ -185,7 +185,7 @@ const InflacionMes = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro??",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",

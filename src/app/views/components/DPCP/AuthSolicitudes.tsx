@@ -1,7 +1,11 @@
 import {
   Button,
   createTheme,
+  FormControl,
   Grid,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
   ThemeProvider,
   ToggleButton,
   ToggleButtonGroup,
@@ -30,10 +34,11 @@ import {
 import { esES as coreEsES } from "@mui/material/locale";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Swal from "sweetalert2";
-
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 const AuthSolicitudes = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
+  const [numOrdenPago, setNumOrdenPago] = useState("");
   //MODAL
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
@@ -57,66 +62,60 @@ const AuthSolicitudes = () => {
   const columnsParticipaciones = [
     { field: "id", hide: true },
     {
-      field: "estatus",
+      field: "a2",
       headerName: "Estatus",
       width: 150,
       description: "Estatus",
 
     },
     {
-      field: "NumOrdenPago",
+      field: "a3",
       headerName: "Nº De Solicitud De Pago",
       width: 200,
       description: "Nº De Solicitud De Pago",
     },
     {
-      field: "Anio",
+      field: "a6",
       headerName: "Año",
       width: 100,
       description: "Año",
     },
     {
-      field: "Mes",
+      field: "a13",
       headerName: "Mes",
       width: 100,
       description: "Mes",
     },
     {
-      field: "uresclave",
+      field: "a18",
       headerName: "U. Resp",
       width: 100,
       description: "Unidad Responsable",
 
     },
 
-   /* {
-      field: "ClaveEstado",
-      headerName: "Clave Estado",
-      width: 100,
-      description: "Clave Estado",
-    },*/
     {
-      field: "Nombre",
+      field: "a8",
       headerName: "Proveedor",
       width: 150,
       description: "Proveedor",
     },
     {
-      field: "fondodes",
+      field: "a9",
       headerName: "Descripción",
       width: 250,
       description: "Descripción",
 
     },
-    {
+   /* {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
       description: "Clave Presupuestal",
       width: 600,
       hide: false,
-    },
+    },*/
     {
-      field: "total",
+      field: "a10",
       headerName: "Total Neto",
       width: 280,
       description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
@@ -218,6 +217,7 @@ const AuthSolicitudes = () => {
       P_FONDO: idFondo === "false" ? "" : idFondo,
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipo === "false" ? "" : idtipo,
+      P_SOLICITUDPAGO: numOrdenPago ? numOrdenPago : "",
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
@@ -229,7 +229,7 @@ const AuthSolicitudes = () => {
 
         var sumatotal = 0;
         res.RESPONSE.map((item: any) => {
-          sumatotal = sumatotal + Number(item.total)
+          sumatotal = sumatotal + Number(item.a10)
           setSumaTotal(sumatotal)
         });
 
@@ -304,6 +304,38 @@ const AuthSolicitudes = () => {
               disabled={false}
             />
           </Grid>
+          <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                Solicitud de Pago:
+              </Typography>
+              <FormControl sx={{ width: "100%" }}  >
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={'text'}
+                  size="small"
+                  fullWidth
+                  placeholder="Solicitud de Pago"
+                  onChange={(v) => setNumOrdenPago(v.target.value.trim())}
+                  value={numOrdenPago}
+                  inputProps={{ maxLength: 10 }}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <Tooltip title={"Limpiar campo"} >
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => setNumOrdenPago("")}
+                          edge="end"
+                          disabled={!numOrdenPago}
+                        >
+                          <ClearOutlinedIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </InputAdornment>
+                  }
+                  error={String(Number(numOrdenPago)) === "NaN"}
+                />
+              </FormControl>
+            </Grid>
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>

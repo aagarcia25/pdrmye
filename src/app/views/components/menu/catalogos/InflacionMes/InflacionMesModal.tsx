@@ -48,8 +48,8 @@ const InflacionMesModal = ({
   const handleSend = () => {
     if (mes === null || inflacion === null || anio === null) {
       AlertS.fire({
-        title: "Uno o mas campos vacios!",
-        text: "revisar los Campos",
+        title: "¡Uno o más campos vacíos!",
+        text: "Revisar los Campos",
         icon: "warning",
       });
     } else {
