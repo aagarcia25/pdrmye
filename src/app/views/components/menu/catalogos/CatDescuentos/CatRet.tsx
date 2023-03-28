@@ -62,7 +62,7 @@ export const CatRet = () => {
     } else if (v.tipo == 2) {
       Swal.fire({
         icon: "info",
-        title: "Estas seguro de eliminar este registro?",
+        title: "¿Estás seguro de eliminar este registro??",
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: "Confirmar",

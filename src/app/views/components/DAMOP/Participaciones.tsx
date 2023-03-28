@@ -69,6 +69,11 @@ import { ModalSegmentos } from "../componentes/ModalSegmentos";
 
 
 
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import { ORGHeader } from "../ORGANISMOS/ORGHeader";
+
+
 const Participaciones = () => {
 
   const [meses, setMeses] = useState<SelectValues[]>([]);
@@ -136,6 +141,58 @@ const Participaciones = () => {
   const [DAMOP_PAUT, SETDAMOP_PAUT] = useState<boolean>(false);
   const [DAF_SPEI, SETDAF_SPEI] = useState<boolean>(false);
 
+  const [anchoAcciones, setAnchoAcciones] = useState<number>(0);
+
+  const [idORG, setIdORG] = useState("");
+  const [openModalCabecera, setOpenModalCabecera] = useState<boolean>(false);
+  const [modo, setModo] = useState<string>("");
+  const [organismos, setOrganismos] = useState<SelectValues[]>([]);
+
+
+  const handledetalles = (data: any) => {
+    setOpenModalCabecera(true);
+    setVrows(data);
+    setModo("Ver")
+  };
+
+
+  const handleBorrarSolicitud = (v: any) => {
+
+    let data = {
+      NUMOPERACION: 3,
+      CHUSER: user?.id,
+      CHID: v?.row?.id
+    }
+
+    Swal.fire({
+      icon: "warning",
+      title: "Eliminar registro actual",
+      text: "",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        DAMOPServices.indexCabecera(data).then((res) => {
+          if (res.SUCCESS) {
+            handleClose();
+            Toast.fire({
+              icon: "success",
+              title: "Cabecera Borrada!",
+            });
+          } else {
+            AlertS.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      }
+    });
+
+  };
 
   const handleclose = (data: any) => {
     setOpenCheque(false);
@@ -199,10 +256,22 @@ const Participaciones = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 100,
+      width: 150+anchoAcciones,
       renderCell: (v: any) => {
         return (
           <Box>
+
+
+           <Tooltip title={"Administrar Detalles"}>
+              <IconButton value="check" onClick={() => handledetalles(v)}>
+                <MenuBookIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={"Eliminar"}>
+              <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
+                <DeleteForeverOutlinedIcon />
+              </IconButton>
+            </Tooltip>
 
 
            {verSegmentar ? ( 
@@ -283,7 +352,7 @@ const Participaciones = () => {
       headerName: "Ver Detalle",
       description: "Ver Detalle",
       sortable: false,
-      width: 100,
+      width: 150,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -294,7 +363,7 @@ const Participaciones = () => {
                 </IconButton>
               </Tooltip>
             ) : (
-              ""
+              "Sin Detalles"
             )}
             {v.row.estatusCI === "DAF_SPEI" ? (
               <Tooltip title="Ver Spei">
@@ -346,7 +415,6 @@ const Participaciones = () => {
           <Box>
             {String(v.row.estatusCI) === 'DAMOP_INI' ? (
               <>
-
                 <Tooltip title="Admistrar Retenciones">
                   <IconButton
                     onClick={() => handleRetenciones(v)}>
@@ -355,8 +423,6 @@ const Participaciones = () => {
                 </Tooltip>
               </>
             ) : ("")}
-
-
           </Box>
         );
       },
@@ -366,7 +432,6 @@ const Participaciones = () => {
       field: "estatus",
       headerName: "Estatus",
       description: "Estatus",
-
       width: 200,
     },
     {
@@ -470,7 +535,6 @@ const Participaciones = () => {
       field: "uresclave",
       headerName: "U. Resp",
       description: "Unidad Responsable",
-
       width: 100,
     },
     {
@@ -491,8 +555,6 @@ const Participaciones = () => {
       description: "Concepto de Cheque",
       width: 270,
     },
-
-
     {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
@@ -607,11 +669,14 @@ const Participaciones = () => {
       } else if (operacion === 25) {
         setEstatus(res.RESPONSE);
         setIdEstatus(res.RESPONSE[0].value);
+      } else if (operacion === 27) {
+        setOrganismos(res.RESPONSE);
       }
     });
   };
-
+ 
   const handleClose = () => {
+    setOpenModalCabecera(false);
     setOpenModal(false);
     setOpenModalRetenciones(false);
     setOpenModalDescuento(false);
@@ -624,7 +689,6 @@ const Participaciones = () => {
 
   const handleFilterChange1 = (v: string) => {
     setIdTipoFondo(v);
-
   };
 
   const handleFilterChange2 = (v: SelectValues[]) => {
@@ -944,6 +1008,9 @@ const Participaciones = () => {
     }
   };
 
+  const handleFiltroORG = (v: string) => {
+    setIdORG(v);
+  };
 
 
   const integracionMasiva = () => {
@@ -1531,6 +1598,7 @@ const Participaciones = () => {
       P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
       P_IDESTATUS: idestatus === "false" ? "" : idestatus,
       P_IDMES: mes === "false" ? "" : mes,
+      P_IDORGANISMO: idORG === "false" ? "" : idORG,
 
 
     };
@@ -1575,7 +1643,9 @@ const Participaciones = () => {
 
 
   useEffect(() => {
+    var ancho = 0;
     setMeses(fmeses());
+    loadFilter(27);
     loadFilter(31);
     loadFilter(5);
     loadFilter(17);
@@ -1588,15 +1658,19 @@ const Participaciones = () => {
           setCargarPlant(true);
         } else if (String(item.Referencia) === "DESCPLANT") {
           setDescPlant(true);
+
         } else if (String(item.Referencia) === "DISFIDE") {
           setDisFide(true);
         } else if (String(item.Referencia) === "TRAZASPEIDAF") {
+          ancho = ancho + 50;
           setVerTrazabilidad(true);
         }else if (String(item.Referencia) === "SEGM"){
+          ancho = ancho + 50;
           setVerSegmentar(true)
         }
-      }
+      }setAnchoAcciones(ancho)
     });
+    
   }, [
     // munTieneFide
   ]);
@@ -1614,12 +1688,13 @@ const Participaciones = () => {
       ) : (
         ""
       )}
-
       {openModalDetalle ? (
-        <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
-          <ParticipacionesDetalle
-            data={vrows} />
-        </ModalForm>
+
+        <ORGHeader dataCabecera={vrows} modo={""} handleClose={handleClose}/>
+        // <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
+        //   <ParticipacionesDetalle
+        //     data={vrows} />
+        // </ModalForm>
       ) : (
         ""
       )}
@@ -1642,7 +1717,7 @@ const Participaciones = () => {
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
-            <Grid item xs={10} sx={{ textAlign: "center" }}>
+            <Grid item xs={12} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
                 Generación de Solicitudes de Participaciones y Aportaciones
               </Typography>
@@ -1650,11 +1725,29 @@ const Participaciones = () => {
           </Grid>
         </Grid>
 
-        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12} direction="row"
+        <Grid container spacing={.3} item xs={12} sm={12} md={12} lg={12} direction="row"
           justifyContent="center"
           alignItems="center" >
 
-          <Grid item xs={6} sm={4} md={2} lg={2}>
+
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+
+     
+            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+              Organismos:
+            </Typography>
+            <SelectFrag
+              value={idORG}
+              options={organismos}
+              onInputChange={handleFiltroORG}
+              placeholder={"Seleccione Un Organismo"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12} lg={2}>
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
               value={idestatus}
@@ -1665,6 +1758,7 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
+
 
           {/* <Grid item xs={6} sm={4} md={2} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
@@ -1677,7 +1771,11 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid> */}
-          <Grid item xs={6} sm={4} md={2} lg={2}>
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+
+         
+        
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
             <SelectFrag
               value={idtipoSolicitud}
@@ -1688,7 +1786,10 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
-          <Grid item xs={6} sm={4} md={2} lg={2}>
+
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+=    
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFragMulti
               options={fondos}
@@ -1699,7 +1800,11 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={6} sm={4} md={2} lg={2}>
+
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+
+     
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
             <SelectFrag
               value={idMunicipio}
@@ -1710,7 +1815,11 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
-          <Grid item xs={6} sm={4} md={2} lg={2}>
+
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+
+
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
             <SelectFrag
               value={mes}
@@ -2108,12 +2217,15 @@ const Participaciones = () => {
             </ThemeProvider>
           </div>
         </Grid>
+
+       
       </Grid>
-      {openModalVerSpei ?
-        <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows} /> : ""}
+      {openModalVerSpei ? <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows} /> : ""}
       {openCheque ? <ModalCheque tipo={tipo} handleClose={handleclose} vrows={vrows} /> : ""}
       {openSegmento ? <ModalSegmentos  handleClose={handleclose} vrows={vrows} /> : ""}
       {openTraz ? <TrazabilidadSolicitud dt={{ TIPO:4, SP:idSolicitud, }} open={openTraz} handleClose={handleclose} /> :""}
+      {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} />:""}
+
     </div>
   );
 };

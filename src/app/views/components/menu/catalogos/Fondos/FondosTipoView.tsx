@@ -118,7 +118,7 @@ const FondosTipoView = ({
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
-                    title: "Calculo Asignado!",
+                    title: "Cálculo Asignado!",
                 });
                 consulta();
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
@@ -13,6 +13,11 @@ import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import { porcentage } from "../../CustomToolbar";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+import React from "react";
+import Slider from "../../../Slider";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { fanios } from "../../../../../share/loadAnios";
 
 
 
@@ -30,6 +35,10 @@ const InflacionMes = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const [slideropen, setslideropen] = useState(false);
+  const [anios, setAnios] = useState<SelectValues[]>([]);
+  const [filterAnio, setFilterAnio] = useState("");
 
 
 
@@ -87,6 +96,84 @@ const InflacionMes = () => {
     setOpen(true);
     setVrows("");
   };
+  const handleUpload = (data: any) => {
+
+    if (data.tipo === 1) {
+      Swal.fire({
+        icon: "warning",
+        title: "Opción aun no Disponible",
+        confirmButtonText: "Aceptar",
+      });
+      // setslideropen(true);
+      // let file = data.data?.target?.files?.[0] || "";
+      // const formData = new FormData();
+      // formData.append("inputfile", file, "inputfile.xlxs");
+      // formData.append("tipo", "MunPoblacion");
+      // CatalogosServices.migraData(formData).then((res) => {
+      //   setslideropen(false);
+      // });
+
+    } 
+    else if (data.tipo === 2) {
+      //console.log("borrado de toda la tabla")
+      //console.log(selectionModel)
+
+      if(selectionModel.length!==0){
+      Swal.fire({
+        icon: "question",
+        title: selectionModel.length +" Registros Se Eliminaran!!",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Confirmar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+  
+          let data = {
+           NUMOPERACION: 5,
+           OBJS: selectionModel,
+           CHUSER: user.id
+          };
+          //console.log(data);
+  
+          // CatalogosServices.munpoblacion(data).then((res) => {
+          //   if (res.SUCCESS) {
+          //     Toast.fire({
+          //       icon: "success",
+          //       title: "Borrado!",
+          //     });
+  
+          //     consulta({
+          //       NUMOPERACION: 4,
+          //       CHUSER: user.id,
+          //       ANIO: filterAnio,
+          //     });
+  
+          //   } else {
+          //     AlertS.fire({
+          //       title: "Error!",
+          //       text: res.STRMESSAGE,
+          //       icon: "error",
+          //     });
+          //   }
+          // });
+  
+        } else if (result.isDenied) {
+          Swal.fire("No se realizaron cambios", "", "info");
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Seleccione Registros Para Borrar",
+        confirmButtonText: "Aceptar",
+      });
+    }
+
+
+    }
+
+  };
 
   const handleEdit = (v: any) => {
     setTipoOperacion(2);
@@ -98,7 +185,7 @@ const InflacionMes = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro??",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -134,6 +221,23 @@ const InflacionMes = () => {
         Swal.fire("No se realizaron cambios", "", "info");
       }
     });
+  };
+
+  const handleFilterChange = (v: string) => {
+    setFilterAnio(v);
+
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: v,
+    };
+    if (v !== "false") {
+      setFilterAnio(v);
+      consulta(data);
+    } else {
+      consulta({ NUMOPERACION: 4,ANIO: "",});
+      setFilterAnio("");
+
+    }
   };
 
   const consulta = (data: any) => {
@@ -172,12 +276,17 @@ const InflacionMes = () => {
       }
     });
     consulta({ NUMOPERACION: 4 })
+    setAnios(fanios());
+
+
   }, []);
 
 
 
   return (
     <div style={{ height: 600, width: "100%" }}>
+      <Slider open={slideropen}></Slider>
+
       {open ? (
         <InflacionMesModal
           modo={modo}
@@ -189,8 +298,14 @@ const InflacionMes = () => {
         ""
       )}
  	        <NombreCatalogo controlInterno={"INFMES"} />
+           <ButtonsMunicipio
+        url={""}
+        handleUpload={handleUpload} controlInterno={"INFMES"}
+        options={anios}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"} label={''} disabled={false}
+        value={filterAnio} handleOpen={handleOpen} />
 
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGridMun columns={columns} rows={dataInflacionMes} modulo={nombreMenu.toUpperCase().replace(' ', '_')} handleBorrar={handleBorrar} controlInterno={"INFMES"} />
 
     </div>

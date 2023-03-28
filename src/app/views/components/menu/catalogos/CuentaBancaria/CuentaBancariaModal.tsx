@@ -60,7 +60,7 @@ export const CuentaBancariaModal = ({
     // setSizeFile(Number(sizeByte) / 1024 >= 3072 ? true : false)
     if (Number(sizeByte) / 1024 >= 3072) {
       AlertS.fire({
-        title: "Atencion",
+        title: "Atención",
         text: "Tamaño de archivo Exedido -Limitado a 3Mb-",
         icon: "info",
       });
@@ -73,7 +73,7 @@ export const CuentaBancariaModal = ({
 
     } else {
       AlertS.fire({
-        title: "Atencion",
+        title: "Atención",
         text: "Agrega un archivo PDF",
         icon: "info",
       });
@@ -89,7 +89,7 @@ export const CuentaBancariaModal = ({
     //setSizeFileCarta(Number(sizeByte) / 1024 >= 3072 ? true : false)
     if (Number(sizeByte) / 1024 >= 3072) {
       AlertS.fire({
-        title: "Atencion",
+        title: "Atención",
         text: "Tamaño de archivo Exedido -Limitado a 3Mb-",
         icon: "info",
       });
@@ -101,7 +101,7 @@ export const CuentaBancariaModal = ({
       setDocSubidoCarta(true);
     } else {
       AlertS.fire({
-        title: "Atencion",
+        title: "Atención",
         text: "Agrega un archivo PDF",
         icon: "info",
       });
@@ -126,7 +126,7 @@ export const CuentaBancariaModal = ({
     if (tipo===1? !nombreCuenta ||!numeroCuenta || !idBancos ||!clabeBancaria || !newDoc || newDocCarta=== null: !nombreCuenta ||!numeroCuenta || !idBancos ||!clabeBancaria ) 
     {
       AlertS.fire({
-        title: "Atencion",
+        title: "Atención",
         text: "Verifique los campos",
         icon: "warning",
       });
