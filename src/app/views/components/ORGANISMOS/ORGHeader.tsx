@@ -321,8 +321,6 @@ export const ORGHeader = ({
 
   };
 
-
-
   const handleDetallesCabecera = (v: any) => {
     setModoDetalle("Ver");
     setDetalleAgregar(true);
@@ -372,7 +370,6 @@ export const ORGHeader = ({
 
 
   };
-
 
   const handleCloseAñadirDetalle = () => {
 
@@ -428,12 +425,6 @@ export const ORGHeader = ({
 
 
     }
-
-
-
-
-
-
   };
 
   const handleLimpiarCamposHeader = () => {
@@ -649,6 +640,7 @@ export const ORGHeader = ({
   useEffect(() => {
     Consulta();
     console.log(dataCab)
+    console.log(modo)
 
     if (modo === "Nuevo") {
       setLimpiar(true);
@@ -704,7 +696,8 @@ export const ORGHeader = ({
                 </Tooltip>
                 <Tooltip title="Grabar Cambios">
                   <Button onClick={() => handleGuardarSolicitud()} color={!HSave
-                    ? "success" : "inherit"} disabled={
+                    ? "success" : "inherit"}
+                     disabled={
                       regGuardado
                       || HSave
                       || idUResp === ""
@@ -808,7 +801,7 @@ export const ORGHeader = ({
               <label className="textoNormal">Total:</label>
               <TextField
                 required
-                value={"$ " + sumaTotalDetalle}
+                value={currencyFormatter.format(Number(sumaTotalDetalle))}
                 fullWidth
                 variant="outlined"
                 type="text"
@@ -1061,7 +1054,7 @@ export const ORGHeader = ({
 
                           <TextField
                             required
-                            value={importe}
+                            value={currencyFormatter.format(Number(importe))}
                             variant="outlined"
                             onChange={(v) => setImporte(v.target.value)}
                             InputProps={{
