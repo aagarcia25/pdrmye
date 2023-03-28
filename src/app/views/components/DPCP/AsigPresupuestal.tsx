@@ -154,6 +154,13 @@ const AsigPresupuestal = () => {
     setidMunicipio(v);
   };
 
+
+
+
+
+
+
+
   const handleClick = () => {
     //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
@@ -207,6 +214,15 @@ const AsigPresupuestal = () => {
   return (
     <div>
       <Slider open={slideropen}></Slider>
+
+
+
+
+
+
+
+
+
       <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>

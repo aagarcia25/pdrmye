@@ -43,7 +43,7 @@ export const Perfil = () => {
   //PRIMER CARD FUNCIONES
 
   const RfToken = () => {
-
+  
     UserServices.verify({}).then((res) => {
       if (res.status === 200) {
         setTokenValid(true)
@@ -114,12 +114,12 @@ export const Perfil = () => {
     }
   };
 
-
+ 
 
   useEffect(() => {
     RfToken();
     // setSumaDescuentos(Number(dt.row.Descuentos) + Number(dt.row.RecAdeudos));
-  }, []);
+}, []);
 
 
   return (
@@ -131,194 +131,235 @@ export const Perfil = () => {
             value="general"
             icon={<AccountBoxIcon />}
           />
-          <BottomNavigationAction
+          <BottomNavigationAction 
             label="Cambiar Contraseña"
             value="password"
             icon={<VpnKeyIcon />}
           />
         </BottomNavigation>
       </Grid>
-
-
-      <Grid container>
-        {value === "general" ?
-          < Grid container sx={{ justifyContent: "center", borderRadius: "10px", }}  >
-            <Grid container item xs={12} sm={12} md={10}>
-              {/* Imagen y tipo de usuario */}
-              <Grid item container justifyContent="center" paddingTop={3} paddingBottom={2}>
-                <Box boxShadow={3}
-                  onClick={() => {
-                    setOpenDialog(true)
+      <Grid sx={{
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "flex-start",
+      }}
+      >
+        <Box
+          boxShadow={3}
+          paddingBottom="2%"
+          sx={{
+            display: "flex",
+            width: "100%",
+            height: "auto",
+            justifyContent: "center",
+            backgroundColor: "white",
+            alignItems: "center"
+          }}>
+          <Grid container>
+            {value === "general" ?
+              < Grid container sx={{ justifyContent: "center", borderRadius: "10px", }} >
+                <Box
+                  display="flex" flexDirection="row"
+                  sx={{
+                    width: "80%",
+                    height: "auto",
+                    flexDirection: "column",
+                    alignItems: "center",
                   }}
+                >
 
-                  sx={{ width: "7.4rem", height: "7.4rem", backgroundColor: "white", borderRadius: '50%', justifyContent: "center", cursor: "pointer", }} >
-                  {user?.RutaFoto ?
-                    <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
-                      src={user?.RutaFoto}
-                    />
-                    : <PersonIcon sx={{ width: "100%", height: "100%", }} />
-                  }
+                  {/* Imagen y tipo de usuario */}
+                  <Box paddingTop={3}>
+                    <Box boxShadow={3}
+                      onClick={() => {
+                        setOpenDialog(true)
+                      }}
+
+                      sx={{ width: "7.4rem", height: "7.4rem", backgroundColor: "white", borderRadius: '50%', justifyContent: "center", cursor: "pointer", }} >
+                      {user?.RutaFoto ?
+                        <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
+                          src={user?.RutaFoto}
+                        />
+                        : <PersonIcon sx={{ width: "100%", height: "100%", }} />
+                      }
 
 
+                    </Box>
+                    <DialogCambiarImagen open={openDialog} handleClose={handleCloseDialogImagen}></DialogCambiarImagen>
+
+                  </Box>
+
+                  <Box boxShadow={3} sx={{
+                    width: "90%",
+                    height: "12%",
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
+                    mt: "2rem",
+                    borderRadius: "10px",
+                    bgcolor: "#051c2c",
+                  }}>
+
+                    <Typography sx={{
+                      width: "30%",
+                      fontFamily: "sans-serif",
+                      fontSize: "1rem",
+                      color: "#CCCCCC"
+                    }}
+                    > Nombre:
+                      <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
+                        {user.Nombre} </Typography>
+                    </Typography>
+
+                    <Typography sx={{
+                      width: "30%",
+                      fontFamily: "sans-serif",
+                      fontSize: "1rem",
+                      color: "#CCCCCC"
+                    }}
+                    > Apellido Paterno:
+                      <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
+                        {user.ApellidoPaterno} </Typography>
+                    </Typography>
+
+                    <Typography sx={{
+                      width: "30%",
+                      fontFamily: "sans-serif",
+                      fontSize: "1rem",
+                      color: "#CCCCCC"
+                    }}
+                    > Apellido Materno:
+                      <Typography sx={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "white" }}>
+                        {user.ApellidoMaterno} </Typography>
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{
+                    height: "2%",
+                  }}> </Box>
+
+                  <Box boxShadow={2} sx={{
+                    width: "90%",
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    borderRadius: "10px",
+                    bgcolor: "rgb(252,252,252)",
+                    flexDirection: "column"
+                  }}>
+
+                    <Typography align="center" variant="h5" sx={{ width: "100%", color: COLOR.azul, paddingTop: "2%" }}>
+                      Contacto y Ubicación
+                    </Typography>
+                    <br />
+                    <Grid>
+                      <Grid container direction="column" justifyContent="center" alignItems="center">
+                        <Grid item xs={10}>
+                          <label className="negro">Departamento:</label>
+                          <label className="gris"> {user.DEPARTAMENTOS[0]?.Descripcion} </label>
+                        </Grid>
+                        <br />
+                        <Grid item xs={10}>
+                          <label className="negro">Correo electrónico:</label>
+                          <label className="gris"> {user.CorreoElectronico} </label>
+                        </Grid>
+                      </Grid>
+                      <Grid container direction="column" justifyContent="center" alignItems="center" >
+                        <br />
+                        <Grid item xs={10}>
+                          <label className="negro">Teléfono:</label>
+                          <label className="gris"> {user.Telefono ? user.Telefono : "Sin Informacion"} </label>
+                        </Grid>
+                        <br />
+                        <Grid item xs={10}>
+                          <label className="negro">Extensión:</label>
+                          <label className="gris"> {user.Ext ? user.Ext : "Sin Informacion"} </label>
+                        </Grid>                  <br />
+                        <Grid item xs={10}>
+                          <label className="negro">Teléfono Móvil:</label>
+                          <label className="gris"> {user.Celular ? user.Celular : "Sin Informacion"} </label>
+                        </Grid>
+                        <br />
+                        <Grid item xs={10} paddingBottom={3}>
+                          <label className="negro">Puesto:</label>
+                          <label className="gris"> {user.Puesto ? user.Puesto : "Sin Informacion"} </label>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Box>
                 </Box>
-                <DialogCambiarImagen open={openDialog} handleClose={handleCloseDialogImagen}></DialogCambiarImagen>
+              </Grid>
+              : ""
+            }
+            {value === "password" ?
+              < Grid container paddingTop="5%" direction="column" justifyContent="center" alignItems="center" >
+                <Grid item >
+                  <Grid item xs={12} sx={{}}>
+                    <label> Ingrese  Nueva Contraseña</label>
+                    <TextField
+                      sx={{ minl: "center", borderRadius: "10px", }}
+                      required
+                      margin="dense"
+                      value={password}
+                      type="password"
+                      fullWidth
+                      variant="outlined"
+                      onChange={(v) => setPassword(v.target.value)}
+                      error={password.length < 6 ? true : false}
+                      inputProps={{
+                        maxLength: 100,
+                        minLength: 6
+                      }}
+                    />
+                    <FormHelperText id="component-helper-text">
+                      <>
+                        <InfoOutlinedIcon /> <label> Mínimo 6 Caracteres</label>
+                      </>
+
+                    </FormHelperText>
+                  </Grid>
+
+                  <Grid item xs={12} sx={{}}>
+
+                    <label> Confirme  Contraseña</label>
+                    <TextField
+                      required
+                      margin="dense"
+                      value={confPassword}
+                      type="password"
+                      fullWidth
+                      variant="outlined"
+                      onChange={(v) => setConfPassword(v.target.value)}
+                      error={(password !== confPassword) ? true : false}
+                      inputProps={{
+                        maxLength: 100,
+                        minLength: 6
+                      }}
+
+                    />
+                  </Grid>
+                  <Grid container justifyContent="center" alignItems="center" alignContent="center">
+                    <Grid item paddingTop="10%" xs={6}>
+                      <Button
+                        onClick={() => onClickChangePassword()}
+                        color="primary" fullWidth variant="contained"> <Typography color="white"> Cambiar </Typography>
+                      </Button>
+                    </Grid>
+                  </Grid>
+
+
+
+                </Grid >
+
               </Grid>
 
-              {/* ///////////////////////   datos de ususario base    */}
-              <Grid item container xs={12} sm={12} boxShadow={3} border={"1px solid #b3afaf"} borderRadius={3} >
-                <Grid item xs={12} sm={3.8}>
-                  <Typography variant="h6" className="DatosPrincipalesPerfil">
-                    Nombre:
-                    <Typography variant="h6" className="DatosSecundariosPerfil" >
-                      {user.Nombre}
-                    </Typography>
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={3.8}>
-
-                  <Typography variant="h6" className="DatosPrincipalesPerfil">
-                    Apellido Paterno:
-                    <Typography variant="h6" className="DatosSecundariosPerfil">
-                      {user.ApellidoPaterno} </Typography>
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={3.8}>
-
-                  <Typography variant="h6" className="DatosPrincipalesPerfil">
-                    Apellido Materno:
-                    <Typography variant="h6" className="DatosSecundariosPerfil">
-                      {user.ApellidoMaterno} </Typography>
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid item container xs={12} sm={12} paddingTop={1} paddingBottom={1} >
-                <Grid item xs={12} alignItems="center">
-                  <Typography variant="h5" className="DatosPrincipalesPerfil">
-                    Contacto y Ubicación
-                  </Typography>
-                </Grid>
-              </Grid>
-
-              {/* ////////////////////// datos extras */}
-              <Grid item container xs={12} sm={12} boxShadow={3} border={"1px solid #b3afaf"} borderRadius={1} paddingBottom={1} paddingTop={2}>
-
-                  <Grid item xs={12} >
-                    <Typography variant="h6" className="DatosPrincipalesPerfil">
-                      Departamento:
-                      <Typography variant="h6" className="DatosSecundariosPerfil">
-                        {user.DEPARTAMENTOS[0]?.Descripcion} </Typography>
-                    </Typography>
-
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="h6" className="DatosPrincipalesPerfil">
-                      Correo electrónico:
-                      <Typography variant="h6" className="DatosSecundariosPerfil">
-                        {user.CorreoElectronico} </Typography>
-                    </Typography>
-
-                  </Grid>
-                  <Grid item xs={12}>
-
-                    <Typography variant="h6" className="DatosPrincipalesPerfil">
-                      Teléfono:
-                      <Typography variant="h6" className="DatosSecundariosPerfil">
-                        {user.Telefono ? user.Telefono : "Sin Informacion"}
-                      </Typography>
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-
-                    <Typography variant="h6" className="DatosPrincipalesPerfil">
-                      Extensión:
-                      <Typography variant="h6" className="DatosSecundariosPerfil">
-                        {user.Ext ? user.Ext : "Sin Informacion"}
-                      </Typography>
-                    </Typography>
-
-                  </Grid>
-                  <Grid item xs={12}>
-
-                    <Typography variant="h6" className="DatosPrincipalesPerfil">
-                      Teléfono Móvil::
-                      <Typography variant="h6" className="DatosSecundariosPerfil">
-                        {user.Celular ? user.Celular : "Sin Informacion"}
-                      </Typography>
-                    </Typography>
+              : ""}
 
 
-                  </Grid>
-                  <Grid item xs={12} paddingBottom={3}>
-                    <Typography variant="h6" className="DatosPrincipalesPerfil">
-                      Puesto:
-                      <Typography variant="h6" className="DatosSecundariosPerfil">
-                        {user.Puesto ? user.Puesto : "Sin Informacion"}
-                      </Typography>
-                    </Typography>
-                  </Grid>
-              </Grid>
-            </Grid>
           </Grid>
-          : ""
-        }
-        {value === "password" ?
-          < Grid container paddingTop="5%" direction="column" justifyContent="center" alignItems="center" >
-            <Grid item container alignItems="center"  justifyContent="center"  >
-              <Grid item xs={11} >
-                <label> Ingrese  Nueva Contraseña</label>
-                <TextField
-                  sx={{ minl: "center", borderRadius: "10px", }}
-                  required
-                  margin="dense"
-                  value={password}
-                  type="password"
-                  fullWidth
-                  variant="outlined"
-                  onChange={(v) => setPassword(v.target.value)}
-                  error={password.length < 6 ? true : false}
-                  inputProps={{
-                    maxLength: 100,
-                    minLength: 6
-                  }}
-                />
-                <FormHelperText id="component-helper-text">
-                  <>
-                    <InfoOutlinedIcon /> <label> Mínimo 6 Caracteres</label>
-                  </>
-                </FormHelperText>
-              </Grid>
-
-              <Grid item xs={11} >
-                <label> Confirme  Contraseña</label>
-                <TextField
-                  required
-                  margin="dense"
-                  value={confPassword}
-                  type="password"
-                  fullWidth
-                  variant="outlined"
-                  onChange={(v) => setConfPassword(v.target.value)}
-                  error={(password !== confPassword) ? true : false}
-                  inputProps={{
-                    maxLength: 100,
-                    minLength: 6
-                  }}
-                />
-              </Grid>
-              <Grid container justifyContent="center" alignItems="center" alignContent="center">
-                <Grid item paddingTop="10%" xs={6}>
-                  <Button
-                    onClick={() => onClickChangePassword()}
-                    color="primary" fullWidth variant="contained"> <Typography color="white"> Cambiar </Typography>
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid >
-          </Grid>
-          : ""}
+        </Box>
       </Grid>
-
     </Grid>
-
   );
 };

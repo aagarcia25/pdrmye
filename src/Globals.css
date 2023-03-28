@@ -89,33 +89,6 @@ label.TypographyH6Gray{
   margin-right:2rem;
   /* mr: "2rem" */
 }
-
-h6.DatosPrincipalesPerfil {
-  font-family:sans-serif;
-  font-weight: bold;
-  color: rgb(14, 13, 13);
-  font-size:  20px;
-  text-align: center ;
-  /* mr: "2rem" */
-}
-h5.DatosPrincipalesPerfil{
-  font-family:sans-serif;
-  font-weight: bold;
-  color: rgb(0, 0, 0);
-  font-size:  28px;
-  text-align: center ;
-  /* mr: "2rem" */
-}
-h6.DatosSecundariosPerfil{
-  font-family:sans-serif;
-  /* font-weight: bold; */
-  color: rgb(0, 0, 0);
-  font-size:  18px;
-  text-align: center ;
-  /* mr: "2rem" */
-}
-
-
 label.TypographyH6Black{
   font-family:sans-serif;
   font-weight: bold;
@@ -274,12 +247,12 @@ button.menu {
 
 button.menuHome {
   transition-duration: 0.2s;
- color: rgb(118, 115, 115);
- background-color: hsl(0, 0%, 100%);
+ color: rgb(30, 29, 29);
+ background-color: hsl(0, 6%, 86%);
 }
 .menuHome:hover {
-  background-color: hsla(210, 10%, 92%, 0.491);
-  color: rgb(143, 143, 143);
+  background-color: hsla(207, 5%, 68%, 0.491);
+  color: rgb(45, 47, 49);
 }
 
 Button.cerrar:hover {

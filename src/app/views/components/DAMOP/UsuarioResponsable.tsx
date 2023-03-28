@@ -195,7 +195,7 @@ const UsuarioResponsable = ({
                   value={userid}
                   options={usuarios}
                   onInputChange={handleChange1}
-                  placeholder={"Seleccione Usuario"}
+                  placeholder={"Sleccione Usuario"}
                   label={""}
                   disabled={false}
                 />

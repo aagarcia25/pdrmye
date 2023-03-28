@@ -160,7 +160,7 @@ function App() {
 
       }
       else if (us.SUCCESS) {
-        mensaje('', 'Información', us.STRMESSAGE==="Exito"?"":us.STRMESSAGE + " Contactar Al Departamento Correspondiente");
+        mensaje('', 'Información', us.STRMESSAGE + " Contactar Al Departamento Correspondiente");
       }
       else if (us.SUCCESS === false && !us.RESPONSE) {
         Swal.fire({

@@ -198,48 +198,46 @@ export default function Header(props: HeaderProps) {
         />
       </IconButton>   </>, name: 'Calendario'
     },
-    {
-      icon: <>
-        <Tooltip title="Bandeja de correo">
-          <Badge
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            badgeContent={cnotif}
-            color="primary"
-          >
-            <IconButton
-              color="inherit"
-              sx={{
-                mt: 0.1,
-                backgroundColor: COLOR.azul,
-                "&:hover": {
-                  backgroundColor: COLOR.grisTarjetaBienvenido,
-                },
-              }}
-              onClick={onNotification}
-            >
-              <NotificationsNoneIcon
-                sx={{
-                  color: COLOR.blanco,
-                  fontSize: btnAll,
-                  "&:hover": {
-                    color: COLOR.azul,
-                  },
-                }}
-              />
-            </IconButton>
-          </Badge>
-        </Tooltip>
-      </>, name: 'Notificaciones'
-    },
+    { icon: <> 
+          <Tooltip title="Bandeja de correo">
+                    <Badge
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left",
+                      }}
+                      badgeContent={cnotif}
+                      color="primary"
+                    >
+                      <IconButton
+                        color="inherit"
+                        sx={{
+                          mt: 0.1,
+                          backgroundColor: COLOR.azul,
+                          "&:hover": {
+                            backgroundColor: COLOR.grisTarjetaBienvenido,
+                          },
+                        }}
+                        onClick={onNotification}
+                      >
+                        <NotificationsNoneIcon
+                          sx={{
+                            color: COLOR.blanco,
+                            fontSize: btnAll,
+                            "&:hover": {
+                              color: COLOR.azul,
+                            },
+                          }}
+                        />
+                      </IconButton>
+                    </Badge>
+                  </Tooltip>
+       </>, name: 'Notificaciones' },
     {
       icon: <>   <Tooltip title="Guía Rapida">
         <IconButton
           color="inherit"
           sx={{
-
+            
             backgroundColor: COLOR.azul,
             "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
           }}
@@ -257,7 +255,7 @@ export default function Header(props: HeaderProps) {
         </IconButton>
       </Tooltip>  </>, name: 'Guía'
     },
-
+  
   ];
 
 
@@ -288,7 +286,7 @@ export default function Header(props: HeaderProps) {
     setOpen(false);
   };
 
-
+ 
 
   const onLogOut = () => {
     localStorage.clear();
@@ -368,34 +366,50 @@ export default function Header(props: HeaderProps) {
             >
               <Hidden smUp >
                 <Backdrop open={openDial} />
-                <Grid item xs={12}>
+                {/* <StyledSpeedDial
+          ariaLabel="SpeedDial playground example"
+          // hidden={hidden}
+          icon={
+            <IconButton className="menu" color="inherit"
+            sx={{ width: "100%", height: "100%", }}>
+            <MenuIcon />
+          </IconButton>
+        }
+          direction={"down"}
+        >
+          {actions.map((action) => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              tooltipTitle={action.name}
+            />
+          ))}
+        </StyledSpeedDial> */}
 
-
-
-                  <StyledSpeedDial
-                    ariaLabel="SpeedDial tooltip example"
-                    sx={{  top: "1%", bottom: 1, right: "10%" }}
-                    icon={
-                      <IconButton className="menuHome" color="default"
-                        sx={{ width: "100%", height: "100%", }}>
-                        <HomeIcon />
-                      </IconButton>}
-                    onClose={handleCloseDial}
-                    onOpen={handleOpenDial}
-                    open={openDial}
-                    direction={"down"}
-                  >
-                    {actions.map((action) => (
-                      <SpeedDialAction
-                        key={action.name}
-                        icon={action.icon}
-                        tooltipTitle={action.name}
-                        tooltipOpen
-                        onClick={handleClose}
-                      />
-                    ))}
-                  </StyledSpeedDial>
-                </Grid>
+                <Backdrop open={openDial} />
+                <StyledSpeedDial
+                  ariaLabel="SpeedDial tooltip example"
+                  sx={{ position: 'fixed', top: "1%", bottom: 1, right: "10%" }}
+                  icon={
+                    <IconButton className="menuHome" color="inherit"
+                      sx={{ width: "100%", height: "100%", }}>
+                      <HomeIcon />
+                    </IconButton>}
+                  onClose={handleCloseDial}
+                  onOpen={handleOpenDial}
+                  open={openDial}
+                  direction={"down"}
+                >
+                  {actions.map((action) => (
+                    <SpeedDialAction
+                      key={action.name}
+                      icon={action.icon}
+                      tooltipTitle={action.name}
+                      tooltipOpen
+                      onClick={handleClose}
+                    />
+                  ))}
+                </StyledSpeedDial>
               </Hidden >
             </Grid>
 
