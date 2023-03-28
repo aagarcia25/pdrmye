@@ -66,9 +66,13 @@ import PolylineIcon from '@mui/icons-material/Polyline';
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 import {dowloandfile } from "../../../helpers/Files";
 import { ModalSegmentos } from "../componentes/ModalSegmentos";
+
+
+
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { ORGHeader } from "../ORGANISMOS/ORGHeader";
+
 
 const Participaciones = () => {
 
@@ -136,10 +140,14 @@ const Participaciones = () => {
   const [DAMOP_PFI, SETDAMOP_PFI] = useState<boolean>(false);
   const [DAMOP_PAUT, SETDAMOP_PAUT] = useState<boolean>(false);
   const [DAF_SPEI, SETDAF_SPEI] = useState<boolean>(false);
+
+  const [anchoAcciones, setAnchoAcciones] = useState<number>(0);
+
   const [idORG, setIdORG] = useState("");
   const [openModalCabecera, setOpenModalCabecera] = useState<boolean>(false);
   const [modo, setModo] = useState<string>("");
   const [organismos, setOrganismos] = useState<SelectValues[]>([]);
+
 
   const handledetalles = (data: any) => {
     setOpenModalCabecera(true);
@@ -248,7 +256,7 @@ const Participaciones = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 100,
+      width: 150+anchoAcciones,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -344,7 +352,7 @@ const Participaciones = () => {
       headerName: "Ver Detalle",
       description: "Ver Detalle",
       sortable: false,
-      width: 100,
+      width: 150,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -355,7 +363,7 @@ const Participaciones = () => {
                 </IconButton>
               </Tooltip>
             ) : (
-              ""
+              "Sin Detalles"
             )}
             {v.row.estatusCI === "DAF_SPEI" ? (
               <Tooltip title="Ver Spei">
@@ -407,7 +415,6 @@ const Participaciones = () => {
           <Box>
             {String(v.row.estatusCI) === 'DAMOP_INI' ? (
               <>
-
                 <Tooltip title="Admistrar Retenciones">
                   <IconButton
                     onClick={() => handleRetenciones(v)}>
@@ -416,8 +423,6 @@ const Participaciones = () => {
                 </Tooltip>
               </>
             ) : ("")}
-
-
           </Box>
         );
       },
@@ -427,7 +432,6 @@ const Participaciones = () => {
       field: "estatus",
       headerName: "Estatus",
       description: "Estatus",
-
       width: 200,
     },
     {
@@ -531,7 +535,6 @@ const Participaciones = () => {
       field: "uresclave",
       headerName: "U. Resp",
       description: "Unidad Responsable",
-
       width: 100,
     },
     {
@@ -552,8 +555,6 @@ const Participaciones = () => {
       description: "Concepto de Cheque",
       width: 270,
     },
-
-
     {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
@@ -688,7 +689,6 @@ const Participaciones = () => {
 
   const handleFilterChange1 = (v: string) => {
     setIdTipoFondo(v);
-
   };
 
   const handleFilterChange2 = (v: SelectValues[]) => {
@@ -1643,6 +1643,7 @@ const Participaciones = () => {
 
 
   useEffect(() => {
+    var ancho = 0;
     setMeses(fmeses());
     loadFilter(27);
     loadFilter(31);
@@ -1657,15 +1658,19 @@ const Participaciones = () => {
           setCargarPlant(true);
         } else if (String(item.Referencia) === "DESCPLANT") {
           setDescPlant(true);
+
         } else if (String(item.Referencia) === "DISFIDE") {
           setDisFide(true);
         } else if (String(item.Referencia) === "TRAZASPEIDAF") {
+          ancho = ancho + 50;
           setVerTrazabilidad(true);
         }else if (String(item.Referencia) === "SEGM"){
+          ancho = ancho + 50;
           setVerSegmentar(true)
         }
-      }
+      }setAnchoAcciones(ancho)
     });
+    
   }, [
     // munTieneFide
   ]);
@@ -1683,12 +1688,13 @@ const Participaciones = () => {
       ) : (
         ""
       )}
-
       {openModalDetalle ? (
-        <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
-          <ParticipacionesDetalle
-            data={vrows} />
-        </ModalForm>
+
+        <ORGHeader dataCabecera={vrows} modo={""} handleClose={handleClose}/>
+        // <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
+        //   <ParticipacionesDetalle
+        //     data={vrows} />
+        // </ModalForm>
       ) : (
         ""
       )}
@@ -1711,7 +1717,7 @@ const Participaciones = () => {
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
-            <Grid item xs={10} sx={{ textAlign: "center" }}>
+            <Grid item xs={12} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
                 Generación de Solicitudes de Participaciones y Aportaciones
               </Typography>
@@ -1719,11 +1725,14 @@ const Participaciones = () => {
           </Grid>
         </Grid>
 
-        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12} direction="row"
+        <Grid container spacing={.3} item xs={12} sm={12} md={12} lg={12} direction="row"
           justifyContent="center"
           alignItems="center" >
 
-          <Grid item xs={12} sm={12} md={12} lg={2}>
+
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+
+     
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Organismos:
             </Typography>
@@ -1738,6 +1747,7 @@ const Participaciones = () => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={2}>
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
               value={idestatus}
@@ -1749,8 +1759,23 @@ const Participaciones = () => {
             />
           </Grid>
 
+
+          {/* <Grid item xs={6} sm={4} md={2} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
+            <SelectFrag
+              value={idtipoFondo}
+              options={tiposFondo}
+              onInputChange={handleFilterChange1}
+              placeholder={"Seleccione Tipo De Fondo"}
+              label={""}
+              disabled={false}
+            />
+          </Grid> */}
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+
          
-          <Grid item xs={12} sm={12} md={12} lg={2}>
+        
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
             <SelectFrag
               value={idtipoSolicitud}
@@ -1761,7 +1786,10 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={2}>
+
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+=    
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFragMulti
               options={fondos}
@@ -1772,7 +1800,11 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12} lg={2}>
+
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+
+     
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
             <SelectFrag
               value={idMunicipio}
@@ -1783,7 +1815,11 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={2}>
+
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+
+
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
             <SelectFrag
               value={mes}
