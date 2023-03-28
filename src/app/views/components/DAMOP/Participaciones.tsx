@@ -348,7 +348,6 @@ const Participaciones = () => {
           <Box>
             {String(v.row.estatusCI) === 'DAMOP_INI' ? (
               <>
-
                 <Tooltip title="Admistrar Retenciones">
                   <IconButton
                     onClick={() => handleRetenciones(v)}>
@@ -357,8 +356,6 @@ const Participaciones = () => {
                 </Tooltip>
               </>
             ) : ("")}
-
-
           </Box>
         );
       },
@@ -368,7 +365,6 @@ const Participaciones = () => {
       field: "estatus",
       headerName: "Estatus",
       description: "Estatus",
-
       width: 200,
     },
     {
@@ -472,7 +468,6 @@ const Participaciones = () => {
       field: "uresclave",
       headerName: "U. Resp",
       description: "Unidad Responsable",
-
       width: 100,
     },
     {
@@ -493,8 +488,6 @@ const Participaciones = () => {
       description: "Concepto de Cheque",
       width: 270,
     },
-
-
     {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
@@ -626,7 +619,6 @@ const Participaciones = () => {
 
   const handleFilterChange1 = (v: string) => {
     setIdTipoFondo(v);
-
   };
 
   const handleFilterChange2 = (v: SelectValues[]) => {
@@ -945,8 +937,6 @@ const Participaciones = () => {
       });
     }
   };
-
-
 
   const integracionMasiva = () => {
 
