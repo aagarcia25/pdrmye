@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Grid, IconButton, ToggleButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { currencyFormatter, Moneda } from "../CustomToolbar";
 import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
@@ -14,11 +14,13 @@ import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
 import Trazabilidad from "../../Trazabilidad";
 import Slider from "../../Slider";
 import DetalleFgp from "./DetalleFgp";
-import { FPG, PERMISO } from "../../../../interfaces/user/UserInfo";
-import { getPermisos } from "../../../../services/localStorage";
+import { FPG, PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { getPermisos, getUser } from "../../../../services/localStorage";
 import ModalNew from "./ModalNew";
 import ModalAjuste from "./ModalAjuste";
 import MUIXDataGridMun from "../../MUIXDataGridMun";
+import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
+import Swal from "sweetalert2";
 
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
@@ -34,12 +36,14 @@ export const Fpg = () => {
   const [clave, setClave] = useState("");
   const [agregar, setAgregar] = useState<boolean>(false);
   const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
+  const [cancelar, setCancelar] = useState<boolean>(false);
+  
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [objfondo, setObjFondo] = useState<fondoinfo>();
   const [idDetalle, setIdDetalle] = useState("");
   const [nombreMenu, setNombreMenu] = useState("");
   const [sumaTotal, setSumaTotal] = useState<Number>();
-
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
   const closeTraz = (v: any) => {
@@ -121,6 +125,16 @@ export const Fpg = () => {
             ) : (
               ""
             )}
+
+{cancelar     ? (
+                  <Tooltip title={"Cancelar"}>
+                    <IconButton onClick={() => BorraCalculo(v)}>
+                    <CancelPresentationIcon />
+                   </IconButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
           </Box>
         );
       },
@@ -228,7 +242,51 @@ export const Fpg = () => {
     });
   };
 
+  const BorraCalculo = (row: any) => {
 
+
+    let data = {
+      IDCALCULO: row.id,
+      CHUSER: user.id,
+      CLAVE: row.row.Clave,
+      ANIO: row.row.Anio,
+      MES: row.row.nummes,
+    };
+    
+    
+    Swal.fire({
+      icon: "question",
+      title: "Borrar Cálculo",
+      text: "El cálculo de eliminara, favor de confirmar",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        calculosServices.BorraCalculo(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Borrado Exitoso!",
+            });
+
+            
+       consultafondo({ FONDO: params.fondo });
+       consulta({ FONDO: params.fondo });
+
+
+          } else {
+            AlertS.fire({
+              title: "Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      }
+    });
+  };
 
   const handleBorrar = () => {
 
@@ -250,6 +308,9 @@ export const Fpg = () => {
         }
         if (String(item.Referencia) === "AAJUSTE") {
           setAgregarAjuste(true);
+        }
+        if (String(item.Referencia) === "CCALCULO") {
+          setCancelar(true);
         }
       }
     });
@@ -285,6 +346,8 @@ export const Fpg = () => {
       ) : (
         ""
       )}
+
+          
 
 
       <Grid container
