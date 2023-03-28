@@ -808,7 +808,7 @@ export const ORGHeader = ({
               <label className="textoNormal">Total:</label>
               <TextField
                 required
-                value={"$ " + sumaTotalDetalle}
+                value={currencyFormatter.format(Number(sumaTotalDetalle))}
                 fullWidth
                 variant="outlined"
                 type="text"
@@ -1061,7 +1061,7 @@ export const ORGHeader = ({
 
                           <TextField
                             required
-                            value={importe}
+                            value={currencyFormatter.format(Number(importe))}
                             variant="outlined"
                             onChange={(v) => setImporte(v.target.value)}
                             InputProps={{
