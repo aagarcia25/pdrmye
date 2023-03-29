@@ -1,5 +1,5 @@
 import React from 'react'
-import {TablaDocs } from '@jbcecapmex/pakfirma';
+//import {TablaDocs } from '@jbcecapmex/pakfirma';
 import { RESPONSE } from '../../../interfaces/user/UserInfo';
 import { getToken, getUser } from '../../../services/localStorage';
 export const TablaDocse = () => {

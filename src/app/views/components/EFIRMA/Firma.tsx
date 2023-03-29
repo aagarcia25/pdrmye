@@ -1,5 +1,5 @@
 import React from 'react'
-import {Firmado} from '@jbcecapmex/pakfirma';
+//import {Firmado} from '@jbcecapmex/pakfirma';
 import { RESPONSE } from '../../../interfaces/user/UserInfo';
 import { getToken, getUser } from '../../../services/localStorage';
 
