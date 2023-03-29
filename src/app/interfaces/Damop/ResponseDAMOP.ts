@@ -18,6 +18,7 @@ export interface indexCabecera {
     Cuenta:string;
     TipoSolicitud:string;
     orden: number;
+    idmunicipio:string;
 
 }
 

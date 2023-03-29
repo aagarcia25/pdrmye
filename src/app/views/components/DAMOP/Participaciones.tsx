@@ -1730,9 +1730,7 @@ const Participaciones = () => {
           alignItems="center" >
 
 
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
-
-     
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Organismos:
             </Typography>
@@ -1747,7 +1745,6 @@ const Participaciones = () => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={2}>
-
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
               value={idestatus}
@@ -1771,7 +1768,7 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid> */}
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
 
          
         
@@ -1787,8 +1784,7 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
-=    
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
 
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFragMulti
@@ -1801,7 +1797,7 @@ const Participaciones = () => {
           </Grid>
 
 
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
 
      
 
@@ -1816,7 +1812,7 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
 
 
 
