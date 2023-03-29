@@ -135,7 +135,7 @@ const UsuarioResponsable = ({
           eliminar ?
             Toast.fire({
               icon: "error",
-              title: "Relacion Eliminada!",
+              title: "Relación Eliminada!",
             })
             :
             Toast.fire({
@@ -157,7 +157,7 @@ const UsuarioResponsable = ({
           eliminar ?
             Toast.fire({
               icon: "error",
-              title: "Relacion Eliminada!",
+              title: "Relación Eliminada!",
             })
             :
             Toast.fire({
@@ -195,7 +195,7 @@ const UsuarioResponsable = ({
                   value={userid}
                   options={usuarios}
                   onInputChange={handleChange1}
-                  placeholder={"Sleccione Usuario"}
+                  placeholder={"Seleccione Usuario"}
                   label={""}
                   disabled={false}
                 />
