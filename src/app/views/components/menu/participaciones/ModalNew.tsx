@@ -215,6 +215,10 @@ const ModalNew = ({
         setversionCalculo(res.RESPONSE);
         setIdVersionCalculo(res.RESPONSE[0]['value']);
         setslideropen(false);
+      } else if (operacion === 33) {
+      setversionCalculo(res.RESPONSE);
+      setIdVersionCalculo(res.RESPONSE[0]['value']);
+      setslideropen(false);
       }
     });
   };
@@ -231,7 +235,12 @@ const ModalNew = ({
     parametros();
     loadFilter(2);
     loadFilter(15);
-    loadFilter(23);
+    
+    if(clave ==='FFM30'){
+      loadFilter(23);
+    }else{
+      loadFilter(33);
+    }
   }, []);
 
   return (
@@ -335,7 +344,7 @@ const ModalNew = ({
         <Grid item xs={12} sm={12} md={12}
         sx={{ 
           justifyContent: "center" ,
-          display :clave === 'FFM30' ? 'block' :'none'
+          display :clave === 'FFM30' || clave === 'FGP' ? 'block' :'none'
            }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
