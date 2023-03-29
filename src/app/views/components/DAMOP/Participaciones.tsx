@@ -262,16 +262,16 @@ const Participaciones = () => {
           <Box>
 
 
-           <Tooltip title={"Administrar Detalles"}>
+           {/* <Tooltip title={"Administrar Detalles"}>
               <IconButton value="check" onClick={() => handledetalles(v)}>
                 <MenuBookIcon />
               </IconButton>
-            </Tooltip>
-            <Tooltip title={"Eliminar"}>
+            </Tooltip> */}
+            {/* <Tooltip title={"Eliminar"}>
               <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
                 <DeleteForeverOutlinedIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
 
 
            {verSegmentar ? ( 
@@ -1729,7 +1729,7 @@ const Participaciones = () => {
           justifyContent="center"
           alignItems="center" >
 
-
+{/* 
           <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
 
      
@@ -1744,7 +1744,7 @@ const Participaciones = () => {
               label={""}
               disabled={false}
             />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} sm={12} md={12} lg={2}>
 
@@ -1771,11 +1771,7 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid> */}
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
-
-         
-        
-
+          <Grid item xs={12} sm={12} md={12} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
             <SelectFrag
               value={idtipoSolicitud}
@@ -1787,9 +1783,7 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
-=    
-
+          <Grid item xs={12} sm={12} md={12} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFragMulti
               options={fondos}
@@ -1801,10 +1795,7 @@ const Participaciones = () => {
           </Grid>
 
 
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
-
-     
-
+          <Grid item xs={12} sm={12} md={12} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
             <SelectFrag
               value={idMunicipio}
@@ -1817,9 +1808,6 @@ const Participaciones = () => {
           </Grid>
 
           <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
-
-
-
             <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
             <SelectFrag
               value={mes}
