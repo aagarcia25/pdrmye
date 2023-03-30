@@ -20,10 +20,11 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { indexCabecera, indexDetalle } from "../../../interfaces/Damop/ResponseDAMOP";
 import React, { useEffect, useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import { AlertS, InputAlert } from "../../../helpers/AlertS";
-import { Moneda } from "../menu/CustomToolbar";
+import { currencyFormatter, Moneda } from "../menu/CustomToolbar";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
 import { Toast } from "../../../helpers/Toast";
@@ -55,12 +56,14 @@ import CleaningServicesOutlinedIcon from '@mui/icons-material/CleaningServicesOu
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 
 export const ORG = () => {
+
+ // const dataCab: indexCabecera = dataCabecera?.row;
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);//cambiar a true
   //Constantes para llenar los select
   const [selectionModel, setSelectionModel] =
     React.useState<GridSelectionModel>([]);
-  const [sumaTotal, setSumaTotal] = useState<Number>();
+  const [sumaTotal, setSumaTotal] = useState<Number>(0);
   /////////// Cargar Permisos
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
 
@@ -286,7 +289,19 @@ export const ORG = () => {
     { field: "NumAportacion", headerName: "Aportación", description: "Numero de Aportación", width: 150, },
     { field: "NumReqAnticipo", headerName: "Requerimiento de Anticipo", description: "Numero de Requerimiento de Anticipo", width: 250, },
     { field: "NumCheque", headerName: "Póliza de Pago", description: "Póliza de Pago", width: 150, },
-    { field: "total", headerName: "Total", description: "Total", width: 170, ...Moneda },
+    { 
+      field: "total", 
+      headerName: "Total", 
+      description: "Total", 
+      width: 170, 
+      ...Moneda,
+      renderHeader: () => (
+        <>
+          {"Total: " + (sumaTotal === undefined ? "0" : currencyFormatter.format(Number(sumaTotal)))}
+        </>
+      ), 
+
+     },
     {
       field: "TipoSolicitud", headerName: "Tipo Solicitud", description: "Tipo Solicitud", width: 200,
       renderCell: (v: any) => { return (<>{tipoSol.find(({ value }) => value === (String(v?.row?.TipoSolicitud)))?.label}</>); },
@@ -295,7 +310,7 @@ export const ORG = () => {
     { field: "Divisa", headerName: "Divisa",description: "Divisa", width: 250, },
   ];
   const Consulta = () => {
-
+    var sumatotal = 0;
     DAMOPServices.indexCabecera(
       {
         NUMOPERACION: 4,
@@ -306,7 +321,14 @@ export const ORG = () => {
 
       }
     ).then((res) => {
-      if (res.SUCCESS) {
+      if (res.SUCCESS) {  
+          res.RESPONSE.map((item: indexCabecera) => {
+          sumatotal = sumatotal + Number(item.total)
+          setSumaTotal(sumatotal)
+        });
+        if (res.RESPONSE.length === 0) {
+          setSumaTotal(sumatotal)
+        }
         console.log(res.RESPONSE)
         setOrgData(res.RESPONSE)
         setslideropen(false);
@@ -320,6 +342,7 @@ export const ORG = () => {
         });
       }
     });
+
 
   };
 

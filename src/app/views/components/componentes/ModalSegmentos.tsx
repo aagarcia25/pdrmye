@@ -21,7 +21,6 @@ export const ModalSegmentos = ({
     
 
     useEffect(() => {
-        console.log(vrows);
           setProveedor(vrows.row.Proveedor +' / '+vrows.row.Nombre);
           setTitle('Segmentar Operación');
           setLabel('Importe:');

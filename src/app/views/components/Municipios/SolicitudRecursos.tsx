@@ -66,14 +66,12 @@ const SolicitudRecursos = () => {
         setDepartamento("DAMOP")
 
         setSolicitud(res.RESPONSE);
-        //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
     } else if (user?.DEPARTAMENTOS[0]?.NombreCorto === "DPCP") {
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
         setDepartamento("DPCP")
         setSolicitud(res.RESPONSE);
-        //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
     } else if (user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN") {
@@ -81,7 +79,6 @@ const SolicitudRecursos = () => {
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 4, CHUSER: user.id }).then((res) => {
         setDepartamento("MUN")
         setSolicitud(res.RESPONSE);
-        //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
     }
@@ -328,7 +325,6 @@ const SolicitudRecursos = () => {
 
   };
   const handleBorrar = (v: any) => {
-    //console.log(v);
 
     let d = {
       NUMOPERACION: 8,
@@ -373,14 +369,12 @@ const SolicitudRecursos = () => {
   const handleVisualizar = (v: any) => {
     setModo("ver");
     setOpen(true);
-    //console.log(v.row)
     setData(v.row);
 
   };
   const handleVisualizarDetalles = (v: any) => {
     setModo("verDetalles");
     setOpen(true);
-    //console.log(v.row)
     setData(v.row);
 
   };
