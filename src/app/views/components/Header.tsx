@@ -401,15 +401,15 @@ export default function Header(props: HeaderProps) {
 
             <Hidden smDown >
 
-              <Grid item container direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={11} md={8} xl={9} >
+              <Grid container item  direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={11} md={8} xl={9} >
 
-                <Grid xs={12} sm={12} container direction="row" justifyContent="flex-end" alignItems="center">
+                <Grid  container direction="row" justifyContent="flex-end" alignItems="center">
                   <Typography variant="subtitle1" color="black">
                     {props.name}
                   </Typography>
                 </Grid>
 
-                <Grid xs={12} sm={12} container direction="row" justifyContent="flex-end" alignItems="center">
+                <Grid container direction="row" justifyContent="flex-end" alignItems="center">
                   <Typography textTransform={"capitalize"} color="black" >
                     {user?.Puesto ? user.Puesto.toLowerCase() : ""}
 

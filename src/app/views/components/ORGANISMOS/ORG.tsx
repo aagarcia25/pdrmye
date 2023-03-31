@@ -307,7 +307,6 @@ export const ORG = () => {
       }
     ).then((res) => {
       if (res.SUCCESS) {
-        console.log(res.RESPONSE)
         setOrgData(res.RESPONSE)
         setslideropen(false);
 

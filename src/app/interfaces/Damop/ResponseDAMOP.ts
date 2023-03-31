@@ -19,6 +19,9 @@ export interface indexCabecera {
     TipoSolicitud:string;
     orden: number;
     idmunicipio:string;
+    Uresp:string;
+    ConceptoCheque:string;
+    cuentabancaria:string;
 
 }
 

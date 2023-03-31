@@ -72,7 +72,6 @@ export const PerfilesUsuario = () => {
 
 
   const handleAccion = (v: any) => {
-    console.log(v)
 
     if (v.tipo === 1) {
       //

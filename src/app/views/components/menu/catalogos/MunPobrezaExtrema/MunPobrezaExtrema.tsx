@@ -85,7 +85,6 @@ export const MunPobrezaExtrema = () => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
-    console.log(open)
     setData("");
   };
 

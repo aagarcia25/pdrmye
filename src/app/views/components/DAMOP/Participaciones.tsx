@@ -64,7 +64,7 @@ import { fmeses } from "../../../share/loadMeses";
 import SelectFragMulti from "../Fragmentos/SelectFragMulti";
 import PolylineIcon from '@mui/icons-material/Polyline';
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
-import {dowloandfile } from "../../../helpers/Files";
+import { dowloandfile } from "../../../helpers/Files";
 import { ModalSegmentos } from "../componentes/ModalSegmentos";
 
 
@@ -208,10 +208,10 @@ const Participaciones = () => {
 
 
   const downloadplantilla = () => {
-    let name ="PLANTILLA CARGA ANTICIPO PARTICIPACIONES.xlsx";
+    let name = "PLANTILLA CARGA ANTICIPO PARTICIPACIONES.xlsx";
     let data = {
-      TOKEN:JSON.parse(String(getToken())),
-      RUTA:'/PDRMYE/DAMOP/PLANTILLAS/',
+      TOKEN: JSON.parse(String(getToken())),
+      RUTA: '/PDRMYE/DAMOP/PLANTILLAS/',
       NOMBRE: name,
     };
     dowloandfile(data);
@@ -233,7 +233,7 @@ const Participaciones = () => {
   };
 
 
-  const handleVerSegmentos= (v: any) => {
+  const handleVerSegmentos = (v: any) => {
     setVrows(v);
     setOpenSegmento(true);
   };
@@ -256,17 +256,17 @@ const Participaciones = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 150+anchoAcciones,
+      width: 150 + anchoAcciones,
       renderCell: (v: any) => {
         return (
           <Box>
 
 
-           {/* <Tooltip title={"Administrar Detalles"}>
+            <Tooltip title={"Administrar Detalles"}>
               <IconButton value="check" onClick={() => handledetalles(v)}>
                 <MenuBookIcon />
               </IconButton>
-            </Tooltip> */}
+            </Tooltip>
             {/* <Tooltip title={"Eliminar"}>
               <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
                 <DeleteForeverOutlinedIcon />
@@ -274,25 +274,25 @@ const Participaciones = () => {
             </Tooltip> */}
 
 
-           {verSegmentar ? ( 
+            {verSegmentar ? (
               <Tooltip title={"Segmentar Operación"}>
                 <IconButton value="check" onClick={() => handleVerSegmentos(v)}>
                   <SegmentIcon />
                 </IconButton>
               </Tooltip>
-             ) : (
+            ) : (
               ""
-            )} 
+            )}
 
-             {verTrazabilidad ? ( 
+            {verTrazabilidad ? (
               <Tooltip title={"Ver Trazabilidad"}>
                 <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
                   <InsightsIcon />
                 </IconButton>
               </Tooltip>
-             ) : (
+            ) : (
               ""
-            )} 
+            )}
 
 
 
@@ -323,14 +323,14 @@ const Participaciones = () => {
               : ""
             } */}
 
-             {String(v.row.estatus)  === 'Ingresando Operación' ? 
+            {String(v.row.estatus) === 'Ingresando Operación' ?
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
                   <MonetizationOnIcon />
                 </IconButton>
               </Tooltip>
-               : "" 
-            } 
+              : ""
+            }
 
             {/* {String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
               <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
@@ -464,7 +464,7 @@ const Participaciones = () => {
       width: 140,
       description: "Numero De Solicitud de Pago",
     },
-   
+
     {
       field: "NumRequerimientoAnt",
       headerName: "Numero De Requerimiento De Anticipo",
@@ -632,7 +632,7 @@ const Participaciones = () => {
       width: 100,
       description: "Clasificación de Solicitud de Pago",
     },
-   
+
     // {
     //   field: "NumCheque",
     //   headerName: "Numero De Cheque",
@@ -674,7 +674,7 @@ const Participaciones = () => {
       }
     });
   };
- 
+
   const handleClose = () => {
     setOpenModalCabecera(false);
     setOpenModal(false);
@@ -1015,7 +1015,7 @@ const Participaciones = () => {
 
   const integracionMasiva = () => {
 
-    if (idFondo.length == 1 &&  mes !== "false" &&  idestatus !== "false") {
+    if (idFondo.length == 1 && mes !== "false" && idestatus !== "false") {
       Swal.fire({
         icon: "info",
         title: "Integración Masiva ",
@@ -1026,7 +1026,7 @@ const Participaciones = () => {
         cancelButtonText: "Cancelar",
       }).then(async (result) => {
         if (result.isConfirmed) {
-         
+
           setslideropen(true);
           const formData = new FormData();
           formData.append("CHUSER", user.id);
@@ -1609,6 +1609,7 @@ const Participaciones = () => {
           icon: "success",
           title: "Consulta Exitosa!",
         });
+        console.log(res.RESPONSE)
         setData(res.RESPONSE);
         var sumatotal = 0;
         res.RESPONSE.map((item: any) => {
@@ -1664,13 +1665,13 @@ const Participaciones = () => {
         } else if (String(item.Referencia) === "TRAZASPEIDAF") {
           ancho = ancho + 50;
           setVerTrazabilidad(true);
-        }else if (String(item.Referencia) === "SEGM"){
+        } else if (String(item.Referencia) === "SEGM") {
           ancho = ancho + 50;
           setVerSegmentar(true)
         }
-      }setAnchoAcciones(ancho)
+      } setAnchoAcciones(ancho)
     });
-    
+
   }, [
     // munTieneFide
   ]);
@@ -1690,7 +1691,7 @@ const Participaciones = () => {
       )}
       {openModalDetalle ? (
 
-        <ORGHeader dataCabecera={vrows} modo={""} handleClose={handleClose}/>
+        <ORGHeader dataCabecera={vrows} modo={""} handleClose={handleClose} />
         // <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
         //   <ParticipacionesDetalle
         //     data={vrows} />
@@ -1715,7 +1716,7 @@ const Participaciones = () => {
 
       <Grid container spacing={1} padding={0}>
 
-        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+        <Grid container item spacing={1}  xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={12} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
@@ -1725,13 +1726,11 @@ const Participaciones = () => {
           </Grid>
         </Grid>
 
-        <Grid container spacing={.3} item xs={12} sm={12} md={12} lg={12} direction="row"
+        <Grid container item spacing={.3}  xs={12} sm={12} md={12} lg={12} direction="row"
           justifyContent="center"
           alignItems="center" >
 
-
-
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
+          <Grid item xs={11.5} sm={6} md={4} lg={3}>
 
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Organismos:
@@ -1744,9 +1743,9 @@ const Participaciones = () => {
               label={""}
               disabled={false}
             />
-          </Grid> 
+          </Grid>
 
-          <Grid item xs={12} sm={12} md={12} lg={2}>
+          <Grid item xs={11.5} sm={6} md={4} lg={3}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
               value={idestatus}
@@ -1770,7 +1769,7 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid> */}
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
+          <Grid item xs={11.5} sm={6} md={4} lg={3}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
             <SelectFrag
               value={idtipoSolicitud}
@@ -1782,7 +1781,7 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
+          <Grid item xs={11.5} sm={6} md={4} lg={3}>
 
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFragMulti
@@ -1795,7 +1794,7 @@ const Participaciones = () => {
           </Grid>
 
 
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
+          <Grid item xs={11.5} sm={6} md={4} lg={3}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
             <SelectFrag
               value={idMunicipio}
@@ -1807,7 +1806,7 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
+          <Grid item xs={11.5} sm={6} md={4} lg={3}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
             <SelectFrag
               value={mes}
@@ -1836,13 +1835,13 @@ const Participaciones = () => {
 
             <Tooltip title={"Integrar Operaciones"}>
               <ToggleButton value="check"
-                disabled={data.length === 0 || intOperaciones }
+                disabled={data.length === 0 || intOperaciones}
                 onClick={() => integrarOperaciones()}>
-                <CallMergeIcon color={data.length === 0 || intOperaciones  ? "inherit" : "primary"} />
+                <CallMergeIcon color={data.length === 0 || intOperaciones ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip>
 
-           
+
 
 
             {/* <Tooltip title={"Generar Solicitud"}>
@@ -1884,7 +1883,7 @@ const Participaciones = () => {
             {descPlant ? (
               <Tooltip title={"Descargar Plantilla"}>
                 <ToggleButton value="check" onClick={() => downloadplantilla()}>
-                      <ArrowDownwardIcon />
+                  <ArrowDownwardIcon />
                 </ToggleButton>
               </Tooltip>
             ) : (
@@ -1960,21 +1959,21 @@ const Participaciones = () => {
               ""
             )}
 
-          {cargarPlant ? (
-               <Tooltip title={"Integración Masiva por Fondo"}>
-               <ToggleButton value="check" onClick={() => integracionMasiva()}>
-                 <PolylineIcon  />
-               </ToggleButton>
-             </Tooltip>
+            {cargarPlant ? (
+              <Tooltip title={"Integración Masiva por Fondo"}>
+                <ToggleButton value="check" onClick={() => integracionMasiva()}>
+                  <PolylineIcon />
+                </ToggleButton>
+              </Tooltip>
             ) : (
               ""
             )}
 
-             <Tooltip title={"Unificar Registros"}>
+            <Tooltip title={"Unificar Registros"}>
               <ToggleButton value="check"
-                disabled={data.length === 0 || intOperaciones  || idMunicipio.length < 6}
+                disabled={data.length === 0 || intOperaciones || idMunicipio.length < 6}
                 onClick={() => unificarSolicitudes()}>
-                <CloseFullscreenIcon color={data.length === 0 || intOperaciones  || idMunicipio.length < 6 ? "inherit" : "primary"} />
+                <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idMunicipio.length < 6 ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip>
 
@@ -2157,10 +2156,10 @@ const Participaciones = () => {
                   },
                 }}
                 isRowSelectable={(params) => (
-                 // params.row.NumCheque === null
+                  // params.row.NumCheque === null
                   // ||params.row.NumEgreso===null
                   // ||params.row.NumRequerimientoAnt===null
-                   params.row.NumOrdenPago===null
+                  params.row.NumOrdenPago === null
                 )}
                 checkboxSelection
                 onSelectionModelChange={(newSelectionModel: any) => {
@@ -2206,13 +2205,13 @@ const Participaciones = () => {
           </div>
         </Grid>
 
-       
+
       </Grid>
       {openModalVerSpei ? <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows} /> : ""}
       {openCheque ? <ModalCheque tipo={tipo} handleClose={handleclose} vrows={vrows} /> : ""}
-      {openSegmento ? <ModalSegmentos  handleClose={handleclose} vrows={vrows} /> : ""}
-      {openTraz ? <TrazabilidadSolicitud dt={{ TIPO:4, SP:idSolicitud, }} open={openTraz} handleClose={handleclose} /> :""}
-      {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} />:""}
+      {openSegmento ? <ModalSegmentos handleClose={handleclose} vrows={vrows} /> : ""}
+      {openTraz ? <TrazabilidadSolicitud dt={{ TIPO: 4, SP: idSolicitud, }} open={openTraz} handleClose={handleclose} /> : ""}
+      {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} /> : ""}
 
     </div>
   );
