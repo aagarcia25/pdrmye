@@ -277,14 +277,14 @@ const AsigPago = () => {
       let counfiles = event?.target?.files?.length;
       //Recorremos los registros de la busqueda
 
-      for (let i = 0; i < Number(counfiles); i++) {
-        let file = event?.target?.files?.[i] || "";
-        let namefile = event?.target?.files?.[i].name || "";
-        //    console.log(namefile);
-
+     
         rows.map((item: any, index) => {
           //      console.log(item.a3 + 'index' + index);
 
+          for (let i = 0; i < Number(counfiles); i++) {
+            let file = event?.target?.files?.[i] || "";
+            let namefile = event?.target?.files?.[i].name || "";
+            
           if (item.a2.includes("Pendiente de Spei")) {
             if (namefile.includes(item.a3)) {
               rows = rows.filter((items) => !item);
@@ -295,13 +295,19 @@ const AsigPago = () => {
           } else {
             fueradesstatus.push(item.a3);
           }
+
+        }
+
         });
-      }
+
+
+     
+
+      
 
       let a2 = noencontrados.filter((elemento, index) => {
         return noencontrados.indexOf(elemento) === index;
       });
-      console.log(a2);
 
       let a1 = encontrados.filter((elemento, index) => {
         return encontrados.indexOf(elemento) === index;
@@ -317,9 +323,9 @@ const AsigPago = () => {
         html =
           "Archivos Encontrados <b>" + a1.length + " de  " + counfiles + "</b>";
         html = html + "<br>";
-        html =
-          html + "Registros con el mismo numero de solicitud: <b>" + 0 + "</b>";
-        html = html + "<br>";
+        //html =
+        //html + "Registros con el mismo numero de solicitud: <b>" + 0 + "</b>";
+        //html = html + "<br>";
         html = html + "¿Desea procesarlos?";
         let count = 0;
         Swal.fire({
