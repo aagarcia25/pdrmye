@@ -14,7 +14,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import clsx from 'clsx';
+import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
@@ -35,25 +35,27 @@ import {
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import SpeisAdmin from "./SpeisAdmin";
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import ApprovalIcon from '@mui/icons-material/Approval';
+import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import ApprovalIcon from "@mui/icons-material/Approval";
 import { ModalCheque } from "../componentes/ModalCheque";
 import SelectFragMulti from "../Fragmentos/SelectFragMulti";
 import { fmeses } from "../../../share/loadMeses";
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import InsightsIcon from "@mui/icons-material/Insights";
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
-import FileUploadIcon from '@mui/icons-material/FileUpload';
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import Swal from "sweetalert2";
 import { DAFServices } from "../../../services/DAFServices";
 import axios from "axios";
+import { CleaningServices } from "@mui/icons-material";
 
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
   //MODAL
   //Constantes para llenar los select
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
   const [fondos, setFondos] = useState<[]>([]);
@@ -81,38 +83,38 @@ const AsigPago = () => {
   const [agregarPoliza, setAgregarPoliza] = useState<boolean>(false);
   const [subirSpeis, setSubirSpeis] = useState<boolean>(false);
 
-
   /// trazabilidad
 
   const [openTraz, setOpenTraz] = useState(false);
   const [idSolicitud, setIdSolicitud] = useState<string>();
 
   const handleSpeis = (data: any) => {
-    setOpenSpeis(true)
-    setVrows(data)
+    setOpenSpeis(true);
+    setVrows(data);
   };
 
   const handlecheque = (data: any) => {
-    setOpenCheque(true)
-    setVrows(data)
+    setOpenCheque(true);
+    setVrows(data);
   };
   const handleVerTazabilidad = (v: any) => {
     setOpenTraz(true);
-    setIdSolicitud(v.row.NumOrdenPago)
+    setIdSolicitud(v.row.NumOrdenPago);
   };
-  const handleChangeMostrarTodo = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeMostrarTodo = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setChecked(event.target.checked);
   };
 
   const handleclose = (data: any) => {
     handleClick();
-    setOpenSpeis(false)
+    setOpenSpeis(false);
     setOpenCheque(false);
-    setOpenTraz(false)
+    setOpenTraz(false);
   };
 
-  const handleAccion = (data: any) => {
-  };
+  const handleAccion = (data: any) => {};
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -132,44 +134,96 @@ const AsigPago = () => {
               </IconButton>
             </Tooltip>
 
-            {agregarPoliza ?
-              String(v.row.NumCheque) === 'null' ?
+            {agregarPoliza ? (
+              String(v.row.NumCheque) === "null" ? (
                 <Tooltip title="Agregar Póliza de Pago">
                   <IconButton onClick={() => handlecheque(v)}>
                     <ApprovalIcon />
                   </IconButton>
                 </Tooltip>
-                : ""
-              : ""
-            }
+              ) : (
+                ""
+              )
+            ) : (
+              ""
+            )}
             {verTrazabilidad ? (
               <Tooltip title={"Ver Trazabilidad"}>
-                <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
+                <IconButton
+                  value="check"
+                  onClick={() => handleVerTazabilidad(v)}
+                >
                   <InsightsIcon />
                 </IconButton>
               </Tooltip>
             ) : (
               ""
             )}
-
           </Box>
         );
       },
     },
-    { field: "a2", headerName: "Estatus", width: 150, description: "Estatus", },
-    { field: "a3", headerName: "Solicitud de Pago", width: 200, description: "Solicitud de Pago", },
-    { field: "a4", headerName: "Póliza de Pago", width: 200, description: "Póliza de Pago", },
-    { field: "a5", headerName: "Importe Total", width: 150, description: "Importe Total = Total Neto - (Retenciones + Descuentos)", ...Moneda, },
-    { field: "a6", headerName: "Ejercicio", width: 80, description: "Ejercicio", },
-    { field: "a7", headerName: "Mes", width: 100, description: "Mes", },
+    { field: "a2", headerName: "Estatus", width: 150, description: "Estatus" },
+    {
+      field: "a3",
+      headerName: "Solicitud de Pago",
+      width: 200,
+      description: "Solicitud de Pago",
+    },
+    {
+      field: "a4",
+      headerName: "Póliza de Pago",
+      width: 200,
+      description: "Póliza de Pago",
+    },
+    {
+      field: "a5",
+      headerName: "Importe Total",
+      width: 150,
+      description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
+      ...Moneda,
+    },
+    {
+      field: "a6",
+      headerName: "Ejercicio",
+      width: 80,
+      description: "Ejercicio",
+    },
+    { field: "a7", headerName: "Mes", width: 100, description: "Mes" },
     //  {field: "ClaveEstado",      headerName: "Clave Estado",      width: 100,      description: "Clave Estado",    },
-    { field: "a8", headerName: "Proveedor", width: 150, description: "Proveedor", },
-    { field: "a9", headerName: "Descripción", width: 250, description: "Descripción" },
-    { field: "a10", headerName: "Total Neto", width: 150, description: "Total Neto", ...Moneda, },
-    { field: "a11", headerName: "Retenciones", width: 150, description: "Retenciones", ...Moneda, },
-    { field: "a12", headerName: "Descuentos", width: 150, description: "Descuentos", ...Moneda, },
-
-
+    {
+      field: "a8",
+      headerName: "Proveedor",
+      width: 150,
+      description: "Proveedor",
+    },
+    {
+      field: "a9",
+      headerName: "Descripción",
+      width: 250,
+      description: "Descripción",
+    },
+    {
+      field: "a10",
+      headerName: "Total Neto",
+      width: 150,
+      description: "Total Neto",
+      ...Moneda,
+    },
+    {
+      field: "a11",
+      headerName: "Retenciones",
+      width: 150,
+      description: "Retenciones",
+      ...Moneda,
+    },
+    {
+      field: "a12",
+      headerName: "Descuentos",
+      width: 150,
+      description: "Descuentos",
+      ...Moneda,
+    },
   ];
 
   const loadFilter = (operacion: number) => {
@@ -185,8 +239,6 @@ const AsigPago = () => {
     });
   };
 
-
-
   const handleFilterChange1 = (v: string) => {
     setIdTipo(v);
   };
@@ -199,159 +251,152 @@ const AsigPago = () => {
     setidMunicipio(v);
   };
 
-
   const handleSelectMes = (data: any) => {
-    setNombreMes(meses.find(({ value }) => value === data)?.label === undefined ? "" : String(meses.find(({ value }) => value === data)?.label));
+    setNombreMes(
+      meses.find(({ value }) => value === data)?.label === undefined
+        ? ""
+        : String(meses.find(({ value }) => value === data)?.label)
+    );
 
     setMes(data);
   };
 
-
-
   const ProcesaSPeis = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let encontrados: any[] = [];
+    let noencontrados: any[] = [];
+    let fueradesstatus: any[] = [];
+    let rows = data;
 
-   let encontrados :  any[] = [];
-   let noencontrados: any[] = [];
-   let rows = data;
-  
-  if(rows.length ===0){
-    AlertS.fire({
-      title: "Error!",
-      text: "Favor de realizar la búsqueda de Registros, primero",
-      icon: "error",
-    });
-  }else{
-
-  //  console.log(event?.target.files?.length);
-    let counfiles = event?.target?.files?.length;
-    
- 
-    //Recorremos los registros de la busqueda
-    for( let i=0; i< Number(counfiles) ;i++ ){
-     let file = event?.target?.files?.[i] || "";
-     let namefile=event?.target?.files?.[i].name || "";
-  //    console.log(namefile);
-     
-      rows.map((item: any,index) => {
- //      console.log(item.a3 + 'index' + index);
-         if(namefile.includes(item.a3)){
-             encontrados.push({Archivo:file,Registro: item});
-            // rows.splice(index,1)
-         }else{
-             noencontrados.push(item.a3);
-         }
+    if (rows.length === 0) {
+      AlertS.fire({
+        title: "Error!",
+        text: "Favor de realizar la búsqueda de Registros, primero",
+        icon: "error",
       });
- 
-    }
- 
- 
-    let a2 = noencontrados.filter((elemento, index) => {
-     return noencontrados.indexOf(elemento) === index;
-   });
- 
-   let a1 = encontrados.filter((elemento, index) => {
-     return encontrados.indexOf(elemento) === index;
-   });
-   let html="";
-   if(a1.length === 0){
- 
-     AlertS.fire({
-       title: "Error!",
-       text: "No se encontraron registros",
-       icon: "error",
-     });
- 
-   }else{
- 
-     html="Archivos Encontrados <b>"+a1.length+" de: "+counfiles+"</b>";
-     html= html+"<br>";
-     html= html+"¿Desea procesarlos?";
-     let count =0;
-     Swal.fire({
-       icon: "info",
-       title: "Infomación",
-       footer:"Esta operación puede demorar un poco",
-       html: html,
-       showDenyButton: false,
-       showCancelButton: true,
-       confirmButtonText: "Aceptar",
-       cancelButtonText: "Cancelar",
-     }).then( (result) => {
-       if (result.isConfirmed) {
-        setslideropen(true);
-        let peticiones: any[] = [];
-        encontrados.map( (item: any) => {
-            const formData = new FormData();
-            formData.append("SPEI", item.Archivo);
-            formData.append("NUMOPERACION", "1");
-            formData.append("IDPROV", item.Registro.id);
-            formData.append("CHUSER", user.id);
-            formData.append("TPROV", item.Registro.a17);
-            formData.append("TOKEN", JSON.parse(String(getToken())));
-           let p =  axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + 'SpeiAdministracion', formData, {
-              headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With':'XMLHttpRequest',
-                'Access-Control-Allow-Origin': '*',
-              },
-            });
-            peticiones.push(p);
-          });
+    } else {
+      let counfiles = event?.target?.files?.length;
+      //Recorremos los registros de la busqueda
 
-          axios.all(peticiones).then(resposeArr =>{
-            resposeArr.map((item)=>{
-              if (item.data.SUCCESS) {
-                count++;
-              } else {
-                count--;
-              }
+     
+        rows.map((item: any, index) => {
+          //      console.log(item.a3 + 'index' + index);
+
+          for (let i = 0; i < Number(counfiles); i++) {
+            let file = event?.target?.files?.[i] || "";
+            let namefile = event?.target?.files?.[i].name || "";
+            
+          if (item.a2.includes("Pendiente de Spei")) {
+            if (namefile.includes(item.a3)) {
+              rows = rows.filter((items) => !item);
+              encontrados.push({ Archivo: file, Registro: item });
+            } else {
+              noencontrados.push(item.a3);
+            }
+          } else {
+            fueradesstatus.push(item.a3);
+          }
+
+        }
+
+        });
+
+
+     
+
+      
+
+      let a2 = noencontrados.filter((elemento, index) => {
+        return noencontrados.indexOf(elemento) === index;
+      });
+
+      let a1 = encontrados.filter((elemento, index) => {
+        return encontrados.indexOf(elemento) === index;
+      });
+      let html = "";
+      if (a1.length === 0) {
+        AlertS.fire({
+          title: "Error!",
+          text: "No se encontraron registros",
+          icon: "error",
+        });
+      } else {
+        html =
+          "Archivos Encontrados <b>" + a1.length + " de  " + counfiles + "</b>";
+        html = html + "<br>";
+        //html =
+        //html + "Registros con el mismo numero de solicitud: <b>" + 0 + "</b>";
+        //html = html + "<br>";
+        html = html + "¿Desea procesarlos?";
+        let count = 0;
+        Swal.fire({
+          icon: "info",
+          title: "Infomación",
+          footer: "Esta operación puede demorar un poco",
+          html: html,
+          showDenyButton: false,
+          showCancelButton: true,
+          confirmButtonText: "Aceptar",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setslideropen(true);
+            let peticiones: any[] = [];
+            encontrados.map((item: any) => {
+              const formData = new FormData();
+              formData.append("SPEI", item.Archivo);
+              formData.append("NUMOPERACION", "1");
+              formData.append("IDPROV", item.Registro.id);
+              formData.append("CHUSER", user.id);
+              formData.append("TPROV", item.Registro.a17);
+              formData.append("TOKEN", JSON.parse(String(getToken())));
+              let p = axios.post(
+                process.env.REACT_APP_APPLICATION_BASE_URL +
+                  "SpeiAdministracion",
+                formData,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "Access-Control-Allow-Origin": "*",
+                  },
+                }
+              );
+              peticiones.push(p);
             });
 
-             
+            axios.all(peticiones).then((resposeArr) => {
+              resposeArr.map((item) => {
+                if (item.data.SUCCESS) {
+                  count++;
+                } else {
+                  count--;
+                }
+              });
+
               Swal.fire({
                 icon: "success",
-                title: 'Información',
+                title: "Información",
                 text: "registros procesados " + count,
-                confirmButtonText: 'Ok',
+                confirmButtonText: "Ok",
               }).then((result) => {
                 if (result.isConfirmed) {
                   handleClick();
                 }
               });
-
-
-          });
-
-
-
-
-       }else{
-        AlertS.fire({
-          title: "Información",
-          text: "Operación Cancelada",
-          icon: "error",
-        }); 
-       }
-     });
-   
-     
- 
-   }
- 
-  
-   
-  
-    //console.log('Total de encontrados' + a1.length);
-    //console.log('Total de no encontrados  ' +a2.length);
-   
-
-  }
-  
-
+            });
+          } else {
+            AlertS.fire({
+              title: "Información",
+              text: "Operación Cancelada",
+              icon: "error",
+            });
+          }
+        });
+      }
+    }
   };
 
   const handleClick = () => {
-
     setslideropen(true);
     let data = {
       TIPO: 4,
@@ -360,8 +405,7 @@ const AsigPago = () => {
       P_IDESTATUS: idestatus === "false" ? "" : idestatus,
       P_IDMES: mes === "false" ? "" : mes,
       P_SOLICITUDPAGO: numOrdenPago ? numOrdenPago : "",
-      P_MOSTRARTODOS: checked
-
+      P_MOSTRARTODOS: checked,
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
@@ -378,7 +422,6 @@ const AsigPago = () => {
           icon: "error",
         });
         setslideropen(false);
-
       }
     });
   };
@@ -390,7 +433,6 @@ const AsigPago = () => {
     loadFilter(17);
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "DAFADMINPAG") {
-
         if (String(item.Referencia) === "TRAZASPEIDAF") {
           setVerTrazabilidad(true);
           // setAnchoAcciones(anchoAcciones+50)
@@ -404,16 +446,13 @@ const AsigPago = () => {
           setSubirSpeis(true);
           // setAnchoAcciones(anchoAcciones+50)
         }
-
-
       }
-    })
-
+    });
   }, []);
 
   return (
     <>
-     <Slider open={slideropen}></Slider>
+      <Slider open={slideropen}></Slider>
       <div>
         <Grid container spacing={1} padding={2}>
           <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
@@ -427,15 +466,14 @@ const AsigPago = () => {
           </Grid>
 
           <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-
             <Grid item xs={12} sm={6} md={3} lg={2}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Solicitud de Pago:
               </Typography>
-              <FormControl sx={{ width: "100%" }}  >
+              <FormControl sx={{ width: "100%" }}>
                 <OutlinedInput
                   id="outlined-adornment-password"
-                  type={'text'}
+                  type={"text"}
                   size="small"
                   fullWidth
                   placeholder="Solicitud de Pago"
@@ -444,7 +482,7 @@ const AsigPago = () => {
                   inputProps={{ maxLength: 10 }}
                   endAdornment={
                     <InputAdornment position="end">
-                      <Tooltip title={"Limpiar campo"} >
+                      <Tooltip title={"Limpiar campo"}>
                         <IconButton
                           aria-label="toggle password visibility"
                           onClick={() => setNumOrdenPago("")}
@@ -499,18 +537,18 @@ const AsigPago = () => {
 
           <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
             <Grid item xs={2} sm={2} md={2} lg={2}>
-              <FormControlLabel control={
-                <Checkbox
-                  checked={checked}
-                  onChange={handleChangeMostrarTodo}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-              }
-                label="Mostrar Todo" />
-
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked}
+                    onChange={handleChangeMostrarTodo}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                }
+                label="Mostrar Todo"
+              />
             </Grid>
           </Grid>
-
 
           <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
             <Button
@@ -524,7 +562,7 @@ const AsigPago = () => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
-          {subirSpeis ? (
+            {subirSpeis ? (
               <Tooltip title={"Cargar SPEI's"}>
                 <ToggleButton value="check">
                   <IconButton
@@ -534,7 +572,7 @@ const AsigPago = () => {
                     size="small"
                   >
                     <input
-                      multiple 
+                      multiple
                       hidden
                       accept=".pdf"
                       type="file"
@@ -549,7 +587,6 @@ const AsigPago = () => {
               ""
             )}
           </Grid>
-
 
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <div
@@ -571,24 +608,23 @@ const AsigPago = () => {
                   getRowHeight={() => "auto"}
                   getRowClassName={(params) => {
                     if (params.row.Presupuesto == null) {
-                      return '';
+                      return "";
                     }
-                    return clsx('super-app', {
+                    return clsx("super-app", {
                       negative: params.row.Presupuesto !== params.row.total,
                       positive: params.row.Presupuesto == params.row.total,
                     });
-                  }
-                  }
+                  }}
                   components={{ Toolbar: GridToolbar }}
                   sx={{
-                    fontFamily: "Poppins,sans-serif", fontWeight: '600',
-                    '& .super-app.negative': {
+                    fontFamily: "Poppins,sans-serif",
+                    fontWeight: "600",
+                    "& .super-app.negative": {
                       color: "rgb(84, 3, 3)",
                       backgroundColor: "rgb(196, 40, 40, 0.384)",
                     },
-                    '& .super-app.positive': {
-                      backgroundColor: 'rgb(16, 145, 80, 0.567)',
-
+                    "& .super-app.positive": {
+                      backgroundColor: "rgb(16, 145, 80, 0.567)",
                     },
                   }}
                   componentsProps={{
@@ -596,13 +632,12 @@ const AsigPago = () => {
                       label: "Buscar",
                       showQuickFilter: true,
 
-                      quickFilterProps: { debounceMs: 500, },
+                      quickFilterProps: { debounceMs: 500 },
 
                       csvOptions: {
-                        fileName: 'Distribucion',
+                        fileName: "Distribucion",
                         utf8WithBom: true,
-
-                      }
+                      },
                     },
                   }}
                   checkboxSelection={checkboxSelection}
@@ -612,7 +647,8 @@ const AsigPago = () => {
                   selectionModel={selectionModel}
                   localeText={{
                     noRowsLabel: "No se ha encontrado datos.",
-                    noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+                    noResultsOverlayLabel:
+                      "No se ha encontrado ningún resultado",
                     toolbarColumns: "Columnas",
                     toolbarExport: "Exportar",
                     toolbarColumnsLabel: "Seleccionar columnas",
@@ -621,45 +657,61 @@ const AsigPago = () => {
                     toolbarFiltersTooltipHide: "Quitar filtros",
                     toolbarFiltersTooltipShow: "Ver filtros",
                     toolbarQuickFilterPlaceholder: "Buscar",
-                    toolbarExportCSV: 'Descargar como CSV',
-                    toolbarExportPrint: 'Imprimir',
+                    toolbarExportCSV: "Descargar como CSV",
+                    toolbarExportPrint: "Imprimir",
                     checkboxSelectionSelectRow: "Filas seleccionadas",
-                    checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
-                    errorOverlayDefaultLabel: 'Ha ocurrido un error.',
+                    checkboxSelectionSelectAllRows:
+                      "Seleccionar todas las filas",
+                    errorOverlayDefaultLabel: "Ha ocurrido un error.",
                     footerRowSelected: (count) =>
-                      count > 1 ?
-                        `${count.toLocaleString()} filas seleccionadas`
-                        :
-                        `${count.toLocaleString()} fila seleccionada`,
-                    footerTotalRows: 'Filas Totales:',
-                    columnMenuLabel: 'Menú',
-                    columnMenuShowColumns: 'Mostrar columnas',
-                    columnMenuFilter: 'Filtro',
-                    columnMenuHideColumn: 'Ocultar',
-                    columnMenuUnsort: 'Desordenar',
-                    columnMenuSortAsc: 'Ordenar ASC',
-                    columnMenuSortDesc: 'Ordenar DESC',
+                      count > 1
+                        ? `${count.toLocaleString()} filas seleccionadas`
+                        : `${count.toLocaleString()} fila seleccionada`,
+                    footerTotalRows: "Filas Totales:",
+                    columnMenuLabel: "Menú",
+                    columnMenuShowColumns: "Mostrar columnas",
+                    columnMenuFilter: "Filtro",
+                    columnMenuHideColumn: "Ocultar",
+                    columnMenuUnsort: "Desordenar",
+                    columnMenuSortAsc: "Ordenar ASC",
+                    columnMenuSortDesc: "Ordenar DESC",
                     columnHeaderFiltersTooltipActive: (count) =>
-                      count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
-                    columnHeaderFiltersLabel: 'Mostrar filtros',
-                    columnHeaderSortIconLabel: 'Ordenar',
-
+                      count > 1
+                        ? `${count} filtros activos`
+                        : `${count} filtro activo`,
+                    columnHeaderFiltersLabel: "Mostrar filtros",
+                    columnHeaderSortIconLabel: "Ordenar",
                   }}
                 />
               </ThemeProvider>
             </div>
           </Grid>
         </Grid>
-
-
       </div>
 
-      {openSpeis ? <SpeisAdmin handleClose={handleclose} handleAccion={handleAccion} vrows={vrows} /> : ""}
-      {openCheque ? <ModalCheque tipo={1} handleClose={handleclose} vrows={vrows} /> : ""}
-      {openTraz ? <TrazabilidadSolicitud dt={{ TIPO: 3, SP: idSolicitud, }} open={openTraz} handleClose={handleclose} />
-        :
+      {openSpeis ? (
+        <SpeisAdmin
+          handleClose={handleclose}
+          handleAccion={handleAccion}
+          vrows={vrows}
+        />
+      ) : (
         ""
-      }
+      )}
+      {openCheque ? (
+        <ModalCheque tipo={1} handleClose={handleclose} vrows={vrows} />
+      ) : (
+        ""
+      )}
+      {openTraz ? (
+        <TrazabilidadSolicitud
+          dt={{ TIPO: 3, SP: idSolicitud }}
+          open={openTraz}
+          handleClose={handleclose}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };

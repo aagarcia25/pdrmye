@@ -72,7 +72,6 @@ export const PerfilesUsuario = () => {
 
 
   const handleAccion = (v: any) => {
-
     if (v.tipo === 1) {
       //
       setTipoOperacion(2);
