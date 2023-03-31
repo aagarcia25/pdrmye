@@ -21,7 +21,6 @@ export const Bancos = () => {
   const [bancos, setBancos] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  //console.log("bancos: ", bancos)
 
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
@@ -30,7 +29,6 @@ export const Bancos = () => {
 
   const handleAccion = (v: any) => {
     if (v.tipo == 1) {
-      //console.log(v);
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
@@ -50,7 +48,6 @@ export const Bancos = () => {
             CHID: v.data.row.id,
             CHUSER: user.id,
           };
-          //console.log(data);
 
           CatalogosServices.Bancos(data).then((res) => {
             if (res.SUCCESS) {

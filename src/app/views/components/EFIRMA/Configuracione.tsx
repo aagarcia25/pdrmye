@@ -1,5 +1,5 @@
 import React from 'react'
-import {Configuracion } from '@jbcecapmex/pakfirma';
+//import {Configuracion } from '@jbcecapmex/pakfirma';
 import { RESPONSE } from '../../../interfaces/user/UserInfo';
 import { getToken, getUser } from '../../../services/localStorage';
 export const Configuracione = () => {

@@ -24,7 +24,6 @@ export const ModalCheque = ({
   const [proveedor, setProveedor] = useState<string>();
 
   useEffect(() => {
-    console.log(vrows)
     setProveedor(vrows.row.Proveedor +' / '+vrows.row.Nombre);
     if (tipo == 1) {
       setTitle('Asignar Póliza de Pago');

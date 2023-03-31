@@ -1,7 +1,9 @@
 import {
   Box,
   Button,
+  Checkbox,
   createTheme,
+  FormControlLabel,
   Grid,
   IconButton,
   ThemeProvider,
@@ -75,7 +77,7 @@ import { ORGHeader } from "../ORGANISMOS/ORGHeader";
 
 
 const Participaciones = () => {
-
+  const [checked, setChecked] = React.useState(false);
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
   const [nombreArchivoExport, setNombreArchivoExport] = useState<string>("");
@@ -194,6 +196,10 @@ const Participaciones = () => {
 
   };
 
+  const handleChangeMostrarTodo = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
   const handleclose = (data: any) => {
     setOpenCheque(false);
     setOpenTraz(false)
@@ -273,8 +279,7 @@ const Participaciones = () => {
               </IconButton>
             </Tooltip> */}
 
-
-           {verSegmentar ? ( 
+           {verSegmentar && String(v.row.estatus)  === 'Ingresando Operación'? ( 
               <Tooltip title={"Segmentar Operación"}>
                 <IconButton value="check" onClick={() => handleVerSegmentos(v)}>
                   <SegmentIcon />
@@ -1729,10 +1734,10 @@ const Participaciones = () => {
           justifyContent="center"
           alignItems="center" >
 
-{/* 
-          <Grid item xs={11.5} sm={6} md={2.3} lg={2.3}>
 
-     
+
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
+
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Organismos:
             </Typography>
@@ -1744,10 +1749,9 @@ const Participaciones = () => {
               label={""}
               disabled={false}
             />
-          </Grid> */}
+          </Grid> 
 
           <Grid item xs={12} sm={12} md={12} lg={2}>
-
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
               value={idestatus}
@@ -1771,7 +1775,7 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid> */}
-          <Grid item xs={12} sm={12} md={12} lg={2}>
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
             <SelectFrag
               value={idtipoSolicitud}
@@ -1783,7 +1787,8 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12} lg={2}>
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
+
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFragMulti
               options={fondos}
@@ -1795,7 +1800,7 @@ const Participaciones = () => {
           </Grid>
 
 
-          <Grid item xs={12} sm={12} md={12} lg={2}>
+          <Grid item xs={11.5} sm={6} md={2.3} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
             <SelectFrag
               value={idMunicipio}
@@ -1981,6 +1986,20 @@ const Participaciones = () => {
 
           </ToggleButtonGroup>
         </Grid>
+
+        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+            <Grid item xs={2} sm={2} md={2} lg={2}>
+              <FormControlLabel control={
+                <Checkbox
+                  checked={checked}
+                  onChange={handleChangeMostrarTodo}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+              }
+                label="Mostrar Todo" />
+
+            </Grid>
+          </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
           <ToggleButtonGroup>

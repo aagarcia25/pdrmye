@@ -143,7 +143,7 @@ const PermisosModal = ({
                 error={nombre === "" ? true : false}
                 inputProps={{ maxLength: 200 }}
                 InputProps={{
-                  readOnly: tipo === 1 ? false : true,
+                 // readOnly: tipo === 1 ? false : true,
                   inputMode: "numeric",
                   
                 }}

@@ -92,6 +92,9 @@ export const ORGHeader = ({
 
   ////////////// clasificadores detalle
   const [listConceptos, setListConceptos] = useState<SelectValues[]>([]);
+  const [tipoSol, setTipoSol] = useState<SelectValues[]>([]);
+
+  
   const [verDetalle, setVerDetalle] = useState<boolean>(false);
   const [idClaveConcepto, setIdClaveConcepto] = useState<string>("");
   const [idDetalleCabecera, setIdDetalleCabecera] = useState<string>("");
@@ -613,28 +616,31 @@ export const ORGHeader = ({
       else if (tipo === 30) {
         setListConceptos(res.RESPONSE);
       }
+      else if (tipo === 33) {
+        setTipoSol(res.RESPONSE);
+      }
     });
   };
 
-  const tipoSol =
-    [
-      {
-        "value": "1",
-        "label": "Solicitud egreso"
-      },
-      {
-        "value": "2",
-        "label": "Egreso"
-      },
-      {
-        "value": "3",
-        "label": "Aportación"
-      },
-      {
-        "value": "4",
-        "label": "Requerimiento de anticipo"
-      },
-    ]
+  // const tipoSol =
+  //   [
+  //     {
+  //       "value": "1",
+  //       "label": "Solicitud egreso"
+  //     },
+  //     {
+  //       "value": "2",
+  //       "label": "Egreso"
+  //     },
+  //     {
+  //       "value": "3",
+  //       "label": "Aportación"
+  //     },
+  //     {
+  //       "value": "4",
+  //       "label": "Requerimiento de anticipo"
+  //     },
+  //   ]
 
 
   useEffect(() => {
@@ -654,7 +660,7 @@ export const ORGHeader = ({
 
 
       setidUResp(dataCab.IdUres);
-      setidProveedor(dataCab.IdOrg);
+      setidProveedor(dataCab.IdOrg?dataCab.IdOrg:dataCab.idmunicipio);
       setProyecto(dataCab.NumProyecto);
       setNumCuenta(dataCab.Cuenta);
       setObservaciones(dataCab.Observaciones);
@@ -674,6 +680,9 @@ export const ORGHeader = ({
     loadFilter(26);
     loadFilter(27);
     loadFilter(30);
+    loadFilter(33);
+
+
   }, [agregarDetalle]);
 
 
@@ -871,17 +880,13 @@ export const ORGHeader = ({
                 <Grid item container direction="row" justifyContent="space-between" xs={12} paddingTop={1} paddingBottom={1}>
                   {!openAgregarDetalle ?
                     <Tooltip title="Agregar detalle">
-                      <Button disabled={openAgregarDetalle || dataCab.orden >= 16} className={dataCab.orden >= 16 ? "" : "guardarOrgCabecera"} value="check" onClick={() => handleAgregarDetalles()}
-                      >
+                      <Button disabled={openAgregarDetalle || dataCab.orden >= 16} className={dataCab.orden >= 16 ? "" : "guardarOrgCabecera"} value="check" onClick={() => handleAgregarDetalles()}>
                         <AddIcon />
                       </Button >
                     </Tooltip>
                     : ""}
-
-
                   {openAgregarDetalle ?
                     <>
-
                       <Grid item xs={4} sm={4} md={4} lg={4}>
                         <ButtonGroup size="large">
                           {

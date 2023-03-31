@@ -188,7 +188,6 @@ const CambiosMun = () => {
 
     };
     const acciones = (v: any) => {
-        //console.log(v);
 
         if (comentario) {
             Swal.fire({
@@ -209,7 +208,6 @@ const CambiosMun = () => {
                         COMENTARIO: comentario
                     }).then((res) => {
                         if (res.SUCCESS) {
-                            //console.log(res.RESPONSE)
                             handleClose();
                         } else {
 
