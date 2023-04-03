@@ -346,10 +346,10 @@ export default function Header(props: HeaderProps) {
         elevation={0}
         sx={{ width: "100%" }}
       >
-        <Grid container xs={12} md={12} spacing={2} alignItems="center" justifyContent="space-between" sx={{ padding: "0", margin: "0" }} >
+        <Grid container item xs={12} md={12} spacing={2} alignItems="center" justifyContent="space-between" sx={{ padding: "0", margin: "0" }} >
 
 
-          <Grid item container xs={6} sm={1} justifyContent="center" alignItems="center" alignContent="center" >
+          <Grid  container item xs={6} sm={1} justifyContent="center" alignItems="center" alignContent="center" >
             <Tooltip title="Menú">
               <Button sx={{ width: "100%", height: "100%", }} className="menu" color="inherit" variant="outlined" onClick={() => onDrawerToggle()}>
                 <IconButton className="menu" color="inherit" onClick={() => onDrawerToggle()}
@@ -360,7 +360,7 @@ export default function Header(props: HeaderProps) {
             </Tooltip>
           </Grid>
 
-          <Grid item container direction="row" justifyContent="flex-end" alignItems="center" xs={6} sm={11} >
+          <Grid container item   xs={6} sm={11} direction="row" justifyContent="flex-end" alignItems="center" >
 
             <Grid item container xs={6} sm={11}
               sx={{ bgcolor: "rgb(25,245,245)" }}
@@ -401,21 +401,21 @@ export default function Header(props: HeaderProps) {
 
             <Hidden smDown >
 
-              <Grid item container direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={11} md={8} xl={9} >
+              <Grid container item  direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={11} md={8} xl={9} >
 
-                <Grid xs={12} sm={12} container direction="row" justifyContent="flex-end" alignItems="center">
+                <Grid  container direction="row" justifyContent="flex-end" alignItems="center">
                   <Typography variant="subtitle1" color="black">
                     {props.name}
                   </Typography>
                 </Grid>
 
-                <Grid xs={12} sm={12} container direction="row" justifyContent="flex-end" alignItems="center">
+                <Grid container direction="row" justifyContent="flex-end" alignItems="center">
                   <Typography textTransform={"capitalize"} color="black" >
                     {user?.Puesto ? user.Puesto.toLowerCase() : ""}
 
                   </Typography>
                 </Grid>
-                <Grid xs={12} sm={12} container direction="row" justifyContent="flex-end" alignItems="center">
+                <Grid container item xs={12} sm={12} direction="row" justifyContent="flex-end" alignItems="center">
                   <Typography color="black">
                     {(user?.PERFILES[0]?.Referencia === "MUN" ? "Enlace: " : " ") +
                       (user?.ROLES[0]?.Nombre === "Municipio" ? user.ROLES[0].Nombre + " " : " ") +

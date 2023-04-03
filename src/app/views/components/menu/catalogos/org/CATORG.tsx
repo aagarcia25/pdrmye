@@ -14,6 +14,12 @@ import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import UsuarioResponsable from "../../../DAMOP/UsuarioResponsable";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import ModalForm from "../../../componentes/ModalForm";
+import { CuentaBancaria } from "../CuentaBancaria/CuentaBancaria";
+
+
+
 
 export const CATORG = () => {
   const [data, setData] = useState([]);
@@ -27,7 +33,14 @@ export const CATORG = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-  
+  const [visualizarUsuarioResponsable, setVisualizarUsuarioResponsable] = useState<boolean>(false);
+  const [viewCC, setViewCC] = useState<boolean>(false);
+  const [id, setId] = useState("");
+  const [anchoAcciones, setAnchoAcciones] = useState<number>(0);
+
+  const [openCC, setOpenCC] = useState(false);
+  const [nombreProv, setNombreProv] = useState("");
+
   const [openUR, setOpenUR] = useState(false);
   const [idOrg, setIdOrg] = useState("");
   const [nombreOrg, setNombreOrg] = useState("");
@@ -41,7 +54,7 @@ export const CATORG = () => {
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 150,
+      width: 100 + anchoAcciones ,
       renderCell: (v) => {
         return (
           <>
@@ -51,10 +64,20 @@ export const CATORG = () => {
               editar={editar}
               eliminar={eliminar} />
 
-            {true ? (
+            {visualizarUsuarioResponsable ? (
               <Tooltip title={"Visualizar Usuario Responsable"}>
                 <IconButton onClick={() => handleUR(v)}>
                   <ManageAccountsIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+            {viewCC ? (
+              <Tooltip title={"Visualizar CuentaBancaria"}>
+                <IconButton onClick={() => handleCC(v)}>
+                <AccountBalanceWalletIcon />
                 </IconButton>
               </Tooltip>
             ) : (
@@ -87,6 +110,13 @@ export const CATORG = () => {
     // setData(v);
     setIdOrg(v.row.id);
     setNombreOrg(v.row.Descripcion);
+  };
+
+  const handleCC = (v: any) => {
+    setId(v.row.id);
+    setNombreProv(v.row.Descripcion)
+    setOpenCC(true);
+
   };
 
   const handleAccion = (v: any) => {
@@ -142,7 +172,9 @@ export const CATORG = () => {
   const handleClose = () => {
     setOpen(false);
     setOpenUR(false);
+    setOpenCC(false);
     consulta({ NUMOPERACION: 4 });
+
 
   };
 
@@ -174,7 +206,7 @@ export const CATORG = () => {
 
 
   useEffect(() => {
-
+    var ancho = 0;
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "ORG") {
         //console.log(item)
@@ -187,8 +219,16 @@ export const CATORG = () => {
         if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
-
+        if (String(item.Referencia) === "VUSUARIOR") {
+          setVisualizarUsuarioResponsable(true);
+          ancho = ancho + 50;
+        }
+        if (String(item.Referencia) === "VIEWCC") {
+          setViewCC(true);
+          ancho = ancho + 50;
+        }
       }
+      setAnchoAcciones(ancho)
     });
     consulta({ NUMOPERACION: 4 });
   }, []);
@@ -212,7 +252,7 @@ export const CATORG = () => {
         ""
       )}
 
-        <Grid container justifyContent="space-between">
+      <Grid container justifyContent="space-between">
         <Grid item md={12} textAlign="center" >
           <Typography variant="h3" >
             {"Organismos"}
@@ -220,9 +260,18 @@ export const CATORG = () => {
         </Grid>
       </Grid>
 
-      
+
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
+      {openCC ? (
+        // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
+        <ModalForm title={"Cuentas Bancarias"} handleClose={handleClose}>
+          <CuentaBancaria idmunicipio={id} municipio={nombreProv} ></CuentaBancaria>
+        </ModalForm>
+
+      ) : (
+        ""
+      )}
     </div>
   )
 }

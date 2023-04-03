@@ -31,6 +31,7 @@ export const CuentaBancaria = ({
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+  const [consCuentas, setConsCuentas] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [texto, setTexto] = useState("");
   const [open, setOpen] = useState(false);
@@ -259,8 +260,33 @@ export const CuentaBancaria = ({
       }
     });
   };
+/////////////////////////////////////////////////////
 
+
+
+const text = '123456';
+
+async function digestMessage(message:string) {
+  const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
+  const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+  return hashHex;
+}
+
+
+
+///////////////////////////////////////////////
   useEffect(() => {
+ 
+
+    ////////////////////////
+    const digestHex =  digestMessage(text);
+    console.log(digestHex);
+
+    ////////////////
+
+
     if (!mun[0]) {
       setnombreMun(municipio)
     }
@@ -280,6 +306,9 @@ export const CuentaBancaria = ({
         }
         if (String(item.Referencia) === "ELIM") {
           setEliminar(true);
+        }
+        if (String(item.Referencia) === "CONSCUENTAS") {
+          setConsCuentas(true);
         }
       }
     });
