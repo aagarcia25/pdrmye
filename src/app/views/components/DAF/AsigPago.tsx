@@ -48,6 +48,7 @@ import Swal from "sweetalert2";
 import { DAFServices } from "../../../services/DAFServices";
 import axios from "axios";
 import { CleaningServices } from "@mui/icons-material";
+import { fanios } from "../../../share/loadAnios";
 
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -58,6 +59,9 @@ const AsigPago = () => {
     React.useState<GridSelectionModel>([]);
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
+  const [anios, setAnios] = useState<SelectValues[]>([]);
+  const [anio, setAnio] = useState<string>("");
+
   const [fondos, setFondos] = useState<[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tipos, setTipos] = useState<SelectValues[]>([]);
@@ -260,6 +264,9 @@ const AsigPago = () => {
 
     setMes(data);
   };
+  const handleFilterChangeAnio = (v: string) => {
+    setAnio(v);
+  };
 
   const ProcesaSPeis = (event: React.ChangeEvent<HTMLInputElement>) => {
     let encontrados: any[] = [];
@@ -404,6 +411,7 @@ const AsigPago = () => {
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDESTATUS: idestatus === "false" ? "" : idestatus,
       P_IDMES: mes === "false" ? "" : mes,
+      P_IDANIO: anio === "false" ? "" : anio,
       P_SOLICITUDPAGO: numOrdenPago ? numOrdenPago : "",
       P_MOSTRARTODOS: checked,
     };
@@ -428,6 +436,7 @@ const AsigPago = () => {
 
   useEffect(() => {
     setMeses(fmeses());
+    setAnios(fanios());
     loadFilter(31);
     loadFilter(32);
     loadFilter(17);
@@ -529,6 +538,17 @@ const AsigPago = () => {
                 options={meses}
                 onInputChange={handleSelectMes}
                 placeholder={"Seleccione Mes"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
+              <SelectFrag
+                value={anio}
+                options={anios}
+                onInputChange={handleFilterChangeAnio}
+                placeholder={"Seleccione Año"}
                 label={""}
                 disabled={false}
               />
