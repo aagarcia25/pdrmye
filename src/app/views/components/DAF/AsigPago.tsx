@@ -256,7 +256,7 @@ const AsigPago = () => {
   };
 
   const handleFilterChange5 = (v: string) => {
-    setidMunicipio(v);
+    setIdEstatus(v);
   };
 
   const handleSelectMes = (data: any) => {
