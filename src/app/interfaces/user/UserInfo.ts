@@ -18,6 +18,19 @@ export interface PERMISO {
 
 }
 
+export interface SPEIS {
+    CreadoPor: string;
+    FechaCreacion: string;
+    ModificadoPor: string;
+    Nombre: string;
+    Route: string;
+    UltimaActualizacion: string;
+    deleted: string;
+    id: string;
+    idPA: string;
+}
+
+
 export interface GetParticipaciones {
     id: string;
     NumProyecto: string;
@@ -237,5 +250,5 @@ export interface IndexPaRetenciones {
     ParcialDescuento: string;
     cveRetencion: number;
     DescripcionDescuento?: any;
-    importe:number;
+    importe: number;
 }
