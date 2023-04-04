@@ -118,6 +118,8 @@ const Participaciones = () => {
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
+  const [asignaObservacion, setasignaObservacion] = useState<boolean>(false);
+  const [cargaPrestamos, setCargaPrestamos] = useState<boolean>(false);
   const [descPlant, setDescPlant] = useState<boolean>(false);
   const [disFide, setDisFide] = useState<boolean>(false);
   const [intOperaciones, setIntOperaciones] = useState<boolean>(true);
@@ -1673,8 +1675,17 @@ const Participaciones = () => {
         } else if (String(item.Referencia) === "SEGM") {
           ancho = ancho + 50;
           setVerSegmentar(true)
+        }else if (String(item.Referencia) === "ASIGNAOBS"){
+          ancho = ancho + 50;
+          setasignaObservacion(true);
+        }else if (String(item.Referencia) === "CGPRESTAMO"){
+          ancho = ancho + 50;
+          setCargaPrestamos(true);
         }
-      } setAnchoAcciones(ancho)
+
+
+
+      }setAnchoAcciones(ancho)
     });
 
   }, [
@@ -1696,11 +1707,7 @@ const Participaciones = () => {
       )}
       {openModalDetalle ? (
 
-        <ORGHeader dataCabecera={vrows} modo={""} handleClose={handleClose} />
-        // <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
-        //   <ParticipacionesDetalle
-        //     data={vrows} />
-        // </ModalForm>
+        <ORGHeader dataCabecera={vrows} modo={""} handleClose={handleClose}/>
       ) : (
         ""
       )}
@@ -1735,7 +1742,9 @@ const Participaciones = () => {
           justifyContent="center"
           alignItems="center" >
 
-          <Grid item xs={11.5} sm={6} md={4} lg={3}>
+
+
+         <Grid item xs={11.5} sm={6} md={4} lg={2}>
 
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Organismos:
@@ -1750,7 +1759,7 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={11.5} sm={6} md={4} lg={3}>
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
               value={idestatus}
@@ -1774,7 +1783,7 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid> */}
-          <Grid item xs={11.5} sm={6} md={4} lg={3}>
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
             <SelectFrag
               value={idtipoSolicitud}
@@ -1786,7 +1795,7 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={11.5} sm={6} md={4} lg={3}>
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
 
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFragMulti
@@ -1799,7 +1808,7 @@ const Participaciones = () => {
           </Grid>
 
 
-          <Grid item xs={11.5} sm={6} md={4} lg={3}>
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
             <SelectFrag
               value={idMunicipio}
@@ -1811,7 +1820,7 @@ const Participaciones = () => {
             />
           </Grid>
 
-          <Grid item xs={11.5} sm={6} md={4} lg={3}>
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
             <SelectFrag
               value={mes}
@@ -1835,9 +1844,8 @@ const Participaciones = () => {
           </Button>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={-1}>
-          <ToggleButtonGroup>
-
+        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
+         <ToggleButtonGroup>
             <Tooltip title={"Integrar Operaciones"}>
               <ToggleButton value="check"
                 disabled={data.length === 0 || intOperaciones}
@@ -1847,21 +1855,22 @@ const Participaciones = () => {
             </Tooltip>
 
 
-
-
             {/* <Tooltip title={"Generar Solicitud"}>
               <ToggleButton disabled={idtipoSolicitud.length < 6 || intOperaciones} value="check" onClick={() => SolicitudOrdenPago()}>
                 <SettingsSuggestIcon color={idtipoSolicitud.length < 6 || intOperaciones ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip> */}
-
+          {asignaObservacion ? (
             <Tooltip title={"Asignar Observación"}>
               <ToggleButton value="check" onClick={() => openmodalc(2)}>
                 <FormatAlignLeftIcon color="primary" />
               </ToggleButton>
             </Tooltip>
+          ) : (
+            ""
+          )}
 
-            {cargarPlant ? (
+            {cargaPrestamos ? (
               <Tooltip title={"Generar Anticipos"}>
                 <ToggleButton value="check">
                   <IconButton
@@ -1918,6 +1927,9 @@ const Participaciones = () => {
             ) : (
               ""
             )}
+
+
+
             {disFide ? (
               <Tooltip title={"Distribuir en Fideicomisos"}>
                 <ToggleButton value="check"
@@ -1981,7 +1993,6 @@ const Participaciones = () => {
                 <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idMunicipio.length < 6 ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip>
-
 
           </ToggleButtonGroup>
         </Grid>
@@ -2130,7 +2141,6 @@ const Participaciones = () => {
           >
             <ThemeProvider theme={theme}>
               <DataGrid
-                // localeText={nlNL.components.MuiDataGrid.defaultProps.localeText.}
                 columns={columnsParticipaciones}
                 rows={data}
                 density="compact"

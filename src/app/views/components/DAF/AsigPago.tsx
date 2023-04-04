@@ -60,6 +60,8 @@ const AsigPago = () => {
   const [mes, setMes] = useState<string>("");
   const [fondos, setFondos] = useState<[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
+  const [estatus, setEstatus] = useState<SelectValues[]>([]);
+  
   const [tipos, setTipos] = useState<SelectValues[]>([]);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [checked, setChecked] = React.useState(false);
@@ -235,6 +237,8 @@ const AsigPago = () => {
         setMunicipios(res.RESPONSE);
       } else if (operacion === 17) {
         setTipos(res.RESPONSE);
+      }else if(operacion === 34){
+        setEstatus(res.RESPONSE);
       }
     });
   };
@@ -248,6 +252,10 @@ const AsigPago = () => {
   };
 
   const handleFilterChange3 = (v: string) => {
+    setidMunicipio(v);
+  };
+
+  const handleFilterChange5 = (v: string) => {
     setidMunicipio(v);
   };
 
@@ -428,9 +436,11 @@ const AsigPago = () => {
 
   useEffect(() => {
     setMeses(fmeses());
+    loadFilter(34);
     loadFilter(31);
     loadFilter(32);
     loadFilter(17);
+   
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "DAFADMINPAG") {
         if (String(item.Referencia) === "TRAZASPEIDAF") {
@@ -466,6 +476,17 @@ const AsigPago = () => {
           </Grid>
 
           <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+          <Grid item xs={12} sm={6} md={3} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
+            <SelectFrag
+              value={idestatus}
+              options={estatus}
+              onInputChange={handleFilterChange5}
+              placeholder={"Seleccione Estatus"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
             <Grid item xs={12} sm={6} md={3} lg={2}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Solicitud de Pago:
