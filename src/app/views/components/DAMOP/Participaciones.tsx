@@ -1707,7 +1707,7 @@ const Participaciones = () => {
       )}
       {openModalDetalle ? (
 
-        <ORGHeader dataCabecera={vrows} modo={""} handleClose={handleClose}/>
+        <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose}/>
       ) : (
         ""
       )}
@@ -2240,8 +2240,7 @@ const Participaciones = () => {
       {openCheque ? <ModalCheque tipo={tipo} handleClose={handleclose} vrows={vrows} /> : ""}
       {openSegmento ? <ModalSegmentos handleClose={handleclose} vrows={vrows} /> : ""}
       {openTraz ? <TrazabilidadSolicitud dt={{ TIPO: 4, SP: idSolicitud, }} open={openTraz} handleClose={handleclose} /> : ""}
-      {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} /> : ""}
-
+      {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} /> : ""} 
     </div>
   );
 };
