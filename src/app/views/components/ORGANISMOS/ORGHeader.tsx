@@ -460,8 +460,8 @@ export const ORGHeader = ({
   };
 
   const Consulta = () => {
-    var sumatotal = 0;
-
+    var sumatotal = 0; 
+  
     DAMOPServices.indexDetalle({ NUMOPERACION: 4, IDORG: dataCab?.id }).then((res) => {
       if (res.SUCCESS) {
 
@@ -614,7 +614,7 @@ export const ORGHeader = ({
     CatalogosServices.SelectIndex(data).then((res) => {
       if (tipo === 26) {
         setURes(res.RESPONSE);
-      } else if (tipo === 27) {
+      } else if (tipo === 32) {
         setProvedores(res.RESPONSE);
         setOpenSlider(false);
       } else if (tipo === 29) {
@@ -623,7 +623,7 @@ export const ORGHeader = ({
       else if (tipo === 30) {
         setListConceptos(res.RESPONSE);
       }
-      else if (tipo === 33) {
+      else if (tipo === 24) {
         setTipoSol(res.RESPONSE);
       }
       else if (tipo === 33) {
@@ -660,7 +660,7 @@ export const ORGHeader = ({
 
   useEffect(() => {
     Consulta();
-    console.log(dataCab)
+    console.log(dataCab);
 
     if (modo === "Nuevo") {
       setLimpiar(true);
@@ -671,15 +671,13 @@ export const ORGHeader = ({
       setHAdd(true);
     }
     if (modo === "Ver") {
-
-
       setidUResp(dataCab.IdUres ? dataCab.IdUres : dataCab.Uresp);
-      setidProveedor(dataCab.IdOrg ? dataCab.IdOrg : dataCab.idmunicipio);
+      setidProveedor(dataCab.idmunicipio);
       setProyecto(dataCab.NumProyecto);
       setNumCuenta(dataCab.Cuenta);
       setObservaciones(dataCab.Observaciones ? dataCab.Observaciones : "");
       setTotalHeader(dataCab.total);
-      setConCheque(dataCab.IdConCheque ? dataCab.IdConCheque : dataCab.ConceptoCheque);
+      setConCheque(dataCab.IdConCheque);
       setHEdit(false);
       setIdTipoSolicitud(String(dataCab.TipoSolicitud));
       setIdCuentaBancaria(dataCab.cuentabancaria ? dataCab.cuentabancaria : dataCab.Cuenta ? dataCab.Cuenta : "");
@@ -687,7 +685,7 @@ export const ORGHeader = ({
     }
     loadFilter(29);
     loadFilter(26);
-    loadFilter(27);
+    loadFilter(32);
     loadFilter(30);
     loadFilter(33);
     loadFilter(34);
