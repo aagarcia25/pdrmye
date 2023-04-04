@@ -258,6 +258,8 @@ const Participaciones = () => {
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
+    { field: "TipoSolicitud", hide: true },
+    { field: "IdConCheque", hide: true },
     {
       field: "Operaciones",
       disableExport: true,
@@ -491,7 +493,7 @@ const Participaciones = () => {
       description: "Mes",
     },
     {
-      field: "TipoSolicitud",
+      field: "TipoSolicituds",
       headerName: "Tipo",
       width: 140,
       description: "Tipo de Solicitud",

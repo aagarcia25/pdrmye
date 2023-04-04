@@ -626,9 +626,6 @@ export const ORGHeader = ({
       else if (tipo === 24) {
         setTipoSol(res.RESPONSE);
       }
-      else if (tipo === 33) {
-        setTipoSol(res.RESPONSE);
-      }
       else if (tipo === 34) {
         setCuentasBancarias(res.RESPONSE);
       }
@@ -681,7 +678,7 @@ export const ORGHeader = ({
       setHEdit(false);
       setIdTipoSolicitud(String(dataCab.TipoSolicitud));
       setIdCuentaBancaria(dataCab.cuentabancaria ? dataCab.cuentabancaria : dataCab.Cuenta ? dataCab.Cuenta : "");
-      console.log(dataCab.cuentabancaria ? true : false);
+     // console.log(dataCab.cuentabancaria ? true : false);
     }
     loadFilter(29);
     loadFilter(26);
@@ -689,6 +686,7 @@ export const ORGHeader = ({
     loadFilter(30);
     loadFilter(33);
     loadFilter(34);
+    loadFilter(24);
 
 
   }, [agregarDetalle]);
