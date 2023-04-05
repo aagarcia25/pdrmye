@@ -117,18 +117,33 @@ const Participaciones = () => {
   const [plantilla, setPlantilla] = useState("");
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
   const [asignaObservacion, setasignaObservacion] = useState<boolean>(false);
   const [cargaPrestamos, setCargaPrestamos] = useState<boolean>(false);
   const [descPlant, setDescPlant] = useState<boolean>(false);
   const [disFide, setDisFide] = useState<boolean>(false);
   const [intOperaciones, setIntOperaciones] = useState<boolean>(true);
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+  const [verSegmentar, setVerSegmentar] = useState<boolean>(false);
+
+  const [SORGANISMOS,setSORGANISMOS] = useState<boolean>(false);
+  const [SESTATUS,setSESTATUS] = useState<boolean>(false);
+  const [STIPOSOLICITUD,setSTIPOSOLICITUD] = useState<boolean>(false);
+  const [SFONDO,setSFONDO] = useState<boolean>(false);
+  const [SMUNICIPIO,setSMUNICIPIO] = useState<boolean>(false);
+  const [SMES,setSMES] = useState<boolean>(false);
+  const [CG_PLANTILLA_ORG,setCG_PLANTILLA_ORG] = useState<boolean>(false);
+
+
+  
+
+
+
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const [openTraz, setOpenTraz] = useState(false);
   const [idSolicitud, setIdSolicitud] = useState<string>();
-  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-  const [verSegmentar, setVerSegmentar] = useState<boolean>(false);
   const [DAMOP_INI, SETDAMOP_INI] = useState<boolean>(false);
   const [DAMOP_FSE, SETDAMOP_FSE] = useState<boolean>(false);
   const [DAMOP_ASE, SETDAMOP_ASE] = useState<boolean>(false);
@@ -144,9 +159,7 @@ const Participaciones = () => {
   const [DAMOP_PFI, SETDAMOP_PFI] = useState<boolean>(false);
   const [DAMOP_PAUT, SETDAMOP_PAUT] = useState<boolean>(false);
   const [DAF_SPEI, SETDAF_SPEI] = useState<boolean>(false);
-
   const [anchoAcciones, setAnchoAcciones] = useState<number>(0);
-
   const [idORG, setIdORG] = useState("");
   const [openModalCabecera, setOpenModalCabecera] = useState<boolean>(false);
   const [modo, setModo] = useState<string>("");
@@ -277,6 +290,8 @@ const Participaciones = () => {
                 <MenuBookIcon />
               </IconButton>
             </Tooltip>
+
+
             {/* <Tooltip title={"Eliminar"}>
               <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
                 <DeleteForeverOutlinedIcon />
@@ -506,9 +521,9 @@ const Participaciones = () => {
     },
     {
       field: "Nombre",
-      headerName: "Municipio",
+      headerName: "Proveedor",
       width: 150,
-      description: "Municipio",
+      description: "Proveedor",
     },
     {
       field: "tipocalculo",
@@ -1685,7 +1700,6 @@ const Participaciones = () => {
           setCargarPlant(true);
         } else if (String(item.Referencia) === "DESCPLANT") {
           setDescPlant(true);
-
         } else if (String(item.Referencia) === "DISFIDE") {
           setDisFide(true);
         } else if (String(item.Referencia) === "TRAZASPEIDAF") {
@@ -1700,8 +1714,34 @@ const Participaciones = () => {
         } else if (String(item.Referencia) === "CGPRESTAMO") {
           ancho = ancho + 50;
           setCargaPrestamos(true);
+        } else if (String(item.Referencia) === "AG_REGISTRO") {
+          ancho = ancho + 50;
+          //setCargaPrestamos(true);
+        } else if (String(item.Referencia) === "CG_PLANTILLA_ORG") {
+          ancho = ancho + 50;
+          setCG_PLANTILLA_ORG(true);
+        } else if (String(item.Referencia) === "INTEGRAR_OPERACION") {
+          ancho = ancho + 50;
+          //setCargaPrestamos(true);
+        } else if (String(item.Referencia) === "INTEGRACION_MASIVA") {
+          ancho = ancho + 50;
+          //setCargaPrestamos(true);
+        } else if (String(item.Referencia) === "UNIFICACION") {
+          ancho = ancho + 50;
+          //setCargaPrestamos(true);
+        }   else if (String(item.Referencia) === "SORGANISMOS") {
+        setSORGANISMOS(true);
+        }   else if (String(item.Referencia) === "SESTATUS") {
+        setSESTATUS(true);
+        }   else if (String(item.Referencia) === "STIPOSOLICITUD") {
+        setSTIPOSOLICITUD(true);
+        }   else if (String(item.Referencia) === "SFONDO") {
+        setSFONDO(true);
+        }   else if (String(item.Referencia) === "SMUNICIPIO") {
+        setSMUNICIPIO(true);
+       }   else if (String(item.Referencia) === "SMES") {
+        setSMES(true);
         }
-
 
 
       } setAnchoAcciones(ancho)
@@ -1762,7 +1802,7 @@ const Participaciones = () => {
           alignItems="center" >
 
 
-
+{SORGANISMOS ?
           <Grid item xs={11.5} sm={6} md={4} lg={2}>
 
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
@@ -1777,7 +1817,11 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
+: 
+  ""}
 
+  
+{SESTATUS ?
           <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
@@ -1789,19 +1833,10 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
+: 
+""}
 
-
-          {/* <Grid item xs={6} sm={4} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
-            <SelectFrag
-              value={idtipoFondo}
-              options={tiposFondo}
-              onInputChange={handleFilterChange1}
-              placeholder={"Seleccione Tipo De Fondo"}
-              label={""}
-              disabled={false}
-            />
-          </Grid> */}
+{STIPOSOLICITUD ?    
           <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
             <SelectFrag
@@ -1813,7 +1848,10 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
+: 
+""}
 
+{SFONDO ?  
           <Grid item xs={11.5} sm={6} md={4} lg={2}>
 
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
@@ -1825,8 +1863,10 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
+: 
+""}
 
-
+{SMUNICIPIO ?  
           <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
             <SelectFrag
@@ -1838,7 +1878,10 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
+: 
+""}
 
+{SMES ?  
           <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
             <SelectFrag
@@ -1850,8 +1893,10 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
-        </Grid>
-
+       
+        : 
+        ""}
+ </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
           <Button
             onClick={handleClick}
@@ -1877,7 +1922,7 @@ const Participaciones = () => {
             </Tooltip>
 
 
-            {cargarPlant ? (
+            {CG_PLANTILLA_ORG ? (
               <Tooltip title={"Cargar Plantilla Migración"}>
                 <ToggleButton value="check">
                   <IconButton
@@ -1902,8 +1947,7 @@ const Participaciones = () => {
             )}
 
 
-
-
+        {asignaObservacion ? (
             <ToggleButton value="check"
               disabled={data.length === 0 || intOperaciones}
               onClick={() => integrarOperaciones()}>
@@ -1911,20 +1955,16 @@ const Participaciones = () => {
                 <CallMergeIcon color={data.length === 0 || intOperaciones ? "inherit" : "primary"} />
               </Tooltip>
             </ToggleButton>
+         ) : (
+           ""
+            )}
 
-
-
-            {/* <Tooltip title={"Generar Solicitud"}>
-              <ToggleButton disabled={idtipoSolicitud.length < 6 || intOperaciones} value="check" onClick={() => SolicitudOrdenPago()}>
-                <SettingsSuggestIcon color={idtipoSolicitud.length < 6 || intOperaciones ? "inherit" : "primary"} />
-              </ToggleButton>
-            </Tooltip> */}
             {asignaObservacion ? (
-              <Tooltip title={"Asignar Observación"}>
                 <ToggleButton value="check" onClick={() => openmodalc(2)}>
+                   <Tooltip title={"Asignar Observación"}>
                   <FormatAlignLeftIcon color="primary" />
+                  </Tooltip>
                 </ToggleButton>
-              </Tooltip>
             ) : (
               ""
             )}
@@ -2006,11 +2046,12 @@ const Participaciones = () => {
             )}
 
             {cargarPlant ? (
-              <Tooltip title={"Eliminar Registro"}>
+             
                 <ToggleButton value="check" onClick={() => eliminar()}>
+                   <Tooltip title={"Eliminar Registro"}>
                   <DeleteForeverIcon color="error" />
+                  </Tooltip>
                 </ToggleButton>
-              </Tooltip>
             ) : (
               ""
             )}
@@ -2040,11 +2081,12 @@ const Participaciones = () => {
             )}
 
             {cargarPlant ? (
-              <Tooltip title={"Integración Masiva por Fondo"}>
+              
                 <ToggleButton value="check" onClick={() => integracionMasiva()}>
+                  <Tooltip title={"Integración Masiva por Fondo"}>
                   <PolylineIcon />
+                  </Tooltip>
                 </ToggleButton>
-              </Tooltip>
             ) : (
               ""
             )}
