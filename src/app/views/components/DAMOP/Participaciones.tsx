@@ -663,6 +663,23 @@ const Participaciones = () => {
     },
   ];
 
+  const handleAgregarRegistro = () => {
+    setOpenModalCabecera(true);
+    setModo("Nuevo")
+  };
+  
+  const handleUploadORG = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setslideropen(true);
+    let file = event?.target?.files?.[0] || "";
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlxs");
+    formData.append("CHUSER", user.id);
+    formData.append("tipo", "MigraOrganimos");
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+    });
+  };
+
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
@@ -1847,7 +1864,45 @@ const Participaciones = () => {
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
+
+      
+
+
          <ToggleButtonGroup>
+
+          <Tooltip title="Agregar Registro">
+              <ToggleButton value="check" onClick={() => handleAgregarRegistro()} >
+                <AddIcon />
+              </ToggleButton>
+            </Tooltip>
+
+
+            {cargarPlant ? (
+              <Tooltip title={"Cargar Plantilla Migración"}>
+                <ToggleButton value="check">
+                  <IconButton
+                    color="primary"
+                    aria-label="upload documento"
+                    component="label"
+                    size="large"
+                  >
+                    <input
+                      hidden
+                      accept=".xlsx, .XLSX, .xls, .XLS"
+                      type="file"
+                      value=""
+                      onChange={(v) => handleUploadORG(v)}
+                    />
+                    <DriveFileMoveIcon />
+                  </IconButton>
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+
+
             <Tooltip title={"Integrar Operaciones"}>
               <ToggleButton value="check"
                 disabled={data.length === 0 || intOperaciones}
