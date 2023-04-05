@@ -283,7 +283,7 @@ const Participaciones = () => {
               </IconButton>
             </Tooltip> */}
 
-           {verSegmentar && String(v.row.estatus)  === 'Ingresando Operación'? ( 
+            {verSegmentar && String(v.row.estatus) === 'Ingresando Operación' ? (
               <Tooltip title={"Segmentar Operación"}>
                 <IconButton value="check" onClick={() => handleVerSegmentos(v)}>
                   <SegmentIcon />
@@ -1677,17 +1677,17 @@ const Participaciones = () => {
         } else if (String(item.Referencia) === "SEGM") {
           ancho = ancho + 50;
           setVerSegmentar(true)
-        }else if (String(item.Referencia) === "ASIGNAOBS"){
+        } else if (String(item.Referencia) === "ASIGNAOBS") {
           ancho = ancho + 50;
           setasignaObservacion(true);
-        }else if (String(item.Referencia) === "CGPRESTAMO"){
+        } else if (String(item.Referencia) === "CGPRESTAMO") {
           ancho = ancho + 50;
           setCargaPrestamos(true);
         }
 
 
 
-      }setAnchoAcciones(ancho)
+      } setAnchoAcciones(ancho)
     });
 
   }, [
@@ -1709,7 +1709,7 @@ const Participaciones = () => {
       )}
       {openModalDetalle ? (
 
-        <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose}/>
+        <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} />
       ) : (
         ""
       )}
@@ -1730,7 +1730,7 @@ const Participaciones = () => {
 
       <Grid container spacing={1} padding={0}>
 
-        <Grid container item spacing={1}  xs={12} sm={12} md={12} lg={12}>
+        <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={12} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
@@ -1740,13 +1740,13 @@ const Participaciones = () => {
           </Grid>
         </Grid>
 
-        <Grid container item spacing={.3}  xs={12} sm={12} md={12} lg={12} direction="row"
+        <Grid container item spacing={.3} xs={12} sm={12} md={12} lg={12} direction="row"
           justifyContent="center"
           alignItems="center" >
 
 
 
-         <Grid item xs={11.5} sm={6} md={4} lg={2}>
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
 
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Organismos:
@@ -1847,14 +1847,16 @@ const Participaciones = () => {
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
-         <ToggleButtonGroup>
-            <Tooltip title={"Integrar Operaciones"}>
-              <ToggleButton value="check"
-                disabled={data.length === 0 || intOperaciones}
-                onClick={() => integrarOperaciones()}>
+          <ToggleButtonGroup>
+
+            <ToggleButton value="check"
+              disabled={data.length === 0 || intOperaciones}
+              onClick={() => integrarOperaciones()}>
+              <Tooltip title={"Integrar Operaciones"}>
                 <CallMergeIcon color={data.length === 0 || intOperaciones ? "inherit" : "primary"} />
-              </ToggleButton>
-            </Tooltip>
+              </Tooltip>
+            </ToggleButton>
+
 
 
             {/* <Tooltip title={"Generar Solicitud"}>
@@ -1862,15 +1864,15 @@ const Participaciones = () => {
                 <SettingsSuggestIcon color={idtipoSolicitud.length < 6 || intOperaciones ? "inherit" : "primary"} />
               </ToggleButton>
             </Tooltip> */}
-          {asignaObservacion ? (
-            <Tooltip title={"Asignar Observación"}>
-              <ToggleButton value="check" onClick={() => openmodalc(2)}>
-                <FormatAlignLeftIcon color="primary" />
-              </ToggleButton>
-            </Tooltip>
-          ) : (
-            ""
-          )}
+            {asignaObservacion ? (
+              <Tooltip title={"Asignar Observación"}>
+                <ToggleButton value="check" onClick={() => openmodalc(2)}>
+                  <FormatAlignLeftIcon color="primary" />
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
             {cargaPrestamos ? (
               <Tooltip title={"Generar Anticipos"}>
@@ -1897,11 +1899,13 @@ const Participaciones = () => {
             )}
 
             {descPlant ? (
-              <Tooltip title={"Descargar Plantilla"}>
-                <ToggleButton value="check" onClick={() => downloadplantilla()}>
+
+              <ToggleButton value="check" onClick={() => downloadplantilla()}>
+                <Tooltip title={"Descargar Plantilla"}>
                   <ArrowDownwardIcon />
-                </ToggleButton>
-              </Tooltip>
+                </Tooltip>
+              </ToggleButton>
+
             ) : (
               ""
             )}
@@ -1933,13 +1937,15 @@ const Participaciones = () => {
 
 
             {disFide ? (
-              <Tooltip title={"Distribuir en Fideicomisos"}>
-                <ToggleButton value="check"
-                  disabled={!munTieneFide || idMunicipio.length < 6}
-                  onClick={() => Disitribuir()}>
+
+              <ToggleButton value="check"
+                disabled={!munTieneFide || idMunicipio.length < 6}
+                onClick={() => Disitribuir()}>
+                <Tooltip title={"Distribuir en Fideicomisos"}>
                   <AccountTreeIcon color={!munTieneFide || idMunicipio.length < 6 ? "inherit" : "primary"} />
-                </ToggleButton>
-              </Tooltip>
+                </Tooltip>
+              </ToggleButton>
+
             ) : (
               ""
             )}
@@ -1988,30 +1994,32 @@ const Participaciones = () => {
               ""
             )}
 
-            <Tooltip title={"Unificar Registros"}>
-              <ToggleButton value="check"
-                disabled={data.length === 0 || intOperaciones || idMunicipio.length < 6}
-                onClick={() => unificarSolicitudes()}>
+
+            <ToggleButton value="check"
+              disabled={data.length === 0 || intOperaciones || idMunicipio.length < 6}
+              onClick={() => unificarSolicitudes()}>
+              <Tooltip title={"Unificar Registros"}>
                 <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idMunicipio.length < 6 ? "inherit" : "primary"} />
-              </ToggleButton>
-            </Tooltip>
+              </Tooltip>
+            </ToggleButton>
+
 
           </ToggleButtonGroup>
         </Grid>
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-            <Grid item xs={2} sm={2} md={2} lg={2}>
-              <FormControlLabel control={
-                <Checkbox
-                  checked={checked}
-                  onChange={handleChangeMostrarTodo}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-              }
-                label="Mostrar Todo" />
+          <Grid item xs={2} sm={2} md={2} lg={2}>
+            <FormControlLabel control={
+              <Checkbox
+                checked={checked}
+                onChange={handleChangeMostrarTodo}
+                inputProps={{ 'aria-label': 'controlled' }}
+              />
+            }
+              label="Mostrar Todo" />
 
-            </Grid>
           </Grid>
+        </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
           <ToggleButtonGroup>
@@ -2242,7 +2250,7 @@ const Participaciones = () => {
       {openCheque ? <ModalCheque tipo={tipo} handleClose={handleclose} vrows={vrows} /> : ""}
       {openSegmento ? <ModalSegmentos handleClose={handleclose} vrows={vrows} /> : ""}
       {openTraz ? <TrazabilidadSolicitud dt={{ TIPO: 4, SP: idSolicitud, }} open={openTraz} handleClose={handleclose} /> : ""}
-      {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} /> : ""} 
+      {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} /> : ""}
     </div>
   );
 };
