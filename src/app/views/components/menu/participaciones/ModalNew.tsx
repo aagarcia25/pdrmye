@@ -217,7 +217,7 @@ const ModalNew = ({
         setversionCalculo(res.RESPONSE);
         setIdVersionCalculo(res.RESPONSE[0]['value']);
         setslideropen(false);
-      } else if (operacion === 36) {
+      } else if (operacion === 35) {
       setversionCalculo(res.RESPONSE);
       setIdVersionCalculo(res.RESPONSE[0]['value']);
       setslideropen(false);
@@ -241,7 +241,7 @@ const ModalNew = ({
     if(clave ==='FFM30'){
       loadFilter(23);
     }else{
-      loadFilter(36);
+      loadFilter(35);
     }
   }, []);
 
