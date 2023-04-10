@@ -136,6 +136,7 @@ const Participaciones = () => {
   const [UNIFICACION,setUNIFICACION] = useState<boolean>(false);
   const [ELIMINA,setELIMINA] = useState<boolean>(false);
   const [ELIMINAMASIVO,setELIMINAMASIVO] = useState<boolean>(false);
+  const [INSERTAREG,setINSERTAREG] = useState<boolean>(false);
   
 
 
@@ -1701,7 +1702,11 @@ const Participaciones = () => {
         setELIMINA(true);
         }   else if (String(item.Referencia) === "ELIMINAMASIVO") {
         setELIMINAMASIVO(true);
+        }   else if (String(item.Referencia) === "INSERTAREG") {
+        setINSERTAREG(true);
         }
+
+        
         
       } setAnchoAcciones(ancho)
     });
@@ -1845,13 +1850,13 @@ const Participaciones = () => {
 
 
           <ToggleButtonGroup>
-
+          {INSERTAREG ? (
             <Tooltip title="Agregar Registro">
               <ToggleButton value="check" onClick={() => handleAgregarRegistro()} >
                 <AddIcon />
               </ToggleButton>
             </Tooltip>
-
+           ) : ("")}
 
             {CG_PLANTILLA_ORG ? (
               <Tooltip title={"Cargar Plantilla Migración"}>
