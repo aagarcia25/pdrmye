@@ -6,6 +6,7 @@ import {
   Divider,
   Grid,
   IconButton,
+  Input,
   InputAdornment,
   TextField,
   ThemeProvider,
@@ -18,7 +19,7 @@ import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
-import { currencyFormatter, Moneda, } from "../menu/CustomToolbar";
+import { currencyFormatter, Moneda, NumericFormatCustom, } from "../menu/CustomToolbar";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import Slider from "../Slider";
 import { DataGrid, GridSelectionModel, GridToolbar, esES as gridEsES, } from "@mui/x-data-grid";
@@ -36,6 +37,8 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getUser } from "../../../services/localStorage";
+import { TextFieldFormatoMoneda } from "../componentes/TextFieldFormatoMoneda";
+
 
 export const ORGHeader = ({
   dataCabecera,
@@ -46,6 +49,12 @@ export const ORGHeader = ({
   modo: string;
   handleClose: Function;
 }) => {
+
+  const [values, setValues] = useState({
+    textmask: '(100) 000-0000',
+    numberformat: '1320',
+  });
+
 
   const dataCab: indexCabecera = dataCabecera?.row;
   const theme = createTheme(coreEsES, gridEsES);
@@ -101,7 +110,8 @@ export const ORGHeader = ({
   const [idClaveConcepto, setIdClaveConcepto] = useState<string>("");
   const [idDetalleCabecera, setIdDetalleCabecera] = useState<string>("");
   const [idOrg, setIdOrg] = useState<string>("");
-  const [importe, setImporte] = useState<string>();
+  const [importe, setImporte] = useState<number>(0);
+
   const [descripcion, setDescripcion] = useState<string>();
   const [adminDetalle, setAdminDetalle] = useState<string>('');
   const [funcionalDetalle, setFuncionalDetalle] = useState<string>('');
@@ -154,7 +164,9 @@ export const ORGHeader = ({
 
   const handleFilterChange2 = (v: string) => {
     setidProveedor(v);
+    loadFilter(34, v)
   };
+
   const handleChangeCptoEgreso = (v: string) => {
     setIdClaveConcepto(v);
   };
@@ -264,10 +276,10 @@ export const ORGHeader = ({
 
   const handleCancelarCambios = () => {
 
-console.log(dataCab)
+    console.log(dataCab)
     setOpenAgregarDetalle(false);
     setidUResp(dataCab.IdUres);
-    setidProveedor(dataCab.IdOrg?dataCab.IdOrg:dataCab.idmunicipio);
+    setidProveedor(dataCab.IdOrg ? dataCab.IdOrg : dataCab.idmunicipio);
     setProyecto(dataCab.NumProyecto);
     setNumCuenta(dataCab.Cuenta);
     setObservaciones(dataCab.Observaciones);
@@ -280,7 +292,6 @@ console.log(dataCab)
     setHAdd(false);
     handleLimpiarCamposHeader();
   };
-
 
   const handleGuardarSolicitud = () => {
     let data = {
@@ -364,7 +375,7 @@ console.log(dataCab)
     setDetalleLimpiar(false)
     setOpenAgregarDetalle(true);
     setidUResp(dataCab.IdUres);
-    setidProveedor(dataCab.IdOrg);
+    setidProveedor(dataCab.IdOrg ? dataCab.IdOrg : dataCab.idmunicipio);
     setProyecto(dataCab.NumProyecto);
     setNumCuenta(dataCab.Cuenta);
     setObservaciones(dataCab.Observaciones);
@@ -383,7 +394,7 @@ console.log(dataCab)
 
     setOpenAgregarDetalle(false);
     setIdClaveConcepto("");
-    setImporte("");
+    setImporte(0);
     setDescripcion("");
     setAdminDetalle("");
     setFuncionalDetalle("");
@@ -402,22 +413,19 @@ console.log(dataCab)
 
   };
 
-
   const handleLimpiarCamposDetalle = () => {
+    console.log(modoDetalle);
     if (modoDetalle === "Editar") {
-
       setDescripcion("");
-
       if (dataCab.orden < 16) {
-        setImporte("");
-
+        setImporte(0);
       }
     } else if (modoDetalle === "Agregar") {
       // setListConceptos("");
       setIdClaveConcepto("");
       setIdDetalleCabecera("");
       setIdOrg("");
-      setImporte("");
+      setImporte(0);
       setDescripcion("");
       setAdminDetalle("");
       setFuncionalDetalle("");
@@ -430,13 +438,12 @@ console.log(dataCab)
       setControlInternoDetalle("");
       setAreaGeoDetalle("");
       setProyProgramDetalle("");
-
-
     }
+
+
   };
 
   const handleLimpiarCamposHeader = () => {
-
 
     if (modo === "Ver") {
       setNumCuenta("");
@@ -484,7 +491,6 @@ console.log(dataCab)
 
 
   };
-
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -606,10 +612,20 @@ console.log(dataCab)
     },
   ];
 
-
-  const loadFilter = (tipo: number) => {
-    let data = { NUMOPERACION: tipo, CHID: dataCab.idmunicipio ? dataCab.idmunicipio : dataCab.IdOrg };
-    CatalogosServices.SelectIndex(data).then((res) => {
+  const loadFilter = (tipo: number, idMunOrg: string) => {
+    // if (dataCab) {
+    let data = {
+      NUMOPERACION: tipo,
+      CHID: modo === "Nuevo" ? "" : dataCab.idmunicipio ? dataCab.idmunicipio : dataCab.IdOrg
+    };
+    CatalogosServices.SelectIndex(idMunOrg ?
+      {
+        NUMOPERACION: tipo,
+        CHID: idMunOrg
+      }
+      :
+      data
+    ).then((res) => {
       if (tipo === 26) {
         setURes(res.RESPONSE);
       } else if (tipo === 32) {
@@ -630,34 +646,22 @@ console.log(dataCab)
 
 
     });
+
+    // }
+
   };
 
-  // const tipoSol =
-  //   [
-  //     {
-  //       "value": "1",
-  //       "label": "Solicitud egreso"
-  //     },
-  //     {
-  //       "value": "2",
-  //       "label": "Egreso"
-  //     },
-  //     {
-  //       "value": "3",
-  //       "label": "Aportación"
-  //     },
-  //     {
-  //       "value": "4",
-  //       "label": "Requerimiento de anticipo"
-  //     },
-  //   ]
+  const handleChange = (value: number) => {
+    // console.log(value)
+    setImporte(value);
 
+  };
 
   useEffect(() => {
     Consulta();
-    console.log(dataCab);
 
     if (modo === "Nuevo") {
+      // setOpenSlider(false);
       setLimpiar(true);
       setHHeader(false);
       setHCancel(false);
@@ -678,20 +682,18 @@ console.log(dataCab)
       setIdCuentaBancaria(dataCab.cuentabancaria ? dataCab.cuentabancaria : dataCab.Cuenta ? dataCab.Cuenta : "");
       // console.log(dataCab.cuentabancaria ? true : false);
     }
-    loadFilter(29);
-    loadFilter(26);
-    loadFilter(32);
-    loadFilter(30);
-    loadFilter(33);
-    loadFilter(34);
-    loadFilter(24);
+    loadFilter(29, "");
+    loadFilter(26, "");
+    loadFilter(32, "");
+    loadFilter(30, "");
+    loadFilter(33, "");
+    loadFilter(34, "");
+    loadFilter(24, "");
 
 
   }, [agregarDetalle]);
 
-
   return (
-
 
     <ModalForm title={"Cabecera de Aportaciones"} handleClose={handleClose}>
       <Slider open={openSlider}></Slider>
@@ -708,7 +710,6 @@ console.log(dataCab)
                   <ModeEditOutlineIcon />
                 </Tooltip>
               </Button>
-
 
               <Button onClick={() => handleGuardarSolicitud()} color={!HSave
                 ? "success" : "inherit"}
@@ -735,12 +736,10 @@ console.log(dataCab)
                 </Tooltip>
               </Button  >
 
-
               <Button onClick={() => handleCancelarCambios()} color={!HCancel ? "error" : "inherit"} disabled={HCancel || regGuardado || modo === "Nuevo"} >
                 <Tooltip title="Cancelar Cambios">
                   <CancelPresentationIcon />
                 </Tooltip>
-
               </Button  >
 
 
@@ -751,7 +750,6 @@ console.log(dataCab)
                   <CleaningServicesOutlinedIcon />
                 </Tooltip>
               </Button  >
-
             </ButtonGroup>
 
 
@@ -853,15 +851,19 @@ console.log(dataCab)
           }
 
           <Grid item xs={12} sm={8.8} md={8.8} lg={5} >
+            <Tooltip title={"Muestra las cuentas bancarias que tenga disonibles"}>
+           <label className="textoNormal">No. de Cuenta:</label>
 
-            <label className="textoNormal">No. de Cuenta:</label>
+            </Tooltip>
+
+ 
             <SelectFrag
               value={idCuentaBancaria}
               options={cuentasBancarias}
               onInputChange={handleFilterChange4}
               placeholder={"Seleccione Cuenta Bancaria"}
-              label={idCuentaBancaria !== "" && modo === "Ver" ? "" : "Sin Cuenta Bancaria Asignada"}
-              disabled={HHeader || agregarDetalle || regGuardado }
+              label={modo==="Nuevo"&& cuentasBancarias.length!==0? "Seleccione Cuenta Bancaria": idCuentaBancaria !== "" && modo === "Ver" ? "" : "Sin Cuenta Bancaria Asignada"}
+              disabled={HHeader || agregarDetalle || regGuardado || cuentasBancarias.length === 0}
             />
             {/* ////////////////////////////////////////// */}
 
@@ -903,7 +905,7 @@ console.log(dataCab)
               <Grid item container direction="row" justifyContent="space-between" xs={12} paddingTop={1} paddingBottom={1}>
                 {!openAgregarDetalle ?
 
-                  <Button disabled={openAgregarDetalle || dataCab.orden >= 16} className={dataCab.orden >= 16 ? "" : "guardarOrgCabecera"} value="check" onClick={() => handleAgregarDetalles()}>
+                  <Button color="success" disabled={!(dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP") || openAgregarDetalle || dataCab.orden >= 16} className={dataCab.orden >= 16 ? "" : "guardarOrgCabecera"} value="check" onClick={() => handleAgregarDetalles()}>
                     <Tooltip title="Agregar detalle">
                       <AddIcon />
                     </Tooltip>
@@ -918,7 +920,7 @@ console.log(dataCab)
                           !openAgregarDetalle || verDetalle ?
 
                             <Button onClick={() => handleEditarDetalles()} color="info"
-                              disabled={DetalleEditar || dataCab.orden >= 16}>
+                              disabled={!(dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP") || DetalleEditar || dataCab.orden >= 16} >
                               <Tooltip title="Editar Detalle">
                                 <ModeEditOutlineIcon />
                               </Tooltip>
@@ -937,7 +939,7 @@ console.log(dataCab)
                             || String(descripcion).trim() === ""
                             || idClaveConcepto === ""
                             || idClaveConcepto === "false"
-                            || importe === ""
+                            || importe < 0
                             || adminDetalle === ""
                             || funcionalDetalle === ""
                             || programaticoDetalle === ""
@@ -975,7 +977,7 @@ console.log(dataCab)
 
 
                     </Grid>
-                    <Grid item xs={4} sm={4} md={4} lg={4}>
+                    <Grid item xs={6} sm={4} md={4} lg={4}>
                       <label className="Titulo">Agregar Detalle</label>
 
                     </Grid>
@@ -1072,7 +1074,7 @@ console.log(dataCab)
                   <Slider open={openSlider}></Slider>
 
                   <Grid container spacing={1} padding={0} paddingTop={6}>
-                    <Grid container justifyContent="space-around">
+                    <Grid container justifyContent="space-around" paddingLeft={1.5}>
                       <Grid item xs={12} sm={10} md={5.8} lg={5}>
                         <label className="textoNormal">Cpto de egreso:</label>  <br />
 
@@ -1085,18 +1087,16 @@ console.log(dataCab)
                         />
                         <label className="textoNormal">Parcial a Pagar:</label>  <br />
 
-                        <TextField
-                          required
-                          value={currencyFormatter.format(Number(importe))}
-                          variant="outlined"
-                          onChange={(v) => setImporte(v.target.value)}
-                          InputProps={{
-                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
-
-                          }}
+                        <TextFieldFormatoMoneda
+                          valor={importe}
+                          handleSetValor={handleChange}
+                          disable={
+                            verDetalle && !editarDetalle || dataCab.orden >= 16
+                          }
                           error={String(Number(importe)) === "NaN"}
-                          disabled={verDetalle && !editarDetalle || dataCab.orden >= 16} // no se edita el importe cuanod está en estatus pendiente Autorizar OP
                         />
+
+
                       </Grid>
 
                       <Grid item xs={12} sm={12} md={6} lg={6}>

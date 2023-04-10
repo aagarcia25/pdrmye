@@ -154,9 +154,6 @@ export const CATORGModal = ({
   }, [dt]);
 
   return (
-
-
-    <>
       <ModalForm title={tipo === 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose} >
         <Box boxShadow={3}>
           <Grid container direction="row" justifyContent="space-between" alignItems="center" sx={{ padding: "2%" }}  >
@@ -384,7 +381,6 @@ export const CATORGModal = ({
           </Grid>
         </Box>
       </ModalForm>
-    </>
   );
 
 };

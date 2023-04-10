@@ -10,7 +10,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { COLOR } from "../../../styles/colors";
 
 interface Props {
   children?: ReactNode;

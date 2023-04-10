@@ -22,6 +22,7 @@ export interface indexCabecera {
     Uresp:string;
     ConceptoCheque:string;
     cuentabancaria:string;
+    estatusCI:string;
 
 }
 
