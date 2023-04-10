@@ -63,7 +63,7 @@ import { ORG } from '../views/components/ORGANISMOS/ORG';
 import { Firma } from '../views/components/EFIRMA/Firma';
 import { Configuracione } from '../views/components/EFIRMA/Configuracione';
 import { TablaDocse } from '../views/components/EFIRMA/TablaDocse';
-import RecepcionRecursosORG from '../views/components/ORGANISMOS/RecepcionRecursosORG';
+// import RecepcionRecursosORG from '../views/components/ORGANISMOS/RecepcionRecursosORG';
 import { Reporteador } from '../views/components/Herramientas/Reporteador';
 
 
@@ -159,7 +159,7 @@ export const AppRouter = (
 
           {/* SECCION ORGANISMOS */}
           <Route path='/inicio/org/operaciones' element={log ? <ORG /> : <AuthRouter />} />
-          <Route path='/inicio/org/resumenOperaciones' element={log ? <RecepcionRecursosORG /> : <AuthRouter />} />
+          {/* <Route path='/inicio/org/resumenOperaciones' element={log ? <RecepcionRecursosORG /> : <AuthRouter />} /> */}
 
 
           {/* FIN DE SECCION DE ORGANISMOS */}
