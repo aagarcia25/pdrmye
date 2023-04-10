@@ -45,8 +45,6 @@ export const ORGHeader = ({
   dataCabecera: any;
   modo: string;
   handleClose: Function;
-
-
 }) => {
 
   const dataCab: indexCabecera = dataCabecera?.row;
@@ -266,10 +264,10 @@ export const ORGHeader = ({
 
   const handleCancelarCambios = () => {
 
-
+console.log(dataCab)
     setOpenAgregarDetalle(false);
     setidUResp(dataCab.IdUres);
-    setidProveedor(dataCab.IdOrg);
+    setidProveedor(dataCab.IdOrg?dataCab.IdOrg:dataCab.idmunicipio);
     setProyecto(dataCab.NumProyecto);
     setNumCuenta(dataCab.Cuenta);
     setObservaciones(dataCab.Observaciones);
@@ -614,7 +612,7 @@ export const ORGHeader = ({
     CatalogosServices.SelectIndex(data).then((res) => {
       if (tipo === 26) {
         setURes(res.RESPONSE);
-      } else if (tipo === 27) {
+      } else if (tipo === 32) {
         setProvedores(res.RESPONSE);
         setOpenSlider(false);
       } else if (tipo === 29) {
@@ -623,10 +621,7 @@ export const ORGHeader = ({
       else if (tipo === 30) {
         setListConceptos(res.RESPONSE);
       }
-      else if (tipo === 33) {
-        setTipoSol(res.RESPONSE);
-      }
-      else if (tipo === 33) {
+      else if (tipo === 24) {
         setTipoSol(res.RESPONSE);
       }
       else if (tipo === 34) {
@@ -660,7 +655,7 @@ export const ORGHeader = ({
 
   useEffect(() => {
     Consulta();
-    console.log(dataCab)
+    console.log(dataCab);
 
     if (modo === "Nuevo") {
       setLimpiar(true);
@@ -671,26 +666,25 @@ export const ORGHeader = ({
       setHAdd(true);
     }
     if (modo === "Ver") {
-
-
       setidUResp(dataCab.IdUres ? dataCab.IdUres : dataCab.Uresp);
-      setidProveedor(dataCab.IdOrg ? dataCab.IdOrg : dataCab.idmunicipio);
+      setidProveedor(dataCab.idmunicipio);
       setProyecto(dataCab.NumProyecto);
       setNumCuenta(dataCab.Cuenta);
       setObservaciones(dataCab.Observaciones ? dataCab.Observaciones : "");
       setTotalHeader(dataCab.total);
-      setConCheque(dataCab.IdConCheque ? dataCab.IdConCheque : dataCab.ConceptoCheque);
+      setConCheque(dataCab.IdConCheque);
       setHEdit(false);
       setIdTipoSolicitud(String(dataCab.TipoSolicitud));
       setIdCuentaBancaria(dataCab.cuentabancaria ? dataCab.cuentabancaria : dataCab.Cuenta ? dataCab.Cuenta : "");
-      console.log(dataCab.cuentabancaria ? true : false);
+      // console.log(dataCab.cuentabancaria ? true : false);
     }
     loadFilter(29);
     loadFilter(26);
-    loadFilter(27);
+    loadFilter(32);
     loadFilter(30);
     loadFilter(33);
     loadFilter(34);
+    loadFilter(24);
 
 
   }, [agregarDetalle]);
@@ -708,48 +702,56 @@ export const ORGHeader = ({
           <Grid item xs={12} sm={12} md={12} lg={12}>
 
             <ButtonGroup size="large">
-              <Tooltip title="Editar Cabecera">
-                <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit || dataCab.orden >= 16} >
+
+              <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit || dataCab.orden >= 16} >
+                <Tooltip title="Editar Cabecera">
                   <ModeEditOutlineIcon />
-                </Button>
-              </Tooltip>
-              <Tooltip title="Grabar Cambios">
-                <Button onClick={() => handleGuardarSolicitud()} color={!HSave
-                  ? "success" : "inherit"}
-                  disabled={
-                    regGuardado
-                    || HSave
-                    || idUResp === ""
-                    || idUResp === "false"
-                    || idProveedor === ""
-                    || idProveedor === "false"
-                    || proyecto === ""
-                    || String(Number(proyecto)) === "NaN"
-                    || numCuenta === ""
-                    || String(Number(numCuenta)) === "NaN"
-                    || conCheque === ""
-                    || conCheque === "false"
-                    || agregarDetalle
-                    || idTipoSolicitud === ""
-                    || idTipoSolicitud === "false"
-                    || String(observaciones).trim() === ""
-                  } >
+                </Tooltip>
+              </Button>
+
+
+              <Button onClick={() => handleGuardarSolicitud()} color={!HSave
+                ? "success" : "inherit"}
+                disabled={
+                  regGuardado
+                  || HSave
+                  || idUResp === ""
+                  || idUResp === "false"
+                  || idProveedor === ""
+                  || idProveedor === "false"
+                  || proyecto === ""
+                  || String(Number(proyecto)) === "NaN"
+                  || numCuenta === ""
+                  || String(Number(numCuenta)) === "NaN"
+                  || conCheque === ""
+                  || conCheque === "false"
+                  || agregarDetalle
+                  || idTipoSolicitud === ""
+                  || idTipoSolicitud === "false"
+                  || String(observaciones).trim() === ""
+                } >
+                <Tooltip title="Grabar Cambios">
                   <CheckBoxIcon />
-                </Button  >
-              </Tooltip>
-              <Tooltip title="Cancelar Cambios">
-                <Button onClick={() => handleCancelarCambios()} color={!HCancel ? "error" : "inherit"} disabled={HCancel || regGuardado || modo === "Nuevo"} >
+                </Tooltip>
+              </Button  >
+
+
+              <Button onClick={() => handleCancelarCambios()} color={!HCancel ? "error" : "inherit"} disabled={HCancel || regGuardado || modo === "Nuevo"} >
+                <Tooltip title="Cancelar Cambios">
                   <CancelPresentationIcon />
-                </Button  >
-              </Tooltip>
+                </Tooltip>
+
+              </Button  >
 
 
 
-              <Tooltip title="Limpiar Campos de Cabecera">
-                <Button onClick={() => handleLimpiarCamposHeader()} color={!HCancel ? "warning" : "inherit"} disabled={HCancel || regGuardado} >
+
+              <Button onClick={() => handleLimpiarCamposHeader()} color={!HCancel ? "warning" : "inherit"} disabled={HCancel || regGuardado} >
+                <Tooltip title="Limpiar Campos de Cabecera">
                   <CleaningServicesOutlinedIcon />
-                </Button  >
-              </Tooltip>
+                </Tooltip>
+              </Button  >
+
             </ButtonGroup>
 
 
@@ -859,8 +861,7 @@ export const ORGHeader = ({
               onInputChange={handleFilterChange4}
               placeholder={"Seleccione Cuenta Bancaria"}
               label={idCuentaBancaria !== "" && modo === "Ver" ? "" : "Sin Cuenta Bancaria Asignada"}
-              disabled={ HHeader || agregarDetalle || regGuardado || modo === "Ver"
-              }
+              disabled={HHeader || agregarDetalle || regGuardado }
             />
             {/* ////////////////////////////////////////// */}
 
@@ -901,11 +902,13 @@ export const ORGHeader = ({
 
               <Grid item container direction="row" justifyContent="space-between" xs={12} paddingTop={1} paddingBottom={1}>
                 {!openAgregarDetalle ?
-                  <Tooltip title="Agregar detalle">
-                    <Button disabled={openAgregarDetalle || dataCab.orden >= 16} className={dataCab.orden >= 16 ? "" : "guardarOrgCabecera"} value="check" onClick={() => handleAgregarDetalles()}>
+
+                  <Button disabled={openAgregarDetalle || dataCab.orden >= 16} className={dataCab.orden >= 16 ? "" : "guardarOrgCabecera"} value="check" onClick={() => handleAgregarDetalles()}>
+                    <Tooltip title="Agregar detalle">
                       <AddIcon />
-                    </Button >
-                  </Tooltip>
+                    </Tooltip>
+                  </Button >
+
                   : ""}
                 {openAgregarDetalle ?
                   <>
@@ -913,43 +916,46 @@ export const ORGHeader = ({
                       <ButtonGroup size="large">
                         {
                           !openAgregarDetalle || verDetalle ?
-                            <Tooltip title="Editar Detalle">
-                              <Button onClick={() => handleEditarDetalles()} color="info"
-                                disabled={DetalleEditar || dataCab.orden >= 16}
-                              >
+
+                            <Button onClick={() => handleEditarDetalles()} color="info"
+                              disabled={DetalleEditar || dataCab.orden >= 16}>
+                              <Tooltip title="Editar Detalle">
                                 <ModeEditOutlineIcon />
-                              </Button>
-                            </Tooltip>
+                              </Tooltip>
+                            </Button>
+
                             : ""
                         }
 
-                        <Tooltip title="Grabar Cambios">
-                          <Button onClick={() => handleAgregarDetalle()} color="success"
-                            disabled={
-                              // !editarDetalle ||
-                              !DetalleEditar ||
-                              DetalleAgregar ||
-                              String(Number(importe)) === "NaN"
-                              || String(descripcion).trim() === ""
-                              || idClaveConcepto === ""
-                              || idClaveConcepto === "false"
-                              || importe === ""
-                              || adminDetalle === ""
-                              || funcionalDetalle === ""
-                              || programaticoDetalle === ""
-                              || objGastoDetalle === ""
-                              || tipoGastoDetalle === ""
-                              || fuenteFinanDetalle === ""
-                              || ramoDetalle === ""
-                              || anioDetalle === ""
-                              || controlInternoDetalle === ""
-                              || AreaGeoDetalle === ""
-                              || proyProgramaDetalle === ""
-                              || String(Number(importe)) === "NaN"
-                            } >
+
+                        <Button onClick={() => handleAgregarDetalle()} color="success"
+                          disabled={
+                            // !editarDetalle ||
+                            !DetalleEditar ||
+                            DetalleAgregar ||
+                            String(Number(importe)) === "NaN"
+                            || String(descripcion).trim() === ""
+                            || idClaveConcepto === ""
+                            || idClaveConcepto === "false"
+                            || importe === ""
+                            || adminDetalle === ""
+                            || funcionalDetalle === ""
+                            || programaticoDetalle === ""
+                            || objGastoDetalle === ""
+                            || tipoGastoDetalle === ""
+                            || fuenteFinanDetalle === ""
+                            || ramoDetalle === ""
+                            || anioDetalle === ""
+                            || controlInternoDetalle === ""
+                            || AreaGeoDetalle === ""
+                            || proyProgramaDetalle === ""
+                            || String(Number(importe)) === "NaN"
+                          } >
+                          <Tooltip title="Grabar Cambios">
                             <CheckBoxIcon />
-                          </Button  >
-                        </Tooltip>
+                          </Tooltip>
+                        </Button  >
+
                         {modoDetalle === "Agregar" ? "" :
                           <Tooltip title="Cancelar Cambios">
                             <Button onClick={() => handleCancelarCambiosDetalle()} color="error"  >
@@ -958,13 +964,13 @@ export const ORGHeader = ({
                           </Tooltip>
                         }
 
-                        <Tooltip title="Limpiar Campos de Detalle">
-                          <Button onClick={() => handleLimpiarCamposDetalle()} color="warning"
-                            disabled={!DetalleEditar || DetalleLimpiar}
-                          >
+
+                        <Button onClick={() => handleLimpiarCamposDetalle()} color="warning"
+                          disabled={!DetalleEditar || DetalleLimpiar}>
+                          <Tooltip title="Limpiar Campos de Detalle">
                             <CleaningServicesOutlinedIcon />
-                          </Button  >
-                        </Tooltip>
+                          </Tooltip>
+                        </Button  >
                       </ButtonGroup>
 
 
@@ -976,13 +982,13 @@ export const ORGHeader = ({
                   </>
                   : ""}
 
-                <Tooltip title="Cerrar administració de detalle">
-                  <Button disabled={!openAgregarDetalle} className="cerrar" value="check" onClick={() => handleCloseAñadirDetalle()}>
-                    <CloseOutlinedIcon />
-                  </Button>
-                </Tooltip>
-              </Grid>
 
+                <Button disabled={!openAgregarDetalle} className="cerrar" value="check" onClick={() => handleCloseAñadirDetalle()}>
+                  <Tooltip title="Cerrar administració de detalle">
+                    <CloseOutlinedIcon />
+                  </Tooltip>
+                </Button>
+              </Grid>
               <Divider />
 
               {!openAgregarDetalle ?

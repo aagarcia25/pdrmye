@@ -506,8 +506,8 @@ export const Descuentos = ({
               <br />
               {"Total Neto: $" + (Number(dt.row.total) - (sumret + sumDes)).toLocaleString("es-US")}
               <br />
-              {"Tipo de Solcitud: " + dt.row.TipoSolicitud}
-              <br />
+              {/* {"Tipo de Solcitud: " + dt.row.TipoSolicitud} */}
+              {/* <br /> */}
             </label>
           </Grid>
 

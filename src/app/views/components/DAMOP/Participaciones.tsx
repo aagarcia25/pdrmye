@@ -68,9 +68,6 @@ import PolylineIcon from '@mui/icons-material/Polyline';
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 import { dowloandfile } from "../../../helpers/Files";
 import { ModalSegmentos } from "../componentes/ModalSegmentos";
-
-
-
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { ORGHeader } from "../ORGANISMOS/ORGHeader";
@@ -117,16 +114,37 @@ const Participaciones = () => {
   const [plantilla, setPlantilla] = useState("");
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
+  const [asignaObservacion, setasignaObservacion] = useState<boolean>(false);
+  const [cargaPrestamos, setCargaPrestamos] = useState<boolean>(false);
   const [descPlant, setDescPlant] = useState<boolean>(false);
   const [disFide, setDisFide] = useState<boolean>(false);
   const [intOperaciones, setIntOperaciones] = useState<boolean>(true);
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+  const [verSegmentar, setVerSegmentar] = useState<boolean>(false);
+
+  const [SORGANISMOS,setSORGANISMOS] = useState<boolean>(false);
+  const [SESTATUS,setSESTATUS] = useState<boolean>(false);
+  const [STIPOSOLICITUD,setSTIPOSOLICITUD] = useState<boolean>(false);
+  const [SFONDO,setSFONDO] = useState<boolean>(false);
+  const [SMUNICIPIO,setSMUNICIPIO] = useState<boolean>(false);
+  const [SMES,setSMES] = useState<boolean>(false);
+  const [CG_PLANTILLA_ORG,setCG_PLANTILLA_ORG] = useState<boolean>(false);
+  const [INTEGRAR_OPERACION,setINTEGRAR_OPERACION] = useState<boolean>(false);
+  const [INTEGRACION_MASIVA,setINTEGRACION_MASIVA] = useState<boolean>(false);
+  const [UNIFICACION,setUNIFICACION] = useState<boolean>(false);
+  const [ELIMINA,setELIMINA] = useState<boolean>(false);
+  const [ELIMINAMASIVO,setELIMINAMASIVO] = useState<boolean>(false);
+  const [INSERTAREG,setINSERTAREG] = useState<boolean>(false);
+  
+
+
+
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const [openTraz, setOpenTraz] = useState(false);
   const [idSolicitud, setIdSolicitud] = useState<string>();
-  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-  const [verSegmentar, setVerSegmentar] = useState<boolean>(false);
   const [DAMOP_INI, SETDAMOP_INI] = useState<boolean>(false);
   const [DAMOP_FSE, SETDAMOP_FSE] = useState<boolean>(false);
   const [DAMOP_ASE, SETDAMOP_ASE] = useState<boolean>(false);
@@ -142,9 +160,7 @@ const Participaciones = () => {
   const [DAMOP_PFI, SETDAMOP_PFI] = useState<boolean>(false);
   const [DAMOP_PAUT, SETDAMOP_PAUT] = useState<boolean>(false);
   const [DAF_SPEI, SETDAF_SPEI] = useState<boolean>(false);
-
   const [anchoAcciones, setAnchoAcciones] = useState<number>(0);
-
   const [idORG, setIdORG] = useState("");
   const [openModalCabecera, setOpenModalCabecera] = useState<boolean>(false);
   const [modo, setModo] = useState<string>("");
@@ -156,7 +172,6 @@ const Participaciones = () => {
     setVrows(data);
     setModo("Ver")
   };
-
 
   const handleBorrarSolicitud = (v: any) => {
 
@@ -212,7 +227,6 @@ const Participaciones = () => {
     setVrows(data)
   };
 
-
   const downloadplantilla = () => {
     let name = "PLANTILLA CARGA ANTICIPO PARTICIPACIONES.xlsx";
     let data = {
@@ -238,12 +252,10 @@ const Participaciones = () => {
     setIdSolicitud(v.row.id);
   };
 
-
   const handleVerSegmentos = (v: any) => {
     setVrows(v);
     setOpenSegmento(true);
   };
-
 
   const handleDetalle = (data: any) => {
     setVrows(data);
@@ -256,6 +268,8 @@ const Participaciones = () => {
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
+    { field: "TipoSolicitud", hide: true },
+    { field: "IdConCheque", hide: true },
     {
       field: "Operaciones",
       disableExport: true,
@@ -273,13 +287,17 @@ const Participaciones = () => {
                 <MenuBookIcon />
               </IconButton>
             </Tooltip>
-            {/* <Tooltip title={"Eliminar"}>
-              <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
-                <DeleteForeverOutlinedIcon />
-              </IconButton>
-            </Tooltip> */}
 
-           {verSegmentar && String(v.row.estatus)  === 'Ingresando Operación'? ( 
+            {ELIMINA ? (
+              <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
+                  <Tooltip title={"Eliminar"}>
+                  <DeleteForeverOutlinedIcon />
+                  </Tooltip>
+              </IconButton>
+             ) : ( "")}
+
+
+            {verSegmentar && String(v.row.estatus) === 'Ingresando Operación' ? (
               <Tooltip title={"Segmentar Operación"}>
                 <IconButton value="check" onClick={() => handleVerSegmentos(v)}>
                   <SegmentIcon />
@@ -299,35 +317,6 @@ const Participaciones = () => {
               ""
             )}
 
-
-
-            {/* {String(v.row.NumParticipacion) === 'null' ?
-              <Tooltip title={"Asignar N° de Participación"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 2)}>
-                  <LoopIcon />
-                </IconButton>
-              </Tooltip>
-              : ""
-            }
-
-            {String(v.row.NumSolEgreso) === 'null' && v.row.estatusCI === "DAMOP_INI" ?
-              <Tooltip title={"Asignar N° de Solicitud de Egreso"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 3)}>
-                  <MenuBookIcon />
-                </IconButton>
-              </Tooltip>
-              : ""
-            }
-
-            {String(v.row.NumEgreso) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
-              <Tooltip title={"Asignar N° de Egreso"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 4)}>
-                  <MoneyIcon />
-                </IconButton>
-              </Tooltip>
-              : ""
-            } */}
-
             {String(v.row.estatus) === 'Ingresando Operación' ?
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
@@ -337,14 +326,7 @@ const Participaciones = () => {
               : ""
             }
 
-            {/* {String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
-              <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 6)}>
-                  <LocalAtmIcon />
-                </IconButton>
-              </Tooltip>
-              : ""
-            } */}
+         
 
           </Box>
         );
@@ -489,7 +471,7 @@ const Participaciones = () => {
       description: "Mes",
     },
     {
-      field: "TipoSolicitud",
+      field: "TipoSolicituds",
       headerName: "Tipo",
       width: 140,
       description: "Tipo de Solicitud",
@@ -502,9 +484,9 @@ const Participaciones = () => {
     },
     {
       field: "Nombre",
-      headerName: "Municipio",
+      headerName: "Proveedor",
       width: 150,
-      description: "Municipio",
+      description: "Proveedor",
     },
     {
       field: "tipocalculo",
@@ -658,6 +640,23 @@ const Participaciones = () => {
       description: "Observaciones",
     },
   ];
+
+  const handleAgregarRegistro = () => {
+    setOpenModalCabecera(true);
+    setModo("Nuevo")
+  };
+
+  const handleUploadORG = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setslideropen(true);
+    let file = event?.target?.files?.[0] || "";
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlxs");
+    formData.append("CHUSER", user.id);
+    formData.append("tipo", "MigraOrganimos");
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+    });
+  };
 
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
@@ -1019,7 +1018,6 @@ const Participaciones = () => {
 
 
   const integracionMasiva = () => {
-
     if (idFondo.length == 1 && mes !== "false" && idestatus !== "false") {
       Swal.fire({
         icon: "info",
@@ -1550,11 +1548,6 @@ const Participaciones = () => {
         + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
         + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
 
-      // console.log(String(
-      //   (nombreFondo === "" ? "" : nombreFondo)
-      //   + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
-      //   + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
-
     } else {
       setNombreExport("Participaciones y Aportaciones");
     }
@@ -1664,7 +1657,6 @@ const Participaciones = () => {
           setCargarPlant(true);
         } else if (String(item.Referencia) === "DESCPLANT") {
           setDescPlant(true);
-
         } else if (String(item.Referencia) === "DISFIDE") {
           setDisFide(true);
         } else if (String(item.Referencia) === "TRAZASPEIDAF") {
@@ -1673,7 +1665,49 @@ const Participaciones = () => {
         } else if (String(item.Referencia) === "SEGM") {
           ancho = ancho + 50;
           setVerSegmentar(true)
+        } else if (String(item.Referencia) === "ASIGNAOBS") {
+          ancho = ancho + 50;
+          setasignaObservacion(true);
+        } else if (String(item.Referencia) === "CGPRESTAMO") {
+          ancho = ancho + 50;
+          setCargaPrestamos(true);
+        } else if (String(item.Referencia) === "AG_REGISTRO") {
+          ancho = ancho + 50;
+          //setCargaPrestamos(true);
+        } else if (String(item.Referencia) === "CG_PLANTILLA_ORG") {
+          ancho = ancho + 50;
+          setCG_PLANTILLA_ORG(true);
+        } else if (String(item.Referencia) === "INTEGRAR_OPERACION") {
+          ancho = ancho + 50;
+          setINTEGRAR_OPERACION(true);
+        } else if (String(item.Referencia) === "INTEGRACION_MASIVA") {
+          ancho = ancho + 50;
+          setINTEGRACION_MASIVA(true);
+        } else if (String(item.Referencia) === "UNIFICACION") {
+          ancho = ancho + 50;
+          setUNIFICACION(true);
+        }   else if (String(item.Referencia) === "SORGANISMOS") {
+        setSORGANISMOS(true);
+        }   else if (String(item.Referencia) === "SESTATUS") {
+        setSESTATUS(true);
+        }   else if (String(item.Referencia) === "STIPOSOLICITUD") {
+        setSTIPOSOLICITUD(true);
+        }   else if (String(item.Referencia) === "SFONDO") {
+        setSFONDO(true);
+        }   else if (String(item.Referencia) === "SMUNICIPIO") {
+        setSMUNICIPIO(true);
+        }   else if (String(item.Referencia) === "SMES") {
+        setSMES(true);
+        }   else if (String(item.Referencia) === "ELIMINA") {
+        setELIMINA(true);
+        }   else if (String(item.Referencia) === "ELIMINAMASIVO") {
+        setELIMINAMASIVO(true);
+        }   else if (String(item.Referencia) === "INSERTAREG") {
+        setINSERTAREG(true);
         }
+
+        
+        
       } setAnchoAcciones(ancho)
     });
 
@@ -1685,43 +1719,11 @@ const Participaciones = () => {
     <div>
       <Slider open={slideropen}></Slider>
 
-      {openModal ? (
-        <ModalDAMOP
-          tipo={"Comentarios"}
-          handleClose={handleClose}
-          handleAccion={Fnworkflow}
-        />
-      ) : (
-        ""
-      )}
-      {openModalDetalle ? (
-
-        <ORGHeader dataCabecera={vrows} modo={""} handleClose={handleClose} />
-        // <ModalForm title={"Detalles de Registro"} handleClose={handleClose}>
-        //   <ParticipacionesDetalle
-        //     data={vrows} />
-        // </ModalForm>
-      ) : (
-        ""
-      )}
-
-      {openModalDescuento ? (
-        <Descuentos
-          tipo={1} handleClose={handleClose} dt={vrows} />
-      ) : (
-        ""
-      )}
-
-      {openModalRetenciones ? (
-        <Retenciones
-          tipo={1} handleClose={handleClose} dt={vrows} />
-      ) : (
-        ""
-      )}
+     
 
       <Grid container spacing={1} padding={0}>
 
-        <Grid container item spacing={1}  xs={12} sm={12} md={12} lg={12}>
+        <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={12} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
@@ -1731,11 +1733,13 @@ const Participaciones = () => {
           </Grid>
         </Grid>
 
-        <Grid container item spacing={.3}  xs={12} sm={12} md={12} lg={12} direction="row"
+        <Grid container item spacing={.3} xs={12} sm={12} md={12} lg={12} direction="row"
           justifyContent="center"
           alignItems="center" >
 
-          <Grid item xs={11.5} sm={6} md={4} lg={3}>
+
+{SORGANISMOS ?
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
 
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Organismos:
@@ -1749,8 +1753,12 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
+: 
+  ""}
 
-          <Grid item xs={11.5} sm={6} md={4} lg={3}>
+  
+{SESTATUS ?
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
             <SelectFrag
               value={idestatus}
@@ -1761,20 +1769,11 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
+: 
+""}
 
-
-          {/* <Grid item xs={6} sm={4} md={2} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Fondo:</Typography>
-            <SelectFrag
-              value={idtipoFondo}
-              options={tiposFondo}
-              onInputChange={handleFilterChange1}
-              placeholder={"Seleccione Tipo De Fondo"}
-              label={""}
-              disabled={false}
-            />
-          </Grid> */}
-          <Grid item xs={11.5} sm={6} md={4} lg={3}>
+{STIPOSOLICITUD ?    
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
             <SelectFrag
               value={idtipoSolicitud}
@@ -1785,8 +1784,11 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
+: 
+""}
 
-          <Grid item xs={11.5} sm={6} md={4} lg={3}>
+{SFONDO ?  
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
 
             <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
             <SelectFragMulti
@@ -1797,9 +1799,11 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
+: 
+""}
 
-
-          <Grid item xs={11.5} sm={6} md={4} lg={3}>
+{SMUNICIPIO ?  
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
             <SelectFrag
               value={idMunicipio}
@@ -1810,8 +1814,11 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
+: 
+""}
 
-          <Grid item xs={11.5} sm={6} md={4} lg={3}>
+{SMES ?  
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
             <SelectFrag
               value={mes}
@@ -1822,8 +1829,10 @@ const Participaciones = () => {
               disabled={false}
             />
           </Grid>
-        </Grid>
-
+       
+        : 
+        ""}
+ </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
           <Button
             onClick={handleClick}
@@ -1835,33 +1844,68 @@ const Participaciones = () => {
           </Button>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={-1}>
+        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
+
+
+
+
           <ToggleButtonGroup>
+          {INSERTAREG ? (
+            <Tooltip title="Agregar Registro">
+              <ToggleButton value="check" onClick={() => handleAgregarRegistro()} >
+                <AddIcon />
+              </ToggleButton>
+            </Tooltip>
+           ) : ("")}
 
-            <Tooltip title={"Integrar Operaciones"}>
-              <ToggleButton value="check"
-                disabled={data.length === 0 || intOperaciones}
-                onClick={() => integrarOperaciones()}>
+            {CG_PLANTILLA_ORG ? (
+              <Tooltip title={"Cargar Plantilla Migración"}>
+                <ToggleButton value="check">
+                  <IconButton
+                    color="primary"
+                    aria-label="upload documento"
+                    component="label"
+                    size="large"
+                  >
+                    <input
+                      hidden
+                      accept=".xlsx, .XLSX, .xls, .XLS"
+                      type="file"
+                      value=""
+                      onChange={(v) => handleUploadORG(v)}
+                    />
+                    <DriveFileMoveIcon />
+                  </IconButton>
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+
+        {INTEGRAR_OPERACION ? (
+            <ToggleButton value="check"
+              disabled={data.length === 0 || intOperaciones}
+              onClick={() => integrarOperaciones()}>
+              <Tooltip title={"Integrar Operaciones"}>
                 <CallMergeIcon color={data.length === 0 || intOperaciones ? "inherit" : "primary"} />
-              </ToggleButton>
-            </Tooltip>
+              </Tooltip>
+            </ToggleButton>
+         ) : (
+           ""
+            )}
 
+            {asignaObservacion ? (
+                <ToggleButton value="check" onClick={() => openmodalc(2)}>
+                   <Tooltip title={"Asignar Observación"}>
+                  <FormatAlignLeftIcon color="primary" />
+                  </Tooltip>
+                </ToggleButton>
+            ) : (
+              ""
+            )}
 
-
-
-            {/* <Tooltip title={"Generar Solicitud"}>
-              <ToggleButton disabled={idtipoSolicitud.length < 6 || intOperaciones} value="check" onClick={() => SolicitudOrdenPago()}>
-                <SettingsSuggestIcon color={idtipoSolicitud.length < 6 || intOperaciones ? "inherit" : "primary"} />
-              </ToggleButton>
-            </Tooltip> */}
-
-            <Tooltip title={"Asignar Observación"}>
-              <ToggleButton value="check" onClick={() => openmodalc(2)}>
-                <FormatAlignLeftIcon color="primary" />
-              </ToggleButton>
-            </Tooltip>
-
-            {cargarPlant ? (
+            {cargaPrestamos ? (
               <Tooltip title={"Generar Anticipos"}>
                 <ToggleButton value="check">
                   <IconButton
@@ -1886,11 +1930,13 @@ const Participaciones = () => {
             )}
 
             {descPlant ? (
-              <Tooltip title={"Descargar Plantilla"}>
-                <ToggleButton value="check" onClick={() => downloadplantilla()}>
+
+              <ToggleButton value="check" onClick={() => downloadplantilla()}>
+                <Tooltip title={"Descargar Plantilla"}>
                   <ArrowDownwardIcon />
-                </ToggleButton>
-              </Tooltip>
+                </Tooltip>
+              </ToggleButton>
+
             ) : (
               ""
             )}
@@ -1918,24 +1964,30 @@ const Participaciones = () => {
             ) : (
               ""
             )}
+
+
+
             {disFide ? (
-              <Tooltip title={"Distribuir en Fideicomisos"}>
-                <ToggleButton value="check"
-                  disabled={!munTieneFide || idMunicipio.length < 6}
-                  onClick={() => Disitribuir()}>
+
+              <ToggleButton value="check"
+                disabled={!munTieneFide || idMunicipio.length < 6}
+                onClick={() => Disitribuir()}>
+                <Tooltip title={"Distribuir en Fideicomisos"}>
                   <AccountTreeIcon color={!munTieneFide || idMunicipio.length < 6 ? "inherit" : "primary"} />
-                </ToggleButton>
-              </Tooltip>
+                </Tooltip>
+              </ToggleButton>
+
             ) : (
               ""
             )}
 
-            {cargarPlant ? (
-              <Tooltip title={"Eliminar Registro"}>
+            {ELIMINAMASIVO ? (
+             
                 <ToggleButton value="check" onClick={() => eliminar()}>
+                   <Tooltip title={"Eliminar Registro"}>
                   <DeleteForeverIcon color="error" />
+                  </Tooltip>
                 </ToggleButton>
-              </Tooltip>
             ) : (
               ""
             )}
@@ -1964,41 +2016,45 @@ const Participaciones = () => {
               ""
             )}
 
-            {cargarPlant ? (
-              <Tooltip title={"Integración Masiva por Fondo"}>
+            {INTEGRACION_MASIVA ? (
                 <ToggleButton value="check" onClick={() => integracionMasiva()}>
+                  <Tooltip title={"Integración Masiva por Fondo"}>
                   <PolylineIcon />
+                  </Tooltip>
                 </ToggleButton>
-              </Tooltip>
             ) : (
               ""
             )}
 
-            <Tooltip title={"Unificar Registros"}>
-              <ToggleButton value="check"
-                disabled={data.length === 0 || intOperaciones || idMunicipio.length < 6}
-                onClick={() => unificarSolicitudes()}>
+{UNIFICACION
+ ? (
+            <ToggleButton value="check"
+              disabled={data.length === 0 || intOperaciones || idMunicipio.length < 6}
+              onClick={() => unificarSolicitudes()}>
+              <Tooltip title={"Unificar Registros"}>
                 <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idMunicipio.length < 6 ? "inherit" : "primary"} />
-              </ToggleButton>
-            </Tooltip>
-
+              </Tooltip>
+            </ToggleButton>
+ ) : (
+  ""
+)}
 
           </ToggleButtonGroup>
         </Grid>
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-            <Grid item xs={2} sm={2} md={2} lg={2}>
-              <FormControlLabel control={
-                <Checkbox
-                  checked={checked}
-                  onChange={handleChangeMostrarTodo}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-              }
-                label="Mostrar Todo" />
+          <Grid item xs={2} sm={2} md={2} lg={2}>
+            <FormControlLabel control={
+              <Checkbox
+                checked={checked}
+                onChange={handleChangeMostrarTodo}
+                inputProps={{ 'aria-label': 'controlled' }}
+              />
+            }
+              label="Mostrar Todo" />
 
-            </Grid>
           </Grid>
+        </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
           <ToggleButtonGroup>
@@ -2130,7 +2186,6 @@ const Participaciones = () => {
           >
             <ThemeProvider theme={theme}>
               <DataGrid
-                // localeText={nlNL.components.MuiDataGrid.defaultProps.localeText.}
                 columns={columnsParticipaciones}
                 rows={data}
                 density="compact"
@@ -2231,7 +2286,10 @@ const Participaciones = () => {
       {openSegmento ? <ModalSegmentos handleClose={handleclose} vrows={vrows} /> : ""}
       {openTraz ? <TrazabilidadSolicitud dt={{ TIPO: 4, SP: idSolicitud, }} open={openTraz} handleClose={handleclose} /> : ""}
       {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} /> : ""}
-
+      {openModal ? ( <ModalDAMOP      tipo={"Comentarios"} handleClose={handleClose} handleAccion={Fnworkflow}/>) : ("")}
+      {openModalDetalle ? (<ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} />) : ("")}
+      {openModalDescuento ? (<Descuentos tipo={1} handleClose={handleClose} dt={vrows} /> ) : ("")}
+      {openModalRetenciones ? (<Retenciones tipo={1} handleClose={handleClose} dt={vrows} />      ) : ( "")}
     </div>
   );
 };

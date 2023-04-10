@@ -17,7 +17,7 @@ import Swal from "sweetalert2";
 import ModalForm from "../../../componentes/ModalForm";
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { COLOR } from "../../../../../styles/colors";
+import { Codificador } from "../../../../../services/Codificador";
 export const CuentaBancariaModal = ({
   open,
   handleClose,
@@ -34,7 +34,9 @@ export const CuentaBancariaModal = ({
   // CAMPOS DE LOS FORMULARIOS
   const [slideropen, setslideropen] = useState(true);
   const [id, setId] = useState("");
-  const [numeroCuenta, setNumeroCuenta] = useState("");
+  const [numeroCuenta, setNumeroCuenta] = useState<string>("");
+  const [numeroCuentaCoded, setNumeroCuentaCoded] = useState<string>("");
+
   const [nombreCuenta, setNombreCuenta] = useState("");
   const [clabeBancaria, setClabeBancaria] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -141,25 +143,28 @@ export const CuentaBancariaModal = ({
       if (nameNewDocCarta !== undefined && tipo === 1) {
         formData.append("CARTA", newDocCarta, nameNewDocCarta);
       }
+
       formData.append("NUMOPERACION", String(tipo));
       formData.append("CHID", id);
       formData.append("CHUSER", String(user.id));
       formData.append("IDBANCOS", String(idBancos));
-      formData.append("NUMEROCUENTA", numeroCuenta);
+      formData.append("NUMEROCUENTA", (numeroCuenta));
       formData.append("NOMBRECUENTA", nombreCuenta);
-      formData.append("CLABEBANCARIA", clabeBancaria);
+      formData.append("CLABEBANCARIA", (clabeBancaria));
       formData.append("COMENTARIOS", comentarios);
       formData.append("IDMUNICIPIO", user.MUNICIPIO[0]?.id);
+      // console.log("CLABEBANCARIA: " + formData.get("CLABEBANCARIA") + " : " + Codificador.decoded(String(formData.get("CLABEBANCARIA"))));
 
       CatalogosServices.CuentaBancaria(formData).then((res) => {
         setslideropen(false);
+        // console.log(Codificador.decoded("w+1ABCXTVl2cqcF3yK6YEg=="));
         //console.log("res en service", res);
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
             title: "Carga Exitosa!",
           });
-          handleClose();
+          // handleClose();
         } else {
           setslideropen(false);
           //console.log("res en Sí res.SUCCESS no tiene nada", res);
@@ -168,7 +173,6 @@ export const CuentaBancariaModal = ({
       });
     }
   };
-
 
 
 
@@ -206,10 +210,15 @@ export const CuentaBancariaModal = ({
 
   /// archivo de carta
 
+  const handleNumCuenta = (v: string) => {
+    setNumeroCuenta(v);
+  };
 
+  const handleClabe = (v: string) => {
+    setClabeBancaria(v)
+  };
   useEffect(() => {
     if (dt === "") {
-      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setIdBancos(dt?.row?.idbanco);
@@ -266,7 +275,7 @@ export const CuentaBancariaModal = ({
                     fullWidth
                     variant="standard"
                     onChange={(v) => setNombreCuenta(v.target.value)}
-                    error={nombreCuenta == "" ? true : false}
+                    error={nombreCuenta === "" ? true : false}
                     InputProps={{}}
                   />
 
@@ -282,10 +291,11 @@ export const CuentaBancariaModal = ({
                     type="text"
                     fullWidth
                     variant="standard"
-                    onChange={(v) => setNumeroCuenta(v.target.value)}
-                    error={numeroCuenta == "" ? true : false}
+                    onChange={(v) =>
+                      handleNumCuenta(v.target.value)}
+                    error={numeroCuenta === "" ? true : false}
                     inputProps={{
-                      maxLength: 18,
+                      // maxLength: 18,
                       pattern: '[0-9]*'
                     }}
                     InputLabelProps={{ shrink: true }}
@@ -302,8 +312,8 @@ export const CuentaBancariaModal = ({
                     type="text"
                     fullWidth
                     variant="standard"
-                    onChange={(v) => setClabeBancaria(v.target.value)}
-                    error={clabeBancaria == "" ? true : false}
+                    onChange={(v) => handleClabe(v.target.value)}
+                    error={clabeBancaria === "" ? true : false}
                     inputProps={{
                       maxLength: 18,
                       pattern: '[0-9]*'
@@ -315,7 +325,7 @@ export const CuentaBancariaModal = ({
               </Grid>
 
               <Grid container direction="row" justifyContent="space-around" alignItems="center">
-                <Grid item xs={3} sm={3} md={4} lg={3}  alignContent="center" alignItems="center">
+                <Grid item xs={3} sm={3} md={4} lg={3} alignContent="center" alignItems="center">
 
                   <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
                     <Typography variant="h6">
@@ -361,16 +371,16 @@ export const CuentaBancariaModal = ({
                   </Box>
                   <div className="CargaDeArchivosCuenta">
 
-                  <Grid container justifyContent="center" alignItems="center">
-                    <input
-                    id="imagencargada"
-                    accept="application/pdf"
-                    onChange={(event) => { handleNewFileCarta(event) }}
-                    type="file"
-                    style={{ opacity: 0, width: "100%", height: "100%", position: "absolute", cursor: "pointer", }} />
-                    {dt?.row?.NombreCarta ? < PictureAsPdfOutlinedIcon sx={{ width: "90%", height: "90%" }} /> : <CloudUploadIcon sx={{ width: "90%", height: "90%" }} />}
+                    <Grid container justifyContent="center" alignItems="center">
+                      <input
+                        id="imagencargada"
+                        accept="application/pdf"
+                        onChange={(event) => { handleNewFileCarta(event) }}
+                        type="file"
+                        style={{ opacity: 0, width: "100%", height: "100%", position: "absolute", cursor: "pointer", }} />
+                      {dt?.row?.NombreCarta ? < PictureAsPdfOutlinedIcon sx={{ width: "90%", height: "90%" }} /> : <CloudUploadIcon sx={{ width: "90%", height: "90%" }} />}
 
-                  </Grid>
+                    </Grid>
                   </div>
                   <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
                     <Typography variant="h6">
@@ -378,8 +388,8 @@ export const CuentaBancariaModal = ({
                     </Typography>
                   </Box>
                   <Grid item xs={12} sm={12} md={12} lg={12}
-                    // sx={{ paddingTop: "1%", width: "50%", height: "50%", display: "flex", justifyContent: "center", alignItems: "center", }}
-                    >
+                  // sx={{ paddingTop: "1%", width: "50%", height: "50%", display: "flex", justifyContent: "center", alignItems: "center", }}
+                  >
                     <Typography sx={{ textAlign: "center" }}>
                       {dt?.row?.NombreCarta ? "Arrastre El Nuevo Documento Carta o Presione el icono Para Seleccionar" : "Arrastre El Documento Carta o Presione el icono Para Seleccionar"}
                     </Typography>
@@ -410,7 +420,7 @@ export const CuentaBancariaModal = ({
         ""
       )}
 
-      {tipo == 3 ? (
+      {tipo === 3 ? (
 
         <ModalForm title={"Cuenta Bancaria"} handleClose={handleClose}>
 
