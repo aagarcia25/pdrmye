@@ -68,9 +68,6 @@ import PolylineIcon from '@mui/icons-material/Polyline';
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 import { dowloandfile } from "../../../helpers/Files";
 import { ModalSegmentos } from "../componentes/ModalSegmentos";
-
-
-
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { ORGHeader } from "../ORGANISMOS/ORGHeader";
@@ -134,8 +131,11 @@ const Participaciones = () => {
   const [SMUNICIPIO,setSMUNICIPIO] = useState<boolean>(false);
   const [SMES,setSMES] = useState<boolean>(false);
   const [CG_PLANTILLA_ORG,setCG_PLANTILLA_ORG] = useState<boolean>(false);
-
-
+  const [INTEGRAR_OPERACION,setINTEGRAR_OPERACION] = useState<boolean>(false);
+  const [INTEGRACION_MASIVA,setINTEGRACION_MASIVA] = useState<boolean>(false);
+  const [UNIFICACION,setUNIFICACION] = useState<boolean>(false);
+  const [ELIMINA,setELIMINA] = useState<boolean>(false);
+  const [ELIMINAMASIVO,setELIMINAMASIVO] = useState<boolean>(false);
   
 
 
@@ -171,7 +171,6 @@ const Participaciones = () => {
     setVrows(data);
     setModo("Ver")
   };
-
 
   const handleBorrarSolicitud = (v: any) => {
 
@@ -227,7 +226,6 @@ const Participaciones = () => {
     setVrows(data)
   };
 
-
   const downloadplantilla = () => {
     let name = "PLANTILLA CARGA ANTICIPO PARTICIPACIONES.xlsx";
     let data = {
@@ -253,12 +251,10 @@ const Participaciones = () => {
     setIdSolicitud(v.row.id);
   };
 
-
   const handleVerSegmentos = (v: any) => {
     setVrows(v);
     setOpenSegmento(true);
   };
-
 
   const handleDetalle = (data: any) => {
     setVrows(data);
@@ -291,12 +287,14 @@ const Participaciones = () => {
               </IconButton>
             </Tooltip>
 
-
-            {/* <Tooltip title={"Eliminar"}>
+            {ELIMINA ? (
               <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
-                <DeleteForeverOutlinedIcon />
+                  <Tooltip title={"Eliminar"}>
+                  <DeleteForeverOutlinedIcon />
+                  </Tooltip>
               </IconButton>
-            </Tooltip> */}
+             ) : ( "")}
+
 
             {verSegmentar && String(v.row.estatus) === 'Ingresando Operación' ? (
               <Tooltip title={"Segmentar Operación"}>
@@ -318,35 +316,6 @@ const Participaciones = () => {
               ""
             )}
 
-
-
-            {/* {String(v.row.NumParticipacion) === 'null' ?
-              <Tooltip title={"Asignar N° de Participación"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 2)}>
-                  <LoopIcon />
-                </IconButton>
-              </Tooltip>
-              : ""
-            }
-
-            {String(v.row.NumSolEgreso) === 'null' && v.row.estatusCI === "DAMOP_INI" ?
-              <Tooltip title={"Asignar N° de Solicitud de Egreso"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 3)}>
-                  <MenuBookIcon />
-                </IconButton>
-              </Tooltip>
-              : ""
-            }
-
-            {String(v.row.NumEgreso) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
-              <Tooltip title={"Asignar N° de Egreso"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 4)}>
-                  <MoneyIcon />
-                </IconButton>
-              </Tooltip>
-              : ""
-            } */}
-
             {String(v.row.estatus) === 'Ingresando Operación' ?
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
@@ -356,14 +325,7 @@ const Participaciones = () => {
               : ""
             }
 
-            {/* {String(v.row.NumRequerimientoAnt) === 'null' && v.row.estatusCI === "DAMOP_TE" ?
-              <Tooltip title={"Asignar N° de Requerimiento de Anticipo"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 6)}>
-                  <LocalAtmIcon />
-                </IconButton>
-              </Tooltip>
-              : ""
-            } */}
+         
 
           </Box>
         );
@@ -1055,7 +1017,6 @@ const Participaciones = () => {
 
 
   const integracionMasiva = () => {
-
     if (idFondo.length == 1 && mes !== "false" && idestatus !== "false") {
       Swal.fire({
         icon: "info",
@@ -1586,11 +1547,6 @@ const Participaciones = () => {
         + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
         + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
 
-      // console.log(String(
-      //   (nombreFondo === "" ? "" : nombreFondo)
-      //   + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
-      //   + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
-
     } else {
       setNombreExport("Participaciones y Aportaciones");
     }
@@ -1722,13 +1678,13 @@ const Participaciones = () => {
           setCG_PLANTILLA_ORG(true);
         } else if (String(item.Referencia) === "INTEGRAR_OPERACION") {
           ancho = ancho + 50;
-          //setCargaPrestamos(true);
+          setINTEGRAR_OPERACION(true);
         } else if (String(item.Referencia) === "INTEGRACION_MASIVA") {
           ancho = ancho + 50;
-          //setCargaPrestamos(true);
+          setINTEGRACION_MASIVA(true);
         } else if (String(item.Referencia) === "UNIFICACION") {
           ancho = ancho + 50;
-          //setCargaPrestamos(true);
+          setUNIFICACION(true);
         }   else if (String(item.Referencia) === "SORGANISMOS") {
         setSORGANISMOS(true);
         }   else if (String(item.Referencia) === "SESTATUS") {
@@ -1739,11 +1695,14 @@ const Participaciones = () => {
         setSFONDO(true);
         }   else if (String(item.Referencia) === "SMUNICIPIO") {
         setSMUNICIPIO(true);
-       }   else if (String(item.Referencia) === "SMES") {
+        }   else if (String(item.Referencia) === "SMES") {
         setSMES(true);
+        }   else if (String(item.Referencia) === "ELIMINA") {
+        setELIMINA(true);
+        }   else if (String(item.Referencia) === "ELIMINAMASIVO") {
+        setELIMINAMASIVO(true);
         }
-
-
+        
       } setAnchoAcciones(ancho)
     });
 
@@ -1755,35 +1714,7 @@ const Participaciones = () => {
     <div>
       <Slider open={slideropen}></Slider>
 
-      {openModal ? (
-        <ModalDAMOP
-          tipo={"Comentarios"}
-          handleClose={handleClose}
-          handleAccion={Fnworkflow}
-        />
-      ) : (
-        ""
-      )}
-      {openModalDetalle ? (
-
-        <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} />
-      ) : (
-        ""
-      )}
-
-      {openModalDescuento ? (
-        <Descuentos
-          tipo={1} handleClose={handleClose} dt={vrows} />
-      ) : (
-        ""
-      )}
-
-      {openModalRetenciones ? (
-        <Retenciones
-          tipo={1} handleClose={handleClose} dt={vrows} />
-      ) : (
-        ""
-      )}
+     
 
       <Grid container spacing={1} padding={0}>
 
@@ -1947,7 +1878,7 @@ const Participaciones = () => {
             )}
 
 
-        {asignaObservacion ? (
+        {INTEGRAR_OPERACION ? (
             <ToggleButton value="check"
               disabled={data.length === 0 || intOperaciones}
               onClick={() => integrarOperaciones()}>
@@ -2045,7 +1976,7 @@ const Participaciones = () => {
               ""
             )}
 
-            {cargarPlant ? (
+            {ELIMINAMASIVO ? (
              
                 <ToggleButton value="check" onClick={() => eliminar()}>
                    <Tooltip title={"Eliminar Registro"}>
@@ -2080,8 +2011,7 @@ const Participaciones = () => {
               ""
             )}
 
-            {cargarPlant ? (
-              
+            {INTEGRACION_MASIVA ? (
                 <ToggleButton value="check" onClick={() => integracionMasiva()}>
                   <Tooltip title={"Integración Masiva por Fondo"}>
                   <PolylineIcon />
@@ -2091,7 +2021,8 @@ const Participaciones = () => {
               ""
             )}
 
-
+{UNIFICACION
+ ? (
             <ToggleButton value="check"
               disabled={data.length === 0 || intOperaciones || idMunicipio.length < 6}
               onClick={() => unificarSolicitudes()}>
@@ -2099,7 +2030,9 @@ const Participaciones = () => {
                 <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idMunicipio.length < 6 ? "inherit" : "primary"} />
               </Tooltip>
             </ToggleButton>
-
+ ) : (
+  ""
+)}
 
           </ToggleButtonGroup>
         </Grid>
@@ -2348,6 +2281,10 @@ const Participaciones = () => {
       {openSegmento ? <ModalSegmentos handleClose={handleclose} vrows={vrows} /> : ""}
       {openTraz ? <TrazabilidadSolicitud dt={{ TIPO: 4, SP: idSolicitud, }} open={openTraz} handleClose={handleclose} /> : ""}
       {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} /> : ""}
+      {openModal ? ( <ModalDAMOP      tipo={"Comentarios"} handleClose={handleClose} handleAccion={Fnworkflow}/>) : ("")}
+      {openModalDetalle ? (<ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} />) : ("")}
+      {openModalDescuento ? (<Descuentos tipo={1} handleClose={handleClose} dt={vrows} /> ) : ("")}
+      {openModalRetenciones ? (<Retenciones tipo={1} handleClose={handleClose} dt={vrows} />      ) : ( "")}
     </div>
   );
 };
