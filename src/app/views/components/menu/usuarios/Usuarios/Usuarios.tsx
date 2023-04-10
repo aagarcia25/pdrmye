@@ -208,7 +208,7 @@ const Usuarios = () => {
     { field: "Curp", headerName: "CURP", description: "CURP", width: 250, },
     { field: "Telefono", headerName: "Teléfono", description: "Teléfono", width: 150, },
     { field: "Ext", headerName: "Extensión", description: "Extensión", width: 150, },
-    { field: "Celular", headerName: "Teléfono Móvil", description: "Teléfono Móvil", width: 150, },
+    { field: "Celular", headerName: "Teléfono Móvil", description: "Teléfono Móvil", width: 190, },
     { field: "Ubicación", headerName: "Ubicación", description: "Ubicación", width: 250, },
     { field: "CorreoElectronico", headerName: "Correo Electrónico", description: "Correo Electrónico", width: 300, },
     { field: "Puesto", headerName: "Puesto", description: "Puesto", width: 200, },
