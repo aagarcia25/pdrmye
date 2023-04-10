@@ -180,8 +180,8 @@ const ModalNew = ({
               IDVERSION: idVersionCalculo,
               P_DIST: disti  ? 1 : 0
             };
-            console.log(data)
-            // agregar(data);
+           // console.log(data)
+             agregar(data);
           }
   
         }
