@@ -355,9 +355,8 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
                   <InfoIcon />
                 </IconButton>
               </Tooltip>
-            ) : (
-              "Sin Detalles"
-            )}
+            ) : ""
+            }
             {v.row.orden>15? (
               <Tooltip title="Ver Spei">
                 <IconButton onClick={() => handleVerSpei(v,"SPEI")}>
