@@ -1665,6 +1665,7 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
     // handleClick();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
+        
         if (String(item.Referencia) === "AGREGPLANT") {
           setCargarPlant(true);
         } else if (String(item.Referencia) === "DESCPLANT") {
