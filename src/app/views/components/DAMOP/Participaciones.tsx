@@ -1597,7 +1597,8 @@ const Participaciones = () => {
       P_IDESTATUS: idestatus === "false" ? "" : idestatus,
       P_IDMES: mes === "false" ? "" : mes,
       P_IDORGANISMO: idORG === "false" ? "" : idORG,
-      P_CHUSER: user.id
+      P_CHUSER: user.id,
+      P_GRUPO:user.DEPARTAMENTOS[0].NombreCorto
 
 
     };
