@@ -40,6 +40,8 @@ const SpeisAdmin = ({
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [agregar, setAgregar] = useState<boolean>(false);
     const [PERMISOVerSpei, setPERMISOVerSpei] = useState<boolean>(false);
+    const [PERMISOAgregCfdi, setPERMISOAgregCfdi] = useState<boolean>(false);
+
     const [permisoDescargarSpei, setPermisoDescargarSpei] = useState<boolean>(false);
 
     const [editar, setEditar] = useState<boolean>(false);
@@ -424,7 +426,6 @@ const SpeisAdmin = ({
 
     };
     useEffect(() => {
-        console.log(vrows.row)
 
         consulta();
         var ancho = 0;
@@ -444,6 +445,10 @@ const SpeisAdmin = ({
                     ancho = ancho + 50;
                 }
                 if (String(item.Referencia) === "VERSPEI") {
+                    setPERMISOVerSpei(true);
+                    ancho = ancho + 50;
+                }
+                if (String(item.Referencia) === "AGREGCFDI") {
                     setPERMISOVerSpei(true);
                     ancho = ancho + 50;
                 }

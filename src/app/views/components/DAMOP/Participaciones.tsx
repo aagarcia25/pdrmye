@@ -1621,7 +1621,6 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
           icon: "success",
           title: "Consulta Exitosa!",
         });
-        console.log(res.RESPONSE)
         setData(res.RESPONSE);
         var sumatotal = 0;
         res.RESPONSE.map((item: any) => {
@@ -1656,7 +1655,6 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
 
 
   useEffect(() => {
-    console.log(user)
     var ancho = 0;
     setMeses(fmeses());
     loadFilter(27);
