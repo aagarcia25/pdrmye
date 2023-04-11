@@ -734,6 +734,7 @@ const AsigPago = () => {
           handleClose={handleclose}
           handleAccion={handleAccion}
           vrows={vrows}
+          modo={""}
         />
       ) : (
         ""

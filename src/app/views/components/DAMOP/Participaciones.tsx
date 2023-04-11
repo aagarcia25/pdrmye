@@ -71,9 +71,13 @@ import { ModalSegmentos } from "../componentes/ModalSegmentos";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { ORGHeader } from "../ORGANISMOS/ORGHeader";
-
-
+import SummarizeIcon from '@mui/icons-material/Summarize';
 const Participaciones = () => {
+
+///////////////modal de adminisracion Spei cfdi
+const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
+
+
   const [checked, setChecked] = React.useState(false);
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
@@ -124,20 +128,20 @@ const Participaciones = () => {
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [verSegmentar, setVerSegmentar] = useState<boolean>(false);
 
-  const [SORGANISMOS,setSORGANISMOS] = useState<boolean>(false);
-  const [SESTATUS,setSESTATUS] = useState<boolean>(false);
-  const [STIPOSOLICITUD,setSTIPOSOLICITUD] = useState<boolean>(false);
-  const [SFONDO,setSFONDO] = useState<boolean>(false);
-  const [SMUNICIPIO,setSMUNICIPIO] = useState<boolean>(false);
-  const [SMES,setSMES] = useState<boolean>(false);
-  const [CG_PLANTILLA_ORG,setCG_PLANTILLA_ORG] = useState<boolean>(false);
-  const [INTEGRAR_OPERACION,setINTEGRAR_OPERACION] = useState<boolean>(false);
-  const [INTEGRACION_MASIVA,setINTEGRACION_MASIVA] = useState<boolean>(false);
-  const [UNIFICACION,setUNIFICACION] = useState<boolean>(false);
-  const [ELIMINA,setELIMINA] = useState<boolean>(false);
-  const [ELIMINAMASIVO,setELIMINAMASIVO] = useState<boolean>(false);
-  const [INSERTAREG,setINSERTAREG] = useState<boolean>(false);
-  
+  const [SORGANISMOS, setSORGANISMOS] = useState<boolean>(false);
+  const [SESTATUS, setSESTATUS] = useState<boolean>(false);
+  const [STIPOSOLICITUD, setSTIPOSOLICITUD] = useState<boolean>(false);
+  const [SFONDO, setSFONDO] = useState<boolean>(false);
+  const [SMUNICIPIO, setSMUNICIPIO] = useState<boolean>(false);
+  const [SMES, setSMES] = useState<boolean>(false);
+  const [CG_PLANTILLA_ORG, setCG_PLANTILLA_ORG] = useState<boolean>(false);
+  const [INTEGRAR_OPERACION, setINTEGRAR_OPERACION] = useState<boolean>(false);
+  const [INTEGRACION_MASIVA, setINTEGRACION_MASIVA] = useState<boolean>(false);
+  const [UNIFICACION, setUNIFICACION] = useState<boolean>(false);
+  const [ELIMINA, setELIMINA] = useState<boolean>(false);
+  const [ELIMINAMASIVO, setELIMINAMASIVO] = useState<boolean>(false);
+  const [INSERTAREG, setINSERTAREG] = useState<boolean>(false);
+
 
 
 
@@ -165,6 +169,7 @@ const Participaciones = () => {
   const [openModalCabecera, setOpenModalCabecera] = useState<boolean>(false);
   const [modo, setModo] = useState<string>("");
   const [organismos, setOrganismos] = useState<SelectValues[]>([]);
+
 
 
   const handledetalles = (data: any) => {
@@ -261,9 +266,10 @@ const Participaciones = () => {
     setVrows(data);
     setOpenModalDetalle(true);
   };
-  const handleVerSpei = (data: any) => {
+  const handleVerSpei = (data: any,modo :string) => {
     setVrows(data);
     setOpenModalVerSpei(true);
+    setModoSpeiCfdi(modo);
   };
 
   const columnsParticipaciones = [
@@ -290,11 +296,11 @@ const Participaciones = () => {
 
             {ELIMINA ? (
               <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
-                  <Tooltip title={"Eliminar"}>
+                <Tooltip title={"Eliminar"}>
                   <DeleteForeverOutlinedIcon />
-                  </Tooltip>
+                </Tooltip>
               </IconButton>
-             ) : ( "")}
+            ) : ("")}
 
 
             {verSegmentar && String(v.row.estatus) === 'Ingresando Operación' ? (
@@ -326,7 +332,7 @@ const Participaciones = () => {
               : ""
             }
 
-         
+
 
           </Box>
         );
@@ -339,7 +345,7 @@ const Participaciones = () => {
       headerName: "Ver Detalle",
       description: "Ver Detalle",
       sortable: false,
-      width: 150,
+      width: 200,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -352,10 +358,21 @@ const Participaciones = () => {
             ) : (
               "Sin Detalles"
             )}
-            {v.row.estatusCI === "DAF_SPEI" ? (
+            {v.row.orden>15? (
               <Tooltip title="Ver Spei">
-                <IconButton onClick={() => handleVerSpei(v)}>
+                <IconButton onClick={() => handleVerSpei(v,"SPEI")}>
                   <ArticleIcon />
+                  SPEI
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+             {v.row.orden>15? (
+              <Tooltip title="Administrar CFDI">
+                <IconButton onClick={() => handleVerSpei(v,"CFDI")}>
+                  <SummarizeIcon />
+                  CFDI
                 </IconButton>
               </Tooltip>
             ) : (
@@ -599,8 +616,6 @@ const Participaciones = () => {
       ),
 
     },
-
-
     {
       field: "Proveedor",
       headerName: "Proveedor",
@@ -619,14 +634,6 @@ const Participaciones = () => {
       width: 100,
       description: "Clasificación de Solicitud de Pago",
     },
-
-    // {
-    //   field: "NumCheque",
-    //   headerName: "Numero De Cheque",
-    //   width: 200,
-    //   description: "Numero De Cheque",
-    // },
-
     {
       field: "Divisa",
       headerName: "Divisa",
@@ -672,7 +679,12 @@ const Participaciones = () => {
         setslideropen(false);
       } else if (operacion === 25) {
         setEstatus(res.RESPONSE);
-        setIdEstatus(res.RESPONSE[0].value);
+        setIdEstatus(
+          user?.DEPARTAMENTOS[0]?.NombreCorto ?
+          user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ? 
+          "":
+          res.RESPONSE[0].value:
+          "");
       } else if (operacion === 27) {
         setOrganismos(res.RESPONSE);
       }
@@ -1591,12 +1603,12 @@ const Participaciones = () => {
     let data = {
       TIPO: 1,
       P_FONDO: idFondo.length > 0 ? idFondo : "",
-      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      P_IDTIPO: idtipoFondo === "false" ? "" : idtipoFondo,
+      P_IDMUNICIPIO: user.MUNICIPIO.length>0? user.MUNICIPIO[0].id: idMunicipio === "false" ? "" : idMunicipio,
+      P_IDTIPO: user.MUNICIPIO.length>0 || user.ORG.length>0 ? "PROV": idtipoFondo === "false" ? "" : idtipoFondo,
       P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
       P_IDESTATUS: idestatus === "false" ? "" : idestatus,
       P_IDMES: mes === "false" ? "" : mes,
-      P_IDORGANISMO: idORG === "false" ? "" : idORG,
+      P_IDORGANISMO: user?.ORG[0]? user.ORG[0].id : idORG === "false" ? "" : idORG,
 
 
     };
@@ -1642,6 +1654,7 @@ const Participaciones = () => {
 
 
   useEffect(() => {
+    console.log(user)
     var ancho = 0;
     setMeses(fmeses());
     loadFilter(27);
@@ -1686,28 +1699,28 @@ const Participaciones = () => {
         } else if (String(item.Referencia) === "UNIFICACION") {
           ancho = ancho + 50;
           setUNIFICACION(true);
-        }   else if (String(item.Referencia) === "SORGANISMOS") {
-        setSORGANISMOS(true);
-        }   else if (String(item.Referencia) === "SESTATUS") {
-        setSESTATUS(true);
-        }   else if (String(item.Referencia) === "STIPOSOLICITUD") {
-        setSTIPOSOLICITUD(true);
-        }   else if (String(item.Referencia) === "SFONDO") {
-        setSFONDO(true);
-        }   else if (String(item.Referencia) === "SMUNICIPIO") {
-        setSMUNICIPIO(true);
-        }   else if (String(item.Referencia) === "SMES") {
-        setSMES(true);
-        }   else if (String(item.Referencia) === "ELIMINA") {
-        setELIMINA(true);
-        }   else if (String(item.Referencia) === "ELIMINAMASIVO") {
-        setELIMINAMASIVO(true);
-        }   else if (String(item.Referencia) === "INSERTAREG") {
-        setINSERTAREG(true);
+        } else if (String(item.Referencia) === "SORGANISMOS") {
+          setSORGANISMOS(true);
+        } else if (String(item.Referencia) === "SESTATUS") {
+          setSESTATUS(true);
+        } else if (String(item.Referencia) === "STIPOSOLICITUD") {
+          setSTIPOSOLICITUD(true);
+        } else if (String(item.Referencia) === "SFONDO") {
+          setSFONDO(true);
+        } else if (String(item.Referencia) === "SMUNICIPIO") {
+          setSMUNICIPIO(true);
+        } else if (String(item.Referencia) === "SMES") {
+          setSMES(true);
+        } else if (String(item.Referencia) === "ELIMINA") {
+          setELIMINA(true);
+        } else if (String(item.Referencia) === "ELIMINAMASIVO") {
+          setELIMINAMASIVO(true);
+        } else if (String(item.Referencia) === "INSERTAREG") {
+          setINSERTAREG(true);
         }
 
-        
-        
+
+
       } setAnchoAcciones(ancho)
     });
 
@@ -1719,7 +1732,7 @@ const Participaciones = () => {
     <div>
       <Slider open={slideropen}></Slider>
 
-     
+
 
       <Grid container spacing={1} padding={0}>
 
@@ -1738,101 +1751,113 @@ const Participaciones = () => {
           alignItems="center" >
 
 
-{SORGANISMOS ?
-          <Grid item xs={11.5} sm={6} md={4} lg={2}>
+          {SORGANISMOS ?
+            <Grid item xs={11.5} sm={6} md={4} lg={user?.DEPARTAMENTOS[0]?.NombreCorto ? user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ? 4 : 2 : 2}>
 
-            <Typography sx={{ fontFamily: "MontserratMedium" }}>
-              Organismos:
-            </Typography>
-            <SelectFrag
-              value={idORG}
-              options={organismos}
-              onInputChange={handleFiltroORG}
-              placeholder={"Seleccione Un Organismo"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
-: 
-  ""}
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                {user?.DEPARTAMENTOS[0]?.NombreCorto ? user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ?
+                  user?.ORG[0].Descripcion
+                  : "Organismos"
+                  : "Organismos"}
+              </Typography>
+              {user?.DEPARTAMENTOS[0]?.NombreCorto ? user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ?
+                "" :
+                <SelectFrag
+                  value={idORG}
+                  options={organismos}
+                  onInputChange={handleFiltroORG}
+                  placeholder={"Seleccione Un Organismo"}
+                  label={""}
+                  disabled={false}
+                />
+                : ""
+              }
+            </Grid>
+            :
+            ""}
 
-  
-{SESTATUS ?
-          <Grid item xs={11.5} sm={6} md={4} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
-            <SelectFrag
-              value={idestatus}
-              options={estatus}
-              onInputChange={handleFilterChange5}
-              placeholder={"Seleccione Estatus"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
-: 
-""}
 
-{STIPOSOLICITUD ?    
-          <Grid item xs={11.5} sm={6} md={4} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
-            <SelectFrag
-              value={idtipoSolicitud}
-              options={tiposSolicitud}
-              onInputChange={handleFilterChange4}
-              placeholder={"Seleccione Tipo De Solicitud"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
-: 
-""}
+          {SESTATUS ?
+            <Grid item xs={11.5} sm={6} md={4} lg={2}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
+              <SelectFrag
+                value={idestatus}
+                options={estatus}
+                onInputChange={handleFilterChange5}
+                placeholder={"Seleccione Estatus"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+            :
+            ""}
 
-{SFONDO ?  
-          <Grid item xs={11.5} sm={6} md={4} lg={2}>
+          {STIPOSOLICITUD ?
+            <Grid item xs={11.5} sm={6} md={4} lg={2}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
+              <SelectFrag
+                value={idtipoSolicitud}
+                options={tiposSolicitud}
+                onInputChange={handleFilterChange4}
+                placeholder={"Seleccione Tipo De Solicitud"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+            :
+            ""}
 
-            <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
-            <SelectFragMulti
-              options={fondos}
-              onInputChange={handleFilterChange2}
-              placeholder={"Seleccione Fondo(s)"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
-: 
-""}
+          {SFONDO ?
+            <Grid item xs={11.5} sm={6} md={4} lg={2}>
 
-{SMUNICIPIO ?  
-          <Grid item xs={11.5} sm={6} md={4} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
-            <SelectFrag
-              value={idMunicipio}
-              options={municipio}
-              onInputChange={handleFilterChange3}
-              placeholder={"Seleccione Municipio"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
-: 
-""}
+              <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
+              <SelectFragMulti
+                options={fondos}
+                onInputChange={handleFilterChange2}
+                placeholder={"Seleccione Fondo(s)"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+            :
+            ""}
 
-{SMES ?  
-          <Grid item xs={11.5} sm={6} md={4} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
-            <SelectFrag
-              value={mes}
-              options={meses}
-              onInputChange={handleSelectMes}
-              placeholder={"Seleccione Mes"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
-       
-        : 
-        ""}
- </Grid>
+          {SMUNICIPIO ?
+            <Grid item xs={11.5} sm={6} md={4} lg={2}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
+              <SelectFrag
+                value={idMunicipio}
+                options={municipio}
+                onInputChange={handleFilterChange3}
+                placeholder={"Seleccione Municipio"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+            :
+            ""}
+
+          {SMES ?
+            <Grid item xs={11.5} sm={6} md={4} lg={
+              user?.DEPARTAMENTOS[0]?.NombreCorto ?
+                user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+                  4 :
+                  2 :
+                2}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
+              <SelectFrag
+                value={mes}
+                options={meses}
+                onInputChange={handleSelectMes}
+                placeholder={"Seleccione Mes"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+
+            :
+            ""}
+        </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
           <Button
             onClick={handleClick}
@@ -1850,13 +1875,13 @@ const Participaciones = () => {
 
 
           <ToggleButtonGroup>
-          {INSERTAREG ? (
-            <Tooltip title="Agregar Registro">
-              <ToggleButton value="check" onClick={() => handleAgregarRegistro()} >
-                <AddIcon />
-              </ToggleButton>
-            </Tooltip>
-           ) : ("")}
+            {INSERTAREG ? (
+              <Tooltip title="Agregar Registro">
+                <ToggleButton value="check" onClick={() => handleAgregarRegistro()} >
+                  <AddIcon />
+                </ToggleButton>
+              </Tooltip>
+            ) : ("")}
 
             {CG_PLANTILLA_ORG ? (
               <Tooltip title={"Cargar Plantilla Migración"}>
@@ -1883,24 +1908,24 @@ const Participaciones = () => {
             )}
 
 
-        {INTEGRAR_OPERACION ? (
-            <ToggleButton value="check"
-              disabled={data.length === 0 || intOperaciones}
-              onClick={() => integrarOperaciones()}>
-              <Tooltip title={"Integrar Operaciones"}>
-                <CallMergeIcon color={data.length === 0 || intOperaciones ? "inherit" : "primary"} />
-              </Tooltip>
-            </ToggleButton>
-         ) : (
-           ""
+            {INTEGRAR_OPERACION ? (
+              <ToggleButton value="check"
+                disabled={data.length === 0 || intOperaciones}
+                onClick={() => integrarOperaciones()}>
+                <Tooltip title={"Integrar Operaciones"}>
+                  <CallMergeIcon color={data.length === 0 || intOperaciones ? "inherit" : "primary"} />
+                </Tooltip>
+              </ToggleButton>
+            ) : (
+              ""
             )}
 
             {asignaObservacion ? (
-                <ToggleButton value="check" onClick={() => openmodalc(2)}>
-                   <Tooltip title={"Asignar Observación"}>
+              <ToggleButton value="check" onClick={() => openmodalc(2)}>
+                <Tooltip title={"Asignar Observación"}>
                   <FormatAlignLeftIcon color="primary" />
-                  </Tooltip>
-                </ToggleButton>
+                </Tooltip>
+              </ToggleButton>
             ) : (
               ""
             )}
@@ -1982,12 +2007,12 @@ const Participaciones = () => {
             )}
 
             {ELIMINAMASIVO ? (
-             
-                <ToggleButton value="check" onClick={() => eliminar()}>
-                   <Tooltip title={"Eliminar Registro"}>
+
+              <ToggleButton value="check" onClick={() => eliminar()}>
+                <Tooltip title={"Eliminar Registro"}>
                   <DeleteForeverIcon color="error" />
-                  </Tooltip>
-                </ToggleButton>
+                </Tooltip>
+              </ToggleButton>
             ) : (
               ""
             )}
@@ -2017,27 +2042,27 @@ const Participaciones = () => {
             )}
 
             {INTEGRACION_MASIVA ? (
-                <ToggleButton value="check" onClick={() => integracionMasiva()}>
-                  <Tooltip title={"Integración Masiva por Fondo"}>
+              <ToggleButton value="check" onClick={() => integracionMasiva()}>
+                <Tooltip title={"Integración Masiva por Fondo"}>
                   <PolylineIcon />
-                  </Tooltip>
-                </ToggleButton>
+                </Tooltip>
+              </ToggleButton>
             ) : (
               ""
             )}
 
-{UNIFICACION
- ? (
-            <ToggleButton value="check"
-              disabled={data.length === 0 || intOperaciones || idMunicipio.length < 6}
-              onClick={() => unificarSolicitudes()}>
-              <Tooltip title={"Unificar Registros"}>
-                <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idMunicipio.length < 6 ? "inherit" : "primary"} />
-              </Tooltip>
-            </ToggleButton>
- ) : (
-  ""
-)}
+            {UNIFICACION
+              ? (
+                <ToggleButton value="check"
+                  disabled={data.length === 0 || intOperaciones || idMunicipio.length < 6}
+                  onClick={() => unificarSolicitudes()}>
+                  <Tooltip title={"Unificar Registros"}>
+                    <CloseFullscreenIcon color={data.length === 0 || intOperaciones || idMunicipio.length < 6 ? "inherit" : "primary"} />
+                  </Tooltip>
+                </ToggleButton>
+              ) : (
+                ""
+              )}
 
           </ToggleButtonGroup>
         </Grid>
@@ -2281,15 +2306,15 @@ const Participaciones = () => {
 
 
       </Grid>
-      {openModalVerSpei ? <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows} /> : ""}
+      {openModalVerSpei ? <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows} modo={modoSpeiCfdi} /> : ""}
       {openCheque ? <ModalCheque tipo={tipo} handleClose={handleclose} vrows={vrows} /> : ""}
       {openSegmento ? <ModalSegmentos handleClose={handleclose} vrows={vrows} /> : ""}
       {openTraz ? <TrazabilidadSolicitud dt={{ TIPO: 4, SP: idSolicitud, }} open={openTraz} handleClose={handleclose} /> : ""}
       {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} /> : ""}
-      {openModal ? ( <ModalDAMOP      tipo={"Comentarios"} handleClose={handleClose} handleAccion={Fnworkflow}/>) : ("")}
+      {openModal ? (<ModalDAMOP tipo={"Comentarios"} handleClose={handleClose} handleAccion={Fnworkflow} />) : ("")}
       {openModalDetalle ? (<ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} />) : ("")}
-      {openModalDescuento ? (<Descuentos tipo={1} handleClose={handleClose} dt={vrows} /> ) : ("")}
-      {openModalRetenciones ? (<Retenciones tipo={1} handleClose={handleClose} dt={vrows} />      ) : ( "")}
+      {openModalDescuento ? (<Descuentos tipo={1} handleClose={handleClose} dt={vrows} />) : ("")}
+      {openModalRetenciones ? (<Retenciones tipo={1} handleClose={handleClose} dt={vrows} />) : ("")}
     </div>
   );
 };
