@@ -1609,6 +1609,8 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
       P_IDESTATUS: idestatus === "false" ? "" : idestatus,
       P_IDMES: mes === "false" ? "" : mes,
       P_IDORGANISMO: user?.ORG[0]? user.ORG[0].id : idORG === "false" ? "" : idORG,
+      P_CHUSER: user.id,
+      P_GRUPO:user.DEPARTAMENTOS[0].NombreCorto
 
 
     };
