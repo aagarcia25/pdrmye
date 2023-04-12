@@ -550,19 +550,19 @@ const Participaciones = () => {
       description: "Concepto de Egreso",
       width: 150,
     },
-    {
+   /* {
       field: "conceptoCheque",
       headerName: "Cpto. de  Cheque",
       description: "Concepto de Cheque",
       width: 270,
-    },
-    {
+    },*/
+   /* {
       field: "ClavePresupuestal",
       headerName: "Clave Presupuestal",
       description: "Clave Presupuestal",
       width: 550,
       hide: false,
-    },
+    },*/
     {
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
