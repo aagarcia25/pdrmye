@@ -5,6 +5,8 @@ import {
   Grid,
   IconButton,
   ThemeProvider,
+  ToggleButton,
+  ToggleButtonGroup,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -23,6 +25,7 @@ import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
 import {
   DataGrid,
   GridSelectionModel,
@@ -30,6 +33,7 @@ import {
   esES as gridEsES,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
+import { fmeses } from "../../../share/loadMeses";
 
 
 
@@ -39,6 +43,8 @@ const AsigPresupuestal = () => {
   const [slideropen, setslideropen] = useState(true);
   //MODAL
   //Constantes para llenar los select
+  const [meses, setMeses] = useState<SelectValues[]>([]);
+  const [mes, setMes] = useState<string>("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
@@ -56,7 +62,7 @@ const AsigPresupuestal = () => {
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const handleDescuento = (data: any) => { };
-
+  const [cargarPlant, setCargarPlant] = useState<boolean>(false);
   const columnsParticipaciones = [
     { field: "id", hide: true },
     {
@@ -98,17 +104,27 @@ const AsigPresupuestal = () => {
       width: 150,
     },
     {
-      field: "a13",
+      field: "a9",
       headerName: "Descripción",
       description: "Descripción",
       width: 250,
     },
+    // {
+    //   field: "a14",
+    //   headerName: "Clave Presupuestal",
+    //   description: "Clave Presupuestal",
+    //   width: 500,
+    // },
+
+    
     {
-      field: "a14",
-      headerName: "Clave Presupuestal",
-      description: "Clave Presupuestal",
-      width: 500,
+      field: "a52",
+      headerName: "Fecha Asignación",
+      width: 150,
+      description: "Fecha de Asignación de Suficiencia Presupuestal",
+    
     },
+
     {
       field: "a12",
       headerName: "Presupuesto SIREGOB",
@@ -124,12 +140,90 @@ const AsigPresupuestal = () => {
       ...Moneda,
     },
 
+    {
+      field: "a41",
+      headerName: "ADMIN",
+      width: 200,
+      description: "Descripción CLASIFICACIÓN ADMINISTRATIVA",
+    },
+
+    {
+      field: "a42",
+      headerName: "FUNCIÓN",
+      width: 100,
+      description: "Descripción CLASIFICACIÓN FUNCIONAL",
+    },
+
+    {
+      field: "a43",
+      headerName: "PROGRA",
+      width: 100,
+      description: "Descripción CLASIF PROGRAMÁTICO",
+    },
+
+    {
+      field: "a44",
+      headerName: "PARTIDA",
+      width: 100,
+      description: "Descripción CLASIFICADOR POR OBJETO DE GASTO",
+    },
+
+    {
+      field: "a45",
+      headerName: "T.GASTO",
+      width: 100,
+      description: "Descripción CLASIFICADOR POR TIPO DE GASTO",
+    },
+
+    {
+      field: "a46",
+      headerName: "F.FINANC",
+      width: 100,
+      description: "Descripción CLASIFICADOR POR FUENTES DE FINANCIAMIENTO",
+    },
+
+    {
+      field: "a47",
+      headerName: "RAMO",
+      width: 100,
+      description: "Descripción RAMO-FONDO/CONVENIO 2020 / 2021 / 2022 / 2023",
+    },
+
+    {
+      field: "a48",
+      headerName: "AÑO",
+      width: 100,
+      description: "Descripción AÑO DEL RECURSO",
+    },
+
+    {
+      field: "a49",
+      headerName: "CONT.INT",
+      width: 100,
+      description: "Descripción CONTROL INTERNO",
+    },
+
+    {
+      field: "a50",
+      headerName: "MUNIC.",
+      width: 100,
+      description: "Descripción CLASIFICACIÓN GEOGRÁFICA",
+    },
+
+    {
+      field: "a51",
+      headerName: "PRY/PG",
+      width: 150,
+      description: "Descripción PROYECTO/PROGRAMA",
+    },
+
+
   ];
 
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 12) {
+      if (operacion === 31) {
         setFondos(res.RESPONSE);
       } else if (operacion === 32) {
         setMunicipios(res.RESPONSE);
@@ -154,6 +248,9 @@ const AsigPresupuestal = () => {
     setidMunicipio(v);
   };
 
+  const handleSelectMes = (data: any) => {
+    setMes(data);
+  };
   const handleClick = () => {
     //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
 
@@ -162,6 +259,7 @@ const AsigPresupuestal = () => {
       P_FONDO: idFondo === "false" ? "" : idFondo,
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipo === "false" ? "" : idtipo,
+      P_IDMES: mes === "false" ? "" : mes,
     };
     //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
@@ -181,27 +279,50 @@ const AsigPresupuestal = () => {
     });
   };
 
+  
+  const handleUploadPA = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if(mes !=="" && mes !=="false" ){
+      setslideropen(true);
+      let file = event?.target?.files?.[0] || "";
+      const formData = new FormData();
+      formData.append("inputfile", file, "inputfile.xlxs");
+      formData.append("CHUSER", user.id);
+      formData.append("tipo", "asignapresupuesto");
+      formData.append("CHMES", mes);
+      CatalogosServices.migraData(formData).then((res) => {
+        setslideropen(false);
+        handleClick();
+      });
+  
+    }else{
+      AlertS.fire({
+        title: "Información!",
+        text: 'Es necesario el Filtro por Mes',
+        icon: "error",
+      });
+
+    }
+    
+
+
+   
+
+  };
+
   useEffect(() => {
-    loadFilter(12);
+    setMeses(fmeses());
+    loadFilter(31);
     loadFilter(32);
     loadFilter(17);
     handleClick();
-    /*  permisos.map((item: PERMISO) => {
-        if (
-          String(item.ControlInterno) === "PARTMUN"
-        ) {
-          //console.log(item);
-          if (String(item.Referencia) === "AGREGPLANT") {
+      permisos.map((item: PERMISO) => {
+        if (String(item.ControlInterno) === "DPCPPRES") {
+          if (String(item.Referencia) === "CPRESUPUESTO") {
             setCargarPlant(true);
           }
-          else if (String(item.Referencia) === "DESCPLANT") {
-            setDescPlant(true);
-          }
-          else if (String(item.Referencia) === "DISFIDE") {
-            setDisFide(true);
-          }
+         
         }
-      });*/
+      });
   }, []);
 
   return (
@@ -219,7 +340,7 @@ const AsigPresupuestal = () => {
         </Grid>
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          <Grid item xs={12} sm={6} md={4} lg={3.5}>
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Tipo:
             </Typography>
@@ -232,7 +353,7 @@ const AsigPresupuestal = () => {
               disabled={false}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3.5}>
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Fondo:
             </Typography>
@@ -246,7 +367,7 @@ const AsigPresupuestal = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4} lg={3.5}>
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Proveedor:
             </Typography>
@@ -259,6 +380,19 @@ const AsigPresupuestal = () => {
               disabled={false}
             />
           </Grid>
+
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
+              <SelectFrag
+                value={mes}
+                options={meses}
+                onInputChange={handleSelectMes}
+                placeholder={"Seleccione Mes"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
@@ -272,7 +406,36 @@ const AsigPresupuestal = () => {
           </Button>
         </Grid>
 
+        <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
 
+<ToggleButtonGroup>
+
+  {cargarPlant ? (
+    <Tooltip title={"Cargar Plantilla"}>
+      <ToggleButton value="check">
+        <IconButton
+          color="primary"
+          aria-label="upload documento"
+          component="label"
+          size="large"
+        >
+          <input
+            hidden
+            accept=".xlsx"
+            type="file"
+            value=""
+            onChange={(v) => handleUploadPA(v)}
+          />
+          <DriveFileMoveIcon />
+        </IconButton>
+      </ToggleButton>
+    </Tooltip>
+  ) : (
+    ""
+  )}
+
+</ToggleButtonGroup>
+</Grid>
 
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
