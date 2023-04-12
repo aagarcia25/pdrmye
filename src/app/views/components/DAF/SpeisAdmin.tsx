@@ -77,7 +77,7 @@ const SpeisAdmin = ({
             headerName: "Acciones",
             description: "Campo de Acciones",
             sortable: false,
-            width: anchoAcciones,
+            width:100+ anchoAcciones,
             renderCell: (v) => {
                 return (
                     <Box>
@@ -142,11 +142,15 @@ const SpeisAdmin = ({
             setslideropen(false);
         }
         if (descargar) {
-            link.download = name;
+         
+
+            link.download = name; 
+             console.log("entra a descarga" + link.download)
             link.click();
             window.URL.revokeObjectURL(data);
             link.remove();
             setslideropen(false);
+          
 
         }
 
@@ -248,6 +252,7 @@ const SpeisAdmin = ({
     };
 
     const handleVerSpei = (v: any) => {
+
         getfile(v.row.Nombre, v.row.Route, false)
         setslideropen(true);
 
@@ -346,10 +351,14 @@ const SpeisAdmin = ({
     };
 
     const getfile = (nameFile: string, name: string, descargar: boolean) => {
+
+        console.log(descargar);
+
         DAFServices.SpeiAdministracion(
             {
                 NUMOPERACION: 5,
                 NOMBRE: name,
+                TIPO: modo,
                 TOKEN: JSON.parse(String(getToken()))
 
             }
@@ -487,9 +496,9 @@ const SpeisAdmin = ({
     return (
         <>
             <Slider open={slideropen}></Slider>
-            <ModalForm title={'Administración de  ' + modo+'´S'} handleClose={handleClose}>
+            <ModalForm title={'Administración de  ' + modo + '´S'} handleClose={handleClose}>
                 <Box>
-                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={agregar ||(modo==="CFDI" && agregarCFDI && (user.MUNICIPIO.length>0||user.ORG.length>0)) } />
+                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={agregar || (modo === "CFDI" && agregarCFDI && (user.MUNICIPIO.length > 0 || user.ORG.length > 0))} />
                     <Grid item xs={12}>
                         <MUIXDataGridMun modulo={''} handleBorrar={handleBorrarMasivo} columns={columns} rows={speis} controlInterno={''} />
                     </Grid>
