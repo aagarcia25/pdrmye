@@ -310,14 +310,6 @@ export const CalculoGarantiaComponente = () => {
       </Grid>
 
 
-      <Grid container>
-        <Grid item>       
-        
-        </Grid>
-        <Grid item> 
-
-        </Grid>
-      </Grid>
       {/* <ButtonsAdd handleOpen={handleOpen} agregar={agregar} /> */}
       <ButtonsMunicipio
         url={"PLANTILLA DE CARGA DE GARANTIA.xlsx"}
@@ -327,9 +319,6 @@ export const CalculoGarantiaComponente = () => {
         placeholder={"Seleccione Año"} label={''} disabled={false}
         value={filterAnio} handleOpen={handleOpen}/>
       < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} modulo={"Garantia"} controlInterno={"CA"} />
-      
-
-
     </div>
   );
 };

@@ -151,6 +151,7 @@ const ModalNew = ({
 
 
   const handleSend = () => {
+    console.log(clave);
         if (clave === "ICV" ||clave === "HIDROCARBUROS"  || clave === "FOINMUN"  ||clave==='ISN100' || clave==='PREDIAL' ) {
           icv();
         } else if (clave === "ISR SALARIOS") {
@@ -179,7 +180,8 @@ const ModalNew = ({
               IDVERSION: idVersionCalculo,
               P_DIST: disti  ? 1 : 0
             };
-            agregar(data);
+           // console.log(data)
+             agregar(data);
           }
   
         }
@@ -215,7 +217,7 @@ const ModalNew = ({
         setversionCalculo(res.RESPONSE);
         setIdVersionCalculo(res.RESPONSE[0]['value']);
         setslideropen(false);
-      } else if (operacion === 33) {
+      } else if (operacion === 35) {
       setversionCalculo(res.RESPONSE);
       setIdVersionCalculo(res.RESPONSE[0]['value']);
       setslideropen(false);
@@ -239,7 +241,7 @@ const ModalNew = ({
     if(clave ==='FFM30'){
       loadFilter(23);
     }else{
-      loadFilter(33);
+      loadFilter(35);
     }
   }, []);
 
@@ -498,7 +500,7 @@ const ModalNew = ({
 
 
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
-          <IconButton onClick={handleSend}>
+          <IconButton onClick={handleSend} disabled={idmes==="false"|| idmes==="" ||idTipoCalculo==="false"||idTipoCalculo===""||Number(monto)<=0}>
             <CalculateIcon />
             Calcular
           </IconButton>

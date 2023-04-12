@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { DAFServices } from '../../../services/DAFServices';
 import { Toast } from '../../../helpers/Toast';
-import { PERMISO, RESPONSE } from '../../../interfaces/user/UserInfo';
+import { PERMISO, RESPONSE, SPEIS } from '../../../interfaces/user/UserInfo';
 import { getPermisos, getToken, getUser } from '../../../services/localStorage';
 import ArticleIcon from '@mui/icons-material/Article';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -18,15 +18,18 @@ import Slider from '../Slider';
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import axios from 'axios';
 import { base64ToArrayBuffer } from '../../../helpers/Files';
+import { MunServices } from '../../../services/MunServices';
 
 const SpeisAdmin = ({
     handleClose,
     handleAccion,
     vrows,
+    modo
 }: {
     handleClose: Function;
     handleAccion: Function;
     vrows: any;
+    modo: string
 }) => {
 
     const [documentPDF, setDocumentPDF] = useState<string>();
@@ -36,7 +39,11 @@ const SpeisAdmin = ({
     // const [documentPDF, setDocumentPDF] = useState<string>();
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [agregar, setAgregar] = useState<boolean>(false);
+    const [agregarCFDI, setAgregarCFDI] = useState<boolean>(false);
+
     const [PERMISOVerSpei, setPERMISOVerSpei] = useState<boolean>(false);
+    const [PERMISOAgregCfdi, setPERMISOAgregCfdi] = useState<boolean>(false);
+
     const [permisoDescargarSpei, setPermisoDescargarSpei] = useState<boolean>(false);
 
     const [editar, setEditar] = useState<boolean>(false);
@@ -54,7 +61,7 @@ const SpeisAdmin = ({
     const [speiFile, setSpeiFile] = useState(Object);
     const [speis, setSpeis] = useState([]);
     const [fileValid, setFileValid] = useState<boolean>(false);
-    const [mensajeError, setMensajeError] = useState<string>("Solo Archivos PDG");
+    const [mensajeError, setMensajeError] = useState<string>("Solo Archivos PDF");
 
 
 
@@ -135,7 +142,7 @@ const SpeisAdmin = ({
             setslideropen(false);
         }
         if (descargar) {
-            link.download = name + ".pdf";
+            link.download = name;
             link.click();
             window.URL.revokeObjectURL(data);
             link.remove();
@@ -147,20 +154,61 @@ const SpeisAdmin = ({
 
 
 
-    const handleNewSpei = (event: any) => {
+    const handleNewComprobante = (event: any) => {
+        setslideropen(true);
         let file = event.target!.files[0]!;
-        if (event.target.files.length !== 0 && event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF") {
+        if (event.target.files.length !== 0 && event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF" && (event.target!.files[0]!.name === (vrows.row.a3 + ".pdf") || modo === "CFDI")) {
+
 
             if (Number(event.target!.files[0]!.size) / 1024 <= 5120) {
-                setNameSpei(event.target!.files[0]!.name);
-                setSpeiFile(file);
-                setFileValid(true);
+
+                if (modo === "CFDI") {
+                    console.log("engtra " + modo)
+                    setNameSpei(event.target!.files[0]!.name);
+                    setSpeiFile(file);
+                    setFileValid(true);
+                    setslideropen(false);
+
+                }
+
+                speis.map((item: SPEIS) => {
+                    if ((item.Nombre) === event?.target?.files[0]?.name && modo === "SPEI") {
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Atención",
+                            text: "No se Puede Repetir Archivos con el mismo numero de Solicitud de pago",
+                            showDenyButton: false,
+                            showCancelButton: false,
+                            confirmButtonText: "Aceptar",
+                            cancelButtonText: "Cancelar",
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                setNameSpei("");
+                                setSpeiFile(null);
+                                setFileValid(false);
+                                setslideropen(false);
+
+                            }
+                            if (result.isDenied) {
+                            }
+                        });
+                    }
+                    else {
+                        console.log("esntra " + modo)
+                        setNameSpei(event.target!.files[0]!.name);
+                        setSpeiFile(file);
+                        setFileValid(true);
+                        setslideropen(false);
+
+                    }
+
+                });
             } else {
 
                 Swal.fire({
                     icon: "info",
                     title: "Atención",
-                    text: "Tamaño de archivo Exedido -Limitado a 5 MB-",
+                    text: "Tamaño de archivo Excedido -Limitado a 5 MB-",
                     showDenyButton: false,
                     showCancelButton: false,
                     confirmButtonText: "Aceptar",
@@ -170,6 +218,8 @@ const SpeisAdmin = ({
                         setNameSpei("");
                         setSpeiFile(null);
                         setFileValid(false);
+                        setslideropen(false);
+
                     }
                     if (result.isDenied) {
                     }
@@ -184,7 +234,7 @@ const SpeisAdmin = ({
             setFileValid(false);
             AlertS.fire({
                 title: "Atención",
-                text: "Archivo invalido",
+                text: event.target!.files[0]!.name === (vrows.row.a3 + ".pdf") ? "Archivo invalido" : "El nombre del Archivo no corresponde a la Solicitud de Pago",
                 icon: "info",
             });
 
@@ -262,12 +312,15 @@ const SpeisAdmin = ({
 
     const handleUploadSpei = (numOp: string) => {
         setslideropen(true);
+
+
+
         const formData = new FormData();
-        nameSpei !== "" ? formData.append("SPEI", speiFile, nameSpei) : formData.append("SPEI", "");
+        nameSpei !== "" ? formData.append("FILE", speiFile, nameSpei) : formData.append("FILE", "");
+        formData.append("TIPO", modo);
         formData.append("NUMOPERACION", numOp);
         formData.append("IDPROV", vrows.id);
         formData.append("CHUSER", user.id);
-        formData.append("TPROV", vrows.row.a17);
         formData.append("TOKEN", JSON.parse(String(getToken())));
 
         DAFServices.SpeiAdministracion(formData).then((res) => {
@@ -341,38 +394,64 @@ const SpeisAdmin = ({
 
     const consulta = () => {
         setslideropen(true);
-        DAFServices.SpeiAdministracion(
-            {
-                NUMOPERACION: 4,
-                P_IDPROV: vrows.id,
-                TOKEN: JSON.parse(String(getToken())),
-                TPROV: vrows.row.a17
+        if (modo === "SPEI") {
+            DAFServices.SpeiAdministracion(
+                {
+                    NUMOPERACION: 4,
+                    P_IDPROV: vrows.id,
+                    TOKEN: JSON.parse(String(getToken())),
+                    TPROV: vrows.row.a17
 
-            }
-        ).then((res) => {
-            if (res.SUCCESS) {
-                Toast.fire({
-                    icon: "success",
-                    title: "Consulta Exitosa!",
-                });
-                setSpeis(res.RESPONSE);
-                setslideropen(false);
-            } else {
-                AlertS.fire({
-                    title: "Error!",
-                    text: res.STRMESSAGE,
-                    icon: "error",
-                });
-                setslideropen(false);
-            }
-        });
+                }
+            ).then((res) => {
+                if (res.SUCCESS) {
+                    Toast.fire({
+                        icon: "success",
+                        title: "Consulta Exitosa!",
+                    });
+                    setSpeis(res.RESPONSE);
+                    setslideropen(false);
+                } else {
+                    AlertS.fire({
+                        title: "Error!",
+                        text: res.STRMESSAGE,
+                        icon: "error",
+                    });
+                    setslideropen(false);
+                }
+            });
+        }
+
+        if (modo === "CFDI") {
+            MunServices.CfdiAdministracion({ NUMOPERACION: 4, P_IDPA: vrows.id }).then((res) => {
+                if (res.SUCCESS) {
+                    Toast.fire({
+                        icon: "success",
+                        title: "Consulta Exitosa!",
+                    });
+                    setSpeis(res.RESPONSE);
+                    setslideropen(false);
+                } else {
+                    AlertS.fire({
+                        title: "Error!",
+                        text: res.STRMESSAGE,
+                        icon: "error",
+                    });
+                    setslideropen(false);
+                }
+            });
+        }
+
+
+
+
     };
     useEffect(() => {
-       
+
         consulta();
         var ancho = 0;
         permisos.map((item: PERMISO) => {
-            if (String(item.ControlInterno) === "DAFADMINPAG") {
+            if (String(item.ControlInterno) === "DAFADMINPAG" || String(item.ControlInterno) === "PARTMUN") {
 
 
                 if (String(item.Referencia) === "AGREGSPEI") {
@@ -390,6 +469,17 @@ const SpeisAdmin = ({
                     setPERMISOVerSpei(true);
                     ancho = ancho + 50;
                 }
+                if (String(item.Referencia) === "AGREGCFDI") {
+                    setAgregarCFDI(true);
+                }
+                if (String(item.Referencia) === "VERCFDI") {
+                    setPERMISOVerSpei(true);
+                    ancho = ancho + 50;
+                }
+                if (String(item.Referencia) === "DESCARGARCFDI") {
+                    setPERMISOVerSpei(true);
+                    ancho = ancho + 50;
+                }
             }
             setAnchoAcciones(ancho)
         });
@@ -397,10 +487,9 @@ const SpeisAdmin = ({
     return (
         <>
             <Slider open={slideropen}></Slider>
-            <ModalForm title={'Administración de  los Spei'} handleClose={handleClose}>
+            <ModalForm title={'Administración de  ' + modo+'´S'} handleClose={handleClose}>
                 <Box>
-                    {/* agregar={user.DEPARTAMENTOS[0].NombreCorto==="DAF"} */}
-                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={agregar} />
+                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={agregar ||(modo==="CFDI" && agregarCFDI && (user.MUNICIPIO.length>0||user.ORG.length>0)) } />
                     <Grid item xs={12}>
                         <MUIXDataGridMun modulo={''} handleBorrar={handleBorrarMasivo} columns={columns} rows={speis} controlInterno={''} />
                     </Grid>
@@ -412,7 +501,7 @@ const SpeisAdmin = ({
             {addSpei ?
                 <Dialog open={true}>
                     <Grid container item justifyContent="space-between" xs={12}>
-                        <DialogTitle>Agregar Spei</DialogTitle>
+                        <DialogTitle>{"Agregar " + modo}</DialogTitle>
                         <Tooltip title="Cerrar">
                             <IconButton onClick={() => handleCloseModal()}  >
                                 <CloseIcon />
@@ -430,7 +519,7 @@ const SpeisAdmin = ({
                                         <input
                                             id="imagencargada"
                                             accept="pdf"
-                                            onChange={(v) => { handleNewSpei(v) }}
+                                            onChange={(v) => { handleNewComprobante(v) }}
                                             type="file"
                                             style={{ zIndex: 2, opacity: 0, width: '100%', height: '80%', position: "absolute", cursor: "pointer", }} /
                                         >

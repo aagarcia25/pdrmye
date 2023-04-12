@@ -6,6 +6,7 @@ import {
   Divider,
   Grid,
   IconButton,
+  Input,
   InputAdornment,
   TextField,
   ThemeProvider,
@@ -18,7 +19,7 @@ import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
-import { currencyFormatter, Moneda, } from "../menu/CustomToolbar";
+import { currencyFormatter, Moneda, NumericFormatCustom, } from "../menu/CustomToolbar";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import Slider from "../Slider";
 import { DataGrid, GridSelectionModel, GridToolbar, esES as gridEsES, } from "@mui/x-data-grid";
@@ -36,6 +37,8 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getUser } from "../../../services/localStorage";
+import { TextFieldFormatoMoneda } from "../componentes/TextFieldFormatoMoneda";
+
 
 export const ORGHeader = ({
   dataCabecera,
@@ -45,9 +48,13 @@ export const ORGHeader = ({
   dataCabecera: any;
   modo: string;
   handleClose: Function;
-
-
 }) => {
+
+  const [values, setValues] = useState({
+    textmask: '(100) 000-0000',
+    numberformat: '1320',
+  });
+
 
   const dataCab: indexCabecera = dataCabecera?.row;
   const theme = createTheme(coreEsES, gridEsES);
@@ -61,6 +68,9 @@ export const ORGHeader = ({
   const [ures, setURes] = useState<SelectValues[]>([]);
   const [provedores, setProvedores] = useState<SelectValues[]>([]);
   const [conceptosCheque, setConceptosCheque] = useState<SelectValues[]>([]);
+
+  const [cuentasBancarias, setCuentasBancarias] = useState<SelectValues[]>([]);
+
   const [modoDetalle, setModoDetalle] = useState<string>("");
   const [proyecto, setProyecto] = useState<string>('');
   const [totalHeader, setTotalHeader] = useState<string>("0");
@@ -84,6 +94,7 @@ export const ORGHeader = ({
   const [idTipoSolicitud, setIdTipoSolicitud] = useState('');
   const [idProveedor, setidProveedor] = useState("");
   const [conCheque, setConCheque] = useState("");
+  const [idCuentaBancaria, setIdCuentaBancaria] = useState("");
 
 
   //Constantes para las columnas
@@ -94,12 +105,13 @@ export const ORGHeader = ({
   const [listConceptos, setListConceptos] = useState<SelectValues[]>([]);
   const [tipoSol, setTipoSol] = useState<SelectValues[]>([]);
 
-  
+
   const [verDetalle, setVerDetalle] = useState<boolean>(false);
   const [idClaveConcepto, setIdClaveConcepto] = useState<string>("");
   const [idDetalleCabecera, setIdDetalleCabecera] = useState<string>("");
   const [idOrg, setIdOrg] = useState<string>("");
-  const [importe, setImporte] = useState<string>();
+  const [importe, setImporte] = useState<number>(0);
+
   const [descripcion, setDescripcion] = useState<string>();
   const [adminDetalle, setAdminDetalle] = useState<string>('');
   const [funcionalDetalle, setFuncionalDetalle] = useState<string>('');
@@ -152,13 +164,18 @@ export const ORGHeader = ({
 
   const handleFilterChange2 = (v: string) => {
     setidProveedor(v);
+    loadFilter(34, v)
   };
+
   const handleChangeCptoEgreso = (v: string) => {
     setIdClaveConcepto(v);
   };
 
   const handleFilterChange3 = (v: string) => {
     setConCheque(v);
+  };
+  const handleFilterChange4 = (v: string) => {
+    setIdCuentaBancaria(v);
   };
 
   const handleAgregarDetalle = () => {
@@ -259,15 +276,15 @@ export const ORGHeader = ({
 
   const handleCancelarCambios = () => {
 
-
+    console.log(dataCab)
     setOpenAgregarDetalle(false);
     setidUResp(dataCab.IdUres);
-    setidProveedor(dataCab.IdOrg);
+    setidProveedor(dataCab.IdOrg ? dataCab.IdOrg : dataCab.idmunicipio);
     setProyecto(dataCab.NumProyecto);
     setNumCuenta(dataCab.Cuenta);
     setObservaciones(dataCab.Observaciones);
     setTotalHeader(dataCab.total);
-    setConCheque(dataCab.IdConCheque);
+    setConCheque(dataCab.IdConCheque ? dataCab.IdConCheque : dataCab.ConceptoCheque);
     setHEdit(false);
     setHHeader(true);
     setHCancel(true);
@@ -275,7 +292,6 @@ export const ORGHeader = ({
     setHAdd(false);
     handleLimpiarCamposHeader();
   };
-
 
   const handleGuardarSolicitud = () => {
     let data = {
@@ -359,7 +375,7 @@ export const ORGHeader = ({
     setDetalleLimpiar(false)
     setOpenAgregarDetalle(true);
     setidUResp(dataCab.IdUres);
-    setidProveedor(dataCab.IdOrg);
+    setidProveedor(dataCab.IdOrg ? dataCab.IdOrg : dataCab.idmunicipio);
     setProyecto(dataCab.NumProyecto);
     setNumCuenta(dataCab.Cuenta);
     setObservaciones(dataCab.Observaciones);
@@ -378,7 +394,7 @@ export const ORGHeader = ({
 
     setOpenAgregarDetalle(false);
     setIdClaveConcepto("");
-    setImporte("");
+    setImporte(0);
     setDescripcion("");
     setAdminDetalle("");
     setFuncionalDetalle("");
@@ -397,22 +413,19 @@ export const ORGHeader = ({
 
   };
 
-
   const handleLimpiarCamposDetalle = () => {
+    console.log(modoDetalle);
     if (modoDetalle === "Editar") {
-
-        setDescripcion("");
-
-        if (dataCab.orden < 16) {
-          setImporte("");
-          
-        }
+      setDescripcion("");
+      if (dataCab.orden < 16) {
+        setImporte(0);
+      }
     } else if (modoDetalle === "Agregar") {
       // setListConceptos("");
       setIdClaveConcepto("");
       setIdDetalleCabecera("");
       setIdOrg("");
-      setImporte("");
+      setImporte(0);
       setDescripcion("");
       setAdminDetalle("");
       setFuncionalDetalle("");
@@ -425,13 +438,12 @@ export const ORGHeader = ({
       setControlInternoDetalle("");
       setAreaGeoDetalle("");
       setProyProgramDetalle("");
-
-
     }
+
+
   };
 
   const handleLimpiarCamposHeader = () => {
-
 
     if (modo === "Ver") {
       setNumCuenta("");
@@ -479,7 +491,6 @@ export const ORGHeader = ({
 
 
   };
-
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -601,13 +612,23 @@ export const ORGHeader = ({
     },
   ];
 
-
-  const loadFilter = (tipo: number) => {
-    let data = { NUMOPERACION: tipo };
-    CatalogosServices.SelectIndex(data).then((res) => {
+  const loadFilter = (tipo: number, idMunOrg: string) => {
+    // if (dataCab) {
+    let data = {
+      NUMOPERACION: tipo,
+      CHID: modo === "Nuevo" ? "" : dataCab.idmunicipio ? dataCab.idmunicipio : dataCab.IdOrg
+    };
+    CatalogosServices.SelectIndex(idMunOrg ?
+      {
+        NUMOPERACION: tipo,
+        CHID: idMunOrg
+      }
+      :
+      data
+    ).then((res) => {
       if (tipo === 26) {
         setURes(res.RESPONSE);
-      } else if (tipo === 27) {
+      } else if (tipo === 32) {
         setProvedores(res.RESPONSE);
         setOpenSlider(false);
       } else if (tipo === 29) {
@@ -616,39 +637,31 @@ export const ORGHeader = ({
       else if (tipo === 30) {
         setListConceptos(res.RESPONSE);
       }
-      else if (tipo === 33) {
+      else if (tipo === 24) {
         setTipoSol(res.RESPONSE);
       }
+      else if (tipo === 34) {
+        setCuentasBancarias(res.RESPONSE);
+      }
+
+
     });
+
+    // }
+
   };
 
-  // const tipoSol =
-  //   [
-  //     {
-  //       "value": "1",
-  //       "label": "Solicitud egreso"
-  //     },
-  //     {
-  //       "value": "2",
-  //       "label": "Egreso"
-  //     },
-  //     {
-  //       "value": "3",
-  //       "label": "Aportación"
-  //     },
-  //     {
-  //       "value": "4",
-  //       "label": "Requerimiento de anticipo"
-  //     },
-  //   ]
+  const handleChange = (value: number) => {
+    // console.log(value)
+    setImporte(value);
 
+  };
 
   useEffect(() => {
     Consulta();
-    console.log(dataCab)
-    console.log(modo)
 
     if (modo === "Nuevo") {
+      // setOpenSlider(false);
       setLimpiar(true);
       setHHeader(false);
       setHCancel(false);
@@ -657,193 +670,204 @@ export const ORGHeader = ({
       setHAdd(true);
     }
     if (modo === "Ver") {
-
-
-      setidUResp(dataCab.IdUres);
-      setidProveedor(dataCab.IdOrg?dataCab.IdOrg:dataCab.idmunicipio);
+      setidUResp(dataCab.IdUres ? dataCab.IdUres : dataCab.Uresp);
+      setidProveedor(dataCab.idmunicipio);
       setProyecto(dataCab.NumProyecto);
       setNumCuenta(dataCab.Cuenta);
-      setObservaciones(dataCab.Observaciones);
+      setObservaciones(dataCab.Observaciones ? dataCab.Observaciones : "");
       setTotalHeader(dataCab.total);
       setConCheque(dataCab.IdConCheque);
       setHEdit(false);
       setIdTipoSolicitud(String(dataCab.TipoSolicitud));
-
+      setIdCuentaBancaria(dataCab.cuentabancaria ? dataCab.cuentabancaria : dataCab.Cuenta ? dataCab.Cuenta : "");
+      // console.log(dataCab.cuentabancaria ? true : false);
     }
-    if (modo === "Ver") {
-
-    }
-
-
-
-    loadFilter(29);
-    loadFilter(26);
-    loadFilter(27);
-    loadFilter(30);
-    loadFilter(33);
+    loadFilter(29, "");
+    loadFilter(26, "");
+    loadFilter(32, "");
+    loadFilter(30, "");
+    loadFilter(33, "");
+    loadFilter(34, "");
+    loadFilter(24, "");
 
 
   }, [agregarDetalle]);
 
-
   return (
-    <div>
 
-      <ModalForm title={"Cabecera de Aportaciones"} handleClose={handleClose}>
-        <Slider open={openSlider}></Slider>
+    <ModalForm title={"Cabecera de Aportaciones"} handleClose={handleClose}>
+      <Slider open={openSlider}></Slider>
 
-        <Grid container  >
+      <Grid container  >
 
-          <Grid container paddingBottom={1} >
-            <Grid item xs={12} sm={12} md={12} lg={12}>
+        <Grid container paddingBottom={1} >
+          <Grid item xs={12} sm={12} md={12} lg={12}>
 
-              <ButtonGroup size="large">
+            <ButtonGroup size="large">
+
+              <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit || dataCab.orden >= 16} >
                 <Tooltip title="Editar Cabecera">
-                  <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit || dataCab.orden>=16} >
-                    <ModeEditOutlineIcon />
-                  </Button>
+                  <ModeEditOutlineIcon />
                 </Tooltip>
+              </Button>
+
+              <Button onClick={() => handleGuardarSolicitud()} color={!HSave
+                ? "success" : "inherit"}
+                disabled={
+                  regGuardado
+                  || HSave
+                  || idUResp === ""
+                  || idUResp === "false"
+                  || idProveedor === ""
+                  || idProveedor === "false"
+                  || proyecto === ""
+                  || String(Number(proyecto)) === "NaN"
+                  || numCuenta === ""
+                  || String(Number(numCuenta)) === "NaN"
+                  || conCheque === ""
+                  || conCheque === "false"
+                  || agregarDetalle
+                  || idTipoSolicitud === ""
+                  || idTipoSolicitud === "false"
+                  || String(observaciones).trim() === ""
+                } >
                 <Tooltip title="Grabar Cambios">
-                  <Button onClick={() => handleGuardarSolicitud()} color={!HSave
-                    ? "success" : "inherit"}
-                     disabled={
-                      regGuardado
-                      || HSave
-                      || idUResp === ""
-                      || idUResp === "false"
-                      || idProveedor === ""
-                      || idProveedor === "false"
-                      || proyecto === ""
-                      || String(Number(proyecto)) === "NaN"
-                      || numCuenta === ""
-                      || String(Number(numCuenta)) === "NaN"
-                      || conCheque === ""
-                      || conCheque === "false"
-                      || agregarDetalle
-                      || idTipoSolicitud === ""
-                      || idTipoSolicitud === "false"
-                      || String(observaciones).trim() === ""
-                    } >
-                    <CheckBoxIcon />
-                  </Button  >
+                  <CheckBoxIcon />
                 </Tooltip>
+              </Button  >
+
+              <Button onClick={() => handleCancelarCambios()} color={!HCancel ? "error" : "inherit"} disabled={HCancel || regGuardado || modo === "Nuevo"} >
                 <Tooltip title="Cancelar Cambios">
-                  <Button onClick={() => handleCancelarCambios()} color={!HCancel ? "error" : "inherit"} disabled={HCancel || regGuardado || modo === "Nuevo"} >
-                    <CancelPresentationIcon />
-                  </Button  >
+                  <CancelPresentationIcon />
                 </Tooltip>
+              </Button  >
 
 
 
+
+              <Button onClick={() => handleLimpiarCamposHeader()} color={!HCancel ? "warning" : "inherit"} disabled={HCancel || regGuardado} >
                 <Tooltip title="Limpiar Campos de Cabecera">
-                  <Button onClick={() => handleLimpiarCamposHeader()} color={!HCancel ? "warning" : "inherit"} disabled={HCancel || regGuardado} >
-                    <CleaningServicesOutlinedIcon />
-                  </Button  >
+                  <CleaningServicesOutlinedIcon />
                 </Tooltip>
-              </ButtonGroup>
+              </Button  >
+            </ButtonGroup>
 
 
-            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid container justifyContent="space-between" paddingBottom={2}
+          sx={{ bgcolor: (!regGuardado || !agregarDetalle ? "rgb(255, 255, 255) " : "rgba(225, 225, 225, 0.264) "), }}>
+
+          <Grid item xs={12} sm={12} md={5.8} lg={2.9}>
+            <label className="textoNormal">U.Resp:</label>
+
+            <SelectFrag
+              value={idUResp}
+              options={ures}
+              onInputChange={handleFilterChange1}
+              placeholder={"Seleccione U.Resp"}
+              label={""}
+              disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
+            />
           </Grid>
 
-          <Grid container justifyContent="space-between" paddingBottom={2}
-            sx={{ bgcolor: (!regGuardado || !agregarDetalle ? "rgb(255, 255, 255) " : "rgba(225, 225, 225, 0.264) "), }}>
+          <Grid item xs={12} sm={12} md={5.8} lg={2.9}>
+            <label className="textoNormal">Proveedor:</label>
 
-            <Grid item xs={12} sm={12} md={5.8} lg={2.9}>
-              <label className="textoNormal">U.Resp:</label>
+            <SelectFrag
+              value={idProveedor}
+              options={provedores}
+              onInputChange={handleFilterChange2}
+              placeholder={"Seleccione Proveedor"}
+              label={""}
+              disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"} />
+          </Grid>
+          <Grid item xs={12} sm={5.5} md={5.8} lg={2}>
+            <label className="textoNormal">Tipo de solicitud:</label>
+            <SelectFrag
+              value={idTipoSolicitud}
+              options={tipoSol}
+              onInputChange={handleTipoSolicitud}
+              placeholder={"Seleccione tipo de Solicitud"}
+              label={""}
+              disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
+            />
+          </Grid>
 
-              <SelectFrag
-                value={idUResp}
-                options={ures}
-                onInputChange={handleFilterChange1}
-                placeholder={"Seleccione U.Resp"}
-                label={""}
-                disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
-              />
+          <Grid item xs={12} sm={5.5} md={5.8} lg={2}>
+            <label className="textoNormal">Proyecto:</label>
+
+            <TextField
+              required
+              value={proyecto}
+              fullWidth
+              variant="outlined"
+              type="text"
+              onChange={(v) => setProyecto(v.target.value)}
+              disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
+              inputProps={{ maxLength: 7 }}
+              error={String(Number(proyecto)) === "NaN"}
+
+
+            />
+          </Grid>
+
+
+
+
+          <Grid item xs={12} sm={5.5} md={5.8} lg={2}>
+            <label className="textoNormal">Total:</label>
+            <TextField
+              required
+              value={currencyFormatter.format(Number(sumaTotalDetalle))}
+              fullWidth
+              variant="outlined"
+              type="text"
+              disabled
+              inputProps={{ maxLength: 7 }}
+
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={5.5} md={5.8} lg={3}>
+            <label className="textoNormal">Concepto:</label>
+            <SelectFrag
+              value={conCheque}
+              options={conceptosCheque}
+              onInputChange={handleFilterChange3}
+              placeholder={"Seleccione Concepto"}
+              label={""}
+              disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
+            />
+          </Grid>
+          {dataCab?.Anio && dataCab?.Mes ?
+            <Grid item xs={12} sm={3} lg={1} paddingTop={3} paddingBottom={3} >
+              <label className="textoNormal">{"Año: " + dataCab?.Anio}</label>
+              <br />
+              <label className="textoNormal">{"Mes: " + dataCab?.Mes}</label>
             </Grid>
+            : ""
+          }
 
-            <Grid item xs={12} sm={12} md={5.8} lg={2.9}>
-              <label className="textoNormal">Proveedor:</label>
+          <Grid item xs={12} sm={8.8} md={8.8} lg={5} >
+            <Tooltip title={"Muestra las cuentas bancarias que tenga disonibles"}>
+           <label className="textoNormal">No. de Cuenta:</label>
 
-              <SelectFrag
-                value={idProveedor}
-                options={provedores}
-                onInputChange={handleFilterChange2}
-                placeholder={"Seleccione Proveedor"}
-                label={""}
-                disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"} />
-            </Grid>
-            <Grid item xs={12} sm={5.5} md={5.8} lg={2}>
-              <label className="textoNormal">Tipo de solicitud:</label>
-              <SelectFrag
-                value={idTipoSolicitud}
-                options={tipoSol}
-                onInputChange={handleTipoSolicitud}
-                placeholder={"Seleccione tipo de Solicitud"}
-                label={""}
-                disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
-              />
-            </Grid>
+            </Tooltip>
 
-            <Grid item xs={12} sm={5.5} md={5.8} lg={2}>
-              <label className="textoNormal">Proyecto:</label>
+ 
+            <SelectFrag
+              value={idCuentaBancaria}
+              options={cuentasBancarias}
+              onInputChange={handleFilterChange4}
+              placeholder={"Seleccione Cuenta Bancaria"}
+              label={modo==="Nuevo"&& cuentasBancarias.length!==0? "Seleccione Cuenta Bancaria": idCuentaBancaria !== "" && modo === "Ver" ? "" : "Sin Cuenta Bancaria Asignada"}
+              disabled={HHeader || agregarDetalle || regGuardado || cuentasBancarias.length === 0}
+            />
+            {/* ////////////////////////////////////////// */}
 
-              <TextField
-                required
-                value={proyecto}
-                fullWidth
-                variant="outlined"
-                type="text"
-                onChange={(v) => setProyecto(v.target.value)}
-                disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
-                inputProps={{ maxLength: 7 }}
-                error={String(Number(proyecto)) === "NaN"}
-
-
-              />
-            </Grid>
-
-
-
-
-            <Grid item xs={12} sm={5.5} md={5.8} lg={2}>
-              <label className="textoNormal">Total:</label>
-              <TextField
-                required
-                value={currencyFormatter.format(Number(sumaTotalDetalle))}
-                fullWidth
-                variant="outlined"
-                type="text"
-                disabled
-                inputProps={{ maxLength: 7 }}
-
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={5.5} md={5.8} lg={3}>
-              <label className="textoNormal">Concepto:</label>
-              <SelectFrag
-                value={conCheque}
-                options={conceptosCheque}
-                onInputChange={handleFilterChange3}
-                placeholder={"Seleccione Concepto"}
-                label={""}
-                disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
-              />
-            </Grid>
-            {dataCab?.Anio && dataCab?.Mes ?
-              <Grid item xs={12} sm={5.5} lg={1} paddingTop={3} paddingBottom={3} >
-                <label className="textoNormal">{"Año: " + dataCab?.Anio}</label>
-                <br />
-                <label className="textoNormal">{"Mes: " + dataCab?.Mes}</label>
-              </Grid>
-              : ""
-            }
-
-            <Grid item xs={12} sm={5.5} lg={2} >
-
-              <label className="textoNormal">No. de Cuenta:</label>
-              <TextField
+            {/* <TextField
                 required
                 value={numCuenta}
                 variant="outlined"
@@ -852,424 +876,428 @@ export const ORGHeader = ({
                 disabled={HHeader || agregarDetalle || regGuardado}
                 inputProps={{ maxLength: 18 }}
                 error={String(Number(numCuenta)) === "NaN"}
-              />
-            </Grid>
-            <Grid item xs={12} lg={5.7} >
-              <label className="textoNormal">Observaciones:</label>
+              /> */}
+            {/* ///////////////////////////////////////////////// */}
+          </Grid>
+          <Grid item xs={12} lg={5.7} >
+            <label className="textoNormal">Observaciones:</label>
 
-              <TextField
-                required
-                value={observaciones}
-                variant="outlined"
-                fullWidth
-                multiline
-                rows={3}
-                onChange={(v) => setObservaciones(v.target.value)}
-                disabled={HHeader || agregarDetalle || regGuardado}
-                inputProps={{ maxLength: 300 }}
-              />
-            </Grid>
-
+            <TextField
+              required
+              value={observaciones}
+              variant="outlined"
+              fullWidth
+              multiline
+              rows={3}
+              onChange={(v) => setObservaciones(v.target.value)}
+              disabled={HHeader || agregarDetalle || regGuardado}
+              inputProps={{ maxLength: 300 }}
+            />
           </Grid>
 
-          {modo === "Ver" ?
+        </Grid>
 
-            <Grid container boxShadow={10} borderRadius={1}>
-              <Grid item xs={12} sm={12} md={12} lg={12}>
+        {modo === "Ver" ?
 
-                <Grid item container direction="row" justifyContent="space-between" xs={12} paddingTop={1} paddingBottom={1}>
-                  {!openAgregarDetalle ?
-                    <Tooltip title="Agregar detalle">
-                      <Button disabled={openAgregarDetalle || dataCab.orden >= 16} className={dataCab.orden >= 16 ? "" : "guardarOrgCabecera"} value="check" onClick={() => handleAgregarDetalles()}>
-                        <AddIcon />
-                      </Button >
-                    </Tooltip>
-                    : ""}
-                  {openAgregarDetalle ?
-                    <>
-                      <Grid item xs={4} sm={4} md={4} lg={4}>
-                        <ButtonGroup size="large">
-                          {
-                            !openAgregarDetalle || verDetalle ?
-                              <Tooltip title="Editar Detalle">
-                                <Button onClick={() => handleEditarDetalles()} color="info"
-                                  disabled={DetalleEditar || dataCab.orden>=16}
-                                >
-                                  <ModeEditOutlineIcon />
-                                </Button>
-                              </Tooltip>
-                              : ""
-                          }
+          <Grid container boxShadow={10} borderRadius={1}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
 
-                          <Tooltip title="Grabar Cambios">
-                            <Button onClick={() => handleAgregarDetalle()} color="success"
-                              disabled={
-                                // !editarDetalle ||
-                                !DetalleEditar ||
-                                DetalleAgregar ||
-                                String(Number(importe)) === "NaN"
-                                || String(descripcion).trim() === ""
-                                || idClaveConcepto === ""
-                                || idClaveConcepto === "false"
-                                || importe === ""
-                                || adminDetalle === ""
-                                || funcionalDetalle === ""
-                                || programaticoDetalle === ""
-                                || objGastoDetalle === ""
-                                || tipoGastoDetalle === ""
-                                || fuenteFinanDetalle === ""
-                                || ramoDetalle === ""
-                                || anioDetalle === ""
-                                || controlInternoDetalle === ""
-                                || AreaGeoDetalle === ""
-                                || proyProgramaDetalle === ""
-                                || String(Number(importe)) === "NaN"
-                              } >
-                              <CheckBoxIcon />
-                            </Button  >
-                          </Tooltip>
-                          {modoDetalle === "Agregar" ? "" :
-                            <Tooltip title="Cancelar Cambios">
-                              <Button onClick={() => handleCancelarCambiosDetalle()} color="error"  >
-                                <CancelPresentationIcon />
-                              </Button  >
-                            </Tooltip>
-                          }
-
-                          <Tooltip title="Limpiar Campos de Detalle">
-                            <Button onClick={() => handleLimpiarCamposDetalle()} color="warning"
-                              disabled={!DetalleEditar || DetalleLimpiar}
-                            >
-                              <CleaningServicesOutlinedIcon />
-                            </Button  >
-                          </Tooltip>
-                        </ButtonGroup>
-
-
-                      </Grid>
-                      <Grid item xs={4} sm={4} md={4} lg={4}>
-                        <label className="Titulo">Agregar Detalle</label>
-
-                      </Grid>
-                    </>
-                    : ""}
-
-                  <Tooltip title="Cerrar administració de detalle">
-                    <Button disabled={!openAgregarDetalle} className="cerrar" value="check" onClick={() => handleCloseAñadirDetalle()}>
-                      <CloseOutlinedIcon />
-                    </Button>
-                  </Tooltip>
-                </Grid>
-
-                <Divider />
-
+              <Grid item container direction="row" justifyContent="space-between" xs={12} paddingTop={1} paddingBottom={1}>
                 {!openAgregarDetalle ?
-                  <div style={{ height: "50vh", width: "100%", }}>
 
-                    <ThemeProvider theme={theme} >
-                      <DataGrid
-                        columns={columnsParticipaciones}
-                        rows={data}
-                        density="compact"
-                        rowsPerPageOptions={[10, 25, 50, 100, 200, 300, 400]}
-                        disableSelectionOnClick
-                        disableColumnFilter
-                        disableColumnSelector
-                        disableDensitySelector
-                        getRowHeight={() => "auto"}
-                        components={{ Toolbar: GridToolbar }}
-                        sx={{
-                          fontFamily: "Poppins,sans-serif",
-                          fontWeight: "600",
-                          "& .super-app.negative": {
-                            color: "rgb(84, 3, 3)",
-                            backgroundColor: "rgb(196, 40, 40, 0.384)",
-                          },
-                          "& .super-app.positive": {
-                            backgroundColor: "rgb(16, 145, 80, 0.567)",
-                          },
-                        }}
-                        componentsProps={{
-                          toolbar: {
-                            label: "buscar",
-                            showQuickFilter: true,
-                            quickFilterProps: { debounceMs: 500 },
-                          },
-                        }}
-                        checkboxSelection
-                        onSelectionModelChange={(newSelectionModel: any) => {
-                          setSelectionModel(newSelectionModel);
-                        }}
-                        selectionModel={selectionModel}
-                        localeText={{
-                          noRowsLabel: "No se ha encontrado datos.",
-                          noResultsOverlayLabel: "No se ha encontrado ningún resultado",
-                          toolbarColumns: "Columnas",
-                          toolbarExport: "Exportar",
-                          toolbarColumnsLabel: "Seleccionar columnas",
-                          toolbarFilters: "Filtros",
-                          toolbarFiltersLabel: "Ver filtros",
-                          toolbarFiltersTooltipHide: "Quitar filtros",
-                          toolbarFiltersTooltipShow: "Ver filtros",
-                          toolbarQuickFilterPlaceholder: "Buscar",
-                          toolbarExportCSV: 'Descargar como CSV',
-                          toolbarExportPrint: 'Imprimir',
-                          checkboxSelectionSelectRow: "Filas seleccionadas",
-                          checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
-                          errorOverlayDefaultLabel: 'Ha ocurrido un error.',
-                          footerRowSelected: (count) =>
-                            count > 1 ?
-                              `${count.toLocaleString()} filas seleccionadas`
-                              :
-                              `${count.toLocaleString()} fila seleccionada`,
-                          footerTotalRows: 'Filas Totales:',
-                          columnMenuLabel: 'Menú',
-                          columnMenuShowColumns: 'Mostrar columnas',
-                          columnMenuFilter: 'Filtro',
-                          columnMenuHideColumn: 'Ocultar',
-                          columnMenuUnsort: 'Desordenar',
-                          columnMenuSortAsc: 'Ordenar ASC',
-                          columnMenuSortDesc: 'Ordenar DESC',
-                          columnHeaderFiltersTooltipActive: (count) =>
-                            count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
-                          columnHeaderFiltersLabel: 'Mostrar filtros',
-                          columnHeaderSortIconLabel: 'Ordenar',
-                        }}
-                      />
-                    </ThemeProvider>
-                  </div>
-                  :
+                  <Button color="success" disabled={!(dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP") || openAgregarDetalle || dataCab.orden >= 16} className={dataCab.orden >= 16 ? "" : "guardarOrgCabecera"} value="check" onClick={() => handleAgregarDetalles()}>
+                    <Tooltip title="Agregar detalle">
+                      <AddIcon />
+                    </Tooltip>
+                  </Button >
 
-                  <div>
-                    <Slider open={openSlider}></Slider>
+                  : ""}
+                {openAgregarDetalle ?
+                  <>
+                    <Grid item xs={4} sm={4} md={4} lg={4}>
+                      <ButtonGroup size="large">
+                        {
+                          !openAgregarDetalle || verDetalle ?
 
-                    <Grid container spacing={1} padding={0} paddingTop={6}>
-                      <Grid container justifyContent="space-around">
-                        <Grid item xs={12} sm={10} md={5.8} lg={5}>
-                          <label className="textoNormal">Cpto de egreso:</label>  <br />
+                            <Button onClick={() => handleEditarDetalles()} color="info"
+                              disabled={!(dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP") || DetalleEditar || dataCab.orden >= 16} >
+                              <Tooltip title="Editar Detalle">
+                                <ModeEditOutlineIcon />
+                              </Tooltip>
+                            </Button>
 
-                          <SelectFrag
-                            value={idClaveConcepto}
-                            options={listConceptos}
-                            onInputChange={handleChangeCptoEgreso}
-                            placeholder={"Seleccione Cpto de"}
-                            label={""} disabled={verDetalle}
-                          />
-                          <label className="textoNormal">Parcial a Pagar:</label>  <br />
+                            : ""
+                        }
 
-                          <TextField
-                            required
-                            value={currencyFormatter.format(Number(importe))}
-                            variant="outlined"
-                            onChange={(v) => setImporte(v.target.value)}
-                            InputProps={{
-                              startAdornment: <InputAdornment position="start">$</InputAdornment>,
 
-                            }}
-                            error={String(Number(importe)) === "NaN"}
-                            disabled={verDetalle && !editarDetalle || dataCab.orden >= 16} // no se edita el importe cuanod está en estatus pendiente Autorizar OP
-                          />
-                        </Grid>
+                        <Button onClick={() => handleAgregarDetalle()} color="success"
+                          disabled={
+                            // !editarDetalle ||
+                            !DetalleEditar ||
+                            DetalleAgregar ||
+                            String(Number(importe)) === "NaN"
+                            || String(descripcion).trim() === ""
+                            || idClaveConcepto === ""
+                            || idClaveConcepto === "false"
+                            || importe < 0
+                            || adminDetalle === ""
+                            || funcionalDetalle === ""
+                            || programaticoDetalle === ""
+                            || objGastoDetalle === ""
+                            || tipoGastoDetalle === ""
+                            || fuenteFinanDetalle === ""
+                            || ramoDetalle === ""
+                            || anioDetalle === ""
+                            || controlInternoDetalle === ""
+                            || AreaGeoDetalle === ""
+                            || proyProgramaDetalle === ""
+                            || String(Number(importe)) === "NaN"
+                          } >
+                          <Tooltip title="Grabar Cambios">
+                            <CheckBoxIcon />
+                          </Tooltip>
+                        </Button  >
 
-                        <Grid item xs={12} sm={12} md={6} lg={6}>
-                          <label className="textoNormal">Descripción:</label>   <br />
-                          <TextField
-                            required
-                            fullWidth
-                            spellCheck="true"
-                            rows={5}
-                            multiline
-                            value={descripcion}
-                            onChange={(v) => setDescripcion(v.target.value)}
-                            style={{ width: "100%" }}
-                            disabled={verDetalle && !editarDetalle || dataCab.orden >= 16} // no se edita la descripción del detalle cuando está en estatus Autorizar OP
+                        {modoDetalle === "Agregar" ? "" :
+                          <Tooltip title="Cancelar Cambios">
+                            <Button onClick={() => handleCancelarCambiosDetalle()} color="error"  >
+                              <CancelPresentationIcon />
+                            </Button  >
+                          </Tooltip>
+                        }
 
-                          />
-                        </Grid>
-                      </Grid>
 
-                      <Grid container spacing={1} paddingBottom={5} paddingLeft={1.5}>
+                        <Button onClick={() => handleLimpiarCamposDetalle()} color="warning"
+                          disabled={!DetalleEditar || DetalleLimpiar}>
+                          <Tooltip title="Limpiar Campos de Detalle">
+                            <CleaningServicesOutlinedIcon />
+                          </Tooltip>
+                        </Button  >
+                      </ButtonGroup>
 
-                        <Grid item xs={12}>
-                          <label className="Titulo">Clasificadores:</label>
-                          <br />
-                        </Grid>
 
-                        <Grid item xs={12} sm={4} md={3} lg={2}>
-                          <label className="textoNormal">Administrativo:</label>
-                          <TextField
-                            hiddenLabel
-                            id="Clasificador01"
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            value={adminDetalle}
-                            onChange={(v) => setAdminDetalle(v.target.value)}
-                            disabled={verDetalle}
+                    </Grid>
+                    <Grid item xs={6} sm={4} md={4} lg={4}>
+                      <label className="Titulo">Agregar Detalle</label>
 
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} lg={2}>
-                          <label className="textoNormal">Funcional:</label>
-                          <br />
+                    </Grid>
+                  </>
+                  : ""}
 
-                          <TextField
-                            hiddenLabel
-                            id="Clasificador02"
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            value={funcionalDetalle}
-                            onChange={(v) => setFuncionalDetalle(v.target.value)}
-                            disabled={verDetalle}
 
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} lg={2}>
-                          <label className="textoNormal">Programatico:</label>
-                          <br />
+                <Button disabled={!openAgregarDetalle} className="cerrar" value="check" onClick={() => handleCloseAñadirDetalle()}>
+                  <Tooltip title="Cerrar administració de detalle">
+                    <CloseOutlinedIcon />
+                  </Tooltip>
+                </Button>
+              </Grid>
+              <Divider />
 
-                          <TextField
-                            hiddenLabel
-                            id="Clasificador03"
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            value={programaticoDetalle}
-                            onChange={(v) => setProgramaticoDetalle(v.target.value)}
-                            disabled={verDetalle}
+              {!openAgregarDetalle ?
+                <div style={{ height: "50vh", width: "100%", }}>
 
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} lg={2}>
-                          <label className="textoNormal">Objeto del Gasto:</label>
-                          <br />
+                  <ThemeProvider theme={theme} >
+                    <DataGrid
+                      columns={columnsParticipaciones}
+                      rows={data}
+                      density="compact"
+                      rowsPerPageOptions={[10, 25, 50, 100, 200, 300, 400]}
+                      disableSelectionOnClick
+                      disableColumnFilter
+                      disableColumnSelector
+                      disableDensitySelector
+                      getRowHeight={() => "auto"}
+                      components={{ Toolbar: GridToolbar }}
+                      sx={{
+                        fontFamily: "Poppins,sans-serif",
+                        fontWeight: "600",
+                        "& .super-app.negative": {
+                          color: "rgb(84, 3, 3)",
+                          backgroundColor: "rgb(196, 40, 40, 0.384)",
+                        },
+                        "& .super-app.positive": {
+                          backgroundColor: "rgb(16, 145, 80, 0.567)",
+                        },
+                      }}
+                      componentsProps={{
+                        toolbar: {
+                          label: "buscar",
+                          showQuickFilter: true,
+                          quickFilterProps: { debounceMs: 500 },
+                        },
+                      }}
+                      checkboxSelection
+                      onSelectionModelChange={(newSelectionModel: any) => {
+                        setSelectionModel(newSelectionModel);
+                      }}
+                      selectionModel={selectionModel}
+                      localeText={{
+                        noRowsLabel: "No se ha encontrado datos.",
+                        noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+                        toolbarColumns: "Columnas",
+                        toolbarExport: "Exportar",
+                        toolbarColumnsLabel: "Seleccionar columnas",
+                        toolbarFilters: "Filtros",
+                        toolbarFiltersLabel: "Ver filtros",
+                        toolbarFiltersTooltipHide: "Quitar filtros",
+                        toolbarFiltersTooltipShow: "Ver filtros",
+                        toolbarQuickFilterPlaceholder: "Buscar",
+                        toolbarExportCSV: 'Descargar como CSV',
+                        toolbarExportPrint: 'Imprimir',
+                        checkboxSelectionSelectRow: "Filas seleccionadas",
+                        checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
+                        errorOverlayDefaultLabel: 'Ha ocurrido un error.',
+                        footerRowSelected: (count) =>
+                          count > 1 ?
+                            `${count.toLocaleString()} filas seleccionadas`
+                            :
+                            `${count.toLocaleString()} fila seleccionada`,
+                        footerTotalRows: 'Filas Totales:',
+                        columnMenuLabel: 'Menú',
+                        columnMenuShowColumns: 'Mostrar columnas',
+                        columnMenuFilter: 'Filtro',
+                        columnMenuHideColumn: 'Ocultar',
+                        columnMenuUnsort: 'Desordenar',
+                        columnMenuSortAsc: 'Ordenar ASC',
+                        columnMenuSortDesc: 'Ordenar DESC',
+                        columnHeaderFiltersTooltipActive: (count) =>
+                          count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+                        columnHeaderFiltersLabel: 'Mostrar filtros',
+                        columnHeaderSortIconLabel: 'Ordenar',
+                      }}
+                    />
+                  </ThemeProvider>
+                </div>
+                :
 
-                          <TextField
-                            hiddenLabel
-                            id="Clasificador04"
-                            variant="outlined"
-                            size="small"
-                            onChange={(v) => setObjGastoDetalle(v.target.value)}
-                            value={objGastoDetalle}
-                            fullWidth
-                            disabled={verDetalle}
+                <div>
+                  <Slider open={openSlider}></Slider>
 
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} lg={2}>
-                          <label className="textoNormal">Tipo del Gasto:</label>
-                          <br />
+                  <Grid container spacing={1} padding={0} paddingTop={6}>
+                    <Grid container justifyContent="space-around" paddingLeft={1.5}>
+                      <Grid item xs={12} sm={10} md={5.8} lg={5}>
+                        <label className="textoNormal">Cpto de egreso:</label>  <br />
 
-                          <TextField
-                            hiddenLabel
-                            id="Clasificador05"
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            value={tipoGastoDetalle}
-                            onChange={(v) => setTipoGastoDetalle(v.target.value)}
-                            disabled={verDetalle}
+                        <SelectFrag
+                          value={idClaveConcepto}
+                          options={listConceptos}
+                          onInputChange={handleChangeCptoEgreso}
+                          placeholder={"Seleccione Cpto de"}
+                          label={""} disabled={verDetalle}
+                        />
+                        <label className="textoNormal">Parcial a Pagar:</label>  <br />
 
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} lg={2}>
-                          <label className="textoNormal">Fuente de financiamiento:</label>
-                          <br />
+                        <TextFieldFormatoMoneda
+                          valor={importe}
+                          handleSetValor={handleChange}
+                          disable={
+                            verDetalle && !editarDetalle || dataCab.orden >= 16
+                          }
+                          error={String(Number(importe)) === "NaN"}
+                        />
 
-                          <TextField
-                            hiddenLabel
-                            id="Clasificador06"
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            value={fuenteFinanDetalle}
-                            onChange={(v) => setFuenteFinanDetalle(v.target.value)}
-                            disabled={verDetalle}
-
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} lg={2}>
-                          <label className="textoNormal">Ramo:</label>
-                          <br />
-
-                          <TextField
-                            hiddenLabel
-                            id="Clasificador07"
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            value={ramoDetalle}
-                            onChange={(v) => setRamoDetalle(v.target.value)}
-                            disabled={verDetalle}
-
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} lg={2}>
-
-                          <label className="textoNormal">Año:</label>
-                          <br />
-                          <TextField
-                            hiddenLabel
-                            id="Clasificador08"
-                            variant="outlined"
-                            size="small"
-                            value={anioDetalle}
-                            fullWidth
-                            onChange={(v) => setAnioDetalle(v.target.value)}
-                            disabled={verDetalle}
-
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} lg={2}>
-                          <label className="textoNormal">Control Interno:</label>
-                          <br />
-                          <TextField
-                            hiddenLabel
-                            id="Clasificador09"
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            value={controlInternoDetalle}
-                            onChange={(v) => setControlInternoDetalle(v.target.value)}
-                            disabled={verDetalle}
-
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} lg={2}>
-                          <label className="textoNormal">Área Geografica:</label>
-                          <br />
-
-                          <TextField
-                            hiddenLabel
-                            id="Clasificador10"
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            value={AreaGeoDetalle}
-                            disabled={verDetalle}
-                            onChange={(v) => setAreaGeoDetalle(v.target.value)}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} lg={2}>
-                          <label className="textoNormal">Proy / Program:</label>
-                          <br />
-
-                          <TextField
-                            hiddenLabel
-                            id="Clasificador11"
-                            variant="outlined"
-                            size="small"
-                            value={proyProgramaDetalle}
-                            onChange={(v) => setProyProgramDetalle(v.target.value)}
-                            fullWidth
-                            disabled={verDetalle}
-
-                          />
-                        </Grid>
 
                       </Grid>
-                      {/* {openAgregarDetalle && !verDetalle ?
+
+                      <Grid item xs={12} sm={12} md={6} lg={6}>
+                        <label className="textoNormal">Descripción:</label>   <br />
+                        <TextField
+                          required
+                          fullWidth
+                          spellCheck="true"
+                          rows={5}
+                          multiline
+                          value={descripcion}
+                          onChange={(v) => setDescripcion(v.target.value)}
+                          style={{ width: "100%" }}
+                          disabled={verDetalle && !editarDetalle || dataCab.orden >= 16} // no se edita la descripción del detalle cuando está en estatus Autorizar OP
+
+                        />
+                      </Grid>
+                    </Grid>
+
+                    <Grid container spacing={1} paddingBottom={5} paddingLeft={1.5}>
+
+                      <Grid item xs={12}>
+                        <label className="Titulo">Clasificadores:</label>
+                        <br />
+                      </Grid>
+
+                      <Grid item xs={12} sm={4} md={3} lg={2}>
+                        <label className="textoNormal">Administrativo:</label>
+                        <TextField
+                          hiddenLabel
+                          id="Clasificador01"
+                          variant="outlined"
+                          size="small"
+                          fullWidth
+                          value={adminDetalle}
+                          onChange={(v) => setAdminDetalle(v.target.value)}
+                          disabled={verDetalle}
+
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4} md={3} lg={2}>
+                        <label className="textoNormal">Funcional:</label>
+                        <br />
+
+                        <TextField
+                          hiddenLabel
+                          id="Clasificador02"
+                          variant="outlined"
+                          size="small"
+                          fullWidth
+                          value={funcionalDetalle}
+                          onChange={(v) => setFuncionalDetalle(v.target.value)}
+                          disabled={verDetalle}
+
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4} md={3} lg={2}>
+                        <label className="textoNormal">Programatico:</label>
+                        <br />
+
+                        <TextField
+                          hiddenLabel
+                          id="Clasificador03"
+                          variant="outlined"
+                          size="small"
+                          fullWidth
+                          value={programaticoDetalle}
+                          onChange={(v) => setProgramaticoDetalle(v.target.value)}
+                          disabled={verDetalle}
+
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4} md={3} lg={2}>
+                        <label className="textoNormal">Objeto del Gasto:</label>
+                        <br />
+
+                        <TextField
+                          hiddenLabel
+                          id="Clasificador04"
+                          variant="outlined"
+                          size="small"
+                          onChange={(v) => setObjGastoDetalle(v.target.value)}
+                          value={objGastoDetalle}
+                          fullWidth
+                          disabled={verDetalle}
+
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4} md={3} lg={2}>
+                        <label className="textoNormal">Tipo del Gasto:</label>
+                        <br />
+
+                        <TextField
+                          hiddenLabel
+                          id="Clasificador05"
+                          variant="outlined"
+                          size="small"
+                          fullWidth
+                          value={tipoGastoDetalle}
+                          onChange={(v) => setTipoGastoDetalle(v.target.value)}
+                          disabled={verDetalle}
+
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4} md={3} lg={2}>
+                        <label className="textoNormal">Fuente de financiamiento:</label>
+                        <br />
+
+                        <TextField
+                          hiddenLabel
+                          id="Clasificador06"
+                          variant="outlined"
+                          size="small"
+                          fullWidth
+                          value={fuenteFinanDetalle}
+                          onChange={(v) => setFuenteFinanDetalle(v.target.value)}
+                          disabled={verDetalle}
+
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4} md={3} lg={2}>
+                        <label className="textoNormal">Ramo:</label>
+                        <br />
+
+                        <TextField
+                          hiddenLabel
+                          id="Clasificador07"
+                          variant="outlined"
+                          size="small"
+                          fullWidth
+                          value={ramoDetalle}
+                          onChange={(v) => setRamoDetalle(v.target.value)}
+                          disabled={verDetalle}
+
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4} md={3} lg={2}>
+
+                        <label className="textoNormal">Año:</label>
+                        <br />
+                        <TextField
+                          hiddenLabel
+                          id="Clasificador08"
+                          variant="outlined"
+                          size="small"
+                          value={anioDetalle}
+                          fullWidth
+                          onChange={(v) => setAnioDetalle(v.target.value)}
+                          disabled={verDetalle}
+
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4} md={3} lg={2}>
+                        <label className="textoNormal">Control Interno:</label>
+                        <br />
+                        <TextField
+                          hiddenLabel
+                          id="Clasificador09"
+                          variant="outlined"
+                          size="small"
+                          fullWidth
+                          value={controlInternoDetalle}
+                          onChange={(v) => setControlInternoDetalle(v.target.value)}
+                          disabled={verDetalle}
+
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4} md={3} lg={2}>
+                        <label className="textoNormal">Área Geografica:</label>
+                        <br />
+
+                        <TextField
+                          hiddenLabel
+                          id="Clasificador10"
+                          variant="outlined"
+                          size="small"
+                          fullWidth
+                          value={AreaGeoDetalle}
+                          disabled={verDetalle}
+                          onChange={(v) => setAreaGeoDetalle(v.target.value)}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4} md={3} lg={2}>
+                        <label className="textoNormal">Proy / Program:</label>
+                        <br />
+
+                        <TextField
+                          hiddenLabel
+                          id="Clasificador11"
+                          variant="outlined"
+                          size="small"
+                          value={proyProgramaDetalle}
+                          onChange={(v) => setProyProgramDetalle(v.target.value)}
+                          fullWidth
+                          disabled={verDetalle}
+
+                        />
+                      </Grid>
+
+                    </Grid>
+                    {/* {openAgregarDetalle && !verDetalle ?
                         <Grid paddingTop={6}
                           item container justifyContent="center" alignItems="center" xs={12} sm={12} md={12} lg={12}>
                           <Tooltip title="Guardar Detalle">
@@ -1302,21 +1330,20 @@ export const ORGHeader = ({
                         : ""
                       } */}
 
-                    </Grid>
+                  </Grid>
 
-                  </div>
+                </div>
 
-                }
+              }
 
 
-              </Grid>
             </Grid>
-            :
-            ""}
+          </Grid>
+          :
+          ""}
 
-        </Grid>
-      </ModalForm>
+      </Grid>
+    </ModalForm>
 
-    </div>
   )
 }

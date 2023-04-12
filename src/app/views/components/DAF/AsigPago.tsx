@@ -48,6 +48,7 @@ import Swal from "sweetalert2";
 import { DAFServices } from "../../../services/DAFServices";
 import axios from "axios";
 import { CleaningServices } from "@mui/icons-material";
+import { fanios } from "../../../share/loadAnios";
 
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -58,8 +59,13 @@ const AsigPago = () => {
     React.useState<GridSelectionModel>([]);
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
+  const [anios, setAnios] = useState<SelectValues[]>([]);
+  const [anio, setAnio] = useState<string>("");
+
   const [fondos, setFondos] = useState<[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
+  const [estatus, setEstatus] = useState<SelectValues[]>([]);
+  
   const [tipos, setTipos] = useState<SelectValues[]>([]);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [checked, setChecked] = React.useState(false);
@@ -235,6 +241,8 @@ const AsigPago = () => {
         setMunicipios(res.RESPONSE);
       } else if (operacion === 17) {
         setTipos(res.RESPONSE);
+      }else if(operacion === 34){
+        setEstatus(res.RESPONSE);
       }
     });
   };
@@ -251,6 +259,10 @@ const AsigPago = () => {
     setidMunicipio(v);
   };
 
+  const handleFilterChange5 = (v: string) => {
+    setIdEstatus(v);
+  };
+
   const handleSelectMes = (data: any) => {
     setNombreMes(
       meses.find(({ value }) => value === data)?.label === undefined
@@ -259,6 +271,9 @@ const AsigPago = () => {
     );
 
     setMes(data);
+  };
+  const handleFilterChangeAnio = (v: string) => {
+    setAnio(v);
   };
 
   const ProcesaSPeis = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -404,6 +419,7 @@ const AsigPago = () => {
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDESTATUS: idestatus === "false" ? "" : idestatus,
       P_IDMES: mes === "false" ? "" : mes,
+      P_IDANIO: anio === "false" ? "" : anio,
       P_SOLICITUDPAGO: numOrdenPago ? numOrdenPago : "",
       P_MOSTRARTODOS: checked,
     };
@@ -428,9 +444,11 @@ const AsigPago = () => {
 
   useEffect(() => {
     setMeses(fmeses());
+    loadFilter(34);
     loadFilter(31);
     loadFilter(32);
     loadFilter(17);
+   
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "DAFADMINPAG") {
         if (String(item.Referencia) === "TRAZASPEIDAF") {
@@ -455,9 +473,9 @@ const AsigPago = () => {
       <Slider open={slideropen}></Slider>
       <div>
         <Grid container spacing={1} padding={2}>
-          <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+          <Grid container item spacing={1}  xs={12} sm={12} md={12} lg={12}>
             <Grid container sx={{ justifyContent: "center" }}>
-              <Grid item xs={10} sx={{ textAlign: "center" }}>
+              <Grid container item xs={10} sx={{ textAlign: "center" }}>
                 <Typography variant="h4" paddingBottom={2}>
                   Módulo de Administración Financiera
                 </Typography>
@@ -466,6 +484,17 @@ const AsigPago = () => {
           </Grid>
 
           <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+          <Grid item xs={12} sm={6} md={3} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
+            <SelectFrag
+              value={idestatus}
+              options={estatus}
+              onInputChange={handleFilterChange5}
+              placeholder={"Seleccione Estatus"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
             <Grid item xs={12} sm={6} md={3} lg={2}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Solicitud de Pago:
@@ -529,6 +558,17 @@ const AsigPago = () => {
                 options={meses}
                 onInputChange={handleSelectMes}
                 placeholder={"Seleccione Mes"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
+              <SelectFrag
+                value={anio}
+                options={anios}
+                onInputChange={handleFilterChangeAnio}
+                placeholder={"Seleccione Año"}
                 label={""}
                 disabled={false}
               />
@@ -694,6 +734,7 @@ const AsigPago = () => {
           handleClose={handleclose}
           handleAccion={handleAccion}
           vrows={vrows}
+          modo={""}
         />
       ) : (
         ""

@@ -321,6 +321,7 @@ export const ORG = () => {
 
       }
     ).then((res) => {
+
       if (res.SUCCESS) {  
           res.RESPONSE.map((item: indexCabecera) => {
           sumatotal = sumatotal + Number(item.total)
