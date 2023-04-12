@@ -74,8 +74,8 @@ import { ORGHeader } from "../ORGANISMOS/ORGHeader";
 import SummarizeIcon from '@mui/icons-material/Summarize';
 const Participaciones = () => {
 
-///////////////modal de adminisracion Spei cfdi
-const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
+  ///////////////modal de adminisracion Spei cfdi
+  const [modoSpeiCfdi, setModoSpeiCfdi] = useState("");
 
 
   const [checked, setChecked] = React.useState(false);
@@ -266,7 +266,7 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
     setVrows(data);
     setOpenModalDetalle(true);
   };
-  const handleVerSpei = (data: any,modo :string) => {
+  const handleVerSpei = (data: any, modo: string) => {
     setVrows(data);
     setOpenModalVerSpei(true);
     setModoSpeiCfdi(modo);
@@ -357,18 +357,18 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
               </Tooltip>
             ) : ""
             }
-            {v.row.orden>15? (
+            {v.row.orden > 15 ? (
               <Tooltip title="Ver Spei">
-                <IconButton onClick={() => handleVerSpei(v,"SPEI")}>
+                <IconButton onClick={() => handleVerSpei(v, "SPEI")}>
                   <ArticleIcon />
                 </IconButton>
               </Tooltip>
             ) : (
               ""
             )}
-             {v.row.orden>15? (
+            {v.row.orden > 15 ? (
               <Tooltip title="Administrar CFDI">
-                <IconButton onClick={() => handleVerSpei(v,"CFDI")}>
+                <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
                   <SummarizeIcon />
                 </IconButton>
               </Tooltip>
@@ -678,10 +678,10 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
         setEstatus(res.RESPONSE);
         setIdEstatus(
           user?.DEPARTAMENTOS[0]?.NombreCorto ?
-          user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ? 
-          "":
-          res.RESPONSE[0].value:
-          "");
+            user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+              "" :
+              res.RESPONSE[0].value :
+            "");
       } else if (operacion === 27) {
         setOrganismos(res.RESPONSE);
       }
@@ -1600,14 +1600,14 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
     let data = {
       TIPO: 1,
       P_FONDO: idFondo.length > 0 ? idFondo : "",
-      P_IDMUNICIPIO: user.MUNICIPIO.length>0? user.MUNICIPIO[0].id: idMunicipio === "false" ? "" : idMunicipio,
-      P_IDTIPO: user.MUNICIPIO.length>0 || user.ORG.length>0 ? "PROV": idtipoFondo === "false" ? "" : idtipoFondo,
+      P_IDMUNICIPIO: user.MUNICIPIO.length > 0 ? user.MUNICIPIO[0].id : idMunicipio === "false" ? "" : idMunicipio,
+      P_IDTIPO: user.MUNICIPIO.length > 0 || user.ORG.length > 0 ? "PROV" : idtipoFondo === "false" ? "" : idtipoFondo,
       P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
       P_IDESTATUS: idestatus === "false" ? "" : idestatus,
       P_IDMES: mes === "false" ? "" : mes,
-      P_IDORGANISMO: user?.ORG[0]? user.ORG[0].id : idORG === "false" ? "" : idORG,
+      P_IDORGANISMO: user?.ORG[0] ? user.ORG[0].id : idORG === "false" ? "" : idORG,
       P_CHUSER: user.id,
-      P_GRUPO:user.DEPARTAMENTOS[0].NombreCorto
+      P_GRUPO: user.DEPARTAMENTOS[0].NombreCorto
 
 
     };
@@ -1809,6 +1809,8 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
             <Grid item xs={11.5} sm={6} md={4} lg={2}>
 
               <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
+
+
               <SelectFragMulti
                 options={fondos}
                 onInputChange={handleFilterChange2}
@@ -1821,16 +1823,31 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
             ""}
 
           {SMUNICIPIO ?
-            <Grid item xs={11.5} sm={6} md={4} lg={2}>
-              <Typography sx={{ fontFamily: "sans-serif" }}>Municipio:</Typography>
-              <SelectFrag
-                value={idMunicipio}
-                options={municipio}
-                onInputChange={handleFilterChange3}
-                placeholder={"Seleccione Municipio"}
-                label={""}
-                disabled={false}
-              />
+            <Grid item xs={11.5} sm={6} md={4} lg={user?.DEPARTAMENTOS[0]?.NombreCorto ? user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ? 4 : 2 : 2}>
+
+
+
+              <Typography sx={{ fontFamily: "sans-serif" }}>
+                {user?.DEPARTAMENTOS[0]?.NombreCorto ? user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+                  user.MUNICIPIO[0].Nombre
+                  : "Municipios"
+                  : "Municipios"}
+              </Typography>
+
+              {user?.DEPARTAMENTOS[0]?.NombreCorto ? user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+                "" :
+                <SelectFrag
+                  value={idMunicipio}
+                  options={municipio}
+                  onInputChange={handleFilterChange3}
+                  placeholder={"Seleccione Municipio"}
+                  label={""}
+                  disabled={false}
+                />
+                : ""
+              }
+
+
             </Grid>
             :
             ""}
@@ -2066,17 +2083,24 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
         </Grid>
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          <Grid item xs={2} sm={2} md={2} lg={2}>
-            <FormControlLabel control={
-              <Checkbox
-                checked={checked}
-                onChange={handleChangeMostrarTodo}
-                inputProps={{ 'aria-label': 'controlled' }}
-              />
-            }
-              label="Mostrar Todo" />
+          {user.DEPARTAMENTOS[0].NombreCorto === "ORG" || user.DEPARTAMENTOS[0].NombreCorto === "MUN" ?
+            "" :
+            <Grid item xs={2} sm={2} md={2} lg={2}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked}
+                    onChange={handleChangeMostrarTodo}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                  />
+                }
+                label="Mostrar Todo" />
 
-          </Grid>
+            </Grid>
+
+          }
+
+
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
