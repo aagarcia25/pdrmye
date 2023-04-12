@@ -361,7 +361,6 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
               <Tooltip title="Ver Spei">
                 <IconButton onClick={() => handleVerSpei(v,"SPEI")}>
                   <ArticleIcon />
-                  SPEI
                 </IconButton>
               </Tooltip>
             ) : (
@@ -371,7 +370,6 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
               <Tooltip title="Administrar CFDI">
                 <IconButton onClick={() => handleVerSpei(v,"CFDI")}>
                   <SummarizeIcon />
-                  CFDI
                 </IconButton>
               </Tooltip>
             ) : (
@@ -1665,7 +1663,7 @@ const [modoSpeiCfdi, setModoSpeiCfdi] =useState("");
     // handleClick();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
-        
+
         if (String(item.Referencia) === "AGREGPLANT") {
           setCargarPlant(true);
         } else if (String(item.Referencia) === "DESCPLANT") {
