@@ -34,6 +34,7 @@ import {
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import { fmeses } from "../../../share/loadMeses";
+import { fanios } from "../../../share/loadAnios";
 
 
 
@@ -43,6 +44,8 @@ const AsigPresupuestal = () => {
   const [slideropen, setslideropen] = useState(true);
   //MODAL
   //Constantes para llenar los select
+  const [anios, setAnios] = useState<SelectValues[]>([]);
+  const [anio, setAnio] = useState<string>("");
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
@@ -260,6 +263,7 @@ const AsigPresupuestal = () => {
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipo === "false" ? "" : idtipo,
       P_IDMES: mes === "false" ? "" : mes,
+      P_IDANIO: mes === "false" ? "" : anio,
     };
     //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
@@ -279,7 +283,9 @@ const AsigPresupuestal = () => {
     });
   };
 
-  
+  const handleFilterChangeAnio = (v: string) => {
+    setAnio(v);
+  };
   const handleUploadPA = (event: React.ChangeEvent<HTMLInputElement>) => {
     if(mes !=="" && mes !=="false" ){
       setslideropen(true);
@@ -311,6 +317,7 @@ const AsigPresupuestal = () => {
 
   useEffect(() => {
     setMeses(fmeses());
+    setAnios(fanios());
     loadFilter(31);
     loadFilter(32);
     loadFilter(17);
@@ -388,6 +395,18 @@ const AsigPresupuestal = () => {
                 options={meses}
                 onInputChange={handleSelectMes}
                 placeholder={"Seleccione Mes"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+
+            <Grid item xs={11.5} sm={6} md={4} lg={2}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
+              <SelectFrag
+                value={anio}
+                options={anios}
+                onInputChange={handleFilterChangeAnio}
+                placeholder={"Seleccione Ejercicio"}
                 label={""}
                 disabled={false}
               />
