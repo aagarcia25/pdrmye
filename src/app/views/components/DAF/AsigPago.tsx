@@ -9,9 +9,12 @@ import {
   IconButton,
   InputAdornment,
   OutlinedInput,
+  styled,
   ThemeProvider,
   ToggleButton,
   Tooltip,
+  tooltipClasses,
+  TooltipProps,
   Typography,
 } from "@mui/material";
 import clsx from "clsx";
@@ -49,6 +52,8 @@ import { DAFServices } from "../../../services/DAFServices";
 import axios from "axios";
 import { CleaningServices } from "@mui/icons-material";
 import { fanios } from "../../../share/loadAnios";
+import CustomizedTooltips, { HtmlTooltipPersonalizado } from "../componentes/CustomizedTooltips";
+import CustomizedContentTooltips from "../componentes/CustomizedContentTooltips";
 
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -65,7 +70,7 @@ const AsigPago = () => {
   const [fondos, setFondos] = useState<[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [estatus, setEstatus] = useState<SelectValues[]>([]);
-  
+
   const [tipos, setTipos] = useState<SelectValues[]>([]);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [checked, setChecked] = React.useState(false);
@@ -120,7 +125,7 @@ const AsigPago = () => {
     setOpenTraz(false);
   };
 
-  const handleAccion = (data: any) => {};
+  const handleAccion = (data: any) => { };
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -169,7 +174,10 @@ const AsigPago = () => {
         );
       },
     },
-    { field: "a2", headerName: "Estatus", width: 150, description: "Estatus" },
+    {
+      field: "a2", headerName: "Estatus", width: 150,
+      description: "Solo se puede cargar un archivo en forma masiva si esta en Estatus Pendiente de Spei"
+    },
     {
       field: "a3",
       headerName: "Solicitud de Pago",
@@ -241,7 +249,7 @@ const AsigPago = () => {
         setMunicipios(res.RESPONSE);
       } else if (operacion === 17) {
         setTipos(res.RESPONSE);
-      }else if(operacion === 34){
+      } else if (operacion === 36) {
         setEstatus(res.RESPONSE);
       }
     });
@@ -292,14 +300,14 @@ const AsigPago = () => {
       let counfiles = event?.target?.files?.length;
       //Recorremos los registros de la busqueda
 
-     
-        rows.map((item: any, index) => {
-          //      console.log(item.a3 + 'index' + index);
 
-          for (let i = 0; i < Number(counfiles); i++) {
-            let file = event?.target?.files?.[i] || "";
-            let namefile = event?.target?.files?.[i].name || "";
-            
+      rows.map((item: any, index) => {
+        //      console.log(item.a3 + 'index' + index);
+
+        for (let i = 0; i < Number(counfiles); i++) {
+          let file = event?.target?.files?.[i] || "";
+          let namefile = event?.target?.files?.[i].name || "";
+
           if (item.a2.includes("Pendiente de Spei")) {
             if (namefile.includes(item.a3)) {
               rows = rows.filter((items) => !item);
@@ -313,12 +321,12 @@ const AsigPago = () => {
 
         }
 
-        });
+      });
 
 
-     
 
-      
+
+
 
       let a2 = noencontrados.filter((elemento, index) => {
         return noencontrados.indexOf(elemento) === index;
@@ -330,9 +338,8 @@ const AsigPago = () => {
       let html = "";
       if (a1.length === 0) {
         AlertS.fire({
-          title: "Error!",
-          text: "No se encontraron registros",
-          icon: "error",
+          text: "Sin coincidencia con algun numero de Solicitud, Verifique Nombre y Estatus ",
+          icon: "warning",
         });
       } else {
         html =
@@ -358,15 +365,15 @@ const AsigPago = () => {
             let peticiones: any[] = [];
             encontrados.map((item: any) => {
               const formData = new FormData();
-              formData.append("SPEI", item.Archivo);
+              formData.append("FILE", item.Archivo);
               formData.append("NUMOPERACION", "1");
               formData.append("IDPROV", item.Registro.id);
               formData.append("CHUSER", user.id);
-              formData.append("TPROV", item.Registro.a17);
+              formData.append("TIPO", "SPEI");
               formData.append("TOKEN", JSON.parse(String(getToken())));
               let p = axios.post(
                 process.env.REACT_APP_APPLICATION_BASE_URL +
-                  "SpeiAdministracion",
+                "SpeiAdministracion",
                 formData,
                 {
                   headers: {
@@ -444,11 +451,11 @@ const AsigPago = () => {
 
   useEffect(() => {
     setMeses(fmeses());
-    loadFilter(34);
+    loadFilter(36);
     loadFilter(31);
     loadFilter(32);
     loadFilter(17);
-   
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "DAFADMINPAG") {
         if (String(item.Referencia) === "TRAZASPEIDAF") {
@@ -473,7 +480,7 @@ const AsigPago = () => {
       <Slider open={slideropen}></Slider>
       <div>
         <Grid container spacing={1} padding={2}>
-          <Grid container item spacing={1}  xs={12} sm={12} md={12} lg={12}>
+          <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
             <Grid container sx={{ justifyContent: "center" }}>
               <Grid container item xs={10} sx={{ textAlign: "center" }}>
                 <Typography variant="h4" paddingBottom={2}>
@@ -484,17 +491,17 @@ const AsigPago = () => {
           </Grid>
 
           <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          <Grid item xs={12} sm={6} md={3} lg={2}>
-            <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
-            <SelectFrag
-              value={idestatus}
-              options={estatus}
-              onInputChange={handleFilterChange5}
-              placeholder={"Seleccione Estatus"}
-              label={""}
-              disabled={false}
-            />
-          </Grid>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
+              <SelectFrag
+                value={idestatus}
+                options={estatus}
+                onInputChange={handleFilterChange5}
+                placeholder={"Seleccione Estatus"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
             <Grid item xs={12} sm={6} md={3} lg={2}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Solicitud de Pago:
@@ -603,26 +610,41 @@ const AsigPago = () => {
 
           <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
             {subirSpeis ? (
-              <Tooltip title={"Cargar SPEI's"}>
-                <ToggleButton value="check">
-                  <IconButton
-                    color="primary"
-                    aria-label="upload documento"
-                    component="label"
-                    size="small"
-                  >
-                    <input
-                      multiple
-                      hidden
-                      accept=".pdf"
-                      type="file"
-                      value=""
-                      onChange={(v) => ProcesaSPeis(v)}
-                    />
-                    <FileUploadIcon />
-                  </IconButton>
-                </ToggleButton>
-              </Tooltip>
+              <>
+                <HtmlTooltipPersonalizado
+                  title={
+                    <React.Fragment>
+                      <Typography color="inherit">Cargar SPEI's</Typography>
+                      {"Solo se puede cargar en forma masiva si el Estatus es "}
+                      <b>{"'Pendiente de Spei'"}</b>
+                      
+                    </React.Fragment>
+                  }
+                >
+                  <ToggleButton value="check">
+                    <IconButton
+                      color="primary"
+                      aria-label="upload documento"
+                      component="label"
+                      size="small"
+                    >
+                      <input
+                        multiple
+                        hidden
+                        accept=".pdf"
+                        type="file"
+                        value=""
+                        onChange={(v) => ProcesaSPeis(v)}
+                      />
+                      <FileUploadIcon />
+                    </IconButton>
+                  </ToggleButton>
+
+
+                </HtmlTooltipPersonalizado>
+
+
+              </>
             ) : (
               ""
             )}
@@ -734,7 +756,7 @@ const AsigPago = () => {
           handleClose={handleclose}
           handleAccion={handleAccion}
           vrows={vrows}
-          modo={""}
+          modo={"SPEI"}
         />
       ) : (
         ""
