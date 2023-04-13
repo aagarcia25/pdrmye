@@ -145,7 +145,6 @@ const SpeisAdmin = ({
          
 
             link.download = name; 
-             console.log("entra a descarga" + link.download)
             link.click();
             window.URL.revokeObjectURL(data);
             link.remove();
@@ -167,7 +166,6 @@ const SpeisAdmin = ({
             if (Number(event.target!.files[0]!.size) / 1024 <= 5120) {
 
                 if (modo === "CFDI") {
-                    console.log("engtra " + modo)
                     setNameSpei(event.target!.files[0]!.name);
                     setSpeiFile(file);
                     setFileValid(true);
@@ -198,7 +196,6 @@ const SpeisAdmin = ({
                         });
                     }
                     else {
-                        console.log("esntra " + modo)
                         setNameSpei(event.target!.files[0]!.name);
                         setSpeiFile(file);
                         setFileValid(true);
@@ -241,6 +238,7 @@ const SpeisAdmin = ({
                 text: event.target!.files[0]!.name === (vrows.row.a3 + ".pdf") ? "Archivo invalido" : "El nombre del Archivo no corresponde a la Solicitud de Pago",
                 icon: "info",
             });
+            setslideropen(false)
 
         }
 
@@ -317,9 +315,6 @@ const SpeisAdmin = ({
 
     const handleUploadSpei = (numOp: string) => {
         setslideropen(true);
-
-
-
         const formData = new FormData();
         nameSpei !== "" ? formData.append("FILE", speiFile, nameSpei) : formData.append("FILE", "");
         formData.append("TIPO", modo);
@@ -352,7 +347,6 @@ const SpeisAdmin = ({
 
     const getfile = (nameFile: string, name: string, descargar: boolean) => {
 
-        console.log(descargar);
 
         DAFServices.SpeiAdministracion(
             {
