@@ -40,6 +40,15 @@ img {
   border-radius: 40px;
 
 }
+img.iconButton{
+
+  width: 45px;
+  height: 20px;
+  object-fit: "scale-down";
+  align-items: center;
+  align-content: center;
+
+}
 
 h3.h3-justify{
 text-align: justify;
@@ -117,6 +126,28 @@ h5.DatosPrincipalesPerfil{
   font-weight: bold;
   color: rgb(0, 0, 0);
   font-size:  28px;
+  text-align: center ;
+  /* mr: "2rem" */
+}
+
+h5.DatosSpeiCfdi{
+  font-family:sans-serif;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  font-size:  20px;
+  text-align: center ;
+  /* mr: "2rem" */
+}
+
+
+h5.DatosSpeiCfdiTitulo{
+
+background-color: #d7d5d58d;
+border-radius: 10px;
+  font-family:sans-serif;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  font-size:  25px;
   text-align: center ;
   /* mr: "2rem" */
 }
