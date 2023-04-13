@@ -52,7 +52,7 @@ import { DAFServices } from "../../../services/DAFServices";
 import axios from "axios";
 import { CleaningServices } from "@mui/icons-material";
 import { fanios } from "../../../share/loadAnios";
-import CustomizedTooltips, { HtmlTooltipPersonalizado } from "../componentes/CustomizedTooltips";
+import CustomizedTooltips, { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
 import CustomizedContentTooltips from "../componentes/CustomizedContentTooltips";
 
 const AsigPago = () => {
@@ -611,7 +611,7 @@ const AsigPago = () => {
           <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
             {subirSpeis ? (
               <>
-                <HtmlTooltipPersonalizado
+                <TooltipPersonalizado
                   title={
                     <React.Fragment>
                       <Typography color="inherit">Cargar SPEI's</Typography>
@@ -641,7 +641,7 @@ const AsigPago = () => {
                   </ToggleButton>
 
 
-                </HtmlTooltipPersonalizado>
+                </TooltipPersonalizado>
 
 
               </>
