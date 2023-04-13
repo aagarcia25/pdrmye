@@ -14,6 +14,9 @@ import { AlertS } from "../../../../helpers/AlertS";
 import { calculosServices } from "../../../../services/calculosServices";
 import Slider from "../../Slider";
 import { ParametroServices } from "../../../../services/ParametroServices";
+import { TooltipPersonalizado } from "../../componentes/CustomizedTooltips";
+import React from "react";
+import { TextFieldFormatoMoneda } from "../../componentes/TextFieldFormatoMoneda";
 
 const ModalNew = ({
   clave,
@@ -28,9 +31,9 @@ const ModalNew = ({
   resetNum: number;
   resetSelect: string;
 }) => {
-  
+
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [year , setyear] = useState<number>();
+  const [year, setyear] = useState<number>();
   const [slideropen, setslideropen] = useState(true);
   //LLENADO DE FILTRO
   const [mes, setMeses] = useState<SelectValues[]>([]);
@@ -48,8 +51,8 @@ const ModalNew = ({
 
   const [nameNewDoc, setNameNewDoc] = useState("");
   const [file, setFile] = useState(Object);
-  const [Czero, setCzero]= useState<boolean>(false);
-  const [disti, setDisti]= useState<boolean>(false);
+  const [Czero, setCzero] = useState<boolean>(false);
+  const [disti, setDisti] = useState<boolean>(false);
 
   const handleSelectMes = (v: SelectValues) => {
     setIdmes(String(v));
@@ -85,7 +88,7 @@ const ModalNew = ({
 
 
   const icv = () => {
-    
+
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlsx");
     formData.append("tipo", "RefrendosICV");
@@ -94,10 +97,10 @@ const ModalNew = ({
     formData.append("MES", idmes);
     formData.append("CLAVE", clave);
     formData.append("TIPOCALCULO", idTipoCalculo);
-    formData.append("DIST", disti  ? '1' : '0');
+    formData.append("DIST", disti ? '1' : '0');
     formData.append("IDVERSION", idVersionCalculo);
     CatalogosServices.migraData(formData).then((res) => {
-     
+
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -117,7 +120,7 @@ const ModalNew = ({
 
 
   const isrnomina = () => {
-   
+
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlsx");
     formData.append("tipo", "ISRNOMINA");
@@ -126,10 +129,10 @@ const ModalNew = ({
     formData.append("MES", idmes);
     formData.append("IMPORTE", "0");
     formData.append("TIPOCALCULO", idTipoCalculo);
-    formData.append("DIST", disti  ? '1' : '0');
+    formData.append("DIST", disti ? '1' : '0');
     formData.append("IDVERSION", idVersionCalculo);
     CatalogosServices.migraData(formData).then((res) => {
-      
+
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -147,44 +150,53 @@ const ModalNew = ({
     });
   };
 
- 
+  const handleChange = (value: number) => {
+    // console.log(value)
+    setMonto(Number(value))
+    if (Number(value) === 0) {
+      setCzero(true);
+    } else {
+      setCzero(false);
+    }
+
+  };
 
 
   const handleSend = () => {
     console.log(clave);
-        if (clave === "ICV" ||clave === "HIDROCARBUROS"  || clave === "FOINMUN"  ||clave==='ISN100' || clave==='PREDIAL' ) {
-          icv();
-        } else if (clave === "ISR SALARIOS") {
-          isrnomina();
-        }else{
-          
-          if (monto === null || ieja === null || idmes=== null || idTipoCalculo===null
-             || idmes=== "false" || idTipoCalculo==="false" || derecho=== null
-             ) {
-            AlertS.fire({
-              title: "Error!",
-              text: "Favor de Completar los Campos",
-              icon: "error",
-            });
-          } else {
-            let data = {
-              CLAVEFONDO: clave,
-              CHUSER: user.id,
-              IMPORTE: monto,
-              ANIO: year,
-              MES: idmes,
-              ZERO:Czero,
-              TIPOCALCULO:idTipoCalculo,
-              IEJA:ieja,
-              DERECHO: derecho,
-              IDVERSION: idVersionCalculo,
-              P_DIST: disti  ? 1 : 0
-            };
-           // console.log(data)
-             agregar(data);
-          }
-  
-        }
+    if (clave === "ICV" || clave === "HIDROCARBUROS" || clave === "FOINMUN" || clave === 'ISN100' || clave === 'PREDIAL') {
+      icv();
+    } else if (clave === "ISR SALARIOS") {
+      isrnomina();
+    } else {
+
+      if (monto === null || ieja === null || idmes === null || idTipoCalculo === null
+        || idmes === "false" || idTipoCalculo === "false" || derecho === null
+      ) {
+        AlertS.fire({
+          title: "Error!",
+          text: "Favor de Completar los Campos",
+          icon: "error",
+        });
+      } else {
+        let data = {
+          CLAVEFONDO: clave,
+          CHUSER: user.id,
+          IMPORTE: monto,
+          ANIO: year,
+          MES: idmes,
+          ZERO: Czero,
+          TIPOCALCULO: idTipoCalculo,
+          IEJA: ieja,
+          DERECHO: derecho,
+          IDVERSION: idVersionCalculo,
+          P_DIST: disti ? 1 : 0
+        };
+        // console.log(data)
+        agregar(data);
+      }
+
+    }
 
   };
 
@@ -218,9 +230,9 @@ const ModalNew = ({
         setIdVersionCalculo(res.RESPONSE[0]['value']);
         setslideropen(false);
       } else if (operacion === 35) {
-      setversionCalculo(res.RESPONSE);
-      setIdVersionCalculo(res.RESPONSE[0]['value']);
-      setslideropen(false);
+        setversionCalculo(res.RESPONSE);
+        setIdVersionCalculo(res.RESPONSE[0]['value']);
+        setslideropen(false);
       }
     });
   };
@@ -233,21 +245,21 @@ const ModalNew = ({
     setMonto(resetNum);
     setIdmes(resetSelect);
     setIdTipoCalculo(resetSelect);
-    
+
     parametros();
     loadFilter(2);
     loadFilter(15);
-    
-    if(clave ==='FFM30'){
+
+    if (clave === 'FFM30') {
       loadFilter(23);
-    }else{
+    } else {
       loadFilter(35);
     }
   }, []);
 
   return (
     <div>
-       <Slider open={slideropen}></Slider>
+      <Slider open={slideropen}></Slider>
       <Grid container spacing={1} sx={{}}>
         <Grid item xs={3} md={2.1} lg={2.5}>
           <BtnRegresar onClick={onClickBack} />
@@ -324,8 +336,20 @@ const ModalNew = ({
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
-              <Tooltip title={"Si se activa esta opción el cálculo se realizará tomando la proporción de garantía del fondo"}>
-              <FormControlLabel
+
+                <TooltipPersonalizado
+                  title={
+                    <React.Fragment>
+                      <h3 className="h3-justify">
+                        {"Si se activa esta opción el cálculo se realizará tomando la proporción de garantía del fondo"}
+                      </h3>
+                    </React.Fragment>
+
+
+                  }
+                >
+
+                  <FormControlLabel
                     value={disti}
                     control={
                       <Checkbox
@@ -334,20 +358,22 @@ const ModalNew = ({
                     }
                     label="Distribuir por Garantía"
                   />
-                  </Tooltip>
+
+                </TooltipPersonalizado>
+
               </Typography>
             </Grid>
-            
+
             <Grid item xs={4} sm={4} md={4}></Grid>
           </Grid>
         </Grid>
 
 
         <Grid item xs={12} sm={12} md={12}
-        sx={{ 
-          justifyContent: "center" ,
-          display :clave === 'FFM30' || clave === 'FGP' ? 'block' :'none'
-           }}
+          sx={{
+            justifyContent: "center",
+            display: clave === 'FFM30' || clave === 'FGP' ? 'block' : 'none'
+          }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
@@ -370,10 +396,10 @@ const ModalNew = ({
         </Grid>
 
         <Grid item xs={12} sm={12} md={12}
-        sx={{ 
-            justifyContent: "center" ,
-            display :clave !== 'HIDROCARBUROS' && clave !== 'FOINMUN' && clave !== 'ICV' && clave !== 'ISN100' && clave !== 'PREDIAL'  && clave !== 'FOULT' && clave !== 'FODES' && clave !== 'FOSEGMUN' && clave !== 'FODEM' ? 'block' :'none'
-             }}
+          sx={{
+            justifyContent: "center",
+            display: clave !== 'HIDROCARBUROS' && clave !== 'FOINMUN' && clave !== 'ICV' && clave !== 'ISN100' && clave !== 'PREDIAL' && clave !== 'FOULT' && clave !== 'FODES' && clave !== 'FOSEGMUN' && clave !== 'FODEM' ? 'block' : 'none'
+          }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
@@ -382,38 +408,26 @@ const ModalNew = ({
               </Typography>
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
-              <Input
-              value={monto}
-                sx={{ fontWeight: "MontserratMedium" }}
-                required
-                placeholder="1500000*"
-                id="monto"
-                onChange={(v) => {
-                    setMonto(Number(v.target.value))
-                    if(Number(v.target.value) === 0){
-                        setCzero(true);
-                    }else{
-                        setCzero(false);
-                    }
-                }}
-                error={monto? true : false}
-                type="number"
-                startAdornment={<InputAdornment position="start">$</InputAdornment>}
-              ></Input>
+              <TextFieldFormatoMoneda
+                disable={false}
+                valor={0}
+                handleSetValor={handleChange}
+                error={!monto} />
+             
             </Grid>
           </Grid>
         </Grid>
-        
+
         <Grid item xs={12} sm={12} md={12}
-        sx={{ 
-            justifyContent: "center" ,
-            display :  clave === 'FOSEGMUN' ? 'block' :'none'
-             }}
+          sx={{
+            justifyContent: "center",
+            display: clave === 'FOSEGMUN' ? 'block' : 'none'
+          }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
-              Impto. Erog. Juegos Apuesta:
+                Impto. Erog. Juegos Apuesta:
               </Typography>
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
@@ -423,45 +437,45 @@ const ModalNew = ({
                 placeholder="1500000*"
                 id="ieja"
                 onChange={(v) => {
-                    setieja(Number(v.target.value))
+                  setieja(Number(v.target.value))
                 }}
-                error={ieja? false : true}
+                error={ieja ? false : true}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
             </Grid>
           </Grid>
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
-          <Grid item container xs={6} sm={6} md={6}  justifyContent="flex-end" sx={{ textAlign: "right" , alignContent: "right"}}>
-            <Grid item xs={12} sm={12} md={11} lg={6}  sx={{ textAlign: "right" }}>
-              <Typography sx={{ fontFamily: "MontserratMedium" }}>
-              Derechos por los servicios de Supervisión, Control y Expedición de Constancias de Ingreso:
-              </Typography>
-            </Grid>
+            <Grid item container xs={6} sm={6} md={6} justifyContent="flex-end" sx={{ textAlign: "right", alignContent: "right" }}>
+              <Grid item xs={12} sm={12} md={11} lg={6} sx={{ textAlign: "right" }}>
+                <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                  Derechos por los servicios de Supervisión, Control y Expedición de Constancias de Ingreso:
+                </Typography>
+              </Grid>
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
               <Input
-                sx={{paddingTop:2, fontWeight: "MontserratMedium" }}
+                sx={{ paddingTop: 2, fontWeight: "MontserratMedium" }}
                 required
                 placeholder="1500000*"
                 id="ieja"
                 onChange={(v) => {
-                    setDerecho(Number(v.target.value))
+                  setDerecho(Number(v.target.value))
                 }}
-                error={derecho? false : true}
+                error={derecho ? false : true}
                 type="number"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
               ></Input>
             </Grid>
           </Grid>
         </Grid>
-        
 
-        <Grid item xs={12} sm={12} md={12} 
-          sx={{ 
-            justifyContent: "center" ,
-            display : clave === 'ICV' ||clave==='ISN100' ||clave==='PREDIAL' || clave === 'HIDROCARBUROS' || clave === 'FOINMUN' || clave === 'ISR SALARIOS' ? 'block' :'none'
-             }}
+
+        <Grid item xs={12} sm={12} md={12}
+          sx={{
+            justifyContent: "center",
+            display: clave === 'ICV' || clave === 'ISN100' || clave === 'PREDIAL' || clave === 'HIDROCARBUROS' || clave === 'FOINMUN' || clave === 'ISR SALARIOS' ? 'block' : 'none'
+          }}
         >
 
           <Grid container spacing={0} >
@@ -496,11 +510,11 @@ const ModalNew = ({
         </Grid>
 
 
-     
+
 
 
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
-          <IconButton onClick={handleSend} disabled={idmes==="false"|| idmes==="" ||idTipoCalculo==="false"||idTipoCalculo===""||Number(monto)<=0}>
+          <IconButton onClick={handleSend} disabled={idmes === "false" || idmes === "" || idTipoCalculo === "false" || idTipoCalculo === "" || Number(monto) <= 0}>
             <CalculateIcon />
             Calcular
           </IconButton>

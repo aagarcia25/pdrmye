@@ -21,6 +21,8 @@ import ModalAjuste from "./ModalAjuste";
 import MUIXDataGridMun from "../../MUIXDataGridMun";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import Swal from "sweetalert2";
+import { TooltipPersonalizado } from "../../componentes/CustomizedTooltips";
+import React from "react";
 
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
@@ -37,7 +39,7 @@ export const Fpg = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
-  
+
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [objfondo, setObjFondo] = useState<fondoinfo>();
   const [idDetalle, setIdDetalle] = useState("");
@@ -126,15 +128,15 @@ export const Fpg = () => {
               ""
             )}
 
-{cancelar     ? (
-                  <Tooltip title={"Cancelar"}>
-                    <IconButton onClick={() => BorraCalculo(v)}>
-                    <CancelPresentationIcon />
-                   </IconButton>
-                  </Tooltip>
-                ) : (
-                  ""
-                )}
+            {cancelar ? (
+              <Tooltip title={"Cancelar"}>
+                <IconButton onClick={() => BorraCalculo(v)}>
+                  <CancelPresentationIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
           </Box>
         );
       },
@@ -185,7 +187,7 @@ export const Fpg = () => {
       renderHeader: (v) => (
         <>
 
-          {v.field?"Total: " + currencyFormatter.format(Number(sumaTotal)):""}
+          {v.field ? "Total: " + currencyFormatter.format(Number(sumaTotal)) : ""}
         </>
       ),
 
@@ -227,7 +229,7 @@ export const Fpg = () => {
           sumatotal = sumatotal + Number(item.Total)
           setSumaTotal(sumatotal)
         });
-        if (!res.RESPONSE[0]){
+        if (!res.RESPONSE[0]) {
           setSumaTotal(0)
         }
         setslideropen(false);
@@ -252,8 +254,8 @@ export const Fpg = () => {
       ANIO: row.row.Anio,
       MES: row.row.nummes,
     };
-    
-    
+
+
     Swal.fire({
       icon: "question",
       title: "Borrar Cálculo",
@@ -271,9 +273,9 @@ export const Fpg = () => {
               title: "Borrado Exitoso!",
             });
 
-            
-       consultafondo({ FONDO: params.fondo });
-       consulta({ FONDO: params.fondo });
+
+            consultafondo({ FONDO: params.fondo });
+            consulta({ FONDO: params.fondo });
 
 
           } else {
@@ -325,13 +327,13 @@ export const Fpg = () => {
   const query = new URLSearchParams(useLocation().search);
   useEffect(() => {
     setstep(0);
-   const jwt = query.get("id");
-   if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
-    setIdtrazabilidad(String(jwt));
-    setIdDetalle(String(jwt));
-    setClave(String(params.fondo));
-    setOpenDetalles(true);
-   }
+    const jwt = query.get("id");
+    if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
+      setIdtrazabilidad(String(jwt));
+      setIdDetalle(String(jwt));
+      setClave(String(params.fondo));
+      setOpenDetalles(true);
+    }
   }, [agregar]);
 
   return (
@@ -347,17 +349,24 @@ export const Fpg = () => {
         ""
       )}
 
-          
+
 
 
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Tooltip title={objfondo?.Comentarios}>
+          <TooltipPersonalizado title={
+            <React.Fragment>
+              <h3 className="h3-justify">
+              {objfondo?.Comentarios}
+              </h3>
+            </React.Fragment>
+          }>
             <Typography>
               <h1>{objfondo?.Descripcion}</h1>
             </Typography>
-          </Tooltip>
+          </TooltipPersonalizado>
+
         </Grid>
       </Grid>
 
@@ -368,7 +377,7 @@ export const Fpg = () => {
           idDetalle={idDetalle}
           handleClose={handleClose}
           clave={clave}
-         />
+        />
         : ""}
 
       {step === 0 ?
@@ -392,7 +401,7 @@ export const Fpg = () => {
         <ModalNew
           clave={objfondo?.Clave || ""}
           titulo={objfondo?.Descripcion || ""}
-          onClickBack={handleClose} resetNum={0} resetSelect={""}        />
+          onClickBack={handleClose} resetNum={0} resetSelect={""} />
         : ""}
 
       {step === 2 ?

@@ -13,7 +13,7 @@ interface Props {
   descripcion: string;
 
 }
-export const HtmlTooltipPersonalizado = styled(({ className, ...props }: TooltipProps) => (
+export const TooltipPersonalizado = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
@@ -28,7 +28,7 @@ export const HtmlTooltipPersonalizado = styled(({ className, ...props }: Tooltip
 export default function CustomizedTooltips({ descripcion, children, title, children2 }: Props) {
   return (
 
-    <HtmlTooltipPersonalizado
+    <TooltipPersonalizado
       title={
         <>
           <React.Fragment>
@@ -42,7 +42,7 @@ export default function CustomizedTooltips({ descripcion, children, title, child
       <>
         {children}
       </>
-    </HtmlTooltipPersonalizado>
+    </TooltipPersonalizado>
 
   );
 }

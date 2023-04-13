@@ -41,6 +41,11 @@ img {
 
 }
 
+h3.h3-justify{
+text-align: justify;
+
+}
+
 img.rounded-corners {
   border-radius: 40px;
 }
