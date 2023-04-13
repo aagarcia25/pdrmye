@@ -349,15 +349,8 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {v.row.detalle === 1 ? (
-              <Tooltip title="Ver Detalle del Registro">
-                <IconButton onClick={() => handleDetalle(v)}>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-            ) : ""
-            }
-            {v.row.orden > 15 ? (
+
+            {v.row.orden > 13 ? (
               <Tooltip title="Ver Spei">
                 <IconButton onClick={() => handleVerSpei(v, "SPEI")}>
                   <ArticleIcon />
@@ -366,7 +359,7 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-            {v.row.orden > 15 ? (
+            {v.row.orden > 13 ? (
               <Tooltip title="Administrar CFDI">
                 <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
                   <SummarizeIcon />
@@ -375,6 +368,14 @@ const Participaciones = () => {
             ) : (
               ""
             )}
+            {v.row.detalle === 1 ? (
+              <Tooltip title="Ver Detalle del Registro">
+                <IconButton onClick={() => handleDetalle(v)}>
+                  <InfoIcon />
+                </IconButton>
+              </Tooltip>
+            ) : ""
+            }
 
           </Box>
         );
@@ -550,19 +551,19 @@ const Participaciones = () => {
       description: "Concepto de Egreso",
       width: 150,
     },
-   /* {
-      field: "conceptoCheque",
-      headerName: "Cpto. de  Cheque",
-      description: "Concepto de Cheque",
-      width: 270,
-    },*/
-   /* {
-      field: "ClavePresupuestal",
-      headerName: "Clave Presupuestal",
-      description: "Clave Presupuestal",
-      width: 550,
-      hide: false,
-    },*/
+    /* {
+       field: "conceptoCheque",
+       headerName: "Cpto. de  Cheque",
+       description: "Concepto de Cheque",
+       width: 270,
+     },*/
+    /* {
+       field: "ClavePresupuestal",
+       headerName: "Clave Presupuestal",
+       description: "Clave Presupuestal",
+       width: 550,
+       hide: false,
+     },*/
     {
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
@@ -1551,103 +1552,126 @@ const Participaciones = () => {
   };
 
   const handleClick = () => {
-    if (nombreFondo !== "" || nombreMunicipio !== "" || nombreMes !== "") {
-      setNombreExport(String(
-        (nombreFondo === "" ? "" : nombreFondo)
-        + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
-        + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
 
-    } else {
-      setNombreExport("Participaciones y Aportaciones");
+    if ((user?.MUNICIPIO?.length === 0 &&user.DEPARTAMENTOS[0]?.NombreCorto === "MUN" )|| (user?.ORG?.length === 0 && user.DEPARTAMENTOS[0]?.NombreCorto === "ORG")) {
+      AlertS.fire({
+        title:
+        String(user?.MUNICIPIO?.length === 0 &&user.DEPARTAMENTOS[0]?.NombreCorto === "MUN"?
+        "Sin Municipio asignado ":"234")+
+        String(user?.ORG?.length === 0 &&user.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ?
+        " Sin Organismo asignado":"5677")
+        ,
+        // text: res.STRMESSAGE,
+        icon: "error",
+      });
+
     }
+    else {
 
-    if (idtipoSolicitud || idFondo || idMunicipio) {
-      setIntOperaciones(false)
+      if (nombreFondo !== "" || nombreMunicipio !== "" || nombreMes !== "") {
+        setNombreExport(String(
+          (nombreFondo === "" ? "" : nombreFondo)
+          + (nombreMunicipio === "" ? "" : (" " + nombreMunicipio))
+          + (nombreMes === "" ? "" : (" " + nombreMes))).trim());
 
-    }
-
-    if (idestatus === 'a2d2adfc-8e12-11ed-a98c-040300000000') {
-      SETDAMOP_INI(true);
-    } else if (idestatus === 'd117049e-8e12-11ed-a98c-040300000000') {
-      SETDAMOP_FSE(true);
-    } else if (idestatus === 'e0f0d317-8e12-11ed-a98c-040300000000') {
-      SETDAMOP_ASE(true);
-    } else if (idestatus === 'ef68291d-8e12-11ed-a98c-040300000000') {
-      SETDAMOP_TE(true);
-    } else if (idestatus === 'fe7fae95-8e12-11ed-a98c-040300000000') {
-      SETDAMOP_AE(true);
-    } else if (idestatus === '0c1b887e-8e13-11ed-a98c-040300000000') {
-      SETDAMOP_FE(true);
-    } else if (idestatus === '1a7d41ed-8e13-11ed-a98c-040300000000') {
-      SETDAMOP_VE(true);
-    } else if (idestatus === '2a879241-8e13-11ed-a98c-040300000000') {
-      SETDAMOP_GSE(true);
-    } else if (idestatus === '399a2ffe-8e13-11ed-a98c-040300000000') {
-      SETDAMOP_ASP(true);
-    } else if (idestatus === '4a5cf61b-8e13-11ed-a98c-040300000000') {
-      SETDAMOP_FRA(true);
-    } else if (idestatus === '596e5f1e-8e13-11ed-a98c-040300000000') {
-      SETDAMOP_ARA(true);
-    } else if (idestatus === '67d9cdb6-8e13-11ed-a98c-040300000000') {
-      SETDAMOP_FINALIZADO(true);
-    } else if (idestatus === 'e6fd8a34-9073-11ed-a98c-040300000000') {
-      SETDAMOP_PFI(true);
-    } else if (idestatus === 'f747b03c-9073-11ed-a98c-040300000000') {
-      SETDAMOP_PAUT(true);
-    } else if (idestatus === 'b825e8af-91e8-11ed-a912-705a0f328da6') {
-      SETDAF_SPEI(true);
-    }
-    let data = {
-      TIPO: 1,
-      P_FONDO: idFondo.length > 0 ? idFondo : "",
-      P_IDMUNICIPIO: user.MUNICIPIO.length > 0 ? user.MUNICIPIO[0].id : idMunicipio === "false" ? "" : idMunicipio,
-      P_IDTIPO: user.MUNICIPIO.length > 0 || user.ORG.length > 0 ? "PROV" : idtipoFondo === "false" ? "" : idtipoFondo,
-      P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
-      P_IDESTATUS: idestatus === "false" ? "" : idestatus,
-      P_IDMES: mes === "false" ? "" : mes,
-      P_IDORGANISMO: user?.ORG[0] ? user.ORG[0].id : idORG === "false" ? "" : idORG,
-      P_CHUSER: user.id,
-      P_GRUPO: user.DEPARTAMENTOS[0].NombreCorto
-
-
-    };
-    setslideropen(true);
-    DPCPServices.GetParticipaciones(data).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        setData(res.RESPONSE);
-        var sumatotal = 0;
-        res.RESPONSE.map((item: any) => {
-          sumatotal = sumatotal + Number(item.importe)
-          setSumaTotal(sumatotal)
-        });
-        setslideropen(false);
       } else {
-        AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-        setslideropen(false);
+        setNombreExport("Participaciones y Aportaciones");
       }
-    });
 
-    let dataDis = {
-      TIPO: 2,
-      P_IDMUNICIPIO: idMunicipio,
-    };
+      if (idtipoSolicitud || idFondo || idMunicipio) {
+        setIntOperaciones(false)
 
-    DPCPServices.GetParticipaciones(dataDis).then((res) => {
-      if (res.SUCCESS) {
-        if (res.RESPONSE[0].numFideicomisos !== 0) {
-          setMunTieneFide(true);
+      }
+
+      if (idestatus === 'a2d2adfc-8e12-11ed-a98c-040300000000') {
+        SETDAMOP_INI(true);
+      } else if (idestatus === 'd117049e-8e12-11ed-a98c-040300000000') {
+        SETDAMOP_FSE(true);
+      } else if (idestatus === 'e0f0d317-8e12-11ed-a98c-040300000000') {
+        SETDAMOP_ASE(true);
+      } else if (idestatus === 'ef68291d-8e12-11ed-a98c-040300000000') {
+        SETDAMOP_TE(true);
+      } else if (idestatus === 'fe7fae95-8e12-11ed-a98c-040300000000') {
+        SETDAMOP_AE(true);
+      } else if (idestatus === '0c1b887e-8e13-11ed-a98c-040300000000') {
+        SETDAMOP_FE(true);
+      } else if (idestatus === '1a7d41ed-8e13-11ed-a98c-040300000000') {
+        SETDAMOP_VE(true);
+      } else if (idestatus === '2a879241-8e13-11ed-a98c-040300000000') {
+        SETDAMOP_GSE(true);
+      } else if (idestatus === '399a2ffe-8e13-11ed-a98c-040300000000') {
+        SETDAMOP_ASP(true);
+      } else if (idestatus === '4a5cf61b-8e13-11ed-a98c-040300000000') {
+        SETDAMOP_FRA(true);
+      } else if (idestatus === '596e5f1e-8e13-11ed-a98c-040300000000') {
+        SETDAMOP_ARA(true);
+      } else if (idestatus === '67d9cdb6-8e13-11ed-a98c-040300000000') {
+        SETDAMOP_FINALIZADO(true);
+      } else if (idestatus === 'e6fd8a34-9073-11ed-a98c-040300000000') {
+        SETDAMOP_PFI(true);
+      } else if (idestatus === 'f747b03c-9073-11ed-a98c-040300000000') {
+        SETDAMOP_PAUT(true);
+      } else if (idestatus === 'b825e8af-91e8-11ed-a912-705a0f328da6') {
+        SETDAF_SPEI(true);
+      }
+      let data = {
+        TIPO: 1,
+        P_FONDO: idFondo.length > 0 ? idFondo : "",
+        P_IDMUNICIPIO: user.MUNICIPIO.length > 0 ? user.MUNICIPIO[0].id : idMunicipio === "false" ? "" : idMunicipio,
+        P_IDTIPO: user.MUNICIPIO.length > 0 || user.ORG.length > 0 || user.DEPARTAMENTOS[0]?.NombreCorto === "MUN" || user.DEPARTAMENTOS[0].NombreCorto === "ORG" ? "PROV" : idtipoFondo === "false" ? "" : idtipoFondo,
+        P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
+        P_IDESTATUS: idestatus === "false" ? "" : idestatus,
+        P_IDMES: mes === "false" ? "" : mes,
+        P_IDORGANISMO: user?.ORG[0] ? user.ORG[0].id : idORG === "false" ? "" : idORG,
+        P_CHUSER: user.id,
+        P_GRUPO: user.DEPARTAMENTOS[0].NombreCorto
+
+
+      };
+      setslideropen(true);
+      DPCPServices.GetParticipaciones(data).then((res) => {
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "Consulta Exitosa!",
+          });
+          setData(res.RESPONSE);
+          var sumatotal = 0;
+          res.RESPONSE.map((item: any) => {
+            sumatotal = sumatotal + Number(item.importe)
+            setSumaTotal(sumatotal)
+          });
+          setslideropen(false);
+        } else {
+          AlertS.fire({
+            title: "Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+          setslideropen(false);
         }
-      } else {
-      }
-    });
+      });
+
+      let dataDis = {
+        TIPO: 2,
+        P_IDMUNICIPIO: idMunicipio,
+      };
+
+      DPCPServices.GetParticipaciones(dataDis).then((res) => {
+        if (res.SUCCESS) {
+          if (res.RESPONSE[0].numFideicomisos !== 0) {
+            setMunTieneFide(true);
+          }
+        } else {
+        }
+      });
+
+    }
+
+
+
+
+
   };
 
 

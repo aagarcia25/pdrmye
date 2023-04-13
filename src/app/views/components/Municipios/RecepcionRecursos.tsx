@@ -459,10 +459,10 @@ const RecepcionRecursos = () => {
         </Grid>
       </Grid>
       {openVerSpei ?
-        <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={data} modo ={""} />
+        <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={data} modo ={"SPEI"} />
         : ""}
       {openVerCfdi ?
-        <CfdiAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={data} />
+        <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={data} modo ={"CFDI"} />
         : ""}
 
     </div>
