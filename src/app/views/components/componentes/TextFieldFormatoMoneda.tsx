@@ -33,6 +33,7 @@ export const TextFieldFormatoMoneda = ({ error, disable, valor, handleSetValor }
 
     return (
         <TextField
+            size="small"
             disabled={disable}
             value={values.numberformat}
             onChange={handleChange}

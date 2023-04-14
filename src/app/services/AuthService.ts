@@ -57,6 +57,11 @@ export class AuthService {
         return await post('usuarioRol', data);
     }
 
+    
+    public static async usuarioOrg(data: any) {
+        return await post('usuarioOrg', data);
+    }
+
     public static async FondosAjustes(data: any) {
         return await post('FondosAjustes', data);
     }
@@ -72,6 +77,9 @@ export class AuthService {
         return await post('RelacionarUsuarioRol', data);
     }
 
+    public static async RelacionarUsuarioOrg(data: any) {
+        return await post('RelacionarUsuarioOrg', data);
+    }
 
 
     public static async menusindex(data: any) {

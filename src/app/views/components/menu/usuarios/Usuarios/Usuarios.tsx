@@ -15,6 +15,7 @@ import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import UsuariosMunicipios from "./UsuariosMunicipios";
 import UsuarioRoles from "./UsuarioRoles";
+import UsuarioOrg from "./UsuarioOrg";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { ParametroServices } from "../../../../../services/ParametroServices";
@@ -27,6 +28,7 @@ const Usuarios = () => {
   const [data, setData] = useState([]);
   const [dataSolicitud, setDataSolicitud] = useState<Datum[]>([]);
   const [openRolConf, setOpenRolConf] = useState(false);
+  const [openOrgConf, setOpenOrgConf] = useState(false);
   const [openConfigMun, setOpenConfigMun] = useState(false);
   const [openNew, setOpenNew] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState("");
@@ -128,9 +130,14 @@ const Usuarios = () => {
     setOpenConfigMun(false);
     setOpenNew(false);
     setOpenRolConf(false);
+    setOpenOrgConf(false);
     consulta({ NUMOPERACION: 4 }, "Consulta Exitosa");
   };
 
+const handleOrgConf = (v: any) => {
+    setDt(v.row);
+    setOpenOrgConf(true);
+  };
 
   const handleRolConf = (v: any) => {
     setDt(v.row);
@@ -157,10 +164,16 @@ const Usuarios = () => {
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 150,
+      width: 200,
       renderCell: (v) => {
         return (
           <Box >
+            <Tooltip title={"Configurar Organismos"}>
+              <IconButton color="success" onClick={() => handleOrgConf(v)}>
+                <AssignmentIndIcon />
+              </IconButton>
+            </Tooltip>
+
             <Tooltip title={"Configurar Roles"}>
               <IconButton color="success" onClick={() => handleRolConf(v)}>
                 <AssignmentIndIcon />
@@ -255,6 +268,14 @@ const Usuarios = () => {
   return (
     <div>
       <Grid sx={{ paddingTop: "1%" }}>
+      {openOrgConf ?
+          <UsuarioOrg
+            handleClose={handleClose}
+            dt={dt}
+          ></UsuarioOrg>
+          :
+          ""
+        }
         {openRolConf ?
           <UsuarioRoles
             handleClose={handleClose}

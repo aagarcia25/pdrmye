@@ -14,9 +14,10 @@ import { AlertS } from "../../../../helpers/AlertS";
 import { calculosServices } from "../../../../services/calculosServices";
 import Slider from "../../Slider";
 import { ParametroServices } from "../../../../services/ParametroServices";
+import { TextFieldFormatoMoneda } from "../../componentes/TextFieldFormatoMoneda";
 
 const ModalAjuste = ({
-  idCalculo,  
+  idCalculo,
   clave,
   titulo,
   onClickBack,
@@ -26,9 +27,9 @@ const ModalAjuste = ({
   titulo: string;
   onClickBack: Function;
 }) => {
-  
+
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [year , setyear] = useState<number>();
+  const [year, setyear] = useState<number>();
   //LLENADO DE FILTRO
   const [mes, setMeses] = useState<SelectValues[]>([]);
   const [tipoCalculo, setTipoCalculo] = useState<SelectValues[]>([]);
@@ -67,17 +68,17 @@ const ModalAjuste = ({
 
   const handleSelect01 = (v: SelectValues) => {
     setIdAjustes(String(v));
-    if(String(v) !== ""){
-    
-      let data ={
-        NUMOPERACION :5,
-        CHID :String(v)
+    if (String(v) !== "") {
+
+      let data = {
+        NUMOPERACION: 5,
+        CHID: String(v)
       };
       CatalogosServices.AjustesIndex(data).then((res) => {
         if (res.SUCCESS) {
           //console.log(res.RESPONSE);
           setLabelAjuste(Number(res.RESPONSE.keys));
-         
+
         } else {
           AlertS.fire({
             title: "Error!",
@@ -86,7 +87,7 @@ const ModalAjuste = ({
           });
         }
       });
-    }else{
+    } else {
       setLabelAjuste(0);
     }
   };
@@ -101,8 +102,8 @@ const ModalAjuste = ({
     formData.append("IMPORTE", String(monto));
     formData.append("IDCALCULO", idCalculo);
     formData.append("IDAJUSTE", String(idAjustes));
+
     CatalogosServices.migraData(formData).then((res) => {
-   
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -121,44 +122,46 @@ const ModalAjuste = ({
   };
 
   const handleSend = () => {
-         // AJUSTE ESTATAL
-      if(labelAjuste === 10 ){
-        AjusteEstatal();
-      }else if(labelAjuste === 9){
-        AjusteEstatal();
-      }else if(labelAjuste === 8){
-        AjusteEstatal();
-      } 
-          
+    // AJUSTE ESTATAL
+    if (labelAjuste === 10) {
+      AjusteEstatal();
+    } else if (labelAjuste === 9) {
+      AjusteEstatal();
+    } else if (labelAjuste === 8) {
+      AjusteEstatal();
+    }
+
 
   };
 
   const loadFilter = (operacion: number) => {
-    let data = { NUMOPERACION: operacion, CHID: clave , CLAVE: clave};
+    let data = { NUMOPERACION: operacion, CHID: clave, CLAVE: clave };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (operacion === 2) {
         setMeses(res.RESPONSE);
       } else if (operacion === 15) {
         setTipoCalculo(res.RESPONSE);
-      }  else if (operacion === 3) {
+      } else if (operacion === 3) {
         setAjustes(res.RESPONSE);
       }
-     
+
     });
   };
- 
+
   const loadInfoCalculo = () => {
-    let data = {CHID: idCalculo };
+    let data = { CHID: idCalculo };
     calculosServices.infoCalculo(data).then((res) => {
-      let mesDescripcion  = mes.find(el => el.value === res.RESPONSE.Mes);
+      let mesDescripcion = mes.find(el => el.value === res.RESPONSE.Mes);
       let tipoDescripcion = tipoCalculo.find(el => el.value === res.RESPONSE.idtipo);
-      setIdmes( mesDescripcion);
+      setIdmes(mesDescripcion);
       setIdTipoCalculo(tipoDescripcion);
       setslideropen(false);
     });
   };
 
-  
+  const handleChange = (value: number) => {
+    setMonto(Number(value))
+  };
 
 
   useEffect(() => {
@@ -175,10 +178,9 @@ const ModalAjuste = ({
   }, [tipoCalculo]);
 
 
-
   return (
     <div>
-       <Slider open={slideropen}></Slider>
+      <Slider open={slideropen}></Slider>
       <Grid container spacing={1} sx={{}}>
         <Grid item xs={3} md={2.1} lg={2.5}>
           <BtnRegresar onClick={onClickBack} />
@@ -216,11 +218,11 @@ const ModalAjuste = ({
             </Grid>
 
             <Grid item xs={2} sm={2} md={2} sx={{ textAlign: "left" }}>
-            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 {idmes?.label}
-            </Typography>
+              </Typography>
 
-             
+
             </Grid>
             <Grid item xs={4} sm={4} md={4}></Grid>
           </Grid>
@@ -234,7 +236,7 @@ const ModalAjuste = ({
               </Typography>
             </Grid>
             <Grid item xs={2} sm={2} md={2} sx={{ textAlign: "left" }}>
-             {idTipoCalculo?.label}
+              {idTipoCalculo?.label}
             </Grid>
             <Grid item xs={4} sm={4} md={4}></Grid>
           </Grid>
@@ -263,12 +265,12 @@ const ModalAjuste = ({
         </Grid>
 
 
-      
+
         <Grid item xs={12} sm={12} md={12}
-        sx={{ 
-            justifyContent: "center" ,
-            display : clave !== 'ICV' ? 'block' :'none'
-             }}
+          sx={{
+            justifyContent: "center",
+            display: clave !== 'ICV' ? 'block' : 'none'
+          }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
@@ -277,30 +279,24 @@ const ModalAjuste = ({
               </Typography>
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
-              <Input
-                sx={{ fontWeight: "MontserratMedium" }}
-                required
-                placeholder="1500000*"
-                id="monto"
-                onChange={(v) => {
-                    setMonto(Number(v.target.value))
-                }}
-                error={monto? true : false}
-                type="number"
-                startAdornment={<InputAdornment position="start">$</InputAdornment>}
-              ></Input>
+              <TextFieldFormatoMoneda
+                disable={false}
+                valor={0}
+                handleSetValor={handleChange}
+                error={!monto} />
+
             </Grid>
           </Grid>
         </Grid>
-        
 
 
 
-        <Grid item xs={12} sm={12} md={12} 
-          sx={{ 
-            justifyContent: "center" ,
-            display : labelAjuste === 10 || labelAjuste === 9 || labelAjuste === 8  ? 'block' :'none'
-             }}
+
+        <Grid item xs={12} sm={12} md={12}
+          sx={{
+            justifyContent: "center",
+            display: labelAjuste === 10 || labelAjuste === 9 || labelAjuste === 8 ? 'block' : 'none'
+          }}
         >
 
           <Grid container spacing={0} >
@@ -337,13 +333,18 @@ const ModalAjuste = ({
 
 
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
-          <IconButton onClick={handleSend}>
-            <CalculateIcon />
-            Calcular
-          </IconButton>
-        </Grid>
+          <IconButton onClick={handleSend}
+            disabled={
+              !monto
+              || idAjustes === "" || idAjustes==="false"
+            }
+          >
+          <CalculateIcon />
+          Calcular
+        </IconButton>
       </Grid>
-    </div>
+    </Grid>
+    </div >
   );
 };
 
