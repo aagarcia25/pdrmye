@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Tooltip } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { AlertS } from '../../../helpers/AlertS';
 import ModalForm from '../componentes/ModalForm';
 import MUIXDataGridMun from '../MUIXDataGridMun';
@@ -77,7 +77,7 @@ const SpeisAdmin = ({
             headerName: "Acciones",
             description: "Campo de Acciones",
             sortable: false,
-            width:100+ anchoAcciones,
+            width: 100 + anchoAcciones,
             renderCell: (v) => {
                 return (
                     <Box>
@@ -142,14 +142,14 @@ const SpeisAdmin = ({
             setslideropen(false);
         }
         if (descargar) {
-         
 
-            link.download = name; 
+
+            link.download = name;
             link.click();
             window.URL.revokeObjectURL(data);
             link.remove();
             setslideropen(false);
-          
+
 
         }
 
@@ -450,7 +450,7 @@ const SpeisAdmin = ({
 
     };
     useEffect(() => {
-
+        console.log(vrows.row)
         consulta();
         var ancho = 0;
         permisos.map((item: PERMISO) => {
@@ -491,6 +491,32 @@ const SpeisAdmin = ({
         <>
             <Slider open={slideropen}></Slider>
             <ModalForm title={'Administración de  ' + modo + '´S'} handleClose={handleClose}>
+                <Grid container  spacing={1} rowSpacing={3}>
+                    <Grid item xs={12} md={6} lg={4}>
+                        <Typography variant="h5" className='DatosSpeiCfdiTitulo'>
+                            Fondo:
+                        </Typography>
+                        <Typography variant="h5" className='DatosSpeiCfdi'>
+                            {vrows.row.fondodes}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={4}>
+                        <Typography variant="h5" className='DatosSpeiCfdiTitulo'>
+                            Numero Solicitud de Pago:
+                        </Typography>
+                        <Typography variant="h5" className='DatosSpeiCfdi'>
+                            {vrows.row.NumOrdenPago}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={4} >
+                        <Typography variant="h5" className='DatosSpeiCfdiTitulo'>
+                            Importe:
+                        </Typography>
+                        <Typography variant="h5" className='DatosSpeiCfdi'>
+                            {vrows.row.importe}
+                        </Typography>
+                    </Grid>
+                </Grid>
                 <Box>
                     <ButtonsAdd handleOpen={handleAgregarSpei} agregar={agregar || (modo === "CFDI" && agregarCFDI && (user.MUNICIPIO.length > 0 || user.ORG.length > 0))} />
                     <Grid item xs={12}>

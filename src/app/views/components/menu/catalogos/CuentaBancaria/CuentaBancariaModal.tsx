@@ -59,7 +59,7 @@ export const CuentaBancariaModal = ({
   const handleNewFile = (event: any) => {
 
     let file = event.target!.files[0]!;
-    var sizeByte = Number(file.size);
+    var sizeByte = Number(file?.size);
     // setSizeFile(Number(sizeByte) / 1024 >= 3072 ? true : false)
     if (Number(sizeByte) / 1024 >= 3072) {
       AlertS.fire({
@@ -293,9 +293,9 @@ export const CuentaBancariaModal = ({
                     variant="standard"
                     onChange={(v) =>
                       handleNumCuenta(v.target.value)}
-                    error={numeroCuenta === "" ? true : false}
+                    error={String(Number(numeroCuenta)) === "NaN"}
                     inputProps={{
-                      // maxLength: 18,
+                      maxLength: 18,
                       pattern: '[0-9]*'
                     }}
                     InputLabelProps={{ shrink: true }}
@@ -313,7 +313,7 @@ export const CuentaBancariaModal = ({
                     fullWidth
                     variant="standard"
                     onChange={(v) => handleClabe(v.target.value)}
-                    error={clabeBancaria === "" ? true : false}
+                    error={String(Number(clabeBancaria)) === "NaN"}
                     inputProps={{
                       maxLength: 18,
                       pattern: '[0-9]*'
@@ -410,7 +410,20 @@ export const CuentaBancariaModal = ({
               >
                 <Grid item xs={4} sm={3} md={2} lg={1}
                 >
-                  <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+                  <Button
+                    disabled={
+                      String(Number(numeroCuenta)) === "NaN"
+                      || String(Number(clabeBancaria)) === "NaN"
+                      || clabeBancaria.length !== 18
+                      || !DocSubido
+                      || !DocSubidoCarta
+                      || !nombreCuenta
+                      ||idBancos===""
+                      ||idBancos==="false"
+
+                    }
+
+                    className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
                 </Grid>
               </Grid>
             </Grid>
@@ -486,13 +499,9 @@ export const CuentaBancariaModal = ({
                 <label >
                   {dt?.row?.NombreCarta}
                 </label>
-
               </Box>
-
             </Grid>
-
           </Grid>
-
         </ModalForm>
 
       ) : ""}

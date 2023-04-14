@@ -6,6 +6,7 @@ import {
   FormControlLabel,
   Grid,
   IconButton,
+  SvgIcon,
   ThemeProvider,
   ToggleButton,
   ToggleButtonGroup,
@@ -72,6 +73,11 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { ORGHeader } from "../ORGANISMOS/ORGHeader";
 import SummarizeIcon from '@mui/icons-material/Summarize';
+import IconSPEI from '../../../assets/img/SPEI.svg';
+import IconCFDI from '../../../assets/img/CFDI.svg';
+import { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
+import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
+
 const Participaciones = () => {
 
   ///////////////modal de adminisracion Spei cfdi
@@ -351,18 +357,22 @@ const Participaciones = () => {
           <Box>
 
             {v.row.orden > 13 ? (
-              <Tooltip title="Ver Spei">
-                <IconButton onClick={() => handleVerSpei(v, "SPEI")}>
-                  <ArticleIcon />
-                </IconButton>
-              </Tooltip>
+              <>
+                <Tooltip title="Ver Spei">
+                  <IconButton
+                    onClick={() => handleVerSpei(v, "SPEI")}>
+                    <img className="iconButton" src={IconSPEI} onClick={() => handleVerSpei(v, "SPEI")} />
+                  </IconButton>
+                </Tooltip>
+              
+              </>
             ) : (
               ""
             )}
             {v.row.orden > 13 ? (
               <Tooltip title="Administrar CFDI">
                 <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
-                  <SummarizeIcon />
+                  <img className="iconButton" src={IconCFDI} onClick={() => handleVerSpei(v, "SPEI")} />
                 </IconButton>
               </Tooltip>
             ) : (
@@ -689,6 +699,20 @@ const Participaciones = () => {
     });
   };
 
+  const handleVerSpeiTooltip = (v: any) => {
+
+    // getfile(v.row.Nombre, v.row.Route, false)
+    setslideropen(true);
+
+};
+
+
+const handleDescargarSpei = (v: any) => {
+  setslideropen(true);
+  // getfile(v.row.Nombre, v.row.Route, true);
+  setslideropen(false);
+
+};
   const handleClose = () => {
     setOpenModalCabecera(false);
     setOpenModal(false);
@@ -1553,13 +1577,13 @@ const Participaciones = () => {
 
   const handleClick = () => {
 
-    if ((user?.MUNICIPIO?.length === 0 &&user.DEPARTAMENTOS[0]?.NombreCorto === "MUN" )|| (user?.ORG?.length === 0 && user.DEPARTAMENTOS[0]?.NombreCorto === "ORG")) {
+    if ((user?.MUNICIPIO?.length === 0 && user.DEPARTAMENTOS[0]?.NombreCorto === "MUN") || (user?.ORG?.length === 0 && user.DEPARTAMENTOS[0]?.NombreCorto === "ORG")) {
       AlertS.fire({
         title:
-        String(user?.MUNICIPIO?.length === 0 &&user.DEPARTAMENTOS[0]?.NombreCorto === "MUN"?
-        "Sin Municipio asignado ":"234")+
-        String(user?.ORG?.length === 0 &&user.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ?
-        " Sin Organismo asignado":"5677")
+          String(user?.MUNICIPIO?.length === 0 && user.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+            "Sin Municipio asignado " : "234") +
+          String(user?.ORG?.length === 0 && user.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ?
+            " Sin Organismo asignado" : "5677")
         ,
         // text: res.STRMESSAGE,
         icon: "error",
