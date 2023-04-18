@@ -659,7 +659,7 @@ export const ORGHeader = ({
 
   useEffect(() => {
     Consulta();
-
+console.log(dataCab);
     if (modo === "Nuevo") {
       // setOpenSlider(false);
       setLimpiar(true);
@@ -705,7 +705,7 @@ export const ORGHeader = ({
 
             <ButtonGroup size="large">
 
-              <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit || dataCab.orden >= 16} >
+              <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit  || dataCab.orden!==1} >
                 <Tooltip title="Editar Cabecera">
                   <ModeEditOutlineIcon />
                 </Tooltip>
@@ -722,14 +722,13 @@ export const ORGHeader = ({
                   || idProveedor === "false"
                   || proyecto === ""
                   || String(Number(proyecto)) === "NaN"
-                  || numCuenta === ""
-                  || String(Number(numCuenta)) === "NaN"
                   || conCheque === ""
                   || conCheque === "false"
                   || agregarDetalle
                   || idTipoSolicitud === ""
                   || idTipoSolicitud === "false"
-                  || String(observaciones).trim() === ""
+                  ||idCuentaBancaria===""
+                  ||idCuentaBancaria==="false"
                 } >
                 <Tooltip title="Grabar Cambios">
                   <CheckBoxIcon />
@@ -791,7 +790,7 @@ export const ORGHeader = ({
               onInputChange={handleTipoSolicitud}
               placeholder={"Seleccione tipo de Solicitud"}
               label={""}
-              disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
+              disabled={HHeader || agregarDetalle || regGuardado || dataCab.orden!==1}
             />
           </Grid>
 
@@ -863,7 +862,7 @@ export const ORGHeader = ({
               onInputChange={handleFilterChange4}
               placeholder={"Seleccione Cuenta Bancaria"}
               label={modo==="Nuevo"&& cuentasBancarias.length!==0? "Seleccione Cuenta Bancaria": idCuentaBancaria !== "" && modo === "Ver" ? "" : "Sin Cuenta Bancaria Asignada"}
-              disabled={HHeader || agregarDetalle || regGuardado || cuentasBancarias.length === 0}
+              disabled={HHeader || agregarDetalle || regGuardado || cuentasBancarias.length === 0 || dataCab.orden!==1}
             />
             {/* ////////////////////////////////////////// */}
 
@@ -890,7 +889,7 @@ export const ORGHeader = ({
               multiline
               rows={3}
               onChange={(v) => setObservaciones(v.target.value)}
-              disabled={HHeader || agregarDetalle || regGuardado}
+              disabled={HHeader || agregarDetalle || regGuardado || dataCab.orden!==1}
               inputProps={{ maxLength: 300 }}
             />
           </Grid>
