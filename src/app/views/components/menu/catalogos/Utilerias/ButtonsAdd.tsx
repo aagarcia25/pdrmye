@@ -1,5 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
-import { Box, ToggleButtonGroup, Tooltip, ToggleButton, Grid } from "@mui/material";
+import { Box, ToggleButtonGroup, Tooltip, ToggleButton, Grid, Typography } from "@mui/material";
+import React from "react";
+import { TooltipPersonalizado } from "../../../componentes/CustomizedTooltips";
 
 const ButtonsAdd = ({
   handleOpen,
@@ -12,11 +14,13 @@ const ButtonsAdd = ({
     <>
       {agregar ? (
         <ToggleButtonGroup color="primary" exclusive aria-label="Platform"   >
-          <Tooltip title="Agregar" >
+          <TooltipPersonalizado
+            title={<React.Fragment><Typography variant='h6' className='tooltipLogos'>Agregar</Typography></React.Fragment>}>
             <ToggleButton value="check" onClick={() => handleOpen(1)}>
               <AddIcon />
             </ToggleButton>
-          </Tooltip>
+          </TooltipPersonalizado>
+
         </ToggleButtonGroup>
       ) : (
         ""

@@ -20,8 +20,8 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
-import { getToken, getUser } from "../../services/localStorage";
-import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { getPerfilFoto, getToken, getUser } from "../../services/localStorage";
+import { RESPONSE, RESPONSESTORAGE } from "../../interfaces/user/UserInfo";
 import { Backdrop, Button, Hidden, SpeedDialAction } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
 import { base64ToArrayBuffer } from "../../helpers/Files";
@@ -33,10 +33,15 @@ import ShareIcon from '@mui/icons-material/Share'
 import { styled } from '@mui/material/styles';
 import SpeedDial, { SpeedDialProps } from '@mui/material/SpeedDial';
 import HomeIcon from '@mui/icons-material/Home';
+import { AuthService } from "../../services/AuthService";
+import { useState } from "react";
+import { ProfilePhoto } from "./componentes/ProfilePhoto";
 interface HeaderProps {
   onDrawerToggle: () => void;
   name: string;
   id: any;
+  imgData: string;
+  imgTipo: string;
 }
 
 export default function Header(props: HeaderProps) {
@@ -44,10 +49,12 @@ export default function Header(props: HeaderProps) {
   const btnAll = "130%";
   const [openSlider, setOpenSlider] = React.useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const [responseStorage, setResponseStorage] = useState<RESPONSESTORAGE>(JSON.parse(String(getPerfilFoto())));
   const navigate = useNavigate();
   const [cnotif, setCnotif] = React.useState(0);
   const [rutaFoto, setRutaFoto] = React.useState("");
 
+  
   const { onDrawerToggle } = props;
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -84,6 +91,7 @@ export default function Header(props: HeaderProps) {
      });*/
   };
 
+
   const onNotification = () => {
     navigate("/Notification");
   };
@@ -116,15 +124,9 @@ export default function Header(props: HeaderProps) {
 
           }}
         >
-          {rutaFoto !== null ? (
-            <img
-              style={{
-                objectFit: "scale-down",
-                width: "100%",
-                height: "100%",
-                borderRadius: '50%',
-              }}
-              src={rutaFoto}
+          {user.RutaFoto !== null ? (
+              <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
+              src={"data:"+responseStorage?.TIPO+";base64," + responseStorage?.FILE}
             />
           ) : (
             <PersonIcon sx={{
@@ -178,7 +180,7 @@ export default function Header(props: HeaderProps) {
         </Popper> </>, name: 'Configuración'
     },
     {
-      icon: <>       <IconButton
+      icon: <> <IconButton
         color="inherit"
         sx={{
           mt: 0.1,
@@ -276,7 +278,6 @@ export default function Header(props: HeaderProps) {
 
 
 
-
   const handleClose = (event: Event | React.SyntheticEvent) => {
     if (
       anchorRef.current &&
@@ -297,9 +298,6 @@ export default function Header(props: HeaderProps) {
 
   };
 
-
-
-
   const onConfigProfile = () => {
     navigate("/perfil");
     setOpen((prevOpen) => !prevOpen);
@@ -317,6 +315,7 @@ export default function Header(props: HeaderProps) {
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
+
     if (prevOpen.current === true && open === false) {
       anchorRef.current!.focus();
     }
@@ -328,18 +327,29 @@ export default function Header(props: HeaderProps) {
     NUMOPERACION: 5,
     CHUSER: user?.id ? user?.id : "",
   };
+  React.useEffect(() => {
+
+      // setResponseStorage(JSON.parse(String(getPerfilFoto())))
+  });
 
   React.useEffect(() => {
+
+    // setResponseStorage(JSON.parse(String(getPerfilFoto())))
     setRutaFoto(String(user?.RutaFoto))
+    
     CatalogosServices.Notificaciones(data).then((res) => {
       let result = res.RESPONSE;
       setCnotif(result[0].count);
+      // setResponseStorage(JSON.parse(String(getPerfilFoto())))
     });
   });
 
+  // export const OnChangeProfilePhoto = (v:any) => {
+  //   setResponseStorage(JSON.parse(String(getPerfilFoto())))
+  // };
+
   return (
     <React.Fragment>
-
       <AppBar
         style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco, paddingBottom: "1%", margin: "0" }}
         position="sticky"
@@ -455,15 +465,19 @@ export default function Header(props: HeaderProps) {
                       }}
                     >
                       {rutaFoto !== null ? (
-                        <img
+                        <>
+                             <img
                           style={{
                             objectFit: "scale-down",
                             width: "100%",
                             height: "100%",
                             borderRadius: '50%',
                           }}
-                          src={rutaFoto}
+                          src={"data:"+props.imgTipo+";base64," +props.imgData}
                         />
+                            {/* <ProfilePhoto/> */}
+                        </>
+                   
                       ) : (
                         <PersonIcon sx={{
                           width: "100%", height: "100%",
@@ -603,3 +617,4 @@ export default function Header(props: HeaderProps) {
     </React.Fragment>
   );
 }
+

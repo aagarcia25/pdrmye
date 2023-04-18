@@ -361,7 +361,9 @@ const Participaciones = () => {
                 <Tooltip title="Ver Spei">
                   <IconButton
                     onClick={() => handleVerSpei(v, "SPEI")}>
-                    <img className="iconButton" src={IconSPEI} onClick={() => handleVerSpei(v, "SPEI")} />
+                    <img className="iconButton" src={IconSPEI} 
+                    // onClick={() => handleVerSpei(v, "SPEI")}
+                     />
                   </IconButton>
                 </Tooltip>
               
@@ -372,7 +374,9 @@ const Participaciones = () => {
             {v.row.orden > 13 ? (
               <Tooltip title="Administrar CFDI">
                 <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
-                  <img className="iconButton" src={IconCFDI} onClick={() => handleVerSpei(v, "SPEI")} />
+                  <img className="iconButton" src={IconCFDI} 
+                  // onClick={() => handleVerSpei(v, "SPEI")}
+                  />
                 </IconButton>
               </Tooltip>
             ) : (
@@ -1792,7 +1796,7 @@ const handleDescargarSpei = (v: any) => {
           </Grid>
         </Grid>
 
-        <Grid container item spacing={.3} xs={12} sm={12} md={12} lg={12} direction="row"
+        <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12} direction="row"
           justifyContent="center"
           alignItems="center" >
 
@@ -1839,7 +1843,11 @@ const handleDescargarSpei = (v: any) => {
             ""}
 
           {STIPOSOLICITUD ?
-            <Grid item xs={11.5} sm={6} md={4} lg={2}>
+            <Grid item xs={11.5} sm={6} md={4} 
+            lg={ user?.DEPARTAMENTOS[0]?.NombreCorto ?
+              user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+                4 :
+                2 : 2}>
               <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
               <SelectFrag
                 value={idtipoSolicitud}
@@ -1854,7 +1862,10 @@ const handleDescargarSpei = (v: any) => {
             ""}
 
           {SFONDO ?
-            <Grid item xs={11.5} sm={6} md={4} lg={2}>
+            <Grid item xs={11.5} sm={6} md={4} lg={ user?.DEPARTAMENTOS[0]?.NombreCorto ?
+              user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+                4 :
+                2 : 2}>
 
               <Typography sx={{ fontFamily: "sans-serif" }}>Fondo:</Typography>
 
@@ -1905,8 +1916,7 @@ const handleDescargarSpei = (v: any) => {
               user?.DEPARTAMENTOS[0]?.NombreCorto ?
                 user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
                   4 :
-                  2 :
-                2}>
+                  2 : 2}>
               <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
               <SelectFrag
                 value={mes}
