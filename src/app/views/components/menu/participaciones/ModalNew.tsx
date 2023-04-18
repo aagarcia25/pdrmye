@@ -514,7 +514,7 @@ const ModalNew = ({
 
 
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
-          <IconButton onClick={handleSend} disabled={idmes === "false" || idmes === "" || idTipoCalculo === "false" || idTipoCalculo === "" || Number(monto) <= 0}>
+          <IconButton onClick={handleSend} disabled={idmes === "false" || idmes === "" || idTipoCalculo === "false" || idTipoCalculo === "" }>
             <CalculateIcon />
             Calcular
           </IconButton>
