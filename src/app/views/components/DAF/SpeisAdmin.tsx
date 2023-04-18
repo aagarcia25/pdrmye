@@ -19,6 +19,15 @@ import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import axios from 'axios';
 import { base64ToArrayBuffer } from '../../../helpers/Files';
 import { MunServices } from '../../../services/MunServices';
+import IconSPEIPDF from '../../../assets/img/PDF_icon.svg';
+import IconSPEIPDFDown from '../../../assets/img/PDFDown.svg';
+import IconeXCEL from '../../../assets/img/ICONEXCEL.svg';
+import IconCFDIEXCELDown from '../../../assets/img/ICONEXCELDOWN.svg';
+import { TooltipPersonalizado } from '../componentes/CustomizedTooltips';
+import React from 'react';
+
+
+
 
 const SpeisAdmin = ({
     handleClose,
@@ -51,6 +60,8 @@ const SpeisAdmin = ({
     const [addSpei, setAddSpei] = useState<boolean>(false);
     const [verSpei, setVerSpei] = useState<boolean>(false);
     const [slideropen, setslideropen] = useState(false);
+    const [TipoDeArchivoPDF, setTipoDeArchivoPDF] = useState(false);
+
     const [URLruta, setURLRuta] = useState<string>("");
 
     const [ruta, setRuta] = useState<string>("");
@@ -81,27 +92,41 @@ const SpeisAdmin = ({
             renderCell: (v) => {
                 return (
                     <Box>
-                        {PERMISOVerSpei ?
-                            <Tooltip title="Ver Spei">
+                        {PERMISOVerSpei && v.row.Nombre.slice(-3).toUpperCase() === "PDF" ?
+                            <TooltipPersonalizado
+                                title={<React.Fragment><Typography variant='h6' className='tooltipLogos'>Ver</Typography></React.Fragment>}>
                                 <IconButton onClick={() => handleVerSpei(v)}>
-                                    <ArticleIcon />
+                                    <img className="iconButton"
+                                        src={
+                                            v.row.Nombre.slice(-3).toUpperCase() === "PDF" ?
+                                                IconSPEIPDF : IconeXCEL} />
                                 </IconButton>
-                            </Tooltip>
+                            </TooltipPersonalizado>
                             : ""}
                         {/* {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ? */}
                         {eliminar ?
-                            <Tooltip title="Eliminar Archivo">
+                            <TooltipPersonalizado
+                                title={<React.Fragment><Typography variant='h6' className='tooltipLogos'>Eliminar Archivo</Typography></React.Fragment>}>
                                 <IconButton onClick={() => handleDeleteSpei(v)}>
                                     <DeleteIcon />
                                 </IconButton>
-                            </Tooltip>
+                            </TooltipPersonalizado>
                             : ""}
-                        {permisoDescargarSpei ?
-                            <Tooltip title="Descargar Spei">
+                        {permisoDescargarSpei
+                            // && v.row.Nombre.slice(-3).toUpperCase() === "PDF"
+                            ?
+                            <TooltipPersonalizado
+                                title={<React.Fragment><Typography variant='h6' className='tooltipLogos'>Descargar Archivo</Typography></React.Fragment>}>
                                 <IconButton onClick={() => handleDescargarSpei(v)}>
-                                    <DownloadOutlinedIcon />
+                                    <img className="iconButton" src={
+                                        v.row.Nombre.slice(-3).toUpperCase() === "PDF" ?
+                                            IconSPEIPDFDown
+                                            :
+                                            IconCFDIEXCELDown
+                                    } />
                                 </IconButton>
-                            </Tooltip>
+                            </TooltipPersonalizado>
+
                             : ""}
 
 
@@ -127,9 +152,9 @@ const SpeisAdmin = ({
     };
 
 
-    function base64toPDF(data: string, name: string, descargar: boolean) {
+    function base64toPDF(data: string, tipo: string, name: string, descargar: boolean) {
         var bufferArray = base64ToArrayBuffer(data);
-        var blobStore = new Blob([bufferArray], { type: "application/pdf" });
+        var blobStore = new Blob([bufferArray], { type: tipo });
 
         var data = window.URL.createObjectURL(blobStore);
         var link = document.createElement('a');
@@ -159,8 +184,14 @@ const SpeisAdmin = ({
 
     const handleNewComprobante = (event: any) => {
         setslideropen(true);
+        console.log(event.target!.files[0]!.name.slice(-4).toUpperCase())
         let file = event.target!.files[0]!;
-        if (event.target.files.length !== 0 && event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF" && (event.target!.files[0]!.name === (vrows.row.a3 + ".pdf") || modo === "CFDI")) {
+        if ((event.target.files.length !== 0 &&
+            (event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF"
+                || event.target!.files[0]!.name.slice(-4).toUpperCase() === ".XLS"
+                || event.target!.files[0]!.name.slice(-4).toUpperCase() === "XLSX"
+            ))
+            && (event.target!.files[0]!.name === (vrows.row.a3 + ".pdf") || modo === "CFDI")) {
 
 
             if (Number(event.target!.files[0]!.size) / 1024 <= 5120) {
@@ -235,7 +266,13 @@ const SpeisAdmin = ({
             setFileValid(false);
             AlertS.fire({
                 title: "Atención",
-                text: event.target!.files[0]!.name === (vrows.row.a3 + ".pdf") ? "Archivo invalido" : "El nombre del Archivo no corresponde a la Solicitud de Pago",
+                text:
+                    (event.target!.files[0]!.name.slice(-3).toUpperCase() !== "PDF"
+                        || event.target!.files[0]!.name.slice(-3).toUpperCase() !== "XLS"
+                        || event.target!.files[0]!.name.slice(-4).toUpperCase() !== "XLSX") ?
+                        modo === "CFDI" ? "Archivo invalido. Solo Extenciones PDF, XLS, XLSX "
+                            : "Archivo invalido. Solo extenciones PDF"
+                        : "El nombre del Archivo no corresponde a la Solicitud de Pago",
                 icon: "info",
             });
             setslideropen(false)
@@ -250,9 +287,17 @@ const SpeisAdmin = ({
     };
 
     const handleVerSpei = (v: any) => {
-
+        console.log(v.row.Nombre.slice(-3).toUpperCase() === "PDF");
+        // {
+        if (v.row.Nombre.slice(-3).toUpperCase() === "PDF") {
+            setTipoDeArchivoPDF(true)
+        } else {
+            setTipoDeArchivoPDF(false)
+        }
         getfile(v.row.Nombre, v.row.Route, false)
         setslideropen(true);
+        // }
+
 
     };
 
@@ -362,7 +407,7 @@ const SpeisAdmin = ({
                     icon: "success",
                     title: "Consulta Exitosa!",
                 });
-                base64toPDF(String(res.RESPONSE.RESPONSE.FILE), nameFile, descargar)
+                base64toPDF(String(res.RESPONSE.RESPONSE.FILE), String(res.RESPONSE.RESPONSE.TIPO), nameFile, descargar)
 
 
             } else {
@@ -412,6 +457,8 @@ const SpeisAdmin = ({
                         icon: "success",
                         title: "Consulta Exitosa!",
                     });
+                    console.log(res.RESPONSE)
+
                     setSpeis(res.RESPONSE);
                     setslideropen(false);
                 } else {
@@ -450,7 +497,6 @@ const SpeisAdmin = ({
 
     };
     useEffect(() => {
-        console.log(vrows.row)
         consulta();
         var ancho = 0;
         permisos.map((item: PERMISO) => {
@@ -491,7 +537,7 @@ const SpeisAdmin = ({
         <>
             <Slider open={slideropen}></Slider>
             <ModalForm title={'Administración de  ' + modo + '´S'} handleClose={handleClose}>
-                <Grid container  spacing={1} rowSpacing={3}>
+                <Grid container spacing={1} rowSpacing={3}>
                     <Grid item xs={12} md={6} lg={4}>
                         <Typography variant="h5" className='DatosSpeiCfdiTitulo'>
                             Fondo:
@@ -557,7 +603,12 @@ const SpeisAdmin = ({
                                 </Tooltip>
                             </Grid>
                             <Grid item xs={12}>
-                                <h3>Solo se Permiten Archivos PDF</h3>
+                                <h3>
+                                    {
+                                        modo === "CFDI" ? "Solo Extenciones PDF, XLS, XLSX "
+                                            : "Solo extenciones PDF"
+                                    }
+                                </h3>
                             </Grid>
                         </Grid>
                     </DialogContent>
@@ -580,7 +631,12 @@ const SpeisAdmin = ({
                                 <iframe
                                     width="100%"
                                     height="700"
-                                    src={URLruta} />
+                                    src={
+                                        TipoDeArchivoPDF ?
+                                            URLruta
+                                            :
+                                            "http://docs.google.com/viewer?url=" + URLruta + "&embedded=true"
+                                    } />
                             </Grid>
                         </Grid>
                     </DialogContent>

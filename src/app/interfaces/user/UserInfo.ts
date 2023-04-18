@@ -145,7 +145,20 @@ export interface DEPARTAMENTOS {
     Descripcion: string;
 }
 
+
+export interface RESPONSESTORAGE {
+    NOMBRE: string;
+    TIPO: string;
+    SIZE: number;
+    FILE: string;
+
+}
+
 export interface RESPONSE {
+    NOMBRE?: string;
+    TIPO?: string;
+    SIZE?: number;
+    FILE?: string;
     id: string;
     deleted: string;
     UltimaActualizacion: string;

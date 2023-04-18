@@ -32,24 +32,24 @@ export function BloqueoSesion({
 
   useEffect(() => {
     // console.log(getUser())
-    
-  if(getUser()===null){
-    const decoded: UserLogin = jwt_decode(String(getToken()));
-    setApellMat("");
-    setApellPat("");
-    setName(decoded.NombreUsuario);
+
+    if (getUser() === null  || getUser() === "undefined") {
+      const decoded: UserLogin = jwt_decode(String(getToken()));
+      setApellMat("");
+      setApellPat("");
+      setName(decoded.NombreUsuario);
 
 
-  }else{
-  const user: RESPONSE = JSON.parse(String(getUser()===undefined? null :getUser()));
-  setApellMat(user?.ApellidoMaterno);
-  setApellPat(user?.ApellidoPaterno);
-  setName(user?.Nombre);
-  }
-     
+    } else {
+      const user: RESPONSE = JSON.parse(String(getUser() === "undefined" || getUser() === undefined ? null : getUser()));
+      setApellMat(user?.ApellidoMaterno);
+      setApellPat(user?.ApellidoPaterno);
+      setName(user?.Nombre);
+    }
+
   }, [])
-  
-  
+
+
   return (
     <Box
       sx={{
@@ -77,7 +77,7 @@ export function BloqueoSesion({
             alignItems: "center",
           }}
         >
-           <Typography sx={{ fontSize: "3vw" }}>{name + ' ' + apellPat + ' '+ apellMat}</Typography> 
+          <Typography sx={{ fontSize: "3vw" }}>{name + ' ' + apellPat + ' ' + apellMat}</Typography>
           <TextField
             sx={{
               width: "50vw",
@@ -94,16 +94,16 @@ export function BloqueoSesion({
             }}
             placeholder="Contraseña"
           ></TextField>
-          
+
           <Box
             sx={{
-              marginTop : 3,
+              marginTop: 3,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <IconButton aria-label="fingerprint" color="secondary" onClick={() => handlePassword(password) }>
+            <IconButton aria-label="fingerprint" color="secondary" onClick={() => handlePassword(password)}>
               <Fingerprint />
             </IconButton>
           </Box>
@@ -111,7 +111,7 @@ export function BloqueoSesion({
 
 
           <Typography sx={{ mt: 3, fontSize: "2vw" }}>
-          Sesión pausada por inactividad o Recargar la Página, Ingrese contraseña por Seguridad
+            Sesión pausada por inactividad o Recargar la Página, Ingrese contraseña por Seguridad
           </Typography>
           <Typography sx={{ mt: 5, fontSize: "1.8vw" }}>
             ¿Esa persona no es usted?{" "}
@@ -120,12 +120,12 @@ export function BloqueoSesion({
             <Typography sx={{ mt: 1, fontSize: "1.8vw" }}>
               Haz click{" "}
               <Button
-              onClick={() => {
-                localStorage.clear();
-                var ventana = window.self;
-                ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
-             }}
-              
+                onClick={() => {
+                  localStorage.clear();
+                  var ventana = window.self;
+                  ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
+                }}
+
                 sx={{ mt: 1, fontSize: "1.6vw" }}
               >
                 aquí
