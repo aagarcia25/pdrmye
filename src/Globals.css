@@ -43,7 +43,7 @@ img {
 img.iconButton{
 
   width: 45px;
-  height: 20px;
+  height: 25px;
   object-fit: "scale-down";
   align-items: center;
   align-content: center;
@@ -84,6 +84,15 @@ h6 {
   /* font-weight: bold; */
   color: rgb(14, 13, 13);
   margin-right:2rem;
+  /* mr: "2rem" */
+}
+h6.tooltipLogos {
+  text-align: center;
+  font-family:sans-serif;
+  /* font-weight: bold; */
+  color: rgb(14, 13, 13);
+  font-size: 15px;
+
   /* mr: "2rem" */
 }
 

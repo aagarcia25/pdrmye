@@ -34,7 +34,7 @@ import ContactoMunicipios from '../views/components/Municipios/ContactoMunicipio
 import { Art14f } from '../views/components/menu/articulos/Art14f';
 import Art14fP from '../views/components/menu/articulos/Art14fP';
 import { getUser } from '../services/localStorage';
-import { RESPONSE } from '../interfaces/user/UserInfo';
+import { RESPONSE, RESPONSESTORAGE } from '../interfaces/user/UserInfo';
 import { ParametrosGenerales } from '../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales';
 import { CalculoGarantiaComponente } from '../views/components/menu/articulos/CalculoGarantia/CalculoGarantiaComponente';
 import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de Usuario/PerfilesUsuario';
@@ -65,6 +65,8 @@ import { Configuracione } from '../views/components/EFIRMA/Configuracione';
 import { TablaDocse } from '../views/components/EFIRMA/TablaDocse';
 // import RecepcionRecursosORG from '../views/components/ORGANISMOS/RecepcionRecursosORG';
 import { Reporteador } from '../views/components/Herramientas/Reporteador';
+import { AuthService } from '../services/AuthService';
+import { useEffect, useState } from 'react';
 
 
 export const AppRouter = (
@@ -79,10 +81,27 @@ export const AppRouter = (
 ) => {
   const log = login;
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const [responseStorage, setResponseStorage] = useState<RESPONSESTORAGE>();
+ 
+  const handleCloseDialogImagen = () => {
+    GetImage("/PDRMYE/USUARIOS/FOTOPERFIL/", user.RutaFoto)
+  };
 
+  const GetImage = (tipo: string, nameImagen: string) => {
+    AuthService.GetImagenProfile(tipo,nameImagen).then((res) => {
+      if (res.SUCCESS) {
+        setResponseStorage(res.RESPONSE.RESPONSE);
+      }
+    });
+  };
+
+  useEffect(() => {
+    handleCloseDialogImagen();
+
+}, []);
   
   return (
-    <Inicio user={user}>
+    <Inicio user={user}  imgData={String(responseStorage?.FILE)} imgTipo={String(responseStorage?.TIPO)}>
       
         <Routes>
           <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
@@ -132,7 +151,7 @@ export const AppRouter = (
           {/* FIN SECCION DE NOTIFICACIONES */}
 
           {/* SECCION DE PERFIL */}
-          <Route path='/perfil' element={<Perfil />} />
+          <Route path='/perfil' element={<Perfil handleChangeImg={handleCloseDialogImagen} imgData={String(responseStorage?.FILE)} imgTipo={String(responseStorage?.TIPO)} />} />
           {/* FIN SECCION DE PERFIL */}
 
           {/* SECCION DE ARTICULOS */}

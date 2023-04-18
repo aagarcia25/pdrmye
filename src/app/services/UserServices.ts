@@ -1,4 +1,8 @@
+import { Toast } from "../helpers/Toast";
+import { RESPONSE, RESPONSESTORAGE, UserInfo } from "../interfaces/user/UserInfo";
 import {   get, post, postRefresh, postSingle,   putPass } from "./apiServiceExt";
+import { AuthService } from "./AuthService";
+import { getToken, getUser, setUser } from "./localStorage";
 
 
 
@@ -41,3 +45,31 @@ export class UserServices {
 
 
 }
+
+// export const GetImage = (tipo:string ,nameImagen:string ) => {
+//     console.log(tipo + "  "+nameImagen)
+//     const user: RESPONSE = JSON.parse(String(getUser()));
+//     var  Response :RESPONSESTORAGE ;
+//     const formData = new FormData();
+//     formData.append("CHUSER", user.id);
+//     formData.append("TOKEN", JSON.parse(String(getToken())));
+//     formData.append("TIPO", tipo);
+//     formData.append("IMG", nameImagen);
+
+//     AuthService.GetImagenProfile(formData).then((res) => {
+
+//         if (res.SUCCESS) {
+//             Response=res.RESPONSE;
+//             // console.log(res.RESPONSE);
+    
+   
+
+//         }
+
+//     });
+// return{
+
+//     // Response
+// }
+
+// };

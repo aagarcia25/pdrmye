@@ -16,6 +16,7 @@ import {
   setMunicipios,
   setOrganismo,
   setPerfiles,
+  setPerfilFoto,
   setPermisos,
   setRfToken,
   setRoles,
@@ -116,6 +117,14 @@ function App() {
       }
     });
   }
+
+  const GetImage = (tipo: string, nameImagen: string) => {
+    AuthService.GetImagenProfile(tipo,nameImagen).then((res) => {
+      if (res.SUCCESS) {
+        setPerfilFoto(res.RESPONSE.RESPONSE);
+      }
+    });
+  };
   const buscaUsuario = (id: string) => {
     let data = {
       NUMOPERACION: 1,
@@ -157,6 +166,7 @@ function App() {
         setlogin(true);
         setAcceso(true);
         setBloqueoStatus(false);
+        GetImage("/PDRMYE/USUARIOS/FOTOPERFIL/", us?.RESPONSE?.RutaFoto);
 
       }
       else if (us.SUCCESS) {

@@ -158,12 +158,17 @@ theme = {
 interface Props {
   children?: ReactNode;
   user: RESPONSE;
+  imgData: string;
+  imgTipo: string;
+
 }
 
 const drawerWidth = 230;
 
-export default function Inicio({ children, user }: Props) {
+export default function Inicio({ children, user,imgData,imgTipo }: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+
 
 
   const handleDrawerToggle = () => {
@@ -172,8 +177,8 @@ export default function Inicio({ children, user }: Props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid 
-      sx={{ display: "flex", minHeight: "100vh" }}>
+      <Grid
+        sx={{ display: "flex", minHeight: "100vh" }}>
         <CssBaseline />
         <Navigator
           PaperProps={{ style: { width: drawerWidth } }}
@@ -181,15 +186,17 @@ export default function Inicio({ children, user }: Props) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
         />
-        <Grid sx={{  flexDirection: "column",width:"100%"}}>
+        <Grid sx={{ flexDirection: "column", width: "100%" }}>
           <Header
             onDrawerToggle={handleDrawerToggle}
             name={
-                  user?.Nombre+ " " 
-            + user?.ApellidoPaterno+" " 
-            + user?.ApellidoMaterno
+              user?.Nombre + " "
+              + user?.ApellidoPaterno + " "
+              + user?.ApellidoMaterno
             }
             id={1}
+            imgData={imgData}
+            imgTipo={imgTipo}
           />
           {children}
         </Grid>

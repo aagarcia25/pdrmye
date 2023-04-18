@@ -1,5 +1,7 @@
 import { User } from "../interfaces/user/User";
+import { RESPONSE } from "../interfaces/user/UserInfo";
 import { post, postEasy } from "./apiService";
+import { getToken, getUser } from "./localStorage";
 
 export class AuthService {
 
@@ -112,6 +114,17 @@ export class AuthService {
     
     public static async SaveImagen(data: any) {
         return await post('SaveImagen', data);
+    }
+    public static async GetImagenProfile(tipo: string,nameImagen:string) {
+        const user: RESPONSE = JSON.parse(String(getUser()));
+        const formData = new FormData();
+        formData.append("CHUSER", user.id);
+        formData.append("TOKEN", JSON.parse(String(getToken())));
+        formData.append("TIPO", tipo);
+        formData.append("IMG", nameImagen);
+
+
+        return await post('GetImagenProfile', formData);
     }
 
   
