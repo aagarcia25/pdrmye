@@ -16,6 +16,8 @@ import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectFragMulti from "../../../Fragmentos/SelectFragMulti";
 import ModalForm from "../../../componentes/ModalForm";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../../services/localStorage";
 const UsuarioRoles = ({
   handleClose,
   dt,
@@ -30,7 +32,7 @@ const UsuarioRoles = ({
   const [idRol, setIdRol] = useState<SelectValues[]>([]);
   const [roles, setRoles] = useState<[]>([]);
   const [data, setData] = useState([]);
-
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
   const columns: GridColDef[] = [
@@ -59,7 +61,8 @@ const UsuarioRoles = ({
   ];
 
   const loadFilter = () => {
-    let data = { NUMOPERACION: 13 };
+    console.log(dt)
+    let data = { NUMOPERACION: 13, CHID: dt.id};
     CatalogosServices.SelectIndex(data).then((res) => {
       setRoles(res.RESPONSE);
     });
@@ -89,10 +92,10 @@ const UsuarioRoles = ({
       OBJS: idRol,
       IDUSUARIO: dt.id
     };
-    //console.log(data);
+    console.log(data);
     setOpenSlider(true);
     AuthService.RelacionarUsuarioRol(data).then((res) => {
-      //console.log(res.RESPONSE);
+      console.log(res.RESPONSE);
       setOpenSlider(false);
       consulta();
     });

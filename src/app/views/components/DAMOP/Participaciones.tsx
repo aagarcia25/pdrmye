@@ -382,14 +382,14 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-            {v.row.detalle === 1 ? (
+            {/* {v.row.detalle === 1 ? (
               <Tooltip title="Ver Detalle del Registro">
                 <IconButton onClick={() => handleDetalle(v)}>
                   <InfoIcon />
                 </IconButton>
               </Tooltip>
             ) : ""
-            }
+            } */}
 
           </Box>
         );
@@ -559,12 +559,12 @@ const Participaciones = () => {
       description: "Numero de Proyecto",
       width: 150,
     },
-    {
-      field: "ConceptoEgreso",
-      headerName: "Cpto. de  egreso",
-      description: "Concepto de Egreso",
-      width: 150,
-    },
+    // {
+    //   field: "ConceptoEgreso",
+    //   headerName: "Cpto. de  egreso",
+    //   description: "Concepto de Egreso",
+    //   width: 150,
+    // },
     /* {
        field: "conceptoCheque",
        headerName: "Cpto. de  Cheque",
