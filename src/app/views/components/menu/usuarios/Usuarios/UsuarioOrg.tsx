@@ -19,6 +19,7 @@ import SelectFragMulti from "../../../Fragmentos/SelectFragMulti";
 import ModalForm from "../../../componentes/ModalForm";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
+import { AlertS } from "../../../../../helpers/AlertS";
 const UsuarioOrg = ({
   handleClose,
   dt,
@@ -61,7 +62,8 @@ const UsuarioOrg = ({
   ];
 
   const loadFilter = () => {
-    let data = { NUMOPERACION: 38, CHUSER: user.id };
+    
+    let data = { NUMOPERACION: 39, CHUSER: dt?.id };
     CatalogosServices.SelectIndex(data).then((res) => {
       setOrganismos(res.RESPONSE);
     });
@@ -77,7 +79,7 @@ const UsuarioOrg = ({
     };
     AuthService.RelacionarUsuarioOrg(data).then((res) => {
       consulta();
-
+      loadFilter();
     });
   };
 
@@ -97,8 +99,17 @@ const UsuarioOrg = ({
     setOpenSlider(true);
     AuthService.RelacionarUsuarioOrg(data).then((res) => {
       console.log(res.RESPONSE);
+      if(!res.SUCCESS){
+        AlertS.fire({
+          title: "Error!",
+          text:  "No se Permiten volver a Relacionar un Organismo al mismo usuario",
+          icon: "error",
+        });
+      }else{
+        consulta();
+        loadFilter();
+      }
       setOpenSlider(false);
-      consulta();
     });
   };
 
