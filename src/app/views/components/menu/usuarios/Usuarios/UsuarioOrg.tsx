@@ -103,8 +103,6 @@ const UsuarioOrg = ({
       console.log(res.RESPONSE);
       setOpenSlider(false);
       consulta();
-      setIdOrg([]);
-      setOrganismos([]);
       loadFilter();
     });
   };
