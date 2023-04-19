@@ -61,8 +61,10 @@ const UsuarioOrg = ({
   ];
 
   const loadFilter = () => {
-    let data = { NUMOPERACION: 38, CHUSER: user.id };
+    
+    let data = { NUMOPERACION: 39, CHUSER: dt?.id };
     CatalogosServices.SelectIndex(data).then((res) => {
+      setIdOrg([]);
       setOrganismos(res.RESPONSE);
     });
   };
@@ -77,7 +79,9 @@ const UsuarioOrg = ({
     };
     AuthService.RelacionarUsuarioOrg(data).then((res) => {
       consulta();
-
+      setIdOrg([]);
+      setOrganismos([]);
+      loadFilter();
     });
   };
 
@@ -99,6 +103,9 @@ const UsuarioOrg = ({
       console.log(res.RESPONSE);
       setOpenSlider(false);
       consulta();
+      setIdOrg([]);
+      setOrganismos([]);
+      loadFilter();
     });
   };
 
