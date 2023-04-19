@@ -22,7 +22,7 @@ import { ParametroServices } from "../../../../../services/ParametroServices";
 import { Datum } from "../../../../../interfaces/user/solicitudes";
 import { getRowIdFromRowModel } from "@mui/x-data-grid/hooks/features/rows/gridRowsUtils";
 import { COLOR } from "../../../../../styles/colors";
-
+import ApartmentIcon from '@mui/icons-material/Apartment';
 
 const Usuarios = () => {
   const [data, setData] = useState([]);
@@ -170,7 +170,7 @@ const handleOrgConf = (v: any) => {
           <Box >
             <Tooltip title={"Configurar Organismos"}>
               <IconButton color="success" onClick={() => handleOrgConf(v)}>
-                <AssignmentIndIcon />
+                <ApartmentIcon />
               </IconButton>
             </Tooltip>
 
