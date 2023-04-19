@@ -84,18 +84,12 @@ export default function Header(props: HeaderProps) {
       window.open(link.href, "_blank");
     });
 
-    /*
-     AlertS.fire({
-       title: "Sección de ayuda actualmente en Desarrollo",
-       icon: "info",
-     });*/
   };
 
 
   const onNotification = () => {
     navigate("/Notification");
   };
-  /////////////////////////////////
 
 
   const [openDial, setOpenDial] = React.useState(false);
@@ -354,7 +348,7 @@ export default function Header(props: HeaderProps) {
         style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco, paddingBottom: "1%", margin: "0" }}
         position="sticky"
         elevation={0}
-        sx={{ width: "100%" }}
+        sx={{ width: "90%" }}
       >
         <Grid container item xs={12} md={12} spacing={2} alignItems="center" justifyContent="space-between" sx={{ padding: "0", margin: "0" }} >
 

@@ -382,14 +382,6 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-            {/* {v.row.detalle === 1 ? (
-              <Tooltip title="Ver Detalle del Registro">
-                <IconButton onClick={() => handleDetalle(v)}>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-            ) : ""
-            } */}
 
           </Box>
         );
@@ -454,49 +446,49 @@ const Participaciones = () => {
       field: "NumOper",
       headerName: "Nº De Operación",
       description: "Nº De Operación",
-      width: 200,
+      width: 150,
     },
     {
       field: "NumParticipacion",
-      headerName: "Número De Participacion",
-      width: 300,
+      headerName: "Participacion",
+      width: 120,
       description: "Número De Participación",
     },
     {
       field: "NumSolEgreso",
-      headerName: "Número De Solicitud De Egreso",
-      width: 300,
+      headerName: "Solicitud De Egreso",
+      width: 150,
       description: "Número De Solicitud De Egreso",
     },
     {
       field: "NumEgreso",
-      headerName: "Número De Egreso",
-      width: 300,
+      headerName: "Egreso",
+      width: 120,
       description: "Número De Egreso",
     },
     {
       field: "NumOrdenPago",
-      headerName: "Número De Solicitud de Pago",
-      width: 300,
+      headerName: "Solicitud de Pago",
+      width: 150,
       description: "Número De Solicitud de Pago",
     },
 
     {
       field: "NumRequerimientoAnt",
-      headerName: "Número De Requerimiento De Anticipo",
-      width: 350,
+      headerName: "Req. De Anticipo",
+      width: 150,
       description: "Número De Requerimiento De Anticipo",
     },
     {
       field: "Anio",
       headerName: "Ejercicio",
-      width: 150,
+      width: 100,
       description: "Ejercicio",
     },
     {
       field: "Mes",
       headerName: "Mes",
-      width: 150,
+      width: 120,
       description: "Mes",
     },
     {
@@ -508,13 +500,13 @@ const Participaciones = () => {
     {
       field: "ClaveEstado",
       headerName: "Clave Estado",
-      width: 200,
+      width: 100,
       description: "Clave Estado",
     },
     {
       field: "Nombre",
       headerName: "Proveedor",
-      width: 150,
+      width: 280,
       description: "Proveedor",
     },
     {
@@ -551,13 +543,13 @@ const Participaciones = () => {
       field: "uresclave",
       headerName: "U. Resp",
       description: "Unidad Responsable",
-      width: 200,
+      width: 80,
     },
     {
       field: "NumProyecto",
       headerName: "Número de Proyecto",
       description: "Número de Proyecto",
-      width: 200,
+      width: 130,
     },
     // {
     //   field: "ConceptoEgreso",
@@ -631,25 +623,25 @@ const Participaciones = () => {
     {
       field: "Proveedor",
       headerName: "Proveedor",
-      width: 200,
+      width: 120,
       description: "Proveedor",
     },
     {
       field: "Deudor",
       headerName: "Deudor",
-      width: 200,
+      width: 120,
       description: "Deudor",
     },
     {
       field: "clasificacion",
       headerName: "Clasificación",
-      width: 200,
+      width: 150,
       description: "Clasificación de Solicitud de Pago",
     },
     {
       field: "Divisa",
       headerName: "Divisa",
-      width: 150,
+      width: 80,
       description: "Divisa",
     },
     {
@@ -2140,6 +2132,7 @@ const handleDescargarSpei = (v: any) => {
           </ToggleButtonGroup>
         </Grid>
 
+
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           {user.DEPARTAMENTOS[0].NombreCorto === "ORG" || user.DEPARTAMENTOS[0].NombreCorto === "MUN" ?
             "" :
@@ -2153,11 +2146,8 @@ const handleDescargarSpei = (v: any) => {
                   />
                 }
                 label="Mostrar Todo" />
-
             </Grid>
-
           }
-
 
         </Grid>
 
@@ -2285,7 +2275,7 @@ const handleDescargarSpei = (v: any) => {
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <div
             style={{
-              height: "58vh",
+              height: "48vh",
               width: "100%",
             }}
           >
