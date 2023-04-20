@@ -450,20 +450,20 @@ const Participaciones = () => {
     },
     {
       field: "NumParticipacion",
-      headerName: "Participacion",
-      width: 120,
+      headerName: "Número De Participación",
+      width: 200,
       description: "Número De Participación",
     },
     {
       field: "NumSolEgreso",
       headerName: "Solicitud De Egreso",
-      width: 150,
+      width: 200,
       description: "Número De Solicitud De Egreso",
     },
     {
       field: "NumEgreso",
       headerName: "Egreso",
-      width: 120,
+      width: 150,
       description: "Número De Egreso",
     },
     {
@@ -543,13 +543,13 @@ const Participaciones = () => {
       field: "uresclave",
       headerName: "U. Resp",
       description: "Unidad Responsable",
-      width: 80,
+      width: 100,
     },
     {
       field: "NumProyecto",
       headerName: "Número de Proyecto",
       description: "Número de Proyecto",
-      width: 130,
+      width: 150,
     },
     // {
     //   field: "ConceptoEgreso",
@@ -573,7 +573,7 @@ const Participaciones = () => {
     {
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
-      width: 150,
+      width: 200,
       description: "Presupuesto SIREGOB",
       ...Moneda,
     },
@@ -928,7 +928,7 @@ const handleDescargarSpei = (v: any) => {
     } else if (selectionModel.length > 1) {
       AlertS.fire({
         title: "Error!",
-        text: "Solo se permite seleccionar un registro para La distribución",
+        text: "Sólo se permite seleccionar un registro para La distribución",
         icon: "error",
       });
     } else {
@@ -946,7 +946,7 @@ const handleDescargarSpei = (v: any) => {
       Swal.fire({
         icon: "error",
         title: "Eliminación",
-        text: "El Movimiento Seleccionado se Eliminara",
+        text: "El Movimiento Seleccionado se Eliminará",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -996,7 +996,7 @@ const handleDescargarSpei = (v: any) => {
       Swal.fire({
         icon: "info",
         title: "Integración",
-        text: "Los Movimientos Seleccionados se integraran en una sola operación",
+        text: "Los Movimientos Seleccionados se integrarán en una sola operación",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -1036,7 +1036,7 @@ const handleDescargarSpei = (v: any) => {
     } else {
       AlertS.fire({
         title: "Error!",
-        text: "Favor de Seleccionar mas de un Registros",
+        text: "Favor de Seleccionar más de un Registro",
         icon: "error",
       });
     }
@@ -1052,7 +1052,7 @@ const handleDescargarSpei = (v: any) => {
       Swal.fire({
         icon: "info",
         title: "Integración Masiva ",
-        text: "Los Movimientos de los diversos tipos de cálculos se unificaran en uno solo",
+        text: "Los Movimientos de los diversos tipos de cálculos se unificarán en uno solo",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -1092,7 +1092,7 @@ const handleDescargarSpei = (v: any) => {
       Swal.fire({
         icon: "info",
         title: "Unificación",
-        text: "Los Movimientos Seleccionados se Unificaran en una sola operación",
+        text: "Los Movimientos Seleccionados se Unificarán en una sola operación",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -1132,7 +1132,7 @@ const handleDescargarSpei = (v: any) => {
     } else {
       AlertS.fire({
         title: "Error!",
-        text: "Favor de Seleccionar mas de un Registros",
+        text: "Favor de Seleccionar más de un Registro",
         icon: "error",
       });
     }
