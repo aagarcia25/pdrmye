@@ -243,7 +243,6 @@ function App() {
       NombreUsuario: decoded.NombreUsuario?decoded.NombreUsuario: userInfo.NombreUsuario,
       Contrasena: password,
     };
-    console.log(data);
     setOpenSlider(true);
     UserServices.login(data).then((res) => {
 

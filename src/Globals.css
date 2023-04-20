@@ -88,6 +88,20 @@ h2 {
 h3 {
   font-family:  sans-serif;
 }
+
+h4.Titulo {
+  font-family:  sans-serif;
+  text-align: center;
+  justify-content: center;
+}
+
+/* Centrar el texto y contenido en los GRID con className:"Titulo" */
+.Titulo{
+
+  font-family:  sans-serif;
+  text-align: center;
+  justify-content: center;
+}
 h6 {
   font-family:sans-serif;
   /* font-weight: bold; */

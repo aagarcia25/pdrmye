@@ -8,19 +8,20 @@ import { getPermisos } from "../../services/localStorage";
 
 const theme = createTheme(coreEsES, gridEsES);
 
-const MUIXDataGridMun = ({
+const MUIXDataGridGeneral = ({
   modulo,
   handleBorrar,
   columns,
   rows,
-  controlInterno
+  controlInterno,
+  multiselect
 }: {
   modulo: string
   handleBorrar: Function,
   columns: any,
   rows: any,
-  controlInterno: string
-
+  controlInterno: string,
+  multiselect:boolean,
 }
 ) => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -55,17 +56,12 @@ const MUIXDataGridMun = ({
           sx={{
             fontFamily: "Poppins,sans-serif", fontWeight: '500',
             fontSize:"12px",
-            '& .super-app-theme--cell': {
-              backgroundColor: 'rgba(224, 183, 60, 0.55)',
-              color: '#1a3e72',
-            },
-            '& .super-app.negative': {
+            "& .super-app.negative": {
               color: "rgb(84, 3, 3)",
               backgroundColor: "rgb(196, 40, 40, 0.384)",
             },
-            '& .super-app.positive': {
-              color: '#002200',
-              backgroundColor: "rgb(0, 40, 0, 0.384)",
+            "& .super-app.positive": {
+              backgroundColor: "rgb(16, 145, 80, 0.567)",
             },
           }}
           componentsProps={{
@@ -82,7 +78,13 @@ const MUIXDataGridMun = ({
               }
             },
           }}
-          checkboxSelection={elimasiva}
+          isRowSelectable={(params) => (
+            // params.row.NumCheque === null
+            // ||params.row.NumEgreso===null
+            // ||params.row.NumRequerimientoAnt===null||
+            params.row.NumOrdenPago === null
+          )}
+          checkboxSelection={elimasiva || multiselect}
           onSelectionModelChange={(newSelectionModel: any) => { handleBorrar(newSelectionModel); }}
           localeText={{
             noRowsLabel: "No se ha encontrado datos.",
@@ -123,4 +125,4 @@ const MUIXDataGridMun = ({
     </div>
   );
 }
-export default MUIXDataGridMun;
+export default MUIXDataGridGeneral;

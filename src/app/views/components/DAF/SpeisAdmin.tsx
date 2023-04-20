@@ -184,7 +184,6 @@ const SpeisAdmin = ({
 
     const handleNewComprobante = (event: any) => {
         setslideropen(true);
-        console.log(event.target!.files[0]!.name.slice(-4).toUpperCase())
         let file = event.target!.files[0]!;
         if ((event.target.files.length !== 0 &&
             (event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF"
@@ -287,7 +286,6 @@ const SpeisAdmin = ({
     };
 
     const handleVerSpei = (v: any) => {
-        console.log(v.row.Nombre.slice(-3).toUpperCase() === "PDF");
         // {
         if (v.row.Nombre.slice(-3).toUpperCase() === "PDF") {
             setTipoDeArchivoPDF(true)
@@ -457,7 +455,6 @@ const SpeisAdmin = ({
                         icon: "success",
                         title: "Consulta Exitosa!",
                     });
-                    console.log(res.RESPONSE)
 
                     setSpeis(res.RESPONSE);
                     setslideropen(false);

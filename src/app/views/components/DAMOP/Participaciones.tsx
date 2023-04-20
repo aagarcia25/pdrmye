@@ -77,6 +77,7 @@ import IconSPEI from '../../../assets/img/SPEI.svg';
 import IconCFDI from '../../../assets/img/CFDI.svg';
 import { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
+import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 
 const Participaciones = () => {
 
@@ -1766,7 +1767,9 @@ const handleDescargarSpei = (v: any) => {
   }, [
     // munTieneFide
   ]);
-
+  const handleBorrarMasivo = (v: GridSelectionModel) => {
+    setSelectionModel(v);
+  };
   return (
     <div>
       <Slider open={slideropen}></Slider>
@@ -2272,7 +2275,13 @@ const handleDescargarSpei = (v: any) => {
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <div
+          <MUIXDataGridGeneral 
+          modulo={nombreExport} 
+          handleBorrar={handleBorrarMasivo}
+           columns={columnsParticipaciones} 
+           rows={data} controlInterno={""} 
+           multiselect={true}/>
+          {/* <div
             style={{
               height: "48vh",
               width: "100%",
@@ -2327,7 +2336,7 @@ const handleDescargarSpei = (v: any) => {
                 isRowSelectable={(params) => (
                   // params.row.NumCheque === null
                   // ||params.row.NumEgreso===null
-                  // ||params.row.NumRequerimientoAnt===null
+                  // ||params.row.NumRequerimientoAnt===null||
                   params.row.NumOrdenPago === null
                 )}
                 checkboxSelection
@@ -2371,7 +2380,7 @@ const handleDescargarSpei = (v: any) => {
                 }}
               />
             </ThemeProvider>
-          </div>
+          </div> */}
         </Grid>
 
 

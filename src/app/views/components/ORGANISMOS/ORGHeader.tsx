@@ -1027,8 +1027,8 @@ export const ORGHeader = ({
                       getRowHeight={() => "auto"}
                       components={{ Toolbar: GridToolbar }}
                       sx={{
-                        fontFamily: "Poppins,sans-serif",
-                        fontWeight: "600",
+                        fontFamily: "Poppins,sans-serif", fontWeight: '500',
+                        fontSize:"12px",
                         "& .super-app.negative": {
                           color: "rgb(84, 3, 3)",
                           backgroundColor: "rgb(196, 40, 40, 0.384)",

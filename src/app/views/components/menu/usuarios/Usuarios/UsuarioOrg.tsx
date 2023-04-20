@@ -70,8 +70,6 @@ const UsuarioOrg = ({
   };
 
   const handleDel = (v: any) => {
-    console.log(v)
-    console.log(dt)
     let data = {
       TIPO: 2,
       IDUSUARIO: dt?.id,
@@ -95,10 +93,8 @@ const UsuarioOrg = ({
       OBJS: idOrg,
       IDUSUARIO: dt.id
     };
-    console.log(data);
     setOpenSlider(true);
     AuthService.RelacionarUsuarioOrg(data).then((res) => {
-      console.log(res.RESPONSE);
       if(!res.SUCCESS){
         AlertS.fire({
           title: "Error!",

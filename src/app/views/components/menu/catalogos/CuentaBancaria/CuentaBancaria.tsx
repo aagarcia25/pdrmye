@@ -282,7 +282,6 @@ async function digestMessage(message:string) {
 
     ////////////////////////
     const digestHex =  digestMessage(text);
-    console.log(digestHex);
 
     ////////////////
 
