@@ -513,16 +513,17 @@ const AsigPago = () => {
                   inputProps={{ maxLength: 10 }}
                   endAdornment={
                     <InputAdornment position="end">
-                      <Tooltip title={"Limpiar campo"}>
+                    
                         <IconButton
                           aria-label="toggle password visibility"
                           onClick={() => setNumOrdenPago("")}
                           edge="end"
                           disabled={!numOrdenPago}
-                        >
-                          <ClearOutlinedIcon />
+                        >  <Tooltip title={"Limpiar campo"}>
+                          <ClearOutlinedIcon />  
+                           </Tooltip>
                         </IconButton>
-                      </Tooltip>
+                   
                     </InputAdornment>
                   }
                   error={String(Number(numOrdenPago)) === "NaN"}

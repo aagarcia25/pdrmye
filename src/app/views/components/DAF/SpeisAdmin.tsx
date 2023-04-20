@@ -494,6 +494,7 @@ const SpeisAdmin = ({
 
     };
     useEffect(() => {
+        console.log(vrows.row)
         consulta();
         var ancho = 0;
         permisos.map((item: PERMISO) => {
@@ -540,7 +541,7 @@ const SpeisAdmin = ({
                             Fondo:
                         </Typography>
                         <Typography variant="h5" className='DatosSpeiCfdi'>
-                            {vrows.row.fondodes}
+                            {vrows.row.a9}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
@@ -548,7 +549,7 @@ const SpeisAdmin = ({
                             Numero Solicitud de Pago:
                         </Typography>
                         <Typography variant="h5" className='DatosSpeiCfdi'>
-                            {vrows.row.NumOrdenPago}
+                            {vrows.row.a3}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} >
@@ -556,7 +557,7 @@ const SpeisAdmin = ({
                             Importe:
                         </Typography>
                         <Typography variant="h5" className='DatosSpeiCfdi'>
-                            {vrows.row.importe}
+                            {vrows.row.a5}
                         </Typography>
                     </Grid>
                 </Grid>
