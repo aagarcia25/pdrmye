@@ -21,6 +21,15 @@
   /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
 }
 
+.container-div {
+  position: fixed;
+  overflow: scroll ;
+  width: 100%;
+  height: 100%;
+
+  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
 /* Then style the iframe to fit in the container div with full height and width */
 .responsive-iframe {
   position: absolute;
@@ -620,3 +629,25 @@ div.CargaDeArchivosCuenta {
   overflow: "hidden" ;
 
 }
+div.div-agregarcontactomunicipio {
+  contain: content;
+  /* display: "display-inside" ; */
+  width: 100%;
+  height: 100%;
+  /* position: absolute ; */
+  /* top:  50px; */
+  /* left: 50px; */
+  /* bottom: 0%; */
+  /* padding-bottom: 0%; */
+  background-color: #fffefe8a;
+  border-color: #020000;
+  border: 2px solid  rgb(114, 114, 114);
+  font-family:"MontserratSemiBold2";
+  color: #dcdcdc;
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
+  overflow: "hidden" ;
+
+}
+

@@ -1092,7 +1092,7 @@ console.log(dataCab);
                           disable={
                             verDetalle && !editarDetalle || dataCab.orden >= 16
                           }
-                          error={String(Number(importe)) === "NaN"}
+                          error={String(Number(importe)) === "NaN"} modo={"moneda"}
                         />
 
 

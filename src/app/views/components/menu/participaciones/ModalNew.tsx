@@ -412,7 +412,7 @@ const ModalNew = ({
                 disable={false}
                 valor={0}
                 handleSetValor={handleChange}
-                error={!monto} />
+                error={!monto} modo={"moneda"} />
              
             </Grid>
           </Grid>

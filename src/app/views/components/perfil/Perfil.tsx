@@ -9,19 +9,17 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
-import { getToken, getUser, setToken } from "../../../services/localStorage";
-import { RESPONSE, RESPONSESTORAGE } from "../../../interfaces/user/UserInfo";
+import { getUser, setToken } from "../../../services/localStorage";
+import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import PersonIcon from "@mui/icons-material/Person";
 import { DialogCambiarImagen } from "./DialogCambiarImagen";
 import { Toast } from "../../../helpers/Toast";
-import { COLOR } from "../../../styles/colors";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import React from "react";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { UserServices } from "../../../services/UserServices";
 import Swal from "sweetalert2";
-import { AuthService } from "../../../services/AuthService";
 
 export const Perfil = ( 
   {
@@ -172,12 +170,8 @@ export const Perfil = (
 
                   sx={{ width: "7.4rem", height: "7.4rem", backgroundColor: "white", borderRadius: '50%', justifyContent: "center", cursor: "pointer", }} >
                   {user?.RutaFoto ?
-                    <>  
                     
-                      <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
-                        src={"data:"+imgTipo+";base64," + imgData}
-                      />
-                    </>
+                    <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%' }} src={"data:"+imgTipo+";base64," + imgData}/>
 
                     : <PersonIcon sx={{ width: "100%", height: "100%", }} />
                   }

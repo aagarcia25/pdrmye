@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { AuthService } from "../../../services/AuthService";
 import { RESPONSE, UserInfo } from "../../../interfaces/user/UserInfo";
-import { getToken, getUser, setDepartamento, setMenus, setPerfiles, setPermisos, setRoles, setUser } from "../../../services/localStorage";
+import { getToken, getUser, setUser } from "../../../services/localStorage";
 import { Toast } from "../../../helpers/Toast";
-import { ProfilePhoto } from "../componentes/ProfilePhoto";
+import Swal from "sweetalert2";
 export function DialogCambiarImagen({
     open,
     handleClose,
@@ -32,6 +32,8 @@ export function DialogCambiarImagen({
 
     const SaveImagen = () => {
         const formData = new FormData();
+        
+        formData.append("TIPO", "/FOTOPERFIL/");
         formData.append("IMAGEN", newImage, nombreArchivo);
         formData.append("CHUSER", user.id);
         formData.append("TOKEN", JSON.parse(String(getToken())));
@@ -64,7 +66,7 @@ export function DialogCambiarImagen({
 
     };
     function enCambioFile(event: any) {
-        if (event?.target?.files[0]) {
+        if (event?.target?.files[0]&&event.target.files[0].type.split("/")[0] === "image") {
             setUploadFile(URL.createObjectURL(event?.target?.files[0]));
             setNombreArchivo(event?.target?.value?.split("\\")[2]);
             let file = event?.target!?.files[0]!;
@@ -75,6 +77,10 @@ export function DialogCambiarImagen({
                     ? setDisabledButton(true)
                     : setDisabledButton(false);
             }
+        }
+        else{
+
+            Swal.fire("¡No es una imagen!", "", "warning");
         }
 
     }

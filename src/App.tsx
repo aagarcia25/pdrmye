@@ -53,6 +53,7 @@ function App() {
 
 
 
+
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const parametros = () => {
     let data = {
@@ -166,7 +167,7 @@ function App() {
         setlogin(true);
         setAcceso(true);
         setBloqueoStatus(false);
-        GetImage("/PDRMYE/USUARIOS/FOTOPERFIL/", us?.RESPONSE?.RutaFoto);
+        GetImage("/FOTOPERFIL/", us?.RESPONSE?.RutaFoto);
 
       }
       else if (us.SUCCESS) {
@@ -235,12 +236,14 @@ function App() {
     });
   };
 
-  const handleOnActive = (v: string) => {
+  const handleOnActive = (password: string, user:string) => {
     const decoded: UserLogin = jwt_decode(String(getToken()));
+    const userInfo: RESPONSE = JSON.parse(String(getUser()));
     let data = {
-      NombreUsuario: decoded.NombreUsuario,
-      Contrasena: v,
+      NombreUsuario: decoded.NombreUsuario?decoded.NombreUsuario: userInfo.NombreUsuario,
+      Contrasena: password,
     };
+    console.log(data);
     setOpenSlider(true);
     UserServices.login(data).then((res) => {
 

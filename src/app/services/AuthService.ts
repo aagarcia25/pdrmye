@@ -127,6 +127,16 @@ export class AuthService {
         return await post('GetImagenProfile', formData);
     }
 
+    public static async GetImagen(ruta: string,nameImagen:string) {
+        const formData = new FormData();
+        formData.append("TOKEN", JSON.parse(String(getToken())));
+        formData.append("RUTA", ruta);
+        formData.append("IMG", nameImagen);
+
+
+        return await post('GetImagen', formData);
+    }
+
   
     
 
