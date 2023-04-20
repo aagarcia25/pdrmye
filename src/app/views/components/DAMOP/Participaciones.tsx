@@ -382,14 +382,6 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-            {/* {v.row.detalle === 1 ? (
-              <Tooltip title="Ver Detalle del Registro">
-                <IconButton onClick={() => handleDetalle(v)}>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-            ) : ""
-            } */}
 
           </Box>
         );
@@ -454,38 +446,38 @@ const Participaciones = () => {
       field: "NumOper",
       headerName: "Nº De Operación",
       description: "Nº De Operación",
-      width: 130,
+      width: 150,
     },
     {
       field: "NumParticipacion",
-      headerName: "Numero De Participacion",
+      headerName: "Número De Participación",
       width: 200,
       description: "Número De Participación",
     },
     {
       field: "NumSolEgreso",
-      headerName: "Número De Solicitud De Egreso",
+      headerName: "Solicitud De Egreso",
       width: 200,
       description: "Número De Solicitud De Egreso",
     },
     {
       field: "NumEgreso",
-      headerName: "Numero De Egreso",
-      width: 200,
+      headerName: "Egreso",
+      width: 150,
       description: "Número De Egreso",
     },
     {
       field: "NumOrdenPago",
       headerName: "Solicitud de Pago",
-      width: 140,
-      description: "Numero De Solicitud de Pago",
+      width: 150,
+      description: "Número De Solicitud de Pago",
     },
 
     {
       field: "NumRequerimientoAnt",
-      headerName: "Numero De Requerimiento De Anticipo",
-      width: 200,
-      description: "Numero De Requerimiento De Anticipo",
+      headerName: "Req. De Anticipo",
+      width: 150,
+      description: "Número De Requerimiento De Anticipo",
     },
     {
       field: "Anio",
@@ -496,13 +488,13 @@ const Participaciones = () => {
     {
       field: "Mes",
       headerName: "Mes",
-      width: 100,
+      width: 120,
       description: "Mes",
     },
     {
       field: "TipoSolicituds",
       headerName: "Tipo",
-      width: 140,
+      width: 170,
       description: "Tipo de Solicitud",
     },
     {
@@ -514,7 +506,7 @@ const Participaciones = () => {
     {
       field: "Nombre",
       headerName: "Proveedor",
-      width: 150,
+      width: 280,
       description: "Proveedor",
     },
     {
@@ -538,13 +530,13 @@ const Participaciones = () => {
     {
       field: "ClaveBeneficiario",
       headerName: "Cve. Beneficiario",
-      width: 150,
+      width: 200,
       description: "Clave de Beneficiario",
     },
     {
       field: "DescripcionBeneficiario",
       headerName: "Beneficiario",
-      width: 150,
+      width: 200,
       description: "Beneficiario",
     },
     {
@@ -555,8 +547,8 @@ const Participaciones = () => {
     },
     {
       field: "NumProyecto",
-      headerName: "Proyecto",
-      description: "Numero de Proyecto",
+      headerName: "Número de Proyecto",
+      description: "Número de Proyecto",
       width: 150,
     },
     // {
@@ -581,14 +573,14 @@ const Participaciones = () => {
     {
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
-      width: 150,
+      width: 200,
       description: "Presupuesto SIREGOB",
       ...Moneda,
     },
     {
       field: "total",
       headerName: "Total Bruto",
-      width: 150,
+      width: 200,
       description: "Total Bruto",
       ...Moneda,
     },
@@ -609,7 +601,7 @@ const Participaciones = () => {
     {
       field: "Descuentos",
       headerName: "Descuentos",
-      width: 150,
+      width: 200,
       description: "Descuentos",
       ...Moneda,
     },
@@ -631,19 +623,19 @@ const Participaciones = () => {
     {
       field: "Proveedor",
       headerName: "Proveedor",
-      width: 100,
+      width: 120,
       description: "Proveedor",
     },
     {
       field: "Deudor",
       headerName: "Deudor",
-      width: 100,
+      width: 120,
       description: "Deudor",
     },
     {
       field: "clasificacion",
       headerName: "Clasificación",
-      width: 100,
+      width: 150,
       description: "Clasificación de Solicitud de Pago",
     },
     {
@@ -936,7 +928,7 @@ const handleDescargarSpei = (v: any) => {
     } else if (selectionModel.length > 1) {
       AlertS.fire({
         title: "Error!",
-        text: "Solo se permite seleccionar un registro para La distribución",
+        text: "Sólo se permite seleccionar un registro para La distribución",
         icon: "error",
       });
     } else {
@@ -954,7 +946,7 @@ const handleDescargarSpei = (v: any) => {
       Swal.fire({
         icon: "error",
         title: "Eliminación",
-        text: "El Movimiento Seleccionado se Eliminara",
+        text: "El Movimiento Seleccionado se Eliminará",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -1004,7 +996,7 @@ const handleDescargarSpei = (v: any) => {
       Swal.fire({
         icon: "info",
         title: "Integración",
-        text: "Los Movimientos Seleccionados se integraran en una sola operación",
+        text: "Los Movimientos Seleccionados se integrarán en una sola operación",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -1044,7 +1036,7 @@ const handleDescargarSpei = (v: any) => {
     } else {
       AlertS.fire({
         title: "Error!",
-        text: "Favor de Seleccionar mas de un Registros",
+        text: "Favor de Seleccionar más de un Registro",
         icon: "error",
       });
     }
@@ -1060,7 +1052,7 @@ const handleDescargarSpei = (v: any) => {
       Swal.fire({
         icon: "info",
         title: "Integración Masiva ",
-        text: "Los Movimientos de los diversos tipos de cálculos se unificaran en uno solo",
+        text: "Los Movimientos de los diversos tipos de cálculos se unificarán en uno solo",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -1100,7 +1092,7 @@ const handleDescargarSpei = (v: any) => {
       Swal.fire({
         icon: "info",
         title: "Unificación",
-        text: "Los Movimientos Seleccionados se Unificaran en una sola operación",
+        text: "Los Movimientos Seleccionados se Unificarán en una sola operación",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
@@ -1140,7 +1132,7 @@ const handleDescargarSpei = (v: any) => {
     } else {
       AlertS.fire({
         title: "Error!",
-        text: "Favor de Seleccionar mas de un Registros",
+        text: "Favor de Seleccionar más de un Registro",
         icon: "error",
       });
     }
@@ -2140,6 +2132,7 @@ const handleDescargarSpei = (v: any) => {
           </ToggleButtonGroup>
         </Grid>
 
+
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           {user.DEPARTAMENTOS[0].NombreCorto === "ORG" || user.DEPARTAMENTOS[0].NombreCorto === "MUN" ?
             "" :
@@ -2152,12 +2145,11 @@ const handleDescargarSpei = (v: any) => {
                     inputProps={{ 'aria-label': 'controlled' }}
                   />
                 }
-                label="Mostrar Todo" />
-
+                
+                label="Mostrar Todo"/>
+                
             </Grid>
-
           }
-
 
         </Grid>
 
@@ -2285,7 +2277,7 @@ const handleDescargarSpei = (v: any) => {
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <div
             style={{
-              height: "58vh",
+              height: "48vh",
               width: "100%",
             }}
           >

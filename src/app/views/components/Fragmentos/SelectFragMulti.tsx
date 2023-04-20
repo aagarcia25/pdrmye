@@ -22,6 +22,7 @@ const SelectFragMulti = ({
       isMulti
       options={options}
       placeholder={placeholder}
+      isClearable={true}
     />
   </div>
   )

@@ -244,7 +244,7 @@ export const ORGHeader = ({
 
     Swal.fire({
       icon: "warning",
-      title: "Guardar cambios de registro actual",
+      title: "Borrar cambios de registro actual",
       text: "",
       showDenyButton: false,
       showCancelButton: true,
@@ -558,9 +558,9 @@ export const ORGHeader = ({
     },
     {
       field: "Clasificador03",
-      headerName: "Programatico",
+      headerName: "Programático",
       width: 150,
-      description: "Programatico",
+      description: "Programático",
     },
     {
       field: "Clasificador04",
