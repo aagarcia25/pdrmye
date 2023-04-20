@@ -23,7 +23,9 @@ export interface indexCabecera {
     ConceptoCheque:string;
     cuentabancaria:string;
     estatusCI:string;
-
+    ClaveBeneficiario:string;
+    DescripcionBeneficiario:string;
+    NumOper:string;
 }
 
 export interface indexDetalle {

@@ -276,7 +276,6 @@ export const ORGHeader = ({
 
   const handleCancelarCambios = () => {
 
-    console.log(dataCab)
     setOpenAgregarDetalle(false);
     setidUResp(dataCab.IdUres);
     setidProveedor(dataCab.IdOrg ? dataCab.IdOrg : dataCab.idmunicipio);
@@ -414,7 +413,7 @@ export const ORGHeader = ({
   };
 
   const handleLimpiarCamposDetalle = () => {
-    console.log(modoDetalle);
+    
     if (modoDetalle === "Editar") {
       setDescripcion("");
       if (dataCab.orden < 16) {
@@ -539,6 +538,20 @@ export const ORGHeader = ({
       ),
     },
     {
+      field: "ConceptoEgreso",
+      headerName: "Concepto Egreso",
+      width: 400,
+      description: "Concepto Egreso",
+      renderCell: (v: any) => {
+        return (
+          <>
+          {(listConceptos.find(({ value}) => value === v.row.ConceptoEgreso )?.label?listConceptos.find(({ value}) => value === v.row.ConceptoEgreso )?.label:"")}
+          </>
+        );
+      },
+    },
+    
+    {
       field: "Descripcion",
       headerName: "Descripción",
       width: 400,
@@ -652,14 +665,12 @@ export const ORGHeader = ({
   };
 
   const handleChange = (value: number) => {
-    // console.log(value)
     setImporte(value);
 
   };
 
   useEffect(() => {
     Consulta();
-console.log(dataCab);
     if (modo === "Nuevo") {
       // setOpenSlider(false);
       setLimpiar(true);
@@ -680,7 +691,6 @@ console.log(dataCab);
       setHEdit(false);
       setIdTipoSolicitud(String(dataCab.TipoSolicitud));
       setIdCuentaBancaria(dataCab.cuentabancaria ? dataCab.cuentabancaria : dataCab.Cuenta ? dataCab.Cuenta : "");
-      // console.log(dataCab.cuentabancaria ? true : false);
     }
     loadFilter(29, "");
     loadFilter(26, "");
@@ -701,11 +711,11 @@ console.log(dataCab);
       <Grid container  >
 
         <Grid container paddingBottom={1} >
-          <Grid item xs={12} sm={12} md={12} lg={12}>
+          <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
 
             <ButtonGroup size="large">
 
-              <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit  || dataCab.orden!==1} >
+              <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit || dataCab.orden !== 1} >
                 <Tooltip title="Editar Cabecera">
                   <ModeEditOutlineIcon />
                 </Tooltip>
@@ -727,8 +737,8 @@ console.log(dataCab);
                   || agregarDetalle
                   || idTipoSolicitud === ""
                   || idTipoSolicitud === "false"
-                  ||idCuentaBancaria===""
-                  ||idCuentaBancaria==="false"
+                  || idCuentaBancaria === ""
+                  || idCuentaBancaria === "false"
                 } >
                 <Tooltip title="Grabar Cambios">
                   <CheckBoxIcon />
@@ -741,9 +751,6 @@ console.log(dataCab);
                 </Tooltip>
               </Button  >
 
-
-
-
               <Button onClick={() => handleLimpiarCamposHeader()} color={!HCancel ? "warning" : "inherit"} disabled={HCancel || regGuardado} >
                 <Tooltip title="Limpiar Campos de Cabecera">
                   <CleaningServicesOutlinedIcon />
@@ -755,10 +762,22 @@ console.log(dataCab);
           </Grid>
         </Grid>
 
-        <Grid container justifyContent="space-between" paddingBottom={2}
+        <Grid container justifyContent="space-between" paddingBottom={2} rowSpacing={2}
           sx={{ bgcolor: (!regGuardado || !agregarDetalle ? "rgb(255, 255, 255) " : "rgba(225, 225, 225, 0.264) "), }}>
 
-          <Grid item xs={12} sm={12} md={5.8} lg={2.9}>
+
+          <Grid item xs={12} sm={12} md={5.8} lg={4} >
+
+            <label className="textoNormal">{"Numero de operación: " + (dataCab?.NumOper ? dataCab?.NumOper : "")}</label>
+            <br />
+            <label className="textoNormal">{"Clave Beneficiario: " + (dataCab?.ClaveBeneficiario !== null ? dataCab?.ClaveBeneficiario : "")}</label>
+            <br />
+            <label className="textoNormal">{"Descripcion Beneficiario: " + (dataCab?.DescripcionBeneficiario ? dataCab?.DescripcionBeneficiario : "")}</label>
+         
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={5.8} lg={3.8}>
+
             <label className="textoNormal">U.Resp:</label>
 
             <SelectFrag
@@ -771,7 +790,9 @@ console.log(dataCab);
             />
           </Grid>
 
-          <Grid item xs={12} sm={12} md={5.8} lg={2.9}>
+
+
+          <Grid item xs={12} sm={12} md={5.8} lg={3.8}>
             <label className="textoNormal">Proveedor:</label>
 
             <SelectFrag
@@ -790,7 +811,7 @@ console.log(dataCab);
               onInputChange={handleTipoSolicitud}
               placeholder={"Seleccione tipo de Solicitud"}
               label={""}
-              disabled={HHeader || agregarDetalle || regGuardado || dataCab.orden!==1}
+              disabled={HHeader || agregarDetalle || regGuardado || dataCab.orden !== 1}
             />
           </Grid>
 
@@ -811,8 +832,6 @@ console.log(dataCab);
 
             />
           </Grid>
-
-
 
 
           <Grid item xs={12} sm={5.5} md={5.8} lg={2}>
@@ -851,18 +870,18 @@ console.log(dataCab);
 
           <Grid item xs={12} sm={8.8} md={8.8} lg={5} >
             <Tooltip title={"Muestra las cuentas bancarias que tenga disonibles"}>
-           <label className="textoNormal">No. de Cuenta:</label>
+              <label className="textoNormal">No. de Cuenta:</label>
 
             </Tooltip>
 
- 
+
             <SelectFrag
               value={idCuentaBancaria}
               options={cuentasBancarias}
               onInputChange={handleFilterChange4}
               placeholder={"Seleccione Cuenta Bancaria"}
-              label={modo==="Nuevo"&& cuentasBancarias.length!==0? "Seleccione Cuenta Bancaria": idCuentaBancaria !== "" && modo === "Ver" ? "" : "Sin Cuenta Bancaria Asignada"}
-              disabled={HHeader || agregarDetalle || regGuardado || cuentasBancarias.length === 0 || dataCab.orden!==1}
+              label={modo === "Nuevo" && cuentasBancarias.length !== 0 ? "Seleccione Cuenta Bancaria" : idCuentaBancaria !== "" && modo === "Ver" ? "" : "Sin Cuenta Bancaria Asignada"}
+              disabled={HHeader || agregarDetalle || regGuardado || cuentasBancarias.length === 0 || dataCab.orden !== 1}
             />
             {/* ////////////////////////////////////////// */}
 
@@ -889,7 +908,7 @@ console.log(dataCab);
               multiline
               rows={3}
               onChange={(v) => setObservaciones(v.target.value)}
-              disabled={HHeader || agregarDetalle || regGuardado || dataCab.orden!==1}
+              disabled={HHeader || agregarDetalle || regGuardado || dataCab.orden !== 1}
               inputProps={{ maxLength: 300 }}
             />
           </Grid>

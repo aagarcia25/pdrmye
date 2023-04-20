@@ -47,7 +47,6 @@ export function DialogCambiarImagen({
                     icon: "success",
                     title: "Imagen Actualizada",
                 });
-                console.log(res.RESPONSE);
                 let data = {
                     NUMOPERACION: 1,
                     ID: user.id,
@@ -85,39 +84,6 @@ export function DialogCambiarImagen({
 
     }
 
-    //      const GetImage = () => {
-    //     const formData = new FormData();
-    //     formData.append("IMAGEN", newImage, nombreArchivo);
-    //     formData.append("CHUSER", user.id);
-    //     formData.append("TOKEN", JSON.parse(String(getToken())));
-
-
-    //     AuthService.SaveImagen(formData).then((res) => {
-
-    //         if (res.SUCCESS) {
-
-    //             Toast.fire({
-    //                 icon: "success",
-    //                 title: "Imagen Actualizada",
-    //             });
-    //             console.log(res.RESPONSE);
-    //             let data = {
-    //                 NUMOPERACION: 1,
-    //                 ID: user.id,
-    //             };
-    //             AuthService.adminUser(data).then((res2) => {
-    //                 const us: UserInfo = res2;
-    //                 setUser(us.RESPONSE);
-    //             });
-    //             handleClose();
-
-    //         }
-
-    //     });
-
-    //     handleClose();
-
-    // };
 
     return (
         <Dialog
