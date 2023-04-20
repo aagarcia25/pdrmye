@@ -244,7 +244,7 @@ export const ORGHeader = ({
 
     Swal.fire({
       icon: "warning",
-      title: "Guardar cambios de registro actual",
+      title: "Borrar cambios de registro actual",
       text: "",
       showDenyButton: false,
       showCancelButton: true,
