@@ -178,7 +178,7 @@ export default function Inicio({ children, user,imgData,imgTipo }: Props) {
   return (
     <ThemeProvider theme={theme}>
       <Grid
-        sx={{ display: "flex", minHeight: "100vh" }}>
+        sx={{ display: "flex", Height: "98vh",width:"99%" }}>
         <CssBaseline />
         <Navigator
           PaperProps={{ style: { width: drawerWidth } }}

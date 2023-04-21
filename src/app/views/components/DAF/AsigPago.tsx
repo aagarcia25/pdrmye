@@ -9,12 +9,9 @@ import {
   IconButton,
   InputAdornment,
   OutlinedInput,
-  styled,
   ThemeProvider,
   ToggleButton,
   Tooltip,
-  tooltipClasses,
-  TooltipProps,
   Typography,
 } from "@mui/material";
 import clsx from "clsx";
@@ -48,12 +45,9 @@ import InsightsIcon from "@mui/icons-material/Insights";
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import Swal from "sweetalert2";
-import { DAFServices } from "../../../services/DAFServices";
 import axios from "axios";
-import { CleaningServices } from "@mui/icons-material";
-import { fanios } from "../../../share/loadAnios";
-import CustomizedTooltips, { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
-import CustomizedContentTooltips from "../componentes/CustomizedContentTooltips";
+import { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
+import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
@@ -181,19 +175,19 @@ const AsigPago = () => {
     {
       field: "a3",
       headerName: "Solicitud de Pago",
-      width: 200,
+      width: 120,
       description: "Solicitud de Pago",
     },
     {
       field: "a4",
       headerName: "Póliza de Pago",
-      width: 200,
+      width: 120,
       description: "Póliza de Pago",
     },
     {
       field: "a5",
       headerName: "Importe Total",
-      width: 150,
+      width: 120,
       description: "Importe Total = Total Neto - (Retenciones + Descuentos)",
       ...Moneda,
     },
@@ -203,12 +197,12 @@ const AsigPago = () => {
       width: 80,
       description: "Ejercicio",
     },
-    { field: "a7", headerName: "Mes", width: 100, description: "Mes" },
+    { field: "a7", headerName: "Mes", width: 80, description: "Mes" },
     //  {field: "ClaveEstado",      headerName: "Clave Estado",      width: 100,      description: "Clave Estado",    },
     {
       field: "a8",
       headerName: "Proveedor",
-      width: 150,
+      width: 120,
       description: "Proveedor",
     },
     {
@@ -220,21 +214,21 @@ const AsigPago = () => {
     {
       field: "a10",
       headerName: "Total Neto",
-      width: 150,
+      width: 120,
       description: "Total Neto",
       ...Moneda,
     },
     {
       field: "a11",
       headerName: "Retenciones",
-      width: 150,
+      width: 120,
       description: "Retenciones",
       ...Moneda,
     },
     {
       field: "a12",
       headerName: "Descuentos",
-      width: 150,
+      width: 120,
       description: "Descuentos",
       ...Moneda,
     },
@@ -448,7 +442,8 @@ const AsigPago = () => {
       }
     });
   };
-
+  const handleBorrarMasivo = (v: string) => {
+  };
   useEffect(() => {
     setMeses(fmeses());
     loadFilter(36);
@@ -482,8 +477,8 @@ const AsigPago = () => {
         <Grid container spacing={1} padding={2}>
           <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
             <Grid container sx={{ justifyContent: "center" }}>
-              <Grid container item xs={10} sx={{ textAlign: "center" }}>
-                <Typography variant="h4" paddingBottom={2}>
+              <Grid className="Titulo" container item xs={12} >
+                <Typography  variant="h4" paddingBottom={2}>
                   Módulo de Administración Financiera
                 </Typography>
               </Grid>
@@ -518,16 +513,17 @@ const AsigPago = () => {
                   inputProps={{ maxLength: 10 }}
                   endAdornment={
                     <InputAdornment position="end">
-                      <Tooltip title={"Limpiar campo"}>
+                    
                         <IconButton
                           aria-label="toggle password visibility"
                           onClick={() => setNumOrdenPago("")}
                           edge="end"
                           disabled={!numOrdenPago}
-                        >
-                          <ClearOutlinedIcon />
+                        >  <Tooltip title={"Limpiar campo"}>
+                          <ClearOutlinedIcon />  
+                           </Tooltip>
                         </IconButton>
-                      </Tooltip>
+                   
                     </InputAdornment>
                   }
                   error={String(Number(numOrdenPago)) === "NaN"}
@@ -617,102 +613,7 @@ const AsigPago = () => {
                       <Typography color="inherit">Cargar SPEI's</Typography>
                       {"Solo se puede cargar en forma masiva si el Estatus es "}
                       <b>{"'Pendiente de Spei'"}</b>
-                      <div
-              style={{
-                height: "58vh",
-                width: "100%",
-              }}
-            >
-              <ThemeProvider theme={theme}>
-                <DataGrid
-                  columns={columnsParticipaciones}
-                  rows={data}
-                  density="compact"
-                  rowsPerPageOptions={[10, 25, 50, 100]}
-                  disableSelectionOnClick
-                  disableColumnFilter
-                  disableColumnSelector
-                  disableDensitySelector
-                  getRowHeight={() => "auto"}
-                  getRowClassName={(params) => {
-                    if (params.row.Presupuesto == null) {
-                      return "";
-                    }
-                    return clsx("super-app", {
-                      negative: params.row.Presupuesto !== params.row.total,
-                      positive: params.row.Presupuesto == params.row.total,
-                    });
-                  }}
-                  components={{ Toolbar: GridToolbar }}
-                  sx={{
-                    fontFamily: "Poppins,sans-serif",
-                    fontWeight: "600",
-                    "& .super-app.negative": {
-                      color: "rgb(84, 3, 3)",
-                      backgroundColor: "rgb(196, 40, 40, 0.384)",
-                    },
-                    "& .super-app.positive": {
-                      backgroundColor: "rgb(16, 145, 80, 0.567)",
-                    },
-                  }}
-                  componentsProps={{
-                    toolbar: {
-                      label: "Buscar",
-                      showQuickFilter: true,
 
-                      quickFilterProps: { debounceMs: 500 },
-
-                      csvOptions: {
-                        fileName: "Distribucion",
-                        utf8WithBom: true,
-                      },
-                    },
-                  }}
-                  checkboxSelection={checkboxSelection}
-                  onSelectionModelChange={(newSelectionModel: any) => {
-                    setSelectionModel(newSelectionModel);
-                  }}
-                  selectionModel={selectionModel}
-                  localeText={{
-                    noRowsLabel: "No se ha encontrado datos.",
-                    noResultsOverlayLabel:
-                      "No se ha encontrado ningún resultado",
-                    toolbarColumns: "Columnas",
-                    toolbarExport: "Exportar",
-                    toolbarColumnsLabel: "Seleccionar columnas",
-                    toolbarFilters: "Filtros",
-                    toolbarFiltersLabel: "Ver filtros",
-                    toolbarFiltersTooltipHide: "Quitar filtros",
-                    toolbarFiltersTooltipShow: "Ver filtros",
-                    toolbarQuickFilterPlaceholder: "Buscar",
-                    toolbarExportCSV: "Descargar como CSV",
-                    toolbarExportPrint: "Imprimir",
-                    checkboxSelectionSelectRow: "Filas seleccionadas",
-                    checkboxSelectionSelectAllRows:
-                      "Seleccionar todas las filas",
-                    errorOverlayDefaultLabel: "Ha ocurrido un error.",
-                    footerRowSelected: (count) =>
-                      count > 1
-                        ? `${count.toLocaleString()} filas seleccionadas`
-                        : `${count.toLocaleString()} fila seleccionada`,
-                    footerTotalRows: "Filas Totales:",
-                    columnMenuLabel: "Menú",
-                    columnMenuShowColumns: "Mostrar columnas",
-                    columnMenuFilter: "Filtro",
-                    columnMenuHideColumn: "Ocultar",
-                    columnMenuUnsort: "Desordenar",
-                    columnMenuSortAsc: "Ordenar ASC",
-                    columnMenuSortDesc: "Ordenar DESC",
-                    columnHeaderFiltersTooltipActive: (count) =>
-                      count > 1
-                        ? `${count} filtros activos`
-                        : `${count} filtro activo`,
-                    columnHeaderFiltersLabel: "Mostrar filtros",
-                    columnHeaderSortIconLabel: "Ordenar",
-                  }}
-                />
-              </ThemeProvider>
-            </div>
                     </React.Fragment>
                   }
                 >
@@ -746,102 +647,7 @@ const AsigPago = () => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12}>
-            <div
-              style={{
-                height: "58vh",
-                width: "100%",
-              }}
-            >
-              <ThemeProvider theme={theme}>
-                <DataGrid
-                  columns={columnsParticipaciones}
-                  rows={data}
-                  density="compact"
-                  rowsPerPageOptions={[10, 25, 50, 100]}
-                  disableSelectionOnClick
-                  disableColumnFilter
-                  disableColumnSelector
-                  disableDensitySelector
-                  getRowHeight={() => "auto"}
-                  getRowClassName={(params) => {
-                    if (params.row.Presupuesto == null) {
-                      return "";
-                    }
-                    return clsx("super-app", {
-                      negative: params.row.Presupuesto !== params.row.total,
-                      positive: params.row.Presupuesto == params.row.total,
-                    });
-                  }}
-                  components={{ Toolbar: GridToolbar }}
-                  sx={{
-                    fontFamily: "Poppins,sans-serif",
-                    fontWeight: "600",
-                    "& .super-app.negative": {
-                      color: "rgb(84, 3, 3)",
-                      backgroundColor: "rgb(196, 40, 40, 0.384)",
-                    },
-                    "& .super-app.positive": {
-                      backgroundColor: "rgb(16, 145, 80, 0.567)",
-                    },
-                  }}
-                  componentsProps={{
-                    toolbar: {
-                      label: "Buscar",
-                      showQuickFilter: true,
-
-                      quickFilterProps: { debounceMs: 500 },
-
-                      csvOptions: {
-                        fileName: "Distribucion",
-                        utf8WithBom: true,
-                      },
-                    },
-                  }}
-                  checkboxSelection={checkboxSelection}
-                  onSelectionModelChange={(newSelectionModel: any) => {
-                    setSelectionModel(newSelectionModel);
-                  }}
-                  selectionModel={selectionModel}
-                  localeText={{
-                    noRowsLabel: "No se ha encontrado datos.",
-                    noResultsOverlayLabel:
-                      "No se ha encontrado ningún resultado",
-                    toolbarColumns: "Columnas",
-                    toolbarExport: "Exportar",
-                    toolbarColumnsLabel: "Seleccionar columnas",
-                    toolbarFilters: "Filtros",
-                    toolbarFiltersLabel: "Ver filtros",
-                    toolbarFiltersTooltipHide: "Quitar filtros",
-                    toolbarFiltersTooltipShow: "Ver filtros",
-                    toolbarQuickFilterPlaceholder: "Buscar",
-                    toolbarExportCSV: "Descargar como CSV",
-                    toolbarExportPrint: "Imprimir",
-                    checkboxSelectionSelectRow: "Filas seleccionadas",
-                    checkboxSelectionSelectAllRows:
-                      "Seleccionar todas las filas",
-                    errorOverlayDefaultLabel: "Ha ocurrido un error.",
-                    footerRowSelected: (count) =>
-                      count > 1
-                        ? `${count.toLocaleString()} filas seleccionadas`
-                        : `${count.toLocaleString()} fila seleccionada`,
-                    footerTotalRows: "Filas Totales:",
-                    columnMenuLabel: "Menú",
-                    columnMenuShowColumns: "Mostrar columnas",
-                    columnMenuFilter: "Filtro",
-                    columnMenuHideColumn: "Ocultar",
-                    columnMenuUnsort: "Desordenar",
-                    columnMenuSortAsc: "Ordenar ASC",
-                    columnMenuSortDesc: "Ordenar DESC",
-                    columnHeaderFiltersTooltipActive: (count) =>
-                      count > 1
-                        ? `${count} filtros activos`
-                        : `${count} filtro activo`,
-                    columnHeaderFiltersLabel: "Mostrar filtros",
-                    columnHeaderSortIconLabel: "Ordenar",
-                  }}
-                />
-              </ThemeProvider>
-            </div>
+            <MUIXDataGridGeneral modulo={"DistribucionDaf"} handleBorrar={handleBorrarMasivo} columns={columnsParticipaciones} rows={data} controlInterno={"DAFADMINPAG"} multiselect={false} />
           </Grid>
         </Grid>
       </div>

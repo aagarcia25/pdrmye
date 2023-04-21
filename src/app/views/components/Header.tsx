@@ -25,17 +25,10 @@ import { RESPONSE, RESPONSESTORAGE } from "../../interfaces/user/UserInfo";
 import { Backdrop, Button, Hidden, SpeedDialAction } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
 import { base64ToArrayBuffer } from "../../helpers/Files";
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share'
 import { styled } from '@mui/material/styles';
-import SpeedDial, { SpeedDialProps } from '@mui/material/SpeedDial';
+import SpeedDial from '@mui/material/SpeedDial';
 import HomeIcon from '@mui/icons-material/Home';
-import { AuthService } from "../../services/AuthService";
 import { useState } from "react";
-import { ProfilePhoto } from "./componentes/ProfilePhoto";
 interface HeaderProps {
   onDrawerToggle: () => void;
   name: string;
@@ -120,7 +113,7 @@ export default function Header(props: HeaderProps) {
         >
           {user.RutaFoto !== null ? (
               <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
-              src={"data:"+responseStorage?.TIPO+";base64," + responseStorage?.FILE}
+              src={"data:"+props.imgTipo+";base64," +props.imgData}
             />
           ) : (
             <PersonIcon sx={{

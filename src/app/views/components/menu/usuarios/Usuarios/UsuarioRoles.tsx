@@ -61,7 +61,6 @@ const UsuarioRoles = ({
   ];
 
   const loadFilter = () => {
-    console.log(dt)
     let data = { NUMOPERACION: 13, CHID: dt.id};
     CatalogosServices.SelectIndex(data).then((res) => {
       setRoles(res.RESPONSE);
@@ -92,10 +91,8 @@ const UsuarioRoles = ({
       OBJS: idRol,
       IDUSUARIO: dt.id
     };
-    console.log(data);
     setOpenSlider(true);
     AuthService.RelacionarUsuarioRol(data).then((res) => {
-      console.log(res.RESPONSE);
       setOpenSlider(false);
       consulta();
     });

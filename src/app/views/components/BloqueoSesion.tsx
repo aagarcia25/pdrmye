@@ -32,13 +32,12 @@ export function BloqueoSesion({
 
   useEffect(() => {
     // console.log(getUser())
-
+ const decoded: UserLogin = jwt_decode(String(getToken()));
     if (getUser() === null  || getUser() === "undefined") {
-      const decoded: UserLogin = jwt_decode(String(getToken()));
+
       setApellMat("");
       setApellPat("");
       setName(decoded.NombreUsuario);
-
 
     } else {
       const user: RESPONSE = JSON.parse(String(getUser() === "undefined" || getUser() === undefined ? null : getUser()));
@@ -103,7 +102,7 @@ export function BloqueoSesion({
               justifyContent: "center",
             }}
           >
-            <IconButton aria-label="fingerprint" color="secondary" onClick={() => handlePassword(password)}>
+            <IconButton aria-label="fingerprint" color="secondary" onClick={() => handlePassword(password,name )}>
               <Fingerprint />
             </IconButton>
           </Box>

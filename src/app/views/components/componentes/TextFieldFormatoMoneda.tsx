@@ -1,18 +1,23 @@
-import { TextField } from '@mui/material';
+import { FormControl, Input, InputLabel, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { NumericFormatCustom } from '../menu/CustomToolbar';
-
+import { IMaskInput } from 'react-imask';
 
 interface Props {
     disable: boolean;
     valor: number;
     handleSetValor: Function;
     error: boolean;
+    modo:string;
 }
+interface CustomProps {
+    onChange: (event: { target: { name: string; value: string } }) => void;
+    name: string;
+  }
 
-export const TextFieldFormatoMoneda = ({ error, disable, valor, handleSetValor }: Props) => {
+export const TextFieldFormatoMoneda = ({ modo, error, disable, valor, handleSetValor }: Props) => {
     const [values, setValues] = useState({
-        numberformat: valor,
+        numberformat: valor, textmask: valor
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,16 +28,44 @@ export const TextFieldFormatoMoneda = ({ error, disable, valor, handleSetValor }
         handleSetValor(event.target.value);
     };
 
+
+    const TextMaskCustom = React.forwardRef<HTMLElement, CustomProps>(
+        function TextMaskCustom(props, ref) {
+          const { onChange, ...other } = props;
+          return (
+            <IMaskInput
+              {...other}
+              mask="(#00) 000-0000"
+              definitions={{
+                '#': /[1-9]/,
+              }}
+            
+            //   inputRef={ref}
+              onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+              overwrite
+            />
+          );
+        },
+      );
+
+      interface State {
+        textmask: string;
+        numberformat: string;
+      }
+
     useEffect(() => {
         setValues({
-            numberformat: valor,
+            numberformat: valor, textmask: valor
         });
 
     }, [valor]);
 
 
     return (
-        <TextField
+        <>
+    {modo==="moneda"?
+    
+      <TextField
             size="small"
             disabled={disable}
             value={values.numberformat}
@@ -46,5 +79,17 @@ export const TextFieldFormatoMoneda = ({ error, disable, valor, handleSetValor }
             error={error}
 
         />
+
+: ""
+        // <Input
+        //   value={values.textmask}
+        //   onChange={handleChange}
+        //   name="textmask"
+        //   id="formatted-text-mask-input"
+        //   inputComponent={TextMaskCustom as any}
+        // />
+
+}
+      </>
     )
 }

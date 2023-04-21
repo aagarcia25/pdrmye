@@ -2,6 +2,7 @@
 
 //BLOQUEO DE PANTALLA
 
+
 //TOKEN
 export const setToken = (user: any) => localStorage.setItem('token', JSON.stringify(user));
 export const getToken = () => localStorage.getItem('token');
@@ -59,3 +60,8 @@ export const getMunicipios = () => localStorage.getItem('FiltroMunicipios');
 export const getItem = (item:string ) :string => {
   return String(localStorage.getItem(item));
  }
+
+
+
+  
+ 
