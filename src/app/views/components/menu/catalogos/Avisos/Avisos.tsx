@@ -56,7 +56,7 @@ export const Avisos = () => {
     { field: "fechaInicio",     headerName: "Fecha de Inicio",description: "Fecha de Inicio", width: 200 },
     { field: "FechaFin",        headerName: "Expiración",     description: "Expiración",      width: 200 },
     { field: "Nombre",          headerName: "Nombre",         description: "Nombre",          width: 250 },
-    { field: "Descripcion",     headerName: "Descripción",    description: "Descripción",     width: 500, resizable: true},
+    { field: "Descripcion",     headerName: "Descripción",    description: "Descripción",     width: 500, },
     { field: "NombreDocumento", headerName: "NombreDocumento",description: "NombreDocumento", hide: true, width: 150, },
   ];
 
