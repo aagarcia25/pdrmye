@@ -90,7 +90,8 @@ export default function Header(props: HeaderProps) {
   const handleCloseDial = () => setOpenDial(false);
   const actions = [
     {
-      icon: <> <Tooltip title="Haz click para ver más">
+      icon: <> 
+      <Tooltip title="Haz click para ver más">
         <IconButton
           ref={anchorRef}
           id="composition-button"
@@ -341,7 +342,7 @@ export default function Header(props: HeaderProps) {
         style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco, paddingBottom: "1%", margin: "0" }}
         position="sticky"
         elevation={0}
-        sx={{ width: "90%" }}
+        sx={{ width: "95%" }}
       >
         <Grid container item xs={12} md={12} spacing={2} alignItems="center" justifyContent="space-between" sx={{ padding: "0", margin: "0" }} >
 
@@ -349,10 +350,10 @@ export default function Header(props: HeaderProps) {
           <Grid  container item xs={6} sm={1} justifyContent="center" alignItems="center" alignContent="center" >
             <Tooltip title="Menú">
               <Button sx={{ width: "100%", height: "100%", }} className="menu" color="inherit" variant="outlined" onClick={() => onDrawerToggle()}>
-                <IconButton className="menu" color="inherit" onClick={() => onDrawerToggle()}
-                  sx={{ width: "100%", height: "100%", }}>
+                {/* <IconButton className="menu" color="inherit" onClick={() => onDrawerToggle()} */}
+                  {/* sx={{ width: "100%", height: "100%", }}> */}
                   <MenuIcon />
-                </IconButton>
+                {/* </IconButton> */}
               </Button>
             </Tooltip>
           </Grid>
@@ -398,9 +399,11 @@ export default function Header(props: HeaderProps) {
 
             <Hidden smDown >
 
-              <Grid container item  direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={11} md={8} xl={9} >
+              <Grid container item  direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={5} md={8} xl={9} >
 
-                <Grid  container direction="row" justifyContent="flex-end" alignItems="center">
+                <Grid 
+                // sx={{bgcolor:"rgb(45,45,42)"}} 
+                container direction="row" justifyContent="flex-end" alignItems="center">
                   <Typography variant="subtitle1" color="black">
                     {props.name}
                   </Typography>
@@ -427,7 +430,7 @@ export default function Header(props: HeaderProps) {
 
               </Grid>
             </Hidden >
-            <Grid item xs={12} sm={6} md={2.9} lg={2.4} xl={1.9} >
+            <Grid item xs={12} sm={5} md={3.5} lg={2.4} xl={1.9} >
               <Grid container item xs={12} direction="row" justifyContent="space-evenly" alignItems="center"  >
                 <Hidden smDown>
                   <Tooltip title="Haz click para ver más">

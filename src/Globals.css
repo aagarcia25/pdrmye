@@ -186,6 +186,15 @@ border-radius: 10px;
 h6.DatosSecundariosPerfil{
   font-family:sans-serif;
   /* font-weight: bold; */
+  color: rgb(99, 98, 98);
+  font-size:  18px;
+  text-align: center ;
+  /* mr: "2rem" */
+}
+
+label.DatosSecundariosPerfil{
+  font-family:sans-serif;
+  /* font-weight: bold; */
   color: rgb(0, 0, 0);
   font-size:  18px;
   text-align: center ;
