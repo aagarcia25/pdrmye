@@ -59,7 +59,7 @@ export const Bancos = () => {
               consulta({ NUMOPERACION: 4 });
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });
@@ -125,7 +125,7 @@ export const Bancos = () => {
         setBancos(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

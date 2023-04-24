@@ -224,7 +224,7 @@ export const ORGHeader = ({
             });
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -264,7 +264,7 @@ export const ORGHeader = ({
             });
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -328,7 +328,7 @@ export const ORGHeader = ({
             });
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -481,8 +481,8 @@ export const ORGHeader = ({
 
       } else {
         AlertS.fire({
-          title: "Error!",
-          text: "Error!",
+          title: "¡Error!",
+          text: "¡Error!",
           icon: "error",
         });
       }

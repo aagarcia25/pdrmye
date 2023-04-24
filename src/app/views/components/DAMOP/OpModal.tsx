@@ -122,7 +122,7 @@ export const OpModal = (
 
                                         } else {
                                             AlertS.fire({
-                                                title: "Error!",
+                                                title: "¡Error!",
                                                 text: "Fallo en la carga",
                                                 icon: "error",
                                             });
@@ -139,7 +139,7 @@ export const OpModal = (
 
                             } else {
                                 AlertS.fire({
-                                    title: "Error!",
+                                    title: "¡Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",
                                 });
@@ -175,7 +175,7 @@ export const OpModal = (
 
                             } else {
                                 AlertS.fire({
-                                    title: "Error!",
+                                    title: "¡Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",
                                 });

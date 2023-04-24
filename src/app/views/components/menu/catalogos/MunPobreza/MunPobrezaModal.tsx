@@ -46,7 +46,7 @@ const MunPobrezaModal = ({
   const handleSend = () => {
     if (IdMunicipio === null || poblacion === null || anio === null || carenciaProm === null || poblacion === 0 || Number(anio) === 0 || carenciaProm === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -95,7 +95,7 @@ const MunPobrezaModal = ({
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -113,7 +113,7 @@ const MunPobrezaModal = ({
         handleClose();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

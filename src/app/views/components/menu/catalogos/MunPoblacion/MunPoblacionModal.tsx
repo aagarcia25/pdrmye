@@ -43,7 +43,7 @@ const MunPoblacionModal = ({
   const handleSend = () => {
     if (poblacion === null || anio === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -88,7 +88,7 @@ const MunPoblacionModal = ({
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -105,7 +105,7 @@ const MunPoblacionModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

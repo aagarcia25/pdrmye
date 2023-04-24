@@ -54,8 +54,7 @@ const AsigPago = () => {
   const [slideropen, setslideropen] = useState(false);
   //MODAL
   //Constantes para llenar los select
-  const [selectionModel, setSelectionModel] =
-    React.useState<GridSelectionModel>([]);
+
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
   const [anios, setAnios] = useState<SelectValues[]>([]);
@@ -286,7 +285,7 @@ const AsigPago = () => {
 
     if (rows.length === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de realizar la búsqueda de Registros, primero",
         icon: "error",
       });
@@ -434,7 +433,7 @@ const AsigPago = () => {
         setslideropen(false);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

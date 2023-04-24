@@ -97,7 +97,7 @@ const CalendarC = () => {
             handleClose();
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -128,7 +128,7 @@ const CalendarC = () => {
         setEventos(eveitem);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

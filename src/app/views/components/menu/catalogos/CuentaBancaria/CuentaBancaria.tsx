@@ -73,7 +73,7 @@ export const CuentaBancaria = ({
               consulta();
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });
@@ -105,7 +105,7 @@ export const CuentaBancaria = ({
           handleClose();
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
@@ -253,7 +253,7 @@ export const CuentaBancaria = ({
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

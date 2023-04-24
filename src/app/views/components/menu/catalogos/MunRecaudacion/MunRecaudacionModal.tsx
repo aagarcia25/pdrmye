@@ -51,7 +51,7 @@ const MunRecaudacionModal = ({
   const handleSend = () => {
     if (recaudacion === null || anio ===null || IdMunicipio === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -98,7 +98,7 @@ const MunRecaudacionModal = ({
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -116,7 +116,7 @@ const MunRecaudacionModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

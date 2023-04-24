@@ -52,7 +52,7 @@ const MenuRelPermisos = ({
         consulta({CHID: dt?.row?.id });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

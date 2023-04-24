@@ -81,7 +81,7 @@ import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 
 const Participaciones = () => {
 
-  ///////////////modal de adminisracion Spei cfdi
+   ///////////////modal de adminisracion Spei cfdi
   const [modoSpeiCfdi, setModoSpeiCfdi] = useState("");
 
 
@@ -212,7 +212,7 @@ const Participaciones = () => {
             });
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -825,7 +825,7 @@ const handleDescargarSpei = (v: any) => {
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -841,7 +841,7 @@ const handleDescargarSpei = (v: any) => {
       setOpenModal(true);
     } else {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
@@ -918,7 +918,7 @@ const handleDescargarSpei = (v: any) => {
                   handleClick();
                 } else {
                   AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                   });
@@ -930,13 +930,13 @@ const handleDescargarSpei = (v: any) => {
       });
     } else if (selectionModel.length > 1) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Sólo se permite seleccionar un registro para La distribución",
         icon: "error",
       });
     } else {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
@@ -973,7 +973,7 @@ const handleDescargarSpei = (v: any) => {
               });
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });
@@ -986,7 +986,7 @@ const handleDescargarSpei = (v: any) => {
 
     } else {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
@@ -1025,7 +1025,7 @@ const handleDescargarSpei = (v: any) => {
                   handleClick();
                 } else {
                   AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                   });
@@ -1038,7 +1038,7 @@ const handleDescargarSpei = (v: any) => {
 
     } else {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar más de un Registro",
         icon: "error",
       });
@@ -1082,7 +1082,7 @@ const handleDescargarSpei = (v: any) => {
 
     } else {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar los filtros de fondo ,mes, estatus",
         icon: "error",
       });
@@ -1121,7 +1121,7 @@ const handleDescargarSpei = (v: any) => {
                   handleClick();
                 } else {
                   AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                   });
@@ -1134,7 +1134,7 @@ const handleDescargarSpei = (v: any) => {
 
     } else {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar más de un Registro",
         icon: "error",
       });
@@ -1144,7 +1144,7 @@ const handleDescargarSpei = (v: any) => {
   const SolicitudOrdenPago = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
@@ -1182,7 +1182,7 @@ const handleDescargarSpei = (v: any) => {
                   });
                 } else {
                   AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                   });
@@ -1198,7 +1198,7 @@ const handleDescargarSpei = (v: any) => {
   const handleFinalizarParticipacion = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
@@ -1236,7 +1236,7 @@ const handleDescargarSpei = (v: any) => {
                   });
                 } else {
                   AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                   });
@@ -1252,7 +1252,7 @@ const handleDescargarSpei = (v: any) => {
   const handleTranEgreso = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
@@ -1290,7 +1290,7 @@ const handleDescargarSpei = (v: any) => {
                   });
                 } else {
                   AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                   });
@@ -1306,7 +1306,7 @@ const handleDescargarSpei = (v: any) => {
   const handleAuthParticipacion = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
@@ -1344,7 +1344,7 @@ const handleDescargarSpei = (v: any) => {
                   });
                 } else {
                   AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                   });
@@ -1360,7 +1360,7 @@ const handleDescargarSpei = (v: any) => {
   const handleFinEgreso = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
@@ -1398,7 +1398,7 @@ const handleDescargarSpei = (v: any) => {
                   });
                 } else {
                   AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                   });
@@ -1414,7 +1414,7 @@ const handleDescargarSpei = (v: any) => {
   const handleAutEgresos = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
@@ -1452,7 +1452,7 @@ const handleDescargarSpei = (v: any) => {
                   });
                 } else {
                   AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                   });
@@ -1468,7 +1468,7 @@ const handleDescargarSpei = (v: any) => {
   const handleGenNumOrdenPago = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
@@ -1506,7 +1506,7 @@ const handleDescargarSpei = (v: any) => {
                   });
                 } else {
                   AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                   });
@@ -1523,7 +1523,7 @@ const handleDescargarSpei = (v: any) => {
   const handleValEgresos = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
@@ -1561,7 +1561,7 @@ const handleDescargarSpei = (v: any) => {
                   });
                 } else {
                   AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                   });
@@ -1667,7 +1667,7 @@ const handleDescargarSpei = (v: any) => {
           setslideropen(false);
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
@@ -2146,8 +2146,9 @@ const handleDescargarSpei = (v: any) => {
                   />
                 }
                 
-                label="Mostrar Todo"/>
+                label="Mostrar todo" title="Permite mostrar toda la información" />
                 
+                       
             </Grid>
           }
 

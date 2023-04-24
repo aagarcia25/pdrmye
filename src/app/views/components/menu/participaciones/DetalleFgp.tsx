@@ -178,7 +178,7 @@ const DetalleFgp = ({
           handleClose();
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
@@ -214,7 +214,7 @@ const DetalleFgp = ({
             handleClose();
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -232,7 +232,7 @@ const DetalleFgp = ({
         setStatus(res.RESPONSE[0]);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -248,7 +248,7 @@ const DetalleFgp = ({
         setPerfil(res.RESPONSE[0]);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -264,7 +264,7 @@ const DetalleFgp = ({
         setDireccion(res.RESPONSE[0]);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -280,7 +280,7 @@ const DetalleFgp = ({
         setResponsable(res.RESPONSE[0]);
       }else if(res.RESPONSE[0] === null || res.RESPONSE[0] === ""){
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: "No se ha asignado a un responsable",//res.STRMESSAGE,
           icon: "error",
         });
@@ -336,7 +336,7 @@ const DetalleFgp = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -358,7 +358,7 @@ const DetalleFgp = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -378,7 +378,7 @@ const DetalleFgp = ({
         setTipoCalculo(res.RESPONSE[0].tipocalculo);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

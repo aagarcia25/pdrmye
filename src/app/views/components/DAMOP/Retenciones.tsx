@@ -167,7 +167,7 @@ export const Retenciones = ({
 
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: "Sin Respuesta",
                     icon: "error",
                 });
@@ -210,7 +210,7 @@ export const Retenciones = ({
                         });
                     } else {
                         AlertS.fire({
-                            title: "Error!",
+                            title: "¡Error!",
                             text: res.STRMESSAGE,
                             icon: "error",
                         });
@@ -267,7 +267,7 @@ export const Retenciones = ({
                             });
                         } else {
                             AlertS.fire({
-                                title: "Error!",
+                                title: "¡Error!",
                                 text: res.STRMESSAGE,
                                 icon: "error",
                             });
@@ -384,7 +384,7 @@ export const Retenciones = ({
                 // handleClose();
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });

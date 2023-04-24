@@ -39,7 +39,7 @@ const CrecimietoModal = ({
   const handleSend = () => {
     if (anio === "" || crecimiento === "") {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -76,7 +76,7 @@ const CrecimietoModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -93,7 +93,7 @@ const CrecimietoModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

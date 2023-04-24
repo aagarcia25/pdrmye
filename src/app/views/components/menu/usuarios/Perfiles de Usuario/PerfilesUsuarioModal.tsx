@@ -36,7 +36,7 @@ export const PerfilesUsuarioModal = ({
   const handleSend = () => {
     if (!descripcion || !referencia) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -72,7 +72,7 @@ export const PerfilesUsuarioModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -89,7 +89,7 @@ export const PerfilesUsuarioModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

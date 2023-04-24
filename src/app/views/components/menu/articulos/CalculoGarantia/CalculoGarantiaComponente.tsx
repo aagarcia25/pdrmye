@@ -155,7 +155,7 @@ export const CalculoGarantiaComponente = () => {
             consulta(data);
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -188,7 +188,7 @@ export const CalculoGarantiaComponente = () => {
         } else {
           consulta({ NUMOPERACION: 4 });
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
@@ -228,7 +228,7 @@ export const CalculoGarantiaComponente = () => {
                 consulta({ NUMOPERACION: 4 });
               } else {
                 AlertS.fire({
-                  title: "Error!",
+                  title: "¡Error!",
                   text: res.STRMESSAGE,
                   icon: "error",
                 });
@@ -265,7 +265,7 @@ export const CalculoGarantiaComponente = () => {
         setslideropen(false);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

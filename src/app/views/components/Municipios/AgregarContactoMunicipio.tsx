@@ -151,7 +151,7 @@ const AgregarContactoMunicipio = () => {
 
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });

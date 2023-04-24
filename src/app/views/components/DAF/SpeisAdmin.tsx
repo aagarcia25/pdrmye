@@ -183,14 +183,16 @@ const SpeisAdmin = ({
 
 
     const handleNewComprobante = (event: any) => {
-        setslideropen(true);
+        // setslideropen(true);
         let file = event.target!.files[0]!;
         if ((event.target.files.length !== 0 &&
             (event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF"
                 || event.target!.files[0]!.name.slice(-4).toUpperCase() === ".XLS"
                 || event.target!.files[0]!.name.slice(-4).toUpperCase() === "XLSX"
             ))
-            && (event.target!.files[0]!.name === (vrows.row.a3 + ".pdf") || modo === "CFDI")) {
+            && (event.target!.files[0]!.name === (vrows.row.a3 + ".pdf")
+                // || modo === "CFDI"
+            )) {
 
 
             if (Number(event.target!.files[0]!.size) / 1024 <= 5120) {
@@ -203,37 +205,51 @@ const SpeisAdmin = ({
 
                 }
 
-                speis.map((item: SPEIS) => {
-                    if ((item.Nombre) === event?.target?.files[0]?.name && modo === "SPEI") {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Atención",
-                            text: "No se Puede Repetir Archivos con el mismo numero de Solicitud de pago",
-                            showDenyButton: false,
-                            showCancelButton: false,
-                            confirmButtonText: "Aceptar",
-                            cancelButtonText: "Cancelar",
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                setNameSpei("");
-                                setSpeiFile(null);
-                                setFileValid(false);
-                                setslideropen(false);
+                if (speis.length !== 0) {
+                    speis.map((item: SPEIS) => {
+                        if ((item.Nombre) === event?.target?.files[0]?.name && modo === "SPEI") {
 
-                            }
-                            if (result.isDenied) {
-                            }
-                        });
-                    }
-                    else {
-                        setNameSpei(event.target!.files[0]!.name);
-                        setSpeiFile(file);
-                        setFileValid(true);
-                        setslideropen(false);
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Atención",
+                                text: "No se Puede Repetir Archivos con el mismo numero de Solicitud de pago",
+                                showDenyButton: false,
+                                showCancelButton: false,
+                                confirmButtonText: "Aceptar",
+                                cancelButtonText: "Cancelar",
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    setNameSpei("");
+                                    setSpeiFile(null);
+                                    setFileValid(false);
+                                    setslideropen(false);
 
-                    }
+                                }
+                                if (result.isDenied) {
+                                }
+                            });
+                        }
+                        else {
 
-                });
+                            setNameSpei(event.target!.files[0]!.name);
+                            setSpeiFile(file);
+                            setFileValid(true);
+                            setslideropen(false);
+
+                        }
+
+                    });
+
+                }
+                else if (speis.length === 0) {
+
+                    setNameSpei(event.target!.files[0]!.name);
+                    setSpeiFile(file);
+                    setFileValid(true);
+                    setslideropen(false);
+
+                }
+
             } else {
 
                 Swal.fire({
@@ -265,13 +281,10 @@ const SpeisAdmin = ({
             setFileValid(false);
             AlertS.fire({
                 title: "Atención",
-                text:
-                    (event.target!.files[0]!.name.slice(-3).toUpperCase() !== "PDF"
-                        || event.target!.files[0]!.name.slice(-3).toUpperCase() !== "XLS"
-                        || event.target!.files[0]!.name.slice(-4).toUpperCase() !== "XLSX") ?
-                        modo === "CFDI" ? "Archivo invalido. Solo Extenciones PDF, XLS, XLSX "
-                            : "Archivo invalido. Solo extenciones PDF"
-                        : "El nombre del Archivo no corresponde a la Solicitud de Pago",
+                text: 
+                    event.target!.files[0]!.name.slice(-3).toUpperCase() !== "PDF" && modo==="SPEI" ?
+                    "Archivo invalido. Solo Extenciones PDF"
+                      :    "Nombre incorrecto",
                 icon: "info",
             });
             setslideropen(false)
@@ -309,6 +322,7 @@ const SpeisAdmin = ({
 
         const formData = new FormData();
         formData.append("NUMOPERACION", "3");
+        formData.append("TIPO", "SPEI");
         formData.append("CHID", data.id);
         formData.append("CHUSER", user.id);
         formData.append("REGISTROS", speis[1] ? "1" : "0");
@@ -340,7 +354,7 @@ const SpeisAdmin = ({
                     } else {
                         setslideropen(false);
                         AlertS.fire({
-                            title: "Error!",
+                            title: "¡Error!",
                             text: res.STRMESSAGE,
                             icon: "error",
                         });
@@ -379,7 +393,7 @@ const SpeisAdmin = ({
                 setslideropen(false);
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
@@ -410,7 +424,7 @@ const SpeisAdmin = ({
 
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
@@ -460,7 +474,7 @@ const SpeisAdmin = ({
                     setslideropen(false);
                 } else {
                     AlertS.fire({
-                        title: "Error!",
+                        title: "¡Error!",
                         text: res.STRMESSAGE,
                         icon: "error",
                     });
@@ -480,7 +494,7 @@ const SpeisAdmin = ({
                     setslideropen(false);
                 } else {
                     AlertS.fire({
-                        title: "Error!",
+                        title: "¡Error!",
                         text: res.STRMESSAGE,
                         icon: "error",
                     });
@@ -494,7 +508,6 @@ const SpeisAdmin = ({
 
     };
     useEffect(() => {
-        console.log(vrows.row)
         consulta();
         var ancho = 0;
         permisos.map((item: PERMISO) => {

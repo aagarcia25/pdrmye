@@ -106,7 +106,7 @@ const CrecimientoAnio = () => {
 
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -129,7 +129,7 @@ const CrecimientoAnio = () => {
         setDataCrecimientoAnio(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

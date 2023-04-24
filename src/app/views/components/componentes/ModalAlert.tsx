@@ -35,7 +35,7 @@ const ModalAlert = ({
   const validacion = (est:string) => {
     if (mensaje === "" || mensaje === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de llenar el campo Comentarios*",
         icon: "error",
       });

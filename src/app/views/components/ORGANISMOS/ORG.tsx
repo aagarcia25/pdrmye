@@ -336,8 +336,8 @@ export const ORG = () => {
       } else {
         setslideropen(false);
         AlertS.fire({
-          title: "Error!",
-          text: "Error!",
+          title: "¡Error!",
+          text: "¡Error!",
           icon: "error",
         });
       }
@@ -417,7 +417,7 @@ export const ORG = () => {
             });
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -458,7 +458,7 @@ export const ORG = () => {
             });
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });

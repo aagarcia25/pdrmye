@@ -49,7 +49,7 @@ const ContactoMunicipios = () => {
         setOpen(true);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           icon: "error",
         });
 
@@ -78,7 +78,7 @@ setOpen(false);
         setDato(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

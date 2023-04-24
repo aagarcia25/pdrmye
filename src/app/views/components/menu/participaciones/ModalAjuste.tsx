@@ -81,7 +81,7 @@ const ModalAjuste = ({
 
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
@@ -112,7 +112,7 @@ const ModalAjuste = ({
         onClickBack();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

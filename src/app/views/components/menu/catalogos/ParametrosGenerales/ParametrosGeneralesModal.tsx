@@ -39,7 +39,7 @@ export const ParametrosGeneralesModal = ({
   const handleSend = () => {
     if (nombre === "" || valor === "" || slug=== ""|| descripcion==="") {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "warning",
       });
@@ -77,7 +77,7 @@ export const ParametrosGeneralesModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -94,7 +94,7 @@ export const ParametrosGeneralesModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
