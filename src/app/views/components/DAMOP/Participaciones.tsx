@@ -81,7 +81,7 @@ import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 
 const Participaciones = () => {
 
-  ///////////////modal de adminisracion Spei cfdi
+   ///////////////modal de adminisracion Spei cfdi
   const [modoSpeiCfdi, setModoSpeiCfdi] = useState("");
 
 
@@ -2146,8 +2146,9 @@ const handleDescargarSpei = (v: any) => {
                   />
                 }
                 
-                label="Mostrar Todo"/>
+                label="Mostrar todo" title="Permite mostrar toda la información" />
                 
+                       
             </Grid>
           }
 
