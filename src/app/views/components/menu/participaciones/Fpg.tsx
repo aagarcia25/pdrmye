@@ -207,7 +207,7 @@ export const Fpg = () => {
         setObjFondo(obj[0]);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -235,7 +235,7 @@ export const Fpg = () => {
         setslideropen(false);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -280,7 +280,7 @@ export const Fpg = () => {
 
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });

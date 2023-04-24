@@ -281,7 +281,7 @@ const SolicitudRecursos = () => {
               handleClose();
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: "Fallo en la peticion",
                 icon: "error",
 
@@ -348,7 +348,7 @@ const SolicitudRecursos = () => {
           } else {
 
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: "Fallo en la peticion",
               icon: "error",
 

@@ -158,7 +158,7 @@ const AuthSolicitudes = () => {
   const SolicitudOrdenPago = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Seleccionar Registros",
         icon: "error",
       });
@@ -192,7 +192,7 @@ const AuthSolicitudes = () => {
               });
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });
@@ -236,7 +236,7 @@ const AuthSolicitudes = () => {
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

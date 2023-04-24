@@ -116,7 +116,7 @@ export const Eventos = () => {
             consulta();
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });

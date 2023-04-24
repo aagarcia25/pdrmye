@@ -54,7 +54,7 @@ export const CATORGModal = ({
       || !Clasificador09 || !Clasificador10 || !Clasificador11*/
     ) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -106,7 +106,7 @@ export const CATORGModal = ({
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -123,7 +123,7 @@ export const CATORGModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

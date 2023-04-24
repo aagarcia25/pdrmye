@@ -87,7 +87,7 @@ const InflacionMesModal = ({
         handleClose();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -105,7 +105,7 @@ const InflacionMesModal = ({
         handleClose();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

@@ -147,7 +147,7 @@ export const Descuentos = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -164,7 +164,7 @@ export const Descuentos = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -216,7 +216,7 @@ export const Descuentos = ({
         setSumRet(sumaRet);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: "Sin Respuesta",
           icon: "error",
         });
@@ -257,7 +257,7 @@ export const Descuentos = ({
             });
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -274,7 +274,7 @@ export const Descuentos = ({
       || numOperacion === "false"
       || ((desPar !== undefined ? Number(desPar) : 0) + (otrosCar !== undefined ? Number(otrosCar) : 0)) === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Verificar Campos",
         icon: "error",
       });
@@ -323,7 +323,7 @@ export const Descuentos = ({
                 handleCloseModal();
               } else {
                 AlertS.fire({
-                  title: "Error!",
+                  title: "¡Error!",
                   text: res.STRMESSAGE,
                   icon: "error",
                 });
@@ -475,7 +475,7 @@ export const Descuentos = ({
           // handleClose();
       } else {
           AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
           });

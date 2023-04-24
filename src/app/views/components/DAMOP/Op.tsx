@@ -213,7 +213,7 @@ const Op = () => {
             } else {
 
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: "Fallo en la peticion",
                 icon: "error",
 
@@ -282,7 +282,7 @@ Swal.fire({
       } else {
 
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: "Fallo en la peticion",
           icon: "error",
 

@@ -134,7 +134,7 @@ const CfdiAdmin = ({
                         handleCloseModal();
                     } else {
                         AlertS.fire({
-                            title: "Error!",
+                            title: "¡Error!",
                             text: res.STRMESSAGE,
                             icon: "error",
                         });
@@ -172,7 +172,7 @@ const CfdiAdmin = ({
                 handleCloseModal();
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
@@ -192,7 +192,7 @@ const CfdiAdmin = ({
                 setSpeis(res.RESPONSE);
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });

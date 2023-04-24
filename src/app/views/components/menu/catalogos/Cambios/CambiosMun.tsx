@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import ComentarioModal from "../../../componentes/ComentarioModal";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
 const CambiosMun = () => {
@@ -20,6 +21,9 @@ const CambiosMun = () => {
     const [bitacoraAjustes, setBitacoraAjustes] = useState([]);
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [openModal, setOpenModal] = useState<boolean>(false);
+    // const [tablas, setTablas] =useState<SelectValues[]>([]);
+
+    
     const [openValidacion, setOpenValidacion] = useState<boolean>(false);
     const [vrows, setVrows] = useState({});
     const [solicitud, setSolicitud] = useState<MunicipioCambios>();
@@ -61,7 +65,9 @@ const CambiosMun = () => {
                 return (
                     <>
                         {
-                            ((user.DEPARTAMENTOS[0].NombreCorto === "CPH" && user.PERFILES[0].Referencia === "COOR") && (v.row.Aplicado === 0 && v.row.deleted === "0") ? (
+                            ((user.DEPARTAMENTOS[0].NombreCorto === "CPH" 
+                            // && user.PERFILES[0].Referencia === "COOR"
+                            ) && (v.row.Aplicado === 0 && v.row.deleted === "0") ? (
                                 <>
                                     <Tooltip title="Atender Solicitud">
                                         <IconButton color="info" onClick={() => handlevalidar(v)}>
@@ -140,15 +146,16 @@ const CambiosMun = () => {
     ];
 
     const tablas = [
-        { tipo: 'MunPobrezaExt', label: 'Municipio Pobreza Extrema' },
-        { tipo: 'MunFacturacion', label: 'Municipio Facturación', },
-        { tipo: 'MunPobreza', label: 'Municipio Pobreza ', },
-        { tipo: 'MunProyec', label: 'Municipio Proyección', },
-        { tipo: 'MunRecaudacion', label: 'Municipio Recaudación', },
-        { tipo: 'MunRefrendos', label: 'Municipio Refrendos', },
-        { tipo: 'MunTerritorio', label: 'Municipio Territorio', },
-        { tipo: 'UMAS', label: 'UMAS', },
-        { tipo: 'MunFideicomiso', label: 'Municipio Fideicomiso', },
+        { value: 'MunPobrezaExt', label: 'Municipio Pobreza Extrema' },
+        { value: 'MunFacturacion', label: 'Municipio Facturación', },
+        { value: 'MunPobreza', label: 'Municipio Pobreza ', },
+        { value: 'MunProyec', label: 'Municipio Proyección', },
+        { value: 'MunRecaudacion', label: 'Municipio Recaudación', },
+        { value: 'MunRefrendos', label: 'Municipio Refrendos', },
+        { value: 'MunTerritorio', label: 'Municipio Territorio', },
+        { value: 'UMAS', label: 'UMAS', },
+        { value: 'MunPoblacion', label: 'Municipio Población', },
+
     ]
 
 
@@ -161,13 +168,15 @@ const CambiosMun = () => {
         setSolicitante(v?.row?.Solicitante)
         setIdSolicitante(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setOrigen(JSON.parse(String(v.row.Origen)));
-        setLabelCatalogo(String(tablas.find(({ tipo }) => tipo === v.row.Tipo)?.label));
+        setLabelCatalogo(String(tablas.find(({ value }) => value === v.row.Tipo)?.label));
         setIdCambio(v.row.id);
         setMunicipio(v?.row?.nombreMunicipio);
 
     };
 
     const handlever = (v: any) => {
+        console.log(v.row);
+
         setOpenModal(true);
         setModoVer(true);
         setVrows(v.row);
@@ -176,7 +185,7 @@ const CambiosMun = () => {
         setSolicitante(v?.row?.Solicitante)
         setIdSolicitante(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setOrigen(JSON.parse(String(v.row.Origen)));
-        setLabelCatalogo(String(tablas.find(({ tipo }) => tipo === v.row.Tipo)?.label));
+        setLabelCatalogo(String(tablas.find(({ value }) => value === v.row.Tipo)?.label));
         setIdCambio(v.row.id);
         setMunicipio(v?.row?.nombreMunicipio);
 
@@ -212,7 +221,7 @@ const CambiosMun = () => {
                         } else {
 
                             AlertS.fire({
-                                title: "Error!",
+                                title: "¡¡Error!",
                                 text: "Fallo en la peticion",
                                 icon: "error",
 
@@ -227,7 +236,7 @@ const CambiosMun = () => {
         } else {
 
             AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: "Campo Comenatrio Vacio",
                 icon: "error",
 
@@ -237,7 +246,20 @@ const CambiosMun = () => {
 
     };
 
+    const loadFilter = (operacion: number) => {
+        let data = { NUMOPERACION: operacion };
+        CatalogosServices.SelectIndex(data).then((res) => {
+          if (operacion === 31) {
+            // setTablas(res.RESPONSE);
+          } 
+        });
+      };
+
     const consulta = () => {
+        // loadFilter(17);
+
+
+
         CatalogosServices.BitacoraAjustes({ NUMOPERACION: 4 }).then((res) => {
             if (res.SUCCESS) {
                 Toast.fire({
@@ -247,12 +269,16 @@ const CambiosMun = () => {
                 setBitacoraAjustes(res.RESPONSE);
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
             }
         });
+
+
+
+
     };
 
     const handleClose = () => {

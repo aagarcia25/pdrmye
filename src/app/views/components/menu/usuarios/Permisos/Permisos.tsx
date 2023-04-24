@@ -62,7 +62,7 @@ const Permisos = () => {
               consulta({ NUMOPERACION: 4 });
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });

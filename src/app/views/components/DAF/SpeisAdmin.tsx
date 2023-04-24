@@ -283,8 +283,8 @@ const SpeisAdmin = ({
                 title: "Atención",
                 text: 
                     event.target!.files[0]!.name.slice(-3).toUpperCase() !== "PDF" && modo==="SPEI" ?
-                    "Archivo invalido. Solo Extenciones PDF, XLS, XLSX "
-                      :   "Archivo invalido. Nombre incorrecto",
+                    "Archivo invalido. Solo Extenciones PDF"
+                      :    "Nombre incorrecto",
                 icon: "info",
             });
             setslideropen(false)
@@ -354,7 +354,7 @@ const SpeisAdmin = ({
                     } else {
                         setslideropen(false);
                         AlertS.fire({
-                            title: "Error!",
+                            title: "¡Error!",
                             text: res.STRMESSAGE,
                             icon: "error",
                         });
@@ -393,7 +393,7 @@ const SpeisAdmin = ({
                 setslideropen(false);
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
@@ -424,7 +424,7 @@ const SpeisAdmin = ({
 
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
@@ -474,7 +474,7 @@ const SpeisAdmin = ({
                     setslideropen(false);
                 } else {
                     AlertS.fire({
-                        title: "Error!",
+                        title: "¡Error!",
                         text: res.STRMESSAGE,
                         icon: "error",
                     });
@@ -494,7 +494,7 @@ const SpeisAdmin = ({
                     setslideropen(false);
                 } else {
                     AlertS.fire({
-                        title: "Error!",
+                        title: "¡Error!",
                         text: res.STRMESSAGE,
                         icon: "error",
                     });

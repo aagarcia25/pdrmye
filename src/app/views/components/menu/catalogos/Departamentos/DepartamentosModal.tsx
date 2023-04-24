@@ -41,7 +41,7 @@ export const DepartamentosModal = ({
   const handleSend = () => {
     if (!nombreCorto || !descripcion || !responsable || responsable == "") {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -91,7 +91,7 @@ export const DepartamentosModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -108,7 +108,7 @@ export const DepartamentosModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

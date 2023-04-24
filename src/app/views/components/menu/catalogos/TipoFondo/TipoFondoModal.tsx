@@ -47,7 +47,7 @@ const TipoFondoModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -64,7 +64,7 @@ const TipoFondoModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -86,7 +86,7 @@ const TipoFondoModal = ({
   const handleSend = () => {
     if (descripcion === "") {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });

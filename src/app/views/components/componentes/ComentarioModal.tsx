@@ -27,7 +27,7 @@ const ComentarioModal = ({
     const validacion = (v: string) => {
         if (mensaje === "" || mensaje === null) {
             AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: "Favor de llenar el campo Comentarios*",
                 icon: "error",
             });

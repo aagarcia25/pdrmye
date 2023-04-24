@@ -233,7 +233,7 @@ export const AnticipoParticipaciones = () => {
                         } else {
 
                             AlertS.fire({
-                                title: "Error!",
+                                title: "¡Error!",
                                 text: "Fallo en la peticion",
                                 icon: "error",
 
@@ -307,7 +307,7 @@ export const AnticipoParticipaciones = () => {
                         });
                     } else {
                         AlertS.fire({
-                            title: "Error!",
+                            title: "¡Error!",
                             text: "Validar informacion",
                             icon: "error",
                         });
@@ -335,7 +335,7 @@ export const AnticipoParticipaciones = () => {
                 consulta();
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });

@@ -106,7 +106,7 @@ export const PerfilesUsuario = () => {
               handleClose();
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });
@@ -139,7 +139,7 @@ export const PerfilesUsuario = () => {
         //console.log("parametroGeneral consulta", perfilUsuario);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

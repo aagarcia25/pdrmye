@@ -75,7 +75,7 @@ export const ComentariosRecursosModal = (
                         } else {
 
                             AlertS.fire({
-                                title: "Error!",
+                                title: "¡Error!",
                                 text: "Fallo en la peticion",
                                 icon: "error",
                             });
@@ -114,7 +114,7 @@ export const ComentariosRecursosModal = (
                             } else {
 
                                 AlertS.fire({
-                                    title: "Error!",
+                                    title: "¡Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",
                                 });

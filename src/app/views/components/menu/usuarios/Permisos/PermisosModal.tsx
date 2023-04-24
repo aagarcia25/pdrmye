@@ -50,7 +50,7 @@ const PermisosModal = ({
   const handleSend = () => {
     if (nombre === "" || descripcion === "" || referencia === "" || idMenu === "") {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -89,7 +89,7 @@ const PermisosModal = ({
         handleClose();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

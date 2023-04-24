@@ -70,7 +70,7 @@ export const AnticipoParticipacionesAtenderModal = (
                         } else {
 
                             AlertS.fire({
-                                title: "Error!",
+                                title: "¡Error!",
                                 text: "Fallo en la peticion",
                                 icon: "error",
                             });
@@ -109,7 +109,7 @@ export const AnticipoParticipacionesAtenderModal = (
                             } else {
 
                                 AlertS.fire({
-                                    title: "Error!",
+                                    title: "¡Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",
                                 });

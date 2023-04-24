@@ -127,7 +127,7 @@ const ConfigurarPermisosMenu = ({
         consultaAsignarPermisoRol({ CHID: dt?.row?.id, IDROL: id });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -162,7 +162,7 @@ const ConfigurarPermisosMenu = ({
         consultaAsignarPermisoRol({ CHID: dt?.row?.id, IDROL: id });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

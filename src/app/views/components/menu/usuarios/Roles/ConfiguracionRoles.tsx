@@ -144,7 +144,7 @@ open:boolean,
         consulta({ CHID: idRol });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -180,7 +180,7 @@ open:boolean,
         consulta({ CHID: idRol });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

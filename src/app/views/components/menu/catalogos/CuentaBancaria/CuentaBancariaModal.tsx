@@ -168,7 +168,7 @@ export const CuentaBancariaModal = ({
         } else {
           setslideropen(false);
           //console.log("res en Sí res.SUCCESS no tiene nada", res);
-          Swal.fire("Verifique los campos", "Error!", "warning");
+          Swal.fire("Verifique los campos", "¡Error!", "warning");
         }
       });
     }
@@ -185,7 +185,7 @@ export const CuentaBancariaModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

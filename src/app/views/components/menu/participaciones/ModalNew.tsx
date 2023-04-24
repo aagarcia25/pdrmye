@@ -110,7 +110,7 @@ const ModalNew = ({
         onClickBack();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -142,7 +142,7 @@ const ModalNew = ({
         onClickBack();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -173,7 +173,7 @@ const ModalNew = ({
         || idmes === "false" || idTipoCalculo === "false" || derecho === null
       ) {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: "Favor de Completar los Campos",
           icon: "error",
         });
@@ -209,7 +209,7 @@ const ModalNew = ({
         onClickBack();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
