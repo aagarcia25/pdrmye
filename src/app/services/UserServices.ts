@@ -1,9 +1,8 @@
-import { Toast } from "../helpers/Toast";
-import { RESPONSE, RESPONSESTORAGE, UserInfo } from "../interfaces/user/UserInfo";
 import {   get, post, postRefresh, postSingle,   putPass } from "./apiServiceExt";
-import { AuthService } from "./AuthService";
-import { getToken, getUser, setUser } from "./localStorage";
-
+import { getToken, setToken } from "./localStorage";
+import { UserLogin } from "../interfaces/user/User";
+import jwt_decode from "jwt-decode";
+import Swal from "sweetalert2";
 
 
 export class UserServices {
@@ -46,30 +45,34 @@ export class UserServices {
 
 }
 
-// export const GetImage = (tipo:string ,nameImagen:string ) => {
-//     console.log(tipo + "  "+nameImagen)
-//     const user: RESPONSE = JSON.parse(String(getUser()));
-//     var  Response :RESPONSESTORAGE ;
-//     const formData = new FormData();
-//     formData.append("CHUSER", user.id);
-//     formData.append("TOKEN", JSON.parse(String(getToken())));
-//     formData.append("TIPO", tipo);
-//     formData.append("IMG", nameImagen);
+export const ValidaSesion = () => {
+  
+    const decoded: UserLogin = jwt_decode(String(getToken()));
+    if (((decoded.exp - (Date.now() / 1000)) / 60) < 5) {
+        UserServices.refreshToken().then((resAppLogin) => {
+            if (resAppLogin.status === 200) {
+                setToken(resAppLogin.data?.token);
+                // onClickChangePassword();
+            }
+            else {
+                Swal.fire({
+                    title: "Sesión Demasiado Antigua",
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: "Aceptar",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        localStorage.clear();
+                        var ventana = window.self;
+                        ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
+                    }
+                });
+  
+            }
+        });
+  
+    }
+  
+  }
 
-//     AuthService.GetImagenProfile(formData).then((res) => {
 
-//         if (res.SUCCESS) {
-//             Response=res.RESPONSE;
-//             // console.log(res.RESPONSE);
-    
-   
-
-//         }
-
-//     });
-// return{
-
-//     // Response
-// }
-
-// };

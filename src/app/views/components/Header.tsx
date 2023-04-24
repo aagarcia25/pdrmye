@@ -25,17 +25,10 @@ import { RESPONSE, RESPONSESTORAGE } from "../../interfaces/user/UserInfo";
 import { Backdrop, Button, Hidden, SpeedDialAction } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
 import { base64ToArrayBuffer } from "../../helpers/Files";
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share'
 import { styled } from '@mui/material/styles';
-import SpeedDial, { SpeedDialProps } from '@mui/material/SpeedDial';
+import SpeedDial from '@mui/material/SpeedDial';
 import HomeIcon from '@mui/icons-material/Home';
-import { AuthService } from "../../services/AuthService";
 import { useState } from "react";
-import { ProfilePhoto } from "./componentes/ProfilePhoto";
 interface HeaderProps {
   onDrawerToggle: () => void;
   name: string;
@@ -97,7 +90,8 @@ export default function Header(props: HeaderProps) {
   const handleCloseDial = () => setOpenDial(false);
   const actions = [
     {
-      icon: <> <Tooltip title="Haz click para ver más">
+      icon: <> 
+      <Tooltip title="Haz click para ver más">
         <IconButton
           ref={anchorRef}
           id="composition-button"
@@ -120,7 +114,7 @@ export default function Header(props: HeaderProps) {
         >
           {user.RutaFoto !== null ? (
               <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
-              src={"data:"+responseStorage?.TIPO+";base64," + responseStorage?.FILE}
+              src={"data:"+props.imgTipo+";base64," +props.imgData}
             />
           ) : (
             <PersonIcon sx={{
@@ -348,23 +342,23 @@ export default function Header(props: HeaderProps) {
         style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco, paddingBottom: "1%", margin: "0" }}
         position="sticky"
         elevation={0}
-        sx={{ width: "90%" }}
+        sx={{ width: "95%" }}
       >
         <Grid container item xs={12} md={12} spacing={2} alignItems="center" justifyContent="space-between" sx={{ padding: "0", margin: "0" }} >
 
 
-          <Grid  container item xs={6} sm={1} justifyContent="center" alignItems="center" alignContent="center" >
+          <Grid  container item xs={6}  sm={2} md={1.2} justifyContent="center" alignItems="center" alignContent="center" >
             <Tooltip title="Menú">
               <Button sx={{ width: "100%", height: "100%", }} className="menu" color="inherit" variant="outlined" onClick={() => onDrawerToggle()}>
-                <IconButton className="menu" color="inherit" onClick={() => onDrawerToggle()}
-                  sx={{ width: "100%", height: "100%", }}>
+                {/* <IconButton className="menu" color="inherit" onClick={() => onDrawerToggle()} */}
+                  {/* sx={{ width: "100%", height: "100%", }}> */}
                   <MenuIcon />
-                </IconButton>
+                {/* </IconButton> */}
               </Button>
             </Tooltip>
           </Grid>
 
-          <Grid container item   xs={6} sm={11} direction="row" justifyContent="flex-end" alignItems="center" >
+          <Grid container item   xs={6} sm={10.} direction="row" justifyContent="flex-end" alignItems="center" >
 
             <Grid item container xs={6} sm={11}
               sx={{ bgcolor: "rgb(25,245,245)" }}
@@ -405,9 +399,11 @@ export default function Header(props: HeaderProps) {
 
             <Hidden smDown >
 
-              <Grid container item  direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={11} md={8} xl={9} >
+              <Grid container item  direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={5} md={8} xl={9} >
 
-                <Grid  container direction="row" justifyContent="flex-end" alignItems="center">
+                <Grid 
+                // sx={{bgcolor:"rgb(45,45,42)"}} 
+                container direction="row" justifyContent="flex-end" alignItems="center">
                   <Typography variant="subtitle1" color="black">
                     {props.name}
                   </Typography>
@@ -434,7 +430,7 @@ export default function Header(props: HeaderProps) {
 
               </Grid>
             </Hidden >
-            <Grid item xs={12} sm={6} md={2.9} lg={2.4} xl={1.9} >
+            <Grid item xs={12} sm={5} md={3.5} lg={2.4} xl={1.9} >
               <Grid container item xs={12} direction="row" justifyContent="space-evenly" alignItems="center"  >
                 <Hidden smDown>
                   <Tooltip title="Haz click para ver más">

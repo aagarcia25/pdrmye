@@ -70,8 +70,6 @@ const UsuarioOrg = ({
   };
 
   const handleDel = (v: any) => {
-    console.log(v)
-    console.log(dt)
     let data = {
       TIPO: 2,
       IDUSUARIO: dt?.id,
@@ -95,10 +93,8 @@ const UsuarioOrg = ({
       OBJS: idOrg,
       IDUSUARIO: dt.id
     };
-    console.log(data);
     setOpenSlider(true);
     AuthService.RelacionarUsuarioOrg(data).then((res) => {
-      console.log(res.RESPONSE);
       if(!res.SUCCESS){
         AlertS.fire({
           title: "Error!",
@@ -106,6 +102,8 @@ const UsuarioOrg = ({
           icon: "error",
         });
       }else{
+        var v  = idOrg.length;
+        idOrg.splice(0, v)
         consulta();
         loadFilter();
       }
@@ -159,8 +157,7 @@ const UsuarioOrg = ({
                     onInputChange={handleFilterChange1}
                     placeholder={"Seleccione Organismo"}
                     label={""}
-                    disabled={false}
-                  />
+                    disabled={false}                   />
                 </Box>
               </Grid>
 
@@ -182,7 +179,7 @@ const UsuarioOrg = ({
                 </Typography>
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} >
-                <div style={{ height: 300, width: "100%" }}>
+                <div style={{ height: 600, width: "100%" }}>
                   <MUIXDataGridSimple columns={columns} rows={data} />
                 </div>
               </Grid>

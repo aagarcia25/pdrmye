@@ -184,7 +184,6 @@ const SpeisAdmin = ({
 
     const handleNewComprobante = (event: any) => {
         setslideropen(true);
-        console.log(event.target!.files[0]!.name.slice(-4).toUpperCase())
         let file = event.target!.files[0]!;
         if ((event.target.files.length !== 0 &&
             (event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF"
@@ -287,7 +286,6 @@ const SpeisAdmin = ({
     };
 
     const handleVerSpei = (v: any) => {
-        console.log(v.row.Nombre.slice(-3).toUpperCase() === "PDF");
         // {
         if (v.row.Nombre.slice(-3).toUpperCase() === "PDF") {
             setTipoDeArchivoPDF(true)
@@ -457,7 +455,6 @@ const SpeisAdmin = ({
                         icon: "success",
                         title: "Consulta Exitosa!",
                     });
-                    console.log(res.RESPONSE)
 
                     setSpeis(res.RESPONSE);
                     setslideropen(false);
@@ -497,6 +494,7 @@ const SpeisAdmin = ({
 
     };
     useEffect(() => {
+        console.log(vrows.row)
         consulta();
         var ancho = 0;
         permisos.map((item: PERMISO) => {
@@ -543,7 +541,7 @@ const SpeisAdmin = ({
                             Fondo:
                         </Typography>
                         <Typography variant="h5" className='DatosSpeiCfdi'>
-                            {vrows.row.fondodes}
+                            {vrows.row.a9}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
@@ -551,7 +549,7 @@ const SpeisAdmin = ({
                             Numero Solicitud de Pago:
                         </Typography>
                         <Typography variant="h5" className='DatosSpeiCfdi'>
-                            {vrows.row.NumOrdenPago}
+                            {vrows.row.a3}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} >
@@ -559,7 +557,7 @@ const SpeisAdmin = ({
                             Importe:
                         </Typography>
                         <Typography variant="h5" className='DatosSpeiCfdi'>
-                            {vrows.row.importe}
+                            {vrows.row.a5}
                         </Typography>
                     </Grid>
                 </Grid>

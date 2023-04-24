@@ -10,6 +10,7 @@ import validator from 'validator';
 import { AlertS } from '../../../helpers/AlertS';
 import ModalForm from '../componentes/ModalForm';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
+import MUIXDataGridSimple from '../MUIXDataGridSimple';
 
 
 const steps = ['Campos Obligatorios', 'Carga de Archivo ', 'Finalizar Solicitud'];
@@ -319,64 +320,8 @@ export const OpModal = (
 
 
 
+                <MUIXDataGridSimple columns={columns} rows={[]} />
 
-                <div style={{ height: 350, width: "100%", paddingRight: "1%", paddingLeft: "1%", paddingBottom: "1%" }}>
-                    <DataGrid
-                        columns={columns}
-                        rows={[]}
-                        density="compact"
-                        rowsPerPageOptions={[10, 25, 50, 100]}
-                        disableSelectionOnClick
-                        disableColumnFilter
-                        disableColumnSelector
-                        disableDensitySelector
-                        getRowHeight={() => 'auto'}
-                        components={{ Toolbar: GridToolbar }}
-                        sx={{ fontFamily: "Poppins,sans-serif" }}
-                        componentsProps={{
-                            toolbar: {
-                                label: "Buscar",
-                                showQuickFilter: true,
-                                quickFilterProps: { debounceMs: 500 },
-                            },
-                        }}
-                        localeText={{
-                            noRowsLabel: "No se ha encontrado datos.",
-                            noResultsOverlayLabel: "No se ha encontrado ningún resultado",
-                            toolbarColumns: "Columnas",
-                            toolbarExport: "Exportar",
-                            toolbarColumnsLabel: "Seleccionar columnas",
-                            toolbarFilters: "Filtros",
-                            toolbarFiltersLabel: "Ver filtros",
-                            toolbarFiltersTooltipHide: "Quitar filtros",
-                            toolbarFiltersTooltipShow: "Ver filtros",
-                            toolbarQuickFilterPlaceholder: "Buscar",
-                            toolbarExportCSV: 'Descargar como CSV',
-                            toolbarExportPrint: 'Imprimir',
-                            checkboxSelectionSelectRow: "Filas seleccionadas",
-                            checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
-                            errorOverlayDefaultLabel: 'Ha ocurrido un error.',
-                            footerRowSelected: (count) =>
-                                count > 1 ?
-                                    `${count.toLocaleString()} filas seleccionadas`
-                                    :
-                                    `${count.toLocaleString()} fila seleccionada`,
-                            footerTotalRows: 'Filas Totales:',
-                            columnMenuLabel: 'Menú',
-                            columnMenuShowColumns: 'Mostrar columnas',
-                            columnMenuFilter: 'Filtro',
-                            columnMenuHideColumn: 'Ocultar',
-                            columnMenuUnsort: 'Desordenar',
-                            columnMenuSortAsc: 'Ordenar ASC',
-                            columnMenuSortDesc: 'Ordenar DESC',
-                            columnHeaderFiltersTooltipActive: (count) =>
-                                count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
-                            columnHeaderFiltersLabel: 'Mostrar filtros',
-                            columnHeaderSortIconLabel: 'Ordenar',
-                        }}
-
-                    />
-                </div>
 
                 <Grid container>
                     <Grid item xs={3} textAlign="right">

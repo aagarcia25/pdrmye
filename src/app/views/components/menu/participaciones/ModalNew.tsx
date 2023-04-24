@@ -163,7 +163,6 @@ const ModalNew = ({
 
 
   const handleSend = () => {
-    console.log(clave);
     if (clave === "ICV" || clave === "HIDROCARBUROS" || clave === "FOINMUN" || clave === 'ISN100' || clave === 'PREDIAL') {
       icv();
     } else if (clave === "ISR SALARIOS") {
@@ -412,7 +411,7 @@ const ModalNew = ({
                 disable={false}
                 valor={0}
                 handleSetValor={handleChange}
-                error={!monto} />
+                error={!monto} modo={"moneda"} />
              
             </Grid>
           </Grid>

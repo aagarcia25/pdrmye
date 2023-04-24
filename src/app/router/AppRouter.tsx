@@ -83,8 +83,8 @@ export const AppRouter = (
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [responseStorage, setResponseStorage] = useState<RESPONSESTORAGE>();
  
-  const handleCloseDialogImagen = () => {
-    GetImage("/PDRMYE/USUARIOS/FOTOPERFIL/", user.RutaFoto)
+  const handleChangeImg = () => {
+    GetImage("/FOTOPERFIL/", user.RutaFoto)
   };
 
   const GetImage = (tipo: string, nameImagen: string) => {
@@ -96,7 +96,7 @@ export const AppRouter = (
   };
 
   useEffect(() => {
-    handleCloseDialogImagen();
+    handleChangeImg();
 
 }, []);
   
@@ -151,7 +151,7 @@ export const AppRouter = (
           {/* FIN SECCION DE NOTIFICACIONES */}
 
           {/* SECCION DE PERFIL */}
-          <Route path='/perfil' element={<Perfil handleChangeImg={handleCloseDialogImagen} imgData={String(responseStorage?.FILE)} imgTipo={String(responseStorage?.TIPO)} />} />
+          <Route path='/perfil' element={<Perfil handleChangeImg={handleChangeImg} imgData={String(responseStorage?.FILE)} imgTipo={String(responseStorage?.TIPO)} />} />
           {/* FIN SECCION DE PERFIL */}
 
           {/* SECCION DE ARTICULOS */}

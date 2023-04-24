@@ -208,7 +208,7 @@ const CfdiAdmin = ({
                 <Box>
                     <ButtonsAdd handleOpen={handleAgregarSpei} agregar={user.DEPARTAMENTOS[0].NombreCorto==="MUN"||user.DEPARTAMENTOS[0].NombreCorto==="DAMOP"} />
                     <Grid item xs={12}>
-                        <MUIXDataGridMun modulo={''} handleBorrar={handleBorrarMasivo} columns={columns} rows={speis} controlInterno={''} />
+                        <MUIXDataGridMun modulo={'Administración de CFDI'} handleBorrar={handleBorrarMasivo} columns={columns} rows={speis} controlInterno={''} />
                     </Grid>
                 </Box>
             </ModalForm>
