@@ -8,7 +8,7 @@ export const mensagesValidacion = {
 
 
     tituloConsulta:"Consulta Exitosamente",
-    tituloError:"Error!",
+    tituloError:"¡Error!",
 
    
 }

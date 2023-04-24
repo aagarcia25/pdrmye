@@ -42,7 +42,7 @@ const RolesModal = ({
 
             if (nombre === null || descripcion === null || nombre === "" || descripcion === "") {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: "Favor de Completar los Campos",
                     icon: "error",
                 });
@@ -62,7 +62,7 @@ const RolesModal = ({
 
             if (nombre === null || descripcion === null || nombre === "" || descripcion === "") {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: "Favor de Completar los Campos",
                     icon: "error",
                 });
@@ -98,7 +98,7 @@ const RolesModal = ({
 
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });

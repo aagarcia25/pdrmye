@@ -120,7 +120,7 @@ const AjustesCalculos = () => {
                         consulta();
                     } else {
                         AlertS.fire({
-                            title: "Error!",
+                            title: "¡Error!",
                             text: res.STRMESSAGE,
                             icon: "error",
                         });
@@ -168,7 +168,7 @@ const AjustesCalculos = () => {
                             consulta();
                         } else {
                             AlertS.fire({
-                                title: "Error!",
+                                title: "¡Error!",
                                 text: res.STRMESSAGE,
                                 icon: "error",
                             });
@@ -227,7 +227,7 @@ const AjustesCalculos = () => {
                             consulta();
                         } else {
                             AlertS.fire({
-                                title: "Error!",
+                                title: "¡Error!",
                                 text: res.STRMESSAGE,
                                 icon: "error",
                             });
@@ -278,7 +278,7 @@ const AjustesCalculos = () => {
 
                             } else {
                                 AlertS.fire({
-                                    title: "Error!",
+                                    title: "¡Error!",
                                     text: res.STRMESSAGE,
                                     icon: "error",
                                 });
@@ -311,7 +311,7 @@ const AjustesCalculos = () => {
                 setOpen(false);
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });

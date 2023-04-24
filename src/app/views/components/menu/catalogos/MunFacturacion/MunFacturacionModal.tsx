@@ -45,7 +45,7 @@ const MunFacturacionModal = ({
   const handleSend = () => {
     if (fac === null || anio === null || idMunicipio === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -93,7 +93,7 @@ const MunFacturacionModal = ({
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -111,7 +111,7 @@ const MunFacturacionModal = ({
         handleClose();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

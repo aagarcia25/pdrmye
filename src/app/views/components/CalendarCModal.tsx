@@ -85,7 +85,7 @@ const CalendarCModal = ({
     }
     if (finEvento <= inicioEvento) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "La fecha fin del evento no puede ser antes de la fecha inicio.",
         icon: "error",
       });
@@ -114,7 +114,7 @@ const CalendarCModal = ({
         handleClose();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -132,7 +132,7 @@ const CalendarCModal = ({
         handleClose();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

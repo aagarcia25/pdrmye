@@ -40,7 +40,7 @@ const MunTerritorioModal = ({
   const handleSend = () => {
     if (territorio === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -87,7 +87,7 @@ const MunTerritorioModal = ({
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -104,7 +104,7 @@ const MunTerritorioModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

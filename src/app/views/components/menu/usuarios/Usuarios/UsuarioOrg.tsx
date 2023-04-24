@@ -97,7 +97,7 @@ const UsuarioOrg = ({
     AuthService.RelacionarUsuarioOrg(data).then((res) => {
       if(!res.SUCCESS){
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text:  "No se Permiten volver a Relacionar un Organismo al mismo usuario",
           icon: "error",
         });

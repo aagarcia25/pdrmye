@@ -122,7 +122,7 @@ export const ParametrosGenerales = () => {
             consulta(data);
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -145,7 +145,7 @@ export const ParametrosGenerales = () => {
         //console.log("parametroGeneral consulta", parametroGeneral);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

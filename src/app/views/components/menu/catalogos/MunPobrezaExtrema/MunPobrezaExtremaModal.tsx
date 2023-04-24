@@ -51,7 +51,7 @@ const MunPobrezaExtremaModal = ({
   const handleSend = () => {
     if (poblacion === null || anio === null || carenciaProm === null || IdMunicipio === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -98,7 +98,7 @@ const MunPobrezaExtremaModal = ({
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -118,7 +118,7 @@ const MunPobrezaExtremaModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

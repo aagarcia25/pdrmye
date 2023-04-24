@@ -154,7 +154,7 @@ const FideicomisoConfig = ({
         consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -222,7 +222,7 @@ const FideicomisoConfig = ({
       || claveBan === null
       || claveSireGob === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Verificar los Campos",
         icon: "error",
       });
@@ -246,7 +246,7 @@ const FideicomisoConfig = ({
           });
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });

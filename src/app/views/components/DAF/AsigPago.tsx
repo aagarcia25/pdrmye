@@ -285,7 +285,7 @@ const AsigPago = () => {
 
     if (rows.length === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de realizar la búsqueda de Registros, primero",
         icon: "error",
       });
@@ -433,7 +433,7 @@ const AsigPago = () => {
         setslideropen(false);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

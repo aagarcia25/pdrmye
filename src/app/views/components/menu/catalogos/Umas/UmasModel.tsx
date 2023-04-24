@@ -34,7 +34,7 @@ const UmasModel = ({
   const handleSend = () => {
     if (!diario || !anio || !mensual || !anual) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -74,7 +74,7 @@ const UmasModel = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -92,7 +92,7 @@ const UmasModel = ({
         handleClose();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

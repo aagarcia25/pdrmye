@@ -56,7 +56,7 @@ export const CalculoGarantiaModal = ({
   const handleSend = () => {
     if (!anio || !claveFondo || !municipio) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -98,7 +98,7 @@ export const CalculoGarantiaModal = ({
         //console.log("Sé pudo agregar");
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -116,7 +116,7 @@ export const CalculoGarantiaModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

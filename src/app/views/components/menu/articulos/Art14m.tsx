@@ -58,7 +58,7 @@ const Art14m = ({
   const handleVersion = () => {
     if (monto === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });

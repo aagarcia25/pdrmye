@@ -120,7 +120,7 @@ const AvisosModal = ({
     if (inicioEvento === null || finEvento === null || nameAviso === null || descripcion === null || nameAviso === null || (editDoc) ? (newDoc === null) : (newDoc == !null)) {
 
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Campos Vacios",
         icon: "error",
       });
@@ -139,7 +139,7 @@ const AvisosModal = ({
           handleClose("save");
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: "Campos Requeridos Vacios",
             icon: "error",
           });

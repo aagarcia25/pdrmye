@@ -74,7 +74,7 @@ const ListNotificationsModal = ({
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -131,7 +131,7 @@ const ListNotificationsModal = ({
 
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: "Revisar Valores",
             icon: "error",
           });
@@ -152,7 +152,7 @@ const ListNotificationsModal = ({
         setUsuarioSelect(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

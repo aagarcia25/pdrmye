@@ -38,7 +38,7 @@ const InflacionAnioModal = ({
   const handleSend = () => {
     if (anio === "" || inflacion === "") {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -75,7 +75,7 @@ const InflacionAnioModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -92,7 +92,7 @@ const InflacionAnioModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

@@ -38,7 +38,7 @@ export const CatTPModal = ({
     const handleSend = () => {
       if (clave === "" || descripcion === "" || abreviacion === "" || descripcionTipoPago === "" ) {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: "Favor de Completar los Campos",
           icon: "error",
         });
@@ -78,7 +78,7 @@ export const CatTPModal = ({
           handleClose();
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
