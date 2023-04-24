@@ -163,7 +163,6 @@ const ModalNew = ({
 
 
   const handleSend = () => {
-    console.log(clave);
     if (clave === "ICV" || clave === "HIDROCARBUROS" || clave === "FOINMUN" || clave === 'ISN100' || clave === 'PREDIAL') {
       icv();
     } else if (clave === "ISR SALARIOS") {

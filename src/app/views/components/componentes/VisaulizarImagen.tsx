@@ -18,7 +18,6 @@ export const VisaulizarImagen = (
     const GetImage = () => {
         AuthService.GetImagen(ubicacion, name).then((res) => {
             if (res.SUCCESS) {
-                console.log(res.RESPONSE.RESPONSE.NOMBRE)
                 setTIPO(res.RESPONSE.RESPONSE.TIPO);
                 setFILE(res.RESPONSE.RESPONSE.FILE);
             }

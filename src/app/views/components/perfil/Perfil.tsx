@@ -21,18 +21,18 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { UserServices } from "../../../services/UserServices";
 import Swal from "sweetalert2";
 
-export const Perfil = ( 
+export const Perfil = (
   {
     handleChangeImg,
     imgData,
     imgTipo
-}: {
+  }: {
     handleChangeImg: Function;
-    imgData:string;
-    imgTipo:string;
-}
+    imgData: string;
+    imgTipo: string;
+  }
 ) => {
-  const user:RESPONSE = (JSON.parse(String(getUser())));
+  const user: RESPONSE = (JSON.parse(String(getUser())));
   // const [responseStorage, setResponseStorage] = useState<RESPONSESTORAGE>();
 
   const [openDialog, setOpenDialog] = useState(false)
@@ -50,11 +50,11 @@ export const Perfil = (
 
   const handleCloseDialogImagen = () => {
     setOpenDialog(false);
-    handleChangeImg(); 
+    handleChangeImg();
     // GetImage("/PDRMYE/USUARIOS/FOTOPERFIL/", user.RutaFoto)
   };
 
-   
+
 
   //PRIMER CARD FUNCIONES
 
@@ -170,8 +170,8 @@ export const Perfil = (
 
                   sx={{ width: "7.4rem", height: "7.4rem", backgroundColor: "white", borderRadius: '50%', justifyContent: "center", cursor: "pointer", }} >
                   {user?.RutaFoto ?
-                    
-                    <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%' }} src={"data:"+imgTipo+";base64," + imgData}/>
+
+                    <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%' }} src={"data:" + imgTipo + ";base64," + imgData} />
 
                     : <PersonIcon sx={{ width: "100%", height: "100%", }} />
                   }
@@ -186,26 +186,28 @@ export const Perfil = (
                 <Grid item xs={12} sm={3.8}>
                   <Typography variant="h6" className="DatosPrincipalesPerfil">
                     Nombre:
-                    <Typography variant="h6" className="DatosSecundariosPerfil" >
-                      {user.Nombre}
-                    </Typography>
+                  </Typography>
+                  <Typography variant="h6" className="DatosSecundariosPerfil" >
+                    {user.Nombre}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={3.8}>
 
                   <Typography variant="h6" className="DatosPrincipalesPerfil">
                     Apellido Paterno:
-                    <Typography variant="h6" className="DatosSecundariosPerfil">
-                      {user.ApellidoPaterno} </Typography>
+
+                  </Typography>
+                  <Typography variant="h6" className="DatosSecundariosPerfil">
+                    {user.ApellidoPaterno}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={3.8}>
 
                   <Typography variant="h6" className="DatosPrincipalesPerfil">
                     Apellido Materno:
-                    <Typography variant="h6" className="DatosSecundariosPerfil">
-                      {user.ApellidoMaterno} </Typography>
                   </Typography>
+                  <Typography variant="h6" className="DatosSecundariosPerfil">
+                    {user.ApellidoMaterno} </Typography>
                 </Grid>
               </Grid>
               <Grid item container xs={12} sm={12} paddingTop={1} paddingBottom={1} >
@@ -222,55 +224,57 @@ export const Perfil = (
                 <Grid item xs={12} >
                   <Typography variant="h6" className="DatosPrincipalesPerfil">
                     Departamento:
-                    <Typography variant="h6" className="DatosSecundariosPerfil">
-                      {user.DEPARTAMENTOS[0]?.Descripcion} </Typography>
                   </Typography>
+                  <Typography variant="h6" className="DatosSecundariosPerfil">
+                    {user.DEPARTAMENTOS[0]?.Descripcion} </Typography>
 
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="h6" className="DatosPrincipalesPerfil">
                     Correo electrónico:
-                    <Typography variant="h6" className="DatosSecundariosPerfil">
-                      {user.CorreoElectronico} </Typography>
-                  </Typography>
 
+                  </Typography>
+                  <Typography variant="h6" className="DatosSecundariosPerfil">
+                    {user.CorreoElectronico}
+                  </Typography>
                 </Grid>
                 <Grid item xs={12}>
 
                   <Typography variant="h6" className="DatosPrincipalesPerfil">
                     Teléfono:
-                    <Typography variant="h6" className="DatosSecundariosPerfil">
-                      {user.Telefono ? user.Telefono : "Sin Informacion"}
-                    </Typography>
+
+                  </Typography>
+                  <Typography variant="h6" className="DatosSecundariosPerfil">
+                    {user.Telefono ? user.Telefono : "Sin Informacion"}
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
 
                   <Typography variant="h6" className="DatosPrincipalesPerfil">
                     Extensión:
-                    <Typography variant="h6" className="DatosSecundariosPerfil">
-                      {user.Ext ? user.Ext : "Sin Informacion"}
-                    </Typography>
                   </Typography>
-
+                  <Typography variant="h6" className="DatosSecundariosPerfil">
+                    {user.Ext ? user.Ext : "Sin Informacion"}
+                  </Typography>
                 </Grid>
                 <Grid item xs={12}>
 
                   <Typography variant="h6" className="DatosPrincipalesPerfil">
                     Teléfono Móvil:
-                    <Typography variant="h6" className="DatosSecundariosPerfil">
-                      {user.Celular ? user.Celular : "Sin Informacion"}
-                    </Typography>
-                  </Typography>
 
+                  </Typography>
+                  <Typography variant="h6" className="DatosSecundariosPerfil">
+                    {user.Celular ? user.Celular : "Sin Informacion"}
+                  </Typography>
 
                 </Grid>
                 <Grid item xs={12} paddingBottom={3}>
                   <Typography variant="h6" className="DatosPrincipalesPerfil">
                     Puesto:
-                    <Typography variant="h6" className="DatosSecundariosPerfil">
-                      {user.Puesto ? user.Puesto : "Sin Informacion"}
-                    </Typography>
+
+                  </Typography>
+                  <Typography variant="h6" className="DatosSecundariosPerfil">
+                    {user.Puesto ? user.Puesto : "Sin Informacion"}
                   </Typography>
                 </Grid>
               </Grid>
@@ -325,7 +329,7 @@ export const Perfil = (
               <Grid container justifyContent="center" alignItems="center" alignContent="center">
                 <Grid item paddingTop="10%" xs={6}>
                   <Button
-                  disabled={(password !== confPassword) || (password.length < 6)}
+                    disabled={(password !== confPassword) || (password.length < 6)}
                     onClick={() => onClickChangePassword()}
                     color="primary" fullWidth variant="contained"> <Typography color="white"> Cambiar </Typography>
                   </Button>

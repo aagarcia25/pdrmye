@@ -88,6 +88,20 @@ h2 {
 h3 {
   font-family:  sans-serif;
 }
+
+h4.Titulo {
+  font-family:  sans-serif;
+  text-align: center;
+  justify-content: center;
+}
+
+/* Centrar el texto y contenido en los GRID con className:"Titulo" */
+.Titulo{
+
+  font-family:  sans-serif;
+  text-align: center;
+  justify-content: center;
+}
 h6 {
   font-family:sans-serif;
   /* font-weight: bold; */
@@ -170,6 +184,15 @@ border-radius: 10px;
   /* mr: "2rem" */
 }
 h6.DatosSecundariosPerfil{
+  font-family:sans-serif;
+  /* font-weight: bold; */
+  color: rgb(99, 98, 98);
+  font-size:  18px;
+  text-align: center ;
+  /* mr: "2rem" */
+}
+
+label.DatosSecundariosPerfil{
   font-family:sans-serif;
   /* font-weight: bold; */
   color: rgb(0, 0, 0);

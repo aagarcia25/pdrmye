@@ -77,6 +77,7 @@ import IconSPEI from '../../../assets/img/SPEI.svg';
 import IconCFDI from '../../../assets/img/CFDI.svg';
 import { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
+import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 
 const Participaciones = () => {
 
@@ -288,7 +289,7 @@ const Participaciones = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 150 + anchoAcciones,
+      width: 100 + anchoAcciones,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -300,7 +301,7 @@ const Participaciones = () => {
               </IconButton>
             </Tooltip>
 
-            {ELIMINA ? (
+            {ELIMINA && v.row.orden===1 ? (
               <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
                 <Tooltip title={"Eliminar"}>
                   <DeleteForeverOutlinedIcon />
@@ -351,7 +352,7 @@ const Participaciones = () => {
       headerName: "Ver Detalle",
       description: "Ver Detalle",
       sortable: false,
-      width: 200,
+      width: 150,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -417,7 +418,7 @@ const Participaciones = () => {
       headerName: "Retenciones",
       description: "Retenciones",
       sortable: false,
-      width: 98,
+      width: 90,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -440,55 +441,55 @@ const Participaciones = () => {
       field: "estatus",
       headerName: "Estatus",
       description: "Estatus",
-      width: 200,
+      width: 170,
     },
     {
       field: "NumOper",
       headerName: "Nº De Operación",
       description: "Nº De Operación",
-      width: 150,
+      width: 110,
     },
     {
       field: "NumParticipacion",
       headerName: "Número De Participación",
-      width: 200,
+      width: 150,
       description: "Número De Participación",
     },
     {
       field: "NumSolEgreso",
       headerName: "Solicitud De Egreso",
-      width: 200,
+      width: 145,
       description: "Número De Solicitud De Egreso",
     },
     {
       field: "NumEgreso",
       headerName: "Egreso",
-      width: 150,
+      width: 80,
       description: "Número De Egreso",
     },
     {
       field: "NumOrdenPago",
       headerName: "Solicitud de Pago",
-      width: 150,
+      width: 120,
       description: "Número De Solicitud de Pago",
     },
 
     {
       field: "NumRequerimientoAnt",
       headerName: "Req. De Anticipo",
-      width: 150,
+      width: 120,
       description: "Número De Requerimiento De Anticipo",
     },
     {
       field: "Anio",
       headerName: "Ejercicio",
-      width: 100,
+      width: 70,
       description: "Ejercicio",
     },
     {
       field: "Mes",
       headerName: "Mes",
-      width: 120,
+      width: 80,
       description: "Mes",
     },
     {
@@ -506,7 +507,7 @@ const Participaciones = () => {
     {
       field: "Nombre",
       headerName: "Proveedor",
-      width: 280,
+      width: 200,
       description: "Proveedor",
     },
     {
@@ -528,12 +529,14 @@ const Participaciones = () => {
       width: 250,
     },
     {
+      hide: true ,
       field: "ClaveBeneficiario",
       headerName: "Cve. Beneficiario",
       width: 200,
       description: "Clave de Beneficiario",
     },
     {
+      hide: true ,
       field: "DescripcionBeneficiario",
       headerName: "Beneficiario",
       width: 200,
@@ -543,7 +546,7 @@ const Participaciones = () => {
       field: "uresclave",
       headerName: "U. Resp",
       description: "Unidad Responsable",
-      width: 100,
+      width: 80,
     },
     {
       field: "NumProyecto",
@@ -573,35 +576,35 @@ const Participaciones = () => {
     {
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
-      width: 200,
+      width: 170,
       description: "Presupuesto SIREGOB",
       ...Moneda,
     },
     {
       field: "total",
       headerName: "Total Bruto",
-      width: 200,
+      width: 140,
       description: "Total Bruto",
       ...Moneda,
     },
     {
       field: "Retenciones",
       headerName: "Retenciones",
-      width: 200,
+      width: 120,
       description: "Retenciones",
       ...Moneda,
     },
     {
       field: "RecAdeudos",
       headerName: "Recaudación de Adeudos",
-      width: 200,
+      width: 160,
       description: "Recaudación de Adeudos",
       ...Moneda,
     },
     {
       field: "Descuentos",
       headerName: "Descuentos",
-      width: 200,
+      width: 100,
       description: "Descuentos",
       ...Moneda,
     },
@@ -610,7 +613,7 @@ const Participaciones = () => {
     {
       field: "importe",
       headerName: "Total Neto",
-      width: 250,
+      width: 200,
       description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
       ...Moneda,
       renderHeader: () => (
@@ -623,19 +626,19 @@ const Participaciones = () => {
     {
       field: "Proveedor",
       headerName: "Proveedor",
-      width: 120,
+      width: 80,
       description: "Proveedor",
     },
     {
       field: "Deudor",
       headerName: "Deudor",
-      width: 120,
+      width: 80,
       description: "Deudor",
     },
     {
       field: "clasificacion",
       headerName: "Clasificación",
-      width: 150,
+      width: 100,
       description: "Clasificación de Solicitud de Pago",
     },
     {
@@ -1687,11 +1690,6 @@ const handleDescargarSpei = (v: any) => {
       });
 
     }
-
-
-
-
-
   };
 
 
@@ -1769,7 +1767,9 @@ const handleDescargarSpei = (v: any) => {
   }, [
     // munTieneFide
   ]);
-
+  const handleBorrarMasivo = (v: GridSelectionModel) => {
+    setSelectionModel(v);
+  };
   return (
     <div>
       <Slider open={slideropen}></Slider>
@@ -2276,7 +2276,13 @@ const handleDescargarSpei = (v: any) => {
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <div
+          <MUIXDataGridGeneral 
+          modulo={nombreExport} 
+          handleBorrar={handleBorrarMasivo}
+           columns={columnsParticipaciones} 
+           rows={data} controlInterno={""} 
+           multiselect={true}/>
+          {/* <div
             style={{
               height: "48vh",
               width: "100%",
@@ -2305,7 +2311,8 @@ const handleDescargarSpei = (v: any) => {
                 components={{ Toolbar: GridToolbar }}
                 sx={{
                   fontFamily: "Poppins,sans-serif",
-                  fontWeight: "600",
+                  fontWeight: "500",
+                  fontSize:"12px",
                   "& .super-app.negative": {
                     color: "rgb(84, 3, 3)",
                     backgroundColor: "rgb(196, 40, 40, 0.384)",
@@ -2330,7 +2337,7 @@ const handleDescargarSpei = (v: any) => {
                 isRowSelectable={(params) => (
                   // params.row.NumCheque === null
                   // ||params.row.NumEgreso===null
-                  // ||params.row.NumRequerimientoAnt===null
+                  // ||params.row.NumRequerimientoAnt===null||
                   params.row.NumOrdenPago === null
                 )}
                 checkboxSelection
@@ -2374,7 +2381,7 @@ const handleDescargarSpei = (v: any) => {
                 }}
               />
             </ThemeProvider>
-          </div>
+          </div> */}
         </Grid>
 
 

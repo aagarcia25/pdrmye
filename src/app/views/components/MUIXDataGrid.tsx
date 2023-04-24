@@ -26,7 +26,8 @@ export default function MUIXDataGrid(props: any) {
           getRowHeight={() => 'auto'}
           components={{ Toolbar: GridToolbar }}
           sx={{
-            fontFamily: "Poppins,sans-serif", fontWeight: '600',
+            fontFamily: "Poppins,sans-serif", fontWeight: '500',
+            fontSize:"12px",
             '& .super-app-theme--cell': {
               backgroundColor: 'rgba(224, 183, 60, 0.55)',
               color: '#1a3e72',

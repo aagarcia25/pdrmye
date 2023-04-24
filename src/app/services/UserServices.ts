@@ -46,15 +46,12 @@ export class UserServices {
 }
 
 export const ValidaSesion = () => {
-    console.log("token refresh entra")
   
     const decoded: UserLogin = jwt_decode(String(getToken()));
     if (((decoded.exp - (Date.now() / 1000)) / 60) < 5) {
-        console.log("token vencido")
         UserServices.refreshToken().then((resAppLogin) => {
             if (resAppLogin.status === 200) {
                 setToken(resAppLogin.data?.token);
-                console.log("token refresh ----------------------------------------------------------------")
                 // onClickChangePassword();
             }
             else {
@@ -78,30 +75,4 @@ export const ValidaSesion = () => {
   
   }
 
-// export const GetImage = (tipo:string ,nameImagen:string ) => {
-//     console.log(tipo + "  "+nameImagen)
-//     const user: RESPONSE = JSON.parse(String(getUser()));
-//     var  Response :RESPONSESTORAGE ;
-//     const formData = new FormData();
-//     formData.append("CHUSER", user.id);
-//     formData.append("TOKEN", JSON.parse(String(getToken())));
-//     formData.append("TIPO", tipo);
-//     formData.append("IMG", nameImagen);
 
-//     AuthService.GetImagenProfile(formData).then((res) => {
-
-//         if (res.SUCCESS) {
-//             Response=res.RESPONSE;
-//             // console.log(res.RESPONSE);
-    
-   
-
-//         }
-
-//     });
-// return{
-
-//     // Response
-// }
-
-// };
