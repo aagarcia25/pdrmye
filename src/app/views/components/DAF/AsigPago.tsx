@@ -54,8 +54,7 @@ const AsigPago = () => {
   const [slideropen, setslideropen] = useState(false);
   //MODAL
   //Constantes para llenar los select
-  const [selectionModel, setSelectionModel] =
-    React.useState<GridSelectionModel>([]);
+
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
   const [anios, setAnios] = useState<SelectValues[]>([]);
