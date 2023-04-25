@@ -191,7 +191,7 @@ const SpeisAdmin = ({
                 || event.target!.files[0]!.name.slice(-4).toUpperCase() === "XLSX"
             ))
             && (event.target!.files[0]!.name === (vrows.row.a3 + ".pdf")
-                // || modo === "CFDI"
+                 || modo === "CFDI"
             )) {
 
 
@@ -228,8 +228,7 @@ const SpeisAdmin = ({
                                 if (result.isDenied) {
                                 }
                             });
-                        }
-                        else {
+                        }else {
 
                             setNameSpei(event.target!.files[0]!.name);
                             setSpeiFile(file);
