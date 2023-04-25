@@ -1560,7 +1560,7 @@ const Participaciones = () => {
           setData(res.RESPONSE);
           var sumatotal = 0;
           res.RESPONSE.map((item: any) => {
-            sumatotal = sumatotal + Number(item.importe)
+            sumatotal = sumatotal + Number(item.a5)
             setSumaTotal(sumatotal)
           });
           setslideropen(false);
