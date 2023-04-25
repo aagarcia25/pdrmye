@@ -364,6 +364,7 @@ const Participaciones = () => {
       },
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "AccionesDescuentos",
       disableExport: true,
       headerName: "Descuentos",
@@ -387,6 +388,7 @@ const Participaciones = () => {
       },
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "AccionesRetenciones",
       disableExport: true,
       headerName: "Retenciones",
@@ -478,12 +480,14 @@ const Participaciones = () => {
       description: "Tipo de Solicitud",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "ClaveEstado",
       headerName: "Clave Estado",
       width: 100,
       description: "Clave Estado",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "Nombre",
       headerName: "Proveedor",
       width: 200,
@@ -516,12 +520,14 @@ const Participaciones = () => {
       description: "Beneficiario",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "uresclave",
       headerName: "U. Resp",
       description: "Unidad Responsable",
       width: 80,
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "NumProyecto",
       headerName: "Número de Proyecto",
       description: "Número de Proyecto",
@@ -529,6 +535,7 @@ const Participaciones = () => {
     },
     
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
       width: 170,
@@ -590,6 +597,7 @@ const Participaciones = () => {
       description: "Deudor",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "clasificacion",
       headerName: "Clasificación",
       width: 100,
