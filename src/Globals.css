@@ -1,18 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap');
+
 .approvedCell {
   color: rgb(0, 0, 0);
 }
 
-.cellClassName.super-app-theme--cell{
+.cellClassName.super-app-theme--cell {
   color: '#1a3e72',
 }
 
 .cellClassName.super-app.negative {
   color: "rgb(182, 60, 60)",
 }
+
 .cellClassName.super-app.positive {
   color: '#000000',
 }
+
 .container {
   position: fixed;
   overflow: hidden;
@@ -23,7 +26,7 @@
 
 .container-div {
   position: fixed;
-  overflow: scroll ;
+  overflow: scroll;
   width: 100%;
   height: 100%;
 
@@ -40,6 +43,7 @@
   width: 100%;
   height: 100%;
 }
+
 img {
   width: 200px;
   height: 200px;
@@ -49,7 +53,8 @@ img {
   border-radius: 40px;
 
 }
-img.iconButton{
+
+img.iconButton {
 
   width: 45px;
   height: 25px;
@@ -59,8 +64,8 @@ img.iconButton{
 
 }
 
-h3.h3-justify{
-text-align: justify;
+h3.h3-justify {
+  text-align: justify;
 
 }
 
@@ -68,50 +73,67 @@ img.rounded-corners {
   border-radius: 40px;
 }
 
-.Typography-Titulo-Menu{
+.Typography-Titulo-Menu {
 
-  font-family:sans-serif;
+  font-family: sans-serif;
   font-weight: bold;
   color: rgb(207, 35, 35);
   /* margin-right:5rem; */
   font-size: 44px;
 
 }
+
 h1 {
-  font-family:  sans-serif;
+  font-family: sans-serif;
 
 }
+
 h2 {
   font-family: sans-serif;
 
 }
+
 h3 {
-  font-family:  sans-serif;
+  font-family: sans-serif;
 }
 
 h4.Titulo {
-  font-family:  sans-serif;
+  font-family: sans-serif;
   text-align: center;
   justify-content: center;
+}
+
+h5.Titulo-SolCambios {
+  font-family: sans-serif;
+  text-align: center;
+  justify-content: center;
+  /* background-color: #dbd8d8; */
+  border-radius: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 /* Centrar el texto y contenido en los GRID con className:"Titulo" */
-.Titulo{
+.Titulo {
 
-  font-family:  sans-serif;
+  font-family: sans-serif;
   text-align: center;
   justify-content: center;
 }
+
 h6 {
-  font-family:sans-serif;
+  font-family: sans-serif;
   /* font-weight: bold; */
   color: rgb(14, 13, 13);
-  margin-right:2rem;
+  margin-right: 2rem;
   /* mr: "2rem" */
 }
+
 h6.tooltipLogos {
   text-align: center;
-  font-family:sans-serif;
+  font-family: sans-serif;
   /* font-weight: bold; */
   color: rgb(14, 13, 13);
   font-size: 15px;
@@ -120,115 +142,130 @@ h6.tooltipLogos {
 }
 
 h5 {
-  font-family:sans-serif;
+  font-family: sans-serif;
   font-weight: bold;
   color: rgb(3, 3, 3);
-  margin-right:2rem;
-  margin-right:2rem;
+  margin-right: 2rem;
+  margin-right: 2rem;
 }
 
 
-label.TypographyH6Gray{
-  font-family:sans-serif;
+
+h5.h5-sol-cambios {
+  padding-bottom: 20px;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  color: rgb(3, 3, 3);
+  margin-right: 2rem;
+  margin-right: 2rem;
+}
+
+
+label.TypographyH6Gray {
+  font-family: sans-serif;
   font-weight: bold;
   color: rgb(129, 129, 129);
-  margin-right:2rem;
+  margin-right: 2rem;
   /* mr: "2rem" */
 }
 
 h6.DatosPrincipalesPerfil {
-  font-family:sans-serif;
+  font-family: sans-serif;
   font-weight: bold;
   color: rgb(14, 13, 13);
-  font-size:  20px;
-  text-align: center ;
+  font-size: 20px;
+  text-align: center;
   /* mr: "2rem" */
 }
 
 h6.PieDeImagen {
-  font-family:sans-serif;
+  font-family: sans-serif;
   font-weight: bold;
   color: rgb(14, 13, 13);
-  font-size:  10px;
-  text-align: center ;
+  font-size: 10px;
+  text-align: center;
   /* mr: "2rem" */
 }
-h5.DatosPrincipalesPerfil{
-  font-family:sans-serif;
+
+h5.DatosPrincipalesPerfil {
+  font-family: sans-serif;
   font-weight: bold;
   color: rgb(0, 0, 0);
-  font-size:  28px;
-  text-align: center ;
+  font-size: 28px;
+  text-align: center;
   /* mr: "2rem" */
 }
 
-h5.DatosSpeiCfdi{
-  font-family:sans-serif;
+h5.DatosSpeiCfdi {
+  font-family: sans-serif;
   font-weight: bold;
   color: rgb(0, 0, 0);
-  font-size:  20px;
-  text-align: center ;
+  font-size: 20px;
+  text-align: center;
   /* mr: "2rem" */
 }
 
 
-h5.DatosSpeiCfdiTitulo{
+h5.DatosSpeiCfdiTitulo {
 
-background-color: #d7d5d58d;
-border-radius: 10px;
-  font-family:sans-serif;
+  background-color: #d7d5d58d;
+  border-radius: 10px;
+  font-family: sans-serif;
   font-weight: bold;
   color: rgb(0, 0, 0);
-  font-size:  25px;
-  text-align: center ;
+  font-size: 25px;
+  text-align: center;
   /* mr: "2rem" */
 }
-h6.DatosSecundariosPerfil{
-  font-family:sans-serif;
+
+h6.DatosSecundariosPerfil {
+  font-family: sans-serif;
   /* font-weight: bold; */
   color: rgb(99, 98, 98);
-  font-size:  18px;
-  text-align: center ;
+  font-size: 18px;
+  text-align: center;
   /* mr: "2rem" */
 }
 
-label.DatosSecundariosPerfil{
-  font-family:sans-serif;
+label.DatosSecundariosPerfil {
+  font-family: sans-serif;
   /* font-weight: bold; */
   color: rgb(0, 0, 0);
-  font-size:  18px;
-  text-align: center ;
+  font-size: 18px;
+  text-align: center;
   /* mr: "2rem" */
 }
 
 
-label.TypographyH6Black{
-  font-family:sans-serif;
+label.TypographyH6Black {
+  font-family: sans-serif;
   font-weight: bold;
   color: rgb(7, 7, 7);
-  margin-right:2rem;
+  margin-right: 2rem;
   /* mr: "2rem" */
 }
-label.nombre-archivo
-{
-  font-family:sans-serif;
+
+label.nombre-archivo {
+  font-family: sans-serif;
   font-weight: bold;
   color: rgb(85, 83, 83);
-  font-size:  14px;
+  font-size: 14px;
   /* margin-right:1rem; */
   /* mr: "2rem" */
 }
+
 label.textoNormal {
-  font-family:sans-serif;
+  font-family: sans-serif;
   font-weight: bold;
   color: rgb(0, 0, 0);
-  font-size:  16px;
+  font-size: 16px;
   /* margin-right:1rem; */
   /* mr: "2rem" */
 }
 
 
-.menu-Typography{
+.menu-Typography {
 
   font-family: Open Sans;
   font-style: normal;
@@ -238,11 +275,11 @@ label.textoNormal {
 }
 
 
-label.Typography{
-  font-family:sans-serif;
+label.Typography {
+  font-family: sans-serif;
   font-weight: bold;
   color: rgb(7, 7, 7);
-  margin-right:2rem;
+  margin-right: 2rem;
   /* mr: "2rem" */
 }
 
@@ -254,23 +291,28 @@ button {
   border: 2px solid hsl(0, 2%, 95%);
   transition-duration: 0.2s;
   cursor: pointer;
-  font-family:  sans-serif;
+  font-family: sans-serif;
 
 }
+
 button.subtitulo {
   font-size: 20px;
   transition-duration: 0.2s;
- font-family:   sans-serif;
+  font-family: sans-serif;
 
-};
+}
+
+;
 
 button.cerrar {
   font-size: 20px;
   transition-duration: 0.2s;
-  font-family:  sans-serif;
- color: rgb(168, 29, 29);
+  font-family: sans-serif;
+  color: rgb(168, 29, 29);
 
-};
+}
+
+;
 
 button.salir {
   background-color: rgb(195, 165, 117);
@@ -280,31 +322,69 @@ button.salir {
   border: 2px solid hsl(0, 0%, 89%);
   transition-duration: 0.2s;
   cursor: pointer;
-  font-family:   sans-serif;
+  font-family: sans-serif;
 
+}
+
+button.cancelarSolicitud {
+  font-size: 20px;
+  transition-duration: 0.2s;
+  font-family: sans-serif;
+  background-color: rgb(243, 137, 137);
+  color: rgb(18, 26, 22);
+
+}
+
+button.cancelarSolicitud:hover {
+  color: rgb(5, 5, 5);
+  background-color:  rgb(240, 69, 69);
+ 
 }
 
 button.guardar {
   font-size: 20px;
   transition-duration: 0.2s;
- font-family:  sans-serif;
- color: rgb(11, 116, 63);
+  font-family: sans-serif;
+  background-color: rgba(95, 184, 107, 0.62);
+  color: rgb(18, 26, 22);
+
 }
+
+
+button.guardar:hover {
+  color: rgb(5, 5, 5);
+  background-color:  rgb(86, 187, 116);
+ 
+}
+
+button.disabled {
+  font-size: 20px;
+  transition-duration: 0.2s;
+  font-family: sans-serif;
+  color: rgb(0, 0, 0);
+}
+
+
+Button.disabled:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
+
 
 button.guardarOrgCabecera {
   font-size: 20px;
   transition-duration: 0.2s;
- font-family:  sans-serif;
- color: rgb(13, 13, 13);
- background-color: rgba(3, 126, 30, 0.595);
+  font-family: sans-serif;
+  color: rgb(13, 13, 13);
+  background-color: rgba(3, 126, 30, 0.595);
 }
 
 
 button.CerrarModal {
   font-size: 20px;
   transition-duration: 0.2s;
- font-family:  sans-serif;
- color: rgb(225, 60, 54);
+  font-family: sans-serif;
+  color: rgb(225, 60, 54);
 
 }
 
@@ -312,33 +392,35 @@ button.CerrarModal {
 button.editar {
   font-size: 20px;
   transition-duration: 0.2s;
- font-family:  sans-serif;
- color: rgb(90, 158, 227);
+  font-family: sans-serif;
+  color: rgb(90, 158, 227);
 
 }
 
 button.borrar-evento {
   font-size: 20px;
   transition-duration: 0.2s;
- font-family:  sans-serif;
- color: rgb(196, 72, 65);
+  font-family: sans-serif;
+  color: rgb(196, 72, 65);
 
 }
 
 button.actualizar {
   font-size: 20px;
   transition-duration: 0.2s;
- font-family:   sans-serif;
- color: rgb(53, 160, 223);
+  font-family: sans-serif;
+  color: rgb(53, 160, 223);
 
 }
+
 button.regresar {
   font-size: 20px;
   transition-duration: 0.2s;
- font-family: sans-serif;
- color: rgb(172, 28, 28);
+  font-family: sans-serif;
+  color: rgb(172, 28, 28);
 
 }
+
 button:hover {
   background-color: hsl(0, 0%, 100%);
   color: rgb(7, 7, 7);
@@ -348,11 +430,13 @@ button:hover {
   background-color: hsl(208, 84%, 71%);
   color: rgb(1, 16, 132);
 }
+
 button.menu {
   transition-duration: 0.2s;
- color: rgb(5, 5, 5);
- background-color: hsla(0, 0%, 100%, 0.491);
+  color: rgb(5, 5, 5);
+  background-color: hsla(0, 0%, 100%, 0.491);
 }
+
 .menu:hover {
   background-color: hsla(208, 13%, 49%, 0.491);
   color: rgb(45, 47, 49);
@@ -360,30 +444,36 @@ button.menu {
 
 button.menuHome {
   transition-duration: 0.2s;
- color: rgb(118, 115, 115);
- background-color: hsl(0, 0%, 100%);
+  color: rgb(118, 115, 115);
+  background-color: hsl(0, 0%, 100%);
 }
+
 .menuHome:hover {
   background-color: hsla(210, 10%, 92%, 0.491);
   color: rgb(143, 143, 143);
 }
 
 Button.cerrar:hover {
- color: rgb(168, 29, 29);
- background-color:rgba(255, 0, 0, 0.62);
+  color: rgb(168, 29, 29);
+  background-color: rgba(255, 0, 0, 0.62);
 
-};
+}
+
+
+
 button.guardarOrgCabecera:hover {
   color: rgb(29, 168, 50);
-  background-color:rgba(10, 206, 30, 0.62);
- 
- };
+  background-color: rgba(10, 206, 30, 0.62);
 
- Button.guardar:hover {
-  color: rgb(29, 168, 50);
-  background-color:rgba(0, 255, 26, 0.62);
- 
- };
+}
+
+
+
+
+
+
+
+
 
 /* .guardar:hover {
   background-color: hsl(126, 86%, 31%);
@@ -412,7 +502,7 @@ button.nuevo-mensaje {
   line-height: 1.71429;
   font-size: 0.875rem;
   text-transform: capitalize;
-  font-family:  sans-serif;
+  font-family: sans-serif;
   min-width: 64px;
   padding: 6px 16px;
   border-radius: 8px;
@@ -424,7 +514,7 @@ button.nuevo-mensaje {
 }
 
 button.enviar-mensaje {
-  
+
   align-items: center;
   cursor: pointer;
   user-select: none;
@@ -462,7 +552,7 @@ button.notificaciones-generico {
   line-height: 1.71429;
   font-size: 0.875rem;
   text-transform: capitalize;
-  font-family:  sans-serif;
+  font-family: sans-serif;
   min-width: 64px;
   padding: 6px 16px;
   border-radius: 8px;
@@ -489,7 +579,7 @@ button.notificaciones {
   line-height: 1.71429;
   font-size: 0.875rem;
   text-transform: capitalize;
-  font-family:  sans-serif;
+  font-family: sans-serif;
   min-width: 64px;
   padding: 6px 16px;
   border-radius: 8px;
@@ -507,6 +597,7 @@ button.notificaciones {
   background-color: #f64e60;
   color: white;
 }
+
 .cerrar-mensaje:hover {
   background-color: #f64e60;
   color: white;
@@ -522,26 +613,28 @@ textarea {
   font-family: sans-serif;
 }
 
-label{
+label {
   resize: none;
   text-decoration: none;
   font-weight: 700;
   line-height: 1.71429;
   font-size: 2;
-  font-family:  sans-serif;
+  font-family: sans-serif;
 
 }
-label.nombre{
+
+label.nombre {
   resize: none;
   text-decoration: none;
   font-weight: 700;
   line-height: 1.71429;
   font-size: 2;
   text-transform: capitalize;
-  font-family:  sans-serif;
+  font-family: sans-serif;
 
 }
-.TextField{
+
+.TextField {
   padding-bottom: 10%;
   resize: none;
   text-decoration: none;
@@ -553,7 +646,8 @@ label.nombre{
   padding-Bottom: 3%;
 
 }
-.TextField.input{
+
+.TextField.input {
   resize: none;
   text-decoration: none;
   font-weight: 700;
@@ -565,35 +659,38 @@ label.nombre{
   padding-Bottom: 3%;
 
 }
-label.Titulo{
+
+label.Titulo {
   resize: none;
   text-decoration: none;
   line-height: 1.71429;
   font-size: 1.5rem;
   text-transform: capitalize;
-  font-family:   sans-serif;
+  font-family: sans-serif;
 
 }
-label.titulo-FPG{
+
+label.titulo-FPG {
   resize: none;
   text-decoration: none;
   line-height: 1.2;
   font-size: 1.3rem;
   /* text-transform: capitalize; */
-  font-family:  sans-serif;
+  font-family: sans-serif;
 
 }
 
-label.subtitulo{
+label.subtitulo {
   resize: none;
   text-decoration: none;
   line-height: 1.2;
   font-size: 1.5rem;
   text-transform: capitalize;
-  font-family:  sans-serif;
+  font-family: sans-serif;
 
 }
-label.contenido{
+
+label.contenido {
   resize: none;
   text-decoration: none;
   line-height: 1.2;
@@ -603,7 +700,7 @@ label.contenido{
 
 }
 
-label.negro{
+label.negro {
   line-height: 1.2;
   font-size: 1.4rem;
   font-family: sans-serif;
@@ -611,7 +708,7 @@ label.negro{
 
 }
 
-label.gris{
+label.gris {
   line-height: 1.2;
   font-size: 1.4rem;
   font-family: sans-serif;
@@ -619,16 +716,16 @@ label.gris{
 
 }
 
-.IconButton{
+.IconButton {
   line-height: 1.2;
   font-size: 1.1rem;
   text-transform: capitalize;
-  font-family:   sans-serif;
+  font-family: sans-serif;
 }
 
-input.imagencargada{
-width: 100%;
-height: 100%;
+input.imagencargada {
+  width: 100%;
+  height: 100%;
 
 }
 
@@ -643,15 +740,16 @@ div.CargaDeArchivosCuenta {
   /* bottom: 0%; */
   /* padding-bottom: 0%; */
   border-color: #f64e60;
-  border: 3px dashed  rgb(181, 180, 180);
+  border: 3px dashed rgb(181, 180, 180);
   background-color: #f3f6f9;
-  font-family:"MontserratSemiBold2";
+  font-family: "MontserratSemiBold2";
   color: #808080;
   justify-content: center;
   align-items: center;
-  overflow: "hidden" ;
+  overflow: "hidden";
 
 }
+
 div.div-agregarcontactomunicipio {
   contain: content;
   /* display: "display-inside" ; */
@@ -664,13 +762,34 @@ div.div-agregarcontactomunicipio {
   /* padding-bottom: 0%; */
   background-color: #fffefe8a;
   border-color: #020000;
-  border: 2px solid  rgb(114, 114, 114);
-  font-family:"MontserratSemiBold2";
+  border: 2px solid rgb(114, 114, 114);
+  font-family: "MontserratSemiBold2";
   color: #dcdcdc;
   border-radius: 30px;
   justify-content: center;
   align-items: center;
-  overflow: "hidden" ;
+  overflow: "hidden";
 
 }
 
+.Grid-SolicitudesDeCambios {
+  contain: content;
+  /* display: "display-inside" ; */
+  width: 100%;
+  height: 100%;
+  /* position: absolute ; */
+  /* top:  50px; */
+  /* left: 50px; */
+  /* bottom: 0%; */
+  /* padding-bottom: 0%; */
+  background-color: #fffefe8a;
+  border-color: #020000;
+  border: 2px solid rgb(114, 114, 114);
+  font-family: "MontserratSemiBold2";
+  color: #dcdcdc;
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
+  overflow: "hidden";
+
+}

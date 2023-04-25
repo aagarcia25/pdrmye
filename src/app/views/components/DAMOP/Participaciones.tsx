@@ -6,14 +6,11 @@ import {
   FormControlLabel,
   Grid,
   IconButton,
-  SvgIcon,
-  ThemeProvider,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
   Typography,
 } from "@mui/material";
-import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
@@ -33,15 +30,9 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CallMergeIcon from '@mui/icons-material/CallMerge';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
-import InfoIcon from "@mui/icons-material/Info";
 import MoneyOffOutlinedIcon from '@mui/icons-material/MoneyOffOutlined';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
-import {
-  DataGrid,
-  GridSelectionModel,
-  GridToolbar,
-  esES as gridEsES,
-} from "@mui/x-data-grid";
+import {GridSelectionModel,  esES as gridEsES,} from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
 import { DAMOPServices } from "../../../services/DAMOPServices";
@@ -49,15 +40,12 @@ import ModalDAMOP from "../componentes/ModalDAMOP";
 import InsightsIcon from "@mui/icons-material/Insights";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Descuentos } from "./Descuentos";
-import ParticipacionesDetalle from "./ParticipacionesDetalle";
-import ModalForm from "../componentes/ModalForm";
 import AddIcon from '@mui/icons-material/Add';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import ArticleIcon from '@mui/icons-material/Article';
 import SpeisAdmin from "../DAF/SpeisAdmin";
 import SegmentIcon from '@mui/icons-material/Segment';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
@@ -75,16 +63,12 @@ import { ORGHeader } from "../ORGANISMOS/ORGHeader";
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import IconSPEI from '../../../assets/img/SPEI.svg';
 import IconCFDI from '../../../assets/img/CFDI.svg';
-import { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
-import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 
 const Participaciones = () => {
 
    ///////////////modal de adminisracion Spei cfdi
   const [modoSpeiCfdi, setModoSpeiCfdi] = useState("");
-
-
   const [checked, setChecked] = React.useState(false);
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
@@ -125,7 +109,6 @@ const Participaciones = () => {
   const [plantilla, setPlantilla] = useState("");
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
   const [asignaObservacion, setasignaObservacion] = useState<boolean>(false);
   const [cargaPrestamos, setCargaPrestamos] = useState<boolean>(false);
@@ -134,7 +117,6 @@ const Participaciones = () => {
   const [intOperaciones, setIntOperaciones] = useState<boolean>(true);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [verSegmentar, setVerSegmentar] = useState<boolean>(false);
-
   const [SORGANISMOS, setSORGANISMOS] = useState<boolean>(false);
   const [SESTATUS, setSESTATUS] = useState<boolean>(false);
   const [STIPOSOLICITUD, setSTIPOSOLICITUD] = useState<boolean>(false);
@@ -148,10 +130,6 @@ const Participaciones = () => {
   const [ELIMINA, setELIMINA] = useState<boolean>(false);
   const [ELIMINAMASIVO, setELIMINAMASIVO] = useState<boolean>(false);
   const [INSERTAREG, setINSERTAREG] = useState<boolean>(false);
-
-
-
-
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const [openTraz, setOpenTraz] = useState(false);
@@ -176,7 +154,6 @@ const Participaciones = () => {
   const [openModalCabecera, setOpenModalCabecera] = useState<boolean>(false);
   const [modo, setModo] = useState<string>("");
   const [organismos, setOrganismos] = useState<SelectValues[]>([]);
-
 
 
   const handledetalles = (data: any) => {
@@ -310,7 +287,7 @@ const Participaciones = () => {
             ) : ("")}
 
 
-            {verSegmentar && String(v.row.estatus) === 'Ingresando Operación' ? (
+            {verSegmentar && String(v.row.estatus) === 'Ingresando Operación'  ? (
               <Tooltip title={"Segmentar Operación"}>
                 <IconButton value="check" onClick={() => handleVerSegmentos(v)}>
                   <SegmentIcon />
@@ -330,7 +307,7 @@ const Participaciones = () => {
               ""
             )}
 
-            {String(v.row.estatus) === 'Ingresando Operación' ?
+            {String(v.row.estatus) === 'Ingresando Operación'  && cargarPlant ?
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
                   <MonetizationOnIcon />
@@ -363,7 +340,6 @@ const Participaciones = () => {
                   <IconButton
                     onClick={() => handleVerSpei(v, "SPEI")}>
                     <img className="iconButton" src={IconSPEI} 
-                    // onClick={() => handleVerSpei(v, "SPEI")}
                      />
                   </IconButton>
                 </Tooltip>
@@ -376,7 +352,6 @@ const Participaciones = () => {
               <Tooltip title="Administrar CFDI">
                 <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
                   <img className="iconButton" src={IconCFDI} 
-                  // onClick={() => handleVerSpei(v, "SPEI")}
                   />
                 </IconButton>
               </Tooltip>
@@ -398,7 +373,6 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
             {String(v.row.Clave) === 'FGP' && String(v.row.estatusCI) === 'DAMOP_INI' ? (
               <Tooltip title="Administrar Descuentos">
                 <IconButton
@@ -468,7 +442,7 @@ const Participaciones = () => {
       description: "Número De Egreso",
     },
     {
-      field: "NumOrdenPago",
+      field: "a3",
       headerName: "Solicitud de Pago",
       width: 120,
       description: "Número De Solicitud de Pago",
@@ -516,14 +490,8 @@ const Participaciones = () => {
       description: "Tipo Cálculo",
       width: 150,
     },
-    /* {
-       field: "Clave",
-       headerName: "Fondo",
-       width: 150,
-       description: "Fondo",
-     },*/
     {
-      field: "fondodes",
+      field: "a9",
       headerName: "Descripción de Fondo",
       description: "Descripción de Fondo",
       width: 250,
@@ -554,25 +522,7 @@ const Participaciones = () => {
       description: "Número de Proyecto",
       width: 150,
     },
-    // {
-    //   field: "ConceptoEgreso",
-    //   headerName: "Cpto. de  egreso",
-    //   description: "Concepto de Egreso",
-    //   width: 150,
-    // },
-    /* {
-       field: "conceptoCheque",
-       headerName: "Cpto. de  Cheque",
-       description: "Concepto de Cheque",
-       width: 270,
-     },*/
-    /* {
-       field: "ClavePresupuestal",
-       headerName: "Clave Presupuestal",
-       description: "Clave Presupuestal",
-       width: 550,
-       hide: false,
-     },*/
+    
     {
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
@@ -608,10 +558,8 @@ const Participaciones = () => {
       description: "Descuentos",
       ...Moneda,
     },
-
-
     {
-      field: "importe",
+      field: "a5",
       headerName: "Total Neto",
       width: 200,
       description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
@@ -621,7 +569,6 @@ const Participaciones = () => {
           {"Total: " + currencyFormatter.format(Number(sumaTotal))}
         </>
       ),
-
     },
     {
       field: "Proveedor",
@@ -698,20 +645,6 @@ const Participaciones = () => {
     });
   };
 
-  const handleVerSpeiTooltip = (v: any) => {
-
-    // getfile(v.row.Nombre, v.row.Route, false)
-    setslideropen(true);
-
-};
-
-
-const handleDescargarSpei = (v: any) => {
-  setslideropen(true);
-  // getfile(v.row.Nombre, v.row.Route, true);
-  setslideropen(false);
-
-};
   const handleClose = () => {
     setOpenModalCabecera(false);
     setOpenModal(false);
@@ -766,40 +699,6 @@ const handleDescargarSpei = (v: any) => {
     SETDAMOP_ARA(false);
     SETDAF_SPEI(false);
     SETDAMOP_FINALIZADO(false);
-
-    // if (v ==='a2d2adfc-8e12-11ed-a98c-040300000000'){
-    //  SETDAMOP_INI(true);
-    // }else if(v ==='d117049e-8e12-11ed-a98c-040300000000'){
-    //   SETDAMOP_FSE(true);
-    // }else if(v ==='e0f0d317-8e12-11ed-a98c-040300000000'){
-    //   SETDAMOP_ASE(true);
-    // }else if(v ==='ef68291d-8e12-11ed-a98c-040300000000'){
-    //   SETDAMOP_TE(true);
-    // }else if(v ==='fe7fae95-8e12-11ed-a98c-040300000000'){
-    //   SETDAMOP_AE(true);
-    // }else if(v ==='0c1b887e-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_FE(true);
-    // }else if(v ==='1a7d41ed-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_VE(true);
-    // }else if(v ==='2a879241-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_GSE(true);
-    // }else if(v ==='399a2ffe-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_ASP(true);
-    // }else if(v ==='4a5cf61b-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_FRA(true);
-    // }else if(v ==='596e5f1e-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_ARA(true);
-    // }else if(v ==='67d9cdb6-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_FINALIZADO(true);
-    // }else if(v ==='e6fd8a34-9073-11ed-a98c-040300000000'){
-    //   SETDAMOP_PFI(true);
-    // }else if(v ==='f747b03c-9073-11ed-a98c-040300000000'){
-    //   SETDAMOP_PAUT(true);
-    // }else if(v ==='b825e8af-91e8-11ed-a912-705a0f328da6'){
-    //   SETDAF_SPEI(true);
-    // }
-
-
 
   };
 
@@ -1702,7 +1601,6 @@ const handleDescargarSpei = (v: any) => {
     loadFilter(17);
     loadFilter(25);
     loadFilter(24);
-    // handleClick();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
 
@@ -2279,109 +2177,9 @@ const handleDescargarSpei = (v: any) => {
           <MUIXDataGridGeneral 
           modulo={nombreExport} 
           handleBorrar={handleBorrarMasivo}
-           columns={columnsParticipaciones} 
-           rows={data} controlInterno={""} 
-           multiselect={true}/>
-          {/* <div
-            style={{
-              height: "48vh",
-              width: "100%",
-            }}
-          >
-            <ThemeProvider theme={theme}>
-              <DataGrid
-                columns={columnsParticipaciones}
-                rows={data}
-                density="compact"
-                rowsPerPageOptions={[10, 25, 50, 100, 200, 300, 400]}
-                disableSelectionOnClick
-                disableColumnFilter
-                disableColumnSelector
-                disableDensitySelector
-                getRowHeight={() => "auto"}
-                getRowClassName={(params) => {
-                  if (params.row.Presupuesto == null) {
-                    return "";
-                  }
-                  return clsx("super-app", {
-                    // negative: params.row.Presupuesto !== params.row.total,
-                    // positive: params.row.Presupuesto == params.row.total,
-                  });
-                }}
-                components={{ Toolbar: GridToolbar }}
-                sx={{
-                  fontFamily: "Poppins,sans-serif",
-                  fontWeight: "500",
-                  fontSize:"12px",
-                  "& .super-app.negative": {
-                    color: "rgb(84, 3, 3)",
-                    backgroundColor: "rgb(196, 40, 40, 0.384)",
-                  },
-                  "& .super-app.positive": {
-                    backgroundColor: "rgb(16, 145, 80, 0.567)",
-                  },
-                }}
-
-                componentsProps={{
-                  toolbar: {
-                    label: "buscar",
-                    showQuickFilter: true,
-                    quickFilterProps: { debounceMs: 500 },
-                    csvOptions: {
-                      fileName: nombreExport
-                      ,
-                      utf8WithBom: true,
-                    }
-                  },
-                }}
-                isRowSelectable={(params) => (
-                  // params.row.NumCheque === null
-                  // ||params.row.NumEgreso===null
-                  // ||params.row.NumRequerimientoAnt===null||
-                  params.row.NumOrdenPago === null
-                )}
-                checkboxSelection
-                onSelectionModelChange={(newSelectionModel: any) => {
-                  setSelectionModel(newSelectionModel);
-                }}
-                selectionModel={selectionModel}
-                localeText={{
-                  noRowsLabel: "No se ha encontrado datos.",
-                  noResultsOverlayLabel: "No se ha encontrado ningún resultado",
-                  toolbarColumns: "Columnas",
-                  toolbarExport: "Exportar",
-                  toolbarColumnsLabel: "Seleccionar columnas",
-                  toolbarFilters: "Filtros",
-                  toolbarFiltersLabel: "Ver filtros",
-                  toolbarFiltersTooltipHide: "Quitar filtros",
-                  toolbarFiltersTooltipShow: "Ver filtros",
-                  toolbarQuickFilterPlaceholder: "Buscar",
-                  toolbarExportCSV: 'Descargar como CSV',
-                  toolbarExportPrint: 'Imprimir',
-                  checkboxSelectionSelectRow: "Filas seleccionadas",
-                  checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
-                  errorOverlayDefaultLabel: 'Ha ocurrido un error.',
-                  footerRowSelected: (count) =>
-                    count > 1 ?
-                      `${count.toLocaleString()} filas seleccionadas`
-                      :
-                      `${count.toLocaleString()} fila seleccionada`,
-                  footerTotalRows: 'Filas Totales:',
-                  columnMenuLabel: 'Menú',
-                  columnMenuShowColumns: 'Mostrar columnas',
-                  columnMenuFilter: 'Filtro',
-                  columnMenuHideColumn: 'Ocultar',
-                  columnMenuUnsort: 'Desordenar',
-                  columnMenuSortAsc: 'Ordenar ASC',
-                  columnMenuSortDesc: 'Ordenar DESC',
-                  columnHeaderFiltersTooltipActive: (count) =>
-                    count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
-                  columnHeaderFiltersLabel: 'Mostrar filtros',
-                  columnHeaderSortIconLabel: 'Ordenar',
-                }}
-              />
-            </ThemeProvider>
-          </div> */}
+          columns={columnsParticipaciones} 
+          rows={data} controlInterno={""} 
+          multiselect={true}/>
         </Grid>
 
 
