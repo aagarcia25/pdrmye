@@ -424,24 +424,28 @@ const Participaciones = () => {
       width: 110,
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "NumParticipacion",
       headerName: "Número De Participación",
       width: 150,
       description: "Número De Participación",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "NumSolEgreso",
       headerName: "Solicitud De Egreso",
       width: 145,
       description: "Número De Solicitud De Egreso",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "NumEgreso",
       headerName: "Egreso",
       width: 80,
       description: "Número De Egreso",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "a3",
       headerName: "Solicitud de Pago",
       width: 120,
@@ -449,6 +453,7 @@ const Participaciones = () => {
     },
 
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "NumRequerimientoAnt",
       headerName: "Req. De Anticipo",
       width: 120,
@@ -571,12 +576,14 @@ const Participaciones = () => {
       ),
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "Proveedor",
       headerName: "Proveedor",
       width: 80,
       description: "Proveedor",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "Deudor",
       headerName: "Deudor",
       width: 80,
@@ -589,12 +596,14 @@ const Participaciones = () => {
       description: "Clasificación de Solicitud de Pago",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "Divisa",
       headerName: "Divisa",
       width: 80,
       description: "Divisa",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
       field: "Observaciones",
       headerName: "Observaciones",
       width: 400,
