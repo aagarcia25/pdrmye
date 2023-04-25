@@ -43,11 +43,20 @@ import { TextFieldFormatoMoneda } from "../componentes/TextFieldFormatoMoneda";
 export const ORGHeader = ({
   dataCabecera,
   modo,
-  handleClose
+  handleClose,
+  editCabecera,
+  permisoAgregarDetalle,
+  permisoEliminarDetalleCabecera,
+  permisoEditarDetalleCabecera
 }: {
   dataCabecera: any;
   modo: string;
   handleClose: Function;
+  editCabecera: boolean;
+  permisoAgregarDetalle: boolean;
+  permisoEliminarDetalleCabecera: boolean;
+  permisoEditarDetalleCabecera: boolean;
+
 }) => {
 
   const [values, setValues] = useState({
@@ -508,7 +517,7 @@ export const ORGHeader = ({
                 <MenuBookIcon />
               </IconButton>
             </Tooltip>
-            {dataCab.orden < 16 ?
+            {dataCab.orden < 16 && permisoEliminarDetalleCabecera ? 
               <Tooltip title={"Eliminar"}>
                 <IconButton value="check" onClick={() => handleBorrarDetalle(v)}>
                   <DeleteForeverOutlinedIcon />
@@ -715,7 +724,7 @@ export const ORGHeader = ({
 
             <ButtonGroup size="large">
 
-              <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit || dataCab.orden !== 1} >
+              <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit || dataCab.orden !== 1 || !editCabecera} >
                 <Tooltip title="Editar Cabecera">
                   <ModeEditOutlineIcon />
                 </Tooltip>
@@ -923,7 +932,19 @@ export const ORGHeader = ({
               <Grid item container direction="row" justifyContent="space-between" xs={12} paddingTop={1} paddingBottom={1}>
                 {!openAgregarDetalle ?
 
-                  <Button color="success" disabled={!(dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP") || openAgregarDetalle || dataCab.orden >= 16} className={dataCab.orden >= 16 ? "" : "guardarOrgCabecera"} value="check" onClick={() => handleAgregarDetalles()}>
+                  <Button 
+                  color="success" 
+                  disabled={                 
+                    !((dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP")&& permisoAgregarDetalle ) 
+                  || openAgregarDetalle 
+                  || dataCab.orden >= 16}
+                  
+                  className={(!((dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP")&& permisoAgregarDetalle ) 
+                  || openAgregarDetalle 
+                  || dataCab.orden >= 16)? "" : "guardarOrgCabecera"
+                  
+                }
+                   value="check" onClick={() => handleAgregarDetalles()}>
                     <Tooltip title="Agregar detalle">
                       <AddIcon />
                     </Tooltip>
@@ -938,7 +959,11 @@ export const ORGHeader = ({
                           !openAgregarDetalle || verDetalle ?
 
                             <Button onClick={() => handleEditarDetalles()} color="info"
-                              disabled={!(dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP") || DetalleEditar || dataCab.orden >= 16} >
+                              disabled={
+                                !((dataCab.estatusCI === "DAMOP_INI" 
+                              || dataCab.estatusCI === "DAMOP_ORG_ING_OP") && permisoEditarDetalleCabecera ) 
+                              || DetalleEditar 
+                              || dataCab.orden >= 16} >
                               <Tooltip title="Editar Detalle">
                                 <ModeEditOutlineIcon />
                               </Tooltip>
@@ -1003,7 +1028,7 @@ export const ORGHeader = ({
                   : ""}
 
 
-                <Button disabled={!openAgregarDetalle} className="cerrar" value="check" onClick={() => handleCloseAñadirDetalle()}>
+                <Button disabled={!openAgregarDetalle } className="cerrar" value="check" onClick={() => handleCloseAñadirDetalle()}>
                   <Tooltip title="Cerrar administració de detalle">
                     <CloseOutlinedIcon />
                   </Tooltip>

@@ -130,6 +130,16 @@ const Participaciones = () => {
   const [ELIMINA, setELIMINA] = useState<boolean>(false);
   const [ELIMINAMASIVO, setELIMINAMASIVO] = useState<boolean>(false);
   const [INSERTAREG, setINSERTAREG] = useState<boolean>(false);
+  const [editCabecera, setEditCabecera] = useState<boolean>(false);
+  const [permisoAgregarDetalle, setPermisoAgregarDetalle] = useState<boolean>(false);
+  const [permisoAgregarRetencion, setPermisoAgregarRetencion] = useState<boolean>(false);
+  const [permisoEditarRetencion, setPermisoEditarRetencion] = useState<boolean>(false);
+  const [permisoEliminarRetencion, setPermisoEliminarRetencion] = useState<boolean>(false);
+  const [permisoEliminarDetalleCabecera, setPermisoEliminarDetalleCabecera] = useState<boolean>(false);
+  const [permisoEditarDetalleCabecera, setPermisoEditarDetalleCabecera] = useState<boolean>(false);
+
+  
+  
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const [openTraz, setOpenTraz] = useState(false);
@@ -715,6 +725,7 @@ const Participaciones = () => {
     SETDAMOP_FRA(false);
     SETDAMOP_ARA(false);
     SETDAF_SPEI(false);
+    // setEditCabecera(false);
     SETDAMOP_FINALIZADO(false);
 
   };
@@ -1672,7 +1683,31 @@ const Participaciones = () => {
           setELIMINAMASIVO(true);
         } else if (String(item.Referencia) === "INSERTAREG") {
           setINSERTAREG(true);
+        } else if (String(item.Referencia) === "EDITCAB") {
+          setEditCabecera(true);
+        } else if (String(item.Referencia) === "AGREGDETALLE") {
+          setPermisoAgregarDetalle(true);
+        }else if (String(item.Referencia) === "AGREGRETEN") {
+          setPermisoAgregarRetencion(true);
         }
+        else if (String(item.Referencia) === "EDITRETENCION") {
+          setPermisoEditarRetencion(true);
+        }
+        else if (String(item.Referencia) === "DELETERETEN") {
+          setPermisoEliminarRetencion(true);
+        }else if (String(item.Referencia) === "ELIMDETCABECERA") {
+          setPermisoEliminarDetalleCabecera(true);
+        }
+        else if (String(item.Referencia) === "EDITARDETALLECABECERA") {
+          setPermisoEditarDetalleCabecera(true);
+        }
+
+
+        
+        
+
+       
+        
 
 
 
@@ -2205,11 +2240,19 @@ const Participaciones = () => {
       {openCheque ? <ModalCheque tipo={tipo} handleClose={handleclose} vrows={vrows} /> : ""}
       {openSegmento ? <ModalSegmentos handleClose={handleclose} vrows={vrows} /> : ""}
       {openTraz ? <TrazabilidadSolicitud dt={{ TIPO: 4, SP: idSolicitud, }} open={openTraz} handleClose={handleclose} /> : ""}
-      {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} /> : ""}
+      {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose}
+       editCabecera={editCabecera} permisoAgregarDetalle={permisoAgregarDetalle}
+        permisoEliminarDetalleCabecera={permisoEliminarDetalleCabecera}
+         permisoEditarDetalleCabecera={permisoEditarDetalleCabecera} /> : ""}
       {openModal ? (<ModalDAMOP tipo={"Comentarios"} handleClose={handleClose} handleAccion={Fnworkflow} />) : ("")}
-      {openModalDetalle ? (<ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} />) : ("")}
+      {openModalDetalle ? (<ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} 
+      editCabecera={editCabecera} permisoAgregarDetalle={permisoAgregarDetalle} 
+      permisoEliminarDetalleCabecera={permisoEliminarDetalleCabecera} 
+      permisoEditarDetalleCabecera={permisoEditarDetalleCabecera} />) : ("")}
       {openModalDescuento ? (<Descuentos tipo={1} handleClose={handleClose} dt={vrows} />) : ("")}
-      {openModalRetenciones ? (<Retenciones tipo={1} handleClose={handleClose} dt={vrows} />) : ("")}
+      {openModalRetenciones ? (<Retenciones tipo={1} handleClose={handleClose} dt={vrows}
+
+      permisoAagregarRetenciones={permisoAgregarRetencion} permisoEditarRetencion={permisoEditarRetencion} permisoEliminarRetencion={permisoEliminarRetencion} />) : ("")}
     </div>
   );
 };

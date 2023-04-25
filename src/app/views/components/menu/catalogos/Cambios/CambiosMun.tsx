@@ -68,7 +68,7 @@ const CambiosMun = () => {
                     <>
                         {
                             ((user.DEPARTAMENTOS[0].NombreCorto === "CPH"
-                                // && user.PERFILES[0].Referencia === "COOR"
+                                && user.PERFILES[0].Referencia === "COOR"
                             ) && (v.row.Aplicado === 0 && v.row.deleted === "0") ? (
                                 <>
                                     <Tooltip title="Atender Solicitud">

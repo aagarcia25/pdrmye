@@ -95,7 +95,9 @@ export const ORG = () => {
   const [modo, setModo] = useState<string>("");
   const [orgData, setOrgData] = useState([]);
   const [vrows, setVrows] = useState({});
-  const [openCheque, setOpenCheque] = useState(false);
+  const [permisoAgregarDetalle, setPermisoAgregarDetalle] = useState<boolean>(false);
+  const [permisoEliminarDetalleCabecera, setPermisoEliminarDetalleCabecera] = useState<boolean>(false);
+  const [permisoEditarDetalleCabecera, setPermisoEditarDetalleCabecera] = useState<boolean>(false);
 
   ///////////// modal
   const [openModal, setOpenModal] = useState(false);
@@ -105,6 +107,7 @@ export const ORG = () => {
   const [sigEstatus, setSigEstatus] = useState<string>("");
   const [columnaTabla, setColumnaTabla] = useState<string>("");
 
+  const [editCabecera, setEditCabecera] = useState<boolean>(false);
 
 
 
@@ -498,6 +501,18 @@ export const ORG = () => {
         if (String(item.Referencia) === "AGREGPLANT") {
           setCargarPlant(true);
         }
+        if (String(item.Referencia) === "EDITCAB") {
+          setEditCabecera(true);
+        }else if (String(item.Referencia) === "AGREGDETALLE") {
+          setPermisoAgregarDetalle(true);
+        }else if (String(item.Referencia) === "ELIMDETCABECERA") {
+          setPermisoEliminarDetalleCabecera(true);
+        }     else if (String(item.Referencia) === "EDITARDETALLECABECERA") {
+          setPermisoEditarDetalleCabecera(true);
+        }
+
+        
+
       }
     });
 
@@ -512,7 +527,13 @@ export const ORG = () => {
       <Slider open={slideropen}></Slider>
 
       {openModalCabecera ?
-        <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} />
+        <ORGHeader
+          dataCabecera={vrows}
+          modo={modo}
+          handleClose={handleClose}
+          editCabecera={editCabecera}
+          permisoAgregarDetalle={permisoAgregarDetalle}
+          permisoEliminarDetalleCabecera={permisoEliminarDetalleCabecera} permisoEditarDetalleCabecera={permisoEditarDetalleCabecera} />
         :
         ""
       }
