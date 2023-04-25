@@ -6,14 +6,11 @@ import {
   FormControlLabel,
   Grid,
   IconButton,
-  SvgIcon,
-  ThemeProvider,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
   Typography,
 } from "@mui/material";
-import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
@@ -33,15 +30,9 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CallMergeIcon from '@mui/icons-material/CallMerge';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
-import InfoIcon from "@mui/icons-material/Info";
 import MoneyOffOutlinedIcon from '@mui/icons-material/MoneyOffOutlined';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
-import {
-  DataGrid,
-  GridSelectionModel,
-  GridToolbar,
-  esES as gridEsES,
-} from "@mui/x-data-grid";
+import {GridSelectionModel,  esES as gridEsES,} from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
 import { DAMOPServices } from "../../../services/DAMOPServices";
@@ -49,15 +40,12 @@ import ModalDAMOP from "../componentes/ModalDAMOP";
 import InsightsIcon from "@mui/icons-material/Insights";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Descuentos } from "./Descuentos";
-import ParticipacionesDetalle from "./ParticipacionesDetalle";
-import ModalForm from "../componentes/ModalForm";
 import AddIcon from '@mui/icons-material/Add';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import ArticleIcon from '@mui/icons-material/Article';
 import SpeisAdmin from "../DAF/SpeisAdmin";
 import SegmentIcon from '@mui/icons-material/Segment';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
@@ -75,16 +63,12 @@ import { ORGHeader } from "../ORGANISMOS/ORGHeader";
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import IconSPEI from '../../../assets/img/SPEI.svg';
 import IconCFDI from '../../../assets/img/CFDI.svg';
-import { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
-import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 
 const Participaciones = () => {
 
    ///////////////modal de adminisracion Spei cfdi
   const [modoSpeiCfdi, setModoSpeiCfdi] = useState("");
-
-
   const [checked, setChecked] = React.useState(false);
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
@@ -125,7 +109,6 @@ const Participaciones = () => {
   const [plantilla, setPlantilla] = useState("");
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
   const [asignaObservacion, setasignaObservacion] = useState<boolean>(false);
   const [cargaPrestamos, setCargaPrestamos] = useState<boolean>(false);
@@ -134,7 +117,6 @@ const Participaciones = () => {
   const [intOperaciones, setIntOperaciones] = useState<boolean>(true);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [verSegmentar, setVerSegmentar] = useState<boolean>(false);
-
   const [SORGANISMOS, setSORGANISMOS] = useState<boolean>(false);
   const [SESTATUS, setSESTATUS] = useState<boolean>(false);
   const [STIPOSOLICITUD, setSTIPOSOLICITUD] = useState<boolean>(false);
@@ -148,10 +130,6 @@ const Participaciones = () => {
   const [ELIMINA, setELIMINA] = useState<boolean>(false);
   const [ELIMINAMASIVO, setELIMINAMASIVO] = useState<boolean>(false);
   const [INSERTAREG, setINSERTAREG] = useState<boolean>(false);
-
-
-
-
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const [openTraz, setOpenTraz] = useState(false);
@@ -176,7 +154,6 @@ const Participaciones = () => {
   const [openModalCabecera, setOpenModalCabecera] = useState<boolean>(false);
   const [modo, setModo] = useState<string>("");
   const [organismos, setOrganismos] = useState<SelectValues[]>([]);
-
 
 
   const handledetalles = (data: any) => {
@@ -310,7 +287,7 @@ const Participaciones = () => {
             ) : ("")}
 
 
-            {verSegmentar && String(v.row.estatus) === 'Ingresando Operación' ? (
+            {verSegmentar && String(v.row.estatus) === 'Ingresando Operación'  ? (
               <Tooltip title={"Segmentar Operación"}>
                 <IconButton value="check" onClick={() => handleVerSegmentos(v)}>
                   <SegmentIcon />
@@ -330,7 +307,7 @@ const Participaciones = () => {
               ""
             )}
 
-            {String(v.row.estatus) === 'Ingresando Operación' ?
+            {String(v.row.estatus) === 'Ingresando Operación'  && cargarPlant ?
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
                   <MonetizationOnIcon />
@@ -363,7 +340,6 @@ const Participaciones = () => {
                   <IconButton
                     onClick={() => handleVerSpei(v, "SPEI")}>
                     <img className="iconButton" src={IconSPEI} 
-                    // onClick={() => handleVerSpei(v, "SPEI")}
                      />
                   </IconButton>
                 </Tooltip>
@@ -376,7 +352,6 @@ const Participaciones = () => {
               <Tooltip title="Administrar CFDI">
                 <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
                   <img className="iconButton" src={IconCFDI} 
-                  // onClick={() => handleVerSpei(v, "SPEI")}
                   />
                 </IconButton>
               </Tooltip>
@@ -398,7 +373,6 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {/* {String(v.row.estatus) === 'Pendiente de finalizar participación' && String(v.row.Clave) === 'FGP' && String(v.row.NumParticipacion) !== 'null' ? ( */}
             {String(v.row.Clave) === 'FGP' && String(v.row.estatusCI) === 'DAMOP_INI' ? (
               <Tooltip title="Administrar Descuentos">
                 <IconButton
@@ -584,8 +558,6 @@ const Participaciones = () => {
       description: "Descuentos",
       ...Moneda,
     },
-
-
     {
       field: "a5",
       headerName: "Total Neto",
@@ -597,7 +569,6 @@ const Participaciones = () => {
           {"Total: " + currencyFormatter.format(Number(sumaTotal))}
         </>
       ),
-
     },
     {
       field: "Proveedor",
@@ -728,10 +699,6 @@ const Participaciones = () => {
     SETDAMOP_ARA(false);
     SETDAF_SPEI(false);
     SETDAMOP_FINALIZADO(false);
-
- 
-
-
 
   };
 
@@ -1634,7 +1601,6 @@ const Participaciones = () => {
     loadFilter(17);
     loadFilter(25);
     loadFilter(24);
-    // handleClick();
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
 
