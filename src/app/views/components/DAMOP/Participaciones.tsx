@@ -501,8 +501,8 @@ const Participaciones = () => {
     },
     {
       field: "a9",
-      headerName: "Descripción de Fondo",
-      description: "Descripción de Fondo",
+      headerName: "Descripción",
+      description: "Descripción",
       width: 250,
     },
     {
