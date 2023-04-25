@@ -768,11 +768,11 @@ export const ORGHeader = ({
 
           <Grid item xs={12} sm={12} md={5.8} lg={4} >
 
-            <label className="textoNormal">{"Numero de operación: " + (dataCab?.NumOper ? dataCab?.NumOper : "")}</label>
+            <label className="textoNormal">{"Número de operación: " + (dataCab?.NumOper ? dataCab?.NumOper : "")}</label>
             <br />
             <label className="textoNormal">{"Clave Beneficiario: " + (dataCab?.ClaveBeneficiario !== null ? dataCab?.ClaveBeneficiario : "")}</label>
             <br />
-            <label className="textoNormal">{"Descripcion Beneficiario: " + (dataCab?.DescripcionBeneficiario ? dataCab?.DescripcionBeneficiario : "")}</label>
+            <label className="textoNormal">{"Descripción Beneficiario: " + (dataCab?.DescripcionBeneficiario ? dataCab?.DescripcionBeneficiario : "")}</label>
          
           </Grid>
 
