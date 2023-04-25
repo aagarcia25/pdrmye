@@ -187,8 +187,7 @@ const SpeisAdmin = ({
         let file = event.target!.files[0]!;
         if ((event.target.files.length !== 0 &&
             (event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF"
-                || event.target!.files[0]!.name.slice(-4).toUpperCase() === ".XLS"
-                || event.target!.files[0]!.name.slice(-4).toUpperCase() === "XLSX"
+                || event.target!.files[0]!.name.slice(-4).toUpperCase() === "XML"
             ))
             && (event.target!.files[0]!.name === (vrows.row.a3 + ".pdf")
                  || modo === "CFDI"

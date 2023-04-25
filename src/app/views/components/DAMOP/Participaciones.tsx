@@ -468,7 +468,7 @@ const Participaciones = () => {
       description: "Número De Egreso",
     },
     {
-      field: "NumOrdenPago",
+      field: "a3",
       headerName: "Solicitud de Pago",
       width: 120,
       description: "Número De Solicitud de Pago",
@@ -516,14 +516,8 @@ const Participaciones = () => {
       description: "Tipo Cálculo",
       width: 150,
     },
-    /* {
-       field: "Clave",
-       headerName: "Fondo",
-       width: 150,
-       description: "Fondo",
-     },*/
     {
-      field: "fondodes",
+      field: "a9",
       headerName: "Descripción de Fondo",
       description: "Descripción de Fondo",
       width: 250,
@@ -554,25 +548,7 @@ const Participaciones = () => {
       description: "Número de Proyecto",
       width: 150,
     },
-    // {
-    //   field: "ConceptoEgreso",
-    //   headerName: "Cpto. de  egreso",
-    //   description: "Concepto de Egreso",
-    //   width: 150,
-    // },
-    /* {
-       field: "conceptoCheque",
-       headerName: "Cpto. de  Cheque",
-       description: "Concepto de Cheque",
-       width: 270,
-     },*/
-    /* {
-       field: "ClavePresupuestal",
-       headerName: "Clave Presupuestal",
-       description: "Clave Presupuestal",
-       width: 550,
-       hide: false,
-     },*/
+    
     {
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
@@ -611,7 +587,7 @@ const Participaciones = () => {
 
 
     {
-      field: "importe",
+      field: "a5",
       headerName: "Total Neto",
       width: 200,
       description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
@@ -698,20 +674,6 @@ const Participaciones = () => {
     });
   };
 
-  const handleVerSpeiTooltip = (v: any) => {
-
-    // getfile(v.row.Nombre, v.row.Route, false)
-    setslideropen(true);
-
-};
-
-
-const handleDescargarSpei = (v: any) => {
-  setslideropen(true);
-  // getfile(v.row.Nombre, v.row.Route, true);
-  setslideropen(false);
-
-};
   const handleClose = () => {
     setOpenModalCabecera(false);
     setOpenModal(false);
@@ -767,37 +729,7 @@ const handleDescargarSpei = (v: any) => {
     SETDAF_SPEI(false);
     SETDAMOP_FINALIZADO(false);
 
-    // if (v ==='a2d2adfc-8e12-11ed-a98c-040300000000'){
-    //  SETDAMOP_INI(true);
-    // }else if(v ==='d117049e-8e12-11ed-a98c-040300000000'){
-    //   SETDAMOP_FSE(true);
-    // }else if(v ==='e0f0d317-8e12-11ed-a98c-040300000000'){
-    //   SETDAMOP_ASE(true);
-    // }else if(v ==='ef68291d-8e12-11ed-a98c-040300000000'){
-    //   SETDAMOP_TE(true);
-    // }else if(v ==='fe7fae95-8e12-11ed-a98c-040300000000'){
-    //   SETDAMOP_AE(true);
-    // }else if(v ==='0c1b887e-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_FE(true);
-    // }else if(v ==='1a7d41ed-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_VE(true);
-    // }else if(v ==='2a879241-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_GSE(true);
-    // }else if(v ==='399a2ffe-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_ASP(true);
-    // }else if(v ==='4a5cf61b-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_FRA(true);
-    // }else if(v ==='596e5f1e-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_ARA(true);
-    // }else if(v ==='67d9cdb6-8e13-11ed-a98c-040300000000'){
-    //   SETDAMOP_FINALIZADO(true);
-    // }else if(v ==='e6fd8a34-9073-11ed-a98c-040300000000'){
-    //   SETDAMOP_PFI(true);
-    // }else if(v ==='f747b03c-9073-11ed-a98c-040300000000'){
-    //   SETDAMOP_PAUT(true);
-    // }else if(v ==='b825e8af-91e8-11ed-a912-705a0f328da6'){
-    //   SETDAF_SPEI(true);
-    // }
+ 
 
 
 
@@ -2279,109 +2211,9 @@ const handleDescargarSpei = (v: any) => {
           <MUIXDataGridGeneral 
           modulo={nombreExport} 
           handleBorrar={handleBorrarMasivo}
-           columns={columnsParticipaciones} 
-           rows={data} controlInterno={""} 
-           multiselect={true}/>
-          {/* <div
-            style={{
-              height: "48vh",
-              width: "100%",
-            }}
-          >
-            <ThemeProvider theme={theme}>
-              <DataGrid
-                columns={columnsParticipaciones}
-                rows={data}
-                density="compact"
-                rowsPerPageOptions={[10, 25, 50, 100, 200, 300, 400]}
-                disableSelectionOnClick
-                disableColumnFilter
-                disableColumnSelector
-                disableDensitySelector
-                getRowHeight={() => "auto"}
-                getRowClassName={(params) => {
-                  if (params.row.Presupuesto == null) {
-                    return "";
-                  }
-                  return clsx("super-app", {
-                    // negative: params.row.Presupuesto !== params.row.total,
-                    // positive: params.row.Presupuesto == params.row.total,
-                  });
-                }}
-                components={{ Toolbar: GridToolbar }}
-                sx={{
-                  fontFamily: "Poppins,sans-serif",
-                  fontWeight: "500",
-                  fontSize:"12px",
-                  "& .super-app.negative": {
-                    color: "rgb(84, 3, 3)",
-                    backgroundColor: "rgb(196, 40, 40, 0.384)",
-                  },
-                  "& .super-app.positive": {
-                    backgroundColor: "rgb(16, 145, 80, 0.567)",
-                  },
-                }}
-
-                componentsProps={{
-                  toolbar: {
-                    label: "buscar",
-                    showQuickFilter: true,
-                    quickFilterProps: { debounceMs: 500 },
-                    csvOptions: {
-                      fileName: nombreExport
-                      ,
-                      utf8WithBom: true,
-                    }
-                  },
-                }}
-                isRowSelectable={(params) => (
-                  // params.row.NumCheque === null
-                  // ||params.row.NumEgreso===null
-                  // ||params.row.NumRequerimientoAnt===null||
-                  params.row.NumOrdenPago === null
-                )}
-                checkboxSelection
-                onSelectionModelChange={(newSelectionModel: any) => {
-                  setSelectionModel(newSelectionModel);
-                }}
-                selectionModel={selectionModel}
-                localeText={{
-                  noRowsLabel: "No se ha encontrado datos.",
-                  noResultsOverlayLabel: "No se ha encontrado ningún resultado",
-                  toolbarColumns: "Columnas",
-                  toolbarExport: "Exportar",
-                  toolbarColumnsLabel: "Seleccionar columnas",
-                  toolbarFilters: "Filtros",
-                  toolbarFiltersLabel: "Ver filtros",
-                  toolbarFiltersTooltipHide: "Quitar filtros",
-                  toolbarFiltersTooltipShow: "Ver filtros",
-                  toolbarQuickFilterPlaceholder: "Buscar",
-                  toolbarExportCSV: 'Descargar como CSV',
-                  toolbarExportPrint: 'Imprimir',
-                  checkboxSelectionSelectRow: "Filas seleccionadas",
-                  checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
-                  errorOverlayDefaultLabel: 'Ha ocurrido un error.',
-                  footerRowSelected: (count) =>
-                    count > 1 ?
-                      `${count.toLocaleString()} filas seleccionadas`
-                      :
-                      `${count.toLocaleString()} fila seleccionada`,
-                  footerTotalRows: 'Filas Totales:',
-                  columnMenuLabel: 'Menú',
-                  columnMenuShowColumns: 'Mostrar columnas',
-                  columnMenuFilter: 'Filtro',
-                  columnMenuHideColumn: 'Ocultar',
-                  columnMenuUnsort: 'Desordenar',
-                  columnMenuSortAsc: 'Ordenar ASC',
-                  columnMenuSortDesc: 'Ordenar DESC',
-                  columnHeaderFiltersTooltipActive: (count) =>
-                    count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
-                  columnHeaderFiltersLabel: 'Mostrar filtros',
-                  columnHeaderSortIconLabel: 'Ordenar',
-                }}
-              />
-            </ThemeProvider>
-          </div> */}
+          columns={columnsParticipaciones} 
+          rows={data} controlInterno={""} 
+          multiselect={true}/>
         </Grid>
 
 
