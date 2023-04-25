@@ -1747,7 +1747,7 @@ const Participaciones = () => {
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={12} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
-                Generación de Solicitudes de Participaciones y Aportaciones
+                Solicitudes de Participaciones y Aportaciones
               </Typography>
             </Grid>
           </Grid>
