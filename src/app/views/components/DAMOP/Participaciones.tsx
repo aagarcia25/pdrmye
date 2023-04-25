@@ -135,11 +135,12 @@ const Participaciones = () => {
   const [permisoAgregarRetencion, setPermisoAgregarRetencion] = useState<boolean>(false);
   const [permisoEditarRetencion, setPermisoEditarRetencion] = useState<boolean>(false);
   const [permisoEliminarRetencion, setPermisoEliminarRetencion] = useState<boolean>(false);
+  const [permisoAgregarDescuento, setPermisoAgregarDescuento] = useState<boolean>(false);
+  const [permisoEditarDescuento, setPermisoEditarDescuento] = useState<boolean>(false);
+  const [permisoEliminarDescuento, setPermisoEliminarDescuento] = useState<boolean>(false);
   const [permisoEliminarDetalleCabecera, setPermisoEliminarDetalleCabecera] = useState<boolean>(false);
   const [permisoEditarDetalleCabecera, setPermisoEditarDetalleCabecera] = useState<boolean>(false);
 
-  
-  
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const [openTraz, setOpenTraz] = useState(false);
@@ -1701,6 +1702,20 @@ const Participaciones = () => {
         else if (String(item.Referencia) === "EDITARDETALLECABECERA") {
           setPermisoEditarDetalleCabecera(true);
         }
+        else if (String(item.Referencia) === "ELIMDESC") {
+          setPermisoEliminarDescuento(true);
+        }
+        else if (String(item.Referencia) === "EDITDESC") {
+          setPermisoEditarDescuento(true);
+        }
+        else if (String(item.Referencia) === "AGREGDESC") {
+          setPermisoAgregarDescuento(true);
+        }
+
+
+        
+        
+        
 
 
         
@@ -2249,7 +2264,10 @@ const Participaciones = () => {
       editCabecera={editCabecera} permisoAgregarDetalle={permisoAgregarDetalle} 
       permisoEliminarDetalleCabecera={permisoEliminarDetalleCabecera} 
       permisoEditarDetalleCabecera={permisoEditarDetalleCabecera} />) : ("")}
-      {openModalDescuento ? (<Descuentos tipo={1} handleClose={handleClose} dt={vrows} />) : ("")}
+      {openModalDescuento ? (<Descuentos tipo={1}
+       handleClose={handleClose} dt={vrows} 
+       permisoEliminarDescuento={permisoEliminarDescuento} 
+       permisoEditarDescuento={permisoEditarDescuento} permisoAgregarDescuento={permisoAgregarDescuento} />) : ("")}
       {openModalRetenciones ? (<Retenciones tipo={1} handleClose={handleClose} dt={vrows}
 
       permisoAagregarRetenciones={permisoAgregarRetencion} permisoEditarRetencion={permisoEditarRetencion} permisoEliminarRetencion={permisoEliminarRetencion} />) : ("")}
