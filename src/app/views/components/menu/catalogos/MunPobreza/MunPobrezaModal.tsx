@@ -31,12 +31,11 @@ const MunPobrezaModal = ({
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState<String>("");
+  const [anio, setAnio] = useState<string>("");
   const [poblacion, setPoblacion] = useState<number>();
   const [carenciaProm, setCarenciaProm] = useState<number>();
   const [IdMunicipio, setIdMunicipio] = useState<string>();
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [filterAnio, setFilterAnio] = useState("");
 
 
 
@@ -71,7 +70,7 @@ const MunPobrezaModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo=== 1) {
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
     } else if (tipo === 2) {
@@ -122,6 +121,7 @@ const MunPobrezaModal = ({
   };
 
   const handleSelectAnio = (e: any) => {
+    console.log(e)
     setAnio(e);
   };
 
@@ -145,7 +145,7 @@ const MunPobrezaModal = ({
 
 
     <div>
-      <ModalForm title={tipo === 1 ?"Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+      <ModalForm title={tipo === 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
         <Grid container
           sx={{
             mt: "2vh",
@@ -158,56 +158,61 @@ const MunPobrezaModal = ({
 
         >
           <Grid item xs={12} sm={8} md={8} lg={8}>
-          <Box>
-          <label className="Titulo">{dt?.row?.Nombre}</label>
-          </Box>
+            <Box>
+              <label className="Titulo">{dt?.row?.Nombre}</label>
+            </Box>
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
-          <Box>
-            <label >  <br /> Año <br /></label>
-            <SelectFrag value={anio? String(anio):""} options={anios} onInputChange={handleSelectAnio} placeholder={String(anio)?String(anio):"Seleccione año"} label={""} disabled={false}></SelectFrag>
-          </Box>
+            <Box>
+              <label >  <br /> Año <br /></label>
+              <SelectFrag
+                value={anio}
+                options={anios}
+                onInputChange={handleSelectAnio}
+                placeholder={"Seleccione año"}
+                label={""} disabled={false}/>
+            </Box>
 
-          <Box>
-            <label > <br /> Poblacion <br /></label>
-          </Box>
+            <Box>
+              <label > <br /> Población <br /></label>
+            </Box>
 
-          <TextField
-            margin="dense"
-            required
-            id="pob"
-            value={poblacion}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setPoblacion(Number(v.target.value))}
-            error={poblacion === null ? true : false}
-          />
+            <TextField
+              margin="dense"
+              required
+              id="pob"
+              value={poblacion}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setPoblacion(Number(v.target.value))}
+              error={poblacion === null ? true : false}
+            />
           </Grid>
 
 
           <Grid item xs={12} sm={8} md={8} lg={8}>
 
-          <Box>
-            <label > Carencia Promedio <br /></label>
-          </Box>
-          <TextField
+            <Box>
+              <label > Carencia Promedio <br /></label>
+            </Box>
+            <TextField
 
-            margin="dense"
-            required
-            id="fac"
-            value={carenciaProm}
-            type="percent"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setCarenciaProm(Number(v.target.value))}
-            error={carenciaProm === null ? true : false}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">%</InputAdornment>
-              ),
-            }}
-          />
+              margin="dense"
+              required
+              id="fac"
+              value={carenciaProm}
+              type="percent"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setCarenciaProm(Number(v.target.value))}
+              error={carenciaProm === null ? true : false}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">%</InputAdornment>
+                ),
+              }}
+            />
           </Grid>
 
 
@@ -225,7 +230,13 @@ const MunPobrezaModal = ({
           >
             <Grid item xs={4} sm={3} md={2} lg={1}
             >
-              <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+              <Button
+                // disabled={
+
+
+                // }
+
+                className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
             </Grid>
           </Grid>
         </Grid>
