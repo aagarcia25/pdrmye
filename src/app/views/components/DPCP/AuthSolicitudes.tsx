@@ -81,7 +81,7 @@ const AuthSolicitudes = () => {
       description: "Año",
     },
     {
-      field: "a13",
+      field: "a7",
       headerName: "Mes",
       width: 100,
       description: "Mes",
