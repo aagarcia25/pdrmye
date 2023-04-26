@@ -38,10 +38,16 @@ export const Retenciones = ({
     handleClose,
     tipo,
     dt,
+    permisoAagregarRetenciones,
+    permisoEditarRetencion,
+    permisoEliminarRetencion
 }: {
     handleClose: Function;
     tipo: number;
     dt: any;
+    permisoAagregarRetenciones: boolean;
+    permisoEditarRetencion: boolean;
+    permisoEliminarRetencion: boolean;
 }) => {
     // CAMPOS DE LOS FORMULARIOS
     const user: RESPONSE = JSON.parse(String(getUser()));
@@ -80,16 +86,18 @@ export const Retenciones = ({
             renderCell: (v: any) => {
                 return (
                     <Box>
+                        {permisoEliminarRetencion?                       
                         <Tooltip title="Eliminar Retención">
                             <IconButton onClick={() => handleEliminarDescuento(v)}>
                                 <DeleteForeverIcon />
                             </IconButton>
-                        </Tooltip>
+                        </Tooltip>:""}
+                        {permisoEditarRetencion?  
                         <Tooltip title="Editar Descuento">
                             <IconButton onClick={() => handleOpen(true, v)}>
                                 <EditIcon />
                             </IconButton>
-                        </Tooltip>
+                        </Tooltip> :""}
                     </Box>
                 );
             },
@@ -432,7 +440,7 @@ export const Retenciones = ({
 
                     </Grid>
                 </Grid>
-                <ButtonsAdd handleOpen={() => handleOpen(false, {})} agregar={true} />
+                <ButtonsAdd handleOpen={() => handleOpen(false, {})} agregar={permisoAagregarRetenciones} />
                 <MUIXDataGrid columns={columns} rows={dataRow} />
             </ModalForm>
 

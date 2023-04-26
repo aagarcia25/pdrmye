@@ -40,10 +40,19 @@ export const Descuentos = ({
   handleClose,
   tipo,
   dt,
+  permisoEliminarDescuento,
+  permisoEditarDescuento,
+  permisoAgregarDescuento
+
+
+
 }: {
   handleClose: Function;
   tipo: number;
   dt: any;
+  permisoEliminarDescuento: boolean;
+  permisoEditarDescuento: boolean;
+  permisoAgregarDescuento: boolean;
 }) => {
   // CAMPOS DE LOS FORMULARIOS
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -83,16 +92,24 @@ export const Descuentos = ({
       renderCell: (v: any) => {
         return (
           <Box>
-            <Tooltip title="Eliminar Descuento">
-              <IconButton onClick={() => handleEliminarDescuento(v)}>
-                <DeleteForeverIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Editar Descuento">
-              <IconButton onClick={() => handleOpen(true, v)}>
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
+            {permisoEliminarDescuento ?
+
+              <Tooltip title="Eliminar Descuento">
+                <IconButton onClick={() => handleEliminarDescuento(v)}>
+                  <DeleteForeverIcon />
+                </IconButton>
+              </Tooltip>
+
+              : ""}
+            {permisoEditarDescuento ?
+              <Tooltip title="Editar Descuento">
+                <IconButton onClick={() => handleOpen(true, v)}>
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+              : ""
+            }
+
           </Box>
         );
       },
@@ -208,9 +225,9 @@ export const Descuentos = ({
           sumatotal = sumatotal + Number(item.total)
           setSumaTotal(sumatotal)
         });
-         if(res.RESPONSE.length===0){
+        if (res.RESPONSE.length === 0) {
           setSumaTotal(sumatotal)
-         }
+        }
 
         setSumDes(sumaDes);
         setSumRet(sumaRet);
@@ -307,7 +324,7 @@ export const Descuentos = ({
               CVERET: value === "Anticipo" ? "" : idRetencion,
               DESCRIPCION: ComentariosDes
             }
-            
+
             DPCPServices.setDescuentos(data).then((res) => {
               if (res.SUCCESS) {
                 setValue("");
@@ -393,26 +410,26 @@ export const Descuentos = ({
     handleSelectNumOp("false");
     handleSelectCveRet("");
     setNumOperacion("");
-    
+
 
   };
 
   const onInputChange = (v: any) => {
     if (v === "") {
-        setClaveRet("");
-        setDescRet("");
-        setValRet("");
-        setIdRetencion("")
+      setClaveRet("");
+      setDescRet("");
+      setValRet("");
+      setIdRetencion("")
 
 
     } else {
-        setClaveRet(v.value);
-        setDescRet(v.Descripcion);
-        setValRet(v.retencion);
-        setIdRetencion(v.id)
+      setClaveRet(v.value);
+      setDescRet(v.Descripcion);
+      setValRet(v.retencion);
+      setIdRetencion(v.id)
     }
 
-};
+  };
   useEffect(() => {
     setNumOperacionOp([
       {
@@ -469,18 +486,18 @@ export const Descuentos = ({
       setId(dt?.row?.id);
 
     }
-  CatalogosServices.IndexCatRetenciones({ NUMOPERACION: 5}).then((res) => {
+    CatalogosServices.IndexCatRetenciones({ NUMOPERACION: 5 }).then((res) => {
       if (res.SUCCESS) {
         setclaveRetencionOp(res.RESPONSE);
-          // handleClose();
+        // handleClose();
       } else {
-          AlertS.fire({
-              title: "¡Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
-          });
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
       }
-  });
+    });
   }, [dt]);
 
   return (
@@ -515,7 +532,7 @@ export const Descuentos = ({
 
           </Grid>
         </Grid>
-        <ButtonsAdd handleOpen={() => handleOpen(false, null)} agregar={true} />
+        <ButtonsAdd handleOpen={() => handleOpen(false, null)} agregar={permisoAgregarDescuento} />
         <MUIXDataGrid columns={columns} rows={dataRow} />
       </ModalForm>
 
@@ -636,7 +653,7 @@ export const Descuentos = ({
 
               <Grid item xs={6}>
                 <label> Divisa </label>
-                <br/>
+                <br />
                 <TextField
                   required
                   disabled
@@ -645,7 +662,7 @@ export const Descuentos = ({
                   value={dt.row.Divisa}
                   type="text"
                   variant="outlined"
-                  
+
                   InputLabelProps={{ shrink: true }}
                 />
 
@@ -707,7 +724,7 @@ export const Descuentos = ({
             </Grid>
 
             {value === "RecuperacionAdeudos" ?
-              <Grid container item xs={10} paddingBottom= {2}>
+              <Grid container item xs={10} paddingBottom={2}>
                 <label > Cve. Retención</label>
                 {/* <SelectFrag
                   value={value === "RecuperacionAdeudos" ? cveReten : ""}
@@ -717,36 +734,36 @@ export const Descuentos = ({
                   label={"Cve. Retención"}
                   disabled={value !== "RecuperacionAdeudos"}
                 /> */}
-                            <FormControl sx={{ width: "100%" }}   >
-                                <Select
-                                    value={claveRetencionOp.find(element => element.value === claveRet)}
-                                    options={claveRetencionOp}
-                                    isDisabled={numOperacion === "" || numOperacion === "false" || String(Number(numOperacion)) === "NaN"}
-                                    isClearable={true}
-                                    isSearchable={true}
-                                    backspaceRemovesValue={true}
-                                    onChange={(v) => (v === null) ?
-                                        onInputChange("")
-                                        :
-                                        onInputChange(v)
-                                    }
-                                    placeholder={(descRet !== "") ? descRet : ""}
-                                    styles={{
-                                        menu: (base) => ({
-                                            position: 'absolute',
-                                            paddingLeft: '1rem',
-                                            zIndex: 500,
-                                            ...base
-                                        })
-                                    }}
-                                />
-                            </FormControl>
+                <FormControl sx={{ width: "100%" }}   >
+                  <Select
+                    value={claveRetencionOp.find(element => element.value === claveRet)}
+                    options={claveRetencionOp}
+                    isDisabled={numOperacion === "" || numOperacion === "false" || String(Number(numOperacion)) === "NaN"}
+                    isClearable={true}
+                    isSearchable={true}
+                    backspaceRemovesValue={true}
+                    onChange={(v) => (v === null) ?
+                      onInputChange("")
+                      :
+                      onInputChange(v)
+                    }
+                    placeholder={(descRet !== "") ? descRet : ""}
+                    styles={{
+                      menu: (base) => ({
+                        position: 'absolute',
+                        paddingLeft: '1rem',
+                        zIndex: 500,
+                        ...base
+                      })
+                    }}
+                  />
+                </FormControl>
 
               </Grid>
               : ""}
 
             <Grid container>
-            <label > Descripción del Descuento  *Opcional*</label>
+              <label > Descripción del Descuento  *Opcional*</label>
               <TextField
                 disabled={value === ""}
                 margin="dense"
