@@ -533,7 +533,8 @@ export const ORG = () => {
           handleClose={handleClose}
           editCabecera={editCabecera}
           permisoAgregarDetalle={permisoAgregarDetalle}
-          permisoEliminarDetalleCabecera={permisoEliminarDetalleCabecera} permisoEditarDetalleCabecera={permisoEditarDetalleCabecera} />
+          permisoEliminarDetalleCabecera={permisoEliminarDetalleCabecera}
+           permisoEditarDetalleCabecera={permisoEditarDetalleCabecera} />
         :
         ""
       }
