@@ -80,7 +80,7 @@ export const MunPobProyeccion = () => {
 
     Swal.fire({
       icon: "info",
-      title: "¿Estás seguro de eliminar este registro??",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -180,7 +180,7 @@ export const MunPobProyeccion = () => {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
-          title: selectionModel.length + " Registros Se Eliminaran!!",
+          title: selectionModel.length + " ¡Registros Se Eliminaran!",
           showDenyButton: true,
           showCancelButton: false,
           confirmButtonText: "Confirmar",

@@ -114,6 +114,34 @@ h5.Titulo-SolCambios {
   padding-top: 5px;
   padding-bottom: 5px;
 }
+h5.label-UsuariosEnabled {
+  font-size: 15px;
+  
+  font-family: sans-serif;
+  text-align: center;
+  justify-content: center;
+  background-color: #169a1e;
+  border-radius: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+h5.label-UsuariosDisabled {
+  font-size: 15px;
+  font-family: sans-serif;
+  text-align: center;
+  justify-content: center;
+  background-color: #9a1616;
+  border-radius: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+
 
 /* Centrar el texto y contenido en los GRID con className:"Titulo" */
 .Titulo {
@@ -345,9 +373,15 @@ button.guardar {
   font-size: 20px;
   transition-duration: 0.2s;
   font-family: sans-serif;
-  background-color: rgba(95, 184, 107, 0.62);
+  background-color: rgba(29, 174, 48, 0.542);
   color: rgb(18, 26, 22);
 
+}
+button.guardar:disabled,
+button[disabled]{
+  border: 1px solid #d8d5d5;
+  background-color: #e6e4e43f;
+  color: #8d8b8b;
 }
 
 
@@ -791,5 +825,11 @@ div.div-agregarcontactomunicipio {
   justify-content: center;
   align-items: center;
   overflow: "hidden";
+
+}
+
+.Grid-Usuarios-Solicitudes{
+  contain: content;
+  height: 40px;
 
 }

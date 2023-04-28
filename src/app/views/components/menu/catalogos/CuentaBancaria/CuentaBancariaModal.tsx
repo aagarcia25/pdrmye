@@ -181,7 +181,7 @@ export const CuentaBancariaModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "¡Registro Editado!",
         });
       } else {
         AlertS.fire({
@@ -193,22 +193,7 @@ export const CuentaBancariaModal = ({
     });
   };
 
-  // function enCambioFile(event: any) {
-  //   setUploadFile(URL.createObjectURL(event.target.files[0]));
-  //   setNombreArchivo(event.target.value.split("\\")[2]);
-  //   let file = event.target!.files[0]!;
-  //   setTipoArchivo((event.target.value.split(".")[1]))
-  //   setFile(file);
-  //   {
-  //     nombreArchivo === null
-  //       ? setDisabledButton(true)
-  //       : setDisabledButton(false);
-  //   }
-  // }
 
-
-
-  /// archivo de carta
 
   const handleNumCuenta = (v: string) => {
     setNumeroCuenta(v);
@@ -459,7 +444,7 @@ export const CuentaBancariaModal = ({
               <label><h2>Numero de Cuenta: </h2>   <h4>{" " + dt?.row?.NumeroCuenta}</h4></label>
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-              <label><h2>Clave bancaria:</h2><h4>{" " + dt?.row?.ClabeBancaria}</h4></label>
+              <label><h2>Clave Bancaria:</h2><h4>{" " + dt?.row?.ClabeBancaria}</h4></label>
             </Grid>
           </Grid>
 

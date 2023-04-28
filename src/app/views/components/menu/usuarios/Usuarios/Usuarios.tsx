@@ -19,10 +19,14 @@ import UsuarioOrg from "./UsuarioOrg";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { ParametroServices } from "../../../../../services/ParametroServices";
-import { Datum } from "../../../../../interfaces/user/solicitudes";
-import { getRowIdFromRowModel } from "@mui/x-data-grid/hooks/features/rows/gridRowsUtils";
-import { COLOR } from "../../../../../styles/colors";
+import { DatDAMOPSol, Datum } from "../../../../../interfaces/user/solicitudes";
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import DoneIcon from '@mui/icons-material/Done';
+import DoDisturbIcon from '@mui/icons-material/DoDisturb';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+
 
 const Usuarios = () => {
   const [data, setData] = useState([]);
@@ -37,6 +41,23 @@ const Usuarios = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
+  const [configRol, setConfigRol] = useState<boolean>(false);
+  const [configOrg, setConfigOrg] = useState<boolean>(false);
+  const [dataSolicitudNoAdmin, setDataSolicitudNoAdmin] = useState<DatDAMOPSol[]>([]);
+
+
+  const Estatus = [
+    { estatus: '0', accion: <HourglassEmptyIcon />, },
+    { estatus: '1', accion: <DoneIcon />, },
+    { estatus: '2', accion: <DoDisturbIcon />, },
+    { estatus: '3', accion: <VisibilityIcon />, },
+  ]
+
+  const tipoDepartamento = [
+    { dep: 'DAMOP', idTipoConsulta: "6d8fefa8-50c1-11ed-ab6c-040300000000"    , idSelect:"6d8fefa8-50c1-11ed-ab6c-040300000000" ,},
+    { dep: 'DAMOP_ORG', idTipoConsulta: "f99fe513-516d-11ed-ab6c-040300000000", idSelect:"f99fe513-516d-11ed-ab6c-040300000000" ,},
+    { dep: 'DTI', idTipoConsulta: "724605b7-2b01-11ed-afdb-040300000000"      , idSelect: "none",},
+  ]
   const [value, setValue] = useState('1');
   const user: RESPONSE = JSON.parse(String(getUser()));
 
@@ -46,15 +67,37 @@ const Usuarios = () => {
         NUMOPERACION: 5,
         NOMBRE: "AppID",
       };
-
-      ParametroServices.ParametroGeneralesIndex(dataAppId).then(
-        (resAppId) => {
+      if (user?.PERFILES[0]?.Referencia === "ADMIN") {
+        ParametroServices.ParametroGeneralesIndex(dataAppId).then((resAppId) => {
           UserServices.solicitudesapp('IdUsuario=' + user.id + '&IdApp=' + resAppId?.RESPONSE?.Valor).then((res) => {
             const sol: Datum[] = res.data.data;
-            //const valo: Datum[] = sol;
             setDataSolicitud(sol);
           });
         });
+      } else {
+        AuthService.adminUser({ NUMOPERACION: 11, CHUSER: user?.id }).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Consulta Exitosa",
+            });
+            setDataSolicitudNoAdmin(res.RESPONSE);
+          } else {
+            AlertS.fire({
+              title: "¡Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+
+
+      }
+    } else if (newValue === '1') {
+      consulta();
+
+
+
     }
     setValue(newValue);
   };
@@ -77,64 +120,15 @@ const Usuarios = () => {
     setOpenNew(true);
   };
 
-
-
-  // const handleDelete = (v: any) => {
-  /*  Swal.fire({
-      icon: "info",
-      title: "¿Estás seguro de eliminar este registro??",
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: "Confirmar",
-      denyButtonText: `Cancelar`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        //console.log(v);
- 
-        let data = {
-          NUMOPERACION: 3,
-          CHID: v.row.id,
-          CHUSER: user.id
-        };
-        //console.log(data);
- 
-        CatalogosServices.munfacturacion(data).then((res) => {
-          if (res.SUCCESS) {
-            Toast.fire({
-              icon: "success",
-              title: "Registro Eliminado!",
-            });
- 
-            let data = {
-              NUMOPERACION: 4,
-              ANIO: filterAnio,
-            };
-            consulta(data);
- 
-          } else {
-            AlertS.fire({
-              title: "¡Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
-            });
-          }
-        });
- 
-      } else if (result.isDenied) {
-        Swal.fire("No se realizaron cambios", "", "info");
-      }
-    });*/
-  // };
-
   const handleClose = (v: string) => {
     setOpenConfigMun(false);
     setOpenNew(false);
     setOpenRolConf(false);
     setOpenOrgConf(false);
-    consulta({ NUMOPERACION: 4 }, "Consulta Exitosa");
+    consulta();
   };
 
-const handleOrgConf = (v: any) => {
+  const handleOrgConf = (v: any) => {
     setDt(v.row);
     setOpenOrgConf(true);
   };
@@ -151,15 +145,47 @@ const handleOrgConf = (v: any) => {
     { field: "UltimaModificacion", headerName: "Ultima Modificación", description: "Ultima Modificación", width: 250 },
     { field: "NombreUsuario", headerName: "Nombre Usuario", description: "Nombre Usuario", width: 150, },
     { field: "DatosAdicionales", headerName: "Datos Adicionales", description: "Datos Adicionales", width: 250 },
-    { field: "Estatus", headerName: "Estatus", description: "Estatus", width: 150 },
+    {
+      field: "Estatus", headerName: "Estatus", description: "Estatus", width: 150
+      ,
+      renderCell: (v) => {
+        return (
+          <Box >
+            {Estatus.find(({ estatus }) => Number(estatus) === v.row.Estatus)?.accion}
+          </Box>
+        );
+      },
+    },
     { field: "tipoSoli", headerName: "Tipo Solicitud", description: "Tipo Solicitud", width: 150 },
     { field: "AppNombre", headerName: "Nombre de la aplicación", description: "Nombre de la aplicación", width: 200, },
     { field: "Mensaje", headerName: "Mensaje", description: "Mensaje", width: 120, },
   ];
 
+  const columnsSolicitudNoAdmin: GridColDef[] = [
+    { field: "Id", hide: true },
+    { field: "FechaDeCreacion", headerName: "Fecha De Creación", description: "Fecha De Creación", width: 250 },
+    {
+      field: "Estatus", headerName: "Estatus", description: "Estatus", width: 150,
+      renderCell: (v) => {
+        return (
+          <Box >
+            {Estatus.find(({ estatus }) => Number(estatus) === v.row.Estatus)?.accion}
+          </Box>
+        );
+      },
+
+    },
+    { field: "Nombre", headerName: "Nombre", description: "Nombre", width: 250 },
+    { field: "ApellidoPaterno", headerName: "Apellido Paterno", description: "Apellido Paterno", width: 150, },
+    { field: "ApellidoMaterno", headerName: "Apellido Materno", description: "Apellido Materno", width: 250 },
+    { field: "DatosAdicionales", headerName: "Datos Adicionales", description: "Datos Adicionales", width: 150 },
+
+  ];
+
   const columns: GridColDef[] = [
     { field: "id", hide: true, },
     {
+      hide: !(configOrg || configRol || editar || eliminar),
       field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
@@ -168,28 +194,37 @@ const handleOrgConf = (v: any) => {
       renderCell: (v) => {
         return (
           <Box >
-            <Tooltip title={"Configurar Organismos"}>
-              <IconButton color="success" onClick={() => handleOrgConf(v)}>
-                <ApartmentIcon />
-              </IconButton>
-            </Tooltip>
+            {configOrg ?
+              <Tooltip title={"Configurar Organismos"}>
+                <IconButton color="success" onClick={() => handleOrgConf(v)}>
+                  <ApartmentIcon />
+                </IconButton>
+              </Tooltip>
+              : ""}
+            {
+              configRol ?
+                <Tooltip title={"Configurar Roles"}>
+                  <IconButton color="success" onClick={() => handleRolConf(v)}>
+                    <AssignmentIndIcon />
+                  </IconButton>
+                </Tooltip>
+                : ""}
 
-            <Tooltip title={"Configurar Roles"}>
-              <IconButton color="success" onClick={() => handleRolConf(v)}>
-                <AssignmentIndIcon />
-              </IconButton>
-            </Tooltip>
+            {editar ?
+              <Tooltip title={"Editar Registro"}>
+                <IconButton color="info" onClick={() => handleEdit(v)}>
+                  <ModeEditOutlineIcon />
+                </IconButton>
+              </Tooltip>
+              : ""}
 
-            <Tooltip title={"Editar Registro"}>
-              <IconButton color="info" onClick={() => handleEdit(v)}>
-                <ModeEditOutlineIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={"Eliminar Registro"}>
-              <IconButton color="error" onClick={() => handleDelete(v)}>
-                <DeleteForeverIcon />
-              </IconButton>
-            </Tooltip>
+            {eliminar ?
+              <Tooltip title={"Eliminar Registro"}>
+                <IconButton color="error" onClick={() => handleDelete(v)}>
+                  <DeleteForeverIcon />
+                </IconButton>
+              </Tooltip>
+              : ""}
           </Box>
         );
       },
@@ -199,15 +234,18 @@ const handleOrgConf = (v: any) => {
       headerName: "Estatus",
       description: "Estatus",
       sortable: false,
-      width: 100,
+      width: 120,
       renderCell: (v) => {
         return (
           <Grid container>
-          <Box sx={{ borderRadius:10,  textAlign: "center", alignItem: "center", width: "100%", height: "100%", bgcolor: v.row.EstatusPDRMYE === "0" ? COLOR.verdeBAndera : COLOR.rojo }} >
-            <Typography>
-              {v.row.EstatusPDRMYE === "0" ? "Activo" : "Inactivo"}
-            </Typography>
-          </Box>
+            <Grid className="Grid-Usuarios-Solicitudes" container
+              direction="row"
+              justifyContent="center"
+              alignItems="center">
+              <Typography variant="h5" className={v.row.EstatusPDRMYE === "0" ? "label-UsuariosEnabled" : "label-UsuariosDisabled"} >
+                {v.row.EstatusPDRMYE === "0" ? "Activo" : "Inactivo"}
+              </Typography>
+            </Grid>
           </Grid>
         );
       },
@@ -230,12 +268,18 @@ const handleOrgConf = (v: any) => {
 
   ];
 
-  const consulta = (data: any, v: string) => {
+  const consulta = () => {
+    const data = {
+      NUMOPERACION: user?.PERFILES[0]?.Referencia === "ADMIN" ? 4 : 12,
+      CHUSER: user?.id,
+      TIPO: tipoDepartamento.find(({ dep }) => dep === user?.DEPARTAMENTOS[0].NombreCorto)?.idTipoConsulta
+    }
+
     AuthService.adminUser(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: v,
+          title: "Consulta Exitosa",
         });
         setData(res.RESPONSE);
       } else {
@@ -260,15 +304,20 @@ const handleOrgConf = (v: any) => {
         if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
-
+        if (String(item.Referencia) === "CONFIGROL") {
+          setConfigRol(true);
+        }
+        if (String(item.Referencia) === "CONFIGORG") {
+          setConfigOrg(true);
+        }
       }
     });
-    consulta({ NUMOPERACION: 4 }, "Consulta Exitosa");
+    consulta();
   }, []);
   return (
     <div>
       <Grid sx={{ paddingTop: "1%" }}>
-      {openOrgConf ?
+        {openOrgConf ?
           <UsuarioOrg
             handleClose={handleClose}
             dt={dt}
@@ -324,7 +373,9 @@ const handleOrgConf = (v: any) => {
             <MUIXDataGrid columns={columns} rows={data} />
           </TabPanel>
           <TabPanel value="2">
-            <MUIXDataGrid columns={columnsSolicitud} rows={dataSolicitud} />
+            <MUIXDataGrid
+              columns={user?.PERFILES[0]?.Referencia === "ADMIN" ? columnsSolicitud : columnsSolicitudNoAdmin}
+              rows={user?.PERFILES[0]?.Referencia === "ADMIN" ? dataSolicitud : dataSolicitudNoAdmin} />
           </TabPanel>
         </TabContext>
 
