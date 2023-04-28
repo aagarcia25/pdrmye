@@ -153,21 +153,16 @@ export const CuentaBancariaModal = ({
       formData.append("CLABEBANCARIA", (clabeBancaria));
       formData.append("COMENTARIOS", comentarios);
       formData.append("IDMUNICIPIO", user.MUNICIPIO[0]?.id);
-      // console.log("CLABEBANCARIA: " + formData.get("CLABEBANCARIA") + " : " + Codificador.decoded(String(formData.get("CLABEBANCARIA"))));
 
       CatalogosServices.CuentaBancaria(formData).then((res) => {
         setslideropen(false);
-        // console.log(Codificador.decoded("w+1ABCXTVl2cqcF3yK6YEg=="));
-        //console.log("res en service", res);
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
             title: "Carga Exitosa!",
           });
-          // handleClose();
         } else {
           setslideropen(false);
-          //console.log("res en Sí res.SUCCESS no tiene nada", res);
           Swal.fire("Verifique los campos", "¡Error!", "warning");
         }
       });
@@ -403,8 +398,8 @@ export const CuentaBancariaModal = ({
                       || !DocSubido
                       || !DocSubidoCarta
                       || !nombreCuenta
-                      ||idBancos===""
-                      ||idBancos==="false"
+                      || idBancos === ""
+                      || idBancos === "false"
 
                     }
 
@@ -451,19 +446,20 @@ export const CuentaBancariaModal = ({
           <Grid container>
 
             <Grid item xs={12} sm={6} md={6} lg={6}>
-
-              <Box>
-                <iframe
-                  id="inlineFrameExample"
-                  title="Inline Frame Example"
-                  width="100%"
-                  height="700"
-                  src={urlDoc}
-                />
-              </Box>
+            
+                <Box>  {urlDoc !=="null" ?
+                  <iframe
+                    id="inlineFrameExample"
+                    title="Inline Frame Example"
+                    width="100%"
+                    height="700"
+                    src={urlDoc}
+                  />: ""}
+                </Box>
+                
               <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
                 <label >
-                  {dt?.row?.NombreDocumento}
+                  {dt?.row?.NombreDocumento !=="null" ? dt?.row?.NombreDocumento : ""}
                 </label>
 
               </Box>
@@ -472,17 +468,18 @@ export const CuentaBancariaModal = ({
             <Grid item xs={12} sm={6} md={6} lg={6}>
 
               <Box>
+              {urlDocCarta !== null ?
                 <iframe
                   id="inlineFrameExample"
                   title="Inline Frame Example"
                   width="100%"
                   height="700"
                   src={urlDocCarta}
-                />
+                />: ""}
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
                 <label >
-                  {dt?.row?.NombreCarta}
+                {dt?.row?.NombreCarta? dt?.row?.NombreCarta : ""}
                 </label>
               </Box>
             </Grid>
