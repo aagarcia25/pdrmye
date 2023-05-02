@@ -60,7 +60,6 @@ const AgregarContactoMunicipio = () => {
                 });
 
                 if (res.RESPONSE.length !== 0) {
-                    console.log(res.RESPONSE);
                     if (primerInicio) {
                         setValores(res.RESPONSE);
                     }

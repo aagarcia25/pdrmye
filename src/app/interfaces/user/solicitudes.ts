@@ -17,6 +17,16 @@ export interface Datum {
     AppNombre: string;
 }
 
+export interface DatDAMOPSol {
+    FechaDeCreacion: Date;
+    Nombre: string;
+    ApellidoPaterno: string;
+    ApellidoMaterno: string;
+    Estatus: string;
+    DatosAdicionales: string;
+    
+}
+
 
 export interface SolicitudUsrTiDetalle {
     Respuesta: string;

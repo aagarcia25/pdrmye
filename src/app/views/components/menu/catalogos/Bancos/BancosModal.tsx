@@ -6,6 +6,7 @@ import {
   TextField,
   DialogActions,
   Grid,
+  Button,
 } from "@mui/material";
 
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -153,9 +154,9 @@ export const BancosModal = ({
           <Grid item alignItems="center" justifyContent="center" xs={12} height={40}></Grid>
           <Grid item alignItems="center" justifyContent="center" xs={5}></Grid>
           <Grid item alignItems="center" justifyContent="center" xs={2}>
-            <button  className={tipo === 1 ? "guardar" : "actualizar"}  onClick={() => handleSend()} >
+            <Button disabled={descripcion===""||nombre===""}  className={tipo === 1 ? "guardar" : "actualizar"}  onClick={() => handleSend()} >
               {tipo === 1 ? "Agregar" : "Editar"}
-            </button>
+            </Button>
           </Grid>
 
         </Grid>
