@@ -219,28 +219,17 @@ const ListNotificationsModal = ({
               flexDirection: 'column',
               // borderRadius: 1,
             }}>
-              <Box sx={{
-                bgcolor: COLOR.grisDivisionEntreElementos,
-                display: 'flex',
-                justifyContent: 'space-between',
-                position: 'relative',
-
-              }}>
-                <Box sx={{
-                  position: 'relative',
-                  flexDirection: 'column',
-                  top: 1, left: 20,
-                  borderRadius: 0,
-                }}>
-                  <Typography variant="h5" color="white" paddingTop={1} paddingBottom={1}> Nuevo Mensaje </Typography>
-                </Box>
+              <Grid container justifyContent="space-between" item  className="HeaderModalH5">
+        
+                  <Typography variant="h5" className="HeaderEnviarMensaje" paddingTop={1} paddingLeft={1} paddingBottom={1}> Nuevo Mensaje </Typography>
+           
                 <Box padding={1}>
                   <button className="cerrar-nuevo-mensaje" color="error"
                     onClick={() => handleClose("cerrar")}>
                     <CloseIcon />
                   </button>
                 </Box>
-              </Box>
+              </Grid>
               <Box
                 sx={{
                   height: "100px",

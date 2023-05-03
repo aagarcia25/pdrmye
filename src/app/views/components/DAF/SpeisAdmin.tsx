@@ -153,29 +153,34 @@ const SpeisAdmin = ({
 
 
     function base64toPDF(data: string, tipo: string, name: string, descargar: boolean) {
-        var bufferArray = base64ToArrayBuffer(data);
-        var blobStore = new Blob([bufferArray], { type: tipo });
-
-        var data = window.URL.createObjectURL(blobStore);
-        var link = document.createElement('a');
-        document.body.appendChild(link);
-        link.href = data;
-
-        if (!descargar) {
-            setURLRuta(link.href);
-            setVerSpei(true);
+        if (data === "undefined") {
             setslideropen(false);
-        }
-        if (descargar) {
+            AlertS.fire({
+                text: "Archivo no encontrado ",
+                icon: "info",
+            });
 
+        } else {
 
-            link.download = name;
-            link.click();
-            window.URL.revokeObjectURL(data);
-            link.remove();
-            setslideropen(false);
+            var bufferArray = base64ToArrayBuffer(data);
+            var blobStore = new Blob([bufferArray], { type: tipo });
+            var data = window.URL.createObjectURL(blobStore);
+            var link = document.createElement('a');
+            document.body.appendChild(link);
+            link.href = data;
 
-
+            if (!descargar) {
+                setURLRuta(link.href);
+                setVerSpei(true);
+                setslideropen(false);
+            }
+            if (descargar) {
+                link.download = name;
+                link.click();
+                window.URL.revokeObjectURL(data);
+                link.remove();
+                setslideropen(false);
+            }
         }
 
     }
@@ -190,7 +195,7 @@ const SpeisAdmin = ({
                 || event.target!.files[0]!.name.slice(-4).toUpperCase() === "XML"
             ))
             && (event.target!.files[0]!.name === (vrows.row.a3 + ".pdf")
-                 || modo === "CFDI"
+                || modo === "CFDI"
             )) {
 
 
@@ -227,7 +232,7 @@ const SpeisAdmin = ({
                                 if (result.isDenied) {
                                 }
                             });
-                        }else {
+                        } else {
 
                             setNameSpei(event.target!.files[0]!.name);
                             setSpeiFile(file);
@@ -279,10 +284,10 @@ const SpeisAdmin = ({
             setFileValid(false);
             AlertS.fire({
                 title: "Atención",
-                text: 
-                    event.target!.files[0]!.name.slice(-3).toUpperCase() !== "PDF" && modo==="SPEI" ?
-                    "Archivo invalido. Solo Extenciones PDF"
-                      :    "Nombre incorrecto",
+                text:
+                    event.target!.files[0]!.name.slice(-3).toUpperCase() !== "PDF" && modo === "SPEI" ?
+                        "Archivo invalido. Solo Extenciones PDF"
+                        : "Nombre incorrecto",
                 icon: "info",
             });
             setslideropen(false)
@@ -312,8 +317,9 @@ const SpeisAdmin = ({
 
     const handleDescargarSpei = (v: any) => {
         setslideropen(true);
-        getfile(v.row.Nombre, v.row.Route, true);
         setslideropen(false);
+        getfile(v.row.Nombre, v.row.Route, true);
+
 
     };
     const handleDeleteSpei = (data: any) => {
@@ -418,6 +424,7 @@ const SpeisAdmin = ({
                     title: "Consulta Exitosa!",
                 });
                 base64toPDF(String(res.RESPONSE.RESPONSE.FILE), String(res.RESPONSE.RESPONSE.TIPO), nameFile, descargar)
+                setslideropen(false);
 
 
             } else {

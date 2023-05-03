@@ -168,10 +168,13 @@ const CalendarC = () => {
         >
           <Button
             onClick={onClickAgregarEvento}
-            variant="contained"
-            startIcon={<AddIcon sx={{ color:"white" }} />}
+            className="ButtonColorGenerico"
+            // variant="contained"
+            startIcon={<AddIcon className="IconoStartIcon" />}
           >
-           <Typography sx={{ color:"white" }} > Agregar Evento </Typography>
+
+
+           <Typography variant="h5" className="TextoDentroButton" > Agregar Evento </Typography>
           </Button>
         </Grid>
       </Grid>

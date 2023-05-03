@@ -1890,9 +1890,10 @@ const Participaciones = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
           <Button
+          // className="enviar"
             onClick={handleClick}
             variant="contained"
-            color="success"
+            color="primary"
             endIcon={<SendIcon sx={{ color: "white" }} />}
           >
             <Typography sx={{ color: "white" }}> Buscar </Typography>
@@ -2248,6 +2249,7 @@ const Participaciones = () => {
           rows={data} controlInterno={""} 
           multiselect={true}/>
         </Grid>
+
 
 
       </Grid>
