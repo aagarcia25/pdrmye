@@ -332,7 +332,7 @@ const CalendarCModal = ({
                 color="error"
                 sx={{ mr: 5 }}
                 onClick={() => handleDelete()}
-                startIcon={<DeleteIcon />}
+ 
               >
                 Borrar
               </Button>
@@ -341,7 +341,6 @@ const CalendarCModal = ({
                 color="success"
                 sx={{ mr: 5 }}
                 onClick={() => handleSend()}
-                startIcon={<EventAvailableIcon />}
               >
                 Guardar
               </Button>
@@ -439,7 +438,6 @@ const CalendarCModal = ({
                 color="success"
                 sx={{ mr: 5 }}
                 onClick={() => handleSend()}
-                startIcon={<EventAvailableIcon />}
               >
                 Guardar
               </Button>

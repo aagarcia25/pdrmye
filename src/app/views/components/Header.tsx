@@ -29,6 +29,9 @@ import { styled } from '@mui/material/styles';
 import SpeedDial from '@mui/material/SpeedDial';
 import HomeIcon from '@mui/icons-material/Home';
 import { useState } from "react";
+import { Blanco } from "../../styles/imagen";
+import menuBurger from "../../../app/assets/img/menuBurger.svg";
+
 interface HeaderProps {
   onDrawerToggle: () => void;
   name: string;
@@ -39,7 +42,7 @@ interface HeaderProps {
 
 export default function Header(props: HeaderProps) {
   const btnPerson = "120%";
-  const btnAll = "130%";
+  // const btnAll = "130%";
   const [openSlider, setOpenSlider] = React.useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [responseStorage, setResponseStorage] = useState<RESPONSESTORAGE>(JSON.parse(String(getPerfilFoto())));
@@ -47,7 +50,7 @@ export default function Header(props: HeaderProps) {
   const [cnotif, setCnotif] = React.useState(0);
   const [rutaFoto, setRutaFoto] = React.useState("");
 
-  
+
   const { onDrawerToggle } = props;
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -90,48 +93,49 @@ export default function Header(props: HeaderProps) {
   const handleCloseDial = () => setOpenDial(false);
   const actions = [
     {
-      icon: <> 
-      <Tooltip title="Haz click para ver más">
-        <IconButton
-          ref={anchorRef}
-          id="composition-button"
-          aria-controls={open ? "composition-menu" : undefined}
-          aria-expanded={open ? "true" : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
-          color="inherit"
-          sx={{
-            width: "2.9rem",
-            height: "2.9rem",
-            fontSize: btnPerson,
-            p: 0.1,
-            border: 2,
-            borderColor: COLOR.azul,
-            backgroundColor: user?.RutaFoto !==null ? COLOR.blanco : COLOR.azul,
-            "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+      icon: <>
+        <Tooltip title="Haz click para ver más">
+          <IconButton
+            // className="ButtonColorGenerico"
+            ref={anchorRef}
+            id="composition-button"
+            aria-controls={open ? "composition-menu" : undefined}
+            aria-expanded={open ? "true" : undefined}
+            aria-haspopup="true"
+            onClick={handleToggle}
+            color="inherit"
+            sx={{
+              width: "2.9rem",
+              height: "2.9rem",
+              fontSize: btnPerson,
+              p: 0.1,
 
-          }}
-        >
-          {user.RutaFoto !== null ? (
-              <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
-              src={"data:"+props.imgTipo+";base64," +props.imgData}
-            />
-          ) : (
-            <PersonIcon sx={{
-              width: "100%", height: "100%",
-              color:COLOR.blanco,
-              "&:hover": { color: COLOR.negro }
-            }} />
-          )}
-        </IconButton>
+              backgroundColor: user?.RutaFoto !== null ? COLOR.blanco : COLOR.azul,
+              "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+
+            }}
+          >
+            {user.RutaFoto !== null ? (
+              <img style={{ objectFit: "scale-down", width: "100%", height: "100%" }}
+                // src={"data:"+props.imgTipo+";base64," +props.imgData}
+                src={"data:" + String(props.imgTipo === "undefined" ? Blanco.Tipo : props.imgTipo) + ";base64," + String(props.imgData === "undefined" ? Blanco.Data : props.imgData)}
+              />
+            ) : (
+              <PersonIcon sx={{
+                width: "100%", height: "100%",
+                color: COLOR.blanco,
+                "&:hover": { color: COLOR.negro }
+              }} />
+            )}
+          </IconButton>
 
 
-      </Tooltip>
+        </Tooltip>
         <Popper
           open={open}
           role={undefined}
           placement="bottom-start"
-          anchorEl={anchorRef.current}
+          // anchorEl={anchorRef.current}
           transition
           disablePortal
         >
@@ -170,24 +174,16 @@ export default function Header(props: HeaderProps) {
     },
     {
       icon: <> <IconButton
-        color="inherit"
+        className="ButtonColorGenerico"
         sx={{
           mt: 0.1,
-          backgroundColor: COLOR.azul,
+          backgroundColor: COLOR.blanco,
           "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
         }}
         onClick={onOpenCalendar}
       >
-        <CalendarMonthIcon
-          sx={{
-            fontSize: btnAll,
-            color: COLOR.blanco,
-            "&:hover": {
-              color: COLOR.azul,
-            },
-          }}
-        />
-      </IconButton>   </>, name: 'Calendario'
+        <CalendarMonthIcon className="IconoDentroBoton" />
+      </IconButton >   </>, name: 'Calendario'
     },
     {
       icon: <>
@@ -201,25 +197,11 @@ export default function Header(props: HeaderProps) {
             color="primary"
           >
             <IconButton
-              color="inherit"
-              sx={{
-                mt: 0.1,
-                color:COLOR.blanco,
-                backgroundColor: COLOR.azul,
-                "&:hover": {
-                  backgroundColor: COLOR.grisTarjetaBienvenido,
-                },
-              }}
+              className="ButtonColorGenerico"
               onClick={onNotification}
             >
               <NotificationsNoneIcon
-                sx={{
-                  color: COLOR.blanco,
-                  fontSize: btnAll,
-                  "&:hover": {
-                    color: COLOR.azul,
-                  },
-                }}
+                className="IconoDentroBoton"
               />
             </IconButton>
           </Badge>
@@ -229,22 +211,11 @@ export default function Header(props: HeaderProps) {
     {
       icon: <>   <Tooltip title="Guía Rapida">
         <IconButton
-          color="inherit"
-          sx={{
-
-            backgroundColor: COLOR.azul,
-            "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-          }}
+          className="ButtonColorGenerico"
           onClick={onOpenHelp}
         >
           <HelpIcon
-            sx={{
-              fontSize: btnAll,
-              color: COLOR.blanco,
-              "&:hover": {
-                color: COLOR.azul,
-              },
-            }}
+            className="IconoDentroBoton"
           />
         </IconButton>
       </Tooltip>  </>, name: 'Guía'
@@ -318,15 +289,16 @@ export default function Header(props: HeaderProps) {
     CHUSER: user?.id ? user?.id : "",
   };
   React.useEffect(() => {
-
-      // setResponseStorage(JSON.parse(String(getPerfilFoto())))
+    // console.log(props.imgTipo)
+    // console.log(props.imgData)
+    // setResponseStorage(JSON.parse(String(getPerfilFoto())))
   });
 
   React.useEffect(() => {
- 
+
     // setResponseStorage(JSON.parse(String(getPerfilFoto())))
     setRutaFoto(String(user?.RutaFoto))
-    
+
     CatalogosServices.Notificaciones(data).then((res) => {
       let result = res.RESPONSE;
       setCnotif(result[0].count);
@@ -349,18 +321,25 @@ export default function Header(props: HeaderProps) {
         <Grid container item xs={12} md={12} spacing={2} alignItems="center" justifyContent="space-between" sx={{ padding: "0", margin: "0" }} >
 
 
-          <Grid  container item xs={6}  sm={2} md={1.2} justifyContent="center" alignItems="center" alignContent="center" >
+          <Grid container item xs={6} sm={2} md={1.2} justifyContent="center" alignItems="center" alignContent="center" >
             <Tooltip title="Menú">
-              <Button sx={{ width: "100%", height: "100%", }} className="menu" color="inherit" variant="outlined" onClick={() => onDrawerToggle()}>
-                {/* <IconButton className="menu" color="inherit" onClick={() => onDrawerToggle()} */}
-                  {/* sx={{ width: "100%", height: "100%", }}> */}
-                  <MenuIcon />
-                {/* </IconButton> */}
-              </Button>
+              {/* <Button className="menu" onClick={() => onDrawerToggle()}> */}
+  
+                {/* <MenuIcon className="IconoDentroBoton" /> */}
+                
+                <div className="Grid-MenuButton-Header">
+                     <img className="img-MenuButton-Header"
+                     onClick={() => onDrawerToggle()}
+                     src={menuBurger}
+                            
+                            />
+                  </div>
+           
+              {/* </Button> */}
             </Tooltip>
           </Grid>
 
-          <Grid container item   xs={6} sm={10.} direction="row" justifyContent="flex-end" alignItems="center" >
+          <Grid container item xs={6} sm={10.} direction="row" justifyContent="flex-end" alignItems="center" >
 
             <Grid item container xs={6} sm={11}
               sx={{ bgcolor: "rgb(25,245,245)" }}
@@ -374,9 +353,9 @@ export default function Header(props: HeaderProps) {
 
                   <StyledSpeedDial
                     ariaLabel="SpeedDial tooltip example"
-                    sx={{  top: "1%", bottom: 1, right: "10%" }}
+                    sx={{ top: "1%", bottom: 1, right: "10%" }}
                     icon={
-                      <IconButton className="menuHome" color="default"
+                      <IconButton className="menuHome"
                         sx={{ width: "100%", height: "100%", }}>
                         <HomeIcon />
                       </IconButton>}
@@ -401,11 +380,11 @@ export default function Header(props: HeaderProps) {
 
             <Hidden smDown >
 
-              <Grid container item  direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={5} md={8} xl={9} >
+              <Grid container item direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={5} md={8} xl={9} >
 
-                <Grid 
-                // sx={{bgcolor:"rgb(45,45,42)"}} 
-                container direction="row" justifyContent="flex-end" alignItems="center">
+                <Grid
+                  // sx={{bgcolor:"rgb(45,45,42)"}} 
+                  container direction="row" justifyContent="flex-end" alignItems="center">
                   <Typography variant="subtitle1" color="black">
                     {props.name}
                   </Typography>
@@ -435,51 +414,54 @@ export default function Header(props: HeaderProps) {
             <Grid item xs={12} sm={5} md={3.5} lg={2.4} xl={1.9} >
               <Grid container item xs={12} direction="row" justifyContent="space-evenly" alignItems="center"  >
                 <Hidden smDown>
-                  <Tooltip title="Haz click para ver más">
-                    <IconButton
-                      ref={anchorRef}
-                      id="composition-button"
-                      aria-controls={open ? "composition-menu" : undefined}
-                      aria-expanded={open ? "true" : undefined}
-                      aria-haspopup="true"
-                      onClick={handleToggle}
-                      color="inherit"
-                      sx={{
-                        width: "2.9rem",
-                        height: "2.9rem",
-                        fontSize: btnPerson,
-                        p: 0.1,
-                        border: 2,
-                        borderColor: COLOR.azul,
-                        backgroundColor: user?.RutaFoto ? COLOR.blanco : COLOR.azul,
-                        "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+                  <div className="containerBotonesHeader">
+                    <Tooltip title="Haz click para ver más">
+                      <IconButton
+                        className="ButtonColorGenericoHeaderProfile"
+                        ref={anchorRef}
+                        id="composition-button"
+                        aria-controls={open ? "composition-menu" : undefined}
+                        aria-expanded={open ? "true" : undefined}
+                        aria-haspopup="true"
+                        onClick={handleToggle}
+                        color="inherit"
+                        sx={{
+                          width: "2.9rem",
+                          height: "2.9rem",
+                          fontSize: btnPerson,
+                          p: 0.1,
+                          border: 2,
+                          borderColor: COLOR.doradoNL,
+                          backgroundColor: user?.RutaFoto ? COLOR.blanco : COLOR.azul,
+                          "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
 
-                      }}
-                    >
-                      {user.RutaFoto !== null ? (
-                        <>
-                             <img
-                          style={{
-                            objectFit: "scale-down",
-                            width: "100%",
-                            height: "100%",
-                            borderRadius: '50%',
-                          }}
-                          src={"data:"+props.imgTipo+";base64," +props.imgData}
-                        />
+                        }}
+                      >
+                        {user.RutaFoto !== null ? (
+                          <>
+                            <img
+                              style={{
+                                objectFit: "scale-down",
+                                width: "100%",
+                                height: "100%",
+                                // borderRadius: '50%',
+                              }}
+                              src={"data:" + String(props.imgData === "undefined" ? Blanco.Tipo : props.imgTipo) + ";base64," +
+                                String(props.imgData === "undefined" ? Blanco.Data : props.imgData)}
+                            />
                             {/* <ProfilePhoto/> */}
-                        </>
-                   
-                      ) : (
-                        <PersonIcon sx={{
-                          width: "100%", height: "100%",
-                          "&:hover": { color: COLOR.negro }
-                        }} />
-                      )}
-                    </IconButton>
+                          </>
 
+                        ) : (
+                          <PersonIcon sx={{
+                            width: "100%", height: "100%",
+                            "&:hover": { color: COLOR.negro }
+                          }} />
+                        )}
+                      </IconButton>
 
-                  </Tooltip>
+                    </Tooltip>
+                  </div>
                   <Popper
                     open={open}
                     role={undefined}
@@ -520,10 +502,12 @@ export default function Header(props: HeaderProps) {
                       </Grow>
                     )}
                   </Popper>
-                </Hidden>
-                <Hidden smDown>
+
+
+
                   <Tooltip title="Bandeja de correo">
                     <Badge
+                      className="ButtonColorGenericoHeader"
                       anchorOrigin={{
                         vertical: "bottom",
                         horizontal: "left",
@@ -531,75 +515,37 @@ export default function Header(props: HeaderProps) {
                       badgeContent={cnotif}
                       color="primary"
                     >
-                      <IconButton
-                        color="inherit"
-                        sx={{
-                          mt: 0.1,
-                          backgroundColor: COLOR.azul,
-                          "&:hover": {
-                            backgroundColor: COLOR.grisTarjetaBienvenido,
-                          },
-                        }}
-                        onClick={onNotification}
-                      >
-                        <NotificationsNoneIcon
-                          sx={{
-                            color: COLOR.blanco,
-                            fontSize: btnAll,
-                            "&:hover": {
-                              color: COLOR.azul,
-                            },
-                          }}
-                        />
-                      </IconButton>
+                      <div className="containerBotonesHeader">
+                        <IconButton
+                          className="ButtonColorGenericoHeader"
+                          onClick={onNotification} >
+                          <NotificationsNoneIcon className="IconoDentroBoton" />
+                        </IconButton>         </div>
                     </Badge>
                   </Tooltip>
-                </Hidden>
-                <Hidden smDown>
-                  <Tooltip title="Calendario">
-                    <IconButton
-                      color="inherit"
-                      sx={{
-                        mt: 0.1,
-                        backgroundColor: COLOR.azul,
-                        "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-                      }}
-                      onClick={onOpenCalendar}
-                    >
-                      <CalendarMonthIcon
-                        sx={{
-                          fontSize: btnAll,
-                          color: COLOR.blanco,
-                          "&:hover": {
-                            color: COLOR.azul,
-                          },
-                        }}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                </Hidden>
-                <Hidden smDown>
-                  <Tooltip title="Guía Rapida">
-                    <IconButton
-                      color="inherit"
-                      sx={{
-                        mt: 0.1,
-                        backgroundColor: COLOR.azul,
-                        "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-                      }}
-                      onClick={onOpenHelp}
-                    >
-                      <HelpIcon
-                        sx={{
-                          fontSize: btnAll,
-                          color: COLOR.blanco,
-                          "&:hover": {
-                            color: COLOR.azul,
-                          },
-                        }}
-                      />
-                    </IconButton>
-                  </Tooltip>
+
+                  <div className="containerBotonesHeader">
+
+                    <Tooltip title="Calendario">
+                      <IconButton
+                        className="ButtonColorGenericoHeader"
+
+                        onClick={onOpenCalendar}
+                      >
+                        <CalendarMonthIcon className="IconoDentroBoton" />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                  <div className="containerBotonesHeader">
+
+                    <Tooltip title="Guía Rapida">
+                      <IconButton
+                        className="ButtonColorGenericoHeader" onClick={onOpenHelp} >
+                        <HelpIcon className="IconoDentroBoton" />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+
                 </Hidden>
               </Grid>
             </Grid>

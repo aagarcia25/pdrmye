@@ -87,7 +87,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                   (item?.items?.length !== 0) ?
 
                     <div key={indexx} >
-                      <ListItemButton sx={{ bgcolor: open === indexx ? 'rgba(117, 114, 114, 0.291)' : 'rgba(255, 255, 255, 0.291)' }} key={indexx} onClick={() => handleClick(indexx)} >
+                      <ListItemButton sx={{ bgcolor: open === indexx ? 'rgba(195, 165, 117)' : 'rgba(255, 255, 255, 0.291)' }} key={indexx} onClick={() => handleClick(indexx)} >
                         <ListItemIcon>
                           {/* <SendIcon /> */}
                         </ListItemIcon>

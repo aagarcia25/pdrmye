@@ -33,7 +33,7 @@ const ModalForm = ({ children, title, handleClose }: Props) => {
             <Grid container alignItems="flex-end" direction="row"   justifyContent="flex-end" paddingRight={1} >
               <Button className="cerrar"  variant="outlined" onClick={() => handleClose()} >
                 <Tooltip title="Salir">
-                  <IconButton aria-label="close" color="primary" onClick={() => handleClose()}>
+                  <IconButton aria-label="close"  onClick={() => handleClose()}>
                     <CloseIcon />
                   </IconButton>
                 </Tooltip>
