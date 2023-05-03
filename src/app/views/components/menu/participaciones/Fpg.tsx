@@ -264,6 +264,7 @@ export const Fpg = () => {
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
+      color: 'rgb(175, 140, 85)',
     }).then((result) => {
       if (result.isConfirmed) {
         calculosServices.BorraCalculo(data).then((res) => {
