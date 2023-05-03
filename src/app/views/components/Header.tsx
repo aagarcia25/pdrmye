@@ -444,7 +444,7 @@ export default function Header(props: HeaderProps) {
                                 objectFit: "scale-down",
                                 width: "100%",
                                 height: "100%",
-                                // borderRadius: '50%',
+                         
                               }}
                               src={"data:" + String(props.imgData === "undefined" ? Blanco.Tipo : props.imgTipo) + ";base64," +
                                 String(props.imgData === "undefined" ? Blanco.Data : props.imgData)}
