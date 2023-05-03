@@ -107,7 +107,7 @@ export default function Header(props: HeaderProps) {
             p: 0.1,
             border: 2,
             borderColor: COLOR.azul,
-            backgroundColor: user?.RutaFoto ? COLOR.blanco : COLOR.azul,
+            backgroundColor: user?.RutaFoto !==null ? COLOR.blanco : COLOR.azul,
             "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
 
           }}
@@ -119,6 +119,7 @@ export default function Header(props: HeaderProps) {
           ) : (
             <PersonIcon sx={{
               width: "100%", height: "100%",
+              color:COLOR.blanco,
               "&:hover": { color: COLOR.negro }
             }} />
           )}
@@ -153,7 +154,7 @@ export default function Header(props: HeaderProps) {
                     onKeyDown={handleListKeyDown}
                   >
                     <MenuItem onClick={onConfigProfile}>
-                      <ManageAccountsIcon sx={{ color: COLOR.azul }} />
+                      <ManageAccountsIcon sx={{ color: COLOR.blanco }} />
                       Configuración de perfil
                     </MenuItem>
                     <MenuItem onClick={onLogOut}>
@@ -203,6 +204,7 @@ export default function Header(props: HeaderProps) {
               color="inherit"
               sx={{
                 mt: 0.1,
+                color:COLOR.blanco,
                 backgroundColor: COLOR.azul,
                 "&:hover": {
                   backgroundColor: COLOR.grisTarjetaBienvenido,
@@ -321,7 +323,7 @@ export default function Header(props: HeaderProps) {
   });
 
   React.useEffect(() => {
-
+ 
     // setResponseStorage(JSON.parse(String(getPerfilFoto())))
     setRutaFoto(String(user?.RutaFoto))
     
@@ -454,7 +456,7 @@ export default function Header(props: HeaderProps) {
 
                       }}
                     >
-                      {rutaFoto !== null ? (
+                      {user.RutaFoto !== null ? (
                         <>
                              <img
                           style={{

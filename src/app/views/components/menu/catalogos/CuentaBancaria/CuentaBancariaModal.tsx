@@ -153,21 +153,16 @@ export const CuentaBancariaModal = ({
       formData.append("CLABEBANCARIA", (clabeBancaria));
       formData.append("COMENTARIOS", comentarios);
       formData.append("IDMUNICIPIO", user.MUNICIPIO[0]?.id);
-      // console.log("CLABEBANCARIA: " + formData.get("CLABEBANCARIA") + " : " + Codificador.decoded(String(formData.get("CLABEBANCARIA"))));
 
       CatalogosServices.CuentaBancaria(formData).then((res) => {
         setslideropen(false);
-        // console.log(Codificador.decoded("w+1ABCXTVl2cqcF3yK6YEg=="));
-        //console.log("res en service", res);
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
             title: "Carga Exitosa!",
           });
-          // handleClose();
         } else {
           setslideropen(false);
-          //console.log("res en Sí res.SUCCESS no tiene nada", res);
           Swal.fire("Verifique los campos", "¡Error!", "warning");
         }
       });
@@ -181,7 +176,7 @@ export const CuentaBancariaModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "¡Registro Editado!",
         });
       } else {
         AlertS.fire({
@@ -193,22 +188,7 @@ export const CuentaBancariaModal = ({
     });
   };
 
-  // function enCambioFile(event: any) {
-  //   setUploadFile(URL.createObjectURL(event.target.files[0]));
-  //   setNombreArchivo(event.target.value.split("\\")[2]);
-  //   let file = event.target!.files[0]!;
-  //   setTipoArchivo((event.target.value.split(".")[1]))
-  //   setFile(file);
-  //   {
-  //     nombreArchivo === null
-  //       ? setDisabledButton(true)
-  //       : setDisabledButton(false);
-  //   }
-  // }
 
-
-
-  /// archivo de carta
 
   const handleNumCuenta = (v: string) => {
     setNumeroCuenta(v);
@@ -418,8 +398,8 @@ export const CuentaBancariaModal = ({
                       || !DocSubido
                       || !DocSubidoCarta
                       || !nombreCuenta
-                      ||idBancos===""
-                      ||idBancos==="false"
+                      || idBancos === ""
+                      || idBancos === "false"
 
                     }
 
@@ -459,26 +439,27 @@ export const CuentaBancariaModal = ({
               <label><h2>Numero de Cuenta: </h2>   <h4>{" " + dt?.row?.NumeroCuenta}</h4></label>
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-              <label><h2>Clave bancaria:</h2><h4>{" " + dt?.row?.ClabeBancaria}</h4></label>
+              <label><h2>Clave Bancaria:</h2><h4>{" " + dt?.row?.ClabeBancaria}</h4></label>
             </Grid>
           </Grid>
 
           <Grid container>
 
             <Grid item xs={12} sm={6} md={6} lg={6}>
-
-              <Box>
-                <iframe
-                  id="inlineFrameExample"
-                  title="Inline Frame Example"
-                  width="100%"
-                  height="700"
-                  src={urlDoc}
-                />
-              </Box>
+            
+                <Box>  {urlDoc !=="null" ?
+                  <iframe
+                    id="inlineFrameExample"
+                    title="Inline Frame Example"
+                    width="100%"
+                    height="700"
+                    src={urlDoc}
+                  />: ""}
+                </Box>
+                
               <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
                 <label >
-                  {dt?.row?.NombreDocumento}
+                  {dt?.row?.NombreDocumento !=="null" ? dt?.row?.NombreDocumento : ""}
                 </label>
 
               </Box>
@@ -487,17 +468,18 @@ export const CuentaBancariaModal = ({
             <Grid item xs={12} sm={6} md={6} lg={6}>
 
               <Box>
+              {urlDocCarta !== null ?
                 <iframe
                   id="inlineFrameExample"
                   title="Inline Frame Example"
                   width="100%"
                   height="700"
                   src={urlDocCarta}
-                />
+                />: ""}
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
                 <label >
-                  {dt?.row?.NombreCarta}
+                {dt?.row?.NombreCarta? dt?.row?.NombreCarta : ""}
                 </label>
               </Box>
             </Grid>

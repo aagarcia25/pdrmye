@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
     Box,
+    Button,
     Grid,
 } from "@mui/material";
 import { AlertS } from "../../../helpers/AlertS";
@@ -92,12 +93,12 @@ const ComentarioModal = ({
 
                     <Grid item xs={6} sm={6} md={4} lg={3} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                         <Box >
-                            <button className="guardar" onClick={() => validacion("autorizar")}>Autorizar Solicitud</button>
+                            <Button className="guardar" onClick={() => validacion("autorizar")}>Autorizar Solicitud</Button>
                         </Box>
                     </Grid>
                     <Grid item xs={6} sm={6} md={4} lg={3} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                         <Box>
-                            <button className="regresar" onClick={() => validacion("cancelar")}> Cancelar Solicitud</button>
+                            <Button className="regresar" onClick={() => validacion("cancelar")}> Cancelar Solicitud</Button>
                         </Box>
                     </Grid>
                 </Grid>

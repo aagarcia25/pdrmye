@@ -67,7 +67,7 @@ export const CuentaBancaria = ({
             if (res.SUCCESS) {
               Toast.fire({
                 icon: "success",
-                title: "Registro Eliminado!",
+                title: "¡Registro Eliminado!",
               });
 
               consulta();
@@ -98,7 +98,7 @@ export const CuentaBancaria = ({
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "Registro Enviado a Validación!",
+            title: "¡Registro Enviado a Validación!",
           });
 
           consulta();

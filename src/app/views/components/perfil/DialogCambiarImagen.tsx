@@ -14,8 +14,8 @@ export function DialogCambiarImagen({
 }: {
     open: boolean;
     handleClose: Function;
-    imgData:string;
-    imgTipo:string;
+    imgData: string;
+    imgTipo: string;
 }) {
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [uploadFile, setUploadFile] = useState("");
@@ -32,7 +32,7 @@ export function DialogCambiarImagen({
 
     const SaveImagen = () => {
         const formData = new FormData();
-        
+
         formData.append("TIPO", "/FOTOPERFIL/");
         formData.append("IMAGEN", newImage, nombreArchivo);
         formData.append("CHUSER", user.id);
@@ -65,7 +65,7 @@ export function DialogCambiarImagen({
 
     };
     function enCambioFile(event: any) {
-        if (event?.target?.files[0]&&event.target.files[0].type.split("/")[0] === "image") {
+        if (event?.target?.files[0] && event.target.files[0].type.split("/")[0] === "image") {
             setUploadFile(URL.createObjectURL(event?.target?.files[0]));
             setNombreArchivo(event?.target?.value?.split("\\")[2]);
             let file = event?.target!?.files[0]!;
@@ -77,7 +77,7 @@ export function DialogCambiarImagen({
                     : setDisabledButton(false);
             }
         }
-        else{
+        else {
 
             Swal.fire("¡No es una imagen!", "", "warning");
         }
@@ -92,8 +92,8 @@ export function DialogCambiarImagen({
             open={open}
             sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
 
-        >    
-        {/* <profilePhoto/> */}
+        >
+            {/* <profilePhoto/> */}
             <DialogTitle >
                 Cambiar Imagen
             </DialogTitle>
@@ -108,25 +108,35 @@ export function DialogCambiarImagen({
                             type="file"
                             style={{ zIndex: 2, opacity: 0, width: '100%', height: '100%', position: "absolute", cursor: "pointer", }} />
                         {disabledButton ?
-                            user.RutaFoto === "" ? <AddPhotoAlternateIcon sx={{ width: "90%", height: "90%" }} />
-                                : 
+                            user.RutaFoto === "undefined" ? <AddPhotoAlternateIcon sx={{ width: "90%", height: "90%" }} />
+                                :
                                 <>
-                            {/* <ProfilePhoto/> */}
-                                
-                               
-                                  <img style={{ objectFit: "scale-down", width: "100%", height: "100%", }}
-                                 src={"data:"+imgTipo+";base64," + imgData}/> 
-                            
-                            </>
+                                    {/* <ProfilePhoto/> */}
+
+                                    {
+                                        imgTipo !== "undefined" && imgData !== "undefined" ?
+                                            <img style={{ objectFit: "scale-down", width: "100%", height: "100%", }}
+                                                //   {imgTipo}
+                                                src={"data:" + imgTipo + ";base64," + imgData} />
+                                            :
+                                            // ""
+                                            <AddPhotoAlternateIcon sx={{ width: "90%", height: "90%" }} />
+                                    }
+
+
+                                </>
                             :
-                            <img src={uploadFile} style={{ objectFit: "scale-down", width: '100%',height: "100%", }} />
+                            <>
+                                {/* {imgTipo !== "undefined" && imgData !== "undefined" ? */}
+                                    <img src={uploadFile} style={{ objectFit: "scale-down", width: '100%', height: "100%", }} />
+                            </>
                         }
                     </div>
 
 
 
                 </Grid>
-                <Box sx={{ width: "100%", height: "8vh", display: "flex", justifyContent: "center", alignItems: "center",textAlign:"justify" }}>
+                <Box sx={{ width: "100%", height: "8vh", display: "flex", justifyContent: "center", alignItems: "center", textAlign: "justify" }}>
                     {nombreArchivo === "" ?
                         <Typography sx={{ textAlign: "center" }}>Arrastre la nueva imagen o presione el icono para seleccionar archivo</Typography> :
                         <Typography>Nombre del archivo: {nombreArchivo}</Typography>

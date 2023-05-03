@@ -166,7 +166,7 @@ const MunFacturacionModal = ({
               </Box>
 
               <Box>
-                <label > Facturacion <br /></label>
+                <label > <br />Facturación <br /></label>
               </Box>
 
               <TextField

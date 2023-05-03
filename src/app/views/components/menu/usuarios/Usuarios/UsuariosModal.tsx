@@ -43,6 +43,16 @@ const UsuariosModal = ({
 
   const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
   const [idDepartamento, setIdDepartamento] = useState<string>("");
+  const [idLabelDepartamentoNoAdmin, setLabelDepartamentoNoAdmin] = useState<string>("");
+  const [idLabelPerfilNoAdmin, setLabelPerfilNoAdmin] = useState<string>("");
+
+
+  ////////////////// Filtros
+  const [roles, setRoles] = useState<SelectValues[]>([]);
+  const [idRol, setIdRol] = useState<string>("");
+  const [idLabelRol, setIdLabelRol] = useState<string>("");
+
+
   const [nameDep, setNameDep] = useState<string>("");
   const [uresp, setUresp] = useState<SelectValues[]>([]);
   const [idUresp, setIdUresp] = useState<string>("");
@@ -80,22 +90,29 @@ const UsuariosModal = ({
     { accion: 'MODIFICACION', TipoSol: 'MODIFICACION', Mensaje: '¡Envio de Solicitud de Modificación Exitoso!', mensajeBoton: "Solicitar Editar Registro", mensajeModal: "Editar Registro", classNameCSS: "editar" },
     { accion: 'VINCULACION', TipoSol: 'VINCULACION', Mensaje: '¡Envio de Solicitud de Vinculación Exitoso!', mensajeBoton: "Solicitar Vinculacion Registro", mensajeModal: "Vinculacion Registro", classNameCSS: "" }
   ]
-
+  const tipoDepartamento = [
+    { dep: 'DAMOP', idSelectDepartamento: "6d8fefa8-50c1-11ed-ab6c-040300000000", labelDepartamento: "MUN", idSelectPerfil: "41bfc83a-4fd4-11ed-ab6c-040300000000", labelPerfil: "Municipio", idRol: "de8ab454-7269-11ed-a880-040300000000", LabelRol: "Municipio" },
+    { dep: 'DAMOP_ORG', idSelectDepartamento: "f99fe513-516d-11ed-ab6c-040300000000", labelDepartamento: "ORG", idSelectPerfil: "4991ba04-4fd4-11ed-ab6c-040300000000", labelPerfil: "Organismo", idRol: "11aa824f-95cc-11ed-a912-705a0f328da6", LabelRol: "Organismo" },
+    { dep: 'DTI', idSelectDepartamento: "none", labelDepartamento: "", idSelectPerfil: "none", labelPerfil: "", idRol: "", LabelRol: "" },]
 
   const loadFilter = (tipo: number) => {
     let data = { NUMOPERACION: tipo };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (tipo === 7) {
         setDepartamentos(res.RESPONSE);
-        setOpenSlider(false);
       } else if (tipo === 9) {
         setPerfiles(res.RESPONSE);
-        setOpenSlider(false);
       } else if (tipo === 26) {
+        setOpenSlider(false);
         setUresp(res.RESPONSE);
+      } else if (tipo === 13) {
+        setRoles(res.RESPONSE);
         setOpenSlider(false);
       }
     });
+    setOpenSlider(false);
+
+
   };
   const handleFilterChange = (v: any) => {
     setIdDepartamento(v.value);
@@ -110,6 +127,10 @@ const UsuariosModal = ({
   const handleFilterChangeures = (v: any) => {
     setIdUresp(v.value);
     setNameUresp(v.label);
+  };
+
+  const handleChangeSelectRoles = (v: any) => {
+    setIdRol(v.value);
   };
 
   const Validator = (v: string, tipo: string) => {
@@ -384,6 +405,7 @@ const UsuariosModal = ({
                       IDPERFIL: idPerfil,
                       IDSOLICITUD: resSol.data.data[0][0].IdSolicitud,
                       IDURESP: idUresp,
+                      IDROL:idRol,
                       USUARIOSIREGOB: usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob,
                       USUARIO: NombreUsuario,
                     };
@@ -441,7 +463,6 @@ const UsuariosModal = ({
   };
 
   useEffect(() => {
-
     UserServices.verify({}).then((resAppLogin) => {
 
       resAppLogin.status === 200 ? setTokenValid(true) : setTokenValid(false);
@@ -455,6 +476,8 @@ const UsuariosModal = ({
         setDisableBaja(true);
 
       }
+
+
       setIdRegistro(dt?.id);
       setNombre(dt?.Nombre);
       setApellidoPaterno(dt?.ApellidoPaterno);
@@ -479,10 +502,27 @@ const UsuariosModal = ({
 
     }
 
-    loadFilter(7);
-    loadFilter(9);
+
     loadFilter(26);
+
+    if (user?.PERFILES[0]?.Referencia !== "ADMIN") {
+      setIdDepartamento(String(tipoDepartamento.find(({ dep }) => dep === user?.DEPARTAMENTOS[0].NombreCorto)?.idSelectDepartamento));
+      setIdPerfil(String(tipoDepartamento.find(({ dep }) => dep === user?.DEPARTAMENTOS[0].NombreCorto)?.idSelectPerfil));
+      setusuariosiregob("NA");
+      setLabelDepartamentoNoAdmin(String(tipoDepartamento.find(({ dep }) => dep === user?.DEPARTAMENTOS[0].NombreCorto)?.labelDepartamento));
+      setLabelPerfilNoAdmin(String(tipoDepartamento.find(({ dep }) => dep === user?.DEPARTAMENTOS[0].NombreCorto)?.labelPerfil));
+      setIdRol(String(tipoDepartamento.find(({ dep }) => dep === user?.DEPARTAMENTOS[0].NombreCorto)?.idRol));
+      setIdLabelRol(String(tipoDepartamento.find(({ dep }) => dep === user?.DEPARTAMENTOS[0].NombreCorto)?.LabelRol));
+    } else {
+      loadFilter(7);
+      loadFilter(9);
+      loadFilter(13);
+    }
   }, [dt]);
+
+  useEffect(() => {
+
+  }, [tipo]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     if (tipo === "MODIFICACION") {
@@ -650,26 +690,32 @@ const UsuariosModal = ({
                       disabled={disableBaja}
 
                     />
+                    {
+                      user?.PERFILES[0]?.Referencia === "ADMIN" ?
+                        <TextField
+                          margin="dense"
+                          id="usuariosiregob"
+                          label="Usuario SIREGOB"
+                          value={usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob}
+                          type="text"
+                          fullWidth
+                          variant="standard"
+                          onChange={(v) => setusuariosiregob(v.target.value)}
+                          // error={usuariosiregob === null ? true : false}
+                          InputLabelProps={{ shrink: true }}
+                          inputProps={{
+                            maxLength: 20,
+                          }}
+                          disabled={disableBaja}
+                        />
+                        :
+                        ""
 
-                    <TextField
-                      margin="dense"
-                      id="usuariosiregob"
-                      label="Usuario SIREGOB"
-                      value={usuariosiregob === "Sin Usuario Asignado" ? "" : usuariosiregob}
-                      type="text"
-                      fullWidth
-                      variant="standard"
-                      onChange={(v) => setusuariosiregob(v.target.value)}
-                      // error={usuariosiregob === null ? true : false}
-                      InputLabelProps={{ shrink: true }}
-                      inputProps={{
-                        maxLength: 20,
-                      }}
-                      disabled={disableBaja}
-                    ></TextField>
+                    }
+
                   </Grid>
 
-                  <Grid item  xs={12}  md={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}>
+                  <Grid item xs={12} md={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}>
                     <TextField
                       required
                       margin="dense"
@@ -746,8 +792,8 @@ const UsuariosModal = ({
                           options={departamento}
                           onInputChange={handleFilterChange}
                           placeholder={"Seleccione Departamento"}
-                          label={""}
-                          disabled={false}
+                          label={idLabelDepartamentoNoAdmin ? idLabelDepartamentoNoAdmin : ""}
+                          disabled={user?.PERFILES[0]?.Referencia !== "ADMIN"}
                         />
                         <br />
                         <Typography variant="body2"> Perfil: </Typography>
@@ -756,19 +802,35 @@ const UsuariosModal = ({
                           options={perfiles}
                           onInputChange={handleFilterChangePerfil}
                           placeholder={"Seleccione Perfil"}
-                          label={""}
-                          disabled={false}
+                          label={idLabelPerfilNoAdmin ? idLabelPerfilNoAdmin : ""}
+                          disabled={user?.PERFILES[0]?.Referencia !== "ADMIN"}
                         />
                         <br />
-                        <Typography variant="body2"> U. Responsable: </Typography>
+                        <Typography variant="body2"> Rol: </Typography>
                         <SelectFragLogin
-                          value={idUresp}
-                          options={uresp}
-                          onInputChange={handleFilterChangeures}
-                          placeholder={"Seleccione U. Responsable"}
-                          label={""}
-                          disabled={false}
+                          value={idRol}
+                          options={roles}
+                          onInputChange={handleChangeSelectRoles}
+                          placeholder={"Seleccione Rol"}
+                          label={idLabelRol ? idLabelRol : ""}
+                          disabled={user?.PERFILES[0]?.Referencia !== "ADMIN"}
                         />
+                        <br />
+                        {user?.PERFILES[0]?.Referencia === "ADMIN" ?
+                          <>
+                            <Typography variant="body2"> U. Responsable: </Typography>
+                            <SelectFragLogin
+                              value={idUresp}
+                              options={uresp}
+                              onInputChange={handleFilterChangeures}
+                              placeholder={"Seleccione U. Responsable"}
+                              label={""}
+                              disabled={false}
+                            />
+                          </> : ""
+
+                        }
+
                       </>
                       :
                       ""
@@ -777,7 +839,7 @@ const UsuariosModal = ({
 
 
                   </Grid>
-                  <Grid xs={12} sm={12} md={12} lg={12} sx={{ paddingTop: "3%" }}>
+                  <Grid item xs={12} sm={12} md={12} lg={12} sx={{ paddingTop: "3%" }}>
                     <Box maxHeight={1 / 2} flexDirection="row">
                       {" "}
                     </Box>
@@ -787,6 +849,8 @@ const UsuariosModal = ({
 
                         <Button
                           disabled={
+                            idRol === undefined ||
+                            idRol === "" ||
                             Nombre === "" ||
                             ApellidoPaterno === "" ||
                             ApellidoMaterno === "" ||
@@ -794,11 +858,14 @@ const UsuariosModal = ({
                             CorreoElectronico === "" ||
                             emailValid === false ||
                             telValid === false ||
+                            celValid=== false||
                             telefono === "" ||
                             curp.length !== 18 ||
                             rfc.length !== 13 ||
                             idDepartamento === "" ||
+                            idDepartamento === undefined ||
                             idPerfil === "" ||
+                            idPerfil === undefined ||
                             celular === "" ||
                             puesto === ""
 
@@ -877,7 +944,7 @@ const UsuariosModal = ({
 
 
 
-                    <Grid xs={12} sm={12} md={12} lg={12} sx={{ paddingTop: "3%" }}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} sx={{ paddingTop: "3%" }}>
                       <Box maxHeight={1 / 2} flexDirection="row">
                         {" "}
                       </Box>

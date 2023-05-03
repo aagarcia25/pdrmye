@@ -135,23 +135,24 @@ function App() {
       const us: UserInfo = res2;
       setUser(us.RESPONSE);
 
-      if (String(us.RESPONSE) === "Primer Inicio") {
+      if (String(us.RESPONSE) === "PrimerInicio") {
         Swal.fire({
           icon: "info",
           title: 'Bienvenid@',
-          text: 'Su cuenta Se Confirmo Correctamente; Contacte al Departamento Corresponiente Para Asignar Rol y Permisos',
+          text: 'Su cuenta Se Confirmo Correctamente',
           showDenyButton: false,
           showCancelButton: false,
           confirmButtonText: "Aceptar",
         }).then((result) => {
           if (result.isConfirmed) {
             var ventana = window.self;
-            ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
+            ventana.location.reload();
+            // ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
           }
         });
 
       }
-      if (us.SUCCESS && us.RESPONSE) {
+      else if (us.SUCCESS && String(us.RESPONSE) !== "PrimerInicio") {
         setRoles(us.RESPONSE.ROLES);
         setPermisos(us.RESPONSE.PERMISOS);
         setMenus(us.RESPONSE.MENUS);
