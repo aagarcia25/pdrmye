@@ -219,6 +219,7 @@ export const ORGHeader = ({
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
+      color: 'rgb(175, 140, 85)',
     }).then(async (result) => {
       if (result.isConfirmed) {
         DAMOPServices.indexDetalle(data).then((res) => {
@@ -259,6 +260,7 @@ export const ORGHeader = ({
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
+      color: 'rgb(175, 140, 85)',
     }).then(async (result) => {
       if (result.isConfirmed) {
         DAMOPServices.indexDetalle(data).then((res) => {
@@ -324,6 +326,7 @@ export const ORGHeader = ({
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
+      color: 'rgb(175, 140, 85)',
     }).then(async (result) => {
       if (result.isConfirmed) {
         DAMOPServices.indexCabecera(data).then((res) => {

@@ -52,6 +52,7 @@ const Roles = () => {
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Aceptar",
+      color: 'rgb(175, 140, 85)',
     }).then((result) => {
       if (result.isConfirmed) {
         AuthService.rolesindex(data).then((res) => {
