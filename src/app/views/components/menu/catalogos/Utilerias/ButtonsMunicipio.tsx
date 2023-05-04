@@ -94,7 +94,7 @@ const ButtonsMunicipio = ({
           <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
             {agregar ? (
                 <Tooltip title="Agregar" >
-                  <ToggleButton value="check" onClick={() => handleOpen()}>
+                  <ToggleButton color="standard" value="check" onClick={() => handleOpen()}>
                     <AddIcon />
                   </ToggleButton>
                 </Tooltip>
@@ -103,7 +103,7 @@ const ButtonsMunicipio = ({
             )}
             {descargarPlantilla ? (
               <Tooltip title={"Descargar Plantilla"}>
-                <ToggleButton value="check" onClick={() => downloadplantilla()}>
+                <ToggleButton color="standard" value="check" onClick={() => downloadplantilla()}>
                   <ArrowDownwardIcon />
                 </ToggleButton>
               </Tooltip>
@@ -117,6 +117,7 @@ const ButtonsMunicipio = ({
                     aria-label="upload documento"
                     component="label"
                     size="small"
+                    color="inherit" 
                   >
                     <input
                       hidden

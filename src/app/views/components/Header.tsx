@@ -13,7 +13,7 @@ import { COLOR } from "../../styles/colors";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
-import Popper from "@mui/material/Popper";
+import Popper, { PopperPlacementType } from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
 import { getPerfilFoto, getToken, getUser } from "../../services/localStorage";
 import { RESPONSE, RESPONSESTORAGE } from "../../interfaces/user/UserInfo";
-import { Backdrop, Button, Hidden, SpeedDialAction } from '@mui/material';
+import { Backdrop, Button, Fade, Hidden, SpeedDialAction } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
 import { base64ToArrayBuffer } from "../../helpers/Files";
 import { styled } from '@mui/material/styles';
@@ -55,13 +55,23 @@ export default function Header(props: HeaderProps) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+  const [placement, setPlacement] = React.useState<PopperPlacementType>();
+
+
+
+  const handleToggle = (newPlacement: PopperPlacementType) =>
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+      setPlacement(newPlacement);
+      setOpen((prevOpen) => !prevOpen);
+    };
   const onOpenCalendar = () => {
+    setOpen((prevOpen) => !prevOpen);
     navigate("/Calendario");
   };
   const onOpenHelp = () => {
+    setOpen((prevOpen) => !prevOpen);
     let guia = window.location.hash.replace('#', '');
     guia = guia.replace(/[^a-zA-Z0-9 ]/g, '');
 
@@ -84,6 +94,7 @@ export default function Header(props: HeaderProps) {
 
 
   const onNotification = () => {
+    setOpen((prevOpen) => !prevOpen);
     navigate("/Notification");
   };
 
@@ -102,7 +113,7 @@ export default function Header(props: HeaderProps) {
             aria-controls={open ? "composition-menu" : undefined}
             aria-expanded={open ? "true" : undefined}
             aria-haspopup="true"
-            onClick={handleToggle}
+            onClick={handleToggle('left-end')}
             color="inherit"
             sx={{
               width: "2.9rem",
@@ -316,41 +327,28 @@ export default function Header(props: HeaderProps) {
         style={{ color: COLOR.blanco, backgroundColor: COLOR.blanco, paddingBottom: "1%", margin: "0" }}
         position="sticky"
         elevation={0}
-        sx={{ width: "95%" }}
+        sx={{ width: "99%" }}
       >
         <Grid container item xs={12} md={12} spacing={2} alignItems="center" justifyContent="space-between" sx={{ padding: "0", margin: "0" }} >
 
 
-          <Grid container item xs={6} sm={2} md={1.2} justifyContent="center" alignItems="center" alignContent="center" >
+          <Grid container item xs={6} sm={1} justifyContent="center" alignItems="center" alignContent="center" >
             <Tooltip title="Menú">
-              {/* <Button className="menu" onClick={() => onDrawerToggle()}> */}
-  
-                {/* <MenuIcon className="IconoDentroBoton" /> */}
-                
-                <div className="Grid-MenuButton-Header">
-                     <img className="img-MenuButton-Header"
-                     onClick={() => onDrawerToggle()}
-                     src={menuBurger}
-                            
-                            />
-                  </div>
-           
-              {/* </Button> */}
+              <div className="Grid-MenuButton-Header">
+                <img className="img-MenuButton-Header"
+                  onClick={() => onDrawerToggle()}
+                  src={menuBurger}
+                />
+              </div>
             </Tooltip>
           </Grid>
 
-          <Grid container item xs={6} sm={10} direction="row" justifyContent="flex-end" alignItems="center" >
+          <Grid container item xs={6} sm={11} direction="row" justifyContent="flex-end" alignItems="center" >
 
-            <Grid item container xs={6} sm={11}
-              sx={{ bgcolor: "rgb(25,245,245)" }}
-
-            >
+            <Grid item container xs={6} sm={12} >
               <Hidden smUp >
                 <Backdrop open={openDial} />
                 <Grid item xs={12}>
-
-
-
                   <StyledSpeedDial
                     ariaLabel="SpeedDial tooltip example"
                     sx={{ top: "1%", bottom: 1, right: "10%" }}
@@ -378,52 +376,113 @@ export default function Header(props: HeaderProps) {
               </Hidden >
             </Grid>
 
+
+            {/* <Grid item xs={12} sm={6} md={8} lg={3.2} xl={7}
+              sx={{ bgcolor: COLOR.grisDivisionEntreElementos }}
+            >
+              <Grid container item xs={12} direction="row" justifyContent="flex-end" alignItems="center">
+                <Hidden smDown>
+              <div className="containerBotonesHeader">
+                    <Tooltip title="Bandeja de correo">
+                      <Badge
+                        className="ButtonColorGenericoHeader"
+                        anchorOrigin={{
+                          vertical: "bottom",
+                          horizontal: "left",
+                        }}
+                        badgeContent={cnotif}
+                        color="primary"
+                      >
+                        <IconButton
+                          className="ButtonColorGenericoHeader"
+                          onClick={onNotification} >
+                          <NotificationsNoneIcon className="IconoDentroBoton" />
+                        </IconButton>
+                      </Badge>
+                    </Tooltip>
+                  </div>
+                  <div className="containerBotonesHeader">
+
+                    <Tooltip title="Calendario">
+                      <IconButton
+                        className="ButtonColorGenericoHeader"
+
+                        onClick={onOpenCalendar}
+                      >
+                        <CalendarMonthIcon className="IconoDentroBoton" />
+                      </IconButton>
+                    </Tooltip>
+                  </div> 
+                 <div className="containerBotonesHeader">
+
+                    <Tooltip title="Guía Rapida">
+                      <IconButton
+                        className="ButtonColorGenericoHeader" onClick={onOpenHelp} >
+                        <HelpIcon className="IconoDentroBoton" />
+                      </IconButton>
+                    </Tooltip>
+                  </div> 
+
+                </Hidden>
+              </Grid>
+            </Grid> */}
+
             <Hidden smDown >
 
-              <Grid container item direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={5} md={8} xl={9} >
+              <Grid container item direction="row" justifyContent="space-between" alignItems="center" xs={12} sm={10} md={8} xl={8} >
+                <Grid item xs={10}>
+                  <Grid
+                    // sx={{ bgcolor: COLOR.grisTarjetaBienvenido }}
+                    container direction="column" justifyContent="flex-end" alignItems="center">
 
-                <Grid
-                  // sx={{bgcolor:"rgb(45,45,42)"}} 
-                  container direction="row" justifyContent="flex-end" alignItems="center">
-                  <Typography variant="subtitle1" color="black">
-                    {props.name}
-                  </Typography>
+
+                    <Grid container justifyContent="flex-end">
+                      <Typography variant="h6" className="TextoHeader">
+                        BIENVENIDO
+                      </Typography>
+                    </Grid>
+
+                    <Grid container justifyContent="flex-end" alignItems="center">
+
+                      <Typography variant="h6" className="TextoHeader">
+                        {props.name}
+                      </Typography>
+
+                    </Grid>
+
+
+                  </Grid>
+                  {/* <Grid container direction="row" justifyContent="flex-start" alignItems="center">
+                    <Typography textTransform={"capitalize"} color="black" >
+                      {user?.Puesto ? user.Puesto.toLowerCase() : ""}
+
+                    </Typography>
+                  </Grid> */}
+                  {/* <Grid container item xs={12} sm={12} direction="row" justifyContent="flex-start" alignItems="center">
+                    <Typography variant="h6" className="SubTextoHeader">
+                      {(user?.PERFILES[0]?.Referencia === "MUN" ? "Enlace: " : " ") +
+                        (user?.ROLES[0]?.Nombre === "Municipio" ? user.ROLES[0].Nombre + " " : " ") +
+                        ((user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN") ? user?.DEPARTAMENTOS[0]?.NombreCorto !== "ORG" ? user?.DEPARTAMENTOS[0]?.Descripcion + " " : " " : "") +
+                        (user?.MUNICIPIO[0]?.Nombre ? " " + user?.MUNICIPIO[0]?.Nombre + " " : " ")
+                        + ((user?.MUNICIPIO[0]?.Nombre || user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN") ? "" : "* Sin Municipio asignado *")
+                        + (user?.ORG[0]?.Descripcion ? " " + user?.ORG[0]?.Descripcion + " " : " ")
+                        + ((user?.ORG[0]?.Descripcion || user?.DEPARTAMENTOS[0]?.NombreCorto !== "ORG") ? "" : "* Sin Organismo asignado *")
+                      }
+                    </Typography>
+                  </Grid> */}
                 </Grid>
+                <Grid item xs={2}>
 
-                <Grid container direction="row" justifyContent="flex-end" alignItems="center">
-                  <Typography textTransform={"capitalize"} color="black" >
-                    {user?.Puesto ? user.Puesto.toLowerCase() : ""}
-
-                  </Typography>
-                </Grid>
-                <Grid container item xs={12} sm={12} direction="row" justifyContent="flex-end" alignItems="center">
-                  <Typography color="black">
-                    {(user?.PERFILES[0]?.Referencia === "MUN" ? "Enlace: " : " ") +
-                      (user?.ROLES[0]?.Nombre === "Municipio" ? user.ROLES[0].Nombre + " " : " ") +
-                      ((user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN") ? user?.DEPARTAMENTOS[0]?.NombreCorto !== "ORG" ? user?.DEPARTAMENTOS[0]?.Descripcion + " " : " " : "") +
-                      (user?.MUNICIPIO[0]?.Nombre ? " " + user?.MUNICIPIO[0]?.Nombre + " " : " ")
-                      + ((user?.MUNICIPIO[0]?.Nombre || user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN") ? "" : "* Sin Municipio asignado *")
-                      + (user?.ORG[0]?.Descripcion ? " " + user?.ORG[0]?.Descripcion + " " : " ")
-                      + ((user?.ORG[0]?.Descripcion || user?.DEPARTAMENTOS[0]?.NombreCorto !== "ORG") ? "" : "* Sin Organismo asignado *")
-                    }
-                  </Typography>
-                </Grid>
-
-              </Grid>
-            </Hidden >
-            <Grid item xs={12} sm={5} md={3.5} lg={4} xl={2.5} >
-              <Grid container item xs={12} direction="row" justifyContent="space-evenly" alignItems="center"  >
-                <Hidden smDown>
-                  <div className="containerBotonesHeader">
+                  <div className="containerBotonesHeaderPerfil">
                     <Tooltip title="Haz click para ver más">
-                      <IconButton
+                      <Button
                         className="ButtonColorGenericoHeaderProfile"
                         ref={anchorRef}
                         id="composition-button"
                         aria-controls={open ? "composition-menu" : undefined}
                         aria-expanded={open ? "true" : undefined}
                         aria-haspopup="true"
-                        onClick={handleToggle}
+                        onClick={handleToggle('left-start')}
                         color="inherit"
                         sx={{
                           width: "2.9rem",
@@ -444,7 +503,7 @@ export default function Header(props: HeaderProps) {
                                 objectFit: "scale-down",
                                 width: "100%",
                                 height: "100%",
-                         
+
                               }}
                               src={"data:" + String(props.imgData === "undefined" ? Blanco.Tipo : props.imgTipo) + ";base64," +
                                 String(props.imgData === "undefined" ? Blanco.Data : props.imgData)}
@@ -458,97 +517,66 @@ export default function Header(props: HeaderProps) {
                             "&:hover": { color: COLOR.negro }
                           }} />
                         )}
-                      </IconButton>
+                      </Button>
 
                     </Tooltip>
                   </div>
-                  <Popper
-                    open={open}
-                    role={undefined}
-                    placement="bottom-start"
-                    anchorEl={anchorRef.current}
-                    transition
-                    disablePortal
-                  >
-                    {({ TransitionProps, placement }) => (
-                      <Grow
-                        {...TransitionProps}
-                        style={{
-                          transformOrigin:
-                            placement === "bottom-start"
-                              ? "left top"
-                              : "left bottom",
-                        }}
-                      >
-                        <Paper>
-                          <ClickAwayListener onClickAway={handleClose}>
-                            <MenuList
-                              autoFocusItem={open}
-                              id="composition-menu"
-                              aria-labelledby="composition-button"
-                              onKeyDown={handleListKeyDown}
-                            >
-                              <MenuItem onClick={onConfigProfile}>
-                                <ManageAccountsIcon sx={{ color: COLOR.azul }} />
-                                Configuración de perfil
-                              </MenuItem>
-                              <MenuItem onClick={onLogOut}>
-                                <LogoutIcon sx={{ color: COLOR.azul }} />
-                                Cerrar sesión
-                              </MenuItem>
-                            </MenuList>
-                          </ClickAwayListener>
-                        </Paper>
-                      </Grow>
-                    )}
-                  </Popper>
+                </Grid>
+                <Popper
+                  open={open}
+                  role={undefined}
+                  placement={placement}
+                  anchorEl={anchorEl}
+                  transition
+                  disablePortal
+                >
+                  {({ TransitionProps }) => (
+                    <Fade
+                      {...TransitionProps} timeout={350} >
+                      <Paper>
+                        <ClickAwayListener onClickAway={handleClose}>
+                          <MenuList
+                            autoFocusItem={open}
+                            id="composition-menu"
+                            aria-labelledby="composition-button"
+                            onKeyDown={handleListKeyDown}
+                          >
 
+                            <MenuItem onClick={onConfigProfile}>
+                              <IconButton onClick={onConfigProfile} >
+                                <ManageAccountsIcon className="IconoDentroBoton" />
+                              </IconButton>    Configuración de perfil
+                            </MenuItem>
+                            <MenuItem onClick={onNotification}>
+                              <IconButton onClick={onNotification} >
+                                <NotificationsNoneIcon className="IconoDentroBoton" />
+                              </IconButton> Mi Buzón
+                            </MenuItem>
+                            <MenuItem onClick={onOpenCalendar}>
+                              <IconButton onClick={onOpenCalendar} >
+                                <CalendarMonthIcon className="IconoDentroBoton" />
+                              </IconButton>  Calendario
+                            </MenuItem>
+                            <MenuItem onClick={onOpenHelp}>
+                              <IconButton onClick={onOpenHelp} >
+                                <HelpIcon className="IconoDentroBoton" />
+                              </IconButton>   Guía Rapida
+                            </MenuItem>
+                            <MenuItem onClick={onLogOut}>
+                              <IconButton onClick={onLogOut} >
+                                <LogoutIcon className="IconoDentroBoton" />
+                              </IconButton>   Cerrar sesión
+                            </MenuItem>
 
+                          </MenuList>
+                        </ClickAwayListener>
+                      </Paper>
+                    </Fade>
+                  )}
+                </Popper>
 
-                  <Tooltip title="Bandeja de correo">
-                    <Badge
-                      className="ButtonColorGenericoHeader"
-                      anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "left",
-                      }}
-                      badgeContent={cnotif}
-                      color="primary"
-                    >
-                      <div className="containerBotonesHeader">
-                        <IconButton
-                          className="ButtonColorGenericoHeader"
-                          onClick={onNotification} >
-                          <NotificationsNoneIcon className="IconoDentroBoton" />
-                        </IconButton>         </div>
-                    </Badge>
-                  </Tooltip>
-
-                  <div className="containerBotonesHeader">
-
-                    <Tooltip title="Calendario">
-                      <IconButton
-                        className="ButtonColorGenericoHeader"
-
-                        onClick={onOpenCalendar}
-                      >
-                        <CalendarMonthIcon className="IconoDentroBoton" />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                  <div className="containerBotonesHeader">
-
-                    <Tooltip title="Guía Rapida">
-                      <IconButton
-                        className="ButtonColorGenericoHeader" onClick={onOpenHelp} >
-                        <HelpIcon className="IconoDentroBoton" />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-
-                </Hidden>
               </Grid>
-            </Grid>
+            </Hidden >
           </Grid>
         </Grid>
       </AppBar>

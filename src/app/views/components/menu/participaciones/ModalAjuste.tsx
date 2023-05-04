@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { Box, Grid, IconButton, Input, Typography } from "@mui/material";
+import { Box,  Button,  Grid, IconButton,  Typography } from "@mui/material";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../services/catalogosServices";
 import SelectFrag from "../../Fragmentos/SelectFrag";
 import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
-import CalculateIcon from "@mui/icons-material/Calculate";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { InputAdornment } from "@mui/material";
 import { RESPONSE } from "../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../services/localStorage";
 import { Toast } from "../../../../helpers/Toast";
@@ -332,17 +330,20 @@ const ModalAjuste = ({
 
 
 
-        <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
-          <IconButton onClick={handleSend}
-            disabled={
-              !monto
-              || idAjustes === "" || idAjustes==="false"
-            }
-          >
-          <CalculateIcon />
-          Calcular
-        </IconButton>
-      </Grid>
+
+      <Grid item xs={9} sm={9} md={1} sx={{ textAlign: "center" }}>
+        <Button
+                    disabled={
+                      !monto
+                      || idAjustes === "" || idAjustes==="false"
+                    }
+                    onClick={() => handleSend()}
+                    color="primary" fullWidth variant="contained"> <Typography color="white"> Calcular </Typography>
+                  </Button>
+        </Grid>
+
+
+
     </Grid>
     </div >
   );

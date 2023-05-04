@@ -165,8 +165,8 @@ const Permisos = () => {
 
         <Grid container >
           <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-            <Typography
-              sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+            <Typography variant='h3' 
+              sx={{ textAlign: "center", fontFamily: "sans-serif" }}>
               Privilegios de usuario
             </Typography>
           </Grid>

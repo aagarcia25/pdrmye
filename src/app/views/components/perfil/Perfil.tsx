@@ -102,6 +102,7 @@ export const Perfil = (
         showCancelButton: false,
         confirmButtonText: "Confirmar",
         denyButtonText: `Cancelar`,
+        color: 'rgb(175, 140, 85)',
       }).then((result) => {
         if (result.isConfirmed) {
 
@@ -290,7 +291,7 @@ export const Perfil = (
           < Grid container paddingTop="5%" direction="column" justifyContent="center" alignItems="center" >
             <Grid item container alignItems="center" justifyContent="center"  >
               <Grid item xs={11} >
-                <label> Ingrese  Nueva Contraseña</label>
+                <Typography variant="h6"> Ingrese Nueva Contraseña</Typography>
                 <TextField
                   sx={{ minl: "center", borderRadius: "10px", }}
                   required
@@ -314,7 +315,7 @@ export const Perfil = (
               </Grid>
 
               <Grid item xs={11} >
-                <label> Confirme  Contraseña</label>
+                <Typography variant="h6"> Confirme  Contraseña</Typography>
                 <TextField
                   required
                   margin="dense"
@@ -332,10 +333,11 @@ export const Perfil = (
               </Grid>
               <Grid container justifyContent="center" alignItems="center" alignContent="center">
                 <Grid item paddingTop="10%" xs={6}>
-                  <Button
+                  <Button 
+                  className="enviar-mensaje"
                     disabled={(password !== confPassword) || (password.length < 6)}
                     onClick={() => onClickChangePassword()}
-                    color="primary" fullWidth variant="contained"> <Typography color="white"> Cambiar </Typography>
+                   fullWidth variant="contained"> <Typography color="white"> Cambiar </Typography>
                   </Button>
                 </Grid>
               </Grid>

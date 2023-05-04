@@ -153,6 +153,18 @@ theme = {
         },
       },
     },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          color: "standard",
+          backgroundColor: "#ffffff",
+          minWidth: "auto",
+          "& svg": {
+            fontSize: 20,
+          },
+        },
+      },
+    },
   },
 };
 
