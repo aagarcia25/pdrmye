@@ -192,7 +192,7 @@ setOpen(false);
 
                     <Box display="flex" justifyContent="center" sx={{ width: "100%" }}> 
                       <Box >
-                        <Button size="medium"  variant="contained" color="info" onClick={() => handleSend(String(registro?.idMunicipio))}>  <Typography color="white"> Enviar Mensaje </Typography> </Button>
+                        <Button size="medium"  variant="contained" color="primary" onClick={() => handleSend(String(registro?.idMunicipio))}>  <Typography color="white"> Enviar Mensaje </Typography> </Button>
                       </Box>
                     </Box>
 

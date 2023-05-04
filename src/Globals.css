@@ -148,7 +148,7 @@ h5.label-UsuariosEnabled {
   font-family: sans-serif;
   text-align: center;
   justify-content: center;
-  background-color: #169a1e;
+  background-color: #169a1f73;
   border-radius: 15px;
   padding-left: 20px;
   padding-right: 20px;
@@ -161,7 +161,7 @@ h5.label-UsuariosDisabled {
   font-family: sans-serif;
   text-align: center;
   justify-content: center;
-  background-color: #9a1616;
+  background-color: #9a16164d;
   border-radius: 15px;
   padding-left: 20px;
   padding-right: 20px;
@@ -410,8 +410,8 @@ button.ButtonColorGenerico {
   font-size: 15px;
   transition-duration: 0.2s;
   font-family: sans-serif;
-  background-color: #b08c55d6;
-  color: rgb(73, 73, 73);
+  background-color: #b08c552f;
+  color: rgb(255, 255, 255);
 }
 
 button.ButtonColorGenerico:hover {
@@ -419,7 +419,7 @@ button.ButtonColorGenerico:hover {
   transition-duration: 0.2s;
   font-family: sans-serif;
   background-color: #b08c55;
-  color: rgb(18, 26, 22);
+  color: rgb(255, 255, 255);
 
 }
 
@@ -606,7 +606,16 @@ button.actualizar {
   font-size: 20px;
   transition-duration: 0.2s;
   font-family: sans-serif;
-  color: rgb(53, 160, 223);
+  color: white;
+  background-color: rgb(175, 140, 85);
+
+}
+button.actualizar:hover {
+  font-size: 20px;
+  transition-duration: 0.2s;
+  font-family: sans-serif;
+  color: rgb(0, 0, 0);
+  background-color: rgba(175, 140, 85, 0.604);;
 
 }
 
@@ -614,7 +623,7 @@ button.regresar {
   font-size: 20px;
   transition-duration: 0.2s;
   font-family: sans-serif;
-  color: rgb(172, 28, 28);
+  color: #15212F;
 
 }
 

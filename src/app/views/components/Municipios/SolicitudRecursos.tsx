@@ -274,6 +274,7 @@ const SolicitudRecursos = () => {
         showCancelButton: true,
         confirmButtonText: "Aceptar",
         cancelButtonText: "Cancelar",
+        color: 'rgb(175, 140, 85)',
       }).then((result) => {
         if (result.isConfirmed) {
           CatalogosServices.SolicitudesInfo(d).then((res) => {
@@ -340,6 +341,7 @@ const SolicitudRecursos = () => {
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
+      color: 'rgb(175, 140, 85)',
     }).then((result) => {
       if (result.isConfirmed) {
         CatalogosServices.SolicitudesInfo(d).then((res) => {

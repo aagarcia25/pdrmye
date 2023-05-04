@@ -52,6 +52,7 @@ const Roles = () => {
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Aceptar",
+      color: 'rgb(175, 140, 85)',
     }).then((result) => {
       if (result.isConfirmed) {
         AuthService.rolesindex(data).then((res) => {
@@ -108,14 +109,14 @@ const Roles = () => {
         return (
           <Box>
             <Tooltip title={"Ver y Eliminar menus de el Rol"}>
-              <IconButton onClick={() => handleView(v)}>
+              <IconButton color="inherit"  onClick={() => handleView(v)}>
                 <ManageAccountsIcon />
               </IconButton>
             </Tooltip>
 
              {editar ? (
               <Tooltip title={"Editar  Descripción del Rol"}>
-                <IconButton onClick={() => handleEditarRegistro(v)}>
+                <IconButton color="inherit" onClick={() => handleEditarRegistro(v)}>
                   <EditIcon />
                 </IconButton>
               </Tooltip>
@@ -125,7 +126,7 @@ const Roles = () => {
 
             {eliminarP ? (
               <Tooltip title={"Eliminar Rol"}>
-                <IconButton onClick={() => eliminar(v)}>
+                <IconButton color="inherit" onClick={() => eliminar(v)}>
                   <DeleteForeverIcon />
                 </IconButton>
               </Tooltip>

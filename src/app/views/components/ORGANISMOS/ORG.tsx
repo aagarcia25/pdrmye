@@ -23,7 +23,7 @@ import {
 import { indexCabecera, indexDetalle } from "../../../interfaces/Damop/ResponseDAMOP";
 import React, { useEffect, useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
-import { AlertS, InputAlert } from "../../../helpers/AlertS";
+import { AlertS } from "../../../helpers/AlertS";
 import { currencyFormatter, Moneda } from "../menu/CustomToolbar";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
@@ -406,6 +406,7 @@ export const ORG = () => {
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
+      color: 'rgb(175, 140, 85)',
     }).then(async (result) => {
       if (result.isConfirmed) {
         DAMOPServices.indexCabecera(data).then((res) => {
@@ -450,6 +451,7 @@ export const ORG = () => {
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
+      color: 'rgb(175, 140, 85)',
     }).then(async (result) => {
       if (result.isConfirmed) {
         DAMOPServices.indexCabecera(data).then((res) => {

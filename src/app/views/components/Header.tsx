@@ -339,7 +339,7 @@ export default function Header(props: HeaderProps) {
             </Tooltip>
           </Grid>
 
-          <Grid container item xs={6} sm={10.} direction="row" justifyContent="flex-end" alignItems="center" >
+          <Grid container item xs={6} sm={10} direction="row" justifyContent="flex-end" alignItems="center" >
 
             <Grid item container xs={6} sm={11}
               sx={{ bgcolor: "rgb(25,245,245)" }}
@@ -411,7 +411,7 @@ export default function Header(props: HeaderProps) {
 
               </Grid>
             </Hidden >
-            <Grid item xs={12} sm={5} md={3.5} lg={2.4} xl={1.9} >
+            <Grid item xs={12} sm={5} md={3.5} lg={4} xl={2.5} >
               <Grid container item xs={12} direction="row" justifyContent="space-evenly" alignItems="center"  >
                 <Hidden smDown>
                   <div className="containerBotonesHeader">
@@ -444,7 +444,7 @@ export default function Header(props: HeaderProps) {
                                 objectFit: "scale-down",
                                 width: "100%",
                                 height: "100%",
-                                // borderRadius: '50%',
+                         
                               }}
                               src={"data:" + String(props.imgData === "undefined" ? Blanco.Tipo : props.imgTipo) + ";base64," +
                                 String(props.imgData === "undefined" ? Blanco.Data : props.imgData)}
