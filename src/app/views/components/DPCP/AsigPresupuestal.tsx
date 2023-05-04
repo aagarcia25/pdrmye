@@ -35,6 +35,7 @@ import {
 import { esES as coreEsES } from "@mui/material/locale";
 import { fmeses } from "../../../share/loadMeses";
 import { fanios } from "../../../share/loadAnios";
+import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
 
 
 
@@ -336,13 +337,20 @@ const AsigPresupuestal = () => {
     <div>
       <Slider open={slideropen}></Slider>
       <Grid container spacing={1} padding={2}>
+
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
-            <Grid item xs={10} sx={{ textAlign: "center" }}>
+         
+          <Grid item xs={1} >
+              <ButtonsTutorial url={"DPCP_ASIGNACIÓN PRESUPUESTAL.mp4"} route={"/PDRMYE_DEV/DPCP/TUTORIAL/"}></ButtonsTutorial>
+            </Grid>
+
+            <Grid item xs={11} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
                 Módulo de Validación de Presupuesto
               </Typography>
             </Grid>
+
           </Grid>
         </Grid>
 
