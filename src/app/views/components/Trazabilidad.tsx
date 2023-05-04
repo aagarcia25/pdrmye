@@ -63,8 +63,7 @@ const Trazabilidad = ({
     <div>
 
       <Box>
-        <Dialog open={open} fullWidth={open}
-          scroll={"paper"}>
+        <Dialog open={open} fullWidth={open} scroll={"paper"}>
           <Slider open={openSlider}></Slider>
           <Grid container xs={12}  direction="row"  justifyContent="space-between" alignItems="flex-start" >
             <Grid item xs={6}>
@@ -89,19 +88,27 @@ const Trazabilidad = ({
 
                   <TimelineItem key={Math.random()}>
                     <TimelineOppositeContent key={Math.random()}>
-                      {it.FechaCreacion}
+                      <Typography variant="body2" component="span">
+                        {it.FechaCreacion}
+                      </Typography>
                     </TimelineOppositeContent>
+
                     <TimelineSeparator key={Math.random()}>
-                      <TimelineDot color="success" />
+                      <TimelineDot sx={{ bgcolor: 'rgb(175, 140, 85)' }}   />
                       <TimelineConnector />
                     </TimelineSeparator>
+                    
                     <TimelineContent sx={{ py: "12px", px: 2 }} key={Math.random()}>
                       <Typography variant="h6" component="span">
                         {it.Nombre}
                       </Typography>
                       <br/>
-                      <label >{it.Descripcion}</label>
-                      <Typography>{it.Comentario}</Typography>
+                      <Typography variant="body2" component="span">
+                        {it.Descripcion}
+                      </Typography>
+                      <Typography variant="body2" component="span">
+                        {it.Comentario}
+                      </Typography>
                     </TimelineContent>
                   </TimelineItem>
 
@@ -111,9 +118,7 @@ const Trazabilidad = ({
             </Timeline>
           </DialogContent>
 
-          <DialogActions>
-
-          </DialogActions>
+     
         </Dialog>
       </Box>
     </div>
