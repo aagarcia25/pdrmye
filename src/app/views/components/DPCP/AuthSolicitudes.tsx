@@ -342,7 +342,7 @@ const AuthSolicitudes = () => {
           <Button
             onClick={handleClick}
             variant="contained"
-            color="success"
+            color="secondary"
             endIcon={<SendIcon sx={{ color: "white" }} />}
           >
             <Typography sx={{ color: "white" }}> Buscar </Typography>
