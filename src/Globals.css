@@ -118,6 +118,7 @@ h3 {
   justify-content: center;
   color: rgb(175, 140, 85);
 }
+
 h4 {
   font-family: sans-serif;
   text-align: center;
@@ -137,7 +138,7 @@ h5.Titulo-SolCambios {
   font-family: sans-serif;
   text-align: center;
   justify-content: center;
-  /* background-color: #dbd8d8; */
+  background-color: #dbd8d8;
   border-radius: 5px;
   padding-left: 20px;
   padding-right: 20px;
@@ -154,8 +155,8 @@ h5.HeaderEnviarMensaje {
   background-color: #ffffff;
   border-bottom: 2px solid hsla(0, 0%, 7%, 0.24);
   /* border:  */
-  
- 
+
+
 }
 
 
@@ -213,6 +214,7 @@ h6.tooltipLogos {
 
   /* mr: "2rem" */
 }
+
 h6.TextoHeader {
   text-align: justify;
   font-family: sans-serif;
@@ -223,6 +225,7 @@ h6.TextoHeader {
 
   /* mr: "2rem" */
 }
+
 h6.SubTextoHeader {
   text-align: justify;
   font-family: sans-serif;
@@ -238,7 +241,7 @@ h6.SubTextoHeader {
 h5 {
   font-family: sans-serif;
   font-weight: bold;
-  color: rgb(3, 3, 3);
+  color: rgb(175, 140, 85);
   margin-right: 2rem;
   margin-right: 2rem;
 }
@@ -368,6 +371,7 @@ h5.menu-Typography {
   line-height: 33px;
   font-weight: 700;
 }
+
 h5.menu-Typography:hover {
 
   font-family: sans-serif;
@@ -415,8 +419,8 @@ button.cerrar {
   font-size: 20px;
   transition-duration: 0.2s;
   font-family: sans-serif;
-  color:  #15212f;
-  background-color:#ffffffd6;
+  color: #15212f;
+  background-color: #ffffffd6;
 
 }
 
@@ -462,6 +466,7 @@ button.guardar {
   color: rgb(255, 255, 255);
 
 }
+
 button.guardar:disabled,
 button[disabled] {
   border: 1px solid #d8d5d5;
@@ -502,6 +507,7 @@ button.ButtonColorGenericoHeader {
   color: rgb(73, 73, 73);
   background-image: rgb(251, 251, 251);
 }
+
 button.ButtonColorGenericoHeader:hover {
   transition-duration: 0.2s;
   /* font-size: 150%; */
@@ -510,6 +516,7 @@ button.ButtonColorGenericoHeader:hover {
   color: rgb(18, 26, 22);
 
 }
+
 button.ButtonColorGenericoHeaderProfile {
   height: 100%;
   width: 100%;
@@ -672,15 +679,17 @@ button.actualizar {
   transition-duration: 0.2s;
   font-family: sans-serif;
   color: white;
-  background-color: rgb(175, 140, 85);
+  background-color: #15212f;
 
 }
+
 button.actualizar:hover {
   font-size: 20px;
   transition-duration: 0.2s;
   font-family: sans-serif;
-  color: rgb(0, 0, 0);
-  background-color: rgba(175, 140, 85, 0.604);;
+  color: rgb(255, 255, 255);
+  background-color: #15212feb;
+  ;
 
 }
 
@@ -688,7 +697,17 @@ button.regresar {
   font-size: 20px;
   transition-duration: 0.2s;
   font-family: sans-serif;
-  color: #15212F;
+  color: rgb(255, 255, 255);
+  background-color: rgb(175, 140, 85);
+
+}
+
+button.regresar:hover {
+  font-size: 20px;
+  transition-duration: 0.2s;
+  font-family: sans-serif;
+  color: rgb(255, 255, 255);
+  background-color: rgba(175, 140, 85, 0.864);
 
 }
 
@@ -780,7 +799,7 @@ button.enviar-mensaje {
   font-size: 0.875rem;
   text-transform: capitalize;
   font-family: sans-serif;
-  min-width: 64px;
+  /* min-width: 64px; */
   padding: 6px 16px;
   border-radius: 8px;
   color: rgb(255, 255, 255);
@@ -792,11 +811,22 @@ button.enviar-mensaje {
 }
 
 button.enviar-mensaje:hover {
-  background-color:rgba(47, 47, 47, 0.4);
+  background-color: rgba(47, 47, 47, 0.4);
   color: white;
   /* box-shadow: rgba(42, 42, 40, 0.487) 0px 8px 16px 0px; */
 
 }
+
+button.aceptar {
+  color: rgb(255, 255, 255);
+  background-color: #15212f;
+}
+
+button.aceptar:hover {
+  background-color: rgba(47, 47, 47, 0.4);
+  color: white;
+}
+
 
 
 
@@ -1152,27 +1182,27 @@ div.div-agregarcontactomunicipio {
   border-bottom: 2px solid rgba(175, 140, 85, 0.641);
   padding-left: 22px;
   /* border:  */
-  
- 
+
+
 }
 
-button.itemMenu{
+button.itemMenu {
   background-color: #9f4242;
   border-bottom: 2px solid rgba(175, 140, 85, 0.641);
   padding-left: 22px;
-  
+
 }
-button.itemMenu:hover{
+
+button.itemMenu:hover {
   background-color: rgba(175, 140, 85, 0.415);
   border-bottom: 2px solid rgba(175, 140, 85, 0.641);
   padding-left: 30px;
-  
+
 }
-button.itemMenu::selection{
+
+button.itemMenu::selection {
   background-color: rgba(175, 140, 85, 0.415);
   border-bottom: 2px solid rgba(114, 76, 13, 0.641);
   padding-left: 30px;
-  
+
 }
-
-
