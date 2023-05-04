@@ -6,6 +6,7 @@ import {
   Button,
   Typography,
   Grid,
+  TextField,
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { CatalogosServices } from "../../services/catalogosServices";
@@ -267,10 +268,11 @@ const ListNotificationsModal = ({
                     paddingBottom: "1%"
                   }}>
                   <Typography variant="h6" paddingBottom={.2}> Asunto.. </Typography>
-                  <textarea
+                  <TextField
                     required
                     spellCheck='true'
                     rows={2}
+                    multiline
                     onChange={(v) => setNewEncabezado(v.target.value)}
                     style={{ width: "100%", borderRadius: 10, fontFamily: "sans-serif" }} />
                 </Box>
@@ -284,9 +286,10 @@ const ListNotificationsModal = ({
                   }}>
                   <Typography variant="h6" paddingBottom={.2}> Mensaje.. </Typography>
 
-                  <textarea
+                  <TextField
                     required
                     spellCheck='true'
+                    multiline
                     rows={8}
                     onChange={(v) => setNewMensaje(v.target.value)}
                     style={{ width: "100%", borderRadius: 10, }} />
@@ -359,10 +362,11 @@ const ListNotificationsModal = ({
                </Box>
 
               <Box sx={{ width:"98%", alignItems:"center"}}>
-                <textarea
+                <TextField
                   value={encabezado}
-                  readOnly
+                  disabled
                   rows={2}
+                  multiline
                   style={{ width: "100%", borderRadius: 15, }} />
               </Box>
 
@@ -375,10 +379,11 @@ const ListNotificationsModal = ({
                 </Box>
 
                 <Box sx={{ width:"98%", alignItems:"center"  }}>
-                  <textarea
+                  <TextField
                     value={mensaje}
-                    readOnly
+                    disabled
                     rows={15}
+                    multiline
                     onChange={(v) => setMensaje(v.target.value)}
                     style={{ width: "100%", borderRadius: 15, }} />
                 </Box>
@@ -442,10 +447,11 @@ const ListNotificationsModal = ({
             </Box>
 
             <Box sx={{ width:"98%", alignItems:"center", paddingTop:"1%" }}>
-              <textarea
+              <TextField
                 value={encabezado}
-                readOnly
+                disabled
                 rows={2}
+                multiline
                 style={{ width: "100%", borderRadius: 10, }} />
             </Box>
 
@@ -458,10 +464,11 @@ const ListNotificationsModal = ({
                 </Box>
 
                 <Box sx={{ width:"98%", alignItems:"center", paddingTop:"1%" }}>
-                <textarea
+                <TextField
                   value={mensaje}
-                  readOnly
+                  disabled
                   rows={15}
+                  multiline
                   onChange={(v) => setMensaje(v.target.value)}
                   style={{ width: "100%", borderRadius: 15, }} />
                 </Box>
@@ -517,10 +524,11 @@ const ListNotificationsModal = ({
               <Typography variant="h6"> Asunto </Typography>
             </Box>
             <Box sx={{ width:"98%", alignItems:"center"}}>
-              <textarea
+              <TextField
                 value={encabezado}
-                readOnly
+                disabled
                 rows={2}
+                multiline
                 style={{ width: "100%", borderRadius: 10, }} />
                 </Box>
             </Grid>
@@ -532,10 +540,11 @@ const ListNotificationsModal = ({
                 </Box>
 
                 <Box sx={{ width:"98%", alignItems:"center"  }}>
-                <textarea
+                <TextField
                   value={mensaje}
-                  readOnly
+                  disabled
                   rows={15}
+                  multiline
                   onChange={(v) => setMensaje(v.target.value)}
                   style={{ width: "100%", borderRadius: 15, }} />
                 </Box>
