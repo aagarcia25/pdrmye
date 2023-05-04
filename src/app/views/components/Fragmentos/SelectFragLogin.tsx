@@ -39,11 +39,20 @@ const SelectFragLogin = ({
             onInputChange(v)
         }
         placeholder={(label != "") ? label : placeholder}
+        theme={(theme) => ({
+          ...theme,
+          borderRadius: 0,
+          colors: {
+            ...theme.colors,
+            primary25: '#41b883',
+            primary: 'rgb(175, 140, 85)',
+          },
+        })}
         styles={{
           menu: (base) => ({
             position: 'fixed',
             zIndex: 500,
-            ...base
+            ...base,
           })
         }}
       />

@@ -22,6 +22,7 @@ const SelectFrag = ({
   return (
     <FormControl sx={{ width:"100%" }}  >
     <Select
+    aria-label={"Presione enter para seleccionar"}
     value ={value != "" ?options.find(element => element.value === value) :[]}
       options={options}
       defaultValue={[]}
@@ -35,13 +36,24 @@ const SelectFrag = ({
         onInputChange(v.value)
       }
       placeholder={(label !== "") ? label : placeholder}
+      theme={(theme) => ({
+        ...theme,
+        borderRadius: 0,
+        colors: {
+          ...theme.colors,
+          primary25: '#41b883',
+          primary: 'rgb(175, 140, 85)',
+        },
+      })}
+
       styles={{
         menu: (base) => ({
           position: 'absolute',
           paddingLeft: '1rem',
           zIndex: 500,
           ...base
-        })
+        }),
+       
       }}
     />
     </FormControl>
