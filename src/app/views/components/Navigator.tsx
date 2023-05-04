@@ -109,11 +109,11 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                             <Collapse key={index} in={open === indexx} timeout="auto" unmountOnExit>
                               <List sx={{ borderRadius: "1" }} key={index} component="div" disablePadding>
                                 <Divider />
-                                <ListItemButton key={index} onClick={() => consulta(subitem.Path)} sx={{ pl: 4 }}>
+                                <ListItemButton className="itemMenu" key={index} onClick={() => consulta(subitem.Path)} sx={{ pl: 4 }}>
                                   <ListItemText key={index} primary={
                                     <>
                                       <Tooltip title={subitem.Descripcion}>
-                                        <Typography className="menu-Typography" variant="caption" sx={{ fontFamily: "sans-serif", fontWeight: '550' }} gutterBottom>
+                                        <Typography variant="h5" className="menu-Typography"  gutterBottom>
                                           {" >  " + subitem.Menu}
                                         </Typography>
                                       </Tooltip>

@@ -98,22 +98,39 @@ img.rounded-corners {
 
 h1 {
   font-family: sans-serif;
+  text-align: center;
+  justify-content: center;
+  color: rgb(175, 140, 85);
 
 }
 
 h2 {
   font-family: sans-serif;
+  text-align: center;
+  justify-content: center;
+  color: rgb(175, 140, 85);
 
 }
 
 h3 {
   font-family: sans-serif;
+  text-align: center;
+  justify-content: center;
+  color: rgb(175, 140, 85);
 }
+h4 {
+  font-family: sans-serif;
+  text-align: center;
+  justify-content: center;
+  color: rgb(175, 140, 85);
+}
+
 
 h4.Titulo {
   font-family: sans-serif;
   text-align: center;
   justify-content: center;
+  color: rgb(175, 140, 85);
 }
 
 h5.Titulo-SolCambios {
@@ -181,8 +198,8 @@ h5.label-UsuariosDisabled {
 
 h6 {
   font-family: sans-serif;
-  /* font-weight: bold; */
-  color: rgb(14, 13, 13);
+  font-weight: bold;
+  color: rgb(175, 140, 85);
   margin-right: 2rem;
   /* mr: "2rem" */
 }
@@ -196,6 +213,27 @@ h6.tooltipLogos {
 
   /* mr: "2rem" */
 }
+h6.TextoHeader {
+  text-align: justify;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgb(14, 13, 13);
+  font-size: 15px;
+  padding-left: 20px;
+
+  /* mr: "2rem" */
+}
+h6.SubTextoHeader {
+  text-align: justify;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgb(14, 13, 13);
+  font-size: 14px;
+
+  /* mr: "2rem" */
+}
+
+
 
 h5 {
   font-family: sans-serif;
@@ -321,14 +359,27 @@ label.textoNormal {
 }
 
 
-.menu-Typography {
+h5.menu-Typography {
 
-  font-family: Open Sans;
+  font-family: sans-serif;
   font-style: normal;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 12px;
   line-height: 33px;
+  font-weight: 700;
 }
+h5.menu-Typography:hover {
+
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 33px;
+  font-weight: 700;
+  color: rgb(7, 7, 7);
+}
+
+
 
 
 label.Typography {
@@ -358,17 +409,23 @@ button.subtitulo {
 
 }
 
-;
+
 
 button.cerrar {
   font-size: 20px;
   transition-duration: 0.2s;
   font-family: sans-serif;
-  color:  #b08c55d6;
+  color:  #15212f;
+  background-color:#ffffffd6;
 
 }
 
-;
+button.cerrar:hover {
+  color: rgb(0, 0, 0);
+  background-color: #e9e6e6;
+
+}
+
 
 button.salir {
   background-color: rgb(195, 165, 117);
@@ -401,8 +458,21 @@ button.guardar {
   font-size: 20px;
   transition-duration: 0.2s;
   font-family: sans-serif;
-  background-color: rgb(0, 0, 0);
+  background-color: #15212f;
   color: rgb(255, 255, 255);
+
+}
+button.guardar:disabled,
+button[disabled] {
+  border: 1px solid #d8d5d5;
+  background-color: #e6e4e43f;
+  color: #8d8b8b;
+}
+
+
+button.guardar:hover {
+  color: rgb(255, 255, 255);
+  background-color: #0a1017;
 
 }
 
@@ -418,23 +488,29 @@ button.ButtonColorGenerico:hover {
   font-size: 15px;
   transition-duration: 0.2s;
   font-family: sans-serif;
-  background-color: #b08c55;
+  background-color: #b08c5522;
   color: rgb(255, 255, 255);
 
 }
 
 button.ButtonColorGenericoHeader {
-  font-size: 130%;
-  height: 100%;
-  width: 100%;
+  /* font-size: 130%; */
+  /* height: 50px; */
+  /* width: 50px; */
   transition-duration: 0.2s;
   background-color: #ffffff;
   color: rgb(73, 73, 73);
   background-image: rgb(251, 251, 251);
 }
+button.ButtonColorGenericoHeader:hover {
+  transition-duration: 0.2s;
+  /* font-size: 150%; */
+  font-family: sans-serif;
+  background-color: #9f793f31;
+  color: rgb(18, 26, 22);
 
+}
 button.ButtonColorGenericoHeaderProfile {
-  font-size: 130%;
   height: 100%;
   width: 100%;
   transition-duration: 0.2s;
@@ -444,20 +520,22 @@ button.ButtonColorGenericoHeaderProfile {
 }
 
 
-button.ButtonColorGenericoHeader:hover {
-  transition-duration: 0.2s;
-  font-size: 150%;
-  font-family: sans-serif;
-  background-color: #9f783f;
-  color: rgb(18, 26, 22);
 
-}
 
 .containerBotonesHeader {
   overflow: auto;
-  contain: content;
   width: 50px;
   height: 50px;
+  /* padding-left: 10px; */
+}
+
+.containerBotonesHeaderPerfil {
+  overflow: auto;
+  contain: content;
+  width: 100%;
+  height: 60px;
+  /* padding-left: 10px; */
+  padding: 4px;
 }
 
 
@@ -500,11 +578,10 @@ button.menuHome:hover {
 }
 
 .IconoDentroBoton:hover {
-  font-size: 20px;
   transition-duration: 0.2s;
   font-family: sans-serif;
-  /* background-color:  #b08c55; */
-  color: rgb(218, 213, 213);
+  /* background-color:  #b08c55e6; */
+  color: #b08c55;
 
 }
 
@@ -540,19 +617,7 @@ button.menuHome:hover {
 
 
 
-button.guardar:disabled,
-button[disabled] {
-  border: 1px solid #d8d5d5;
-  background-color: #e6e4e43f;
-  color: #8d8b8b;
-}
 
-
-button.guardar:hover {
-  color: rgb(255, 255, 255);
-  background-color: rgb(0, 0, 0);
-
-}
 
 button.disabled {
   font-size: 20px;
@@ -661,11 +726,7 @@ button.menuHome {
   color: rgb(143, 143, 143);
 }
 
-Button.cerrar:hover {
-  color: rgb(168, 29, 29);
-  background-color: rgba(9, 9, 9, 0.62);
 
-}
 
 
 
@@ -702,7 +763,7 @@ button.nuevo-mensaje {
   padding: 6px 16px;
   border-radius: 8px;
   color: rgb(255, 255, 255);
-  background-color: #b08c55;
+  background-color: #15212f;
   width: 100%;
   box-shadow: rgba(171, 171, 0, 0.24) 0px 8px 16px 0px;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
@@ -723,17 +784,17 @@ button.enviar-mensaje {
   padding: 6px 16px;
   border-radius: 8px;
   color: rgb(255, 255, 255);
-  background-color: #b08c55;
-  box-shadow: rgba(171, 171, 0, 0.24) 0px 8px 16px 0px;
+  background-color: #15212f;
+  /* box-shadow: rgba(63, 63, 56, 0.24) 0px 8px 16px 0px; */
 
   width: 100%;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
 }
 
 button.enviar-mensaje:hover {
-  background-color: #b08c55bd;
+  background-color:rgba(47, 47, 47, 0.4);
   color: white;
-  box-shadow: rgba(98, 98, 32, 0.487) 0px 8px 16px 0px;
+  /* box-shadow: rgba(42, 42, 40, 0.487) 0px 8px 16px 0px; */
 
 }
 
@@ -873,9 +934,9 @@ button.notificacionesSelected:hover {
 }
 
 button.nuevo-mensaje:hover {
-  background-color: #b08c55bd;
+  background-color: #15212fe7;
   color: white;
-  box-shadow: rgba(255, 255, 3, 0.487) 0px 8px 16px 0px;
+  box-shadow: rgba(255, 255, 3, 0.247) 0px 8px 16px 0px;
 
 }
 
@@ -1085,4 +1146,33 @@ div.div-agregarcontactomunicipio {
   height: 40px;
 
 }
+
+.HeaderModal {
+  background-color: #ffffff;
+  border-bottom: 2px solid rgba(175, 140, 85, 0.641);
+  padding-left: 22px;
+  /* border:  */
+  
+ 
+}
+
+button.itemMenu{
+  background-color: #9f4242;
+  border-bottom: 2px solid rgba(175, 140, 85, 0.641);
+  padding-left: 22px;
+  
+}
+button.itemMenu:hover{
+  background-color: rgba(175, 140, 85, 0.415);
+  border-bottom: 2px solid rgba(175, 140, 85, 0.641);
+  padding-left: 30px;
+  
+}
+button.itemMenu::selection{
+  background-color: rgba(175, 140, 85, 0.415);
+  border-bottom: 2px solid rgba(114, 76, 13, 0.641);
+  padding-left: 30px;
+  
+}
+
 

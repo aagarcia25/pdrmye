@@ -181,7 +181,13 @@ const PermisosModal = ({
               />
               <DialogActions>
                   <Grid  container   direction="row" justifyContent="center" alignItems="center" >
-                    <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+                    <Button 
+                    className={tipo === 1 ? "guardar" : "actualizar"} 
+                    onClick={() => handleSend()}
+                    disabled={!referencia||!descripcion||!nombre||!idMenu||idMenu==="false"}
+                    >
+                      {tipo === 1 ? "Guardar" : "Actualizar"}
+                    </Button>
                 </Grid>
               </DialogActions>
             </Box>

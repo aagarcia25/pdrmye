@@ -1,10 +1,9 @@
-import { Box, Checkbox, FormControlLabel, Grid, IconButton, Input, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel, Grid, IconButton, Input, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../services/catalogosServices";
 import SelectFrag from "../../Fragmentos/SelectFrag";
 import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
-import CalculateIcon from "@mui/icons-material/Calculate";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { InputAdornment } from "@mui/material";
 import { RESPONSE } from "../../../../interfaces/user/UserInfo";
@@ -512,11 +511,12 @@ const ModalNew = ({
 
 
 
-        <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
-          <IconButton onClick={handleSend} disabled={idmes === "false" || idmes === "" || idTipoCalculo === "false" || idTipoCalculo === "" }>
-            <CalculateIcon />
-            Calcular
-          </IconButton>
+        <Grid item xs={9} sm={9} md={1} sx={{ textAlign: "center" }}>
+        <Button
+                    disabled={idmes === "false" || idmes === "" || idTipoCalculo === "false" || idTipoCalculo === "" }
+                    onClick={() => handleSend()}
+                    color="primary" fullWidth variant="contained"> <Typography color="white"> Calcular </Typography>
+                  </Button>
         </Grid>
       </Grid>
     </div>
