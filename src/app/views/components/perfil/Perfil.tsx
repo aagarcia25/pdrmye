@@ -20,6 +20,7 @@ import React from "react";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { UserServices } from "../../../services/UserServices";
 import Swal from "sweetalert2";
+import { Blanco } from "../../../styles/imagen";
 
 export const Perfil = (
   {
@@ -171,7 +172,10 @@ export const Perfil = (
                   sx={{ width: "7.4rem", height: "7.4rem", backgroundColor: "white", borderRadius: '50%', justifyContent: "center", cursor: "pointer", }} >
                   {user?.RutaFoto ?
 
-                    <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%' }} src={"data:" + imgTipo + ";base64," + imgData} />
+                    <img 
+                    style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%' }} 
+                    src={"data:" + String(imgTipo==="undefined"?Blanco.Data:imgTipo) + ";base64," +
+                    String(imgData==="undefined"?Blanco.Data:imgData)} />
 
                     : <PersonIcon sx={{ width: "100%", height: "100%", }} />
                   }

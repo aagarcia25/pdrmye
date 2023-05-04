@@ -293,32 +293,16 @@ export const ListNotification = () => {
             }}
           >
             <Button
-              className="notificaciones"
-              onClick={() => viewMessage(8)}
-              sx={{
-                backgroundColor:
-                  modo === "ViewMessage"
-                    ? COLOR.grisTarjetaBienvenido
-                    : COLOR.blanco,
-                "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-              }}
-            >
+              className=  {modo === "ViewMessage"?"notificacionesSelected":"notificaciones"}
+              onClick={() => viewMessage(8)}>
               Recibidos
-              {/* <InboxIcon /> */}
+          
             </Button>
 
             {perfil != "MUN" ? (
               <Button
-                className="notificaciones"
-                onClick={() => viewMessageSend(9)}
-                sx={{
-                  backgroundColor:
-                    modo === "MessageSend"
-                      ? COLOR.grisTarjetaBienvenido
-                      : COLOR.blanco,
-                  "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-                }}
-              >
+              className=  {modo === "MessageSend"?"notificacionesSelected":"notificaciones"}
+                onClick={() => viewMessageSend(9)} >
                 Enviados
                 {/* <SendIcon /> */}
               </Button>
@@ -327,16 +311,8 @@ export const ListNotification = () => {
             )}
 
             <Button
-              className="notificaciones"
-              onClick={() => viewMessageReading(7)}
-              sx={{
-                backgroundColor:
-                  modo == "viewMessageReading"
-                    ? COLOR.grisTarjetaBienvenido
-                    : COLOR.blanco,
-                "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-              }}
-            >
+             className=  {modo === "viewMessageReading"?"notificacionesSelected":"notificaciones"}
+              onClick={() => viewMessageReading(7)} >
               Leídos
               {/* <AutoStoriesIcon /> */}
             </Button>

@@ -11,14 +11,15 @@ let theme = createTheme({
   palette: {
     primary: {
       light: "#63ccff",
-      main: "#011115",
+      main: "#b08c55",
       dark: "#000003",
     },
     secondary: {
-      light: "#69C0E5",
-      main: "#277695",
-      dark: "#A2C1CD",
+      light: "#15212F",
+      main: "#15212F",
+      dark: "#15212F",
     },
+  
   },
   typography: {
     h5: {

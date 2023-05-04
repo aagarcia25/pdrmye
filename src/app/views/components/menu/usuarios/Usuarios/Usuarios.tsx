@@ -196,7 +196,7 @@ const Usuarios = () => {
           <Box >
             {configOrg ?
               <Tooltip title={"Configurar Organismos"}>
-                <IconButton color="success" onClick={() => handleOrgConf(v)}>
+                <IconButton color="inherit" onClick={() => handleOrgConf(v)}>
                   <ApartmentIcon />
                 </IconButton>
               </Tooltip>
@@ -204,7 +204,7 @@ const Usuarios = () => {
             {
               configRol ?
                 <Tooltip title={"Configurar Roles"}>
-                  <IconButton color="success" onClick={() => handleRolConf(v)}>
+                  <IconButton color="inherit" onClick={() => handleRolConf(v)}>
                     <AssignmentIndIcon />
                   </IconButton>
                 </Tooltip>
@@ -212,7 +212,7 @@ const Usuarios = () => {
 
             {editar ?
               <Tooltip title={"Editar Registro"}>
-                <IconButton color="info" onClick={() => handleEdit(v)}>
+                <IconButton color="inherit" onClick={() => handleEdit(v)}>
                   <ModeEditOutlineIcon />
                 </IconButton>
               </Tooltip>
@@ -220,7 +220,7 @@ const Usuarios = () => {
 
             {eliminar ?
               <Tooltip title={"Eliminar Registro"}>
-                <IconButton color="error" onClick={() => handleDelete(v)}>
+                <IconButton color="inherit" onClick={() => handleDelete(v)}>
                   <DeleteForeverIcon />
                 </IconButton>
               </Tooltip>

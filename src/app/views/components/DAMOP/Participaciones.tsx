@@ -1890,10 +1890,10 @@ const Participaciones = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
           <Button
+          // className="enviar"
             onClick={handleClick}
             variant="contained"
-            color="success"
-            endIcon={<SendIcon sx={{ color: "white" }} />}
+            color="secondary"
           >
             <Typography sx={{ color: "white" }}> Buscar </Typography>
           </Button>
@@ -1917,7 +1917,7 @@ const Participaciones = () => {
               <Tooltip title={"Cargar Plantilla Migración"}>
                 <ToggleButton value="check">
                   <IconButton
-                    color="primary"
+                    color="secondary"
                     aria-label="upload documento"
                     component="label"
                     size="large"
@@ -1988,7 +1988,7 @@ const Participaciones = () => {
 
               <ToggleButton value="check" onClick={() => downloadplantilla()}>
                 <Tooltip title={"Descargar Plantilla"}>
-                  <ArrowDownwardIcon />
+                  <ArrowDownwardIcon color="secondary" />
                 </Tooltip>
               </ToggleButton>
 
@@ -2000,7 +2000,7 @@ const Participaciones = () => {
               <Tooltip title={"Cargar Plantilla Anticipo de Participaciones"}>
                 <ToggleButton value="check">
                   <IconButton
-                    color="primary"
+                    color="secondary"
                     aria-label="upload documento"
                     component="label"
                     size="large"
@@ -2040,7 +2040,7 @@ const Participaciones = () => {
 
               <ToggleButton value="check" onClick={() => eliminar()}>
                 <Tooltip title={"Eliminar Registro"}>
-                  <DeleteForeverIcon color="error" />
+                  <DeleteForeverIcon color="secondary" />
                 </Tooltip>
               </ToggleButton>
             ) : (
@@ -2051,7 +2051,7 @@ const Participaciones = () => {
               <Tooltip title={"Cargar Plantilla Migración"}>
                 <ToggleButton value="check">
                   <IconButton
-                    color="primary"
+                    color="secondary"
                     aria-label="upload documento"
                     component="label"
                     size="large"
@@ -2074,7 +2074,7 @@ const Participaciones = () => {
             {INTEGRACION_MASIVA ? (
               <ToggleButton value="check" onClick={() => integracionMasiva()}>
                 <Tooltip title={"Integración Masiva por Fondo"}>
-                  <PolylineIcon />
+                  <PolylineIcon color="secondary" />
                 </Tooltip>
               </ToggleButton>
             ) : (
@@ -2248,6 +2248,7 @@ const Participaciones = () => {
           rows={data} controlInterno={""} 
           multiselect={true}/>
         </Grid>
+
 
 
       </Grid>
