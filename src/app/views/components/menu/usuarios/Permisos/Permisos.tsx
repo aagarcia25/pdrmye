@@ -7,6 +7,7 @@ import { Toast } from '../../../../../helpers/Toast';
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { AuthService } from '../../../../../services/AuthService';
 import { getPermisos, getUser } from '../../../../../services/localStorage';
+import { COLOR } from '../../../../../styles/colors';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import MUIXDataGrid from '../../../MUIXDataGrid';
 import ButtonsAdd from '../../catalogos/Utilerias/ButtonsAdd';
@@ -41,12 +42,11 @@ const Permisos = () => {
 
       Swal.fire({
         icon: "info",
-        title: "¿Estás seguro de eliminar este registro??",
+        title: "¿Estás seguro de eliminar este registro?",
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: "Confirmar",
         denyButtonText: `Cancelar`,
-        color: 'rgb(175, 140, 85)',
       }).then((result) => {
         if (result.isConfirmed) {
           let data = {
@@ -70,7 +70,7 @@ const Permisos = () => {
             }
           });
         } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
+          Swal.fire("No se realizaron cambios", "", "info" );
         }
       });
     }
