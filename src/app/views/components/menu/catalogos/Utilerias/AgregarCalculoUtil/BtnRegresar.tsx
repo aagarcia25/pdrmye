@@ -12,7 +12,7 @@ export function BtnRegresar(props: BtnRegresarProps) {
     <Grid item xs={12} sx={{ display: "flex", justifyContent: "start" }}>
 
       <Tooltip title="Regresar">
-        <ToggleButton value="check"
+        <ToggleButton value="check" className="regresar"
           onClick={props.onClick} >
           <ArrowBackIcon />
         </ToggleButton>

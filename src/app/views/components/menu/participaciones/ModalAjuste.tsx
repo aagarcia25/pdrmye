@@ -305,6 +305,7 @@ const ModalAjuste = ({
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
               <IconButton
+              className="aceptar"
                 aria-label="upload picture"
                 component="label"
                 size="large"
@@ -332,7 +333,7 @@ const ModalAjuste = ({
 
 
       <Grid item xs={9} sm={9} md={1} sx={{ textAlign: "center" }}>
-        <Button
+        <Button className="aceptar"
                     disabled={
                       !monto
                       || idAjustes === "" || idAjustes==="false"

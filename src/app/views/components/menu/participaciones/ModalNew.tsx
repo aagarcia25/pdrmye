@@ -512,10 +512,10 @@ const ModalNew = ({
 
 
         <Grid item xs={9} sm={9} md={1} sx={{ textAlign: "center" }}>
-        <Button
+        <Button className="enviar-mensaje"
                     disabled={idmes === "false" || idmes === "" || idTipoCalculo === "false" || idTipoCalculo === "" }
                     onClick={() => handleSend()}
-                    color="primary" fullWidth variant="contained"> <Typography color="white"> Calcular </Typography>
+                     fullWidth variant="contained"> <Typography color="white"> Calcular </Typography>
                   </Button>
         </Grid>
       </Grid>
