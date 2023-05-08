@@ -5,6 +5,7 @@ import ReactPlayer from 'react-player'
 import { getfilevideourl } from '../../../../../helpers/Files';
 import { getToken } from '../../../../../services/localStorage';
 import DPCP_01 from '../../../../../assets/videos/DPCP_01.mp4';
+import DPCP_02 from '../../../../../assets/videos/DPCP_02.mp4';
 
 const ButtonsTutorial = ({
     url,
