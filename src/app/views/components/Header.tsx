@@ -31,6 +31,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import { useState } from "react";
 import { Blanco } from "../../styles/imagen";
 import menuBurger from "../../../app/assets/img/menuBurger.svg";
+import logoNL from "../../../app/assets/img/logo1.svg";
+
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -97,7 +99,17 @@ export default function Header(props: HeaderProps) {
     setOpen((prevOpen) => !prevOpen);
     navigate("/Notification");
   };
+  const onConfigProfile = () => {
+    navigate("/perfil");
+    setOpen((prevOpen) => !prevOpen);
+  };
 
+  const onLogOut = () => {
+    localStorage.clear();
+    var ventana = window.self;
+    ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
+
+  };
 
   const [openDial, setOpenDial] = React.useState(false);
   const handleOpenDial = () => setOpenDial(true);
@@ -105,7 +117,7 @@ export default function Header(props: HeaderProps) {
   const actions = [
     {
       icon: <>
-        <Tooltip title="Haz click para ver más">
+        <Tooltip title=" Configuración de perfil">
           <IconButton
             // className="ButtonColorGenerico"
             ref={anchorRef}
@@ -113,14 +125,13 @@ export default function Header(props: HeaderProps) {
             aria-controls={open ? "composition-menu" : undefined}
             aria-expanded={open ? "true" : undefined}
             aria-haspopup="true"
-            onClick={handleToggle('left-end')}
+            onClick={onConfigProfile}
             color="inherit"
             sx={{
               width: "2.9rem",
               height: "2.9rem",
               fontSize: btnPerson,
               p: 0.1,
-
               backgroundColor: user?.RutaFoto !== null ? COLOR.blanco : COLOR.azul,
               "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
 
@@ -140,62 +151,30 @@ export default function Header(props: HeaderProps) {
             )}
           </IconButton>
 
-
         </Tooltip>
-        <Popper
-          open={open}
-          role={undefined}
-          placement="bottom-start"
-          // anchorEl={anchorRef.current}
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === "bottom-start"
-                    ? "left top"
-                    : "left bottom",
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id="composition-menu"
-                    aria-labelledby="composition-button"
-                    onKeyDown={handleListKeyDown}
-                  >
-                    <MenuItem onClick={onConfigProfile}>
-                      <ManageAccountsIcon sx={{ color: COLOR.blanco }} />
-                      Configuración de perfil
-                    </MenuItem>
-                    <MenuItem onClick={onLogOut}>
-                      <LogoutIcon sx={{ color: COLOR.azul }} />
-                      Cerrar sesión
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper> </>, name: 'Configuración'
+      </>, name: ' Configuración'
     },
     {
-      icon: <> <IconButton
-        className="ButtonColorGenerico"
-        sx={{
-          mt: 0.1,
-          backgroundColor: COLOR.blanco,
-          "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-        }}
-        onClick={onOpenCalendar}
-      >
-        <CalendarMonthIcon className="IconoDentroBoton" />
-      </IconButton >   </>, name: 'Calendario'
+      icon: <>
+        <Tooltip title="Calendario">
+          <IconButton
+            className="ButtonColorGenerico"
+            sx={{
+              mt: 0.1,
+              backgroundColor: COLOR.blanco,
+              "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
+            }}
+            onClick={onOpenCalendar}
+          >
+            <CalendarMonthIcon className="IconoDentroBoton" />
+          </IconButton >
+        </Tooltip >
+      </>, name: 'Calendario'
     },
+
+    /////////////////////
+
+
     {
       icon: <>
         <Tooltip title="Bandeja de correo">
@@ -220,17 +199,33 @@ export default function Header(props: HeaderProps) {
       </>, name: 'Notificaciones'
     },
     {
-      icon: <>   <Tooltip title="Guía Rapida">
-        <IconButton
-          className="ButtonColorGenerico"
-          onClick={onOpenHelp}
-        >
-          <HelpIcon
-            className="IconoDentroBoton"
-          />
-        </IconButton>
-      </Tooltip>  </>, name: 'Guía'
+      icon: <>
+        <Tooltip title="Guía Rapida">
+          <IconButton
+            className="ButtonColorGenerico"
+            onClick={onOpenHelp}
+          >
+            <HelpIcon
+              className="IconoDentroBoton"
+            />
+          </IconButton>
+        </Tooltip>  </>, name: 'Guía'
     },
+    {
+      icon: <>
+        <Tooltip title=" Cerrar sesión">
+          <IconButton
+            className="ButtonColorGenerico"
+            onClick={onLogOut}
+          >
+            <LogoutIcon
+              className="IconoDentroBoton"
+            />
+          </IconButton>
+        </Tooltip>  </>, name: 'Salir'
+    },
+
+
 
   ];
 
@@ -263,17 +258,9 @@ export default function Header(props: HeaderProps) {
 
 
 
-  const onLogOut = () => {
-    localStorage.clear();
-    var ventana = window.self;
-    ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
 
-  };
 
-  const onConfigProfile = () => {
-    navigate("/perfil");
-    setOpen((prevOpen) => !prevOpen);
-  };
+
 
   function handleListKeyDown(event: React.KeyboardEvent) {
     if (event.key === "Tab") {
@@ -300,26 +287,22 @@ export default function Header(props: HeaderProps) {
     CHUSER: user?.id ? user?.id : "",
   };
   React.useEffect(() => {
-    // console.log(props.imgTipo)
-    // console.log(props.imgData)
-    // setResponseStorage(JSON.parse(String(getPerfilFoto())))
+
   });
 
   React.useEffect(() => {
 
-    // setResponseStorage(JSON.parse(String(getPerfilFoto())))
+
     setRutaFoto(String(user?.RutaFoto))
 
     CatalogosServices.Notificaciones(data).then((res) => {
       let result = res.RESPONSE;
       setCnotif(result[0].count);
-      // setResponseStorage(JSON.parse(String(getPerfilFoto())))
+
     });
   });
 
-  // export const OnChangeProfilePhoto = (v:any) => {
-  //   setResponseStorage(JSON.parse(String(getPerfilFoto())))
-  // };
+
 
   return (
     <React.Fragment>
@@ -343,20 +326,49 @@ export default function Header(props: HeaderProps) {
             </Tooltip>
           </Grid>
 
-          <Grid container item xs={6} sm={11} direction="row" justifyContent="flex-end" alignItems="center" >
+          <Grid container item xs={12} sm={11} direction="row" justifyContent="flex-end" alignItems="center" >
 
-            <Grid item container xs={6} sm={12} >
+            <Grid item container xs={12} sm={12} >
               <Hidden smUp >
                 <Backdrop open={openDial} />
                 <Grid item xs={12}>
                   <StyledSpeedDial
+                    className="ButtonColorGenericoHeaderProfileMovil"
                     ariaLabel="SpeedDial tooltip example"
                     sx={{ top: "1%", bottom: 1, right: "10%" }}
                     icon={
-                      <IconButton className="menuHome"
-                        sx={{ width: "100%", height: "100%", }}>
-                        <HomeIcon />
-                      </IconButton>}
+                      <>
+                        {/* <div className="containerHeaderPerfilVistaMovil"> */}
+                        <Button
+                          className="ButtonColorGenericoHeaderProfileMovil"
+                          ref={anchorRef}
+                          aria-controls={open ? "composition-menu" : undefined}
+                          aria-expanded={open ? "true" : undefined}
+                          aria-haspopup="true"
+                          onClick={handleToggle('left-start')}
+                          sx={{
+                            width: "3.9rem",
+                            height: "3.9rem",
+                            fontSize: btnPerson,
+                            p: 0.1,
+                          }}
+                        >
+                          <img className="LogoMenu"
+                            style={{
+                              objectFit: "scale-down",
+                              width: "60%",
+                              height: "1000%",
+
+                            }}
+                            src={logoNL}
+                          />
+                        </Button>
+
+                        {/* </div> */}
+
+
+                      </>
+                    }
                     onClose={handleCloseDial}
                     onOpen={handleOpenDial}
                     open={openDial}
@@ -377,55 +389,6 @@ export default function Header(props: HeaderProps) {
             </Grid>
 
 
-            {/* <Grid item xs={12} sm={6} md={8} lg={3.2} xl={7}
-              sx={{ bgcolor: COLOR.grisDivisionEntreElementos }}
-            >
-              <Grid container item xs={12} direction="row" justifyContent="flex-end" alignItems="center">
-                <Hidden smDown>
-              <div className="containerBotonesHeader">
-                    <Tooltip title="Bandeja de correo">
-                      <Badge
-                        className="ButtonColorGenericoHeader"
-                        anchorOrigin={{
-                          vertical: "bottom",
-                          horizontal: "left",
-                        }}
-                        badgeContent={cnotif}
-                        color="primary"
-                      >
-                        <IconButton
-                          className="ButtonColorGenericoHeader"
-                          onClick={onNotification} >
-                          <NotificationsNoneIcon className="IconoDentroBoton" />
-                        </IconButton>
-                      </Badge>
-                    </Tooltip>
-                  </div>
-                  <div className="containerBotonesHeader">
-
-                    <Tooltip title="Calendario">
-                      <IconButton
-                        className="ButtonColorGenericoHeader"
-
-                        onClick={onOpenCalendar}
-                      >
-                        <CalendarMonthIcon className="IconoDentroBoton" />
-                      </IconButton>
-                    </Tooltip>
-                  </div> 
-                 <div className="containerBotonesHeader">
-
-                    <Tooltip title="Guía Rapida">
-                      <IconButton
-                        className="ButtonColorGenericoHeader" onClick={onOpenHelp} >
-                        <HelpIcon className="IconoDentroBoton" />
-                      </IconButton>
-                    </Tooltip>
-                  </div> 
-
-                </Hidden>
-              </Grid>
-            </Grid> */}
 
             <Hidden smDown >
 
@@ -452,24 +415,7 @@ export default function Header(props: HeaderProps) {
 
 
                   </Grid>
-                  {/* <Grid container direction="row" justifyContent="flex-start" alignItems="center">
-                    <Typography textTransform={"capitalize"} color="black" >
-                      {user?.Puesto ? user.Puesto.toLowerCase() : ""}
 
-                    </Typography>
-                  </Grid> */}
-                  {/* <Grid container item xs={12} sm={12} direction="row" justifyContent="flex-start" alignItems="center">
-                    <Typography variant="h6" className="SubTextoHeader">
-                      {(user?.PERFILES[0]?.Referencia === "MUN" ? "Enlace: " : " ") +
-                        (user?.ROLES[0]?.Nombre === "Municipio" ? user.ROLES[0].Nombre + " " : " ") +
-                        ((user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN") ? user?.DEPARTAMENTOS[0]?.NombreCorto !== "ORG" ? user?.DEPARTAMENTOS[0]?.Descripcion + " " : " " : "") +
-                        (user?.MUNICIPIO[0]?.Nombre ? " " + user?.MUNICIPIO[0]?.Nombre + " " : " ")
-                        + ((user?.MUNICIPIO[0]?.Nombre || user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN") ? "" : "* Sin Municipio asignado *")
-                        + (user?.ORG[0]?.Descripcion ? " " + user?.ORG[0]?.Descripcion + " " : " ")
-                        + ((user?.ORG[0]?.Descripcion || user?.DEPARTAMENTOS[0]?.NombreCorto !== "ORG") ? "" : "* Sin Organismo asignado *")
-                      }
-                    </Typography>
-                  </Grid> */}
                 </Grid>
                 <Grid item xs={2}>
 
