@@ -24,7 +24,7 @@ import { fmeses } from "../../../share/loadMeses";
 import { fanios } from "../../../share/loadAnios";
 import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
-import DPCP_01 from '../../../../../assets/videos/DPCP_01.mp4';
+import DPCP_01 from '../../../assets/videos/DPCP_01.mp4';
 
 
 const AsigPresupuestal = () => {
@@ -314,6 +314,9 @@ const AsigPresupuestal = () => {
       });
   }, []);
 
+  const handleBorrar = () => {
+    };
+
   return (
     <div>
       <Slider open={slideropen}></Slider>
@@ -449,7 +452,7 @@ const AsigPresupuestal = () => {
         <Grid item xs={12} sm={12} md={12} lg={12}>
         <MUIXDataGridGeneral 
         modulo={'Asignación Presupuestal'} 
-        handleBorrar={}
+        handleBorrar={handleBorrar}
         columns={columnsParticipaciones} 
         rows={data}
         controlInterno={""} 

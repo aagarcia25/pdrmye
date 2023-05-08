@@ -49,7 +49,7 @@ const MUIXDataGridGeneral = ({
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick
           disableColumnFilter
-          disableColumnSelector
+          // disableColumnSelector
           disableDensitySelector
           getRowHeight={() => 'auto'}
           components={{ Toolbar: GridToolbar }}
@@ -87,6 +87,10 @@ const MUIXDataGridGeneral = ({
           checkboxSelection={elimasiva || multiselect}
           onSelectionModelChange={(newSelectionModel: any) => { handleBorrar(newSelectionModel); }}
           localeText={{
+            columnsPanelHideAllButton:"Ocultar todo",
+            columnsPanelShowAllButton:"Mostrar todo",
+            columnsPanelTextFieldPlaceholder:"",
+            columnsPanelTextFieldLabel:"Buscar",
             noRowsLabel: "No se ha encontrado datos.",
             noResultsOverlayLabel: "No se ha encontrado ningún resultado",
             toolbarColumns: "Columnas",

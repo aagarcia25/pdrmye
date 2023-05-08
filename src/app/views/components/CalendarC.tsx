@@ -68,7 +68,7 @@ const CalendarC = () => {
 
   const handleClose = () => {
     setOpen(false);
-    consulta({ NUMOPERACION: 4 ,CHUSER:user.id});
+    consulta({ NUMOPERACION: 4, CHUSER: user.id });
   };
 
   const handleDelete = () => {
@@ -124,7 +124,7 @@ const CalendarC = () => {
           };
           eveitem.push(it);
         });
-  
+
         setEventos(eveitem);
       } else {
         AlertS.fire({
@@ -138,7 +138,7 @@ const CalendarC = () => {
 
 
   useEffect(() => {
-    consulta({ NUMOPERACION: 4 ,CHUSER:user.id});
+    consulta({ NUMOPERACION: 4, CHUSER: user.id });
   }, []);
 
   return (
@@ -154,13 +154,14 @@ const CalendarC = () => {
       ) : (
         ""
       )}
-      <Grid container spacing={1} paddingTop={4}>
+      <Grid container   justifyContent="flex-end" spacing={1} paddingTop={4}>
         <Grid
           item
-          xs={12}
+          xs={12} sm={4} md={2.6}
+           lg={2.5} xl={2}
           sx={{
-            paddingTop:"1%",
-            paddingRight:"2%",
+            paddingTop: "1%",
+            paddingRight: "2%",
             mb: 1,
             display: "flex",
             justifyContent: "right",
@@ -168,13 +169,12 @@ const CalendarC = () => {
         >
           <Button
             onClick={onClickAgregarEvento}
-            className="ButtonColorGenerico"
+            className="agregar"
             // variant="contained"
             startIcon={<AddIcon className="IconoStartIcon" />}
           >
+            Agregar Evento
 
-
-           <Typography variant="h5" className="TextoDentroButton" > Agregar Evento </Typography>
           </Button>
         </Grid>
       </Grid>
@@ -188,7 +188,7 @@ const CalendarC = () => {
         endAccessor="end"
         style={{
           height: "calc( 80rem - 80% )",
-          margin:"2%",
+          margin: "2%",
         }}
         messages={getMessagesES()}
         onSelectEvent={(v) => onSelectEvent(v)}

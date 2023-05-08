@@ -200,7 +200,7 @@ export const AppRouter = (
 
           {/* DAMOP */}
           <Route path='/inicio/Municipio/anticipo/APD' element={<AnticipoParticipaciones />} />
-          <Route path='/inicio/Municipio/participaciones' element={<Participaciones />} />
+          <Route path='/inicio/Municipio/participaciones' element={ log ? <Participaciones /> : <AuthRouter />} />
           {/* FIN DAMOP */}
 
           {/* /// Firma Electronica */}

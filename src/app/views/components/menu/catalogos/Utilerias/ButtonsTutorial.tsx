@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import { Dialog, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material';
 import ReactPlayer from 'react-player'
@@ -59,7 +59,7 @@ const ButtonsTutorial = ({
     >
      <DialogContent>
        <ReactPlayer 
-       url={url}
+       url={String(url)}
        className='react-player'
        playing={true}
        width='100%'
