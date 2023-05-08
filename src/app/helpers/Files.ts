@@ -25,3 +25,15 @@ export function dowloandfile(obj: any){
         link.remove();
       });
 }
+
+export function getfilevideourl(obj: any){
+        let data ="";
+        CatalogosServices.obtenerDoc(obj).then((res) => {
+        var bufferArray = base64ToArrayBuffer( String(res.RESPONSE.RESPONSE.FILE) );
+        var blobStore = new Blob([bufferArray], { type: "video/mp4" });
+        data = window.URL.createObjectURL(blobStore);
+        console.log(data)
+       
+      });
+      return data;
+}

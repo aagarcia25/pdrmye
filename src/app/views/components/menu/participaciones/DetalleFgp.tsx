@@ -669,6 +669,7 @@ const DetalleFgp = ({
               <ToggleButtonGroup>
                 <Tooltip title={"Regresar"}>
                   <ToggleButton
+                  className="regresar"
                     value="check"
                     onClick={() => handleAcciones(1)}
                   >
@@ -679,6 +680,7 @@ const DetalleFgp = ({
                 {verTrazabilidad ? (
                   <Tooltip title={"Ver Trazabilidad"}>
                     <ToggleButton
+                    className="aceptar"
                       value="check"
                       onClick={() => handleAcciones(2)}
                     >
@@ -699,6 +701,7 @@ const DetalleFgp = ({
                     user.PERFILES[0].Referencia === "ANA" ? (
                     <Tooltip title={"Enviar a Validación"}>
                       <ToggleButton
+                      className="aceptar"
                         value="check"
                         onClick={() => handleAcciones(3)}
                       >
@@ -718,6 +721,7 @@ const DetalleFgp = ({
                     user.PERFILES[0].Referencia === "VAL" ? (
                     <Tooltip title={"Enviar a Coordinador"}>
                       <ToggleButton
+                       className="aceptar"
                         value="check"
                         onClick={() => handleAcciones(4)}
                       >
@@ -737,6 +741,7 @@ const DetalleFgp = ({
                   user.PERFILES[0].Referencia === "COOR" ? (
                   <Tooltip title={"Enviar a DAMOP"}>
                     <ToggleButton
+                     className="aceptar"
                       value="check"
                       onClick={() => handleAcciones(5)}
                     >
@@ -754,6 +759,7 @@ const DetalleFgp = ({
                   user.PERFILES[0].Referencia === "ANA" ? (
                   <Tooltip title={"Cancelar"}>
                     <ToggleButton
+                     className="regresar"
                       value="check"
                       onClick={() => handleAcciones(6)}
                     >
@@ -771,6 +777,7 @@ const DetalleFgp = ({
                   user.PERFILES[0].Referencia === "VAL" ? (
                   <Tooltip title={"Regresar a Analista"}>
                     <ToggleButton
+                     className="regresar"
                       value="check"
                       onClick={() => handleAcciones(7)}
                     >
@@ -788,6 +795,7 @@ const DetalleFgp = ({
                   user.PERFILES[0].Referencia === "COOR" ? (
                   <Tooltip title={"Regresar a Validador"}>
                     <ToggleButton
+                    className="regresar"
                       value="check"
                       onClick={() => handleAcciones(8)}
                     >
@@ -797,10 +805,6 @@ const DetalleFgp = ({
                 ) : (
                   ""
                 )}
-
-
-
-
 
               </ToggleButtonGroup>
             </Box>
