@@ -8,6 +8,16 @@ const theme = createTheme(coreEsES, gridEsES);
 
 
 export default function MUIXDataGrid(props: any) {
+
+  const [columnVisibilityModel, setColumnVisibilityModel] =
+  React.useState<GridColumnVisibilityModel>({
+    id: false,
+    IdConCheque:false,
+    TipoSolicitud:false
+  });
+  
+
+
   return (
     <div style={{ height: 600, width: "100%" }}>
       <ThemeProvider theme={theme}>
@@ -16,6 +26,10 @@ export default function MUIXDataGrid(props: any) {
           columns={props.columns}
           rows={props.rows}
           density="compact"
+          columnVisibilityModel={columnVisibilityModel}
+          onColumnVisibilityModelChange={(newModel) =>
+            setColumnVisibilityModel(newModel)
+          }
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick
           disableColumnFilter

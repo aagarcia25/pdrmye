@@ -26,6 +26,13 @@ const MUIXDataGridMun = ({
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [elimasiva, setelimasiva] = useState<boolean>(false);
 
+  const [columnVisibilityModel, setColumnVisibilityModel] =
+  React.useState<GridColumnVisibilityModel>({
+    id: false,
+    IdConCheque:false,
+    TipoSolicitud:false
+  });
+
   useEffect(() => {
 
     permisos.map((item: PERMISO) => {
@@ -43,6 +50,10 @@ const MUIXDataGridMun = ({
         <DataGrid
           columns={columns}
           rows={rows}
+          columnVisibilityModel={columnVisibilityModel}
+          onColumnVisibilityModelChange={(newModel) =>
+            setColumnVisibilityModel(newModel)
+          }
           error={rows.value < 0}
           density="compact"
           rowsPerPageOptions={[10, 25, 50, 100]}
