@@ -24,7 +24,7 @@ export default function MUIXDataGrid(props: any) {
           getRowId={(row) => row.Id ? row.Id : row.id}
           rowHeight={255}
           getRowHeight={() => 'auto'}
-          components={{ Toolbar: GridToolbar }}
+        
           sx={{
             fontFamily: "Poppins,sans-serif", fontWeight: '500',
             fontSize:"12px",
@@ -41,13 +41,13 @@ export default function MUIXDataGrid(props: any) {
               color: '#000000',
             },
           }}
+          components={{ Toolbar: GridToolbar }}
           componentsProps={{
             toolbar: {
               label: "Buscar",
               showQuickFilter: true,
               quickFilterProps: { debounceMs: 500 },
               csvOptions: {
-
                 fileName: props.modulo,
                 utf8WithBom: true,
               }

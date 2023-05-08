@@ -784,8 +784,51 @@ button.nuevo-mensaje {
   color: rgb(255, 255, 255);
   background-color: #15212f;
   width: 100%;
-  box-shadow: rgba(171, 171, 0, 0.24) 0px 8px 16px 0px;
+  box-shadow: rgba(103, 103, 22, 0.24) 0px 8px 16px 0px;
+
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+}
+
+button.nuevo-mensaje:hover {
+  background-color: #000000e7;
+  color: white;
+  box-shadow: rgba(88, 88, 22, 0.247) 0px 8px 16px 0px;
+
+
+}
+
+button.agregar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  font-weight: 700;
+  line-height: 1.71429;
+  font-size: 0.875rem;
+  text-transform: capitalize;
+  font-family: sans-serif;
+  min-width: 64px;
+  padding: 6px 16px;
+  border-radius: 8px;
+  color: rgb(255, 255, 255);
+  background-color: #15212f;
+  width: 100%;
+  box-shadow: rgba(103, 103, 22, 0.24) 0px 8px 16px 0px;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+}
+
+button.agregar:hover {
+  background-color: #15212fe7;
+  color: white;
+  box-shadow: rgba(88, 88, 22, 0.247) 0px 8px 16px 0px;
+
 }
 
 button.enviar-mensaje {
@@ -963,12 +1006,7 @@ button.notificacionesSelected:hover {
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
 }
 
-button.nuevo-mensaje:hover {
-  background-color: #15212fe7;
-  color: white;
-  box-shadow: rgba(255, 255, 3, 0.247) 0px 8px 16px 0px;
 
-}
 
 .cerrar-nuevo-mensaje:hover {
   background-color: #060606;
