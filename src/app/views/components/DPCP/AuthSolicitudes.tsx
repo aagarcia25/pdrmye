@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Button,
   createTheme,
@@ -11,7 +12,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
@@ -19,11 +20,12 @@ import SendIcon from "@mui/icons-material/Send";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../services/localStorage";
+import { getPermisos, getUser, setMunicipios } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
 import {
+  GridColumnVisibilityModel,
   GridSelectionModel,
   esES as gridEsES,
 } from "@mui/x-data-grid";
@@ -31,9 +33,9 @@ import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
 import DPCP_02 from '../../../assets/videos/DPCP_02.mp4';
 import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 
 
 
@@ -59,75 +61,30 @@ const AuthSolicitudes = () => {
   const [sumaTotal, setSumaTotal] = useState<Number>();
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const handleDescuento = (data: any) => { };
+  const [authSol, setAuthSol] = useState(false);
+
+
 
   const columnsParticipaciones = [
     { field: "id", hide: true, hideable: false },
-    {
-      field: "a2",
-      headerName: "Estatus",
-      width: 150,
-      description: "Estatus",
-    },
-    {
-      field: "a3",
-      headerName: "Nº De Solicitud De Pago",
-      width: 200,
-      description: "Nº De Solicitud De Pago",
-    },
-    {
-      field: "a6",
-      headerName: "Año",
-      width: 100,
-      description: "Año",
-    },
-    {
-      field: "a7",
-      headerName: "Mes",
-      width: 100,
-      description: "Mes",
-    },
-    {
-      field: "a18",
-      headerName: "U. Resp",
-      width: 100,
-      description: "Unidad Responsable",
-    },
-
-    {
-      field: "a8",
-      headerName: "Proveedor",
-      width: 150,
-      description: "Proveedor",
-    },
-    {
-      field: "a9",
-      headerName: "Descripción",
-      width: 250,
-      description: "Descripción",
-
-    },
-    /* {
-       field: "ClavePresupuestal",
-       headerName: "Clave Presupuestal",
-       description: "Clave Presupuestal",
-       width: 600,
-       hide: false,
-     },*/
-    {
-      field: "a10",
+    { field: "a2", headerName: "Estatus", width: 150,description: "Estatus"   },
+    { field: "a3", headerName: "Nº De Solicitud De Pago", width: 200, description: "Nº De Solicitud De Pago"   },
+    { field: "a6", headerName: "Año", width: 100,      description: "Año"    },
+    { field: "a7", headerName: "Mes",      width: 100,      description: "Mes"    },
+    { field: "a18",headerName: "U. Resp",      width: 100,      description: "Unidad Responsable"    },
+    { field: "a8", headerName: "Proveedor",      width: 150,      description: "Proveedor"    },
+    { field: "a9", headerName: "Descripción",      width: 250,      description: "Descripción"   },
+    { field: "a10",
       headerName: "Total Neto",
       width: 280,
       description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
       ...Moneda,
       renderHeader: () => (
-        <>
           <Tooltip title={"Total Neto = (Total Bruto - (Retenciones + Descuentos))"}>
             <Typography >
               {"Total Neto: " + currencyFormatter.format(Number(sumaTotal))}
             </Typography>
           </Tooltip>
-        </>
       ),
 
     },
@@ -249,27 +206,22 @@ const AuthSolicitudes = () => {
 
 
   };
+  
   useEffect(() => {
     loadFilter(12);
     loadFilter(32);
     loadFilter(17);
     handleClick();
-    /*  permisos.map((item: PERMISO) => {
-        if (
-          String(item.ControlInterno) === "PARTMUN"
-        ) {
+
+      permisos.map((item: PERMISO) => {
+        if (String(item.ControlInterno) === "DPCPAUTHSOL") {
           //console.log(item);
-          if (String(item.Referencia) === "AGREGPLANT") {
-            setCargarPlant(true);
+          if (String(item.Referencia) === "AUTHSOL") {
+            setAuthSol(true);
           }
-          else if (String(item.Referencia) === "DESCPLANT") {
-            setDescPlant(true);
-          }
-          else if (String(item.Referencia) === "DISFIDE") {
-            setDisFide(true);
-          }
+          
         }
-      });*/
+      });
   }, []);
 
   return (
@@ -348,6 +300,7 @@ const AuthSolicitudes = () => {
           </Button>
         </Grid>
 
+        {authSol ?
         <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
           <ToggleButtonGroup>
             <Tooltip title={"Autorizar Solicitudes"}>
@@ -359,12 +312,13 @@ const AuthSolicitudes = () => {
             </Tooltip>
           </ToggleButtonGroup>
         </Grid>
+        :""
+      }
 
 
 
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <>
             <MUIXDataGridGeneral
               modulo={'Autorizacion de Solicitudes'}
               handleBorrar={handleBorrar}
@@ -373,8 +327,6 @@ const AuthSolicitudes = () => {
               controlInterno={""}
               multiselect={true} />
 
-
-          </>
         </Grid>
       </Grid>
     </div>

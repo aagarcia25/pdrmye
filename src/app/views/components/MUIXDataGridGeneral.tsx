@@ -1,9 +1,10 @@
-import { DataGrid, esES as gridEsES, GridToolbar, } from "@mui/x-data-grid";
+import { DataGrid, GridColumnVisibilityModel, esES as gridEsES, GridToolbar, } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 import { useEffect, useState } from "react";
 import { PERMISO } from "../../interfaces/user/UserInfo";
 import { getPermisos } from "../../services/localStorage";
+import React from "react";
 
 
 const theme = createTheme(coreEsES, gridEsES);
@@ -27,6 +28,13 @@ const MUIXDataGridGeneral = ({
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [elimasiva, setelimasiva] = useState<boolean>(false);
 
+  const [columnVisibilityModel, setColumnVisibilityModel] =
+  React.useState<GridColumnVisibilityModel>({
+    id: false,
+    IdConCheque:false,
+    TipoSolicitud:false
+  });
+  
   useEffect(() => {
 
     permisos.map((item: PERMISO) => {
@@ -44,6 +52,12 @@ const MUIXDataGridGeneral = ({
         <DataGrid
           columns={columns}
           rows={rows}
+          
+          columnVisibilityModel={columnVisibilityModel}
+          onColumnVisibilityModelChange={(newModel) =>
+            setColumnVisibilityModel(newModel)
+          }
+
           error={rows.value < 0}
           density="compact"
           rowsPerPageOptions={[10, 25, 50, 100]}
@@ -68,22 +82,19 @@ const MUIXDataGridGeneral = ({
             toolbar: {
               label: "Buscar",
               showQuickFilter: true,
-
               quickFilterProps: { debounceMs: 500, },
-
               csvOptions: {
                 fileName: modulo,
                 utf8WithBom: true,
-
               }
             },
           }}
-          isRowSelectable={(params) => (
+         // isRowSelectable={(params) => (
             // params.row.NumCheque === null
             // ||params.row.NumEgreso===null
             // ||params.row.NumRequerimientoAnt===null||
-            params.row.NumOrdenPago === null
-          )}
+           // params.row.NumOrdenPago === null
+        //  )}
           checkboxSelection={elimasiva || multiselect}
           onSelectionModelChange={(newSelectionModel: any) => { handleBorrar(newSelectionModel); }}
           localeText={{
