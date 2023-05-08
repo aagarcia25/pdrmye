@@ -76,12 +76,6 @@ const AsigPresupuestal = () => {
       description: "Unidad Responsable",
       width: 80,
     },
-   /* {
-      field: "ClaveEstado",
-      headerName: "Clave Estado",
-      description: "Clave Estado",
-      width: 100,
-    },*/
     {
       field: "a7",
       headerName: "Proveedor",
@@ -94,13 +88,6 @@ const AsigPresupuestal = () => {
       description: "Descripción",
       width: 250,
     },
-    // {
-    //   field: "a14",
-    //   headerName: "Clave Presupuestal",
-    //   description: "Clave Presupuestal",
-    //   width: 500,
-    // },
-
     
     {
       field: "a52",
@@ -247,7 +234,6 @@ const AsigPresupuestal = () => {
       P_IDMES: mes === "false" ? "" : mes,
       P_IDANIO: mes === "false" ? "" : anio,
     };
-    //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -291,9 +277,6 @@ const AsigPresupuestal = () => {
 
     }
     
-
-
-   
 
   };
 
