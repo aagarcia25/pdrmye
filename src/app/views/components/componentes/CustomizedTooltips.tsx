@@ -19,9 +19,8 @@ export const TooltipPersonalizado = styled(({ className, ...props }: TooltipProp
   [`& .${tooltipClasses.tooltip}`]: {
     backgroundColor: '#AF8C55',
     color: 'ffffffe7',
-    
     maxWidth: 1000,
-    fontSize: theme.typography.pxToRem(12),
+    fontSize: theme.typography.pxToRem(15),
     border: '1px solid #dadde9',
     
     

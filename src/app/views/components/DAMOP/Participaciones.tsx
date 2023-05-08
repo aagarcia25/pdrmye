@@ -268,9 +268,9 @@ const Participaciones = () => {
   };
 
   const columnsParticipaciones = [
-    { field: "id", hide: true },
-    { field: "TipoSolicitud", hide: true },
-    { field: "IdConCheque", hide: true },
+    { field: "id", hide: true,hideable:false },
+    { field: "TipoSolicitud", hide: true ,hideable:false },
+    { field: "IdConCheque", hide: true ,hideable:false},
     {
       field: "Operaciones",
       disableExport: true,
@@ -517,14 +517,14 @@ const Participaciones = () => {
       width: 250,
     },
     {
-      hide: true ,
+      hide: true ,hideable:false ,
       field: "ClaveBeneficiario",
       headerName: "Cve. Beneficiario",
       width: 200,
       description: "Clave de Beneficiario",
     },
     {
-      hide: true ,
+      hide: true,hideable:false ,
       field: "DescripcionBeneficiario",
       headerName: "Beneficiario",
       width: 200,

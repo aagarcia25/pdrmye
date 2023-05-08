@@ -338,9 +338,9 @@ const ModalNew = ({
                 <TooltipPersonalizado
                   title={
                     <React.Fragment>
-                      <h3 className="h3-justify">
+                      {/* <h3 className="h3-justify"> */}
                         {"Si se activa esta opción el cálculo se realizará tomando la proporción de garantía del fondo"}
-                      </h3>
+                      {/* </h3> */}
                     </React.Fragment>
 
 

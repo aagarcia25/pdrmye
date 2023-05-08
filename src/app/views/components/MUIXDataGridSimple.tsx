@@ -1,11 +1,18 @@
 import * as React from "react";
-import { DataGrid, esES as gridEsES, esES, GridCellParams, GridToolbar, GridToolbarFilterButton } from "@mui/x-data-grid";
+import { DataGrid, esES as gridEsES, esES, GridCellParams, GridToolbar, GridToolbarFilterButton, GridColumnVisibilityModel } from "@mui/x-data-grid";
 import { createTheme, Grid, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 
 const theme = createTheme(coreEsES, gridEsES);
 
 export default function MUIXDataGridSimple(props: any) {
+
+  const [columnVisibilityModel, setColumnVisibilityModel] =
+  React.useState<GridColumnVisibilityModel>({
+    id: false,
+    IdConCheque:false,
+    TipoSolicitud:false
+  });
 
   return (
 
@@ -25,6 +32,10 @@ export default function MUIXDataGridSimple(props: any) {
         pageSize={20}
         columns={props.columns}
         rows={props.rows}
+        columnVisibilityModel={columnVisibilityModel}
+          onColumnVisibilityModelChange={(newModel) =>
+            setColumnVisibilityModel(newModel)
+          }
         sx={{
           fontFamily: "sans-serif",
           '& .super-app-theme--cell': {

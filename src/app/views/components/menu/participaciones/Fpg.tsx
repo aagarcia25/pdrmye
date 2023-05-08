@@ -358,7 +358,7 @@ export const Fpg = () => {
         <Grid item xs={10} sx={{ textAlign: "center" }}>
           <TooltipPersonalizado title={
             <React.Fragment>
-            <Typography variant="h6" className="h3-justify">
+            <Typography variant="h6" className="h6-justify">
               {objfondo?.Comentarios}
               </Typography>
 
