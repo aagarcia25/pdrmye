@@ -64,12 +64,12 @@ const AsigPresupuestal = () => {
       width: 100,
 
     },
-    {
-      field: "a4",
-      headerName: "Nº De Operación",
-      description: "Número De Operación",
-      width: 150,
-    },
+    // {
+    //   field: "a4",
+    //   headerName: "Nº De Operación",
+    //   description: "Número De Operación",
+    //   width: 150,
+    // },
     {
       field: "a16",
       headerName: "U. Resp",
