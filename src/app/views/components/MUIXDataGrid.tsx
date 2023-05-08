@@ -1,7 +1,8 @@
-import { DataGrid, esES as gridEsES, esES, GridToolbar, } from "@mui/x-data-grid";
+import { DataGrid, esES as gridEsES, esES, GridToolbar, GridColumnVisibilityModel, } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 import { CustomToolbar } from "./menu/CustomToolbar";
+import React from "react";
 
 const theme = createTheme(coreEsES, gridEsES);
 

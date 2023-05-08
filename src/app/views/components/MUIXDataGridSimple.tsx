@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DataGrid, esES as gridEsES, esES, GridCellParams, GridToolbar, GridToolbarFilterButton } from "@mui/x-data-grid";
+import { DataGrid, esES as gridEsES, esES, GridCellParams, GridToolbar, GridToolbarFilterButton, GridColumnVisibilityModel } from "@mui/x-data-grid";
 import { createTheme, Grid, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 
