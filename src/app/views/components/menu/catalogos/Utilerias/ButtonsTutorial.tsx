@@ -2,16 +2,13 @@ import React, { useEffect, useState } from 'react'
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import { Dialog, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material';
 import ReactPlayer from 'react-player'
-import { getfilevideourl } from '../../../../../helpers/Files';
-import { getToken } from '../../../../../services/localStorage';
-import DPCP_01 from '../../../../../assets/videos/DPCP_01.mp4';
-import DPCP_02 from '../../../../../assets/videos/DPCP_02.mp4';
+
 
 const ButtonsTutorial = ({
     url,
     route
 }:{
-    url: string;
+    url: ReactNode;
     route: string;
 }
 ) => {
@@ -62,7 +59,7 @@ const ButtonsTutorial = ({
     >
      <DialogContent>
        <ReactPlayer 
-       url={DPCP_01}
+       url={url}
        className='react-player'
        playing={true}
        width='100%'

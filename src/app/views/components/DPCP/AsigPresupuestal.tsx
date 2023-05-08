@@ -1,16 +1,12 @@
 import {
-  Box,
   Button,
-  createTheme,
   Grid,
   IconButton,
-  ThemeProvider,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
   Typography,
 } from "@mui/material";
-import clsx from 'clsx';
 import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
@@ -18,30 +14,20 @@ import SelectFrag from "../Fragmentos/SelectFrag";
 import SendIcon from "@mui/icons-material/Send";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda } from "../menu/CustomToolbar";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getPermisos, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
-import {
-  DataGrid,
-  GridSelectionModel,
-  GridToolbar,
-  esES as gridEsES,
-} from "@mui/x-data-grid";
-import { esES as coreEsES } from "@mui/material/locale";
 import { fmeses } from "../../../share/loadMeses";
 import { fanios } from "../../../share/loadAnios";
 import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
-
-
+import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
+import DPCP_01 from '../../../../../assets/videos/DPCP_01.mp4';
 
 
 const AsigPresupuestal = () => {
-  const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
   //MODAL
   //Constantes para llenar los select
@@ -49,12 +35,9 @@ const AsigPresupuestal = () => {
   const [anio, setAnio] = useState<string>("");
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tipos, setTipos] = useState<SelectValues[]>([]);
-  const [checkboxSelection, setCheckboxSelection] = useState(true);
-  const [vrows, setVrows] = useState<{}>("");
   //Constantes de los filtros
   const [idtipo, setIdTipo] = useState("");
   const [idFondo, setIdFondo] = useState("");
@@ -62,10 +45,8 @@ const AsigPresupuestal = () => {
   //Constantes para las columnas
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const handleDescuento = (data: any) => { };
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -342,7 +323,7 @@ const AsigPresupuestal = () => {
           <Grid container sx={{ justifyContent: "center" }}>
          
           <Grid item xs={1} >
-              <ButtonsTutorial url={"DPCP_ASIGNACIÓN PRESUPUESTAL.mp4"} route={"/PDRMYE_DEV/DPCP/TUTORIAL/"}></ButtonsTutorial>
+              <ButtonsTutorial url={DPCP_01} route={"/PDRMYE_DEV/DPCP/TUTORIAL/"}></ButtonsTutorial>
             </Grid>
 
             <Grid item xs={11} sx={{ textAlign: "center" }}>
@@ -466,99 +447,13 @@ const AsigPresupuestal = () => {
 
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <div
-            style={{
-              height: "58vh",
-              width: "100%",
-            }}
-          >
-            <ThemeProvider theme={theme}>
-              <DataGrid
-                columns={columnsParticipaciones}
-                rows={data}
-                density="compact"
-                rowsPerPageOptions={[10, 25, 50, 100]}
-                disableSelectionOnClick
-                disableColumnFilter
-                disableColumnSelector
-                disableDensitySelector
-                getRowHeight={() => "auto"}
-                // getRowClassName={(params) => {
-                //   if (params.row.Presupuesto == null) {
-                //     return '';
-                //   }
-                //   return clsx('super-app', {
-                //     negative: params.row.Presupuesto !== params.row.total,
-                //     positive: params.row.Presupuesto == params.row.total,
-                //   });
-                // }
-                // }
-                components={{ Toolbar: GridToolbar }}
-                sx={{
-                  fontFamily: "Poppins,sans-serif", fontWeight: '500',
-                  fontSize:"12px",
-                  '& .super-app.negative': {
-                    color: "rgb(84, 3, 3)",
-                    backgroundColor: "rgb(196, 40, 40, 0.384)",
-                  },
-                  '& .super-app.positive': {
-                    backgroundColor: 'rgb(16, 145, 80, 0.567)',
-
-                  },
-                }}
-                componentsProps={{
-                  toolbar: {
-                    label: "buscar",
-                    showQuickFilter: true,
-                    quickFilterProps: { debounceMs: 500 },
-                    csvOptions: {
-                      fileName: 'AsignacionPresup',
-                      utf8WithBom: true,
-                    }
-                  },
-                }}
-                checkboxSelection={checkboxSelection}
-                onSelectionModelChange={(newSelectionModel: any) => {
-                  setSelectionModel(newSelectionModel);
-                }}
-                selectionModel={selectionModel}
-                localeText={{
-                  noRowsLabel: "No se ha encontrado datos.",
-                  noResultsOverlayLabel: "No se ha encontrado ningún resultado",
-                  toolbarColumns: "Columnas",
-                  toolbarExport: "Exportar",
-                  toolbarColumnsLabel: "Seleccionar columnas",
-                  toolbarFilters: "Filtros",
-                  toolbarFiltersLabel: "Ver filtros",
-                  toolbarFiltersTooltipHide: "Quitar filtros",
-                  toolbarFiltersTooltipShow: "Ver filtros",
-                  toolbarQuickFilterPlaceholder: "Buscar",
-                  toolbarExportCSV: 'Descargar como CSV',
-                  toolbarExportPrint: 'Imprimir',
-                  checkboxSelectionSelectRow: "Filas seleccionadas",
-                  checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
-                  errorOverlayDefaultLabel: 'Ha ocurrido un error.',
-                  footerRowSelected: (count) =>
-                    count > 1 ?
-                      `${count.toLocaleString()} filas seleccionadas`
-                      :
-                      `${count.toLocaleString()} fila seleccionada`,
-                  footerTotalRows: 'Filas Totales:',
-                  columnMenuLabel: 'Menú',
-                  columnMenuShowColumns: 'Mostrar columnas',
-                  columnMenuFilter: 'Filtro',
-                  columnMenuHideColumn: 'Ocultar',
-                  columnMenuUnsort: 'Desordenar',
-                  columnMenuSortAsc: 'Ordenar ASC',
-                  columnMenuSortDesc: 'Ordenar DESC',
-                  columnHeaderFiltersTooltipActive: (count) =>
-                    count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
-                  columnHeaderFiltersLabel: 'Mostrar filtros',
-                  columnHeaderSortIconLabel: 'Ordenar',
-                }}
-              />
-            </ThemeProvider>
-          </div>
+        <MUIXDataGridGeneral 
+        modulo={'Asignación Presupuestal'} 
+        handleBorrar={}
+        columns={columnsParticipaciones} 
+        rows={data}
+        controlInterno={""} 
+        multiselect={true}/>
         </Grid>
       </Grid>
     </div>

@@ -1,18 +1,9 @@
 import {
-  Button,
   createTheme,
   FormControl,
   Grid,
-  IconButton,
   InputAdornment,
-  OutlinedInput,
-  ThemeProvider,
-  ToggleButton,
-  ToggleButtonGroup,
-  Tooltip,
-  Typography,
 } from "@mui/material";
-import clsx from 'clsx';
 import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
@@ -26,17 +17,12 @@ import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
 import {
-  DataGrid,
   GridSelectionModel,
-  GridToolbar,
   esES as gridEsES,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Swal from "sweetalert2";
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
-import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
+import DPCP_02 from '../../../../../assets/videos/DPCP_02.mp4';
 const AuthSolicitudes = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
@@ -283,7 +269,7 @@ const AuthSolicitudes = () => {
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
           <Grid item xs={1} >
-          <ButtonsTutorial url={"DPCP_ASIGNACIÓN PRESUPUESTAL.mp4"} route={"/PDRMYE_DEV/DPCP/TUTORIAL/"}></ButtonsTutorial>
+          <ButtonsTutorial url={DPCP_02} route={"/PDRMYE_DEV/DPCP/TUTORIAL/"}></ButtonsTutorial>
         </Grid>
             <Grid item xs={11} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
