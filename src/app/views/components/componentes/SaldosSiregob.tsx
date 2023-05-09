@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { SireService } from '../../../services/SireService';
-import { AlertS } from '../../../helpers/AlertS';
 import { RConsultaClavesPresupuestales } from '../../../interfaces/siregob/RConsultaClavesPresupuestales';
+import { currencyFormatter } from '../menu/CustomToolbar';
 
 const SaldosSiregob = ({
     anio,
@@ -56,21 +56,18 @@ const SaldosSiregob = ({
         };
         SireService.ConsultaPresupuesto(data).then((res) => {
           if (res.data.SUCCESS) {
-            setSuficiencia(res.data.RESPONSE);
+            const obj: RConsultaClavesPresupuestales  = res.data;
+           // console.log(obj.RESPONSE[0].Saldos.Comprometido.Total);
+           setSuficiencia(String(obj.RESPONSE[0].Saldos.Comprometido.Total));
           } else {
             setError(res.data.STRMESSAGE);
           }
         });
       };
 
+
 useEffect(() => {
-
-  //  setTimeout(() => {
         buscarPresu();
-  //    }, 1000)
-
-      
-       
 }, [
     clasificador1,
     clasificador2,
@@ -84,11 +81,9 @@ useEffect(() => {
     clasificador10,
     clasificador11]);
 
-      
-
   return (
     <>
-    {error !== "" ? error : suficiencia }
+    {error !== "" ? error : currencyFormatter.format(Number(suficiencia)) }
     </>
   )
 }

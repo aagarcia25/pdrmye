@@ -1,9 +1,13 @@
 export interface RConsultaClavesPresupuestales {
-    RESPONSE: Clave[]
+  NUMCODE: number
+  STRMESSAGE: string
+  RESPONSE: clave[]
+  SUCCESS: boolean
   }
   
  
-  export interface Clave {
+
+  export interface clave {
     Presupuestal: string
     Habilitada: string
     ValidaPresupuesto: string
@@ -11,6 +15,7 @@ export interface RConsultaClavesPresupuestales {
     Descripcion: string
     Saldos: Saldos
   }
+
   
   export interface Saldos {
     Estimado: Estimado
