@@ -25,11 +25,12 @@ import { fanios } from "../../../share/loadAnios";
 import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import DPCP_01 from '../../../assets/videos/DPCP_01.mp4';
+import SaldosSiregob from "../componentes/SaldosSiregob";
 import NombreCatalogo from "../componentes/NombreCatalogo";
 
 
 const AsigPresupuestal = () => {
-  const [slideropen, setslideropen] = useState(true);
+  const [slideropen, setslideropen] = useState(false);
   //MODAL
   //Constantes para llenar los select
   const [anios, setAnios] = useState<SelectValues[]>([]);
@@ -55,34 +56,20 @@ const AsigPresupuestal = () => {
       field: "a3",
       headerName: "Ejercicio",
       description: "Ejercicio",
-      width: 80,
-
+      width: 70,
     },
     {
       field: "a5",
       headerName: "Mes",
       description: "Mes",
       width: 100,
-
-    },
-    {
-      field: "a4",
-      headerName: "Nº De Operación",
-      description: "Número De Operación",
-      width: 150,
     },
     {
       field: "a16",
       headerName: "U. Resp",
       description: "Unidad Responsable",
-      width: 80,
+      width: 70,
     },
-    /* {
-       field: "ClaveEstado",
-       headerName: "Clave Estado",
-       description: "Clave Estado",
-       width: 100,
-     },*/
     {
       field: "a7",
       headerName: "Proveedor",
@@ -95,111 +82,113 @@ const AsigPresupuestal = () => {
       description: "Descripción",
       width: 250,
     },
-    // {
-    //   field: "a14",
-    //   headerName: "Clave Presupuestal",
-    //   description: "Clave Presupuestal",
-    //   width: 500,
-    // },
-
-
-    {
+    
+   /* {
       field: "a52",
-      headerName: "Fecha Asignación",
+      headerName: "Fecha Validación",
       width: 150,
-      description: "Fecha de Asignación de Suficiencia Presupuestal",
-
-    },
+      description: "Fecha de Validación de Suficiencia Presupuestal",
+      renderCell: (v: any) => (
+        Date().toLocaleString()
+      ),
+    },*/
 
     {
       field: "a12",
       headerName: "Presupuesto SIREGOB",
       width: 200,
       description: "Presupuesto SIREGOB",
-      ...Moneda,
+      renderCell: (v: any) => (
+        
+                <SaldosSiregob 
+                anio={String(v.row.a3)}
+                clasificador1={String(v.row.a41)}
+                clasificador2={String(v.row.a42)}
+                clasificador3={String(v.row.a43)}
+                clasificador4={String(v.row.a44)}
+                clasificador5={String(v.row.a45)}
+                clasificador6={String(v.row.a46)}
+                clasificador7={String(v.row.a47)}
+                clasificador8={String(v.row.a48)}
+                clasificador9={String(v.row.a49)}
+                clasificador10={String(v.row.a50)}
+                clasificador11={String(v.row.a51)}
+                mes={String(v.row.a5)} 
+                ></SaldosSiregob>
+         
+      ),
     },
     {
       field: "a11",
       headerName: "Total Neto",
-      width: 200,
+      width: 150,
       description: "Total Neto",
       ...Moneda,
     },
-
     {
       field: "a41",
       headerName: "ADMIN",
-      width: 200,
+      width: 150,
       description: "Descripción CLASIFICACIÓN ADMINISTRATIVA",
     },
-
     {
       field: "a42",
       headerName: "FUNCIÓN",
       width: 100,
       description: "Descripción CLASIFICACIÓN FUNCIONAL",
     },
-
     {
       field: "a43",
       headerName: "PROGRA",
       width: 100,
       description: "Descripción CLASIF PROGRAMÁTICO",
     },
-
     {
       field: "a44",
       headerName: "PARTIDA",
       width: 100,
       description: "Descripción CLASIFICADOR POR OBJETO DE GASTO",
     },
-
     {
       field: "a45",
       headerName: "T.GASTO",
       width: 100,
       description: "Descripción CLASIFICADOR POR TIPO DE GASTO",
     },
-
     {
       field: "a46",
       headerName: "F.FINANC",
       width: 100,
       description: "Descripción CLASIFICADOR POR FUENTES DE FINANCIAMIENTO",
     },
-
     {
       field: "a47",
       headerName: "RAMO",
       width: 100,
       description: "Descripción RAMO-FONDO/CONVENIO 2020 / 2021 / 2022 / 2023",
     },
-
     {
       field: "a48",
       headerName: "AÑO",
-      width: 100,
+      width: 70,
       description: "Descripción AÑO DEL RECURSO",
     },
-
     {
       field: "a49",
       headerName: "CONT.INT",
       width: 100,
       description: "Descripción CONTROL INTERNO",
     },
-
     {
       field: "a50",
       headerName: "MUNIC.",
       width: 100,
       description: "Descripción CLASIFICACIÓN GEOGRÁFICA",
     },
-
     {
       field: "a51",
       headerName: "PRY/PG",
-      width: 150,
+      width: 100,
       description: "Descripción PROYECTO/PROGRAMA",
     },
 
@@ -248,7 +237,6 @@ const AsigPresupuestal = () => {
       P_IDMES: mes === "false" ? "" : mes,
       P_IDANIO: mes === "false" ? "" : anio,
     };
-    //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -297,10 +285,6 @@ const AsigPresupuestal = () => {
 
     }
 
-
-
-
-
   };
 
   useEffect(() => {
@@ -309,16 +293,17 @@ const AsigPresupuestal = () => {
     loadFilter(31);
     loadFilter(32);
     loadFilter(17);
-    handleClick();
-    permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "DPCPPRES") {
-        if (String(item.Referencia) === "CPRESUPUESTO") {
-          setCargarPlant(true);
+   // handleClick();
+      permisos.map((item: PERMISO) => {
+        if (String(item.ControlInterno) === "DPCPPRES") {
+          if (String(item.Referencia) === "CPRESUPUESTO") {
+            setCargarPlant(true);
+          }
+         
         }
 
-      }
-    });
-  }, []);
+      });
+    }, []);
 
   const handleBorrar = () => {
   };
