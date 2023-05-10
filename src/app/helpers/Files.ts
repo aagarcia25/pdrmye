@@ -26,14 +26,24 @@ export function dowloandfile(obj: any){
       });
 }
 
-export function getfilevideourl(obj: any){
-        let data ="";
-        CatalogosServices.obtenerDoc(obj).then((res) => {
-        var bufferArray = base64ToArrayBuffer( String(res.RESPONSE.RESPONSE.FILE) );
-        var blobStore = new Blob([bufferArray], { type: "video/mp4" });
-        data = window.URL.createObjectURL(blobStore);
-        console.log(data)
-       
-      });
-      return data;
-}
+
+
+// export function uploadfilevideo(obj: any){
+//     let data ="";
+//     const formData = new FormData();
+
+//     formData.append("CHID", data.id);
+//     formData.append("NUMOPERACION", modo === "editar" ? "2" : "1");
+//     formData.append("VIDEO", newDoc);
+//     formData.append("IDSOLICITUD", modo === "editar" ? String(data.id) : res.RESPONSE);
+//     formData.append("COMENTARIO", modo === "editar" ? "Edicion de archivo" : "carga de archivo");
+//     CatalogosServices.SaveVideoTutorial(obj).then((res) => {
+//     var bufferArray = base64ToArrayBuffer( String(res.RESPONSE.RESPONSE.FILE) );
+//     console.log(res.RESPONSE.RESPONSE.FILE)
+//     var blobStore = new Blob([bufferArray], { type: "video/mp4" });
+//     data = window.URL.createObjectURL(blobStore);
+//     console.log(data)
+   
+//   });
+//   return data;
+// }

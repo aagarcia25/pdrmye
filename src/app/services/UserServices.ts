@@ -11,6 +11,7 @@ export class UserServices {
     public static  verify(data: any) {
         return  post('verify', data);
     }
+    
 
 
     public static async userDetail(data: any) {

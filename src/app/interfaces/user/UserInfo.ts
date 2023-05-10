@@ -154,6 +154,13 @@ export interface RESPONSESTORAGE {
 
 }
 
+export interface RESPONSEVIDEOS {
+    nombreOriginal: string;
+    nombreVideo: string;
+
+
+}
+
 export interface RESPONSE {
     NOMBRE?: string;
     TIPO?: string;

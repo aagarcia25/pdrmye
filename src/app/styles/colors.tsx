@@ -4,7 +4,7 @@ export const COLOR = {
     negro: '#000000',
     azul:'#051c2c',
     grisTarjetaBienvenido: '#CCCCCC',
-    doradoNL: '#B08C55',
+    doradoNL: '#AF8C55',
     grisDivisionEntreElementos: '#808080',
     grisBotones:'#EEEEEE',
     rojo:'#fa4238',

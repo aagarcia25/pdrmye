@@ -8,7 +8,9 @@ export class CatalogosServices {
         return await post('TiposDePagoSP', data);
     }
 
-
+    public static  AdminVideoTutoriales(data: any) {
+        return  post('AdminVideoTutoriales', data);
+    }
     
     public static async IndexClasificacionSP(data: any) {
         return await post('IndexClasificacionSP', data);

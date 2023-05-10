@@ -231,7 +231,7 @@ const AuthSolicitudes = () => {
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={1} >
-              <ButtonsTutorial url={DPCP_02} route={"/PDRMYE_DEV/DPCP/TUTORIAL/"}></ButtonsTutorial>
+              <ButtonsTutorial  route={"/PDRMYE_DEV/DPCP/TUTORIAL/"} controlInterno={"AUTHSOL"}></ButtonsTutorial>
             </Grid>
             <Grid item xs={11} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>

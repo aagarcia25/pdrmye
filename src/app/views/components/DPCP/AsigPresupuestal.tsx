@@ -25,6 +25,7 @@ import { fanios } from "../../../share/loadAnios";
 import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import DPCP_01 from '../../../assets/videos/DPCP_01.mp4';
+import NombreCatalogo from "../componentes/NombreCatalogo";
 
 
 const AsigPresupuestal = () => {
@@ -76,12 +77,12 @@ const AsigPresupuestal = () => {
       description: "Unidad Responsable",
       width: 80,
     },
-   /* {
-      field: "ClaveEstado",
-      headerName: "Clave Estado",
-      description: "Clave Estado",
-      width: 100,
-    },*/
+    /* {
+       field: "ClaveEstado",
+       headerName: "Clave Estado",
+       description: "Clave Estado",
+       width: 100,
+     },*/
     {
       field: "a7",
       headerName: "Proveedor",
@@ -101,13 +102,13 @@ const AsigPresupuestal = () => {
     //   width: 500,
     // },
 
-    
+
     {
       field: "a52",
       headerName: "Fecha Asignación",
       width: 150,
       description: "Fecha de Asignación de Suficiencia Presupuestal",
-    
+
     },
 
     {
@@ -263,13 +264,18 @@ const AsigPresupuestal = () => {
         });
       }
     });
+
+
   };
+
+
+
 
   const handleFilterChangeAnio = (v: string) => {
     setAnio(v);
   };
   const handleUploadPA = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if(mes !=="" && mes !=="false" ){
+    if (mes !== "" && mes !== "false") {
       setslideropen(true);
       let file = event?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -281,8 +287,8 @@ const AsigPresupuestal = () => {
         setslideropen(false);
         handleClick();
       });
-  
-    }else{
+
+    } else {
       AlertS.fire({
         title: "Información!",
         text: 'Es necesario el Filtro por Mes',
@@ -290,10 +296,10 @@ const AsigPresupuestal = () => {
       });
 
     }
-    
 
 
-   
+
+
 
   };
 
@@ -304,18 +310,18 @@ const AsigPresupuestal = () => {
     loadFilter(32);
     loadFilter(17);
     handleClick();
-      permisos.map((item: PERMISO) => {
-        if (String(item.ControlInterno) === "DPCPPRES") {
-          if (String(item.Referencia) === "CPRESUPUESTO") {
-            setCargarPlant(true);
-          }
-         
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "DPCPPRES") {
+        if (String(item.Referencia) === "CPRESUPUESTO") {
+          setCargarPlant(true);
         }
-      });
+
+      }
+    });
   }, []);
 
   const handleBorrar = () => {
-    };
+  };
 
   return (
     <div>
@@ -324,15 +330,13 @@ const AsigPresupuestal = () => {
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
-         
-          <Grid item xs={1} >
-              <ButtonsTutorial url={DPCP_01} route={"/PDRMYE_DEV/DPCP/TUTORIAL/"}></ButtonsTutorial>
+
+            <Grid item xs={12} sm={2} >
+              <ButtonsTutorial route={"/PDRMYE_DEV/VIDEOS/TUTORIALES/DPCP/"} controlInterno={"DPCPAUTHSOL"}></ButtonsTutorial>
             </Grid>
 
-            <Grid item xs={11} sx={{ textAlign: "center" }}>
-              <Typography variant="h4" paddingBottom={2}>
-                Módulo de Validación de Presupuesto
-              </Typography>
+            <Grid item xs={12} sm={10} sx={{ textAlign: "center" }}>
+              <NombreCatalogo controlInterno={"DPCPPRES"} />
             </Grid>
 
           </Grid>
@@ -381,28 +385,28 @@ const AsigPresupuestal = () => {
           </Grid>
 
           <Grid item xs={11.5} sm={6} md={4} lg={2}>
-              <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
-              <SelectFrag
-                value={mes}
-                options={meses}
-                onInputChange={handleSelectMes}
-                placeholder={"Seleccione Mes"}
-                label={""}
-                disabled={false}
-              />
-            </Grid>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
+            <SelectFrag
+              value={mes}
+              options={meses}
+              onInputChange={handleSelectMes}
+              placeholder={"Seleccione Mes"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
 
-            <Grid item xs={11.5} sm={6} md={4} lg={2}>
-              <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
-              <SelectFrag
-                value={anio}
-                options={anios}
-                onInputChange={handleFilterChangeAnio}
-                placeholder={"Seleccione Ejercicio"}
-                label={""}
-                disabled={false}
-              />
-            </Grid>
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
+            <SelectFrag
+              value={anio}
+              options={anios}
+              onInputChange={handleFilterChangeAnio}
+              placeholder={"Seleccione Ejercicio"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
 
         </Grid>
 
@@ -419,44 +423,44 @@ const AsigPresupuestal = () => {
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
 
-<ToggleButtonGroup>
+          <ToggleButtonGroup>
 
-  {cargarPlant ? (
-    <Tooltip title={"Cargar Plantilla"}>
-      <ToggleButton value="check">
-        <IconButton
-          color="primary"
-          aria-label="upload documento"
-          component="label"
-          size="large"
-        >
-          <input
-            hidden
-            accept=".xlsx"
-            type="file"
-            value=""
-            onChange={(v) => handleUploadPA(v)}
-          />
-          <DriveFileMoveIcon />
-        </IconButton>
-      </ToggleButton>
-    </Tooltip>
-  ) : (
-    ""
-  )}
+            {cargarPlant ? (
+              <Tooltip title={"Cargar Plantilla"}>
+                <ToggleButton value="check">
+                  <IconButton
+                    color="primary"
+                    aria-label="upload documento"
+                    component="label"
+                    size="large"
+                  >
+                    <input
+                      hidden
+                      accept=".xlsx"
+                      type="file"
+                      value=""
+                      onChange={(v) => handleUploadPA(v)}
+                    />
+                    <DriveFileMoveIcon />
+                  </IconButton>
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
-</ToggleButtonGroup>
-</Grid>
+          </ToggleButtonGroup>
+        </Grid>
 
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
-        <MUIXDataGridGeneral 
-        modulo={'Asignación Presupuestal'} 
-        handleBorrar={handleBorrar}
-        columns={columnsParticipaciones} 
-        rows={data}
-        controlInterno={""} 
-        multiselect={true}/>
+          <MUIXDataGridGeneral
+            modulo={'Asignación Presupuestal'}
+            handleBorrar={handleBorrar}
+            columns={columnsParticipaciones}
+            rows={data}
+            controlInterno={""}
+            multiselect={true} />
         </Grid>
       </Grid>
     </div>
