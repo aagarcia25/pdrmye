@@ -98,21 +98,23 @@ const AsigPresupuestal = () => {
       width: 200,
       description: "Presupuesto SIREGOB",
       renderCell: (v: any) => (
-          <SaldosSiregob 
-          anio={String(v.row.a3)}
-          clasificador1={String(v.row.a41)}
-          clasificador2={String(v.row.a42)}
-          clasificador3={String(v.row.a43)}
-          clasificador4={String(v.row.a44)}
-          clasificador5={String(v.row.a45)}
-          clasificador6={String(v.row.a46)}
-          clasificador7={String(v.row.a47)}
-          clasificador8={String(v.row.a48)}
-          clasificador9={String(v.row.a49)}
-          clasificador10={String(v.row.a50)}
-          clasificador11={String(v.row.a51)}
-          mes={String(v.row.a5)} 
-          ></SaldosSiregob>
+        
+                <SaldosSiregob 
+                anio={String(v.row.a3)}
+                clasificador1={String(v.row.a41)}
+                clasificador2={String(v.row.a42)}
+                clasificador3={String(v.row.a43)}
+                clasificador4={String(v.row.a44)}
+                clasificador5={String(v.row.a45)}
+                clasificador6={String(v.row.a46)}
+                clasificador7={String(v.row.a47)}
+                clasificador8={String(v.row.a48)}
+                clasificador9={String(v.row.a49)}
+                clasificador10={String(v.row.a50)}
+                clasificador11={String(v.row.a51)}
+                mes={String(v.row.a5)} 
+                ></SaldosSiregob>
+         
       ),
     },
     {
