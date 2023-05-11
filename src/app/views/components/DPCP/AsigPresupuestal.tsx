@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Grid,
@@ -7,7 +8,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
@@ -24,13 +24,14 @@ import { fmeses } from "../../../share/loadMeses";
 import { fanios } from "../../../share/loadAnios";
 import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
-import DPCP_01 from '../../../assets/videos/DPCP_01.mp4';
-
-
+import NombreCatalogo from "../componentes/NombreCatalogo";
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { GridSelectionModel } from "@mui/x-data-grid";
+import Swal from "sweetalert2";
+import { SireService } from "../../../services/SireService";
 const AsigPresupuestal = () => {
-  const [slideropen, setslideropen] = useState(true);
+  const [slideropen, setslideropen] = useState(false);
   //MODAL
-  //Constantes para llenar los select
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const [anio, setAnio] = useState<string>("");
   const [meses, setMeses] = useState<SelectValues[]>([]);
@@ -48,40 +49,32 @@ const AsigPresupuestal = () => {
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+
+  const handleSeleccion = (v: GridSelectionModel) => {
+    setSelectionModel(v);
+  };
+
   const columnsParticipaciones = [
     { field: "id", hide: true },
     {
       field: "a3",
       headerName: "Ejercicio",
       description: "Ejercicio",
-      width: 80,
-
+      width: 70,
     },
     {
       field: "a5",
       headerName: "Mes",
       description: "Mes",
       width: 100,
-
-    },
-    {
-      field: "a4",
-      headerName: "Nº De Operación",
-      description: "Número De Operación",
-      width: 150,
     },
     {
       field: "a16",
       headerName: "U. Resp",
       description: "Unidad Responsable",
-      width: 80,
+      width: 70,
     },
-   /* {
-      field: "ClaveEstado",
-      headerName: "Clave Estado",
-      description: "Clave Estado",
-      width: 100,
-    },*/
     {
       field: "a7",
       headerName: "Proveedor",
@@ -94,116 +87,151 @@ const AsigPresupuestal = () => {
       description: "Descripción",
       width: 250,
     },
-    // {
-    //   field: "a14",
-    //   headerName: "Clave Presupuestal",
-    //   description: "Clave Presupuestal",
-    //   width: 500,
-    // },
-
-    
     {
       field: "a52",
-      headerName: "Fecha Asignación",
+      headerName: "Fecha Presupuesto",
+      description: "Fecha de Verificación de Presupuesto",
       width: 150,
-      description: "Fecha de Asignación de Suficiencia Presupuestal",
-    
     },
-
     {
-      field: "a12",
+      field: "a12", 
       headerName: "Presupuesto SIREGOB",
-      width: 200,
       description: "Presupuesto SIREGOB",
-      ...Moneda,
-    },
+      sortable: false,
+      width: 150,
+     
+  },
+    
     {
       field: "a11",
       headerName: "Total Neto",
-      width: 200,
+      width: 150,
       description: "Total Neto",
       ...Moneda,
     },
-
     {
       field: "a41",
       headerName: "ADMIN",
-      width: 200,
+      width: 150,
       description: "Descripción CLASIFICACIÓN ADMINISTRATIVA",
     },
-
     {
       field: "a42",
       headerName: "FUNCIÓN",
       width: 100,
       description: "Descripción CLASIFICACIÓN FUNCIONAL",
     },
-
     {
       field: "a43",
       headerName: "PROGRA",
       width: 100,
       description: "Descripción CLASIF PROGRAMÁTICO",
     },
-
     {
       field: "a44",
       headerName: "PARTIDA",
       width: 100,
       description: "Descripción CLASIFICADOR POR OBJETO DE GASTO",
     },
-
     {
       field: "a45",
       headerName: "T.GASTO",
-      width: 100,
+      width: 70,
       description: "Descripción CLASIFICADOR POR TIPO DE GASTO",
     },
-
     {
       field: "a46",
       headerName: "F.FINANC",
-      width: 100,
+      width: 70,
       description: "Descripción CLASIFICADOR POR FUENTES DE FINANCIAMIENTO",
     },
-
     {
       field: "a47",
       headerName: "RAMO",
-      width: 100,
+      width: 90,
       description: "Descripción RAMO-FONDO/CONVENIO 2020 / 2021 / 2022 / 2023",
     },
-
     {
       field: "a48",
       headerName: "AÑO",
-      width: 100,
+      width: 50,
       description: "Descripción AÑO DEL RECURSO",
     },
-
     {
       field: "a49",
       headerName: "CONT.INT",
       width: 100,
       description: "Descripción CONTROL INTERNO",
     },
-
     {
       field: "a50",
       headerName: "MUNIC.",
       width: 100,
       description: "Descripción CLASIFICACIÓN GEOGRÁFICA",
     },
-
     {
       field: "a51",
       headerName: "PRY/PG",
-      width: 150,
+      width: 100,
       description: "Descripción PROYECTO/PROGRAMA",
     },
 
 
   ];
+
+
+  const verificaPresupuesto = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "¡Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: selectionModel.length + " Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+       
+        if (result.isConfirmed) {
+          setslideropen(true);
+          let data = {
+            NUMOPERACION: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+// console.log(data);
+
+          SireService.ConsultaPresupuesto(data).then((res) => {
+            if (res.SUCCESS) {
+              AlertS.fire({
+                icon: "success",
+                title: 'Se Verifico la Suficiencia',
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  handleClick();
+                   setslideropen(false);
+                }
+              });
+            } else {
+              setslideropen(false);
+              AlertS.fire({
+                title: "¡Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+        }
+      });
+    }
+  };
+
 
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
@@ -247,7 +275,6 @@ const AsigPresupuestal = () => {
       P_IDMES: mes === "false" ? "" : mes,
       P_IDANIO: mes === "false" ? "" : anio,
     };
-    //console.log(data);
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -263,13 +290,18 @@ const AsigPresupuestal = () => {
         });
       }
     });
+
+
   };
+
+
+
 
   const handleFilterChangeAnio = (v: string) => {
     setAnio(v);
   };
   const handleUploadPA = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if(mes !=="" && mes !=="false" ){
+    if (mes !== "" && mes !== "false") {
       setslideropen(true);
       let file = event?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -281,8 +313,8 @@ const AsigPresupuestal = () => {
         setslideropen(false);
         handleClick();
       });
-  
-    }else{
+
+    } else {
       AlertS.fire({
         title: "Información!",
         text: 'Es necesario el Filtro por Mes',
@@ -290,10 +322,6 @@ const AsigPresupuestal = () => {
       });
 
     }
-    
-
-
-   
 
   };
 
@@ -303,7 +331,7 @@ const AsigPresupuestal = () => {
     loadFilter(31);
     loadFilter(32);
     loadFilter(17);
-    handleClick();
+   // handleClick();
       permisos.map((item: PERMISO) => {
         if (String(item.ControlInterno) === "DPCPPRES") {
           if (String(item.Referencia) === "CPRESUPUESTO") {
@@ -311,11 +339,12 @@ const AsigPresupuestal = () => {
           }
          
         }
-      });
-  }, []);
 
-  const handleBorrar = () => {
-    };
+      });
+    }, []);
+
+  
+
 
   return (
     <div>
@@ -324,15 +353,13 @@ const AsigPresupuestal = () => {
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
-         
-          <Grid item xs={1} >
-              <ButtonsTutorial url={DPCP_01} route={"/PDRMYE_DEV/DPCP/TUTORIAL/"}></ButtonsTutorial>
+
+            <Grid item xs={12} sm={2} >
+              <ButtonsTutorial route={"/PDRMYE_DEV/VIDEOS/TUTORIALES/DPCP/"} ></ButtonsTutorial>
             </Grid>
 
-            <Grid item xs={11} sx={{ textAlign: "center" }}>
-              <Typography variant="h4" paddingBottom={2}>
-                Módulo de Validación de Presupuesto
-              </Typography>
+            <Grid item xs={12} sm={10} sx={{ textAlign: "center" }}>
+              <NombreCatalogo controlInterno={"DPCPPRES"} />
             </Grid>
 
           </Grid>
@@ -381,28 +408,28 @@ const AsigPresupuestal = () => {
           </Grid>
 
           <Grid item xs={11.5} sm={6} md={4} lg={2}>
-              <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
-              <SelectFrag
-                value={mes}
-                options={meses}
-                onInputChange={handleSelectMes}
-                placeholder={"Seleccione Mes"}
-                label={""}
-                disabled={false}
-              />
-            </Grid>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
+            <SelectFrag
+              value={mes}
+              options={meses}
+              onInputChange={handleSelectMes}
+              placeholder={"Seleccione Mes"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
 
-            <Grid item xs={11.5} sm={6} md={4} lg={2}>
-              <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
-              <SelectFrag
-                value={anio}
-                options={anios}
-                onInputChange={handleFilterChangeAnio}
-                placeholder={"Seleccione Ejercicio"}
-                label={""}
-                disabled={false}
-              />
-            </Grid>
+          <Grid item xs={11.5} sm={6} md={4} lg={2}>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
+            <SelectFrag
+              value={anio}
+              options={anios}
+              onInputChange={handleFilterChangeAnio}
+              placeholder={"Seleccione Ejercicio"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
 
         </Grid>
 
@@ -419,44 +446,51 @@ const AsigPresupuestal = () => {
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
 
-<ToggleButtonGroup>
+          <ToggleButtonGroup>
 
-  {cargarPlant ? (
-    <Tooltip title={"Cargar Plantilla"}>
-      <ToggleButton value="check">
-        <IconButton
-          color="primary"
-          aria-label="upload documento"
-          component="label"
-          size="large"
-        >
-          <input
-            hidden
-            accept=".xlsx"
-            type="file"
-            value=""
-            onChange={(v) => handleUploadPA(v)}
-          />
-          <DriveFileMoveIcon />
-        </IconButton>
-      </ToggleButton>
-    </Tooltip>
-  ) : (
-    ""
-  )}
+            {cargarPlant ? (
+              <Tooltip title={"Cargar Plantilla"}>
+                <ToggleButton value="check">
+                  <IconButton
+                    color="primary"
+                    aria-label="upload documento"
+                    component="label"
+                    size="large"
+                  >
+                    <input
+                      hidden
+                      accept=".xlsx"
+                      type="file"
+                      value=""
+                      onChange={(v) => handleUploadPA(v)}
+                    />
+                    <DriveFileMoveIcon />
+                  </IconButton>
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
-</ToggleButtonGroup>
-</Grid>
+
+            
+            <ToggleButton value="check" onClick={() => verificaPresupuesto()}>
+            <Tooltip title={"Verificar Presupuesto"}>
+              <AttachMoneyIcon color="primary" />
+            </Tooltip>
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
 
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
-        <MUIXDataGridGeneral 
-        modulo={'Asignación Presupuestal'} 
-        handleBorrar={handleBorrar}
-        columns={columnsParticipaciones} 
-        rows={data}
-        controlInterno={""} 
-        multiselect={true}/>
+          <MUIXDataGridGeneral
+            modulo={'Asignación Presupuestal'}
+            handleBorrar={handleSeleccion}
+            columns={columnsParticipaciones}
+            rows={data}
+            controlInterno={""}
+            multiselect={true} />
         </Grid>
       </Grid>
     </div>

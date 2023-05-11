@@ -1,10 +1,10 @@
+import React from "react";
 import { DataGrid, GridColumnVisibilityModel, esES as gridEsES, GridToolbar, } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 import { useEffect, useState } from "react";
 import { PERMISO } from "../../interfaces/user/UserInfo";
 import { getPermisos } from "../../services/localStorage";
-import React from "react";
 
 
 const theme = createTheme(coreEsES, gridEsES);
@@ -70,13 +70,13 @@ const MUIXDataGridGeneral = ({
           sx={{
             fontFamily: "Poppins,sans-serif", fontWeight: '500',
             fontSize:"12px",
-            "& .super-app.negative": {
-              color: "rgb(84, 3, 3)",
-              backgroundColor: "rgb(196, 40, 40, 0.384)",
-            },
-            "& .super-app.positive": {
-              backgroundColor: "rgb(16, 145, 80, 0.567)",
-            },
+            // "& .super-app.negative": {
+            //   color: "rgb(84, 3, 3)",
+            //   backgroundColor: "rgb(196, 40, 40, 0.384)",
+            // },
+            // "& .super-app.positive": {
+            //   backgroundColor: "rgb(16, 145, 80, 0.567)",
+            // },
           }}
           componentsProps={{
             toolbar: {

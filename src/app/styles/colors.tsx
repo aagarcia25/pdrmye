@@ -1,10 +1,10 @@
 export const COLOR = {
     // Estos colores se usan en TODO el proyecto cambiar SOLO cuando sea necesario
     blanco: '#FFFFFF',
-    negro: '#000000',
+    negro: '#15212f',
     azul:'#051c2c',
     grisTarjetaBienvenido: '#CCCCCC',
-    doradoNL: '#B08C55',
+    doradoNL: '#AF8C55',
     grisDivisionEntreElementos: '#808080',
     grisBotones:'#EEEEEE',
     rojo:'#fa4238',

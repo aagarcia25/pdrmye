@@ -20,7 +20,6 @@ export default function MUIXDataGridSimple(props: any) {
       <DataGrid
         {...props.rows}
         density="compact"
-
         disableSelectionOnClick
         disableColumnFilter
         disableIgnoreModificationsIfProcessingProps
