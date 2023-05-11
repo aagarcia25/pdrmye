@@ -15,7 +15,6 @@ import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
-import SendIcon from "@mui/icons-material/Send";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
@@ -60,10 +59,11 @@ import { ModalSegmentos } from "../componentes/ModalSegmentos";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { ORGHeader } from "../ORGANISMOS/ORGHeader";
-import SummarizeIcon from '@mui/icons-material/Summarize';
 import IconSPEI from '../../../assets/img/SPEI.svg';
 import IconCFDI from '../../../assets/img/CFDI.svg';
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
+import ButtonsCalculo from "../menu/catalogos/Utilerias/ButtonsCalculo";
+import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
 
 const Participaciones = () => {
 
@@ -268,9 +268,9 @@ const Participaciones = () => {
   };
 
   const columnsParticipaciones = [
-    { field: "id", hide: true },
-    { field: "TipoSolicitud", hide: true },
-    { field: "IdConCheque", hide: true },
+    { field: "id", hide: true,hideable:false },
+    { field: "TipoSolicitud", hide: true ,hideable:false },
+    { field: "IdConCheque", hide: true ,hideable:false},
     {
       field: "Operaciones",
       disableExport: true,
@@ -517,14 +517,14 @@ const Participaciones = () => {
       width: 250,
     },
     {
-      hide: true ,
+      hide: true ,hideable:false ,
       field: "ClaveBeneficiario",
       headerName: "Cve. Beneficiario",
       width: 200,
       description: "Clave de Beneficiario",
     },
     {
-      hide: true ,
+      hide: true,hideable:false ,
       field: "DescripcionBeneficiario",
       headerName: "Beneficiario",
       width: 200,
@@ -1889,6 +1889,9 @@ const Participaciones = () => {
             ""}
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
+        <ButtonsTutorial route={"/PDRMYE_DEV/VIDEOS/TUTORIALES/DPCP/"} />
+
+
           <Button
           // className="enviar"
             onClick={handleClick}

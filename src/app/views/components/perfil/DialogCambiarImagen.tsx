@@ -115,7 +115,7 @@ export function DialogCambiarImagen({
 
                                     {
                                         imgTipo !== "undefined" && imgData !== "undefined" ?
-                                            <img style={{ objectFit: "scale-down", width: "100%", height: "100%", }}
+                                            <img  alt="Foto de Perfil" style={{ objectFit: "scale-down", width: "100%", height: "100%", }}
                                                 //   {imgTipo}
                                                 src={"data:" + imgTipo + ";base64," + imgData} />
                                             :
@@ -128,7 +128,7 @@ export function DialogCambiarImagen({
                             :
                             <>
                                 {/* {imgTipo !== "undefined" && imgData !== "undefined" ? */}
-                                    <img src={uploadFile} style={{ objectFit: "scale-down", width: '100%', height: "100%", }} />
+                                    <img   alt="Foto de Perfil" src={uploadFile} style={{ objectFit: "scale-down", width: '100%', height: "100%", }} />
                             </>
                         }
                     </div>

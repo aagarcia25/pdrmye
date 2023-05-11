@@ -9,7 +9,7 @@ import { Toast } from '../../../helpers/Toast';
 import validator from 'validator';
 import { AlertS } from '../../../helpers/AlertS';
 import ModalForm from '../componentes/ModalForm';
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
+import {GridColDef } from '@mui/x-data-grid';
 import MUIXDataGridSimple from '../MUIXDataGridSimple';
 
 

@@ -1,9 +1,11 @@
-import { DataGrid, esES as gridEsES, GridToolbar, } from "@mui/x-data-grid";
+import React from "react";
+import { DataGrid, GridColumnVisibilityModel, esES as gridEsES, GridToolbar, } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 import { useEffect, useState } from "react";
 import { PERMISO } from "../../interfaces/user/UserInfo";
 import { getPermisos } from "../../services/localStorage";
+
 
 
 const theme = createTheme(coreEsES, gridEsES);
@@ -26,6 +28,13 @@ const MUIXDataGridMun = ({
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [elimasiva, setelimasiva] = useState<boolean>(false);
 
+  const [columnVisibilityModel, setColumnVisibilityModel] =
+  React.useState<GridColumnVisibilityModel>({
+    id: false,
+    IdConCheque:false,
+    TipoSolicitud:false
+  });
+
   useEffect(() => {
 
     permisos.map((item: PERMISO) => {
@@ -43,6 +52,10 @@ const MUIXDataGridMun = ({
         <DataGrid
           columns={columns}
           rows={rows}
+          columnVisibilityModel={columnVisibilityModel}
+          onColumnVisibilityModelChange={(newModel) =>
+            setColumnVisibilityModel(newModel)
+          }
           error={rows.value < 0}
           density="compact"
           rowsPerPageOptions={[10, 25, 50, 100]}

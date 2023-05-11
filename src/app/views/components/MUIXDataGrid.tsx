@@ -1,13 +1,24 @@
-import { DataGrid, esES as gridEsES, esES, GridToolbar, } from "@mui/x-data-grid";
+import { DataGrid, esES as gridEsES, esES, GridToolbar, GridColumnVisibilityModel, } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 import { CustomToolbar } from "./menu/CustomToolbar";
+import React from "react";
 
 const theme = createTheme(coreEsES, gridEsES);
 
 
 
 export default function MUIXDataGrid(props: any) {
+
+  const [columnVisibilityModel, setColumnVisibilityModel] =
+  React.useState<GridColumnVisibilityModel>({
+    id: false,
+    IdConCheque:false,
+    TipoSolicitud:false
+  });
+  
+
+
   return (
     <div style={{ height: 600, width: "100%" }}>
       <ThemeProvider theme={theme}>
@@ -16,6 +27,10 @@ export default function MUIXDataGrid(props: any) {
           columns={props.columns}
           rows={props.rows}
           density="compact"
+          columnVisibilityModel={columnVisibilityModel}
+          onColumnVisibilityModelChange={(newModel) =>
+            setColumnVisibilityModel(newModel)
+          }
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick
           disableColumnFilter
@@ -24,7 +39,7 @@ export default function MUIXDataGrid(props: any) {
           getRowId={(row) => row.Id ? row.Id : row.id}
           rowHeight={255}
           getRowHeight={() => 'auto'}
-          components={{ Toolbar: GridToolbar }}
+        
           sx={{
             fontFamily: "Poppins,sans-serif", fontWeight: '500',
             fontSize:"12px",
@@ -41,13 +56,13 @@ export default function MUIXDataGrid(props: any) {
               color: '#000000',
             },
           }}
+          components={{ Toolbar: GridToolbar }}
           componentsProps={{
             toolbar: {
               label: "Buscar",
               showQuickFilter: true,
               quickFilterProps: { debounceMs: 500 },
               csvOptions: {
-
                 fileName: props.modulo,
                 utf8WithBom: true,
               }

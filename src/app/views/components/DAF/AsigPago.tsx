@@ -646,7 +646,9 @@ const AsigPago = () => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12}>
-            <MUIXDataGridGeneral modulo={"DistribucionDaf"} handleBorrar={handleBorrarMasivo} columns={columnsParticipaciones} rows={data} controlInterno={"DAFADMINPAG"} multiselect={false} />
+            <MUIXDataGridGeneral
+             modulo={"DistribucionDaf"}
+              handleBorrar={handleBorrarMasivo} columns={columnsParticipaciones} rows={data} controlInterno={"DAFADMINPAG"} multiselect={false} />
           </Grid>
         </Grid>
       </div>

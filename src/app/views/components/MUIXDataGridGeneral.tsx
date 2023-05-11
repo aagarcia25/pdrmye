@@ -1,4 +1,5 @@
-import { DataGrid, esES as gridEsES, GridToolbar, } from "@mui/x-data-grid";
+import React from "react";
+import { DataGrid, GridColumnVisibilityModel, esES as gridEsES, GridToolbar, } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 import { useEffect, useState } from "react";
@@ -27,6 +28,13 @@ const MUIXDataGridGeneral = ({
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [elimasiva, setelimasiva] = useState<boolean>(false);
 
+  const [columnVisibilityModel, setColumnVisibilityModel] =
+  React.useState<GridColumnVisibilityModel>({
+    id: false,
+    IdConCheque:false,
+    TipoSolicitud:false
+  });
+  
   useEffect(() => {
 
     permisos.map((item: PERMISO) => {
@@ -44,49 +52,56 @@ const MUIXDataGridGeneral = ({
         <DataGrid
           columns={columns}
           rows={rows}
+          
+          columnVisibilityModel={columnVisibilityModel}
+          onColumnVisibilityModelChange={(newModel) =>
+            setColumnVisibilityModel(newModel)
+          }
+
           error={rows.value < 0}
           density="compact"
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick
           disableColumnFilter
-          disableColumnSelector
+          // disableColumnSelector
           disableDensitySelector
           getRowHeight={() => 'auto'}
           components={{ Toolbar: GridToolbar }}
           sx={{
             fontFamily: "Poppins,sans-serif", fontWeight: '500',
             fontSize:"12px",
-            "& .super-app.negative": {
-              color: "rgb(84, 3, 3)",
-              backgroundColor: "rgb(196, 40, 40, 0.384)",
-            },
-            "& .super-app.positive": {
-              backgroundColor: "rgb(16, 145, 80, 0.567)",
-            },
+            // "& .super-app.negative": {
+            //   color: "rgb(84, 3, 3)",
+            //   backgroundColor: "rgb(196, 40, 40, 0.384)",
+            // },
+            // "& .super-app.positive": {
+            //   backgroundColor: "rgb(16, 145, 80, 0.567)",
+            // },
           }}
           componentsProps={{
             toolbar: {
               label: "Buscar",
               showQuickFilter: true,
-
               quickFilterProps: { debounceMs: 500, },
-
               csvOptions: {
                 fileName: modulo,
                 utf8WithBom: true,
-
               }
             },
           }}
-          isRowSelectable={(params) => (
+         // isRowSelectable={(params) => (
             // params.row.NumCheque === null
             // ||params.row.NumEgreso===null
             // ||params.row.NumRequerimientoAnt===null||
-            params.row.NumOrdenPago === null
-          )}
+           // params.row.NumOrdenPago === null
+        //  )}
           checkboxSelection={elimasiva || multiselect}
           onSelectionModelChange={(newSelectionModel: any) => { handleBorrar(newSelectionModel); }}
           localeText={{
+            columnsPanelHideAllButton:"Ocultar todo",
+            columnsPanelShowAllButton:"Mostrar todo",
+            columnsPanelTextFieldPlaceholder:"",
+            columnsPanelTextFieldLabel:"Buscar",
             noRowsLabel: "No se ha encontrado datos.",
             noResultsOverlayLabel: "No se ha encontrado ningún resultado",
             toolbarColumns: "Columnas",

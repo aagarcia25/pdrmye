@@ -115,6 +115,11 @@ export class AuthService {
     public static async SaveImagen(data: any) {
         return await post('SaveImagen', data);
     }
+    public static async SaveVideoTutorial(data: any) {
+        return await post('SaveVideoTutorial', data);
+    }
+
+    
     public static async GetImagenProfile(tipo: string,nameImagen:string) {
         const user: RESPONSE = JSON.parse(String(getUser()));
         const formData = new FormData();

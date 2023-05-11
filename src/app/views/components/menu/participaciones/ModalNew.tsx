@@ -338,9 +338,9 @@ const ModalNew = ({
                 <TooltipPersonalizado
                   title={
                     <React.Fragment>
-                      <h3 className="h3-justify">
+                      {/* <h3 className="h3-justify"> */}
                         {"Si se activa esta opción el cálculo se realizará tomando la proporción de garantía del fondo"}
-                      </h3>
+                      {/* </h3> */}
                     </React.Fragment>
 
 
@@ -411,7 +411,7 @@ const ModalNew = ({
                 valor={0}
                 handleSetValor={handleChange}
                 error={!monto} modo={"moneda"} />
-             
+
             </Grid>
           </Grid>
         </Grid>
@@ -477,7 +477,9 @@ const ModalNew = ({
         >
 
           <Grid container spacing={0} >
-            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
+            <Grid container item xs={6} sm={6} md={6} direction="row"
+              justifyContent="flex-end"
+              alignItems="center" paddingRight={1.5}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Cargar Archivo:
               </Typography>
@@ -512,11 +514,11 @@ const ModalNew = ({
 
 
         <Grid item xs={9} sm={9} md={1} sx={{ textAlign: "center" }}>
-        <Button className="enviar-mensaje"
-                    disabled={idmes === "false" || idmes === "" || idTipoCalculo === "false" || idTipoCalculo === "" }
-                    onClick={() => handleSend()}
-                     fullWidth variant="contained"> <Typography color="white"> Calcular </Typography>
-                  </Button>
+          <Button className="enviar-mensaje"
+            disabled={idmes === "false" || idmes === "" || idTipoCalculo === "false" || idTipoCalculo === ""}
+            onClick={() => handleSend()}
+            fullWidth variant="contained"> <Typography color="white"> Calcular </Typography>
+          </Button>
         </Grid>
       </Grid>
     </div>
