@@ -389,7 +389,7 @@ const DetalleFgp = ({
   };
 
   const columns = [
-    { field: "id", headerName: "Identificador", width: 150, hide: true },
+    { field: "id", headerName: "Identificador", width: 150, hide: true  , hideable:false },
 
     {
       field: "ClaveEstado",
@@ -409,76 +409,69 @@ const DetalleFgp = ({
       width: 220,
       description: "Mensual",
       ...Moneda,
-      // renderHeader: () => (
-      //   <>
-      //     {"Total Mensual: " + currencyFormatter.format(Number(sumaTotal))}
-      //   </>
-      // ),
-
     },
-    {
-      hide: pa ? false : true,
-      field: "PrimerAjuste",
-      headerName: "Primer Ajuste",
-      width: 200,
-      description: "Primer Ajuste",
-      ...Moneda,
+    // {
+    //   hide: true  , 
+    //   field: "PrimerAjuste",
+    //   headerName: "Primer Ajuste",
+    //   width: 200,
+    //   description: "Primer Ajuste",
+    //   ...Moneda,
+    // },
+    // {
+    //   hide: sa ? false : true,
+    //   field: "SegundoAjuste",
+    //   headerName: "Segundo Ajuste",
+    //   width: 150,
+    //   description: "Segundo Ajuste",
+    //   ...Moneda,
 
-    },
-    {
-      hide: sa ? false : true,
-      field: "SegundoAjuste",
-      headerName: "Segundo Ajuste",
-      width: 150,
-      description: "Segundo Ajuste",
-      ...Moneda,
+    // },
+    // {
+    //   hide: ta ? false : true,
+    //   field: "TercerAjuste",
+    //   headerName: "Tercer Ajuste",
+    //   width: 150,
+    //   description: "Tercer Ajuste",
+    //   ...Moneda,
 
-    },
-    {
-      hide: ta ? false : true,
-      field: "TercerAjuste",
-      headerName: "Tercer Ajuste",
-      width: 150,
-      description: "Tercer Ajuste",
-      ...Moneda,
+    // },
+    // {
+    //   hide: ca ? false : true,
+    //   field: "CuartoAjuste",
+    //   headerName: "Cuarto Ajuste",
+    //   width: 150,
+    //   description: "Cuarto Ajuste",
+    //   ...Moneda,
 
-    },
-    {
-      hide: ca ? false : true,
-      field: "CuartoAjuste",
-      headerName: "Cuarto Ajuste",
-      width: 150,
-      description: "Cuarto Ajuste",
-      ...Moneda,
+    // },
+    // {
+    //   hide: ad ? false : true,
+    //   field: "AjusteAnual",
+    //   headerName: "Ajuste Anual",
+    //   width: 150,
+    //   description: "Ajuste Anual",
+    //   ...Moneda,
 
-    },
-    {
-      hide: ad ? false : true,
-      field: "AjusteAnual",
-      headerName: "Ajuste Anual",
-      width: 150,
-      description: "Ajuste Anual",
-      ...Moneda,
+    // },
+    // {
+    //   hide: as ? false : true,
+    //   field: "AjusteSemestral",
+    //   headerName: "Ajuste Semestral",
+    //   width: 150,
+    //   description: "Ajuste Semestral",
+    //   ...Moneda,
 
-    },
-    {
-      hide: as ? false : true,
-      field: "AjusteSemestral",
-      headerName: "Ajuste Semestral",
-      width: 150,
-      description: "Ajuste Semestral",
-      ...Moneda,
+    // },
+    // {
+    //   hide: aa ? false : true,
+    //   field: "AjusteDefinitivo",
+    //   headerName: "Ajuste Definitivo",
+    //   width: 150,
+    //   description: "Ajuste Definitivo",
+    //   ...Moneda,
 
-    },
-    {
-      hide: aa ? false : true,
-      field: "AjusteDefinitivo",
-      headerName: "Ajuste Definitivo",
-      width: 150,
-      description: "Ajuste Definitivo",
-      ...Moneda,
-
-    },
+    // },
     {
       hide: ae ? false : true,
       field: "AjusteEstatal",
@@ -488,33 +481,33 @@ const DetalleFgp = ({
       ...Moneda,
 
     },
-    {
-      hide: rf ? false : true,
-      field: "CompensacionFEIF",
-      headerName: "Compensación FEIF",
-      width: 150,
-      description: "Compensación FEIF",
-      ...Moneda,
+    // {
+    //   hide: rf ? false : true,
+    //   field: "CompensacionFEIF",
+    //   headerName: "Compensación FEIF",
+    //   width: 150,
+    //   description: "Compensación FEIF",
+    //   ...Moneda,
 
-    },
-    {
-      hide: cf ? false : true,
-      field: "RetencionFEIF",
-      headerName: "Retención FEIF",
-      width: 150,
-      description: "Retención FEIF",
-      ...Moneda,
+    // },
+    // {
+    //   hide: cf ? false : true,
+    //   field: "RetencionFEIF",
+    //   headerName: "Retención FEIF",
+    //   width: 150,
+    //   description: "Retención FEIF",
+    //   ...Moneda,
 
-    },
-    {
-      hide: af ? false : true,
-      field: "AjusteFofir",
-      headerName: "Ajuste FOFIR",
-      width: 150,
-      description: "Ajuste FOFIR",
-      ...Moneda,
+    // },
+    // {
+    //   hide: af ? false : true,
+    //   field: "AjusteFofir",
+    //   headerName: "Ajuste FOFIR",
+    //   width: 150,
+    //   description: "Ajuste FOFIR",
+    //   ...Moneda,
 
-    },
+    // },
     {
       field: "total",
       headerName: "Total",
