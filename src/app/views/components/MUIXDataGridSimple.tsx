@@ -23,7 +23,7 @@ export default function MUIXDataGridSimple(props: any) {
         disableSelectionOnClick
         disableColumnFilter
         disableIgnoreModificationsIfProcessingProps
-        disableColumnSelector
+       // disableColumnSelector
         disableDensitySelector
         rowsPerPageOptions={[12]}
         getRowHeight={() => 'auto'}

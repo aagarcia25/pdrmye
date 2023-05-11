@@ -268,7 +268,7 @@ const Participaciones = () => {
   };
 
   const columnsParticipaciones = [
-    { field: "id", hide: true,hideable:false },
+    { field: "id", hide: true,hideable:false  },
     { field: "TipoSolicitud", hide: true ,hideable:false },
     { field: "IdConCheque", hide: true ,hideable:false},
     {
