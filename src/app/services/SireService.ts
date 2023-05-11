@@ -1,4 +1,5 @@
-import { post } from './apiServiceSire';
+import { post } from "./apiService";
+
 
 export class SireService {
 

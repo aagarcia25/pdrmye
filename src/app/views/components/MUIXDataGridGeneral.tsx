@@ -70,13 +70,13 @@ const MUIXDataGridGeneral = ({
           sx={{
             fontFamily: "Poppins,sans-serif", fontWeight: '500',
             fontSize:"12px",
-            "& .super-app.negative": {
-              color: "rgb(84, 3, 3)",
-              backgroundColor: "rgb(196, 40, 40, 0.384)",
-            },
-            "& .super-app.positive": {
-              backgroundColor: "rgb(16, 145, 80, 0.567)",
-            },
+            // "& .super-app.negative": {
+            //   color: "rgb(84, 3, 3)",
+            //   backgroundColor: "rgb(196, 40, 40, 0.384)",
+            // },
+            // "& .super-app.positive": {
+            //   backgroundColor: "rgb(16, 145, 80, 0.567)",
+            // },
           }}
           componentsProps={{
             toolbar: {

@@ -174,6 +174,7 @@ export const Perfil = (
                   {user?.RutaFoto ?
 
                     <img 
+                    alt="Foto de Perfil"
                     style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%' }} 
                     src={"data:" + String(imgTipo==="undefined"?Blanco.Data:imgTipo) + ";base64," +
                     String(imgData==="undefined"?Blanco.Data:imgData)} />

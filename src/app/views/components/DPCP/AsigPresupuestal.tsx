@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Grid,
@@ -7,7 +8,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
@@ -24,15 +24,14 @@ import { fmeses } from "../../../share/loadMeses";
 import { fanios } from "../../../share/loadAnios";
 import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
-import DPCP_01 from '../../../assets/videos/DPCP_01.mp4';
-import SaldosSiregob from "../componentes/SaldosSiregob";
 import NombreCatalogo from "../componentes/NombreCatalogo";
-
-
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { GridSelectionModel } from "@mui/x-data-grid";
+import Swal from "sweetalert2";
+import { SireService } from "../../../services/SireService";
 const AsigPresupuestal = () => {
   const [slideropen, setslideropen] = useState(false);
   //MODAL
-  //Constantes para llenar los select
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const [anio, setAnio] = useState<string>("");
   const [meses, setMeses] = useState<SelectValues[]>([]);
@@ -50,6 +49,12 @@ const AsigPresupuestal = () => {
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+
+  const handleSeleccion = (v: GridSelectionModel) => {
+    setSelectionModel(v);
+  };
+
   const columnsParticipaciones = [
     { field: "id", hide: true },
     {
@@ -82,42 +87,21 @@ const AsigPresupuestal = () => {
       description: "Descripción",
       width: 250,
     },
-    
-   /* {
-      field: "a52",
-      headerName: "Fecha Validación",
-      width: 150,
-      description: "Fecha de Validación de Suficiencia Presupuestal",
-      renderCell: (v: any) => (
-        Date().toLocaleString()
-      ),
-    },*/
-
     {
-      field: "a12",
-      headerName: "Presupuesto SIREGOB",
-      width: 200,
-      description: "Presupuesto SIREGOB",
-      renderCell: (v: any) => (
-        
-                <SaldosSiregob 
-                anio={String(v.row.a3)}
-                clasificador1={String(v.row.a41)}
-                clasificador2={String(v.row.a42)}
-                clasificador3={String(v.row.a43)}
-                clasificador4={String(v.row.a44)}
-                clasificador5={String(v.row.a45)}
-                clasificador6={String(v.row.a46)}
-                clasificador7={String(v.row.a47)}
-                clasificador8={String(v.row.a48)}
-                clasificador9={String(v.row.a49)}
-                clasificador10={String(v.row.a50)}
-                clasificador11={String(v.row.a51)}
-                mes={String(v.row.a5)} 
-                ></SaldosSiregob>
-         
-      ),
+      field: "a52",
+      headerName: "Fecha Presupuesto",
+      description: "Fecha de Verificación de Presupuesto",
+      width: 150,
     },
+    {
+      field: "a12", 
+      headerName: "Presupuesto SIREGOB",
+      description: "Presupuesto SIREGOB",
+      sortable: false,
+      width: 150,
+     
+  },
+    
     {
       field: "a11",
       headerName: "Total Neto",
@@ -152,25 +136,25 @@ const AsigPresupuestal = () => {
     {
       field: "a45",
       headerName: "T.GASTO",
-      width: 100,
+      width: 70,
       description: "Descripción CLASIFICADOR POR TIPO DE GASTO",
     },
     {
       field: "a46",
       headerName: "F.FINANC",
-      width: 100,
+      width: 70,
       description: "Descripción CLASIFICADOR POR FUENTES DE FINANCIAMIENTO",
     },
     {
       field: "a47",
       headerName: "RAMO",
-      width: 100,
+      width: 90,
       description: "Descripción RAMO-FONDO/CONVENIO 2020 / 2021 / 2022 / 2023",
     },
     {
       field: "a48",
       headerName: "AÑO",
-      width: 70,
+      width: 50,
       description: "Descripción AÑO DEL RECURSO",
     },
     {
@@ -194,6 +178,60 @@ const AsigPresupuestal = () => {
 
 
   ];
+
+
+  const verificaPresupuesto = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "¡Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solicitar",
+        text: selectionModel.length + " Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+       
+        if (result.isConfirmed) {
+          setslideropen(true);
+          let data = {
+            NUMOPERACION: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+// console.log(data);
+
+          SireService.ConsultaPresupuesto(data).then((res) => {
+            if (res.SUCCESS) {
+              AlertS.fire({
+                icon: "success",
+                title: 'Se Verifico la Suficiencia',
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  handleClick();
+                   setslideropen(false);
+                }
+              });
+            } else {
+              setslideropen(false);
+              AlertS.fire({
+                title: "¡Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+        }
+      });
+    }
+  };
+
 
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
@@ -305,8 +343,8 @@ const AsigPresupuestal = () => {
       });
     }, []);
 
-  const handleBorrar = () => {
-  };
+  
+
 
   return (
     <div>
@@ -434,6 +472,13 @@ const AsigPresupuestal = () => {
               ""
             )}
 
+
+            
+            <ToggleButton value="check" onClick={() => verificaPresupuesto()}>
+            <Tooltip title={"Verificar Presupuesto"}>
+              <AttachMoneyIcon color="primary" />
+            </Tooltip>
+            </ToggleButton>
           </ToggleButtonGroup>
         </Grid>
 
@@ -441,7 +486,7 @@ const AsigPresupuestal = () => {
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <MUIXDataGridGeneral
             modulo={'Asignación Presupuestal'}
-            handleBorrar={handleBorrar}
+            handleBorrar={handleSeleccion}
             columns={columnsParticipaciones}
             rows={data}
             controlInterno={""}
