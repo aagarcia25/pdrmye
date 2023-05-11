@@ -7,7 +7,6 @@ import { Toast } from '../../../../../helpers/Toast';
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { AuthService } from '../../../../../services/AuthService';
 import { getPermisos, getUser } from '../../../../../services/localStorage';
-import { COLOR } from '../../../../../styles/colors';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import MUIXDataGrid from '../../../MUIXDataGrid';
 import ButtonsAdd from '../../catalogos/Utilerias/ButtonsAdd';

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { Box, Grid, IconButton, ToggleButton, Tooltip, Typography } from "@mui/material";
+import { Box, Grid, IconButton,  Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { currencyFormatter, Moneda } from "../CustomToolbar";
 import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
@@ -22,7 +22,6 @@ import MUIXDataGridMun from "../../MUIXDataGridMun";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import Swal from "sweetalert2";
 import { TooltipPersonalizado } from "../../componentes/CustomizedTooltips";
-import React from "react";
 
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
