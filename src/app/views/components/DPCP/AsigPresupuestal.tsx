@@ -87,13 +87,19 @@ const AsigPresupuestal = () => {
       description: "Descripción",
       width: 250,
     },
-    
+    {
+      field: "a52",
+      headerName: "Fecha Presupuesto",
+      description: "Fecha de Verificación de Presupuesto",
+      width: 150,
+    },
     {
       field: "a12", 
       headerName: "Presupuesto SIREGOB",
       description: "Presupuesto SIREGOB",
       sortable: false,
-      width: 100,
+      width: 150,
+     
   },
     
     {
@@ -191,26 +197,29 @@ const AsigPresupuestal = () => {
         confirmButtonText: "Aceptar",
         cancelButtonText: "Cancelar",
       }).then(async (result) => {
-
+       
         if (result.isConfirmed) {
+          setslideropen(true);
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
             CHUSER: user.id,
           };
-console.log(data);
+// console.log(data);
 
           SireService.ConsultaPresupuesto(data).then((res) => {
             if (res.SUCCESS) {
               AlertS.fire({
                 icon: "success",
-                title: res.RESPONSE,
+                title: 'Se Verifico la Suficiencia',
               }).then(async (result) => {
                 if (result.isConfirmed) {
                   handleClick();
+                   setslideropen(false);
                 }
               });
             } else {
+              setslideropen(false);
               AlertS.fire({
                 title: "¡Error!",
                 text: res.STRMESSAGE,
