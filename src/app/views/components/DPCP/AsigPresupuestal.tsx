@@ -317,7 +317,7 @@ const AsigPresupuestal = () => {
           <Grid container sx={{ justifyContent: "center" }}>
 
             <Grid item xs={12} sm={2} >
-              <ButtonsTutorial route={"/PDRMYE_DEV/VIDEOS/TUTORIALES/DPCP/"} controlInterno={"DPCPAUTHSOL"}></ButtonsTutorial>
+              <ButtonsTutorial route={"/PDRMYE_DEV/VIDEOS/TUTORIALES/DPCP/"} ></ButtonsTutorial>
             </Grid>
 
             <Grid item xs={12} sm={10} sx={{ textAlign: "center" }}>

@@ -58,12 +58,12 @@ const SliderProgress = ({
             <CircularProgress
               size={200}
               sx={{
-                color: COLOR.doradoNL,
+                color: COLOR.negro,
               }}
             />
           </Box>
-             <Typography variant='h4' className=''>
-              {"Obteniendo Video..."}
+             <Typography variant='h4' className='Cargando'>
+              {"Cargando .."}
             </Typography>
         </Box>
       </Backdrop>

@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import ReactPlayer from 'react-player'
 import { getMenus, getToken, getUser } from '../../../../../services/localStorage';
 
@@ -15,16 +15,15 @@ import { CatalogosServices } from '../../../../../services/catalogosServices';
 import { base64ToArrayBuffer } from '../../../../../helpers/Files';
 import { DPCPServices } from '../../../../../services/DPCPServices';
 import { AlertS } from '../../../../../helpers/AlertS';
-import { UserServices } from '../../../../../services/UserServices';
+import { UserServices, ValidaSesion } from '../../../../../services/UserServices';
 import { TooltipPersonalizado } from '../../../componentes/CustomizedTooltips';
 import SliderProgress from '../../../SliderProgress';
+import ModalCargarVideos from './ModalCargarVideos';
 
 const ButtonsTutorial = ({
   route,
-  controlInterno
 }: {
   route: string;
-  controlInterno: string;
 }
 ) => {
   const [slideropen, setslideropen] = useState(false);
@@ -32,21 +31,12 @@ const ButtonsTutorial = ({
   const [openCarga, setOpenCarga] = React.useState(false);
   const [dataVideos, setDataVideos] = useState<Array<RESPONSEVIDEOS>>([])
   const [idMenu, setIdMenu] = useState<string>("");
-
+  const [videoUrl, setVideoUrl] = useState<string>("");
+  const menu: MENU[] = JSON.parse(String(getMenus()));
   const user: RESPONSE = JSON.parse(String(getUser()));
 
 
-  const [videoUrl, setVideoUrl] = useState<string>("");
-  const [imgTipo, setImgTipo] = React.useState("video/mp4");
-  const [newVideo, setNewVideo] = useState(Object);
-  const [nombreArchivo, setNombreArchivo] = useState("");
-  const [uploadFile, setUploadFile] = useState("");
-
-  const [videoFilePath, setVideoFilePath] = useState("");
-
-
   const handleClickOpen = (URLVideo: string) => {
-    console.log(URLVideo)
     let data = {
       TOKEN: JSON.parse(String(getToken())),
       RUTA: route,
@@ -55,19 +45,29 @@ const ButtonsTutorial = ({
 
 
     if (URLVideo !== "") {
-  
+
+      ValidaSesion();
       setslideropen(true);
       CatalogosServices.obtenerDoc(data).then((res) => {
+        if (res.SUCCESS) {
+          var bufferArray = base64ToArrayBuffer(res.RESPONSE.RESPONSE.FILE);
+          var blobStore = new Blob([bufferArray], { type: res.RESPONSE.RESPONSE.TIPO });
+          var data = window.URL.createObjectURL(blobStore);
+          var link = document.createElement('a');
+          document.body.appendChild(link);
+          link.href = data;
+          setVideoUrl(link.href);
+          setslideropen(false);
+          setOpen(true);
+        }
+        else {
+          setslideropen(false);
+          AlertS.fire({
+            title: "Algo Fallo, Recargue la página!",
+            icon: "error",
+          });
+        }
 
-        var bufferArray = base64ToArrayBuffer(res.RESPONSE.RESPONSE.FILE);
-        var blobStore = new Blob([bufferArray], { type: res.RESPONSE.RESPONSE.TIPO });
-        var data = window.URL.createObjectURL(blobStore);
-        var link = document.createElement('a');
-        document.body.appendChild(link);
-        link.href = data;
-        setVideoUrl(link.href);
-        setslideropen(false);
-        setOpen(true);
       });
     }
   };
@@ -91,53 +91,7 @@ const ButtonsTutorial = ({
   };
 
   const handleClickOpenCarga = () => {
-    let data = {
-      TOKEN: JSON.parse(String(getToken())),
-      RUTA: route,
-      NOMBRE: videoUrl,
-    };
-    // setVideoFilePath(getfilevideourl(data));
     setOpenCarga(true);
-  };
-
-  function enCambioFile(event: any) {
-    console.log(event.target.files[0].type.split("/")[0])
-    if (event?.target?.files[0] && event.target.files[0].type.split("/")[0] === "video") {
-      setUploadFile(URL.createObjectURL(event?.target?.files[0]));
-      setNombreArchivo(event?.target?.value?.split("\\")[2]);
-      let file = event?.target!?.files[0]!;
-      setNewVideo(file);
-
-    }
-    else {
-
-      Swal.fire("¡No es una imagen!", "", "warning");
-    }
-
-  }
-
-  const SaveVideo = () => {
-    const formData = new FormData();
-
-    formData.append("TIPO", "DPCP/");
-    formData.append("VIDEO", newVideo, nombreArchivo);
-    formData.append("CHUSER", user.id);
-    formData.append("CHID", idMenu);
-    formData.append("TOKEN", JSON.parse(String(getToken())));
-
-
-    AuthService.SaveVideoTutorial(formData).then((res) => {
-
-      if (res.SUCCESS) {
-
-        Toast.fire({
-          icon: "success",
-          title: "Video ",
-        });
-        handleClose();
-      }
-    });
-    handleClose();
   };
 
   const handleClose = () => {
@@ -146,68 +100,72 @@ const ButtonsTutorial = ({
     handleObtenerVideos(idMenu);
   };
 
-  const menu: MENU[] = JSON.parse(String(getMenus()));
+
 
   useEffect(() => {
+    ValidaSesion();
     menu.map((item: MENU) => {
       item.items.map((itemsMenu: ITEMS) => {
-        if (String(itemsMenu.ControlInterno) === controlInterno) {
+        if (String(itemsMenu.Path) === (window.location.href).slice((window.location.href).indexOf("#") + 1).replace(/%20/g, " ")) {
           setIdMenu(itemsMenu.id);
-          console.log(dataVideos)
-          console.log(dataVideos.length)
           handleObtenerVideos(itemsMenu.id);
         }
       });
     });
-  }, [controlInterno]);
+  }, [window.location.href]);
 
   return (
     <div>
       <SliderProgress open={slideropen}></SliderProgress>
-      <Grid container direction="row" justifyContent="flex-start" alignItems="center" spacing={6} >
-        <Grid item xs={6} >
-          <TooltipPersonalizado title={
-            <React.Fragment>
-              <Typography color="inherit">Video Tutorial</Typography>
-              <div className='containerBotonesVideos'>
-                <Grid container >
+      <Grid container item xs={12}  direction="row" justifyContent="flex-start" alignItems="center" spacing={6} paddingBottom={1} >
+        <Grid item xs={6} sm={2.5} md={2} lg={1.8} xl={1.5}>
+          {dataVideos.length === 0 ? "" :
+            <TooltipPersonalizado title={
+              <React.Fragment>
+                <div className='containerBotonesVideos'>
+                  <Typography variant='h5' className='TooltipPersonalizado'>Video Tutorial</Typography>
 
-                  {dataVideos.length <= 1 || dataVideos.length === 0 ?
-                    ""
-                    :
-                    dataVideos.map((datos, x) => {
-                      return (
-                        <div className='div-BotonesVideos'>
-                          <IconButton key={x} className='VerVideos' onClick={() => handleClickOpen(String(datos.nombreVideo))}>
-                            {datos.nombreOriginal}
-                            <OndemandVideoIcon />
-                          </IconButton>
-                        </div>
+                  <Grid container >
 
-                      );
-                    })
-                  }
+                    {dataVideos.length === 0 ?
+                      ""
+                      :
+                      dataVideos.map((datos) => {
+                        return (
+                          <div  key={Math.random()} className='div-BotonesVideos'>
+                            <IconButton key={Math.random()} className='VerVideos' onClick={() => handleClickOpen(String(datos.nombreVideo))}>
+                              {datos.nombreOriginal + " "}
+                              <OndemandVideoIcon />
+                            </IconButton>
+                          </div>
+                        );
+                      })
+                    }
 
-                </Grid>
-              </div>
-            </React.Fragment>
-          }>
-            <IconButton className='agregar'
-              onClick={() => handleClickOpen(dataVideos.length === 1 ? dataVideos[0].nombreVideo : "")}>
-              <OndemandVideoIcon />
-            </IconButton>
+                  </Grid>
+                </div>
+              </React.Fragment>
+            }>
+              <IconButton className='agregar'
+                onClick={() => handleClickOpen(dataVideos.length === 1 ? dataVideos[0].nombreVideo : "")}>
+                <OndemandVideoIcon />
+              </IconButton>
 
-          </TooltipPersonalizado>
+            </TooltipPersonalizado>
 
-
+          }
         </Grid>
-        <Grid item xs={6}>
-          <Tooltip title="Cargar Video Tutorial">
-            <IconButton className='agregar' onClick={handleClickOpenCarga}>
-              <UploadIcon />
-            </IconButton>
-          </Tooltip>
-        </Grid>
+        {user.PERFILES[0].Referencia === "ADMIN" ?
+          <Grid item xs={6} sm={2.5} md={2} lg={1.8} xl={1.5}>
+
+            <Tooltip title="Cargar Video Tutorial">
+              <IconButton className='agregar' onClick={handleClickOpenCarga}>
+                <UploadIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+          : ""}
+
       </Grid>
 
 
@@ -219,7 +177,7 @@ const ButtonsTutorial = ({
         aria-describedby="alert-dialog-description"
       >
         <DialogContent>
-          <video controls autoPlay autoFocus
+          <video controls autoPlay autoFocus loop poster=''
             width='100%'
             height='100%'
             src={videoUrl} >
@@ -230,39 +188,10 @@ const ButtonsTutorial = ({
         </DialogContent>
       </Dialog>
 
-      <Dialog
-        open={openCarga}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogContent>
+      <ModalCargarVideos openCarga={openCarga} idMenu={idMenu} handleClose={handleClose} />
 
-          <Grid sx={{ width: "100%", height: "60vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <div className="CargaDeArchivosCuenta">
-              <input
-                id="imagencargada"
-                accept="video/*"
-                onChange={(v) => { enCambioFile(v) }}
-                type="file"
-                style={{ zIndex: 2, opacity: 0, width: '100%', height: '100%', position: "absolute", cursor: "pointer", }} />
-              <AddPhotoAlternateIcon sx={{ width: "90%", height: "90%" }} />
 
-            </div>
 
-          </Grid>
-          <Box sx={{ width: "100%", height: "8vh", display: "flex", justifyContent: "center", alignItems: "center", textAlign: "justify" }}>
-            {nombreArchivo === "" ? "" :
-              <Typography>Nombre del archivo: {nombreArchivo}</Typography>
-            }
-          </Box>
-          <DialogActions>
-            <Button onClick={() => { setNombreArchivo(""); handleClose(); }} color="error">Cancelar</Button>
-            <Button
-              onClick={() => SaveVideo()} color="success">Guardar cambios</Button>
-          </DialogActions>
-        </DialogContent>
-      </Dialog>
     </div>
   )
 }

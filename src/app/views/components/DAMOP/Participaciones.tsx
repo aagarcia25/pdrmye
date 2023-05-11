@@ -64,6 +64,8 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import IconSPEI from '../../../assets/img/SPEI.svg';
 import IconCFDI from '../../../assets/img/CFDI.svg';
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
+import ButtonsCalculo from "../menu/catalogos/Utilerias/ButtonsCalculo";
+import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
 
 const Participaciones = () => {
 
@@ -1889,6 +1891,9 @@ const Participaciones = () => {
             ""}
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
+        <ButtonsTutorial route={"/PDRMYE_DEV/VIDEOS/TUTORIALES/DPCP/"} />
+
+
           <Button
           // className="enviar"
             onClick={handleClick}

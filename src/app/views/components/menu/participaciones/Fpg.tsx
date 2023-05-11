@@ -23,6 +23,7 @@ import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import Swal from "sweetalert2";
 import { TooltipPersonalizado } from "../../componentes/CustomizedTooltips";
 import React from "react";
+import ButtonsTutorial from "../catalogos/Utilerias/ButtonsTutorial";
 
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
@@ -350,23 +351,22 @@ export const Fpg = () => {
         ""
       )}
 
-
-
-
       <Grid container
         sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
+        <Grid item xs={12} sm={2} >
+          <ButtonsTutorial route={"/PDRMYE_DEV/VIDEOS/TUTORIALES/DPCP/"} />
+        </Grid>
+        <Grid item xs={12} sm={10} sx={{ textAlign: "center" }}>
           <TooltipPersonalizado title={
             <React.Fragment>
-            <Typography variant="h6" className="h6-justify">
-              {objfondo?.Comentarios}
+              <Typography variant="h6" className="h6-justify">
+                {objfondo?.Comentarios}
               </Typography>
-
             </React.Fragment>
           }>
             <Typography variant="h3">
-              {objfondo?.Descripcion} 
-                         </Typography>
+              {objfondo?.Descripcion}
+            </Typography>
           </TooltipPersonalizado>
 
         </Grid>
@@ -385,11 +385,11 @@ export const Fpg = () => {
       {step === 0 ?
         <div style={{ height: 600, width: "100%" }}>
           <Grid container sx={{ display: "flex", alignItems: "center", justifyContent: "center", }} >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
+            <Grid item xs={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
               <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
             </Grid>
 
-            <Grid item sm={12} sx={{
+            <Grid item xs={12} sx={{
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>
               <MUIXDataGridMun columns={columns} rows={data} modulo={nombreMenu} handleBorrar={handleBorrar} controlInterno={String(params.fondo).replace(/\s/g, "")} />
