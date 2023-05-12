@@ -62,8 +62,7 @@ import { ORGHeader } from "../ORGANISMOS/ORGHeader";
 import IconSPEI from '../../../assets/img/SPEI.svg';
 import IconCFDI from '../../../assets/img/CFDI.svg';
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
-import ButtonsCalculo from "../menu/catalogos/Utilerias/ButtonsCalculo";
-import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
+import { MigraData, resultmigracion } from "../../../interfaces/parametros/ParametrosGenerales";
 
 const Participaciones = () => {
 
@@ -644,6 +643,23 @@ const Participaciones = () => {
     formData.append("tipo", "MigraOrganimos");
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
+      const obj: MigraData = res;
+      if( obj.RESPONSE.length > 0){
+        let sp="";
+         obj.RESPONSE.map((item: resultmigracion) => {
+                         sp = sp +item.IDENTIFICADORC+',';
+                       });
+        AlertS.fire({
+           title: "Favor de validar las siguientes solicitudes en el archivo de carga",
+           text: sp,
+           icon: "warning",
+           footer: 'No se registraron en el sistema',
+           confirmButtonText:'Aceptar'
+               });
+      }
+
+
+
     });
   };
 
@@ -1889,7 +1905,6 @@ const Participaciones = () => {
             ""}
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
-        <ButtonsTutorial route={"/PDRMYE_DEV/VIDEOS/TUTORIALES/DPCP/"} />
 
 
           <Button

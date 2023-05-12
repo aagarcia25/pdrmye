@@ -22,7 +22,6 @@ import MUIXDataGridMun from "../../MUIXDataGridMun";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import Swal from "sweetalert2";
 import { TooltipPersonalizado } from "../../componentes/CustomizedTooltips";
-import ButtonsTutorial from "../catalogos/Utilerias/ButtonsTutorial";
 
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
@@ -352,9 +351,6 @@ export const Fpg = () => {
 
       <Grid container
         sx={{ justifyContent: "center" }}>
-        <Grid item xs={12} sm={2} >
-          <ButtonsTutorial route={"/PDRMYE_DEV/VIDEOS/TUTORIALES/DPCP/"} />
-        </Grid>
         <Grid item xs={12} sm={10} sx={{ textAlign: "center" }}>
           <TooltipPersonalizado title={
             <React.Fragment>

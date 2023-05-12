@@ -67,6 +67,7 @@ import { TablaDocse } from '../views/components/EFIRMA/TablaDocse';
 import { Reporteador } from '../views/components/Herramientas/Reporteador';
 import { AuthService } from '../services/AuthService';
 import { useEffect, useState } from 'react';
+import AdminVideos from '../views/components/menu/usuarios/AdminVideosTutoriales/AdminVideos';
 
 
 export const AppRouter = (
@@ -171,6 +172,8 @@ export const AppRouter = (
           {/* SECCION USUARIOS, ROLES, PERMISOS */}
           <Route path='/inicio/usuario' element={log ? <Usuarios /> : <AuthRouter />} />
           <Route path='/inicio/roles' element={log ? <Roles /> : <AuthRouter />} />
+          <Route path='/inicio/adminVideos' element={log ? <AdminVideos/> : <AuthRouter />} />
+
           <Route path='/inicio/menus' element={log ? <Menus /> : <AuthRouter />} />
           <Route path='/inicio/permisos' element={log ? <Permisos /> : <AuthRouter />} />
           <Route path='/inicio/perfilesusuario' element={log ? <PerfilesUsuario /> : <AuthRouter />} />

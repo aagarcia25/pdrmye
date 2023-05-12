@@ -3,7 +3,6 @@ import AppBar from "@mui/material/AppBar";
 import Grid from "@mui/material/Grid";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
@@ -11,7 +10,6 @@ import PersonIcon from "@mui/icons-material/Person";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { COLOR } from "../../styles/colors";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import Popper, { PopperPlacementType } from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
@@ -27,11 +25,11 @@ import HelpIcon from '@mui/icons-material/Help';
 import { base64ToArrayBuffer } from "../../helpers/Files";
 import { styled } from '@mui/material/styles';
 import SpeedDial from '@mui/material/SpeedDial';
-import HomeIcon from '@mui/icons-material/Home';
 import { useState } from "react";
 import { Blanco } from "../../styles/imagen";
 import menuBurger from "../../../app/assets/img/menuBurger.svg";
 import logoNL from "../../../app/assets/img/logo1.svg";
+import ButtonsTutorial from "./menu/catalogos/Utilerias/ButtonsTutorial";
 
 
 interface HeaderProps {
@@ -40,6 +38,7 @@ interface HeaderProps {
   id: any;
   imgData: string;
   imgTipo: string;
+
 }
 
 export default function Header(props: HeaderProps) {
@@ -54,6 +53,7 @@ export default function Header(props: HeaderProps) {
 
 
   const { onDrawerToggle } = props;
+
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
@@ -72,6 +72,10 @@ export default function Header(props: HeaderProps) {
     setOpen((prevOpen) => !prevOpen);
     navigate("/Calendario");
   };
+
+
+
+
   const onOpenHelp = () => {
     setOpen((prevOpen) => !prevOpen);
     let guia = window.location.hash.replace('#', '');
@@ -101,6 +105,10 @@ export default function Header(props: HeaderProps) {
   };
   const onConfigProfile = () => {
     navigate("/perfil");
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleCloseMenuVideos = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
@@ -143,11 +151,8 @@ export default function Header(props: HeaderProps) {
                 src={"data:" + String(props.imgTipo === "undefined" ? Blanco.Tipo : props.imgTipo) + ";base64," + String(props.imgData === "undefined" ? Blanco.Data : props.imgData)}
               />
             ) : (
-              <PersonIcon sx={{
-                width: "100%", height: "100%",
-                color: COLOR.blanco,
-                "&:hover": { color: COLOR.negro }
-              }} />
+              <PersonIcon className="IconoDentroBoton" />
+
             )}
           </IconButton>
 
@@ -224,6 +229,11 @@ export default function Header(props: HeaderProps) {
           </IconButton>
         </Tooltip>  </>, name: 'Salir'
     },
+    {
+      icon:
+        <ButtonsTutorial route={"/VIDEOS/TUTORIALES/"} handleCloseMenuVideos={handleCloseMenuVideos} />, name: 'Tutoriales'
+    },
+
 
 
 
@@ -428,7 +438,7 @@ export default function Header(props: HeaderProps) {
                         aria-controls={open ? "composition-menu" : undefined}
                         aria-expanded={open ? "true" : undefined}
                         aria-haspopup="true"
-                        onClick={handleToggle('left-start')}
+                        onClick={handleToggle('left')}
                         color="inherit"
                         sx={{
                           width: "2.9rem",
@@ -454,14 +464,12 @@ export default function Header(props: HeaderProps) {
                               src={"data:" + String(props.imgData === "undefined" ? Blanco.Tipo : props.imgTipo) + ";base64," +
                                 String(props.imgData === "undefined" ? Blanco.Data : props.imgData)}
                             />
-                            {/* <ProfilePhoto/> */}
                           </>
 
                         ) : (
-                          <PersonIcon sx={{
-                            width: "100%", height: "100%",
-                            "&:hover": { color: COLOR.negro }
-                          }} />
+
+
+                          <PersonIcon className="IconoDentroBoton" />
                         )}
                       </Button>
 
@@ -508,11 +516,15 @@ export default function Header(props: HeaderProps) {
                                 <HelpIcon className="IconoDentroBoton" />
                               </IconButton>   Guía Rapida
                             </MenuItem>
+                            <Grid className="containerMenuItemBotones">
+                              <ButtonsTutorial route={"/VIDEOS/TUTORIALES/"} handleCloseMenuVideos={handleCloseMenuVideos} />
+                            </Grid>
                             <MenuItem onClick={onLogOut}>
                               <IconButton onClick={onLogOut} >
                                 <LogoutIcon className="IconoDentroBoton" />
                               </IconButton>   Cerrar sesión
                             </MenuItem>
+                        
 
                           </MenuList>
                         </ClickAwayListener>
