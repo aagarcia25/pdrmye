@@ -131,8 +131,8 @@ const RolesModal = ({
 
     return (
         <ModalForm title={modo} handleClose={handleClose}>
-            <Box sx={{ boxShadow: 3 }} > 
-            
+            <Box sx={{ boxShadow: 3 }} >
+
                 <Grid container
                     sx={{
                         height: "30vh",
@@ -141,7 +141,7 @@ const RolesModal = ({
                 >
                     {(modo === "Editar Rol") ?
                         <Grid sm={12}
-                            sx={{ display: 'flex', justifyContent: 'center', paddingTop:"1%"}}>
+                            sx={{ display: 'flex', justifyContent: 'center', paddingTop: "1%" }}>
                             <label className="contenido">  Sólo se puede editar la Descripción * </label>
                         </Grid> : ""
                     }
@@ -185,14 +185,14 @@ const RolesModal = ({
                         />
                     </Grid>
                 </Grid>
-           
 
-            <DialogActions sx={{ padding:"2%" }}>
-                <Button className="guardar" onClick={() => handleSend()}>Guardar</Button>
-                {/* <button className="cerrar" onClick={() => handleClose("cerrar")}>Cerrar</button> */}
-            </DialogActions>
 
-            </Box>                  
+                <DialogActions sx={{ padding: "2%" }}>
+                    <Button className="guardar" onClick={() => handleSend()}>Guardar</Button>
+                    {/* <button className="cerrar" onClick={() => handleClose("cerrar")}>Cerrar</button> */}
+                </DialogActions>
+
+            </Box>
         </ModalForm>
 
     );

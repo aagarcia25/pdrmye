@@ -20,19 +20,16 @@ import SendIcon from "@mui/icons-material/Send";
 import { AlertS } from "../../../helpers/AlertS";
 import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
 import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getPermisos, getUser, setMunicipios } from "../../../services/localStorage";
+import { getPermisos, getUser } from "../../../services/localStorage";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { Toast } from "../../../helpers/Toast";
 import Slider from "../Slider";
 import {
-  GridColumnVisibilityModel,
   GridSelectionModel,
   esES as gridEsES,
 } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
-import DPCP_02 from '../../../assets/videos/DPCP_02.mp4';
-import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
@@ -230,10 +227,8 @@ const AuthSolicitudes = () => {
       <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
-            <Grid item xs={1} >
-              <ButtonsTutorial  route={"/PDRMYE_DEV/VIDEOS/TUTORIALES/DPCP/"} ></ButtonsTutorial>
-            </Grid>
-            <Grid item xs={11} sx={{ textAlign: "center" }}>
+     
+            <Grid item xs={12} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
                 Módulo de Autorización de Solicitudes de Pago
               </Typography>

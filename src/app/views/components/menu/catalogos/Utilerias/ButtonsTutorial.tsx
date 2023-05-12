@@ -1,32 +1,29 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import ReactPlayer from 'react-player'
+import { Dialog, DialogContent, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { getMenus, getToken, getUser } from '../../../../../services/localStorage';
 
-import { Blanco } from '../../../../../styles/imagen';
 import UploadIcon from '@mui/icons-material/Upload';
-import { ITEMS, MENU, RESPONSE, RESPONSESTORAGE, RESPONSEVIDEOS } from '../../../../../interfaces/user/UserInfo';
-import { AuthService } from '../../../../../services/AuthService';
-import { Toast } from '../../../../../helpers/Toast';
-import Swal from 'sweetalert2';
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { ITEMS, MENU, RESPONSE, RESPONSEVIDEOS } from '../../../../../interfaces/user/UserInfo';
 import { CatalogosServices } from '../../../../../services/catalogosServices';
 import { base64ToArrayBuffer } from '../../../../../helpers/Files';
-import { DPCPServices } from '../../../../../services/DPCPServices';
 import { AlertS } from '../../../../../helpers/AlertS';
-import { UserServices, ValidaSesion } from '../../../../../services/UserServices';
+import { ValidaSesion } from '../../../../../services/UserServices';
 import { TooltipPersonalizado } from '../../../componentes/CustomizedTooltips';
-import SliderProgress from '../../../SliderProgress';
 import ModalCargarVideos from './ModalCargarVideos';
-
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Slider from '../../../Slider';
+import SliderProgress from '../../../SliderProgress';
 const ButtonsTutorial = ({
   route,
+  handleCloseMenuVideos
+
 }: {
   route: string;
+  handleCloseMenuVideos: Function;
+
 }
 ) => {
-  const [slideropen, setslideropen] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [openCarga, setOpenCarga] = React.useState(false);
   const [dataVideos, setDataVideos] = useState<Array<RESPONSEVIDEOS>>([])
@@ -34,9 +31,11 @@ const ButtonsTutorial = ({
   const [videoUrl, setVideoUrl] = useState<string>("");
   const menu: MENU[] = JSON.parse(String(getMenus()));
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const [slideropen, setslideropen] = useState(false);
 
 
   const handleClickOpen = (URLVideo: string) => {
+    // setslideropen(true);
     let data = {
       TOKEN: JSON.parse(String(getToken())),
       RUTA: route,
@@ -49,6 +48,7 @@ const ButtonsTutorial = ({
       ValidaSesion();
       setslideropen(true);
       CatalogosServices.obtenerDoc(data).then((res) => {
+        // setslideropen(true);
         if (res.SUCCESS) {
           var bufferArray = base64ToArrayBuffer(res.RESPONSE.RESPONSE.FILE);
           var blobStore = new Blob([bufferArray], { type: res.RESPONSE.RESPONSE.TIPO });
@@ -58,10 +58,12 @@ const ButtonsTutorial = ({
           link.href = data;
           setVideoUrl(link.href);
           setslideropen(false);
+
           setOpen(true);
         }
         else {
           setslideropen(false);
+
           AlertS.fire({
             title: "Algo Fallo, Recargue la página!",
             icon: "error",
@@ -71,6 +73,46 @@ const ButtonsTutorial = ({
       });
     }
   };
+
+  const handleClickDelet = (URLVideo: any) => {
+    console.log(URLVideo)
+    // setslideropen(true);
+    let data = {
+      TOKEN: JSON.parse(String(getToken())),
+      RUTA: route,
+      NOMBRE: URLVideo,
+    };
+
+
+    if (URLVideo !== "") {
+
+      // ValidaSesion();
+      // setslideropen(true);
+      // CatalogosServices.obtenerDoc(data).then((res) => {
+      //   // setslideropen(true);
+      //   if (res.SUCCESS) {
+      //     var bufferArray = base64ToArrayBuffer(res.RESPONSE.RESPONSE.FILE);
+      //     var blobStore = new Blob([bufferArray], { type: res.RESPONSE.RESPONSE.TIPO });
+      //     var data = window.URL.createObjectURL(blobStore);
+      //     var link = document.createElement('a');
+      //     document.body.appendChild(link);
+      //     link.href = data;
+      //     setVideoUrl(link.href);
+      //     setslideropen(false);
+      //     setOpen(true);
+      //   }
+      //   else {
+      //     setslideropen(false);
+      //     AlertS.fire({
+      //       title: "Algo Fallo, Recargue la página!",
+      //       icon: "error",
+      //     });
+      //   }
+
+      // });
+    }
+  };
+
 
   const handleObtenerVideos = (idmenu: string) => {
     let data = {
@@ -98,8 +140,9 @@ const ButtonsTutorial = ({
     setOpen(false);
     setOpenCarga(false);
     handleObtenerVideos(idMenu);
-  };
+    // handleCloseMenuVideos();
 
+  };
 
 
   useEffect(() => {
@@ -115,29 +158,52 @@ const ButtonsTutorial = ({
   }, [window.location.href]);
 
   return (
-    <div>
+    <div >
       <SliderProgress open={slideropen}></SliderProgress>
-      <Grid container item xs={12}  direction="row" justifyContent="flex-start" alignItems="center" spacing={6} paddingBottom={1} >
-        <Grid item xs={6} sm={2.5} md={2} lg={1.8} xl={1.5}>
-          {dataVideos.length === 0 ? "" :
-            <TooltipPersonalizado title={
+
+      <Grid className='containerBotonesControladoresVideos'
+        container direction="row" justifyContent="center" alignItems="center"  >
+        {dataVideos.length === 0 ? "" :
+          <Grid item xs={5}>
+            <TooltipPersonalizado
+            placement="left" 
+            title={
               <React.Fragment>
                 <div className='containerBotonesVideos'>
                   <Typography variant='h5' className='TooltipPersonalizado'>Video Tutorial</Typography>
-
-                  <Grid container >
-
+                  <Grid container className='containerVideosLista' >
                     {dataVideos.length === 0 ?
                       ""
                       :
                       dataVideos.map((datos) => {
                         return (
-                          <div  key={Math.random()} className='div-BotonesVideos'>
-                            <IconButton key={Math.random()} className='VerVideos' onClick={() => handleClickOpen(String(datos.nombreVideo))}>
-                              {datos.nombreOriginal + " "}
-                              <OndemandVideoIcon />
-                            </IconButton>
-                          </div>
+                          <Grid key={Math.random()}
+                            container
+                            direction="row"
+                            justifyContent="space-around"
+                            alignItems="center" >
+                            <Grid key={Math.random()} item xs={9.5}>
+                              <div key={Math.random()} className='div-BotonesVideos'>
+                                <IconButton key={Math.random()} className='VerVideos' onClick={() => handleClickOpen(String(datos.nombreVideo))}>
+                                  <OndemandVideoIcon />
+                                  <Typography variant='h6' className='FuenteDeBotonesTooltip'>
+                                    {datos.nombreOriginal + " "}
+                                  </Typography>
+                                </IconButton>
+                              </div>
+                            </Grid>
+
+                            {user.PERFILES[0].Referencia === "ADMIN" ?
+                              <Grid key={Math.random()} item xs={2}>
+                                <div key={Math.random()} className='div-BotonesVideos'>
+                                  <IconButton key={Math.random()} className='VerVideos' onClick={() => handleClickDelet(datos)}>
+                                    <DeleteForeverIcon
+                                    />
+                                  </IconButton>
+                                </div>
+                              </Grid >
+                              : ""}
+                          </Grid>
                         );
                       })
                     }
@@ -146,53 +212,51 @@ const ButtonsTutorial = ({
                 </div>
               </React.Fragment>
             }>
-              <IconButton className='agregar'
+              <IconButton className='ControlVideosHeader'
                 onClick={() => handleClickOpen(dataVideos.length === 1 ? dataVideos[0].nombreVideo : "")}>
-                <OndemandVideoIcon />
+                <OndemandVideoIcon className="IconoDentroBoton" />
               </IconButton>
-
             </TooltipPersonalizado>
-
-          }
-        </Grid>
-        {user.PERFILES[0].Referencia === "ADMIN" ?
-          <Grid item xs={6} sm={2.5} md={2} lg={1.8} xl={1.5}>
-
-            <Tooltip title="Cargar Video Tutorial">
-              <IconButton className='agregar' onClick={handleClickOpenCarga}>
-                <UploadIcon />
-              </IconButton>
-            </Tooltip>
           </Grid>
-          : ""}
-
-      </Grid>
-
-
-      <Dialog
+        }
+        {
+          user.PERFILES[0].Referencia === "ADMIN" ?
+            <Grid item xs={5} >
+              <Tooltip title="Cargar Video Tutorial">
+                <IconButton className='ControlVideosHeader' onClick={handleClickOpenCarga}>
+                  <UploadIcon className="IconoDentroBoton" />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+            : ""
+        }
+      </Grid >
+      {/* /////////////////////////////////// */}
+      <Dialog 
+         className='containerVisualizarVideo'
+        sx={{ color: "rgb(175, 140, 85)", zIndex: 2000 }}
         open={open}
-        onClose={handleClose}
         maxWidth={"lg"}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        onClose={handleClose}
       >
-        <DialogContent>
-          <video controls autoPlay autoFocus loop poster=''
-            width='100%'
-            height='100%'
-            src={videoUrl} >
+        <Grid 
+        className='containerVisualizarVideo'
+         container direction="column"
+          justifyContent="center"
+          alignItems="center"  >
+              <video controls autoPlay loop
+                width='100%'
+                height='100%'
+                src={videoUrl} />
+          </ Grid>
 
-            {videoUrl}
-          </video>
 
-        </DialogContent>
+
       </Dialog>
-
+      {/* //////////////////////////////// */}
+      
       <ModalCargarVideos openCarga={openCarga} idMenu={idMenu} handleClose={handleClose} />
-
-
-
-    </div>
+    </div >
   )
 }
 

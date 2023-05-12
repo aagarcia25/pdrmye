@@ -22,7 +22,6 @@ import Slider from "../Slider";
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
 import { fmeses } from "../../../share/loadMeses";
 import { fanios } from "../../../share/loadAnios";
-import ButtonsTutorial from "../menu/catalogos/Utilerias/ButtonsTutorial";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import NombreCatalogo from "../componentes/NombreCatalogo";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -94,14 +93,14 @@ const AsigPresupuestal = () => {
       width: 150,
     },
     {
-      field: "a12", 
+      field: "a12",
       headerName: "Presupuesto SIREGOB",
       description: "Presupuesto SIREGOB",
       sortable: false,
       width: 150,
-     
-  },
-    
+
+    },
+
     {
       field: "a11",
       headerName: "Total Neto",
@@ -197,7 +196,7 @@ const AsigPresupuestal = () => {
         confirmButtonText: "Aceptar",
         cancelButtonText: "Cancelar",
       }).then(async (result) => {
-       
+
         if (result.isConfirmed) {
           setslideropen(true);
           let data = {
@@ -205,7 +204,7 @@ const AsigPresupuestal = () => {
             OBJS: selectionModel,
             CHUSER: user.id,
           };
-// console.log(data);
+          // console.log(data);
 
           SireService.ConsultaPresupuesto(data).then((res) => {
             if (res.SUCCESS) {
@@ -215,7 +214,7 @@ const AsigPresupuestal = () => {
               }).then(async (result) => {
                 if (result.isConfirmed) {
                   handleClick();
-                   setslideropen(false);
+                  setslideropen(false);
                 }
               });
             } else {
@@ -331,19 +330,19 @@ const AsigPresupuestal = () => {
     loadFilter(31);
     loadFilter(32);
     loadFilter(17);
-   // handleClick();
-      permisos.map((item: PERMISO) => {
-        if (String(item.ControlInterno) === "DPCPPRES") {
-          if (String(item.Referencia) === "CPRESUPUESTO") {
-            setCargarPlant(true);
-          }
-         
+    // handleClick();
+    permisos.map((item: PERMISO) => {
+      if (String(item.ControlInterno) === "DPCPPRES") {
+        if (String(item.Referencia) === "CPRESUPUESTO") {
+          setCargarPlant(true);
         }
 
-      });
-    }, []);
+      }
 
-  
+    });
+  }, []);
+
+
 
 
   return (
@@ -353,10 +352,6 @@ const AsigPresupuestal = () => {
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
-
-            <Grid item xs={12} sm={2} >
-              <ButtonsTutorial route={"/PDRMYE_DEV/VIDEOS/TUTORIALES/DPCP/"} ></ButtonsTutorial>
-            </Grid>
 
             <Grid item xs={12} sm={10} sx={{ textAlign: "center" }}>
               <NombreCatalogo controlInterno={"DPCPPRES"} />
@@ -473,11 +468,11 @@ const AsigPresupuestal = () => {
             )}
 
 
-            
+
             <ToggleButton value="check" onClick={() => verificaPresupuesto()}>
-            <Tooltip title={"Verificar Presupuesto"}>
-              <AttachMoneyIcon color="primary" />
-            </Tooltip>
+              <Tooltip title={"Verificar Presupuesto"}>
+                <AttachMoneyIcon color="primary" />
+              </Tooltip>
             </ToggleButton>
           </ToggleButtonGroup>
         </Grid>
