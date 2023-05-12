@@ -1,4 +1,4 @@
-import { Backdrop, Box, CircularProgress, Fab, Typography } from '@mui/material'
+import { Backdrop, Box, CircularProgress, Dialog, Fab, Grid, Typography } from '@mui/material'
 import * as React from 'react';
 import { green } from '@mui/material/colors';
 import Button from '@mui/material/Button';
@@ -48,26 +48,29 @@ const SliderProgress = ({
 
 
   return (
-    <div>
-      <Backdrop
-        sx={{ color: "rgb(175, 140, 85)", zIndex: 2000 }}
-        open={open}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center'}}>
-          <Box alignItems={"center"} sx={{ m: 1, position: 'relative' }}>
-            <CircularProgress
-              size={200}
-              sx={{
-                color: COLOR.negro,
-              }}
-            />
-          </Box>
-             <Typography variant='h4' className='Cargando'>
-              {"Cargando .."}
-            </Typography>
-        </Box>
-      </Backdrop>
-    </div>
+    <Dialog fullScreen className='ContainerSliderProgress'
+      sx={{ color: "rgb(175, 140, 85)", zIndex: 2000 }}
+      open={open}
+    >
+      <Grid className='container' container   direction="column"
+  justifyContent="center"
+  alignItems="center"  >
+        <Grid item >
+          <CircularProgress
+            size={200}
+            sx={{
+              color: COLOR.negro,
+            }}
+          />
+          <Typography variant='h4' className='Cargando'>
+            {"Cargando .."}
+          </Typography>
+        </ Grid>
+
+
+      </Grid>
+
+    </Dialog>
   )
 }
 

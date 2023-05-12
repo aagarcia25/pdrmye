@@ -180,12 +180,15 @@ const drawerWidth = 230;
 
 export default function Inicio({ children, user,imgData,imgTipo }: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
-
+  const [slideropen, setslideropen] =  React.useState(false);
 
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+  const handleopenSlider = () => {
+    setslideropen(!slideropen);
+    console.log(!slideropen)
   };
 
   return (
@@ -202,15 +205,13 @@ export default function Inicio({ children, user,imgData,imgTipo }: Props) {
         <Grid sx={{ flexDirection: "column", width: "100%" }}>
           <Header
             onDrawerToggle={handleDrawerToggle}
-            name={
-              user?.Nombre + " "
+            name={user?.Nombre + " "
               + user?.ApellidoPaterno + " "
-              + user?.ApellidoMaterno
-            }
+              + user?.ApellidoMaterno}
             id={1}
             imgData={imgData}
             imgTipo={imgTipo}
-          />
+           />
           {children}
         </Grid>
       </Grid>

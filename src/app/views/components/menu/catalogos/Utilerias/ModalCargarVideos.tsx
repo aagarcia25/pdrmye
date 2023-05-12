@@ -42,7 +42,6 @@ const ModalCargarVideos = ({
     setslideropen(true)
     const formData = new FormData();
 
-    formData.append("TIPO", "DPCP/");
     formData.append("VIDEO", newVideo, nombreArchivo);
     formData.append("CHUSER", user.id);
     formData.append("CHID", idMenu);
