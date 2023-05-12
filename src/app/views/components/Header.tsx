@@ -438,7 +438,7 @@ export default function Header(props: HeaderProps) {
                         aria-controls={open ? "composition-menu" : undefined}
                         aria-expanded={open ? "true" : undefined}
                         aria-haspopup="true"
-                        onClick={handleToggle('left-start')}
+                        onClick={handleToggle('left')}
                         color="inherit"
                         sx={{
                           width: "2.9rem",
@@ -516,14 +516,15 @@ export default function Header(props: HeaderProps) {
                                 <HelpIcon className="IconoDentroBoton" />
                               </IconButton>   Guía Rapida
                             </MenuItem>
+                            <Grid className="containerMenuItemBotones">
+                              <ButtonsTutorial route={"/VIDEOS/TUTORIALES/"} handleCloseMenuVideos={handleCloseMenuVideos} />
+                            </Grid>
                             <MenuItem onClick={onLogOut}>
                               <IconButton onClick={onLogOut} >
                                 <LogoutIcon className="IconoDentroBoton" />
                               </IconButton>   Cerrar sesión
                             </MenuItem>
-                            <Grid className="containerMenuItemBotones">
-                              <ButtonsTutorial route={"/VIDEOS/TUTORIALES/"} handleCloseMenuVideos={handleCloseMenuVideos} />
-                            </Grid>
+                        
 
                           </MenuList>
                         </ClickAwayListener>

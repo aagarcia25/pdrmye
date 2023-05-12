@@ -161,12 +161,13 @@ const ButtonsTutorial = ({
     <div >
       <SliderProgress open={slideropen}></SliderProgress>
 
-
       <Grid className='containerBotonesControladoresVideos'
         container direction="row" justifyContent="center" alignItems="center"  >
         {dataVideos.length === 0 ? "" :
           <Grid item xs={5}>
-            <TooltipPersonalizado title={
+            <TooltipPersonalizado
+            placement="left" 
+            title={
               <React.Fragment>
                 <div className='containerBotonesVideos'>
                   <Typography variant='h5' className='TooltipPersonalizado'>Video Tutorial</Typography>
@@ -185,7 +186,7 @@ const ButtonsTutorial = ({
                               <div key={Math.random()} className='div-BotonesVideos'>
                                 <IconButton key={Math.random()} className='VerVideos' onClick={() => handleClickOpen(String(datos.nombreVideo))}>
                                   <OndemandVideoIcon />
-                                  <Typography variant='h6'>
+                                  <Typography variant='h6' className='FuenteDeBotonesTooltip'>
                                     {datos.nombreOriginal + " "}
                                   </Typography>
                                 </IconButton>
@@ -229,27 +230,31 @@ const ButtonsTutorial = ({
             </Grid>
             : ""
         }
-
       </Grid >
-
-      <Dialog
-      className='containerVisualizarVideo'
-        // fullScreen
+      {/* /////////////////////////////////// */}
+      <Dialog 
+         className='containerVisualizarVideo'
+        sx={{ color: "rgb(175, 140, 85)", zIndex: 2000 }}
         open={open}
-        onClose={handleClose}
         maxWidth={"lg"}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-
+        onClose={handleClose}
       >
-        <DialogContent>
-          <video controls autoPlay loop
-            width='100%'
-            height='95%'
-            src={videoUrl} />
+        <Grid 
+        className='containerVisualizarVideo'
+         container direction="column"
+          justifyContent="center"
+          alignItems="center"  >
+              <video controls autoPlay loop
+                width='100%'
+                height='100%'
+                src={videoUrl} />
+          </ Grid>
 
-        </DialogContent>
+
+
       </Dialog>
+      {/* //////////////////////////////// */}
+      
       <ModalCargarVideos openCarga={openCarga} idMenu={idMenu} handleClose={handleClose} />
     </div >
   )

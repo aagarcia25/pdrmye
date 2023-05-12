@@ -4,7 +4,7 @@ import { COLOR } from '../../../styles/colors';
 
 
 export const TooltipPersonalizado = styled(({ className, ...props }: TooltipProps) => (
-  <Tooltip className='TooltipPersonalizado' {...props} classes={{ popper: className}}  />
+  <Tooltip  className='TooltipPersonalizado' {...props} classes={{ popper: className}}  />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
     // color: "green",

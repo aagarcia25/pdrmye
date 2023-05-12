@@ -48,13 +48,14 @@ const SliderProgress = ({
 
 
   return (
-    <Dialog fullScreen className='ContainerSliderProgress'
-      sx={{ color: "rgb(175, 140, 85)", zIndex: 2000 }}
+    <Dialog fullScreen
+      className='ContainerSliderProgress'
+      sx={{ zIndex: 2000 }}
       open={open}
     >
-      <Grid className='container' container   direction="column"
-  justifyContent="center"
-  alignItems="center"  >
+      <Grid className='container' container direction="column"
+        justifyContent="center"
+        alignItems="center"  >
         <Grid item >
           <CircularProgress
             size={200}
@@ -66,8 +67,6 @@ const SliderProgress = ({
             {"Cargando .."}
           </Typography>
         </ Grid>
-
-
       </Grid>
 
     </Dialog>

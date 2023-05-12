@@ -17,6 +17,9 @@
 }
 
 h5.TooltipPersonalizado{
+  /* position: absolute ; */
+  /* right: 1; */
+  /* left: 0; */
   border-radius: 20px;
   color: #15212f;
   background-color:#ffffff00;
@@ -25,23 +28,38 @@ h5.TooltipPersonalizado{
 
 }
 .ContainerSliderProgress{
-  background:#000000;
-
+  background:#ffffff00;
   width: 100%;
   height: 100%;
   opacity:0.5;
   position: relative  ;
-  /* z-index:1000; */
   cursor: wait ;  
+}
+.containerVisualizarVideo{
+  /* position: absolute  ; */
+  /* overflow: visible  ; */
+  /* opacity: .99; */
+  background: #ffffff00;
+  /* opacity:0.5; */
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625)  */
 }
 
-.containerVisualizarVideo{
-  position: absolute;
-  overflow: auto ;
-  opacity: .99;
+.containerPreVisualizarVideo{
+  background: #000;
+  background-color: #9f4242;
+  position: relative;
+  align-items: center;
+  align-content: center;
+  /* overflow: visible  ; */
+  /* opacity: .99; */
+  background: #ffffff00;
+  /* opacity:0.5; */
+  border-radius: 10px;
   width: 100%;
-  height: 100%;
+  height: 80%;
  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625)  */
 }
 .container {
@@ -52,7 +70,10 @@ h5.TooltipPersonalizado{
  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625)  */
 }
 
+
+
 .containerVideosLista {
+  z-index: 5000;
   contain: content;
   position: static   ;
   overflow: auto ;
@@ -74,10 +95,11 @@ h5.TooltipPersonalizado{
 .containerBotonesVideos {
   background-color:#f3f3f300;
   border-radius: 10px;
-  position: static  ;
+  position: static ;
   overflow: visible;
   width: 100%;
-  max-width: 700px;
+  max-width: 500px;
+  /* max-height: 200px; */
   height: 100%;
   /* border-bottom: 2px solid hsla(0, 8%, 83%, 0.24); */
 
@@ -322,6 +344,15 @@ h5.label-UsuariosDisabled {
   font-family: sans-serif;
   text-align: center;
   justify-content: center;
+}
+
+h6.FuenteDeBotonesTooltip{
+font-size: 15px;
+  font-family: sans-serif;
+  /* font-weight: bold; */
+  color: #15212f;
+  margin-right: 2rem;
+
 }
 
 h6 {
@@ -575,6 +606,20 @@ button.salir {
   transition-duration: 0.2s;
   cursor: pointer;
   font-family: sans-serif;
+
+}
+button.cancelar {
+  font-size: 20px;
+  transition-duration: 0.2s;
+  font-family: sans-serif;
+  background-color: #AF8C55;
+  color: rgb(18, 26, 22);
+
+}
+
+button.cancelar:hover {
+  color: rgb(5, 5, 5);
+  background-color:  #896937d0;
 
 }
 
@@ -1322,20 +1367,30 @@ label.gris {
 
 input.imagencargada {
   width: 100%;
-  height: 100%;
+  height: 100%;          
 
 }
 
-div.CargaDeArchivosCuenta {
+div.adminVideosEsperaCarga {
+  cursor: pointer;
   contain: content;
-  /* display: "display-inside" ; */
   width: 100%;
   height: 100%;
-  /* position: absolute ; */
-  /* top:  50px; */
-  /* left: 50px; */
-  /* bottom: 0%; */
-  /* padding-bottom: 0%; */
+  border-color: #f64e60;
+  border: 3px dashed rgb(181, 180, 180);
+  background-color: #f3f6f9;
+  font-family: "MontserratSemiBold2";
+  color: #808080;
+  justify-content: center;
+  align-items: center;
+  overflow: "hidden";
+
+}
+div.adminVideosCargado {
+  cursor: pointer;
+  contain: content;
+  width: 50%;
+  height: 20%;
   border-color: #f64e60;
   border: 3px dashed rgb(181, 180, 180);
   background-color: #f3f6f9;
