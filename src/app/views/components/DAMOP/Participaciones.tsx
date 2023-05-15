@@ -516,14 +516,13 @@ const Participaciones = () => {
       width: 250,
     },
     {
-      hide: true ,hideable:false ,
+     
       field: "ClaveBeneficiario",
       headerName: "Cve. Beneficiario",
-      width: 200,
+      width: 100,
       description: "Clave de Beneficiario",
     },
     {
-      hide: true,hideable:false ,
       field: "DescripcionBeneficiario",
       headerName: "Beneficiario",
       width: 200,
