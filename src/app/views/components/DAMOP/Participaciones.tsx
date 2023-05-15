@@ -474,7 +474,7 @@ const Participaciones = () => {
     {
       field: "Anio",
       headerName: "Ejercicio",
-      width: 70,
+      width: 100,
       description: "Ejercicio",
     },
     {
