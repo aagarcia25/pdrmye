@@ -263,8 +263,7 @@ const Usuarios = () => {
     { field: "Ubicación", headerName: "Ubicación", description: "Ubicación", width: 250, },
     { field: "CorreoElectronico", headerName: "Correo Electrónico", description: "Correo Electrónico", width: 300, },
     { field: "Puesto", headerName: "Puesto", description: "Puesto", width: 200, },
-    { field: "idDepartamento", hide: true, },
-    { field: "idPerfil", hide: true, },
+
 
   ];
 

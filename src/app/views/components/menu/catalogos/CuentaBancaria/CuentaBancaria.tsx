@@ -251,7 +251,7 @@ export const CuentaBancaria = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setCuentaBancaria(res.RESPONSE);
 

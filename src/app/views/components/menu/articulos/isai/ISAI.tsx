@@ -115,7 +115,7 @@ const ISAI = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setDataTipoFondo(res.RESPONSE);
       } else {

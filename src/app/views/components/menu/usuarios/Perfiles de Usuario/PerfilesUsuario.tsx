@@ -133,7 +133,7 @@ export const PerfilesUsuario = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         //console.log(data);
         setPerfilUsuario(res.RESPONSE);
