@@ -187,7 +187,7 @@ const CfdiAdmin = ({
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
-                    title: "Consulta Exitosa!",
+                    title: "¡Consulta Exitosa!",
                 });
                 setSpeis(res.RESPONSE);
             } else {

@@ -856,7 +856,7 @@ const Participaciones = () => {
                 if (res.SUCCESS) {
                   Toast.fire({
                     icon: "success",
-                    title: "Consulta Exitosa!",
+                    title: "¡Consulta Exitosa!",
                   });
                   handleClick();
                 } else {
@@ -963,7 +963,7 @@ const Participaciones = () => {
                 if (res.SUCCESS) {
                   Toast.fire({
                     icon: "success",
-                    title: "Consulta Exitosa!",
+                    title: "¡Consulta Exitosa!",
                   });
                   handleClick();
                 } else {
@@ -1059,7 +1059,7 @@ const Participaciones = () => {
                 if (res.SUCCESS) {
                   Toast.fire({
                     icon: "success",
-                    title: "Consulta Exitosa!",
+                    title: "¡Consulta Exitosa!",
                   });
                   handleClick();
                 } else {
@@ -1599,7 +1599,7 @@ const Participaciones = () => {
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "Consulta Exitosa!",
+            title: "¡Consulta Exitosa!",
           });
           setData(res.RESPONSE);
           var sumatotal = 0;

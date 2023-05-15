@@ -120,7 +120,7 @@ export const Bancos = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setBancos(res.RESPONSE);
       } else {

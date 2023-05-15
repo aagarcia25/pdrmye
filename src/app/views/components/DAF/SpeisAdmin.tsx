@@ -421,7 +421,7 @@ const SpeisAdmin = ({
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
-                    title: "Consulta Exitosa!",
+                    title: "¡Consulta Exitosa!",
                 });
                 base64toPDF(String(res.RESPONSE.RESPONSE.FILE), String(res.RESPONSE.RESPONSE.TIPO), nameFile, descargar)
                 setslideropen(false);
@@ -472,7 +472,7 @@ const SpeisAdmin = ({
                 if (res.SUCCESS) {
                     Toast.fire({
                         icon: "success",
-                        title: "Consulta Exitosa!",
+                        title: "¡Consulta Exitosa!",
                     });
 
                     setSpeis(res.RESPONSE);
@@ -493,7 +493,7 @@ const SpeisAdmin = ({
                 if (res.SUCCESS) {
                     Toast.fire({
                         icon: "success",
-                        title: "Consulta Exitosa!",
+                        title: "¡Consulta Exitosa!",
                     });
                     setSpeis(res.RESPONSE);
                     setslideropen(false);

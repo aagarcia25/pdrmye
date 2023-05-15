@@ -259,7 +259,7 @@ export const CalculoGarantiaComponente = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setCalculoGarantia(res.RESPONSE);
         setslideropen(false);

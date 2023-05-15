@@ -156,7 +156,7 @@ export const Avisos = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setAvisos(res.RESPONSE);
       } else {
