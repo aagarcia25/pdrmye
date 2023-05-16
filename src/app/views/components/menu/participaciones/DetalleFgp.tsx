@@ -173,7 +173,7 @@ const DetalleFgp = ({
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "Consulta Exitosa!",
+            title: "¡Consulta Exitosa!",
           });
           handleClose();
         } else {
@@ -349,7 +349,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setData(res.RESPONSE);
         var sumatotal = 0;

@@ -159,7 +159,7 @@ const InflacionAnio = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setDataInflacionAnio(res.RESPONSE);
       } else {

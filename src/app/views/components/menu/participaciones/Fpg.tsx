@@ -220,7 +220,7 @@ export const Fpg = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setdata(res.RESPONSE);
         var sumatotal = 0;

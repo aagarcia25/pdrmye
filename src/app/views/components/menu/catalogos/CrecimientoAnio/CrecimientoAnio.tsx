@@ -124,7 +124,7 @@ const CrecimientoAnio = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setDataCrecimientoAnio(res.RESPONSE);
       } else {

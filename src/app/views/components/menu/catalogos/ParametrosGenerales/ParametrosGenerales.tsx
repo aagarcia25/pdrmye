@@ -138,7 +138,7 @@ export const ParametrosGenerales = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         //console.log(data);
         setParametroGeneral(res.RESPONSE);

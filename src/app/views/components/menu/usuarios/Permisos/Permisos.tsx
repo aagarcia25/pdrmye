@@ -89,11 +89,7 @@ const Permisos = () => {
       hide: true,
       width: 10,
     },
-    {
-      field: "idmenu",
-      hide: true,
-      width: 10,
-    },
+
     {
       field: "acciones",  disableExport: true,
       headerName: "Acciones",

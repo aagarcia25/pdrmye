@@ -245,7 +245,7 @@ const InflacionMes = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setDataInflacionMes(res.RESPONSE);
       } else {

@@ -31,7 +31,7 @@ import CallMergeIcon from '@mui/icons-material/CallMerge';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import MoneyOffOutlinedIcon from '@mui/icons-material/MoneyOffOutlined';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
-import {GridSelectionModel,  esES as gridEsES,} from "@mui/x-data-grid";
+import { GridSelectionModel, esES as gridEsES, } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
 import { DAMOPServices } from "../../../services/DAMOPServices";
@@ -66,7 +66,7 @@ import { MigraData, resultmigracion } from "../../../interfaces/parametros/Param
 
 const Participaciones = () => {
 
-   ///////////////modal de adminisracion Spei cfdi
+  ///////////////modal de adminisracion Spei cfdi
   const [modoSpeiCfdi, setModoSpeiCfdi] = useState("");
   const [checked, setChecked] = React.useState(false);
   const [meses, setMeses] = useState<SelectValues[]>([]);
@@ -267,9 +267,9 @@ const Participaciones = () => {
   };
 
   const columnsParticipaciones = [
-    { field: "id", hide: true,hideable:false  },
-    { field: "TipoSolicitud", hide: true ,hideable:false },
-    { field: "IdConCheque", hide: true ,hideable:false},
+    { field: "id", hide: true, hideable: false },
+    { field: "TipoSolicitud", hide: true, hideable: false },
+    { field: "IdConCheque", hide: true, hideable: false },
     {
       field: "Operaciones",
       disableExport: true,
@@ -288,7 +288,7 @@ const Participaciones = () => {
               </IconButton>
             </Tooltip>
 
-            {ELIMINA && v.row.orden===1 ? (
+            {ELIMINA && v.row.orden === 1 ? (
               <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
                 <Tooltip title={"Eliminar"}>
                   <DeleteForeverOutlinedIcon />
@@ -297,7 +297,7 @@ const Participaciones = () => {
             ) : ("")}
 
 
-            {verSegmentar && String(v.row.estatus) === 'Ingresando Operación'  ? (
+            {verSegmentar && String(v.row.estatus) === 'Ingresando Operación' ? (
               <Tooltip title={"Segmentar Operación"}>
                 <IconButton value="check" onClick={() => handleVerSegmentos(v)}>
                   <SegmentIcon />
@@ -317,7 +317,7 @@ const Participaciones = () => {
               ""
             )}
 
-            {String(v.row.estatus) === 'Ingresando Operación'  && cargarPlant ?
+            {String(v.row.estatus) === 'Ingresando Operación' && cargarPlant ?
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
                   <MonetizationOnIcon />
@@ -349,11 +349,11 @@ const Participaciones = () => {
                 <Tooltip title="Ver Spei">
                   <IconButton
                     onClick={() => handleVerSpei(v, "SPEI")}>
-                    <img className="iconButton" src={IconSPEI} 
-                     />
+                    <img className="iconButton" src={IconSPEI}
+                    />
                   </IconButton>
                 </Tooltip>
-              
+
               </>
             ) : (
               ""
@@ -361,7 +361,7 @@ const Participaciones = () => {
             {v.row.orden > 13 ? (
               <Tooltip title="Administrar CFDI">
                 <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
-                  <img className="iconButton" src={IconCFDI} 
+                  <img className="iconButton" src={IconCFDI}
                   />
                 </IconButton>
               </Tooltip>
@@ -374,7 +374,7 @@ const Participaciones = () => {
       },
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "AccionesDescuentos",
       disableExport: true,
       headerName: "Descuentos",
@@ -398,7 +398,7 @@ const Participaciones = () => {
       },
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "AccionesRetenciones",
       disableExport: true,
       headerName: "Retenciones",
@@ -436,28 +436,28 @@ const Participaciones = () => {
       width: 110,
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumParticipacion",
       headerName: "Número De Participación",
       width: 150,
       description: "Número De Participación",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumSolEgreso",
       headerName: "Solicitud De Egreso",
       width: 145,
       description: "Número De Solicitud De Egreso",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumEgreso",
       headerName: "Egreso",
       width: 80,
       description: "Número De Egreso",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "a3",
       headerName: "Solicitud de Pago",
       width: 120,
@@ -465,7 +465,7 @@ const Participaciones = () => {
     },
 
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumRequerimientoAnt",
       headerName: "Req. De Anticipo",
       width: 120,
@@ -474,7 +474,7 @@ const Participaciones = () => {
     {
       field: "Anio",
       headerName: "Ejercicio",
-      width: 70,
+      width: 100,
       description: "Ejercicio",
     },
     {
@@ -490,14 +490,14 @@ const Participaciones = () => {
       description: "Tipo de Solicitud",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "ClaveEstado",
       headerName: "Clave Estado",
       width: 100,
       description: "Clave Estado",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Nombre",
       headerName: "Proveedor",
       width: 200,
@@ -516,36 +516,35 @@ const Participaciones = () => {
       width: 250,
     },
     {
-      hide: true ,hideable:false ,
+
       field: "ClaveBeneficiario",
       headerName: "Cve. Beneficiario",
-      width: 200,
+      width: 100,
       description: "Clave de Beneficiario",
     },
     {
-      hide: true,hideable:false ,
       field: "DescripcionBeneficiario",
       headerName: "Beneficiario",
       width: 200,
       description: "Beneficiario",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "uresclave",
       headerName: "U. Resp",
       description: "Unidad Responsable",
       width: 80,
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumProyecto",
       headerName: "Número de Proyecto",
       description: "Número de Proyecto",
       width: 150,
     },
-    
+
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
       width: 170,
@@ -593,35 +592,35 @@ const Participaciones = () => {
       ),
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Proveedor",
       headerName: "Proveedor",
       width: 80,
       description: "Proveedor",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Deudor",
       headerName: "Deudor",
       width: 80,
       description: "Deudor",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "clasificacion",
       headerName: "Clasificación",
       width: 100,
       description: "Clasificación de Solicitud de Pago",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Divisa",
       headerName: "Divisa",
       width: 80,
       description: "Divisa",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto ==='MUN' ? true :false,
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Observaciones",
       headerName: "Observaciones",
       width: 400,
@@ -644,18 +643,18 @@ const Participaciones = () => {
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
       const obj: MigraData = res;
-      if( obj.RESPONSE.length > 0){
-        let sp="";
-         obj.RESPONSE.map((item: resultmigracion) => {
-                         sp = sp +item.IDENTIFICADORC+',';
-                       });
+      if (obj.RESPONSE.length > 0) {
+        let sp = "";
+        obj.RESPONSE.map((item: resultmigracion) => {
+          sp = sp + item.IDENTIFICADORC + ',';
+        });
         AlertS.fire({
-           title: "Favor de validar las siguientes solicitudes en el archivo de carga",
-           text: sp,
-           icon: "warning",
-           footer: 'No se registraron en el sistema',
-           confirmButtonText:'Aceptar'
-               });
+          title: "Favor de validar las siguientes solicitudes en el archivo de carga",
+          text: sp,
+          icon: "warning",
+          footer: 'No se registraron en el sistema',
+          confirmButtonText: 'Aceptar'
+        });
       }
 
 
@@ -857,7 +856,7 @@ const Participaciones = () => {
                 if (res.SUCCESS) {
                   Toast.fire({
                     icon: "success",
-                    title: "Consulta Exitosa!",
+                    title: "¡Consulta Exitosa!",
                   });
                   handleClick();
                 } else {
@@ -964,7 +963,7 @@ const Participaciones = () => {
                 if (res.SUCCESS) {
                   Toast.fire({
                     icon: "success",
-                    title: "Consulta Exitosa!",
+                    title: "¡Consulta Exitosa!",
                   });
                   handleClick();
                 } else {
@@ -1060,7 +1059,7 @@ const Participaciones = () => {
                 if (res.SUCCESS) {
                   Toast.fire({
                     icon: "success",
-                    title: "Consulta Exitosa!",
+                    title: "¡Consulta Exitosa!",
                   });
                   handleClick();
                 } else {
@@ -1600,7 +1599,7 @@ const Participaciones = () => {
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "Consulta Exitosa!",
+            title: "¡Consulta Exitosa!",
           });
           setData(res.RESPONSE);
           var sumatotal = 0;
@@ -1704,7 +1703,7 @@ const Participaciones = () => {
           setEditCabecera(true);
         } else if (String(item.Referencia) === "AGREGDETALLE") {
           setPermisoAgregarDetalle(true);
-        }else if (String(item.Referencia) === "AGREGRETEN") {
+        } else if (String(item.Referencia) === "AGREGRETEN") {
           setPermisoAgregarRetencion(true);
         }
         else if (String(item.Referencia) === "EDITRETENCION") {
@@ -1712,7 +1711,7 @@ const Participaciones = () => {
         }
         else if (String(item.Referencia) === "DELETERETEN") {
           setPermisoEliminarRetencion(true);
-        }else if (String(item.Referencia) === "ELIMDETCABECERA") {
+        } else if (String(item.Referencia) === "ELIMDETCABECERA") {
           setPermisoEliminarDetalleCabecera(true);
         }
         else if (String(item.Referencia) === "EDITARDETALLECABECERA") {
@@ -1729,16 +1728,16 @@ const Participaciones = () => {
         }
 
 
-        
-        
-        
 
 
-        
-        
 
-       
-        
+
+
+
+
+
+
+
 
 
 
@@ -1816,11 +1815,11 @@ const Participaciones = () => {
             ""}
 
           {STIPOSOLICITUD ?
-            <Grid item xs={11.5} sm={6} md={4} 
-            lg={ user?.DEPARTAMENTOS[0]?.NombreCorto ?
-              user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
-                4 :
-                2 : 2}>
+            <Grid item xs={11.5} sm={6} md={4}
+              lg={user?.DEPARTAMENTOS[0]?.NombreCorto ?
+                user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+                  4 :
+                  2 : 2}>
               <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
               <SelectFrag
                 value={idtipoSolicitud}
@@ -1835,7 +1834,7 @@ const Participaciones = () => {
             ""}
 
           {SFONDO ?
-            <Grid item xs={11.5} sm={6} md={4} lg={ user?.DEPARTAMENTOS[0]?.NombreCorto ?
+            <Grid item xs={11.5} sm={6} md={4} lg={user?.DEPARTAMENTOS[0]?.NombreCorto ?
               user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
                 4 :
                 2 : 2}>
@@ -1908,7 +1907,7 @@ const Participaciones = () => {
 
 
           <Button
-          // className="enviar"
+            // className="enviar"
             onClick={handleClick}
             variant="contained"
             color="secondary"
@@ -2120,19 +2119,23 @@ const Participaciones = () => {
           {user.DEPARTAMENTOS[0].NombreCorto === "ORG" || user.DEPARTAMENTOS[0].NombreCorto === "MUN" ?
             "" :
             <Grid item xs={2} sm={2} md={2} lg={2}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked}
-                    onChange={handleChangeMostrarTodo}
-                    inputProps={{ 'aria-label': 'controlled' }}
-                  />
-                }
-                
-                label="Mostrar todo" title="Permite mostrar toda la información" />
-                
-                       
+
+              <Tooltip title={"Permite mostrar toda la información"}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={checked}
+                      onChange={handleChangeMostrarTodo}
+                      color="secondary"
+                      inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                  }
+
+                  label="Mostrar todo" />
+              </Tooltip>
+
             </Grid>
+
           }
 
         </Grid>
@@ -2259,12 +2262,12 @@ const Participaciones = () => {
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <MUIXDataGridGeneral 
-          modulo={nombreExport} 
-          handleBorrar={handleBorrarMasivo}
-          columns={columnsParticipaciones} 
-          rows={data} controlInterno={""} 
-          multiselect={true}/>
+          <MUIXDataGridGeneral
+            modulo={nombreExport}
+            handleBorrar={handleBorrarMasivo}
+            columns={columnsParticipaciones}
+            rows={data} controlInterno={""}
+            multiselect={true} />
         </Grid>
 
 
@@ -2275,21 +2278,21 @@ const Participaciones = () => {
       {openSegmento ? <ModalSegmentos handleClose={handleclose} vrows={vrows} /> : ""}
       {openTraz ? <TrazabilidadSolicitud dt={{ TIPO: 4, SP: idSolicitud, }} open={openTraz} handleClose={handleclose} /> : ""}
       {openModalCabecera ? <ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose}
-       editCabecera={editCabecera} permisoAgregarDetalle={permisoAgregarDetalle}
+        editCabecera={editCabecera} permisoAgregarDetalle={permisoAgregarDetalle}
         permisoEliminarDetalleCabecera={permisoEliminarDetalleCabecera}
-         permisoEditarDetalleCabecera={permisoEditarDetalleCabecera} /> : ""}
+        permisoEditarDetalleCabecera={permisoEditarDetalleCabecera} /> : ""}
       {openModal ? (<ModalDAMOP tipo={"Comentarios"} handleClose={handleClose} handleAccion={Fnworkflow} />) : ("")}
-      {openModalDetalle ? (<ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose} 
-      editCabecera={editCabecera} permisoAgregarDetalle={permisoAgregarDetalle} 
-      permisoEliminarDetalleCabecera={permisoEliminarDetalleCabecera} 
-      permisoEditarDetalleCabecera={permisoEditarDetalleCabecera} />) : ("")}
+      {openModalDetalle ? (<ORGHeader dataCabecera={vrows} modo={modo} handleClose={handleClose}
+        editCabecera={editCabecera} permisoAgregarDetalle={permisoAgregarDetalle}
+        permisoEliminarDetalleCabecera={permisoEliminarDetalleCabecera}
+        permisoEditarDetalleCabecera={permisoEditarDetalleCabecera} />) : ("")}
       {openModalDescuento ? (<Descuentos tipo={1}
-       handleClose={handleClose} dt={vrows} 
-       permisoEliminarDescuento={permisoEliminarDescuento} 
-       permisoEditarDescuento={permisoEditarDescuento} permisoAgregarDescuento={permisoAgregarDescuento} />) : ("")}
+        handleClose={handleClose} dt={vrows}
+        permisoEliminarDescuento={permisoEliminarDescuento}
+        permisoEditarDescuento={permisoEditarDescuento} permisoAgregarDescuento={permisoAgregarDescuento} />) : ("")}
       {openModalRetenciones ? (<Retenciones tipo={1} handleClose={handleClose} dt={vrows}
 
-      permisoAagregarRetenciones={permisoAgregarRetencion} permisoEditarRetencion={permisoEditarRetencion} permisoEliminarRetencion={permisoEliminarRetencion} />) : ("")}
+        permisoAagregarRetenciones={permisoAgregarRetencion} permisoEditarRetencion={permisoEditarRetencion} permisoEliminarRetencion={permisoEliminarRetencion} />) : ("")}
     </div>
   );
 };

@@ -189,38 +189,42 @@ export const CuentaBancaria = ({
     },
     {
       field: "FechaCreacion",
-      headerName: "Fecha Creacion",
+      headerName: "Fecha Creación",
+      description: "Fecha Creación",
       width: 150,
     },
     {
       field: "NAMEUSUARIO",
       headerName: "Usuario Generador",
+      description: "Usuario Generador",
       width: 150,
     },
-    {
-      field: "idusuario",
-      headerName: "Identificador Usuario",
-      width: 50,
-      hide: true,
-    },
-    { field: "NombreCuenta", headerName: "Nombre de la Cuenta", width: 250 },
-    { field: "NombreBanco", headerName: "Banco", width: 150 },
-    {
-      field: "idbanco",
-      headerName: "Identificador Banco",
-      width: 50,
-      hide: true,
+    { field: "NombreCuenta", 
+    headerName: "Nombre de la Cuenta", 
+    description: "Nombre de la Cuenta", 
+    width: 250 
+  },
+    { field: "NombreBanco", 
+    headerName: "Banco",
+    description: "Banco",
+     width: 150 
     },
 
-    { field: "NumeroCuenta", headerName: "Cuenta", width: 250 },
-    { field: "ClabeBancaria", headerName: "Clabe", width: 250 },
-    {
-      field: "idestatus",
-      headerName: "Identificador Estatus",
-      width: 50,
-      hide: true,
-    },
-    { field: "EstatusDescripcion", headerName: "Estatus", width: 250 },
+    { field: "NumeroCuenta", 
+    headerName: "Cuenta", 
+    description: "Cuenta",
+    width: 250 
+  },
+    { field: "ClabeBancaria",
+    headerName: "Clabe", 
+    description: "Clabe", 
+    width: 250 },
+   
+    { field: "EstatusDescripcion", 
+    headerName: "Estatus", 
+    description: "Estatus", 
+    width: 250 
+  },
   ];
 
   const handleClose = () => {
@@ -247,7 +251,7 @@ export const CuentaBancaria = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setCuentaBancaria(res.RESPONSE);
 

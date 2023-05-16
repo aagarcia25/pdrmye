@@ -143,7 +143,7 @@ export const Coeficientes = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setDataCoeficientes(res.RESPONSE);
       } else {

@@ -253,7 +253,7 @@ const Fondos = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setFondos(res.RESPONSE);
       } else {
