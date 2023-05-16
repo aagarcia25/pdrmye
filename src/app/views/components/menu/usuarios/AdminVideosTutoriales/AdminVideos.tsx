@@ -17,13 +17,14 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { Titulo } from "../../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 import AdminVideosModal from "./AdminVideosModal";
+import { handleClickDelet } from "../../catalogos/Utilerias/ButtonsTutorial";
 
 const AdminVideos = () => {
   const [ataVideos, setDataVideos] = useState([]);
   const [dt, setDt] = useState([]);
   const [open, setOpen] = useState(false);
   const [openRolesConf, setOpenRolesconf] = useState(false);
-  const [id, setId] = useState("");
+  const [idMenu, setIdMenu] = useState("");
   const [nameRol, setNameRol] = useState("");
   const [modo, setModo] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -36,6 +37,9 @@ const AdminVideos = () => {
   const handleClose = (v: string) => {
     setOpen(false);
     setOpenRolesconf(false);
+    setIdMenu("");
+    setDt([]);
+    consulta();
 
     {
       if (v === "saved") consulta();
@@ -43,44 +47,12 @@ const AdminVideos = () => {
   };
 
   const eliminar = (v: any) => {
-    let data = {
-      NUMOPERACION: 3,
-      CHUSER: user.id,
-      CHID: String(v.row.id),
-    };
-    Swal.fire({
-      icon: "error",
-      title: "Borrar El Rol",
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: "Aceptar",
-      color: 'rgb(175, 140, 85)',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        AuthService.rolesindex(data).then((res) => {
-          if (res.SUCCESS) {
-            Toast.fire({
-              icon: "success",
-              title: "Rol Eliminado!",
-            });
-            consulta();
-          } else {
-            AlertS.fire({
-              title: "¡Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
-            });
-          }
-        });
-      }
-    });
+    console.log(v.row);
+    handleClickDelet(v.row.nombreVideo,"/VIDEOS/TUTORIALES/");
+    consulta();
   };
 
-  const handleView = (v: any) => {
-    setId(v.id);
-    setNameRol(v.row.Nombre)
 
-  };
   const handleOpen = () => {
     setTipoOperacion(1);
     setModo("Agregar");
@@ -88,9 +60,12 @@ const AdminVideos = () => {
   };
 
   const handleEditarRegistro = (v: any) => {
+    console.log(v.row.idMenu)
+    
     setTipoOperacion(2);
-    setModo("Editar Rol");
+    setModo("Editar Nombre Video");
     setOpen(true);
+    setIdMenu(v.row.idMenu);
     setDt(v);
   };
 
@@ -113,7 +88,7 @@ const AdminVideos = () => {
           <Box>
 
             {editar ? (
-              <Tooltip title={"Editar  Descripción del Rol"}>
+              <Tooltip title={"Editar nombre de video"}>
                 <IconButton color="inherit" onClick={() => handleEditarRegistro(v)}>
                   <EditIcon />
                 </IconButton>
@@ -123,7 +98,7 @@ const AdminVideos = () => {
             )}
 
             {eliminarP ? (
-              <Tooltip title={"Eliminar Rol"}>
+              <Tooltip title={"Eliminar video"}>
                 <IconButton color="inherit" onClick={() => eliminar(v)}>
                   <DeleteForeverIcon />
                 </IconButton>
@@ -179,12 +154,11 @@ const AdminVideos = () => {
 
   return (
     <>
-    {open? <AdminVideosModal openRoles={open} modo={modo} tipo={0} handleClose={handleClose} dt={dt} />:"" }
+    {open? 
+    <AdminVideosModal IdMenu={idMenu} modo={modo} tipo={0} handleClose={handleClose} dt={dt} />
+    :"" }
       <div style={{ height: 600, width: "100%", padding: "1%" }}>
-
         <NombreCatalogo controlInterno={"ADMINVIDEOS"} />
-
-
         <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
         <MUIXDataGrid columns={columns} rows={ataVideos} />
       </div>

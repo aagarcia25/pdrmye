@@ -1,5 +1,5 @@
 
-import { post, postDocument } from './apiService';
+import { post, postDoc, postDocument } from './apiService';
 
 export class CatalogosServices {
 
@@ -189,7 +189,13 @@ export class CatalogosServices {
     };
 
     public static async obtenerDoc(data : any) {
-        return await post('obtenerDoc', data);
+        return await postDoc('obtenerDoc', data);
     };
+    public static async deleteDoc(data : any) {
+        return await post('deleteDoc', data);
+    };
+
+
+    
 
 }

@@ -10,14 +10,17 @@ import SliderProgress from '../../../SliderProgress';
 import { ValidaSesion } from '../../../../../services/UserServices';
 import UploadIcon from '@mui/icons-material/Upload';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import { COLOR } from '../../../../../styles/colors';
 const ModalCargarVideos = ({
   openCarga,
   idMenu,
-  handleClose
+  handleClose,
+  fullScreen
 }: {
   openCarga: boolean;
   idMenu: string;
   handleClose: Function;
+  fullScreen : boolean;
 }
 ) => {
   const [slideropen, setslideropen] = useState(false);
@@ -78,75 +81,83 @@ const ModalCargarVideos = ({
     <div>
       <SliderProgress open={slideropen}></SliderProgress>
       <Dialog
+
+      fullScreen={fullScreen}
+
         open={openCarga}
         sx={{ color: "rgb(175, 140, 85)", zIndex: 2000 }}
         maxWidth={"lg"}
-      >
 
-        <Grid container 
-        direction="column"
-          justifyContent="center"
-          alignItems="center" >
-               <div className='containerPreVisualizarVideo'>
-            <Grid item xs={10}>
-         
-               <video
-              autoPlay
-              width={"90%"}
-              height={"10%"}
-              hidden={!nombreArchivo}
-              src={videoPreview}
-              id="video_player"
-              controls
-            />
-            </Grid>
-            <Grid item xs={12}>
-              <div className={nombreArchivo ? "adminVideosCargado" : "adminVideosEsperaCarga"}>
-                <input
-                  id="imagencargada"
-                  accept="video/*"
-                  onChange={(v) => { enCambioFile(v) }}
-                  type="file"
-                  style={{ zIndex: 2, opacity: 0, width: '100%', height: '100%', position: "absolute", cursor: "pointer", }} />
-                {nombreArchivo === "" ?
-                  <>
-                    <UploadIcon sx={{ width: "100%", height: "100%" }} />
-                  </>
-                  :
-                  <OndemandVideoIcon sx={{ width: "100%", height: "100%" }} />}
-              </div>
+      >
+        <div className='containerModalCargarVideos'>
+
+          <div className='containerPreVisualizarVideo'>
+            <Grid container
+              direction="column"
+              justifyContent="center"
+              alignItems="center" >
+
+              <Grid className='contenedorDeReproductorVideo' item xs={10}>
+
+                <video
+                  autoPlay
+                  width={"100%"}
+                  height={"100%"}
+                  hidden={!nombreArchivo}
+                  src={videoPreview}
+                  id="video_player"
+                  controls
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <div className={nombreArchivo ? "adminVideosCargado" : "adminVideosEsperaCarga"}>
+                  <input
+                    id="imagencargada"
+                    accept="video/*"
+                    onChange={(v) => { enCambioFile(v) }}
+                    type="file"
+                    // 
+                    style={{ zIndex: 2, opacity: 0, width: '100%', height: '100%', position: "absolute", cursor: "pointer", }}
+                  />
+                  {nombreArchivo === "" ?
+                    <>
+                      <UploadIcon sx={{ width: "100%", height: "100%" }} />
+                    </>
+                    :
+                    <OndemandVideoIcon sx={{ width: "100%", height: "100%" }} />}
+                </div>
+              </Grid>
+
             </Grid>
           </div>
-        </Grid>
-
-        {nombreArchivo === "" ? "" :
-          <Grid>
+          {nombreArchivo === "" ? "" :
             <Grid>
-              <Typography variant='h6'>Nombre del archivo: </Typography>
+              <Grid>
+                <Typography variant='h6'>Nombre del archivo: </Typography>
+              </Grid>
+              <Grid>
+                <TextField
+                  margin="dense"
+                  id="nombreEvento"
+                  value={nombreArchivo}
+                  fullWidth
+                  variant="outlined"
+                  size='small'
+                  onChange={(v) => setNombreArchivo(v.target.value)}
+                  sx={{ paddingBottom: "2%" }}
+                />
+              </Grid>
             </Grid>
-            <Grid>
-              <TextField
-                margin="dense"
-                id="nombreEvento"
-                value={nombreArchivo}
-                fullWidth
-                variant="outlined"
-                size='small'
-                onChange={(v) => setNombreArchivo(v.target.value)}
-                sx={{ paddingBottom: "2%" }}
-              />
-            </Grid>
-          </Grid>
-        }
-        <DialogActions>
-          <Button
-            className="cancelar"
-
-            onClick={() => { setNombreArchivo(""); handleClose(); }} >Cancelar</Button>
-          <Button
-            className="guardar"
-            onClick={() => SaveVideo()} >Guardar</Button>
-        </DialogActions>
+          }
+          <DialogActions>
+            <Button
+              className="cancelar"
+              onClick={() => { setNombreArchivo(""); setNewVideo(null); setVideoPreview(""); handleClose(); }} >Cancelar</Button>
+            <Button
+              className="guardar"
+              onClick={() => SaveVideo()} >Guardar</Button>
+          </DialogActions>
+        </div>
       </Dialog>
     </div>
   )

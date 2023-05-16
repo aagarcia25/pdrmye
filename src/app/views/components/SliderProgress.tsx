@@ -53,7 +53,7 @@ const SliderProgress = ({
       sx={{ zIndex: 2000 }}
       open={open}
     >
-      <Grid className='container' container direction="column"
+      <Grid className='containerCenter' container direction="column"
         justifyContent="center"
         alignItems="center"  >
         <Grid item >
