@@ -1,39 +1,37 @@
-import { useEffect, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
 import {
-  TextField,
-  Grid,
-  FormControlLabel,
   Box,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Button,
-  Tooltip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  FormControlLabel,
+  Grid,
   IconButton,
   RadioGroup,
-  FormControl,
-
+  TextField,
+  Tooltip,
 } from "@mui/material";
-import ModalForm from "../componentes/ModalForm";
-import { CatalogosServices } from "../../../services/catalogosServices";
-import { AlertS } from "../../../helpers/AlertS";
-import { getDescuentos, RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getUser } from "../../../services/localStorage";
-import { Toast } from "../../../helpers/Toast";
-import SelectValues from "../../../interfaces/Select/SelectValues";
-import { DPCPServices } from "../../../services/DPCPServices";
-import { GridColDef } from "@mui/x-data-grid";
-import MUIXDataGrid from "../MUIXDataGrid";
-import ButtonsAdd from "../menu/catalogos/Utilerias/ButtonsAdd";
-import CloseIcon from "@mui/icons-material/Close";
 import Radio from '@mui/material/Radio';
-import Swal from "sweetalert2";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { currencyFormatter, Moneda } from "../menu/CustomToolbar";
-import EditIcon from '@mui/icons-material/Edit';
-import SelectValuesCatRetenciones from "../../../interfaces/Select/SelectValues";
+import { GridColDef } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
 import Select from 'react-select';
+import Swal from "sweetalert2";
+import { AlertS } from "../../../helpers/AlertS";
+import { Toast } from "../../../helpers/Toast";
+import { default as SelectValues, default as SelectValuesCatRetenciones } from "../../../interfaces/Select/SelectValues";
+import { RESPONSE, getDescuentos } from "../../../interfaces/user/UserInfo";
+import { DPCPServices } from "../../../services/DPCPServices";
+import { CatalogosServices } from "../../../services/catalogosServices";
+import { getUser } from "../../../services/localStorage";
+import MUIXDataGrid from "../MUIXDataGrid";
+import ModalForm from "../componentes/ModalForm";
+import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
+import ButtonsAdd from "../menu/catalogos/Utilerias/ButtonsAdd";
 
 export const Descuentos = ({
   handleClose,
