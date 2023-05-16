@@ -93,7 +93,7 @@ export const CalculoGarantiaModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
         //console.log("Sé pudo agregar");
       } else {
@@ -112,7 +112,7 @@ export const CalculoGarantiaModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "¡Registro Editado!",
         });
       } else {
         AlertS.fire({

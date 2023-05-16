@@ -63,10 +63,10 @@ export const CatTPModal = ({
       let titulo = "";
       if (tipo === 1) {
         //AGREGAR
-        titulo = "Registro Agregado!";
+        titulo = "¡Registro Agregado!";
       } else if (tipo === 2) {
         //EDITAR
-        titulo = "Registro Editado!";
+        titulo = "¡Registro Editado!";
       }
   CatalogosServices.TiposDePagoSP(data).then((res) => {
 

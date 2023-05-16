@@ -209,6 +209,23 @@ button.VerVideos:hover {
   /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
 }
 
+.containerShadow {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-content: center;
+  border-radius: 15px;
+  box-shadow: rgba(49, 49, 41, 0.24) 0px 8px 16px 0px;
+
+  background: #e9e7e7;
+  max-width: 60%;
+  min-width: 30%;
+  min-height: 20%;
+  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
 .container-div {
   position: fixed;
   overflow: scroll;
@@ -245,7 +262,7 @@ img.LogoMenu {
 
 img.img-MenuButton-Header {
   /* cursor: pointer; */
-  contain: strict  ;
+  contain: strict;
   color: rgb(175, 140, 85);
   object-fit: "scale-down";
   align-items: center;
@@ -645,6 +662,7 @@ button.cerrar:hover {
   background-color: #e9e6e6;
 
 }
+
 button.buttonMenuBurger {
   object-fit: "scale-down";
   background-color: rgba(255, 255, 255, 0);
@@ -656,6 +674,7 @@ button.buttonMenuBurger {
   height: 100%;
 
 }
+
 button.buttonMenuBurger:hover {
   object-fit: "scale-down";
   background-color: rgba(255, 255, 255, 0);
@@ -667,6 +686,7 @@ button.buttonMenuBurger:hover {
   height: 100%;
 
 }
+
 button.salir {
   background-color: rgb(195, 165, 117);
   padding: 5px 12px;
@@ -716,11 +736,11 @@ button.cancelar:hover {
 
 }
 
-button.cancelar:disabled {
-  color: rgb(5, 5, 5);
+/* button.cancelar:disabled {
+  color: rgb(107, 107, 107);
   background-color: #e3e1ded0;
 
-}
+} */
 
 button.cancelarSolicitud {
   font-size: 20px;
@@ -1379,7 +1399,7 @@ label.nombre {
 }
 
 label.cancelar {
-  
+
   font-size: 20px;
   transition-duration: 0.2s;
   font-family: sans-serif;
@@ -1399,9 +1419,9 @@ label.cancelar:hover {
 
 button:disabled,
 button[disabled] {
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #000000;
+  border: 1px solid #d8d5d5;
+  background-color: #e6e4e43f;
+  color: #8d8b8b;
 }
 
 label.cancelar:disabled,
@@ -1565,7 +1585,8 @@ div.div-agregarcontactomunicipio {
   overflow: "hidden";
 
 }
-.Grid-MenuButton-Header{
+
+.Grid-MenuButton-Header {
   scale: -1;
   contain: content;
   width: 80px;

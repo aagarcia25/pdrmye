@@ -334,9 +334,7 @@ export const Municipios = () => {
 
       {openCC ? (
         // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
-        <ModalForm title={"Cuentas Bancarias"} handleClose={handleClose}>
-          <CuentaBancaria idmunicipio={id} municipio={nombreMun} />
-        </ModalForm>
+          <CuentaBancaria idmunicipio={id} municipio={nombreMun} handleCloseModal={handleClose} />
 
       ) : (
         ""

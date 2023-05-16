@@ -63,7 +63,7 @@ const MenuModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: tipo === 1 ? "Registro Agregado!" : "Registro Editado!",
+          title: tipo === 1 ? "¡Registro Agregado!" : "¡Registro Editado!",
         });
         handleClose();
       } else {

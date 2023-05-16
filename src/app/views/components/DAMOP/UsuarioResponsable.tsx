@@ -157,7 +157,7 @@ const UsuarioResponsable = ({
           eliminar ?
             Toast.fire({
               icon: "error",
-              title: "Relación Eliminada!",
+              title: "¡Relación Eliminada!",
             })
             :
             Toast.fire({

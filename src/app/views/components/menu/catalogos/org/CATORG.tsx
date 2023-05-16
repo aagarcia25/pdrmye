@@ -175,6 +175,7 @@ export const CATORG = () => {
 
   };
 
+
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
@@ -262,9 +263,7 @@ export const CATORG = () => {
       <MUIXDataGrid columns={columns} rows={data} />
       {openCC ? (
         // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
-        <ModalForm title={"Cuentas Bancarias"} handleClose={handleClose}>
-          <CuentaBancaria idmunicipio={id} municipio={nombreProv} ></CuentaBancaria>
-        </ModalForm>
+          <CuentaBancaria idmunicipio={id} municipio={nombreProv} handleCloseModal={handleClose} ></CuentaBancaria>
 
       ) : (
         ""

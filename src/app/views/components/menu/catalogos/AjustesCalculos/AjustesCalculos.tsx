@@ -115,7 +115,7 @@ const AjustesCalculos = () => {
                     if (res.SUCCESS) {
                         Toast.fire({
                             icon: "success",
-                            title: "Registro Agregado!",
+                            title: "¡Registro Agregado!",
                         });
                         consulta();
                     } else {
@@ -222,7 +222,7 @@ const AjustesCalculos = () => {
                         if (res.SUCCESS) {
                             Toast.fire({
                                 icon: "success",
-                                title: "Registro Editado!",
+                                title: "¡Registro Editado!",
                             });
                             consulta();
                         } else {

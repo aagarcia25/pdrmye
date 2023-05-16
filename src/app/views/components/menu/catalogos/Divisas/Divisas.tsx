@@ -153,7 +153,7 @@ export const Divisas = () => {
                         if (res.SUCCESS) {
                             Toast.fire({
                                 icon: "success",
-                                title: tipoOperacion === 1 ? "Registro Agregado!" : "Registro Editado!",
+                                title: tipoOperacion === 1 ? "¡Registro Agregado!" : "¡Registro Editado!",
                             });
 
                             handleClose();
