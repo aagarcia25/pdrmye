@@ -146,7 +146,7 @@ const AjustesCalculos = () => {
         } else if (v.tipo === 3) {
             Swal.fire({
                 icon: "info",
-                title: "¿Estás seguro de eliminar este registro??",
+                title: "¿Estás seguro de eliminar este registro?",
                 showDenyButton: true,
                 showCancelButton: false,
                 confirmButtonText: "Confirmar",
@@ -203,7 +203,7 @@ const AjustesCalculos = () => {
         } else {
             Swal.fire({
                 icon: "info",
-                title: "¿Estás seguro de Editar este Registro??",
+                title: "¿Estás seguro de Editar este registro?",
                 showDenyButton: true,
                 showCancelButton: false,
                 confirmButtonText: "Confirmar",

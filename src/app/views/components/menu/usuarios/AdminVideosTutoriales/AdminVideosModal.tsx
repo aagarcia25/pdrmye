@@ -18,7 +18,6 @@ import ModalForm from "../../../componentes/ModalForm";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModalCargarVideos from "../../catalogos/Utilerias/ModalCargarVideos";
 import SliderProgress from "../../../SliderProgress";
 import Swal from "sweetalert2";
 import { ValidaSesion } from "../../../../../services/UserServices";

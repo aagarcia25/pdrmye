@@ -10,7 +10,6 @@ import { base64ToArrayBuffer } from '../../../../../helpers/Files';
 import { AlertS } from '../../../../../helpers/AlertS';
 import { ValidaSesion } from '../../../../../services/UserServices';
 import { TooltipPersonalizado } from '../../../componentes/CustomizedTooltips';
-import ModalCargarVideos from './ModalCargarVideos';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Slider from '../../../Slider';
 import SliderProgress from '../../../SliderProgress';

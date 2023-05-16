@@ -17,7 +17,7 @@ const ButtonsMunBase = ({
       {agregar ? (
         <ToggleButtonGroup color="primary" exclusive aria-label="Platform" >
           <Tooltip title="Agregar">
-            <ToggleButton value="check" onClick={() => handleOpen(1)}>
+            <ToggleButton  className="guardar" value="check" onClick={() => handleOpen(1)}>
               <AddIcon />
             </ToggleButton>
           </Tooltip>
@@ -28,7 +28,7 @@ const ButtonsMunBase = ({
        {eliminar ? (
         <ToggleButtonGroup color="primary" exclusive aria-label="Platform" >
           <Tooltip title="Borrado Masivo">
-            <ToggleButton value="check" onClick={() => handleOpen(2)}>
+            <ToggleButton  className="guardar" value="check" onClick={() => handleOpen(2)}>
               <DeleteForeverIcon />
             </ToggleButton>
           </Tooltip>

@@ -680,18 +680,38 @@ button.salir {
 }
 
 button.cancelar {
-  font-size: 20px;
-  transition-duration: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  font-weight: 700;
+  line-height: 1.71429;
+  font-size: 0.875rem;
+  text-transform: capitalize;
   font-family: sans-serif;
+  min-width: 64px;
+  padding: 6px 16px;
+  border-radius: 8px;
+  color: rgb(255, 255, 255);
+  width: 100%;
+  box-shadow: rgba(103, 103, 22, 0.24) 0px 8px 16px 0px;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition-duration: 0.2s;
   background-color: #AF8C55;
-  color: rgb(18, 26, 22);
 
 }
 
 
 
 button.cancelar:hover {
-  color: rgb(5, 5, 5);
+  color: rgb(255, 255, 255);
   background-color: #896937d0;
 
 }
@@ -1138,6 +1158,8 @@ button.agregar:hover {
 
 }
 
+
+
 button.enviar-mensaje {
 
   align-items: center;
@@ -1357,11 +1379,12 @@ label.nombre {
 }
 
 label.cancelar {
+  
   font-size: 20px;
   transition-duration: 0.2s;
   font-family: sans-serif;
   background-color: #AF8C55;
-  color: rgb(18, 26, 22);
+  color: rgb(255, 255, 255);
 
 }
 
@@ -1370,7 +1393,7 @@ label.cancelar:hover {
   transition-duration: 0.2s;
   font-family: sans-serif;
   background-color: #bf934d;
-  color: rgb(18, 26, 22);
+  color: rgb(255, 255, 255);
 
 }
 
