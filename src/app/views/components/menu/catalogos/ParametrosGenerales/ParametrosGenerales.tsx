@@ -136,11 +136,6 @@ export const ParametrosGenerales = () => {
   const consulta = (data: any) => {
     ParametroServices.ParametroGeneralesIndex(data).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "¡Consulta Exitosa!",
-        });
-        //console.log(data);
         setParametroGeneral(res.RESPONSE);
         //console.log("parametroGeneral consulta", parametroGeneral);
       } else {

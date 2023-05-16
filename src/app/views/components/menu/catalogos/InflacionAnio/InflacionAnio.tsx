@@ -85,7 +85,7 @@ const InflacionAnio = () => {
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
       setTipoOperacion(2);
-      setModo("Editar ");
+      setModo("Editar");
       setOpen(true);
       setVrows(v.data);
     } else if (v.tipo === 2) {
@@ -114,7 +114,7 @@ const InflacionAnio = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "¿Estás seguro de eliminar este registro??",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -134,7 +134,7 @@ const InflacionAnio = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
 
             consulta({ NUMOPERACION: 4 });
@@ -157,10 +157,6 @@ const InflacionAnio = () => {
   const consulta = (data: any) => {
     CatalogosServices.inflacionAnio(data).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "¡Consulta Exitosa!",
-        });
         setDataInflacionAnio(res.RESPONSE);
       } else {
         AlertS.fire({
