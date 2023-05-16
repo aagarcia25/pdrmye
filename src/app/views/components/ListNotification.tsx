@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
-import React from 'react';
-import { Box, Button, IconButton, Tooltip, Grid, Typography } from "@mui/material";
-import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { getUser } from "../../services/localStorage";
-import { CatalogosServices } from "../../services/catalogosServices";
-import MUIXDataGrid from "./MUIXDataGrid";
-import MUIXDataGridMun from "./MUIXDataGridMun";
 import AddIcon from "@mui/icons-material/Add";
-import ListNotificationsModal from "./ListNotificationsModal";
-import { RESPONSE } from "../../interfaces/user/UserInfo";
-import { COLOR } from "../../styles/colors";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Box, Button, IconButton, Tooltip } from "@mui/material";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import Slider from "./Slider";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../services/catalogosServices";
+import { getUser } from "../../services/localStorage";
+import ListNotificationsModal from "./ListNotificationsModal";
+import MUIXDataGridMun from "./MUIXDataGridMun";
 
 
 export const ListNotification = () => {

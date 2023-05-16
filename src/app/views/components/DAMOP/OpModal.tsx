@@ -1,16 +1,16 @@
+import { DialogContent, Grid, TextField } from "@mui/material";
+import { GridColDef } from '@mui/x-data-grid';
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import { DialogContent, Grid, TextField } from "@mui/material";
 import Swal from "sweetalert2";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getUser } from "../../../services/localStorage";
-import { CatalogosServices } from '../../../services/catalogosServices';
-import { Toast } from '../../../helpers/Toast';
 import validator from 'validator';
 import { AlertS } from '../../../helpers/AlertS';
-import ModalForm from '../componentes/ModalForm';
-import {GridColDef } from '@mui/x-data-grid';
+import { Toast } from '../../../helpers/Toast';
+import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { CatalogosServices } from '../../../services/catalogosServices';
+import { getUser } from "../../../services/localStorage";
 import MUIXDataGridSimple from '../MUIXDataGridSimple';
+import ModalForm from '../componentes/ModalForm';
 
 
 const steps = ['Campos Obligatorios', 'Carga de Archivo ', 'Finalizar Solicitud'];

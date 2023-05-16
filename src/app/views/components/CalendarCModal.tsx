@@ -1,3 +1,4 @@
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   Button,
@@ -15,14 +16,11 @@ import {
 import { useEffect, useState } from "react";
 import { AlertS } from "../../helpers/AlertS";
 import { Toast } from "../../helpers/Toast";
-import { CalendarioService } from "../../services/calendarioService";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { CalendarioService } from "../../services/calendarioService";
+import { getUser } from "../../services/localStorage";
 import { COLOR } from "../../styles/colors";
-import CloseIcon from "@mui/icons-material/Close";
 import ModalForm from "./componentes/ModalForm";
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 const CalendarCModal = ({
   modo,
   handleClose,
