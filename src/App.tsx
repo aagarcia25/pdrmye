@@ -1,10 +1,17 @@
+import jwt_decode from "jwt-decode";
 import { useLayoutEffect, useState } from "react";
-import "./Fonts.css";
-import "./Globals.css"
+import { useIdleTimer } from "react-idle-timer";
+import { HashRouter } from "react-router-dom";
 import Swal from "sweetalert2";
+import "./Fonts.css";
+import "./Globals.css";
+import SelectValues from "./app/interfaces/Select/SelectValues";
+import { UserLogin } from "./app/interfaces/user/User";
 import { RESPONSE, UserInfo } from "./app/interfaces/user/UserInfo";
 import { AppRouter } from "./app/router/AppRouter";
 import { AuthService } from "./app/services/AuthService";
+import { ParametroServices } from "./app/services/ParametroServices";
+import { UserServices } from "./app/services/UserServices";
 import { CatalogosServices } from "./app/services/catalogosServices";
 import {
   getRfToken,
@@ -15,8 +22,8 @@ import {
   setMunicipio,
   setMunicipios,
   setOrganismo,
-  setPerfiles,
   setPerfilFoto,
+  setPerfiles,
   setPermisos,
   setRfToken,
   setRoles,
@@ -24,16 +31,9 @@ import {
   setUser,
   validaLocalStorage,
 } from "./app/services/localStorage";
-import { UserServices } from "./app/services/UserServices";
 import { BloqueoSesion } from "./app/views/components/BloqueoSesion";
-import Validacion from "./app/views/components/Validacion";
-import { useIdleTimer } from "react-idle-timer";
 import Slider from "./app/views/components/Slider";
-import { ParametroServices } from "./app/services/ParametroServices";
-import jwt_decode from "jwt-decode";
-import { UserLogin } from "./app/interfaces/user/User";
-import SelectValues from "./app/interfaces/Select/SelectValues";
-import { HashRouter, Link } from "react-router-dom";
+import Validacion from "./app/views/components/Validacion";
 
 
 function App() {
