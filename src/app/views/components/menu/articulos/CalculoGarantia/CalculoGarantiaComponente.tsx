@@ -1,22 +1,20 @@
-import { Grid, Typography, Tooltip } from "@mui/material";
+import { Grid, Tooltip, Typography } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
-import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
-import { calculosServices } from "../../../../../services/calculosServices";
-import { Moneda } from "../../CustomToolbar";
-import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import ButtonsMunicipio from "../../catalogos/Utilerias/ButtonsMunicipio";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import Slider from "../../../Slider";
-import MUIXDataGridMun from "../../../MUIXDataGridMun";
-import React from "react";
+import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { calculosServices } from "../../../../../services/calculosServices";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { fanios } from "../../../../../share/loadAnios";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import Slider from "../../../Slider";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import { Moneda } from "../../CustomToolbar";
+import ButtonsMunicipio from "../../catalogos/Utilerias/ButtonsMunicipio";
 
 export const CalculoGarantiaComponente = () => {
   const [slideropen, setslideropen] = useState(true);
@@ -259,7 +257,7 @@ export const CalculoGarantiaComponente = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setCalculoGarantia(res.RESPONSE);
         setslideropen(false);

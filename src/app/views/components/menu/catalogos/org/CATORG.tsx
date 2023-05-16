@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
-import { CatalogosServices } from '../../../../../services/catalogosServices';
-import { Toast } from '../../../../../helpers/Toast';
-import ButtonsAdd from '../Utilerias/ButtonsAdd';
-import { getPermisos, getUser } from '../../../../../services/localStorage';
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
-import { AlertS } from '../../../../../helpers/AlertS';
-import Swal from 'sweetalert2';
-import BotonesAcciones from '../../../componentes/BotonesAcciones';
-import { GridColDef } from '@mui/x-data-grid';
-import MUIXDataGrid from '../../../MUIXDataGrid';
-import { CATORGModal } from "./CATORGModal";
-import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import UsuarioResponsable from "../../../DAMOP/UsuarioResponsable";
-import NombreCatalogo from "../../../componentes/NombreCatalogo";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { GridColDef } from '@mui/x-data-grid';
+import { useEffect, useState } from "react";
+import Swal from 'sweetalert2';
+import { AlertS } from '../../../../../helpers/AlertS';
+import { Toast } from '../../../../../helpers/Toast';
+import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { CatalogosServices } from '../../../../../services/catalogosServices';
+import { getPermisos, getUser } from '../../../../../services/localStorage';
+import UsuarioResponsable from "../../../DAMOP/UsuarioResponsable";
+import MUIXDataGrid from '../../../MUIXDataGrid';
+import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import ModalForm from "../../../componentes/ModalForm";
 import { CuentaBancaria } from "../CuentaBancaria/CuentaBancaria";
+import ButtonsAdd from '../Utilerias/ButtonsAdd';
+import { CATORGModal } from "./CATORGModal";
 
 
 
@@ -190,7 +189,7 @@ export const CATORG = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         //console.log(res);
         setData(res.RESPONSE);

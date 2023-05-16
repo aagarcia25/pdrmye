@@ -1,24 +1,24 @@
-import { useEffect, useState } from "react";
-import { Box, Dialog, Grid, ToggleButton, ToggleButtonGroup, Tooltip, } from "@mui/material";
-import { currencyFormatter, Moneda } from "../CustomToolbar";
-import { Toast } from "../../../../helpers/Toast";
-import { AlertS } from "../../../../helpers/AlertS";
-import { calculosServices } from "../../../../services/calculosServices";
-import MUIXDataGrid from "../../MUIXDataGrid";
-import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
-import Slider from "../../Slider";
-import { getPermisos, getUser } from "../../../../services/localStorage";
-import { FPGDetalle, PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
-import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
-import Trazabilidad from "../../Trazabilidad";
-import Swal from "sweetalert2";
-import SelectValues from "../../../../interfaces/Select/SelectValues";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import InsightsIcon from "@mui/icons-material/Insights";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import InsightsIcon from "@mui/icons-material/Insights";
+import { Box, Dialog, Grid, ToggleButton, ToggleButtonGroup, Tooltip, } from "@mui/material";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { AlertS } from "../../../../helpers/AlertS";
+import { Toast } from "../../../../helpers/Toast";
+import SelectValues from "../../../../interfaces/Select/SelectValues";
+import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
+import { FPGDetalle, PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { calculosServices } from "../../../../services/calculosServices";
+import { getPermisos, getUser } from "../../../../services/localStorage";
+import MUIXDataGrid from "../../MUIXDataGrid";
+import Slider from "../../Slider";
+import Trazabilidad from "../../Trazabilidad";
 import ModalCalculos from "../../componentes/ModalCalculos";
+import { Moneda, currencyFormatter } from "../CustomToolbar";
+import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 
 const DetalleFgp = ({
   idCalculo,
@@ -173,7 +173,7 @@ const DetalleFgp = ({
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "Consulta Exitosa!",
+            title: "¡Consulta Exitosa!",
           });
           handleClose();
         } else {
@@ -349,7 +349,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setData(res.RESPONSE);
         var sumatotal = 0;

@@ -1,14 +1,14 @@
 import { Grid, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { AuthService } from '../../../../../services/AuthService';
 import { getPermisos, getUser } from '../../../../../services/localStorage';
-import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import MUIXDataGrid from '../../../MUIXDataGrid';
+import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import ButtonsAdd from '../../catalogos/Utilerias/ButtonsAdd';
 import PermisosModal from './PermisosModal';
 
@@ -89,11 +89,7 @@ const Permisos = () => {
       hide: true,
       width: 10,
     },
-    {
-      field: "idmenu",
-      hide: true,
-      width: 10,
-    },
+
     {
       field: "acciones",  disableExport: true,
       headerName: "Acciones",

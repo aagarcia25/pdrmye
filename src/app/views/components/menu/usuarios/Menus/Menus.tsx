@@ -1,18 +1,17 @@
+import { Grid, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { AuthService } from "../../../../../services/AuthService";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
-import MenuRelPermisos from "./MenuRelPermisos";
-import MenuModal from "./MenuModal";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { AuthService } from "../../../../../services/AuthService";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import MUIXDataGrid from "../../../MUIXDataGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import { Grid, Typography, Tooltip } from "@mui/material";
-import Slider from "../../../Slider";
+import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
+import MenuModal from "./MenuModal";
+import MenuRelPermisos from "./MenuRelPermisos";
 
 const Menus = () => {
   const [slideropen, setslideropen] = useState(true);
@@ -140,7 +139,7 @@ const Menus = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setData(res.RESPONSE);
       } else {

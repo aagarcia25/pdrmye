@@ -1,30 +1,26 @@
-import { useEffect, useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Tooltip, Typography } from '@mui/material';
-import { AlertS } from '../../../helpers/AlertS';
-import ModalForm from '../componentes/ModalForm';
-import MUIXDataGridMun from '../MUIXDataGridMun';
-import { GridColDef } from '@mui/x-data-grid';
-import ButtonsAdd from '../menu/catalogos/Utilerias/ButtonsAdd';
 import CloseIcon from '@mui/icons-material/Close';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import { DAFServices } from '../../../services/DAFServices';
-import { Toast } from '../../../helpers/Toast';
-import { PERMISO, RESPONSE, SPEIS } from '../../../interfaces/user/UserInfo';
-import { getPermisos, getToken, getUser } from '../../../services/localStorage';
-import ArticleIcon from '@mui/icons-material/Article';
 import DeleteIcon from '@mui/icons-material/Delete';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { GridColDef } from '@mui/x-data-grid';
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import Slider from '../Slider';
-import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
-import axios from 'axios';
-import { base64ToArrayBuffer } from '../../../helpers/Files';
-import { MunServices } from '../../../services/MunServices';
-import IconSPEIPDF from '../../../assets/img/PDF_icon.svg';
-import IconSPEIPDFDown from '../../../assets/img/PDFDown.svg';
 import IconeXCEL from '../../../assets/img/ICONEXCEL.svg';
 import IconCFDIEXCELDown from '../../../assets/img/ICONEXCELDOWN.svg';
+import IconSPEIPDFDown from '../../../assets/img/PDFDown.svg';
+import IconSPEIPDF from '../../../assets/img/PDF_icon.svg';
+import { AlertS } from '../../../helpers/AlertS';
+import { base64ToArrayBuffer } from '../../../helpers/Files';
+import { Toast } from '../../../helpers/Toast';
+import { PERMISO, RESPONSE, SPEIS } from '../../../interfaces/user/UserInfo';
+import { DAFServices } from '../../../services/DAFServices';
+import { MunServices } from '../../../services/MunServices';
+import { getPermisos, getToken, getUser } from '../../../services/localStorage';
+import MUIXDataGridMun from '../MUIXDataGridMun';
+import Slider from '../Slider';
 import { TooltipPersonalizado } from '../componentes/CustomizedTooltips';
-import React from 'react';
+import ModalForm from '../componentes/ModalForm';
+import ButtonsAdd from '../menu/catalogos/Utilerias/ButtonsAdd';
 
 
 
@@ -421,7 +417,7 @@ const SpeisAdmin = ({
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
-                    title: "Consulta Exitosa!",
+                    title: "¡Consulta Exitosa!",
                 });
                 base64toPDF(String(res.RESPONSE.RESPONSE.FILE), String(res.RESPONSE.RESPONSE.TIPO), nameFile, descargar)
                 setslideropen(false);
@@ -472,7 +468,7 @@ const SpeisAdmin = ({
                 if (res.SUCCESS) {
                     Toast.fire({
                         icon: "success",
-                        title: "Consulta Exitosa!",
+                        title: "¡Consulta Exitosa!",
                     });
 
                     setSpeis(res.RESPONSE);
@@ -493,7 +489,7 @@ const SpeisAdmin = ({
                 if (res.SUCCESS) {
                     Toast.fire({
                         icon: "success",
-                        title: "Consulta Exitosa!",
+                        title: "¡Consulta Exitosa!",
                     });
                     setSpeis(res.RESPONSE);
                     setslideropen(false);

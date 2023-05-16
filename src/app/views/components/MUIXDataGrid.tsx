@@ -71,6 +71,10 @@ export default function MUIXDataGrid(props: any) {
             },
           }}
           localeText={{
+            columnsPanelHideAllButton:"Ocultar todo",
+            columnsPanelShowAllButton:"Mostrar todo",
+            columnsPanelTextFieldPlaceholder:"",
+            columnsPanelTextFieldLabel:"Buscar",
             noRowsLabel: "No se ha encontrado datos.",
             noResultsOverlayLabel: "No se ha encontrado ningún resultado",
             toolbarColumns: "Columnas",

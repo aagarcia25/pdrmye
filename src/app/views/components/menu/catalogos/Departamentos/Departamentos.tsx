@@ -120,7 +120,7 @@ export const Departamentos = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         //console.log(res);
         setDepartamento(res.RESPONSE);

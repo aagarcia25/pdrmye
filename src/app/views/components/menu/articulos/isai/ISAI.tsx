@@ -1,29 +1,21 @@
-import { useEffect, useState } from "react";
-import { GridColDef } from "@mui/x-data-grid";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import Slider from "../../../Slider";
-import { Toast } from "../../../../../helpers/Toast";
-import { AlertS } from "../../../../../helpers/AlertS";
-import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import {
   Box,
-  Grid,
   IconButton,
-  Link,
-  TextField,
   ToggleButton,
   ToggleButtonGroup,
-  Tooltip,
-  Typography,
+  Tooltip
 } from "@mui/material";
-import ModalForm from "../../../componentes/ModalForm";
-import SaveButton from "../../../componentes/SaveButton";
+import { GridColDef } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import Slider from "../../../Slider";
 import Title from "../../../componentes/Title";
 import { Moneda } from "../../CustomToolbar";
 import ButtonsMunicipio from "../../catalogos/Utilerias/ButtonsMunicipio";
@@ -115,7 +107,7 @@ const ISAI = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setDataTipoFondo(res.RESPONSE);
       } else {

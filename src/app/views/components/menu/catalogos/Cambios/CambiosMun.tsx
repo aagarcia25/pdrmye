@@ -255,7 +255,7 @@ const CambiosMun = () => {
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
-                    title: "Consulta Exitosa!",
+                    title: "¡Consulta Exitosa!",
                 });
                 setBitacoraAjustes(res.RESPONSE);
             } else {
