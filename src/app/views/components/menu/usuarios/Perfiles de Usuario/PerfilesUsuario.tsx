@@ -1,17 +1,17 @@
+import { Grid, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { messages } from "../../../../styles";
 import Swal from "sweetalert2";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import { Toast } from "../../../../../helpers/Toast";
-import { AuthService } from "../../../../../services/AuthService";
-import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import { PerfilesUsuarioModal } from "./PerfilesUsuarioModal";
-import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import { AlertS } from "../../../../../helpers/AlertS";
-import { Grid, Typography } from "@mui/material";
+import { Toast } from "../../../../../helpers/Toast";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { AuthService } from "../../../../../services/AuthService";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { messages } from "../../../../styles";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
+import { PerfilesUsuarioModal } from "./PerfilesUsuarioModal";
 
 
 

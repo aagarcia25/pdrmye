@@ -1,19 +1,19 @@
+import SendIcon from "@mui/icons-material/Send";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { MUNICIPIO, PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipio, getPermisos, getUser } from "../../../../../services/localStorage";
-import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import ModalAlert from "../../../componentes/ModalAlert";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import { CuentaBancariaModal } from "./CuentaBancariaModal";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import ModalAlert from "../../../componentes/ModalAlert";
-import { AlertS } from "../../../../../helpers/AlertS";
 
 export const CuentaBancaria = ({
   idmunicipio,

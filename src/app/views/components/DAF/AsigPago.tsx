@@ -1,3 +1,9 @@
+import ApprovalIcon from "@mui/icons-material/Approval";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import InsightsIcon from "@mui/icons-material/Insights";
+import SendIcon from "@mui/icons-material/Send";
 import {
   Box,
   Button,
@@ -9,45 +15,34 @@ import {
   IconButton,
   InputAdornment,
   OutlinedInput,
-  ThemeProvider,
   ToggleButton,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
-import clsx from "clsx";
-import React, { useEffect, useState } from "react";
-import SelectValues from "../../../interfaces/Select/SelectValues";
-import { CatalogosServices } from "../../../services/catalogosServices";
-import SelectFrag from "../Fragmentos/SelectFrag";
-import SendIcon from "@mui/icons-material/Send";
-import { AlertS } from "../../../helpers/AlertS";
-import { Moneda } from "../menu/CustomToolbar";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getPermisos, getToken, getUser } from "../../../services/localStorage";
-import { DPCPServices } from "../../../services/DPCPServices";
-import { Toast } from "../../../helpers/Toast";
-import Slider from "../Slider";
-import {
-  DataGrid,
-  GridSelectionModel,
-  GridToolbar,
-  esES as gridEsES,
-} from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
-import SpeisAdmin from "./SpeisAdmin";
-import FolderOpenIcon from "@mui/icons-material/FolderOpen";
-import ApprovalIcon from "@mui/icons-material/Approval";
-import { ModalCheque } from "../componentes/ModalCheque";
-import SelectFragMulti from "../Fragmentos/SelectFragMulti";
-import { fmeses } from "../../../share/loadMeses";
-import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import InsightsIcon from "@mui/icons-material/Insights";
-import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
-import Swal from "sweetalert2";
+import {
+  esES as gridEsES
+} from "@mui/x-data-grid";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { AlertS } from "../../../helpers/AlertS";
+import { Toast } from "../../../helpers/Toast";
+import SelectValues from "../../../interfaces/Select/SelectValues";
+import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../services/catalogosServices";
+import { DPCPServices } from "../../../services/DPCPServices";
+import { getPermisos, getToken, getUser } from "../../../services/localStorage";
+import { fmeses } from "../../../share/loadMeses";
 import { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
+import { ModalCheque } from "../componentes/ModalCheque";
+import SelectFrag from "../Fragmentos/SelectFrag";
+import SelectFragMulti from "../Fragmentos/SelectFragMulti";
+import { Moneda } from "../menu/CustomToolbar";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
+import Slider from "../Slider";
+import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
+import SpeisAdmin from "./SpeisAdmin";
 
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
