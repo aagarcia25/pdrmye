@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
 import {
   Button,
-  createTheme,
   FormControl,
   Grid,
   IconButton,
@@ -11,28 +9,30 @@ import {
   ToggleButtonGroup,
   Tooltip,
   Typography,
+  createTheme,
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
 
-import SelectValues from "../../../interfaces/Select/SelectValues";
-import { CatalogosServices } from "../../../services/catalogosServices";
-import SelectFrag from "../Fragmentos/SelectFrag";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import SendIcon from "@mui/icons-material/Send";
-import { AlertS } from "../../../helpers/AlertS";
-import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../services/localStorage";
-import { DPCPServices } from "../../../services/DPCPServices";
-import { Toast } from "../../../helpers/Toast";
-import Slider from "../Slider";
+import { esES as coreEsES } from "@mui/material/locale";
 import {
   GridSelectionModel,
   esES as gridEsES,
 } from "@mui/x-data-grid";
-import { esES as coreEsES } from "@mui/material/locale";
 import Swal from "sweetalert2";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { AlertS } from "../../../helpers/AlertS";
+import { Toast } from "../../../helpers/Toast";
+import SelectValues from "../../../interfaces/Select/SelectValues";
+import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { DPCPServices } from "../../../services/DPCPServices";
+import { CatalogosServices } from "../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../services/localStorage";
+import SelectFrag from "../Fragmentos/SelectFrag";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import Slider from "../Slider";
+import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
 
 
 

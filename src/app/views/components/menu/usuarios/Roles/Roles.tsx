@@ -1,20 +1,20 @@
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Toast } from "../../../../../helpers/Toast";
-import { AuthService } from "../../../../../services/AuthService";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import ConfiguracionRoles from "./ConfiguracionRoles";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
-import RolesModal from "./RolesModal";
-import EditIcon from "@mui/icons-material/Edit";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
 import Swal from "sweetalert2";
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'; 
 import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { AuthService } from "../../../../../services/AuthService";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
+import ConfiguracionRoles from "./ConfiguracionRoles";
+import RolesModal from "./RolesModal";
 
 const Roles = () => {
   const [data, setData] = useState([]);

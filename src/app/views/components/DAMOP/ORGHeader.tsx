@@ -1,3 +1,11 @@
+import AddIcon from "@mui/icons-material/Add";
+import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CleaningServicesOutlinedIcon from '@mui/icons-material/CleaningServicesOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import {
   Box,
   Button,
@@ -6,38 +14,27 @@ import {
   Divider,
   Grid,
   IconButton,
-  Input,
-  InputAdornment,
   TextField,
   ThemeProvider,
-  Tooltip,
-  Typography,
+  Tooltip
 } from "@mui/material";
-import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import React, { useEffect, useState } from "react";
-import SelectValues from "../../../interfaces/Select/SelectValues";
-import { CatalogosServices } from "../../../services/catalogosServices";
-import SelectFrag from "../Fragmentos/SelectFrag";
-import { currencyFormatter, Moneda, NumericFormatCustom, } from "../menu/CustomToolbar";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import Slider from "../Slider";
-import { DataGrid, GridSelectionModel, GridToolbar, esES as gridEsES, } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
-import ModalForm from "../componentes/ModalForm";
-import AddIcon from "@mui/icons-material/Add";
+import { DataGrid, esES as gridEsES, GridSelectionModel, GridToolbar, } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Toast } from "../../../helpers/Toast";
 import { AlertS } from "../../../helpers/AlertS";
-import { DAMOPServices } from "../../../services/DAMOPServices";
+import { Toast } from "../../../helpers/Toast";
 import { indexCabecera, indexDetalle } from "../../../interfaces/Damop/ResponseDAMOP";
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import CleaningServicesOutlinedIcon from '@mui/icons-material/CleaningServicesOutlined';
-import MenuBookIcon from "@mui/icons-material/MenuBook";
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import SelectValues from "../../../interfaces/Select/SelectValues";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../services/catalogosServices";
+import { DAMOPServices } from "../../../services/DAMOPServices";
 import { getUser } from "../../../services/localStorage";
+import ModalForm from "../componentes/ModalForm";
 import { TextFieldFormatoMoneda } from "../componentes/TextFieldFormatoMoneda";
+import SelectFrag from "../Fragmentos/SelectFrag";
+import { currencyFormatter, Moneda } from "../menu/CustomToolbar";
+import Slider from "../Slider";
 
 
 export const ORGHeader = ({

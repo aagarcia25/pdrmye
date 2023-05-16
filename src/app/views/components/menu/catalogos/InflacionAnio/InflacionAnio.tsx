@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
+import { Grid } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { messages } from "../../../../styles";
-import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
-import InflacionAnioModal from "./InflacionAnioModal";
+import { Toast } from "../../../../../helpers/Toast";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { fanios } from "../../../../../share/loadAnios";
+import { messages } from "../../../../styles";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
-import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import { porcentage } from "../../CustomToolbar";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { fanios } from "../../../../../share/loadAnios";
-import { Grid } from "@mui/material";
+import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import InflacionAnioModal from "./InflacionAnioModal";
 
 
 const InflacionAnio = () => {
@@ -85,7 +85,7 @@ const InflacionAnio = () => {
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
       setTipoOperacion(2);
-      setModo("Editar ");
+      setModo("Editar");
       setOpen(true);
       setVrows(v.data);
     } else if (v.tipo === 2) {
@@ -114,7 +114,7 @@ const InflacionAnio = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "¿Estás seguro de eliminar este registro??",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -134,7 +134,7 @@ const InflacionAnio = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
 
             consulta({ NUMOPERACION: 4 });
@@ -157,10 +157,6 @@ const InflacionAnio = () => {
   const consulta = (data: any) => {
     CatalogosServices.inflacionAnio(data).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "¡Consulta Exitosa!",
-        });
         setDataInflacionAnio(res.RESPONSE);
       } else {
         AlertS.fire({

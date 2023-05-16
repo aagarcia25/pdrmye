@@ -1,8 +1,7 @@
-import React from "react";
-import { DataGrid, GridColumnVisibilityModel, esES as gridEsES, GridToolbar, } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
-import { useEffect, useState } from "react";
+import { DataGrid, GridColumnVisibilityModel, esES as gridEsES, GridToolbar, } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
 import { PERMISO } from "../../interfaces/user/UserInfo";
 import { getPermisos } from "../../services/localStorage";
 
@@ -98,6 +97,10 @@ const MUIXDataGridMun = ({
           checkboxSelection={elimasiva}
           onSelectionModelChange={(newSelectionModel: any) => { handleBorrar(newSelectionModel); }}
           localeText={{
+            columnsPanelHideAllButton:"Ocultar todo",
+            columnsPanelShowAllButton:"Mostrar todo",
+            columnsPanelTextFieldPlaceholder:"",
+            columnsPanelTextFieldLabel:"Buscar",
             noRowsLabel: "No se ha encontrado datos.",
             noResultsOverlayLabel: "No se ha encontrado ningún resultado",
             toolbarColumns: "Columnas",

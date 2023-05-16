@@ -134,6 +134,7 @@ const MUIXDataGridGeneral = ({
               count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
             columnHeaderFiltersLabel: 'Mostrar filtros',
             columnHeaderSortIconLabel: 'Ordenar',
+            
           }}
         />
       </ThemeProvider>

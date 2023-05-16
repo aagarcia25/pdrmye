@@ -1,7 +1,7 @@
-import * as React from "react";
-import { DataGrid, esES as gridEsES, esES, GridCellParams, GridToolbar, GridToolbarFilterButton, GridColumnVisibilityModel } from "@mui/x-data-grid";
-import { createTheme, Grid, ThemeProvider } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
+import { DataGrid, GridColumnVisibilityModel, GridToolbar, esES as gridEsES } from "@mui/x-data-grid";
+import * as React from "react";
 
 const theme = createTheme(coreEsES, gridEsES);
 
@@ -61,6 +61,10 @@ export default function MUIXDataGridSimple(props: any) {
           },
         }}
         localeText={{
+          columnsPanelHideAllButton:"Ocultar todo",
+          columnsPanelShowAllButton:"Mostrar todo",
+          columnsPanelTextFieldPlaceholder:"",
+          columnsPanelTextFieldLabel:"Buscar",
           noRowsLabel: "No se ha encontrado datos.",
           noResultsOverlayLabel: "No se ha encontrado ningún resultado",
           toolbarColumns: "Columnas",

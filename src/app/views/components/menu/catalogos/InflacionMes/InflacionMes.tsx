@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { messages } from "../../../../styles";
-import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
-import InflacionMesModal from "./InflacionMesModal";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { Toast } from "../../../../../helpers/Toast";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { fanios } from "../../../../../share/loadAnios";
+import { messages } from "../../../../styles";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import Slider from "../../../Slider";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
-import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import { porcentage } from "../../CustomToolbar";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
-import React from "react";
-import Slider from "../../../Slider";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { fanios } from "../../../../../share/loadAnios";
+import InflacionMesModal from "./InflacionMesModal";
 
 
 
@@ -51,7 +49,7 @@ const InflacionMes = () => {
       description: messages.dataTableColum.id,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -63,10 +61,10 @@ const InflacionMes = () => {
         );
       },
     },
-    { field: "Anio",        headerName: "Año",      description: "Año",       width: 150 },
-    { field: "Mes",         headerName: "Mes",      description: "Mes",       width: 150, hide: true, },
-    { field: "Descripcion", headerName: "Mes",      description: "Mes",       width: 150 },
-    { field: "Inflacion",   headerName: "Inflación",description: "Inflación", width: 150 , ...porcentage },
+    { field: "Anio", headerName: "Año", description: "Año", width: 150 },
+    { field: "Mes", headerName: "Mes", description: "Mes", width: 150, hide: true, },
+    { field: "Descripcion", headerName: "Mes", description: "Mes", width: 150 },
+    { field: "Inflacion", headerName: "Inflación", description: "Inflación", width: 150, ...porcentage },
   ];
 
   const handleAccion = (v: any) => {
@@ -83,7 +81,7 @@ const InflacionMes = () => {
 
   const handleClose = () => {
     setOpen(false);
-    consulta({ NUMOPERACION: 4 })
+    consulta({ NUMOPERACION: 4 },"")
 
   };
   const handleBorrar = () => {
@@ -104,88 +102,53 @@ const InflacionMes = () => {
         title: "Opción aun no Disponible",
         confirmButtonText: "Aceptar",
       });
-      // setslideropen(true);
-      // let file = data.data?.target?.files?.[0] || "";
-      // const formData = new FormData();
-      // formData.append("inputfile", file, "inputfile.xlxs");
-      // formData.append("tipo", "MunPoblacion");
-      // CatalogosServices.migraData(formData).then((res) => {
-      //   setslideropen(false);
-      // });
+      
 
-    } 
+    }
     else if (data.tipo === 2) {
-      //console.log("borrado de toda la tabla")
-      //console.log(selectionModel)
+     
 
-      if(selectionModel.length!==0){
-      Swal.fire({
-        icon: "question",
-        title: selectionModel.length +" Registros Se Eliminaran!!",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Confirmar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-  
-          let data = {
-           NUMOPERACION: 5,
-           OBJS: selectionModel,
-           CHUSER: user.id
-          };
-          //console.log(data);
-  
-          // CatalogosServices.munpoblacion(data).then((res) => {
-          //   if (res.SUCCESS) {
-          //     Toast.fire({
-          //       icon: "success",
-          //       title: "Borrado!",
-          //     });
-  
-          //     consulta({
-          //       NUMOPERACION: 4,
-          //       CHUSER: user.id,
-          //       ANIO: filterAnio,
-          //     });
-  
-          //   } else {
-          //     AlertS.fire({
-          //       title: "¡Error!",
-          //       text: res.STRMESSAGE,
-          //       icon: "error",
-          //     });
-          //   }
-          // });
-  
-        } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
-        }
-      });
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Seleccione Registros Para Borrar",
-        confirmButtonText: "Aceptar",
-      });
-    }
+      if (selectionModel.length !== 0) {
+        Swal.fire({
+          icon: "question",
+          title: selectionModel.length + " Registros Se Eliminaran!!",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Confirmar",
+          denyButtonText: `Cancelar`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            let data = {
+              NUMOPERACION: 5,
+              OBJS: selectionModel,
+              CHUSER: user.id
+            };
+           
+
+          } else if (result.isDenied) {
+            Swal.fire("No se realizaron cambios", "", "info");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Seleccione Registros Para Borrar",
+          confirmButtonText: "Aceptar",
+        });
+      }
 
 
     }
 
   };
 
-  const handleEdit = (v: any) => {
-    setTipoOperacion(2);
-    setModo("Editar Registro");
-    setOpen(true);
-    setVrows(v);
-  };
+
 
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "¿Estás seguro de eliminar este registro??",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -203,10 +166,10 @@ const InflacionMes = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
 
-            consulta({ NUMOPERACION: 4 });
+            consulta({ NUMOPERACION: 4 },"");
 
           } else {
             AlertS.fire({
@@ -232,21 +195,22 @@ const InflacionMes = () => {
     };
     if (v !== "false") {
       setFilterAnio(v);
-      consulta(data);
+      consulta(data,"");
     } else {
-      consulta({ NUMOPERACION: 4,ANIO: "",});
+      consulta({ NUMOPERACION: 4, ANIO: "", }, "");
       setFilterAnio("");
 
     }
   };
 
-  const consulta = (data: any) => {
+  const consulta = (data: any, mensaje: string) => {
     CatalogosServices.inflacionMes(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
           title: "¡Consulta Exitosa!",
         });
+  
         setDataInflacionMes(res.RESPONSE);
       } else {
         AlertS.fire({
@@ -275,7 +239,7 @@ const InflacionMes = () => {
         }
       }
     });
-    consulta({ NUMOPERACION: 4 })
+    consulta({ NUMOPERACION: 4 },"")
     setAnios(fanios());
 
 
@@ -297,8 +261,8 @@ const InflacionMes = () => {
       ) : (
         ""
       )}
- 	        <NombreCatalogo controlInterno={"INFMES"} />
-           <ButtonsMunicipio
+      <NombreCatalogo controlInterno={"INFMES"} />
+      <ButtonsMunicipio
         url={""}
         handleUpload={handleUpload} controlInterno={"INFMES"}
         options={anios}

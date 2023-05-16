@@ -1,25 +1,24 @@
 
-import { useEffect, useState } from "react";
+import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
 import {
-  Dialog,
   Box,
   Button,
-  Typography,
+  Dialog,
   Grid,
   TextField,
+  Typography,
 } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
-import { CatalogosServices } from "../../services/catalogosServices";
-import { Toast } from "../../helpers/Toast";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../helpers/AlertS";
-import SendIcon from '@mui/icons-material/Send';
-import { Imunicipio } from "../../interfaces/municipios/FilterMunicipios";
-import SelectFrag from "./Fragmentos/SelectFrag";
+import { Toast } from "../../helpers/Toast";
 import SelectValues from "../../interfaces/Select/SelectValues";
-import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { MailServices } from "../../services/MailServices";
+import { CatalogosServices } from "../../services/catalogosServices";
+import { getUser } from "../../services/localStorage";
 import { COLOR } from "../../styles/colors";
+import SelectFrag from "./Fragmentos/SelectFrag";
 import Slider from "./Slider";
 
 const ListNotificationsModal = ({

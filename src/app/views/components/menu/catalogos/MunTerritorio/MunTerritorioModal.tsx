@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
 import {
   Box,
-  TextField,
-  InputAdornment,
   Button,
   Grid,
+  InputAdornment,
+  TextField,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getUser, validaLocalStorage } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
 const MunTerritorioModal = ({
