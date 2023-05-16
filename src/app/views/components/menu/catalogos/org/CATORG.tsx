@@ -120,7 +120,6 @@ export const CATORG = () => {
 
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
-      //console.log(v);
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
@@ -140,7 +139,6 @@ export const CATORG = () => {
             CHID: v.data.row.id,
             CHUSER: user.id,
           };
-          //console.log(data);
 
           CatalogosServices.Organismos(data).then((res) => {
             if (res.SUCCESS) {

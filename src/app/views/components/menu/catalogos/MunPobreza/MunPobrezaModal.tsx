@@ -121,7 +121,6 @@ const MunPobrezaModal = ({
   };
 
   const handleSelectAnio = (e: any) => {
-    console.log(e)
     setAnio(e);
   };
 

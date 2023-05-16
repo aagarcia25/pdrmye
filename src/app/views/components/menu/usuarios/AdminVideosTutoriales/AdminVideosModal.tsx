@@ -140,7 +140,6 @@ const AdminVideosModal = ({
     };
     useEffect(() => {
         loadFilter(16);
-        console.log(nombreArchivo?.length);
 
 
         if (dt.length === 0) {
@@ -150,7 +149,6 @@ const AdminVideosModal = ({
             setNombreArchivo(dt?.row?.nombreOriginal)
 
             if (modo === "Carga Videos") {
-                console.log("Carga Videos")
 
             }
 

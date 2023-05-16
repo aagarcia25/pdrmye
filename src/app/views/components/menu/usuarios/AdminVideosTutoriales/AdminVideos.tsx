@@ -47,7 +47,6 @@ const AdminVideos = () => {
   };
 
   const eliminar = (v: any) => {
-    console.log(v.row);
     handleClickDelet(v.row.nombreVideo,"/VIDEOS/TUTORIALES/");
     consulta();
   };
@@ -60,7 +59,6 @@ const AdminVideos = () => {
   };
 
   const handleEditarRegistro = (v: any) => {
-    console.log(v.row.idMenu)
     
     setTipoOperacion(2);
     setModo("Editar Nombre Video");

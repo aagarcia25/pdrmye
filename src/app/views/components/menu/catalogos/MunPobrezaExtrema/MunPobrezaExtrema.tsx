@@ -187,7 +187,6 @@ export const MunPobrezaExtrema = () => {
               OBJS: selectionModel,
               CHUSER: user.id
             };
-            //console.log(data);
 
             CatalogosServices.munpobrezaext(data).then((res) => {
               if (res.SUCCESS) {

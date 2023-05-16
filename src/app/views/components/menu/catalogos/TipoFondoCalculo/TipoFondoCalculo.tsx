@@ -19,6 +19,7 @@ import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import React from "react";
 import ButtonsMunBase from "../Utilerias/ButtonsMunBase";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 
 const TipoFondoCalculo = () => {
   //   VALORES POR DEFAULT
@@ -52,6 +53,8 @@ const TipoFondoCalculo = () => {
       renderCell: (v) => {
         return (
           <Box>
+          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+
             {/* EDITAR */}
             {editar ? (
               <Tooltip title={"Editar Registro"}>
@@ -128,7 +131,7 @@ const TipoFondoCalculo = () => {
   };
 
   const handleAccion = (v: any) => {
-    //console.log(v)
+    console.log(v)
     if (v.tipo === 2) {
       setTipoOperacion(2);
       setVrows(v.data);
