@@ -1,32 +1,28 @@
-import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import { useEffect, useState } from "react";
 
 import {
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
   TimelineItem,
   TimelineOppositeContent,
   TimelineSeparator,
-  TimelineConnector,
-  TimelineDot,
-  TimelineContent,
-  Timeline,
 } from "@mui/lab";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
   Box,
-  Typography,
+  Dialog,
+  DialogContent,
   Grid,
-  Tooltip,
   IconButton,
+  Tooltip,
+  Typography
 } from "@mui/material";
 
-import Slider from "./Slider";
-import { calculosServices } from "../../services/calculosServices";
 import { Itrazabilidad } from "../../interfaces/calculos/Itrazabilidad";
-import { COLOR } from "../../styles/colors";
+import { calculosServices } from "../../services/calculosServices";
+import Slider from "./Slider";
 
 const Trazabilidad = ({
   id,

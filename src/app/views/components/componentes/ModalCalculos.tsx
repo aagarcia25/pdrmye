@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
-import ModalForm from "./ModalForm";
-import Slider from "../Slider";
-import { CatalogosServices } from "../../../services/catalogosServices";
+import { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
+import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
+import Slider from "../Slider";
+import ModalForm from "./ModalForm";
 
 const ModalCalculos = ({
   tipo,

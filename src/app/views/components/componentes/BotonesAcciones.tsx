@@ -1,7 +1,6 @@
-import React from 'react'
-import { Box, IconButton, Tooltip } from '@mui/material'
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import { IconButton, Tooltip } from '@mui/material';
 
 
 const BotonesAcciones = ({
