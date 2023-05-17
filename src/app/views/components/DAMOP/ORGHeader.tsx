@@ -482,7 +482,7 @@ export const ORGHeader = ({
 
   const Consulta = () => {
     var sumatotal = 0;
-    sumatotal = sumatotal + (Number(dataCab.total)===0 && String(Number(dataCab.total))==="NaN"?0:Number(dataCab.total));
+    // sumatotal = sumatotal + (Number(dataCab.total)===0 && String(Number(dataCab.total))==="NaN"?0:Number(dataCab.total));
     DAMOPServices.indexDetalle({ NUMOPERACION: 4, IDORG: dataCab?.id }).then((res) => {
       if (res.SUCCESS) {
 
