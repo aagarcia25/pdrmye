@@ -74,9 +74,8 @@ export const ORGHeader = ({
   const [ures, setURes] = useState<SelectValues[]>([]);
   const [provedores, setProvedores] = useState<SelectValues[]>([]);
   const [conceptosCheque, setConceptosCheque] = useState<SelectValues[]>([]);
-
   const [cuentasBancarias, setCuentasBancarias] = useState<SelectValues[]>([]);
-
+  const [beneficiariosFideicomisos, setBeneficiariosFideicomisos] = useState<SelectValues[]>([]);
   const [modoDetalle, setModoDetalle] = useState<string>("");
   const [proyecto, setProyecto] = useState<string>('');
   const [totalHeader, setTotalHeader] = useState<string>("0");
@@ -101,6 +100,8 @@ export const ORGHeader = ({
   const [idProveedor, setidProveedor] = useState("");
   const [conCheque, setConCheque] = useState("");
   const [idCuentaBancaria, setIdCuentaBancaria] = useState("");
+  const [idBeneficiariosFideicomisos, setIdBeneficiariosFideicomisos] = useState("");
+
 
 
   //Constantes para las columnas
@@ -182,6 +183,10 @@ export const ORGHeader = ({
   };
   const handleFilterChange4 = (v: string) => {
     setIdCuentaBancaria(v);
+  };
+
+  const handleBeneficiariosFideicomisos = (v: string) => {
+    setIdBeneficiariosFideicomisos(v);
   };
 
   const handleAgregarDetalle = () => {
@@ -310,8 +315,9 @@ export const ORGHeader = ({
       OBSERVACIONES: String(observaciones).trim(),
       NUMPROYECTO: proyecto,
       IDURESP: idUResp,
-      CUENTA: numCuenta,
+      CUENTA: idCuentaBancaria,
       TIPOSOLICITUD: idTipoSolicitud,
+      CLAVEBENEFICIARIO: idBeneficiariosFideicomisos,
       ESTATUS: "DAMOP_ORG_ING_OP"
     }
 
@@ -422,7 +428,7 @@ export const ORGHeader = ({
   };
 
   const handleLimpiarCamposDetalle = () => {
-    
+
     if (modoDetalle === "Editar") {
       setDescripcion("");
       if (dataCab.orden < 16) {
@@ -452,10 +458,12 @@ export const ORGHeader = ({
   };
 
   const handleLimpiarCamposHeader = () => {
-
     if (modo === "Ver") {
       setNumCuenta("");
       setObservaciones("");
+      setIdCuentaBancaria("");
+      setIdBeneficiariosFideicomisos("");
+      setIdTipoSolicitud("");
 
 
     } else {
@@ -474,7 +482,7 @@ export const ORGHeader = ({
 
   const Consulta = () => {
     var sumatotal = 0;
-
+    sumatotal = sumatotal + (Number(dataCab.total)===0 && String(Number(dataCab.total))==="NaN"?0:Number(dataCab.total));
     DAMOPServices.indexDetalle({ NUMOPERACION: 4, IDORG: dataCab?.id }).then((res) => {
       if (res.SUCCESS) {
 
@@ -517,7 +525,7 @@ export const ORGHeader = ({
                 <MenuBookIcon />
               </IconButton>
             </Tooltip>
-            {dataCab.orden < 16 && permisoEliminarDetalleCabecera ? 
+            {dataCab.orden < 16 && permisoEliminarDetalleCabecera ?
               <Tooltip title={"Eliminar"}>
                 <IconButton value="check" onClick={() => handleBorrarDetalle(v)}>
                   <DeleteForeverOutlinedIcon />
@@ -554,12 +562,12 @@ export const ORGHeader = ({
       renderCell: (v: any) => {
         return (
           <>
-          {(listConceptos.find(({ value}) => value === v.row.ConceptoEgreso )?.label?listConceptos.find(({ value}) => value === v.row.ConceptoEgreso )?.label:"")}
+            {(listConceptos.find(({ value }) => value === v.row.ConceptoEgreso)?.label ? listConceptos.find(({ value }) => value === v.row.ConceptoEgreso)?.label : "")}
           </>
         );
       },
     },
-    
+
     {
       field: "Descripcion",
       headerName: "Descripción",
@@ -665,6 +673,9 @@ export const ORGHeader = ({
       else if (tipo === 34) {
         setCuentasBancarias(res.RESPONSE);
       }
+      else if (tipo === 41) {
+        setBeneficiariosFideicomisos(res.RESPONSE);
+      }
 
 
     });
@@ -690,6 +701,8 @@ export const ORGHeader = ({
       setHAdd(true);
     }
     if (modo === "Ver") {
+      setIdCuentaBancaria(dataCab.cuentabancaria ? dataCab.cuentabancaria : "")
+      setIdBeneficiariosFideicomisos(dataCab.ClaveBeneficiario ? dataCab.ClaveBeneficiario : "")
       setidUResp(dataCab.IdUres ? dataCab.IdUres : dataCab.Uresp);
       setidProveedor(dataCab.idmunicipio);
       setProyecto(dataCab.NumProyecto);
@@ -708,6 +721,7 @@ export const ORGHeader = ({
     loadFilter(33, "");
     loadFilter(34, "");
     loadFilter(24, "");
+    loadFilter(41, "");
 
 
   }, [agregarDetalle]);
@@ -724,7 +738,8 @@ export const ORGHeader = ({
 
             <ButtonGroup size="large">
 
-              <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"} disabled={HEdit || dataCab.orden !== 1 || !editCabecera} >
+              <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"}
+                disabled={HEdit || dataCab.orden !== 1 || !editCabecera} >
                 <Tooltip title="Editar Cabecera">
                   <ModeEditOutlineIcon />
                 </Tooltip>
@@ -775,14 +790,22 @@ export const ORGHeader = ({
           sx={{ bgcolor: (!regGuardado || !agregarDetalle ? "rgb(255, 255, 255) " : "rgba(225, 225, 225, 0.264) "), }}>
 
 
-          <Grid item xs={12} sm={12} md={5.8} lg={4} >
-
+          <Grid item xs={12} sm={12} md={5.8} lg={4} paddingTop={2} >
+            <br />
             <label className="textoNormal">{"Número de operación: " + (dataCab?.NumOper ? dataCab?.NumOper : "")}</label>
-            <br />
-            <label className="textoNormal">{"Clave Beneficiario: " + (dataCab?.ClaveBeneficiario !== null ? dataCab?.ClaveBeneficiario : "")}</label>
-            <br />
-            <label className="textoNormal">{"Descripción Beneficiario: " + (dataCab?.DescripcionBeneficiario ? dataCab?.DescripcionBeneficiario : "")}</label>
-         
+          </Grid>
+          <Grid item xs={12} sm={12} md={5.8} lg={3.8}>
+
+            <label className="textoNormal">Beneficiario:</label>
+
+            <SelectFrag
+              value={idBeneficiariosFideicomisos}
+              options={beneficiariosFideicomisos}
+              onInputChange={handleBeneficiariosFideicomisos}
+              placeholder={"Seleccione Beneficiario"}
+              label={""}
+              disabled={HHeader || agregarDetalle || regGuardado || dataCab.orden !== 1}
+            />
           </Grid>
 
           <Grid item xs={12} sm={12} md={5.8} lg={3.8}>
@@ -837,7 +860,7 @@ export const ORGHeader = ({
               disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
               inputProps={{ maxLength: 7 }}
               error={String(Number(proyecto)) === "NaN"}
-
+              size="small"
 
             />
           </Grid>
@@ -852,6 +875,7 @@ export const ORGHeader = ({
               variant="outlined"
               type="text"
               disabled
+              size="small"
               inputProps={{ maxLength: 7 }}
 
             />
@@ -880,10 +904,7 @@ export const ORGHeader = ({
           <Grid item xs={12} sm={8.8} md={8.8} lg={5} >
             <Tooltip title={"Muestra las cuentas bancarias que tenga disonibles"}>
               <label className="textoNormal">No. de Cuenta:</label>
-
             </Tooltip>
-
-
             <SelectFrag
               value={idCuentaBancaria}
               options={cuentasBancarias}
@@ -932,19 +953,19 @@ export const ORGHeader = ({
               <Grid item container direction="row" justifyContent="space-between" xs={12} paddingTop={1} paddingBottom={1}>
                 {!openAgregarDetalle ?
 
-                  <Button 
-                  color="success" 
-                  disabled={                 
-                    !((dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP")&& permisoAgregarDetalle ) 
-                  || openAgregarDetalle 
-                  || dataCab.orden >= 16}
-                  
-                  className={(!((dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP")&& permisoAgregarDetalle ) 
-                  || openAgregarDetalle 
-                  || dataCab.orden >= 16)? "" : "guardarOrgCabecera"
-                  
-                }
-                   value="check" onClick={() => handleAgregarDetalles()}>
+                  <Button
+                    color="success"
+                    disabled={
+                      !((dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP") && permisoAgregarDetalle)
+                      || openAgregarDetalle
+                      || dataCab.orden >= 16}
+
+                    className={(!((dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP") && permisoAgregarDetalle)
+                      || openAgregarDetalle
+                      || dataCab.orden >= 16) ? "" : "guardarOrgCabecera"
+
+                    }
+                    value="check" onClick={() => handleAgregarDetalles()}>
                     <Tooltip title="Agregar detalle">
                       <AddIcon />
                     </Tooltip>
@@ -960,10 +981,10 @@ export const ORGHeader = ({
 
                             <Button onClick={() => handleEditarDetalles()} color="info"
                               disabled={
-                                !((dataCab.estatusCI === "DAMOP_INI" 
-                              || dataCab.estatusCI === "DAMOP_ORG_ING_OP") && permisoEditarDetalleCabecera ) 
-                              || DetalleEditar 
-                              || dataCab.orden >= 16} >
+                                !((dataCab.estatusCI === "DAMOP_INI"
+                                  || dataCab.estatusCI === "DAMOP_ORG_ING_OP") && permisoEditarDetalleCabecera)
+                                || DetalleEditar
+                                || dataCab.orden >= 16} >
                               <Tooltip title="Editar Detalle">
                                 <ModeEditOutlineIcon />
                               </Tooltip>
@@ -1028,7 +1049,7 @@ export const ORGHeader = ({
                   : ""}
 
 
-                <Button disabled={!openAgregarDetalle } className="cerrar" value="check" onClick={() => handleCloseAñadirDetalle()}>
+                <Button disabled={!openAgregarDetalle} className="cerrar" value="check" onClick={() => handleCloseAñadirDetalle()}>
                   <Tooltip title="Cerrar administració de detalle">
                     <CloseOutlinedIcon />
                   </Tooltip>
@@ -1053,7 +1074,7 @@ export const ORGHeader = ({
                       components={{ Toolbar: GridToolbar }}
                       sx={{
                         fontFamily: "Poppins,sans-serif", fontWeight: '500',
-                        fontSize:"12px",
+                        fontSize: "12px",
                         "& .super-app.negative": {
                           color: "rgb(84, 3, 3)",
                           backgroundColor: "rgb(196, 40, 40, 0.384)",
