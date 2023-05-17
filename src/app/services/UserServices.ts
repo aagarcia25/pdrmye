@@ -53,7 +53,7 @@ export const ValidaSesion = () => {
             if (resAppLogin.status === 200) {
                 setToken(resAppLogin.data?.token);
                 // onClickChangePassword();
-                return (true)
+                return ("Sesion Refrescada")
             }
             else {
                 Swal.fire({

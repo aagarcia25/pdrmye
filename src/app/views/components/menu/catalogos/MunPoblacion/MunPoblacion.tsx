@@ -50,7 +50,7 @@ export const MunPoblacion = () => {
       width: 150,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -62,11 +62,11 @@ export const MunPoblacion = () => {
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación",  width: 150 },
-    { field: "ClaveEstado",   headerName: "Clave Estado",   description: "Clave Estado",    width: 100 },
-    { field: "Nombre",        headerName: "Municipio",      description: "Municipio",       width: 150 },
-    { field: "Anio",          headerName: "Año",            description: "Año",             width: 150 },
-    { field: "totalPob",      headerName: "Total Población",description: "Total Población", width: 150 },
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 150 },
+    { field: "ClaveEstado", headerName: "Clave Estado", description: "Clave Estado", width: 100 },
+    { field: "Nombre", headerName: "Municipio", description: "Municipio", width: 150 },
+    { field: "Anio", headerName: "Año", description: "Año", width: 150 },
+    { field: "totalPob", headerName: "Total Población", description: "Total Población", width: 150 },
 
   ];
 
@@ -99,9 +99,9 @@ export const MunPoblacion = () => {
     setData("");
   };
   const handleDelete = (v: any) => {
-   Swal.fire({
+    Swal.fire({
       icon: "info",
-      title:  "Solicitar La Eliminación?",
+      title: "¿Solicita la eliminación?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -146,7 +146,7 @@ export const MunPoblacion = () => {
 
 
     });
-  
+
   };
 
   const handleUpload = (data: any) => {
@@ -161,62 +161,62 @@ export const MunPoblacion = () => {
         setslideropen(false);
       });
 
-    } 
+    }
     else if (data.tipo === 2) {
       //console.log("borrado de toda la tabla")
       //console.log(selectionModel)
 
-      if(selectionModel.length!==0){
-      Swal.fire({
-        icon: "question",
-        title: selectionModel.length +" Registros Se Eliminaran!!",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Confirmar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-  
-          let data = {
-           NUMOPERACION: 5,
-           OBJS: selectionModel,
-           CHUSER: user.id
-          };
-          //console.log(data);
-  
-          CatalogosServices.munpoblacion(data).then((res) => {
-            if (res.SUCCESS) {
-              Toast.fire({
-                icon: "success",
-                title: "Borrado!",
-              });
-  
-              consulta({
-                NUMOPERACION: 4,
-                CHUSER: user.id,
-                ANIO: filterAnio,
-              });
-  
-            } else {
-              AlertS.fire({
-                title: "¡Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              });
-            }
-          });
-  
-        } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
-        }
-      });
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Seleccione Registros Para Borrar",
-        confirmButtonText: "Aceptar",
-      });
-    }
+      if (selectionModel.length !== 0) {
+        Swal.fire({
+          icon: "question",
+          title: selectionModel.length + " Registros Se Eliminaran!!",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Confirmar",
+          denyButtonText: `Cancelar`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            let data = {
+              NUMOPERACION: 5,
+              OBJS: selectionModel,
+              CHUSER: user.id
+            };
+            //console.log(data);
+
+            CatalogosServices.munpoblacion(data).then((res) => {
+              if (res.SUCCESS) {
+                Toast.fire({
+                  icon: "success",
+                  title: "Borrado!",
+                });
+
+                consulta({
+                  NUMOPERACION: 4,
+                  CHUSER: user.id,
+                  ANIO: filterAnio,
+                });
+
+              } else {
+                AlertS.fire({
+                  title: "¡Error!",
+                  text: res.STRMESSAGE,
+                  icon: "error",
+                });
+              }
+            });
+
+          } else if (result.isDenied) {
+            Swal.fire("No se realizaron cambios", "", "info");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Seleccione Registros Para Borrar",
+          confirmButtonText: "Aceptar",
+        });
+      }
 
 
     }
@@ -227,7 +227,7 @@ export const MunPoblacion = () => {
   const handleAgregar = (event: React.ChangeEvent<HTMLInputElement>) => {
     setslideropen(true);
     let file = event?.target?.files?.[0] || "";
-    
+
   };
 
 
@@ -250,7 +250,7 @@ export const MunPoblacion = () => {
       setFilterAnio(v);
       consulta(data);
     } else {
-      consulta({ NUMOPERACION: 4,ANIO: "",});
+      consulta({ NUMOPERACION: 4, ANIO: "", });
       setFilterAnio("");
 
     }
@@ -279,8 +279,8 @@ export const MunPoblacion = () => {
     });
 
     permisos.map((item: PERMISO) => {
-    
-      if (item.ControlInterno === "MUNPO"){
+
+      if (item.ControlInterno === "MUNPO") {
         if (String(item.Referencia) === 'EDIT') {
           setUpdate(true);
         }
@@ -305,14 +305,14 @@ export const MunPoblacion = () => {
 
   return (
 
-    <div style={{ height: 600, width: "100%",}}>
+    <div style={{ height: 600, width: "100%", }}>
       <Slider open={slideropen}></Slider>
-     
+
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
           <Typography variant='h3'>
-            {nombreMenu} 
+            {nombreMenu}
           </Typography>
         </Grid>
       </Grid>
@@ -324,10 +324,10 @@ export const MunPoblacion = () => {
         onInputChange={handleFilterChange}
         placeholder={"Seleccione Año"} label={''} disabled={false}
         value={filterAnio} handleOpen={handleOpen} />
-     < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} modulo={'POBLACION'} controlInterno={'MUNPO'}   />
+      < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} modulo={'POBLACION'} controlInterno={'MUNPO'} />
 
 
- {open ? (
+      {open ? (
         <MunPoblacionModal
           open={open}
           modo={modo}
