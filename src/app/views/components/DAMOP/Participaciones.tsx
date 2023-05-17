@@ -218,6 +218,7 @@ const Participaciones = () => {
     setOpenCheque(false);
     setOpenTraz(false)
     setOpenSegmento(false);
+    handleClick();
   };
 
   const handlecheque = (data: any, tipo: number) => {
@@ -276,7 +277,7 @@ const Participaciones = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 100 + anchoAcciones,
+      width: 200  + anchoAcciones,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -326,23 +327,6 @@ const Participaciones = () => {
               : ""
             }
 
-
-
-          </Box>
-        );
-      },
-    },
-
-    {
-      field: "Detalle",
-      disableExport: true,
-      headerName: "Ver Detalle",
-      description: "Ver Detalle",
-      sortable: false,
-      width: 150,
-      renderCell: (v: any) => {
-        return (
-          <Box>
 
             {v.row.orden > 13 ? (
               <>
@@ -523,12 +507,6 @@ const Participaciones = () => {
       description: "Clave de Beneficiario",
     },
     {
-      field: "DescripcionBeneficiario",
-      headerName: "Beneficiario",
-      width: 200,
-      description: "Beneficiario",
-    },
-    {
       hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "uresclave",
       headerName: "U. Resp",
@@ -663,13 +641,19 @@ const Participaciones = () => {
   };
 
   const loadFilter = (operacion: number) => {
+    setslideropen(true);
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (operacion === 31) {
         setFondos(res.RESPONSE);
+        setslideropen(false);
+
       } else if (operacion === 5) {
         setMunicipios(res.RESPONSE);
+        setslideropen(false);
+
       } else if (operacion === 17) {
+        setslideropen(false);
         setTiposFondo(res.RESPONSE);
       } else if (operacion === 24) {
         setTiposSolicitud(res.RESPONSE);
@@ -682,8 +666,12 @@ const Participaciones = () => {
               "" :
               res.RESPONSE[0].value :
             "");
+        setslideropen(false);
+
       } else if (operacion === 27) {
         setOrganismos(res.RESPONSE);
+        setslideropen(false);
+
       }
     });
   };
@@ -695,6 +683,7 @@ const Participaciones = () => {
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
     setOpenModalVerSpei(false);
+    handleClick();
   };
   const handleAccion = () => {
 
@@ -1597,10 +1586,10 @@ const Participaciones = () => {
       setslideropen(true);
       DPCPServices.GetParticipaciones(data).then((res) => {
         if (res.SUCCESS) {
-          Toast.fire({
-            icon: "success",
-            title: "¡Consulta Exitosa!",
-          });
+          // Toast.fire({
+          //   icon: "success",
+          //   title: "¡Consulta Exitosa!",
+          // });
           setData(res.RESPONSE);
           var sumatotal = 0;
           res.RESPONSE.map((item: any) => {
@@ -1726,20 +1715,6 @@ const Participaciones = () => {
         else if (String(item.Referencia) === "AGREGDESC") {
           setPermisoAgregarDescuento(true);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       } setAnchoAcciones(ancho)
     });

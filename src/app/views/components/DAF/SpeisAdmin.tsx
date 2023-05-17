@@ -5,8 +5,8 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, I
 import { GridColDef } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import IconeXCEL from '../../../assets/img/ICONEXCEL.svg';
-import IconCFDIEXCELDown from '../../../assets/img/ICONEXCELDOWN.svg';
+import IconeXCEL from '../../../assets/img/iconxml.png';
+import IconCFDIEXCELDown from '../../../assets/img/iconxml.png';
 import IconSPEIPDFDown from '../../../assets/img/PDFDown.svg';
 import IconSPEIPDF from '../../../assets/img/PDF_icon.svg';
 import { AlertS } from '../../../helpers/AlertS';
@@ -21,6 +21,7 @@ import Slider from '../Slider';
 import { TooltipPersonalizado } from '../componentes/CustomizedTooltips';
 import ModalForm from '../componentes/ModalForm';
 import ButtonsAdd from '../menu/catalogos/Utilerias/ButtonsAdd';
+import { Blanco, xmlLOGO } from '../../../styles/imagen';
 
 
 
@@ -118,7 +119,7 @@ const SpeisAdmin = ({
                                         v.row.Nombre.slice(-3).toUpperCase() === "PDF" ?
                                             IconSPEIPDFDown
                                             :
-                                            IconCFDIEXCELDown
+                                            "data:"+xmlLOGO.Tipo+";base64,"+xmlLOGO.Data
                                     } />
                                 </IconButton>
                             </TooltipPersonalizado>
@@ -184,6 +185,7 @@ const SpeisAdmin = ({
 
 
     const handleNewComprobante = (event: any) => {
+        console.log(modo);
         // setslideropen(true);
         let file = event.target!.files[0]!;
         if ((event.target.files.length !== 0 &&
@@ -293,11 +295,11 @@ const SpeisAdmin = ({
     };
 
     const handleAgregarSpei = (v: string) => {
-
         setAddSpei(true);
     };
 
     const handleVerSpei = (v: any) => {
+        setslideropen(true);
         // {
         if (v.row.Nombre.slice(-3).toUpperCase() === "PDF") {
             setTipoDeArchivoPDF(true)
@@ -403,7 +405,7 @@ const SpeisAdmin = ({
     };
 
     const getfile = (nameFile: string, name: string, descargar: boolean) => {
-
+setslideropen(true);
 
         DAFServices.SpeiAdministracion(
             {
@@ -429,6 +431,7 @@ const SpeisAdmin = ({
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
+                setslideropen(false);
             }
         });
     };
@@ -466,10 +469,6 @@ const SpeisAdmin = ({
                 }
             ).then((res) => {
                 if (res.SUCCESS) {
-                    Toast.fire({
-                        icon: "success",
-                        title: "¡Consulta Exitosa!",
-                    });
 
                     setSpeis(res.RESPONSE);
                     setslideropen(false);
@@ -487,10 +486,7 @@ const SpeisAdmin = ({
         if (modo === "CFDI") {
             MunServices.CfdiAdministracion({ NUMOPERACION: 4, P_IDPA: vrows.id }).then((res) => {
                 if (res.SUCCESS) {
-                    Toast.fire({
-                        icon: "success",
-                        title: "¡Consulta Exitosa!",
-                    });
+
                     setSpeis(res.RESPONSE);
                     setslideropen(false);
                 } else {
@@ -586,15 +582,7 @@ const SpeisAdmin = ({
 
 
             {addSpei ?
-                <Dialog open={true}>
-                    <Grid container item justifyContent="space-between" xs={12}>
-                        <DialogTitle>{"Agregar " + modo}</DialogTitle>
-                        <Tooltip title="Cerrar">
-                            <IconButton onClick={() => handleCloseModal()}  >
-                                <CloseIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </Grid>
+                <ModalForm title={"Agregar " + modo} handleClose={handleCloseModal}>
                     <DialogContent dividers={true}>
                         <Grid container spacing={1}>
                             <Grid item xs={12}>
@@ -617,7 +605,7 @@ const SpeisAdmin = ({
                             <Grid item xs={12}>
                                 <h3>
                                     {
-                                        modo === "CFDI" ? "Solo Extenciones PDF, XLS, XLSX "
+                                        modo === "CFDI" ? "Solo Extenciones PDF, XML"
                                             : "Solo extenciones PDF"
                                     }
                                 </h3>
@@ -627,13 +615,12 @@ const SpeisAdmin = ({
                     <DialogActions>
                         <Button className="guardar" disabled={!fileValid} onClick={() => handleUploadSpei("1")}> Guardar </Button>
                     </DialogActions>
-                </Dialog>
+                </ModalForm>
                 : ""}
 
 
             {verSpei ?
                 <ModalForm title={'Visualización'} handleClose={handleCloseModal} >
-
                     <DialogContent dividers={true}>
                         <Grid container spacing={1}>
                             <Grid item xs={12}>
