@@ -1,8 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import imgGobEst from "../../assets/img/logo1.svg";
 import { useNavigate } from "react-router-dom";
-import { getItem } from "../../services/localStorage";
+import imgGobEst from "../../assets/img/logo1.svg";
 
 const Validacion = () => {
 

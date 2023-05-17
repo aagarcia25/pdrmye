@@ -114,7 +114,7 @@ const FondosModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
         handleClose();
       } else {
@@ -132,7 +132,7 @@ const FondosModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "¡Registro Editado!",
         });
         handleClose();
       } else {

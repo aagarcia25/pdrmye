@@ -120,7 +120,6 @@ export const CATORG = () => {
 
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
-      //console.log(v);
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
@@ -128,7 +127,7 @@ export const CATORG = () => {
     } else if (v.tipo == 2) {
       Swal.fire({
         icon: "info",
-        title: "¿Estás seguro de eliminar este registro??",
+        title: "¿Estás seguro de eliminar este registro?",
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: "Confirmar",
@@ -140,7 +139,6 @@ export const CATORG = () => {
             CHID: v.data.row.id,
             CHUSER: user.id,
           };
-          //console.log(data);
 
           CatalogosServices.Organismos(data).then((res) => {
             if (res.SUCCESS) {
@@ -176,6 +174,7 @@ export const CATORG = () => {
 
 
   };
+
 
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
@@ -264,9 +263,7 @@ export const CATORG = () => {
       <MUIXDataGrid columns={columns} rows={data} />
       {openCC ? (
         // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
-        <ModalForm title={"Cuentas Bancarias"} handleClose={handleClose}>
-          <CuentaBancaria idmunicipio={id} municipio={nombreProv} ></CuentaBancaria>
-        </ModalForm>
+          <CuentaBancaria idmunicipio={id} municipio={nombreProv} handleCloseModal={handleClose} ></CuentaBancaria>
 
       ) : (
         ""

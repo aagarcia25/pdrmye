@@ -172,7 +172,7 @@ export const Municipios = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "¿Estás seguro de eliminar este registro??",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -334,9 +334,7 @@ export const Municipios = () => {
 
       {openCC ? (
         // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
-        <ModalForm title={"Cuentas Bancarias"} handleClose={handleClose}>
-          <CuentaBancaria idmunicipio={id} municipio={nombreMun} />
-        </ModalForm>
+          <CuentaBancaria idmunicipio={id} municipio={nombreMun} handleCloseModal={handleClose} />
 
       ) : (
         ""

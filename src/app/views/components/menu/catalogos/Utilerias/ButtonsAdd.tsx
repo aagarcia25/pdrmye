@@ -13,12 +13,12 @@ const ButtonsAdd = ({
   return (
     <>
       {agregar ? (
-          <TooltipPersonalizado
-            title={<React.Fragment><Typography variant='h6' className='tooltipLogos'>Agregar</Typography></React.Fragment>}>
+          <Tooltip
+            title={"Agregar"}>
             <ToggleButton  className="guardar" value="check" onClick={() => handleOpen(1)}>
               <AddIcon />
             </ToggleButton>
-          </TooltipPersonalizado>
+          </Tooltip>
 
       ) : (
         ""

@@ -31,13 +31,13 @@ export const ParametrosGeneralesModal = ({
   const [nombre, setNombre] = useState("");
   const [valor, setValor] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [slug, setSlug] = useState("");
+  const [referencia, setReferencia] = useState("");
 
 
   const user: RESPONSE = JSON.parse(String(getUser()));
 
   const handleSend = () => {
-    if (nombre === "" || valor === "" || slug=== ""|| descripcion==="") {
+    if (nombre === "" || valor === "" || referencia=== ""|| descripcion==="") {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Completar los Campos",
@@ -51,7 +51,7 @@ export const ParametrosGeneralesModal = ({
         NOMBRE: nombre,
         VALOR: valor,
         DESCRIPCION: descripcion,
-        SLUG: slug,
+        SLUG: referencia,
       };
       handleRequest(data);
       handleClose();
@@ -73,7 +73,7 @@ export const ParametrosGeneralesModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
       } else {
         AlertS.fire({
@@ -90,7 +90,7 @@ export const ParametrosGeneralesModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "¡Registro Editado!",
         });
       } else {
         AlertS.fire({
@@ -110,7 +110,7 @@ export const ParametrosGeneralesModal = ({
       setNombre(dt?.row?.Nombre);
       setValor(dt?.row?.Valor);
       setDescripcion(dt?.row?.Descripcion);
-      setSlug(dt?.row?.slug);
+      setReferencia(dt?.row?.slug);
     }
   }, [dt]);
 
@@ -121,7 +121,22 @@ export const ParametrosGeneralesModal = ({
         <Box>
     
             <Container maxWidth="sm">
-          <label className="Titulo">{nombre}</label>
+          <TextField
+            required
+            margin="dense"
+            id="Nombre"
+            label="Nombre"
+            value={nombre}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setNombre(v.target.value)}
+            error={!nombre ? true : false}
+            inputProps={{maxLength: 100,}}
+            disabled ={modo==="Editar"}
+            
+            
+          />
           <TextField
             required
             margin="dense"
@@ -141,12 +156,12 @@ export const ParametrosGeneralesModal = ({
             margin="dense"
             id="slug"
             label="Referencia"
-            value={slug}
+            value={referencia}
             type="text"
             fullWidth
             variant="standard"
-            onChange={(v) => setSlug(v.target.value)}
-            error={!slug ? true : false}
+            onChange={(v) => setReferencia(v.target.value)}
+            error={!referencia ? true : false}
             inputProps={{maxLength: 100,}}
             
           />

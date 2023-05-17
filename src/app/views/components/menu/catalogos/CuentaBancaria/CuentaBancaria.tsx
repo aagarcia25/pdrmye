@@ -14,11 +14,15 @@ import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import ModalAlert from "../../../componentes/ModalAlert";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import { CuentaBancariaModal } from "./CuentaBancariaModal";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import ModalForm from "../../../componentes/ModalForm";
 
 export const CuentaBancaria = ({
   idmunicipio,
-  municipio
+  municipio,
+  handleCloseModal
 }: {
+  handleCloseModal: Function;
   idmunicipio: string,
   municipio: string
 
@@ -42,7 +46,7 @@ export const CuentaBancaria = ({
   const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
 
 
-  const handleAccion = (v: any ,est:string) => {
+  const handleAccion = (v: any, est: string) => {
     if (v.tipo === 1) {
       setTipoOperacion(2);
       setOpen(true);
@@ -50,7 +54,7 @@ export const CuentaBancaria = ({
     } else if (v.tipo === 2) {
       Swal.fire({
         icon: "info",
-        title: "¿Estás seguro de eliminar este registro??",
+        title: "¿Estás seguro de eliminar este registro?",
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: "Confirmar",
@@ -136,7 +140,7 @@ export const CuentaBancaria = ({
       width: 10,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -150,7 +154,7 @@ export const CuentaBancaria = ({
               </IconButton>
             </Tooltip>
 
-            { 
+            {
               ((v.row.EstatusDescripcion === "INICIO" || v.row.ControlInterno === "DAMOP_REGRESADO") && (user.DEPARTAMENTOS[0]?.NombreCorto === "MUN" && user.PERFILES[0]?.Referencia === "MUN") ? (
                 <>
                   <Tooltip title="Enviar a Validación">
@@ -166,7 +170,7 @@ export const CuentaBancaria = ({
                     eliminar={eliminar}
                   />
                 </>
-              ) : 
+              ) :
                 "")
             }
             {
@@ -191,6 +195,7 @@ export const CuentaBancaria = ({
       field: "FechaCreacion",
       headerName: "Fecha Creación",
       description: "Fecha Creación",
+
       width: 150,
     },
     {
@@ -199,32 +204,38 @@ export const CuentaBancaria = ({
       description: "Usuario Generador",
       width: 150,
     },
-    { field: "NombreCuenta", 
-    headerName: "Nombre de la Cuenta", 
-    description: "Nombre de la Cuenta", 
-    width: 250 
-  },
-    { field: "NombreBanco", 
-    headerName: "Banco",
-    description: "Banco",
-     width: 150 
+    {
+      field: "NombreCuenta",
+      headerName: "Nombre de la Cuenta",
+      description: "Nombre de la Cuenta",
+      width: 250
+    },
+    {
+      field: "NombreBanco",
+      headerName: "Banco",
+      description: "Banco",
+      width: 150
     },
 
-    { field: "NumeroCuenta", 
-    headerName: "Cuenta", 
-    description: "Cuenta",
-    width: 250 
-  },
-    { field: "ClabeBancaria",
-    headerName: "Clabe", 
-    description: "Clabe", 
-    width: 250 },
-   
-    { field: "EstatusDescripcion", 
-    headerName: "Estatus", 
-    description: "Estatus", 
-    width: 250 
-  },
+    {
+      field: "NumeroCuenta",
+      headerName: "Cuenta",
+      description: "Cuenta",
+      width: 250
+    },
+    {
+      field: "ClabeBancaria",
+      headerName: "Clabe",
+      description: "Clabe",
+      width: 250
+    },
+
+    {
+      field: "EstatusDescripcion",
+      headerName: "Estatus",
+      description: "Estatus",
+      width: 250
+    },
   ];
 
   const handleClose = () => {
@@ -242,9 +253,9 @@ export const CuentaBancaria = ({
 
   const consulta = () => {
 
-    let data ={
-      CHUSER: idmunicipio !== "" ? idmunicipio : user.MUNICIPIO[0]?.id, 
-      NUMOPERACION: idmunicipio !== "" ?6:4,
+    let data = {
+      CHUSER: idmunicipio !== "" ? idmunicipio : user.MUNICIPIO[0]?.id,
+      NUMOPERACION: idmunicipio !== "" ? 6 : 4,
 
     };
     CatalogosServices.CuentaBancaria(data).then((res) => {
@@ -264,28 +275,30 @@ export const CuentaBancaria = ({
       }
     });
   };
-/////////////////////////////////////////////////////
+  const handleBorrar = () => {
+  };
+  /////////////////////////////////////////////////////
 
 
 
-const text = '123456';
+  const text = '123456';
 
-async function digestMessage(message:string) {
-  const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
-  const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
-  return hashHex;
-}
+  async function digestMessage(message: string) {
+    const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
+    const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+    return hashHex;
+  }
 
 
 
-///////////////////////////////////////////////
+  ///////////////////////////////////////////////
   useEffect(() => {
- 
+
 
     ////////////////////////
-    const digestHex =  digestMessage(text);
+    const digestHex = digestMessage(text);
 
     ////////////////
 
@@ -319,41 +332,43 @@ async function digestMessage(message:string) {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%", paddingLeft:"1%", paddingRight:"1%"}}>
-      {open ? (
-        <CuentaBancariaModal
-          open={open}
-          tipo={tipoOperacion}
-          handleClose={handleClose}
-          dt={vrows}
-        />
-      ) : (
-        ""
-      )}
+    <ModalForm title={"Cuentas Bancarias"} handleClose={handleCloseModal}>
+      <div style={{ height: 600, width: "100%", paddingLeft: "1%", paddingRight: "1%" }}>
+        {open ? (
+          <CuentaBancariaModal
+            open={open}
+            tipo={tipoOperacion}
+            handleClose={handleClose}
+            dt={vrows}
+          />
+        ) : (
+          ""
+        )}
 
-      {openModal ? (
-        <ModalAlert
-          open={openModal}
-          tipo={texto}
-          handleClose={handleClose}
-          vrows={vrows}
-          handleAccion={handleAccion}
-          accion={3} />
-      ) : (
-        ""
-      )}
+        {openModal ? (
+          <ModalAlert
+            open={openModal}
+            tipo={texto}
+            handleClose={handleClose}
+            vrows={vrows}
+            handleAccion={handleAccion}
+            accion={3} />
+        ) : (
+          ""
+        )}
 
-      <Grid container >
-        <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-          <Typography
-            sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-            {idmunicipio !== "" ? "Municipio: "+nombreMun: "Cuentas Bancarias: "+nombreMun}
-          </Typography>
+        <Grid container >
+          <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+            <Typography variant="h4">
+              {idmunicipio !== "" ? "Municipio: " + nombreMun : "Cuentas Bancarias: " + nombreMun}
+            </Typography>
+          </Grid>
         </Grid>
-      </Grid>
 
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGrid columns={columns} rows={cuentaBancaria} />
-    </div>
+        <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+       
+        <MUIXDataGrid columns={columns} rows={cuentaBancaria} />
+      </div>
+    </ModalForm>
   );
 };

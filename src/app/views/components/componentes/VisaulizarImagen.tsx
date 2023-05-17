@@ -1,6 +1,5 @@
 import { Grid } from '@mui/material';
-import { useEffect, useState } from 'react'
-import { RESPONSESTORAGE } from '../../../interfaces/user/UserInfo';
+import { useEffect, useState } from 'react';
 import { AuthService } from '../../../services/AuthService';
 interface Props {
     ubicacion: string;

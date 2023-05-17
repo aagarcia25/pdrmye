@@ -29,7 +29,7 @@ const UsuarioResponsable = ({
   const [usuariosDelegado, setUsuariosDelegado] = useState<SelectValues[]>([]);
   const [userid, setUserId] = useState<string>("");
   const [usedelegadoid, setuserdelegadoid] = useState<string>("");
-  const [nuevaRelacion, setNuevaRelacion] = useState<boolean>();
+  const [nuevaRelacion, setNuevaRelacion] = useState<boolean>(true);
   const [nuevoRegistro, setNuevoRegistro] = useState<boolean>(false);
 
   const [idReg, setIdReg] = useState<string>("");
@@ -62,48 +62,48 @@ const UsuarioResponsable = ({
 
     if (tipo === "MUN") {
 
-    let data = {
-      NUMOPERACION: 5,
-      CHID: id
-    };
+      let data = {
+        NUMOPERACION: 5,
+        CHID: id
+      };
 
 
-    CatalogosServices.municipios(data).then((res) => {
+      CatalogosServices.municipios(data).then((res) => {
 
-      if (res.RESPONSE.length === 0) {
-        setNuevaRelacion(true);
-        setuserdelegadoid("");
-        setUserId("");
-      } else {
-        setNuevaRelacion(false);
-        setUserId(res?.RESPONSE[0]?.idUsuario);
-        setuserdelegadoid(res?.RESPONSE[0]?.idUsuarioDelegado ? res?.RESPONSE[0]?.idUsuarioDelegado : "");
-        setIdReg(res?.RESPONSE[0]?.id)
-      }
-    });
-  }
-  if (tipo === "ORG") {
+        if (res.RESPONSE.length === 0) {
+          setNuevaRelacion(true);
+          setuserdelegadoid("");
+          setUserId("");
+        } else {
+          setNuevaRelacion(false);
+          setUserId(res?.RESPONSE[0]?.idUsuario);
+          setuserdelegadoid(res?.RESPONSE[0]?.idUsuarioDelegado ? res?.RESPONSE[0]?.idUsuarioDelegado : "");
+          setIdReg(res?.RESPONSE[0]?.id)
+        }
+      });
+    }
+    if (tipo === "ORG") {
 
-    let data = {
-      NUMOPERACION: 5,
-      CHID: id
-    };
+      let data = {
+        NUMOPERACION: 5,
+        CHID: id
+      };
 
 
-    CatalogosServices.Organismos(data).then((res) => {
+      CatalogosServices.Organismos(data).then((res) => {
 
-      if (res.RESPONSE.length === 0) {
-        setNuevaRelacion(true);
-        setuserdelegadoid("");
-        setUserId("");
-      } else {
-        setNuevaRelacion(false);
-        setUserId(res?.RESPONSE[0]?.idUsuarioRes);
-        setuserdelegadoid(res?.RESPONSE[0]?.idDelegado ? res?.RESPONSE[0]?.idDelegado : "");
-        setIdReg(res?.RESPONSE[0]?.id)
-      }
-    });
-  }
+        if (res.RESPONSE.length === 0) {
+          setNuevaRelacion(true);
+          setuserdelegadoid("");
+          setUserId("");
+        } else {
+          setNuevaRelacion(false);
+          setUserId(res?.RESPONSE[0]?.idUsuarioRes);
+          setuserdelegadoid(res?.RESPONSE[0]?.idDelegado ? res?.RESPONSE[0]?.idDelegado : "");
+          setIdReg(res?.RESPONSE[0]?.id)
+        }
+      });
+    }
 
   };
 
@@ -112,7 +112,7 @@ const UsuarioResponsable = ({
     let data = {
       NUMOPERACION: nuevaRelacion ? 6 : 8,
       IDUSUARIO: userid,
-      IDUSUARIODELEGADO: usedelegadoid==="false"?"":usedelegadoid,
+      IDUSUARIODELEGADO: usedelegadoid === "false" ? "" : usedelegadoid,
       IdMunOrg: id,
       CHID: idReg,
     };
@@ -135,18 +135,18 @@ const UsuarioResponsable = ({
           eliminar ?
             Toast.fire({
               icon: "error",
-              title: "Relación Eliminada!",
+              title: "¡Relación Eliminada!",
             })
             :
             Toast.fire({
               icon: "info",
-              title: nuevaRelacion ? "Registro Agregado!" : "Registro Actualizado!",
+              title: nuevaRelacion ? "¡Relación Asignada!" : "¡Relación Actualizada!",
             });
         }
       });
     }
     if (tipo === "ORG") {
-     
+
       CatalogosServices.Organismos(eliminar ? dataElim : data).then((res) => {
         if (res.SUCCESS) {
           loadinfo();
@@ -157,12 +157,12 @@ const UsuarioResponsable = ({
           eliminar ?
             Toast.fire({
               icon: "error",
-              title: "Relación Eliminada!",
+              title: "¡Relación Eliminada!",
             })
             :
             Toast.fire({
               icon: "info",
-              title: nuevaRelacion ? "Registro Agregado!" : "Registro Actualizado!",
+              title: nuevaRelacion ? "¡Relación Agregado!" : "¡Relación Actualizada!",
             });
         }
       });
@@ -183,70 +183,68 @@ const UsuarioResponsable = ({
           "Usuario Responsable del Municipio: " + nombre
           : "Usuario Responsable del Organismo: " + nombre}
         handleClose={handleClose} >
-        <Box boxShadow={3} paddingTop={3}>
-          <Grid container spacing={1}>
-            <Grid xs={3}> </Grid>
-            <Grid xs={5}>
-              <Grid item xs={12} paddingBottom={2}>
-                <Typography variant="h6"> Usuario Responsable </Typography>
-              </Grid>
-              <Grid item xs={12} paddingBottom={2}>
-                <SelectFrag
-                  value={userid}
-                  options={usuarios}
-                  onInputChange={handleChange1}
-                  placeholder={"Seleccione Usuario"}
-                  label={""}
-                  disabled={false}
-                />
-              </Grid>
+        <div className="containerCente">
+          <Box display={"flex"} paddingTop={3} justifyContent={"center"}>
 
-              <Grid item xs={12} paddingBottom={2}>
-                <Typography variant="h6">Usuario Delegado</Typography>
-              </Grid>
-              <Grid item xs={12} paddingBottom={2}>
-                <SelectFrag
-                  value={usedelegadoid}
-                  options={usuariosDelegado}
-                  onInputChange={handleChange2}
-                  placeholder={"Seleccione Usuario"}
-                  label={""}
-                  disabled={false}
-                />
-              </Grid>
+            <Grid boxShadow={3} container item xs={12} sm={10} md={8} lg={5} spacing={1} padding={2} alignItems="center" justifyContent="center">
 
-              <Grid item xs={12} paddingBottom={2}>
-                <Grid container direction="row" justifyContent="space-between" alignItems="center" spacing={1} >
-                  {/* <Grid item container xs={12}   justifyContent="space-between" >  */}
-                  <Button
-                    disabled={!nuevoRegistro || userid === undefined || userid === "false"
-                      // userid=== undefined || userid==="false" || usedelegadoid===undefined ||usedelegadoid==="false" 
-                    }
-                    className="editar"
-                    onClick={() => saveInfo(false)}
-                    sx={{ fontFamily: "sans-serif" }}
-                  >
-                    {nuevaRelacion ? "Asignar" : "Actualizar"}
-                  </Button>
-                  {!nuevaRelacion ?
+              <Grid item xs={12}>
+                <Grid item xs={12} paddingBottom={2}>
+                  <Typography variant="h6"> Usuario Responsable </Typography>
+                </Grid>
+                <Grid item xs={12} paddingBottom={2}>
+                  <SelectFrag
+                    value={userid}
+                    options={usuarios}
+                    onInputChange={handleChange1}
+                    placeholder={"Seleccione Usuario"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+
+                <Grid item xs={12} paddingBottom={2}>
+                  <Typography variant="h6">Usuario Delegado</Typography>
+                </Grid>
+                <Grid item xs={12} paddingBottom={2}>
+                  <SelectFrag
+                    value={usedelegadoid}
+                    options={usuariosDelegado}
+                    onInputChange={handleChange2}
+                    placeholder={"Seleccione Usuario"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+                <Grid container direction="row" justifyContent="center" alignItems="center" spacing={1} >
+                  <Grid item xs={12} md={6} paddingBottom={2}>
                     <Button
-                      className="regresar"
-                      color="error"
-                      onClick={() => saveInfo(true)}
-                      sx={{ fontFamily: "sans-serif" }}
-                    >
-                      Eliminar relación
-                    </Button> :
+                      disabled={!nuevoRegistro || userid === undefined || userid === "false"}
+                      className="agregar"
+                      onClick={() => saveInfo(false)} >
+                      {nuevaRelacion ? "Asignar" : "Actualizar"}
+                    </Button>
+                  </Grid>
+                  {!nuevaRelacion ?
+                    <Grid item xs={12} md={6} paddingBottom={2}>
+                      <Button
+                        className="cancelar"
+                        onClick={() => saveInfo(true)}
+                      >
+                        Eliminar relación
+                      </Button>
+                    </Grid>
+                    :
                     ""
 
                   }
 
-                  {/* </Grid> */}
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </Box>
+
+          </Box>
+        </div>
       </ModalForm>
     </>
   );
