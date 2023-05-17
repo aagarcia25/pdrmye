@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { AlertS } from "../../../helpers/AlertS";
@@ -11,15 +11,17 @@ import Swal from "sweetalert2";
 import { ValidaSesion } from "../../../services/UserServices";
 import { VisaulizarImagen } from "../componentes/VisaulizarImagen";
 import { TextFieldFormatoMoneda } from "../componentes/TextFieldFormatoMoneda";
+import SliderProgress from "../SliderProgress";
 
 
 const AgregarContactoMunicipio = () => {
 
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [primerInicio, setPrimerInicio] = useState(true);
-
+    const [openSlider, setOpenSlider] = useState(true);
     const [uploadFile, setUploadFile] = useState("");
     const [escudo, setEscudo] = useState("");
+    const [urlImagenPreview, setUrlImagenPreview] = useState("");
 
     const [nombreArchivo, setNombreArchivo] = useState("");
     const [newImage, setNewImage] = useState(Object);
@@ -49,22 +51,20 @@ const AgregarContactoMunicipio = () => {
 
 
     const consulta = () => {
+        setOpenSlider(true);
         formData.append("NUMOPERACION", "4");
         formData.append("IDMUNICIPIO", user?.MUNICIPIO[0]?.id);
-
         CatalogosServices.municipioInformacion(formData).then((res) => {
             if (res.SUCCESS) {
-                Toast.fire({
-                    icon: "success",
-                    title: "Lista Obtenida!",
-                });
 
                 if (res.RESPONSE.length !== 0) {
+
                     if (primerInicio) {
                         setValores(res.RESPONSE);
                     }
                     setNuevoRegistro(false);
-
+                    setValores(res.RESPONSE);
+                    setOpenSlider(false);
                 } else {
                     setNuevoRegistro(true)
                 }
@@ -75,27 +75,30 @@ const AgregarContactoMunicipio = () => {
     }
 
     function enCambioFile(event: any) {
+        setOpenSlider(true);
         if (event.target.files[0].type.split("/")[0] === "image") {
-            setUploadFile(URL.createObjectURL(event.target.files[0]));
+            setUrlImagenPreview(URL.createObjectURL(event.target.files[0]));
             setNombreArchivo(event.target.value.split("\\")[2]);
             let file = event.target!.files[0]!;
             setNewImage(file);
-        } else {
+            setOpenSlider(false);
 
+        } else {
+            setOpenSlider(false);
             Swal.fire("¡No es una imagen!", "", "warning");
         }
 
     }
 
     const onClick = () => {
-
+        ValidaSesion();
         setOpenDialogConfirmacion(true)
     };
 
-
-
     const guardarRegistro = () => {
-        var TOKEN = String(getToken());
+        setOpenSlider(true);
+        ValidaSesion();
+        var TOKEN = JSON.parse(String(getToken()));
         formData.append("NUMOPERACION", nuevoRegistro ? "1" : "2");
         formData.append("CHID", id)
         formData.append("CHUSER", user.id);
@@ -120,11 +123,12 @@ const AgregarContactoMunicipio = () => {
 
         if (nombreArchivo !== "") {
             formData.append("ESCUDO", newImage, nombreArchivo);
+            formData.append("TOKEN", TOKEN);
         }
         else {
             formData.append("ESCUDO", "");
         }
-        formData.append("TOKEN", TOKEN);
+
         agregar(formData);
 
 
@@ -146,6 +150,7 @@ const AgregarContactoMunicipio = () => {
                 setEscudo(res.RESPONSE);
                 // limpiar();
                 setEditar(false);
+                setOpenSlider(false);
 
 
             } else {
@@ -155,6 +160,7 @@ const AgregarContactoMunicipio = () => {
                     icon: "error",
                 });
             }
+            setOpenSlider(false);
         });
         setEditar(false);
 
@@ -180,33 +186,36 @@ const AgregarContactoMunicipio = () => {
         setCelEnlace(data.CelularEnlace);
         setMailEnlace(data.CorreoEnlace);
         setExtTelTesorero(data.ExtTelefonoTesorero);
+        setOpenSlider(false);
 
     }
     const handleChange = (value: number) => {
-        // console.log(value)
-        // setTelMun(value);
 
     };
 
-    const limpiar = () => {
-        setEscudo("")
-        setMunicipio("")
-        setTesorero("")
-        setResponable("")
-        setDomicilio("")
-        setTelMun("")
-        setHorario("")
-        setUploadFile("")
-        setWeb("")
-        setRfc("")
-        setMailMun("")
-        setTelTesorero("")
-        setCelTesorero("")
-        setMailTesorero("")
-        setEnlace("")
-        setCelEnlace("")
-        setMailEnlace("")
-        setExtTelTesorero("")
+    const limpiar = (modo: string) => {
+        setUrlImagenPreview("");
+        setEscudo("");
+        setMunicipio("");
+        setTesorero("");
+        setResponable("");
+        setDomicilio("");
+        setTelMun("");
+        setHorario("");
+        setUploadFile("");
+        setWeb("");
+        setRfc("");
+        setMailMun("");
+        setTelTesorero("");
+        setCelTesorero("");
+        setMailTesorero("");
+        setEnlace("");
+        setCelEnlace("");
+        setMailEnlace("");
+        setExtTelTesorero("");
+        if (modo === "cancelar") {
+            consulta()
+        }
     }
 
 
@@ -220,30 +229,43 @@ const AgregarContactoMunicipio = () => {
     return (
         //Box padre
         <>
+            <SliderProgress open={openSlider} />
             {editar ?
-                <>
-                    <Grid container direction="column" justifyContent="center" alignItems="center">
-                        <Grid sx={{ width: "300px", height: "300px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <div className="CargaDeArchivosCuenta">
+                <Grid item container direction="row" justifyContent="center" alignItems="center">
+                    <Grid item container direction="row" justifyContent="center" alignItems="center">
+                        <div className="CargaDeArchivosCuenta">
+                            <IconButton
+                                component="label"
+                                sx={{ borderRadius: 1, width: "100%", height: "100%" }}
+                            >
                                 <input
+                                    hidden
                                     id="imagencargada"
                                     accept="image/*"
                                     onChange={(v) => { enCambioFile(v) }}
                                     type="file"
-                                    style={{ zIndex: 2, opacity: 0, width: '100%', height: '100%', position: "absolute", cursor: "pointer", }}
+                                    style={{ width: '100%', height: '100%', position: "relative", cursor: "pointer", }}
                                 />
-                                {!escudo ?
-                                    <AddPhotoAlternateIcon sx={{ width: "300px", height: "300px", }} /> :
-                                    <>
-                                        {uploadFile ?
-                                            <img src={uploadFile} style={{ objectFit: "scale-down", width: "100%", height: "100%" }} />
+                                {
+                                    urlImagenPreview ?
+                                        <img src={urlImagenPreview} style={{ alignItems: "center", objectFit: "scale-down", width: "100%", height: "100%", borderRadius: "0" }} />
+
+                                        : escudo ?
+                                            <VisaulizarImagen ubicacion={"/FOTOPERFIL/"} name={escudo} />
                                             :
-                                            <VisaulizarImagen ubicacion={"FOTOPERFIL"} name={escudo} />
-                                        }
-                                    </>
+                                            <>
+                                                <AddPhotoAlternateIcon sx={{ width: "100%", height: "100%", }} />
+                                                {/* <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
+                                        src={"data:"+imgTipo+";base64," + imgData}
+                                      /> */}
+                                            </>
+
+
+
                                 }
-                            </div>
-                        </Grid>
+                            </IconButton>
+                        </div>
+                        {/* <img src={uploadFile} style={{ objectFit: "scale-down", width: "100%", height: "100%" }} /> */}
                     </Grid>
 
                     <Grid container direction="column" justifyContent="center" alignItems="center" padding={3} >
@@ -361,7 +383,7 @@ const AgregarContactoMunicipio = () => {
                                                     required
                                                     multiline
                                                     // margin="dense"
-                                                    label="Pagina Web"
+                                                    label="Página Web"
                                                     value={web}
                                                     type="text"
                                                     size="small"
@@ -430,7 +452,7 @@ const AgregarContactoMunicipio = () => {
                                                         <TextField
                                                             required
                                                             multiline
-                                                            label="Telefono Tesorero"
+                                                            label="Teléfono Tesorero"
                                                             value={telTesorero}
                                                             type="text"
                                                             size="small"
@@ -465,13 +487,13 @@ const AgregarContactoMunicipio = () => {
                                                     </Grid>
                                                 </Grid>
                                             </Grid>
-                                            <Grid container justifyContent="space-between" alignItems="center" xs={12} sm={6} md={4} lg={4} >
+                                            <Grid container item justifyContent="space-between" alignItems="center" xs={12} sm={6} md={4} lg={4} >
                                                 <Grid item xs={12} sm={2} md={2} lg={2}  ></Grid>
                                                 <Grid item xs={12} sm={10} md={10} lg={10}  >
                                                     <TextField
                                                         required
                                                         // margin="dense"
-                                                        label="Celular Tesorero"
+                                                        label="Teléfono Móvil Tesorero"
                                                         value={celTesorero}
                                                         type="text"
                                                         inputProps={{ maxLength: 10 }}
@@ -482,11 +504,10 @@ const AgregarContactoMunicipio = () => {
                                                         onChange={(v) => setCelTesorero((v.target.value))}
                                                         error={String(Number(celTesorero)) === "NaN"}
                                                         helperText={(celTesorero === "") ? "No se pueden enviar campos vacios" : null}
-
                                                     />
                                                 </Grid>
                                             </Grid>
-                                            <Grid container justifyContent="space-between" alignItems="center" xs={12} sm={6} md={4} lg={4} >
+                                            <Grid container item justifyContent="space-between" alignItems="center" xs={12} sm={6} md={4} lg={4} >
                                                 <Grid item xs={12} sm={2} md={2} lg={2}  ></Grid>
                                                 <Grid item xs={12} sm={10} md={10} lg={10}  >
                                                     <TextField
@@ -539,7 +560,7 @@ const AgregarContactoMunicipio = () => {
                                                 <TextField
                                                     required
                                                     multiline
-                                                    label="Celular Enlace"
+                                                    label="Teléfono Móvil Enlace"
                                                     value={celEnlace}
                                                     type="text"
                                                     size="small"
@@ -574,10 +595,14 @@ const AgregarContactoMunicipio = () => {
                                                 <Box display="flex" flexDirection="row-reverse">
                                                     <Box display="flex" flexDirection="row" >
                                                         <Box paddingRight={2}>
-                                                            <Button variant="outlined" onClick={() => { limpiar() }}>Limpiar</Button>
+                                                            <Button className="agregar" variant="outlined" onClick={() => { limpiar("") }}>Limpiar</Button>
                                                         </Box>
                                                         <Box paddingRight={2}>
+                                                            <Button className="cancelar" variant="outlined" onClick={() => { limpiar("cancelar"); setEditar(false); }}>Cancelar</Button>
+                                                        </Box>
+                                                        <Box >
                                                             <Button
+                                                                className="agregar"
                                                                 disabled={
                                                                     municipio === ""
                                                                     || domicilio === ""
@@ -607,9 +632,7 @@ const AgregarContactoMunicipio = () => {
                                                                     "Guardar Cambios"}
                                                             </Button>
                                                         </Box>
-                                                        <Box>
-                                                            <Button variant="outlined" onClick={() => { limpiar(); setEditar(false); }}>Cancelar</Button>
-                                                        </Box>
+
                                                     </Box>
                                                 </Box>
 
@@ -625,37 +648,20 @@ const AgregarContactoMunicipio = () => {
 
 
 
-                </>
+                </Grid>
                 :
                 <Grid container direction="column" justifyContent="center" alignItems="center" sx={{ paddingBottom: "5%" }}   >
-
-                    <Grid container direction="column" justifyContent="center" alignItems="center"  >
-
-                        <Grid sx={{ width: "300px", height: "300px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <Box boxShadow={3} padding={1} sx={{ bgcolor: "white", }} >
-                                {escudo ?
-                                    <VisaulizarImagen ubicacion={"FOTOPERFIL"} name={escudo} />
-
-                                    :
-                                    <>
-                                        <AddPhotoAlternateIcon sx={{ width: "0%", height: "50%", }} />
-                                        {/* <img src={dato.Escudo} style={{ alignItems: "center", objectFit: "scale-down", width: "50%", height: "50%", borderRadius: "0" }} /> */}
-                                        {/* <img style={{ objectFit: "scale-down", width: "100%", height: "100%", borderRadius: '50%', }}
-                                        src={"data:"+imgTipo+";base64," + imgData}
-                                      /> */}
-                                    </>
-
-
-
-                                }
-                            </Box>
-                        </Grid>
-
-                    </Grid>
+                    <div className="CargaDeArchivosCuenta">
+                        {escudo ?
+                            <VisaulizarImagen ubicacion={"/FOTOPERFIL/"} name={escudo} />
+                            :
+                            <AddPhotoAlternateIcon sx={{ width: "100%", height: "100%", }} />
+                        }
+                    </div>
 
                     <Grid container direction="row" justifyContent="center" alignItems="center" >
 
-                        <Grid container item xs={12} md={11.5} lg={10.5} sx={{ boder: "6px solid", borderRadius: "20px", bgcolor: "white", paddingTop: "1%", paddingBottom: "1%" }}>
+                        <Grid container item xs={12} md={11.5} lg={11.8} sx={{ boder: "6px solid", borderRadius: "20px", bgcolor: "white", paddingTop: "1%", paddingBottom: "1%" }}>
                             <div className="div-agregarcontactomunicipio">
                                 <Grid item xs={12} md={12} container paddingTop={1}>
                                     <Grid item xs={6} md={2} textAlign="right" > <label className="TypographyH6Gray"> Municipio: </label> </Grid>
@@ -668,37 +674,36 @@ const AgregarContactoMunicipio = () => {
 
                                     <Grid item xs={6} md={2} textAlign="right" > <label className="TypographyH6Gray"> RFC: </label> </Grid>
                                     <Grid item xs={6} md={4} textAlign="left" > <label className="TypographyH6Black"> {rfc === null || rfc === "" || rfc === "\"\"" ? "Sin información" : rfc}</label> </Grid>
-                                    <Grid item xs={6} md={2} textAlign="right" > <label className="TypographyH6Gray"> Telefono: </label> </Grid>
+                                    <Grid item xs={6} md={2} textAlign="right" > <label className="TypographyH6Gray"> Teléfono: </label> </Grid>
                                     <Grid item xs={6} md={4} textAlign="left" > <label className="TypographyH6Black"> {telMun === "" ? "Sin información" : telMun}</label> </Grid>
 
                                     <Grid item xs={6} md={2} textAlign="right" > <label className="TypographyH6Gray"> Correo Municipio: </label> </Grid>
                                     <Grid item xs={6} md={4} textAlign="left" > <label className="TypographyH6Black"> {mailMun === "" || mailMun === null ? "Sin información" : mailMun}</label> </Grid>
-                                    <Grid item xs={6} md={2} textAlign="right" > <label className="TypographyH6Gray"> Pagina Web: </label>  </Grid>
+                                    <Grid item xs={6} md={2} textAlign="right" > <label className="TypographyH6Gray"> Página Web: </label>  </Grid>
                                     <Grid item xs={6} md={4} textAlign="left" > <label className="TypographyH6Black"> {web === "" ? "Sin información" : web}</label>  </Grid>
 
                                 </Grid>
 
-                                <Divider variant="middle" sx={{ padding: "1.3%" }} />
+                                <Divider variant="middle" />
 
                                 <Grid item xs={12} md={12} container paddingTop={3}>
                                     <Grid item xs={6} md={6} textAlign="right" > <label className="TypographyH6Gray"> Tesorero: </label> </Grid>
                                     <Grid item xs={6} md={6} textAlign="left" > <label className="TypographyH6Black"> {tesorero === "" ? "Sin información" : tesorero}</label> </Grid>
-                                    <Grid item xs={6} md={2} textAlign="right" > <label className="TypographyH6Gray"> Tel. Tesorero:  </label>  </Grid>
-                                    <Grid item xs={6} md={2} textAlign="left" >  <label className="TypographyH6Black"> {telTesorero === "" ? "Sin información" : telTesorero}</label> </Grid>
-                                    <Grid item xs={6} md={2} textAlign="right" > <label className="TypographyH6Gray"> Ext Tel. Tesorero:  </label> </Grid>
-                                    <Grid item xs={6} md={2} textAlign="left" > <label className="TypographyH6Black"> {extTelTesorero === "" ? "Sin información" : extTelTesorero}</label> </Grid>
-                                    <Grid item xs={6} md={2} textAlign="right" > <label className="TypographyH6Gray"> Celular Tesorero: </label> </Grid>
-                                    <Grid item xs={6} md={2} textAlign="left" > <label className="TypographyH6Black"> {celTesorero === "" ? "Sin información" : celTesorero}</label> </Grid>
+                                    <Grid item xs={6} md={3} textAlign="right" > <label className="TypographyH6Gray"> Tel. Tesorero:  </label>  </Grid>
+                                    <Grid item xs={6} md={3} textAlign="left" >  <label className="TypographyH6Black"> {telTesorero === "" ? "Sin información" : telTesorero}</label> </Grid>
+                                    <Grid item xs={6} md={3} textAlign="right" > <label className="TypographyH6Gray"> Teléfono Móvil Tesorero: </label> </Grid>
+                                    <Grid item xs={6} md={3} textAlign="left" > <label className="TypographyH6Black"> {celTesorero === "" ? "Sin información" : celTesorero}</label> </Grid>
+                                    <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Ext Tel. Tesorero:  </label> </Grid>
+                                    <Grid item xs={6} textAlign="left" > <label className="TypographyH6Black"> {extTelTesorero === "" ? "Sin información" : extTelTesorero}</label> </Grid>
 
                                 </Grid>
 
-                                <Divider variant="middle" sx={{ padding: "1.3%" }} />
+                                <Divider variant="middle" />
 
                                 <Grid item xs={12} md={12} container paddingTop={3}>
                                     <Grid item xs={6} textAlign="right" > <label className="TypographyH6Gray"> Enlace: </label> </Grid>
                                     <Grid item xs={6} textAlign="left" > <label className="TypographyH6Black"> {enlace === "" ? "Sin información" : enlace}</label>  </Grid>
-
-                                    <Grid item xs={6} textAlign="right" >  <label className="TypographyH6Gray"> Celular Enlace: </label> </Grid>
+                                    <Grid item xs={6} textAlign="right" >  <label className="TypographyH6Gray"> Teléfono Móvil Enlace: </label> </Grid>
                                     <Grid item xs={6} textAlign="left" > <label className="TypographyH6Black"> {celEnlace === "" ? "Sin información" : celEnlace}</label> </Grid>
                                     <Grid item xs={6} textAlign="right" >  <label className="TypographyH6Gray"> Correo Enlace:  </label> </Grid>
                                     <Grid item xs={6} textAlign="left" > <label className="TypographyH6Black"> {mailEnlace === "" ? "Sin información" : mailEnlace}</label> </Grid>
@@ -706,9 +711,9 @@ const AgregarContactoMunicipio = () => {
                                     <Grid item xs={6} textAlign="left" > <label className="TypographyH6Black"> {horario === "" ? "Sin información" : horario}</label>  </Grid>
                                 </Grid>
 
-                                <Grid item xs={12} md={12} container  >
-                                    <Grid container item xs={12} md={11.8} paddingBottom={1}   justifyContent="flex-end" >
-                                        <Button variant="outlined" onClick={() => { setEditar(true) }}>{nuevoRegistro ? "Registrar" : "Editar"}</Button>
+                                <Grid item xs={12} container justifyContent="flex-end"  >
+                                    <Grid container item xs={12} sm={4} md={3} lg={2} paddingBottom={2} paddingRight={2} >
+                                        <Button className="agregar" variant="outlined" onClick={() => { setEditar(true) }}>{nuevoRegistro ? "Registrar" : "Editar"}</Button>
                                     </Grid>
                                 </Grid>
                             </div>
@@ -725,26 +730,35 @@ const AgregarContactoMunicipio = () => {
                 onClose={() => setOpenDialogConfirmacion(false)}
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Agregar Contacto de Municipio"}
+                    <Typography variant="h5" className="TooltipPersonalizado"> Agregar Contacto de Municipio</Typography>
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        ¿ Desea guardar la información de {municipio} ?
+                        <Typography variant="h6"> ¿ Desea guardar la información de {municipio} ?</Typography>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button sx={{}} onClick={() => { setOpenDialogConfirmacion(false) }}>Cancelar</Button>
-                    <Button onClick={() => {
-                        setOpenDialogConfirmacion(false);
-                        guardarRegistro();
+                    <Grid container justifyContent={"space-between"}>
+                        <Grid item xs={5.5}>
+                            <Button className="cancelar" sx={{}} onClick={() => { setOpenDialogConfirmacion(false) }}>
+                                Cancelar
+                            </Button>
+                        </Grid>
+                        <Grid item xs={5.5}>
+                            <Button className="agregar" sx={{}} onClick={() => { setOpenDialogConfirmacion(false); guardarRegistro(); }} >
+                                Aceptar
+                            </Button>
+                        </Grid>
+                    </Grid>
 
-                    }} color="success">Aceptar</Button>
+
                 </DialogActions>
             </Dialog>
 
         </>
     )
 }
+
 export default AgregarContactoMunicipio;
 
 export interface IDatoMunicipio {

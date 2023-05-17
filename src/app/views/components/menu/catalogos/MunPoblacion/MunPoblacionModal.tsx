@@ -206,7 +206,9 @@ const MunPoblacionModal = ({
           >
             <Grid item xs={5} sm={3} md={2} lg={1}
             >
-              <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+              <Button 
+              disabled={!poblacion||!anio}
+              className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
             </Grid>
           </Grid>
         </Grid>

@@ -106,7 +106,7 @@ export const MunPobrezaExtrema = () => {
 
     Swal.fire({
       icon: "info",
-      title: "Solicitar La Eliminación?",
+      title: "¿Solicita la eliminación?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",

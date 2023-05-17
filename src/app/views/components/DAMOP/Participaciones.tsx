@@ -277,7 +277,7 @@ const Participaciones = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 100 + anchoAcciones,
+      width: 200  + anchoAcciones,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -1715,20 +1715,6 @@ const Participaciones = () => {
         else if (String(item.Referencia) === "AGREGDESC") {
           setPermisoAgregarDescuento(true);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       } setAnchoAcciones(ancho)
     });

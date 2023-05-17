@@ -39,7 +39,7 @@ export const Umas = () => {
     } else if (v.tipo === 2) {
       Swal.fire({
         icon: "info",
-        title: "Solicitar La Eliminación?",
+        title: "¿Solicita la eliminación?",
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: "Confirmar",
