@@ -30,7 +30,7 @@ import { Blanco } from "../../styles/imagen";
 import menuBurger from "../../../app/assets/img/menuBurger.svg";
 import logoNL from "../../../app/assets/img/logo1.svg";
 import ButtonsTutorial from "./menu/catalogos/Utilerias/ButtonsTutorial";
-
+import NotesIcon from '@mui/icons-material/Notes';
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -229,13 +229,6 @@ export default function Header(props: HeaderProps) {
           </IconButton>
         </Tooltip>  </>, name: 'Salir'
     },
-    {
-      icon:
-        <ButtonsTutorial route={"/VIDEOS/TUTORIALES/"} handleCloseMenuVideos={handleCloseMenuVideos} />, name: 'Tutoriales'
-    },
-
-
-
 
   ];
 
@@ -327,11 +320,13 @@ export default function Header(props: HeaderProps) {
 
           <Grid container item xs={6} sm={1} justifyContent="center" alignItems="center" alignContent="center" >
             <Tooltip title="Menú">
+
+
               <div className="Grid-MenuButton-Header">
-                <img className="img-MenuButton-Header"
-                  onClick={() => onDrawerToggle()}
-                  src={menuBurger}
-                />
+                <Button className="buttonMenuBurger"
+                  onClick={() => onDrawerToggle()}>
+                  <NotesIcon  sx={{ width: "100%", height: "100%", }} />
+                </Button>
               </div>
             </Tooltip>
           </Grid>
@@ -516,15 +511,19 @@ export default function Header(props: HeaderProps) {
                                 <HelpIcon className="IconoDentroBoton" />
                               </IconButton>   Guía Rapida
                             </MenuItem>
-                            <Grid className="containerMenuItemBotones">
-                              <ButtonsTutorial route={"/VIDEOS/TUTORIALES/"} handleCloseMenuVideos={handleCloseMenuVideos} />
-                            </Grid>
+                            <Hidden mdDown>
+                              <Grid className="containerMenuItemBotones">
+                                <ButtonsTutorial route={"/VIDEOS/TUTORIALES/"} handleCloseMenuVideos={handleCloseMenuVideos} />
+                              </Grid>
+
+                            </Hidden>
+
                             <MenuItem onClick={onLogOut}>
                               <IconButton onClick={onLogOut} >
                                 <LogoutIcon className="IconoDentroBoton" />
                               </IconButton>   Cerrar sesión
                             </MenuItem>
-                        
+
 
                           </MenuList>
                         </ClickAwayListener>

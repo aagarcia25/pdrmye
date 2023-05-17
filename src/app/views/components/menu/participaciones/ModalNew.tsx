@@ -203,7 +203,7 @@ const ModalNew = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
         onClickBack();
       } else {

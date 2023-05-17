@@ -1,8 +1,8 @@
-import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
 import { getUser } from "../../../services/localStorage";
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 const BotonesAPD = ({
   handleAccion,
   eliminar,

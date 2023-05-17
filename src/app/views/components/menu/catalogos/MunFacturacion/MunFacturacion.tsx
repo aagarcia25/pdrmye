@@ -43,18 +43,9 @@ export const MunFacturacion = () => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
       hide: true,
-      width: 150,
-      description: messages.dataTableColum.id,
-    },
-    {
-      field: "idmunicipio",
-      headerName: "idmunicipio",
-      hide: true,
-      width: 150,
-    },
-    {
+      hideable:false
+    },  {
       field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
@@ -63,10 +54,15 @@ export const MunFacturacion = () => {
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-
         );
       },
     },
+    {
+      field: "idmunicipio",
+      hide: true, 
+       hideable:false,
+    },
+  
     { field: "FechaCreacion", headerName: "Fecha Creación",description: "Fecha Creación", width: 180 },
     { field: "ClaveEstado",   headerName: "Clave Estado",  description: "Clave Estado",   width: 100 },
     { field: "Nombre",        headerName: "Municipio",     description: "Municipio",      width: 220 },
@@ -118,7 +114,7 @@ export const MunFacturacion = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "¿Estás seguro de eliminar este registro??",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",

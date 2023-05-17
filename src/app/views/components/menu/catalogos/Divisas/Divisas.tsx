@@ -153,7 +153,7 @@ export const Divisas = () => {
                         if (res.SUCCESS) {
                             Toast.fire({
                                 icon: "success",
-                                title: tipoOperacion === 1 ? "Registro Agregado!" : "Registro Editado!",
+                                title: tipoOperacion === 1 ? "¡Registro Agregado!" : "¡Registro Editado!",
                             });
 
                             handleClose();
@@ -178,7 +178,7 @@ export const Divisas = () => {
     const handleDelete = (v: any) => {
         Swal.fire({
             icon: "info",
-            title: "¿Estás seguro de eliminar este registro??",
+            title: "¿Estás seguro de eliminar este registro?",
             showDenyButton: true,
             showCancelButton: false,
             confirmButtonText: "Confirmar",

@@ -1,7 +1,6 @@
-import { DataGrid, esES as gridEsES, esES, GridToolbar, GridColumnVisibilityModel, } from "@mui/x-data-grid";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
-import { CustomToolbar } from "./menu/CustomToolbar";
+import { DataGrid, GridColumnVisibilityModel, GridToolbar, esES as gridEsES } from "@mui/x-data-grid";
 import React from "react";
 
 const theme = createTheme(coreEsES, gridEsES);
@@ -16,7 +15,11 @@ export default function MUIXDataGrid(props: any) {
     IdConCheque:false,
     TipoSolicitud:false,
     idbanco:false,
-    idestatus:false
+    idestatus:false,
+    IdRegistro:false,
+    Solicitud:false,
+    nombreMunicipio:false,
+    Tipo:false,
   });
   
 
@@ -25,6 +28,7 @@ export default function MUIXDataGrid(props: any) {
     <div style={{ height: 600, width: "100%" }}>
       <ThemeProvider theme={theme}>
         <DataGrid
+        
           {...props.rows}
           columns={props.columns}
           rows={props.rows}
@@ -43,7 +47,7 @@ export default function MUIXDataGrid(props: any) {
           getRowHeight={() => 'auto'}
         
           sx={{
-            fontFamily: "Poppins,sans-serif", fontWeight: '500',
+            fontFamily: "Poppins,sans-serif", fontWeight: '600',
             fontSize:"12px",
             // '& .super-app-theme--cell': {
             //   backgroundColor: 'rgba(224, 183, 60, 0.55)',

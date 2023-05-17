@@ -16,26 +16,28 @@
   color: '#000000',
 }
 
-h5.TooltipPersonalizado{
+h5.TooltipPersonalizado {
   /* position: absolute ; */
   /* right: 1; */
   /* left: 0; */
   border-radius: 20px;
   color: #15212f;
-  background-color:#ffffff00;
+  background-color: #ffffff00;
   background: #f9f9f940;
   font-weight: 500;
 
 }
-.ContainerSliderProgress{
-  background:#ffffff00;
+
+.ContainerSliderProgress {
+  background: #ffffff00;
   width: 100%;
   height: 100%;
-  opacity:0.5;
-  position: relative  ;
-  cursor: wait ;  
+  opacity: 0.5;
+  position: relative;
+  cursor: wait;
 }
-.containerVisualizarVideo{
+
+.containerVisualizarVideo {
   /* position: absolute  ; */
   /* overflow: visible  ; */
   /* opacity: .99; */
@@ -44,30 +46,32 @@ h5.TooltipPersonalizado{
   border-radius: 10px;
   width: 100%;
   height: 100%;
- /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625)  */
+
 }
 
-.containerPreVisualizarVideo{
-  background: #000;
-  background-color: #9f4242;
-  position: relative;
-  align-items: center;
-  align-content: center;
-  /* overflow: visible  ; */
-  /* opacity: .99; */
-  background: #ffffff00;
-  /* opacity:0.5; */
-  border-radius: 10px;
-  width: 100%;
-  height: 80%;
- /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625)  */
-}
-.container {
-  position: fixed;
-  overflow: hidden;
+
+video {
   width: 100%;
   height: 100%;
- /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625)  */
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  object-fit: scale-down;
+}
+
+.containerModalCargarVideos {
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  contain: content;
+  position: relative;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  min-height: 650px;
+  max-height: 650px;
+  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625)  */
 }
 
 
@@ -75,38 +79,65 @@ h5.TooltipPersonalizado{
 .containerVideosLista {
   z-index: 5000;
   contain: content;
-  position: static   ;
-  overflow: auto ;
+  position: static;
+  overflow: auto;
   width: 100%;
   height: 100%;
+  min-width: 400px;
   max-height: 500px;
- /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625)  */
+  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625)  */
 }
 
 .containerMenuItemBotones {
   contain: content;
-  position: static ;
-  overflow: visible   ;
+  position: static;
+  overflow: visible;
   /* width: 100%; */
   /* height: 100%; */
- /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625)  */
-} 
+  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625)  */
+}
+
+.contenedorDeReproductorVideo {
+  display: flex;
+  padding-top: 20px;
+  align-items: center;
+  justify-content: center;
+  contain: content;
+  background-color: #3cc52a00;
+  /* border-radius: 60px; */
+  position: static;
+  overflow: visible;
+  width: 100%;
+  height: 500px;
+  max-height: 60%;
+  /* max-width: 80%; */
+  min-height: 600px;
+  min-width: 500px;
+  /* max-width: 00px; */
+  /* max-height: 600px; */
+  /* height: 100%; */
+  /* border-bottom: 2px solid hsla(0, 8%, 83%, 0.24); */
+
+}
 
 .containerBotonesVideos {
-  background-color:#f3f3f300;
+  background-color: #f3f3f300;
   border-radius: 10px;
-  position: static ;
+  position: static;
   overflow: visible;
   width: 100%;
   max-width: 500px;
+  min-height: 600px;
+  max-height: 650px;
   /* max-height: 200px; */
   height: 100%;
   /* border-bottom: 2px solid hsla(0, 8%, 83%, 0.24); */
 
 }
+
 .containerBotonesControladoresVideos {
-  background-color:#e5e4e40f;
-  position: relative ;
+  background-color: #e5e4e40f;
+  position: relative;
   overflow: visible;
   /* min-width: 64px; */
   align-items: center;
@@ -119,8 +150,8 @@ h5.TooltipPersonalizado{
 
 .div-BotonesVideos {
   padding-top: 5px;
-  position: relative  ;
-  overflow: visible ;
+  position: relative;
+  overflow: visible;
   width: 100%;
   height: 100%;
   border-bottom: 2px solid hsla(0, 8%, 83%, 0.24);
@@ -150,7 +181,7 @@ button.VerVideos {
   color: #AF8C55;
   background-color: #f9f9f940;
   border-bottom: 2px solid hsla(0, 0%, 7%, 0.24);
-padding-left: 10px;
+  padding-left: 10px;
   width: 100%;
   box-shadow: rgba(115, 115, 64, 0.24) 0px 8px 16px 0px;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
@@ -161,6 +192,38 @@ button.VerVideos:hover {
   color: #AF8C55;
   box-shadow: rgba(88, 88, 22, 0.247) 0px 8px 16px 0px;
 
+}
+
+.containerCenter {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-content: center;
+  /* background: #793434; */
+  overflow: scroll;
+  width: 100%;
+  height: 100%;
+
+  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
+.containerShadow {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-content: center;
+  border-radius: 15px;
+  box-shadow: rgba(49, 49, 41, 0.24) 0px 8px 16px 0px;
+
+  background: #e9e7e7;
+  max-width: 60%;
+  min-width: 30%;
+  min-height: 20%;
+  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
 }
 
 .container-div {
@@ -192,18 +255,21 @@ img {
   border-radius: 40px;
 
 }
+
 img.LogoMenu {
   cursor: pointer;
 }
 
 img.img-MenuButton-Header {
   /* cursor: pointer; */
+  contain: strict;
+  color: rgb(175, 140, 85);
   object-fit: "scale-down";
   align-items: center;
   align-content: center;
   justify-content: center;
-  width: 24px;
-  height: 60px;
+  width: 100%;
+  height: 100%;
 
 }
 
@@ -267,6 +333,7 @@ h4 {
   justify-content: center;
   color: rgb(175, 140, 85);
 }
+
 h4.Cargando {
   font-family: sans-serif;
   text-align: center;
@@ -346,8 +413,8 @@ h5.label-UsuariosDisabled {
   justify-content: center;
 }
 
-h6.FuenteDeBotonesTooltip{
-font-size: 15px;
+h6.FuenteDeBotonesTooltip {
+  font-size: 15px;
   font-family: sans-serif;
   /* font-weight: bold; */
   color: #15212f;
@@ -363,7 +430,7 @@ h6 {
   /* mr: "2rem" */
 }
 
-h6.h6-justify{
+h6.h6-justify {
   font-family: sans-serif;
   font-weight: bold;
   color: #15212f;
@@ -596,6 +663,29 @@ button.cerrar:hover {
 
 }
 
+button.buttonMenuBurger {
+  object-fit: "scale-down";
+  background-color: rgba(255, 255, 255, 0);
+  color: rgb(195, 165, 117);
+  transition-duration: 0.2s;
+  cursor: pointer;
+  font-family: sans-serif;
+  width: 100%;
+  height: 100%;
+
+}
+
+button.buttonMenuBurger:hover {
+  object-fit: "scale-down";
+  background-color: rgba(255, 255, 255, 0);
+  color: rgb(195, 165, 117);
+  transition-duration: 0.2s;
+  cursor: pointer;
+  font-family: sans-serif;
+  width: 100%;
+  height: 100%;
+
+}
 
 button.salir {
   background-color: rgb(195, 165, 117);
@@ -608,20 +698,49 @@ button.salir {
   font-family: sans-serif;
 
 }
+
 button.cancelar {
-  font-size: 20px;
-  transition-duration: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  font-weight: 700;
+  line-height: 1.71429;
+  font-size: 0.875rem;
+  text-transform: capitalize;
   font-family: sans-serif;
+  min-width: 64px;
+  padding: 6px 16px;
+  border-radius: 8px;
+  color: rgb(255, 255, 255);
+  width: 100%;
+  box-shadow: rgba(103, 103, 22, 0.24) 0px 8px 16px 0px;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition-duration: 0.2s;
   background-color: #AF8C55;
-  color: rgb(18, 26, 22);
 
 }
+
+
 
 button.cancelar:hover {
-  color: rgb(5, 5, 5);
-  background-color:  #896937d0;
+  color: rgb(255, 255, 255);
+  background-color: #896937d0;
 
 }
+
+/* button.cancelar:disabled {
+  color: rgb(107, 107, 107);
+  background-color: #e3e1ded0;
+
+} */
 
 button.cancelarSolicitud {
   font-size: 20px;
@@ -716,6 +835,7 @@ button.ButtonColorGenericoHeaderProfileMovil {
   color: rgb(255, 255, 255);
   background-image: rgb(255, 255, 255);
 }
+
 button.ButtonColorGenericoHeaderProfileMovil:hover {
   height: 100%;
   width: 100%;
@@ -742,8 +862,8 @@ button.ButtonColorGenericoHeaderProfileMovil:hover {
   padding: 4px;
 }
 
-.containerHeaderPerfilVistaMovil{
-  overflow: visible ;
+.containerHeaderPerfilVistaMovil {
+  overflow: visible;
   /* contain: layout; */
   width: 100%;
   height: 60px;
@@ -1058,6 +1178,8 @@ button.agregar:hover {
 
 }
 
+
+
 button.enviar-mensaje {
 
   align-items: center;
@@ -1276,6 +1398,42 @@ label.nombre {
 
 }
 
+label.cancelar {
+
+  font-size: 20px;
+  transition-duration: 0.2s;
+  font-family: sans-serif;
+  background-color: #AF8C55;
+  color: rgb(255, 255, 255);
+
+}
+
+label.cancelar:hover {
+  font-size: 20px;
+  transition-duration: 0.2s;
+  font-family: sans-serif;
+  background-color: #bf934d;
+  color: rgb(255, 255, 255);
+
+}
+
+button:disabled,
+button[disabled] {
+  border: 1px solid #d8d5d5;
+  background-color: #e6e4e43f;
+  color: #8d8b8b;
+}
+
+label.cancelar:disabled,
+label[disabled] {
+  font-size: 20px;
+  transition-duration: 0.2s;
+  font-family: sans-serif;
+  background-color: #e9e8e8;
+  color: rgb(18, 26, 22);
+
+}
+
 .TextField {
   padding-bottom: 10%;
   resize: none;
@@ -1367,11 +1525,14 @@ label.gris {
 
 input.imagencargada {
   width: 100%;
-  height: 100%;          
+  height: 100%;
 
 }
 
+
 div.adminVideosEsperaCarga {
+  display: flex;
+  position: relative;
   cursor: pointer;
   contain: content;
   width: 100%;
@@ -1386,6 +1547,7 @@ div.adminVideosEsperaCarga {
   overflow: "hidden";
 
 }
+
 div.adminVideosCargado {
   cursor: pointer;
   contain: content;
@@ -1424,16 +1586,24 @@ div.div-agregarcontactomunicipio {
 
 }
 
+.Grid-MenuButton-Header {
+  scale: -1;
+  contain: content;
+  width: 80px;
+  height: 45px;
+  background-color: #fffefe8a;
+  border-color: #020000;
+  color: #dcdcdc;
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
+  overflow: "visible ";
+}
+
 .Grid-SolicitudesDeCambios {
   contain: content;
-  /* display: "display-inside" ; */
   width: 100%;
   height: 100%;
-  /* position: absolute ; */
-  /* top:  50px; */
-  /* left: 50px; */
-  /* bottom: 0%; */
-  /* padding-bottom: 0%; */
   background-color: #fffefe8a;
   border-color: #020000;
   border: 2px solid rgb(114, 114, 114);
@@ -1446,7 +1616,7 @@ div.div-agregarcontactomunicipio {
 
 }
 
-.GridContainerSliderProgress{
+.GridContainerSliderProgress {
   border: 2px solid rgb(114, 114, 114);
 
 }
@@ -1458,12 +1628,25 @@ div.div-agregarcontactomunicipio {
 }
 
 .HeaderModal {
+  z-index: 2000;
   background-color: #ffffff;
   border-bottom: 2px solid rgba(175, 140, 85, 0.641);
   padding-left: 22px;
   /* border:  */
 
 
+}
+
+button.iconButtonCargaVideos {
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  /* centrar vertical y horizontalmente */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -25px 0 0 -25px;
+  /* aplicar a top y al margen izquierdo un valor negativo para completar el centrado del elemento hijo */
 }
 
 button.itemMenu {
@@ -1486,11 +1669,11 @@ button.itemMenu::selection {
   padding-left: 30px;
 
 }
+
 .swal2-popup .swal2-actions:not(.swal2-loading) .swal2-styled {
-	background-color: #AF8C55 !important;
+  background-color: #AF8C55 !important;
 }
 
 .swal2-popup .swal2-actions:not(.swal2-loading) .swal2-confirm {
-	background-color: #15212f !important;
+  background-color: #15212f !important;
 }
-

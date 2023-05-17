@@ -20,7 +20,16 @@ export const getHeaderInfo = async function () {
       'Access-Control-Allow-Origin': '*',
     },
   };
-  
+};
+
+export const getHeaderInfoDoc =  function () {
+  return {
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Requested-With':'XMLHttpRequest',
+      'Access-Control-Allow-Origin': '*',
+    },
+  };
 };
 
 export const getFormDataHeader = async function () {

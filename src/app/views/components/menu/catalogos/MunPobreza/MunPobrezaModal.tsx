@@ -89,7 +89,7 @@ const MunPobrezaModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
 
       } else {
@@ -121,7 +121,6 @@ const MunPobrezaModal = ({
   };
 
   const handleSelectAnio = (e: any) => {
-    console.log(e)
     setAnio(e);
   };
 
