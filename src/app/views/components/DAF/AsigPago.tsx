@@ -472,7 +472,7 @@ const AsigPago = () => {
           <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
             <Grid container sx={{ justifyContent: "center" }}>
               <Grid className="Titulo" container item xs={12} >
-                <Typography  variant="h4" paddingBottom={2}>
+                <Typography variant="h4" paddingBottom={2}>
                   Módulo de Administración Financiera
                 </Typography>
               </Grid>
@@ -507,17 +507,17 @@ const AsigPago = () => {
                   inputProps={{ maxLength: 10 }}
                   endAdornment={
                     <InputAdornment position="end">
-                    
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={() => setNumOrdenPago("")}
-                          edge="end"
-                          disabled={!numOrdenPago}
-                        >  <Tooltip title={"Limpiar campo"}>
-                          <ClearOutlinedIcon />  
-                           </Tooltip>
-                        </IconButton>
-                   
+
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setNumOrdenPago("")}
+                        edge="end"
+                        disabled={!numOrdenPago}
+                      >  <Tooltip title={"Limpiar campo"}>
+                          <ClearOutlinedIcon />
+                        </Tooltip>
+                      </IconButton>
+
                     </InputAdornment>
                   }
                   error={String(Number(numOrdenPago)) === "NaN"}
@@ -590,8 +590,7 @@ const AsigPago = () => {
           <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
             <Button
               onClick={handleClick}
-              variant="contained"
-              color="success"
+              className="agregarToggleButton"
               endIcon={<SendIcon sx={{ color: "white" }} />}
             >
               <Typography sx={{ color: "white" }}> Buscar </Typography>
@@ -642,7 +641,7 @@ const AsigPago = () => {
 
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <MUIXDataGridGeneral
-             modulo={"DistribucionDaf"}
+              modulo={"DistribucionDaf"}
               handleBorrar={handleBorrarMasivo} columns={columnsParticipaciones} rows={data} controlInterno={"DAFADMINPAG"} multiselect={false} />
           </Grid>
         </Grid>

@@ -135,9 +135,8 @@ export const CuentaBancaria = ({
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
-      hide: true,
-      width: 10,
+      hideable: false,
+      hide:true
     },
     {
       field: "acciones", disableExport: true,

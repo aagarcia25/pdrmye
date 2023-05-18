@@ -59,9 +59,8 @@ export const Municipios = () => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      hide: true,
-      headerName: "Identificador",
-      width: 150,
+      hideable: false,
+      hide:true
     },
     {
       field: "acciones",  disableExport: true,
