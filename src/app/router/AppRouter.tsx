@@ -14,7 +14,7 @@ import { Configuracione } from '../views/components/EFIRMA/Configuracione';
 import { Firma } from '../views/components/EFIRMA/Firma';
 import { TablaDocse } from '../views/components/EFIRMA/TablaDocse';
 import { Eo404 } from '../views/components/Eo404';
-import { Reporteador } from '../views/components/Herramientas/Reporteador';
+import { Reporteador } from '../views/components/Reportes/Reporteador';
 import Inicio from '../views/components/Inicio';
 import { ListNotification } from '../views/components/ListNotification';
 import AgregarContactoMunicipio from '../views/components/Municipios/AgregarContactoMunicipio';
@@ -65,6 +65,7 @@ import Roles from '../views/components/menu/usuarios/Roles/Roles';
 import Usuarios from '../views/components/menu/usuarios/Usuarios/Usuarios';
 import { Perfil } from '../views/components/perfil/Perfil';
 import { AuthRouter } from './AuthRouter';
+import ReporteadorAdmin from '../views/components/Reportes/ReporteadorAdmin';
 
 
 export const AppRouter = (
@@ -204,7 +205,8 @@ export const AppRouter = (
           {/* /// Fin Firma Electronica */}
 
           {/* /// herramientas */}
-          <Route path='/herramientas/reportes' element={log ? <Reporteador /> : <AuthRouter />} />
+          <Route path='/estadisticas/reportes' element={log ? <Reporteador /> : <AuthRouter />} />
+          <Route path='/estadisticas/reportesAdmin' element={log ? <ReporteadorAdmin /> : <AuthRouter />} />
           {/* /// herramientas */}
 
 

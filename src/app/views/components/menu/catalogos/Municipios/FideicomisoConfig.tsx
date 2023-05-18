@@ -155,7 +155,7 @@ const FideicomisoConfig = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Eliminado!",
+          title: "¡Registro Eliminado!",
         });
         consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
       } else {
@@ -248,7 +248,7 @@ const FideicomisoConfig = ({
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "Registro" + (modo === "nuevo" ? "Agregado!" : "Editado!"),
+            title: "¡Registro" + (modo === "nuevo" ? "Agregado!" : "Editado!"),
           });
         } else {
           AlertS.fire({

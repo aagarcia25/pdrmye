@@ -53,7 +53,7 @@ export const Bancos = () => {
             if (res.SUCCESS) {
               Toast.fire({
                 icon: "success",
-                title: "Registro Eliminado!",
+                title: "¡Registro Eliminado!",
               });
 
               consulta({ NUMOPERACION: 4 });

@@ -538,6 +538,18 @@ h6.SubTextoHeader {
 
   /* mr: "2rem" */
 }
+h6.TextoHeaderCuentaModal {
+  padding-top: 30px;
+  text-align: center ;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgb(14, 13, 13);
+  font-size: 16px;
+
+  /* mr: "2rem" */
+}
+
+
 
 
 
