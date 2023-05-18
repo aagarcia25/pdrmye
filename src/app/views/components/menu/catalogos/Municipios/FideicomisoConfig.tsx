@@ -30,6 +30,7 @@ import { getUser } from "../../../../../services/localStorage";
 import validator from "validator";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
+import ModalForm from "../../../componentes/ModalForm";
 const FideicomisoConfig = ({
   open,
   handleClose,
@@ -65,13 +66,18 @@ const FideicomisoConfig = ({
   const columns: GridColDef[] = [
     {
       field: "id",
-      hide: true,
+      hideable: false,
+      hide: true
     }, {
       field: "deleted",
-      hide: true,
-    }, {
+      hideable: false,
+      hide: true
+    },
+    {
       field: "IdMun",
       hide: true,
+      hideable: false,
+
     },
     {
       field: "acciones", disableExport: true,
@@ -83,27 +89,27 @@ const FideicomisoConfig = ({
         return (
           <Box>
             <Tooltip title={"Editar Fideicomiso"}>
-            <IconButton onClick={() => handleEdit(v)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
+              <IconButton onClick={() => handleEdit(v)}>
+                <ModeEditOutlineIcon />
+              </IconButton>
             </Tooltip>
             <Tooltip title={"Eliminar Fideicomiso"}>
-            <IconButton onClick={() => handleDelete(v)}>
-              <DeleteForeverIcon />
-            </IconButton>
+              <IconButton onClick={() => handleDelete(v)}>
+                <DeleteForeverIcon />
+              </IconButton>
             </Tooltip>
           </Box>
         );
 
       },
     },
-    {field: "FechaCreacion", headerName: "Fecha de Creación", description: "Fecha de Creación", width: 200,},
-    {field: "CreadoP",       headerName: "Creador Por",       description: "Creador Por",       width: 300,},
-    {field: "ClaveSiregob",  headerName: "Clave",             description: "Clave",             width: 150,},
-    {field: "Nombre",        headerName: "Nombre",            description: "Nombre",            width: 500,},
-    {field: "Porcentaje",    headerName: "Porcentaje",        description: "Porcentaje",        width: 120,},
-    {field: "ClaveBancaria", headerName: "Clave Bancaria",    description: "Clave Bancaria",    width: 250,}, 
-    {field: "Cuenta",        headerName: "Cuenta",            description: "Cuenta",            width: 250,},
+    { field: "FechaCreacion", headerName: "Fecha de Creación", description: "Fecha de Creación", width: 200, },
+    { field: "CreadoP", headerName: "Creador Por", description: "Creador Por", width: 300, },
+    { field: "ClaveSiregob", headerName: "Clave", description: "Clave", width: 150, },
+    { field: "Nombre", headerName: "Nombre", description: "Nombre", width: 500, },
+    { field: "Porcentaje", headerName: "Porcentaje", description: "Porcentaje", width: 120, },
+    { field: "ClaveBancaria", headerName: "Clave Bancaria", description: "Clave Bancaria", width: 250, },
+    { field: "Cuenta", headerName: "Cuenta", description: "Cuenta", width: 250, },
 
   ];
 
@@ -197,13 +203,13 @@ const FideicomisoConfig = ({
   };
 
   const handleCloseFideicomiso = () => {
-    if (modo==="editar"){
+    if (modo === "editar") {
       setModo("visualizar");
     }
-    else if (modo==="visualizar"){
+    else if (modo === "visualizar") {
       handleClose();
     }
-    else if(modo==="nuevo"){
+    else if (modo === "nuevo") {
       setModo("visualizar");
     }
 
@@ -288,171 +294,164 @@ const FideicomisoConfig = ({
   }, [dt]);
 
   return (
-    <Dialog open={open} fullScreen={true}>
+    <ModalForm title={"Municipio:" + municipio} handleClose={handleCloseFideicomiso} >
       <Slider open={openSlider} />
+      <Grid container direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ paddingLeft: "1%", paddingRight: "1%", paddingTop: "1%" , paddingBottom:"1%"}}>
+        <Grid item >
+          <ButtonGroup>
+            {modo === "visualizar" ?
+              <Tooltip title="Agregar">
+                <ToggleButton
+                className="agregarToggleButton"
+                value="check" onClick={() => { handleNuevoFideicomiso() }}>
+                  <AddIcon />
+                </ToggleButton>
+              </Tooltip>
+              : ""}
 
-      <DialogContent sx={{ padding: "0", margin: "0" }}>
+            {modo === "nuevo" || modo === "editar" ?
+              <Tooltip title="Regresar">
+                <ToggleButton
+                className="cancelarToggleButton"
+                value="check" onClick={() => { setModo("visualizar") }}>
+                  <ArrowBackIosIcon />
+                </ToggleButton>
+              </Tooltip>
 
-        <Grid container sx={{ paddingTop: "2%", bgcolor: "#CCCCCC" }}>
-          <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-            <Typography
-              sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-              Municipio: {municipio}
-            </Typography>
-          </Grid>
+              : ""}
+          </ButtonGroup>
+        </Grid >
+       
+      </Grid>
 
+      {(modo === "visualizar") ?
 
-          <Grid container direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            sx={{ paddingLeft: "2%", paddingRight: "2%", paddingBottom: "2%" }}
-          >
-            <Grid item >
-              <ButtonGroup>
-                {modo === "visualizar" ?
-                  <Tooltip title="Agregar">
-                    <ToggleButton value="check" onClick={() => { handleNuevoFideicomiso() }}>
-                      <AddIcon />
-                    </ToggleButton>
-                  </Tooltip>
-                  : ""}
-
-                {modo === "nuevo" ||modo === "editar"   ?
-                  <Tooltip title="Regresar">
-                    <ToggleButton value="check" onClick={() => { setModo("visualizar") }}>
-                      <ArrowBackIosIcon />
-                    </ToggleButton>
-                  </Tooltip>
-
-                  : ""}
-              </ButtonGroup>
-            </Grid >
-            <Grid item  >
-              <ButtonGroup>
-                <Tooltip title="Cerrar">
-                  <ToggleButton value="check" color="error" onClick={() => { handleCloseFideicomiso() }}>
-                    <CloseIcon />
-                  </ToggleButton>
-                </Tooltip>
-
-              </ButtonGroup>
-            </Grid>
-          </Grid>
-
-          {(modo === "visualizar") ?
-
-            <Grid item xs={12} sx={{ bgcolor: "white", width: "100%", height: 500, padding: "2%" }}>
-              <Box boxShadow={2} sx={{ width: "100%", height: "97%" }}>
-                <MUIXDataGridSimple columns={columns} rows={data} />
-              </Box>
-            </Grid>
-            : ""}
-
-          {(modo === "nuevo" || modo === "editar") ?
-
-
-            <Box boxShadow={2} component={Grid}  container xs={12} sx={{ padding: "1%", bgcolor: "white", }}>
-              <Box component={Grid} item xs={12} md={3.5} ></Box>
-              <Box component={Grid} item xs={12} md={5} >
-                <TextField
-                  required
-                  margin="dense"
-                  label="Nombre"
-                  value={nombre}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setNombre(v.target.value)}
-                  error={String(nombre).length === 0}
-                  inputProps={{ maxLength: 150 }}
-                  InputLabelProps={{ shrink: true }}
-                />
-                <TextField
-                  required
-                  margin="dense"
-                  label="Clave Fideicomiso"
-                  value={claveSireGob}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setClaveSiregob(v.target.value)}
-                  error={claveSireGob === ""}
-                  inputProps={{ maxLength: 18 }}
-                  InputLabelProps={{ shrink: true }}
-                />
-                <TextField
-                  required
-                  margin="dense"
-                  label="Porcentaje"
-                  value={porcentaje}
-                  type="number"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setPorcentaje(v.target.value)}
-                  inputProps={{ maxLength: 20 }}
-                  error={Number(porcentaje) <= 0 || Number(porcentaje) >= 100}
-                  InputLabelProps={{ shrink: true }}
-                />
-                <TextField
-                  required
-                  margin="dense"
-                  label="Cuenta"
-                  value={cuenta}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(e) => validateCount(e, 2)}
-                  error={cuentaValid === false || cuenta === ""}
-                  inputProps={{ maxLength: 10 }}
-                  InputLabelProps={{ shrink: true }}
-                />
-                <Typography variant="body2" > {cuentaError} </Typography>
-                <TextField
-                  required
-                  margin="dense"
-                  label="Clave Bancaria"
-                  value={claveBan}
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  onChange={(e) => validateCount(e, 1)}
-                  error={claveValid === false || claveBan === ""}
-                  inputProps={{ maxLength: 18 }}
-                  InputLabelProps={{ shrink: true }}
-                />
-                <Typography variant="body2" > {claveError} </Typography>
-                <label> Monex</label> <br/>
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-error-radios"
-                  name="quiz"
-                  value={monex}
-                  onChange={handleRadioChange}
-                >
-                  <FormControlLabel value="0" control={<Radio color="error" />} label="No Aplica" />
-                  <FormControlLabel value="1" control={<Radio color="success" />} label="Si Aplica" />
-
-                </RadioGroup>
-
-                <DialogActions>
-                  <Grid container justifyContent="center" alignItems="center" alignContent="center">
-                    <Grid item paddingTop="5%" xs={6}>
-                      <Button
-                        onClick={() => agregar()}
-                        color={modo === "nuevo" ? "success" : "info"} fullWidth variant="outlined">
-                        {modo === "nuevo" ? "Guardar" : "Actualizar"}
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </DialogActions>
-              </Box>
-
-            </Box>
-
-            : ""}
+        <Grid item xs={12} sx={{ bgcolor: "white", width: "100%", height: 800, }}>
+          <Box boxShadow={2} sx={{ width: "100%", height: "97%" }}>
+            <MUIXDataGridSimple columns={columns} rows={data} />
+          </Box>
         </Grid>
-      </DialogContent>
-    </Dialog >
+        : ""}
+
+      {(modo === "nuevo" || modo === "editar") ?
+
+
+        <Grid
+          container
+          paddingTop={2}
+          direction="column"
+          justifyContent="center"
+          alignItems="center" 
+          boxShadow={2}>
+          <Grid item xs={12} md={5} paddingTop={2}>
+            <TextField
+              required
+              margin="dense"
+              label="Nombre"
+              value={nombre}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setNombre(v.target.value)}
+              error={String(nombre).length === 0}
+              inputProps={{ maxLength: 150 }}
+              InputLabelProps={{ shrink: true }}
+            />
+            <TextField
+              required
+              margin="dense"
+              label="Clave Fideicomiso"
+              value={claveSireGob}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClaveSiregob(v.target.value)}
+              error={claveSireGob === ""}
+              inputProps={{ maxLength: 18 }}
+              InputLabelProps={{ shrink: true }}
+            />
+            <TextField
+              required
+              margin="dense"
+              label="Porcentaje"
+              value={porcentaje}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setPorcentaje(v.target.value)}
+              inputProps={{ maxLength: 20 }}
+              error={Number(porcentaje) <= 0 || Number(porcentaje) >= 100}
+              InputLabelProps={{ shrink: true }}
+            />
+            <TextField
+              required
+              margin="dense"
+              label="Cuenta"
+              value={cuenta}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(e) => validateCount(e, 2)}
+              error={cuentaValid === false || cuenta === ""}
+              inputProps={{ maxLength: 10 }}
+              InputLabelProps={{ shrink: true }}
+            />
+            <Typography variant="body2" > {cuentaError} </Typography>
+            <TextField
+              required
+              margin="dense"
+              label="Clave Bancaria"
+              value={claveBan}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(e) => validateCount(e, 1)}
+              error={claveValid === false || claveBan === ""}
+              inputProps={{ maxLength: 18 }}
+              InputLabelProps={{ shrink: true }}
+            />
+            <Typography variant="body2" > {claveError} </Typography>
+            <label> Monex</label> <br />
+            <RadioGroup
+              row
+              aria-labelledby="demo-error-radios"
+              name="quiz"
+              value={monex}
+              onChange={handleRadioChange}
+            >
+              <FormControlLabel value="0" control={<Radio color="error" />} label="No Aplica" />
+              <FormControlLabel value="1" control={<Radio color="success" />} label="Si Aplica" />
+
+            </RadioGroup>
+
+            <DialogActions>
+              <Grid container justifyContent="center" alignItems="center" alignContent="center">
+                <Grid item paddingTop="5%" xs={6}>
+                  <Button
+                  disabled={
+                    !nombre||
+                    !claveSireGob||
+                    (Number(porcentaje) <= 0 || Number(porcentaje) >= 100)||
+                    (cuentaValid === false || cuenta === "")||
+                    (claveValid === false || claveBan === "")
+                  }
+                    onClick={() => agregar()}
+                    className="agregar"
+                    fullWidth variant="outlined">
+                    {modo === "nuevo" ? "Guardar" : "Actualizar"}
+                  </Button>
+                </Grid>
+              </Grid>
+            </DialogActions>
+          </Grid>
+
+        </Grid>
+
+        : ""}
+    </ModalForm >
   );
 };
 

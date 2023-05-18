@@ -20,7 +20,7 @@ const ModalForm = ({ children, title, handleClose }: Props) => {
   return (
     <div>
       <Dialog    
-      sx={{ zIndex: 2000 }} 
+      sx={{ zIndex: 1200 }} 
        open={true} fullScreen >
         <Grid container className="HeaderModal" justifyContent="flex-end" alignItems="center" paddingTop={.5} paddingBottom={.5} >
           <Grid item xs={10} sm={10} md={10} lg={10} >

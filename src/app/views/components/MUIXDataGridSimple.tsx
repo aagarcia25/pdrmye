@@ -11,7 +11,9 @@ export default function MUIXDataGridSimple(props: any) {
   React.useState<GridColumnVisibilityModel>({
     id: false,
     IdConCheque:false,
-    TipoSolicitud:false
+    TipoSolicitud:false,
+    deleted:false,
+    IdMun:false
   });
 
   return (

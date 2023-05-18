@@ -85,9 +85,7 @@ const Permisos = () => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
-      hide: true,
-      width: 10,
+      hideable:false
     },
 
     {
