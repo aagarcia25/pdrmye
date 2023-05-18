@@ -5,7 +5,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, I
 import { GridColDef } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import IconeXCEL from '../../../assets/img/iconxml.png';
+import IconeXML from '../../../assets/img/xmlLogo.svg';
 import IconCFDIEXCELDown from '../../../assets/img/iconxml.png';
 import IconSPEIPDFDown from '../../../assets/img/PDFDown.svg';
 import IconSPEIPDF from '../../../assets/img/PDF_icon.svg';
@@ -22,6 +22,7 @@ import { TooltipPersonalizado } from '../componentes/CustomizedTooltips';
 import ModalForm from '../componentes/ModalForm';
 import ButtonsAdd from '../menu/catalogos/Utilerias/ButtonsAdd';
 import { Blanco, xmlLOGO } from '../../../styles/imagen';
+import SliderProgress from '../SliderProgress';
 
 
 
@@ -79,7 +80,7 @@ const SpeisAdmin = ({
 
 
     const columns: GridColDef[] = [
-        { field: "id", headerName: "Identificador", hide: true, width: 150, },
+        { field: "id",  hide: true, hideable:false },
         {
             field: "acciones", disableExport: true,
             headerName: "Acciones",
@@ -90,39 +91,37 @@ const SpeisAdmin = ({
                 return (
                     <Box>
                         {PERMISOVerSpei && v.row.Nombre.slice(-3).toUpperCase() === "PDF" ?
-                            <TooltipPersonalizado
-                                title={<React.Fragment><Typography variant='h6' className='tooltipLogos'>Ver</Typography></React.Fragment>}>
+                            <Tooltip
+                                title={"Ver Documento"}>
                                 <IconButton onClick={() => handleVerSpei(v)}>
                                     <img className="iconButton"
                                         src={
                                             v.row.Nombre.slice(-3).toUpperCase() === "PDF" ?
-                                                IconSPEIPDF : IconeXCEL} />
+                                                IconSPEIPDF : IconeXML} />
                                 </IconButton>
-                            </TooltipPersonalizado>
+                            </Tooltip>
                             : ""}
                         {/* {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ? */}
                         {eliminar ?
-                            <TooltipPersonalizado
-                                title={<React.Fragment><Typography variant='h6' className='tooltipLogos'>Eliminar Archivo</Typography></React.Fragment>}>
+                            <Tooltip title={"Eliminar Archivo"}>
                                 <IconButton onClick={() => handleDeleteSpei(v)}>
                                     <DeleteIcon />
                                 </IconButton>
-                            </TooltipPersonalizado>
+                            </Tooltip>
                             : ""}
                         {permisoDescargarSpei
                             // && v.row.Nombre.slice(-3).toUpperCase() === "PDF"
                             ?
-                            <TooltipPersonalizado
-                                title={<React.Fragment><Typography variant='h6' className='tooltipLogos'>Descargar Archivo</Typography></React.Fragment>}>
+                            <Tooltip title={"Descargar Archivo"}>
                                 <IconButton onClick={() => handleDescargarSpei(v)}>
                                     <img className="iconButton" src={
                                         v.row.Nombre.slice(-3).toUpperCase() === "PDF" ?
                                             IconSPEIPDFDown
                                             :
-                                            "data:"+xmlLOGO.Tipo+";base64,"+xmlLOGO.Data
+                                            IconeXML
                                     } />
                                 </IconButton>
-                            </TooltipPersonalizado>
+                            </Tooltip>
 
                             : ""}
 
@@ -405,7 +404,7 @@ const SpeisAdmin = ({
     };
 
     const getfile = (nameFile: string, name: string, descargar: boolean) => {
-setslideropen(true);
+        setslideropen(true);
 
         DAFServices.SpeiAdministracion(
             {
@@ -543,8 +542,9 @@ setslideropen(true);
     }, []);
     return (
         <>
-            <Slider open={slideropen}></Slider>
+
             <ModalForm title={'Administración de  ' + modo + '´S'} handleClose={handleClose}>
+                <SliderProgress open={slideropen}></SliderProgress>
                 <Grid container spacing={1} rowSpacing={3}>
                     <Grid item xs={12} md={6} lg={4}>
                         <Typography variant="h5" className='DatosSpeiCfdiTitulo'>
