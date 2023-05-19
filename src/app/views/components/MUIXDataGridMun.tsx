@@ -143,6 +143,8 @@ const MUIXDataGridMun = ({
             filterOperatorIsEmpty: 'Es Vacio',
             filterOperatorIsNotEmpty: 'No Vacio',
             filterOperatorIsAnyOf:'Es Cualquiera de',
+            filterPanelInputLabel: 'Valor',
+            filterPanelInputPlaceholder: 'Valor Filtrado',
           }}
         />
       </ThemeProvider>
