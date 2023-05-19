@@ -39,7 +39,7 @@ export default function MUIXDataGrid(props: any) {
           }
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick
-          disableColumnFilter
+         // disableColumnFilter
          // disableColumnSelector
           disableDensitySelector
           getRowId={(row) => row.Id ? row.Id : row.id}
