@@ -53,11 +53,11 @@ export const Avisos = () => {
         );
       }
     },
-    { field: "fechaInicio",     headerName: "Fecha de Inicio",description: "Fecha de Inicio", width: 200 },
+    { field: "fechaInicio",     headerName: "Fecha",          description: "Fecha", width: 200 },
     { field: "FechaFin",        headerName: "Expiración",     description: "Expiración",      width: 200 },
     { field: "Nombre",          headerName: "Nombre",         description: "Nombre",          width: 250 },
     { field: "Descripcion",     headerName: "Descripción",    description: "Descripción",     width: 500, },
-    { field: "NombreDocumento", headerName: "Nombre Documento",description: "Nombre Documento", hide: true, width: 150, },
+    { field: "NombreDocumento", headerName: "Documento",description: "Documento", hide: true, width: 150, },
   ];
 
 
