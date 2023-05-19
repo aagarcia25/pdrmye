@@ -358,6 +358,7 @@ const Participaciones = () => {
       },
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "AccionesDescuentos",
       disableExport: true,
@@ -382,6 +383,7 @@ const Participaciones = () => {
       },
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "AccionesRetenciones",
       disableExport: true,
@@ -420,6 +422,7 @@ const Participaciones = () => {
       width: 110,
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumParticipacion",
       headerName: "Número De Participación",
@@ -427,6 +430,7 @@ const Participaciones = () => {
       description: "Número De Participación",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumSolEgreso",
       headerName: "Solicitud De Egreso",
@@ -434,6 +438,7 @@ const Participaciones = () => {
       description: "Número De Solicitud De Egreso",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumEgreso",
       headerName: "Egreso",
@@ -441,6 +446,7 @@ const Participaciones = () => {
       description: "Número De Egreso",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "a3",
       headerName: "Solicitud de Pago",
@@ -449,6 +455,7 @@ const Participaciones = () => {
     },
 
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumRequerimientoAnt",
       headerName: "Req. De Anticipo",
@@ -474,6 +481,7 @@ const Participaciones = () => {
       description: "Tipo de Solicitud",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "ClaveEstado",
       headerName: "Clave Estado",
@@ -481,6 +489,7 @@ const Participaciones = () => {
       description: "Clave Estado",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Nombre",
       headerName: "Proveedor",
@@ -507,6 +516,7 @@ const Participaciones = () => {
       description: "Clave de Beneficiario",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "uresclave",
       headerName: "U. Resp",
@@ -514,6 +524,7 @@ const Participaciones = () => {
       width: 80,
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumProyecto",
       headerName: "Número de Proyecto",
@@ -522,6 +533,7 @@ const Participaciones = () => {
     },
 
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
@@ -570,6 +582,7 @@ const Participaciones = () => {
       ),
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Proveedor",
       headerName: "Proveedor",
@@ -577,6 +590,7 @@ const Participaciones = () => {
       description: "Proveedor",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Deudor",
       headerName: "Deudor",
@@ -584,6 +598,7 @@ const Participaciones = () => {
       description: "Deudor",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "clasificacion",
       headerName: "Clasificación",
@@ -591,6 +606,7 @@ const Participaciones = () => {
       description: "Clasificación de Solicitud de Pago",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Divisa",
       headerName: "Divisa",
@@ -598,6 +614,7 @@ const Participaciones = () => {
       description: "Divisa",
     },
     {
+      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Observaciones",
       headerName: "Observaciones",
@@ -1737,7 +1754,7 @@ const Participaciones = () => {
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={12} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
-                Solicitudes de Participaciones y Aportaciones
+               Distribuciones de Recursos a Municipios y Organismos Públicos Descentralizados
               </Typography>
             </Grid>
           </Grid>
