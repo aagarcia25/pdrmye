@@ -133,7 +133,15 @@ const MUIXDataGridGeneral = ({
               count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
             columnHeaderFiltersLabel: 'Mostrar filtros',
             columnHeaderSortIconLabel: 'Ordenar',
-            
+            filterPanelColumns: 'Columnas',
+            filterOperatorContains: 'Contiene',
+            filterOperatorEquals: 'Igual',
+            filterOperatorStartsWith: 'Comienza Con',
+            filterOperatorEndsWith: 'Termina Con',
+            filterOperatorIsEmpty: 'Es Vacio',
+            filterOperatorIsNotEmpty: 'No Vacio',
+            filterOperatorIsAnyOf:'Es Cualquiera de',
+            filterPanelInputLabel: 'Valor',
           }}
         />
       </ThemeProvider>
