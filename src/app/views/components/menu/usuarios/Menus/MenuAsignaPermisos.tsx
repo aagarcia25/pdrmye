@@ -61,10 +61,7 @@ const MenuAsignaPermisos = ({
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
-      hide: true,
-      width: 10,
-      description: messages.dataTableColum.id,
+      hide: true, hideable:false,
     },
     {
       field: "acciones",  disableExport: true,

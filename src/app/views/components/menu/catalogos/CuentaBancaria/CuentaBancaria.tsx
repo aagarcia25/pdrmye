@@ -18,10 +18,12 @@ import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import ModalForm from "../../../componentes/ModalForm";
 
 export const CuentaBancaria = ({
+  fullScrean,
   idmunicipio,
   municipio,
-  handleCloseModal
+  handleCloseModal,
 }: {
+  fullScrean: boolean;
   handleCloseModal: Function;
   idmunicipio: string,
   municipio: string
@@ -136,7 +138,7 @@ export const CuentaBancaria = ({
     {
       field: "id",
       hideable: false,
-      hide:true
+      hide: true
     },
     {
       field: "acciones", disableExport: true,
@@ -331,43 +333,63 @@ export const CuentaBancaria = ({
   }, []);
 
   return (
-    <ModalForm title={"Cuentas Bancarias"} handleClose={handleCloseModal}>
-      <div style={{ height: 600, width: "100%", paddingLeft: "1%", paddingRight: "1%" }}>
-        {open ? (
-          <CuentaBancariaModal
-            open={open}
-            tipo={tipoOperacion}
-            handleClose={handleClose}
-            dt={vrows}
-          />
-        ) : (
-          ""
-        )}
+    <>  {open ? (
+      <CuentaBancariaModal
+        open={open}
+        tipo={tipoOperacion}
+        handleClose={handleClose}
+        dt={vrows}
+      />
+    ) : (
+      ""
+    )}
 
-        {openModal ? (
-          <ModalAlert
-            open={openModal}
-            tipo={texto}
-            handleClose={handleClose}
-            vrows={vrows}
-            handleAccion={handleAccion}
-            accion={3} />
-        ) : (
-          ""
-        )}
+      {openModal ? (
+        <ModalAlert
+          open={openModal}
+          tipo={texto}
+          handleClose={handleClose}
+          vrows={vrows}
+          handleAccion={handleAccion}
+          accion={3} />
+      ) : (
+        ""
+      )}
 
-        <Grid container >
-          <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-            <Typography variant="h4">
-              {idmunicipio !== "" ? "Municipio: " + nombreMun : "Cuentas Bancarias: " + nombreMun}
-            </Typography>
+      {fullScrean ?
+        <ModalForm title={"Cuentas Bancarias"} handleClose={handleCloseModal}>
+          <div style={{ height: 600, width: "100%" }}>
+            <Grid container >
+              <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                <Typography variant="h4">
+                  {idmunicipio !== "" ? "Municipio: " + nombreMun : "Cuentas Bancarias: " + nombreMun}
+                </Typography>
+              </Grid>
+            </Grid>
+
+            <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+
+            <MUIXDataGrid columns={columns} rows={cuentaBancaria} />
+          </div>
+        </ModalForm> :
+        <div style={{ height: 600, width: "100%" }}>
+          <Grid container >
+            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+              <Typography variant="h4">
+                {idmunicipio !== "" ? "Municipio: " + nombreMun : "Cuentas Bancarias: " + nombreMun}
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
 
-        <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-       
-        <MUIXDataGrid columns={columns} rows={cuentaBancaria} />
-      </div>
-    </ModalForm>
+          <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+
+          <MUIXDataGrid columns={columns} rows={cuentaBancaria} />
+        </div>
+
+
+      }
+
+
+    </>
   );
 };

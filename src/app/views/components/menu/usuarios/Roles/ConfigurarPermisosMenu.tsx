@@ -40,9 +40,7 @@ const ConfigurarPermisosMenu = ({
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
-      hide: true,
-      width: 10,
+      hide: true, hideable:false,
     },
     { field: "Permiso",     headerName: "Permiso",    description: "Permiso",     width: 150 },
     { field: "Descripcion", headerName: "Descripción",description: "Descripción", width: 300 },
@@ -69,9 +67,7 @@ const ConfigurarPermisosMenu = ({
   const columnsAsignarPermisoRol: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
-      hide: true,
-      width: 10,
+      hide: true, hideable:false,
     },
     {
       field: "acciones",  disableExport: true,
