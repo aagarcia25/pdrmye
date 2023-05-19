@@ -21,7 +21,7 @@ export const IFrame = (
     const src = source;
     return (
         // basic bootstrap classes. you can change with yours.
-        <div className="container">
+        <div className="containerCenter">
             <Grid container>
                 <object
                     className="responsive-iframe"

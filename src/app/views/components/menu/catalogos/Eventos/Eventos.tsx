@@ -111,7 +111,7 @@ export const Eventos = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
             consulta();
           } else {

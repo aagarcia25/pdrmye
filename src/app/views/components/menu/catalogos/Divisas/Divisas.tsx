@@ -198,7 +198,7 @@ export const Divisas = () => {
                     if (res.SUCCESS) {
                         Toast.fire({
                             icon: "success",
-                            title: "Registro Eliminado!",
+                            title: "¡Registro Eliminado!",
                         });
 
                         handleClose();

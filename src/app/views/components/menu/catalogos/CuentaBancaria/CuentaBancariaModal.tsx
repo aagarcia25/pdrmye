@@ -430,36 +430,41 @@ export const CuentaBancariaModal = ({
           >
 
             <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-              <label><h2>Nombre de la cuenta:</h2>   <h4>{" " + nombreCuenta}</h4></label>
+              <Typography variant="h5">Nombre de la cuenta:</Typography>
+              <Typography variant="h6" className="TextoHeaderCuentaModal">{" " + nombreCuenta}</Typography>
+
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-              <label><h2>Banco:</h2>  <h4>{" " + dt?.row?.NombreBanco}</h4></label>
+              <Typography variant="h5">Banco:</Typography>
+              <Typography variant="h6" className="TextoHeaderCuentaModal">{" " + dt?.row?.NombreBanco}</Typography>
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-              <label><h2>Numero de Cuenta: </h2>   <h4>{" " + dt?.row?.NumeroCuenta}</h4></label>
+              <Typography variant="h5"> Numero de  cuenta:</Typography>
+              <Typography variant="h6" className="TextoHeaderCuentaModal">{" " + dt?.row?.NumeroCuenta}</Typography>
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-              <label><h2>Clave Bancaria:</h2><h4>{" " + dt?.row?.ClabeBancaria}</h4></label>
+              <Typography variant="h5">Clave Bancaria:</Typography>
+              <Typography variant="h6" className="TextoHeaderCuentaModal">{" " + dt?.row?.ClabeBancaria}</Typography>
             </Grid>
           </Grid>
 
           <Grid container>
 
             <Grid item xs={12} sm={6} md={6} lg={6}>
-            
-                <Box>  {urlDoc !=="null" ?
-                  <iframe
-                    id="inlineFrameExample"
-                    title="Inline Frame Example"
-                    width="100%"
-                    height="700"
-                    src={urlDoc}
-                  />: ""}
-                </Box>
-                
+
+              <Box>  {urlDoc !== "null" ?
+                <iframe
+                  id="inlineFrameExample"
+                  title="Inline Frame Example"
+                  width="100%"
+                  height="700"
+                  src={urlDoc}
+                /> : ""}
+              </Box>
+
               <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
                 <label >
-                  {dt?.row?.NombreDocumento !=="null" ? dt?.row?.NombreDocumento : ""}
+                  {dt?.row?.NombreDocumento !== "null" ? dt?.row?.NombreDocumento : ""}
                 </label>
 
               </Box>
@@ -468,18 +473,18 @@ export const CuentaBancariaModal = ({
             <Grid item xs={12} sm={6} md={6} lg={6}>
 
               <Box>
-              {urlDocCarta !== null ?
-                <iframe
-                  id="inlineFrameExample"
-                  title="Inline Frame Example"
-                  width="100%"
-                  height="700"
-                  src={urlDocCarta}
-                />: ""}
+                {urlDocCarta !== null ?
+                  <iframe
+                    id="inlineFrameExample"
+                    title="Inline Frame Example"
+                    width="100%"
+                    height="700"
+                    src={urlDocCarta}
+                  /> : ""}
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
                 <label >
-                {dt?.row?.NombreCarta? dt?.row?.NombreCarta : ""}
+                  {dt?.row?.NombreCarta ? dt?.row?.NombreCarta : ""}
                 </label>
               </Box>
             </Grid>
