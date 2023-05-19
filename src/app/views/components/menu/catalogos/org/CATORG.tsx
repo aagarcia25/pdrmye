@@ -144,7 +144,7 @@ export const CATORG = () => {
             if (res.SUCCESS) {
               Toast.fire({
                 icon: "success",
-                title: "Registro Eliminado!",
+                title: "¡Registro Eliminado!",
               });
 
               let data = {
@@ -206,7 +206,7 @@ export const CATORG = () => {
   useEffect(() => {
     var ancho = 0;
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "ORG") {
+      if (String(item.ControlInterno) === "CATORG") {
         //console.log(item)
         if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
