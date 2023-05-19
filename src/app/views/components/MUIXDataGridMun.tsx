@@ -61,7 +61,7 @@ const MUIXDataGridMun = ({
           density="compact"
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick
-          disableColumnFilter
+         // disableColumnFilter
          // disableColumnSelector
           disableDensitySelector
           getRowHeight={() => 'auto'}

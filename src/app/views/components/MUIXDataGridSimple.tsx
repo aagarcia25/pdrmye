@@ -23,7 +23,7 @@ export default function MUIXDataGridSimple(props: any) {
         {...props.rows}
         density="compact"
         disableSelectionOnClick
-        disableColumnFilter
+        //disableColumnFilter
         disableIgnoreModificationsIfProcessingProps
        // disableColumnSelector
         disableDensitySelector
