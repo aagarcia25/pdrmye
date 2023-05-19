@@ -211,6 +211,20 @@ button.VerVideos:hover {
 
 }
 
+.containerReporteadorLista {
+  background: #82b4e6;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-content: center;
+  /* background: #793434; */
+  overflow: visible;
+  width: 100%;
+  height: 85vh;
+
+  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
 .containerCenterGenerico {
   display: flex;
   position: fixed;
@@ -303,6 +317,16 @@ button.IconButtonImagen {
   right: 0;
   width: 100%;
   height: 100%;
+}
+
+img.imgDentroDeHeaderInicio {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  object-fit: "scale-down";
+  /* border-radius: 40px 40px 40px 40px;  */
+  border-radius: 60
 }
 
 img {
@@ -521,7 +545,7 @@ h6.tooltipLogos {
 h6.TextoHeader {
   text-align: justify;
   font-family: sans-serif;
-  font-weight: bold;
+  /* font-weight: bold; */
   color: rgb(14, 13, 13);
   font-size: 15px;
   padding-left: 20px;
@@ -538,9 +562,10 @@ h6.SubTextoHeader {
 
   /* mr: "2rem" */
 }
+
 h6.TextoHeaderCuentaModal {
   padding-top: 30px;
-  text-align: center ;
+  text-align: center;
   font-family: sans-serif;
   font-weight: bold;
   color: rgb(14, 13, 13);
@@ -801,12 +826,8 @@ button.cancelarToggleButton:hover {
   background-color: #896937d0;
 
 }
+
 button.cancelar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
   outline: 0px;
   border: 0px;
   margin: 0px;
@@ -832,18 +853,6 @@ button.cancelar {
 
 
 button.cancelar:hover {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  outline: 0px;
-  border: 0px;
-  margin: 0px;
-  cursor: pointer;
-  user-select: none;
-  text-decoration: none;
-  font-weight: 700;
   line-height: 1.71429;
   font-size: 0.875rem;
   text-transform: capitalize;
@@ -941,9 +950,10 @@ button.ButtonColorGenericoHeader:hover {
 }
 
 button.ButtonColorGenericoHeaderProfile {
+  contain: style;
   height: 100%;
   width: 100%;
-  transition-duration: 0.2s;
+  justify-content: center;
   background-color: #ffffffd6;
   color: rgb(255, 255, 255);
   background-image: rgb(251, 251, 251);
@@ -978,12 +988,16 @@ button.ButtonColorGenericoHeaderProfileMovil:hover {
 }
 
 .containerBotonesHeaderPerfil {
-  overflow: auto;
+  overflow: hidden;
   contain: content;
-  width: 100%;
-  height: 60px;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
   /* padding-left: 10px; */
-  padding: 4px;
+  /* padding: 4px; */
+  border: 1px solid rgba(114, 76, 13, 0.641);
+
+  /* border-bottom: 3px solid rgba(114, 76, 13, 0.641); */
 }
 
 .containerHeaderPerfilVistaMovil {
@@ -1026,6 +1040,26 @@ button.menuHome:hover {
   color: rgb(250, 250, 250);
 
 }
+
+.IconoDentroBotonPerfil {
+
+
+  transition-duration: 0.2s;
+  width: 100%;
+  height: 100%;
+  /* background-color:  #b08c55; */
+  color: #b08c55;
+
+}
+
+.IconoDentroBotonPerfil:hover {
+  transition-duration: 0.2s;
+  font-family: sans-serif;
+  /* background-color:  #b08c55e6; */
+  color: #b08c55;
+
+}
+
 
 .IconoDentroBoton {
   transition-duration: 0.2s;
@@ -1296,18 +1330,6 @@ button.agregar {
 }
 
 button.agregar:hover {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  outline: 0px;
-  border: 0px;
-  margin: 0px;
-  cursor: pointer;
-  user-select: none;
-  text-decoration: none;
-  font-weight: 700;
   line-height: 1.71429;
   font-size: 0.875rem;
   text-transform: capitalize;

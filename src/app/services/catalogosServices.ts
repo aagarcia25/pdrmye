@@ -3,6 +3,13 @@ import { post, postDoc, postDocument } from './apiService';
 
 export class CatalogosServices {
 
+    public static async TipoExportacion(data : any) {
+        return await post('TipoExportacion', data);
+    };
+
+    public static async reportesAdministracionRelacion(data : any) {
+        return await post('reportesAdministracionRelacion', data);
+    };
 
     public static async TiposDePagoSP(data: any) {
         return await post('TiposDePagoSP', data);

@@ -31,6 +31,7 @@ import validator from "validator";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import ModalForm from "../../../componentes/ModalForm";
+import Swal from "sweetalert2";
 const FideicomisoConfig = ({
   open,
   handleClose,
@@ -145,33 +146,50 @@ const FideicomisoConfig = ({
   }
 
   const handleDelete = (v: any) => {
-    setOpenSlider(true);
-    let dat = {
-      CHID: v?.row.id,
-      NUMOPERACION: 3,
-      CHUSER: user.id,
-    };
-    CatalogosServices.MunFideicomiso(dat).then((res) => {
-      if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "¡Registro Eliminado!",
+    Swal.fire({
+      icon: "info",
+      title: "¿Estás seguro de eliminar éste registro?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Confirmar",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setOpenSlider(true);
+        let dat = {
+          CHID: v?.row.id,
+          NUMOPERACION: 3,
+          CHUSER: user.id,
+        };
+        CatalogosServices.MunFideicomiso(dat).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "¡Registro Eliminado!",
+            });
+            consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
+          } else {
+            AlertS.fire({
+              title: "¡Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
         });
-        consulta({ CHID: dt?.row?.id, NUMOPERACION: 4, });
-      } else {
-        AlertS.fire({
-          title: "¡Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
+        setNombre("");
+        setPorcentaje("");
+        setCuenta("");
+        setClaveBan("");
+        setModo("visualizar");
+        setOpenSlider(false);
+      } else if (result.isDenied) {
+        Swal.fire("No se realizaron cambios", "", "info");
       }
     });
-    setNombre("");
-    setPorcentaje("");
-    setCuenta("");
-    setClaveBan("");
-    setModo("visualizar");
-    setOpenSlider(false);
+
+
+
+
   };
 
 
@@ -248,7 +266,7 @@ const FideicomisoConfig = ({
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "¡Registro" + (modo === "nuevo" ? "Agregado!" : "Editado!"),
+            title: "¡Registro" + (modo === "nuevo" ? " Agregado!" : " Editado!"),
           });
         } else {
           AlertS.fire({
@@ -299,14 +317,14 @@ const FideicomisoConfig = ({
       <Grid container direction="row"
         justifyContent="space-between"
         alignItems="center"
-        sx={{ paddingLeft: "1%", paddingRight: "1%", paddingTop: "1%" , paddingBottom:"1%"}}>
+        sx={{ paddingLeft: "1%", paddingRight: "1%", paddingTop: "1%", paddingBottom: "1%" }}>
         <Grid item >
           <ButtonGroup>
             {modo === "visualizar" ?
               <Tooltip title="Agregar">
                 <ToggleButton
-                className="agregarToggleButton"
-                value="check" onClick={() => { handleNuevoFideicomiso() }}>
+                  className="agregarToggleButton"
+                  value="check" onClick={() => { handleNuevoFideicomiso() }}>
                   <AddIcon />
                 </ToggleButton>
               </Tooltip>
@@ -315,8 +333,8 @@ const FideicomisoConfig = ({
             {modo === "nuevo" || modo === "editar" ?
               <Tooltip title="Regresar">
                 <ToggleButton
-                className="cancelarToggleButton"
-                value="check" onClick={() => { setModo("visualizar") }}>
+                  className="cancelarToggleButton"
+                  value="check" onClick={() => { setModo("visualizar") }}>
                   <ArrowBackIosIcon />
                 </ToggleButton>
               </Tooltip>
@@ -324,7 +342,7 @@ const FideicomisoConfig = ({
               : ""}
           </ButtonGroup>
         </Grid >
-       
+
       </Grid>
 
       {(modo === "visualizar") ?
@@ -344,7 +362,7 @@ const FideicomisoConfig = ({
           paddingTop={2}
           direction="column"
           justifyContent="center"
-          alignItems="center" 
+          alignItems="center"
           boxShadow={2}>
           <Grid item xs={12} md={5} paddingTop={2}>
             <TextField
@@ -431,13 +449,13 @@ const FideicomisoConfig = ({
               <Grid container justifyContent="center" alignItems="center" alignContent="center">
                 <Grid item paddingTop="5%" xs={6}>
                   <Button
-                  disabled={
-                    !nombre||
-                    !claveSireGob||
-                    (Number(porcentaje) <= 0 || Number(porcentaje) >= 100)||
-                    (cuentaValid === false || cuenta === "")||
-                    (claveValid === false || claveBan === "")
-                  }
+                    disabled={
+                      !nombre ||
+                      !claveSireGob ||
+                      (Number(porcentaje) <= 0 || Number(porcentaje) >= 100) ||
+                      (cuentaValid === false || cuenta === "") ||
+                      (claveValid === false || claveBan === "")
+                    }
                     onClick={() => agregar()}
                     className="agregar"
                     fullWidth variant="outlined">

@@ -439,11 +439,11 @@ export const CuentaBancariaModal = ({
               <Typography variant="h6" className="TextoHeaderCuentaModal">{" " + dt?.row?.NombreBanco}</Typography>
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-              <Typography variant="h5"> Numero de  cuenta:</Typography>
+              <Typography variant="h5"> Número de  cuenta:</Typography>
               <Typography variant="h6" className="TextoHeaderCuentaModal">{" " + dt?.row?.NumeroCuenta}</Typography>
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-              <Typography variant="h5">Clave Bancaria:</Typography>
+              <Typography variant="h5">Clabe Bancaria:</Typography>
               <Typography variant="h6" className="TextoHeaderCuentaModal">{" " + dt?.row?.ClabeBancaria}</Typography>
             </Grid>
           </Grid>
