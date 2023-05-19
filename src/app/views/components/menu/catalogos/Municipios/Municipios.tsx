@@ -333,7 +333,7 @@ export const Municipios = () => {
 
       {openCC ? (
         // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
-          <CuentaBancaria idmunicipio={id} municipio={nombreMun} handleCloseModal={handleClose} />
+          <CuentaBancaria idmunicipio={id} municipio={nombreMun} handleCloseModal={handleClose} fullScrean={true} />
 
       ) : (
         ""
