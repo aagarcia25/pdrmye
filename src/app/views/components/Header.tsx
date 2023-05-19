@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
 import { getPerfilFoto, getToken, getUser } from "../../services/localStorage";
 import { RESPONSE, RESPONSESTORAGE } from "../../interfaces/user/UserInfo";
-import { Backdrop, Button, Fade, Hidden, SpeedDialAction } from '@mui/material';
+import { Backdrop, Box, Button, Fade, Hidden, SpeedDialAction } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
 import { base64ToArrayBuffer } from "../../helpers/Files";
 import { styled } from '@mui/material/styles';
@@ -291,11 +291,6 @@ export default function Header(props: HeaderProps) {
   };
   React.useEffect(() => {
 
-  });
-
-  React.useEffect(() => {
-
-
     setRutaFoto(String(user?.RutaFoto))
 
     CatalogosServices.Notificaciones(data).then((res) => {
@@ -303,7 +298,8 @@ export default function Header(props: HeaderProps) {
       setCnotif(result[0].count);
 
     });
-  });
+}, [props.imgTipo]);
+
 
 
 
@@ -316,23 +312,17 @@ export default function Header(props: HeaderProps) {
         sx={{ width: "99%" }}
       >
         <Grid container item xs={12} md={12} spacing={2} alignItems="center" justifyContent="space-between" sx={{ padding: "0", margin: "0" }} >
-
-
           <Grid container item xs={6} sm={1} justifyContent="center" alignItems="center" alignContent="center" >
             <Tooltip title="Menú">
-
-
               <div className="Grid-MenuButton-Header">
                 <Button className="buttonMenuBurger"
                   onClick={() => onDrawerToggle()}>
-                  <NotesIcon  sx={{ width: "100%", height: "100%", }} />
+                  <NotesIcon sx={{ width: "100%", height: "100%", }} />
                 </Button>
               </div>
             </Tooltip>
           </Grid>
-
           <Grid container item xs={12} sm={11} direction="row" justifyContent="flex-end" alignItems="center" >
-
             <Grid item container xs={12} sm={12} >
               <Hidden smUp >
                 <Backdrop open={openDial} />
@@ -393,37 +383,35 @@ export default function Header(props: HeaderProps) {
               </Hidden >
             </Grid>
 
-
-
             <Hidden smDown >
 
-              <Grid container item direction="row" justifyContent="space-between" alignItems="center" xs={12} sm={10} md={8} xl={8} >
-                <Grid item xs={10}>
-                  <Grid
-                    // sx={{ bgcolor: COLOR.grisTarjetaBienvenido }}
-                    container direction="column" justifyContent="flex-end" alignItems="center">
-
-
-                    <Grid container justifyContent="flex-end">
-                      <Typography variant="h6" className="TextoHeader">
-                        BIENVENIDO
+              <Grid container item direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={10} md={8} xl={8} >
+                <Grid item paddingRight={2} >
+                  <Grid container direction="column" justifyContent="flex-end" alignItems="center">
+                    <Grid container item xs={12} sm={12} direction="row" justifyContent="flex-end" alignItems="center">
+                      <Typography color="black">
+                        {(user?.PERFILES[0]?.Referencia === "MUN" ? "Enlace: " : " ") +
+                          (user?.ROLES[0]?.Nombre === "Municipio" ? user.ROLES[0].Nombre + " " : " ") +
+                          ((user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN") ? user?.DEPARTAMENTOS[0]?.NombreCorto !== "ORG" ? user?.DEPARTAMENTOS[0]?.Descripcion + " " : " " : "") +
+                          (user?.MUNICIPIO[0]?.Nombre ? " " + user?.MUNICIPIO[0]?.Nombre + " " : " ")
+                          + ((user?.MUNICIPIO[0]?.Nombre || user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN") ? "" : "* Sin Municipio asignado *")
+                          + (user?.ORG[0]?.Descripcion ? " " + user?.ORG[0]?.Descripcion + " " : " ")
+                          + ((user?.ORG[0]?.Descripcion || user?.DEPARTAMENTOS[0]?.NombreCorto !== "ORG") ? "" : "* Sin Organismo asignado *")
+                        }
                       </Typography>
                     </Grid>
-
                     <Grid container justifyContent="flex-end" alignItems="center">
-
                       <Typography variant="h6" className="TextoHeader">
                         {props.name}
                       </Typography>
-
                     </Grid>
 
 
+
+
                   </Grid>
-
                 </Grid>
-                <Grid item xs={2}>
-
+                <Grid item>
                   <div className="containerBotonesHeaderPerfil">
                     <Tooltip title="Haz click para ver más">
                       <Button
@@ -435,36 +423,24 @@ export default function Header(props: HeaderProps) {
                         aria-haspopup="true"
                         onClick={handleToggle('left')}
                         color="inherit"
-                        sx={{
-                          width: "2.9rem",
-                          height: "2.9rem",
-                          fontSize: btnPerson,
-                          p: 0.1,
-                          border: 2,
-                          borderColor: COLOR.doradoNL,
-                          backgroundColor: user?.RutaFoto ? COLOR.blanco : COLOR.azul,
-                          "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
-
-                        }}
                       >
-                        {user.RutaFoto !== null ? (
+                        {user.RutaFoto ? (
                           <>
                             <img
-                              style={{
-                                objectFit: "scale-down",
-                                width: "100%",
-                                height: "100%",
+                              className="imgDentroDeHeaderInicio"
 
-                              }}
                               src={"data:" + String(props.imgData === "undefined" ? Blanco.Tipo : props.imgTipo) + ";base64," +
                                 String(props.imgData === "undefined" ? Blanco.Data : props.imgData)}
                             />
                           </>
 
                         ) : (
-
-
-                          <PersonIcon className="IconoDentroBoton" />
+                          <PersonIcon sx={{
+                            width: "60%",
+                            height: "60%"
+                          }}
+                            className="IconoDentroBotonPerfil"
+                          />
                         )}
                       </Button>
 

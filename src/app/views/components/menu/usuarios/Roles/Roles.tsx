@@ -15,11 +15,13 @@ import MUIXDataGrid from "../../../MUIXDataGrid";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
 import ConfiguracionRoles from "./ConfiguracionRoles";
 import RolesModal from "./RolesModal";
-
+import AddchartIcon from '@mui/icons-material/Addchart';
+import ReportesControlAsignacion from "../../../Reportes/ReportesControlAsignacion";
 const Roles = () => {
   const [data, setData] = useState([]);
   const [dt, setDt] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openReportes, setOpenReportes] = useState(false);
   const [openRolesConf, setOpenRolesconf] = useState(false);
   const [id, setId] = useState("");
   const [nameRol, setNameRol] = useState("");
@@ -34,6 +36,7 @@ const Roles = () => {
   const handleClose = (v: string) => {
     setOpen(false);
     setOpenRolesconf(false);
+    setOpenReportes(false);
 
     {
       if (v === "saved") consulta({ NUMOPERACION: 4 });
@@ -85,6 +88,12 @@ const Roles = () => {
     setOpenRolesconf(true);
   };
 
+  const handleOpenReportes = (v: any) => {
+    setOpenReportes(true);
+    setId(v.id);
+    setNameRol(v.row.Nombre)
+  };
+
   const handleEditarRegistro = (v: any) => {
     setTipoOperacion(2);
     setModo("Editar Rol");
@@ -100,7 +109,7 @@ const Roles = () => {
       width: 150,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -109,12 +118,17 @@ const Roles = () => {
         return (
           <Box>
             <Tooltip title={"Ver y Eliminar menus de el Rol"}>
-              <IconButton color="inherit"  onClick={() => handleView(v)}>
+              <IconButton color="inherit" onClick={() => handleView(v)}>
                 <ManageAccountsIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title={"Ver y Eliminar Reportes de el Rol"}>
+              <IconButton color="inherit" onClick={() => handleOpenReportes(v)}>
+                <AddchartIcon />
+              </IconButton>
+            </Tooltip>
 
-             {editar ? (
+            {editar ? (
               <Tooltip title={"Editar  Descripción del Rol"}>
                 <IconButton color="inherit" onClick={() => handleEditarRegistro(v)}>
                   <EditIcon />
@@ -137,11 +151,11 @@ const Roles = () => {
         );
       },
     },
-    {field: "FechaCreacion",  headerName: "Fecha Creación",  description:"Fecha Creación",  width: 200,},
-    {field: "CreadoPor",      headerName: "Creado Por",      description:"Creado por",      width: 250,},
-    {field: "Nombre",         headerName: "Rol",             description:"Rol",             width: 250,},
-    { field: "Descripcion",   headerName: "Descripción",     description:"Descripción",     width: 450 },
-   
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 200, },
+    { field: "CreadoPor", headerName: "Creado Por", description: "Creado por", width: 250, },
+    { field: "Nombre", headerName: "Rol", description: "Rol", width: 250, },
+    { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 450 },
+
   ];
 
   const consulta = (data: any) => {
@@ -187,22 +201,28 @@ const Roles = () => {
       ) : (
         ""
       )}
+
+
+      {
+        openReportes ?
+          <ReportesControlAsignacion idRol={id} NameRol={nameRol} handleClose={handleClose} />
+          : ""}
       {openRolesConf ? (
         <RolesModal
           modo={modo}
           handleClose={handleClose}
           tipo={tipoOperacion}
-          dt={dt} openRoles={false}        />
+          dt={dt} openRoles={false} />
       ) : (
         ""
       )}
-            <Grid container >
-            <Grid item container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <Typography variant="h3">
-                Roles
-              </Typography>
-            </Grid>
-            </Grid>
+      <Grid container >
+        <Grid item container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+          <Typography variant="h3">
+            Roles
+          </Typography>
+        </Grid>
+      </Grid>
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />

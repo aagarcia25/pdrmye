@@ -263,7 +263,7 @@ export const CATORG = () => {
       <MUIXDataGrid columns={columns} rows={data} />
       {openCC ? (
         // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
-          <CuentaBancaria idmunicipio={id} municipio={nombreProv} handleCloseModal={handleClose} ></CuentaBancaria>
+          <CuentaBancaria idmunicipio={id} municipio={nombreProv} handleCloseModal={handleClose} fullScrean={true} ></CuentaBancaria>
 
       ) : (
         ""

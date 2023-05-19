@@ -42,9 +42,7 @@ const TipoFondoCalculo = () => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
-      hide: true,
-      width: 10,
+      hide: true, hideable:false,
     },
     {
       field: "acciones", disableExport: true,
