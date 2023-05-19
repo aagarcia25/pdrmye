@@ -80,7 +80,7 @@ const SpeisAdmin = ({
 
 
     const columns: GridColDef[] = [
-        { field: "id",  hide: true, hideable:false },
+        { field: "id", hide: true, hideable: false },
         {
             field: "acciones", disableExport: true,
             headerName: "Acciones",
@@ -102,13 +102,7 @@ const SpeisAdmin = ({
                             </Tooltip>
                             : ""}
                         {/* {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ? */}
-                        {eliminar ?
-                            <Tooltip title={"Eliminar Archivo"}>
-                                <IconButton onClick={() => handleDeleteSpei(v)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </Tooltip>
-                            : ""}
+
                         {permisoDescargarSpei
                             // && v.row.Nombre.slice(-3).toUpperCase() === "PDF"
                             ?
@@ -123,6 +117,14 @@ const SpeisAdmin = ({
                                 </IconButton>
                             </Tooltip>
 
+                            : ""}
+
+                        {eliminar ?
+                            <Tooltip title={"Eliminar Archivo"}>
+                                <IconButton onClick={() => handleDeleteSpei(v)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </Tooltip>
                             : ""}
 
 
@@ -191,12 +193,12 @@ const SpeisAdmin = ({
             (event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF"
                 || event.target!.files[0]!.name.slice(-4).toUpperCase() === "XML"
             ))
-            && (event.target!.files[0]!.name === (vrows.row.a3 + ".pdf")
-                || modo === "CFDI"
-            )) {
+            // && (event.target!.files[0]!.name === (vrows.row.a3 + ".pdf") || modo === "CFDI" )
+            )
+             {
 
 
-            if (Number(event.target!.files[0]!.size) / 1024 <= 5120) {
+            if (Number(event.target!.files[0]!.size) / 1024 <= 520) {
 
                 if (modo === "CFDI") {
                     setNameSpei(event.target!.files[0]!.name);
@@ -208,35 +210,35 @@ const SpeisAdmin = ({
 
                 if (speis.length !== 0) {
                     speis.map((item: SPEIS) => {
-                        if ((item.Nombre) === event?.target?.files[0]?.name && modo === "SPEI") {
+                        // if ((item.Nombre) === event?.target?.files[0]?.name && modo === "SPEI") {
 
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Atención",
-                                text: "No se Puede Repetir Archivos con el mismo numero de Solicitud de pago",
-                                showDenyButton: false,
-                                showCancelButton: false,
-                                confirmButtonText: "Aceptar",
-                                cancelButtonText: "Cancelar",
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    setNameSpei("");
-                                    setSpeiFile(null);
-                                    setFileValid(false);
-                                    setslideropen(false);
+                        //     Swal.fire({
+                        //         icon: "warning",
+                        //         title: "Atención",
+                        //         text: "No se Puede Repetir Archivos con el mismo numero de Solicitud de pago",
+                        //         showDenyButton: false,
+                        //         showCancelButton: false,
+                        //         confirmButtonText: "Aceptar",
+                        //         cancelButtonText: "Cancelar",
+                        //     }).then((result) => {
+                        //         if (result.isConfirmed) {
+                        //             setNameSpei("");
+                        //             setSpeiFile(null);
+                        //             setFileValid(false);
+                        //             setslideropen(false);
 
-                                }
-                                if (result.isDenied) {
-                                }
-                            });
-                        } else {
+                        //         }
+                        //         if (result.isDenied) {
+                        //         }
+                        //     });
+                        // } else {
 
                             setNameSpei(event.target!.files[0]!.name);
                             setSpeiFile(file);
                             setFileValid(true);
                             setslideropen(false);
 
-                        }
+                        // }
 
                     });
 
@@ -255,7 +257,7 @@ const SpeisAdmin = ({
                 Swal.fire({
                     icon: "info",
                     title: "Atención",
-                    text: "Tamaño de archivo Excedido -Limitado a 5 MB-",
+                    text: "Tamaño de archivo Excedido -Limitado a 500 KB-",
                     showDenyButton: false,
                     showCancelButton: false,
                     confirmButtonText: "Aceptar",
