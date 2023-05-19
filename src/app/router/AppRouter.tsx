@@ -131,7 +131,7 @@ export const AppRouter = (
           <Route path='/inicio/catalogos/crecimientoAnio' element={<CrecimientoAnio />} />
           <Route path='/inicio/catalogos/parametrosgenerales' element={<ParametrosGenerales />} />
           <Route path='/inicio/catalogos/bancos' element={<Bancos />} />
-          <Route path='/inicio/catalogos/cuentabancaria' element={<CuentaBancaria idmunicipio={''} municipio={''} handleCloseModal={handleCloseModal} />} />
+          <Route path='/inicio/catalogos/cuentabancaria' element={<CuentaBancaria idmunicipio={''} municipio={''} handleCloseModal={handleCloseModal} fullScrean={false} />} />
           <Route path='/inicio/catalogos/SolicitudCambios' element={<CambiosMun />} />
           <Route path='/inicio/catalogos/divisas' element={<Divisas />} />
           <Route path='/inicio/catalogos/ajustes' element={<AjustesCalculos />} />

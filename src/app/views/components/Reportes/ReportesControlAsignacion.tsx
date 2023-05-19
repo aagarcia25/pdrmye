@@ -1,61 +1,37 @@
 import { useEffect, useState } from 'react'
 import { Typography, Grid, Tooltip, IconButton, Box } from '@mui/material';
-import { AuthService } from '../../../../../services/AuthService';
-import { Toast } from '../../../../../helpers/Toast';
-import { AlertS } from '../../../../../helpers/AlertS';
-import { GridColDef } from '@mui/x-data-grid';
-import MUIXDataGridSimple from '../../../MUIXDataGridSimple';
-import ConfigurarPermisosMenu from './ConfigurarPermisosMenu';
-import ModalForm from '../../../componentes/ModalForm';
-import Slider from '../../../Slider';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { GridColDef } from '@mui/x-data-grid';
+import { Toast } from '../../../helpers/Toast';
+import { AlertS } from '../../../helpers/AlertS';
+import MUIXDataGridSimple from '../MUIXDataGridSimple';
+import ModalForm from '../componentes/ModalForm';
+import Slider from '../Slider';
+import { CatalogosServices } from '../../../services/catalogosServices';
 
-const ConfiguracionRoles = ({
+const ReportesControlAsignacion = ({
   idRol,
   NameRol,
-  open,
   handleClose,
 }: {
   idRol: string,
   NameRol: string,
-open:boolean,
   handleClose: Function,
 }) => {
-  const [dataRolesMenu, setDataRolesMenu] = useState([]);
-  const [dtRolesMenu, setDtRolesMenu] = useState([]);
-  const [openPerRelRolesMenu, setOpenPerRelRolesMenu] = useState(false);
+  const [dataReporteMenu, setReporteMenu] = useState([]);
   const [openSlider, setOpenSlider] = useState(false);
+  const [dataReporteMenuAsignado, setDataReporteMenuAsignado] = useState([]);
 
-  const [dataAsignarMenuRol, setDataAsignarMenuRol] = useState([]);
+
   const columns: GridColDef[] = [
     {
       field: "id",
       hide: true, hideable:false,
     },
-
-    { field: "MENU", headerName: "Menu", width: 300 },
+    { field: "Nombre", headerName: "Nombre", width: 300,description:"Nombre" },
     {
-      field: "Permisos",
-      headerName: "Permisos",
-      description: "Campo de Acciones",
-      sortable: false,
-      width: 120,
-      renderCell: (v) => {
-        return (
-          <>
-            <Tooltip title={"Configuración de Permisos"}>
-              <IconButton onClick={() => handleViewPermisos(v)}>
-                <ManageAccountsIcon />
-              </IconButton>
-            </Tooltip>
-          </>
-        );
-      },
-    },
-    {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "",
       description: "Relacionar Menus",
       sortable: false,
@@ -73,15 +49,15 @@ open:boolean,
       },
     },
 
-
   ];
-  const columnsAsignarMenuRol: GridColDef[] = [
+
+  const columnsAsignarReporteRol: GridColDef[] = [
     {
       field: "id",
       hide: true, hideable:false,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "",
       description: "Relacionar Roles",
       sortable: false,
@@ -89,7 +65,6 @@ open:boolean,
       renderCell: (v) => {
         return (
           <>
-
             <Tooltip title={"Asignar menu a el Rol"}>
               <IconButton onClick={() => handleChangeAsignarMenuRol(v)}>
                 <ArrowBackIosIcon color='success' />
@@ -99,27 +74,9 @@ open:boolean,
         );
       },
     },
-
-    { field: "MENU", headerName: "Menu", width: 400 },
-
+    { field: "Nombre", headerName: "Nombre", width: 150,description:"Nombre" },
+    { field: "Descripcion", headerName: "Descripcion", description:"Descripcion", width: 200 },
   ];
-
-
-  const handleViewPermisos = (v: any) => {
-
-    setDtRolesMenu(v);
-    setOpenPerRelRolesMenu(true);
-
-  };
-
-  const handleCloseAsignar = (v: string) => {
-    setOpenPerRelRolesMenu(false);
-
-    if (v === "saved") {
-      consulta({ NUMOPERACION: 4 });
-
-    };
-  };
 
   const handleChange = (v: any) => {
     let data = {
@@ -128,13 +85,13 @@ open:boolean,
       IDMENU: v.id
     }
     setOpenSlider(true)
-    AuthService.rolespermisorelacionar(data).then((res) => {
-      setDataRolesMenu(res.RESPONSE);
+    CatalogosServices.reportesAdministracionRelacion(data).then((res) => {
+      setReporteMenu(res.RESPONSE);
 
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Menu Eliminado!",
+          title: "¡Reporte Eliminado!",
         });
         consultaAsignarMenuRol({ CHID: idRol });
         consulta({ CHID: idRol });
@@ -150,8 +107,8 @@ open:boolean,
 
 
   const consulta = (data: any) => {
-    AuthService.menurelacionadosalrol(data).then((res) => {
-      setDataRolesMenu(res.RESPONSE);
+    CatalogosServices.reportesAdministracionRelacion(data).then((res) => {
+      setReporteMenu(res.RESPONSE);
       setOpenSlider(false)
     });
   };
@@ -163,14 +120,14 @@ open:boolean,
       IDMENU: v.id
     }
     setOpenSlider(true);
-    AuthService.rolespermisorelacionar(dataAsignarMenuRol).then((res) => {
-      setDataAsignarMenuRol(res.RESPONSE);
+    CatalogosServices.reportesAdministracionRelacion(dataAsignarMenuRol).then((res) => {
+      setDataReporteMenuAsignado(res.RESPONSE);
       setOpenSlider(false)
 
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Menu Relacionado!",
+          title: "¡Reporte Relacionado!",
         });
         consultaAsignarMenuRol({ CHID: idRol });
         consulta({ CHID: idRol });
@@ -184,10 +141,9 @@ open:boolean,
     });
   };
 
-  const consultaAsignarMenuRol = (data: any) =>
-   {
-    AuthService.menusinrelacionararol(data).then((res) => {
-      setDataAsignarMenuRol(res.RESPONSE);
+  const consultaAsignarMenuRol = (data: any) => {
+    CatalogosServices.reportesAdministracionRelacion(data).then((res) => {
+      setDataReporteMenuAsignado(res.RESPONSE);
       setOpenSlider(false);
 
     });
@@ -196,7 +152,7 @@ open:boolean,
 
   useEffect(() => {
     consultaAsignarMenuRol({ CHID: idRol });
-    consulta({ CHID: idRol });
+    consulta({ CHID: idRol,TIPO:4 } );
   }, []);
 
 
@@ -204,25 +160,21 @@ open:boolean,
   return (
     <>
       <Slider open={openSlider} ></Slider>
-      <ModalForm title={' Configuración de Rol: '+NameRol} handleClose={handleClose}>
+      <ModalForm title={' Configuración de Rol: ' + NameRol} handleClose={handleClose}>
 
-        <Grid container sx={{ boxShadow: 50, borderRadius: 20,  }}>
-          <Grid item xs={12} sm={12} md={12} lg={12}>
-            <Grid container sx={{ boxShadow: 50, borderRadius: 20, justifyContent: "center" }} >
-      
-            </Grid>
-          </Grid>
+        <Grid container sx={{ boxShadow: 50, borderRadius: 20, }} spacing={2}>
+   
           <Grid item xs={6} sm={6} md={6} lg={6}>
             <Grid container sx={{ left: "50%", width: "100%", height: "80vh", bgcolor: "rgb(255,255,255)", boxShadow: 50, borderRadius: 3, justifyContent: "center" }} >
               <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding: "1%" }}>
                 <Grid item sm={12} sx={{ height: "100%" }}>
                   <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                    <Typography variant="h6"  sx={{ textAlign: "center"}}>
-                      Menús Relacionados al Rol
+                    <Typography variant="h6" sx={{ textAlign: "center" }}>
+                      Reportes Relacionados al Rol
                     </Typography>
                   </Grid>
                   <Grid item sm={12} sx={{ height: "90%", }}>
-                    <MUIXDataGridSimple columns={columns} rows={dataRolesMenu} />
+                    <MUIXDataGridSimple columns={columns} rows={dataReporteMenuAsignado} />
                   </Grid>
                 </Grid>
                 <Grid >
@@ -235,12 +187,12 @@ open:boolean,
             <Grid container sx={{ left: "50%", width: "100%", height: "80vh", bgcolor: "rgb(255,255,255)", justifyContent: "center" }} >
               <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding: "1%" }}>
                 <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                  <Typography variant="h6"  sx={{ textAlign: "center"}}>
-                    Menús Disponibles Para Relacionar al Rol
+                  <Typography variant="h6" sx={{ textAlign: "center" }}>
+                    Reportes Disponibles Para Relacionar al Rol
                   </Typography>
                 </Grid>
                 <Grid item sm={12} sx={{ height: "90%", }}>
-                  <MUIXDataGridSimple columns={columnsAsignarMenuRol} rows={dataAsignarMenuRol} />
+                  <MUIXDataGridSimple columns={columnsAsignarReporteRol} rows={dataReporteMenu} />
                 </Grid>
               </Box>
             </Grid>
@@ -249,15 +201,7 @@ open:boolean,
 
       </ModalForm>
 
-      {openPerRelRolesMenu ?
-        <ConfigurarPermisosMenu
-          id={idRol}
-          handleCloseAsignar={handleCloseAsignar}
-          handleClose={handleClose}
-          dt={dtRolesMenu}
-          NameRol={NameRol} />
-        : ""
-      }
+
 
 
     </>
@@ -265,4 +209,4 @@ open:boolean,
 }
 
 
-export default ConfiguracionRoles
+export default ReportesControlAsignacion

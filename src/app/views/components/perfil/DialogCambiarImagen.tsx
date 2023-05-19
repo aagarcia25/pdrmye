@@ -32,7 +32,42 @@ export function DialogCambiarImagen({
 
     const SaveImagen = () => {
         const formData = new FormData();
+        formData.append("NUMOPERACION", "1");
+        formData.append("TIPO", "/FOTOPERFIL/");
+        formData.append("IMAGEN", newImage, nombreArchivo);
+        formData.append("CHUSER", user.id);
+        formData.append("TOKEN", JSON.parse(String(getToken())));
 
+
+        AuthService.SaveImagen(formData).then((res) => {
+
+            if (res.SUCCESS) {
+
+                Toast.fire({
+                    icon: "success",
+                    title: "Imagen Actualizada",
+                });
+                let data = {
+                    NUMOPERACION: 1,
+                    ID: user.id,
+                };
+                AuthService.adminUser(data).then((res2) => {
+                    const us: UserInfo = res2;
+                    setUser(us.RESPONSE);
+                });
+                handleClose();
+
+            }
+
+        });
+
+        handleClose();
+
+    };
+
+    const DeleteImagen = () => {
+        const formData = new FormData();
+        formData.append("NUMOPERACION", "2");
         formData.append("TIPO", "/FOTOPERFIL/");
         formData.append("IMAGEN", newImage, nombreArchivo);
         formData.append("CHUSER", user.id);
@@ -115,7 +150,7 @@ export function DialogCambiarImagen({
 
                                     {
                                         imgTipo !== "undefined" && imgData !== "undefined" ?
-                                            <img  alt="Foto de Perfil" style={{ objectFit: "scale-down", width: "100%", height: "100%", }}
+                                            <img alt="Foto de Perfil" style={{ objectFit: "scale-down", width: "100%", height: "100%", }}
                                                 //   {imgTipo}
                                                 src={"data:" + imgTipo + ";base64," + imgData} />
                                             :
@@ -128,7 +163,7 @@ export function DialogCambiarImagen({
                             :
                             <>
                                 {/* {imgTipo !== "undefined" && imgData !== "undefined" ? */}
-                                    <img   alt="Foto de Perfil" src={uploadFile} style={{ objectFit: "scale-down", width: '100%', height: "100%", }} />
+                                <img alt="Foto de Perfil" src={uploadFile} style={{ objectFit: "scale-down", width: '100%', height: "100%", }} />
                             </>
                         }
                     </div>
@@ -145,9 +180,27 @@ export function DialogCambiarImagen({
                 </Box>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => { setDisabledButton(true); setNombreArchivo(""); setOpenDialogConfirmacion(false); setTipoArchivo(""); handleClose(); }} color="error">Cancelar</Button>
 
-                <Button disabled={(disabledButton && !(tipoArchivo === "jpg" || tipoArchivo === "png" || tipoArchivo === "svg" || tipoArchivo === "jpeg") ? true : false) ? true : false} onClick={() => setOpenDialogConfirmacion(true)} color="success">Guardar cambios</Button>
+            <Button className="cancelar"
+                    onClick={() => {
+                        DeleteImagen(); handleClose();
+                    }} >
+                    Eliminar imagen
+                </Button>
+
+                <Button className="cancelar"
+                    onClick={() => {
+                        setDisabledButton(true); setNombreArchivo(""); setOpenDialogConfirmacion(false);
+                        setTipoArchivo(""); handleClose();
+                    }} >
+                    Cancelar
+                </Button>
+
+                <Button className="agregar"
+                    disabled={(disabledButton && !
+                        (tipoArchivo === "jpg" || tipoArchivo === "png" || tipoArchivo === "svg" || tipoArchivo === "jpeg") ? true : false) ? true : false} onClick={() => setOpenDialogConfirmacion(true)}>
+                    Guardar cambios
+                </Button>
             </DialogActions>
 
 

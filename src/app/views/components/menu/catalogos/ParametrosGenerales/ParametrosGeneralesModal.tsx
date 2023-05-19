@@ -169,7 +169,7 @@ export const ParametrosGeneralesModal = ({
             required
             margin="dense"
             id="Descripcion"
-            label="Descripcion"
+            label="Descripción"
             value={descripcion}
             type="text"
             fullWidth
