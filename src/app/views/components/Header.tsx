@@ -27,7 +27,6 @@ import { styled } from '@mui/material/styles';
 import SpeedDial from '@mui/material/SpeedDial';
 import { useState } from "react";
 import { Blanco } from "../../styles/imagen";
-import menuBurger from "../../../app/assets/img/menuBurger.svg";
 import logoNL from "../../../app/assets/img/logo1.svg";
 import ButtonsTutorial from "./menu/catalogos/Utilerias/ButtonsTutorial";
 import NotesIcon from '@mui/icons-material/Notes';

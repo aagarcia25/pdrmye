@@ -60,9 +60,7 @@ export default function Bienvenido({ user }: { user: any }) {
       
       <Grid item paddingTop="2%" paddingBottom="2%"> 
       <Box display="flex" justifyContent="center">
-      <Box >
-      <Typography variant="h4" color= {COLOR.azul}> {(" ¡Bienvenid@! ")} </Typography>
-      </Box>
+   
       </Box>
       </Grid>
 
