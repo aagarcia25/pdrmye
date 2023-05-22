@@ -69,7 +69,7 @@ export function DialogCambiarImagen({
         const formData = new FormData();
         formData.append("NUMOPERACION", "2");
         formData.append("TIPO", "/FOTOPERFIL/");
-        formData.append("IMAGEN", newImage, nombreArchivo);
+        // formData.append("IMAGEN", newImage, nombreArchivo);
         formData.append("CHUSER", user.id);
         formData.append("TOKEN", JSON.parse(String(getToken())));
 
@@ -217,8 +217,12 @@ export function DialogCambiarImagen({
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => { setOpenDialogConfirmacion(false) }}>Cancelar</Button>
-                    <Button onClick={() => { SaveImagen(); setDisabledButton(true); setNombreArchivo(""); setOpenDialogConfirmacion(false); setTipoArchivo(""); }} color="success">Aceptar</Button>
+                    <Button
+                    className="cancelar"
+                    onClick={() => { setOpenDialogConfirmacion(false) }}>Cancelar</Button>
+                    <Button
+                    className="agregar"
+                    onClick={() => { SaveImagen(); setDisabledButton(true); setNombreArchivo(""); setOpenDialogConfirmacion(false); setTipoArchivo(""); }} color="success">Aceptar</Button>
                 </DialogActions>
             </Dialog>
 

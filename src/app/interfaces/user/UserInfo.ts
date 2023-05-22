@@ -161,6 +161,11 @@ export interface RESPONSEVIDEOS {
 
 }
 
+export interface RESPONSEPREGUNTASFRECUENTES {
+    Pregunta: string;
+    Texto: string;
+}
+
 export interface RESPONSE {
     NOMBRE?: string;
     TIPO?: string;

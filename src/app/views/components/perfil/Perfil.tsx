@@ -171,7 +171,7 @@ export const Perfil = (
                   }}
 
                   sx={{ width: "7.4rem", height: "7.4rem", backgroundColor: "white", borderRadius: '50%', justifyContent: "center", cursor: "pointer", }} >
-                  {user?.RutaFoto ?
+                  {user?.RutaFoto &&imgData!=="undefined" ?
 
                     <img 
                     alt="Foto de Perfil"
