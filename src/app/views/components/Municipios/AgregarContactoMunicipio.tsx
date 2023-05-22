@@ -77,19 +77,20 @@ const AgregarContactoMunicipio = () => {
     }
 
     function enCambioFile(event: any) {
-        console.log(event.target.files[0]);
-        setUrlImagenPreview("");
-        setNombreArchivo("");
-        setNewImage("");
-        setOpenSlider(true);
-        if (event?.target?.files[0]?.type?.split("/")[0] === "image") {
+        if (event.target.files[0] !== undefined) {
+            setUrlImagenPreview("");
+            setNombreArchivo("");
+            setNewImage("");
+            setOpenSlider(true);
+        }
+        if (event?.target?.files[0]?.type?.split("/")[0] === "image" && event.target.files[0] !== undefined) {
             setUrlImagenPreview(URL.createObjectURL(event.target.files[0]));
             setNombreArchivo(event.target.value.split("\\")[2]);
             let file = event.target!.files[0]!;
             setNewImage(file);
             setOpenSlider(false);
 
-        } else if(event?.target?.files[0]?.type?.split("/")[0] !== "image") {
+        } else if (event?.target?.files[0]?.type?.split("/")[0] !== "image" && event.target.files[0] !== undefined) {
             setOpenSlider(false);
             Swal.fire("¡No es una imagen!", "", "warning");
             setOpenSlider(false);
