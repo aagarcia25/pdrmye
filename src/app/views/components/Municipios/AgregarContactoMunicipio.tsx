@@ -67,6 +67,8 @@ const AgregarContactoMunicipio = () => {
                     setOpenSlider(false);
                 } else {
                     setNuevoRegistro(true)
+                    setOpenSlider(false);
+
                 }
             } else {
 
@@ -75,17 +77,23 @@ const AgregarContactoMunicipio = () => {
     }
 
     function enCambioFile(event: any) {
+        console.log(event.target.files[0]);
+        setUrlImagenPreview("");
+        setNombreArchivo("");
+        setNewImage("");
         setOpenSlider(true);
-        if (event.target.files[0].type.split("/")[0] === "image") {
+        if (event?.target?.files[0]?.type?.split("/")[0] === "image") {
             setUrlImagenPreview(URL.createObjectURL(event.target.files[0]));
             setNombreArchivo(event.target.value.split("\\")[2]);
             let file = event.target!.files[0]!;
             setNewImage(file);
             setOpenSlider(false);
 
-        } else {
+        } else if(event?.target?.files[0]?.type?.split("/")[0] !== "image") {
             setOpenSlider(false);
             Swal.fire("¡No es una imagen!", "", "warning");
+            setOpenSlider(false);
+
         }
 
     }
@@ -128,12 +136,7 @@ const AgregarContactoMunicipio = () => {
         else {
             formData.append("ESCUDO", "");
         }
-
         agregar(formData);
-
-
-
-
     }
 
     const agregar = (data: any) => {
@@ -143,7 +146,6 @@ const AgregarContactoMunicipio = () => {
                     icon: "success",
                     title: "¡Registro Agregado!",
                 });
-
                 setActualizaaDatos(!actualizarDatos);
                 setPrimerInicio(false);
                 // consulta();
@@ -151,8 +153,6 @@ const AgregarContactoMunicipio = () => {
                 // limpiar();
                 setEditar(false);
                 setOpenSlider(false);
-
-
             } else {
                 AlertS.fire({
                     title: "¡Error!",

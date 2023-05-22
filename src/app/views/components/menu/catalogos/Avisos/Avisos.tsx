@@ -57,7 +57,7 @@ export const Avisos = () => {
     { field: "FechaFin",        headerName: "Expiración",     description: "Expiración",      width: 200 },
     { field: "Nombre",          headerName: "Nombre",         description: "Nombre",          width: 250 },
     { field: "Descripcion",     headerName: "Descripción",    description: "Descripción",     width: 500, },
-    { field: "Documento",       headerName: "Documento",      description: "Documento", hide: true, width: 150, },
+    { field: "NombreDocumento", headerName: "Documento",description: "Documento", hide: true, width: 150, },
   ];
 
 
@@ -198,11 +198,9 @@ export const Avisos = () => {
   }, []);
 
 
-  return (
-
-    <div style={{ height: 600, width: "100%", paddingTop: "2%", paddingLeft: "1%", paddingRight: "1%" }} >
-
-      {open ? (
+  return (   
+    <>
+    {open ? (
         <AvisosModal
           open={open}
           modo={modo}
@@ -213,6 +211,10 @@ export const Avisos = () => {
       ) : (
         ""
       )}
+
+    <div style={{ height: 600, width: "100%", paddingTop: "2%", paddingLeft: "1%", paddingRight: "1%" }} >
+
+  
       <Grid container >
         <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
           <Typography
@@ -227,7 +229,7 @@ export const Avisos = () => {
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={conAvisos} />
     </div>
-
+    </>
 
   )
 }
