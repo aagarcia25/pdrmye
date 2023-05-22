@@ -179,7 +179,7 @@ interface Props {
 const drawerWidth = 230;
 
 export default function Inicio({ children, user,imgData,imgTipo }: Props) {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(true);
   const [slideropen, setslideropen] =  React.useState(false);
 
 
