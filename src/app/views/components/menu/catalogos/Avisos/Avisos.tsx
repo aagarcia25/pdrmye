@@ -198,11 +198,9 @@ export const Avisos = () => {
   }, []);
 
 
-  return (
-
-    <div style={{ height: 600, width: "100%", paddingTop: "2%", paddingLeft: "1%", paddingRight: "1%" }} >
-
-      {open ? (
+  return (   
+    <>
+    {open ? (
         <AvisosModal
           open={open}
           modo={modo}
@@ -213,6 +211,10 @@ export const Avisos = () => {
       ) : (
         ""
       )}
+
+    <div style={{ height: 600, width: "100%", paddingTop: "2%", paddingLeft: "1%", paddingRight: "1%" }} >
+
+  
       <Grid container >
         <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
           <Typography
@@ -227,7 +229,7 @@ export const Avisos = () => {
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={conAvisos} />
     </div>
-
+    </>
 
   )
 }

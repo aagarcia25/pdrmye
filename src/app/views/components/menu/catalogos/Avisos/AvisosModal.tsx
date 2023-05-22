@@ -221,7 +221,6 @@ const AvisosModal = ({
 
 
   return (
-    <Dialog open={open} keepMounted>
 
       <ModalForm title={modoModal} handleClose={handleClose}>
 
@@ -633,7 +632,6 @@ const AvisosModal = ({
           //////////evento finalizado                     
           : ""}
       </ModalForm>
-    </Dialog>
   );
 };
 
