@@ -7,6 +7,8 @@ import {
     Grid,
     Box,
     Typography,
+    BottomNavigation,
+    BottomNavigationAction,
 } from "@mui/material";
 
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -23,6 +25,11 @@ import Swal from "sweetalert2";
 import { ValidaSesion } from "../../../../../services/UserServices";
 import UploadIcon from '@mui/icons-material/Upload';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+
+
+
 const AdminVideosModal = ({
     IdMenu,
     modo,
@@ -50,9 +57,11 @@ const AdminVideosModal = ({
     const [newVideo, setNewVideo] = useState(Object);
     const [nombreArchivo, setNombreArchivo] = useState("");
     const [videoPreview, setVideoPreview] = useState("");
+    const [value, setValue] = useState('');
 
     function enCambioFile(event: any) {
         setslideropen(true)
+        console.log(event.target.files[0]);
         if (event?.target?.files[0] && event.target.files[0].type.split("/")[0] === "video") {
             setNombreArchivo(event?.target?.value?.split("\\")[2]);
             let file = event?.target!?.files[0]!;
@@ -60,10 +69,19 @@ const AdminVideosModal = ({
             setNewVideo(file);
             setslideropen(false);
         }
-        else {
 
-            Swal.fire("¡No es un video!", "", "warning");
+       else if (event?.target?.files[0] && event.target.files[0].type === "application/pdf") {
+            setNombreArchivo(event?.target?.value?.split("\\")[2]);
+            let file = event?.target!?.files[0]!;
+            setVideoPreview(URL.createObjectURL(event.target.files[0]));
+            setNewVideo(file);
+            setslideropen(false);
         }
+        else  {
+            Swal.fire("¡No es un archivo valido!", "", "warning");
+            setslideropen(false)
+        }
+        setslideropen(false);
 
     }
     const handleSend = () => {
@@ -120,6 +138,12 @@ const AdminVideosModal = ({
         setIdMenu(v);
     };
 
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+        setValue(newValue);
+        setNombreArchivo("");
+        setVideoPreview("");
+    };
+
     const agregar = (data: any) => {
         AuthService.rolesindex(data).then((res) => {
             if (res.SUCCESS) {
@@ -163,7 +187,7 @@ const AdminVideosModal = ({
                 justifyContent="center"
                 alignItems="center" >
 
-                <Grid item xs={12} sm={8} >
+                <Grid item xs={12} sm={5} >
                     <Typography variant="h6">Menú</Typography>
                     <SelectFrag
                         value={idMenu}
@@ -175,22 +199,22 @@ const AdminVideosModal = ({
                     />
 
                 </Grid>
-                <Grid container
+                <Grid item xs={12} sm={3} container
                     direction="row"
                     justifyContent="space-around"
-                    alignItems="center" item xs={12} sm={4} paddingTop={3}  >
+                    alignItems="center" paddingTop={3}  >
 
                     <Button
                         hidden
-                        disabled={modo === "Editar Nombre Video"}
+                        disabled={modo === "Editar Nombre Video" || !value}
                         component="label"
                         className="cancelar"
                     >
-                        Seleccionar Video
+                        Seleccionar {value}
                         <input
                             hidden
                             // id="imagencargada"
-                            accept="video/*"
+                            accept={value === "video" ? "video/*" : "application/pdf"}
                             onChange={(v) => { enCambioFile(v) }}
                             type="file" />
                     </Button>
@@ -200,57 +224,92 @@ const AdminVideosModal = ({
                         className="guardar"
                         onClick={() => SaveVideo()} >Guardar
                     </Button>
+
                 </Grid>
+                <Grid container item sm={4} direction="row" justifyContent="flex-end" alignItems="center" paddingTop="2%" paddingBottom={1} >
+                    <BottomNavigation showLabels sx={{ width: 500, borderRadius: "10px", }} value={value} onChange={handleChange}>
+                        <BottomNavigationAction
+                            label="Video Tutorial"
+                            value="video"
+                            icon={<AccountBoxIcon />}
+                        />
+                        <BottomNavigationAction
+                            label="Guia Rapida"
+                            value="guia"
+                            icon={<VpnKeyIcon />}
+                        />
+                        <BottomNavigationAction
+                            label="Preguntas Frecuentes"
+                            value="preguntas"
+                            icon={<VpnKeyIcon />}
+                        />
+                    </BottomNavigation>
+                </Grid>
+
 
             </Grid>
-            <Grid>
+            {value === "video" || value === "guia" ?
                 <Grid>
-                    <Typography variant='h6'>Nombre del archivo: </Typography>
+                    <Grid>
+                        <Typography variant='h6'>Nombre del archivo: </Typography>
+                    </Grid>
+                    <Grid>
+                        <TextField
+
+                            margin="dense"
+                            id="nombreEvento"
+                            value={nombreArchivo}
+                            fullWidth
+                            variant="outlined"
+                            size='small'
+                            onChange={(v) => setNombreArchivo(v.target.value)}
+                            sx={{ paddingBottom: "10px" }}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid>
-                    <TextField
+                : ""}
+            {value === "video" || value === "guia" ?
+                <div>
 
-                        margin="dense"
-                        id="nombreEvento"
-                        value={nombreArchivo}
-                        fullWidth
-                        variant="outlined"
-                        size='small'
-                        onChange={(v) => setNombreArchivo(v.target.value)}
-                        sx={{ paddingBottom: "10px" }}
-                    />
-                </Grid>
-            </Grid>
-            <div>
+                    <div className='containerModalCargarVideos'>
 
-                <div className='containerModalCargarVideos'>
+                        <div className='containerPreVisualizarVideo'>
+                            <Grid container
+                                direction="column"
+                                justifyContent="center"
+                                alignItems="center" >
 
-                    <div className='containerPreVisualizarVideo'>
-                        <Grid container
-                            direction="column"
-                            justifyContent="center"
-                            alignItems="center" >
+                                <Grid className='contenedorDeReproductorVideo' item xs={12}>
+                                    {value === "video" ?
+                                        <video
+                                            loop
+                                            autoPlay
+                                            width={"100%"}
+                                            height={"100%"}
+                                            hidden={modo === "Editar Nombre Video" || videoPreview?.length === 0}
+                                            src={videoPreview}
+                                            id="videoPlayer"
+                                            controls
+                                        /> :
+                                        <object
+                                            className="responsive-iframe"
+                                            data={videoPreview}
+                                            type="text/html">
+                                        </object>
+                                    }
+                                </Grid>
 
-                            <Grid className='contenedorDeReproductorVideo' item xs={12}>
 
-                                <video
-                                    loop
-                                    autoPlay
-                                    width={"100%"}
-                                    height={"100%"}
-                                    hidden={modo === "Editar Nombre Video" || videoPreview?.length === 0}
-                                    src={videoPreview}
-                                    id="videoPlayer"
-                                    controls
-                                />
                             </Grid>
-
-
-                        </Grid>
+                        </div>
                     </div>
+
                 </div>
 
-            </div>
+                : ""
+            }
+
+
 
         </ModalForm>
 

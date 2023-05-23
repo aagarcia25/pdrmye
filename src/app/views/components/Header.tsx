@@ -18,14 +18,13 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import { CatalogosServices } from "../../services/catalogosServices";
-import { getPerfilFoto, getToken, getUser } from "../../services/localStorage";
-import { RESPONSE, RESPONSESTORAGE } from "../../interfaces/user/UserInfo";
-import { Backdrop, Box, Button, Fade, Hidden, SpeedDialAction } from '@mui/material';
+import { getToken, getUser } from "../../services/localStorage";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { Backdrop, Button, Fade, Hidden, SpeedDialAction } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
 import { base64ToArrayBuffer } from "../../helpers/Files";
 import { styled } from '@mui/material/styles';
 import SpeedDial from '@mui/material/SpeedDial';
-import { useState } from "react";
 import { Blanco } from "../../styles/imagen";
 import logoNL from "../../../app/assets/img/logo1.svg";
 import ButtonsTutorial from "./menu/catalogos/Utilerias/ButtonsTutorial";
@@ -42,20 +41,12 @@ interface HeaderProps {
 
 export default function Header(props: HeaderProps) {
   const btnPerson = "120%";
-  // const btnAll = "130%";
-  const [openSlider, setOpenSlider] = React.useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [responseStorage, setResponseStorage] = useState<RESPONSESTORAGE>(JSON.parse(String(getPerfilFoto())));
   const navigate = useNavigate();
   const [cnotif, setCnotif] = React.useState(0);
-  const [rutaFoto, setRutaFoto] = React.useState("");
-
-
   const { onDrawerToggle } = props;
-
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
-
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
   const [placement, setPlacement] = React.useState<PopperPlacementType>();
 
@@ -144,7 +135,7 @@ export default function Header(props: HeaderProps) {
 
             }}
           >
-            {user.RutaFoto !== null ? (
+            {user.RutaFoto !== null || props.imgData !== "undefined" ? (
               <img style={{ objectFit: "scale-down", width: "100%", height: "100%" }}
                 // src={"data:"+props.imgTipo+";base64," +props.imgData}
                 src={"data:" + String(props.imgTipo === "undefined" ? Blanco.Tipo : props.imgTipo) + ";base64," + String(props.imgData === "undefined" ? Blanco.Data : props.imgData)}
@@ -290,14 +281,12 @@ export default function Header(props: HeaderProps) {
   };
   React.useEffect(() => {
 
-    setRutaFoto(String(user?.RutaFoto))
-
     CatalogosServices.Notificaciones(data).then((res) => {
       let result = res.RESPONSE;
       setCnotif(result[0].count);
 
     });
-}, [props.imgTipo]);
+  }, [props.imgTipo]);
 
 
 
@@ -423,7 +412,7 @@ export default function Header(props: HeaderProps) {
                         onClick={handleToggle('left')}
                         color="inherit"
                       >
-                        {user.RutaFoto ? (
+                        {user.RutaFoto && props.imgData !== "undefined" ? (
                           <>
                             <img
                               className="imgDentroDeHeaderInicio"
@@ -481,11 +470,32 @@ export default function Header(props: HeaderProps) {
                                 <CalendarMonthIcon className="IconoDentroBoton" />
                               </IconButton>  Calendario
                             </MenuItem>
-                            <MenuItem onClick={onOpenHelp}>
-                              <IconButton onClick={onOpenHelp} >
-                                <HelpIcon className="IconoDentroBoton" />
-                              </IconButton>   Guía Rapida
-                            </MenuItem>
+                            {/* <MenuItem onClick={onOpenHelp}>
+                              <Grid container   justifyContent="space-between">
+                                <Tooltip title={"Guía Rapida"}>
+                                  <IconButton onClick={onOpenHelp} >
+                                    <HelpIcon className="IconoDentroBoton" />
+                                  </IconButton>
+                                </Tooltip>
+                              
+                                <Tooltip title={"Preguntas frecuentes"}>
+                                  <IconButton onClick={onOpenHelp} >
+                                    <HelpIcon className="IconoDentroBoton" />
+                                  </IconButton>
+                                </Tooltip>
+
+                                <Hidden mdDown>
+                                  <Grid className="containerMenuItemBotones">
+                                    <ButtonsTutorial route={"/VIDEOS/TUTORIALES/"} handleCloseMenuVideos={handleCloseMenuVideos} />
+                                  </Grid>
+                                </Hidden>
+
+
+                           
+
+                              </Grid>
+
+                            </MenuItem> */}
                             <Hidden mdDown>
                               <Grid className="containerMenuItemBotones">
                                 <ButtonsTutorial route={"/VIDEOS/TUTORIALES/"} handleCloseMenuVideos={handleCloseMenuVideos} />

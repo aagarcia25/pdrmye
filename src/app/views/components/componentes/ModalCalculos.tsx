@@ -23,7 +23,7 @@ const ModalCalculos = ({
 }) => {
   
   const [mensaje, setMensaje] = useState<string>();
-  const [openSlider, setOpenSlider] = useState(true);
+  const [openSlider, setOpenSlider] = useState(false);
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
   const [chuserDestin, setChuserDestin] = useState<string>("");
 
