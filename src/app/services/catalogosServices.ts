@@ -18,7 +18,14 @@ export class CatalogosServices {
     public static  AdminVideoTutoriales(data: any) {
         return  post('AdminVideoTutoriales', data);
     }
+
+    public static  AdminPreguntasFrecuentes(data: any) {
+        return  post('AdminPreguntasFrecuentes', data);
+    }
     
+    public static  AdminGuiaRapida(data: any) {
+        return  post('AdminGuiaRapida', data);
+    }
     public static async IndexClasificacionSP(data: any) {
         return await post('IndexClasificacionSP', data);
     }

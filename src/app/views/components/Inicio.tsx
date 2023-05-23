@@ -186,10 +186,7 @@ export default function Inicio({ children, user,imgData,imgTipo }: Props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const handleopenSlider = () => {
-    setslideropen(!slideropen);
-    console.log(!slideropen)
-  };
+
 
   return (
     <ThemeProvider theme={theme}>

@@ -175,8 +175,10 @@ const DetalleFgp = ({
             icon: "success",
             title: "¡Consulta Exitosa!",
           });
+          setOpenSlider(false);
           handleClose();
         } else {
+          setOpenSlider(false);
           AlertS.fire({
             title: "¡Error!",
             text: res.STRMESSAGE,
