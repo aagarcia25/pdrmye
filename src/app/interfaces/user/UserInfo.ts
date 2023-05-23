@@ -162,8 +162,15 @@ export interface RESPONSEVIDEOS {
 }
 
 export interface RESPONSEPREGUNTASFRECUENTES {
+    id: string;
     Pregunta: string;
     Texto: string;
+}
+
+export interface RESPONSEGUIARAPIDA {
+    id: string;
+    Pregunta: string;
+    RutaGuia: string;
 }
 
 export interface RESPONSE {
