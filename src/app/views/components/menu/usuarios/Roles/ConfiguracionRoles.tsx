@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react'
-import { Typography, Grid, Tooltip, IconButton, Box } from '@mui/material';
-import { AuthService } from '../../../../../services/AuthService';
-import { Toast } from '../../../../../helpers/Toast';
-import { AlertS } from '../../../../../helpers/AlertS';
-import { GridColDef } from '@mui/x-data-grid';
-import MUIXDataGridSimple from '../../../MUIXDataGridSimple';
-import ConfigurarPermisosMenu from './ConfigurarPermisosMenu';
-import ModalForm from '../../../componentes/ModalForm';
-import Slider from '../../../Slider';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { GridColDef } from '@mui/x-data-grid';
+import { useEffect, useState } from 'react';
+import { AlertS } from '../../../../../helpers/AlertS';
+import { Toast } from '../../../../../helpers/Toast';
+import { AuthService } from '../../../../../services/AuthService';
+import MUIXDataGridSimple from '../../../MUIXDataGridSimple';
+import Slider from '../../../Slider';
+import ModalForm from '../../../componentes/ModalForm';
+import ConfigurarPermisosMenu from './ConfigurarPermisosMenu';
 
 const ConfiguracionRoles = ({
   idRol,
@@ -30,12 +30,8 @@ open:boolean,
 
   const [dataAsignarMenuRol, setDataAsignarMenuRol] = useState([]);
   const columns: GridColDef[] = [
-    {
-      field: "id",
-      hide: true, hideable:false,
-    },
-
-    { field: "MENU", headerName: "Menu", width: 300 },
+    {field: "id",hide: true, hideable:false,},
+    { field: "MENU", headerName: "Menú", width: 300 },
     {
       field: "Permisos",
       headerName: "Permisos",
@@ -57,13 +53,13 @@ open:boolean,
     {
       field: "acciones",  disableExport: true,
       headerName: "",
-      description: "Relacionar Menus",
+      description: "Relacionar Menús",
       sortable: false,
       width: 10,
       renderCell: (v) => {
         return (
           <>
-            <Tooltip title={"Eliminar menus de el Rol"}>
+            <Tooltip title={"Eliminar Menús de el Rol"}>
               <IconButton onClick={() => handleChange(v)}>
                 <ArrowForwardIosIcon color='error' />
               </IconButton>
@@ -90,7 +86,7 @@ open:boolean,
         return (
           <>
 
-            <Tooltip title={"Asignar menu a el Rol"}>
+            <Tooltip title={"Asignar Menú a el Rol"}>
               <IconButton onClick={() => handleChangeAsignarMenuRol(v)}>
                 <ArrowBackIosIcon color='success' />
               </IconButton>
@@ -99,14 +95,12 @@ open:boolean,
         );
       },
     },
-
-    { field: "MENU", headerName: "Menu", width: 400 },
+    { field: "MENU", headerName: "Menús", width: 400 },
 
   ];
 
 
   const handleViewPermisos = (v: any) => {
-
     setDtRolesMenu(v);
     setOpenPerRelRolesMenu(true);
 
@@ -134,7 +128,7 @@ open:boolean,
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Menu Eliminado!",
+          title: "!Menú Eliminado!",
         });
         consultaAsignarMenuRol({ CHID: idRol });
         consulta({ CHID: idRol });
@@ -170,7 +164,7 @@ open:boolean,
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Menu Relacionado!",
+          title: "!Menú Relacionado!",
         });
         consultaAsignarMenuRol({ CHID: idRol });
         consulta({ CHID: idRol });

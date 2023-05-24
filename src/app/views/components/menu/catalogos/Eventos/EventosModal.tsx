@@ -88,7 +88,7 @@ const EventosModal = ({
     if (finEvento === "" || inicioEvento === "" || descripcion === "" || nameEvent === "" ||
       finEvento === undefined || inicioEvento === undefined || descripcion === undefined || nameEvent === undefined
     ) {
-      Swal.fire("Falta informacion , revisar los campos!", "", "warning");
+      Swal.fire("!Falta información , revisar los campos!", "", "warning");
 
     } else {
       const formData = new FormData();

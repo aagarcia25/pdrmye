@@ -267,6 +267,175 @@ const Participaciones = () => {
     setModoSpeiCfdi(modo);
   };
 
+
+
+  const columnasMunicipio = [
+    { field: "id", hide: true, hideable: false },
+    {
+      field: "Operaciones",
+      disableExport: true,
+      headerName: "Operaciones",
+      description: "Operaciones",
+      sortable: false,
+      width: 200  + anchoAcciones,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+
+
+            <Tooltip title={"Administrar Detalles"}>
+              <IconButton value="check" onClick={() => handledetalles(v)}>
+                <MenuBookIcon />
+              </IconButton>
+            </Tooltip>
+
+
+
+            {verTrazabilidad ? (
+              <Tooltip title={"Ver Trazabilidad"}>
+                <IconButton value="check" onClick={() => handleVerTazabilidad(v)}>
+                  <InsightsIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+
+            {v.row.orden > 13 ? (
+              <>
+                <Tooltip title="Ver Spei">
+                  <IconButton
+                    onClick={() => handleVerSpei(v, "SPEI")}>
+                    <img className="iconButton" src={IconSPEI}
+                    />
+                  </IconButton>
+                </Tooltip>
+
+              </>
+            ) : (
+              ""
+            )}
+            {v.row.orden > 13 ? (
+              <Tooltip title="Administrar CFDI">
+                <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
+                  <img className="iconButton" src={IconCFDI}
+                  />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+          </Box>
+        );
+      },
+    },
+  
+    {
+      field: "estatus",
+      headerName: "Estatus",
+      description: "Estatus",
+      width: 170,
+    },
+    {
+      field: "NumOper",
+      headerName: "Nº De Operación",
+      description: "Nº De Operación",
+      width: 110,
+    },
+    {
+      field: "Anio",
+      headerName: "Ejercicio",
+      width: 100,
+      description: "Ejercicio",
+    },
+    {
+      field: "Mes",
+      headerName: "Mes",
+      width: 80,
+      description: "Mes",
+    },
+    {
+      field: "TipoSolicituds",
+      headerName: "Tipo",
+      width: 170,
+      description: "Tipo de Solicitud",
+    },
+    {
+      field: "ClaveEstado",
+      headerName: "Clave Estado",
+      width: 100,
+      description: "Clave Estado",
+    },
+    {
+      field: "Nombre",
+      headerName: "Proveedor",
+      width: 200,
+      description: "Proveedor",
+    },
+    {
+      field: "tipocalculo",
+      headerName: "Tipo Cálculo",
+      description: "Tipo Cálculo",
+      width: 150,
+    },
+    {
+      field: "a9",
+      headerName: "Descripción",
+      description: "Descripción",
+      width: 250,
+    },
+    {
+      field: "ClaveBeneficiario",
+      headerName: "Cve. Beneficiario",
+      width: 100,
+      description: "Clave de Beneficiario",
+    },
+    {
+      field: "total",
+      headerName: "Total Bruto",
+      width: 140,
+      description: "Total Bruto",
+      ...Moneda,
+    },
+    {
+      field: "Retenciones",
+      headerName: "Retenciones",
+      width: 120,
+      description: "Retenciones",
+      ...Moneda,
+    },
+    {
+      field: "RecAdeudos",
+      headerName: "Recaudación de Adeudos",
+      width: 160,
+      description: "Recaudación de Adeudos",
+      ...Moneda,
+    },
+    {
+      field: "Descuentos",
+      headerName: "Descuentos",
+      width: 100,
+      description: "Descuentos",
+      ...Moneda,
+    },
+    {
+      field: "a5",
+      headerName: "Total Neto",
+      width: 200,
+      description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
+      ...Moneda,
+      renderHeader: () => (
+        <>
+          {"Total: " + currencyFormatter.format(Number(sumaTotal))}
+        </>
+      ),
+    },
+    
+  ];
+
+
   const columnsParticipaciones = [
     { field: "id", hide: true, hideable: false },
     { field: "TipoSolicitud", hide: true, hideable: false },
@@ -328,7 +497,7 @@ const Participaciones = () => {
             }
 
 
-            {v.row.orden > 13 ? (
+            {/* {v.row.orden > 13 ? ( */}
               <>
                 <Tooltip title="Ver Spei">
                   <IconButton
@@ -339,9 +508,9 @@ const Participaciones = () => {
                 </Tooltip>
 
               </>
-            ) : (
-              ""
-            )}
+           {/*  ) : (
+               ""
+             )}*/}
             {v.row.orden > 13 ? (
               <Tooltip title="Administrar CFDI">
                 <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
@@ -358,8 +527,6 @@ const Participaciones = () => {
       },
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "AccionesDescuentos",
       disableExport: true,
       headerName: "Descuentos",
@@ -383,8 +550,6 @@ const Participaciones = () => {
       },
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "AccionesRetenciones",
       disableExport: true,
       headerName: "Retenciones",
@@ -422,32 +587,24 @@ const Participaciones = () => {
       width: 110,
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumParticipacion",
       headerName: "Número De Participación",
       width: 150,
       description: "Número De Participación",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumSolEgreso",
       headerName: "Solicitud De Egreso",
       width: 145,
       description: "Número De Solicitud De Egreso",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumEgreso",
       headerName: "Egreso",
       width: 80,
       description: "Número De Egreso",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "a3",
       headerName: "Solicitud de Pago",
       width: 120,
@@ -455,8 +612,6 @@ const Participaciones = () => {
     },
 
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumRequerimientoAnt",
       headerName: "Req. De Anticipo",
       width: 120,
@@ -481,16 +636,12 @@ const Participaciones = () => {
       description: "Tipo de Solicitud",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "ClaveEstado",
       headerName: "Clave Estado",
       width: 100,
       description: "Clave Estado",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Nombre",
       headerName: "Proveedor",
       width: 200,
@@ -516,16 +667,12 @@ const Participaciones = () => {
       description: "Clave de Beneficiario",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "uresclave",
       headerName: "U. Resp",
       description: "Unidad Responsable",
       width: 80,
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "NumProyecto",
       headerName: "Número de Proyecto",
       description: "Número de Proyecto",
@@ -533,8 +680,6 @@ const Participaciones = () => {
     },
 
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Presupuesto",
       headerName: "Presupuesto SIREGOB",
       width: 170,
@@ -582,40 +727,30 @@ const Participaciones = () => {
       ),
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Proveedor",
       headerName: "Proveedor",
       width: 80,
       description: "Proveedor",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Deudor",
       headerName: "Deudor",
       width: 80,
       description: "Deudor",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "clasificacion",
       headerName: "Clasificación",
       width: 100,
       description: "Clasificación de Solicitud de Pago",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Divisa",
       headerName: "Divisa",
       width: 80,
       description: "Divisa",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
       field: "Observaciones",
       headerName: "Observaciones",
       width: 400,
@@ -685,7 +820,7 @@ const Participaciones = () => {
             "");
         setslideropen(false);
 
-      } else if (operacion === 27) {
+      } else if (operacion === 38) {
         setOrganismos(res.RESPONSE);
         setslideropen(false);
 
@@ -1651,6 +1786,7 @@ const Participaciones = () => {
     loadFilter(17);
     loadFilter(25);
     loadFilter(24);
+    loadFilter(38);
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
 
@@ -2257,7 +2393,7 @@ const Participaciones = () => {
           <MUIXDataGridGeneral
             modulo={nombreExport}
             handleBorrar={handleBorrarMasivo}
-            columns={columnsParticipaciones}
+            columns={user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ?  columnasMunicipio : columnsParticipaciones}
             rows={data} controlInterno={""}
             multiselect={true} />
         </Grid>

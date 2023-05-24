@@ -33,6 +33,7 @@ import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { getPermisos, getToken, getUser } from "../../../services/localStorage";
+import { fanios } from "../../../share/loadAnios";
 import { fmeses } from "../../../share/loadMeses";
 import { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
 import { ModalCheque } from "../componentes/ModalCheque";
@@ -192,7 +193,6 @@ const AsigPago = () => {
       description: "Ejercicio",
     },
     { field: "a7", headerName: "Mes", width: 80, description: "Mes" },
-    //  {field: "ClaveEstado",      headerName: "Clave Estado",      width: 100,      description: "Clave Estado",    },
     {
       field: "a8",
       headerName: "Proveedor",
@@ -326,7 +326,7 @@ const AsigPago = () => {
       let html = "";
       if (a1.length === 0) {
         AlertS.fire({
-          text: "Sin coincidencia con algun numero de Solicitud, Verifique Nombre y Estatus ",
+          text: "Sin coincidencia con algun número de Solicitud, Verifique Nombre y Estatus ",
           icon: "warning",
         });
       } else {
@@ -440,6 +440,7 @@ const AsigPago = () => {
   };
   useEffect(() => {
     setMeses(fmeses());
+    setAnios(fanios());
     loadFilter(36);
     loadFilter(31);
     loadFilter(32);
