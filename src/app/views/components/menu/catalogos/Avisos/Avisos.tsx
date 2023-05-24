@@ -12,6 +12,7 @@ import { getPermisos, getUser } from '../../../../../services/localStorage';
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import { AlertS } from '../../../../../helpers/AlertS';
+import NombreCatalogo from '../../../componentes/NombreCatalogo';
 
 
 export const Avisos = () => {
@@ -213,13 +214,10 @@ export const Avisos = () => {
       )}
 
     <div style={{ height: 600, width: "100%", paddingTop: "2%", paddingLeft: "1%", paddingRight: "1%" }} >
-
-  
-      <Grid container >
-        <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Typography
-            sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-            Avisos
+      <Grid container justifyContent="space-between">
+        <Grid item md={12} textAlign="center" >
+          <Typography variant="h3" >
+            {"Avisos"}
           </Typography>
         </Grid>
       </Grid>
