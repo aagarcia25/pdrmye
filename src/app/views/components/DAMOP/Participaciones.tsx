@@ -289,24 +289,7 @@ const Participaciones = () => {
               </IconButton>
             </Tooltip>
 
-            {ELIMINA && v.row.orden === 1 ? (
-              <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
-                <Tooltip title={"Eliminar"}>
-                  <DeleteForeverOutlinedIcon />
-                </Tooltip>
-              </IconButton>
-            ) : ("")}
 
-
-            {verSegmentar && String(v.row.estatus) === 'Ingresando Operación' ? (
-              <Tooltip title={"Segmentar Operación"}>
-                <IconButton value="check" onClick={() => handleVerSegmentos(v)}>
-                  <SegmentIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
 
             {verTrazabilidad ? (
               <Tooltip title={"Ver Trazabilidad"}>
@@ -317,15 +300,6 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-
-            {String(v.row.estatus) === 'Ingresando Operación' && cargarPlant ?
-              <Tooltip title={"Asignar N° de Solicitud de Pago"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 5)}>
-                  <MonetizationOnIcon />
-                </IconButton>
-              </Tooltip>
-              : ""
-            }
 
 
             {v.row.orden > 13 ? (
@@ -358,7 +332,6 @@ const Participaciones = () => {
       },
     },
   
-
     {
       field: "estatus",
       headerName: "Estatus",
@@ -371,8 +344,6 @@ const Participaciones = () => {
       description: "Nº De Operación",
       width: 110,
     },
-    
-  
     {
       field: "Anio",
       headerName: "Ejercicio",
@@ -392,16 +363,12 @@ const Participaciones = () => {
       description: "Tipo de Solicitud",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? false : true,
       field: "ClaveEstado",
       headerName: "Clave Estado",
       width: 100,
       description: "Clave Estado",
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? false : true,
       field: "Nombre",
       headerName: "Proveedor",
       width: 200,
@@ -420,15 +387,11 @@ const Participaciones = () => {
       width: 250,
     },
     {
-
       field: "ClaveBeneficiario",
       headerName: "Cve. Beneficiario",
       width: 100,
       description: "Clave de Beneficiario",
     },
-   
-
-   
     {
       field: "total",
       headerName: "Total Bruto",
@@ -587,8 +550,6 @@ const Participaciones = () => {
       },
     },
     {
-      hide: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? true : false,
-      hideable: user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ? false : true,
       field: "AccionesRetenciones",
       disableExport: true,
       headerName: "Retenciones",
@@ -1825,6 +1786,7 @@ const Participaciones = () => {
     loadFilter(17);
     loadFilter(25);
     loadFilter(24);
+    loadFilter(38);
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "PARTMUN") {
 
