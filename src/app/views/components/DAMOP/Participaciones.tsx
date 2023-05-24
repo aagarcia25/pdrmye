@@ -497,7 +497,7 @@ const Participaciones = () => {
             }
 
 
-            {v.row.orden > 13 ? (
+            {/* {v.row.orden > 13 ? ( */}
               <>
                 <Tooltip title="Ver Spei">
                   <IconButton
@@ -508,9 +508,9 @@ const Participaciones = () => {
                 </Tooltip>
 
               </>
-            ) : (
-              ""
-            )}
+           {/*  ) : (
+               ""
+             )}*/}
             {v.row.orden > 13 ? (
               <Tooltip title="Administrar CFDI">
                 <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
