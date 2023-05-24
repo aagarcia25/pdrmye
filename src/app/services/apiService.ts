@@ -53,6 +53,17 @@ export const post = async function (url: string, body: any) {
     }
 };
 
+export const postReporte = async function (url: string, body: any) {
+    let header = await getHeaderInfo();
+    try {
+        let resp = await axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + url, body, header)
+    return resp.data;
+    } catch (err: any) {
+        return err.response;
+    }
+};
+
+
 export const postDoc = async function (url: string, body: any) {
     let header = await getHeaderInfo();
     try {
