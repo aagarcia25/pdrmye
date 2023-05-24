@@ -685,7 +685,7 @@ const Participaciones = () => {
             "");
         setslideropen(false);
 
-      } else if (operacion === 27) {
+      } else if (operacion === 38) {
         setOrganismos(res.RESPONSE);
         setslideropen(false);
 
