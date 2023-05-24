@@ -495,7 +495,7 @@ const AvisosModal = ({
                   <TextField
                     margin="dense"
                     multiline
-                    value=" El evento ya Inicio y/o Finalizo"
+                    value=" El evento ya Inicio y/o Finalizó"
                     type="string"
                     fullWidth
                     variant="outlined"

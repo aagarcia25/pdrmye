@@ -20,6 +20,7 @@ export default function MUIXDataGrid(props: any) {
     Solicitud:false,
     nombreMunicipio:false,
     Tipo:false,
+    idmunicipio:false,
   });
   
 
@@ -119,6 +120,9 @@ export default function MUIXDataGrid(props: any) {
             filterOperatorIsEmpty: 'Es Vacio',
             filterOperatorIsNotEmpty: 'No Vacio',
             filterOperatorIsAnyOf:'Es Cualquiera de',
+            filterPanelInputLabel: 'Valor',
+            filterPanelInputPlaceholder: 'Valor Filtrado',
+            
             
 
           }}

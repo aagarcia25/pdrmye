@@ -152,7 +152,7 @@ const ConfigurarPermisosMenu = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Permiso Asignado!",
+          title: "!Permiso Asignado!",
         });
         consulta({ CHID: dt?.row?.id, IDROL: id, });
         consultaAsignarPermisoRol({ CHID: dt?.row?.id, IDROL: id });
