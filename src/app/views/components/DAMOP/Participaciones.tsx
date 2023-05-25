@@ -65,6 +65,7 @@ import IconCFDI from '../../../assets/img/CFDI.svg';
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import { MigraData, resultmigracion } from "../../../interfaces/parametros/ParametrosGenerales";
 import { ReportesServices } from "../../../services/ReportesServices";
+import axios from "axios";
 
 const Participaciones = () => {
 
@@ -141,6 +142,7 @@ const Participaciones = () => {
   const [permisoEliminarDescuento, setPermisoEliminarDescuento] = useState<boolean>(false);
   const [permisoEliminarDetalleCabecera, setPermisoEliminarDetalleCabecera] = useState<boolean>(false);
   const [permisoEditarDetalleCabecera, setPermisoEditarDetalleCabecera] = useState<boolean>(false);
+  const [permisoAgregarNumeroSolicitud, setPermisoAgregarNumeroSolicitud] = useState<boolean>(false);
 
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
   const [sumaTotal, setSumaTotal] = useState<Number>();
@@ -170,28 +172,17 @@ const Participaciones = () => {
 
 
   const handleprintsolicitud = (data: any) => {
-   //setslideropen(true);
-
+   setslideropen(true);
     let body = {
-      P_ID: data?.id,
-      P_NO: data?.row?.NumOper,
-      P_ANIO: data?.row?.Anio,
-      P_MES: data?.row?.Mes,
-      P_BENEFICIARIO: data?.row?.Nombre,
-      P_TOTAL: data?.row?.total,
+      P_ID:data?.id,
+      P_NO:data?.row?.NumOper,
+      P_ANIO:data?.row?.Anio,
+      P_MES:data?.row?.Mes,
+      P_BENEFICIARIO:data?.row?.Nombre,
+      P_TOTAL:data?.row?.total
     }
-
-    console.log(body);
-    
-    ReportesServices.formatoSolicitud(body).then((res) => {
-      console.log(res);
-
-      const url = window.URL.createObjectURL(new Blob([res],  {type: "aplication/pdf"}));
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = body.P_NO + '_Solicitud.pdf';
-      document.body.appendChild(link);
-      link.click();
+    ReportesServices.formatoSolicitud(body ,body.P_NO +'_Solicitud.pdf').then((response) => {
+      setslideropen(false);
      });
 
      
@@ -530,7 +521,7 @@ const Participaciones = () => {
               ""
             )}
 
-            {String(v.row.estatus) === 'Ingresando Operación' && cargarPlant ?
+            {(String(v.row.estatus) === 'Ingresando Operación' && cargarPlant ) || permisoAgregarNumeroSolicitud ? 
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
                   <MonetizationOnIcon />
@@ -1910,6 +1901,8 @@ const Participaciones = () => {
         }
         else if (String(item.Referencia) === "AGREGDESC") {
           setPermisoAgregarDescuento(true);
+        } else if (String(item.Referencia) === "ASIGNANUMEROORDENPAGO") {
+          setPermisoAgregarNumeroSolicitud(true);
         }
 
       } setAnchoAcciones(ancho)

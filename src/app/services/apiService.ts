@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getFormDataHeader, getHeaderInfo, getHeaderInitial } from './tokenCreator';
+import { getFormDataHeader, getHeaderInfo, getHeaderInfoReporte, getHeaderInitial } from './tokenCreator';
 
 /**
  * MANEJO AUTOMATICO DE PETICIONES
@@ -53,13 +53,23 @@ export const post = async function (url: string, body: any) {
     }
 };
 
-export const postReporte = async function (url: string, body: any) {
-    let header = await getHeaderInfo();
+export const postReporte = async function (url: string, body: any , name:string) {
+    let header = await getHeaderInfoReporte();
     try {
-        let resp = await axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + url, body, header)
-    return resp.data;
+      axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + url, body, { responseType: 'blob' })
+     .then((response) => {
+      const blobStore = new Blob([response.data], { type: 'application/pdf' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blobStore);
+      link.download = name; 
+      link.click();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
     } catch (err: any) {
-        return err.response;
+        console.log(err);
     }
 };
 
