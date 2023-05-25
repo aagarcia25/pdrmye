@@ -92,13 +92,12 @@ const ButtonsTutorial = ({
   const handleObtenerVideos = (idmenu: string) => {
     let data = {
       CHID: idmenu,
-      NUMOPERACION:user?.DEPARTAMENTOS[0]?.NombreCorto==="DTI"? 12:9,
-      TIPO: user?.DEPARTAMENTOS[0]?.NombreCorto==="ORG"||user?.DEPARTAMENTOS[0]?.NombreCorto==="MUN"? 1:2
+      NUMOPERACION: user?.DEPARTAMENTOS[0]?.NombreCorto === "DTI" ? 12 : 9,
+      TIPO: user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ? 1 : 2
 
     };
     AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS) {
-        console.log(res.RESPONSE);
         setDataVideos(res.RESPONSE);
       } else {
 
@@ -110,14 +109,14 @@ const ButtonsTutorial = ({
     let data = {
       CHID: idmenu,
       NUMOPERACION: numOperacion,
-      TIPO: user?.DEPARTAMENTOS[0]?.NombreCorto==="ORG"||user?.DEPARTAMENTOS[0]?.NombreCorto==="MUN"? 1:2
+      TIPO: user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ? 1 : 2
     };
     AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS) {
-        if (numOperacion === 7) {
+        if (numOperacion === 7||numOperacion === 10) {
           setDataPreguntasFrecuentes(res.RESPONSE);
         }
-        else if (numOperacion === 8) {
+        else if (numOperacion === 8 || numOperacion === 11) {
           setDataGuiaRapida(res.RESPONSE);
 
         }
@@ -141,8 +140,8 @@ const ButtonsTutorial = ({
     setOpen(false);
     setOpenCarga(false);
     handleObtenerVideos(idMenu);
-    handleObtenerPreguntasFrecuentes(idMenu,user?.DEPARTAMENTOS[0]?.NombreCorto==="DTI"? 10:7);
-    handleObtenerPreguntasFrecuentes(idMenu, user?.DEPARTAMENTOS[0]?.NombreCorto==="DTI"?11:8);
+    handleObtenerPreguntasFrecuentes(idMenu, user?.DEPARTAMENTOS[0]?.NombreCorto === "DTI" ? 10 : 7);
+    handleObtenerPreguntasFrecuentes(idMenu, user?.DEPARTAMENTOS[0]?.NombreCorto === "DTI" ? 11 : 8);
     // handleCloseMenuVideos();
 
   };
@@ -150,13 +149,16 @@ const ButtonsTutorial = ({
 
   useEffect(() => {
     ValidaSesion();
+    console.log((window.location.href).slice((window.location.href).indexOf("#") + 1).replace(/%20/g, " "))
+    console.log((window.location.href).slice((window.location.href).lastIndexOf("/") + 1).replace(/%20/g, " "))
+
     menu.map((item: MENU) => {
       item.items.map((itemsMenu: ITEMS) => {
         if (String(itemsMenu.Path) === (window.location.href).slice((window.location.href).indexOf("#") + 1).replace(/%20/g, " ")) {
           setIdMenu(itemsMenu.id);
           handleObtenerVideos(itemsMenu.id);
-          handleObtenerPreguntasFrecuentes(itemsMenu.id,user?.DEPARTAMENTOS[0]?.NombreCorto==="DTI"? 7:10);
-          handleObtenerPreguntasFrecuentes(itemsMenu.id, user?.DEPARTAMENTOS[0]?.NombreCorto==="DTI"?8:11);
+          handleObtenerPreguntasFrecuentes(itemsMenu.id, user?.DEPARTAMENTOS[0]?.NombreCorto === "DTI" ? 10 : 7);
+          handleObtenerPreguntasFrecuentes(itemsMenu.id, user?.DEPARTAMENTOS[0]?.NombreCorto === "DTI" ? 11 : 8);
         }
       });
     });
@@ -358,7 +360,7 @@ const ButtonsTutorial = ({
       </Grid >
 
       {open ?
-        <ModalForm title={'Visualizar Video'} handleClose={handleClose}>
+        <ModalForm title={'Visualizar'} handleClose={handleClose}>
           <div className='containerCenter'>
 
             {modoVisualizacion === "video" ?
@@ -390,7 +392,7 @@ const ButtonsTutorial = ({
       }
 
       {openCarga ?
-        <AdminAyudasModal IdMenu={idMenu} modo={"Agregar Video"} tipo={0} handleClose={handleClose} dt={{}} /> : ""
+        <AdminAyudasModal IdMenu={idMenu} modo={"Administrar ayudas"} tipo={0} handleClose={handleClose} dt={{}} /> : ""
       }
     </div >
   )

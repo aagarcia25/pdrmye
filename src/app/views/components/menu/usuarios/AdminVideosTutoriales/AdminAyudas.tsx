@@ -67,7 +67,6 @@ const AdminAyudas = ({
 
   function enCambioFile(event: any) {
     setslideropen(true)
-    console.log(event.target.files[0]);
     if (event?.target?.files[0] && event.target.files[0].type.split("/")[0] === "video") {
       setNombreArchivo(event?.target?.value?.split("\\")[2]);
       let file = event?.target!?.files[0]!;
@@ -100,6 +99,15 @@ const AdminAyudas = ({
     CatalogosServices.SelectIndex(data).then((res) => {
       if (operacion === 16) {
         setMenus(res.RESPONSE);
+        if (value === "pregunta") {
+          consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "4")
+        }
+        if (value === "guia") {
+          consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "11");
+        }
+        if (value === "video") {
+          consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "12");
+        }
       }
     });
   };
@@ -129,6 +137,15 @@ const AdminAyudas = ({
           handleClose();
         } else {
           handleLimpiaCampos();
+          if (value === "pregunta") {
+            consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "4")
+          }
+          if (value === "guia") {
+            consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "11");
+          }
+          if (value === "video") {
+            consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "12");
+          }
         }
 
         setslideropen(false);
@@ -157,7 +174,7 @@ const AdminAyudas = ({
 
     let data = {
       NUMOPERACION: numOp,
-      CHID: idMenu
+      CHID: idMenu === "false" ? "" : idMenu
     }
 
     AuthService.AdminAyudas(data).then((res) => {
@@ -168,7 +185,45 @@ const AdminAyudas = ({
       if (!res.SUCCESS) {
         Toast.fire({
           icon: "error",
-          title: "Error en la busqueda de preguntas",
+          title: "Error en la busqueda",
+        });
+
+        setslideropen(false);
+      }
+    });
+    // handleClose();
+  };
+
+
+
+  const handleBorrarRegistro = (id: string) => {
+    ValidaSesion();
+    setslideropen(true)
+
+    let data = {
+      NUMOPERACION: 13,
+      CHID: id,
+      TOKEN: JSON.parse(String(getToken()))
+    }
+
+    AuthService.AdminAyudas(data).then((res) => {
+      if (res.SUCCESS || res.RESPONSE) {
+        if (value === "pregunta") {
+          consulta(IdMenu ? IdMenu : idMenu, "4");
+        }
+
+        if (value === "video") {
+          consulta(IdMenu ? IdMenu : idMenu, "12");
+        }
+
+        if (value === "guia") {
+          consulta(IdMenu ? IdMenu : idMenu, "11");
+        }
+      }
+      if (!res.SUCCESS) {
+        Toast.fire({
+          icon: "error",
+          title: "Error en la busqueda",
         });
 
         setslideropen(false);
@@ -187,6 +242,7 @@ const AdminAyudas = ({
       CHID: idMenu,
       PREGUNTA: pregunta,
       RESPUESTA: respuesta,
+      TIPO: valueDepartamento === "ext" ? "1" : "2"
     }
     AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS || res.RESPONSE) {
@@ -222,7 +278,7 @@ const AdminAyudas = ({
 
 
 
-  const columns: GridColDef[] = [
+  const columnsGuia: GridColDef[] = [
     { field: "id", hide: true, hideable: false },
     {
       field: "Acciones",
@@ -234,55 +290,132 @@ const AdminAyudas = ({
       renderCell: (v: any) => {
         return (
           <Box>
-
-
             <Tooltip title="Eliminar Descuento">
-              <IconButton >
+              <IconButton onClick={() => handleBorrarRegistro(v.row.id)}>
                 <DeleteForeverIcon />
               </IconButton>
             </Tooltip>
-
-
-
-            <Tooltip title="Editar Descuento">
-              <IconButton >
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
-
-
           </Box>
         );
       },
     },
+    { field: "Menu", headerName: "Menú", description: "Menú", width: 250 },
+    { field: "Pregunta", headerName: "Pregunta", description: "Pregunta", width: 600 },
+    {
+      field: "RutaGuia", headerName: "Nombre Guía", description: "Nombre Guía", width: 800,
+    },
+    {
+      field: "Departamento", headerName: "Departamento", description: "Departamento", width: 200,
+      renderCell: (v: any) => {
+        return (
+          <>
+            {
+              v.row.Departamento === "1" ?
+                "Externo: Municio u Organismo" :
+                "Area Interna"
+
+            }
+          </>
+
+        );
+      },
+    },
+
+  ];
+  const columnsVideo: GridColDef[] = [
+    { field: "id", hide: true, hideable: false },
+    {
+      field: "Acciones",
+      disableExport: true,
+      headerName: "Acciones",
+      description: "Acciones",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            <Tooltip title="Eliminar Descuento">
+              <IconButton onClick={() => handleBorrarRegistro(v.row.id)}>
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
+    { field: "Menu", headerName: "Menú", description: "Menú", width: 250 },
+    { field: "NombreOriginalVideo", headerName: "NombreOriginalVideo", description: "NombreOriginalVideo", width: 600 },
+    {
+      field: "Departamento", headerName: "Departamento", description: "Departamento", width: 200,
+      renderCell: (v: any) => {
+        return (
+          <>
+            {
+              v.row.Departamento === "1" ?
+                "Externo: Municio u Organismo" :
+                "Area Interna"
+            }
+          </>
+
+        );
+      },
+    },
+
+
+
+
+  ]; const columnsPreguntas: GridColDef[] = [
+    { field: "id", hide: true, hideable: false },
+    {
+      field: "Acciones",
+      disableExport: true,
+      headerName: "Acciones",
+      description: "Acciones",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            <Tooltip title="Eliminar Descuento">
+              <IconButton onClick={() => handleBorrarRegistro(v.row.id)}>
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
+    { field: "Menu", headerName: "Menú", description: "Menú", width: 250 },
     { field: "Pregunta", headerName: "Pregunta", description: "Pregunta", width: 600 },
     {
       field: "Texto", headerName: "Respuesta", description: "Respuesta", width: 800,
-      hide: value === "pregunta" ? false : true,
-      hideable: value === "pregunta" ? false : true,
     },
     {
-      field: "RutaGuia", headerName: "Ruta Guia", description: "Ruta Guia", width: 800,
-      hide: value === "guia" ? false : true,
-      hideable: value === "guia" ? false : true,
+      field: "Departamento", headerName: "Departamento", description: "Departamento", width: 200,
+      renderCell: (v: any) => {
+        return (
+          <>
+            {
+              v.row.Departamento === "1" ?
+                "Externo: Municio u Organismo" :
+                "Area Interna"
+            }
+          </>
+
+        );
+      },
     },
-
-
-
-
   ];
-
   const handleFilterChange2 = (v: string) => {
     setIdMenu(v);
     if (value === "pregunta") {
-      consulta(IdMenu ? IdMenu : v, "4")
+      consulta(IdMenu ? IdMenu : v === "false" ? "" : v, "4")
+    }
+    if (value === "guia") {
+      consulta(IdMenu ? IdMenu : v === "false" ? "" : v, "11");
     }
     if (value === "video") {
-      consulta(IdMenu ? IdMenu : idMenu, "12");
-    }
-
-    if (value === "guia") {
-      consulta(IdMenu ? IdMenu : idMenu, "11");
+      consulta(IdMenu ? IdMenu : v === "false" ? "" : v, "12");
     }
   };
 
@@ -323,7 +456,6 @@ const AdminAyudas = ({
     });
   };
   useEffect(() => {
-    console.log(IdMenu)
     if (value === "pregunta") {
       consulta(IdMenu ? IdMenu : idMenu, "4");
     }
@@ -577,15 +709,19 @@ const AdminAyudas = ({
               />
             </Grid>
           </Grid>
+          <Grid item xs={12}>
+            <MUIXDataGrid columns={columnsPreguntas} rows={preguntas} />
+          </Grid>
         </>
         : ""
       }
-      <Grid item xs={12}>
-        <MUIXDataGrid columns={columns} rows={preguntas} />
-      </Grid>
+
       {value === "video" || value === "guia" ?
         <Grid container>
 
+          <Grid item xs={12}>
+            <MUIXDataGrid columns={value === "video" ? columnsVideo : columnsGuia} rows={preguntas} />
+          </Grid>
           <div className='containerModalCargarVideos'>
 
             <div className='containerPreVisualizarVideo'>

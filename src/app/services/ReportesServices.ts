@@ -3,8 +3,8 @@ import { postReporte } from "./apiService";
 export class ReportesServices {
 
     
-    public static async formatoSolicitud(data: any) {
-        return await postReporte('formatoSolicitud', data);
+    public static async formatoSolicitud(data: any,name: string) {
+        return await postReporte('formatoSolicitud', data,name);
     }
 
    

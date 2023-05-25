@@ -65,6 +65,7 @@ import IconCFDI from '../../../assets/img/CFDI.svg';
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import { MigraData, resultmigracion } from "../../../interfaces/parametros/ParametrosGenerales";
 import { ReportesServices } from "../../../services/ReportesServices";
+import axios from "axios";
 
 const Participaciones = () => {
 
@@ -171,37 +172,17 @@ const Participaciones = () => {
 
 
   const handleprintsolicitud = (data: any) => {
-   //setslideropen(true);
-
-    /*let body = {
+   setslideropen(true);
+    let body = {
       P_ID:data?.id,
       P_NO:data?.row?.NumOper,
       P_ANIO:data?.row?.Anio,
       P_MES:data?.row?.Mes,
       P_BENEFICIARIO:data?.row?.Nombre,
       P_TOTAL:data?.row?.total
-    }*/
-    let body =
-    {
-      "P_ID": "75b4b376-f10f-11ed-b61c-2c4138b7dab1",
-      "P_NO": 12894,
-      "P_ANIO": 2023,
-      "P_MES": "Abril",
-      "P_BENEFICIARIO": "Servicios de Salud de Nuevo León, O.P.D.",
-      "P_TOTAL": 110871871.50
-  }
-
-    console.log(body);
-    ReportesServices.formatoSolicitud(body).then((response) => {
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', body.P_NO + '_Solicitud.pdf');
-      document.body.appendChild(link);
-      link.click();
-
-
+    }
+    ReportesServices.formatoSolicitud(body ,body.P_NO +'_Solicitud.pdf').then((response) => {
+      setslideropen(false);
      });
 
      
