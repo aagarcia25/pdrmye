@@ -15,7 +15,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getPermisos, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import { getMunicipios, getPermisos, getToken, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
 import { PhotoCamera } from "@mui/icons-material";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
@@ -100,6 +100,7 @@ const EventosModal = ({
       formData.append("FECHAINICIO", inicioEvento);
       formData.append("FECHAFIN", finEvento);
       formData.append("CHUSER", user.id);
+      formData.append("TOKEN", JSON.parse(String(getToken())));
 
       CatalogosServices.eventos(formData).then((res) => {
         setslideropen(false);
@@ -108,14 +109,14 @@ const EventosModal = ({
             icon: "success",
             title: "Carga Exitosa!",
           });
-          handleClose();
+          // handleClose();
         } else {
           AlertS.fire({
             title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
-          handleClose();
+          // handleClose();
         }
       });
 

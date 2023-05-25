@@ -252,7 +252,7 @@ const AgregarContactoMunicipio = () => {
                                         <img src={urlImagenPreview} style={{ alignItems: "center", objectFit: "scale-down", width: "100%", height: "100%", borderRadius: "0" }} />
 
                                         : escudo ?
-                                            <VisaulizarImagen ubicacion={"/FOTOPERFIL/"} name={escudo} />
+                                            <VisaulizarImagen ubicacion={"/USUARIOS/FOTOPERFIL/"} name={escudo} />
                                             :
                                             <>
                                                 <AddPhotoAlternateIcon sx={{ width: "100%", height: "100%", }} />
@@ -654,7 +654,7 @@ const AgregarContactoMunicipio = () => {
                 <Grid container direction="column" justifyContent="center" alignItems="center" sx={{ paddingBottom: "5%" }}   >
                     <div className="CargaDeArchivosCuenta">
                         {escudo ?
-                            <VisaulizarImagen ubicacion={"/FOTOPERFIL/"} name={escudo} />
+                            <VisaulizarImagen ubicacion={"/USUARIOS/FOTOPERFIL/"} name={escudo} />
                             :
                             <AddPhotoAlternateIcon sx={{ width: "100%", height: "100%", }} />
                         }
