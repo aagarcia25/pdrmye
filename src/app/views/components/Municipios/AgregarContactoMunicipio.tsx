@@ -52,28 +52,40 @@ const AgregarContactoMunicipio = () => {
 
     const consulta = () => {
         setOpenSlider(true);
-        formData.append("NUMOPERACION", "4");
-        formData.append("IDMUNICIPIO", user?.MUNICIPIO[0]?.id);
-        CatalogosServices.municipioInformacion(formData).then((res) => {
-            if (res.SUCCESS) {
+        if (user?.MUNICIPIO[0]?.id) {
+            formData.append("NUMOPERACION", "4");
+            formData.append("IDMUNICIPIO", user?.MUNICIPIO[0]?.id);
+            CatalogosServices.municipioInformacion(formData).then((res) => {
+                if (res.SUCCESS) {
 
-                if (res.RESPONSE.length !== 0) {
+                    if (res.RESPONSE.length !== 0) {
 
-                    if (primerInicio) {
+                        if (primerInicio) {
+                            setValores(res.RESPONSE);
+                        }
+                        setNuevoRegistro(false);
                         setValores(res.RESPONSE);
+                        setOpenSlider(false);
+                    } else {
+                        setNuevoRegistro(true)
+                        setOpenSlider(false);
+
                     }
-                    setNuevoRegistro(false);
-                    setValores(res.RESPONSE);
-                    setOpenSlider(false);
                 } else {
-                    setNuevoRegistro(true)
-                    setOpenSlider(false);
 
                 }
-            } else {
+            });
+        }else
+        {
+            Toast.fire({
+                icon: "info",
+                title: "¡No se pude mostrar información, No tiene un municipio relacionado!",
+            });
 
-            }
-        });
+        }
+
+
+
     }
 
     function enCambioFile(event: any) {

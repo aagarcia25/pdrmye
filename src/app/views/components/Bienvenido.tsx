@@ -5,43 +5,57 @@ import { CatalogosServices } from "../../services/catalogosServices";
 import { imagen } from "../../interfaces/user/User";
 import { COLOR } from "../../styles/colors";
 import { Hidden } from '@mui/material';
-
-
-
+import { VisaulizarImagen } from "./componentes/VisaulizarImagen";
+import { AuthService } from "../../services/AuthService";
+import { RESPONSESTORAGE } from "../../interfaces/user/UserInfo";
 
 export default function Bienvenido({ user }: { user: any }) {
+  const [imagenesListas, setImagenesListas] = useState<Array<RESPONSESTORAGE>>([]);
 
-  const [imagen, setImagenes] = useState<Array<imagen>>([]);
+  const [listo, setListo] = useState<boolean>(false);
 
+  const imagenData: any[] = [];
+
+
+  const GetImageCarrucel = (largo: number, ubicacion: string, name: string) => {
+    AuthService.GetImagen(ubicacion, name).then((res) => {
+
+      if (res.RESPONSE.SUCCESS) {
+        imagenData.push({ TIPO: res.RESPONSE.RESPONSE.TIPO, FILE: res.RESPONSE.RESPONSE.FILE });
+        if (largo === imagenData.length) {
+          setImagenesListas(imagenData);
+        }
+      }
+    });
+  };
   const consulta = (data: any) => {
     CatalogosServices.eventos(data).then((res) => {
       if (res.SUCCESS) {
-        setImagenes(res.RESPONSE);
-      } 
+        obtenerImagenes(res.RESPONSE, res.RESPONSE.length)
+      }
     });
+  };
+
+  const obtenerImagenes = (data: any, n: number) => {
+    for (var i = 0; i < n; i++) {
+      GetImageCarrucel(n, '/EVENTOS/', data[i].Imagen)
+    }
   };
 
   const CarouselAp: React.FC = () => (
 
     <Carousel autoplay >
       {
-        imagen.map((item: imagen) => {
+        imagenesListas.map((item: RESPONSESTORAGE) => {
           return (
-            <Box  display="flex" justifyContent="center" >
-              <Box
-                component="img"
-                style={{ objectFit: "scale-down", }}
-                sx={{
-                  height: "60vh",
-                  width: "100%",
-                  background: '#FFFFFF',
-                  borderRadius:"0",
-                }}
-                alt="NUEVO LEÓN"
-                src={item.Imagen}
-              />
+            <Box key={Math.random()} display="flex" justifyContent="center"
+              sx={{ height: "70vh", width: "100%", }}>
+              <div className='containerCarrucelBienvenido' >
+                <img style={{ objectFit: "scale-down", width: "100%", height: "100%", }}
+                  src={"data:" + item.TIPO + ";base64," + item.FILE} />
+              </div>
+              {/* </Box> */}
             </Box>
-            
           );
         })
       }
@@ -57,21 +71,14 @@ export default function Bienvenido({ user }: { user: any }) {
 
   return (
     <Grid padding={0} >
-      
-      <Grid item paddingTop="2%" paddingBottom="2%"> 
-      <Box display="flex" justifyContent="center">
-   
-      </Box>
-      </Grid>
-
       <Hidden smDown>
-      <Grid height="100%" width="100%" bgcolor= {COLOR.grisBotones}  >
-      <Grid item alignContent="center">
-      <Box boxShadow={3}> 
-      <CarouselAp />
-      </Box>
-      </Grid>
-      </Grid>
+        <Grid paddingTop={"10%"} height="100%" width="100%" >
+          <Grid item alignContent="center">
+            <Box boxShadow={3}>
+              <CarouselAp />
+            </Box>
+          </Grid>
+        </Grid>
       </Hidden>
 
     </Grid>

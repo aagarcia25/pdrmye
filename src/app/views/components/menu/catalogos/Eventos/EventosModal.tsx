@@ -23,6 +23,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { LocalizationProvider, StaticTimePicker } from "@mui/lab";
 import Swal from "sweetalert2";
+import { VisaulizarImagen } from "../../../componentes/VisaulizarImagen";
 
 
 const EventosModal = ({
@@ -255,170 +256,180 @@ const EventosModal = ({
   return (
 
 
-    <Dialog open={open}>
-      <Container maxWidth="sm" >
-        <Box sx={{ display: 'flex', justifyContent: 'center', }}>
-          <label className="Titulo">{modoModal}</label>
-        </Box>
-        <ModalForm title={modoModal} handleClose={handleClose}>
-          {(modoModal === "Agregar Evento" || modoModal === "Evento" || modoModal === "Editar") ?
-            <Box boxShadow={3} padding="1%">
-              <Container maxWidth="sm" >
+
+    <ModalForm title={modoModal} handleClose={handleClose}>
+      <Grid container item xs={12} justifyContent="center" paddingBottom={2}> {
+        modoModal === "Evento" || modoModal === "Editar" ?
+
+          <div className="containerVisualizaImagenEvento">
+            <VisaulizarImagen ubicacion={'/EVENTOS/'} name={urlImage} />
+          </div>
+
+          :
+          ""}
+      </Grid>
+      {(modoModal === "Agregar Evento" || modoModal === "Evento" || modoModal === "Editar") ?
+
+        <Grid container item xs={12} justifyContent="center">
+          <Box boxShadow={3} padding="1%">
+            <Container maxWidth="sm" >
+              <Box sx={{ width: '100%' }}>
+                {
+                  //////////empiezan debajo del titulo
+                  //// imagen carga y previsualizacion
+                }
                 <Box sx={{ width: '100%' }}>
-                  {
-                    //////////empiezan debajo del titulo
-                    //// imagen carga y previsualizacion
-                  }
-                  <Box sx={{ width: '100%' }}>
 
-                    <Box sx={{
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      p: 1,
-                      bgcolor: 'background.paper',
-                      borderRadius: 0,
-                    }}>
-
-                      <Grid item container justifyContent="center" xs={12}>
-                        <Tooltip title={modoModal === "Evento" ? "" : "Click para cargar una imagen"}>
-                          <IconButton  >
-                            <input
-                              id="imagencargada"
-                              accept="image/*"
-                              disabled={modoModal === "Evento"}
-                              onChange={(v) => { handleNewImage(v) }}
-                              type="file"
-                              style={{ zIndex: 2, opacity: 0, width: '100%', height: '80%', position: "absolute", cursor: "pointer", }} />
-                            {(cleanUp) ?
-                              <img src={previewImage} style={{ objectFit: "scale-down", width: '500px', height: '400px', borderRadius: "15" }} />
-                              :
-                              modoModal === "Evento" || modoModal === "Editar" ?
-                                <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
-                                :
-                                <ImageOutlinedIcon sx={{ width: "100%", height: "100%", }} />}
-                          </IconButton>
-                        </Tooltip>
-                      </Grid>
-                    </Box>
-                  </Box>
                   <Box sx={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
                     p: 1,
-                    m: 1,
                     bgcolor: 'background.paper',
-                    borderRadius: 1,
+                    borderRadius: 0,
                   }}>
-                    <Box sx={{
-                      bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-                      p: 1,
-                      m: 1,
-                    }}>
-                      <Box>
-                        <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                          <label >Inicio </label>
-                        </Box>
-                        <LocalizationProvider  >
-                          <StaticTimePicker
-                            ampm
-                            orientation="landscape"
-                            openTo="minutes"
-                            value={inicioEvento}
-                            onChange={(newValue: any) => {
-                              setInicioEvento(newValue);
-                            }}
-                          // renderInput={(params) => <TextField {...params} />}
-                          />
-                        </LocalizationProvider>
-                        <Box>
+
+                    <Grid item container justifyContent="center" xs={12}>
+                      <Tooltip title={modoModal === "Evento" ? "" : "Click para cargar una imagen"}>
+                        <IconButton  >
                           <input
-                            id="datetime-local"
-                            required
-                            type="datetime-local"
-                            value={inicioEvento }
+                            id="imagencargada"
+                            accept="image/*"
                             disabled={modoModal === "Evento"}
-                            min={inicioEventoMin}
-                            max={finEventoMax}
-                            onChange={handleFechaInicio}
-                          />
-                        </Box>
-                      </Box>
+                            onChange={(v) => { handleNewImage(v) }}
+                            type="file"
+                            style={{ zIndex: 2, opacity: 0, width: '100%', height: '80%', position: "absolute", cursor: "pointer", }} />
+                          {(cleanUp) ?
+                            <img src={previewImage} style={{ objectFit: "scale-down", width: '500px', height: '400px', borderRadius: "15" }} />
+                            :
+                            modoModal === "Evento" || modoModal === "Editar" ?
+                              ""
 
-                      <Box sx={{ justifyContent: 'center', }}>
-                        <Box>
-                          <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                            <label >Fin</label>
-                          </Box>
-                          <Box>
-                            <input
-                              id="datetime-finaliza"
-                              required
-                              value={ finEvento}
-                              disabled={modoModal === "Evento"}
-                              type="datetime-local"
-                              min={inicioEvento}
-                              onChange={handleFechaFin}
-                            />
-                          </Box>
+                              // <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
+                              :
+                              <ImageOutlinedIcon sx={{ width: "100%", height: "100%", }} />}
+                        </IconButton>
+                      </Tooltip>
 
-                        </Box>
-
-                      </Box>
-                    </Box>
-                  </Box>
-                  <Box paddingBottom={3}>
-                    <label >Nombre</label>
-                    <TextField
-                      required
-                      multiline
-                      margin="dense"
-                      type="string"
-                      fullWidth
-                      value={modoModal === "Evento" ? nameEvent : nameEvent}
-                      disabled={modoModal === "Evento"}
-                      variant="standard"
-                      onChange={(v) => setNameEvent(v.target.value)}
-                      error={nameEvent === "" ? true : false}
-                    />
-                    <label
-                    >Descripción</label>
-                    <TextField
-                      multiline
-                      required
-                      margin="dense"
-                      id="anio"
-                      value={modoModal === "Evento" ? descripcion : descripcion}
-                      disabled={modoModal === "Evento"}
-                      type="string"
-                      fullWidth
-                      variant="standard"
-                      onChange={(v) => setDescripcion(v.target.value)}
-                      error={descripcion === "" ? true : false}
-
-                    />
-                  </Box>
-
-                  <Box paddingBottom={2} sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
-                    {modoModal === "Evento" ?
-                      (Date.parse(inicioEventoMin) >= Date.parse(inicioEvento)) ?
-                        "" :
-                        <Grid container  justifyContent="center" >
-                          <button className="editar" onClick={() => handleModo("Editar")}> Editar </button>
-                        </Grid>
-                      :
-                      <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
-                    }
+                    </Grid>
                   </Box>
                 </Box>
-              </Container>
 
+                <Box sx={{
+                  p: 1,
+                  m: 1,
+                  bgcolor: 'background.paper',
+                  borderRadius: 1,
+                }}>
+                  <Box sx={{
+                    bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+                    p: 1,
+                    m: 1,
+                  }}>
+                    <Box>
+                      <Box sx={{ justifyContent: 'center', display: 'flex', }} >
+                        <label >Inicio </label>
+                      </Box>
+                      <LocalizationProvider  >
+                        <StaticTimePicker
+                          ampm
+                          orientation="landscape"
+                          openTo="minutes"
+                          value={inicioEvento}
+                          onChange={(newValue: any) => {
+                            setInicioEvento(newValue);
+                          }}
+                        // renderInput={(params) => <TextField {...params} />}
+                        />
+                      </LocalizationProvider>
+                      <Box>
+                        <input
+                          id="datetime-local"
+                          required
+                          type="datetime-local"
+                          value={inicioEvento}
+                          disabled={modoModal === "Evento"}
+                          min={inicioEventoMin}
+                          max={finEventoMax}
+                          onChange={handleFechaInicio}
+                        />
+                      </Box>
+                    </Box>
 
-            </Box>
-            : ""}
+                    <Box sx={{ justifyContent: 'center', }}>
+                      <Box>
+                        <Box sx={{ justifyContent: 'center', display: 'flex', }} >
+                          <label >Fin</label>
+                        </Box>
+                        <Box>
+                          <input
+                            id="datetime-finaliza"
+                            required
+                            value={finEvento}
+                            disabled={modoModal === "Evento"}
+                            type="datetime-local"
+                            min={inicioEvento}
+                            onChange={handleFechaFin}
+                          />
+                        </Box>
 
-        </ModalForm>
-      </Container>
-    </Dialog>
+                      </Box>
+
+                    </Box>
+                  </Box>
+                </Box>
+                <Box paddingBottom={3}>
+                  <label >Nombre</label>
+                  <TextField
+                    required
+                    multiline
+                    margin="dense"
+                    type="string"
+                    fullWidth
+                    value={modoModal === "Evento" ? nameEvent : nameEvent}
+                    disabled={modoModal === "Evento"}
+                    variant="standard"
+                    onChange={(v) => setNameEvent(v.target.value)}
+                    error={nameEvent === "" ? true : false}
+                  />
+                  <label
+                  >Descripción</label>
+                  <TextField
+                    multiline
+                    required
+                    margin="dense"
+                    id="anio"
+                    value={modoModal === "Evento" ? descripcion : descripcion}
+                    disabled={modoModal === "Evento"}
+                    type="string"
+                    fullWidth
+                    variant="standard"
+                    onChange={(v) => setDescripcion(v.target.value)}
+                    error={descripcion === "" ? true : false}
+
+                  />
+                </Box>
+
+                <Box paddingBottom={2} sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', }}>
+                  {modoModal === "Evento" ?
+                    (Date.parse(inicioEventoMin) >= Date.parse(inicioEvento)) ?
+                      "" :
+                      <Grid container justifyContent="center" >
+                        <button className="editar" onClick={() => handleModo("Editar")}> Editar </button>
+                      </Grid>
+                    :
+                    <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
+                  }
+                </Box>
+              </Box>
+            </Container>
+          </Box>
+        </Grid>
+        : ""}
+
+    </ModalForm>
+
 
   );
 };

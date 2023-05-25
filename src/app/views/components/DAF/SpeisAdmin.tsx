@@ -182,7 +182,6 @@ const SpeisAdmin = ({
 
 
     const handleNewComprobante = (event: any) => {
-        console.log(modo);
         // setslideropen(true);
         let file = event.target!.files[0]!;
         if ((event.target.files.length !== 0 &&

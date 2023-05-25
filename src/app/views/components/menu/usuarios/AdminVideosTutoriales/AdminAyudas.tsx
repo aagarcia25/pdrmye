@@ -311,7 +311,7 @@ const AdminAyudas = ({
           <>
             {
               v.row.Departamento === "1" ?
-                "Externo: Municio u Organismo" :
+                "Externo: Municipio u Organismo" :
                 "Area Interna"
 
             }
@@ -344,7 +344,7 @@ const AdminAyudas = ({
       },
     },
     { field: "Menu", headerName: "Menú", description: "Menú", width: 250 },
-    { field: "NombreOriginalVideo", headerName: "NombreOriginalVideo", description: "NombreOriginalVideo", width: 600 },
+    { field: "NombreOriginalVideo", headerName: "Nombre Video", description: "Nombre Video", width: 600 },
     {
       field: "Departamento", headerName: "Departamento", description: "Departamento", width: 200,
       renderCell: (v: any) => {
@@ -352,7 +352,7 @@ const AdminAyudas = ({
           <>
             {
               v.row.Departamento === "1" ?
-                "Externo: Municio u Organismo" :
+                "Externo: Municipio Organismo" :
                 "Area Interna"
             }
           </>
@@ -397,7 +397,7 @@ const AdminAyudas = ({
           <>
             {
               v.row.Departamento === "1" ?
-                "Externo: Municio u Organismo" :
+                "Externo: Municipio Organismo" :
                 "Area Interna"
             }
           </>
