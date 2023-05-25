@@ -57,7 +57,7 @@ import TipoFondoCalculo from '../views/components/menu/catalogos/TipoFondoCalcul
 import { Umas } from '../views/components/menu/catalogos/Umas/Umas';
 import { CATORG } from '../views/components/menu/catalogos/org/CATORG';
 import { Fpg } from '../views/components/menu/participaciones/Fpg';
-import AdminVideos from '../views/components/menu/usuarios/AdminVideosTutoriales/AdminVideos';
+import AdminVideos from '../views/components/menu/usuarios/AdminVideosTutoriales/AdminAyudas';
 import Menus from '../views/components/menu/usuarios/Menus/Menus';
 import { PerfilesUsuario } from '../views/components/menu/usuarios/Perfiles de Usuario/PerfilesUsuario';
 import Permisos from '../views/components/menu/usuarios/Permisos/Permisos';
@@ -175,7 +175,7 @@ export const AppRouter = (
         {/* SECCION USUARIOS, ROLES, PERMISOS */}
         <Route path='/inicio/usuario' element={log ? <Usuarios /> : <AuthRouter />} />
         <Route path='/inicio/roles' element={log ? <Roles /> : <AuthRouter />} />
-        <Route path='/inicio/adminVideos' element={log ? <AdminVideos /> : <AuthRouter />} />
+        <Route path='/inicio/adminVideos' element={log ? <AdminVideos IdMenu={''} modo={''} tipo={0} dt={undefined} handleClose={handleCloseModal} /> : <AuthRouter />} />
 
         <Route path='/inicio/menus' element={log ? <Menus /> : <AuthRouter />} />
         <Route path='/inicio/permisos' element={log ? <Permisos /> : <AuthRouter />} />

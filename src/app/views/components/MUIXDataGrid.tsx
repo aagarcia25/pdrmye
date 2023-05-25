@@ -20,6 +20,7 @@ export default function MUIXDataGrid(props: any) {
     Solicitud:false,
     nombreMunicipio:false,
     Tipo:false,
+
   });
   
 
