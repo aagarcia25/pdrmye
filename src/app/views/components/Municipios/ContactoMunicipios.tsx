@@ -73,7 +73,7 @@ setOpen(false);
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Lista Obtenida!",
+          title: "¡Consulta Exitosa!",
         });
         setDato(res.RESPONSE);
       } else {

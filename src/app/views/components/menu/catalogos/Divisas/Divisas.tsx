@@ -130,7 +130,7 @@ export const Divisas = () => {
 
             Swal.fire({
                 icon: "info",
-                title: tipoOperacion === 1 ? "Agregar Divisa o Tipo de Cambio?" : "Editar Divisa o Tipo de Cambio?",
+                title: tipoOperacion === 1 ? "¿Agregar Divisa o Tipo de Cambio?" : "¿Editar Divisa o Tipo de Cambio?",
                 showDenyButton: true,
                 showCancelButton: false,
                 confirmButtonText: "Confirmar",

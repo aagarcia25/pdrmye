@@ -1,14 +1,12 @@
-import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Button, DialogActions, DialogContent, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import IconeXML from '../../../assets/img/xmlLogo.svg';
-import IconCFDIEXCELDown from '../../../assets/img/iconxml.png';
 import IconSPEIPDFDown from '../../../assets/img/PDFDown.svg';
 import IconSPEIPDF from '../../../assets/img/PDF_icon.svg';
+import IconeXML from '../../../assets/img/xmlLogo.svg';
 import { AlertS } from '../../../helpers/AlertS';
 import { base64ToArrayBuffer } from '../../../helpers/Files';
 import { Toast } from '../../../helpers/Toast';
@@ -17,12 +15,10 @@ import { DAFServices } from '../../../services/DAFServices';
 import { MunServices } from '../../../services/MunServices';
 import { getPermisos, getToken, getUser } from '../../../services/localStorage';
 import MUIXDataGridMun from '../MUIXDataGridMun';
-import Slider from '../Slider';
-import { TooltipPersonalizado } from '../componentes/CustomizedTooltips';
-import ModalForm from '../componentes/ModalForm';
-import ButtonsAdd from '../menu/catalogos/Utilerias/ButtonsAdd';
-import { Blanco, xmlLOGO } from '../../../styles/imagen';
 import SliderProgress from '../SliderProgress';
+import ModalForm from '../componentes/ModalForm';
+import { currencyFormatter } from '../menu/CustomToolbar';
+import ButtonsAdd from '../menu/catalogos/Utilerias/ButtonsAdd';
 
 
 
@@ -285,7 +281,7 @@ const SpeisAdmin = ({
                 title: "Atención",
                 text:
                     event.target!.files[0]!.name.slice(-3).toUpperCase() !== "PDF" && modo === "SPEI" ?
-                        "Archivo invalido. Solo Extenciones PDF"
+                        "Archivo invalido. Solo Extensiones PDF"
                         : "Nombre incorrecto",
                 icon: "info",
             });
@@ -558,7 +554,7 @@ const SpeisAdmin = ({
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
                         <Typography variant="h5" className='DatosSpeiCfdiTitulo'>
-                            Numero Solicitud de Pago:
+                         Número Solicitud de Pago:
                         </Typography>
                         <Typography variant="h5" className='DatosSpeiCfdi'>
                             {vrows.row.a3}
@@ -569,7 +565,7 @@ const SpeisAdmin = ({
                             Importe:
                         </Typography>
                         <Typography variant="h5" className='DatosSpeiCfdi'>
-                            {vrows.row.a5}
+                            {currencyFormatter.format(vrows.row.a5)}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -607,8 +603,8 @@ const SpeisAdmin = ({
                             <Grid item xs={12}>
                                 <h3>
                                     {
-                                        modo === "CFDI" ? "Solo Extenciones PDF, XML"
-                                            : "Solo extenciones PDF"
+                                        modo === "CFDI" ? "Solo Extensiones PDF, XLS Y XLSX"
+                                            : "Solo Extensiones PDF"
                                     }
                                 </h3>
                             </Grid>

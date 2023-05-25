@@ -1,21 +1,18 @@
-import { useEffect, useState } from 'react'
-import { Box, Grid, IconButton, Typography, } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
-import { messages } from '../../../../styles'
-import { CatalogosServices } from '../../../../../services/catalogosServices'
-import EventosModal from './EventosModal';
-import { Toast } from "../../../../../helpers/Toast";
-import { AlertS } from "../../../../../helpers/AlertS";
-import Swal from "sweetalert2";
-// import "../../../../../styles/globals.css";
-import MUIXDataGrid from '../../../MUIXDataGrid'
-import ButtonsAdd from '../Utilerias/ButtonsAdd'
-import { getPermisos, getUser } from '../../../../../services/localStorage'
+import { useEffect, useState } from 'react'
+import Swal from "sweetalert2"
+import { AlertS } from "../../../../../helpers/AlertS"
+import { Toast } from "../../../../../helpers/Toast"
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import BotonesAcciones from '../../../componentes/BotonesAcciones'
+import { CatalogosServices } from '../../../../../services/catalogosServices'
+import { getPermisos, getUser } from '../../../../../services/localStorage'
+import MUIXDataGrid from '../../../MUIXDataGrid'
 import Slider from '../../../Slider'
-import { useIdleTimer } from 'react-idle-timer'
+import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import NombreCatalogo from '../../../componentes/NombreCatalogo'
+import ButtonsAdd from '../Utilerias/ButtonsAdd'
+import EventosModal from './EventosModal'
 
 
 
@@ -84,7 +81,7 @@ export const Eventos = () => {
         setOpen(true);
         setData(v.data);
       } else {
-        Swal.fire("El evento ya Inicio y/o Finalizo no se puede editar", "", "warning");
+        Swal.fire("El evento ya Inicio y/o Finalizó no se puede editar", "", "warning");
       }
     } else if (v.tipo === 2) {
       handleBorrar(v.data);
