@@ -13,6 +13,7 @@ import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import NombreCatalogo from '../../../componentes/NombreCatalogo'
 import ButtonsAdd from '../Utilerias/ButtonsAdd'
 import EventosModal from './EventosModal'
+import { VisaulizarImagen } from '../../../componentes/VisaulizarImagen'
 
 
 
@@ -58,8 +59,10 @@ export const Eventos = () => {
       renderCell: (v) => {
         return (
           <Box>
+            
             <IconButton sx={{ borderRadius: "0", }} onClick={() => handleVisualizar(v)} >
-              <img id="imagen" src={v.row.Imagen} style={{ width: "100%", objectFit: "scale-down" }} />
+              <VisaulizarImagen ubicacion={'/EVENTOS/'} name={v.row.Imagen}/>
+              {/* <img id="imagen" src={v.row.Imagen} style={{ width: "100%", objectFit: "scale-down" }} /> */}
             </IconButton>
           </Box>
         );
