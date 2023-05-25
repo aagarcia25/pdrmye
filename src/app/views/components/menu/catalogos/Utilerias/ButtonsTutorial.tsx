@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
-import { Dialog, DialogContent, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Button, Collapse, Dialog, DialogContent, Divider, Grid, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography } from '@mui/material';
 import { getMenus, getToken, getUser } from '../../../../../services/localStorage';
-
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 import UploadIcon from '@mui/icons-material/Upload';
 import { ITEMS, MENU, RESPONSE, RESPONSEGUIARAPIDA, RESPONSEPREGUNTASFRECUENTES, RESPONSEVIDEOS } from '../../../../../interfaces/user/UserInfo';
 import { CatalogosServices } from '../../../../../services/catalogosServices';
@@ -12,10 +13,11 @@ import { ValidaSesion } from '../../../../../services/UserServices';
 import { TooltipPersonalizado } from '../../../componentes/CustomizedTooltips';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import SliderProgress from '../../../SliderProgress';
-import AdminVideosModal from '../../usuarios/AdminVideosTutoriales/AdminVideosModal';
+import AdminAyudasModal from '../../usuarios/AdminVideosTutoriales/AdminAyudasModal';
 import ModalForm from '../../../componentes/ModalForm';
 import HelpIcon from '@mui/icons-material/Help';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import { AuthService } from '../../../../../services/AuthService';
 const ButtonsTutorial = ({
   route,
   handleCloseMenuVideos
@@ -34,17 +36,20 @@ const ButtonsTutorial = ({
 
 
   const [idMenu, setIdMenu] = useState<string>("");
-  const [videoUrl, setVideoUrl] = useState<string>("");
+  const [archivoUrl, setArchivoUrl] = useState<string>("");
+  const [modoVisualizacion, setModoVisualizacion] = useState<string>("");
+
   const menu: MENU[] = JSON.parse(String(getMenus()));
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [slideropen, setslideropen] = useState(false);
+  const [openMenu, setOpenMenu] = useState(-1);
 
 
-  const handleClickOpen = (URLVideo: string) => {
+  const handleClickOpen = (URLVideo: string, modo: string) => {
     // setslideropen(true);
     let data = {
       TOKEN: JSON.parse(String(getToken())),
-      RUTA: route,
+      RUTA: modo === "video" ? "/VIDEOS/TUTORIALES/" : "/GUIAS/",
       NOMBRE: URLVideo,
     };
 
@@ -53,6 +58,7 @@ const ButtonsTutorial = ({
 
       ValidaSesion();
       setslideropen(true);
+      setModoVisualizacion(modo)
       CatalogosServices.obtenerDoc(data).then((res) => {
         // setslideropen(true);
         if (res.SUCCESS) {
@@ -62,7 +68,7 @@ const ButtonsTutorial = ({
           var link = document.createElement('a');
           document.body.appendChild(link);
           link.href = data;
-          setVideoUrl(link.href);
+          setArchivoUrl(link.href);
           setslideropen(false);
 
           setOpen(true);
@@ -86,10 +92,13 @@ const ButtonsTutorial = ({
   const handleObtenerVideos = (idmenu: string) => {
     let data = {
       CHID: idmenu,
-      NUMOPERACION: 4
+      NUMOPERACION:user?.DEPARTAMENTOS[0]?.NombreCorto==="DTI"? 12:9,
+      TIPO: user?.DEPARTAMENTOS[0]?.NombreCorto==="ORG"||user?.DEPARTAMENTOS[0]?.NombreCorto==="MUN"? 1:2
+
     };
-    CatalogosServices.AdminVideoTutoriales(data).then((res) => {
+    AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS) {
+        console.log(res.RESPONSE);
         setDataVideos(res.RESPONSE);
       } else {
 
@@ -97,34 +106,31 @@ const ButtonsTutorial = ({
     });
   };
 
-  const handleObtenerPreguntasFrecuentes = (idmenu: string) => {
+  const handleObtenerPreguntasFrecuentes = (idmenu: string, numOperacion: number) => {
     let data = {
       CHID: idmenu,
-      NUMOPERACION: 4
+      NUMOPERACION: numOperacion,
+      TIPO: user?.DEPARTAMENTOS[0]?.NombreCorto==="ORG"||user?.DEPARTAMENTOS[0]?.NombreCorto==="MUN"? 1:2
     };
-    CatalogosServices.AdminPreguntasFrecuentes(data).then((res) => {
+    AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS) {
-        setDataPreguntasFrecuentes(res.RESPONSE);
+        if (numOperacion === 7) {
+          setDataPreguntasFrecuentes(res.RESPONSE);
+        }
+        else if (numOperacion === 8) {
+          setDataGuiaRapida(res.RESPONSE);
+
+        }
+
       } else {
 
       }
     });
   };
+  const handleClick = (x: number) => {
+    openMenu === x ? setOpenMenu(-1) : setOpenMenu(x);
 
-  const handleObtenerGuiasRapidas = (idmenu: string) => {
-    let data = {
-      CHID: idmenu,
-      NUMOPERACION: 4
-    };
-    CatalogosServices.AdminGuiaRapida(data).then((res) => {
-      if (res.SUCCESS) {
-        setDataGuiaRapida(res.RESPONSE);
-      } else {
-
-      }
-    });
   };
-
 
 
   const handleClickOpenCarga = () => {
@@ -135,8 +141,8 @@ const ButtonsTutorial = ({
     setOpen(false);
     setOpenCarga(false);
     handleObtenerVideos(idMenu);
-    handleObtenerPreguntasFrecuentes(idMenu);
-    handleObtenerGuiasRapidas(idMenu);
+    handleObtenerPreguntasFrecuentes(idMenu,user?.DEPARTAMENTOS[0]?.NombreCorto==="DTI"? 10:7);
+    handleObtenerPreguntasFrecuentes(idMenu, user?.DEPARTAMENTOS[0]?.NombreCorto==="DTI"?11:8);
     // handleCloseMenuVideos();
 
   };
@@ -149,8 +155,8 @@ const ButtonsTutorial = ({
         if (String(itemsMenu.Path) === (window.location.href).slice((window.location.href).indexOf("#") + 1).replace(/%20/g, " ")) {
           setIdMenu(itemsMenu.id);
           handleObtenerVideos(itemsMenu.id);
-          handleObtenerPreguntasFrecuentes(itemsMenu.id);
-          handleObtenerGuiasRapidas(itemsMenu.id);
+          handleObtenerPreguntasFrecuentes(itemsMenu.id,user?.DEPARTAMENTOS[0]?.NombreCorto==="DTI"? 7:10);
+          handleObtenerPreguntasFrecuentes(itemsMenu.id, user?.DEPARTAMENTOS[0]?.NombreCorto==="DTI"?8:11);
         }
       });
     });
@@ -183,10 +189,10 @@ const ButtonsTutorial = ({
                               alignItems="center" >
                               <Grid key={Math.random()} item xs={9.5}>
                                 <div key={Math.random()} className='div-BotonesVideos'>
-                                  <IconButton key={Math.random()} className='VerVideos' onClick={() => handleClickOpen(String(datos?.nombreVideo))}>
+                                  <IconButton key={Math.random()} className='VerVideos' onClick={() => handleClickOpen(String(datos?.RutaVideo), "video")}>
                                     <OndemandVideoIcon />
                                     <Typography variant='h6' className='FuenteDeBotonesTooltip'>
-                                      {datos?.nombreOriginal + " "}
+                                      {datos?.NombreOriginalVideo + " "}
                                     </Typography>
                                   </IconButton>
                                 </div>
@@ -195,7 +201,7 @@ const ButtonsTutorial = ({
                               {user.PERFILES[0].Referencia === "ADMIN" ?
                                 <Grid key={Math.random()} item xs={2}>
                                   <div key={Math.random()} className='div-BotonesVideos'>
-                                    <IconButton key={Math.random()} className='VerVideos' onClick={() => handleClickDelet(datos?.nombreVideo, route)}>
+                                    <IconButton key={Math.random()} className='VerVideos' onClick={() => handleClickDelet(datos?.RutaVideo, route)}>
                                       <DeleteForeverIcon
                                       />
                                     </IconButton>
@@ -212,7 +218,7 @@ const ButtonsTutorial = ({
                 </React.Fragment>
               }>
               <IconButton className='ControlVideosHeader'
-                onClick={() => handleClickOpen(dataVideos.length === 1 ? dataVideos[0]?.nombreVideo : "")}>
+                onClick={() => handleClickOpen(dataVideos.length === 1 ? dataVideos[0]?.RutaVideo : "", "video")}>
                 <OndemandVideoIcon className="IconoDentroBoton" />
               </IconButton>
             </TooltipPersonalizado>
@@ -250,20 +256,15 @@ const ButtonsTutorial = ({
                                 direction="row"
                                 justifyContent="space-around"
                                 alignItems="center" >
-                                <Grid key={Math.random()} item xs={12}>
+                                <Grid key={Math.random()} item xs={12} padding={.5}>
                                   <div key={Math.random()} className='div-BotonesVideosTexto'>
                                     <Grid key={Math.random()} item>
-                                      <Typography variant='h5' className='FuenteDeBotonesTooltip'>
+                                      <Button className='ButtonGuiaRapida'
+                                        onClick={() => handleClickOpen(String(datos?.RutaGuia), "guia")}>
                                         {datos?.Pregunta + " "}
-                                      </Typography>
-                                    </Grid>
-                                    <Grid key={Math.random()} item >
-                                      <Typography variant='h6' className='FuenteDeBotonesTooltip'>
-                                        {datos?.RutaGuia + " "}
-                                      </Typography>
-                                    </Grid>
+                                      </Button>
 
-
+                                    </Grid>
                                   </div>
                                 </Grid>
                               </Grid>
@@ -299,28 +300,37 @@ const ButtonsTutorial = ({
                         {dataPreguntasFrecuentes.length === 0 ?
                           ""
                           :
-                          dataPreguntasFrecuentes.map((datos) => {
+                          dataPreguntasFrecuentes.map((datos, indexx) => {
                             return (
                               <Grid key={Math.random()}
                                 container
                                 direction="row"
                                 justifyContent="space-around"
                                 alignItems="center" >
-                                <Grid key={Math.random()} item xs={12}>
-                                  <div key={Math.random()} className='div-BotonesVideosTexto'>
-                                    <Grid key={Math.random()} item>
-                                      <Typography variant='h5' className='FuenteDeBotonesTooltip'>
-                                        {datos?.Pregunta + " "}
+                                <Grid container item xs={12}>
+                                  <ListItemButton sx={{ bgcolor: openMenu === indexx ? 'rgba(195, 165, 117)' : 'rgba(255, 255, 255, 0.291)' }} key={indexx} onClick={() => handleClick(indexx)} >
+                                    <ListItemText key={indexx} primary={
+                                      <Typography variant="caption" sx={{ fontFamily: "sans-serif", fontWeight: "800" }} gutterBottom>
+                                        {datos?.Pregunta}
                                       </Typography>
-                                    </Grid>
-                                    <Grid key={Math.random()} item >
-                                      <Typography variant='h6' className='FuenteDeBotonesTooltip'>
-                                        {datos?.Texto + " "}
-                                      </Typography>
-                                    </Grid>
-
-
-                                  </div>
+                                    } />
+                                    {/* {openMenu === indexx ? <ExpandLess /> : <ExpandMore />} */}
+                                  </ListItemButton>
+                                </Grid>
+                                <Grid container item xs={12} paddingLeft={2}>
+                                  <Collapse key={indexx} in={openMenu === indexx} timeout="auto" unmountOnExit>
+                                    <List sx={{ borderRadius: "1" }} key={indexx} component="div" disablePadding>
+                                      <Divider />
+                                      <ListItemText key={indexx} primary={
+                                        <>
+                                          <Typography variant="h5" className="menu-Typography" gutterBottom>
+                                            {datos.Texto}
+                                          </Typography>
+                                        </>
+                                      } />
+                                      <Divider />
+                                    </List>
+                                  </Collapse>
                                 </Grid>
                               </Grid>
                             );
@@ -350,18 +360,28 @@ const ButtonsTutorial = ({
       {open ?
         <ModalForm title={'Visualizar Video'} handleClose={handleClose}>
           <div className='containerCenter'>
-            <Grid item className='contenedorDeReproductorVideo'  >
-              <video
-                autoFocus
-                loop
-                autoPlay
-                width={"100%"}
-                height={"100%"}
-                src={videoUrl}
-                id="video_player"
-                controls
-              />
-            </Grid>
+
+            {modoVisualizacion === "video" ?
+              <Grid item className='contenedorDeReproductorVideo'  >
+                <video
+                  autoFocus
+                  loop
+                  autoPlay
+                  width={"100%"}
+                  height={"100%"}
+                  src={archivoUrl}
+                  id="video_player"
+                  controls
+                />
+              </Grid>
+              :
+              <object
+                className="responsive-iframe"
+                data={archivoUrl}
+                type="text/html">
+              </object>
+            }
+
           </div>
 
         </ModalForm>
@@ -370,7 +390,7 @@ const ButtonsTutorial = ({
       }
 
       {openCarga ?
-        <AdminVideosModal IdMenu={idMenu} modo={"Agregar Video"} tipo={0} handleClose={handleClose} dt={{}} /> : ""
+        <AdminAyudasModal IdMenu={idMenu} modo={"Agregar Video"} tipo={0} handleClose={handleClose} dt={{}} /> : ""
       }
     </div >
   )
@@ -388,7 +408,7 @@ export const handleClickDelet = (URLVideo: string, route: string) => {
 
   if (URLVideo !== "") {
     ValidaSesion();
-    CatalogosServices.deleteDoc(data).then((res) => {
+    CatalogosServices.deleteVideoTutorial(data).then((res) => {
       if (res.SUCCESS) {
         AlertS.fire({
           title: "¡Video eliminado!",

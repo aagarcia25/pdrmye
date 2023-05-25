@@ -115,8 +115,8 @@ export class AuthService {
     public static async SaveImagen(data: any) {
         return await post('SaveImagen', data);
     }
-    public static async SaveVideoTutorial(data: any) {
-        return await post('SaveVideoTutorial', data);
+    public static async AdminAyudas(data: any) {
+        return await post('AdminAyudas', data);
     }
 
     

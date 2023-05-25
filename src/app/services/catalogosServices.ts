@@ -205,8 +205,8 @@ export class CatalogosServices {
     public static async obtenerDoc(data : any) {
         return await postDoc('obtenerDoc', data);
     };
-    public static async deleteDoc(data : any) {
-        return await post('deleteDoc', data);
+    public static async deleteVideoTutorial(data : any) {
+        return await post('deleteVideoTutorial', data);
     };
 
 

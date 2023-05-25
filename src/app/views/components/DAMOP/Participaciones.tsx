@@ -47,6 +47,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import SpeisAdmin from "../DAF/SpeisAdmin";
 import SegmentIcon from '@mui/icons-material/Segment';
+import PrintIcon from '@mui/icons-material/Print';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import { ModalCheque } from "../componentes/ModalCheque";
 import { Retenciones } from "./Retenciones";
@@ -54,7 +55,7 @@ import { fmeses } from "../../../share/loadMeses";
 import SelectFragMulti from "../Fragmentos/SelectFragMulti";
 import PolylineIcon from '@mui/icons-material/Polyline';
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
-import { dowloandfile } from "../../../helpers/Files";
+import { base64ToArrayBuffer, dowloandfile } from "../../../helpers/Files";
 import { ModalSegmentos } from "../componentes/ModalSegmentos";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
@@ -63,6 +64,7 @@ import IconSPEI from '../../../assets/img/SPEI.svg';
 import IconCFDI from '../../../assets/img/CFDI.svg';
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import { MigraData, resultmigracion } from "../../../interfaces/parametros/ParametrosGenerales";
+import { ReportesServices } from "../../../services/ReportesServices";
 
 const Participaciones = () => {
 
@@ -139,6 +141,7 @@ const Participaciones = () => {
   const [permisoEliminarDescuento, setPermisoEliminarDescuento] = useState<boolean>(false);
   const [permisoEliminarDetalleCabecera, setPermisoEliminarDetalleCabecera] = useState<boolean>(false);
   const [permisoEditarDetalleCabecera, setPermisoEditarDetalleCabecera] = useState<boolean>(false);
+  const [permisoAgregarNumeroSolicitud, setPermisoAgregarNumeroSolicitud] = useState<boolean>(false);
 
   const [munTieneFide, setMunTieneFide] = useState<boolean>(false);
   const [sumaTotal, setSumaTotal] = useState<Number>();
@@ -165,6 +168,45 @@ const Participaciones = () => {
   const [modo, setModo] = useState<string>("");
   const [organismos, setOrganismos] = useState<SelectValues[]>([]);
 
+
+
+  const handleprintsolicitud = (data: any) => {
+   //setslideropen(true);
+
+    /*let body = {
+      P_ID:data?.id,
+      P_NO:data?.row?.NumOper,
+      P_ANIO:data?.row?.Anio,
+      P_MES:data?.row?.Mes,
+      P_BENEFICIARIO:data?.row?.Nombre,
+      P_TOTAL:data?.row?.total
+    }*/
+    let body =
+    {
+      "P_ID": "75b4b376-f10f-11ed-b61c-2c4138b7dab1",
+      "P_NO": 12894,
+      "P_ANIO": 2023,
+      "P_MES": "Abril",
+      "P_BENEFICIARIO": "Servicios de Salud de Nuevo León, O.P.D.",
+      "P_TOTAL": 110871871.50
+  }
+
+    console.log(body);
+    ReportesServices.formatoSolicitud(body).then((response) => {
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', body.P_NO + '_Solicitud.pdf');
+      document.body.appendChild(link);
+      link.click();
+
+
+     });
+
+     
+
+  };
 
   const handledetalles = (data: any) => {
     setOpenModalCabecera(true);
@@ -282,6 +324,11 @@ const Participaciones = () => {
         return (
           <Box>
 
+           <Tooltip title={"Imprimir Solicitud"}>
+              <IconButton value="check" onClick={() => handleprintsolicitud(v)}>
+                <PrintIcon />
+              </IconButton>
+            </Tooltip>
 
             <Tooltip title={"Administrar Detalles"}>
               <IconButton value="check" onClick={() => handledetalles(v)}>
@@ -452,6 +499,12 @@ const Participaciones = () => {
           <Box>
 
 
+            <Tooltip title={"Imprimir Solicitud"}>
+              <IconButton value="check" onClick={() => handleprintsolicitud(v)}>
+                <PrintIcon />
+              </IconButton>
+            </Tooltip>
+
             <Tooltip title={"Administrar Detalles"}>
               <IconButton value="check" onClick={() => handledetalles(v)}>
                 <MenuBookIcon />
@@ -487,7 +540,7 @@ const Participaciones = () => {
               ""
             )}
 
-            {String(v.row.estatus) === 'Ingresando Operación' && cargarPlant ?
+            {(String(v.row.estatus) === 'Ingresando Operación' && cargarPlant ) || permisoAgregarNumeroSolicitud ? 
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
                   <MonetizationOnIcon />
@@ -1867,6 +1920,8 @@ const Participaciones = () => {
         }
         else if (String(item.Referencia) === "AGREGDESC") {
           setPermisoAgregarDescuento(true);
+        } else if (String(item.Referencia) === "ASIGNANUMEROORDENPAGO") {
+          setPermisoAgregarNumeroSolicitud(true);
         }
 
       } setAnchoAcciones(ancho)
