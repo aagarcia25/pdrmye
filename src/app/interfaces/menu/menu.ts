@@ -48,3 +48,10 @@ export interface menus {
     items?: Item[];
 }
 
+export interface Preguntas {
+    id: string;
+    Pregunta: string;
+    Texto: string;
+   
+}
+

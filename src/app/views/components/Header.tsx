@@ -470,32 +470,7 @@ export default function Header(props: HeaderProps) {
                                 <CalendarMonthIcon className="IconoDentroBoton" />
                               </IconButton>  Calendario
                             </MenuItem>
-                            {/* <MenuItem onClick={onOpenHelp}>
-                              <Grid container   justifyContent="space-between">
-                                <Tooltip title={"Guía Rapida"}>
-                                  <IconButton onClick={onOpenHelp} >
-                                    <HelpIcon className="IconoDentroBoton" />
-                                  </IconButton>
-                                </Tooltip>
-                              
-                                <Tooltip title={"Preguntas frecuentes"}>
-                                  <IconButton onClick={onOpenHelp} >
-                                    <HelpIcon className="IconoDentroBoton" />
-                                  </IconButton>
-                                </Tooltip>
-
-                                <Hidden mdDown>
-                                  <Grid className="containerMenuItemBotones">
-                                    <ButtonsTutorial route={"/VIDEOS/TUTORIALES/"} handleCloseMenuVideos={handleCloseMenuVideos} />
-                                  </Grid>
-                                </Hidden>
-
-
                            
-
-                              </Grid>
-
-                            </MenuItem> */}
                             <Hidden mdDown>
                               <Grid className="containerMenuItemBotones">
                                 <ButtonsTutorial route={"/VIDEOS/TUTORIALES/"} handleCloseMenuVideos={handleCloseMenuVideos} />
