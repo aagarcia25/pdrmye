@@ -6,7 +6,7 @@ import { AlertS } from "../../../../../helpers/AlertS"
 import { Toast } from "../../../../../helpers/Toast"
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
-import { getPermisos, getUser } from '../../../../../services/localStorage'
+import { getPermisos, getToken, getUser } from '../../../../../services/localStorage'
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import Slider from '../../../Slider'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
@@ -106,7 +106,9 @@ export const Eventos = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.id,
+          TOKEN:JSON.parse(String(getToken()))
+
         };
         CatalogosServices.eventos(data).then((res) => {
           if (res.SUCCESS) {

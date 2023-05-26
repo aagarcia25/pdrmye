@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid,} from "@mui/material";
 import { Carousel } from 'antd';
 import { CatalogosServices } from "../../services/catalogosServices";
-import { imagen } from "../../interfaces/user/User";
-import { COLOR } from "../../styles/colors";
 import { Hidden } from '@mui/material';
-import { VisaulizarImagen } from "./componentes/VisaulizarImagen";
 import { AuthService } from "../../services/AuthService";
 import { RESPONSESTORAGE } from "../../interfaces/user/UserInfo";
+import { Blanco } from "../../styles/imagen";
 
 export default function Bienvenido({ user }: { user: any }) {
   const [imagenesListas, setImagenesListas] = useState<Array<RESPONSESTORAGE>>([]);
 
-  const [listo, setListo] = useState<boolean>(false);
+  const [data, setData] = useState<string>("");
+  const [tipo, setTipo] = useState<string>("");
+
 
   const imagenData: any[] = [];
 
@@ -22,6 +22,12 @@ export default function Bienvenido({ user }: { user: any }) {
 
       if (res.RESPONSE.SUCCESS) {
         imagenData.push({ TIPO: res.RESPONSE.RESPONSE.TIPO, FILE: res.RESPONSE.RESPONSE.FILE });
+        if (!data) {
+          setData(res.RESPONSE.RESPONSE.FILE);
+          setTipo(res.RESPONSE.RESPONSE.TIPO);
+        }
+
+        // setImagenesListas(imagenData);
         if (largo === imagenData.length) {
           setImagenesListas(imagenData);
         }
@@ -46,19 +52,29 @@ export default function Bienvenido({ user }: { user: any }) {
 
     <Carousel autoplay >
       {
-        imagenesListas.map((item: RESPONSESTORAGE) => {
-          return (
-            <Box key={Math.random()} display="flex" justifyContent="center"
-              sx={{ height: "85vh", width: "100%", }}>
-              <div className='containerCarrucelBienvenido' >
-                <img className="imgrCarrucelBienvenido" style={{ objectFit: "scale-down", width: "100%", height: "100%", }}
-                  src={"data:" + item.TIPO + ";base64," + item.FILE} />
-              </div>
-            </Box>
-          );
-        })
+        !imagenesListas ?
+          <Box key={Math.random()} display="flex" justifyContent="center"
+            sx={{ height: "85vh", width: "100%" }}>
+            <div className='containerCarrucelBienvenido' >
+              <img className="imgrCarrucelBienvenido" style={{ objectFit: "scale-down", width: "100%", height: "100%", }}
+                src={"data:" + tipo? tipo: Blanco.Tipo + ";base64," + data?data:Blanco.Data} />
+            </div>
+          </Box>
+
+          :
+          imagenesListas.map((item: RESPONSESTORAGE) => {
+            return (
+              <Box key={Math.random()} display="flex" justifyContent="center"
+                sx={{ height: "85vh", width: "100%" }}>
+                <div className='containerCarrucelBienvenido' >
+                  <img className="imgrCarrucelBienvenido" style={{ objectFit: "scale-down", width: "100%", height: "100%", }}
+                    src={"data:" + item.TIPO + ";base64," + item.FILE} />
+                </div>
+              </Box>
+            );
+          })
       }
-    </Carousel>
+    </Carousel >
   );
 
   useEffect(() => {
@@ -69,13 +85,14 @@ export default function Bienvenido({ user }: { user: any }) {
   }, []);
 
   return (
-      <Hidden smDown>
-        <Grid  height="85%" width="100%" >
-          <Grid item alignContent="center">
-              <CarouselAp />
-          </Grid>
+    <Hidden smDown>
+      <Grid height="85%" width="100%" >
+
+        <Grid item alignContent="center">
+          <CarouselAp />
         </Grid>
-      </Hidden>
+      </Grid>
+    </Hidden>
   );
 }
 

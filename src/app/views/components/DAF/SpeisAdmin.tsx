@@ -189,8 +189,7 @@ const SpeisAdmin = ({
                 || event.target!.files[0]!.name.slice(-4).toUpperCase() === "XML"
             ))
             // && (event.target!.files[0]!.name === (vrows.row.a3 + ".pdf") || modo === "CFDI" )
-            )
-             {
+        ) {
 
 
             if (Number(event.target!.files[0]!.size) / 1024 <= 520) {
@@ -228,10 +227,10 @@ const SpeisAdmin = ({
                         //     });
                         // } else {
 
-                            setNameSpei(event.target!.files[0]!.name);
-                            setSpeiFile(file);
-                            setFileValid(true);
-                            setslideropen(false);
+                        setNameSpei(event.target!.files[0]!.name);
+                        setSpeiFile(file);
+                        setFileValid(true);
+                        setslideropen(false);
 
                         // }
 
@@ -553,7 +552,7 @@ const SpeisAdmin = ({
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
                         <Typography variant="h5" className='DatosSpeiCfdiTitulo'>
-                         Número Solicitud de Pago:
+                            Número Solicitud de Pago:
                         </Typography>
                         <Typography variant="h5" className='DatosSpeiCfdi'>
                             {vrows.row.a3}
@@ -624,15 +623,19 @@ const SpeisAdmin = ({
                                 {/* <h3>Nombre de archivo: {name}</h3> */}
                             </Grid>
                             <Grid item container justifyContent="center" xs={12}>
-                                <iframe
-                                    width="100%"
-                                    height="700"
-                                    src={
-                                        TipoDeArchivoPDF ?
-                                            URLruta
-                                            :
-                                            "http://docs.google.com/viewer?url=" + URLruta + "&embedded=true"
-                                    } />
+                                <div className='ContainerVisualizacionSPEI'>
+
+                                    <iframe
+                                        width="100%"
+                                        height="100%"
+                                        src={
+                                            TipoDeArchivoPDF ?
+                                                URLruta
+                                                :
+                                                "http://docs.google.com/viewer?url=" + URLruta + "&embedded=true"
+                                        } />
+                                </div>
+
                             </Grid>
                         </Grid>
                     </DialogContent>

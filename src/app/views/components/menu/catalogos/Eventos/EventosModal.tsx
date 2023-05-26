@@ -8,6 +8,7 @@ import {
   Container,
   Grid,
   Tooltip,
+  Button,
 
 } from "@mui/material";
 
@@ -110,14 +111,14 @@ const EventosModal = ({
             icon: "success",
             title: "Carga Exitosa!",
           });
-          // handleClose();
+          handleClose();
         } else {
           AlertS.fire({
             title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
-          // handleClose();
+          handleClose();
         }
       });
 
@@ -419,7 +420,15 @@ const EventosModal = ({
                         <button className="editar" onClick={() => handleModo("Editar")}> Editar </button>
                       </Grid>
                     :
-                    <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
+                    <Button
+                      disabled={
+                        !nameEvent
+                        ||!descripcion
+                        ||!inicioEvento
+                        ||!finEvento
+
+                      }
+                      className="guardar" onClick={() => handleUpload()} >Guardar</Button>
                   }
                 </Box>
               </Box>

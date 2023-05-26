@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { AlertS } from "../../../helpers/AlertS";
@@ -51,8 +51,9 @@ const AgregarContactoMunicipio = () => {
 
 
     const consulta = () => {
-        setOpenSlider(true);
+        
         if (user?.MUNICIPIO[0]?.id) {
+            setOpenSlider(true);
             formData.append("NUMOPERACION", "4");
             formData.append("IDMUNICIPIO", user?.MUNICIPIO[0]?.id);
             CatalogosServices.municipioInformacion(formData).then((res) => {
@@ -247,6 +248,7 @@ const AgregarContactoMunicipio = () => {
                 <Grid item container direction="row" justifyContent="center" alignItems="center">
                     <Grid item container direction="row" justifyContent="center" alignItems="center">
                         <div className="CargaDeArchivosCuenta">
+                            <Tooltip  title={"Haz Clic para Cambiar o cargar la imagen"}>
                             <IconButton
                                 component="label"
                                 sx={{ borderRadius: 1, width: "100%", height: "100%" }}
@@ -277,6 +279,7 @@ const AgregarContactoMunicipio = () => {
 
                                 }
                             </IconButton>
+                            </Tooltip>
                         </div>
                         {/* <img src={uploadFile} style={{ objectFit: "scale-down", width: "100%", height: "100%" }} /> */}
                     </Grid>
