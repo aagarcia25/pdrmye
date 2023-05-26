@@ -271,8 +271,9 @@ button.VerVideos:hover {
 }
 .ContainerInicio{
   contain: content;
-  overflow: visible;
+  overflow: auto;
   width: 100vw;
+  min-width: 100vw;
   height: 100vh;
   
 
