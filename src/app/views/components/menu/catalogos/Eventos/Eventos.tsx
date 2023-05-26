@@ -6,7 +6,7 @@ import { AlertS } from "../../../../../helpers/AlertS"
 import { Toast } from "../../../../../helpers/Toast"
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
-import { getPermisos, getUser } from '../../../../../services/localStorage'
+import { getPermisos, getToken, getUser } from '../../../../../services/localStorage'
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import Slider from '../../../Slider'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
@@ -60,7 +60,8 @@ export const Eventos = () => {
         return (
           <Box>
             
-            <IconButton sx={{ borderRadius: "0", }} onClick={() => handleVisualizar(v)} >
+            <IconButton className='IconButtonImagenEventos'  onClick={() => handleVisualizar(v)} >
+
               <VisaulizarImagen ubicacion={'/EVENTOS/'} name={v.row.Imagen}/>
               {/* <img id="imagen" src={v.row.Imagen} style={{ width: "100%", objectFit: "scale-down" }} /> */}
             </IconButton>
@@ -105,7 +106,9 @@ export const Eventos = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.id,
+          TOKEN:JSON.parse(String(getToken()))
+
         };
         CatalogosServices.eventos(data).then((res) => {
           if (res.SUCCESS) {
