@@ -49,12 +49,11 @@ export default function Bienvenido({ user }: { user: any }) {
         imagenesListas.map((item: RESPONSESTORAGE) => {
           return (
             <Box key={Math.random()} display="flex" justifyContent="center"
-              sx={{ height: "70vh", width: "100%", }}>
+              sx={{ height: "85vh", width: "100%", }}>
               <div className='containerCarrucelBienvenido' >
-                <img style={{ objectFit: "scale-down", width: "100%", height: "100%", }}
+                <img className="imgrCarrucelBienvenido" style={{ objectFit: "scale-down", width: "100%", height: "100%", }}
                   src={"data:" + item.TIPO + ";base64," + item.FILE} />
               </div>
-              {/* </Box> */}
             </Box>
           );
         })
@@ -70,18 +69,13 @@ export default function Bienvenido({ user }: { user: any }) {
   }, []);
 
   return (
-    <Grid padding={0} >
       <Hidden smDown>
-        <Grid paddingTop={"10%"} height="100%" width="100%" >
+        <Grid  height="85%" width="100%" >
           <Grid item alignContent="center">
-            <Box boxShadow={3}>
               <CarouselAp />
-            </Box>
           </Grid>
         </Grid>
       </Hidden>
-
-    </Grid>
   );
 }
 
