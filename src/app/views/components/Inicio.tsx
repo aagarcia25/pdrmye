@@ -190,8 +190,10 @@ export default function Inicio({ children, user,imgData,imgTipo }: Props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid
-        sx={{ display: "flex", Height: "98vh",width:"99%" }}>
+      <Grid className="ContainerInicio" 
+      // container item xs={11.8} sm={11.85} md={12}
+        // sx={{ display: "flex",width:"100%" }}
+        >
         <CssBaseline />
         <Navigator
           PaperProps={{ style: { width: drawerWidth } }}

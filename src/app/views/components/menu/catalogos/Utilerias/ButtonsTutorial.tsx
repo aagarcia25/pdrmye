@@ -149,9 +149,6 @@ const ButtonsTutorial = ({
 
   useEffect(() => {
     ValidaSesion();
-    console.log((window.location.href).slice((window.location.href).indexOf("#") + 1).replace(/%20/g, " "))
-    console.log((window.location.href).slice((window.location.href).lastIndexOf("/") + 1).replace(/%20/g, " "))
-
     menu.map((item: MENU) => {
       item.items.map((itemsMenu: ITEMS) => {
         if (String(itemsMenu.Path) === (window.location.href).slice((window.location.href).indexOf("#") + 1).replace(/%20/g, " ")) {

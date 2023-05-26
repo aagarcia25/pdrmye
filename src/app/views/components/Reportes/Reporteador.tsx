@@ -32,7 +32,6 @@ export const Reporteador = () => {
                     icon: "success",
                     title: "¡Consulta Exitosa!",
                 });
-                console.log(res.RESPONSE)
                 setTipoExportacionSelect(res.RESPONSE);
 
             } else {

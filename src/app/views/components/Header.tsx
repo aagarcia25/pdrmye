@@ -394,9 +394,6 @@ export default function Header(props: HeaderProps) {
                       </Typography>
                     </Grid>
 
-
-
-
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -416,7 +413,6 @@ export default function Header(props: HeaderProps) {
                           <>
                             <img
                               className="imgDentroDeHeaderInicio"
-
                               src={"data:" + String(props.imgData === "undefined" ? Blanco.Tipo : props.imgTipo) + ";base64," +
                                 String(props.imgData === "undefined" ? Blanco.Data : props.imgData)}
                             />
