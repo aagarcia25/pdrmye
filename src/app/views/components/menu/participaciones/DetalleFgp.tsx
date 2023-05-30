@@ -190,6 +190,43 @@ const DetalleFgp = ({
       });
     }
   };
+
+  const ReCalculo = () => {
+    let data = {
+      IDCALCULO: idDetalle,
+      CHUSER: user.id
+    };
+
+    Swal.fire({
+      icon: "question",
+      title: "recalcular",
+      text: "Al generar el Recálculo los movimientos pueden verse afectados",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+      color: 'rgb(175, 140, 85)',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        calculosServices.ReCalculo(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "ReCalculo Exitoso!",
+            });
+            handleClose();
+          } else {
+            AlertS.fire({
+              title: "¡Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      }
+    });
+  };
+
   const BorraCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -545,9 +582,9 @@ const DetalleFgp = ({
         if (String(item.Referencia) === "EDIT") {
           //  setEditar(true);
         }
-        if (String(item.Referencia) === "RECALCULAR") {
+       // if (String(item.Referencia) === "RECALCULAR") {
            setrecalcular(true);
-        }
+      //  }
       }
     });
   };
@@ -682,7 +719,7 @@ const DetalleFgp = ({
                     <ToggleButton
                     className="aceptar"
                       value="check"
-                      onClick={() => handleAcciones(2)}
+                      onClick={() => ReCalculo()}
                     >
                       <CachedIcon />
                     </ToggleButton>
