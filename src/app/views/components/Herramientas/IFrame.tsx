@@ -18,14 +18,13 @@ export const IFrame = (
         return <div>Loading...</div>;
     }
 
-    const src = source;
     return (
         // basic bootstrap classes. you can change with yours.
         <div className="containerCenter">
             <Grid container>
                 <object
                     className="responsive-iframe"
-                    data={String(baseURL) + String(src)}
+                    data={String(baseURL) + String(source)}
                     type="text/html">
                 </object>
             </Grid>

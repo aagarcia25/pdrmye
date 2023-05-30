@@ -100,6 +100,7 @@ export default function Header(props: HeaderProps) {
 
   const handleCloseMenuVideos = () => {
     setOpen((prevOpen) => !prevOpen);
+    setOpen(false);
   };
 
   const onLogOut = () => {
