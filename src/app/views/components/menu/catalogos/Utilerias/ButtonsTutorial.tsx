@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
-import { Button, Collapse, Dialog, DialogContent, Divider, Grid, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Collapse, Dialog, DialogContent, Divider, Grid, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography } from '@mui/material';
 import { getMenus, getToken, getUser } from '../../../../../services/localStorage';
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -18,6 +18,9 @@ import ModalForm from '../../../componentes/ModalForm';
 import HelpIcon from '@mui/icons-material/Help';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { AuthService } from '../../../../../services/AuthService';
+import CloseIcon from "@mui/icons-material/Close";
+import { VisualizadorAyudas } from './VisualizadorAyudas';
+
 const ButtonsTutorial = ({
   route,
   handleCloseMenuVideos
@@ -45,7 +48,18 @@ const ButtonsTutorial = ({
   const [openMenu, setOpenMenu] = useState(-1);
 
 
+  /////////
+  const [URLVideo, setURLVideo] = useState<string>("");
+  const [modo, setModo] = useState<string>("");
+
+
+  //////////
+
   const handleClickOpen = (URLVideo: string, modo: string) => {
+    setModo(modo);
+    setURLVideo(URLVideo);
+    setOpen(true);
+
     // setslideropen(true);
     let data = {
       TOKEN: JSON.parse(String(getToken())),
@@ -54,36 +68,38 @@ const ButtonsTutorial = ({
     };
 
 
-    if (URLVideo !== "") {
+    // if (URLVideo !== "") {
 
-      ValidaSesion();
-      setslideropen(true);
-      setModoVisualizacion(modo)
-      CatalogosServices.obtenerDoc(data).then((res) => {
-        // setslideropen(true);
-        if (res.SUCCESS) {
-          var bufferArray = base64ToArrayBuffer(res.RESPONSE.RESPONSE.FILE);
-          var blobStore = new Blob([bufferArray], { type: res.RESPONSE.RESPONSE.TIPO });
-          var data = window.URL.createObjectURL(blobStore);
-          var link = document.createElement('a');
-          document.body.appendChild(link);
-          link.href = data;
-          setArchivoUrl(link.href);
-          setslideropen(false);
+    //   ValidaSesion();
+    //   setslideropen(true);
+    //   setModoVisualizacion(modo)
+    //   CatalogosServices.obtenerDoc(data).then((res) => {
+    //     // setslideropen(true);
+    //     if (res.SUCCESS) {
+    //       var bufferArray = base64ToArrayBuffer(res.RESPONSE.RESPONSE.FILE);
+    //       var blobStore = new Blob([bufferArray], { type: res.RESPONSE.RESPONSE.TIPO });
+    //       var data = window.URL.createObjectURL(blobStore);
+    //       var link = document.createElement('a');
+    //       document.body.appendChild(link);
+    //       link.href = data;
+    //       setArchivoUrl(link.href);
+    //       setslideropen(false);
 
-          setOpen(true);
-        }
-        else {
-          setslideropen(false);
+    //       setOpen(true);
+    //       // handleCloseMenuVideos()
 
-          AlertS.fire({
-            title: "Algo Fallo, Recargue la página!",
-            icon: "error",
-          });
-        }
+    //     }
+    //     else {
+    //       setslideropen(false);
 
-      });
-    }
+    //       AlertS.fire({
+    //         title: "Algo Fallo, Recargue la página!",
+    //         icon: "error",
+    //       });
+    //     }
+
+    //   });
+    // }
   };
 
 
@@ -113,7 +129,7 @@ const ButtonsTutorial = ({
     };
     AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS) {
-        if (numOperacion === 7||numOperacion === 10) {
+        if (numOperacion === 7 || numOperacion === 10) {
           setDataPreguntasFrecuentes(res.RESPONSE);
         }
         else if (numOperacion === 8 || numOperacion === 11) {
@@ -146,19 +162,24 @@ const ButtonsTutorial = ({
 
   };
 
+  const handleCloseModal = () => {
+    setOpen(false);
+
+  };
+
 
   useEffect(() => {
-    ValidaSesion();
-    menu.map((item: MENU) => {
-      item.items.map((itemsMenu: ITEMS) => {
-        if (String(itemsMenu.Path) === (window.location.href).slice((window.location.href).indexOf("#") + 1).replace(/%20/g, " ")) {
-          setIdMenu(itemsMenu.id);
-          handleObtenerVideos(itemsMenu.id);
-          handleObtenerPreguntasFrecuentes(itemsMenu.id, user?.DEPARTAMENTOS[0]?.NombreCorto === "DTI" ? 10 : 7);
-          handleObtenerPreguntasFrecuentes(itemsMenu.id, user?.DEPARTAMENTOS[0]?.NombreCorto === "DTI" ? 11 : 8);
-        }
+      ValidaSesion();
+      menu.map((item: MENU) => {
+        item.items.map((itemsMenu: ITEMS) => {
+          if (String(itemsMenu.Path) === (window.location.href).slice((window.location.href).indexOf("#") + 1).replace(/%20/g, " ")) {
+            setIdMenu(itemsMenu.id);
+            handleObtenerVideos(itemsMenu.id);
+            handleObtenerPreguntasFrecuentes(itemsMenu.id, user?.DEPARTAMENTOS[0]?.NombreCorto === "DTI" ? 10 : 7);
+            handleObtenerPreguntasFrecuentes(itemsMenu.id, user?.DEPARTAMENTOS[0]?.NombreCorto === "DTI" ? 11 : 8);
+          }
+        });
       });
-    });
   }, [window.location.href]);
 
   return (
@@ -357,33 +378,7 @@ const ButtonsTutorial = ({
       </Grid >
 
       {open ?
-        <ModalForm title={'Visualizar'} handleClose={handleClose}>
-          <div className='containerCenter'>
-
-            {modoVisualizacion === "video" ?
-              <Grid item className='contenedorDeReproductorVideo'  >
-                <video
-                  autoFocus
-                  loop
-                  autoPlay
-                  width={"100%"}
-                  height={"100%"}
-                  src={archivoUrl}
-                  id="video_player"
-                  controls
-                />
-              </Grid>
-              :
-              <object
-                className="responsive-iframe"
-                data={archivoUrl}
-                type="text/html">
-              </object>
-            }
-
-          </div>
-
-        </ModalForm>
+        <VisualizadorAyudas URLVideo={URLVideo} modo={modo} handleclose={handleCloseModal}/>
         : ""
 
       }
