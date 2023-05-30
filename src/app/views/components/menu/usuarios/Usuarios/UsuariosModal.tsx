@@ -14,7 +14,7 @@ import { AuthService } from "../../../../../services/AuthService";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getRfToken, getToken, getUser, setToken } from "../../../../../services/localStorage";
 import validator from "validator";
-import { UserServices } from "../../../../../services/UserServices";
+import { UserServices, ValidaSesion } from "../../../../../services/UserServices";
 import { ParametroServices } from "../../../../../services/ParametroServices";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -27,14 +27,17 @@ import jwt_decode from "jwt-decode";
 import { UserLogin } from "../../../../../interfaces/user/User";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Slider from "../../../Slider";
+import IFrame from "../../../Herramientas/IFrame";
 const UsuariosModal = ({
   handleClose,
   tipo,
   dt,
+  idApp
 }: {
   tipo: string;
   handleClose: Function;
   dt: any;
+  idApp:string;
 }) => {
   const query = new URLSearchParams(useLocation().search);
   const [idRegistro, setIdRegistro] = useState<string>();
@@ -83,6 +86,7 @@ const UsuariosModal = ({
   const [extError, setExtError] = useState("");
   const [ext, setExt] = useState<string>("");
   const [value, setValue] = useState('1');
+
 
   const AccionesSol = [
     { accion: 'ALTA', TipoSol: 'ALTA', Mensaje: '¡Envio de Solicitud de Alta Exitoso!', mensajeBoton: "Solicitar Nuevo Registro", mensajeModal: "Nuevo Registro", classNameCSS: "guardar" },
@@ -462,7 +466,12 @@ const UsuariosModal = ({
     }
   };
 
+
   useEffect(() => {
+console.log(idApp)
+ValidaSesion();
+
+
     UserServices.verify({}).then((resAppLogin) => {
 
       resAppLogin.status === 200 ? setTokenValid(true) : setTokenValid(false);
@@ -536,7 +545,7 @@ const UsuariosModal = ({
         title={String(AccionesSol.find(({ accion }) => accion === tipo)?.mensajeModal)}
         handleClose={handleClose}
       >
-        <Slider open={openSlider} />
+        {/* <Slider open={openSlider} />
         <Grid
           container
           spacing={1}
@@ -967,8 +976,10 @@ const UsuariosModal = ({
             </TabPanel>
           </TabContext>
 
-        </Grid>
+        </Grid> */}
 
+        <IFrame source={"?jwt="+JSON.parse(String(getToken()))+"&IdApp="+idApp} baseURL={"http://localhost:3001/"}/>
+        {/* String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN) */}
       </ModalForm>
     </div>
   );

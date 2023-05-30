@@ -17,7 +17,7 @@ import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { DatDAMOPSol, Datum } from "../../../../../interfaces/user/solicitudes";
 import { AuthService } from "../../../../../services/AuthService";
 import { ParametroServices } from "../../../../../services/ParametroServices";
-import { UserServices } from "../../../../../services/UserServices";
+import { UserServices, ValidaSesion } from "../../../../../services/UserServices";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
@@ -43,6 +43,7 @@ const Usuarios = () => {
   const [configRol, setConfigRol] = useState<boolean>(false);
   const [configOrg, setConfigOrg] = useState<boolean>(false);
   const [dataSolicitudNoAdmin, setDataSolicitudNoAdmin] = useState<DatDAMOPSol[]>([]);
+  const [idApp, setIdApp] = useState("");
 
 
   const Estatus = [
@@ -290,7 +291,25 @@ const Usuarios = () => {
     });
   };
 
+  const ObtenerIdApp = () => {
+          let dataAppId = {
+            NUMOPERACION: 5,
+            NOMBRE: "AppID",
+          };
+
+          ParametroServices.ParametroGeneralesIndex(dataAppId).then(
+            (resAppId) => {
+              setIdApp(resAppId?.RESPONSE?.Valor)
+            
+            }
+          );
+
+  };
+
   useEffect(() => {
+  ObtenerIdApp();
+  ValidaSesion();
+
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "USUARIOS") {
         if (String(item.Referencia) === "AGREG") {
@@ -335,8 +354,7 @@ const Usuarios = () => {
           <UsuariosModal
             tipo={tipoOperacion}
             handleClose={handleClose}
-            dt={dt}
-          ></UsuariosModal>
+            dt={dt} idApp={idApp}          ></UsuariosModal>
         ) : (
           ""
         )}
