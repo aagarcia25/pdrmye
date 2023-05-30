@@ -97,7 +97,7 @@ const AdminAyudas = ({
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 16) {
+      if (operacion === 42) {
         setMenus(res.RESPONSE);
         if (value === "pregunta") {
           consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "4")
@@ -467,7 +467,7 @@ const AdminAyudas = ({
     if (value === "guia") {
       consulta(IdMenu ? IdMenu : idMenu, "11");
     }
-    loadFilter(16);
+    loadFilter(42);
     if (dt?.length === 0) {
     } else {
       setNombreArchivo(dt?.row?.nombreOriginal)
