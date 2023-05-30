@@ -88,7 +88,7 @@ export const get = async function (url: any, params: any = {}) {
     let header = await getHeaderInfo();
     try {
         let resp = await axios.get(process.env.REACT_APP_APPLICATION_BASE_URL + url, { ...header, params });
-        return handleResponse(resp.data);
+        return handleResponseDoc(resp.data);
     } catch (err: any) {
         return handleResponse(err.response)
     }

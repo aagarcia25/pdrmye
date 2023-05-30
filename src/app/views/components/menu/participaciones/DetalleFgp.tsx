@@ -19,6 +19,7 @@ import Trazabilidad from "../../Trazabilidad";
 import ModalCalculos from "../../componentes/ModalCalculos";
 import { Moneda, currencyFormatter } from "../CustomToolbar";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
+import CachedIcon from '@mui/icons-material/Cached';
 
 const DetalleFgp = ({
   idCalculo,
@@ -57,6 +58,7 @@ const DetalleFgp = ({
   const [autorizar, setAutorizar] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+  const [recalcular, setrecalcular] = useState<boolean>(false);
   //Modals
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
@@ -543,6 +545,9 @@ const DetalleFgp = ({
         if (String(item.Referencia) === "EDIT") {
           //  setEditar(true);
         }
+        if (String(item.Referencia) === "RECALCULAR") {
+           setrecalcular(true);
+        }
       }
     });
   };
@@ -671,6 +676,21 @@ const DetalleFgp = ({
                     <ArrowBackIcon />
                   </ToggleButton>
                 </Tooltip>
+
+                {recalcular ? (
+                  <Tooltip title={"Generar Recálculo"}>
+                    <ToggleButton
+                    className="aceptar"
+                      value="check"
+                      onClick={() => handleAcciones(2)}
+                    >
+                      <CachedIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
+
 
                 {verTrazabilidad ? (
                   <Tooltip title={"Ver Trazabilidad"}>
