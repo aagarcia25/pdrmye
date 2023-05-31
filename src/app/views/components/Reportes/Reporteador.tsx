@@ -57,15 +57,16 @@ export const Reporteador = () => {
         <div >
             <Titulo name={'Módulo de Generación de Reportes'}></Titulo>
             <Grid container sx={{ justifyContent: "center" }}>
-                <Grid container item xs={3} sx={{ bgcolor: COLOR.grisBotones, textAlign: "center" }}>
+                <Grid container item xs={3} sx={{  textAlign: "center" }}>
 
                     <div className='containerReporteadorLista'>
                         <Typography variant="h5" paddingBottom={2}>
                             listado de Reportes
                         </Typography>
+                          
 
+                          
 
-                        vvdvdv
 
                     </div>
                 </Grid>
