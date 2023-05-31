@@ -55,3 +55,15 @@ export interface Preguntas {
    
 }
 
+export interface IReportes {
+    id: string
+    deleted: string
+    UltimaActualizacion: string
+    FechaCreacion: string
+    ModificadoPor: string
+    CreadoPor: string
+    Nombre: string
+    Descripcion: string
+    Auxiliar: string
+  }
+  
