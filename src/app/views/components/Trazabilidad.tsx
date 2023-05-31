@@ -109,6 +109,7 @@ const Trazabilidad = ({
                       <Typography variant="body2" component="span">
                         {it.Descripcion}
                       </Typography>
+                      <br />
                       <Typography variant="body2" component="span">
                         {it.Comentario}
                       </Typography>
