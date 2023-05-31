@@ -25,21 +25,18 @@ const ReportesControlAsignacion = ({
 
 
   const columns: GridColDef[] = [
-    {
-      field: "id",
-      hide: true, hideable:false,
-    },
+    {field: "id", hide: true, hideable:false,  },
     { field: "Nombre", headerName: "Nombre", width: 300,description:"Nombre" },
     {
       field: "acciones", disableExport: true,
       headerName: "",
-      description: "Relacionar Menus",
+      description: "Relacionar Reporte",
       sortable: false,
       width: 10,
       renderCell: (v) => {
         return (
           <>
-            <Tooltip title={"Eliminar menus de el Rol"}>
+            <Tooltip title={"Eliminar Reporte"}>
               <IconButton onClick={() => handleChange(v)}>
                 <ArrowForwardIosIcon color='error' />
               </IconButton>
@@ -52,10 +49,7 @@ const ReportesControlAsignacion = ({
   ];
 
   const columnsAsignarReporteRol: GridColDef[] = [
-    {
-      field: "id",
-      hide: true, hideable:false,
-    },
+    { field: "id", hide: true, hideable:false, },
     {
       field: "acciones", disableExport: true,
       headerName: "",
@@ -65,7 +59,7 @@ const ReportesControlAsignacion = ({
       renderCell: (v) => {
         return (
           <>
-            <Tooltip title={"Asignar menu a el Rol"}>
+            <Tooltip title={"Relacionar Reporte"}>
               <IconButton onClick={() => handleChangeAsignarMenuRol(v)}>
                 <ArrowBackIosIcon color='success' />
               </IconButton>
@@ -82,19 +76,20 @@ const ReportesControlAsignacion = ({
     let data = {
       TIPO: 2,
       IDROL: idRol,
-      IDMENU: v.id
+      IDREPORTE: v.id
     }
     setOpenSlider(true)
+
+
     CatalogosServices.reportesAdministracionRelacion(data).then((res) => {
       setReporteMenu(res.RESPONSE);
-
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
           title: "¡Reporte Eliminado!",
         });
-        consultaAsignarMenuRol({ CHID: idRol });
-        consulta({ CHID: idRol });
+        consulta({ CHID: idRol,TIPO:4 } );
+        consulta({ CHID: idRol,TIPO:3 } );
       } else {
         AlertS.fire({
           title: "¡Error!",
@@ -103,12 +98,20 @@ const ReportesControlAsignacion = ({
         });
       }
     });
+
+
+
   };
 
 
   const consulta = (data: any) => {
     CatalogosServices.reportesAdministracionRelacion(data).then((res) => {
-      setReporteMenu(res.RESPONSE);
+      if(data.TIPO == 3){
+        setDataReporteMenuAsignado(res.RESPONSE);
+      }else{
+        setReporteMenu(res.RESPONSE);
+      }
+ 
       setOpenSlider(false)
     });
   };
@@ -117,7 +120,7 @@ const ReportesControlAsignacion = ({
     let dataAsignarMenuRol = {
       TIPO: 1,
       IDROL: idRol,
-      IDMENU: v.id
+      IDREPORTE: v.id
     }
     setOpenSlider(true);
     CatalogosServices.reportesAdministracionRelacion(dataAsignarMenuRol).then((res) => {
@@ -129,8 +132,8 @@ const ReportesControlAsignacion = ({
           icon: "success",
           title: "¡Reporte Relacionado!",
         });
-        consultaAsignarMenuRol({ CHID: idRol });
-        consulta({ CHID: idRol });
+        consulta({ CHID: idRol,TIPO:4 } );
+        consulta({ CHID: idRol,TIPO:3 } );
       } else {
         AlertS.fire({
           title: "¡Error!",
@@ -141,18 +144,10 @@ const ReportesControlAsignacion = ({
     });
   };
 
-  const consultaAsignarMenuRol = (data: any) => {
-    CatalogosServices.reportesAdministracionRelacion(data).then((res) => {
-      setDataReporteMenuAsignado(res.RESPONSE);
-      setOpenSlider(false);
-
-    });
-
-  };
 
   useEffect(() => {
-    consultaAsignarMenuRol({ CHID: idRol });
     consulta({ CHID: idRol,TIPO:4 } );
+    consulta({ CHID: idRol,TIPO:3 } );
   }, []);
 
 
