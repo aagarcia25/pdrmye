@@ -114,18 +114,6 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                                           {" >  " + subitem.Menu}
                                         </Typography>
                                       </Tooltip>
-                                      {/* <Hidden mdDown>
-                                        <TooltipPersonalizado title={
-                                          <React.Fragment>
-                                            <Typography color="inherit">Cargar SPEI's</Typography>
-                                            {"Solo se puede cargar en forma masiva si el Estatus es "}
-                                            <b>{"'Pendiente de Spei'"}</b>
-                                            <img src={Logo} style={{ width: "100%" }} onClick={() => consulta("/")} />
-                                          </React.Fragment>
-                                        }>
-                                          <OndemandVideoIcon />
-                                        </TooltipPersonalizado>
-                                      </Hidden> */}
                                     </>
                                   } />
                                 </ListItemButton>

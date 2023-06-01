@@ -1,7 +1,5 @@
 import AddIcon from "@mui/icons-material/Add";
-import { Box, ToggleButtonGroup, Tooltip, ToggleButton, Grid, Typography } from "@mui/material";
-import React from "react";
-import { TooltipPersonalizado } from "../../../componentes/CustomizedTooltips";
+import { Tooltip, ToggleButton } from "@mui/material";
 
 const ButtonsAdd = ({
   handleOpen,
