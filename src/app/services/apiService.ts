@@ -66,11 +66,14 @@ export const postReporte = async function (url: string, body: any , name:string)
     })
     .catch((error) => {
       console.log(error);
-    });
+    }
+    );
+    
 
     } catch (err: any) {
         console.log(err);
     }
+    
 };
 
 

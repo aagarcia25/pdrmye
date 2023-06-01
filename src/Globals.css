@@ -842,6 +842,26 @@ h5.menu-Typography {
   font-weight: 700;
 }
 
+h5.menu-Typography-report {
+
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 33px;
+  font-weight: 700;
+}
+
+h5.menu-Typography-report:hover {
+
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 33px;
+  font-weight: 700;
+}
+
 h5.menu-Typography:hover {
 
   font-family: sans-serif;
