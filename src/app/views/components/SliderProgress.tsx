@@ -1,15 +1,15 @@
-import { CircularProgress, Dialog, Grid, Typography } from '@mui/material';
-import { green } from '@mui/material/colors';
-import * as React from 'react';
-import { COLOR } from '../../styles/colors';
-
+import { CircularProgress, Dialog, Grid, Typography } from "@mui/material";
+import { green } from "@mui/material/colors";
+import * as React from "react";
+import { COLOR } from "../../styles/colors";
 
 const SliderProgress = ({
   open,
+  mensaje,
 }: {
-  open: boolean
+  open: boolean;
+  mensaje?: string;
 }) => {
-
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef<number>();
@@ -17,7 +17,7 @@ const SliderProgress = ({
   const buttonSx = {
     ...(success && {
       bgcolor: green[500],
-      '&:hover': {
+      "&:hover": {
         bgcolor: green[700],
       },
     }),
@@ -40,33 +40,36 @@ const SliderProgress = ({
     }
   };
 
-
-
-
   return (
-    <Dialog fullScreen
-      className='ContainerSliderProgress'
+    <Dialog
+      fullScreen
+      className="ContainerSliderProgress"
       sx={{ zIndex: 2000 }}
       open={open}
     >
-      <Grid className='containerCenter' container direction="column"
+      <Grid
+        className="containerCenter"
+        container
+        direction="column"
         justifyContent="center"
-        alignItems="center"  >
-        <Grid item >
+        alignItems="center"
+      >
+        <Grid item container justifyContent="center" direction="column"     alignItems="center" >
           <CircularProgress
             size={200}
             sx={{
               color: COLOR.negro,
             }}
           />
-          <Typography variant='h4' className='Cargando'>
-            {"Cargando .."}
+        </Grid>
+        <Grid item container justifyContent="center" direction="column"     alignItems="center" paddingTop={2}>
+          <Typography variant="h4" className="Cargando">
+            {mensaje ? mensaje : "Cargando .."}
           </Typography>
-        </ Grid>
+        </Grid>
       </Grid>
-
     </Dialog>
-  )
-}
+  );
+};
 
-export default SliderProgress
+export default SliderProgress;
