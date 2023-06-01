@@ -73,6 +73,9 @@ export class calculosServices {
         return await post('getResponsable', data);
     }
     
+    public static async ReCalculo(data: any) {
+        return await post('ReCalculo', data);
+    }
     
     
     
