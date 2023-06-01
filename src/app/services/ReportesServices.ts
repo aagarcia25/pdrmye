@@ -7,5 +7,9 @@ export class ReportesServices {
         return await postReporte('formatoSolicitud', data,name);
     }
 
-   
+    public static async handleReport(data: any,name: string) {
+        return await postReporte('handleReport', data,name);
+    }
+
+    
 }
