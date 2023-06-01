@@ -2,28 +2,28 @@ import {
   Button,
   Divider,
   Grid,
-  IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../helpers/AlertS";
-import { Toast } from "../../../helpers/Toast";
 import SelectValues from "../../../interfaces/Select/SelectValues";
+import { IReportes } from "../../../interfaces/menu/menu";
 import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { ReportesServices } from "../../../services/ReportesServices";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { getUser } from "../../../services/localStorage";
-import SelectFrag from "../Fragmentos/SelectFrag";
-import { Titulo } from "../menu/catalogos/Utilerias/AgregarCalculoUtil/Titulo";
-import Slider from "../Slider";
-import { IReportes } from "../../../interfaces/menu/menu";
-import { fmeses } from "../../../share/loadMeses";
 import { fanios } from "../../../share/loadAnios";
-import { ReportesServices } from "../../../services/ReportesServices";
+import { fmeses } from "../../../share/loadMeses";
+import SelectFrag from "../Fragmentos/SelectFrag";
+import SliderProgress from "../SliderProgress";
+import { Titulo } from "../menu/catalogos/Utilerias/AgregarCalculoUtil/Titulo";
+import { getHeaderInfoReporte } from "../../../services/tokenCreator";
+import axios from "axios";
 
 export const Reporteador = () => {
   const [openSlider, setOpenSlider] = useState(true);
@@ -52,6 +52,7 @@ export const Reporteador = () => {
 
 
   const handleGenerar = () => {
+    setOpenSlider(true);
    let flag= true;
       if( tipoExportacion ===""){
           AlertS.fire({
@@ -59,10 +60,11 @@ export const Reporteador = () => {
                        icon: "warning",
                      });
                      flag= false;
+                     setOpenSlider(false);
       }
       
       if(flag){
-        setOpenSlider(true);
+       
 
         const params = {
           P_ANIO:anio,
@@ -74,9 +76,33 @@ export const Reporteador = () => {
           FORMATO: tipoExportacion,
           PARAMETROS : params
         };
-        ReportesServices.handleReport(data, reporte?.Nombre +'.'+tipoExportacion).then((res) => {
-        setOpenSlider(false);
-        });
+
+
+        try {
+          let header = getHeaderInfoReporte();
+          axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + 'handleReport', data, { responseType: 'blob' })
+         .then((response) => {
+          const blobStore = new Blob([response.data], { type: 'application/'+tipoExportacion });
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blobStore);
+          link.download = reporte?.Nombre +'.'+tipoExportacion; 
+          link.click();
+          setOpenSlider(false);
+        })
+        .catch((error) => {
+          setOpenSlider(false);
+          console.log(error);
+          AlertS.fire({
+            title: "Error en la Generación de Reporte",
+            icon: "warning",
+          });
+        }
+        );
+        
+        } catch (err: any) {
+          setOpenSlider(false);
+            console.log(err);
+        }
 
       }
 
@@ -101,14 +127,14 @@ export const Reporteador = () => {
 
   const handleReporte = (data: IReportes) => {
     setReporte(data);
-    loadFilter(43);
   };
+  
   const consultaReportes = (data: any) => {
-    setOpenSlider(true);
+      setOpenSlider(true);
     CatalogosServices.reportesAdministracionRelacion(data).then((res) => {
       setListaReportes(res.RESPONSE);
-      setOpenSlider(false);
-    });
+       setOpenSlider(false);
+     });
   };
 
   
@@ -118,9 +144,14 @@ export const Reporteador = () => {
     consultaReportes({ CHID: user.idUsuarioCentral, TIPO: 5 });
   }, []);
 
+  useEffect(() => {
+    loadFilter(43);
+  }, [reporte]);
+
+
   return (
     <div>
-      <Slider open={openSlider}></Slider>
+      <SliderProgress open={openSlider} mensaje={"Generando Reporte"}/>
       <Titulo name={"Módulo de Generación de Reportes"}></Titulo>
       <Grid container sx={{ justifyContent: "center" }}>
         <Grid container item xs={12} md={2} lg={2} sx={{ textAlign: "center" }}>
@@ -146,7 +177,7 @@ export const Reporteador = () => {
                               <Tooltip title={item.Descripcion}>
                                 <Typography
                                   variant="h5"
-                                  className="menu-Typography"
+                                  className="menu-Typography-report"
                                   gutterBottom
                                 >
                                   {item.Nombre}
