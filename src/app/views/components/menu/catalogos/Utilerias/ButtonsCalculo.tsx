@@ -11,18 +11,21 @@ const ButtonsCalculo = ({
   return (
     <Box sx={{}}>
       {agregar ? (
-        <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-          <Tooltip title="Agregar Cálculo">
-            <ToggleButton className="enviar-mensaje" value="check" onClick={() => handleOpen(1)}>
-              <AddIcon />
-            </ToggleButton>
-          </Tooltip>
-        </ToggleButtonGroup>
+        
+
+<Tooltip
+title={"Agregar"}>
+<ToggleButton  className="enviar-mensaje" value="check" onClick={() => handleOpen(1)}>
+  <AddIcon />
+</ToggleButton>
+</Tooltip>
+
+
       ) : (
         ""
       )}
     </Box>
   );
 };
-
+ 
 export default ButtonsCalculo;

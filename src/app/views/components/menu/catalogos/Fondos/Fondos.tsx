@@ -88,7 +88,7 @@ const Fondos = () => {
     { field: "PorcentajeDistribucion	", headerName: "Porcentaje De Distribución",description: "Porcentaje De Distribución",   width: 150, },
     { field: "Garantia",                 headerName: "Garantía",                  description: "Garantía	",                   width: 80, },
     { field: "Articulo",                 headerName: "Articulo",                  description: "Articulo	",                   width: 150, },
-    { field: "Comentarios",  hide: true },
+    { field: "Comentarios",              headerName: "Comentarios",              hide: true , hideable:false},
     { field: "NumProyecto",              headerName: "Número De Proyecto",        description: "Número De Proyecto	",         width: 150, },
     { field: "ConceptoEgreso",           headerName: "Concepto De Egreso",        description: "Concepto De Egreso",           width: 150, },
     { field: "Clasificador01",           headerName: "Administrativo",            description: "Administrativo	",             width: 150, },
