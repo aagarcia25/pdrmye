@@ -204,9 +204,9 @@ function App() {
 
 
   const verificatoken = (primerInicio: boolean) => {
-
+ console.log("Verificando el token");
     UserServices.verify({}).then((res) => {
-
+      console.log(res);
       if (res?.status === 200) {
         setUserName(res.data.data.NombreUsuario)
         buscaUsuario(res.data.data.IdUsuario);
