@@ -5,7 +5,6 @@ import { HashRouter } from "react-router-dom";
 import Swal from "sweetalert2";
 import "./Fonts.css";
 import "./Globals.css";
-import SelectValues from "./app/interfaces/Select/SelectValues";
 import { UserLogin } from "./app/interfaces/user/User";
 import { RESPONSE, UserInfo } from "./app/interfaces/user/UserInfo";
 import { AppRouter } from "./app/router/AppRouter";
@@ -54,7 +53,6 @@ function App() {
 
 
 
-  const [meses, setMeses] = useState<SelectValues[]>([]);
   const parametros = () => {
     let data = {
       NUMOPERACION: 5,
@@ -62,8 +60,6 @@ function App() {
     }
     ParametroServices.ParametroGeneralesIndex(data).then((res) => {
       localStorage.setItem("Ambiente", JSON.stringify(res.RESPONSE.Valor));
-
-
     });
 
   };
@@ -80,10 +76,7 @@ function App() {
   const loadMeses = () => {
     let data = { NUMOPERACION: 2 };
     if (!validaLocalStorage("Meses")) {
-
       CatalogosServices.SelectIndex(data).then((res) => {
-
-        setMeses(res.RESPONSE);
         localStorage.setItem("Meses", JSON.stringify(res.RESPONSE));
       });
 
@@ -147,7 +140,6 @@ function App() {
           if (result.isConfirmed) {
             var ventana = window.self;
             ventana.location.reload();
-            // ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
           }
         });
 
@@ -190,13 +182,11 @@ function App() {
 
           }
         });
-        // verificatoken();
       }
       else if (us.SUCCESS === false && us.RESPONSE) {
         Swal.fire({
           icon: "info",
           title: us.RESPONSE,
-          // text: us.STRMESSAGE,
           showDenyButton: false,
           showCancelButton: false,
           confirmButtonText: "Aceptar",
@@ -208,7 +198,6 @@ function App() {
 
           }
         });
-        // verificatoken();
       }
     });
   };
@@ -251,9 +240,6 @@ function App() {
         setContraseñaValida(true);
         setToken(res.data.token);
         setRfToken(res.data.refreshToken);
-        // setAcceso(true);
-        // setBloqueoStatus(false);
-        // setOpenSlider(false);
         var ventana = window.self;
         ventana.location.reload();
         
@@ -301,9 +287,6 @@ function App() {
         setRfToken(refjwt);
         var ventana = window.self;
         ventana.location.replace("/");
-
-        // verificatoken(true);
-
       } else {
         Swal.fire({
           title: "Token no valido",
@@ -344,25 +327,16 @@ function App() {
   return (
     <div>
       <Slider open={openSlider}></Slider>
-
-
-
-
       {bloqueoStatus ? (
         <BloqueoSesion handlePassword={handleOnActive} />
       ) : acceso ?
         <>
-
           <HashRouter basename={"/"}>
             <AppRouter login={login} />
           </HashRouter>
-
-
         </> :
         !contrseñaValida ? <Validacion /> : ""
       }
-
-
     </div>
   );
 }
