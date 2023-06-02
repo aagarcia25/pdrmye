@@ -20,7 +20,8 @@ export const postSingle = async function (url: string, body: any) {
 export const post = async function (url: string, body: any) {
 
     try {
-       
+        console.log(process.env.REACT_APP_APPLICATION_BASE_URL_EXT + url);
+        console.log(body);
         let resp = await axios.post(process.env.REACT_APP_APPLICATION_BASE_URL_EXT + url, body,
             {
                 headers: {
