@@ -35,15 +35,10 @@ export const ListNotification = () => {
 
 
   const columns: GridColDef[] = [
-    { field: "id", hide: true },
-    { field: "deleted", hide: true },
-    { field: "ModificadoPor", hide: true },
-    {
-      field: "FechaCreacion",
-      headerName: "Fecha Creación",
-      description: "Fecha Creación",
-      width: 160,
-    },
+    { field: "id", hide: true ,hideable: false },
+    { field: "deleted", hide: true ,hideable: false  },
+    { field: "ModificadoPor", hide: true  , hideable: false },
+    { field: "FechaCreacion", headerName: "Fecha Creación",      description: "Fecha Creación",      width: 160,    },
     {
       field: "acciones",
       disableExport: true,
@@ -73,7 +68,7 @@ export const ListNotification = () => {
         );
       },
     },
-    { field: "CreadoPor", headerName: "CreadoPor", width: 300, hide: true },
+    { field: "CreadoPor", headerName: "CreadoPor", width: 300, hide: true  , hideable: false },
     {
       field: "origen",
       headerName: "Remitente",
@@ -88,20 +83,10 @@ export const ListNotification = () => {
       width: 300,
       hide: modo === "viewMessageReading" || modo === "ViewMessage",
     },
-    {
-      field: "Encabezado",
-      headerName: "Encabezado",
-      description: "Encabezado",
-      width: 550,
-    },
+    { field: "Encabezado",      headerName: "Encabezado",      description: "Encabezado",      width: 550,    },
     { field: "Descripcion", headerName: "Mensaje", width: 550 },
     { field: "Visto", headerName: "Visto", width: 300, hide: true },
-    {
-      field: "Destinatario",
-      headerName: "destinatario",
-      width: 300,
-      hide: true,
-    },
+    { field: "Destinatario",headerName: "destinatario", width: 300,     hide: true  , hideable: false    },
   ];
 
   const handleNuevoMensaje = () => {

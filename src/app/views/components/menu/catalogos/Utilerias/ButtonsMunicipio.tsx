@@ -94,7 +94,7 @@ const ButtonsMunicipio = ({
           <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
             {agregar ? (
                 <Tooltip title="Agregar" >
-                  <ToggleButton color="standard" value="check" onClick={() => handleOpen()}>
+                  <ToggleButton className="enviar-mensaje"  color="standard" value="check" onClick={() => handleOpen()}>
                     <AddIcon />
                   </ToggleButton>
                 </Tooltip>
@@ -103,7 +103,7 @@ const ButtonsMunicipio = ({
             )}
             {descargarPlantilla ? (
               <Tooltip title={"Descargar Plantilla"}>
-                <ToggleButton color="standard" value="check" onClick={() => downloadplantilla()}>
+                <ToggleButton className="enviar-mensaje"  color="standard" value="check" onClick={() => downloadplantilla()}>
                   <ArrowDownwardIcon />
                 </ToggleButton>
               </Tooltip>
@@ -112,7 +112,7 @@ const ButtonsMunicipio = ({
             )}
             {cargarPlantilla ? (
               <Tooltip title="Cargar Plantilla">
-                <ToggleButton value="check">
+                <ToggleButton className="enviar-mensaje"  value="check">
                   <IconButton
                     aria-label="upload documento"
                     component="label"
@@ -138,7 +138,7 @@ const ButtonsMunicipio = ({
 
             {elimasiva ? (
               <Tooltip title="Eliminación Masiva, Borra los Registros Seleccionados *No Requiere Autorización*">
-                <ToggleButton value="check">
+                <ToggleButton className="enviar-mensaje"  value="check">
                   <DeleteForeverIcon
                     onClick={() => handleUpload({ tipo: 2, data: {} })}
                   />

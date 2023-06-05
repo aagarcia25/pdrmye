@@ -306,7 +306,7 @@ function App() {
 
 
     if (!jwt && !refjwt && bloqueoStatus===undefined  && !acceso && !login && getToken() && getRfToken()) {
-      const decoded: UserLogin = jwt_decode(String(jwt));
+      const decoded: UserLogin = jwt_decode(String(getToken()));
       if (((decoded.exp - (Date.now() / 1000)) / 60) > 44.5) {
         verificatoken(true);
       } else{
