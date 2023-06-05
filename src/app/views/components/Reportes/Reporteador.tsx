@@ -198,13 +198,21 @@ export const Reporteador = () => {
         </Grid>
 
         <Grid container item xs={12} md={1} lg={1} sx={{ textAlign: "center" }}>
-          <Grid item xs={12} >
+          <Grid container item xs={12} sm={12} md={12} lg={12} >
             <Typography variant="h5" paddingBottom={2}>
               Exportar
             </Typography>
             {reporte !== undefined ? (
               <>
-                <Grid paddingTop={3}>
+               <Grid
+             container
+             item
+             xs={12}
+             sm={12}
+             md={12}
+             lg={12}
+              >
+                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <SelectFrag
                     value={tipoExportacion}
                     options={tipoExportacionSelect}
@@ -214,6 +222,7 @@ export const Reporteador = () => {
                     disabled={false}
                   />
                 </Grid>
+                </Grid>
               </>
             ) : (
               ""
@@ -221,7 +230,7 @@ export const Reporteador = () => {
           </Grid>
         </Grid>
 
-        <Grid container item xs={12} md={8} lg={8}>
+        <Grid container item xs={12} md={8} lg={8} sx={{ textAlign: "center" }}>
           {/* GRID PÁRA CADA FILTRO POR SECCION TODAS DE 4 */}
           <Grid container item xs={12} sm={12} md={12} lg={12}>
             <Typography variant="h5" paddingLeft={2}>
@@ -230,7 +239,7 @@ export const Reporteador = () => {
 
             {reporte?.Auxiliar == "CPH_01" ? (
               <Grid
-              paddingBottom={3}
+                paddingTop={3}
                 container
                 spacing={2}
                 paddingLeft={2}
@@ -292,20 +301,12 @@ export const Reporteador = () => {
         </Grid>
       
         <Grid container item xs={12} md={1} lg={1} sx={{ textAlign: "center" }}>
-          <Grid item xs={12} >
+          <Grid container item xs={12} sm={12} md={12} lg={12}>
             <Typography variant="h5" paddingBottom={2}>
               Generar
             </Typography>
             {reporte !== undefined ? (
               <>
-                <Grid
-                  paddingTop={3}
-                  item
-                  xs={12}
-                  sm={12}
-                  md={12}
-                
-                >
                   <Button
                     className="guardar"
                     color="info"
@@ -313,7 +314,6 @@ export const Reporteador = () => {
                   >
                     {"Generar"}
                   </Button>
-                </Grid>
               </>
             ) : (
               ""
