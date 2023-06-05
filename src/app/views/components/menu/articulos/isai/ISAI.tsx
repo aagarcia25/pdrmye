@@ -40,11 +40,7 @@ const ISAI = () => {
 
 
   const columns1: GridColDef[] = [
-    {
-      field: "id",
-      headerName: "Identificador",
-      hide: true,
-    },
+    { field: "id", headerName: "Identificador",hide: true,},
     { field: "Version", headerName: "Versión", width: 150 },
     { field: "FechaCreacion", headerName: "Fecha de Creación", width: 200 },
     { field: "municipio", headerName: "Municipio", width: 250 },
@@ -188,24 +184,7 @@ const ISAI = () => {
         onInputChange={handleFilterChange}
         placeholder={"Seleccione Año"} label={''} disabled={false}
         value={""} handleOpen={handleFilterChange} />
-        {/* {agregar ?
-        <>
-          <Tooltip title="Descargar Plantilla">
-          <IconButton aria-label="upload documento" component="label" size="large">
-            <Link href={plantilla}>
-              <ArrowDownwardIcon />
-            </Link>
-            </IconButton>
-        </Tooltip>
-
-        <Tooltip title="Cargar Plantilla">
-        <IconButton aria-label="upload documento" component="label" size="large">
-        <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
-        <DriveFolderUploadIcon />
-        </IconButton>
-        </Tooltip>
-        </>
-         :""} */}
+       
       </Box>
 
       <MUIXDataGrid columns={columns0} rows={dataTipoFondo} />

@@ -33,7 +33,12 @@ const MUIXDataGridMun = ({
     IdConCheque:false,
     TipoSolicitud:false,
     idmunicipio:false,
-    IdRegistro:false
+    IdRegistro:false,
+    deleted:false,
+    ModificadoPor:false,
+    CreadoPor:false,
+    Destinatario:false,
+    Comentarios:false
   });
 
   useEffect(() => {

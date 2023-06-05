@@ -128,7 +128,7 @@ export const Art14fP = () => {
           {agregar ? (
             <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
               <Tooltip title="Generar Nueva Versión">
-                <ToggleButton value="check" onClick={() => handleVersion()}>
+                <ToggleButton className="enviar-mensaje" value="check" onClick={() => handleVersion()}>
                   <AutoModeIcon />
                 </ToggleButton>
               </Tooltip>
