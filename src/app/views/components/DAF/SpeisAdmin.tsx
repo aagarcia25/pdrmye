@@ -568,7 +568,12 @@ const SpeisAdmin = ({
                     </Grid>
                 </Grid>
                 <Box>
-                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={agregar || (modo === "CFDI" && agregarCFDI && (user.MUNICIPIO.length > 0 || user.ORG.length > 0))} />
+                    <ButtonsAdd handleOpen={handleAgregarSpei} agregar={agregar || (modo === "CFDI" && agregarCFDI 
+                    //  && (user.MUNICIPIO.length > 0 || user.ORG.length > 0)
+                    )
+                } 
+                    
+                    />
                     <Grid item xs={12}>
                         <MUIXDataGridMun modulo={''} handleBorrar={handleBorrarMasivo} columns={columns} rows={speis} controlInterno={''} />
                     </Grid>
