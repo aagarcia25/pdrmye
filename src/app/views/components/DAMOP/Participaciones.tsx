@@ -545,16 +545,16 @@ const Participaciones = () => {
            {/*  ) : (
                ""
              )}*/}
-            {v.row.orden > 13 ? (
+            {/* {v.row.orden > 13 ? ( */}
               <Tooltip title="Administrar CFDI">
                 <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
                   <img className="iconButton" src={IconCFDI}
                   />
                 </IconButton>
               </Tooltip>
-            ) : (
+            {/* ) : (
               ""
-            )}
+            )} */}
 
           </Box>
         );
