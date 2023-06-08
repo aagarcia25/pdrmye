@@ -978,7 +978,7 @@ ValidaSesion();
 
         </Grid> */}
 
-        <IFrame source={"?jwt="+JSON.parse(String(getToken()))+"&IdApp="+idApp} baseURL={String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN)}/>
+        <IFrame source={"?jwt="+JSON.parse(String(getToken()))+"&IdApp="+idApp} baseURL={ String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN)}/>
       </ModalForm>
     </div>
   );
