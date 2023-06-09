@@ -545,7 +545,7 @@ ValidaSesion();
         title={String(AccionesSol.find(({ accion }) => accion === tipo)?.mensajeModal)}
         handleClose={handleClose}
       >
-        {/* <Slider open={openSlider} />
+        <Slider open={openSlider} />
         <Grid
           container
           spacing={1}
@@ -976,9 +976,9 @@ ValidaSesion();
             </TabPanel>
           </TabContext>
 
-        </Grid> */}
+        </Grid> 
 
-        <IFrame source={"?jwt="+JSON.parse(String(getToken()))+"&IdApp="+idApp} baseURL={ String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN)}/>
+        {/* <IFrame source={"?jwt="+JSON.parse(String(getToken()))+"&IdApp="+idApp} baseURL={ String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN)}/> */}
       </ModalForm>
     </div>
   );
