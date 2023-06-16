@@ -163,18 +163,20 @@ export const Reporteador = () => {
       <SliderProgress open={openSlider} mensaje={"Generando Reporte"} />
       <Titulo name={"Módulo de Generación de Reportes"}></Titulo>
       <Grid container sx={{ justifyContent: "center" }}>
-        <Grid container item xs={12} md={2} lg={2} sx={{ textAlign: "center" }}>
+        <Grid container direction="column" item xs={12} md={2} lg={2} sx={{ textAlign: "center" }}>
           <div className="containerReporteadorLista">
             <Typography variant="h5" paddingBottom={2}>
               Listado de Reportes
             </Typography>
             <List>
+           
               <ListItem disablePadding>
                 {listaReportes.map((item, index) => {
                   return (
                     <>
+
                       <Divider />
-                      <ListItemButton
+                      <ListItem
                         className="itemMenu"
                         key={index}
                         sx={{ pl: 4 }}
@@ -196,12 +198,13 @@ export const Reporteador = () => {
                           }
                           onClick={() => handleReporte(item)}
                         />
-                      </ListItemButton>
+                      </ListItem>
                       <Divider />
                     </>
                   );
                 })}
               </ListItem>
+              
             </List>
           </div>
         </Grid>
