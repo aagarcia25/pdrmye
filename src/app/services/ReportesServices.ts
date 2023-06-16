@@ -1,4 +1,4 @@
-import { postReporte } from "./apiService";
+import {  post, postReporte } from "./apiService";
 
 export class ReportesServices {
 
@@ -11,5 +11,15 @@ export class ReportesServices {
         return await postReporte('handleReport', data,name);
     }
 
+    public static async handleTipoExportacion(data: any) {
+        return await post('handleTipoExportacion', data);
+    }
+
+    public static async relacionaTipoExportacion(data: any) {
+        return await post('relacionaTipoExportacion', data);
+    }
+    
+    
+    
     
 }
