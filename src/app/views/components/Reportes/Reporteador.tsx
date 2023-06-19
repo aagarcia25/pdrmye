@@ -6,6 +6,8 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  MenuItem,
+  MenuList,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -30,7 +32,9 @@ export const Reporteador = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [tipoExportacion, setTipoExportacion] = useState<string>("");
   const [listaReportes, setListaReportes] = useState<IReportes[]>([]);
-  const [tipoExportacionSelect, setTipoExportacionSelect] = useState<SelectValues[]>([]);
+  const [tipoExportacionSelect, setTipoExportacionSelect] = useState<
+    SelectValues[]
+  >([]);
   const [reporte, setReporte] = useState<IReportes>();
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
@@ -42,11 +46,9 @@ export const Reporteador = () => {
   const [trimestreList, setTrimestreList] = useState<SelectValues[]>([]);
   const [idtrimestre, setIdtrimestre] = useState("");
 
-
   const handleFiltroORG = (v: string) => {
     setIdORG(v);
   };
-
 
   const handleSelectMes = (data: any) => {
     setMes(data);
@@ -54,8 +56,8 @@ export const Reporteador = () => {
   const handleFilterChangeAnio = (v: string) => {
     setAnio(v);
   };
-  const handleFilterChangetrimeste= (v: string) => {
-    setAnio(v);
+  const handleFilterChangetrimeste = (v: string) => {
+    setIdtrimestre(v);
   };
 
   const handleSelectTipoExportacion = (e: any) => {
@@ -78,6 +80,8 @@ export const Reporteador = () => {
       const params = {
         P_ANIO: anio,
         P_MES: mes,
+        P_ID_ORGANISMO:idORG,
+        P_PERIODO:idtrimestre
       };
 
       let data = {
@@ -124,10 +128,10 @@ export const Reporteador = () => {
     CatalogosServices.SelectIndex(data).then((res) => {
       if (tipo === 43) {
         setTipoExportacionSelect(res.RESPONSE);
-      }else if (tipo === 38){
+      } else if (tipo === 38) {
         setOrganismos(res.RESPONSE);
         setOpenSlider(false);
-      }else if (tipo === 44){
+      } else if (tipo === 44) {
         setTrimestreList(res.RESPONSE);
         setOpenSlider(false);
       }
@@ -163,50 +167,23 @@ export const Reporteador = () => {
       <SliderProgress open={openSlider} mensaje={"Generando Reporte"} />
       <Titulo name={"Módulo de Generación de Reportes"}></Titulo>
       <Grid container sx={{ justifyContent: "center" }}>
-        <Grid container direction="column" item xs={12} md={2} lg={2} sx={{ textAlign: "center" }}>
-          <div className="containerReporteadorLista">
-            <Typography variant="h5" paddingBottom={2}>
-              Listado de Reportes
-            </Typography>
-            <List>
-           
-              <ListItem disablePadding>
-                {listaReportes.map((item, index) => {
-                  return (
-                    <>
+        <Grid container item xs={12} md={2} lg={2} sx={{ textAlign: "center" }}>
+          <Typography variant="h5" paddingBottom={2}>
+            Listado de Reportes
+          </Typography>
 
-                      <Divider />
-                      <ListItem
-                        className="itemMenu"
-                        key={index}
-                        sx={{ pl: 4 }}
-                      >
-                        <ListItemText
-                          key={index}
-                          primary={
-                            <>
-                              <Tooltip title={item.Descripcion}>
-                                <Typography
-                                  variant="h5"
-                                  className="menu-Typography-report"
-                                  gutterBottom
-                                >
-                                  {item.Nombre}
-                                </Typography>
-                              </Tooltip>
-                            </>
-                          }
-                          onClick={() => handleReporte(item)}
-                        />
-                      </ListItem>
-                      <Divider />
-                    </>
-                  );
-                })}
-              </ListItem>
-              
-            </List>
-          </div>
+          <MenuList>
+            {listaReportes.map((item, index) => (
+              <Tooltip title={item.Descripcion}>
+                <MenuItem
+                  className="menu-Typography-report"
+                  onClick={() => handleReporte(item)}
+                >
+                  {item.Nombre}
+                </MenuItem>
+              </Tooltip>
+            ))}
+          </MenuList>
         </Grid>
 
         <Grid container item xs={12} md={1} lg={1} sx={{ textAlign: "center" }}>
@@ -339,14 +316,14 @@ export const Reporteador = () => {
                 lg={12}
               >
                 <Grid item xs={12} sm={12} md={3} lg={3}>
-                <SelectFrag
+                  <SelectFrag
                     value={idORG}
                     options={organismos}
                     onInputChange={handleFiltroORG}
                     placeholder={"Seleccione Organismos"}
                     label={""}
                     disabled={false}
-                />
+                  />
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={3} lg={3}>
@@ -361,7 +338,7 @@ export const Reporteador = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={3} lg={3}>
-                <SelectFrag
+                  <SelectFrag
                     value={idtrimestre}
                     options={trimestreList}
                     onInputChange={handleFilterChangetrimeste}
@@ -369,7 +346,6 @@ export const Reporteador = () => {
                     label={""}
                     disabled={false}
                   />
-
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
@@ -401,9 +377,6 @@ export const Reporteador = () => {
 
         <Grid container item xs={12} md={1} lg={1} sx={{ textAlign: "center" }}>
           <Grid container item xs={12} sm={12} md={12} lg={12}>
-            {/* <Typography variant="h5" paddingBottom={2}>
-              Generar
-            </Typography> */}
             {reporte !== undefined ? (
               <>
                 <Button

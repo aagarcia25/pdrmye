@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 import {
-  esES as gridEsES
+  esES as gridEsES, GridSelectionModel
 } from "@mui/x-data-grid";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -44,22 +44,21 @@ import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import Slider from "../Slider";
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 import SpeisAdmin from "./SpeisAdmin";
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   //MODAL
   //Constantes para llenar los select
-
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const [anio, setAnio] = useState<string>("");
-
   const [fondos, setFondos] = useState<[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [estatus, setEstatus] = useState<SelectValues[]>([]);
-
   const [tipos, setTipos] = useState<SelectValues[]>([]);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [checked, setChecked] = React.useState(false);
@@ -87,6 +86,19 @@ const AsigPago = () => {
 
   const [openTraz, setOpenTraz] = useState(false);
   const [idSolicitud, setIdSolicitud] = useState<string>();
+
+
+  const handlePagado = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "¡Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      
+    }
+  };
 
   const handleSpeis = (data: any) => {
     setOpenSpeis(true);
@@ -599,6 +611,7 @@ const AsigPago = () => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
+         
             {subirSpeis ? (
               <>
                 <TooltipPersonalizado
@@ -638,12 +651,43 @@ const AsigPago = () => {
             ) : (
               ""
             )}
+
+            {subirSpeis ? (
+              <>
+                <TooltipPersonalizado
+                  title={
+                    <React.Fragment>
+                      <Typography color="inherit">Pagado</Typography>
+                      {"El Registro se marca como pagado "}
+                    </React.Fragment>
+                  }
+                >
+                  <ToggleButton value="check">
+                    <IconButton
+                      color="primary"
+                      aria-label="upload documento"
+                      component="label"
+                      size="small"
+                      onClick={() => handlePagado()}
+                    >
+                     
+                  <AttachMoneyIcon />
+                    </IconButton>
+                  </ToggleButton>
+                </TooltipPersonalizado>
+
+
+              </>
+            ) : (
+              ""
+            )} 
+
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <MUIXDataGridGeneral
               modulo={"DistribucionDaf"}
-              handleBorrar={handleBorrarMasivo} columns={columnsParticipaciones} rows={data} controlInterno={"DAFADMINPAG"} multiselect={false} />
+              handleBorrar={handleBorrarMasivo} columns={columnsParticipaciones} rows={data} controlInterno={"DAFADMINPAG"} multiselect={true} />
           </Grid>
         </Grid>
       </div>
