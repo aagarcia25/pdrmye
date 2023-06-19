@@ -371,7 +371,7 @@ export const CuentaBancariaModal = ({
                   // sx={{ paddingTop: "1%", width: "50%", height: "50%", display: "flex", justifyContent: "center", alignItems: "center", }}
                   >
                     <Typography sx={{ textAlign: "center" }}>
-                      {dt?.row?.NombreCarta ? "Arrastre El Nuevo Documento Carta o Presione el icono Para Seleccionar" : "Arrastre El Documento Carta o Presione el icono Para Seleccionar"}
+                      {dt?.row?.NombreCarta ? "Presione aqui para subir el documento de apertura de la cuenta bancaria" : "Presione aqui para subir el oficio para registrar la cuenta bancaria"}
                     </Typography>
                   </Grid>
                 </Grid>

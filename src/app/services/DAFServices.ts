@@ -7,5 +7,8 @@ export class DAFServices {
         return await post('SpeiAdministracion', data);
     }
 
+    public static async MarcarPagado(data: any) {
+        return await post('MarcarPagado', data);
+    }
    
 }

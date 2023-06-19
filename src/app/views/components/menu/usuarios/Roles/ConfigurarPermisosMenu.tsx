@@ -1,23 +1,21 @@
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {
   Box,
   Button,
-  Checkbox,
   Grid,
   IconButton,
-  Modal,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { AuthService } from "../../../../../services/AuthService";
 import { GridColDef } from '@mui/x-data-grid';
-import { Toast } from "../../../../../helpers/Toast";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
+import { AuthService } from "../../../../../services/AuthService";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
 import Slider from "../../../Slider";
 import ModalForm from "../../../componentes/ModalForm";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 const ConfigurarPermisosMenu = ({
   id,
   dt,

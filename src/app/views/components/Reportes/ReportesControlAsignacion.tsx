@@ -9,6 +9,10 @@ import MUIXDataGridSimple from '../MUIXDataGridSimple';
 import ModalForm from '../componentes/ModalForm';
 import Slider from '../Slider';
 import { CatalogosServices } from '../../../services/catalogosServices';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
+import { TooltipPersonalizado } from '../componentes/CustomizedTooltips';
+import React from 'react';
+import ModalTipoExportacion from '../componentes/ModalTipoExportacion';
 
 const ReportesControlAsignacion = ({
   idRol,
@@ -22,6 +26,12 @@ const ReportesControlAsignacion = ({
   const [dataReporteMenu, setReporteMenu] = useState([]);
   const [openSlider, setOpenSlider] = useState(false);
   const [dataReporteMenuAsignado, setDataReporteMenuAsignado] = useState([]);
+  const [showTipoExportacion, setShowTipoExportacion] = useState(false);
+
+
+  const handleViewtipoExportacion = (v: any) => {
+    setShowTipoExportacion(true);
+  };
 
 
   const columns: GridColDef[] = [
@@ -41,6 +51,20 @@ const ReportesControlAsignacion = ({
                 <ArrowForwardIosIcon color='error' />
               </IconButton>
             </Tooltip>
+          </>
+        );
+      },
+    },
+    {
+      field: "TipoExportacion",
+      headerName: "Asignar Tipo de Exportación",
+      description: "Asignar Tipo de Exportación",
+      sortable: false,
+      width: 300,
+      renderCell: (v) => {
+        return (
+          <>
+            <ModalTipoExportacion vrows={v}/>
           </>
         );
       },

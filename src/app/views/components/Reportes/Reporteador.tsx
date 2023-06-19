@@ -6,8 +6,10 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  MenuItem,
+  MenuList,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../helpers/AlertS";
@@ -38,6 +40,15 @@ export const Reporteador = () => {
   const [mes, setMes] = useState<string>("");
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const [anio, setAnio] = useState<string>("");
+  const [organismos, setOrganismos] = useState<SelectValues[]>([]);
+  const [idORG, setIdORG] = useState("");
+
+  const [trimestreList, setTrimestreList] = useState<SelectValues[]>([]);
+  const [idtrimestre, setIdtrimestre] = useState("");
+
+  const handleFiltroORG = (v: string) => {
+    setIdORG(v);
+  };
 
   const handleSelectMes = (data: any) => {
     setMes(data);
@@ -45,99 +56,100 @@ export const Reporteador = () => {
   const handleFilterChangeAnio = (v: string) => {
     setAnio(v);
   };
+  const handleFilterChangetrimeste = (v: string) => {
+    setIdtrimestre(v);
+  };
 
   const handleSelectTipoExportacion = (e: any) => {
     setTipoExportacion(e);
   };
 
-
   const handleGenerar = () => {
     setOpenSlider(true);
-   let flag= true;
-      if( tipoExportacion ===""){
-          AlertS.fire({
-                       title: "Es obligatorio el tipo de exportación",
-                       icon: "warning",
-                     });
-                     flag= false;
-                     setOpenSlider(false);
-      }
-      
-      if(flag){
-       
+    let flag = true;
+    if (tipoExportacion === "") {
+      AlertS.fire({
+        title: "Es obligatorio el tipo de exportación",
+        icon: "warning",
+      });
+      flag = false;
+      setOpenSlider(false);
+    }
 
-        const params = {
-          P_ANIO:anio,
-          P_MES: mes,
-        };
+    if (flag) {
+      const params = {
+        P_ANIO: anio,
+        P_MES: mes,
+        P_ID_ORGANISMO:idORG,
+        P_PERIODO:idtrimestre
+      };
 
-        let data = {
-          CHID: reporte?.id,
-          FORMATO: tipoExportacion,
-          PARAMETROS : params
-        };
+      let data = {
+        CHID: reporte?.id,
+        FORMATO: tipoExportacion,
+        PARAMETROS: params,
+      };
 
-
-        try {
-          let header = getHeaderInfoReporte();
-          axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + 'handleReport', data, { responseType: 'blob' })
-         .then((response) => {
-          const blobStore = new Blob([response.data], { type: 'application/'+tipoExportacion });
-          const link = document.createElement('a');
-          link.href = window.URL.createObjectURL(blobStore);
-          link.download = reporte?.Nombre +'.'+tipoExportacion; 
-          link.click();
-          setOpenSlider(false);
-        })
-        .catch((error) => {
-          setOpenSlider(false);
-          console.log(error);
-          AlertS.fire({
-            title: "Error en la Generación de Reporte",
-            icon: "warning",
+      try {
+        let header = getHeaderInfoReporte();
+        axios
+          .post(
+            process.env.REACT_APP_APPLICATION_BASE_URL + "handleReport",
+            data,
+            { responseType: "blob" }
+          )
+          .then((response) => {
+            const blobStore = new Blob([response.data], {
+              type: "application/" + tipoExportacion,
+            });
+            const link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blobStore);
+            link.download = reporte?.Nombre + "." + tipoExportacion;
+            link.click();
+            setOpenSlider(false);
+          })
+          .catch((error) => {
+            setOpenSlider(false);
+            console.log(error);
+            AlertS.fire({
+              title: "Error en la Generación de Reporte",
+              icon: "warning",
+            });
           });
-        }
-        );
-        
-        } catch (err: any) {
-          setOpenSlider(false);
-            console.log(err);
-        }
-
+      } catch (err: any) {
+        setOpenSlider(false);
+        console.log(err);
       }
-
-
-
- 
+    }
   };
 
-
-
   const loadFilter = (tipo: number) => {
-
-    let data = { NUMOPERACION: tipo ,CHID:reporte?.id};
+    let data = { NUMOPERACION: tipo, CHID: reporte?.id };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (tipo === 43) {
         setTipoExportacionSelect(res.RESPONSE);
+      } else if (tipo === 38) {
+        setOrganismos(res.RESPONSE);
+        setOpenSlider(false);
+      } else if (tipo === 44) {
+        setTrimestreList(res.RESPONSE);
+        setOpenSlider(false);
       }
     });
-   
   };
-  
 
   const handleReporte = (data: IReportes) => {
     setReporte(data);
   };
-  
+
   const consultaReportes = (data: any) => {
-      setOpenSlider(true);
+    setOpenSlider(true);
     CatalogosServices.reportesAdministracionRelacion(data).then((res) => {
       setListaReportes(res.RESPONSE);
-       setOpenSlider(false);
-     });
+      setOpenSlider(false);
+    });
   };
 
-  
   useEffect(() => {
     setMeses(fmeses());
     setAnios(fanios());
@@ -146,82 +158,52 @@ export const Reporteador = () => {
 
   useEffect(() => {
     loadFilter(43);
+    loadFilter(38);
+    loadFilter(44);
   }, [reporte]);
-
 
   return (
     <div>
-      <SliderProgress open={openSlider} mensaje={"Generando Reporte"}/>
+      <SliderProgress open={openSlider} mensaje={"Generando Reporte"} />
       <Titulo name={"Módulo de Generación de Reportes"}></Titulo>
       <Grid container sx={{ justifyContent: "center" }}>
         <Grid container item xs={12} md={2} lg={2} sx={{ textAlign: "center" }}>
-          <div className="containerReporteadorLista">
-            <Typography variant="h5" paddingBottom={2}>
-              Listado de Reportes
-            </Typography>
-            <List>
-              <ListItem disablePadding>
-                {listaReportes.map((item, index) => {
-                  return (
-                    <>
-                      <Divider />
-                      <ListItemButton
-                        className="itemMenu"
-                        key={index}
-                        sx={{ pl: 4 }}
-                      >
-                        <ListItemText
-                          key={index}
-                          primary={
-                            <>
-                              <Tooltip title={item.Descripcion}>
-                                <Typography
-                                  variant="h5"
-                                  className="menu-Typography-report"
-                                  gutterBottom
-                                >
-                                  {item.Nombre}
-                                </Typography>
-                              </Tooltip>
-                            </>
-                          }
-                          onClick={() => handleReporte(item)}
-                        />
-                      </ListItemButton>
-                      <Divider />
-                    </>
-                  );
-                })}
-              </ListItem>
-            </List>
-          </div>
+          <Typography variant="h5" paddingBottom={2}>
+            Listado de Reportes
+          </Typography>
+
+          <MenuList>
+            {listaReportes.map((item, index) => (
+              <Tooltip title={item.Descripcion}>
+                <MenuItem
+                  className="menu-Typography-report"
+                  onClick={() => handleReporte(item)}
+                >
+                  {item.Nombre}
+                </MenuItem>
+              </Tooltip>
+            ))}
+          </MenuList>
         </Grid>
 
         <Grid container item xs={12} md={1} lg={1} sx={{ textAlign: "center" }}>
-          <Grid container item xs={12} sm={12} md={12} lg={12} >
+          <Grid container item xs={12} sm={12} md={12} lg={12}>
             <Typography variant="h5" paddingBottom={2}>
               Exportar
             </Typography>
             {reporte !== undefined ? (
               <>
-               <Grid
-             container
-             item
-             xs={12}
-             sm={12}
-             md={12}
-             lg={12}
-              >
-                 <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <SelectFrag
-                    value={tipoExportacion}
-                    options={tipoExportacionSelect}
-                    onInputChange={handleSelectTipoExportacion}
-                    placeholder={""}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
+                <Grid container item xs={12} sm={12} md={12} lg={12}>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <SelectFrag
+                      value={tipoExportacion}
+                      options={tipoExportacionSelect}
+                      onInputChange={handleSelectTipoExportacion}
+                      placeholder={""}
+                      label={""}
+                      disabled={false}
+                    />
+                  </Grid>
                 </Grid>
               </>
             ) : (
@@ -279,6 +261,99 @@ export const Reporteador = () => {
               ""
             )}
 
+            {reporte?.Auxiliar == "ORG_01" ? (
+              <Grid
+                paddingTop={3}
+                container
+                spacing={2}
+                paddingLeft={2}
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+              >
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <SelectFrag
+                    value={idORG}
+                    options={organismos}
+                    onInputChange={handleFiltroORG}
+                    placeholder={"Seleccione Organismos"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <SelectFrag
+                    value={anio}
+                    options={anios}
+                    onInputChange={handleFilterChangeAnio}
+                    placeholder={"Seleccione Año"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+              </Grid>
+            ) : (
+              ""
+            )}
+
+            {reporte?.Auxiliar == "ORG_02" ? (
+              <Grid
+                paddingTop={3}
+                container
+                spacing={2}
+                paddingLeft={2}
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+              >
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <SelectFrag
+                    value={idORG}
+                    options={organismos}
+                    onInputChange={handleFiltroORG}
+                    placeholder={"Seleccione Organismos"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <SelectFrag
+                    value={anio}
+                    options={anios}
+                    onInputChange={handleFilterChangeAnio}
+                    placeholder={"Seleccione Año"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <SelectFrag
+                    value={idtrimestre}
+                    options={trimestreList}
+                    onInputChange={handleFilterChangetrimeste}
+                    placeholder={"Seleccione Trimestre"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+              </Grid>
+            ) : (
+              ""
+            )}
+
             {/* <Grid container item xs={12} sm={12} md={12} lg={12}>
             <Grid item xs={12} sm={12} md={3} lg={3}>
               ds
@@ -299,28 +374,24 @@ export const Reporteador = () => {
           </Grid> */}
           </Grid>
         </Grid>
-      
+
         <Grid container item xs={12} md={1} lg={1} sx={{ textAlign: "center" }}>
           <Grid container item xs={12} sm={12} md={12} lg={12}>
-            <Typography variant="h5" paddingBottom={2}>
-              Generar
-            </Typography>
             {reporte !== undefined ? (
               <>
-                  <Button
-                    className="guardar"
-                    color="info"
-                    onClick={() => handleGenerar()}
-                  >
-                    {"Generar"}
-                  </Button>
+                <Button
+                  className="guardar"
+                  color="info"
+                  onClick={() => handleGenerar()}
+                >
+                  {"Generar"}
+                </Button>
               </>
             ) : (
               ""
             )}
           </Grid>
         </Grid>
-      
       </Grid>
     </div>
   );
