@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 import {
-  esES as gridEsES
+  esES as gridEsES, GridSelectionModel
 } from "@mui/x-data-grid";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -44,22 +44,22 @@ import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import Slider from "../Slider";
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 import SpeisAdmin from "./SpeisAdmin";
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { DAFServices } from "../../../services/DAFServices";
 
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   //MODAL
   //Constantes para llenar los select
-
   const [meses, setMeses] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const [anio, setAnio] = useState<string>("");
-
   const [fondos, setFondos] = useState<[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [estatus, setEstatus] = useState<SelectValues[]>([]);
-
   const [tipos, setTipos] = useState<SelectValues[]>([]);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [checked, setChecked] = React.useState(false);
@@ -82,11 +82,65 @@ const AsigPago = () => {
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [agregarPoliza, setAgregarPoliza] = useState<boolean>(false);
   const [subirSpeis, setSubirSpeis] = useState<boolean>(false);
+  const [pagaRegistro, setPagaRegistro] = useState<boolean>(false);
 
   /// trazabilidad
 
   const [openTraz, setOpenTraz] = useState(false);
   const [idSolicitud, setIdSolicitud] = useState<string>();
+
+
+  const handlePagado = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "¡Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Solo se Procesaran los Registros en estatus Pendiente de Spei",
+        text: selectionModel.length + " Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+
+        if (result.isConfirmed) {
+          let data = {
+            NUMOPERACION: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          DAFServices.MarcarPagado(data).then((res) => {
+            if (res.SUCCESS) {
+              AlertS.fire({
+                icon: "success",
+                title: res.RESPONSE,
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  handleClick();
+                }
+              });
+            } else {
+              AlertS.fire({
+                title: "¡Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+        }
+
+
+      });
+
+
+    }
+  };
 
   const handleSpeis = (data: any) => {
     setOpenSpeis(true);
@@ -290,13 +344,11 @@ const AsigPago = () => {
 
 
       rows.map((item: any, index) => {
-        //      console.log(item.a3 + 'index' + index);
-
         for (let i = 0; i < Number(counfiles); i++) {
           let file = event?.target?.files?.[i] || "";
           let namefile = event?.target?.files?.[i].name || "";
 
-          if (item.a2.includes("Pendiente de Spei")) {
+          if (item.a2.includes("Pendiente de Spei") ||  item.a2.includes("Pagado")    ) {
             if (namefile.includes(item.a3)) {
               rows = rows.filter((items) => !item);
               encontrados.push({ Archivo: file, Registro: item });
@@ -436,8 +488,11 @@ const AsigPago = () => {
       }
     });
   };
-  const handleBorrarMasivo = (v: string) => {
+  
+  const handleBorrar = (v: any) => {
+    setSelectionModel(v);
   };
+
   useEffect(() => {
     setMeses(fmeses());
     setAnios(fanios());
@@ -450,16 +505,16 @@ const AsigPago = () => {
       if (String(item.ControlInterno) === "DAFADMINPAG") {
         if (String(item.Referencia) === "TRAZASPEIDAF") {
           setVerTrazabilidad(true);
-          // setAnchoAcciones(anchoAcciones+50)
         }
         if (String(item.Referencia) === "POLIZASPEIDAF") {
           setAgregarPoliza(true);
-          // setAnchoAcciones(anchoAcciones+50)
         }
 
         if (String(item.Referencia) === "DAFSUBIRSPEI") {
           setSubirSpeis(true);
-          // setAnchoAcciones(anchoAcciones+50)
+        }
+        if(String(item.Referencia) === "DAFPAGASPEI"){
+           setPagaRegistro(true);
         }
       }
     });
@@ -599,6 +654,7 @@ const AsigPago = () => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
+         
             {subirSpeis ? (
               <>
                 <TooltipPersonalizado
@@ -606,8 +662,7 @@ const AsigPago = () => {
                     <React.Fragment>
                       <Typography color="inherit">Cargar SPEI's</Typography>
                       {"Solo se puede cargar en forma masiva si el Estatus es "}
-                      <b>{"'Pendiente de Spei'"}</b>
-
+                      <b>{"'Pendiente de Spei' ó 'Pagado'"}</b>
                     </React.Fragment>
                   }
                 >
@@ -638,12 +693,43 @@ const AsigPago = () => {
             ) : (
               ""
             )}
+
+            {pagaRegistro ? (
+              <>
+                <TooltipPersonalizado
+                  title={
+                    <React.Fragment>
+                      <Typography color="inherit">Pagado</Typography>
+                      {"El Registro se marca como pagado "}
+                    </React.Fragment>
+                  }
+                >
+                  <ToggleButton value="check">
+                    <IconButton
+                      color="primary"
+                      aria-label="upload documento"
+                      component="label"
+                      size="small"
+                      onClick={() => handlePagado()}
+                    >
+                     
+                  <AttachMoneyIcon />
+                    </IconButton>
+                  </ToggleButton>
+                </TooltipPersonalizado>
+
+
+              </>
+            ) : (
+              ""
+            )} 
+
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <MUIXDataGridGeneral
               modulo={"DistribucionDaf"}
-              handleBorrar={handleBorrarMasivo} columns={columnsParticipaciones} rows={data} controlInterno={"DAFADMINPAG"} multiselect={false} />
+              handleBorrar={handleBorrar} columns={columnsParticipaciones} rows={data} controlInterno={"DAFADMINPAG"} multiselect={true} />
           </Grid>
         </Grid>
       </div>
