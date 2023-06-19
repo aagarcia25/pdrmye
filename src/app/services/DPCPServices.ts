@@ -79,6 +79,10 @@ export class DPCPServices {
         return await post('AsignaOperacion', data);
     }
 
+    public static async MarcaMonex(data: any) {
+        return await post('MarcaMonex', data);
+    }
+
 
     
 }
