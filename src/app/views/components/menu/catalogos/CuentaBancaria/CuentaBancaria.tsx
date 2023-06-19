@@ -147,6 +147,7 @@ export const CuentaBancaria = ({
       sortable: false,
       width: 200,
       renderCell: (v) => {
+        console.log(v)
         return (
           <>
             <Tooltip title="Visualizar">
@@ -155,6 +156,20 @@ export const CuentaBancaria = ({
               </IconButton>
             </Tooltip>
 
+            {
+              (v.row.ControlInterno === "DAMOP_AUTORIZADO"  ? (
+                <>
+                  <BotonesAcciones
+                    handleAccion={handleAccion}
+                    row={v}
+                    editar={editar}
+                    eliminar={false}
+                  />
+                </>
+              ) :
+                "")
+            }
+            
             {
               ((v.row.EstatusDescripcion === "INICIO" || v.row.ControlInterno === "DAMOP_REGRESADO") && (user.DEPARTAMENTOS[0]?.NombreCorto === "MUN" && user.PERFILES[0]?.Referencia === "MUN") ? (
                 <>

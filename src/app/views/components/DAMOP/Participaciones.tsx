@@ -65,8 +65,6 @@ import IconCFDI from '../../../assets/img/CFDI.svg';
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import { MigraData, resultmigracion } from "../../../interfaces/parametros/ParametrosGenerales";
 import { ReportesServices } from "../../../services/ReportesServices";
-import axios from "axios";
-
 const Participaciones = () => {
 
   ///////////////modal de adminisracion Spei cfdi
@@ -113,6 +111,7 @@ const Participaciones = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
   const [asignaObservacion, setasignaObservacion] = useState<boolean>(false);
+  const [marcaMonex, setMarcaMonex] = useState<boolean>(false);
   const [cargaPrestamos, setCargaPrestamos] = useState<boolean>(false);
   const [descPlant, setDescPlant] = useState<boolean>(false);
   const [disFide, setDisFide] = useState<boolean>(false);
@@ -1061,6 +1060,60 @@ const Participaciones = () => {
     }
   };
 
+
+  
+  const handleMonex = () => {
+    if (selectionModel.length === 0) {
+      AlertS.fire({
+        title: "¡Error!",
+        text: "Favor de Seleccionar Registros",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Los registros se marcaran como Tipo Monex",
+        text: selectionModel.length + " Elementos Seleccionados",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+
+        if (result.isConfirmed) {
+          let data = {
+            NUMOPERACION: 1,
+            OBJS: selectionModel,
+            CHUSER: user.id,
+          };
+
+          DPCPServices.MarcaMonex(data).then((res) => {
+            if (res.SUCCESS) {
+              AlertS.fire({
+                icon: "success",
+                title: res.RESPONSE,
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  handleClick();
+                }
+              });
+            } else {
+              AlertS.fire({
+                title: "¡Error!",
+                text: res.STRMESSAGE,
+                icon: "error",
+              });
+            }
+          });
+        }
+
+
+      });
+
+
+    }
+  };
+
   const eliminar = () => {
 
     if (selectionModel.length !== 0) {
@@ -1903,6 +1956,8 @@ const Participaciones = () => {
           setPermisoAgregarDescuento(true);
         } else if (String(item.Referencia) === "ASIGNANUMEROORDENPAGO") {
           setPermisoAgregarNumeroSolicitud(true);
+        } else if (String(item.Referencia) === "MARCAMONEX") {
+          setMarcaMonex(true);
         }
 
       } setAnchoAcciones(ancho)
@@ -2135,6 +2190,16 @@ const Participaciones = () => {
               <ToggleButton value="check" onClick={() => openmodalc(2)}>
                 <Tooltip title={"Asignar Observación"}>
                   <FormatAlignLeftIcon color="primary" />
+                </Tooltip>
+              </ToggleButton>
+            ) : (
+              ""
+            )}
+ 
+    {marcaMonex ? (
+              <ToggleButton value="check" onClick={() => handleMonex()}>
+                <Tooltip title={"Marcar las operaciones a MONEX"}>
+                  <CurrencyExchangeIcon  />
                 </Tooltip>
               </ToggleButton>
             ) : (
