@@ -6,7 +6,7 @@ import {
   Grid,
   Button,
 } from "@mui/material";
-import { getUser } from "../../../../../services/localStorage";
+import { getToken, getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
@@ -143,7 +143,7 @@ export const CuentaBancariaModal = ({
       if (nameNewDocCarta !== undefined && tipo === 1) {
         formData.append("CARTA", newDocCarta, nameNewDocCarta);
       }
-
+      formData.append("TOKEN", JSON.parse(String(getToken())));
       formData.append("NUMOPERACION", String(tipo));
       formData.append("CHID", id);
       formData.append("CHUSER", String(user.id));
@@ -335,7 +335,7 @@ export const CuentaBancariaModal = ({
                   // sx={{ paddingTop:"1%", width: "50%", height: "50%", display: "flex", justifyContent: "center", alignItems: "center",  }}
                   >
                     <Typography sx={{ textAlign: "center" }}>
-                      {dt?.row?.NombreDocumento ? "Arrastre El Nuevo Documento o Presione el icono Para Seleccionar" : "Arrastre El Documento o Presione el icono Para Seleccionar"}
+                     Presione aqui para subir el documento de apertura de la cuenta bancaria
                     </Typography>
                   </Grid>
                 </Grid>
@@ -368,10 +368,9 @@ export const CuentaBancariaModal = ({
                     </Typography>
                   </Box>
                   <Grid item xs={12} sm={12} md={12} lg={12}
-                  // sx={{ paddingTop: "1%", width: "50%", height: "50%", display: "flex", justifyContent: "center", alignItems: "center", }}
                   >
                     <Typography sx={{ textAlign: "center" }}>
-                      {dt?.row?.NombreCarta ? "Presione aqui para subir el documento de apertura de la cuenta bancaria" : "Presione aqui para subir el oficio para registrar la cuenta bancaria"}
+                    Presione aqui para subir el oficio para registrar la cuenta bancaria
                     </Typography>
                   </Grid>
                 </Grid>
