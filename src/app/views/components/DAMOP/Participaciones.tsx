@@ -772,6 +772,20 @@ const Participaciones = () => {
       description: "Divisa",
     },
     {
+      field: "Monex",
+      headerName: "Monex",
+      width: 80,
+      description: "Monex",
+      renderCell: (v: any) => {
+        return (
+          <>
+            {v.row.Monex === 1 ? 'SI' : 'NO' }
+          </>
+          
+        );
+      },
+    },
+    {
       field: "Observaciones",
       headerName: "Observaciones",
       width: 400,
