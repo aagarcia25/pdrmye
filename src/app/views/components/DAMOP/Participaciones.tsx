@@ -389,12 +389,12 @@ const Participaciones = () => {
     //   width: 100,
     //   description: "Clave Estado",
     // },
-    {
-      field: "Nombre",
-      headerName: "Proveedor",
-      width: 200,
-      description: "Proveedor",
-    },
+    // {
+    //   field: "Nombre",
+    //   headerName: "Proveedor",
+    //   width: 200,
+    //   description: "Proveedor",
+    // },
     {
       field: "tipocalculo",
       headerName: "Tipo Cálculo",
