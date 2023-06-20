@@ -484,7 +484,7 @@ const AdminAyudas = ({
       <Grid container item xs={12} md={6} direction="row" justifyContent="center" alignItems="center">
         <BottomNavigation showLabels sx={{ width: 500, borderRadius: "10px", }} value={value} onChange={handleChange}>
           <BottomNavigationAction
-            label="Video Tutorial"
+            label="Videos de ayuda"
             value="video"
             icon={< OndemandVideoIcon />}
           />

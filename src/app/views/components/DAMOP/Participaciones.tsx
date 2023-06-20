@@ -304,18 +304,12 @@ const Participaciones = () => {
         return (
           <Box>
 
-           <Tooltip title={"Imprimir Solicitud"}>
-              <IconButton value="check" onClick={() => handleprintsolicitud(v)}>
-                <PrintIcon />
-              </IconButton>
-            </Tooltip>
 
             <Tooltip title={"Administrar Detalles"}>
-              <IconButton value="check" onClick={() => handledetalles(v)}>
+              <IconButton value="check" onClick={() => handleprintsolicitud(v)}>
                 <MenuBookIcon />
               </IconButton>
             </Tooltip>
-
 
 
             {verTrazabilidad ? (
@@ -365,12 +359,12 @@ const Participaciones = () => {
       description: "Estatus",
       width: 170,
     },
-    {
-      field: "NumOper",
-      headerName: "Nº De Operación",
-      description: "Nº De Operación",
-      width: 110,
-    },
+    // {
+    //   field: "NumOper",
+    //   headerName: "Nº De Operación",
+    //   description: "Nº De Operación",
+    //   width: 110,
+    // },
     {
       field: "Anio",
       headerName: "Ejercicio",
@@ -389,12 +383,12 @@ const Participaciones = () => {
       width: 170,
       description: "Tipo de Solicitud",
     },
-    {
-      field: "ClaveEstado",
-      headerName: "Clave Estado",
-      width: 100,
-      description: "Clave Estado",
-    },
+    // {
+    //   field: "ClaveEstado",
+    //   headerName: "Clave Estado",
+    //   width: 100,
+    //   description: "Clave Estado",
+    // },
     {
       field: "Nombre",
       headerName: "Proveedor",
@@ -412,12 +406,6 @@ const Participaciones = () => {
       headerName: "Descripción",
       description: "Descripción",
       width: 250,
-    },
-    {
-      field: "ClaveBeneficiario",
-      headerName: "Cve. Beneficiario",
-      width: 100,
-      description: "Clave de Beneficiario",
     },
     {
       field: "total",
