@@ -389,12 +389,12 @@ const Participaciones = () => {
     //   width: 100,
     //   description: "Clave Estado",
     // },
-    {
-      field: "Nombre",
-      headerName: "Proveedor",
-      width: 200,
-      description: "Proveedor",
-    },
+    // {
+    //   field: "Nombre",
+    //   headerName: "Proveedor",
+    //   width: 200,
+    //   description: "Proveedor",
+    // },
     {
       field: "tipocalculo",
       headerName: "Tipo Cálculo",
@@ -770,6 +770,20 @@ const Participaciones = () => {
       headerName: "Divisa",
       width: 80,
       description: "Divisa",
+    },
+    {
+      field: "Monex",
+      headerName: "Monex",
+      width: 80,
+      description: "Monex",
+      renderCell: (v: any) => {
+        return (
+          <>
+            {v.row.Monex === 1 ? 'SI' : 'NO' }
+          </>
+          
+        );
+      },
     },
     {
       field: "Observaciones",
