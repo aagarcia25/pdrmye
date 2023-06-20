@@ -40,26 +40,20 @@ const AuthSolicitudes = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
   const [numOrdenPago, setNumOrdenPago] = useState("");
-  //MODAL
-  //Constantes para llenar los select
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tipos, setTipos] = useState<SelectValues[]>([]);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
-  //Constantes de los filtros
   const [idtipo, setIdTipo] = useState("");
   const [idFondo, setIdFondo] = useState("");
   const [idMunicipio, setidMunicipio] = useState("");
-  //Constantes para las columnas
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [sumaTotal, setSumaTotal] = useState<Number>();
-  /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [authSol, setAuthSol] = useState(false);
-
 
 
   const columnsParticipaciones = [
@@ -199,11 +193,11 @@ const AuthSolicitudes = () => {
   };
 
 
-  const handleBorrar = () => {
-
-
-  };
   
+  const handleBorrar = (v: GridSelectionModel) => {
+    setSelectionModel(v);
+  };
+
   useEffect(() => {
     loadFilter(12);
     loadFilter(32);
@@ -212,7 +206,6 @@ const AuthSolicitudes = () => {
 
       permisos.map((item: PERMISO) => {
         if (String(item.ControlInterno) === "DPCPAUTHSOL") {
-          //console.log(item);
           if (String(item.Referencia) === "AUTHSOL") {
             setAuthSol(true);
           }
