@@ -1,23 +1,20 @@
-import { useEffect, useState } from "react";
 import {
   Box,
+  Button,
+  Grid,
   TextField,
   Typography,
-  Grid,
-  Button,
 } from "@mui/material";
-import { getToken, getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import Swal from "sweetalert2";
+import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getToken, getUser } from "../../../../../services/localStorage";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 import ModalForm from "../../../componentes/ModalForm";
-import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Codificador } from "../../../../../services/Codificador";
 export const CuentaBancariaModal = ({
   open,
   handleClose,
@@ -86,10 +83,8 @@ export const CuentaBancariaModal = ({
   };
 
   const handleNewFileCarta = (event: any) => {
-
     let file2 = event.target!.files[0]!;
     var sizeByte = Number(file2.size);
-    //setSizeFileCarta(Number(sizeByte) / 1024 >= 3072 ? true : false)
     if (Number(sizeByte) / 1024 >= 3072) {
       AlertS.fire({
         title: "Atención",
@@ -100,16 +95,8 @@ export const CuentaBancariaModal = ({
       setUploadFileCarta(URL.createObjectURL(event.target.files[0]));
       setNewDocCarta(file2);
       setNameNewDocCarta(event.target!.files[0]!.name);
-      //if(String(event.target!.files[0]!.name).slice)
       setDocSubidoCarta(true);
-    } else {
-      AlertS.fire({
-        title: "Atención",
-        text: "Agrega un archivo PDF",
-        icon: "info",
-      });
-
-    }
+    } 
   };
 
   const handleFilterChange1 = (v: string) => {
@@ -126,6 +113,7 @@ export const CuentaBancariaModal = ({
 
   const handleSend = () => {
     setslideropen(true);
+    console.log(tipo)
     if (tipo === 1 ? !nombreCuenta || !numeroCuenta || !idBancos || !clabeBancaria || !newDoc || newDocCarta === null : !nombreCuenta || !numeroCuenta || !idBancos || !clabeBancaria) {
       AlertS.fire({
         title: "Atención",
@@ -322,8 +310,9 @@ export const CuentaBancariaModal = ({
                         type="file"
                         style={{ opacity: 0, width: "100%", height: "100%", position: "absolute", cursor: "pointer", }} />
 
-                      {dt?.row?.NombreDocumento ? < PictureAsPdfOutlinedIcon sx={{ width: "90%", height: "90%" }} /> : <CloudUploadIcon sx={{ width: "90%", height: "90%" }} />}
-
+                      <Typography sx={{ textAlign: "center", marginTop:15}}>
+                     Presione aqui para subir el documento de apertura de la cuenta bancaria
+                    </Typography>
                     </Grid>
                   </div>
                   <Box sx={{ alignItems: "center", justifyContent: "space-around", width: "100%" }}>
@@ -331,13 +320,7 @@ export const CuentaBancariaModal = ({
                       {DocSubido ? nameNewDoc : ""}
                     </Typography>
                   </Box>
-                  <Grid item xs={12} sm={12} md={12} lg={12}
-                  // sx={{ paddingTop:"1%", width: "50%", height: "50%", display: "flex", justifyContent: "center", alignItems: "center",  }}
-                  >
-                    <Typography sx={{ textAlign: "center" }}>
-                     Presione aqui para subir el documento de apertura de la cuenta bancaria
-                    </Typography>
-                  </Grid>
+                
                 </Grid>
 
                 {/* //// archivo de carta*/}
@@ -358,8 +341,9 @@ export const CuentaBancariaModal = ({
                         onChange={(event) => { handleNewFileCarta(event) }}
                         type="file"
                         style={{ opacity: 0, width: "100%", height: "100%", position: "absolute", cursor: "pointer", }} />
-                      {dt?.row?.NombreCarta ? < PictureAsPdfOutlinedIcon sx={{ width: "90%", height: "90%" }} /> : <CloudUploadIcon sx={{ width: "90%", height: "90%" }} />}
-
+                       <Typography sx={{ textAlign: "center", marginTop:15}}>
+                    Presione aqui para subir el oficio para registrar la cuenta bancaria
+                    </Typography>
                     </Grid>
                   </div>
                   <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
@@ -367,12 +351,6 @@ export const CuentaBancariaModal = ({
                       {DocSubidoCarta ? nameNewDocCarta : ""}
                     </Typography>
                   </Box>
-                  <Grid item xs={12} sm={12} md={12} lg={12}
-                  >
-                    <Typography sx={{ textAlign: "center" }}>
-                    Presione aqui para subir el oficio para registrar la cuenta bancaria
-                    </Typography>
-                  </Grid>
                 </Grid>
 
 
