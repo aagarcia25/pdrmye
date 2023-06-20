@@ -195,7 +195,7 @@ const ButtonsTutorial = ({
               title={
                 <React.Fragment>
                   <div className='containerBotonesVideos'>
-                    <Typography variant='h5' className='TooltipPersonalizado'>Video Tutorial</Typography>
+                    <Typography variant='h5' className='TooltipPersonalizado'>Videos de ayuda</Typography>
                     <Grid container className='containerVideosLista' >
                       {dataVideos.length === 0 ?
                         ""
