@@ -518,7 +518,7 @@ const Participaciones = () => {
             }
 
 
-            {/* {v.row.orden > 13 ? ( */}
+             {v.row.orden >= 13 ? ( 
               <>
                 <Tooltip title="Ver Spei">
                   <IconButton
@@ -529,19 +529,19 @@ const Participaciones = () => {
                 </Tooltip>
 
               </>
-           {/*  ) : (
+             ) : (
                ""
-             )}*/}
-            {/* {v.row.orden > 13 ? ( */}
+             )}
+             {v.row.orden >= 15 ? ( 
               <Tooltip title="Administrar CFDI">
                 <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
                   <img className="iconButton" src={IconCFDI}
                   />
                 </IconButton>
               </Tooltip>
-            {/* ) : (
+            ) : (
               ""
-            )} */}
+            )} 
 
           </Box>
         );
@@ -2496,7 +2496,7 @@ const Participaciones = () => {
           <MUIXDataGridGeneral
             modulo={nombreExport}
             handleBorrar={handleBorrarMasivo}
-            columns={user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' ?  columnasMunicipio : columnsParticipaciones}
+            columns={user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' || user.DEPARTAMENTOS[0]?.NombreCorto === 'ORG'  ?  columnasMunicipio : columnsParticipaciones}
             rows={data} controlInterno={""}
             multiselect={true} />
         </Grid>
