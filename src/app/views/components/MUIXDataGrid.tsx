@@ -21,6 +21,7 @@ export default function MUIXDataGrid(props: any) {
     nombreMunicipio:false,
     Tipo:false,
     idmunicipio:false,
+    idMunicipio:false
   });
   
 
