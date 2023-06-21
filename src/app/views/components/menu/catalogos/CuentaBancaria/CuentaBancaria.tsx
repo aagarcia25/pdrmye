@@ -12,10 +12,9 @@ import { getMunicipio, getPermisos, getUser } from "../../../../../services/loca
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import ModalAlert from "../../../componentes/ModalAlert";
+import ModalForm from "../../../componentes/ModalForm";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import { CuentaBancariaModal } from "./CuentaBancariaModal";
-import MUIXDataGridMun from "../../../MUIXDataGridMun";
-import ModalForm from "../../../componentes/ModalForm";
 
 export const CuentaBancaria = ({
   fullScrean,
@@ -141,13 +140,17 @@ export const CuentaBancaria = ({
       hide: true
     },
     {
+      field: "idMunicipio",
+      hideable: false,
+      hide: true
+    },
+    {
       field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
       width: 200,
       renderCell: (v) => {
-        console.log(v)
         return (
           <>
             <Tooltip title="Visualizar">

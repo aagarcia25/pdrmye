@@ -467,11 +467,11 @@ const Participaciones = () => {
           <Box>
 
 
-            <Tooltip title={"Imprimir Solicitud"}>
+            {/* <Tooltip title={"Imprimir Solicitud"}>
               <IconButton value="check" onClick={() => handleprintsolicitud(v)}>
                 <PrintIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
 
             <Tooltip title={"Administrar Detalles"}>
               <IconButton value="check" onClick={() => handledetalles(v)}>

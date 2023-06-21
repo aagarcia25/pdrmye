@@ -15,6 +15,9 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getToken, getUser } from "../../../../../services/localStorage";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import ModalForm from "../../../componentes/ModalForm";
+import { ValidaSesion } from "../../../../../services/UserServices";
+import { base64ToArrayBuffer } from "../../../../../helpers/Files";
+import SliderProgress from "../../../SliderProgress";
 export const CuentaBancariaModal = ({
   open,
   handleClose,
@@ -113,7 +116,7 @@ export const CuentaBancariaModal = ({
 
   const handleSend = () => {
     setslideropen(true);
-    console.log(tipo)
+    console.log(dt);
     if (tipo === 1 ? !nombreCuenta || !numeroCuenta || !idBancos || !clabeBancaria || !newDoc || newDocCarta === null : !nombreCuenta || !numeroCuenta || !idBancos || !clabeBancaria) {
       AlertS.fire({
         title: "Atención",
@@ -124,11 +127,11 @@ export const CuentaBancariaModal = ({
       setslideropen(false);
     } else {
       const formData = new FormData();
-      if (nameNewDoc !== undefined && tipo === 1) {
+      if (nameNewDoc !== undefined ) {
         formData.append("RUTADOCUMENTO", newDoc, nameNewDoc);
       }
 
-      if (nameNewDocCarta !== undefined && tipo === 1) {
+      if (nameNewDocCarta !== undefined ) {
         formData.append("CARTA", newDocCarta, nameNewDocCarta);
       }
       formData.append("TOKEN", JSON.parse(String(getToken())));
@@ -140,7 +143,7 @@ export const CuentaBancariaModal = ({
       formData.append("NOMBRECUENTA", nombreCuenta);
       formData.append("CLABEBANCARIA", (clabeBancaria));
       formData.append("COMENTARIOS", comentarios);
-      formData.append("IDMUNICIPIO", user.MUNICIPIO[0]?.id);
+      formData.append("IDMUNICIPIO",  dt.idMunicipio );
 
       CatalogosServices.CuentaBancaria(formData).then((res) => {
         setslideropen(false);
@@ -185,7 +188,42 @@ export const CuentaBancariaModal = ({
   const handleClabe = (v: string) => {
     setClabeBancaria(v)
   };
+
+
+  const  getdocumento  =(name: string, tipo: number) => {
+    setslideropen(true);
+    let data = {
+        TOKEN: JSON.parse(String(getToken())),
+        RUTA:  "/DAMOP/OFICIOS/",
+        NOMBRE: name,
+    };
+    if (name !== "") {
+        ValidaSesion();
+        CatalogosServices.obtenerDoc(data).then((res) => {
+            if (res.SUCCESS) {
+                var bufferArray = base64ToArrayBuffer(res.RESPONSE.RESPONSE.FILE);
+                var blobStore = new Blob([bufferArray], { type: res.RESPONSE.RESPONSE.TIPO });
+                var data = window.URL.createObjectURL(blobStore);
+                var link = document.createElement('a');
+                document.body.appendChild(link);
+                link.href = data;
+                if(tipo == 1){
+                  setUrlDoc( link.href);
+                }else{
+                  setUrlDocCarta( link.href);
+                }
+                setslideropen(false);
+            }else {
+                setslideropen(false);
+            }
+        });
+    }
+};
+
+
+
   useEffect(() => {
+    bancosc();
     if (dt === "") {
     } else {
       setId(dt?.row?.id);
@@ -193,17 +231,19 @@ export const CuentaBancariaModal = ({
       setNombreCuenta(dt?.row?.NombreCuenta);
       setNumeroCuenta(dt?.row?.NumeroCuenta);
       setClabeBancaria(dt?.row?.ClabeBancaria);
-      setUrlDoc(dt?.row?.RutaDocumento);
-      setUrlDocCarta(dt?.row?.RutaCarta)
       setComentarios(dt?.row?.Comentarios);
+      getdocumento(dt?.row?.RutaDocumento,1)
+      getdocumento(dt?.row?.RutaCarta,2)
+   
     }
-    bancosc();
+   
   }, [dt]);
 
-
+ 
 
   return (
     <div>
+      <SliderProgress open={slideropen}></SliderProgress>
       {tipo === 1 || tipo === 2 ? (
 
         <ModalForm title={tipo === 1 ? "Agregar Datos Bancarios" : "Editar Registro"} handleClose={handleClose}>
@@ -297,7 +337,7 @@ export const CuentaBancariaModal = ({
 
                   <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
                     <Typography variant="h6">
-                      {DocSubido ? "" : dt?.row?.NombreDocumento}
+                      {DocSubido !== null  ? "" : dt?.row?.NombreDocumento}
                     </Typography>
 
                   </Box>
@@ -328,7 +368,7 @@ export const CuentaBancariaModal = ({
                 <Grid item xs={3} sm={3} md={4} lg={3} alignContent="center" alignItems="center">
                   <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%", bgcolor: "green" }}>
                     <Typography variant="h6" className="PieDeImagen">
-                      {DocSubidoCarta ? "" : dt?.row?.NombreCarta}
+                      {DocSubidoCarta !== null  ? "" : dt?.row?.NombreCarta}
                     </Typography>
 
                   </Box>
@@ -425,29 +465,37 @@ export const CuentaBancariaModal = ({
             </Grid>
           </Grid>
 
-          <Grid container>
+          <Grid container marginTop={3}>
 
             <Grid item xs={12} sm={6} md={6} lg={6}>
-
-              <Box>  {urlDoc !== "null" ?
-                <iframe
-                  id="inlineFrameExample"
-                  title="Inline Frame Example"
-                  width="100%"
-                  height="700"
-                  src={urlDoc}
-                /> : ""}
-              </Box>
-
-              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
                 <label >
                   {dt?.row?.NombreDocumento !== "null" ? dt?.row?.NombreDocumento : ""}
                 </label>
 
               </Box>
+              <Box>  {urlDoc !== "null" ?
+
+
+                <iframe
+                  id="inlineFrameExample"
+                  title="Inline Frame Example"
+                  width="100%"
+                  height="700"
+                  src={   urlDoc  }
+                /> : ""}
+              </Box>
+
+             
 
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={6}>
+
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
+                <label >
+                  {dt?.row?.NombreCarta ? dt?.row?.NombreCarta : ""}
+                </label>
+              </Box>
 
               <Box>
                 {urlDocCarta !== null ?
@@ -456,14 +504,10 @@ export const CuentaBancariaModal = ({
                     title="Inline Frame Example"
                     width="100%"
                     height="700"
-                    src={urlDocCarta}
+                    src={ urlDocCarta }
                   /> : ""}
               </Box>
-              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%" }}>
-                <label >
-                  {dt?.row?.NombreCarta ? dt?.row?.NombreCarta : ""}
-                </label>
-              </Box>
+          
             </Grid>
           </Grid>
         </ModalForm>
