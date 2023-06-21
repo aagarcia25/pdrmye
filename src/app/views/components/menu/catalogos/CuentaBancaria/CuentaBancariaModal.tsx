@@ -197,7 +197,7 @@ export const CuentaBancariaModal = ({
         RUTA:  "/DAMOP/OFICIOS/",
         NOMBRE: name,
     };
-    if (name !== "") {
+    if (name !== "" && name !== "null" ) {
         ValidaSesion();
         CatalogosServices.obtenerDoc(data).then((res) => {
             if (res.SUCCESS) {
