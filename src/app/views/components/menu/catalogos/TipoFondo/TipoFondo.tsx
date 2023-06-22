@@ -1,20 +1,17 @@
-import { useEffect, useState } from "react";
-import { Box, IconButton, } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { getPermisos, getUser, } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { messages } from "../../../../styles";
-import Slider from "../../../Slider";
-import { Toast } from "../../../../../helpers/Toast";
-import { AlertS } from "../../../../../helpers/AlertS";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import TipoFondoModal from "./TipoFondoModal";
-import ButtonsAdd from "../Utilerias/ButtonsAdd";
-import MUIXDataGrid from "../../../MUIXDataGrid";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser, } from "../../../../../services/localStorage";
+import { messages } from "../../../../styles";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import Slider from "../../../Slider";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import TipoFondoModal from "./TipoFondoModal";
 
 const TipoFondo = () => {
 
@@ -90,7 +87,7 @@ const TipoFondo = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -109,7 +106,7 @@ const TipoFondo = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
 
 
@@ -121,7 +118,7 @@ const TipoFondo = () => {
 
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -142,12 +139,12 @@ const TipoFondo = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setDataTipoFondo(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

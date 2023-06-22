@@ -74,7 +74,7 @@ export const SolicitudModal = (
         }
         else {
             AlertS.fire({
-                title: "Atencion",
+                title: "Atención",
                 text: sizeFile ? "Tamaño de archivo Exedido -Limitado a 3Mb-" : "Verificar los campos",
                 icon: "info",
             });
@@ -130,7 +130,7 @@ export const SolicitudModal = (
 
                                         } else {
                                             AlertS.fire({
-                                                title: "Error!",
+                                                title: "¡Error!",
                                                 text: "Fallo en la carga",
                                                 icon: "error",
                                             });
@@ -147,7 +147,7 @@ export const SolicitudModal = (
 
                             } else {
                                 AlertS.fire({
-                                    title: "Error!",
+                                    title: "¡Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",
                                 });
@@ -181,7 +181,7 @@ export const SolicitudModal = (
                                 handleClose();
                             } else {
                                 AlertS.fire({
-                                    title: "Error!",
+                                    title: "¡Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",
                                 });

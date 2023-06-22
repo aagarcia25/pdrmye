@@ -49,7 +49,7 @@ const MenuAsignaPermisos = ({
         consulta({ CHID: dt?.row?.id });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -61,10 +61,7 @@ const MenuAsignaPermisos = ({
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
-      hide: true,
-      width: 10,
-      description: messages.dataTableColum.id,
+      hide: true, hideable:false,
     },
     {
       field: "acciones",  disableExport: true,

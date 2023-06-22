@@ -115,12 +115,12 @@ const AjustesCalculos = () => {
                     if (res.SUCCESS) {
                         Toast.fire({
                             icon: "success",
-                            title: "Registro Agregado!",
+                            title: "¡Registro Agregado!",
                         });
                         consulta();
                     } else {
                         AlertS.fire({
-                            title: "Error!",
+                            title: "¡Error!",
                             text: res.STRMESSAGE,
                             icon: "error",
                         });
@@ -146,7 +146,7 @@ const AjustesCalculos = () => {
         } else if (v.tipo === 3) {
             Swal.fire({
                 icon: "info",
-                title: "Estas seguro de eliminar este registro?",
+                title: "¿Estás seguro de eliminar este registro?",
                 showDenyButton: true,
                 showCancelButton: false,
                 confirmButtonText: "Confirmar",
@@ -163,12 +163,12 @@ const AjustesCalculos = () => {
                         if (res.SUCCESS) {
                             Toast.fire({
                                 icon: "success",
-                                title: "Registro Eliminado!",
+                                title: "¡Registro Eliminado!",
                             });
                             consulta();
                         } else {
                             AlertS.fire({
-                                title: "Error!",
+                                title: "¡Error!",
                                 text: res.STRMESSAGE,
                                 icon: "error",
                             });
@@ -203,7 +203,7 @@ const AjustesCalculos = () => {
         } else {
             Swal.fire({
                 icon: "info",
-                title: "Estas seguro de Editar este Registro?",
+                title: "¿Estás seguro de Editar este registro?",
                 showDenyButton: true,
                 showCancelButton: false,
                 confirmButtonText: "Confirmar",
@@ -222,12 +222,12 @@ const AjustesCalculos = () => {
                         if (res.SUCCESS) {
                             Toast.fire({
                                 icon: "success",
-                                title: "Registro Editado!",
+                                title: "¡Registro Editado!",
                             });
                             consulta();
                         } else {
                             AlertS.fire({
-                                title: "Error!",
+                                title: "¡Error!",
                                 text: res.STRMESSAGE,
                                 icon: "error",
                             });
@@ -278,7 +278,7 @@ const AjustesCalculos = () => {
 
                             } else {
                                 AlertS.fire({
-                                    title: "Error!",
+                                    title: "¡Error!",
                                     text: res.STRMESSAGE,
                                     icon: "error",
                                 });
@@ -311,7 +311,7 @@ const AjustesCalculos = () => {
                 setOpen(false);
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });

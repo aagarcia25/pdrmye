@@ -25,7 +25,6 @@ export const MunPobrezaExtrema = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [PobrezaExtrema, setPobrezaExtrema] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -82,11 +81,11 @@ export const MunPobrezaExtrema = () => {
 
   }
 
-  const handleOpen = (v: any) => {
+  const handleOpen = () => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
-    setData(v);
+    setData("");
   };
 
   const handleAccion = (v: any) => {
@@ -107,7 +106,7 @@ export const MunPobrezaExtrema = () => {
 
     Swal.fire({
       icon: "info",
-      title: "Solicitar La Eliminación?",
+      title: "¿Solicita la eliminación?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -136,7 +135,7 @@ export const MunPobrezaExtrema = () => {
             consulta(data);
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -188,7 +187,6 @@ export const MunPobrezaExtrema = () => {
               OBJS: selectionModel,
               CHUSER: user.id
             };
-            //console.log(data);
 
             CatalogosServices.munpobrezaext(data).then((res) => {
               if (res.SUCCESS) {
@@ -206,7 +204,7 @@ export const MunPobrezaExtrema = () => {
 
               } else {
                 AlertS.fire({
-                  title: "Error!",
+                  title: "¡Error!",
                   text: res.STRMESSAGE,
                   icon: "error",
                 });
@@ -254,16 +252,6 @@ export const MunPobrezaExtrema = () => {
   };
 
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_POBREZA_EXTREMA",
-
-    };
-
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
 
 
   useEffect(() => {
@@ -283,7 +271,6 @@ export const MunPobrezaExtrema = () => {
     });
 
     setAnios(fanios());
-    downloadplantilla();
 
     let data = {
       NUMOPERACION: 4,
@@ -307,13 +294,13 @@ export const MunPobrezaExtrema = () => {
 
 
       <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNPOEX"} 
-        
+        url={"MUNICIPIO_POBREZA_EXTREMA.xlsx"}
+        handleUpload={handleUpload} controlInterno={"MUNPOEX"}
+
         value={filterAnio}
-          options={anios}
-          onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"} label={""} disabled={false}  />
+        options={anios}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"} label={""} disabled={false} handleOpen={()=>handleOpen()}  />
 
       <MUIXDataGridMun columns={columns} rows={PobrezaExtrema} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNPOEX"} />
       {open ? (

@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Checkbox,
   Grid,
   Modal,
@@ -53,7 +52,7 @@ const MenuRelPermisos = ({
         consulta({CHID: dt?.row?.id });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -65,9 +64,7 @@ const MenuRelPermisos = ({
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
-      hide: true,
-      width: 10,
+      hide: true, hideable:false,
     },
     {
       field: "acciones",  disableExport: true,

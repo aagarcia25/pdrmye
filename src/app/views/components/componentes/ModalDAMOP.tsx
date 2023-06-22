@@ -61,7 +61,7 @@ const ModalDAMOP = ({
             >
                 <Button
                   className="actualizar"
-                  onClick={() => handleAccion({mensaje})}
+                  onClick={() => handleAccion(mensaje)}
                 >
                   Guardar
                 </Button>

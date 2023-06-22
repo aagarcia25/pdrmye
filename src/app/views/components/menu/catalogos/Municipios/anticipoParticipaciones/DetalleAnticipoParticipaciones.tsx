@@ -59,7 +59,7 @@ export const DetalleAnticipoParticipaciones = (
         {
             field: "acciones",  disableExport: true,
             headerName: "Acciones",
-            description: "Ver detalle de Cálculo",
+            description: "Ver Detalle de Cálculo",
             sortable: false,
             width: 150,
             renderCell: (v) => {
@@ -133,7 +133,7 @@ export const DetalleAnticipoParticipaciones = (
 
                     } else {
                         AlertS.fire({
-                            title: "Error!",
+                            title: "¡Error!",
                             text: "Validar informacion",
                             icon: "error",
                         });
@@ -213,7 +213,7 @@ export const DetalleAnticipoParticipaciones = (
                         handleClose();
                     } else {
                         AlertS.fire({
-                            title: "Error!",
+                            title: "¡Error!",
                             text: "Validar informacion",
                             icon: "error",
                         });
@@ -246,7 +246,7 @@ export const DetalleAnticipoParticipaciones = (
                         // });
                     } else {
                         AlertS.fire({
-                            title: "Error!",
+                            title: "¡Error!",
                             text: "Validar informacion",
                             icon: "error",
                         });

@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
     Box,
-    Checkbox,
     Grid,
-    Button,
-    ButtonGroup,
     Typography,
     Tooltip,
     IconButton,
@@ -121,13 +118,13 @@ const FondosTipoView = ({
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
-                    title: "Calculo Asignado!",
+                    title: "Cálculo Asignado!",
                 });
                 consulta();
 
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
@@ -152,7 +149,7 @@ const FondosTipoView = ({
                 consulta();
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });

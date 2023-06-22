@@ -9,9 +9,8 @@ import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
+import {  getPermisos, getUser } from "../../../../../services/localStorage";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
@@ -40,7 +39,7 @@ export const Umas = () => {
     } else if (v.tipo === 2) {
       Swal.fire({
         icon: "info",
-        title: "Solicitar La Eliminación?",
+        title: "¿Solicita la eliminación?",
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: "Confirmar",
@@ -66,7 +65,7 @@ export const Umas = () => {
 
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });
@@ -167,7 +166,7 @@ export const Umas = () => {
 
               } else {
                 AlertS.fire({
-                  title: "Error!",
+                  title: "¡Error!",
                   text: res.STRMESSAGE,
                   icon: "error",
                 });
@@ -197,7 +196,7 @@ export const Umas = () => {
         setUmas(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

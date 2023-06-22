@@ -1,19 +1,21 @@
+import { Grid, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { AuthService } from "../../../../../services/AuthService";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
-import MenuRelPermisos from "./MenuRelPermisos";
-import MenuModal from "./MenuModal";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import Swal from "sweetalert2";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { AuthService } from "../../../../../services/AuthService";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import MUIXDataGrid from "../../../MUIXDataGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import { Grid } from "@mui/material";
+import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
+import MenuModal from "./MenuModal";
+import MenuRelPermisos from "./MenuRelPermisos";
 
 const Menus = () => {
+  const [slideropen, setslideropen] = useState(true);
+  const [nombreMenu, setNombreMenu] = useState("");
   const [dt, setDt] = useState([]);
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
@@ -61,11 +63,12 @@ const Menus = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
       denyButtonText: `Cancelar`,
+      color: 'rgb(175, 140, 85)',
     }).then((result) => {
       if (result.isConfirmed) {
         //console.log(v);
@@ -80,13 +83,13 @@ const Menus = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
 
             handleClose();
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -121,16 +124,13 @@ const Menus = () => {
         );
       },
     },
-    { field: "Menu",
-      headerName: "Menu",
-      width: 400,
-    },
-    { field: "Descripcion", headerName: "Descripcion", width: 400 },
-    { field: "menupadre", headerName: "Menú Padre", width: 400 },
-    { field: "Path", headerName: "Path", width: 200 },
-    { field: "ControlInterno", headerName: "ControlInterno", width: 200 },
-    { field: "Nivel", headerName: "Nivel", width: 100 },
-    { field: "Orden", headerName: "Orden", width: 100 },
+    { field: "Menu",     headerName: "Menú",  description: "Menú",    width: 400,    },
+    { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 400 },
+    { field: "menupadre", headerName: "Menú Padre", description: "Menú Padre", width: 400 },
+    { field: "Path", headerName: "Path", description: "Path", width: 200 },
+    { field: "Nivel", headerName: "Nivel", description: "Nivel", width: 100 },
+    { field: "Orden", headerName: "Orden", description: "Orden", width: 100 },
+    { field: "ControlInterno", headerName: "Control Interno", description: "Control Interno",  width: 200 },
    
   ];
 
@@ -139,12 +139,12 @@ const Menus = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setData(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -156,6 +156,7 @@ const Menus = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MENUS") {
         //console.log(item);
+        setNombreMenu(item.Menu);
         if (String(item.Referencia) === "AGREG") {
           setAgregar(true);
         }
@@ -171,20 +172,21 @@ const Menus = () => {
   }, []);
 
   return (
+   
+
+      
     <div>
       <Grid sx={{padding:"1%" }}>
       {open ? (
         <MenuRelPermisos
           open={open}
           handleClose={handleClose}
-          dt={dt}
-        ></MenuRelPermisos>
+          dt={dt}></MenuRelPermisos>
       ) : (
         ""
       )}
       {openModal ? (
         <MenuModal
-          open={openModal}
           handleClose={handleClose}
           tipo={tipoOperacion}
           vrows={vrows}
@@ -192,11 +194,21 @@ const Menus = () => {
       ) : (
         ""
       )}
-
+          <Grid container
+        sx={{ justifyContent: "center" }}>
+        <Grid item xs={10} sx={{ textAlign: "center" }}>
+        <Tooltip title={nombreMenu}>
+          <Typography variant='h3'>
+         {nombreMenu}
+          </Typography>
+        </Tooltip>
+        </Grid>
+      </Grid>
       <ButtonsAdd handleOpen={handleOpenModal} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
       </Grid>
     </div>
+    
   );
 };
 

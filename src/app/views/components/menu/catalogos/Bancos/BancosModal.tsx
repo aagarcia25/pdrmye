@@ -6,6 +6,7 @@ import {
   TextField,
   DialogActions,
   Grid,
+  Button,
 } from "@mui/material";
 
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -35,7 +36,7 @@ export const BancosModal = ({
   const handleSend = () => {
     if (!nombre || !descripcion) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -54,7 +55,6 @@ export const BancosModal = ({
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     if (tipo === 1) {
       //AGREGAR
       agregar(data);
@@ -70,12 +70,12 @@ export const BancosModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -88,11 +88,11 @@ export const BancosModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "¡Registro Editado!",
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -102,7 +102,6 @@ export const BancosModal = ({
 
   useEffect(() => {
     if (dt === "") {
-      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setNombre(dt?.row?.Nombre);
@@ -155,9 +154,9 @@ export const BancosModal = ({
           <Grid item alignItems="center" justifyContent="center" xs={12} height={40}></Grid>
           <Grid item alignItems="center" justifyContent="center" xs={5}></Grid>
           <Grid item alignItems="center" justifyContent="center" xs={2}>
-            <button  className={tipo === 1 ? "guardar" : "actualizar"}  onClick={() => handleSend()} >
+            <Button disabled={descripcion===""||nombre===""}  className={tipo === 1 ? "guardar" : "actualizar"}  onClick={() => handleSend()} >
               {tipo === 1 ? "Agregar" : "Editar"}
-            </button>
+            </Button>
           </Grid>
 
         </Grid>

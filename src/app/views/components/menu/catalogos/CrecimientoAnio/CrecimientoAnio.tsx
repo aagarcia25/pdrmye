@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { messages } from "../../../../styles";
-import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
-import CrecimietoModal from "./CrecimietoModal";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { Toast } from "../../../../../helpers/Toast";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { messages } from "../../../../styles";
+import MUIXDataGrid from "../../../MUIXDataGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import CrecimietoModal from "./CrecimietoModal";
 
 
 const CrecimientoAnio = () => {
@@ -79,7 +79,7 @@ const CrecimientoAnio = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -99,14 +99,14 @@ const CrecimientoAnio = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
 
             consulta({ NUMOPERACION: 4 });
 
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -124,12 +124,12 @@ const CrecimientoAnio = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setDataCrecimientoAnio(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

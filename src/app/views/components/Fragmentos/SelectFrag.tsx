@@ -1,5 +1,4 @@
-
-import { Box, FormControl } from '@mui/material';
+import { FormControl } from '@mui/material';
 import Select from 'react-select';
 import SelectValues from '../../../interfaces/Select/SelectValues'
 
@@ -21,31 +20,43 @@ const SelectFrag = ({
 
 ) => {
   return (
-    <FormControl sx={{ width:"100%" }}  >
-    <Select
-    value ={value != null ?options.find(element => element.value === value) :[]}
-      options={options}
-      isDisabled={disabled}
-      isClearable={true}
-      isSearchable={true}
-      backspaceRemovesValue={true}
-      //styles={styles}
-      onChange={(v) => (v === null) ?
-        onInputChange(String(disabled))
-        :
-        onInputChange(v.value)
-      }
-      placeholder={(label != "") ? label : placeholder}
-      //  value={value}
-      styles={{
-        menu: (base) => ({
-          position: 'absolute',
-          paddingLeft: '1rem',
-          zIndex: 500,
-          ...base
-        })
-      }}
-    />
+    <FormControl sx={{ width: "100%" }}  >
+      <Select
+        aria-label={"Presione enter para seleccionar"}
+        noOptionsMessage={()=>"Sin opciones"}
+        value={value != "" ? options.find(element => element.value === value) : []}
+        options={options}
+        defaultValue={[]}
+        isDisabled={disabled}
+        isClearable={true}
+        isSearchable={true}
+        backspaceRemovesValue={true}
+        onChange={(v) => (v === null) ?
+          onInputChange(String(disabled))
+          :
+          onInputChange(v.value)
+        }
+        placeholder={(label !== "") ? label : placeholder}
+        theme={(theme) => ({
+          ...theme,
+          borderRadius: 0,
+          colors: {
+            ...theme.colors,
+            primary25: 'rgb(175, 140, 85)',
+            primary: 'rgb(175, 140, 85)',
+          },
+        })}
+
+        styles={{
+          menu: (base) => ({
+            position: 'absolute',
+            paddingLeft: '1rem',
+            zIndex: 500,
+            ...base
+          }),
+
+        }}
+      />
     </FormControl>
   )
 }

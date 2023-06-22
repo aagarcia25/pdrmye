@@ -1,13 +1,13 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Box, Grid, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { GridColDef } from "@mui/x-data-grid";
-import { Moneda } from "../CustomToolbar";
-import { getUser } from "../../../../services/localStorage";
 import { ArticulosServices } from "../../../../services/ArticulosServices";
+import { getUser } from "../../../../services/localStorage";
 import MUIXDataGrid from "../../MUIXDataGrid";
-import { Box, Grid, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Slider from "../../Slider";
+import { Moneda } from "../CustomToolbar";
 
 
 export const Art14f = () => {
@@ -112,7 +112,6 @@ export const Art14f = () => {
   const loaddata = (tipo: Number, idc: string, deleted: string, version: string) => {
     setDeleted(String(deleted));
     setVersion(String(version));
-    console.log(String(deleted));
     setslideropen(true);
     let data = {
       NUMOPERACION: 4,

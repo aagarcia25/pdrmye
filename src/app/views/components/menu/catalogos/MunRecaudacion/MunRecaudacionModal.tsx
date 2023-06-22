@@ -12,9 +12,9 @@ import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {  getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { municipiosc } from "../../../../../share/loadMunicipios";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import ModalForm from "../../../componentes/ModalForm";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
 const MunRecaudacionModal = ({
@@ -22,13 +22,16 @@ const MunRecaudacionModal = ({
   modo,
   handleClose,
   tipo,
-  dt
+  dt,
+  anios
 }: {
   open: boolean;
   modo: string;
   tipo: number;
   handleClose: Function,
-  dt: any
+  dt: any,
+  anios: SelectValues[];
+
 }) => {
 
 
@@ -36,12 +39,10 @@ const MunRecaudacionModal = ({
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState<number>();
+  const [anio, setAnio] = useState<string>("");
   const [recaudacion, setRecaudacion] = useState<number>();
   const [IdMunicipio, setIdMunicipio] = useState<string>();
-  const [municipios, setMunicipios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [municipio, setMunicipio] = useState("");
 
 
 
@@ -50,7 +51,7 @@ const MunRecaudacionModal = ({
   const handleSend = () => {
     if (recaudacion === null || anio ===null || IdMunicipio === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -85,10 +86,6 @@ const MunRecaudacionModal = ({
     }
   };
 
-  const handleFilterChange = (event: SelectValues) => {
-    setIdMunicipio(event.value);
-
-  };
 
 
   const agregar = (data: any) => {
@@ -96,12 +93,12 @@ const MunRecaudacionModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -119,7 +116,7 @@ const MunRecaudacionModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -127,10 +124,11 @@ const MunRecaudacionModal = ({
     });
   };
 
-
+  const handleSelectAnio = (e: any) => {
+    setAnio(e);
+  };
 
   useEffect(() => {
-    setMunicipios(municipiosc());
 
     if (dt === '') {
       //console.log(dt)
@@ -140,7 +138,6 @@ const MunRecaudacionModal = ({
       setAnio(dt?.row?.Anio)
       setRecaudacion(dt?.row?.Recaudacion)
       setIdMunicipio(dt?.row?.idmunicipio)
-      setMunicipio(dt?.row?.Nombre)
 
 
 
@@ -177,7 +174,8 @@ const MunRecaudacionModal = ({
           </Box>
           </FormControl>
           <Box>
-            <label ><br /> Año: <br />{anio}</label>
+            <label ><br /> Año: <br /></label>
+            <SelectFrag value={String(anio)} options={anios} onInputChange={handleSelectAnio} placeholder={String(anio)?anio==="false"?"":anio:"Seleccione año"} label={""} disabled={false}></SelectFrag>
           </Box>
 
           <Box>
@@ -209,7 +207,7 @@ const MunRecaudacionModal = ({
 
         <Grid container sx={{ mt: "2vh", width: "100%",height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
           <Grid item xs={4} sm={3} md={2} lg={1} >
-            <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+            <Button disabled={!recaudacion|| anio==="false"|| anio===""} className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
           </Grid>
         </Grid>
       </Grid>

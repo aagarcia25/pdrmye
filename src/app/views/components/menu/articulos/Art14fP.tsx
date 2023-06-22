@@ -54,7 +54,7 @@ export const Art14fP = () => {
       renderCell: (v) => {
         return (
           <Box>
-            <Tooltip title="Ver detalle de Cálculo">
+            <Tooltip title="Ver Detalle de Cálculo">
               <IconButton onClick={() => handleView(v)}>
                 <InfoIcon />
               </IconButton>
@@ -88,6 +88,7 @@ export const Art14fP = () => {
 
   let params = useParams();
   useEffect(() => {
+    setstep(0);
     permisos.map((item: PERMISO) => {
       if (
         String(item.ControlInterno) === "ART14F1" ||
@@ -102,6 +103,8 @@ export const Art14fP = () => {
     });
     loaddata(Number(params.tipo));
   }, [params.tipo]);
+
+
 
   return (
     <>
@@ -125,7 +128,7 @@ export const Art14fP = () => {
           {agregar ? (
             <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
               <Tooltip title="Generar Nueva Versión">
-                <ToggleButton value="check" onClick={() => handleVersion()}>
+                <ToggleButton className="enviar-mensaje" value="check" onClick={() => handleVersion()}>
                   <AutoModeIcon />
                 </ToggleButton>
               </Tooltip>

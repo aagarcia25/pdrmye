@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 import MunTerritorioModal from "./MunTerritorioModal";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
@@ -23,7 +23,6 @@ export const MunTerritorio = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [territorio, setTerritorio] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -104,7 +103,7 @@ export const MunTerritorio = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title:  "Solicitar La Eliminación?",
+      title:  "¿Solicita la eliminación?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -131,7 +130,7 @@ export const MunTerritorio = () => {
 
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -164,7 +163,7 @@ export const MunTerritorio = () => {
           consulta();
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
@@ -205,7 +204,7 @@ export const MunTerritorio = () => {
   
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });
@@ -241,16 +240,6 @@ export const MunTerritorio = () => {
 
 
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_TERRITORIO",
-    };
-
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
-
   useEffect(() => {
 
     permisos.map((item: PERMISO) => {
@@ -265,7 +254,6 @@ export const MunTerritorio = () => {
        
       }
     });
-    downloadplantilla();
 
 
   }, []);
@@ -293,8 +281,8 @@ export const MunTerritorio = () => {
       }
         <NombreCatalogo controlInterno={"MUNTERR"} />
       <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNTERR"} value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={true} />
+        url={"MUNICIPIO_TERRITORIO.xlsx"}
+        handleUpload={handleUpload} controlInterno={"MUNTERR"} value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={true} handleOpen={handleOpen} />
 
       <MUIXDataGridMun columns={columns} rows={territorio} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNTERR"}   />
 

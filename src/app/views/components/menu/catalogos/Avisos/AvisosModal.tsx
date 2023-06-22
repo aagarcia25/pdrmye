@@ -1,27 +1,28 @@
 
-import React, { useEffect, useState } from "react";
-import {
-  Dialog,
-  Box,
-  TextField,
-  Container,
-  IconButton,
-  Grid
-
-} from "@mui/material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import {
+  Box,
+  Container,
+  Dialog,
+  Grid,
+  IconButton,
+  TextField,
+  Tooltip
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import PdfLogo from '../../../../../../app/assets/img/PDF_file_icon.svg';
+import imagenGenerica from '../../../../../../app/assets/img/archivoImagen.jpg';
+import docxLogo from '../../../../../../app/assets/img/docx_Logo.png';
+import PptxLogo from '../../../../../../app/assets/img/pptx_Logo.png';
+import xlsxLogo from '../../../../../../app/assets/img/xlsx_Logo.png';
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getMunicipios, getPermisos, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
-import imagenGenerica from '../../../../../../app/assets/img/archivoImagen.jpg'
-import PdfLogo from '../../../../../../app/assets/img/PDF_file_icon.svg'
-import PptxLogo from '../../../../../../app/assets/img/pptx_Logo.png'
-import xlsxLogo from '../../../../../../app/assets/img/xlsx_Logo.png'
-import docxLogo from '../../../../../../app/assets/img/docx_Logo.png'
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
+
 const AvisosModal = ({
   open,
   modo,
@@ -52,7 +53,7 @@ const AvisosModal = ({
   const [descripcion, setDescripcion] = useState<string>();
   const [nameAviso, setNameAviso] = useState<string>();
   const [editDoc, setEditDoc] = useState<boolean>(false);
-  const [nameNewDoc, setNameNewDoc] = useState<string>();
+  const [nameNewDoc, setNameNewDoc] = useState<string>("INIC");
   const [newDoc, setNewDoc] = useState(Object);
   const [NewDocPreview, setNewDocPreviw] = useState<File>();
   const [modoModal, setModoModal] = useState(modo);
@@ -69,6 +70,25 @@ const AvisosModal = ({
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
+
+  const Imagenes = [
+    { extencion: '.PDF', imagen: PdfLogo, },
+    { extencion: 'PPTX', imagen: PptxLogo, },
+    { extencion: 'PPT', imagen: PptxLogo, },
+    { extencion: 'XLSX', imagen: xlsxLogo, },
+    { extencion: '.XLS', imagen: xlsxLogo, },
+    { extencion: 'DOCX', imagen: docxLogo, },
+    { extencion: '.DOC', imagen: docxLogo, },
+    { extencion: 'INIC', imagen: imagenGenerica, },
+    { extencion: '.BPM', imagen: previewDoc },
+    { extencion: '.JPG', imagen: previewDoc },
+    { extencion: '.PNG', imagen: previewDoc }
+
+
+
+
+  ]
+
   const municipiosc = () => {
     let data = {};
     if (!validaLocalStorage("FiltroMunicipios")) {
@@ -98,7 +118,7 @@ const AvisosModal = ({
     if (inicioEvento === null || finEvento === null || nameAviso === null || descripcion === null || nameAviso === null || (editDoc) ? (newDoc === null) : (newDoc == !null)) {
 
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Campos Vacios",
         icon: "error",
       });
@@ -117,7 +137,7 @@ const AvisosModal = ({
           handleClose("save");
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: "Campos Requeridos Vacios",
             icon: "error",
           });
@@ -164,7 +184,6 @@ const AvisosModal = ({
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "AVISOS") {
-        //console.log(item)
         if (String(item.Referencia) === "EDIT") {
           setEditar(true);
         }
@@ -202,7 +221,6 @@ const AvisosModal = ({
 
 
   return (
-    <Dialog open={open} keepMounted>
 
       <ModalForm title={modoModal} handleClose={handleClose}>
 
@@ -211,68 +229,24 @@ const AvisosModal = ({
         {(modoModal === "Agregar Aviso") ?
           <Box component={Grid} container boxShadow={3} xs={12} md={12} >
             <Box component={Grid} xs={12} md={3} ></Box>
-            <Box component={Grid} xs={12} md={6} container  sx={{ padding:"3%" }}>
-    
+            <Box component={Grid} xs={12} md={6} container sx={{ padding: "3%" }}>
+
 
               { //////////empiezan debajo del titulo
                 //// imagen carga y previsualizacion
               }
 
-              <Box sx={{ width: '100%',}}>
 
-                <Box sx={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  p: 1,
-                  m: 1,
-                  bgcolor: 'background.paper',
-                  // bgcolor: 'green',
-                  borderRadius: 1,
-                }}>
-                  {/////  mostrar logo y nombre de el archivo a cargar
-                  }
-                  <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', flexDirection: 'column', }}>
-                    {(String(nameNewDoc).slice(-4) === ".bpm" || String(nameNewDoc).slice(-4) === ".BPM" ||
-                      String(nameNewDoc).slice(-4) === ".jpg" || String(nameNewDoc).slice(-4) === ".JPG" || String(String(nameNewDoc)).slice(-4) === ".png" || String(nameNewDoc).slice(-4) === ".PNG") ?
-                      <Box>
-                        <img src={previewDoc} style={{ objectFit: "scale-down", width: '100%', }} />
-                      </Box>
-                      : (String(nameNewDoc).slice(-4) === ".pdf" || String(nameNewDoc).slice(-4) === ".PDF") ?
+              {/////  mostrar logo y nombre de el archivo a cargar
+              }
+              <Grid container justifyContent="center"  >
+                <Grid item xs={6} >
 
-                        <Box>
-                          <img src={PdfLogo} style={{ objectFit: "scale-down", width: '100%', }} />
-                        </Box>
-
-                        : (String(nameNewDoc).slice(-5) === ".pptx" || String(nameNewDoc).slice(-5) === ".PPTX") ?
-
-                          <Box>
-                            <img src={PptxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
-                          </Box>
-
-                          : (String(nameNewDoc).slice(-5) === ".xlsx" || String(nameNewDoc).slice(-5) === ".XLSX" || String(nameNewDoc).slice(-4) === ".xls" || String(nameNewDoc).slice(-4) === ".XLS") ?
-
-                            <Box>
-                              <img src={xlsxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
-                            </Box>
-
-                            : (String(nameNewDoc).slice(-5) === ".docx" || String(nameNewDoc).slice(-5) === ".DOCX" || String(nameNewDoc).slice(-4) === ".doc" || String(nameNewDoc).slice(-4) === ".DOC") ?
-
-                              <Box>
-                                <img src={docxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
-                              </Box>
-
-                              : <Box>
-                                <img src={imagenGenerica} style={{ objectFit: "scale-down", width: '100%', }} />
-                              </Box>}
-
-                    <Box>
-                      <label >{nameNewDoc}</label>
-                    </Box>
-                  </Box>
-                  <Box >
-                    <IconButton aria-label="upload picture" component="label" size="large" >
+                  <Tooltip title="Haz click para cargar o cambiar la imagen">
+                    <IconButton
+                      component="label"
+                      sx={{ borderRadius: 1 }}
+                    >
                       <input
                         required
                         type="file"
@@ -280,76 +254,79 @@ const AvisosModal = ({
                         onChange={(event) => {
                           handleNewFile(event)
                         }} />
-                      <UploadFileIcon />
-                    </IconButton>
-                  </Box>
-                </Box>
+                      {
+                        Imagenes.find(({ extencion }) => extencion === (String(nameNewDoc).slice(-4)).toUpperCase()) ?
+                          <img
+                            style={{ objectFit: "scale-down", width: '100%', borderRadius: 15 }}
+                            src={String(Imagenes.find(({ extencion }) => extencion === (String(nameNewDoc).slice(-4)).toUpperCase())?.imagen)} /> :
+                          <img
+                            style={{ objectFit: "scale-down", width: '100%', borderRadius: 1 }}
+                            src={imagenGenerica} />
+                      }
 
-              </Box>
+                    </IconButton>
+                  </Tooltip>
+
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <label className="nombre-archivo">{nameNewDoc === "INIC" ? "" : nameNewDoc}</label>
+              </Grid>
 
               {
                 //////////
 
                 //// inicio y fin de evento
               }
-              <Box sx={{
-                p: 1,
-                m: 1,
-                bgcolor: 'background.paper',
-                borderRadius: 1,
-              }}>
+              <Grid container item xs={12} paddingTop={4} >
+                <Grid item xs={6}>
 
-                <Box sx={{
-                  bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-                  p: 1,
-                  m: 1,
-                }}>
-                  <Box>
+                  <Grid  >
+                    <label >Inicio </label>
+                  </Grid>
 
-                    <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                      <label >Inicio </label>
-                    </Box>
+                  <Grid>
+                    <input
+                      id="datetime-local"
+                      required
+                      type="datetime-local"
 
-                    <Box>
-                      <input
-                        id="datetime-local"
-                        required
-                        type="datetime-local"
+                      min={inicioEventoMin}
+                      max={finEventoMax}
+                      onChange={handleFechaInicio}
+                    />
 
-                        min={inicioEventoMin}
-                        max={finEventoMax}
-                        onChange={handleFechaInicio}
-                      />
+                  </Grid>
 
-                    </Box>
-                  </Box>
+                </Grid>
 
-                  <Box sx={{ justifyContent: 'center', }}>
-                    <Box>
-                      <Box sx={{ justifyContent: 'center', display: 'flex', }} >
-                        <label >Fin</label>
-                      </Box>
-                      <Box>
-                        <input
-                          id="datetime-finaliza"
-                          required
-                          type="datetime-local"
-                          min={inicioEvento}
-                          onChange={handleFechaFin}
-                        />
-                      </Box>
 
-                    </Box>
+                <Grid item xs={6}>
+                  <Grid sx={{ justifyContent: 'center' }} >
+                    <label >Fin</label>
+                  </Grid>
+                  <Grid>
+                    <input
+                      id="datetime-finaliza"
+                      required
+                      type="datetime-local"
+                      min={inicioEvento}
+                      onChange={handleFechaFin}
+                    />
+                  </Grid>
 
-                  </Box>
-                </Box>
-              </Box>
+
+                </Grid>
+
+              </Grid>
+
+
               {
                 //////////
 
                 //// añadir nombre y descripcion
               }
-              <Box>
+              <Grid paddingTop={4}>
 
 
                 <label >Nombre</label>
@@ -380,9 +357,9 @@ const AvisosModal = ({
                   error={descripcion == "" ? true : false}
 
                 />
-              </Box>
+              </Grid>
 
-              <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', paddingTop:"2%" }}>
+              <Box sx={{ bgcolor: 'rgb(255, 255, 255)', width: '100%', display: 'flex', flexDirection: 'row-reverse', paddingTop: "2%" }}>
 
                 <button className="guardar" onClick={() => handleUpload()} >Guardar</button>
 
@@ -399,11 +376,8 @@ const AvisosModal = ({
         {(modoModal === "Aviso") ?
 
           <Container maxWidth="sm" >
-
             <Box >
-
               <Box >
-
                 {(urlDoc.slice(-4) === ".pdf" || urlDoc.slice(-4) === ".PDF") ?
 
                   <iframe id="inlineFrameExample"
@@ -412,33 +386,13 @@ const AvisosModal = ({
                     height="350"
                     src={urlDoc}
                   />
-
-                  : (urlDoc.slice(-4) === ".bpm" || urlDoc.slice(-4) === ".BPM" ||
-                    urlDoc.slice(-4) === ".jpg" || urlDoc.slice(-4) === ".JPG" || urlDoc.slice(-4) === ".png" || urlDoc.slice(-4) === ".PNG") ?
-                    <Box>
-                      <img id="imagen" src={urlDoc} style={{ objectFit: "scale-down" }} />
-                    </Box>
-
-                    : (urlDoc.slice(-5) === ".pptx" || urlDoc.slice(-5) === ".PPTX") ?
-
-                      <Box>
-                        <img src={PptxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
-                      </Box>
-                      : (urlDoc.slice(-5) === ".xlsx" || urlDoc.slice(-5) === ".XLSX" || urlDoc.slice(-4) === ".xls" || urlDoc.slice(-4) === ".XLS") ?
-
-                        <Box>
-                          <img src={xlsxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
-                        </Box>
-
-                        : (urlDoc.slice(-5) === ".docx" || urlDoc.slice(-5) === ".DOCX" || urlDoc.slice(-4) === ".doc" || urlDoc.slice(-4) === ".DOC") ?
-
-                          <Box>
-                            <img src={docxLogo} style={{ objectFit: "scale-down", width: '100%', }} />
-                          </Box>
-
-                          : <Box>
-                            <img src={imagenGenerica} style={{ objectFit: "scale-down", width: '100%', }} />
-                          </Box>
+                  : Imagenes.find(({ extencion }) => extencion === (String(urlDoc).slice(-4)).toUpperCase()) ?
+                    <img
+                      style={{ objectFit: "scale-down", width: '100%', borderRadius: 15 }}
+                      src={String(Imagenes.find(({ extencion }) => extencion === (String(urlDoc).slice(-4)).toUpperCase())?.imagen)} /> :
+                    <img
+                      style={{ objectFit: "scale-down", width: '100%', borderRadius: 1 }}
+                      src={imagenGenerica} />
                 }
 
               </Box>
@@ -449,8 +403,8 @@ const AvisosModal = ({
                   </label>
 
                 </Box>
-                {(urlDoc.slice(-4) === ".pdf" || urlDoc.slice(-4) === ".PDF" || urlDoc.slice(-4) === ".bpm" || urlDoc.slice(-4) === ".BPM" ||
-                  urlDoc.slice(-4) === ".jpg" || urlDoc.slice(-4) === ".JPG" || urlDoc.slice(-4) === ".png" || urlDoc.slice(-4) === ".PNG") ?
+                {(urlDoc.slice(-4).toUpperCase() === ".PDF" || urlDoc.slice(-4).toUpperCase() === ".BPM" ||
+                  urlDoc.slice(-4).toUpperCase() === ".JPG" || urlDoc.slice(-4).toUpperCase() === ".PNG") ?
                   <Box>
                     <button >
                       <a href={urlDoc} target="_blank" download={nameDocDownload}>
@@ -541,7 +495,7 @@ const AvisosModal = ({
                   <TextField
                     margin="dense"
                     multiline
-                    value=" El evento ya Inicio y/o Finalizo"
+                    value=" El evento ya Inicio y/o Finalizó"
                     type="string"
                     fullWidth
                     variant="outlined"
@@ -634,10 +588,7 @@ const AvisosModal = ({
                     <label>Inicio de evento </label>
                   </Box>
 
-
                   <Box>
-
-
                     <input
                       id="datetime-inicia"
                       required
@@ -647,8 +598,6 @@ const AvisosModal = ({
                       max={finEvento}
                       onChange={handleFechaInicio}
                     />
-
-
                   </Box>
 
                 </Box >
@@ -683,7 +632,6 @@ const AvisosModal = ({
           //////////evento finalizado                     
           : ""}
       </ModalForm>
-    </Dialog>
   );
 };
 

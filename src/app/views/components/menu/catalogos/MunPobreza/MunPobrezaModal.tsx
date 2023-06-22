@@ -11,32 +11,31 @@ import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { municipiosc } from "../../../../../share/loadMunicipios";
 import ModalForm from "../../../componentes/ModalForm";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
 
 
 const MunPobrezaModal = ({
-  open,
   handleClose,
   tipo,
-  dt
+  dt,
+  anios
+
 }: {
-  open: boolean;
   tipo: number;
   handleClose: Function,
   dt: any
+  anios: SelectValues[];
 }) => {
 
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
-  const [anio, setAnio] = useState<number>();
+  const [anio, setAnio] = useState<string>("");
   const [poblacion, setPoblacion] = useState<number>();
   const [carenciaProm, setCarenciaProm] = useState<number>();
   const [IdMunicipio, setIdMunicipio] = useState<string>();
   const user: RESPONSE = JSON.parse(String(getUser()));
-  const [municipios, setMunicipios] = useState<SelectValues[]>([]);
-  const [mun, setMun] = useState<string>();
 
 
 
@@ -44,9 +43,9 @@ const MunPobrezaModal = ({
 
 
   const handleSend = () => {
-    if (IdMunicipio === null || poblacion === null || anio === null || carenciaProm === null || poblacion === 0 || anio === 0 || carenciaProm === 0) {
+    if (IdMunicipio === null || poblacion === null || anio === null || carenciaProm === null || poblacion === 0 || Number(anio) === 0 || carenciaProm === 0) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -71,7 +70,7 @@ const MunPobrezaModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo=== 1) {
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
     } else if (tipo === 2) {
@@ -82,9 +81,6 @@ const MunPobrezaModal = ({
   };
 
 
-  const handleFilterChange = (event: SelectValues) => {
-    setIdMunicipio(event.value);
-  };
 
 
 
@@ -93,12 +89,12 @@ const MunPobrezaModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -116,7 +112,7 @@ const MunPobrezaModal = ({
         handleClose();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -124,13 +120,13 @@ const MunPobrezaModal = ({
     });
   };
 
-
+  const handleSelectAnio = (e: any) => {
+    setAnio(e);
+  };
 
   useEffect(() => {
-    setMunicipios(municipiosc());
 
     if (dt === '') {
-      //console.log(dt)
 
     } else {
       setId(dt?.row?.id)
@@ -138,12 +134,6 @@ const MunPobrezaModal = ({
       setPoblacion(dt?.row?.Total)
       setIdMunicipio(dt?.row?.idmunicipio)
       setCarenciaProm(dt?.row?.CarenciaProm)
-      setMun(dt?.row?.Nombre)
-
-
-
-
-
     }
 
   }, [dt]);
@@ -154,7 +144,7 @@ const MunPobrezaModal = ({
 
 
     <div>
-      <ModalForm title={tipo === 1 ?"Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
+      <ModalForm title={tipo === 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
         <Grid container
           sx={{
             mt: "2vh",
@@ -167,55 +157,61 @@ const MunPobrezaModal = ({
 
         >
           <Grid item xs={12} sm={8} md={8} lg={8}>
-          <Box>
-          <label className="Titulo">{dt?.row?.Nombre}</label>
-          </Box>
+            <Box>
+              <label className="Titulo">{dt?.row?.Nombre}</label>
+            </Box>
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
-          <Box>
-            <label >  <br /> Año <br />{anio}</label>
-          </Box>
+            <Box>
+              <label >  <br /> Año <br /></label>
+              <SelectFrag
+                value={anio}
+                options={anios}
+                onInputChange={handleSelectAnio}
+                placeholder={"Seleccione año"}
+                label={""} disabled={false}/>
+            </Box>
 
-          <Box>
-            <label > <br /> Poblacion <br /></label>
-          </Box>
+            <Box>
+              <label > <br /> Población <br /></label>
+            </Box>
 
-          <TextField
-            margin="dense"
-            required
-            id="pob"
-            value={poblacion}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setPoblacion(Number(v.target.value))}
-            error={poblacion === null ? true : false}
-          />
+            <TextField
+              margin="dense"
+              required
+              id="pob"
+              value={poblacion}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setPoblacion(Number(v.target.value))}
+              error={poblacion === null ? true : false}
+            />
           </Grid>
 
 
           <Grid item xs={12} sm={8} md={8} lg={8}>
 
-          <Box>
-            <label > Carencia Promedio <br /></label>
-          </Box>
-          <TextField
+            <Box>
+              <label > Carencia Promedio <br /></label>
+            </Box>
+            <TextField
 
-            margin="dense"
-            required
-            id="fac"
-            value={carenciaProm}
-            type="percent"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setCarenciaProm(Number(v.target.value))}
-            error={carenciaProm === null ? true : false}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">%</InputAdornment>
-              ),
-            }}
-          />
+              margin="dense"
+              required
+              id="fac"
+              value={carenciaProm}
+              type="percent"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setCarenciaProm(Number(v.target.value))}
+              error={carenciaProm === null ? true : false}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">%</InputAdornment>
+                ),
+              }}
+            />
           </Grid>
 
 
@@ -233,7 +229,13 @@ const MunPobrezaModal = ({
           >
             <Grid item xs={4} sm={3} md={2} lg={1}
             >
-              <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+              <Button
+                // disabled={
+
+
+                // }
+
+                className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
             </Grid>
           </Grid>
         </Grid>

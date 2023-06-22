@@ -1,9 +1,10 @@
-import { DataGrid, esES as gridEsES, GridToolbar, } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
-import { useEffect, useState } from "react";
+import { DataGrid, GridColumnVisibilityModel, esES as gridEsES, GridToolbar, } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
 import { PERMISO } from "../../interfaces/user/UserInfo";
 import { getPermisos } from "../../services/localStorage";
+
 
 
 const theme = createTheme(coreEsES, gridEsES);
@@ -26,6 +27,20 @@ const MUIXDataGridMun = ({
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [elimasiva, setelimasiva] = useState<boolean>(false);
 
+  const [columnVisibilityModel, setColumnVisibilityModel] =
+  React.useState<GridColumnVisibilityModel>({
+    id: false,
+    IdConCheque:false,
+    TipoSolicitud:false,
+    idmunicipio:false,
+    IdRegistro:false,
+    deleted:false,
+    ModificadoPor:false,
+    CreadoPor:false,
+    Destinatario:false,
+    Comentarios:false
+  });
+
   useEffect(() => {
 
     permisos.map((item: PERMISO) => {
@@ -43,17 +58,22 @@ const MUIXDataGridMun = ({
         <DataGrid
           columns={columns}
           rows={rows}
+          columnVisibilityModel={columnVisibilityModel}
+          onColumnVisibilityModelChange={(newModel) =>
+            setColumnVisibilityModel(newModel)
+          }
           error={rows.value < 0}
           density="compact"
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick
-          disableColumnFilter
-          disableColumnSelector
+         // disableColumnFilter
+         // disableColumnSelector
           disableDensitySelector
           getRowHeight={() => 'auto'}
           components={{ Toolbar: GridToolbar }}
           sx={{
-            fontFamily: "Poppins,sans-serif", fontWeight: '600',
+            fontFamily: "Poppins,sans-serif", fontWeight: '500',
+            fontSize:"12px",
             '& .super-app-theme--cell': {
               backgroundColor: 'rgba(224, 183, 60, 0.55)',
               color: '#1a3e72',
@@ -71,7 +91,7 @@ const MUIXDataGridMun = ({
             toolbar: {
               label: "Buscar",
               showQuickFilter: true,
-              
+
               quickFilterProps: { debounceMs: 500, },
 
               csvOptions: {
@@ -84,6 +104,10 @@ const MUIXDataGridMun = ({
           checkboxSelection={elimasiva}
           onSelectionModelChange={(newSelectionModel: any) => { handleBorrar(newSelectionModel); }}
           localeText={{
+            columnsPanelHideAllButton:"Ocultar todo",
+            columnsPanelShowAllButton:"Mostrar todo",
+            columnsPanelTextFieldPlaceholder:"",
+            columnsPanelTextFieldLabel:"Buscar",
             noRowsLabel: "No se ha encontrado datos.",
             noResultsOverlayLabel: "No se ha encontrado ningún resultado",
             toolbarColumns: "Columnas",
@@ -94,13 +118,38 @@ const MUIXDataGridMun = ({
             toolbarFiltersTooltipHide: "Quitar filtros",
             toolbarFiltersTooltipShow: "Ver filtros",
             toolbarQuickFilterPlaceholder: "Buscar",
-            toolbarExportLabel: 'Exportar',
-            toolbarExportCSV: 'Enviar a  CSV',
+            toolbarExportCSV: 'Descargar como CSV',
             toolbarExportPrint: 'Imprimir',
-            columnMenuUnsort: 'Sin Orden',
-            columnMenuSortAsc: 'Ordenar Ascendente',
-            columnMenuSortDesc: 'Ordenar Descendente',
+            checkboxSelectionSelectRow: "Filas seleccionadas",
+            checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
+            errorOverlayDefaultLabel: 'Ha ocurrido un error.',
+            footerRowSelected: (count) =>
+              count > 1 ?
+                `${count.toLocaleString()} filas seleccionadas`
+                :
+                `${count.toLocaleString()} fila seleccionada`,
+            footerTotalRows: 'Filas Totales:',
+            columnMenuLabel: 'Menú',
+            columnMenuShowColumns: 'Mostrar columnas',
+            columnMenuFilter: 'Filtro',
+            columnMenuHideColumn: 'Ocultar',
+            columnMenuUnsort: 'Desordenar',
+            columnMenuSortAsc: 'Ordenar ASC',
+            columnMenuSortDesc: 'Ordenar DESC',
+            columnHeaderFiltersTooltipActive: (count) =>
+              count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+            columnHeaderFiltersLabel: 'Mostrar filtros',
             columnHeaderSortIconLabel: 'Ordenar',
+            filterPanelColumns: 'Columnas',
+            filterOperatorContains: 'Contiene',
+            filterOperatorEquals: 'Igual',
+            filterOperatorStartsWith: 'Comienza Con',
+            filterOperatorEndsWith: 'Termina Con',
+            filterOperatorIsEmpty: 'Es Vacio',
+            filterOperatorIsNotEmpty: 'No Vacio',
+            filterOperatorIsAnyOf:'Es Cualquiera de',
+            filterPanelInputLabel: 'Valor',
+            filterPanelInputPlaceholder: 'Valor Filtrado',
           }}
         />
       </ThemeProvider>

@@ -1,22 +1,20 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Tooltip, Typography } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
-import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
-import MUIXDataGrid from "../../../MUIXDataGrid";
+import { Toast } from "../../../../../helpers/Toast";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../../services/calculosServices";
-import { CalculoGarantiaModal } from "./CalculoGarantiaModal";
-import { Moneda } from "../../CustomToolbar";
-import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import ButtonsMunicipio from "../../catalogos/Utilerias/ButtonsMunicipio";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import Slider from "../../../Slider";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { fanios } from "../../../../../share/loadAnios";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
-import React from "react";
+import Slider from "../../../Slider";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import { Moneda } from "../../CustomToolbar";
+import ButtonsMunicipio from "../../catalogos/Utilerias/ButtonsMunicipio";
 
 export const CalculoGarantiaComponente = () => {
   const [slideropen, setslideropen] = useState(true);
@@ -33,6 +31,28 @@ export const CalculoGarantiaComponente = () => {
   const [plantilla, setPlantilla] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
+  const [anios, setAnios] = useState<SelectValues[]>([]);
+
+    // VARIABLES PARA LOS FILTROS
+    const [filterAnio, setFilterAnio] = useState("");
+    //funciones
+
+    const handleFilterChange = (v: string) => {
+      setFilterAnio(v);
+  
+      let data = {
+        NUMOPERACION: 4,
+        ANIO: v,
+      };
+      if (v !== "false") {
+        setFilterAnio(v);
+        consulta(data);
+      } else {
+        consulta({ NUMOPERACION: 4,ANIO: "",});
+        setFilterAnio("");
+  
+      }
+    };
 
   const columns: GridColDef[] = [
     {
@@ -64,7 +84,7 @@ export const CalculoGarantiaComponente = () => {
     { field: "Descripcion",   headerName: "Descripción de fondo",description: "Descripción de fondo", width: 420 },
     { field: "Anio",          headerName: "Año",                 description: "Año",                  width: 120 },
     { field: "Garantia",      headerName: "Garantía",            description: "Garantía",             width: 250, ...Moneda, }, 
-    { field: "Distribucion",  headerName: "Distribucion",        description: "Distribucion",         width: 150 },
+    { field: "Distribucion",  headerName: "Distribución",        description: "Distribución",         width: 150 },
 
 
   ];
@@ -79,14 +99,7 @@ export const CalculoGarantiaComponente = () => {
     }
   }
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "PLANTILLA DE CARGA DE GARANTIA",
-    };
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
+
   const handleClose = () => {
     setOpen(false);
     consulta({ NUMOPERACION: 4 });
@@ -110,7 +123,7 @@ export const CalculoGarantiaComponente = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -131,7 +144,7 @@ export const CalculoGarantiaComponente = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
 
             let data = {
@@ -140,7 +153,7 @@ export const CalculoGarantiaComponente = () => {
             consulta(data);
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -173,7 +186,7 @@ export const CalculoGarantiaComponente = () => {
         } else {
           consulta({ NUMOPERACION: 4 });
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
@@ -213,7 +226,7 @@ export const CalculoGarantiaComponente = () => {
                 consulta({ NUMOPERACION: 4 });
               } else {
                 AlertS.fire({
-                  title: "Error!",
+                  title: "¡Error!",
                   text: res.STRMESSAGE,
                   icon: "error",
                 });
@@ -244,13 +257,13 @@ export const CalculoGarantiaComponente = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setCalculoGarantia(res.RESPONSE);
         setslideropen(false);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -259,7 +272,7 @@ export const CalculoGarantiaComponente = () => {
   };
 
   useEffect(() => {
-    downloadplantilla();
+    setAnios(fanios());
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "CA") {
         //console.log(item)
@@ -280,41 +293,30 @@ export const CalculoGarantiaComponente = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+
+    <div style={{ height: 600, width: "100%", padding: "2%" }}>
       <Slider open={slideropen}></Slider>
       <Grid container
         sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography>
-            <h1>Calculo Garantía</h1>
+        <Tooltip title="Cálculo que garantiza a los municipios recibir mínimo el mísmo monto del año anterior, y no menos">
+          <Typography variant='h3'>
+            {nombreMenu}
           </Typography>
+        </Tooltip>
         </Grid>
       </Grid>
 
-      <Grid container>
-        <Grid item>       
-         <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-        </Grid>
-        <Grid item> 
-        <ButtonsMunicipio
-          url={plantilla}
-          handleUpload={handleUpload} controlInterno={"CA"}
-          value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={false} />
-        </Grid>
-      </Grid>
+
+      {/* <ButtonsAdd handleOpen={handleOpen} agregar={agregar} /> */}
+      <ButtonsMunicipio
+        url={"PLANTILLA DE CARGA DE GARANTIA.xlsx"}
+        handleUpload={handleUpload} controlInterno={"CA"}
+        options={anios}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"} label={''} disabled={false}
+        value={filterAnio} handleOpen={handleOpen}/>
       < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} modulo={"Garantia"} controlInterno={"CA"} />
-      {open ? (
-        <CalculoGarantiaModal
-          open={open}
-          modo={modo}
-          tipo={tipoOperacion}
-          handleClose={handleClose}
-          dt={vrows}
-        />
-      ) : (
-        ""
-      )}
-
     </div>
   );
 };

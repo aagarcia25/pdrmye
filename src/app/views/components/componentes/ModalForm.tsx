@@ -2,7 +2,6 @@ import React, { ReactNode } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
-  Button,
   Dialog,
   DialogContent,
   Grid,
@@ -19,34 +18,31 @@ interface Props {
 
 const ModalForm = ({ children, title, handleClose }: Props) => {
   return (
-
-
-    
     <div>
-      <Dialog open={true} fullScreen >
-        <Grid container paddingTop="2%" sx={{ bgcolor:"#CCCCCC" }}>
-          <Grid item xs={7} sm={10} md={11} lg={11} >
-            <Box sx={{ display: "flex", justifyContent: "center"}}>
+      <Dialog    
+      // sx={{ zIndex: 1200 }} 
+       open={true} fullScreen >
+        <Grid container className="HeaderModal" justifyContent="flex-end" alignItems="center" paddingTop={.5} paddingBottom={.5} >
+          <Grid item xs={10} sm={10} md={10} lg={10} >
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Typography variant="h4" >
                 {title}
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={1} sm={1} md={1} lg={1} paddingBottom="1%" >
-            <Button className="cerrar" variant="outlined" onClick={() => handleClose()}>
+          <Grid item xs={1.5} paddingBottom={0} >
+            <Grid container alignItems="flex-end" direction="row" justifyContent="flex-end" paddingRight={1} >
               <Tooltip title="Salir">
-                <IconButton aria-label="close" color="primary" onClick={() => handleClose()}>
+                <IconButton size="large" className="cerrar" aria-label="close" onClick={() => handleClose()}>
                   <CloseIcon />
                 </IconButton>
               </Tooltip>
-            </Button>
+            </Grid>
           </Grid>
         </Grid>
         <DialogContent>
           <Box>{children}</Box>
         </DialogContent>
-
-        
       </Dialog>
     </div>
   );

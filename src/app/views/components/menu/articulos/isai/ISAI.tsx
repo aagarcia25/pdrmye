@@ -1,31 +1,24 @@
-import { useEffect, useState } from "react";
-import { GridColDef } from "@mui/x-data-grid";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import Slider from "../../../Slider";
-import { Toast } from "../../../../../helpers/Toast";
-import { AlertS } from "../../../../../helpers/AlertS";
-import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import {
   Box,
-  Grid,
   IconButton,
-  Link,
-  TextField,
   ToggleButton,
   ToggleButtonGroup,
-  Tooltip,
-  Typography,
+  Tooltip
 } from "@mui/material";
-import ModalForm from "../../../componentes/ModalForm";
-import SaveButton from "../../../componentes/SaveButton";
+import { GridColDef } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import Slider from "../../../Slider";
 import Title from "../../../componentes/Title";
 import { Moneda } from "../../CustomToolbar";
+import ButtonsMunicipio from "../../catalogos/Utilerias/ButtonsMunicipio";
 
 const ISAI = () => {
   //   VALORES POR DEFAULT
@@ -47,11 +40,7 @@ const ISAI = () => {
 
 
   const columns1: GridColDef[] = [
-    {
-      field: "id",
-      headerName: "Identificador",
-      hide: true,
-    },
+    { field: "id", headerName: "Identificador",hide: true,},
     { field: "Version", headerName: "Versión", width: 150 },
     { field: "FechaCreacion", headerName: "Fecha de Creación", width: 200 },
     { field: "municipio", headerName: "Municipio", width: 250 },
@@ -114,12 +103,12 @@ const ISAI = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setDataTipoFondo(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -128,9 +117,10 @@ const ISAI = () => {
     });
   };
 
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = (data: any) => {
+    var  event :React.ChangeEvent<HTMLInputElement> = data.data;
     setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
+    let file = event.target?.files?.[0] || "";
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlxs");
     formData.append("NUMOPERACION", "1");
@@ -149,6 +139,10 @@ const ISAI = () => {
     CatalogosServices.descargaplantilla(data).then((res) => {
       setPlantilla(res.RESPONSE);
     });
+  };
+
+  const handleFilterChange = (v: string) => {
+
   };
 
   useEffect(() => {
@@ -181,24 +175,16 @@ const ISAI = () => {
       
       <div style={{ height: 600, width: "100%" ,display : modo === 0 ? "block":"none"}}>
       <Box >
-        {agregar ?
-        <>
-          <Tooltip title="Descargar Plantilla">
-          <IconButton aria-label="upload documento" component="label" size="large">
-            <Link href={plantilla}>
-              <ArrowDownwardIcon />
-            </Link>
-            </IconButton>
-        </Tooltip>
 
-        <Tooltip title="Cargar Plantilla">
-        <IconButton aria-label="upload documento" component="label" size="large">
-        <input   hidden accept=".xlsx, .XLSX, .xls, .XLS" type="file" value="" onChange={(v) => handleUpload(v)} />
-        <DriveFolderUploadIcon />
-        </IconButton>
-        </Tooltip>
-        </>
-         :""}
+
+      <ButtonsMunicipio
+        url={plantilla}
+        handleUpload={handleUpload} controlInterno={"ISAI"}
+        options={[]}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"} label={''} disabled={false}
+        value={""} handleOpen={handleFilterChange} />
+       
       </Box>
 
       <MUIXDataGrid columns={columns0} rows={dataTipoFondo} />

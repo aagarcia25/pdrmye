@@ -42,7 +42,7 @@ const RolesModal = ({
 
             if (nombre === null || descripcion === null || nombre === "" || descripcion === "") {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: "Favor de Completar los Campos",
                     icon: "error",
                 });
@@ -62,7 +62,7 @@ const RolesModal = ({
 
             if (nombre === null || descripcion === null || nombre === "" || descripcion === "") {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: "Favor de Completar los Campos",
                     icon: "error",
                 });
@@ -93,12 +93,12 @@ const RolesModal = ({
             if (res.SUCCESS) {
                 Toast.fire({
                     icon: "success",
-                    title: "Registro Agregado!",
+                    title: "¡Registro Agregado!",
                 });
 
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
@@ -131,8 +131,8 @@ const RolesModal = ({
 
     return (
         <ModalForm title={modo} handleClose={handleClose}>
-            <Box sx={{ boxShadow: 3 }} > 
-            
+            <Box sx={{ boxShadow: 3 }} >
+
                 <Grid container
                     sx={{
                         height: "30vh",
@@ -141,8 +141,8 @@ const RolesModal = ({
                 >
                     {(modo === "Editar Rol") ?
                         <Grid sm={12}
-                            sx={{ display: 'flex', justifyContent: 'center', paddingTop:"1%"}}>
-                            <label className="contenido">  Solo se puede editar la Descripción * </label>
+                            sx={{ display: 'flex', justifyContent: 'center', paddingTop: "1%" }}>
+                            <label className="contenido">  Sólo se puede editar la Descripción * </label>
                         </Grid> : ""
                     }
 
@@ -154,6 +154,7 @@ const RolesModal = ({
                             label="Nombre"
                             value={nombre}
                             disabled={modo === "Editar Rol"}
+                            multiline
                             fullWidth
                             variant="standard"
                             onChange={(v) => setNombre(String(v.target.value))}
@@ -184,14 +185,14 @@ const RolesModal = ({
                         />
                     </Grid>
                 </Grid>
-           
 
-            <DialogActions sx={{ padding:"2%" }}>
-                <Button className="guardar" onClick={() => handleSend()}>Guardar</Button>
-                {/* <button className="cerrar" onClick={() => handleClose("cerrar")}>Cerrar</button> */}
-            </DialogActions>
 
-            </Box>                  
+                <DialogActions sx={{ padding: "2%" }}>
+                    <Button className="guardar" onClick={() => handleSend()}>Guardar</Button>
+                    {/* <button className="cerrar" onClick={() => handleClose("cerrar")}>Cerrar</button> */}
+                </DialogActions>
+
+            </Box>
         </ModalForm>
 
     );

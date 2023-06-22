@@ -1,11 +1,9 @@
 import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
 import Navigator from "./Navigator";
 import Header from "./Header";
 import { ReactNode } from "react";
-
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { Grid } from "@mui/material";
 
@@ -13,14 +11,15 @@ let theme = createTheme({
   palette: {
     primary: {
       light: "#63ccff",
-      main: "#011115",
+      main: "#b08c55",
       dark: "#000003",
     },
     secondary: {
-      light: "#69C0E5",
-      main: "#277695",
-      dark: "#A2C1CD",
+      light: "#15212F",
+      main: "#15212F",
+      dark: "#15212F",
     },
+  
   },
   typography: {
     h5: {
@@ -154,27 +153,47 @@ theme = {
         },
       },
     },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          color: "standard",
+          backgroundColor: "#ffffff",
+          minWidth: "auto",
+          "& svg": {
+            fontSize: 20,
+          },
+        },
+      },
+    },
   },
 };
 
 interface Props {
   children?: ReactNode;
   user: RESPONSE;
+  imgData: string;
+  imgTipo: string;
+
 }
 
 const drawerWidth = 230;
 
-export default function Inicio({ children, user }: Props) {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+export default function Inicio({ children, user,imgData,imgTipo }: Props) {
+  const [mobileOpen, setMobileOpen] = React.useState(true);
+  const [slideropen, setslideropen] =  React.useState(false);
+
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+
   return (
     <ThemeProvider theme={theme}>
-      <Grid 
-      sx={{ display: "flex", minHeight: "100vh" }}>
+      <Grid className="ContainerInicio" 
+      // container item xs={11.8} sm={11.85} md={12}
+        // sx={{ display: "flex",width:"100%" }}
+        >
         <CssBaseline />
         <Navigator
           PaperProps={{ style: { width: drawerWidth } }}
@@ -182,19 +201,16 @@ export default function Inicio({ children, user }: Props) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
         />
-
-        <Grid sx={{  flexDirection: "column",width:"100%"}}>
+        <Grid sx={{ flexDirection: "column", width: "100%" }}>
           <Header
             onDrawerToggle={handleDrawerToggle}
-            name={
-              user.Nombre +
-              " " +
-              user.ApellidoPaterno +
-              " " +
-              user.ApellidoMaterno
-            }
+            name={user?.Nombre + " "
+              + user?.ApellidoPaterno + " "
+              + user?.ApellidoMaterno}
             id={1}
-          />
+            imgData={imgData}
+            imgTipo={imgTipo}
+           />
           {children}
         </Grid>
       </Grid>

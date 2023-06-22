@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
 import {
   Box,
-  TextField,
-  InputAdornment,
   Button,
   Grid,
+  InputAdornment,
+  TextField,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getUser, validaLocalStorage } from "../../../../../services/localStorage";
 import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
 
 
 const MunTerritorioModal = ({
@@ -35,24 +33,12 @@ const MunTerritorioModal = ({
   const [territorio, setTerritorio] = useState<number>();
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [IdMunicipio, setIdMunicipio] = useState<object>();
-  const [values, setValues] = useState<Imunicipio[]>();
-  const [municipio, setMunicipios] = useState<SelectValues[]>([]);
 
-  const municipiosc = () => {
-    let data = {};
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-    let m: Imunicipio[] = JSON.parse(String(getMunicipios()));
-    setValues(m);
-  };
 
   const handleSend = () => {
     if (territorio === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -94,12 +80,12 @@ const MunTerritorioModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -116,7 +102,7 @@ const MunTerritorioModal = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -127,7 +113,7 @@ const MunTerritorioModal = ({
 
 
   useEffect(() => {
-    municipiosc();
+  
 
     if (dt === '') {
       //console.log(dt)
@@ -140,10 +126,7 @@ const MunTerritorioModal = ({
       //console.log(dt)
     }
 
-    let data = { NUMOPERACION: 5 };
-    CatalogosServices.SelectIndex(data).then((res) => {
-      setMunicipios(res.RESPONSE);
-    });
+  
 
 
     //console.log(dt)

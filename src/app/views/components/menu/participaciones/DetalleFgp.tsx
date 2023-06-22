@@ -1,45 +1,38 @@
-import { useEffect, useState } from "react";
-import { Box, Dialog, Grid, ToggleButton, ToggleButtonGroup, Tooltip, } from "@mui/material";
-import { currencyFormatter, Moneda } from "../CustomToolbar";
-import { Toast } from "../../../../helpers/Toast";
-import { AlertS } from "../../../../helpers/AlertS";
-import { calculosServices } from "../../../../services/calculosServices";
-import MUIXDataGrid from "../../MUIXDataGrid";
-import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
-import Slider from "../../Slider";
-import { getPermisos, getUser } from "../../../../services/localStorage";
-import { FPGDetalle, PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
-import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
-import Trazabilidad from "../../Trazabilidad";
-import Swal from "sweetalert2";
-import SelectValues from "../../../../interfaces/Select/SelectValues";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import InsightsIcon from "@mui/icons-material/Insights";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import InsightsIcon from "@mui/icons-material/Insights";
+import { Box, Dialog, Grid, ToggleButton, ToggleButtonGroup, Tooltip, } from "@mui/material";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { AlertS } from "../../../../helpers/AlertS";
+import { Toast } from "../../../../helpers/Toast";
+import SelectValues from "../../../../interfaces/Select/SelectValues";
+import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
+import { FPGDetalle, PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { calculosServices } from "../../../../services/calculosServices";
+import { getPermisos, getUser } from "../../../../services/localStorage";
+import MUIXDataGrid from "../../MUIXDataGrid";
+import Slider from "../../Slider";
+import Trazabilidad from "../../Trazabilidad";
 import ModalCalculos from "../../componentes/ModalCalculos";
+import { Moneda, currencyFormatter } from "../CustomToolbar";
+import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
+import CachedIcon from '@mui/icons-material/Cached';
 
 const DetalleFgp = ({
   idCalculo,
-  openDetalles,
   idDetalle,
   nombreFondo,
   handleClose,
   clave,
-  anio,
-  mes,
-  tipoCalculo
 }: {
   idCalculo: string;
-  openDetalles: Boolean;
   idDetalle: string;
   nombreFondo: string;
   handleClose: Function;
   clave: string;
-  anio: number;
-  mes: string;
-  tipoCalculo: string;
 }) => {
   // Dire
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -54,17 +47,24 @@ const DetalleFgp = ({
   const [area, setArea] = useState("");
   const [sumaTotal, setSumaTotal] = useState<Number>();
 
+  const [anio, setAnio] = useState("");
+  const [mes, setMes] = useState("");
+  const [nummes, setNumMes] = useState<Number>();
+  const [tipoCalculo, setTipoCalculo] = useState("");
+
 
   //Permisos
   const [data, setData] = useState([]);
   const [autorizar, setAutorizar] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
+  const [recalcular, setrecalcular] = useState<boolean>(false);
   //Modals
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [tipoAccion, setTipoAccion] = useState("");
   //Columnas
+  const [visibleselect, setvisibleselect] = useState<Number>(0);
   const [pa, setPa] = useState(false);
   const [sa, setSa] = useState(false);
   const [ta, setTa] = useState(false);
@@ -96,6 +96,7 @@ const DetalleFgp = ({
           setOpenTrazabilidad(true);
           break;
         case 3: //Cancelar
+          setvisibleselect(1);
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_ENV_VAL");
           setperfilDestino("VAL");
@@ -104,6 +105,7 @@ const DetalleFgp = ({
           break;
 
         case 4: //AUTORIZAR CAPTURISTA
+          setvisibleselect(1);
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_ENV_COOR");
           setperfilDestino("COOR");
@@ -112,6 +114,7 @@ const DetalleFgp = ({
           break;
 
         case 5: //AUTORIZAR CAPTURISTA
+          setvisibleselect(0);
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("DAMOP_INICIO");
           setperfilDestino("ANA");
@@ -124,6 +127,7 @@ const DetalleFgp = ({
           break;
 
         case 7: //REGRESAR A analista
+          setvisibleselect(1);
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_REG_CAP");
           setperfilDestino("ANA");
@@ -132,6 +136,7 @@ const DetalleFgp = ({
           break;
 
         case 8: //REGRESAR A validador
+          setvisibleselect(1);
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_REG_ANA");
           setperfilDestino("VAL");
@@ -170,12 +175,14 @@ const DetalleFgp = ({
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
-            title: "Consulta Exitosa!",
+            title: "¡Consulta Exitosa!",
           });
+          setOpenSlider(false);
           handleClose();
         } else {
+          setOpenSlider(false);
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
@@ -183,13 +190,50 @@ const DetalleFgp = ({
       });
     }
   };
+
+  const ReCalculo = () => {
+    let data = {
+      IDCALCULO: idDetalle,
+      CHUSER: user.id
+    };
+
+    Swal.fire({
+      icon: "question",
+      title: "recalcular",
+      text: "Al generar el Recálculo los movimientos pueden verse afectados",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+      color: 'rgb(175, 140, 85)',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        calculosServices.ReCalculo(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "ReCalculo Exitoso!",
+            });
+            handleClose();
+          } else {
+            AlertS.fire({
+              title: "¡Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      }
+    });
+  };
+
   const BorraCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
       CHUSER: user.id,
       CLAVE: clave,
       ANIO: anio,
-      MES: mes.split(",")[0],
+      MES: nummes,
     };
 
     Swal.fire({
@@ -200,6 +244,7 @@ const DetalleFgp = ({
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
+      color: 'rgb(175, 140, 85)',
     }).then((result) => {
       if (result.isConfirmed) {
         calculosServices.BorraCalculo(data).then((res) => {
@@ -211,7 +256,7 @@ const DetalleFgp = ({
             handleClose();
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -229,7 +274,7 @@ const DetalleFgp = ({
         setStatus(res.RESPONSE[0]);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -245,7 +290,7 @@ const DetalleFgp = ({
         setPerfil(res.RESPONSE[0]);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -261,7 +306,7 @@ const DetalleFgp = ({
         setDireccion(res.RESPONSE[0]);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -275,10 +320,10 @@ const DetalleFgp = ({
     calculosServices.getResponsable(data).then((res) => {
       if (res.SUCCESS) {
         setResponsable(res.RESPONSE[0]);
-      } else {
+      }else if(res.RESPONSE[0] === null || res.RESPONSE[0] === ""){
         AlertS.fire({
-          title: "Error!",
-          text: res.STRMESSAGE,
+          title: "¡Error!",
+          text: "No se ha asignado a un responsable",//res.STRMESSAGE,
           icon: "error",
         });
       }
@@ -333,7 +378,7 @@ const DetalleFgp = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -345,7 +390,7 @@ const DetalleFgp = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setData(res.RESPONSE);
         var sumatotal = 0;
@@ -355,7 +400,7 @@ const DetalleFgp = ({
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -363,8 +408,29 @@ const DetalleFgp = ({
       setOpenSlider(false);
     });
   };
+
+  const init = (data: any) => {
+
+    calculosServices.calculosdetail(data).then((res) => {
+      if (res.SUCCESS) {
+      // console.log(res.RESPONSE[0])
+        setNumMes(Number(res.RESPONSE[0].nummes));
+        setAnio(res.RESPONSE[0].anio);
+        setMes(res.RESPONSE[0].mes);
+        setTipoCalculo(res.RESPONSE[0].tipocalculo);
+      } else {
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+      
+    });
+  };
+
   const columns = [
-    { field: "id", headerName: "Identificador", width: 150, hide: true },
+    { field: "id", headerName: "Identificador", width: 150, hide: true  , hideable:false },
 
     {
       field: "ClaveEstado",
@@ -381,121 +447,119 @@ const DetalleFgp = ({
     {
       field: "Mensual",
       headerName: "Mensual",
-      width: 200,
+      width: 220,
       description: "Mensual",
       ...Moneda,
-
     },
-    {
-      hide: pa ? false : true,
-      field: "PrimerAjuste",
-      headerName: "Primer Ajusté",
-      width: 200,
-      description: "Primer Ajusté",
-      ...Moneda,
+    // {
+    //   hide: true  , 
+    //   field: "PrimerAjuste",
+    //   headerName: "Primer Ajuste",
+    //   width: 200,
+    //   description: "Primer Ajuste",
+    //   ...Moneda,
+    // },
+    // {
+    //   hide: sa ? false : true,
+    //   field: "SegundoAjuste",
+    //   headerName: "Segundo Ajuste",
+    //   width: 150,
+    //   description: "Segundo Ajuste",
+    //   ...Moneda,
 
-    },
-    {
-      hide: sa ? false : true,
-      field: "SegundoAjuste",
-      headerName: "Segundo Ajuste",
-      width: 150,
-      description: "Segundo Ajusté",
-      ...Moneda,
+    // },
+    // {
+    //   hide: ta ? false : true,
+    //   field: "TercerAjuste",
+    //   headerName: "Tercer Ajuste",
+    //   width: 150,
+    //   description: "Tercer Ajuste",
+    //   ...Moneda,
 
-    },
-    {
-      hide: ta ? false : true,
-      field: "TercerAjuste",
-      headerName: "Tercer Ajusté",
-      width: 150,
-      description: "Tercer Ajusté",
-      ...Moneda,
+    // },
+    // {
+    //   hide: ca ? false : true,
+    //   field: "CuartoAjuste",
+    //   headerName: "Cuarto Ajuste",
+    //   width: 150,
+    //   description: "Cuarto Ajuste",
+    //   ...Moneda,
 
-    },
-    {
-      hide: ca ? false : true,
-      field: "CuartoAjuste",
-      headerName: "Cuarto Ajusté",
-      width: 150,
-      description: "Cuarto Ajuste",
-      ...Moneda,
+    // },
+    // {
+    //   hide: ad ? false : true,
+    //   field: "AjusteAnual",
+    //   headerName: "Ajuste Anual",
+    //   width: 150,
+    //   description: "Ajuste Anual",
+    //   ...Moneda,
 
-    },
-    {
-      hide: ad ? false : true,
-      field: "AjusteAnual",
-      headerName: "Ajusté Anual",
-      width: 150,
-      description: "Ajusté Anual",
-      ...Moneda,
+    // },
+    // {
+    //   hide: as ? false : true,
+    //   field: "AjusteSemestral",
+    //   headerName: "Ajuste Semestral",
+    //   width: 150,
+    //   description: "Ajuste Semestral",
+    //   ...Moneda,
 
-    },
-    {
-      hide: as ? false : true,
-      field: "AjusteSemestral",
-      headerName: "Ajusté Semestral",
-      width: 150,
-      description: "Ajusté Semestral",
-      ...Moneda,
+    // },
+    // {
+    //   hide: aa ? false : true,
+    //   field: "AjusteDefinitivo",
+    //   headerName: "Ajuste Definitivo",
+    //   width: 150,
+    //   description: "Ajuste Definitivo",
+    //   ...Moneda,
 
-    },
-    {
-      hide: aa ? false : true,
-      field: "AjusteDefinitivo",
-      headerName: "Ajusté Definitivo",
-      width: 150,
-      description: "Ajusté Definitivo",
-      ...Moneda,
-
-    },
+    // },
     {
       hide: ae ? false : true,
       field: "AjusteEstatal",
-      headerName: "Ajusté Estatal",
+      headerName: "Ajuste Estatal",
       width: 150,
-      description: "Ajusté Estatal",
+      description: "Ajuste Estatal",
       ...Moneda,
 
     },
-    {
-      hide: rf ? false : true,
-      field: "CompensacionFEIF",
-      headerName: "Compensación FEIF",
-      width: 150,
-      description: "Compensación FEIF",
-      ...Moneda,
+    // {
+    //   hide: rf ? false : true,
+    //   field: "CompensacionFEIF",
+    //   headerName: "Compensación FEIF",
+    //   width: 150,
+    //   description: "Compensación FEIF",
+    //   ...Moneda,
 
-    },
-    {
-      hide: cf ? false : true,
-      field: "RetencionFEIF",
-      headerName: "Retención FEIF",
-      width: 150,
-      description: "Retención FEIF",
-      ...Moneda,
+    // },
+    // {
+    //   hide: cf ? false : true,
+    //   field: "RetencionFEIF",
+    //   headerName: "Retención FEIF",
+    //   width: 150,
+    //   description: "Retención FEIF",
+    //   ...Moneda,
 
-    },
-    {
-      hide: af ? false : true,
-      field: "AjusteFofir",
-      headerName: "Ajusté FOFIR",
-      width: 150,
-      description: "Ajusté FOFIR",
-      ...Moneda,
+    // },
+    // {
+    //   hide: af ? false : true,
+    //   field: "AjusteFofir",
+    //   headerName: "Ajuste FOFIR",
+    //   width: 150,
+    //   description: "Ajuste FOFIR",
+    //   ...Moneda,
 
-    },
+    // },
     {
       field: "total",
       headerName: "Total",
       width: 250,
       description: "Total",
       ...Moneda,
-      // renderHeader: () => (
-      //   <>
-      //     {"Total: " + currencyFormatter.format(Number(sumaTotal))}
-      //   </>
-      // ),
+      renderHeader: () => (
+        <>
+          {"Total: " + currencyFormatter.format(Number(sumaTotal))}
+        </>
+      ),
 
     },
   ];
@@ -518,6 +582,9 @@ const DetalleFgp = ({
         if (String(item.Referencia) === "EDIT") {
           //  setEditar(true);
         }
+       // if (String(item.Referencia) === "RECALCULAR") {
+           setrecalcular(true);
+      //  }
       }
     });
   };
@@ -528,15 +595,17 @@ const DetalleFgp = ({
     getPerfilCalculo();
     getAreaCalculo();
     getResponsable();
+    init({ P_ID: idDetalle })
     columnas({ IDCALCULOTOTAL: idDetalle });
     consulta({ IDCALCULOTOTAL: idDetalle });
+    
   }, []);
 
 
   return (
     <div>
       <Box>
-        <Dialog open={Boolean(openDetalles)} fullScreen={true}>
+        <Dialog open={true} fullScreen={true}>
           <Slider open={openSlider}></Slider>
 
           {openModal ? (
@@ -545,8 +614,7 @@ const DetalleFgp = ({
               handleClose={handleClose}
               handleAccion={Fnworkflow}
               perfil={perfilDestino}
-              area={area}
-            />
+              area={area} visibleselect={visibleselect}            />
           ) : (
             ""
           )}
@@ -594,7 +662,7 @@ const DetalleFgp = ({
           >
             <Grid item container xs={1} sx={{ justifyContent: "center" }}>
               <label className="subtitulo">
-                {mes.split(",")[1]}
+                {mes}
                 <br />
               </label>
             </Grid>
@@ -638,6 +706,7 @@ const DetalleFgp = ({
               <ToggleButtonGroup>
                 <Tooltip title={"Regresar"}>
                   <ToggleButton
+                  className="regresar"
                     value="check"
                     onClick={() => handleAcciones(1)}
                   >
@@ -645,9 +714,25 @@ const DetalleFgp = ({
                   </ToggleButton>
                 </Tooltip>
 
+                {recalcular ? (
+                  <Tooltip title={"Generar Recálculo"}>
+                    <ToggleButton
+                    className="aceptar"
+                      value="check"
+                      onClick={() => ReCalculo()}
+                    >
+                      <CachedIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
+
+
                 {verTrazabilidad ? (
                   <Tooltip title={"Ver Trazabilidad"}>
                     <ToggleButton
+                    className="aceptar"
                       value="check"
                       onClick={() => handleAcciones(2)}
                     >
@@ -668,6 +753,7 @@ const DetalleFgp = ({
                     user.PERFILES[0].Referencia === "ANA" ? (
                     <Tooltip title={"Enviar a Validación"}>
                       <ToggleButton
+                      className="aceptar"
                         value="check"
                         onClick={() => handleAcciones(3)}
                       >
@@ -687,6 +773,7 @@ const DetalleFgp = ({
                     user.PERFILES[0].Referencia === "VAL" ? (
                     <Tooltip title={"Enviar a Coordinador"}>
                       <ToggleButton
+                       className="aceptar"
                         value="check"
                         onClick={() => handleAcciones(4)}
                       >
@@ -706,6 +793,7 @@ const DetalleFgp = ({
                   user.PERFILES[0].Referencia === "COOR" ? (
                   <Tooltip title={"Enviar a DAMOP"}>
                     <ToggleButton
+                     className="aceptar"
                       value="check"
                       onClick={() => handleAcciones(5)}
                     >
@@ -723,6 +811,7 @@ const DetalleFgp = ({
                   user.PERFILES[0].Referencia === "ANA" ? (
                   <Tooltip title={"Cancelar"}>
                     <ToggleButton
+                     className="regresar"
                       value="check"
                       onClick={() => handleAcciones(6)}
                     >
@@ -740,6 +829,7 @@ const DetalleFgp = ({
                   user.PERFILES[0].Referencia === "VAL" ? (
                   <Tooltip title={"Regresar a Analista"}>
                     <ToggleButton
+                     className="regresar"
                       value="check"
                       onClick={() => handleAcciones(7)}
                     >
@@ -757,6 +847,7 @@ const DetalleFgp = ({
                   user.PERFILES[0].Referencia === "COOR" ? (
                   <Tooltip title={"Regresar a Validador"}>
                     <ToggleButton
+                    className="regresar"
                       value="check"
                       onClick={() => handleAcciones(8)}
                     >
@@ -767,13 +858,9 @@ const DetalleFgp = ({
                   ""
                 )}
 
-
-
-
-
               </ToggleButtonGroup>
             </Box>
-            <MUIXDataGrid columns={columns} rows={data} />
+            <MUIXDataGrid columns={columns} rows={data} modulo={nombreFondo+"-"+mes+"-"+anio} />
           </Box>
         </Dialog>
       </Box>

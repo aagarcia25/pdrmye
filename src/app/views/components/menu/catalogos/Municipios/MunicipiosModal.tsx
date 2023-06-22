@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
   Box,
   InputLabel,
   TextField,
-  DialogActions,
   Switch,
   FormControlLabel,
   FormGroup,
@@ -105,21 +102,7 @@ const MunFacturacionModal = ({
   };
 
   const handleSend = () => {
-    console.log(
-      
-      "--- nombre          : ",nombre          , 
-      "--- claveEstado     : ",claveEstado     , 
-      "--- mam             : ",mam             , 
-      "--- descentralizado : ",descentralizado , 
-      "--- nombreCorto     : ",nombreCorto     , 
-      "--- ordenSFTGNL     : ",ordenSFTGNL     , 
-      "--- clavePSIREGOB   : ",clavePSIREGOB   , 
-      "--- claveDSIREGOB   : ",claveDSIREGOB   , 
-      "--- claveINEGI      : ",claveINEGI      , 
-      "--- artF1           : ",artF1           , 
-      "--- artF2           : ",artF2           , 
-      "--- artF3           : ",artF3           , 
-    )
+
     if (
       nombre === "" ||
       claveEstado === "" ||
@@ -135,7 +118,7 @@ const MunFacturacionModal = ({
       artF3 === ""
     ) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -159,27 +142,16 @@ const MunFacturacionModal = ({
         ARTF3: artF3,
         DELETED: 0,
       };
-      //console.log("user props", user);
-      //console.log("user id", user.id);
-      //console.log("data de modal", data);
       handleRequest(data);
       handleClose();
     }
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     if (tipo === 1) {
-      //AGREGAR
-      //console.log("A AGREGAR");
       agregar(data);
-
     } else if (tipo === 2) {
-      //EDITAR
-      //console.log("A EDITAR");
-
       editar(data);
-
     }
   };
 
@@ -188,31 +160,28 @@ const MunFacturacionModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
-        //console.log("Sé pudo agregar");
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        //console.log("No se pudo agregar");
       }
     });
   };
 
   const editar = (data: any) => {
-    console.log(data);
     CatalogosServices.municipios(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "¡Registro Editado!",
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -238,7 +207,6 @@ const MunFacturacionModal = ({
       setArtF2(dt?.row?.ArtF2? dt?.row?.ArtF2:"");
       setArtF3(dt?.row?.ArtF3? dt?.row?.ArtF3:"");
 
-      console.log(dt?.row)
     }
   }, [dt]);
 

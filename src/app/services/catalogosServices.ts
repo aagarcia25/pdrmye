@@ -1,8 +1,38 @@
 
-import { post, postDocument } from './apiService';
+import { post, postDoc } from './apiService';
 
 export class CatalogosServices {
 
+    public static async TipoExportacion(data : any) {
+        return await post('TipoExportacion', data);
+    };
+
+    public static async reportesAdministracionRelacion(data : any) {
+        return await post('reportesAdministracionRelacion', data);
+    };
+
+    public static async TiposDePagoSP(data: any) {
+        return await post('TiposDePagoSP', data);
+    }
+
+    public static  AdminVideoTutoriales(data: any) {
+        return  post('AdminVideoTutoriales', data);
+    }
+
+    public static  AdminPreguntasFrecuentes(data: any) {
+        return  post('AdminPreguntasFrecuentes', data);
+    }
+    
+    public static  AdminGuiaRapida(data: any) {
+        return  post('AdminGuiaRapida', data);
+    }
+    public static async IndexClasificacionSP(data: any) {
+        return await post('IndexClasificacionSP', data);
+    }
+
+    public static async IndexCatRetenciones(data: any) {
+        return await post('IndexCatRetenciones', data);
+    }
     public static async divisas(data: any) {
         return await post('divisas', data);
     }
@@ -83,7 +113,7 @@ export class CatalogosServices {
     };
     
     public static async migraData(data : any) {
-        return await postDocument('migraData', data);
+        return await postDoc('migraData', data);
     };
     
     public static async meses(data : any) {
@@ -155,5 +185,31 @@ export class CatalogosServices {
     public static async indexISN(data : any) {
         return await post('indexISN', data);
     };
+
+    public static async getliga(data : any) {
+        return await post('getliga', data);
+    };
     
+    public static async OrganismosIndex(data : any) {
+        return await post('OrganismosIndex', data);
+    };
+
+    public static async Organismos(data : any) {
+        return await post('OrganismosIndex', data);
+    };
+
+    public static async obtenerguias(data : any) {
+        return await post('obtenerguias', data);
+    };
+
+    public static async obtenerDoc(data : any) {
+        return await postDoc('obtenerDoc', data);
+    };
+    public static async deleteVideoTutorial(data : any) {
+        return await post('deleteVideoTutorial', data);
+    };
+
+
+    
+
 }

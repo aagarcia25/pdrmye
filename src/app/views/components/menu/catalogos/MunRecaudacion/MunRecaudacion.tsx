@@ -22,7 +22,6 @@ export const MunRecaudacion = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [Facturacion, setFacturacion] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -112,7 +111,7 @@ export const MunRecaudacion = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title:  "Solicitar La Eliminación?",
+      title:  "¿Solicita la eliminación?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -140,7 +139,7 @@ export const MunRecaudacion = () => {
             consulta(data);
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -170,7 +169,7 @@ export const MunRecaudacion = () => {
           });
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
@@ -210,7 +209,7 @@ export const MunRecaudacion = () => {
   
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });
@@ -252,15 +251,7 @@ export const MunRecaudacion = () => {
     }
   };
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_RECAUDACION",
-    };
 
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
 
   useEffect(() => {
     menu.map((item: MENU) => {
@@ -282,7 +273,6 @@ export const MunRecaudacion = () => {
       }
     });
     setAnios(fanios());
-    downloadplantilla();
     let data = {
       NUMOPERACION: 4,
       ANIO: "",
@@ -296,12 +286,12 @@ export const MunRecaudacion = () => {
       <NombreCatalogo controlInterno={"MUNRECAU"} />
 
       <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNRECAU"} 
+        url={"MUNICIPIO_RECAUDACION.xlsx"}
+        handleUpload={handleUpload} controlInterno={"MUNRECAU"}
         value={''}
         options={anios}
         onInputChange={handleFilterChange}
-        placeholder={"Seleccione Año"} label={""} disabled={false} />
+        placeholder={"Seleccione Año"} label={""} disabled={false} handleOpen={handleOpen} />
         
       < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNRECAU"}   />
 
@@ -311,8 +301,7 @@ export const MunRecaudacion = () => {
           modo={modo}
           handleClose={handleClose}
           tipo={tipoOperacion}
-          dt={data}
-        />
+          dt={data} anios={anios}        />
       ) : (
         ""
       )}

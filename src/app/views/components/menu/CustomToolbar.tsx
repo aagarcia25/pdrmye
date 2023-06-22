@@ -1,17 +1,17 @@
-import clsx from 'clsx';
 import {
-  GridToolbarContainer,
+  GridCellParams,
+  GridColTypeDef,
+  GridColumnHeaderParams,
   GridToolbarColumnsButton,
-  GridToolbarFilterButton,
+  GridToolbarContainer,
   GridToolbarDensitySelector,
   GridToolbarExport,
-  GridColTypeDef,
-  GridToolbarQuickFilter,
-  GridCellParams,
-  GridColumnHeaderParams,
-  GridColumnGroupHeaderClassNamePropType,
+  GridToolbarFilterButton,
+  GridToolbarQuickFilter
 } from "@mui/x-data-grid";
-
+import clsx from 'clsx';
+import React from 'react';
+import { NumericFormat, NumericFormatProps } from 'react-number-format';
 export function CustomToolbar() {
   return (
    <GridToolbarContainer>
@@ -24,6 +24,37 @@ export function CustomToolbar() {
   );
 }
 
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
+
+export const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
+  function NumericFormatCustom(props, ref) {
+    const { onChange, ...other } = props;
+
+    return (
+      <NumericFormat
+        {...other}
+        getInputRef={ref}
+        onValueChange={(values) => {
+          onChange({
+            target: {
+              name: props.name,
+              value: values.value,
+            },
+          });
+        }}
+        thousandSeparator
+        valueIsNumericString
+        prefix="$"
+      />
+    );
+  },
+);
+
+
+
 
 
 export const currencyFormatter = new Intl.NumberFormat("es-US", {
@@ -34,11 +65,11 @@ export const currencyFormatter = new Intl.NumberFormat("es-US", {
 export const Moneda: GridColTypeDef = { type: "number", valueFormatter: ({ value }) => currencyFormatter.format(value),headerAlign:"left",
 cellClassName: (params: GridCellParams<number>) => {
   if (params.value == null) {
-    return '';
+    return '0';
   }
 
   return clsx('super-app', {
-    negative: params.value < 0,
+    negative: params.value <= 0,
     positive: params.value > 0,
   });
 },
@@ -49,7 +80,7 @@ headerClassName: (params: GridColumnHeaderParams<number>) => {
   }
 
   return clsx('super-app', {
-    negative: Number(params.field) < 0,
+    negative: Number(params.field) < 1,
     positive: Number(params.field) > 0,
   });
 },

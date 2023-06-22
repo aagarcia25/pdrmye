@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
-import ModalForm from "./ModalForm";
-import Slider from "../Slider";
-import { CatalogosServices } from "../../../services/catalogosServices";
+import { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
+import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
+import Slider from "../Slider";
+import ModalForm from "./ModalForm";
 
 const ModalCalculos = ({
   tipo,
@@ -12,16 +12,18 @@ const ModalCalculos = ({
   area,
   handleClose,
   handleAccion,
+  visibleselect
 }: {
   tipo: string;
   perfil: string;
   area: string;
   handleClose: Function;
   handleAccion: Function;
+  visibleselect:Number
 }) => {
   
   const [mensaje, setMensaje] = useState<string>();
-  const [openSlider, setOpenSlider] = useState(true);
+  const [openSlider, setOpenSlider] = useState(false);
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
   const [chuserDestin, setChuserDestin] = useState<string>("");
 
@@ -57,7 +59,10 @@ const ModalCalculos = ({
       <ModalForm title={tipo} handleClose={handleClose}>
       <Slider open={openSlider}></Slider>
 
-      <Grid item xs={12}>
+
+      {visibleselect === 1 ? (
+        <>
+            <Grid item xs={12}>
             <h3> Asignar a :</h3>
           </Grid>
           <Grid item xs={12}>
@@ -70,7 +75,14 @@ const ModalCalculos = ({
                   disabled={false}
                 />
           </Grid>
-          
+          </>
+            
+          ) : (
+            ""
+          )}
+
+
+     
         <Grid
           container
           spacing={1}

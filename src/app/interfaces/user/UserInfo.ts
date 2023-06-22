@@ -18,6 +18,60 @@ export interface PERMISO {
 
 }
 
+export interface SPEIS {
+    CreadoPor: string;
+    FechaCreacion: string;
+    ModificadoPor: string;
+    Nombre: string;
+    Route: string;
+    UltimaActualizacion: string;
+    deleted: string;
+    id: string;
+    idPA: string;
+}
+
+
+export interface GetParticipaciones {
+    id: string;
+    NumProyecto: string;
+    ConceptoEgreso: number;
+    NumOper: number;
+    Anio: number;
+    Mes: string;
+    ClaveEstado: number;
+    Nombre: string;
+    Clave: string;
+    fondodes: string;
+    tipocalculo: string;
+    total: string;
+    Presupuesto: string;
+    Descripcion: string;
+    ClavePresupuestal: string;
+    estatus: string;
+    uresclave: string;
+    uresdes: string;
+    Divisa: string;
+    Proveedor: string;
+    Deudor: string;
+    TipoSolicitud: string;
+    Observaciones?: any;
+    clasificacion: string;
+    clasificacionDescripcion: string;
+    ClaveBeneficiario?: any;
+    DescripcionBeneficiario?: any;
+    conceptoCheque: string;
+    NumParticipacion?: any;
+    NumSolEgreso?: any;
+    NumEgreso?: any;
+    NumOrdenPago?: any;
+    NumRequerimientoAnt?: any;
+    NumCheque?: any;
+    Retenciones: string;
+    Descuentos: string;
+    importe: string;
+}
+
+
 export interface FPG {
     id: string;
     Clave: string;
@@ -81,12 +135,49 @@ export interface MUNICIPIO {
     Nombre: string;
 }
 
+export interface ORG {
+    id: string;
+    Descripcion: string;
+}
+
 export interface DEPARTAMENTOS {
     NombreCorto: string;
     Descripcion: string;
 }
 
+
+export interface RESPONSESTORAGE {
+    NOMBRE: string;
+    TIPO: string;
+    SIZE: number;
+    FILE: string;
+
+}
+
+export interface RESPONSEVIDEOS {
+    NombreOriginalVideo: string;
+    RutaVideo: string;
+
+
+}
+
+export interface RESPONSEPREGUNTASFRECUENTES {
+    id: string;
+    Pregunta: string;
+    Texto: string;
+}
+
+export interface RESPONSEGUIARAPIDA {
+    id: string;
+    Pregunta: string;
+    RutaGuia: string;
+}
+
 export interface RESPONSE {
+    NOMBRE?: string;
+    TIPO?: string;
+    SIZE?: number;
+    FILE?: string;
     id: string;
     deleted: string;
     UltimaActualizacion: string;
@@ -111,11 +202,14 @@ export interface RESPONSE {
     PERFILES: PERFILES[];
     DEPARTAMENTOS: DEPARTAMENTOS[];
     MUNICIPIO: MUNICIPIO[];
+    ORG: ORG[];
     tipo?: any;
     Celular?: any;
     Curp?: string;
     idPerfil?: string;
     idUsuarioCentral?: string;
+    numFideicomisos?: number;
+    idUResp?: string;
 }
 
 export interface UserInfo {
@@ -167,4 +261,26 @@ export interface SolUserData {
     IdSolicitud: string;
 }
 
+export interface getDescuentos {
+    id: string;
+    Tipo: string;
+    NumOperacion: number;
+    total: string;
+    OtrosCargos: string;
+    ParcialDescuento: string;
+    cveRetencion: number;
+    DescripcionDescuento?: any;
+}
 
+
+export interface IndexPaRetenciones {
+    id: string;
+    Tipo: string;
+    NumOperacion: number;
+    total: string;
+    OtrosCargos: string;
+    ParcialDescuento: string;
+    cveRetencion: number;
+    DescripcionDescuento?: any;
+    importe: number;
+}

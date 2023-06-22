@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { getPermisos, getUser, } from "../../../../../services/localStorage";
+import { getPermisos,  getUser, } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
@@ -11,7 +10,6 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import MunFacturacionModal from "./MunFacturacionModal";
 import { Moneda } from "../../CustomToolbar";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
@@ -26,7 +24,6 @@ export const MunFacturacion = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [Facturacion, setFacturacion] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -42,24 +39,13 @@ export const MunFacturacion = () => {
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
 
-  //funciones
-  const handleFilterMes = () => { };
 
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
       hide: true,
-      width: 150,
-      description: messages.dataTableColum.id,
-    },
-    {
-      field: "idmunicipio",
-      headerName: "idmunicipio",
-      hide: true,
-      width: 150,
-    },
-    {
+      hideable:false
+    },  {
       field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
@@ -68,10 +54,15 @@ export const MunFacturacion = () => {
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-
         );
       },
     },
+    {
+      field: "idmunicipio",
+      hide: true, 
+       hideable:false,
+    },
+  
     { field: "FechaCreacion", headerName: "Fecha Creación",description: "Fecha Creación", width: 180 },
     { field: "ClaveEstado",   headerName: "Clave Estado",  description: "Clave Estado",   width: 100 },
     { field: "Nombre",        headerName: "Municipio",     description: "Municipio",      width: 220 },
@@ -123,7 +114,7 @@ export const MunFacturacion = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -154,7 +145,7 @@ export const MunFacturacion = () => {
 
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -186,7 +177,7 @@ export const MunFacturacion = () => {
           });
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: res.STRMESSAGE,
             icon: "error",
           });
@@ -232,7 +223,7 @@ export const MunFacturacion = () => {
 
               } else {
                 AlertS.fire({
-                  title: "Error!",
+                  title: "¡Error!",
                   text: res.STRMESSAGE,
                   icon: "error",
                 });
@@ -279,19 +270,10 @@ export const MunFacturacion = () => {
     }
   };
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_FACTURACION",
-    };
-
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
+  
 
   useEffect(() => {
     setAnios(fanios());
-    downloadplantilla();
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNFA") {
@@ -317,12 +299,12 @@ export const MunFacturacion = () => {
       <NombreCatalogo controlInterno={"MUNFA"} />
 
       <ButtonsMunicipio
-        url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNFA"} 
+        url={"MUNICIPIO_FACTURACION.xlsx"}
+        handleUpload={handleUpload} controlInterno={"MUNFA"}
         value={''}
         options={anios}
         onInputChange={handleFilterChange}
-        placeholder={"Seleccione Año"} label={""} disabled={false} />
+        placeholder={"Seleccione Año"} label={""} disabled={false} handleOpen={handleOpen} />
       < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNFA"} />
 
       {open ? (

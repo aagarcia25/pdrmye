@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogTitle,
   DialogContent,
-  Box,
   TextField,
   InputAdornment,
   DialogActions,
@@ -41,7 +38,7 @@ const InflacionAnioModal = ({
   const handleSend = () => {
     if (anio === "" || inflacion === "") {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -74,11 +71,11 @@ const InflacionAnioModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -91,11 +88,11 @@ const InflacionAnioModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Editado!",
+          title: "¡Registro Editado!",
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

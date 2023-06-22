@@ -13,8 +13,10 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { PERMISO } from "../../../../../interfaces/user/UserInfo";
-import { getPermisos } from "../../../../../services/localStorage";
+import { getPermisos, getToken } from "../../../../../services/localStorage";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { dowloandfile } from "../../../../../helpers/Files";
+import AddIcon from "@mui/icons-material/Add";
 
 const ButtonsMunicipio = ({
   controlInterno,
@@ -26,6 +28,7 @@ const ButtonsMunicipio = ({
   placeholder,
   label,
   disabled,
+  handleOpen
 }: {
   controlInterno: string;
   url: string;
@@ -36,22 +39,38 @@ const ButtonsMunicipio = ({
   placeholder: string;
   label: string;
   disabled: boolean;
+  handleOpen: Function;
+
 }) => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [cargarPlantilla, setCargarPlantilla] = useState<boolean>(false);
   const [descargarPlantilla, setDescargarPlantilla] = useState<boolean>(false);
   const [elimasiva, setelimasiva] = useState<boolean>(false);
+  const [agregar, setAgregar] = useState<boolean>(false);
+
+
+  const downloadplantilla = () => {
+    let name = url;
+    let data = {
+      TOKEN: JSON.parse(String(getToken())),
+      RUTA: '/PDRMYE/DAMOP/PLANTILLAS/',
+      NOMBRE: name,
+    };
+    dowloandfile(data);
+
+  };
+
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === controlInterno) {
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.Referencia)  === "AGREG" ) {
+          setAgregar(true);
+        }
+        if (String(item.Referencia) === "CARGPLAN") {
           setCargarPlantilla(true);
         }
-        if (String(item.Referencia) === "AGREG") {
-          setCargarPlantilla(true);
-        }
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.Referencia) === "DESPLAN") {
           setDescargarPlantilla(true);
         }
         if (String(item.Referencia) === "ELIMMAS") {
@@ -63,18 +82,29 @@ const ButtonsMunicipio = ({
 
   return (
     <Box sx={{ alignItems: "center" }}>
-      <Grid
+      <Grid item
+        xs={12} md={12}
         container
         direction="row"
         justifyContent="space-between"
         alignItems="center"
       >
-        <Grid item xs={12} md={2}>
+
+        <Grid item  xs={12} sm={6} md={6} lg={3} >
           <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+            {agregar ? (
+                <Tooltip title="Agregar" >
+                  <ToggleButton className="enviar-mensaje"  color="standard" value="check" onClick={() => handleOpen()}>
+                    <AddIcon />
+                  </ToggleButton>
+                </Tooltip>
+            ) : (
+              ""
+            )}
             {descargarPlantilla ? (
-              <Tooltip title="Descargar Plantilla">
-                <ToggleButton value="check">
-                  <ArrowDownwardIcon onClick={() => window.open(url)} />
+              <Tooltip title={"Descargar Plantilla"}>
+                <ToggleButton className="enviar-mensaje"  color="standard" value="check" onClick={() => downloadplantilla()}>
+                  <ArrowDownwardIcon />
                 </ToggleButton>
               </Tooltip>
             ) : (
@@ -82,11 +112,12 @@ const ButtonsMunicipio = ({
             )}
             {cargarPlantilla ? (
               <Tooltip title="Cargar Plantilla">
-                <ToggleButton value="check">
+                <ToggleButton className="enviar-mensaje"  value="check">
                   <IconButton
                     aria-label="upload documento"
                     component="label"
                     size="small"
+                    color="inherit" 
                   >
                     <input
                       hidden
@@ -103,9 +134,11 @@ const ButtonsMunicipio = ({
               ""
             )}
 
+
+
             {elimasiva ? (
               <Tooltip title="Eliminación Masiva, Borra los Registros Seleccionados *No Requiere Autorización*">
-                <ToggleButton value="check">
+                <ToggleButton className="enviar-mensaje"  value="check">
                   <DeleteForeverIcon
                     onClick={() => handleUpload({ tipo: 2, data: {} })}
                   />
@@ -116,7 +149,7 @@ const ButtonsMunicipio = ({
             )}
           </ToggleButtonGroup>
         </Grid>
-        <Grid item xs={12} md={2}>
+        <Grid item  xs={12} sm={6} md={4} lg={3} >
           {value === "na" ? (
             ""
           ) : (

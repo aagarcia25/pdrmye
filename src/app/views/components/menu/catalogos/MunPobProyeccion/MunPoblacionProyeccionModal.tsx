@@ -41,7 +41,7 @@ const MunPoblacionProyeccionModal = ({
   const handleSend = () => {
     if (poblacion === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -87,13 +87,13 @@ const MunPoblacionProyeccionModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
         handleClose();
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -111,7 +111,7 @@ const MunPoblacionProyeccionModal = ({
         handleClose();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -119,9 +119,7 @@ const MunPoblacionProyeccionModal = ({
     });
   };
 
-  const handle = () => {
 
-  };
 
   useEffect(() => {
     setMun(municipiosc());

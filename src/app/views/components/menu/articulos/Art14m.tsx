@@ -17,6 +17,7 @@ import Slider from "../../Slider";
 import { ArticulosServices } from "../../../../services/ArticulosServices";
 import Swal from "sweetalert2";
 import { CatalogosServices } from "../../../../services/catalogosServices";
+import { isNull } from "util";
 
 const Art14m = ({
   titulo,
@@ -57,7 +58,7 @@ const Art14m = ({
   const handleVersion = () => {
     if (monto === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -91,6 +92,8 @@ const Art14m = ({
 
 
   useEffect(() => {
+    setMonto(undefined);
+    setmontoaniopasado(undefined);
     handleFondos();
   }, [tipo]);
 
@@ -144,13 +147,15 @@ const Art14m = ({
            </Grid>
 
            <Grid item xs={3} sm={3} md={3} sx={{ textAlign: "center" }}>
-           <Typography sx={{ fontFamily: "MontserratMedium" }}>
+           <Tooltip title="Monto Total que se distribuirá a los Municipios">
+            <Typography sx={{ fontFamily: "MontserratMedium" }}>
             Monto
            </Typography>
+           </Tooltip>
            </Grid>
 
            <Grid item xs={2} sm={2} md={2} sx={{ textAlign: "center" }}>
-           <Tooltip title="Porcentaje del Monto Total que se distribuira a los Municipios">
+           <Tooltip title="Porcentaje del Monto Total que se distribuirá a los Municipios">
              <Typography sx={{ fontFamily: "MontserratMedium" }}>
             Procentaje Distribución
              </Typography>
@@ -158,9 +163,11 @@ const Art14m = ({
            </Grid>
            
            <Grid item xs={3} sm={3} md={3} sx={{ textAlign: "center" }}>
+           <Tooltip title="Monto Total que se distribuirá a los Municipios, después de aplicar el % de distribución">
            <Typography sx={{ fontFamily: "MontserratMedium" }}>
             Monto a Distribuir
            </Typography>
+           </Tooltip>
            </Grid>
 
 
@@ -199,6 +206,7 @@ const Art14m = ({
                   let im =importeDistri ;
                       importeDistri[x]=(item.PorcentajeDistribucion / 100) * (numero[x]);
                                 setimporteDistri(im);
+                  handleMontos(montoaniopasado);
                   } }
                 error={monto === null ? true : false}
                 type="number"
@@ -267,9 +275,11 @@ const Art14m = ({
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
         <Grid container spacing={1} sx={{ justifyContent: "center" }}>
         <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "center" }}>
+        <Tooltip title="Es el resultado del monto total del año anterior, menos el monto a distribuir ">
         <Typography sx={{ fontFamily: "MontserratMedium" }}>
             Total:
         </Typography>
+        </Tooltip>
         </Grid>
         <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "center" }}>
               <Input
@@ -291,7 +301,7 @@ const Art14m = ({
 
 
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
-         <Alert severity="info">Importante: los calculos son Generados tomando en cuenta la ultima versión activa</Alert> 
+         <Alert severity="info">Importante: los cálculos son generados tomando en cuenta la ultima versión activa</Alert> 
         </Grid>
        
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>

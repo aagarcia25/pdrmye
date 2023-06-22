@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Box, FormLabel, } from '@mui/material'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
 import { porcentage } from '../../CustomToolbar'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
@@ -9,11 +8,10 @@ import { Toast } from '../../../../../helpers/Toast'
 import { AlertS } from "../../../../../helpers/AlertS";
 import MunPobrezaModal from './MunPobrezaModal'
 import Slider from "../../../Slider";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import { getMenus, getPermisos, getUser } from '../../../../../services/localStorage'
+import { getPermisos, getUser } from '../../../../../services/localStorage'
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import MUIXDataGridMun from '../../../MUIXDataGridMun'
@@ -26,14 +24,12 @@ export const MunPobreza = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [dataMunPobreza, setDataMunPobreza] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-  const [nombreMenu, setNombreMenu] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
   // VARIABLES PARA LOS FILTROS
@@ -95,13 +91,13 @@ export const MunPobreza = () => {
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setOpen(true);
-    setData(v);
+    setData("");
   };
 
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Solicitar La Eliminación?",
+      title: "¿Solicita la eliminación?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -131,7 +127,7 @@ export const MunPobreza = () => {
             consulta(data);
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -202,7 +198,7 @@ export const MunPobreza = () => {
 
               } else {
                 AlertS.fire({
-                  title: "Error!",
+                  title: "¡Error!",
                   text: res.STRMESSAGE,
                   icon: "error",
                 });
@@ -247,19 +243,10 @@ export const MunPobreza = () => {
     }
   };
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_POBREZA",
-
-    };
-
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
-
+ 
 
   useEffect(() => {
+    setAnios(fanios());
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNPOBREZA") {
@@ -273,7 +260,6 @@ export const MunPobreza = () => {
       }
     });
     setAnios(fanios());
-    downloadplantilla();
 
     let data = {
       NUMOPERACION: 4,
@@ -293,22 +279,20 @@ export const MunPobreza = () => {
 
 
       <ButtonsMunicipio
-        url={plantilla}
+        url={"MUNICIPIO_POBREZA.xlsx"}
         handleUpload={handleUpload} controlInterno={"MUNPOBREZA"}
         options={anios}
         onInputChange={handleFilterChange}
         placeholder={"Seleccione Año"} label={''} disabled={false}
-        value={''} />
+        value={''} handleOpen={handleOpen} />
 
       < MUIXDataGridMun columns={columns} rows={dataMunPobreza} handleBorrar={handleBorrar} modulo={'POBREZA'} controlInterno={"MUNPOBREZA"} />
 
       {open ? (
         <MunPobrezaModal
-          open={open}
           handleClose={handleClose}
           tipo={tipoOperacion}
-          dt={data}
-        />
+          dt={data} anios={anios}        />
       ) : (
         ""
       )}

@@ -12,20 +12,18 @@ const ModalOp = ({
   vrows: any;
 }) => {
 
-
   const [mensaje, setMensaje] = useState<string>();
 
   const validacion = () => {
     if (mensaje === "" || mensaje === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de llenar el campo Comentarios*",
         icon: "error",
       });
     } else {
       handleAccion({ data: vrows, texto: mensaje })
     }
-
   }
 
   return (

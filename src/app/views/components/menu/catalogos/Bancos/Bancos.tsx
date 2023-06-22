@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { Grid, IconButton,  Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -21,7 +21,6 @@ export const Bancos = () => {
   const [bancos, setBancos] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
 
-  //console.log("bancos: ", bancos)
 
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
@@ -30,7 +29,6 @@ export const Bancos = () => {
 
   const handleAccion = (v: any) => {
     if (v.tipo == 1) {
-      //console.log(v);
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
@@ -38,7 +36,7 @@ export const Bancos = () => {
     } else if (v.tipo === 2) {
       Swal.fire({
         icon: "info",
-        title: "Estas seguro de eliminar este registro?",
+        title: "¿Estás seguro de eliminar este registro?",
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: "Confirmar",
@@ -50,19 +48,18 @@ export const Bancos = () => {
             CHID: v.data.row.id,
             CHUSER: user.id,
           };
-          //console.log(data);
 
           CatalogosServices.Bancos(data).then((res) => {
             if (res.SUCCESS) {
               Toast.fire({
                 icon: "success",
-                title: "Registro Eliminado!",
+                title: "¡Registro Eliminado!",
               });
 
               consulta({ NUMOPERACION: 4 });
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });
@@ -123,12 +120,12 @@ export const Bancos = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setBancos(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

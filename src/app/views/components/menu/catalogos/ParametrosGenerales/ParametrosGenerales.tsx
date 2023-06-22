@@ -7,12 +7,9 @@ import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { ParametroServices } from "../../../../../services/ParametroServices";
-import MUIXDataGrid from "../../../MUIXDataGrid";
 import { ParametrosGeneralesModal } from "./ParametrosGeneralesModal";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import { Grid, Typography } from "@mui/material";
-
 import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
@@ -64,7 +61,7 @@ export const ParametrosGenerales = () => {
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
       setTipoOperacion(2);
-      setModo("Editar ");
+      setModo("Editar");
       setOpen(true);
       setVrows(v.data);
       // console.log(v.data);
@@ -95,7 +92,7 @@ export const ParametrosGenerales = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -116,7 +113,7 @@ export const ParametrosGenerales = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
 
             let data = {
@@ -125,7 +122,7 @@ export const ParametrosGenerales = () => {
             consulta(data);
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -139,16 +136,11 @@ export const ParametrosGenerales = () => {
   const consulta = (data: any) => {
     ParametroServices.ParametroGeneralesIndex(data).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
-        //console.log(data);
         setParametroGeneral(res.RESPONSE);
         //console.log("parametroGeneral consulta", parametroGeneral);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

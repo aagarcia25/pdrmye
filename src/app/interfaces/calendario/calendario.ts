@@ -1,4 +1,4 @@
-export interface RESPONSE {
+export interface RESPONSEC {
     id: string;
     deleted: string;
     UltimaActualizacion: string;
@@ -15,7 +15,7 @@ export interface RESPONSE {
 export interface calendario {
     NUMCODE: number;
     STRMESSAGE: string;
-    RESPONSE: RESPONSE[];
+    RESPONSE: RESPONSEC[];
 }
 
 

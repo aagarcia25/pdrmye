@@ -49,7 +49,7 @@ const ContactoMunicipios = () => {
         setOpen(true);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           icon: "error",
         });
 
@@ -73,12 +73,12 @@ setOpen(false);
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Lista Obtenida!",
+          title: "¡Consulta Exitosa!",
         });
         setDato(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -192,7 +192,7 @@ setOpen(false);
 
                     <Box display="flex" justifyContent="center" sx={{ width: "100%" }}> 
                       <Box >
-                        <Button size="medium"  variant="contained" color="info" onClick={() => handleSend(String(registro?.idMunicipio))}>  <Typography color="white"> Enviar Mensaje </Typography> </Button>
+                        <Button className="enviar-mensaje" size="medium"  variant="contained" color="primary" onClick={() => handleSend(String(registro?.idMunicipio))}>  <Typography color="white"> Enviar Mensaje </Typography> </Button>
                       </Box>
                     </Box>
 

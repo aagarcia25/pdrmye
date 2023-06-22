@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {
   calendario,
   eventoc,
-  RESPONSE,
+  RESPONSEC,
 } from "../../interfaces/calendario/calendario";
 import { getUser } from "../../services/localStorage";
 import { Button, Grid, Typography } from "@mui/material";
@@ -16,7 +16,7 @@ import { Toast } from "../../helpers/Toast";
 import { AlertS } from "../../helpers/AlertS";
 import CalendarCModal from "./CalendarCModal";
 import Swal from "sweetalert2";
-import { UserReponse } from "../../interfaces/user/UserReponse";
+import { RESPONSE } from "../../interfaces/user/UserInfo";
 
 
 const CalendarC = () => {
@@ -27,15 +27,11 @@ const CalendarC = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
-  const [data, setData] = useState([]);
   const [id, setId] = useState("");
   const today = new Date();
 
-  //console.log("modo", modo);
 
   const onSelectEvent = (v: any) => {
-
-    //console.log(v);
     setId(v.id);
     setTipoOperacion(2);
     setModo("Editar Evento");
@@ -60,7 +56,6 @@ const CalendarC = () => {
     setTipoOperacion(1);
     setModo("Agregar Evento");
     setOpen(true);
-    //console.log("SelectSlot fecha inicio", Fecha_inicio, " Fecha fin ", Fecha_fin);
 
   };
 
@@ -73,13 +68,13 @@ const CalendarC = () => {
 
   const handleClose = () => {
     setOpen(false);
-    consulta({ NUMOPERACION: 4 });
+    consulta({ NUMOPERACION: 4, CHUSER: user.id });
   };
 
   const handleDelete = () => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este evento?",
+      title: "¿Estás seguro de eliminar éste evento?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -96,13 +91,13 @@ const CalendarC = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "Evento Eliminado!",
             });
 
             handleClose();
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -119,7 +114,7 @@ const CalendarC = () => {
       if (res.SUCCESS) {
         const even: calendario = res;
         let eveitem: eventoc[] = [];
-        even.RESPONSE.map((item: RESPONSE) => {
+        even.RESPONSE.map((item: RESPONSEC) => {
           let it = {
             id: item.id,
             title: item.NombreEvento,
@@ -129,14 +124,11 @@ const CalendarC = () => {
           };
           eveitem.push(it);
         });
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
+
         setEventos(eveitem);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -145,21 +137,14 @@ const CalendarC = () => {
   };
 
 
-
-  const moviendoEventos = (v: any) => {
-    //console.log(v);
-
-  }
-
   useEffect(() => {
-    consulta({ NUMOPERACION: 4 ,CHUSER:user.id});
+    consulta({ NUMOPERACION: 4, CHUSER: user.id });
   }, []);
 
   return (
     <>
       {open ? (
         <CalendarCModal
-          open={open}
           modo={modo}
           tipo={tipoOperacion}
           handleClose={handleClose}
@@ -169,13 +154,14 @@ const CalendarC = () => {
       ) : (
         ""
       )}
-      <Grid container spacing={1} paddingTop={4}>
+      <Grid container   justifyContent="flex-end" spacing={1} paddingTop={4}>
         <Grid
           item
-          xs={12}
+          xs={12} sm={4} md={2.6}
+           lg={2.5} xl={2}
           sx={{
-            paddingTop:"1%",
-            paddingRight:"2%",
+            paddingTop: "1%",
+            paddingRight: "2%",
             mb: 1,
             display: "flex",
             justifyContent: "right",
@@ -183,15 +169,16 @@ const CalendarC = () => {
         >
           <Button
             onClick={onClickAgregarEvento}
-            variant="contained"
-            startIcon={<AddIcon sx={{ color:"white" }} />}
+            className="agregar"
+            // variant="contained"
+            startIcon={<AddIcon className="IconoStartIcon" />}
           >
-           <Typography sx={{ color:"white" }} > Agregar Evento </Typography>
+            Agregar Evento
+
           </Button>
         </Grid>
       </Grid>
       <Calendar
-        
         culture="es"
         localizer={localizer}
         events={eventos}
@@ -201,7 +188,7 @@ const CalendarC = () => {
         endAccessor="end"
         style={{
           height: "calc( 80rem - 80% )",
-          margin:"2%",
+          margin: "2%",
         }}
         messages={getMessagesES()}
         onSelectEvent={(v) => onSelectEvent(v)}

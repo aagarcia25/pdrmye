@@ -1,4 +1,4 @@
-import { Box,     Card,     CardContent,  Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { Toast } from "../../../../../helpers/Toast";
@@ -11,8 +11,11 @@ import ModalForm from "../../../componentes/ModalForm";
 import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import ComentarioModal from "../../../componentes/ComentarioModal";
-import { Label } from "@mui/icons-material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { TooltipPersonalizado } from "../../../componentes/CustomizedTooltips";
+import React from "react";
 
 
 const CambiosMun = () => {
@@ -20,13 +23,16 @@ const CambiosMun = () => {
     const [bitacoraAjustes, setBitacoraAjustes] = useState([]);
     const user: RESPONSE = JSON.parse(String(getUser()));
     const [openModal, setOpenModal] = useState<boolean>(false);
+    // const [tablas, setTablas] =useState<SelectValues[]>([]);
+
+
     const [openValidacion, setOpenValidacion] = useState<boolean>(false);
     const [vrows, setVrows] = useState({});
     const [solicitud, setSolicitud] = useState<MunicipioCambios>();
     const [origen, setOrigen] = useState<MunicipioCambios>();
     const [labelCatalogo, setLabelCatalogo] = useState<string>();
     const [solicitante, setSolicitante] = useState<string>();
-    const [comentario, setComentario] = useState<string>();
+    const [comentario, setComentario] = useState<string>("");
     const [idCambio, setIdCambio] = useState<string>();
     const [idSolicitante, setIdSolicitante] = useState<string>();
     const [modoVer, setModoVer] = useState<boolean>(false);
@@ -38,21 +44,23 @@ const CambiosMun = () => {
             headerName: "Identificador",
             hide: true,
             width: 10,
+            hideable: false
         },
         {
             field: "IdRegistro",
             hide: true,
+            hideable: false
         },
         {
             field: "Tipo",
-            hide: true,
+            hide: true, hideable: false
         },
         {
             field: "Solicitud",
-            hide: true,
+            hide: true, hideable: false
         },
         {
-            field: "acciones",  disableExport: true,
+            field: "acciones", disableExport: true,
             headerName: "Acciones",
             description: "Campo de Acciones",
             sortable: false,
@@ -60,26 +68,31 @@ const CambiosMun = () => {
             renderCell: (v) => {
                 return (
                     <>
-                        {
-                            ((user.DEPARTAMENTOS[0].NombreCorto === "CPH" && user.PERFILES[0].Referencia === "COOR") && (v.row.Aplicado === 0 && v.row.deleted === "0") ? (
-                                <>
-                                    <Tooltip title="Atender Solicitud">
-                                        <IconButton color="info" onClick={() => handlevalidar(v)}>
-                                            <AssignmentTurnedInIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                </>
-                            ) :
-                                ""
-                            )
-                        }
+                      
                         <>
                             <Tooltip title="Ver Solicitud">
-                                <IconButton color="info" onClick={() => handlever(v)}>
+                                <IconButton color="inherit" onClick={() => handlever(v)}>
                                     <VisibilityIcon />
                                 </IconButton>
                             </Tooltip>
                         </>
+                          {
+                            (
+                                // (user.DEPARTAMENTOS[0].NombreCorto === "CPH"
+                                //     && user.PERFILES[0].Referencia === "COOR"
+                                // ) && 
+                                (v.row.Aplicado === 0 && v.row.deleted === "0") ? (
+                                    <>
+                                        <Tooltip title="Atender Solicitud">
+                                            <IconButton color="inherit" onClick={() => handlevalidar(v)}>
+                                                <AssignmentTurnedInIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </>
+                                ) :
+                                    ""
+                            )
+                        }
                     </>
                 );
             },
@@ -118,13 +131,13 @@ const CambiosMun = () => {
             field: "Comentario",
             headerName: "Comentario",
             description: "Comentario",
-            width: 180,
+            width: 400,
             renderCell: (v) => {
                 return (
                     <>
                         {
                             ((v.row.Comentario === null) ? (
-                                <> <label> Sin Comentarios</label>  </>) : <label> {v.row.Comentario}</label> )
+                                <> <label> Sin Comentarios</label>  </>) : <label> {v.row.Comentario}</label>)
                         }
                     </>
                 );
@@ -132,7 +145,7 @@ const CambiosMun = () => {
         },
         {
             field: "nombreMunicipio",
-            hide: true,
+            hide: true, hideable: false
         }
 
 
@@ -140,15 +153,16 @@ const CambiosMun = () => {
     ];
 
     const tablas = [
-        { tipo: 'MunPobrezaExt', label: 'Municipio Pobreza Extrema' },
-        { tipo: 'MunFacturacion', label: 'Municipio Facturación', },
-        { tipo: 'MunPobreza', label: 'Municipio Pobreza ', },
-        { tipo: 'MunProyec', label: 'Municipio Proyección', },
-        { tipo: 'MunRecaudacion', label: 'Municipio Recaudación', },
-        { tipo: 'MunRefrendos', label: 'Municipio Refrendos', },
-        { tipo: 'MunTerritorio', label: 'Municipio Territorio', },
-        { tipo: 'UMAS', label: 'UMAS', },
-        { tipo: 'MunFideicomiso', label: 'Municipio Fideicomiso', },
+        { value: 'MunPobrezaExt', label: 'Municipio Pobreza Extrema' },
+        { value: 'MunFacturacion', label: 'Municipio Facturación', },
+        { value: 'MunPobreza', label: 'Municipio Pobreza ', },
+        { value: 'MunProyec', label: 'Municipio Proyección', },
+        { value: 'MunRecaudacion', label: 'Municipio Recaudación', },
+        { value: 'MunRefrendos', label: 'Municipio Refrendos', },
+        { value: 'MunTerritorio', label: 'Municipio Territorio', },
+        { value: 'UMAS', label: 'UMAS', },
+        { value: 'MunPoblacion', label: 'Municipio Población', },
+
     ]
 
 
@@ -156,18 +170,19 @@ const CambiosMun = () => {
         setOpenModal(true);
         setModoVer(false);
         setVrows(v.row);
-        setComentario(v?.row?.Comentario);
+        // setComentario(v?.row?.Comentario);
         setSolicitud(JSON.parse(String(v.row.Solicitud)));
         setSolicitante(v?.row?.Solicitante)
         setIdSolicitante(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setOrigen(JSON.parse(String(v.row.Origen)));
-        setLabelCatalogo(String(tablas.find(({ tipo }) => tipo === v.row.Tipo)?.label));
+        setLabelCatalogo(String(tablas.find(({ value }) => value === v.row.Tipo)?.label));
         setIdCambio(v.row.id);
         setMunicipio(v?.row?.nombreMunicipio);
 
     };
 
     const handlever = (v: any) => {
+
         setOpenModal(true);
         setModoVer(true);
         setVrows(v.row);
@@ -176,19 +191,18 @@ const CambiosMun = () => {
         setSolicitante(v?.row?.Solicitante)
         setIdSolicitante(JSON.parse(String(v.row.Solicitud)).ModificadoPor);
         setOrigen(JSON.parse(String(v.row.Origen)));
-        setLabelCatalogo(String(tablas.find(({ tipo }) => tipo === v.row.Tipo)?.label));
+        setLabelCatalogo(String(tablas.find(({ value }) => value === v.row.Tipo)?.label));
         setIdCambio(v.row.id);
         setMunicipio(v?.row?.nombreMunicipio);
 
     };
 
-    const handleSolicitud = () => {
+    const handleComentario = () => {
         setOpenValidacion(true);
 
 
     };
     const acciones = (v: any) => {
-        //console.log(v);
 
         if (comentario) {
             Swal.fire({
@@ -209,16 +223,22 @@ const CambiosMun = () => {
                         COMENTARIO: comentario
                     }).then((res) => {
                         if (res.SUCCESS) {
-                            //console.log(res.RESPONSE)
-                            handleClose();
-                        } else {
-
                             AlertS.fire({
-                                title: "Error!",
-                                text: "Fallo en la peticion",
-                                icon: "error",
-
+                                title: v === "autorizar" ? "¡Cambio Autorizado!" : "¡Cambio Rechazado!",
+                                icon: "info",
+                
                             });
+                            handleClose();
+                        }
+                        else {
+                            handleClose();
+
+                            //     AlertS.fire({
+                            //         title: "¡¡Error!",
+                            //         text: "Fallo en la peticion",
+                            //         icon: "error",
+
+                            //     });
                         }
                     });
                 }
@@ -229,8 +249,8 @@ const CambiosMun = () => {
         } else {
 
             AlertS.fire({
-                title: "Error!",
-                text: "Campo Comenatrio Vacio",
+                title: "¡Error!",
+                text: "Campo Comentario Vacio",
                 icon: "error",
 
             });
@@ -239,27 +259,29 @@ const CambiosMun = () => {
 
     };
 
+
     const consulta = () => {
         CatalogosServices.BitacoraAjustes({ NUMOPERACION: 4 }).then((res) => {
             if (res.SUCCESS) {
-                Toast.fire({
-                    icon: "success",
-                    title: "Consulta Exitosa!",
-                });
-                console.log(res.RESPONSE);
+             
                 setBitacoraAjustes(res.RESPONSE);
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
             }
         });
+
+
+
+
     };
 
     const handleClose = () => {
         setOpenModal(false);
+        setComentario("");
         setOpenValidacion(false);
         consulta();
     };
@@ -268,21 +290,13 @@ const CambiosMun = () => {
 
     useEffect(() => {
         consulta();
-
     }, []);
 
     return (
         <>
 
-            <Grid container >
-                <Grid item sm={12}
-                    sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                    <Typography
-                        sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "3vw", color: "#000000", }}>
-                        Solicitud de Cambios
-                    </Typography>
-                </Grid>
-            </Grid>
+            <NombreCatalogo controlInterno={"SOLCAMBIOS"} />
+
             <Grid container
                 sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}
             >
@@ -296,124 +310,110 @@ const CambiosMun = () => {
 
             {openModal ?
                 (<>
-                    <ModalForm title={String(solicitud?.deleted) === "1" ? "Solicitud de Borrado de Campo" : "Solicitud de Cambio de Valores"} handleClose={handleClose}>
+                    <ModalForm
+                        title={String(solicitud?.deleted) === "1" ? "Solicitud de Borrado de Campo" : "Solicitud de Cambio de Valores"}
+                        handleClose={handleClose}>
 
                         <Box sx={{ width: '100%', typography: 'body1' }}>
 
-                            <Grid container direction="row" justifyContent="center" alignItems="center">
-                                <Typography>
-                                    <h3>{String("Catálogo  a Modificar: " + labelCatalogo)}</h3>
+                            <Grid container direction="column" justifyContent="center" alignItems="center" >
+                                <Typography className="h5-sol-cambios" variant="h5">
+                                    {String("Catálogo  a Modificar: " + labelCatalogo)}
                                 </Typography>
 
-
-                            </Grid>
-                            <Grid container direction="row" justifyContent="center" alignItems="center">
-                                <Typography>
-                                    <h3>{String("Solicitante: " + solicitante)}</h3>
+                                <Typography className="h5-sol-cambios" variant="h5">
+                                    {String("Solicitante: " + solicitante)}
                                 </Typography>
 
-
-                            </Grid>
-
-
-                            <Grid container direction="row" justifyContent="center" alignItems="center">
-                                <Typography>
-                                    <h3>{municipio !=null ? String("Municipio: " + municipio):""}</h3>
+                                <Typography className="h5-sol-cambios" variant="h5">
+                                    {municipio != null ? String("Municipio: " + municipio) : ""}
                                 </Typography>
 
 
                             </Grid>
 
-                            <Grid container direction="row" justifyContent="center" alignItems="center" >
-                                <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                                    <label>
-                                        <h4>{String("Valores Originales")}</h4>
-                                    </label>
+                            <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2}  >
 
-                                </Grid>
-
-                                {String(solicitud?.deleted) === "1" ? "" :
-                                    <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                                        <label>
-                                            <h4>{String("Cambios Solicitados")}</h4>
-                                        </label><br /><br /><br />
+                                <Grid item xs={12} sm={6} md={4} sx={{ alignItems: "center", justifyContent: "center", }}>
+                                    <Grid container item sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                                        <Typography className="Titulo-SolCambios" variant="h5">
+                                            Valores Originales
+                                        </Typography>
 
                                     </Grid>
-                                }
-
-                            </Grid>
-
-
-                            <Grid container direction="row" justifyContent="center" alignItems="center" >
-                                <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                                     <Card sx={{ minWidth: 275 }}>
                                         <CardContent>
                                             <Box>
 
 
-                                                {origen?.Anio ?        <Typography><h5>{"Año: "+               origen?.Anio}          <br/></h5></Typography>:""}
-                                                {origen?.Personas ?    <Typography><h5>{"Personas: "+          origen?.Personas}      <br/></h5></Typography>:""}
-                                                {origen?.CarenciaProm ?<Typography><h5>{"Carencia Promedio: "+ origen?.CarenciaProm}  <br/></h5></Typography>:""}
-                                                {origen?.Nombre ?      <Typography><h5>{"Nombre: "+            origen?.Nombre}        <br/></h5></Typography>:""}
-                                                {origen?.Porcentaje ?  <Typography><h5>{"Porcentaje "+         origen?.Porcentaje}    <br/></h5></Typography>:""}
-                                                {origen?.ClaveBancaria?<Typography><h5>{"Clave Bancaria: "+    origen?.ClaveBancaria} <br/></h5></Typography>:""}
-                                                {origen?.Cuenta ?      <Typography><h5>{"Cuenta: "+            origen?.Cuenta}        <br/></h5></Typography>:""}
-                                                {origen?.Importe ?     <Typography><h5>{"Importe: "+           origen?.Importe}       <br/></h5></Typography>:""}
-                                                {origen?.Coeficiente ? <Typography><h5>{"Coeficiente: "+       origen?.Coeficiente}   <br/></h5></Typography>:""}
-                                                {origen?.Version ?     <Typography><h5>{"Version: "+           origen?.Version}       <br/></h5></Typography>:""}
-                                                {origen?.totalPob ?    <Typography><h5>{"Poblacion Total: "+   origen?.totalPob}      <br/></h5></Typography>:""}
-                                                {Number(origen?.Facturacion) >= 0 ? <Typography><h5>{"Facturacion: "+       origen?.Facturacion}   <br/></h5></Typography>:""}
-                                                {origen?.Total ?       <Typography><h5>{"Total: "+             origen?.Total}         <br/></h5></Typography>:""}
-                                                {origen?.anio ?        <Typography><h5>{"Año: "+               origen?.anio}          <br/></h5></Typography>:""}
-                                                {origen?.Pob ?         <Typography><h5>{"Poblacion Total: "+   origen?.Pob}           <br/></h5></Typography>:""}
-                                                {origen?.Recaudacion ? <Typography><h5>{"Recaudacion: "+       origen?.Recaudacion}   <br/></h5></Typography>:""}
-                                                {origen?.Km2 ?         <Typography><h5>{"KM2: "+               origen?.Km2}           <br/></h5></Typography>:""}
-                                                {origen?.Mes ?         <Typography><h5>{"Mes: "+               origen?.Mes}           <br/></h5></Typography>:""}
-                                                {origen?.Movimientos ? <Typography><h5>{"Movimientos: "+       origen?.Movimientos}   <br/></h5></Typography>:""}
-                                                {origen?.Mensual ?     <Typography><h5>{"Mensual: "+           origen?.Mensual}       <br/></h5></Typography>:""}
-                                                {origen?.Anual ?       <Typography><h5>{"Anual: "+             origen?.Anual}         <br/></h5></Typography>:""}
-                                                {origen?.Diario ?      <Typography><h5>{"Diario: "+            origen?.Diario}        <br/></h5></Typography>:""}
+                                                {origen?.Anio ? <Typography variant="h6">{"Año: " + origen?.Anio}       <br />                  </Typography> : ""}
+                                                {origen?.Personas ? <Typography variant="h6">{"Personas: " + origen?.Personas}      <br />         </Typography> : ""}
+                                                {origen?.CarenciaProm ? <Typography variant="h6">{"Carencia Promedio: " + origen?.CarenciaProm}  <br /></Typography> : ""}
+                                                {origen?.Nombre ? <Typography variant="h6">{"Nombre: " + origen?.Nombre}        <br />           </Typography> : ""}
+                                                {origen?.Porcentaje ? <Typography variant="h6">{"Porcentaje " + origen?.Porcentaje}    <br />        </Typography> : ""}
+                                                {origen?.ClaveBancaria ? <Typography variant="h6">{"Clave Bancaria: " + origen?.ClaveBancaria} <br />   </Typography> : ""}
+                                                {origen?.Cuenta ? <Typography variant="h6">{"Cuenta: " + origen?.Cuenta}        <br />           </Typography> : ""}
+                                                {origen?.Importe ? <Typography variant="h6">{"Importe: " + origen?.Importe}       <br />          </Typography> : ""}
+                                                {origen?.Coeficiente ? <Typography variant="h6">{"Coeficiente: " + origen?.Coeficiente}   <br />      </Typography> : ""}
+                                                {origen?.Version ? <Typography variant="h6">{"Version: " + origen?.Version}       <br />          </Typography> : ""}
+                                                {origen?.totalPob ? <Typography variant="h6">{"Población Total: " + origen?.totalPob}      <br />  </Typography> : ""}
+                                                {Number(origen?.Facturacion) >= 0 ? <Typography variant="h6">{"Facturación: " + origen?.Facturacion}   <br />      </Typography> : ""}
+                                                {origen?.Total ? <Typography variant="h6">{"Total: " + origen?.Total}         <br />            </Typography> : ""}
+                                                {origen?.anio ? <Typography variant="h6">{"Año: " + origen?.anio}          <br />              </Typography> : ""}
+                                                {origen?.Pob ? <Typography variant="h6">{"Población Total: " + origen?.Pob}           <br />  </Typography> : ""}
+                                                {origen?.Recaudacion ? <Typography variant="h6">{"Recaudación: " + origen?.Recaudacion}   <br />      </Typography> : ""}
+                                                {origen?.Km2 ? <Typography variant="h6">{"KM2: " + origen?.Km2}           <br />              </Typography> : ""}
+                                                {origen?.Mes ? <Typography variant="h6">{"Mes: " + origen?.Mes}           <br />              </Typography> : ""}
+                                                {origen?.Movimientos ? <Typography variant="h6">{"Movimientos: " + origen?.Movimientos}   <br />      </Typography> : ""}
+                                                {origen?.Mensual ? <Typography variant="h6">{"Mensual: " + origen?.Mensual}       <br />          </Typography> : ""}
+                                                {origen?.Anual ? <Typography variant="h6">{"Anual: " + origen?.Anual}         <br />            </Typography> : ""}
+                                                {origen?.Diario ? <Typography variant="h6">{"Diario: " + origen?.Diario}        <br />           </Typography> : ""}
                                             </Box>
                                         </CardContent>
                                     </Card>
-
-                                    
-
                                 </Grid>
                                 {String(solicitud?.deleted) === "1" ? "" :
-                                    <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                                    <>
 
-                                        <Card sx={{ minWidth: 275 }}>
-                                            <CardContent>
-                                                <Box>
-                                                {solicitud?.Anio ?         <Typography><h5>{"Año: " +               solicitud?.Anio}                      <br/></h5></Typography>:""}
-                                                {solicitud?.Personas ?     <Typography><h5>{"Personas: " +          solicitud?.Personas}             <br/></h5></Typography>:""}
-                                                {solicitud?.CarenciaProm ? <Typography><h5>{"Carencia Promedio: " + solicitud?.CarenciaProm}<br/></h5></Typography>:""}
-                                                {solicitud?.Nombre ?       <Typography><h5>{"Nombre: " +            solicitud?.Nombre}                 <br/></h5></Typography>:""}
-                                                {solicitud?.Porcentaje ?   <Typography><h5>{"Porcentaje: " +        solicitud?.Porcentaje}         <br/></h5></Typography>:""}
-                                                {solicitud?.ClaveBancaria ?<Typography><h5>{"Clave Bancaria: " +    solicitud?.ClaveBancaria}  <br/></h5></Typography>:""}
-                                                {solicitud?.Cuenta ?       <Typography><h5>{"Cuenta: " +            solicitud?.Cuenta}                 <br/></h5></Typography>:""}
-                                                {solicitud?.Importe ?      <Typography><h5>{"Importe: " +           solicitud?.Importe}               <br/></h5></Typography>:""}
-                                                {solicitud?.Coeficiente ?  <Typography><h5>{"Coeficiente: " +       solicitud?.Coeficiente}       <br/></h5></Typography>:""}
-                                                {solicitud?.Version ?      <Typography><h5>{"Version: " +           solicitud?.Version}               <br/></h5></Typography>:""}
-                                                {solicitud?.totalPob ?     <Typography><h5>{"Poblacion Total: " +   solicitud?.totalPob}      <br/></h5></Typography>:""}
-                                                {Number(solicitud?.Facturacion) >= 0 ?  <Typography><h5>{"Facturacion: " +       solicitud?.Facturacion}       <br/></h5></Typography>:""}
-                                                {solicitud?.Total ?        <Typography><h5>{"Total: " + solicitud?.Total}                   <br/></h5></Typography>:""}
-                                                {solicitud?.anio ?         <Typography><h5>{"Año: " + solicitud?.anio}                      <br/></h5></Typography>:""}
-                                                {solicitud?.Pob ?          <Typography><h5>{"Poblacion Total: " + solicitud?.Pob}           <br/></h5></Typography>:""}
-                                                {solicitud?.Recaudacion ?  <Typography><h5>{"Recaudacion: " + solicitud?.Recaudacion}       <br/></h5></Typography>:""}
-                                                {solicitud?.Km2 ?          <Typography><h5>{"KM2: " + solicitud?.Km2}                       <br/></h5></Typography>:""}
-                                                {solicitud?.Mes ?          <Typography><h5>{"Mes: " + solicitud?.Mes}                       <br/></h5></Typography>:""}
-                                                {solicitud?.Movimientos ?  <Typography><h5>{"Movimientos: " + solicitud?.Movimientos}       <br/></h5></Typography>:""}
-                                                {solicitud?.Mensual ?      <Typography><h5>{"Mensual: " + solicitud?.Mensual}               <br/></h5></Typography>:""}
-                                                {solicitud?.Anual ?        <Typography><h5>{"Anual: " + solicitud?.Anual}                   <br/></h5></Typography>:""}
-                                                {solicitud?.Diario ?       <Typography><h5>{"Diario: " + solicitud?.Diario}                 <br/></h5></Typography>:""}
-                                                </Box>
-                                            </CardContent>
+                                        <Grid item xs={12} sm={6} md={4} sx={{ alignItems: "center", justifyContent: "center", }}>
+                                            <Grid container item sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                                                <Typography className="Titulo-SolCambios" variant="h5">
+                                                    Cambios Solicitados
+                                                </Typography>
 
-                                        </Card>
+                                            </Grid>
+                                            <Card sx={{ minWidth: 275 }}>
+                                                <CardContent>
+                                                    <Box>
+                                                        {solicitud?.Anio ? <Typography variant="h6">{"Año: " + solicitud?.Anio}                      <br /></Typography> : ""}
+                                                        {solicitud?.Personas ? <Typography variant="h6">{"Personas: " + solicitud?.Personas}             <br /></Typography> : ""}
+                                                        {solicitud?.CarenciaProm ? <Typography variant="h6">{"Carencia Promedio: " + solicitud?.CarenciaProm}<br /></Typography> : ""}
+                                                        {solicitud?.Nombre ? <Typography variant="h6">{"Nombre: " + solicitud?.Nombre}                 <br /></Typography> : ""}
+                                                        {solicitud?.Porcentaje ? <Typography variant="h6">{"Porcentaje: " + solicitud?.Porcentaje}         <br /></Typography> : ""}
+                                                        {solicitud?.ClaveBancaria ? <Typography variant="h6">{"Clave Bancaria: " + solicitud?.ClaveBancaria}  <br /></Typography> : ""}
+                                                        {solicitud?.Cuenta ? <Typography variant="h6">{"Cuenta: " + solicitud?.Cuenta}                 <br /></Typography> : ""}
+                                                        {solicitud?.Importe ? <Typography variant="h6">{"Importe: " + solicitud?.Importe}               <br /></Typography> : ""}
+                                                        {solicitud?.Coeficiente ? <Typography variant="h6">{"Coeficiente: " + solicitud?.Coeficiente}       <br /></Typography> : ""}
+                                                        {solicitud?.Version ? <Typography variant="h6">{"Version: " + solicitud?.Version}               <br /></Typography> : ""}
+                                                        {solicitud?.totalPob ? <Typography variant="h6">{"Poblacion Total: " + solicitud?.totalPob}      <br /></Typography> : ""}
+                                                        {Number(solicitud?.Facturacion) >= 0 ? <Typography variant="h6">{"Facturacion: " + solicitud?.Facturacion}       <br /></Typography> : ""}
+                                                        {solicitud?.Total ? <Typography variant="h6">{"Total: " + solicitud?.Total}                   <br /></Typography> : ""}
+                                                        {solicitud?.anio ? <Typography variant="h6">{"Año: " + solicitud?.anio}                      <br /></Typography> : ""}
+                                                        {solicitud?.Pob ? <Typography variant="h6">{"Poblacion Total: " + solicitud?.Pob}           <br /></Typography> : ""}
+                                                        {solicitud?.Recaudacion ? <Typography variant="h6">{"Recaudacion: " + solicitud?.Recaudacion}       <br /></Typography> : ""}
+                                                        {solicitud?.Km2 ? <Typography variant="h6">{"KM2: " + solicitud?.Km2}                       <br /></Typography> : ""}
+                                                        {solicitud?.Mes ? <Typography variant="h6">{"Mes: " + solicitud?.Mes}                       <br /></Typography> : ""}
+                                                        {solicitud?.Movimientos ? <Typography variant="h6">{"Movimientos: " + solicitud?.Movimientos}       <br /></Typography> : ""}
+                                                        {solicitud?.Mensual ? <Typography variant="h6">{"Mensual: " + solicitud?.Mensual}               <br /></Typography> : ""}
+                                                        {solicitud?.Anual ? <Typography variant="h6">{"Anual: " + solicitud?.Anual}                   <br /></Typography> : ""}
+                                                        {solicitud?.Diario ? <Typography variant="h6">{"Diario: " + solicitud?.Diario}                 <br /></Typography> : ""}
+                                                    </Box>
+                                                </CardContent>
 
-                                    </Grid>
+                                            </Card>
+
+                                        </Grid>
+                                    </>
                                 }
 
                             </Grid>
@@ -429,21 +429,36 @@ const CambiosMun = () => {
                                             flexDirection: "row",
                                         }}
                                     >
-                                        <Grid item xs={12} sm={12} md={6} lg={4}>
-                                            <TextField
-                                                required
-                                                spellCheck="true"
-                                                rows={8}
-                                                multiline
-                                                onChange={(v) => setComentario(v.target.value)}
-                                                style={{ width: "100%" }}
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                                inputProps={{
-                                                    maxLength: 300,
-                                                }}
-                                            />
+                                        <Grid item xs={12} sm={12} md={6} lg={4.5} xl={4}>
+
+                                            <TooltipPersonalizado
+
+                                                title={
+                                                    <>
+                                                        {!comentario ?
+                                                            <React.Fragment>
+                                                                <Typography color={comentario ? "inherit" : "error"}>
+                                                                    {comentario === "" || comentario === null || comentario?.trim() === "" ? "Campo obligatorio" : ""}  </Typography>
+                                                            </React.Fragment> : ""}
+                                                    </>
+                                                }>
+
+                                                <TextField
+                                                    error={!comentario}
+                                                    required
+                                                    spellCheck="true"
+                                                    rows={8}
+                                                    multiline
+                                                    onChange={(v) => setComentario(v.target.value)}
+                                                    style={{ width: "100%" }}
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                    inputProps={{
+                                                        maxLength: 300,
+                                                    }}
+                                                />
+                                            </TooltipPersonalizado>
                                         </Grid>
                                     </Grid>
                                     <br /><br />
@@ -451,12 +466,12 @@ const CambiosMun = () => {
 
                                         <Grid item xs={6} sm={6} md={4} lg={3} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                                             <Box >
-                                                <button className="guardar" onClick={() => acciones("autorizar")}>Autorizar Solicitud</button>
+                                                <Button disabled={String(comentario).length === 0 || comentario === "" || comentario === null || comentario?.trim() === ""} className={"agregar"} onClick={() => acciones("autorizar")}>Autorizar Solicitud</Button>
                                             </Box>
                                         </Grid>
                                         <Grid item xs={6} sm={6} md={4} lg={3} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                                             <Box>
-                                                <button className="regresar" onClick={() => acciones("cancelar")}> Cancelar Solicitud</button>
+                                                <Button disabled={!comentario || comentario === null || comentario?.trim() === ""} className={"cancelar"} onClick={() => acciones("cancelar")}> Cancelar Solicitud</Button>
                                             </Box>
                                         </Grid>
                                     </Grid>
@@ -492,8 +507,8 @@ const CambiosMun = () => {
 
                                             }}
                                         >
-                                            <Grid item xs={6} sm={6} md={4} lg={3}>
-                                                <Typography><h5>	{comentario}<br />	</h5></Typography>
+                                            <Grid className="containerShadow" item xs={6} sm={6} md={4} lg={3}>
+                                                <Typography variant="h6">	{comentario}<br />	</Typography>
                                             </Grid>
                                         </Grid>
                                     </>

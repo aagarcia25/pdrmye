@@ -1,25 +1,27 @@
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Toast } from "../../../../../helpers/Toast";
-import { AuthService } from "../../../../../services/AuthService";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import ConfiguracionRoles from "./ConfiguracionRoles";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
-import RolesModal from "./RolesModal";
-import EditIcon from "@mui/icons-material/Edit";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
 import Swal from "sweetalert2";
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'; 
 import { AlertS } from "../../../../../helpers/AlertS";
-
+import { Toast } from "../../../../../helpers/Toast";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { AuthService } from "../../../../../services/AuthService";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
+import ConfiguracionRoles from "./ConfiguracionRoles";
+import RolesModal from "./RolesModal";
+import AddchartIcon from '@mui/icons-material/Addchart';
+import ReportesControlAsignacion from "../../../Reportes/ReportesControlAsignacion";
 const Roles = () => {
   const [data, setData] = useState([]);
   const [dt, setDt] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openReportes, setOpenReportes] = useState(false);
   const [openRolesConf, setOpenRolesconf] = useState(false);
   const [id, setId] = useState("");
   const [nameRol, setNameRol] = useState("");
@@ -34,6 +36,7 @@ const Roles = () => {
   const handleClose = (v: string) => {
     setOpen(false);
     setOpenRolesconf(false);
+    setOpenReportes(false);
 
     {
       if (v === "saved") consulta({ NUMOPERACION: 4 });
@@ -52,6 +55,7 @@ const Roles = () => {
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Aceptar",
+      color: 'rgb(175, 140, 85)',
     }).then((result) => {
       if (result.isConfirmed) {
         AuthService.rolesindex(data).then((res) => {
@@ -63,7 +67,7 @@ const Roles = () => {
             consulta({ NUMOPERACION: 4 });
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -84,6 +88,12 @@ const Roles = () => {
     setOpenRolesconf(true);
   };
 
+  const handleOpenReportes = (v: any) => {
+    setOpenReportes(true);
+    setId(v.id);
+    setNameRol(v.row.Nombre)
+  };
+
   const handleEditarRegistro = (v: any) => {
     setTipoOperacion(2);
     setModo("Editar Rol");
@@ -99,7 +109,7 @@ const Roles = () => {
       width: 150,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -108,14 +118,19 @@ const Roles = () => {
         return (
           <Box>
             <Tooltip title={"Ver y Eliminar menus de el Rol"}>
-              <IconButton onClick={() => handleView(v)}>
+              <IconButton color="inherit" onClick={() => handleView(v)}>
                 <ManageAccountsIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title={"Ver y Eliminar Reportes de el Rol"}>
+              <IconButton color="inherit" onClick={() => handleOpenReportes(v)}>
+                <AddchartIcon />
+              </IconButton>
+            </Tooltip>
 
-             {editar ? (
+            {editar ? (
               <Tooltip title={"Editar  Descripción del Rol"}>
-                <IconButton onClick={() => handleEditarRegistro(v)}>
+                <IconButton color="inherit" onClick={() => handleEditarRegistro(v)}>
                   <EditIcon />
                 </IconButton>
               </Tooltip>
@@ -125,7 +140,7 @@ const Roles = () => {
 
             {eliminarP ? (
               <Tooltip title={"Eliminar Rol"}>
-                <IconButton onClick={() => eliminar(v)}>
+                <IconButton color="inherit" onClick={() => eliminar(v)}>
                   <DeleteForeverIcon />
                 </IconButton>
               </Tooltip>
@@ -136,24 +151,11 @@ const Roles = () => {
         );
       },
     },
-    {
-      field: "FechaCreacion",
-      headerName: "Fecha Creacion",
-      width: 200,
-    },
-    {
-      field: "CreadoPor",
-      headerName: "Creado Por",
-      width: 250,
-    },
-    {
-      field: "Nombre",
-      headerName: "Rol",
-      width: 250,
-    },
- 
-    { field: "Descripcion", headerName: "Descripcion", width: 450 },
-   
+    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 200, },
+    { field: "CreadoPor", headerName: "Creado Por", description: "Creado por", width: 250, },
+    { field: "Nombre", headerName: "Rol", description: "Rol", width: 250, },
+    { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 450 },
+
   ];
 
   const consulta = (data: any) => {
@@ -161,12 +163,12 @@ const Roles = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setData(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -199,23 +201,28 @@ const Roles = () => {
       ) : (
         ""
       )}
+
+
+      {
+        openReportes ?
+          <ReportesControlAsignacion idRol={id} NameRol={nameRol} handleClose={handleClose} />
+          : ""}
       {openRolesConf ? (
         <RolesModal
           modo={modo}
           handleClose={handleClose}
           tipo={tipoOperacion}
-          dt={dt} openRoles={false}        />
+          dt={dt} openRoles={false} />
       ) : (
         ""
       )}
-            <Grid container >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <Typography
-                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-                Roles
-              </Typography>
-            </Grid>
-            </Grid>
+      <Grid container >
+        <Grid item container sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+          <Typography variant="h3">
+            Roles
+          </Typography>
+        </Grid>
+      </Grid>
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />

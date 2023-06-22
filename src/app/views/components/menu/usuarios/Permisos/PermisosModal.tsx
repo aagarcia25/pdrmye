@@ -47,10 +47,10 @@ const PermisosModal = ({
       }
     });
   };
-  const handleSend = () => {
+  const handleSend = (cerrar: boolean) => {
     if (nombre === "" || descripcion === "" || referencia === "" || idMenu === "") {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -65,19 +65,19 @@ const PermisosModal = ({
         IDMENU: idMenu
 
       };
-      handleRequest(data);
+      handleRequest(data, cerrar);
     }
   };
 
 
-  const handleRequest = (data: any) => {
+  const handleRequest = (data: any, cerrar: boolean) => {
     let titulo = "";
     if (tipo === 1) {
       //AGREGAR
-      titulo = "Registro Agregado!";
+      titulo = "¡Registro Agregado!";
     } else if (tipo === 2) {
       //EDITAR
-      titulo = "Registro Editado!";
+      titulo = "¡Registro Editado!";
     }
 
     AuthService.permisosindex(data).then((res) => {
@@ -86,10 +86,17 @@ const PermisosModal = ({
           icon: "success",
           title: titulo,
         });
-        handleClose();
+        if (cerrar) {
+          handleClose();
+        } else {
+          setNombre("");
+          setdescripcion("");
+          setReferencia("");
+
+        }
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -112,80 +119,93 @@ const PermisosModal = ({
 
 
   return (
-    <div >
-      <Dialog open={open} fullScreen>
-        <ModalForm title={modo} handleClose={handleClose}>
-          <Box display="flex" justifyContent="center" boxShadow={2} maxWidth="100%" >
+    <ModalForm title={modo} handleClose={handleClose}>
+      <Box display="flex" justifyContent="center" boxShadow={2} maxWidth="100%" >
 
-            <Box maxWidth="100%" sx={{ padding: "2%" }}>
+        <Box maxWidth="100%" sx={{ padding: "2%" }}>
 
-              <Box maxWidth="65%">
-                <SelectFrag
-                  value={idMenu}
-                  options={menus}
-                  onInputChange={handleFilterChange2}
-                  placeholder={"Seleccione Menú"}
-                  label={""}
-                  disabled={modo !== "Agregar Registro"}
-                />
-              </Box>
-
-              <TextField
-                required
-                margin="dense"
-                id="nombre"
-                label="Nombre"
-                value={nombre}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setNombre(v.target.value)}
-                error={nombre === "" ? true : false}
-                InputProps={{
-                  readOnly: tipo === 1 ? false : true,
-                  inputMode: "numeric",
-                }}
-              />
-
-
-
-              <TextField
-                margin="dense"
-                required
-                id="descripcion"
-                label="Descripción"
-                value={descripcion}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setdescripcion(v.target.value)}
-                error={descripcion === "" ? true : false}
-
-              />
-
-              <TextField
-                margin="dense"
-                required
-                id="ci"
-                label="Control Interno"
-                value={referencia}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setReferencia(v.target.value)}
-                error={referencia === "" ? true : false}
-              />
-              <DialogActions>
-                  <Grid  container   direction="row" justifyContent="center" alignItems="center" >
-                    <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
-                </Grid>
-              </DialogActions>
-            </Box>
+          <Box maxWidth="65%">
+            <SelectFrag
+              value={idMenu}
+              options={menus}
+              onInputChange={handleFilterChange2}
+              placeholder={"Seleccione Menú"}
+              label={""}
+              disabled={modo !== "Agregar Registro"}
+            />
           </Box>
-        </ModalForm>
 
-      </Dialog>
-    </div>
+          <TextField
+            required
+            margin="dense"
+            id="nombre"
+            label="Nombre"
+            value={nombre}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setNombre(v.target.value)}
+            error={nombre === "" ? true : false}
+            inputProps={{ maxLength: 200 }}
+            InputProps={{
+              // readOnly: tipo === 1 ? false : true,
+              inputMode: "numeric",
+
+            }}
+          />
+
+
+
+          <TextField
+            margin="dense"
+            required
+            id="descripcion"
+            label="Descripción"
+            value={descripcion}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setdescripcion(v.target.value)}
+            error={descripcion === "" ? true : false}
+            inputProps={{ maxLength: 200 }}
+          />
+
+          <TextField
+            margin="dense"
+            required
+            id="ci"
+            label="Control Interno"
+            value={referencia}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(v) => setReferencia(v.target.value)}
+            error={referencia === "" ? true : false}
+            inputProps={{ maxLength: 50 }}
+            disabled={tipo !== 1}
+          />
+          <DialogActions>
+            <Grid container direction="row" justifyContent="space-between" alignItems="center" >
+              <Button
+                className={tipo === 1 ? "guardar" : "actualizar"}
+                onClick={() => handleSend(false)}
+                disabled={!referencia || !descripcion || !nombre || !idMenu || idMenu === "false"}
+              >
+                {tipo === 1 ? "Guardar" : "Actualizar"}
+              </Button>
+              <Button
+                className={tipo === 1 ? "guardar" : "actualizar"}
+                onClick={() => handleSend(true)}
+                disabled={!referencia || !descripcion || !nombre || !idMenu || idMenu === "false"}
+              >
+                {tipo === 1 ? "Guardar y Cerrar" : "Actualizar y Cerrar"}
+              </Button>
+            </Grid>
+          </DialogActions>
+        </Box>
+      </Box>
+    </ModalForm>
+
   )
 }
 

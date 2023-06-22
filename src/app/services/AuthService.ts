@@ -1,5 +1,7 @@
 import { User } from "../interfaces/user/User";
+import { RESPONSE } from "../interfaces/user/UserInfo";
 import { post, postEasy } from "./apiService";
+import { getToken, getUser } from "./localStorage";
 
 export class AuthService {
 
@@ -57,6 +59,11 @@ export class AuthService {
         return await post('usuarioRol', data);
     }
 
+    
+    public static async usuarioOrg(data: any) {
+        return await post('usuarioOrg', data);
+    }
+
     public static async FondosAjustes(data: any) {
         return await post('FondosAjustes', data);
     }
@@ -72,6 +79,9 @@ export class AuthService {
         return await post('RelacionarUsuarioRol', data);
     }
 
+    public static async RelacionarUsuarioOrg(data: any) {
+        return await post('RelacionarUsuarioOrg', data);
+    }
 
 
     public static async menusindex(data: any) {
@@ -104,6 +114,32 @@ export class AuthService {
     
     public static async SaveImagen(data: any) {
         return await post('SaveImagen', data);
+    }
+    public static async AdminAyudas(data: any) {
+        return await post('AdminAyudas', data);
+    }
+
+    
+    public static async GetImagenProfile(tipo: string,nameImagen:string) {
+        const user: RESPONSE = JSON.parse(String(getUser()));
+        const formData = new FormData();
+        formData.append("CHUSER", user.id);
+        formData.append("TOKEN", JSON.parse(String(getToken())));
+        formData.append("TIPO", tipo);
+        formData.append("IMG", nameImagen);
+
+
+        return await post('GetImagenProfile', formData);
+    }
+
+    public static async GetImagen(ruta: string,nameImagen:string) {
+        const formData = new FormData();
+        formData.append("TOKEN", JSON.parse(String(getToken())));
+        formData.append("RUTA", ruta);
+        formData.append("IMG", nameImagen);
+
+
+        return await post('GetImagen', formData);
     }
 
   

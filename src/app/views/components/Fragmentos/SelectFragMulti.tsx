@@ -22,6 +22,16 @@ const SelectFragMulti = ({
       isMulti
       options={options}
       placeholder={placeholder}
+      isClearable={true}
+      theme={(theme) => ({
+        ...theme,
+        borderRadius: 0,
+        colors: {
+          ...theme.colors,
+          primary25: '#41b883',
+          primary: 'rgb(175, 140, 85)',
+        },
+      })}
     />
   </div>
   )

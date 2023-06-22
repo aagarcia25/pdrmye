@@ -1,24 +1,24 @@
 
-import { useEffect, useState } from "react";
+import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
 import {
-  Dialog,
   Box,
   Button,
-  Typography,
+  Dialog,
   Grid,
+  TextField,
+  Typography,
 } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
-import { CatalogosServices } from "../../services/catalogosServices";
-import { Toast } from "../../helpers/Toast";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../helpers/AlertS";
-import SendIcon from '@mui/icons-material/Send';
-import { Imunicipio } from "../../interfaces/municipios/FilterMunicipios";
-import SelectFrag from "./Fragmentos/SelectFrag";
+import { Toast } from "../../helpers/Toast";
 import SelectValues from "../../interfaces/Select/SelectValues";
-import { getUser } from "../../services/localStorage";
 import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { MailServices } from "../../services/MailServices";
+import { CatalogosServices } from "../../services/catalogosServices";
+import { getUser } from "../../services/localStorage";
 import { COLOR } from "../../styles/colors";
+import SelectFrag from "./Fragmentos/SelectFrag";
 import Slider from "./Slider";
 
 const ListNotificationsModal = ({
@@ -69,12 +69,12 @@ const ListNotificationsModal = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Mensaje Leido!",
+          title: "¡Mensaje Leído!",
         });
 
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -131,7 +131,7 @@ const ListNotificationsModal = ({
 
         } else {
           AlertS.fire({
-            title: "Error!",
+            title: "¡Error!",
             text: "Revisar Valores",
             icon: "error",
           });
@@ -152,7 +152,7 @@ const ListNotificationsModal = ({
         setUsuarioSelect(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -219,28 +219,17 @@ const ListNotificationsModal = ({
               flexDirection: 'column',
               // borderRadius: 1,
             }}>
-              <Box sx={{
-                bgcolor: COLOR.grisDivisionEntreElementos,
-                display: 'flex',
-                justifyContent: 'space-between',
-                position: 'relative',
-
-              }}>
-                <Box sx={{
-                  position: 'relative',
-                  flexDirection: 'column',
-                  top: 1, left: 20,
-                  borderRadius: 0,
-                }}>
-                  <Typography variant="h5" color="white" paddingTop={1} paddingBottom={1}> Nuevo Mensaje </Typography>
-                </Box>
+              <Grid container justifyContent="space-between" item  className="HeaderModalH5">
+        
+                  <Typography variant="h5" className="HeaderEnviarMensaje" paddingTop={1} paddingLeft={1} paddingBottom={1}> Nuevo Mensaje </Typography>
+           
                 <Box padding={1}>
                   <button className="cerrar-nuevo-mensaje" color="error"
                     onClick={() => handleClose("cerrar")}>
                     <CloseIcon />
                   </button>
                 </Box>
-              </Box>
+              </Grid>
               <Box
                 sx={{
                   height: "100px",
@@ -278,10 +267,11 @@ const ListNotificationsModal = ({
                     paddingBottom: "1%"
                   }}>
                   <Typography variant="h6" paddingBottom={.2}> Asunto.. </Typography>
-                  <textarea
+                  <TextField
                     required
                     spellCheck='true'
                     rows={2}
+                    multiline
                     onChange={(v) => setNewEncabezado(v.target.value)}
                     style={{ width: "100%", borderRadius: 10, fontFamily: "sans-serif" }} />
                 </Box>
@@ -295,9 +285,10 @@ const ListNotificationsModal = ({
                   }}>
                   <Typography variant="h6" paddingBottom={.2}> Mensaje.. </Typography>
 
-                  <textarea
+                  <TextField
                     required
                     spellCheck='true'
+                    multiline
                     rows={8}
                     onChange={(v) => setNewMensaje(v.target.value)}
                     style={{ width: "100%", borderRadius: 10, }} />
@@ -370,10 +361,11 @@ const ListNotificationsModal = ({
                </Box>
 
               <Box sx={{ width:"98%", alignItems:"center"}}>
-                <textarea
+                <TextField
                   value={encabezado}
-                  readOnly
+                  disabled
                   rows={2}
+                  multiline
                   style={{ width: "100%", borderRadius: 15, }} />
               </Box>
 
@@ -386,10 +378,11 @@ const ListNotificationsModal = ({
                 </Box>
 
                 <Box sx={{ width:"98%", alignItems:"center"  }}>
-                  <textarea
+                  <TextField
                     value={mensaje}
-                    readOnly
+                    disabled
                     rows={15}
+                    multiline
                     onChange={(v) => setMensaje(v.target.value)}
                     style={{ width: "100%", borderRadius: 15, }} />
                 </Box>
@@ -453,10 +446,11 @@ const ListNotificationsModal = ({
             </Box>
 
             <Box sx={{ width:"98%", alignItems:"center", paddingTop:"1%" }}>
-              <textarea
+              <TextField
                 value={encabezado}
-                readOnly
+                disabled
                 rows={2}
+                multiline
                 style={{ width: "100%", borderRadius: 10, }} />
             </Box>
 
@@ -469,10 +463,11 @@ const ListNotificationsModal = ({
                 </Box>
 
                 <Box sx={{ width:"98%", alignItems:"center", paddingTop:"1%" }}>
-                <textarea
+                <TextField
                   value={mensaje}
-                  readOnly
+                  disabled
                   rows={15}
+                  multiline
                   onChange={(v) => setMensaje(v.target.value)}
                   style={{ width: "100%", borderRadius: 15, }} />
                 </Box>
@@ -528,10 +523,11 @@ const ListNotificationsModal = ({
               <Typography variant="h6"> Asunto </Typography>
             </Box>
             <Box sx={{ width:"98%", alignItems:"center"}}>
-              <textarea
+              <TextField
                 value={encabezado}
-                readOnly
+                disabled
                 rows={2}
+                multiline
                 style={{ width: "100%", borderRadius: 10, }} />
                 </Box>
             </Grid>
@@ -543,10 +539,11 @@ const ListNotificationsModal = ({
                 </Box>
 
                 <Box sx={{ width:"98%", alignItems:"center"  }}>
-                <textarea
+                <TextField
                   value={mensaje}
-                  readOnly
+                  disabled
                   rows={15}
+                  multiline
                   onChange={(v) => setMensaje(v.target.value)}
                   style={{ width: "100%", borderRadius: 15, }} />
                 </Box>

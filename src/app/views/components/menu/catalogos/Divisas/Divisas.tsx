@@ -13,6 +13,7 @@ import { getPermisos, getUser } from '../../../../../services/localStorage'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import ButtonsAdd from '../Utilerias/ButtonsAdd'
 import ModalForm from '../../../componentes/ModalForm'
+import NombreCatalogo from '../../../componentes/NombreCatalogo'
 
 export const Divisas = () => {
 
@@ -21,7 +22,6 @@ export const Divisas = () => {
     const [tipoOperacion, setTipoOperacion] = useState(1);
     const [data, setData] = useState({});
     const [divisas, setDivisas] = useState([]);
-    const [plantilla, setPlantilla] = useState("");
     const [slideropen, setslideropen] = useState(false);
     const user: RESPONSE = JSON.parse(String(getUser()));
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -55,7 +55,7 @@ export const Divisas = () => {
             width: 150,
         },
         {
-            field: "acciones",  disableExport: true,
+            field: "acciones", disableExport: true,
             headerName: "Acciones",
             description: "Campo de Acciones",
             sortable: false,
@@ -67,12 +67,12 @@ export const Divisas = () => {
                 );
             },
         },
-        { field: "FechaCreacion", headerName: "Fecha Creación", width: 200 },
-        { field: "Divisa", headerName: "Divisa", width: 150 },
-        { field: "Nombre", headerName: "Nombre", width: 150 },
-        { field: "Valor", headerName: "Valor", width: 150 },
-        { field: "Descripcion", headerName: "Descripcion", width: 150 },
-        
+        { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 200 },
+        { field: "Divisa", headerName: "Divisa", description: "Divisa", width: 150 },
+        { field: "Nombre", headerName: "Nombre", description: "Nombre", width: 150 },
+        { field: "Valor", headerName: "Valor", description: "Valor", width: 150 },
+        { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 150 },
+
 
 
     ];
@@ -119,7 +119,7 @@ export const Divisas = () => {
 
         if (!nombreCorto || !nombre || !valor || !descripcion) {
             AlertS.fire({
-                title: "Atencion",
+                title: "Atención",
                 text: "Verifique los campos",
                 icon: "warning",
             });
@@ -130,7 +130,7 @@ export const Divisas = () => {
 
             Swal.fire({
                 icon: "info",
-                title: tipoOperacion === 1 ? "Agregar Divisa o Tipo de Cambio?" : "Editar Divisa o Tipo de Cambio?",
+                title: tipoOperacion === 1 ? "¿Agregar Divisa o Tipo de Cambio?" : "¿Editar Divisa o Tipo de Cambio?",
                 showDenyButton: true,
                 showCancelButton: false,
                 confirmButtonText: "Confirmar",
@@ -153,13 +153,13 @@ export const Divisas = () => {
                         if (res.SUCCESS) {
                             Toast.fire({
                                 icon: "success",
-                                title: tipoOperacion === 1 ? "Registro Agregado!" : "Registro Editado!",
+                                title: tipoOperacion === 1 ? "¡Registro Agregado!" : "¡Registro Editado!",
                             });
 
                             handleClose();
                         } else {
                             AlertS.fire({
-                                title: "Error!",
+                                title: "¡Error!",
                                 text: res.STRMESSAGE,
                                 icon: "error",
                             });
@@ -178,7 +178,7 @@ export const Divisas = () => {
     const handleDelete = (v: any) => {
         Swal.fire({
             icon: "info",
-            title: "Estas seguro de eliminar este registro?",
+            title: "¿Estás seguro de eliminar este registro?",
             showDenyButton: true,
             showCancelButton: false,
             confirmButtonText: "Confirmar",
@@ -198,13 +198,13 @@ export const Divisas = () => {
                     if (res.SUCCESS) {
                         Toast.fire({
                             icon: "success",
-                            title: "Registro Eliminado!",
+                            title: "¡Registro Eliminado!",
                         });
 
                         handleClose();
                     } else {
                         AlertS.fire({
-                            title: "Error!",
+                            title: "¡Error!",
                             text: res.STRMESSAGE,
                             icon: "error",
                         });
@@ -283,18 +283,10 @@ export const Divisas = () => {
     return (
 
 
-        <div style={{ height: 600, width: "100%", padding:"1%" }}>
+        <div style={{ height: 600, width: "100%", padding: "1%" }}>
             <Slider open={slideropen}></Slider>
 
-            <Grid container
-                sx={{ justifyContent: "center" }}>
-                <Grid item xs={10} sx={{ textAlign: "center" }}>
-                    <Typography>
-                        <h1>{nombreMenu}</h1>
-                    </Typography>
-                </Grid>
-            </Grid>
-
+            <NombreCatalogo controlInterno={"DIVISAS"} />
 
             <Grid container sx={{ justifyContent: "center" }}  >
                 <Grid item xs={12} sx={{ textAlign: "left" }}>
@@ -308,90 +300,90 @@ export const Divisas = () => {
             {open ?
                 <ModalForm title={'Agregar Divisa o Tipo de Cambio'} handleClose={handleClose}>
                     <Grid container sx={{ justifyContent: "center" }} direction="row" columns={{ md: 12 }}>
-                    <Box boxShadow={3} sx={{ width:"100%", padding:"2%" }}>  
- 
-                        <Grid item md={12}direction="row"  sx={{ textAlign: "center" }}>
+                        <Box boxShadow={3} sx={{ width: "100%", padding: "2%" }}>
 
-                            <Box display="flex" justifyContent="center" m={0} p={0} sx={{ width:"100%", paddingBottom:"2%" }} > 
-                            <Box sx={{ width:"40%" }} >
-                            <TextField
-                                required
-                                margin="dense"
-                                id="Nombre"
-                                label="Nombre Corto"
-                                value={nombreCorto}
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                onChange={(v) => setNombreCorto(v.target.value)}
-                                error={!nombreCorto ? true : false}
-                                InputLabelProps={{ shrink: true }}
-                            />
+                            <Grid item md={12} direction="row" sx={{ textAlign: "center" }}>
 
-                            <TextField
-                                required
-                                margin="dense"
-                                id="Nombre"
-                                label="Nombre"
-                                value={nombre}
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                onChange={(v) => setNombre(v.target.value)}
-                                error={!nombre ? true : false}
-                                InputLabelProps={{ shrink: true }}
-                            />
-                            <TextField
-                                required
-                                margin="dense"
-                                id="Nombre"
-                                label="Valor"
-                                value={valor}
-                                type="number"
-                                fullWidth
-                                variant="standard"
-                                onChange={(v) => setValor(v.target.value)}
-                                error={!valor ? true : false}
-                                InputLabelProps={{ shrink: true }}
-                            />
-                            <TextField
-                                required
-                                margin="dense"
-                                id="Divisa"
-                                label="Divisa"
-                                value={divisa}
-                                type="number"
-                                fullWidth
-                                variant="standard"
-                                onChange={(v) => setDivisa(v.target.value)}
-                                error={!divisa ? true : false}
-                                InputLabelProps={{ shrink: true }}
-                            />
-                            <TextField
-                                required
-                                margin="dense"
-                                id="Nombre"
-                                label="Descripcion"
-                                value={descripcion}
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                onChange={(v) => setDescripcion(v.target.value)}
-                                error={!descripcion ? true : false}
-                                InputLabelProps={{ shrink: true }}
-                            />
-                            </Box>
-                            </Box>
-                        </Grid>
-                         
-                        <Grid item md={12} sx={{ textAlign: "center" }}>
-                            <Tooltip title="Agregar">
-                                <Button className={tipoOperacion === 1 ? "guardar" : "actualizar"} value="check" onClick={() => handleNuevo()}>
-                                    {tipoOperacion === 1 ? "Guardar" : "Actualizar"}
-                                </Button>
-                            </Tooltip>
-                        </Grid>
-                    </Box>
+                                <Box display="flex" justifyContent="center" m={0} p={0} sx={{ width: "100%", paddingBottom: "2%" }} >
+                                    <Box sx={{ width: "40%" }} >
+                                        <TextField
+                                            required
+                                            margin="dense"
+                                            id="Nombre"
+                                            label="Nombre Corto"
+                                            value={nombreCorto}
+                                            type="text"
+                                            fullWidth
+                                            variant="standard"
+                                            onChange={(v) => setNombreCorto(v.target.value)}
+                                            error={!nombreCorto ? true : false}
+                                            InputLabelProps={{ shrink: true }}
+                                        />
+
+                                        <TextField
+                                            required
+                                            margin="dense"
+                                            id="Nombre"
+                                            label="Nombre"
+                                            value={nombre}
+                                            type="text"
+                                            fullWidth
+                                            variant="standard"
+                                            onChange={(v) => setNombre(v.target.value)}
+                                            error={!nombre ? true : false}
+                                            InputLabelProps={{ shrink: true }}
+                                        />
+                                        <TextField
+                                            required
+                                            margin="dense"
+                                            id="Nombre"
+                                            label="Valor"
+                                            value={valor}
+                                            type="number"
+                                            fullWidth
+                                            variant="standard"
+                                            onChange={(v) => setValor(v.target.value)}
+                                            error={!valor ? true : false}
+                                            InputLabelProps={{ shrink: true }}
+                                        />
+                                        <TextField
+                                            required
+                                            margin="dense"
+                                            id="Divisa"
+                                            label="Divisa"
+                                            value={divisa}
+                                            type="number"
+                                            fullWidth
+                                            variant="standard"
+                                            onChange={(v) => setDivisa(v.target.value)}
+                                            error={!divisa ? true : false}
+                                            InputLabelProps={{ shrink: true }}
+                                        />
+                                        <TextField
+                                            required
+                                            margin="dense"
+                                            id="Nombre"
+                                            label="Descripcion"
+                                            value={descripcion}
+                                            type="text"
+                                            fullWidth
+                                            variant="standard"
+                                            onChange={(v) => setDescripcion(v.target.value)}
+                                            error={!descripcion ? true : false}
+                                            InputLabelProps={{ shrink: true }}
+                                        />
+                                    </Box>
+                                </Box>
+                            </Grid>
+
+                            <Grid item md={12} sx={{ textAlign: "center" }}>
+                                <Tooltip title="Agregar">
+                                    <Button className={tipoOperacion === 1 ? "guardar" : "actualizar"} value="check" onClick={() => handleNuevo()}>
+                                        {tipoOperacion === 1 ? "Guardar" : "Actualizar"}
+                                    </Button>
+                                </Tooltip>
+                            </Grid>
+                        </Box>
                     </Grid>
                 </ModalForm> : ""}
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box, Grid, IconButton, Tooltip, Typography,    } from '@mui/material'
+import { Box, Grid, IconButton, Tooltip, Typography, } from '@mui/material'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { Toast } from "../../../../../helpers/Toast";
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -12,6 +12,7 @@ import { getPermisos, getUser } from '../../../../../services/localStorage';
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import { AlertS } from '../../../../../helpers/AlertS';
+import NombreCatalogo from '../../../componentes/NombreCatalogo';
 
 
 export const Avisos = () => {
@@ -27,47 +28,47 @@ export const Avisos = () => {
   const user: RESPONSE = JSON.parse(String(getUser()));
   const columns: GridColDef[] = [
 
-    { field: "id", headerName: "Identificador", hide: true, width: 150},
-    { field: "fechaInicio", headerName: "Fecha de Inicio", width: 200 },
-    { field: "FechaFin", headerName: "Expiracion", width: 200 },
-    { field: "Nombre", headerName: "Nombre", width: 250 },
-    { field: "Descripcion", headerName: "Descripcion", width: 500 },
+    { field: "id", hide: true,  },
     {
-      field: "Documento", headerName: "Documento", width: 100, renderCell: (v) => {
-        return (
-          <Box>
-            <Tooltip title="Visualizar">
-            <IconButton onClick={() => handleVisualizar(v)}>
-              <VisibilityIcon />
-            </IconButton>
-            </Tooltip>
-          </Box>
-        );
-      }
-    },
-    {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 200,
+      width: 150,
       renderCell: (v) => {
         return (
           <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar} ></BotonesAcciones>
         );
       },
     },
-    { field: "NombreDocumento", headerName: "NombreDocumento", hide: true, width: 150, },
+    {
+      field: "Documento", headerName: "Documento", description: "Documento",  width: 100, renderCell: (v) => {
+        return (
+          <Box>
+            <Tooltip title="Visualizar">
+              <IconButton onClick={() => handleVisualizar(v)}>
+                <VisibilityIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      }
+    },
+    { field: "fechaInicio",     headerName: "Fecha",          description: "Fecha", width: 200 },
+    { field: "FechaFin",        headerName: "Expiración",     description: "Expiración",      width: 200 },
+    { field: "Nombre",          headerName: "Nombre",         description: "Nombre",          width: 250 },
+    { field: "Descripcion",     headerName: "Descripción",    description: "Descripción",     width: 500, },
+    { field: "NombreDocumento", headerName: "Documento",description: "Documento", hide: true, width: 150, },
   ];
 
 
   const handleAccion = (v: any) => {
-    if(v.tipo ===1){
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setModo("Editar");
       setOpen(true);
       setData(v.data);
-    }else if(v.tipo ===2){
+    } else if (v.tipo === 2) {
       handleBorrar(v.data);
     }
   }
@@ -76,7 +77,7 @@ export const Avisos = () => {
 
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -86,7 +87,7 @@ export const Avisos = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER:String(user.id)
+          CHUSER: String(user.id)
         };
 
 
@@ -94,7 +95,7 @@ export const Avisos = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
 
             let data = {
@@ -104,7 +105,7 @@ export const Avisos = () => {
             consulta(data);
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -137,15 +138,15 @@ export const Avisos = () => {
 
 
 
-  const handleClose = (v:string) => {
-if(v==="save"){
-  let data = {
-    NUMOPERACION: 4,
-    CHUSER: String(user.id),
-  };
-  consulta(data);
+  const handleClose = (v: string) => {
+    if (v === "save") {
+      let data = {
+        NUMOPERACION: 4,
+        CHUSER: String(user.id),
+      };
+      consulta(data);
 
-}
+    }
 
     setOpen(false);
 
@@ -156,12 +157,12 @@ if(v==="save"){
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setAvisos(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -172,7 +173,7 @@ if(v==="save"){
 
   let dat = ({
     NUMOPERACION: 4,
-    CHUSER:String(user.id)
+    CHUSER: String(user.id)
   })
 
 
@@ -198,11 +199,9 @@ if(v==="save"){
   }, []);
 
 
-  return (
-
-    <div style={{ height: 600, width: "100%", paddingTop:"2%", paddingLeft:"1%", paddingRight:"1%"}} >
-
-      {open ? (
+  return (   
+    <>
+    {open ? (
         <AvisosModal
           open={open}
           modo={modo}
@@ -213,21 +212,22 @@ if(v==="save"){
       ) : (
         ""
       )}
-      <Grid container >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Typography
-                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
-                Avisos
-              </Typography>
-            </Grid>
-            </Grid>
-            
+
+    <div style={{ height: 600, width: "100%", paddingTop: "2%", paddingLeft: "1%", paddingRight: "1%" }} >
+      <Grid container justifyContent="space-between">
+        <Grid item md={12} textAlign="center" >
+          <Typography variant="h3" >
+            {"Avisos"}
+          </Typography>
+        </Grid>
+      </Grid>
+
       <Box>
       </Box>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={conAvisos} />
     </div>
-
+    </>
 
   )
 }

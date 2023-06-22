@@ -1,18 +1,22 @@
-import { useEffect, useState } from "react";
+import { Grid } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { messages } from "../../../../styles";
-import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
-import InflacionAnioModal from "./InflacionAnioModal";
+import { Toast } from "../../../../../helpers/Toast";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { fanios } from "../../../../../share/loadAnios";
+import { messages } from "../../../../styles";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
-import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import { porcentage } from "../../CustomToolbar";
+import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import InflacionAnioModal from "./InflacionAnioModal";
 
 
 const InflacionAnio = () => {
@@ -27,6 +31,31 @@ const InflacionAnio = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [agregar, setAgregar] = useState<boolean>(false);
+  const [plantilla, setPlantilla] = useState("");
+  const [anios, setAnios] = useState<SelectValues[]>([]);
+
+  // VARIABLES PARA LOS FILTROS
+  const [filterAnio, setFilterAnio] = useState("");
+  //funciones
+
+  const handleFilterChange = (v: string) => {
+    setFilterAnio(v);
+
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: v,
+    };
+    if (v !== "false") {
+      setFilterAnio(v);
+      consulta(data);
+    } else {
+      consulta({ NUMOPERACION: 4, ANIO: "", });
+      setFilterAnio("");
+
+    }
+  };
+
+
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -36,7 +65,7 @@ const InflacionAnio = () => {
       description: messages.dataTableColum.id,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones", disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -48,15 +77,15 @@ const InflacionAnio = () => {
         );
       },
     },
-    { field: "Anio",      headerName: "Año",      description: "Año",       width: 150 },
-    { field: "Inflacion", headerName: "Inflación",description: "Inflación", width: 150 , ...porcentage  },
+    { field: "Anio", headerName: "Año", description: "Año", width: 150 },
+    { field: "Inflacion", headerName: "Inflación", description: "Inflación", width: 150, ...porcentage },
 
   ];
 
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
       setTipoOperacion(2);
-      setModo("Editar ");
+      setModo("Editar");
       setOpen(true);
       setVrows(v.data);
     } else if (v.tipo === 2) {
@@ -85,7 +114,7 @@ const InflacionAnio = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -105,14 +134,14 @@ const InflacionAnio = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
 
             consulta({ NUMOPERACION: 4 });
 
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -128,14 +157,10 @@ const InflacionAnio = () => {
   const consulta = (data: any) => {
     CatalogosServices.inflacionAnio(data).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Consulta Exitosa!",
-        });
         setDataInflacionAnio(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -145,7 +170,7 @@ const InflacionAnio = () => {
 
 
   useEffect(() => {
-
+    setAnios(fanios());
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "INFANIO") {
         if (String(item.Referencia) === "AGREG") {
@@ -163,7 +188,7 @@ const InflacionAnio = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <>
       {open ? (
         <InflacionAnioModal
           open={open}
@@ -175,13 +200,31 @@ const InflacionAnio = () => {
       ) : (
         ""
       )}
+
       <NombreCatalogo controlInterno={"INFANIO"} />
+      <Grid item xs={12} container  justifyContent={"space-between"}>
+        <Grid item xs={2}>  <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+        </Grid>
+        <Grid item xs={2}>  <SelectFrag
+          value={plantilla}
+          options={anios}
+          onInputChange={handleFilterChange}
+          placeholder={"Seleccione Año"}
+          label={""}
+          disabled={false}
+        /> 
+        </Grid>
+       
 
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGridMun columns={columns} rows={dataInflacionAnio} modulo={"INFANIO"} handleBorrar={handleBorrar} controlInterno={"INFANIO"} />
+      </Grid>
+      <div style={{ height: 600, width: "100%" }}>
+        <MUIXDataGridMun columns={columns} rows={dataInflacionAnio} modulo={"INFANIO"} handleBorrar={handleBorrar} controlInterno={"INFANIO"} />
 
-      
-    </div>
+
+      </div>
+
+    </>
+
   )
 }
 

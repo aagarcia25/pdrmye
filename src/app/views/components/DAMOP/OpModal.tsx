@@ -1,15 +1,16 @@
+import { DialogContent, Grid, TextField } from "@mui/material";
+import { GridColDef } from '@mui/x-data-grid';
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import { DialogContent, Grid, TextField } from "@mui/material";
 import Swal from "sweetalert2";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getUser } from "../../../services/localStorage";
-import { CatalogosServices } from '../../../services/catalogosServices';
-import { Toast } from '../../../helpers/Toast';
 import validator from 'validator';
 import { AlertS } from '../../../helpers/AlertS';
+import { Toast } from '../../../helpers/Toast';
+import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { CatalogosServices } from '../../../services/catalogosServices';
+import { getUser } from "../../../services/localStorage";
+import MUIXDataGridSimple from '../MUIXDataGridSimple';
 import ModalForm from '../componentes/ModalForm';
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 
 
 const steps = ['Campos Obligatorios', 'Carga de Archivo ', 'Finalizar Solicitud'];
@@ -65,7 +66,7 @@ export const OpModal = (
         }
         else {
             AlertS.fire({
-                title: "Atencion",
+                title: "Atención",
                 text: sizeFile ? "Tamaño de archivo Exedido -Limitado a 3Mb-" : "Verificar los campos",
                 icon: "info",
             });
@@ -121,7 +122,7 @@ export const OpModal = (
 
                                         } else {
                                             AlertS.fire({
-                                                title: "Error!",
+                                                title: "¡Error!",
                                                 text: "Fallo en la carga",
                                                 icon: "error",
                                             });
@@ -138,7 +139,7 @@ export const OpModal = (
 
                             } else {
                                 AlertS.fire({
-                                    title: "Error!",
+                                    title: "¡Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",
                                 });
@@ -174,7 +175,7 @@ export const OpModal = (
 
                             } else {
                                 AlertS.fire({
-                                    title: "Error!",
+                                    title: "¡Error!",
                                     text: "Fallo en la peticion",
                                     icon: "error",
                                 });
@@ -308,7 +309,7 @@ export const OpModal = (
                         </Grid>
                         <Grid item xs={6} >
                             <label className='subtitulo'>{"Fecha de Solicitud:  "}</label>
-                            <label className='contenido'>{data.FechaCreacion.slice(0,10)}</label>
+                            <label className='contenido'>{data.FechaCreacion.slice(0, 10)}</label>
                             <br />
                             <label className='contenido'>{data.Concepto}</label>
                             <br />
@@ -319,46 +320,11 @@ export const OpModal = (
 
 
 
+                <MUIXDataGridSimple columns={columns} rows={[]} />
 
-                <div style={{ height: 350, width: "100%", paddingRight: "1%", paddingLeft: "1%", paddingBottom: "1%" }}>
-                    <DataGrid
-                        columns={columns}
-                        rows={[]}
-                        density="compact"
-                        rowsPerPageOptions={[10, 25, 50, 100]}
-                        disableSelectionOnClick
-                        disableColumnFilter
-                        disableColumnSelector
-                        disableDensitySelector
-                        getRowHeight={() => 'auto'}
-                        components={{ Toolbar: GridToolbar }}
-                        sx={{ fontFamily: "Poppins,sans-serif" }}
-                        componentsProps={{
-                            toolbar: {
-                                label: "Buscar",
-                                showQuickFilter: true,
-                                quickFilterProps: { debounceMs: 500 },
-                            },
-                        }}
-                        localeText={{
-                            noRowsLabel: "No se ha encontrado datos.",
-                            noResultsOverlayLabel: "No se ha encontrado ningún resultado",
-                            toolbarColumns: "Columnas",
-                            toolbarExport: "Exportar",
-                            toolbarColumnsLabel: "Seleccionar columnas",
-                            toolbarFilters: "Filtros",
-                            toolbarFiltersLabel: "Ver filtros",
-                            toolbarFiltersTooltipHide: "Quitar filtros",
-                            toolbarFiltersTooltipShow: "Ver filtros",
-                            toolbarQuickFilterPlaceholder: "Buscar",
-
-                        }}
-
-                    />
-                </div>
 
                 <Grid container>
-                    <Grid item xs={3}  textAlign="right">
+                    <Grid item xs={3} textAlign="right">
                         <label className='subtitulo'>Observaciones:</label>
                     </Grid>
                     <Grid item xs={6} >

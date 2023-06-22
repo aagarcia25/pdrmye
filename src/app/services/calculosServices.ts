@@ -10,6 +10,10 @@ export class calculosServices {
         return await post('calculosInfodetalle', data);
     }
 
+    public static async calculosdetail(data: any) {
+        return await post('calculosdetail', data);
+    }
+
     public static async indexCalculo(data: any) {
         return await post('indexCalculo', data);
     }
@@ -60,9 +64,6 @@ export class calculosServices {
         return await post('getAreaCalculo', data);
     }
     
-    public static async CalculoArchivo(data: any) {
-        return await post('CalculoArchivo', data);
-    }
 
     public static async spcalculo(data: any) {
         return await post('spcalculo', data);
@@ -72,6 +73,9 @@ export class calculosServices {
         return await post('getResponsable', data);
     }
     
+    public static async ReCalculo(data: any) {
+        return await post('ReCalculo', data);
+    }
     
     
     

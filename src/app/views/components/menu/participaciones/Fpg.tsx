@@ -1,24 +1,27 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
+import InfoIcon from "@mui/icons-material/Info";
+import InsightsIcon from "@mui/icons-material/Insights";
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { currencyFormatter, Moneda } from "../CustomToolbar";
-import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
-import { calculosServices } from "../../../../services/calculosServices";
-import { Toast } from "../../../../helpers/Toast";
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import { AlertS } from "../../../../helpers/AlertS";
-import InfoIcon from "@mui/icons-material/Info";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import InsightsIcon from "@mui/icons-material/Insights";
+import { Toast } from "../../../../helpers/Toast";
 import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
-import Trazabilidad from "../../Trazabilidad";
-import Slider from "../../Slider";
-import DetalleFgp from "./DetalleFgp";
-import { FPG, PERMISO } from "../../../../interfaces/user/UserInfo";
-import { getPermisos } from "../../../../services/localStorage";
-import ModalNew from "./ModalNew";
-import ModalAjuste from "./ModalAjuste";
+import { FPG, PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { calculosServices } from "../../../../services/calculosServices";
+import { getPermisos, getUser } from "../../../../services/localStorage";
 import MUIXDataGridMun from "../../MUIXDataGridMun";
+import Slider from "../../Slider";
+import Trazabilidad from "../../Trazabilidad";
+import { TooltipPersonalizado } from "../../componentes/CustomizedTooltips";
+import { Moneda, currencyFormatter } from "../CustomToolbar";
+import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
+import DetalleFgp from "./DetalleFgp";
+import ModalAjuste from "./ModalAjuste";
+import ModalNew from "./ModalNew";
 
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
@@ -34,12 +37,14 @@ export const Fpg = () => {
   const [clave, setClave] = useState("");
   const [agregar, setAgregar] = useState<boolean>(false);
   const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
+  const [cancelar, setCancelar] = useState<boolean>(false);
+
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [objfondo, setObjFondo] = useState<fondoinfo>();
   const [idDetalle, setIdDetalle] = useState("");
   const [nombreMenu, setNombreMenu] = useState("");
   const [sumaTotal, setSumaTotal] = useState<Number>();
-
+  const user: RESPONSE = JSON.parse(String(getUser()));
 
 
   const closeTraz = (v: any) => {
@@ -50,9 +55,6 @@ export const Fpg = () => {
     setOpenTrazabilidad(true);
   };
 
-  const handleHeader = (v: any) => {
-    console.log(v)
-  };
 
 
   const handleOpen = (v: any) => {
@@ -72,7 +74,6 @@ export const Fpg = () => {
   };
 
   const handleDetalle = (v: any) => {
-    console.log(v.row)
     setIdtrazabilidad(v.row.id);
     setClave(v.row.Clave)
     setIdDetalle(String(v.row.id));
@@ -95,7 +96,7 @@ export const Fpg = () => {
       renderCell: (v) => {
         return (
           <Box>
-            <Tooltip title="Ver detalle de Cálculo">
+            <Tooltip title="Ver Detalle de Cálculo">
               <IconButton onClick={() => handleDetalle(v)}>
                 <InfoIcon />
               </IconButton>
@@ -125,6 +126,16 @@ export const Fpg = () => {
             ) : (
               ""
             )}
+
+            {cancelar ? (
+              <Tooltip title={"Cancelar"}>
+                <IconButton onClick={() => BorraCalculo(v)}>
+                  <CancelPresentationIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
           </Box>
         );
       },
@@ -136,12 +147,12 @@ export const Fpg = () => {
       width: 180,
       description: "Fecha Creación",
     },
-    {
+    /*{
       field: "Clave",
       headerName: "Clave",
       width: 150,
       description: "Clave Fondo",
-    },
+    },*/
     {
       field: "Descripcion",
       headerName: "Descripción",
@@ -172,9 +183,10 @@ export const Fpg = () => {
       width: 180,
       description: "Total",
       ...Moneda,
-      renderHeader: () => (
+      renderHeader: (v) => (
         <>
-          {"Total: " + currencyFormatter.format(Number(sumaTotal))}
+
+          {v.field ? "Total: " + currencyFormatter.format(Number(sumaTotal)) : ""}
         </>
       ),
 
@@ -194,7 +206,7 @@ export const Fpg = () => {
         setObjFondo(obj[0]);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -208,7 +220,7 @@ export const Fpg = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setdata(res.RESPONSE);
         var sumatotal = 0;
@@ -216,10 +228,13 @@ export const Fpg = () => {
           sumatotal = sumatotal + Number(item.Total)
           setSumaTotal(sumatotal)
         });
+        if (!res.RESPONSE[0]) {
+          setSumaTotal(0)
+        }
         setslideropen(false);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -228,7 +243,52 @@ export const Fpg = () => {
     });
   };
 
+  const BorraCalculo = (row: any) => {
 
+
+    let data = {
+      IDCALCULO: row.id,
+      CHUSER: user.id,
+      CLAVE: row.row.Clave,
+      ANIO: row.row.Anio,
+      MES: row.row.nummes,
+    };
+
+
+    Swal.fire({
+      icon: "question",
+      title: "Borrar Cálculo",
+      text: "El cálculo de eliminara, favor de confirmar",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+      color: 'rgb(175, 140, 85)',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        calculosServices.BorraCalculo(data).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "Borrado Exitoso!",
+            });
+
+
+            consultafondo({ FONDO: params.fondo });
+            consulta({ FONDO: params.fondo });
+
+
+          } else {
+            AlertS.fire({
+              title: "¡Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      }
+    });
+  };
 
   const handleBorrar = () => {
 
@@ -237,6 +297,7 @@ export const Fpg = () => {
   let params = useParams();
 
   useEffect(() => {
+    setstep(0);
     setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
 
@@ -250,6 +311,9 @@ export const Fpg = () => {
         if (String(item.Referencia) === "AAJUSTE") {
           setAgregarAjuste(true);
         }
+        if (String(item.Referencia) === "CCALCULO") {
+          setCancelar(true);
+        }
       }
     });
 
@@ -259,6 +323,18 @@ export const Fpg = () => {
 
 
   }, [params.fondo, nombreMenu]);
+
+  const query = new URLSearchParams(useLocation().search);
+  useEffect(() => {
+    setstep(0);
+    const jwt = query.get("id");
+    if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
+      setIdtrazabilidad(String(jwt));
+      setIdDetalle(String(jwt));
+      setClave(String(params.fondo));
+      setOpenDetalles(true);
+    }
+  }, [agregar]);
 
   return (
     <>
@@ -273,38 +349,42 @@ export const Fpg = () => {
         ""
       )}
 
-
       <Grid container
         sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Tooltip title={objfondo?.Comentarios}>
-            <Typography>
-              <h1>{objfondo?.Descripcion}</h1>
+        <Grid item xs={12} sm={10} sx={{ textAlign: "center" }}>
+          <TooltipPersonalizado title={
+            <React.Fragment>
+              <Typography variant="h6" className="h6-justify">
+                {objfondo?.Comentarios}
+              </Typography>
+            </React.Fragment>
+          }>
+            <Typography variant="h3">
+              {objfondo?.Descripcion}
             </Typography>
-          </Tooltip>
+          </TooltipPersonalizado>
+
         </Grid>
       </Grid>
 
       {openDetalles ?
         <DetalleFgp
           idCalculo={idtrazabilidad}
-          openDetalles={openDetalles}
           nombreFondo={objfondo?.Descripcion || ""}
           idDetalle={idDetalle}
           handleClose={handleClose}
           clave={clave}
-          anio={anio}
-          mes={mes} tipoCalculo={tipoCalculo} />
+        />
         : ""}
 
       {step === 0 ?
         <div style={{ height: 600, width: "100%" }}>
           <Grid container sx={{ display: "flex", alignItems: "center", justifyContent: "center", }} >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
+            <Grid item xs={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
               <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
             </Grid>
 
-            <Grid item sm={12} sx={{
+            <Grid item xs={12} sx={{
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>
               <MUIXDataGridMun columns={columns} rows={data} modulo={nombreMenu} handleBorrar={handleBorrar} controlInterno={String(params.fondo).replace(/\s/g, "")} />
@@ -318,8 +398,7 @@ export const Fpg = () => {
         <ModalNew
           clave={objfondo?.Clave || ""}
           titulo={objfondo?.Descripcion || ""}
-          onClickBack={handleClose}
-        />
+          onClickBack={handleClose} resetNum={0} resetSelect={""} />
         : ""}
 
       {step === 2 ?

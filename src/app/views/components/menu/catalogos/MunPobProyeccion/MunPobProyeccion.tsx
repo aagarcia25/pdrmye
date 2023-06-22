@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Grid } from '@mui/material'
+import {  Grid } from '@mui/material'
 import { GridColDef, GridSelectionModel } from '@mui/x-data-grid'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { messages } from '../../../../styles'
@@ -8,11 +8,10 @@ import { Toast } from '../../../../../helpers/Toast'
 import { AlertS } from "../../../../../helpers/AlertS";
 import Slider from "../../../Slider";
 import MunPoblacionProyeccionModal from '../MunPobProyeccion/MunPoblacionProyeccionModal';
-import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { fanios } from "../../../../../share/loadAnios";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { MENU, PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
-import { getMenus, getPermisos, getUser } from '../../../../../services/localStorage';
+import {  PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import {  getPermisos, getUser } from '../../../../../services/localStorage';
 import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import MUIXDataGridMun from '../../../MUIXDataGridMun';
@@ -26,16 +25,13 @@ export const MunPobProyeccion = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [Poblacion, setPoblacion] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
   //funciones
@@ -84,7 +80,7 @@ export const MunPobProyeccion = () => {
 
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -113,7 +109,7 @@ export const MunPobProyeccion = () => {
             consulta(data);
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -146,7 +142,7 @@ export const MunPobProyeccion = () => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
-    setData("");
+    setData(v);
   };
 
 
@@ -184,7 +180,7 @@ export const MunPobProyeccion = () => {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
-          title: selectionModel.length + " Registros Se Eliminaran!!",
+          title: selectionModel.length + " ¡Registros Se Eliminaran!",
           showDenyButton: true,
           showCancelButton: false,
           confirmButtonText: "Confirmar",
@@ -215,7 +211,7 @@ export const MunPobProyeccion = () => {
 
               } else {
                 AlertS.fire({
-                  title: "Error!",
+                  title: "¡Error!",
                   text: res.STRMESSAGE,
                   icon: "error",
                 });
@@ -261,16 +257,6 @@ export const MunPobProyeccion = () => {
     }
   };
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_PROYECCION",
-
-    };
-
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
 
 
   useEffect(() => {
@@ -287,7 +273,6 @@ export const MunPobProyeccion = () => {
       }
     });
     setAnios(fanios());
-    downloadplantilla();
     let data = {
       NUMOPERACION: 4,
       ANIO: "",
@@ -307,11 +292,11 @@ export const MunPobProyeccion = () => {
       <Grid container   direction="row"justifyContent="space-between"alignItems="center">
         <Grid item xs={12}  >
           <ButtonsMunicipio
-            url={plantilla}
+            url={"MUNICIPIO_PROYECCION.xlsx"}
             handleUpload={handleUpload} controlInterno={"MUNPROYEC"} options={anios}
             onInputChange={handleFilterChange}
             placeholder={"Seleccione Año"} label={""} disabled={false}
-            value={''} />
+            value={''} handleOpen={handleOpen} />
         </Grid>
 
       </Grid>

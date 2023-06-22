@@ -4,19 +4,16 @@ import Slider from "../../../Slider";
 import { getMenus, getMunicipio, getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { messages } from "../../../../styles";
-import MUIXDataGrid from "../../../MUIXDataGrid";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import MunicipiosModal from "./MunicipiosModal";
 import { MUNICIPIO, PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import FideicomisoConfig from "./FideicomisoConfig";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import MunicipiosUsuarioResponsable from "./MunicipiosUsuarioResponsable";
 import { CuentaBancaria } from "../CuentaBancaria/CuentaBancaria";
 import ModalForm from "../../../componentes/ModalForm";
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -24,11 +21,15 @@ import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import { clearScreenDown } from "readline";
+import UsuarioResponsable from "../../../DAMOP/UsuarioResponsable";
 
 
 
 export const Municipios = () => {
   const [id, setId] = useState("");
+  const [idMun, setIdMun] = useState("");
+
+
   const [nombreMun, setNombreMun] = useState("");
 
   const [municipio, setMunicipio] = useState([]);
@@ -58,10 +59,8 @@ export const Municipios = () => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      hide: true,
-      headerName: "Identificador",
-      width: 150,
-      description: messages.dataTableColum.id,
+      hideable: false,
+      hide:true
     },
     {
       field: "acciones",  disableExport: true,
@@ -109,7 +108,7 @@ export const Municipios = () => {
                 handleAccion={handleAccion}
                 row={v}
                 editar={editar}
-                eliminar={eliminar}
+                eliminar={false}
               ></BotonesAcciones>
               </Grid>
           </>
@@ -157,6 +156,8 @@ export const Municipios = () => {
   const handleUR = (v: any) => {
     setOpenUR(true);
     setData(v);
+    setIdMun(v.row.id);
+    setNombreMun(v.row.Nombre);
   };
 
   const handleClose = () => {
@@ -170,7 +171,7 @@ export const Municipios = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -189,7 +190,7 @@ export const Municipios = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
 
             let data = {
@@ -198,7 +199,7 @@ export const Municipios = () => {
             consulta(data);
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -214,81 +215,9 @@ export const Municipios = () => {
 
       if (data.tipo === 1) {
   
-        // setslideropen(true);
-        // let file = data.data?.target?.files?.[0] || "";
-        // const formData = new FormData();
-        // formData.append("inputfile", file, "inputfile.xlsx");
-        // formData.append("tipo", "MUNICIPIOS");
-        // CatalogosServices.migraData(formData).then((res) => {
-        //   setslideropen(false);
-        //   if (res.SUCCESS) {
-        //     Toast.fire({
-        //       icon: "success",
-        //       title: "Carga Exitosa!",
-        //     });
-        //   } else {
-        //     AlertS.fire({
-        //       title: "Error!",
-        //       text: res.STRMESSAGE,
-        //       icon: "error",
-        //     });
-        //   }
-        // });
+
       }
-      // else if (data.tipo === 2) {
   
-      //   if (selectionModel.length !== 0) {
-      //     Swal.fire({
-      //       icon: "question",
-      //       title: selectionModel.length + " Registros Se Eliminaran!!",
-      //       showDenyButton: true,
-      //       showCancelButton: false,
-      //       confirmButtonText: "Confirmar",
-      //       denyButtonText: `Cancelar`,
-      //     }).then((result) => {
-      //       if (result.isConfirmed) {
-  
-      //         let data = {
-      //           NUMOPERACION: 5,
-      //           OBJS: selectionModel,
-      //           CHUSER: user.id,
-  
-      //         };
-  
-      //         CatalogosServices.munfacturacion(data).then((res) => {
-      //           if (res.SUCCESS) {
-      //             Toast.fire({
-      //               icon: "success",
-      //               title: "Borrado!",
-      //             });
-  
-      //             consulta({
-      //               NUMOPERACION: 4,
-      //               CHUSER: user.id,
-      //               ANIO: filterAnio,
-      //             });
-  
-      //           } else {
-      //             AlertS.fire({
-      //               title: "Error!",
-      //               text: res.STRMESSAGE,
-      //               icon: "error",
-      //             });
-      //           }
-      //         });
-  
-      //       } else if (result.isDenied) {
-      //         Swal.fire("No se realizaron cambios", "", "info");
-      //       }
-      //     });
-      //   } else {
-      //     Swal.fire({
-      //       icon: "warning",
-      //       title: "Seleccione Registros Para Borrar",
-      //       confirmButtonText: "Aceptar",
-      //     });
-      //   }
-      // }
 
   };
 
@@ -300,7 +229,7 @@ export const Municipios = () => {
        
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -397,16 +326,14 @@ export const Municipios = () => {
       )}
 
       {openUR ? (
-        <MunicipiosUsuarioResponsable handleClose={handleClose} dt={data} />
+        <UsuarioResponsable handleClose={handleClose} id={idMun} nombre={nombreMun} tipo={"MUN"} />
       ) : (
         ""
       )}
 
       {openCC ? (
         // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
-        <ModalForm title={"Cuentas Bancarias"} handleClose={handleClose}>
-          <CuentaBancaria idmunicipio={id} municipio={nombreMun} ></CuentaBancaria>
-        </ModalForm>
+          <CuentaBancaria idmunicipio={id} municipio={nombreMun} handleCloseModal={handleClose} fullScrean={true} />
 
       ) : (
         ""

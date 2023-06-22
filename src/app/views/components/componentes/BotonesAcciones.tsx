@@ -1,7 +1,6 @@
-import React from 'react'
-import { Box, IconButton, Tooltip } from '@mui/material'
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import { IconButton, Tooltip } from '@mui/material';
 
 
 const BotonesAcciones = ({
@@ -21,7 +20,7 @@ const BotonesAcciones = ({
            {/* EDITAR */}
            {editar ? 
              <Tooltip title={"Editar Registro"}>
-            <IconButton color="info" onClick={() => handleAccion({tipo:1,data:row})}>
+            <IconButton color="inherit" onClick={() => handleAccion({tipo:1,data:row})}>
               <ModeEditOutlineIcon />
             </IconButton>
             </Tooltip>
@@ -29,7 +28,7 @@ const BotonesAcciones = ({
             {/* ELIMINAR */}
             {eliminar ?
               <Tooltip title={"Eliminar Registro"}>
-            <IconButton  color="error" onClick={() => handleAccion({tipo:2,data:row})}>
+            <IconButton  color="inherit" onClick={() => handleAccion({tipo:2,data:row})}>
               <DeleteForeverIcon />
             </IconButton>
             </Tooltip>

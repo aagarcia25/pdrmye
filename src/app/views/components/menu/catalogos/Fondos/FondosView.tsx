@@ -83,7 +83,7 @@ const FondosView = ({
             width: 10,
         },
         {
-            field: "Descripcion", headerName: "Descripcion", description: "Descripción", width: 300
+            field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 300
         },
         {
             field: "acciones", disableExport: true,
@@ -123,7 +123,7 @@ const FondosView = ({
                 consulta();
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
@@ -149,7 +149,7 @@ const FondosView = ({
 
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });

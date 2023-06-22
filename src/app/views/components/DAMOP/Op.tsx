@@ -1,24 +1,24 @@
-import { useEffect, useState } from 'react'
-import { Box, Grid, IconButton, ToggleButton, Tooltip } from '@mui/material'
-import { GridColDef } from '@mui/x-data-grid';
-import { CatalogosServices } from '../../../services/catalogosServices';
-import { Titulo } from '../menu/catalogos/Utilerias/AgregarCalculoUtil/Titulo';
-import MUIXDataGrid from '../MUIXDataGrid';
-import Slider from '../Slider';
 import AddIcon from '@mui/icons-material/Add';
-import { OpModal } from './OpModal';
-import BotonesAcciones from '../componentes/BotonesAcciones';
+import DescriptionIcon from '@mui/icons-material/Description';
 import DoneIcon from '@mui/icons-material/Done';
+import InsightsIcon from "@mui/icons-material/Insights";
 import SendIcon from '@mui/icons-material/Send';
-import { ComentariosRecursosModal } from '../Municipios/ComentariosRecursosModal';
+import { Box, Grid, IconButton, ToggleButton, Tooltip } from '@mui/material';
+import { GridColDef } from '@mui/x-data-grid';
+import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { AlertS } from '../../../helpers/AlertS';
 import { PERMISO, RESPONSE } from '../../../interfaces/user/UserInfo';
+import { CatalogosServices } from '../../../services/catalogosServices';
 import { getPermisos, getUser } from '../../../services/localStorage';
-import DescriptionIcon from '@mui/icons-material/Description';
-import InsightsIcon from "@mui/icons-material/Insights";
+import MUIXDataGrid from '../MUIXDataGrid';
+import { ComentariosRecursosModal } from '../Municipios/ComentariosRecursosModal';
+import Slider from '../Slider';
 import TrazabilidadSolicitud from '../TrazabilidadSolicitud';
+import BotonesAcciones from '../componentes/BotonesAcciones';
 import { Moneda } from '../menu/CustomToolbar';
+import { Titulo } from '../menu/catalogos/Utilerias/AgregarCalculoUtil/Titulo';
+import { OpModal } from './OpModal';
 
 
 const Op = () => {
@@ -89,7 +89,7 @@ const Op = () => {
     {
       field: "acciones",  disableExport: true,
       headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
+      description: "Ver Detalle de Cálculo",
       sortable: false,
       width: 150,
       renderCell: (v) => {
@@ -127,7 +127,7 @@ const Op = () => {
     {
       field: "seguimiento",
       headerName: "Seguimiento",
-      description: "Ver detalle de Cálculo",
+      description: "Ver Detalle de Cálculo",
       sortable: false,
       width: 150,
       renderCell: (v) => {
@@ -213,7 +213,7 @@ const Op = () => {
             } else {
 
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: "Fallo en la peticion",
                 icon: "error",
 
@@ -282,7 +282,7 @@ Swal.fire({
       } else {
 
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: "Fallo en la peticion",
           icon: "error",
 

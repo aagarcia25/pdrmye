@@ -4,12 +4,10 @@ import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import FondosModal from "./FondosModal";
-import MUIXDataGrid from "../../../MUIXDataGrid";
 import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import FondosView from "./FondosView";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
@@ -40,9 +38,7 @@ const Fondos = () => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
-      hide: true,
-      width: 10,
+      hide: true, hideable:false,
     },
 
     {
@@ -92,7 +88,7 @@ const Fondos = () => {
     { field: "PorcentajeDistribucion	", headerName: "Porcentaje De Distribución",description: "Porcentaje De Distribución",   width: 150, },
     { field: "Garantia",                 headerName: "Garantía",                  description: "Garantía	",                   width: 80, },
     { field: "Articulo",                 headerName: "Articulo",                  description: "Articulo	",                   width: 150, },
-    { field: "Comentarios",  hide: true },
+    { field: "Comentarios",              headerName: "Comentarios",              hide: true , hideable:false},
     { field: "NumProyecto",              headerName: "Número De Proyecto",        description: "Número De Proyecto	",         width: 150, },
     { field: "ConceptoEgreso",           headerName: "Concepto De Egreso",        description: "Concepto De Egreso",           width: 150, },
     { field: "Clasificador01",           headerName: "Administrativo",            description: "Administrativo	",             width: 150, },
@@ -180,7 +176,7 @@ const Fondos = () => {
 
               } else {
                 AlertS.fire({
-                  title: "Error!",
+                  title: "¡Error!",
                   text: res.STRMESSAGE,
                   icon: "error",
                 });
@@ -209,7 +205,7 @@ const Fondos = () => {
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "info",
-      title: "Estas seguro de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "Confirmar",
@@ -229,13 +225,13 @@ const Fondos = () => {
           if (res.SUCCESS) {
             Toast.fire({
               icon: "success",
-              title: "Registro Eliminado!",
+              title: "¡Registro Eliminado!",
             });
 
             consulta();
           } else {
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: res.STRMESSAGE,
               icon: "error",
             });
@@ -255,12 +251,12 @@ const Fondos = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         setFondos(res.RESPONSE);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

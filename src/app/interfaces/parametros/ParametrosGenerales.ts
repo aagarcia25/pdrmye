@@ -3,3 +3,15 @@ export interface ParametrosGenerales  {
     Nombre: string;
     Valor: string;
 }
+
+export interface MigraData {
+    NUMCODE: number
+    STRMESSAGE: string
+    RESPONSE: resultmigracion[]
+    SUCCESS: boolean
+  }
+  
+  export interface resultmigracion {
+    IDENTIFICADORC: string
+  }
+  

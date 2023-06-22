@@ -1,23 +1,21 @@
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {
   Box,
   Button,
-  Checkbox,
   Grid,
   IconButton,
-  Modal,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { AuthService } from "../../../../../services/AuthService";
 import { GridColDef } from '@mui/x-data-grid';
-import { Toast } from "../../../../../helpers/Toast";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
+import { AuthService } from "../../../../../services/AuthService";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
 import Slider from "../../../Slider";
 import ModalForm from "../../../componentes/ModalForm";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 const ConfigurarPermisosMenu = ({
   id,
   dt,
@@ -40,9 +38,7 @@ const ConfigurarPermisosMenu = ({
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
-      hide: true,
-      width: 10,
+      hide: true, hideable:false,
     },
     { field: "Permiso",     headerName: "Permiso",    description: "Permiso",     width: 150 },
     { field: "Descripcion", headerName: "Descripción",description: "Descripción", width: 300 },
@@ -69,9 +65,7 @@ const ConfigurarPermisosMenu = ({
   const columnsAsignarPermisoRol: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
-      hide: true,
-      width: 10,
+      hide: true, hideable:false,
     },
     {
       field: "acciones",  disableExport: true,
@@ -127,7 +121,7 @@ const ConfigurarPermisosMenu = ({
         consultaAsignarPermisoRol({ CHID: dt?.row?.id, IDROL: id });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -156,13 +150,13 @@ const ConfigurarPermisosMenu = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Permiso Asignado!",
+          title: "!Permiso Asignado!",
         });
         consulta({ CHID: dt?.row?.id, IDROL: id, });
         consultaAsignarPermisoRol({ CHID: dt?.row?.id, IDROL: id });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -182,27 +176,27 @@ const ConfigurarPermisosMenu = ({
               <Button variant="outlined" onClick={() => handleCloseAsignar()}>
                 <Tooltip title="Salir">
                   <IconButton aria-label="close" color="info" onClick={() => handleCloseAsignar()}>
-                    <ArrowBackIosIcon />
+                    <ArrowBackIosIcon/>
                   </IconButton>
                 </Tooltip>
               </Button>
             </Grid>
-            <Grid item xs={11}>
-              <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }}>
-                {("Rol: " + NameRol + " ") + dt?.row?.MENU}
+            <Grid item xs={12} sm={10}>
+              <Typography variant="h4" sx={{textAlign: "center"}}>
+                {("Rol: " + NameRol)}
               </Typography>
-              <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }}>
+              <Typography variant="h4" sx={{textAlign: "center"}}>
                 {("Menú: ") + dt?.row?.MENU}
               </Typography>
             </Grid>
             <Grid container sx={{ borderRadius: 3, justifyContent: "space-evenly", }} >
 
-              <Grid item xs={6} sm={6} md={4} lg={4}>
+              <Grid item xs={12} sm={12} md={5.6} lg={5}>
                 <Grid container sx={{ left: "50%", width: "100%", height: "75vh", bgcolor: "rgb(255,255,255)", boxShadow: 50, borderRadius: 3, justifyContent: "center" }} >
                   <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding: "1%" }}>
                     <Grid item sm={12} sx={{ height: "100%" }}>
                       <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                        <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }}>
+                        <Typography variant="h6"  sx={{ textAlign: "center"}}>
                           Permisos Asignado
                         </Typography>
                       </Grid>
@@ -216,11 +210,11 @@ const ConfigurarPermisosMenu = ({
                 </Grid>
               </Grid>
 
-              <Grid item xs={6} sm={6} md={4} lg={4}>
+              <Grid item xs={12} sm={12} md={5.6} lg={5}>
                 <Grid container sx={{ left: "50%", width: "100%", height: "75vh", bgcolor: "rgb(255,255,255)", justifyContent: "center" }} >
                   <Box sx={{ boxShadow: 3, width: "100%", height: "100%", padding: "1%" }}>
                     <Grid sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                      <Typography sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "1.5vw", color: "#808080", }} >
+                      <Typography variant="h6"  sx={{ textAlign: "center"}}>
                         Permisos Disponibles
                       </Typography>
                     </Grid>

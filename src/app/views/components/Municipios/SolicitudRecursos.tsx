@@ -66,14 +66,12 @@ const SolicitudRecursos = () => {
         setDepartamento("DAMOP")
 
         setSolicitud(res.RESPONSE);
-        //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
     } else if (user?.DEPARTAMENTOS[0]?.NombreCorto === "DPCP") {
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
         setDepartamento("DPCP")
         setSolicitud(res.RESPONSE);
-        //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
     } else if (user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN") {
@@ -81,7 +79,6 @@ const SolicitudRecursos = () => {
       CatalogosServices.SolicitudesInfo({ NUMOPERACION: 4, CHUSER: user.id }).then((res) => {
         setDepartamento("MUN")
         setSolicitud(res.RESPONSE);
-        //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
     }
@@ -96,7 +93,7 @@ const SolicitudRecursos = () => {
     {
       field: "acciones",  disableExport: true,
       headerName: "Acciones",
-      description: "Ver detalle de Cálculo",
+      description: "Ver Detalle de Cálculo",
       sortable: false,
       width: 150,
       renderCell: (v) => {
@@ -201,7 +198,7 @@ const SolicitudRecursos = () => {
     {
       field: "seguimiento",
       headerName: "Seguimiento",
-      description: "Ver detalle de Cálculo",
+      description: "Ver Detalle de Cálculo",
       sortable: false,
       width: 150,
       renderCell: (v) => {
@@ -277,6 +274,7 @@ const SolicitudRecursos = () => {
         showCancelButton: true,
         confirmButtonText: "Aceptar",
         cancelButtonText: "Cancelar",
+        color: 'rgb(175, 140, 85)',
       }).then((result) => {
         if (result.isConfirmed) {
           CatalogosServices.SolicitudesInfo(d).then((res) => {
@@ -284,7 +282,7 @@ const SolicitudRecursos = () => {
               handleClose();
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: "Fallo en la peticion",
                 icon: "error",
 
@@ -297,15 +295,7 @@ const SolicitudRecursos = () => {
       });
 
     }
-    //else 
-    ///if (departamento == "DAMOP") {
-    //  if (perfil == "ANA" || perfil == "COOR"||perfil == "DIR") {
-    //  setOpenSeg(true);
-    //   setData(data.row);
-    //    setModo(estatus);
-    //  }
-
-    //}
+   
     else {
       setOpenSeg(true);
       setData(data.row)
@@ -336,7 +326,6 @@ const SolicitudRecursos = () => {
 
   };
   const handleBorrar = (v: any) => {
-    //console.log(v);
 
     let d = {
       NUMOPERACION: 8,
@@ -352,6 +341,7 @@ const SolicitudRecursos = () => {
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
+      color: 'rgb(175, 140, 85)',
     }).then((result) => {
       if (result.isConfirmed) {
         CatalogosServices.SolicitudesInfo(d).then((res) => {
@@ -360,7 +350,7 @@ const SolicitudRecursos = () => {
           } else {
 
             AlertS.fire({
-              title: "Error!",
+              title: "¡Error!",
               text: "Fallo en la peticion",
               icon: "error",
 
@@ -381,14 +371,12 @@ const SolicitudRecursos = () => {
   const handleVisualizar = (v: any) => {
     setModo("ver");
     setOpen(true);
-    //console.log(v.row)
     setData(v.row);
 
   };
   const handleVisualizarDetalles = (v: any) => {
     setModo("verDetalles");
     setOpen(true);
-    //console.log(v.row)
     setData(v.row);
 
   };

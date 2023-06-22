@@ -25,7 +25,6 @@ export const TasaInteres = () => {
   };
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [tasa, setTasa] = useState([]);
-  const [open, setOpen] = useState(false);
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true, description: messages.dataTableColum.id },
     { field: "Fecha", headerName: "Fecha", width: 150 },

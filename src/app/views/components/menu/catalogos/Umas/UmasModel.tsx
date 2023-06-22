@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
-  Box,
   TextField,
-  DialogActions,
   Grid,
   Button,
 } from "@mui/material";
@@ -38,7 +34,7 @@ const UmasModel = ({
   const handleSend = () => {
     if (!diario || !anio || !mensual || !anual) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de Completar los Campos",
         icon: "error",
       });
@@ -74,11 +70,11 @@ const UmasModel = ({
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Registro Agregado!",
+          title: "¡Registro Agregado!",
         });
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -96,7 +92,7 @@ const UmasModel = ({
         handleClose();
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });

@@ -13,26 +13,41 @@ export const getHeaderInitial = async function () {
 
 
 export const getHeaderInfo = async function () {
-  //let token = await getAccessToken();
   return {
     headers: {
       'Content-Type': 'application/json',
-     // 'Authorization': 'Bearer  ' +  token?.replaceAll('"',''),
       'X-Requested-With':'XMLHttpRequest',
       'Access-Control-Allow-Origin': '*',
     },
   };
-  
 };
 
-export const getFormDataHeader = async function () {
- // let token = await getAccessToken();
+export const getHeaderInfoDoc =  function () {
   return {
     headers: {
-      'Content-Type': 'multipart/form-data',
-   //   'Authorization': 'Bearer  ' +  token?.replaceAll('"',''),
+      'Content-Type': 'application/json',
+      'X-Requested-With':'XMLHttpRequest',
       'Access-Control-Allow-Origin': '*',
     },
   };
-  
 };
+
+export const getFormDataHeader = async function () {
+  return {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Access-Control-Allow-Origin': '*',
+      'responseType ' :  'blob'
+    },
+  };
+};
+
+export const getHeaderInfoReporte = async function () {
+    return {
+      headers: {
+        'Content-Type': 'application/json',
+        'responseType': 'blob'
+       
+      },
+    };
+  };

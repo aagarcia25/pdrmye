@@ -1,17 +1,17 @@
+import { Grid, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { messages } from "../../../../styles";
 import Swal from "sweetalert2";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import { Toast } from "../../../../../helpers/Toast";
-import { AuthService } from "../../../../../services/AuthService";
-import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import { PerfilesUsuarioModal } from "./PerfilesUsuarioModal";
-import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import { AlertS } from "../../../../../helpers/AlertS";
-import { Grid, Typography } from "@mui/material";
+import { Toast } from "../../../../../helpers/Toast";
+import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { AuthService } from "../../../../../services/AuthService";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { messages } from "../../../../styles";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import ButtonsAdd from "../../catalogos/Utilerias/ButtonsAdd";
+import { PerfilesUsuarioModal } from "./PerfilesUsuarioModal";
 
 
 
@@ -28,6 +28,7 @@ export const PerfilesUsuario = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
+  const [openModal, setOpenModal] = useState(false);
 
   const columns: GridColDef[] = [
     {
@@ -54,31 +55,16 @@ export const PerfilesUsuario = () => {
         );
       },
     },
-    {
-      field: "FechaCreacion",
-      headerName: "Fecha Creacion",
-      width: 200,
-    },
-    {
-      field: "CreadoPor",
-      headerName: "Creado Por",
-      width: 420,
-    },
-    {
-      field: "Descripcion",
-      headerName: "Descripción de perfil",
-      width: 420,
-    },
-    {
-      field: "Referencia",
-      headerName: "Referencia",
-      width: 120,
-    },
+    {field: "FechaCreacion",   headerName: "Fecha Creación", description: "Fecha Creación",   width: 200,},
+    {field: "CreadoPor",    headerName: "Creado Por", description: "Creado Por",   width: 420,},
+    {field: "Descripcion",    headerName: "Descripción de perfil", description: "Descripción de perfil",   width: 420,},
+    {field: "Referencia",    headerName: "Referencia",  description: "Referencia",  width: 120,},
 
   ];
 
   const handleClose = () => {
     setOpen(false);
+    setOpenModal(false);
     consulta({ NUMOPERACION: 4 });
   };
 
@@ -87,7 +73,7 @@ export const PerfilesUsuario = () => {
 
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
-      //console.log(v)
+      //
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
@@ -96,37 +82,32 @@ export const PerfilesUsuario = () => {
 
       Swal.fire({
         icon: "info",
-        title: "Estas seguro de eliminar este registro?",
+        title: "¿Estás seguro de eliminar este registro?",
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: "Confirmar",
         denyButtonText: `Cancelar`,
+        color: 'rgb(175, 140, 85)',
       }).then((result) => {
-        if (result.isConfirmed) {
-          //console.log(v);
-          const user: RESPONSE = JSON.parse(String(getUser()));
-
-          let data = {
-            NUMOPERACION: 3,
-            CHID: v.row.id,
-            CHUSER: user.id,
-          };
+        if (result.isConfirmed) {   
           //console.log(data);
-
+          let data = {
+            CHID: v.data.row.id,
+            CHUSER: user.id,
+            NUMOPERACION: 3,
+      
+          };
           AuthService.perfilindex(data).then((res) => {
             if (res.SUCCESS) {
               Toast.fire({
                 icon: "success",
-                title: "Registro Eliminado!",
+                title: "¡Registro Eliminado!",
               });
-
-              let data = {
-                NUMOPERACION: 4,
-              };
-              consulta(data);
+  
+              handleClose();
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });
@@ -136,9 +117,9 @@ export const PerfilesUsuario = () => {
           Swal.fire("No se realizaron cambios", "", "info");
         }
       });
+    };
 
     }
-  }
 
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
@@ -152,14 +133,14 @@ export const PerfilesUsuario = () => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
-          title: "Consulta Exitosa!",
+          title: "¡Consulta Exitosa!",
         });
         //console.log(data);
         setPerfilUsuario(res.RESPONSE);
         //console.log("parametroGeneral consulta", perfilUsuario);
       } else {
         AlertS.fire({
-          title: "Error!",
+          title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
@@ -199,8 +180,8 @@ export const PerfilesUsuario = () => {
       )}
             <Grid container >
             <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <Typography
-                sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+              <Typography variant="h3"
+                sx={{ textAlign: "center", fontFamily: "sans-serif" }}>
                 Perfil de usuario
               </Typography>
             </Grid>

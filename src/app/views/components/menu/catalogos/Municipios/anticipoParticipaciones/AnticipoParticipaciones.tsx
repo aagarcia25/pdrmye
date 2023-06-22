@@ -42,14 +42,14 @@ export const AnticipoParticipaciones = () => {
 
 
     const perfiles = [
-        { estatusRef: 'DAMOP_AUT_ANA', accion: 'enviar', per: 'ANA', dep: "DAMOP", estatus: 'DAMOP_ANA_ENV_COOR' },
-        { estatusRef: 'DAMOP_AUT_COOR', accion: 'enviar', per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_COOR_ENV_DIR' },
-        { estatusRef: 'DAMOP_AUT_DIR', accion: 'enviar', per: 'DIR', dep: "DAMOP", estatus: 'DAMOP_DIR_ENV_ DCCP' },
-        { estatusRef: 'DAMOP_INICIO', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
-        { estatusRef: 'INICIO', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_AUT_ANA',      accion: 'enviar',    per: 'ANA',  dep: "DAMOP", estatus: 'DAMOP_ANA_ENV_COOR' },
+        { estatusRef: 'DAMOP_AUT_COOR',     accion: 'enviar',    per: 'COOR', dep: "DAMOP", estatus: 'DAMOP_COOR_ENV_DIR' },
+        { estatusRef: 'DAMOP_AUT_DIR',      accion: 'enviar',    per: 'DIR',  dep: "DAMOP", estatus: 'DAMOP_DIR_ENV_ DCCP' },
+        { estatusRef: 'DAMOP_INICIO',       accion: 'autorizar', per: 'ANA',  dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'INICIO',             accion: 'autorizar', per: 'ANA',  dep: "DAMOP", estatus: 'AUTORIZAR' },
         { estatusRef: 'DAMOP_ANA_ENV_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-        { estatusRef: 'DAMOP_COOR_ENV_DIR', accion: 'autorizar', per: 'DIR', dep: "DAMOP", estatus: 'AUTORIZAR' },
-        { estatusRef: 'DAMOP_REG_COR_ANA', accion: 'autorizar', per: 'ANA', dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_COOR_ENV_DIR', accion: 'autorizar', per: 'DIR',  dep: "DAMOP", estatus: 'AUTORIZAR' },
+        { estatusRef: 'DAMOP_REG_COR_ANA',  accion: 'autorizar', per: 'ANA',  dep: "DAMOP", estatus: 'AUTORIZAR' },
         { estatusRef: 'DAMOP_REG_DIR_COOR', accion: 'autorizar', per: 'COOR', dep: "DAMOP", estatus: 'AUTORIZAR' },
 
     ]
@@ -104,13 +104,13 @@ export const AnticipoParticipaciones = () => {
         {
             field: "acciones",  disableExport: true,
             headerName: "Acciones",
-            description: "Ver detalle de Cálculo",
+            description: "Ver Detalle de Cálculo",
             sortable: false,
             width: 150,
             renderCell: (v) => {
                 return (
                     <Box>
-                        <Tooltip title="Ver detalle de Cálculo">
+                        <Tooltip title="Ver Detalle de Cálculo">
                             <IconButton onClick={() => handleDetalle(v)}>
                                 <InfoIcon />
                             </IconButton>
@@ -147,7 +147,7 @@ export const AnticipoParticipaciones = () => {
         {
             field: "seguimiento",
             headerName: "Seguimiento",
-            description: "Ver detalle de Cálculo",
+            description: "Ver Detalle de Cálculo",
             sortable: false,
             width: 150,
             renderCell: (v) => {
@@ -233,7 +233,7 @@ export const AnticipoParticipaciones = () => {
                         } else {
 
                             AlertS.fire({
-                                title: "Error!",
+                                title: "¡Error!",
                                 text: "Fallo en la peticion",
                                 icon: "error",
 
@@ -266,6 +266,10 @@ export const AnticipoParticipaciones = () => {
         setIdPrincipal(String(v.row.id));
         setData(v.row);
         setOpen(true);
+    };
+    const handleOpen = () => {
+        //console.log(String(v.row.id))
+      
     };
     const handleClonar = (v: any) => {
         //console.log(String(v.row.id))
@@ -303,7 +307,7 @@ export const AnticipoParticipaciones = () => {
                         });
                     } else {
                         AlertS.fire({
-                            title: "Error!",
+                            title: "¡Error!",
                             text: "Validar informacion",
                             icon: "error",
                         });
@@ -331,7 +335,7 @@ export const AnticipoParticipaciones = () => {
                 consulta();
             } else {
                 AlertS.fire({
-                    title: "Error!",
+                    title: "¡Error!",
                     text: res.STRMESSAGE,
                     icon: "error",
                 });
@@ -381,7 +385,7 @@ export const AnticipoParticipaciones = () => {
                     <ButtonsMunicipio
                         url={"d"}
                         handleUpload={handleUpload}
-                        controlInterno={"MUNAPC"} value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={false}  />
+                        controlInterno={"MUNAPC"} value={"na"} options={[]} onInputChange={handleUpload} placeholder={""} label={""} disabled={false} handleOpen={handleOpen}  />
                 </Grid>
                 <Grid item xs={3}>
 

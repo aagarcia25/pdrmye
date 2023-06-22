@@ -1,14 +1,14 @@
 import { Grid, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
 import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { AuthService } from '../../../../../services/AuthService';
 import { getPermisos, getUser } from '../../../../../services/localStorage';
-import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import MUIXDataGrid from '../../../MUIXDataGrid';
+import BotonesAcciones from '../../../componentes/BotonesAcciones';
 import ButtonsAdd from '../../catalogos/Utilerias/ButtonsAdd';
 import PermisosModal from './PermisosModal';
 
@@ -32,7 +32,7 @@ const Permisos = () => {
 
   const handleAccion = (v: any) => {
 
-    if (v.tipo = 1) {
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setModo("Editar Registro");
       setVrows(v.data);
@@ -41,7 +41,7 @@ const Permisos = () => {
 
       Swal.fire({
         icon: "info",
-        title: "Estas seguro de eliminar este registro?",
+        title: "¿Estás seguro de eliminar este registro?",
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: "Confirmar",
@@ -57,19 +57,19 @@ const Permisos = () => {
             if (res.SUCCESS) {
               Toast.fire({
                 icon: "success",
-                title: "Registro Eliminado!",
+                title: "¡Registro Eliminado!",
               });
               consulta({ NUMOPERACION: 4 });
             } else {
               AlertS.fire({
-                title: "Error!",
+                title: "¡Error!",
                 text: res.STRMESSAGE,
                 icon: "error",
               });
             }
           });
         } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
+          Swal.fire("No se realizaron cambios", "", "info" );
         }
       });
     }
@@ -85,15 +85,9 @@ const Permisos = () => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Identificador",
-      hide: true,
-      width: 10,
+      hideable:false
     },
-    {
-      field: "idmenu",
-      hide: true,
-      width: 10,
-    },
+
     {
       field: "acciones",  disableExport: true,
       headerName: "Acciones",
@@ -109,29 +103,12 @@ const Permisos = () => {
             eliminar={eliminar} />
         );
       },
-    }, {
-      field: "FechaCreacion",
-      headerName: "Fecha Creacion",
-      width: 200,
-    },
-    {
-      field: "CreadoPor",
-      headerName: "Creado Por",
-      width: 420,
-    },
-    {
-      field: "menu",
-      headerName: "Módulo",
-      width: 300,
-    },
-    {
-      field: "Permiso",
-      headerName: "Permiso",
-      width: 300,
-    },
-    {
-      field: "Descripcion", headerName: "Descripcion", width: 350
-    },
+    }, 
+    {field: "FechaCreacion",      headerName: "Fecha Creación",  description: "Fecha Creación",    width: 200,    },
+    {field: "CreadoPor",      headerName: "Creado Por",  description: "Creado Por",    width: 420,    },
+    {field: "menu",     headerName: "Módulo",   description: "Módulo",   width: 300,    },
+    {field: "Permiso",      headerName: "Permiso",    description: "Permiso",  width: 300,    },
+    {field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 350,    },
 
   ];
 
@@ -181,8 +158,8 @@ const Permisos = () => {
 
         <Grid container >
           <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-            <Typography
-              sx={{ textAlign: "center", fontFamily: "sans-serif", fontSize: "3vw", color: "#000000", }}>
+            <Typography variant='h3' 
+              sx={{ textAlign: "center", fontFamily: "sans-serif" }}>
               Privilegios de usuario
             </Typography>
           </Grid>

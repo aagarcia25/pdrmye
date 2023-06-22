@@ -35,7 +35,7 @@ const ModalAlert = ({
   const validacion = (est:string) => {
     if (mensaje === "" || mensaje === null) {
       AlertS.fire({
-        title: "Error!",
+        title: "¡Error!",
         text: "Favor de llenar el campo Comentarios*",
         icon: "error",
       });
@@ -50,7 +50,6 @@ const ModalAlert = ({
         cancelButtonText: "Cancelar",
     }).then((result) => {
         if (result.isConfirmed) {
-              console.log({ data: vrows, texto: mensaje, tipo: accion },est);
               handleAccion({ data: vrows, texto: mensaje, tipo: accion },est)
       
         }
