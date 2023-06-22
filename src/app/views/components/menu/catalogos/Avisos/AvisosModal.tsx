@@ -30,6 +30,7 @@ import {
 import ModalForm from "../../../componentes/ModalForm";
 import { ValidaSesion } from "../../../../../services/UserServices";
 import { base64ToArrayBuffer } from "../../../../../helpers/Files";
+import SliderProgress from "../../../SliderProgress";
 
 const AvisosModal = ({
   open,
@@ -242,6 +243,7 @@ const AvisosModal = ({
 
   return (
     <ModalForm title={modoModal} handleClose={handleClose}>
+       <SliderProgress open={slideropen}/>
       {modoModal === "Agregar Aviso" ? (
         <Box component={Grid} container boxShadow={3} xs={12} md={12}>
           <Box component={Grid} xs={12} md={3}></Box>
