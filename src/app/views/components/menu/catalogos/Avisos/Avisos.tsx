@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react'
-import { Box, Grid, IconButton, Tooltip, Typography, } from '@mui/material'
-import { CatalogosServices } from '../../../../../services/catalogosServices'
-import { Toast } from "../../../../../helpers/Toast";
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import AvisosModal from './AvisosModal'
-import Swal from "sweetalert2";
-import MUIXDataGrid from '../../../MUIXDataGrid'
+import { Box, Grid, IconButton, Tooltip, Typography, } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
-import ButtonsAdd from '../Utilerias/ButtonsAdd';
-import { getPermisos, getUser } from '../../../../../services/localStorage';
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
-import BotonesAcciones from '../../../componentes/BotonesAcciones';
+import { useEffect, useState } from 'react';
+import Swal from "sweetalert2";
 import { AlertS } from '../../../../../helpers/AlertS';
-import NombreCatalogo from '../../../componentes/NombreCatalogo';
+import { Toast } from "../../../../../helpers/Toast";
+import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { CatalogosServices } from '../../../../../services/catalogosServices';
+import { getPermisos, getUser } from '../../../../../services/localStorage';
+import MUIXDataGrid from '../../../MUIXDataGrid';
+import BotonesAcciones from '../../../componentes/BotonesAcciones';
+import ButtonsAdd from '../Utilerias/ButtonsAdd';
+import AvisosModal from './AvisosModal';
 
 
 export const Avisos = () => {
