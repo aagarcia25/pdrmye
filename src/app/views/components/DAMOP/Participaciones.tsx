@@ -178,7 +178,8 @@ const Participaciones = () => {
       P_ANIO:data?.row?.Anio,
       P_MES:data?.row?.Mes,
       P_BENEFICIARIO:data?.row?.Nombre,
-      P_TOTAL:data?.row?.total
+      P_TOTAL:data?.row?.total,
+      P_TIPO:data?.row?.TipoSolicituds,
     }
     ReportesServices.formatoSolicitud(body ,body.P_NO +'_Solicitud.pdf').then((response) => {
       setslideropen(false);
@@ -305,7 +306,7 @@ const Participaciones = () => {
           <Box>
 
 
-            <Tooltip title={"Administrar Detalles"}>
+            <Tooltip title={"Base de Cálculo"}>
               <IconButton value="check" onClick={() => handleprintsolicitud(v)}>
                 <MenuBookIcon />
               </IconButton>
@@ -467,11 +468,11 @@ const Participaciones = () => {
           <Box>
 
 
-            {/* <Tooltip title={"Imprimir Solicitud"}>
+           <Tooltip title={"Base de Cálculo"}>
               <IconButton value="check" onClick={() => handleprintsolicitud(v)}>
                 <PrintIcon />
               </IconButton>
-            </Tooltip> */}
+            </Tooltip> 
 
             <Tooltip title={"Administrar Detalles"}>
               <IconButton value="check" onClick={() => handledetalles(v)}>
