@@ -36,7 +36,6 @@ export const CuentaBancariaModal = ({
   const [id, setId] = useState("");
   const [numeroCuenta, setNumeroCuenta] = useState<string>("");
   const [numeroCuentaCoded, setNumeroCuentaCoded] = useState<string>("");
-
   const [nombreCuenta, setNombreCuenta] = useState("");
   const [clabeBancaria, setClabeBancaria] = useState("");
   const user: RESPONSE = JSON.parse(String(getUser()));
@@ -197,7 +196,7 @@ export const CuentaBancariaModal = ({
         RUTA:  "/DAMOP/OFICIOS/",
         NOMBRE: name,
     };
-    if (name !== "" && name !== "null" ) {
+    if (name !== "" && name !== null ) {
         ValidaSesion();
         CatalogosServices.obtenerDoc(data).then((res) => {
             if (res.SUCCESS) {
@@ -217,6 +216,8 @@ export const CuentaBancariaModal = ({
                 setslideropen(false);
             }
         });
+    }else{
+      setslideropen(false);
     }
 };
 
