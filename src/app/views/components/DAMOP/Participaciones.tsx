@@ -65,13 +65,16 @@ import IconCFDI from '../../../assets/img/CFDI.svg';
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import { MigraData, resultmigracion } from "../../../interfaces/parametros/ParametrosGenerales";
 import { ReportesServices } from "../../../services/ReportesServices";
+import { fanios } from "../../../share/loadAnios";
 const Participaciones = () => {
 
   ///////////////modal de adminisracion Spei cfdi
   const [modoSpeiCfdi, setModoSpeiCfdi] = useState("");
   const [checked, setChecked] = React.useState(false);
   const [meses, setMeses] = useState<SelectValues[]>([]);
+  const [anios, setAnios] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
+  const [anio, setAnio] = useState<string>("");
   const [nombreArchivoExport, setNombreArchivoExport] = useState<string>("");
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
@@ -124,6 +127,7 @@ const Participaciones = () => {
   const [SFONDO, setSFONDO] = useState<boolean>(false);
   const [SMUNICIPIO, setSMUNICIPIO] = useState<boolean>(false);
   const [SMES, setSMES] = useState<boolean>(false);
+  const [SANIO, setSANIO] = useState<boolean>(false);
   const [CG_PLANTILLA_ORG, setCG_PLANTILLA_ORG] = useState<boolean>(false);
   const [INTEGRAR_OPERACION, setINTEGRAR_OPERACION] = useState<boolean>(false);
   const [INTEGRACION_MASIVA, setINTEGRACION_MASIVA] = useState<boolean>(false);
@@ -356,8 +360,8 @@ const Participaciones = () => {
   
     {
       field: "estatus",
-      headerName: "Estatus",
-      description: "Estatus",
+      headerName: "Estatus del pago",
+      description: "Estatus del pago",
       width: 170,
     },
     // {
@@ -900,6 +904,10 @@ const Participaciones = () => {
   const handleSelectMes = (data: any) => {
     setNombreMes(meses.find(({ value }) => value === data)?.label === undefined ? "" : String(meses.find(({ value }) => value === data)?.label));
     setMes(data);
+  };
+
+  const handleSelectAnio = (data: any) => {
+    setAnio(data);
   };
 
   const handleFilterChange5 = (v: string) => {
@@ -1821,7 +1829,8 @@ const Participaciones = () => {
         P_IDMES: mes === "false" ? "" : mes,
         P_IDORGANISMO: user?.ORG[0] ? user.ORG[0].id : idORG === "false" ? "" : idORG,
         P_CHUSER: user.id,
-        P_GRUPO: user.DEPARTAMENTOS[0].NombreCorto
+        P_GRUPO: user.DEPARTAMENTOS[0].NombreCorto,
+        P_ANIO: anio
 
 
       };
@@ -1870,6 +1879,7 @@ const Participaciones = () => {
   useEffect(() => {
     var ancho = 0;
     setMeses(fmeses());
+    setAnios(fanios());
     loadFilter(27);
     loadFilter(31);
     loadFilter(5);
@@ -1961,11 +1971,16 @@ const Participaciones = () => {
           setPermisoAgregarNumeroSolicitud(true);
         } else if (String(item.Referencia) === "MARCAMONEX") {
           setMarcaMonex(true);
+        } else if (String(item.Referencia) === "SANIO") {
+          setSANIO(true);
         }
+
+
+        
 
       } setAnchoAcciones(ancho)
     });
-
+    handleClick();
   }, [
     // munTieneFide
   ]);
@@ -2105,6 +2120,26 @@ const Participaciones = () => {
             :
             ""}
 
+          {SANIO ?
+            <Grid item xs={11.5} sm={6} md={4} lg={
+              user?.DEPARTAMENTOS[0]?.NombreCorto ?
+                user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+                  4 :
+                  2 : 2}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
+              <SelectFrag
+                value={anio}
+                options={meses}
+                onInputChange={handleSelectAnio}
+                placeholder={"Seleccione Año"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+
+            :
+            ""}
+             
           {SMES ?
             <Grid item xs={11.5} sm={6} md={4} lg={
               user?.DEPARTAMENTOS[0]?.NombreCorto ?

@@ -47,7 +47,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
         </Grid>
         <Grid item sx={{ width: "auto", textAlign: "center", paddingLeft: "3%" }}>
           <Typography variant="h6" sx={{ fontWeight: '550' }}> DISTRIBUCIÓN DE RECURSOS </Typography>
-          <Typography variant="subtitle1" > Ambiente:  {localStorage.getItem('Ambiente')} </Typography>
+          {/* <Typography variant="subtitle1" > Ambiente:  {localStorage.getItem('Ambiente')} </Typography> */}
         </Grid>
       </Grid>
 
