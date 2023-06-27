@@ -38,30 +38,23 @@ const SpeisAdmin = ({
     const [documentPDF, setDocumentPDF] = useState<string>();
     const [filePDF, setFilePDF] = useState<File>();
 
-    // const [documentType, setDocumentType] = useState<string>();
-    // const [documentPDF, setDocumentPDF] = useState<string>();
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [agregar, setAgregar] = useState<boolean>(false);
     const [agregarCFDI, setAgregarCFDI] = useState<boolean>(false);
-
     const [PERMISOVerSpei, setPERMISOVerSpei] = useState<boolean>(false);
     const [PERMISOAgregCfdi, setPERMISOAgregCfdi] = useState<boolean>(false);
-
     const [permisoDescargarSpei, setPermisoDescargarSpei] = useState<boolean>(false);
-
     const [editar, setEditar] = useState<boolean>(false);
     const [eliminar, setEliminar] = useState<boolean>(false);
+    const [eliminarCFDI, setEliminarCFDI] = useState<boolean>(false);
     const [addSpei, setAddSpei] = useState<boolean>(false);
     const [verSpei, setVerSpei] = useState<boolean>(false);
     const [slideropen, setslideropen] = useState(false);
     const [TipoDeArchivoPDF, setTipoDeArchivoPDF] = useState(false);
-
     const [URLruta, setURLRuta] = useState<string>("");
-
     const [ruta, setRuta] = useState<string>("");
     const [name, setName] = useState<string>("");
     const [anchoAcciones, setAnchoAcciones] = useState<number>(0);
-
     const [nameSpei, setNameSpei] = useState<string>("");
     const [speiFile, setSpeiFile] = useState(Object);
     const [speis, setSpeis] = useState([]);
@@ -82,7 +75,7 @@ const SpeisAdmin = ({
             headerName: "Acciones",
             description: "Campo de Acciones",
             sortable: false,
-            width: 100 + anchoAcciones,
+            width: 200 ,
             renderCell: (v) => {
                 return (
                     <Box>
@@ -115,13 +108,24 @@ const SpeisAdmin = ({
 
                             : ""}
 
-                        {eliminar ?
+                        {eliminar && modo === "SPEI" ?
                             <Tooltip title={"Eliminar Archivo"}>
                                 <IconButton onClick={() => handleDeleteSpei(v)}>
                                     <DeleteIcon />
                                 </IconButton>
                             </Tooltip>
                             : ""}
+
+                         {eliminarCFDI && modo === "CFDI" ?
+                            <Tooltip title={"Eliminar Archivo"}>
+                                <IconButton onClick={() => handleDeleteSpei(v)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </Tooltip>
+                            : ""}      
+
+
+
 
 
                     </Box>
@@ -188,7 +192,6 @@ const SpeisAdmin = ({
             (event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF"
                 || event.target!.files[0]!.name.slice(-4).toUpperCase() === "XML"
             ))
-            // && (event.target!.files[0]!.name === (vrows.row.a3 + ".pdf") || modo === "CFDI" )
         ) {
 
 
@@ -204,36 +207,10 @@ const SpeisAdmin = ({
 
                 if (speis.length !== 0) {
                     speis.map((item: SPEIS) => {
-                        // if ((item.Nombre) === event?.target?.files[0]?.name && modo === "SPEI") {
-
-                        //     Swal.fire({
-                        //         icon: "warning",
-                        //         title: "Atención",
-                        //         text: "No se Puede Repetir Archivos con el mismo numero de Solicitud de pago",
-                        //         showDenyButton: false,
-                        //         showCancelButton: false,
-                        //         confirmButtonText: "Aceptar",
-                        //         cancelButtonText: "Cancelar",
-                        //     }).then((result) => {
-                        //         if (result.isConfirmed) {
-                        //             setNameSpei("");
-                        //             setSpeiFile(null);
-                        //             setFileValid(false);
-                        //             setslideropen(false);
-
-                        //         }
-                        //         if (result.isDenied) {
-                        //         }
-                        //     });
-                        // } else {
-
                         setNameSpei(event.target!.files[0]!.name);
                         setSpeiFile(file);
                         setFileValid(true);
                         setslideropen(false);
-
-                        // }
-
                     });
 
                 }
@@ -430,7 +407,6 @@ const SpeisAdmin = ({
             }
         });
     };
-    ///////////////////////////////////////////////
 
     const dataUrlToFile = async (dataUrl: string, fileName: string, mimeType: string): Promise<Blob> => {
         const binStr = (dataUrl);
@@ -441,14 +417,6 @@ const SpeisAdmin = ({
         }
         return new Blob([arr], { type: mimeType });
     }
-
-
-    //   asyncCall();
-
-    //////////////////////////////////////////
-    //return a promise that resolves with a File instance
-
-
 
 
     const consulta = () => {
@@ -511,6 +479,10 @@ const SpeisAdmin = ({
                 }
                 if (String(item.Referencia) === "ELIMSPEI") {
                     setEliminar(true);
+                    ancho = ancho + 50;
+                }
+                if (String(item.Referencia) === "ELIMCFDI") {
+                    setEliminarCFDI(true);
                     ancho = ancho + 50;
                 }
                 if (String(item.Referencia) === "DESCARGARSPEI") {
