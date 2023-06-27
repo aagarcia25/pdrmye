@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { getFormDataHeader, getHeaderInfo, getHeaderInfoReporte, getHeaderInitial } from './tokenCreator';
+import { AlertS } from '../helpers/AlertS';
 
 /**
  * MANEJO AUTOMATICO DE PETICIONES
@@ -66,6 +67,11 @@ export const postReporte = async function (url: string, body: any , name:string)
     })
     .catch((error) => {
       console.log(error);
+      AlertS.fire({
+        title: "¡Error!",
+        text: "esta operación no tiene base de cálculo",
+        icon: "error",
+      });
     }
     );
     
