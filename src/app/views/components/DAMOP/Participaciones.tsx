@@ -1830,7 +1830,7 @@ const Participaciones = () => {
         P_IDORGANISMO: user?.ORG[0] ? user.ORG[0].id : idORG === "false" ? "" : idORG,
         P_CHUSER: user.id,
         P_GRUPO: user.DEPARTAMENTOS[0].NombreCorto,
-        P_ANIO: anio
+        P_ANIO: anio === "false" ? "" : anio, 
 
 
       };
@@ -2129,7 +2129,7 @@ const Participaciones = () => {
               <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
               <SelectFrag
                 value={anio}
-                options={meses}
+                options={anios}
                 onInputChange={handleSelectAnio}
                 placeholder={"Seleccione Año"}
                 label={""}
