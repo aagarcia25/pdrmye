@@ -185,6 +185,10 @@ const Participaciones = () => {
       P_TOTAL:data?.row?.total,
       P_TIPO:data?.row?.TipoSolicituds,
     }
+    Toast.fire({
+      icon: "success",
+      title: "La base de cálculo se descargara en un momento!",
+    });
     ReportesServices.formatoSolicitud(body ,body.P_NO +'_Solicitud.pdf').then((response) => {
       setslideropen(false);
      });
