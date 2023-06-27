@@ -206,8 +206,6 @@ const Participaciones = () => {
   const handleBorrarSolicitud = (v: any) => {
 
     let data = {
-      NUMOPERACION: 3,
-      CHUSER: user?.id,
       CHID: v?.row?.id
     }
 
@@ -221,13 +219,22 @@ const Participaciones = () => {
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        DAMOPServices.indexCabecera(data).then((res) => {
+        DAMOPServices.DesintegraOperacion(data).then((res) => {
           if (res.SUCCESS) {
             handleClose();
-            Toast.fire({
-              icon: "success",
-              title: "Cabecera Borrada!",
-            });
+        //   console.log(res.RESPONSE[0])
+            if(res.RESPONSE[0].Respuesta ===200){
+              Toast.fire({
+                icon: "success",
+                title: "Operación Realizada!",
+              });
+            }else{
+              Toast.fire({
+                icon: "error",
+                title: res.RESPONSE[0].Mensaje,
+              });
+            }
+           
           } else {
             AlertS.fire({
               title: "¡Error!",
@@ -488,7 +495,7 @@ const Participaciones = () => {
               </IconButton>
             </Tooltip>
 
-            {ELIMINA && v.row.orden === 1 ? (
+            {ELIMINA && v.row.Integrado === 1 ? (
               <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
                 <Tooltip title={"Eliminar"}>
                   <DeleteForeverOutlinedIcon />
