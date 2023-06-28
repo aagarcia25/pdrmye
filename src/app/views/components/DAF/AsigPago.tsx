@@ -385,9 +385,6 @@ const AsigPago = () => {
         html =
           "Archivos Encontrados <b>" + a1.length + " de  " + counfiles + "</b>";
         html = html + "<br>";
-        //html =
-        //html + "Registros con el mismo numero de solicitud: <b>" + 0 + "</b>";
-        //html = html + "<br>";
         html = html + "¿Desea procesarlos?";
         let count = 0;
         Swal.fire({
