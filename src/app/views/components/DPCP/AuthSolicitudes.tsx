@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -13,10 +14,9 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 import SendIcon from "@mui/icons-material/Send";
 import { esES as coreEsES } from "@mui/material/locale";
 import {
@@ -350,6 +350,22 @@ const AuthSolicitudes = () => {
         </Grid>
         :""
       }
+{/* 
+se comenta hasta nuevo aviso de los servicios de siregob para la deshautorizacion
+ {authSol ?
+        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
+          <ToggleButtonGroup>
+            <Tooltip title={"Desautorizar Solicitudes"}>
+              <ToggleButton
+                value="check"
+                onClick={() => SolicitudOrdenPago()}>
+                <CancelPresentationIcon />
+              </ToggleButton>
+            </Tooltip>
+          </ToggleButtonGroup>
+        </Grid>
+        :""
+      } */}
 
 
 
