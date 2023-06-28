@@ -68,9 +68,9 @@ export const postReporte = async function (url: string, body: any , name:string)
     .catch((error) => {
       console.log(error);
       AlertS.fire({
-        title: "¡Error!",
+        title: "¡Aviso!",
         text: "esta operación no tiene base de cálculo",
-        icon: "error",
+        icon: "info",
       });
     }
     );

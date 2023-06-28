@@ -1,6 +1,8 @@
 import {
   Button,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   Grid,
   IconButton,
   InputAdornment,
@@ -43,23 +45,27 @@ const AuthSolicitudes = () => {
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
+  const [tipo, setTipo] = useState<SelectValues[]>([]);
   const [tipos, setTipos] = useState<SelectValues[]>([]);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
   const [idtipo, setIdTipo] = useState("");
   const [idFondo, setIdFondo] = useState("");
+  const [tipomunicipio, settipomunicipio] = useState("");
   const [idMunicipio, setidMunicipio] = useState("");
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [authSol, setAuthSol] = useState(false);
-
+  const [checked, setChecked] = React.useState(false);
 
   const columnsParticipaciones = [
     { field: "id", hide: true, hideable: false },
+    { field: "UltimaActualizacion", headerName: "Fecha", width: 150,description: "Fecha de ultima Modificación"   },
     { field: "a2", headerName: "Estatus", width: 150,description: "Estatus"   },
     { field: "a3", headerName: "Nº De Solicitud De Pago", width: 200, description: "Nº De Solicitud De Pago"   },
+    { field: "usuario", headerName: "Usuario Modifico", width: 200, description: "Usuario Modifico"   },
     { field: "a6", headerName: "Año", width: 100,      description: "Año"    },
     { field: "a7", headerName: "Mes",      width: 100,      description: "Mes"    },
     { field: "a18",headerName: "U. Resp",      width: 100,      description: "Unidad Responsable"    },
@@ -90,17 +96,27 @@ const AuthSolicitudes = () => {
       } else if (operacion === 32) {
         setMunicipios(res.RESPONSE);
       } else if (operacion === 17) {
+        setTipo(res.RESPONSE);
+      }else if (operacion === 46){
         setTipos(res.RESPONSE);
         setslideropen(false);
       }
     });
   };
 
+  const handleChangeMostrarTodo = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setChecked(event.target.checked);
+  };
 
   const handleFilterChange3 = (v: string) => {
     setidMunicipio(v);
   };
 
+  const handleFilterChange4 = (v: string) => {
+    settipomunicipio(v);
+  };
 
 
   const SolicitudOrdenPago = () => {
@@ -166,6 +182,8 @@ const AuthSolicitudes = () => {
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_IDTIPO: idtipo === "false" ? "" : idtipo,
       P_SOLICITUDPAGO: numOrdenPago ? numOrdenPago : "",
+      P_MOSTRARTODOS: checked,
+      P_MUNICIPIO:tipomunicipio === "false" ? "" : tipomunicipio,
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
@@ -202,6 +220,7 @@ const AuthSolicitudes = () => {
     loadFilter(12);
     loadFilter(32);
     loadFilter(17);
+    loadFilter(46);
     handleClick();
 
       permisos.map((item: PERMISO) => {
@@ -275,8 +294,37 @@ const AuthSolicitudes = () => {
               />
             </FormControl>
           </Grid>
+          <Grid item xs={12} sm={6} md={6} lg={3}>
+            <Typography sx={{ fontFamily: "MontserratMedium" }}>
+              Clasificación:
+            </Typography>
+            <SelectFrag
+              value={tipomunicipio}
+              options={tipos}
+              onInputChange={handleFilterChange4}
+              placeholder={"Seleccione Clasificación"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
+
         </Grid>
 
+        <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
+            <Grid item xs={2} sm={2} md={2} lg={2}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked}
+                    onChange={handleChangeMostrarTodo}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                }
+                label="Mostrar Todo"
+              />
+            </Grid>
+          </Grid>
+          
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
           <Button
             onClick={handleClick}

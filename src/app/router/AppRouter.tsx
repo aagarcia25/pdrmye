@@ -66,7 +66,7 @@ import Usuarios from '../views/components/menu/usuarios/Usuarios/Usuarios';
 import { Perfil } from '../views/components/perfil/Perfil';
 import { AuthRouter } from './AuthRouter';
 import ReporteadorAdmin from '../views/components/Reportes/ReporteadorAdmin';
-
+import CPH from '../views/components/POWERBI/CPH';
 
 export const AppRouter = (
   {
@@ -211,6 +211,8 @@ export const AppRouter = (
         {/* /// herramientas */}
         <Route path='/estadisticas/reportes' element={log ? <Reporteador /> : <AuthRouter />} />
         <Route path='/estadisticas/reportesAdmin' element={log ? <ReporteadorAdmin /> : <AuthRouter />} />
+        <Route path='/powerbicph/' element={log ? <CPH /> : <AuthRouter />} />
+
         {/* /// herramientas */}
 
 

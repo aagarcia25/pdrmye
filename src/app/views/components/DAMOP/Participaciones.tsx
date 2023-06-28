@@ -886,7 +886,7 @@ const Participaciones = () => {
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
     setOpenModalVerSpei(false);
-    handleClick();
+    //handleClick();
   };
   const handleAccion = () => {
 
@@ -2010,7 +2010,7 @@ const Participaciones = () => {
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={12} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
-               Distribuciones de Recursos a Municipios y Organismos Públicos Descentralizados
+               Distribución de Recursos a Municipios y Organismos Públicos Descentralizados
               </Typography>
             </Grid>
           </Grid>
