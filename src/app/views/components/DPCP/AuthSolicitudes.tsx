@@ -35,6 +35,8 @@ import SelectFrag from "../Fragmentos/SelectFrag";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import Slider from "../Slider";
 import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
+import { fmeses } from "../../../share/loadMeses";
+import { fanios } from "../../../share/loadAnios";
 
 
 
@@ -59,6 +61,11 @@ const AuthSolicitudes = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [authSol, setAuthSol] = useState(false);
   const [checked, setChecked] = React.useState(false);
+  const [meses, setMeses] = useState<SelectValues[]>([]);
+  const [anios, setAnios] = useState<SelectValues[]>([]);
+  const [mes, setMes] = useState<string>("");
+  const [anio, setAnio] = useState<string>("");
+
 
   const columnsParticipaciones = [
     { field: "id", hide: true, hideable: false },
@@ -118,7 +125,14 @@ const AuthSolicitudes = () => {
     settipomunicipio(v);
   };
 
+  
+  const handleSelectAnio = (data: any) => {
+    setAnio(data);
+  };
 
+  const handleSelectMes = (data: any) => {
+    setMes(data);
+  };
   const SolicitudOrdenPago = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
@@ -184,6 +198,8 @@ const AuthSolicitudes = () => {
       P_SOLICITUDPAGO: numOrdenPago ? numOrdenPago : "",
       P_MOSTRARTODOS: checked,
       P_MUNICIPIO:tipomunicipio === "false" ? "" : tipomunicipio,
+      P_IDMES: mes === "false" ? "" : mes,
+      P_ANIO: anio === "false" ? "" : anio, 
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
@@ -217,6 +233,8 @@ const AuthSolicitudes = () => {
   };
 
   useEffect(() => {
+    setMeses(fmeses());
+    setAnios(fanios());
     loadFilter(12);
     loadFilter(32);
     loadFilter(17);
@@ -249,7 +267,7 @@ const AuthSolicitudes = () => {
         </Grid>
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          <Grid item xs={12} sm={6} md={6} lg={3}>
+          <Grid item xs={12} sm={6} md={3} lg={2}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Proveedor:
             </Typography>
@@ -294,7 +312,7 @@ const AuthSolicitudes = () => {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6} md={6} lg={3}>
+          <Grid item xs={12} sm={6} md={3} lg={2}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Clasificación:
             </Typography>
@@ -308,6 +326,29 @@ const AuthSolicitudes = () => {
             />
           </Grid>
 
+          <Grid item xs={12} sm={6} md={3} lg={2}>
+          <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
+              <SelectFrag
+                value={anio}
+                options={anios}
+                onInputChange={handleSelectAnio}
+                placeholder={"Seleccione Año"}
+                label={""}
+                disabled={false}
+              />
+           </Grid>
+
+          <Grid item xs={12} sm={6} md={3} lg={2}>
+          <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
+              <SelectFrag
+                value={mes}
+                options={meses}
+                onInputChange={handleSelectMes}
+                placeholder={"Seleccione Mes"}
+                label={""}
+                disabled={false}
+              />
+           </Grid>
         </Grid>
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
