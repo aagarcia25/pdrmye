@@ -195,7 +195,7 @@ const SpeisAdmin = ({
         ) {
 
 
-            if (Number(event.target!.files[0]!.size) / 1024 <= 520) {
+            if (Number(event.target!.files[0]!.size) / 1024 <= 3072) {
 
                 if (modo === "CFDI") {
                     setNameSpei(event.target!.files[0]!.name);
@@ -228,7 +228,7 @@ const SpeisAdmin = ({
                 Swal.fire({
                     icon: "info",
                     title: "Atención",
-                    text: "Tamaño de archivo Excedido -Limitado a 500 KB-",
+                    text: "Tamaño de archivo Excedido -Limitado a 3 MB-",
                     showDenyButton: false,
                     showCancelButton: false,
                     confirmButtonText: "Aceptar",
