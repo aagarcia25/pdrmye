@@ -886,7 +886,7 @@ const Participaciones = () => {
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
     setOpenModalVerSpei(false);
-    handleClick();
+    //handleClick();
   };
   const handleAccion = () => {
 
