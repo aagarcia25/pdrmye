@@ -269,7 +269,7 @@ const Participaciones = () => {
     let name = "PLANTILLA CARGA ANTICIPO PARTICIPACIONES.xlsx";
     let data = {
       TOKEN: JSON.parse(String(getToken())),
-      RUTA: '/PDRMYE/DAMOP/PLANTILLAS/',
+      RUTA: '/DAMOP/PLANTILLAS/',
       NOMBRE: name,
     };
     dowloandfile(data);
