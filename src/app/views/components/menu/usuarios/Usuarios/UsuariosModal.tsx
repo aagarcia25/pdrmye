@@ -468,7 +468,7 @@ const UsuariosModal = ({
 
 
   useEffect(() => {
-console.log(idApp)
+//console.log(idApp)
 ValidaSesion();
 
 

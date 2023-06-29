@@ -67,6 +67,7 @@ import { Perfil } from '../views/components/perfil/Perfil';
 import { AuthRouter } from './AuthRouter';
 import ReporteadorAdmin from '../views/components/Reportes/ReporteadorAdmin';
 import CPH from '../views/components/POWERBI/CPH';
+import { PEF } from '../views/components/CPH/PEF';
 
 export const AppRouter = (
   {
@@ -110,9 +111,7 @@ export const AppRouter = (
       <Routes>
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
         <Route path='/' element={log ? <Bienvenido user={user} /> : <AuthRouter />} />
-
         {/* SECCION DE CATALOGOS */}
-
         <Route path='/inicio/catalogos/mun' element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa' element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob' element={<MunPoblacion />} />
@@ -143,7 +142,7 @@ export const AppRouter = (
         <Route path='/inicio/catalogos/catretenciones' element={log ? <CatRet /> : <AuthRouter />} />
         <Route path='/inicio/catalogos/catTiposDePago' element={log ? <CatTP /> : <AuthRouter />} />
         <Route path='/inicio/catalogos/catClasificacion' element={log ? <ClasificadorSP /> : <AuthRouter />} />
-
+        <Route path='/inicio/catalogos/PEF' element={log ? <PEF /> : <AuthRouter />} />
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
@@ -212,7 +211,6 @@ export const AppRouter = (
         <Route path='/estadisticas/reportes' element={log ? <Reporteador /> : <AuthRouter />} />
         <Route path='/estadisticas/reportesAdmin' element={log ? <ReporteadorAdmin /> : <AuthRouter />} />
         <Route path='/powerbicph/' element={log ? <CPH /> : <AuthRouter />} />
-
         {/* /// herramientas */}
 
 
