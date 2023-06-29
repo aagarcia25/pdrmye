@@ -351,9 +351,9 @@ export const PEF = () => {
           </Grid>
           
       <ButtonsMunicipio2
-        url={"Plantilla de carga de PEF.xlsx"}
+        url={"PlantilladecargadePEF.xlsx"}
         handleUpload={handleUpload} 
-        controlInterno={"CA"}
+        controlInterno={"PEF"}
         handleOpen={handleOpen}/>
       < MUIXDataGridGeneral columns={columns} rows={rows} handleBorrar={handleBorrar} modulo={"PEF"} controlInterno={"PEF"} multiselect={true} />
     </div>
