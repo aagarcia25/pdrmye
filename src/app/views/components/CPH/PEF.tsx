@@ -232,7 +232,7 @@ export const PEF = () => {
 
     let data = {
       NUMOPERACION: 4,
-      P_FONDO: "false" ? "" : idFondo,
+      P_FONDO: idFondo === "false" ? "" : idFondo,
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_MES: mes === "false" ? "" : mes,
       P_ANIO: anio === "false" ? "" : anio,
@@ -351,9 +351,9 @@ export const PEF = () => {
           </Grid>
           
       <ButtonsMunicipio2
-        url={"Plantilla de carga de PEF.xlsx"}
+        url={"PlantilladecargadePEF.xlsx"}
         handleUpload={handleUpload} 
-        controlInterno={"CA"}
+        controlInterno={"PEF"}
         handleOpen={handleOpen}/>
       < MUIXDataGridGeneral columns={columns} rows={rows} handleBorrar={handleBorrar} modulo={"PEF"} controlInterno={"PEF"} multiselect={true} />
     </div>

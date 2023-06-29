@@ -41,7 +41,7 @@ import {
       let name = url;
       let data = {
         TOKEN: JSON.parse(String(getToken())),
-        RUTA: '/PDRMYE/DAMOP/PLANTILLAS/',
+        RUTA: '/DAMOP/PLANTILLAS/',
         NOMBRE: name,
       };
       dowloandfile(data);
