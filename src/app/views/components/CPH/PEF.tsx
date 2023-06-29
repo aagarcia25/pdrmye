@@ -232,7 +232,7 @@ export const PEF = () => {
 
     let data = {
       NUMOPERACION: 4,
-      P_FONDO: "false" ? "" : idFondo,
+      P_FONDO: idFondo === "false" ? "" : idFondo,
       P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
       P_MES: mes === "false" ? "" : mes,
       P_ANIO: anio === "false" ? "" : anio,
