@@ -77,7 +77,9 @@ export class calculosServices {
         return await post('ReCalculo', data);
     }
     
-    
+    public static async handlepef(data: any) {
+        return await post('handlepef', data);
+    }
     
 
 }

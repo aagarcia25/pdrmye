@@ -31,7 +31,8 @@ const MUIXDataGridGeneral = ({
   React.useState<GridColumnVisibilityModel>({
     id: false,
     IdConCheque:false,
-    TipoSolicitud:false
+    TipoSolicitud:false,
+    idmunicipio:false
   });
   
   useEffect(() => {
