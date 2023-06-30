@@ -522,14 +522,22 @@ const SpeisAdmin = ({
                             {vrows.row.a9}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
-                        <Typography variant="h5" className='DatosSpeiCfdiTitulo'>
-                            Número Solicitud de Pago:
-                        </Typography>
-                        <Typography variant="h5" className='DatosSpeiCfdi'>
-                            {vrows.row.a3}
-                        </Typography>
-                    </Grid>
+
+              { user?.PERFILES[0]?.Referencia === "MUN" || user?.PERFILES[0]?.Referencia === "ORG" ?
+""
+
+                  :
+                  <Grid item xs={12} md={6} lg={4}>
+                  <Typography variant="h5" className='DatosSpeiCfdiTitulo'>
+                      Número Solicitud de Pago:
+                  </Typography>
+                  <Typography variant="h5" className='DatosSpeiCfdi'>
+                      {vrows.row.a3}
+                  </Typography>
+                </Grid>
+             }
+                  
+
                     <Grid item xs={12} md={6} lg={4} >
                         <Typography variant="h5" className='DatosSpeiCfdiTitulo'>
                             Importe:
