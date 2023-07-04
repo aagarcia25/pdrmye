@@ -38,7 +38,7 @@ const ModalAjuste = ({
   const [idTipoCalculo, setIdTipoCalculo] = useState<SelectValues>();
   const [idAjustes, setIdAjustes] = useState("");
   // VARIABLES
-  const [monto, setMonto] = useState<number>();
+  const [monto, setMonto] = useState<number>(0);
   const [nameNewDoc, setNameNewDoc] = useState("");
   const [file, setFile] = useState(Object);
   const [slideropen, setslideropen] = useState(true);
@@ -335,8 +335,9 @@ const ModalAjuste = ({
       <Grid item xs={9} sm={9} md={1} sx={{ textAlign: "center" }}>
         <Button className="aceptar"
                     disabled={
-                      !monto
-                      || idAjustes === "" || idAjustes==="false"
+                      // !monto
+                      // || 
+                      idAjustes === "" || idAjustes==="false"
                     }
                     onClick={() => handleSend()}
                     color="primary" fullWidth variant="contained"> <Typography color="white"> Calcular </Typography>
