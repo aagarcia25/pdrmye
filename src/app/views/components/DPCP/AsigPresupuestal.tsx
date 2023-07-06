@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import SendIcon from "@mui/icons-material/Send";
 import {
   Button,
   Grid,
@@ -8,26 +11,26 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import SelectValues from "../../../interfaces/Select/SelectValues";
-import { CatalogosServices } from "../../../services/catalogosServices";
-import SelectFrag from "../Fragmentos/SelectFrag";
-import SendIcon from "@mui/icons-material/Send";
-import { AlertS } from "../../../helpers/AlertS";
-import { Moneda } from "../menu/CustomToolbar";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getPermisos, getUser } from "../../../services/localStorage";
-import { DPCPServices } from "../../../services/DPCPServices";
-import { Toast } from "../../../helpers/Toast";
-import Slider from "../Slider";
-import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
-import { fmeses } from "../../../share/loadMeses";
-import { fanios } from "../../../share/loadAnios";
-import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
-import NombreCatalogo from "../componentes/NombreCatalogo";
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { GridSelectionModel } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { AlertS } from "../../../helpers/AlertS";
+import { Toast } from "../../../helpers/Toast";
+import SelectValues from "../../../interfaces/Select/SelectValues";
+import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { DPCPServices } from "../../../services/DPCPServices";
 import { SireService } from "../../../services/SireService";
+import { CatalogosServices } from "../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../services/localStorage";
+import { fanios } from "../../../share/loadAnios";
+import { fmeses } from "../../../share/loadMeses";
+import SelectFrag from "../Fragmentos/SelectFrag";
+import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
+import Slider from "../Slider";
+import NombreCatalogo from "../componentes/NombreCatalogo";
+import { Moneda } from "../menu/CustomToolbar";
+import { ReportesServices } from '../../../services/ReportesServices';
+import { base64ToArrayBuffer } from '../../../helpers/Files';
 const AsigPresupuestal = () => {
   const [slideropen, setslideropen] = useState(false);
   //MODAL
@@ -179,6 +182,70 @@ const AsigPresupuestal = () => {
   ];
 
 
+  const descargaPlantilla = () => {
+    setslideropen(true);
+
+     if( idFondo === null || idFondo === '' || idFondo ==='false'){
+      AlertS.fire({
+        title: "¡Error!",
+        text: 'Es Necesario el Filtro de Fondo',
+        icon: "error",
+      });
+     }
+
+     if( mes === null  || mes ===  '' || mes ==='false'){
+      AlertS.fire({
+        title: "¡Error!",
+        text: 'Es Necesario el Filtro de Mes',
+        icon: "error",
+      });
+     }
+
+     if( anio === null  || anio === '' || anio ==='false'){
+      AlertS.fire({
+        title: "¡Error!",
+        text: 'Es Necesario el Filtro de Año',
+        icon: "error",
+      });
+     }
+
+
+    let data = {
+      P_FONDO: idFondo === "false" ? "" : idFondo,
+      P_MES: mes === "false" ? "" : mes,
+      P_ANIO: anio === "false" ? "" : anio,
+    };
+
+    console.log(data);
+
+
+     ReportesServices.requerimientoPresupuestal(data).then((res) => {
+      if (res.SUCCESS) {
+      
+        var bufferArray = base64ToArrayBuffer( String(res.RESPONSE) );
+        var blobStore = new Blob([bufferArray], { type: "application/vnd.ms-excel" });
+        var data = window.URL.createObjectURL(blobStore);
+        var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = data;
+        link.download = "Requerimiento Prespuestal.xlsx";
+        link.click();
+        window.URL.revokeObjectURL(data);
+        link.remove();
+        setslideropen(false);
+        
+      } else {
+        setslideropen(false);
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+
+
+  }
   const verificaPresupuesto = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
@@ -474,7 +541,17 @@ const AsigPresupuestal = () => {
                 <AttachMoneyIcon color="primary" />
               </Tooltip>
             </ToggleButton>
+
+            <ToggleButton value="check" onClick={() => descargaPlantilla()}>
+              <Tooltip title={"Descargar Plantilla"}>
+                <FileDownloadIcon color="primary" />
+              </Tooltip>
+            </ToggleButton>
+
           </ToggleButtonGroup>
+
+       
+          
         </Grid>
 
 
