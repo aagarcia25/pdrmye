@@ -62,8 +62,10 @@ export const postReporte = async function (url: string, body: any , name:string)
       const blobStore = new Blob([response.data], { type: 'application/pdf' });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blobStore);
+      link.target="_blank"
       link.download = name; 
       link.click();
+      
     })
     .catch((error) => {
       console.log(error);
