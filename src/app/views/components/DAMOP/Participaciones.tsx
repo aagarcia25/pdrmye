@@ -41,7 +41,7 @@ import Swal from "sweetalert2";
 import IconCFDI from '../../../assets/img/CFDI.svg';
 import IconSPEI from '../../../assets/img/SPEI.svg';
 import { AlertS } from "../../../helpers/AlertS";
-import { dowloandfile } from "../../../helpers/Files";
+import { base64ToArrayBuffer, dowloandfile } from "../../../helpers/Files";
 import { Toast } from "../../../helpers/Toast";
 import { MigraData, resultmigracion } from "../../../interfaces/parametros/ParametrosGenerales";
 import SelectValues from "../../../interfaces/Select/SelectValues";
@@ -189,11 +189,35 @@ const Participaciones = () => {
       icon: "success",
       title: "La base de cálculo se descargara en un momento!",
     });
-    ReportesServices.formatoSolicitud(body ,body.P_NO +'_Solicitud.pdf').then((response) => {
-      setslideropen(false);
-     });
 
-     
+     ReportesServices.formatoSolicitud(body).then((res) => {
+      if (res.SUCCESS) {
+      
+        var bufferArray = base64ToArrayBuffer( String(res.RESPONSE) );
+        var blobStore = new Blob([bufferArray], { type: "application/pdf" });
+        var data = window.URL.createObjectURL(blobStore);
+        var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = data;
+        link.download = body.P_NO +'_Solicitud.pdf';
+       // link.click();
+       // window.URL.revokeObjectURL(data);
+       // link.remove();
+
+        window.open(link.href, "_blank");
+        setslideropen(false);
+        
+      } else {
+        setslideropen(false);
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+
+
 
   };
 
