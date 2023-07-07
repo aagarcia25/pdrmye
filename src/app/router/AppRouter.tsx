@@ -12,7 +12,7 @@ import AsigPresupuestal from '../views/components/DPCP/AsigPresupuestal';
 import AuthSolicitudes from '../views/components/DPCP/AuthSolicitudes';
 import { Configuracione } from '../views/components/EFIRMA/Configuracione';
 import { Firma } from '../views/components/EFIRMA/Firma';
-import { TablaDocse } from '../views/components/EFIRMA/TablaDocse';
+import { BandejaEnviados } from '../views/components/EFIRMA/BandejaEnviados';
 import { Eo404 } from '../views/components/Eo404';
 import { Reporteador } from '../views/components/Reportes/Reporteador';
 import Inicio from '../views/components/Inicio';
@@ -68,6 +68,7 @@ import { AuthRouter } from './AuthRouter';
 import ReporteadorAdmin from '../views/components/Reportes/ReporteadorAdmin';
 import CPH from '../views/components/POWERBI/CPH';
 import { PEF } from '../views/components/CPH/PEF';
+import { BandejaRecibidos } from '../views/components/EFIRMA/BandejaRecibidos';
 
 export const AppRouter = (
   {
@@ -204,7 +205,10 @@ export const AppRouter = (
         {/* /// Firma Electronica */}
         <Route path='/efirm/firma' element={<Firma />} />
         <Route path='/efirm/config' element={<Configuracione />} />
-        <Route path='/efirm/tabla' element={<TablaDocse />} />
+        <Route path='/efirm/BandejaEnviados' element={<BandejaEnviados />} />
+        <Route path='/efirm/BandejaRecibidos' element={<BandejaRecibidos />} />
+
+
         {/* /// Fin Firma Electronica */}
 
         {/* /// herramientas */}

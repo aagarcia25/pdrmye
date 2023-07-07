@@ -1,5 +1,5 @@
 import React from 'react'
-//import {Firmado} from '@jbcecapmex/pakfirma';
+import {Firmado} from '@jbcecapmex/pakfirma';
 import { RESPONSE } from '../../../interfaces/user/UserInfo';
 import { getToken, getUser } from '../../../services/localStorage';
 
@@ -9,12 +9,12 @@ export const Firma = () => {
 
   return (
     <div>
-        {/* <Firmado 
-    jwtToken={String(getToken()).replace(/["']/g, "")}
-      IdCentral={String(user.idUsuarioCentral)}
-      NombreUsuario={user.NombreUsuario}
-      IdApp="973ecf89-38ff-11ed-aed0-040300000000"
-      /> */}
+         <Firmado 
+        jwtToken={String(getToken()).replace(/["']/g, "")}
+        IdCentral={String(user.idUsuarioCentral)}
+        NombreUsuario={user.NombreUsuario}
+        IdApp="973ecf89-38ff-11ed-aed0-040300000000" 
+        PathPorEnviar={''}      /> 
     </div>
   )
 }

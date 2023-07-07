@@ -1,5 +1,5 @@
 import React from 'react'
-//import {Configuracion } from '@jbcecapmex/pakfirma';
+import {Configuracion } from '@jbcecapmex/pakfirma';
 import { RESPONSE } from '../../../interfaces/user/UserInfo';
 import { getToken, getUser } from '../../../services/localStorage';
 export const Configuracione = () => {
@@ -9,12 +9,12 @@ export const Configuracione = () => {
 
   return (
     <div>
-      {/* <Configuracion 
+       <Configuracion 
       jwtToken={String(getToken()).replace(/["']/g, "")}
       IdCentral={String(user.idUsuarioCentral)}
       NombreUsuario={user.NombreUsuario}
       IdApp="973ecf89-38ff-11ed-aed0-040300000000"
-      />  */}
+      />  
 </div>
   )
 }
