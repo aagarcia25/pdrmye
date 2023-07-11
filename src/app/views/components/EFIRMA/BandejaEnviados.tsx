@@ -9,10 +9,15 @@ export const BandejaEnviados = () => {
   return (
     <div>
        <TablaDocs
-       TipoBandeja={'Enviados'} 
-       IdTipoBandeja={'ac496de0-bdc8-11ed-afa1-0242ac120002'} 
-       PathEnvia={'../enviar/'}
-    />  
+        TipoBandeja={'Enviados'}
+        IdTipoBandeja={'ac496de0-bdc8-11ed-afa1-0242ac120002'}
+        PathEnvia={'../enviar/'} 
+        jwtToken={String(getToken()).replace(/["']/g, "")}
+        IdCentral={String(user.idUsuarioCentral)}
+        IdApp="973ecf89-38ff-11ed-aed0-040300000000" 
+
+
+        />  
 </div>
   )
 }
