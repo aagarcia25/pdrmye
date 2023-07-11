@@ -100,7 +100,7 @@ const AsigPago = () => {
     } else {
       Swal.fire({
         icon: "warning",
-        title: "Solo se Procesaran los Registros en estatus Pendiente de Spei",
+        title: "Solo se Procesaran los Registros en estatus Pendiente subir SPEI",
         text: selectionModel.length + " Elementos Seleccionados",
         showDenyButton: false,
         showCancelButton: true,
@@ -219,7 +219,7 @@ const AsigPago = () => {
     },
     {
       field: "a2", headerName: "Estatus", width: 150,
-      description: "Solo se puede cargar un archivo en forma masiva si esta en Estatus Pendiente de Spei"
+      description: "Solo se puede cargar un archivo en forma masiva si esta en Estatus Pendiente subir SPEI"
     },
     {
       field: "a3",
@@ -348,7 +348,7 @@ const AsigPago = () => {
           let file = event?.target?.files?.[i] || "";
           let namefile = event?.target?.files?.[i].name || "";
 
-          if (item.a2.includes("Pendiente de Spei") ||  item.a2.includes("Pagado")    ) {
+          if (item.a2.includes("Pendiente subir SPEI") ||  item.a2.includes("Pagado")    ) {
             if (namefile.includes(item.a3)) {
               rows = rows.filter((items) => !item);
               encontrados.push({ Archivo: file, Registro: item });
@@ -659,7 +659,7 @@ const AsigPago = () => {
                     <React.Fragment>
                       <Typography color="inherit">Cargar SPEI's</Typography>
                       {"Solo se puede cargar en forma masiva si el Estatus es "}
-                      <b>{"'Pendiente de Spei' ó 'Pagado'"}</b>
+                      <b>{"'Pendiente subir SPEI' ó 'Pagado'"}</b>
                     </React.Fragment>
                   }
                 >
