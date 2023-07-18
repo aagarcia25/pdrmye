@@ -294,7 +294,7 @@ export const CalculoGarantiaComponente = () => {
 
   return (
 
-    <div >
+    <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
       <Grid container
         sx={{ justifyContent: "center" }}>
