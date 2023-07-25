@@ -167,7 +167,7 @@ export const Reporteador = () => {
       <SliderProgress open={openSlider} mensaje={"Generando Reporte"} />
       <Titulo name={"Módulo de Generación de Reportes"}></Titulo>
       <Grid container sx={{ justifyContent: "center" }}>
-        <Grid container item xs={12} md={2} lg={2} sx={{ textAlign: "center" }}>
+        <Grid container item xs={12} md={3} lg={3} sx={{ textAlign: "center" }}>
           <Typography variant="h5" paddingBottom={2}>
             Listado de Reportes
           </Typography>
@@ -210,6 +210,22 @@ export const Reporteador = () => {
               ""
             )}
           </Grid>
+
+          <Grid container item xs={12} sm={12} md={12} lg={12}>
+            {reporte !== undefined ? (
+              <>
+                <Button
+                  className="guardar"
+                  color="info"
+                  onClick={() => handleGenerar()}
+                >
+                  {"Generar"}
+                </Button>
+              </>
+            ) : (
+              ""
+            )}
+          </Grid>
         </Grid>
 
         <Grid container item xs={12} md={8} lg={8} sx={{ textAlign: "center" }}>
@@ -233,14 +249,35 @@ export const Reporteador = () => {
               >
                 <Grid item xs={12} sm={12} md={3} lg={3}>
                   <SelectFrag
-                    value={mes}
-                    options={meses}
-                    onInputChange={handleSelectMes}
-                    placeholder={"Seleccione Mes"}
+                    value={anio}
+                    options={anios}
+                    onInputChange={handleFilterChangeAnio}
+                    placeholder={"Seleccione Año"}
                     label={""}
                     disabled={false}
                   />
                 </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+              </Grid>
+            ) : (
+              ""
+            )}
+
+            {reporte?.Auxiliar == "CPH_02" ? (
+              <Grid
+                paddingTop={3}
+                container
+                spacing={2}
+                paddingLeft={2}
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+              >
 
                 <Grid item xs={12} sm={12} md={3} lg={3}>
                   <SelectFrag
@@ -252,6 +289,61 @@ export const Reporteador = () => {
                     disabled={false}
                   />
                 </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <SelectFrag
+                    value={idtrimestre}
+                    options={trimestreList}
+                    onInputChange={handleFilterChangetrimeste}
+                    placeholder={"Seleccione Trimestre"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+              </Grid>
+            ) : (
+              ""
+            )}
+
+            {reporte?.Auxiliar == "CPH_03" ? (
+              <Grid
+                paddingTop={3}
+                container
+                spacing={2}
+                paddingLeft={2}
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+              >
+                
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <SelectFrag
+                    value={anio}
+                    options={anios}
+                    onInputChange={handleFilterChangeAnio}
+                    placeholder={"Seleccione Año"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <SelectFrag
+                    value={mes}
+                    options={meses}
+                    onInputChange={handleSelectMes}
+                    placeholder={"Seleccione Mes"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+
 
                 <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
 
@@ -375,23 +467,6 @@ export const Reporteador = () => {
           </Grid>
         </Grid>
 
-        <Grid container item xs={12} md={1} lg={1} sx={{ textAlign: "center" }}>
-          <Grid container item xs={12} sm={12} md={12} lg={12}>
-            {reporte !== undefined ? (
-              <>
-                <Button
-                  className="guardar"
-                  color="info"
-                  onClick={() => handleGenerar()}
-                >
-                  {"Generar"}
-                </Button>
-              </>
-            ) : (
-              ""
-            )}
-          </Grid>
-        </Grid>
       </Grid>
     </div>
   );
