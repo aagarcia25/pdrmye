@@ -25,15 +25,11 @@ export const CalculoGarantiaModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [garantia, setGarantia] = useState("");
-
   const [municipio, setMunicipio] = useState("");
   const [municipios, setMunicipios] = useState([]);
-
   const [claveFondo, setClaveFondo] = useState("");
   const [fondos, setFondos] = useState([]);
-
   const user: RESPONSE = JSON.parse(String(getUser()));
-
 
   const municipiosC = () => {
     let data = { NUMOPERACION: 4 };
