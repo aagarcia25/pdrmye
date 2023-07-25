@@ -49,6 +49,7 @@ const AuthSolicitudes = () => {
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tipo, setTipo] = useState<SelectValues[]>([]);
   const [tipos, setTipos] = useState<SelectValues[]>([]);
+  const [clasificaciones, setClasificaciones] = useState<SelectValues[]>([]);
   const [checkboxSelection, setCheckboxSelection] = useState(true);
   const [vrows, setVrows] = useState<{}>("");
   const [idtipo, setIdTipo] = useState("");
@@ -65,13 +66,17 @@ const AuthSolicitudes = () => {
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
   const [anio, setAnio] = useState<string>("");
+  const [clasificacion, setclasificacion] = useState<string>("");
+
 
 
   const columnsParticipaciones = [
     { field: "id", hide: true, hideable: false },
     { field: "UltimaActualizacion", headerName: "Fecha", width: 150,description: "Fecha de ultima Modificación"   },
     { field: "a2", headerName: "Estatus", width: 150,description: "Estatus"   },
+    { field: "clasificacion", headerName: "Clasificación", width: 150,description: "Clasificación"   },
     { field: "a3", headerName: "Nº De Solicitud De Pago", width: 200, description: "Nº De Solicitud De Pago"   },
+    { field: "usuario_creador", headerName: "Usuario Creador", width: 200, description: "Usuario Creador"   },
     { field: "usuario", headerName: "Usuario Modifico", width: 200, description: "Usuario Modifico"   },
     { field: "a6", headerName: "Año", width: 100,      description: "Año"    },
     { field: "a7", headerName: "Mes",      width: 100,      description: "Mes"    },
@@ -106,6 +111,8 @@ const AuthSolicitudes = () => {
         setTipo(res.RESPONSE);
       }else if (operacion === 46){
         setTipos(res.RESPONSE);
+      }else if (operacion === 47){
+        setClasificaciones(res.RESPONSE)
         setslideropen(false);
       }
     });
@@ -133,6 +140,12 @@ const AuthSolicitudes = () => {
   const handleSelectMes = (data: any) => {
     setMes(data);
   };
+
+  const handleSelectClasificacion= (data: any) => {
+    setclasificacion(data);
+  };
+
+
   const SolicitudOrdenPago = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
@@ -200,6 +213,8 @@ const AuthSolicitudes = () => {
       P_MUNICIPIO:tipomunicipio === "false" ? "" : tipomunicipio,
       P_IDMES: mes === "false" ? "" : mes,
       P_ANIO: anio === "false" ? "" : anio, 
+      P_IDCLASIFICACION: clasificacion === "false" ? "" : clasificacion, 
+
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
@@ -239,6 +254,7 @@ const AuthSolicitudes = () => {
     loadFilter(32);
     loadFilter(17);
     loadFilter(46);
+    loadFilter(47);
     handleClick();
 
       permisos.map((item: PERMISO) => {
@@ -314,7 +330,7 @@ const AuthSolicitudes = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={3} lg={2}>
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
-              Clasificación:
+              Tipo:
             </Typography>
             <SelectFrag
               value={tipomunicipio}
@@ -345,6 +361,18 @@ const AuthSolicitudes = () => {
                 options={meses}
                 onInputChange={handleSelectMes}
                 placeholder={"Seleccione Mes"}
+                label={""}
+                disabled={false}
+              />
+           </Grid>
+           
+          <Grid item xs={12} sm={6} md={3} lg={2}>
+          <Typography sx={{ fontFamily: "sans-serif" }}>Clasificación :</Typography>
+              <SelectFrag
+                value={clasificacion}
+                options={clasificaciones}
+                onInputChange={handleSelectClasificacion}
+                placeholder={"Seleccione Classificación"}
                 label={""}
                 disabled={false}
               />
