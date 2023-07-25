@@ -71,7 +71,7 @@ export default function MUIXDataGrid(props: any) {
               showQuickFilter: true,
               quickFilterProps: { debounceMs: 500 },
               csvOptions: {
-                fileName: props.modulo,
+                fileName: new Date().getMilliseconds()+"_" +props.modulo,
                 utf8WithBom: true,
               }
             },

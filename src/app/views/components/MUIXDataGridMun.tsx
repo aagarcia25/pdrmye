@@ -95,7 +95,7 @@ const MUIXDataGridMun = ({
               quickFilterProps: { debounceMs: 500, },
 
               csvOptions: {
-                fileName: modulo,
+                fileName: new Date().getMilliseconds()+"_" +modulo,
                 utf8WithBom: true,
 
               }
