@@ -370,7 +370,7 @@ export const Fpg = () => {
       {openDetalles ?
         <DetalleFgp
           idCalculo={idtrazabilidad}
-          nombreFondo={objfondo?.Descripcion || ""}
+          nombreFondo={objfondo?.Descripcion || "" + objfondo?.Tipo}
           idDetalle={idDetalle}
           handleClose={handleClose}
           clave={clave}
