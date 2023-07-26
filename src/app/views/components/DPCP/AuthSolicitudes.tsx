@@ -372,7 +372,7 @@ const AuthSolicitudes = () => {
                 value={clasificacion}
                 options={clasificaciones}
                 onInputChange={handleSelectClasificacion}
-                placeholder={"Seleccione Classificación"}
+                placeholder={"Seleccione Clasificación"}
                 label={""}
                 disabled={false}
               />
