@@ -81,5 +81,9 @@ export class calculosServices {
         return await post('handlepef', data);
     }
     
+    public static async AjusteSemestralIndex(data: any) {
+        return await post('AjusteSemestralIndex', data);
+    }
+    
 
 }
