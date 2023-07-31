@@ -377,9 +377,20 @@ export default function Header(props: HeaderProps) {
               <Grid container item direction="row" justifyContent="flex-end" alignItems="center" xs={12} sm={10} md={8} xl={8} >
                 <Grid item paddingRight={2} >
                   <Grid container direction="column" justifyContent="flex-end" alignItems="center">
+                  <Grid container justifyContent="flex-end" alignItems="center">
+                      <Typography variant="h6" className="TextoHeader">
+                        {props.name}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent="flex-end" alignItems="center">
+                      <Typography variant="h6" className="TextoHeader">
+                        {user.Puesto}
+                      </Typography>
+                    </Grid>
+
                     <Grid container item xs={12} sm={12} direction="row" justifyContent="flex-end" alignItems="center">
                       <Typography color="black">
-                        {(user?.PERFILES[0]?.Referencia === "MUN" ? "Enlace: " : " ") +
+                        {(user?.PERFILES[0]?.Referencia === "MUN" ? "" : " ") +
                           (user?.ROLES[0]?.Nombre === "Municipio" ? user.ROLES[0].Nombre + " " : " ") +
                           ((user?.DEPARTAMENTOS[0]?.NombreCorto !== "MUN") ? user?.DEPARTAMENTOS[0]?.NombreCorto !== "ORG" ? user?.DEPARTAMENTOS[0]?.Descripcion + " " : " " : "") +
                           (user?.MUNICIPIO[0]?.Nombre ? " " + user?.MUNICIPIO[0]?.Nombre + " " : " ")
@@ -389,11 +400,7 @@ export default function Header(props: HeaderProps) {
                         }
                       </Typography>
                     </Grid>
-                    <Grid container justifyContent="flex-end" alignItems="center">
-                      <Typography variant="h6" className="TextoHeader">
-                        {props.name}
-                      </Typography>
-                    </Grid>
+                   
 
                   </Grid>
                 </Grid>

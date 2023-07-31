@@ -20,6 +20,10 @@ export class DAMOPServices {
         return await post('indexDetalle', data);
     }
     
+    public static async DesintegraOperacion(data: any) {
+        return await post('DesintegraOperacion', data);
+    }
+    
     
     
 

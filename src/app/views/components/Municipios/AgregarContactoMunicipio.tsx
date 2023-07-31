@@ -530,7 +530,7 @@ const AgregarContactoMunicipio = () => {
                                                         required
                                                         multiline
                                                         // margin="dense"
-                                                        label="Correro Tesorero"
+                                                        label="Correo Tesorero"
                                                         value={mailTesorero}
                                                         type="text"
                                                         size="small"

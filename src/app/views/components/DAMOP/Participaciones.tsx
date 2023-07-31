@@ -1,3 +1,26 @@
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import AddIcon from '@mui/icons-material/Add';
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import CallMergeIcon from '@mui/icons-material/CallMerge';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
+import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
+import EditOffIcon from '@mui/icons-material/EditOff';
+import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
+import InsightsIcon from "@mui/icons-material/Insights";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import MoneyOffOutlinedIcon from '@mui/icons-material/MoneyOffOutlined';
+import PolylineIcon from '@mui/icons-material/Polyline';
+import PrintIcon from '@mui/icons-material/Print';
+import SegmentIcon from '@mui/icons-material/Segment';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import {
   Box,
   Button,
@@ -11,67 +34,47 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import SelectValues from "../../../interfaces/Select/SelectValues";
-import { CatalogosServices } from "../../../services/catalogosServices";
-import SelectFrag from "../Fragmentos/SelectFrag";
-import { AlertS } from "../../../helpers/AlertS";
-import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getPermisos, getToken, getUser } from "../../../services/localStorage";
-import { DPCPServices } from "../../../services/DPCPServices";
-import { Toast } from "../../../helpers/Toast";
-import Slider from "../Slider";
-import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
-import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
-import CallMergeIcon from '@mui/icons-material/CallMerge';
-import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
-import MoneyOffOutlinedIcon from '@mui/icons-material/MoneyOffOutlined';
-import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
-import { GridSelectionModel, esES as gridEsES, } from "@mui/x-data-grid";
 import { esES as coreEsES } from "@mui/material/locale";
+import { esES as gridEsES, GridSelectionModel, } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { DAMOPServices } from "../../../services/DAMOPServices";
-import ModalDAMOP from "../componentes/ModalDAMOP";
-import InsightsIcon from "@mui/icons-material/Insights";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { Descuentos } from "./Descuentos";
-import AddIcon from '@mui/icons-material/Add';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import EditOffIcon from '@mui/icons-material/EditOff';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import SpeisAdmin from "../DAF/SpeisAdmin";
-import SegmentIcon from '@mui/icons-material/Segment';
-import PrintIcon from '@mui/icons-material/Print';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import { ModalCheque } from "../componentes/ModalCheque";
-import { Retenciones } from "./Retenciones";
-import { fmeses } from "../../../share/loadMeses";
-import SelectFragMulti from "../Fragmentos/SelectFragMulti";
-import PolylineIcon from '@mui/icons-material/Polyline';
-import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
-import { base64ToArrayBuffer, dowloandfile } from "../../../helpers/Files";
-import { ModalSegmentos } from "../componentes/ModalSegmentos";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import { ORGHeader } from "../DAMOP/ORGHeader";
-import IconSPEI from '../../../assets/img/SPEI.svg';
 import IconCFDI from '../../../assets/img/CFDI.svg';
-import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
+import IconSPEI from '../../../assets/img/SPEI.svg';
+import { AlertS } from "../../../helpers/AlertS";
+import { base64ToArrayBuffer, dowloandfile } from "../../../helpers/Files";
+import { Toast } from "../../../helpers/Toast";
 import { MigraData, resultmigracion } from "../../../interfaces/parametros/ParametrosGenerales";
+import SelectValues from "../../../interfaces/Select/SelectValues";
+import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../services/catalogosServices";
+import { DAMOPServices } from "../../../services/DAMOPServices";
+import { DPCPServices } from "../../../services/DPCPServices";
+import { getPermisos, getToken, getUser } from "../../../services/localStorage";
 import { ReportesServices } from "../../../services/ReportesServices";
+import { fanios } from "../../../share/loadAnios";
+import { fmeses } from "../../../share/loadMeses";
+import { ModalCheque } from "../componentes/ModalCheque";
+import ModalDAMOP from "../componentes/ModalDAMOP";
+import { ModalSegmentos } from "../componentes/ModalSegmentos";
+import SpeisAdmin from "../DAF/SpeisAdmin";
+import { ORGHeader } from "../DAMOP/ORGHeader";
+import SelectFrag from "../Fragmentos/SelectFrag";
+import SelectFragMulti from "../Fragmentos/SelectFragMulti";
+import { currencyFormatter, Moneda } from "../menu/CustomToolbar";
+import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
+import Slider from "../Slider";
+import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
+import { Descuentos } from "./Descuentos";
+import { Retenciones } from "./Retenciones";
 const Participaciones = () => {
 
   ///////////////modal de adminisracion Spei cfdi
   const [modoSpeiCfdi, setModoSpeiCfdi] = useState("");
   const [checked, setChecked] = React.useState(false);
   const [meses, setMeses] = useState<SelectValues[]>([]);
+  const [anios, setAnios] = useState<SelectValues[]>([]);
   const [mes, setMes] = useState<string>("");
+  const [anio, setAnio] = useState<string>("");
   const [nombreArchivoExport, setNombreArchivoExport] = useState<string>("");
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
@@ -124,6 +127,7 @@ const Participaciones = () => {
   const [SFONDO, setSFONDO] = useState<boolean>(false);
   const [SMUNICIPIO, setSMUNICIPIO] = useState<boolean>(false);
   const [SMES, setSMES] = useState<boolean>(false);
+  const [SANIO, setSANIO] = useState<boolean>(false);
   const [CG_PLANTILLA_ORG, setCG_PLANTILLA_ORG] = useState<boolean>(false);
   const [INTEGRAR_OPERACION, setINTEGRAR_OPERACION] = useState<boolean>(false);
   const [INTEGRACION_MASIVA, setINTEGRACION_MASIVA] = useState<boolean>(false);
@@ -178,13 +182,42 @@ const Participaciones = () => {
       P_ANIO:data?.row?.Anio,
       P_MES:data?.row?.Mes,
       P_BENEFICIARIO:data?.row?.Nombre,
-      P_TOTAL:data?.row?.total
+      P_TOTAL:data?.row?.total,
+      P_TIPO:data?.row?.TipoSolicituds,
     }
-    ReportesServices.formatoSolicitud(body ,body.P_NO +'_Solicitud.pdf').then((response) => {
-      setslideropen(false);
-     });
+    Toast.fire({
+      icon: "success",
+      title: "La base de cálculo se descargara en un momento!",
+    });
 
-     
+     ReportesServices.formatoSolicitud(body).then((res) => {
+      if (res.SUCCESS) {
+      
+        var bufferArray = base64ToArrayBuffer( String(res.RESPONSE) );
+        var blobStore = new Blob([bufferArray], { type: "application/pdf" });
+        var data = window.URL.createObjectURL(blobStore);
+        var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = data;
+        link.download = body.P_NO +'_Solicitud.pdf';
+       // link.click();
+       // window.URL.revokeObjectURL(data);
+       // link.remove();
+
+        window.open(link.href, "_blank");
+        setslideropen(false);
+        
+      } else {
+        setslideropen(false);
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+
+
 
   };
 
@@ -197,8 +230,6 @@ const Participaciones = () => {
   const handleBorrarSolicitud = (v: any) => {
 
     let data = {
-      NUMOPERACION: 3,
-      CHUSER: user?.id,
       CHID: v?.row?.id
     }
 
@@ -212,13 +243,22 @@ const Participaciones = () => {
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        DAMOPServices.indexCabecera(data).then((res) => {
+        DAMOPServices.DesintegraOperacion(data).then((res) => {
           if (res.SUCCESS) {
             handleClose();
-            Toast.fire({
-              icon: "success",
-              title: "Cabecera Borrada!",
-            });
+        //   console.log(res.RESPONSE[0])
+            if(res.RESPONSE[0].Respuesta ===200){
+              Toast.fire({
+                icon: "success",
+                title: "Operación Realizada!",
+              });
+            }else{
+              Toast.fire({
+                icon: "error",
+                title: res.RESPONSE[0].Mensaje,
+              });
+            }
+           
           } else {
             AlertS.fire({
               title: "¡Error!",
@@ -253,7 +293,7 @@ const Participaciones = () => {
     let name = "PLANTILLA CARGA ANTICIPO PARTICIPACIONES.xlsx";
     let data = {
       TOKEN: JSON.parse(String(getToken())),
-      RUTA: '/PDRMYE/DAMOP/PLANTILLAS/',
+      RUTA: '/DAMOP/PLANTILLAS/',
       NOMBRE: name,
     };
     dowloandfile(data);
@@ -305,7 +345,7 @@ const Participaciones = () => {
           <Box>
 
 
-            <Tooltip title={"Administrar Detalles"}>
+            <Tooltip title={"Base de Cálculo"}>
               <IconButton value="check" onClick={() => handleprintsolicitud(v)}>
                 <MenuBookIcon />
               </IconButton>
@@ -355,8 +395,8 @@ const Participaciones = () => {
   
     {
       field: "estatus",
-      headerName: "Estatus",
-      description: "Estatus",
+      headerName: "Estatus del pago",
+      description: "Estatus del pago",
       width: 170,
     },
     // {
@@ -467,11 +507,11 @@ const Participaciones = () => {
           <Box>
 
 
-            {/* <Tooltip title={"Imprimir Solicitud"}>
+           <Tooltip title={"Base de Cálculo"}>
               <IconButton value="check" onClick={() => handleprintsolicitud(v)}>
                 <PrintIcon />
               </IconButton>
-            </Tooltip> */}
+            </Tooltip> 
 
             <Tooltip title={"Administrar Detalles"}>
               <IconButton value="check" onClick={() => handledetalles(v)}>
@@ -479,7 +519,7 @@ const Participaciones = () => {
               </IconButton>
             </Tooltip>
 
-            {ELIMINA && v.row.orden === 1 ? (
+            {ELIMINA && v.row.Integrado === 1 ? (
               <IconButton value="check" onClick={() => handleBorrarSolicitud(v)}>
                 <Tooltip title={"Eliminar"}>
                   <DeleteForeverOutlinedIcon />
@@ -870,7 +910,7 @@ const Participaciones = () => {
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
     setOpenModalVerSpei(false);
-    handleClick();
+    //handleClick();
   };
   const handleAccion = () => {
 
@@ -899,6 +939,10 @@ const Participaciones = () => {
   const handleSelectMes = (data: any) => {
     setNombreMes(meses.find(({ value }) => value === data)?.label === undefined ? "" : String(meses.find(({ value }) => value === data)?.label));
     setMes(data);
+  };
+
+  const handleSelectAnio = (data: any) => {
+    setAnio(data);
   };
 
   const handleFilterChange5 = (v: string) => {
@@ -1820,7 +1864,8 @@ const Participaciones = () => {
         P_IDMES: mes === "false" ? "" : mes,
         P_IDORGANISMO: user?.ORG[0] ? user.ORG[0].id : idORG === "false" ? "" : idORG,
         P_CHUSER: user.id,
-        P_GRUPO: user.DEPARTAMENTOS[0].NombreCorto
+        P_GRUPO: user.DEPARTAMENTOS[0].NombreCorto,
+        P_ANIO: anio === "false" ? "" : anio, 
 
 
       };
@@ -1869,6 +1914,7 @@ const Participaciones = () => {
   useEffect(() => {
     var ancho = 0;
     setMeses(fmeses());
+    setAnios(fanios());
     loadFilter(27);
     loadFilter(31);
     loadFilter(5);
@@ -1960,11 +2006,16 @@ const Participaciones = () => {
           setPermisoAgregarNumeroSolicitud(true);
         } else if (String(item.Referencia) === "MARCAMONEX") {
           setMarcaMonex(true);
+        } else if (String(item.Referencia) === "SANIO") {
+          setSANIO(true);
         }
+
+
+        
 
       } setAnchoAcciones(ancho)
     });
-
+    handleClick();
   }, [
     // munTieneFide
   ]);
@@ -1983,7 +2034,7 @@ const Participaciones = () => {
           <Grid container sx={{ justifyContent: "center" }}>
             <Grid item xs={12} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
-               Distribuciones de Recursos a Municipios y Organismos Públicos Descentralizados
+               Distribución de Recursos a Municipios y Organismos Públicos Descentralizados
               </Typography>
             </Grid>
           </Grid>
@@ -2104,6 +2155,26 @@ const Participaciones = () => {
             :
             ""}
 
+          {SANIO ?
+            <Grid item xs={11.5} sm={6} md={4} lg={
+              user?.DEPARTAMENTOS[0]?.NombreCorto ?
+                user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+                  4 :
+                  2 : 2}>
+              <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
+              <SelectFrag
+                value={anio}
+                options={anios}
+                onInputChange={handleSelectAnio}
+                placeholder={"Seleccione Año"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+
+            :
+            ""}
+             
           {SMES ?
             <Grid item xs={11.5} sm={6} md={4} lg={
               user?.DEPARTAMENTOS[0]?.NombreCorto ?

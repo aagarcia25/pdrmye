@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { getFormDataHeader, getHeaderInfo, getHeaderInfoReporte, getHeaderInitial } from './tokenCreator';
+import { AlertS } from '../helpers/AlertS';
 
 /**
  * MANEJO AUTOMATICO DE PETICIONES
@@ -61,11 +62,18 @@ export const postReporte = async function (url: string, body: any , name:string)
       const blobStore = new Blob([response.data], { type: 'application/pdf' });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blobStore);
+      link.target="_blank"
       link.download = name; 
       link.click();
+      
     })
     .catch((error) => {
       console.log(error);
+      AlertS.fire({
+        title: "¡Aviso!",
+        text: "esta operación no tiene base de cálculo",
+        icon: "info",
+      });
     }
     );
     

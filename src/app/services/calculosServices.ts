@@ -77,7 +77,17 @@ export class calculosServices {
         return await post('ReCalculo', data);
     }
     
+    public static async handlepef(data: any) {
+        return await post('handlepef', data);
+    }
     
-    
+    public static async AjusteSemestralIndex(data: any) {
+        return await post('AjusteSemestralIndex', data);
+    }
 
+    public static async AjusteAnualIndex(data: any) {
+        return await post('AjusteAnualIndex', data);
+    }
+    
+    
 }

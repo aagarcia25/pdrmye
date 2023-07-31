@@ -12,7 +12,7 @@ import AsigPresupuestal from '../views/components/DPCP/AsigPresupuestal';
 import AuthSolicitudes from '../views/components/DPCP/AuthSolicitudes';
 import { Configuracione } from '../views/components/EFIRMA/Configuracione';
 import { Firma } from '../views/components/EFIRMA/Firma';
-import { TablaDocse } from '../views/components/EFIRMA/TablaDocse';
+import { BandejaEnviados } from '../views/components/EFIRMA/BandejaEnviados';
 import { Eo404 } from '../views/components/Eo404';
 import { Reporteador } from '../views/components/Reportes/Reporteador';
 import Inicio from '../views/components/Inicio';
@@ -66,7 +66,11 @@ import Usuarios from '../views/components/menu/usuarios/Usuarios/Usuarios';
 import { Perfil } from '../views/components/perfil/Perfil';
 import { AuthRouter } from './AuthRouter';
 import ReporteadorAdmin from '../views/components/Reportes/ReporteadorAdmin';
-
+import CPH from '../views/components/POWERBI/CPH';
+import { PEF } from '../views/components/CPH/PEF';
+import { BandejaRecibidos } from '../views/components/EFIRMA/BandejaRecibidos';
+import { AjSemestral } from '../views/components/CPH/AJSEMESTRAL/AjSemestral';
+import { AjAnual } from '../views/components/CPH/AJANUAL/AjAnual';
 
 export const AppRouter = (
   {
@@ -110,9 +114,7 @@ export const AppRouter = (
       <Routes>
         <Route path='/*' element={log ? <Eo404 /> : <AuthRouter />} />
         <Route path='/' element={log ? <Bienvenido user={user} /> : <AuthRouter />} />
-
         {/* SECCION DE CATALOGOS */}
-
         <Route path='/inicio/catalogos/mun' element={<Municipios />} />
         <Route path='/inicio/catalogos/tasa' element={<TasaInteres />} />
         <Route path='/inicio/catalogos/munpob' element={<MunPoblacion />} />
@@ -143,7 +145,7 @@ export const AppRouter = (
         <Route path='/inicio/catalogos/catretenciones' element={log ? <CatRet /> : <AuthRouter />} />
         <Route path='/inicio/catalogos/catTiposDePago' element={log ? <CatTP /> : <AuthRouter />} />
         <Route path='/inicio/catalogos/catClasificacion' element={log ? <ClasificadorSP /> : <AuthRouter />} />
-
+        <Route path='/inicio/catalogos/PEF' element={log ? <PEF /> : <AuthRouter />} />
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
@@ -164,8 +166,9 @@ export const AppRouter = (
         <Route path='/inicio/articulos/calculogarantia' element={<CalculoGarantiaComponente />} />
         <Route path='/inicio/articulos/isai' element={<ISAI />} />
         <Route path='/inicio/articulos/isnR' element={<IsnRecaudacion />} />
+        <Route path='/inicio/articulos/AS' element={<AjSemestral />} />
+        <Route path='/inicio/articulos/AA' element={<AjAnual />} />
         {/* FIN SECCION DE ARTICULOS */}
-
 
         {/* SECCION PARTICIPACIONES FEDERALES Y ESTATALES */}
         <Route path='/inicio/participaciones/:fondo' element={log ? <Fpg /> : <AuthRouter />} />
@@ -205,12 +208,16 @@ export const AppRouter = (
         {/* /// Firma Electronica */}
         <Route path='/efirm/firma' element={<Firma />} />
         <Route path='/efirm/config' element={<Configuracione />} />
-        <Route path='/efirm/tabla' element={<TablaDocse />} />
+        <Route path='/efirm/BandejaEnviados' element={<BandejaEnviados />} />
+        <Route path='/efirm/BandejaRecibidos' element={<BandejaRecibidos />} />
+
+
         {/* /// Fin Firma Electronica */}
 
         {/* /// herramientas */}
         <Route path='/estadisticas/reportes' element={log ? <Reporteador /> : <AuthRouter />} />
         <Route path='/estadisticas/reportesAdmin' element={log ? <ReporteadorAdmin /> : <AuthRouter />} />
+        <Route path='/powerbicph/' element={log ? <CPH /> : <AuthRouter />} />
         {/* /// herramientas */}
 
 
