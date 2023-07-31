@@ -3,42 +3,38 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import InfoIcon from "@mui/icons-material/Info";
 import {
   Box,
-  createTheme,
   Grid,
   IconButton,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
-import { esES as coreEsES } from "@mui/material/locale";
-import { esES as gridEsES } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
-import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
-import { getPermisos, getUser } from "../../../../services/localStorage";
+import { getPermisos } from "../../../../services/localStorage";
 import { Moneda } from "../../menu/CustomToolbar";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
-import { AjAnualDetail } from "./AjAnualDetail";
 import { AjAnualModal } from "./AjAnualModal";
+import { AjAnualDetail } from "./AjAnualDetail";
 
 export const AjAnual = () => {
-  const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
   //MODAL
   //Constantes para las columnas
   const [vrows, setVrows] = useState<{}>("");
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   ///// Modal de Administración de Speis
   const [openModal, setOpenModal] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
+
   const [agregar, setagregar] = useState(false);
   const [eliminar, setEliminar] = useState(false);
 
@@ -109,6 +105,7 @@ export const AjAnual = () => {
                 <InfoIcon />
               </IconButton>
             </Tooltip>
+
             {eliminar ? (
               <Tooltip title={"Eliminar Registro"}>
                 <IconButton color="inherit" onClick={() => handleDeleted(v)}>
@@ -158,7 +155,6 @@ export const AjAnual = () => {
     let data = {
       NUMOPERACION: 2,
     };
-
     calculosServices.AjusteAnualIndex(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
@@ -178,11 +174,12 @@ export const AjAnual = () => {
     });
   };
 
+
   useEffect(() => {
     handleClick();
 
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "AJUSTEANUAL") {
+      if (String(item.ControlInterno) === "AJUSTESEMESTRAL") {
         if (String(item.Referencia) === "AGREGAR") {
           setagregar(true);
         }
@@ -210,7 +207,7 @@ export const AjAnual = () => {
             <Grid container sx={{ justifyContent: "center" }}>
               <Grid className="Titulo" container item xs={12}>
                 <Typography variant="h4" paddingBottom={2}>
-                  Ajuste Semestral
+                  Ajuste Anual
                 </Typography>
               </Grid>
             </Grid>
