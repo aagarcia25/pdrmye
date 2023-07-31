@@ -5,11 +5,12 @@ import { useEffect, useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
 import { calculosServices } from "../../../../services/calculosServices";
-import MUIXDataGrid from "../../MUIXDataGrid";
-import Slider from "../../Slider";
 import ModalForm from "../../componentes/ModalForm";
 import { Moneda } from "../../menu/CustomToolbar";
-export const AjAnualDetail = ({
+import MUIXDataGrid from "../../MUIXDataGrid";
+import Slider from "../../Slider";
+
+export const ADetail = ({
   handleClose,
   row
 }: {
@@ -54,6 +55,8 @@ export const AjAnualDetail = ({
     
   ];
 
+  
+
  
   const handleClick = () => {
     setslideropen(true);
@@ -85,6 +88,7 @@ export const AjAnualDetail = ({
 
   useEffect(() => {
     handleClick();
+
   }, [row]);
 
   return (
