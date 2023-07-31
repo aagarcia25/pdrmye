@@ -189,14 +189,15 @@ export const Ajanual = () => {
     });
   }, []);
 
+
+
   return (
     <>
-      <Slider open={slideropen}></Slider>
-      {openModal ? <AjanualModal handleClose={handleclose} /> : ""}
-
-      {openDetail ? (<ADetail handleClose={handleclose} row={vrows} /> ) : ("")}
-
-        <Grid container spacing={1} padding={2}>
+    {openModal ? <AjanualModal handleClose={handleclose} /> : ""}
+    {openDetail ? <ADetail handleClose={handleclose} row={vrows} /> : ""}
+     
+    <Grid container spacing={1} padding={2}>
+           <Slider open={slideropen}></Slider>
           <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
             <Grid container sx={{ justifyContent: "center" }}>
               <Grid className="Titulo" container item xs={12}>
@@ -226,7 +227,7 @@ export const Ajanual = () => {
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
           </Grid>
-        </Grid>
-    </>
-  );
+      </Grid>
+ </>
+ );
 };
