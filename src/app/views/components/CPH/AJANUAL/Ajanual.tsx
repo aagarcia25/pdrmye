@@ -8,7 +8,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -17,13 +17,13 @@ import { Toast } from "../../../../helpers/Toast";
 import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
 import { getPermisos } from "../../../../services/localStorage";
-import { Moneda } from "../../menu/CustomToolbar";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
-import { AjAnualModal } from "./AjAnualModal";
-import { AjAnualDetail } from "./AjAnualDetail";
+import { Moneda } from "../../menu/CustomToolbar";
+import { ADetail } from "./ADetail";
+import { AjanualModal } from "./AjanualModal";
 
-export const AjAnual = () => {
+export const Ajanual = () => {
   const [slideropen, setslideropen] = useState(false);
   //MODAL
   //Constantes para las columnas
@@ -66,7 +66,7 @@ export const AjAnual = () => {
           P_FONDO: v.row.id,
         };
 
-        calculosServices.AjusteAnualIndex(data).then((res) => {
+        calculosServices.AjusteSemestralIndex(data).then((res) => {
           if (res.SUCCESS) {
             AlertS.fire({
               title: res.RESPONSE,
@@ -155,7 +155,7 @@ export const AjAnual = () => {
     let data = {
       NUMOPERACION: 2,
     };
-    calculosServices.AjusteAnualIndex(data).then((res) => {
+    calculosServices.AjusteSemestralIndex(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -173,7 +173,6 @@ export const AjAnual = () => {
       }
     });
   };
-
 
   useEffect(() => {
     handleClick();
@@ -193,15 +192,10 @@ export const AjAnual = () => {
   return (
     <>
       <Slider open={slideropen}></Slider>
-      {openModal ? <AjAnualModal handleClose={handleclose} /> : ""}
+      {openModal ? <AjanualModal handleClose={handleclose} /> : ""}
 
-      {openDetail ? (
-        <AjAnualDetail handleClose={handleclose} row={vrows} />
-      ) : (
-        ""
-      )}
+      {openDetail ? (<ADetail handleClose={handleclose} row={vrows} /> ) : ("")}
 
-      <div>
         <Grid container spacing={1} padding={2}>
           <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
             <Grid container sx={{ justifyContent: "center" }}>
@@ -233,7 +227,6 @@ export const AjAnual = () => {
             <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
           </Grid>
         </Grid>
-      </div>
     </>
   );
 };
