@@ -63,7 +63,7 @@ export const MunPobrezaExtrema = () => {
     { field: "Nombre",          headerName: "Municipio",        description: "Municipio",         width: 150 },
     { field: "Anio",            headerName: "Año",              description: "Año",               width: 150 },
     { field: "Personas",        headerName: "Total",            description: "Total",             width: 150 },
-    { field: "CarenciaProm",    headerName: "Carencia Promedio",description: "Carencia Promedio", width: 180, ...porcentage }
+    { field: "CarenciaProm",    headerName: "Carencia Promedio",description: "Carencia Promedio", width: 400 }
 
 
   ];
