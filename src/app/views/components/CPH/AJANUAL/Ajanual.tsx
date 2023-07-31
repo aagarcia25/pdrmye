@@ -1,4 +1,5 @@
 import AutoModeIcon from "@mui/icons-material/AutoMode";
+import InfoIcon from "@mui/icons-material/Info";
 import {
   Box,
   createTheme,
@@ -11,9 +12,9 @@ import {
 } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 import {
-  esES as gridEsES, GridSelectionModel
+  esES as gridEsES
 } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
 import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
@@ -22,15 +23,19 @@ import { getPermisos, getUser } from "../../../../services/localStorage";
 import { Moneda } from "../../menu/CustomToolbar";
 import MUIXDataGridGeneral from "../../MUIXDataGridGeneral";
 import Slider from "../../Slider";
-import InfoIcon from "@mui/icons-material/Info";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Swal from "sweetalert2";
 import { AjAnualModal } from "./AjAnualModal";
-import {AjAnualDetail} from "./AjAnualDetail";
+import { AjAnualDetail } from "./AjAnualDetail";
+import MUIXDataGrid from "../../MUIXDataGrid";
+
+
 
 export const AjAnual = () => {
 
+
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   //MODAL
   //Constantes para las columnas
   const [vrows, setVrows] = useState<{}>("");
@@ -41,9 +46,8 @@ export const AjAnual = () => {
   ///// Modal de Administración de Speis
   const [openModal, setOpenModal] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
-
-  const [agregar, setAgregar] = useState(false);
-
+  const [agregar, setagregar] = useState(false);
+  const [eliminar, setEliminar] = useState(false);
 
   const handleclose = (data: any) => {
     handleClick();
@@ -55,6 +59,49 @@ export const AjAnual = () => {
     setVrows(data);
     setOpenDetail(true);
   };
+
+  const handleDeleted =( v: any ) =>{
+    Swal.fire({
+      icon: "error",
+      title: "Eliminación",
+      text: "El Movimiento Seleccionado se Eliminará",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let data = {
+          NUMOPERACION: 4,
+          P_IDANIO: v.row.anio,
+          P_FONDO: v.row.id,
+
+        };
+
+        calculosServices.AjusteAnualIndex(data).then((res) => {
+          if (res.SUCCESS) {
+            AlertS.fire({
+              title: res.RESPONSE,
+              icon: "success",
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                handleClick();
+              }
+            });
+          } else {
+            AlertS.fire({
+              title: "¡Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+
+
+      }
+    });
+  }
+  
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -73,6 +120,15 @@ export const AjAnual = () => {
                 <InfoIcon />
               </IconButton>
             </Tooltip>
+            {eliminar ?
+           <Tooltip title={"Eliminar Registro"}>
+           <IconButton  color="inherit" onClick={() => handleDeleted(v)}>
+          <DeleteForeverIcon />
+        </IconButton>
+        </Tooltip>
+        :""
+        
+        }
           </Box>
         );
       },
@@ -134,9 +190,6 @@ export const AjAnual = () => {
     });
   };
   
-  const handleBorrar = (v: any) => {
-    setSelectionModel(v);
-  };
 
   useEffect(() => {
     handleClick();
@@ -144,9 +197,10 @@ export const AjAnual = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "AJUSTEANUAL") {
         if (String(item.Referencia) === "AGREGAR") {
-          setAgregar(true);
+          setagregar(true);
         }
-        if (String(item.Referencia) === "POLIZASPEIDAF") {
+        if (String(item.Referencia) === "ELIMINAR") {
+          setEliminar(true);
         }
       }
     });
@@ -155,15 +209,8 @@ export const AjAnual = () => {
   return (
     <>
       <Slider open={slideropen}></Slider>
-      {openModal ? (      <AjAnualModal handleClose={handleclose}     />
-      ) : (
-        ""
-      )}
-
-     {openDetail ? (      <AjAnualDetail handleClose={handleclose} row={vrows}     />
-      ) : (
-        ""
-      )}
+      {openModal ? (      <AjAnualModal handleClose={handleclose}     />) : ("")}
+      {openDetail ? (      <AjAnualDetail handleClose={handleclose} row={vrows} />      ) : (        ""      )}
 
       <div>
         <Grid container spacing={1} padding={2}>
@@ -190,9 +237,7 @@ export const AjAnual = () => {
           )}
        
           <Grid item xs={12} sm={12} md={12} lg={12}>
-            <MUIXDataGridGeneral
-              modulo={"DistribucionDaf"}
-              handleBorrar={handleBorrar} columns={columnsParticipaciones} rows={data} controlInterno={"AJUSTESEMESTRAL"} multiselect={true} />
+           <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
           </Grid>
         </Grid>
       </div>

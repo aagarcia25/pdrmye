@@ -1,22 +1,19 @@
 import {
   createTheme,
-  Grid,
-  Typography
+  Grid
 } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 import {
-  esES as gridEsES, GridSelectionModel
+  esES as gridEsES
 } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
-import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
-import { getPermisos, getUser } from "../../../../services/localStorage";
+import ModalForm from "../../componentes/ModalForm";
 import { Moneda } from "../../menu/CustomToolbar";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
-import ModalForm from "../../componentes/ModalForm";
 
 export const AjSemestralDetail = ({
   handleClose,
@@ -27,14 +24,7 @@ export const AjSemestralDetail = ({
 }) => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  //MODAL
-  //Constantes para las columnas
-  
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
-  /// Permisos
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -106,14 +96,6 @@ export const AjSemestralDetail = ({
   useEffect(() => {
     handleClick();
 
-    permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "AJUSTESEMESTRAL") {
-        if (String(item.Referencia) === "TRAZASPEIDAF") {
-        }
-        if (String(item.Referencia) === "POLIZASPEIDAF") {
-        }
-      }
-    });
   }, [row]);
 
   return (

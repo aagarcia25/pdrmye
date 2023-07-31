@@ -27,6 +27,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import { AjSemestralDetail } from "./AjSemestralDetail";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Swal from "sweetalert2";
+import MUIXDataGrid from "../../MUIXDataGrid";
 
 export const AjSemestral = () => {
 
@@ -44,8 +45,8 @@ export const AjSemestral = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
 
-  const [agregar, setagregar] = useState(true);
-  const [eliminar, setEliminar] = useState(true);
+  const [agregar, setagregar] = useState(false);
+  const [eliminar, setEliminar] = useState(false);
 
 
   
@@ -241,7 +242,7 @@ export const AjSemestral = () => {
             </Grid>
           </Grid>
 
-          {true ? (
+          {agregar ? (
             <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
               <Tooltip title="Generar">
                 <ToggleButton className="enviar-mensaje" value="check" onClick={() => handleVersion()}>
@@ -254,9 +255,7 @@ export const AjSemestral = () => {
           )}
        
           <Grid item xs={12} sm={12} md={12} lg={12}>
-            <MUIXDataGridGeneral
-              modulo={"DistribucionDaf"}
-              handleBorrar={handleBorrar} columns={columnsParticipaciones} rows={data} controlInterno={"AJUSTESEMESTRAL"} multiselect={true} />
+              <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
           </Grid>
         </Grid>
       </div>

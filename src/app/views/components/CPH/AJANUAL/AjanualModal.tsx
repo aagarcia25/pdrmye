@@ -81,7 +81,7 @@ export const AjAnualModal = ({
     <div>
       <Box>
         <Dialog open={true} fullScreen>
-          <DialogTitle>Generación de Ajuste Semestral</DialogTitle>
+          <DialogTitle>Generación de Ajuste Anual</DialogTitle>
           <DialogContent dividers={true}>
 
           <Grid container spacing={1}>
