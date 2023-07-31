@@ -1,38 +1,27 @@
 import {
-  createTheme,
-  Grid,
-  Typography
+  Grid
 } from "@mui/material";
-import { esES as coreEsES } from "@mui/material/locale";
-import {
-  esES as gridEsES, GridSelectionModel
-} from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
-import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
-import { getPermisos, getUser } from "../../../../services/localStorage";
+import { getPermisos } from "../../../../services/localStorage";
+import ModalForm from "../../componentes/ModalForm";
 import { Moneda } from "../../menu/CustomToolbar";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
-import ModalForm from "../../componentes/ModalForm";
-
-export const AjSemestralDetail = ({
+export const AjAnualDetail = ({
   handleClose,
   row
 }: {
   handleClose: Function;
   row :any;
 }) => {
-  const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   //MODAL
   //Constantes para las columnas
-  
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
@@ -71,11 +60,8 @@ export const AjSemestralDetail = ({
     
   ];
 
-  
-
  
   const handleClick = () => {
-    console.log(row)
     setslideropen(true);
     let data = {
       NUMOPERACION: 3,
@@ -83,7 +69,7 @@ export const AjSemestralDetail = ({
       P_FONDO:row.row.id
 
     };
-    calculosServices.AjusteSemestralIndex(data).then((res) => {
+    calculosServices.AjusteAnualIndex(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -119,7 +105,7 @@ export const AjSemestralDetail = ({
   return (
     <>
 
-<ModalForm title={"Ajuste Semestral Detalle"} handleClose={handleClose}>
+<ModalForm title={"Ajuste Anual Detalle"} handleClose={handleClose}>
 <Slider open={slideropen}></Slider>
 <div>
           <Grid item xs={12} sm={12} md={12} lg={12}>

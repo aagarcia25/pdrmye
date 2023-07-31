@@ -1,7 +1,9 @@
 import AutoModeIcon from "@mui/icons-material/AutoMode";
 import {
+  Box,
   createTheme,
   Grid,
+  IconButton,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
@@ -21,29 +23,124 @@ import { Moneda } from "../../menu/CustomToolbar";
 import MUIXDataGridGeneral from "../../MUIXDataGridGeneral";
 import Slider from "../../Slider";
 import { AjSemestralModal } from "./AjSemestralModal";
+import InfoIcon from "@mui/icons-material/Info";
+import { AjSemestralDetail } from "./AjSemestralDetail";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Swal from "sweetalert2";
 
 export const AjSemestral = () => {
+
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   //MODAL
   //Constantes para las columnas
+  const [vrows, setVrows] = useState<{}>("");
   const [data, setData] = useState([]);
   const user: RESPONSE = JSON.parse(String(getUser()));
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   ///// Modal de Administración de Speis
   const [openModal, setOpenModal] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
 
+  const [agregar, setagregar] = useState(true);
+  const [eliminar, setEliminar] = useState(true);
+
+
+  
 
   const handleclose = (data: any) => {
     handleClick();
     setOpenModal(false);
+    setOpenDetail(false);
   };
 
+  const handleDetalle = (data: any) => {
+    setVrows(data);
+    setOpenDetail(true);
+  };
+
+  const handleDeleted =( v: any ) =>{
+    Swal.fire({
+      icon: "error",
+      title: "Eliminación",
+      text: "El Movimiento Seleccionado se Eliminará",
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let data = {
+          NUMOPERACION: 4,
+          P_IDANIO: v.row.anio,
+          P_FONDO: v.row.id,
+
+        };
+
+        calculosServices.AjusteSemestralIndex(data).then((res) => {
+          if (res.SUCCESS) {
+            AlertS.fire({
+              title: res.RESPONSE,
+              icon: "success",
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                handleClick();
+              }
+            });
+          } else {
+            AlertS.fire({
+              title: "¡Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+
+
+      }
+    });
+  }
+  
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
+    {
+      disableExport: true,
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Acciones",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            <Tooltip title="Ver Detalle">
+              <IconButton onClick={() => handleDetalle(v)}>
+                <InfoIcon />
+              </IconButton>
+            </Tooltip>
+
+            {eliminar ?
+           <Tooltip title={"Eliminar Registro"}>
+           <IconButton  color="inherit" onClick={() => handleDeleted(v)}>
+          <DeleteForeverIcon />
+        </IconButton>
+        </Tooltip>
+        :""
+        
+        }
+
+          </Box>
+
+
+        );
+
+       
+
+      },
+    },
     {
       field: "anio", headerName: "Año", width: 100,
     },
@@ -109,9 +206,11 @@ export const AjSemestral = () => {
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "AJUSTESEMESTRAL") {
-        if (String(item.Referencia) === "TRAZASPEIDAF") {
+        if (String(item.Referencia) === "AGREGAR") {
+          setagregar(true);
         }
-        if (String(item.Referencia) === "POLIZASPEIDAF") {
+        if (String(item.Referencia) === "ELIMINAR") {
+          setEliminar(true);
         }
       }
     });
@@ -121,6 +220,11 @@ export const AjSemestral = () => {
     <>
       <Slider open={slideropen}></Slider>
       {openModal ? (      <AjSemestralModal handleClose={handleclose}     />
+      ) : (
+        ""
+      )}
+
+     {openDetail ? (      <AjSemestralDetail handleClose={handleclose} row={vrows}     />
       ) : (
         ""
       )}
@@ -139,7 +243,7 @@ export const AjSemestral = () => {
 
           {true ? (
             <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-              <Tooltip title="Generar Nueva Versión">
+              <Tooltip title="Generar">
                 <ToggleButton className="enviar-mensaje" value="check" onClick={() => handleVersion()}>
                   <AutoModeIcon />
                 </ToggleButton>
@@ -162,4 +266,5 @@ export const AjSemestral = () => {
     </>
   );
 };
+
 

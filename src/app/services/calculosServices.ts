@@ -84,6 +84,10 @@ export class calculosServices {
     public static async AjusteSemestralIndex(data: any) {
         return await post('AjusteSemestralIndex', data);
     }
-    
 
+    public static async AjusteAnualIndex(data: any) {
+        return await post('AjusteAnualIndex', data);
+    }
+    
+    
 }
