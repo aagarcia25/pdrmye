@@ -1,9 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
-import { GridColDef } from "@mui/x-data-grid";
-import { getPermisos } from "../../../../services/localStorage";
-import { ArticulosServices } from "../../../../services/ArticulosServices";
-import MUIXDataGrid from "../../MUIXDataGrid";
+import AutoModeIcon from "@mui/icons-material/AutoMode";
+import InfoIcon from "@mui/icons-material/Info";
 import {
   Box,
   Grid,
@@ -13,12 +9,15 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
-import AutoModeIcon from "@mui/icons-material/AutoMode";
-import Slider from "../../Slider";
+import { GridColDef } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 import { PERMISO } from "../../../../interfaces/user/UserInfo";
-import Art14m from "./Art14m";
+import { ArticulosServices } from "../../../../services/ArticulosServices";
+import { getPermisos } from "../../../../services/localStorage";
 import MUIXDataGridMun from "../../MUIXDataGridMun";
+import Slider from "../../Slider";
+import Art14m from "./Art14m";
 
 export const Art14fP = () => {
   const navigate = useNavigate();

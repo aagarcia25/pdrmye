@@ -69,6 +69,8 @@ import ReporteadorAdmin from '../views/components/Reportes/ReporteadorAdmin';
 import CPH from '../views/components/POWERBI/CPH';
 import { PEF } from '../views/components/CPH/PEF';
 import { BandejaRecibidos } from '../views/components/EFIRMA/BandejaRecibidos';
+import { AjSemestral } from '../views/components/CPH/AJSEMESTRAL/AjSemestral';
+import { AjAnual } from '../views/components/CPH/AJANUAL/AjAnual';
 
 export const AppRouter = (
   {
@@ -164,8 +166,9 @@ export const AppRouter = (
         <Route path='/inicio/articulos/calculogarantia' element={<CalculoGarantiaComponente />} />
         <Route path='/inicio/articulos/isai' element={<ISAI />} />
         <Route path='/inicio/articulos/isnR' element={<IsnRecaudacion />} />
+        <Route path='/inicio/articulos/AS' element={<AjSemestral />} />
+        <Route path='/inicio/articulos/AA' element={<AjAnual />} />
         {/* FIN SECCION DE ARTICULOS */}
-
 
         {/* SECCION PARTICIPACIONES FEDERALES Y ESTATALES */}
         <Route path='/inicio/participaciones/:fondo' element={log ? <Fpg /> : <AuthRouter />} />
