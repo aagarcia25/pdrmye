@@ -53,9 +53,9 @@ export const AjSemestralDetail = ({
     },
     {
       field: "diferencia",
-      headerName: "Diferencia",
+      headerName: "Diferencia a descontar por Mes",
       width: 200,
-      description: "Diferencia",
+      description: "Diferencia a descontar por Mes",
       ...Moneda,
     },
     
