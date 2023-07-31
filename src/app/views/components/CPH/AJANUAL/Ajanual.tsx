@@ -3,7 +3,6 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import InfoIcon from "@mui/icons-material/Info";
 import {
   Box,
-  createTheme,
   Grid,
   IconButton,
   ToggleButton,
@@ -11,34 +10,31 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { esES as coreEsES } from "@mui/material/locale";
-import { esES as gridEsES } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
-import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
-import { getPermisos, getUser } from "../../../../services/localStorage";
-import { Moneda } from "../../menu/CustomToolbar";
+import { getPermisos } from "../../../../services/localStorage";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
-import { AjAnualDetail } from "./AjAnualDetail";
-import { AjAnualModal } from "./AjAnualModal";
+import { Moneda } from "../../menu/CustomToolbar";
+import { ADetail } from "./ADetail";
+import { AjanualModal } from "./AjanualModal";
 
-export const AjAnual = () => {
-  const theme = createTheme(coreEsES, gridEsES);
+export const Ajanual = () => {
   const [slideropen, setslideropen] = useState(false);
   //MODAL
   //Constantes para las columnas
   const [vrows, setVrows] = useState<{}>("");
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   ///// Modal de Administración de Speis
   const [openModal, setOpenModal] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
+
   const [agregar, setagregar] = useState(false);
   const [eliminar, setEliminar] = useState(false);
 
@@ -70,7 +66,7 @@ export const AjAnual = () => {
           P_FONDO: v.row.id,
         };
 
-        calculosServices.AjusteAnualIndex(data).then((res) => {
+        calculosServices.AjusteSemestralIndex(data).then((res) => {
           if (res.SUCCESS) {
             AlertS.fire({
               title: res.RESPONSE,
@@ -109,6 +105,7 @@ export const AjAnual = () => {
                 <InfoIcon />
               </IconButton>
             </Tooltip>
+
             {eliminar ? (
               <Tooltip title={"Eliminar Registro"}>
                 <IconButton color="inherit" onClick={() => handleDeleted(v)}>
@@ -158,8 +155,7 @@ export const AjAnual = () => {
     let data = {
       NUMOPERACION: 2,
     };
-
-    calculosServices.AjusteAnualIndex(data).then((res) => {
+    calculosServices.AjusteSemestralIndex(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -182,7 +178,7 @@ export const AjAnual = () => {
     handleClick();
 
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "AJUSTEANUAL") {
+      if (String(item.ControlInterno) === "AJUSTESEMESTRAL") {
         if (String(item.Referencia) === "AGREGAR") {
           setagregar(true);
         }
@@ -196,21 +192,16 @@ export const AjAnual = () => {
   return (
     <>
       <Slider open={slideropen}></Slider>
-      {openModal ? <AjAnualModal handleClose={handleclose} /> : ""}
+      {openModal ? <AjanualModal handleClose={handleclose} /> : ""}
 
-      {openDetail ? (
-        <AjAnualDetail handleClose={handleclose} row={vrows} />
-      ) : (
-        ""
-      )}
+      {openDetail ? (<ADetail handleClose={handleclose} row={vrows} /> ) : ("")}
 
-      <div>
         <Grid container spacing={1} padding={2}>
           <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
             <Grid container sx={{ justifyContent: "center" }}>
               <Grid className="Titulo" container item xs={12}>
                 <Typography variant="h4" paddingBottom={2}>
-                  Ajuste Semestral
+                  Ajuste Anual
                 </Typography>
               </Grid>
             </Grid>
@@ -236,7 +227,6 @@ export const AjAnual = () => {
             <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
           </Grid>
         </Grid>
-      </div>
     </>
   );
 };

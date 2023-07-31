@@ -1,44 +1,34 @@
 import AutoModeIcon from "@mui/icons-material/AutoMode";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import InfoIcon from "@mui/icons-material/Info";
 import {
   Box,
-  createTheme,
   Grid,
   IconButton,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
-import { esES as coreEsES } from "@mui/material/locale";
-import {
-  esES as gridEsES, GridSelectionModel
-} from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
-import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
-import { getPermisos, getUser } from "../../../../services/localStorage";
+import { getPermisos } from "../../../../services/localStorage";
 import { Moneda } from "../../menu/CustomToolbar";
-import MUIXDataGridGeneral from "../../MUIXDataGridGeneral";
-import Slider from "../../Slider";
-import { AjSemestralModal } from "./AjSemestralModal";
-import InfoIcon from "@mui/icons-material/Info";
-import { AjSemestralDetail } from "./AjSemestralDetail";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Swal from "sweetalert2";
 import MUIXDataGrid from "../../MUIXDataGrid";
+import Slider from "../../Slider";
+import { AjSemestralDetail } from "./AjSemestralDetail";
+import { AjSemestralModal } from "./AjSemestralModal";
 
 export const AjSemestral = () => {
-
-  const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   //MODAL
   //Constantes para las columnas
   const [vrows, setVrows] = useState<{}>("");
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   ///// Modal de Administración de Speis
@@ -47,9 +37,6 @@ export const AjSemestral = () => {
 
   const [agregar, setagregar] = useState(false);
   const [eliminar, setEliminar] = useState(false);
-
-
-  
 
   const handleclose = (data: any) => {
     handleClick();
@@ -62,7 +49,7 @@ export const AjSemestral = () => {
     setOpenDetail(true);
   };
 
-  const handleDeleted =( v: any ) =>{
+  const handleDeleted = (v: any) => {
     Swal.fire({
       icon: "error",
       title: "Eliminación",
@@ -77,7 +64,6 @@ export const AjSemestral = () => {
           NUMOPERACION: 4,
           P_IDANIO: v.row.anio,
           P_FONDO: v.row.id,
-
         };
 
         calculosServices.AjusteSemestralIndex(data).then((res) => {
@@ -98,12 +84,9 @@ export const AjSemestral = () => {
             });
           }
         });
-
-
       }
     });
-  }
-  
+  };
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -123,27 +106,23 @@ export const AjSemestral = () => {
               </IconButton>
             </Tooltip>
 
-            {eliminar ?
-           <Tooltip title={"Eliminar Registro"}>
-           <IconButton  color="inherit" onClick={() => handleDeleted(v)}>
-          <DeleteForeverIcon />
-        </IconButton>
-        </Tooltip>
-        :""
-        
-        }
-
+            {eliminar ? (
+              <Tooltip title={"Eliminar Registro"}>
+                <IconButton color="inherit" onClick={() => handleDeleted(v)}>
+                  <DeleteForeverIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
           </Box>
-
-
         );
-
-       
-
       },
     },
     {
-      field: "anio", headerName: "Año", width: 100,
+      field: "anio",
+      headerName: "Año",
+      width: 100,
     },
     {
       field: "Descripcion",
@@ -165,15 +144,12 @@ export const AjSemestral = () => {
       description: "Importe Distribuido",
       ...Moneda,
     },
-    
   ];
 
-  
   const handleVersion = () => {
     setOpenModal(true);
   };
 
- 
   const handleClick = () => {
     setslideropen(true);
     let data = {
@@ -197,10 +173,6 @@ export const AjSemestral = () => {
       }
     });
   };
-  
-  const handleBorrar = (v: any) => {
-    setSelectionModel(v);
-  };
 
   useEffect(() => {
     handleClick();
@@ -220,12 +192,10 @@ export const AjSemestral = () => {
   return (
     <>
       <Slider open={slideropen}></Slider>
-      {openModal ? (      <AjSemestralModal handleClose={handleclose}     />
-      ) : (
-        ""
-      )}
+      {openModal ? <AjSemestralModal handleClose={handleclose} /> : ""}
 
-     {openDetail ? (      <AjSemestralDetail handleClose={handleclose} row={vrows}     />
+      {openDetail ? (
+        <AjSemestralDetail handleClose={handleclose} row={vrows} />
       ) : (
         ""
       )}
@@ -234,9 +204,9 @@ export const AjSemestral = () => {
         <Grid container spacing={1} padding={2}>
           <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
             <Grid container sx={{ justifyContent: "center" }}>
-              <Grid className="Titulo" container item xs={12} >
+              <Grid className="Titulo" container item xs={12}>
                 <Typography variant="h4" paddingBottom={2}>
-                 Ajuste Semestral
+                  Ajuste Semestral
                 </Typography>
               </Grid>
             </Grid>
@@ -245,7 +215,11 @@ export const AjSemestral = () => {
           {agregar ? (
             <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
               <Tooltip title="Generar">
-                <ToggleButton className="enviar-mensaje" value="check" onClick={() => handleVersion()}>
+                <ToggleButton
+                  className="enviar-mensaje"
+                  value="check"
+                  onClick={() => handleVersion()}
+                >
                   <AutoModeIcon />
                 </ToggleButton>
               </Tooltip>
@@ -253,17 +227,12 @@ export const AjSemestral = () => {
           ) : (
             ""
           )}
-       
+
           <Grid item xs={12} sm={12} md={12} lg={12}>
-              <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
+            <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
           </Grid>
         </Grid>
       </div>
-
-    
-     
     </>
   );
 };
-
-

@@ -9,7 +9,7 @@ import { CatalogosServices } from '../../../../services/catalogosServices';
 import { getUser } from '../../../../services/localStorage';
 import SelectFrag from '../../Fragmentos/SelectFrag';
 
-export const AjAnualModal = ({
+export const AjanualModal = ({
     handleClose,
   }: {
     handleClose: Function;
@@ -42,7 +42,7 @@ export const AjAnualModal = ({
         P_USUARIO:user.id
 
       };
-      calculosServices.AjusteSemestralIndex(data).then((res) => {
+      calculosServices.AjusteAnualIndex(data).then((res) => {
         if (res.SUCCESS) {
           Toast.fire({
             icon: "success",
