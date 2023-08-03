@@ -103,7 +103,7 @@ export const PEF = () => {
 
   const handleDelete = (v: any) => {
     Swal.fire({
-      icon: "info",
+      icon: "question",
       title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,

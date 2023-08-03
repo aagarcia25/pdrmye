@@ -147,7 +147,7 @@ const FideicomisoConfig = ({
 
   const handleDelete = (v: any) => {
     Swal.fire({
-      icon: "info",
+      icon: "question",
       title: "¿Estás seguro de eliminar éste registro?",
       showDenyButton: true,
       showCancelButton: false,
