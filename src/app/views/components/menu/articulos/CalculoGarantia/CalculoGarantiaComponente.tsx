@@ -122,7 +122,7 @@ export const CalculoGarantiaComponente = () => {
 
   const handleDelete = (v: any) => {
     Swal.fire({
-      icon: "info",
+      icon: "question",
       title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
