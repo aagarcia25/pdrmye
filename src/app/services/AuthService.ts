@@ -1,6 +1,6 @@
 import { User } from "../interfaces/user/User";
 import { RESPONSE } from "../interfaces/user/UserInfo";
-import { post, postEasy } from "./apiService";
+import { post, postDocument, postEasy } from "./apiService";
 import { getToken, getUser } from "./localStorage";
 
 export class AuthService {
@@ -116,7 +116,7 @@ export class AuthService {
         return await post('SaveImagen', data);
     }
     public static async AdminAyudas(data: any) {
-        return await post('AdminAyudas', data);
+        return await postDocument('AdminAyudas', data);
     }
 
     
