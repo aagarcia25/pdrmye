@@ -229,7 +229,7 @@ const AuthSolicitudes = () => {
 
         var sumatotal = 0;
         res.RESPONSE.map((item: any) => {
-          sumatotal = sumatotal + Number(item.a10)
+          sumatotal = sumatotal + Number(item.a5)
           setSumaTotal(sumatotal)
         });
 
