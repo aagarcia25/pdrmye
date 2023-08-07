@@ -52,6 +52,13 @@ export const ADetail = ({
       description: "Diferencia",
       ...Moneda,
     },
+    {
+      field: "mes",
+      headerName: "Diferencia a descontar por Mes",
+      width: 200,
+      description: "Diferencia a descontar por Mes",
+      ...Moneda,
+    },
     
   ];
 
