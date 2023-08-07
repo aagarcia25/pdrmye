@@ -597,7 +597,7 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {String(v.row.Clave) === 'FGP' && String(v.row.estatusCI) === 'DAMOP_INI' ? (
+            { String(v.row.estatusCI) === 'DAMOP_INI' ? (
               <Tooltip title="Administrar Descuentos">
                 <IconButton
                   onClick={() => handleDescuento(v)}>
