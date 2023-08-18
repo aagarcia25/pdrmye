@@ -49,9 +49,6 @@ export class CatalogosServices {
         return await post('umas', data);
     }
 
-    public static async getTasainteres(data: any) {
-        return await post('getTasainteres', data);
-    };
 
     public static async AjustesIndex(data: any) {
         return await post('AjustesIndex', data);
