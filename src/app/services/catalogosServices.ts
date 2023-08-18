@@ -11,9 +11,6 @@ export class CatalogosServices {
         return await post('reportesAdministracionRelacion', data);
     };
 
-    public static async TiposDePagoSP(data: any) {
-        return await post('TiposDePagoSP', data);
-    }
 
     public static  AdminVideoTutoriales(data: any) {
         return  post('AdminVideoTutoriales', data);

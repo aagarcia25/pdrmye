@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { RESPONSESTORAGE, USUARIORESPONSE } from "../interfaces/user/UserInfo";
-import { AuthService } from "../services/AuthService";
 import { getUser } from "../services/localStorage";
 import Bienvenido from "../views/components/Bienvenido";
 import { Ajanual } from "../views/components/CPH/AJANUAL/Ajanual";
@@ -34,7 +33,6 @@ import { Avisos } from "../views/components/menu/catalogos/Avisos/Avisos";
 import { Bancos } from "../views/components/menu/catalogos/Bancos/Bancos";
 import CambiosMun from "../views/components/menu/catalogos/Cambios/CambiosMun";
 import { CatRet } from "../views/components/menu/catalogos/CatDescuentos/CatRet";
-import { CatTP } from "../views/components/menu/catalogos/CatTiposDePago/CatTP";
 import { ClasificadorSP } from "../views/components/menu/catalogos/ClasificadorSP/ClasificadorSP";
 import { Coeficientes } from "../views/components/menu/catalogos/Coeficientes/Coeficientes";
 import { CuentaBancaria } from "../views/components/menu/catalogos/CuentaBancaria/CuentaBancaria";
@@ -52,7 +50,6 @@ import { MunRecaudacion } from "../views/components/menu/catalogos/MunRecaudacio
 import { MunTerritorio } from "../views/components/menu/catalogos/MunTerritorio/MunTerritorio";
 import { Municipios } from "../views/components/menu/catalogos/Municipios/Municipios";
 import { ParametrosGenerales } from "../views/components/menu/catalogos/ParametrosGenerales/ParametrosGenerales";
-import { TasaInteres } from "../views/components/menu/catalogos/TasaInteres/TasaInteres";
 import TipoFondo from "../views/components/menu/catalogos/TipoFondo/TipoFondo";
 import TipoFondoCalculo from "../views/components/menu/catalogos/TipoFondoCalculo/TipoFondoCalculo";
 import { Umas } from "../views/components/menu/catalogos/Umas/Umas";
@@ -103,7 +100,6 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         />
         {/* SECCION DE CATALOGOS */}
         <Route path="/inicio/catalogos/mun" element={<Municipios />} />
-        <Route path="/inicio/catalogos/tasa" element={<TasaInteres />} />
         <Route path="/inicio/catalogos/munpob" element={<MunPoblacion />} />
         <Route
           path="/inicio/catalogos/munfacturacion"
@@ -176,10 +172,6 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         <Route
           path="/inicio/catalogos/catretenciones"
           element={log ? <CatRet /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/catalogos/catTiposDePago"
-          element={log ? <CatTP /> : <AuthRouter />}
         />
         <Route
           path="/inicio/catalogos/catClasificacion"
