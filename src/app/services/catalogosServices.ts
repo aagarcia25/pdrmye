@@ -11,9 +11,6 @@ export class CatalogosServices {
         return await post('reportesAdministracionRelacion', data);
     };
 
-    public static async TiposDePagoSP(data: any) {
-        return await post('TiposDePagoSP', data);
-    }
 
     public static  AdminVideoTutoriales(data: any) {
         return  post('AdminVideoTutoriales', data);
@@ -52,9 +49,6 @@ export class CatalogosServices {
         return await post('umas', data);
     }
 
-    public static async getTasainteres(data: any) {
-        return await post('getTasainteres', data);
-    };
 
     public static async AjustesIndex(data: any) {
         return await post('AjustesIndex', data);
