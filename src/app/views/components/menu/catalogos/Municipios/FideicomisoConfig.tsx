@@ -15,7 +15,7 @@ import {
   RadioGroup,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import AddIcon from "@mui/icons-material/Add";
@@ -44,7 +44,7 @@ const FideicomisoConfig = ({
   // CAMPOS DE LOS FORMULARIOS
   const [idMun, setIdMun] = useState("");
   const [idFide, setIdFide] = useState<String>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [data, setData] = useState([]);
   const [openSlider, setOpenSlider] = useState(false);
   const [nombre, setNombre] = useState<string>("");
@@ -159,7 +159,7 @@ const FideicomisoConfig = ({
         let dat = {
           CHID: v?.row.id,
           NUMOPERACION: 3,
-          CHUSER: user.id,
+          CHUSER: user.Id,
         };
         CatalogosServices.MunFideicomiso(dat).then((res) => {
           if (res.SUCCESS) {
@@ -255,7 +255,7 @@ const FideicomisoConfig = ({
         CHID: idFide,
         NUMOPERACION: modo === "nuevo" ? 1 : 2,
         IDMUN: idMun,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         NOMBRE: nombre,
         CLAVESIREGOB: claveSireGob,
         PORCENTAJE: porcentaje,

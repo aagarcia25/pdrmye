@@ -10,7 +10,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser,  validaLocalStorage } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 
 
@@ -35,7 +35,7 @@ const MunPobrezaExtremaModal = ({
   const [carenciaProm, setCarenciaProm] = useState<number>();
   const [IdMunicipio, setIdMunicipio] = useState<object>();
   //const [values, setValues] = useState<Imunicipio[]>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   //const [municipio, setMunicipios] = useState<SelectValues[]>([]);
 
   const municipiosc = () => {
@@ -59,7 +59,7 @@ const MunPobrezaExtremaModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         PERSONAS: poblacion,

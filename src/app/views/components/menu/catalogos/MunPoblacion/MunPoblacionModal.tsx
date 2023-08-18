@@ -9,7 +9,7 @@ import {
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
 
@@ -35,7 +35,7 @@ const MunPoblacionModal = ({
   const [anio, setAnio] = useState<number>();
   const [poblacion, setPoblacion] = useState<number>();
   const [munSeleccionado, setMunSeleccionado] = useState<string>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
 
 
@@ -51,7 +51,7 @@ const MunPoblacionModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: anio,
         IDMUNICIPIO: munSeleccionado,
         TOTALPOBLACION: poblacion,

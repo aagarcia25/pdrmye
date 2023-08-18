@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { AlertS } from '../../../../helpers/AlertS';
 import { Toast } from '../../../../helpers/Toast';
 import SelectValues from '../../../../interfaces/Select/SelectValues';
-import { RESPONSE } from '../../../../interfaces/user/UserInfo';
+import { USUARIORESPONSE } from '../../../../interfaces/user/UserInfo';
 import { calculosServices } from '../../../../services/calculosServices';
 import { CatalogosServices } from '../../../../services/catalogosServices';
 import { getUser } from '../../../../services/localStorage';
@@ -18,7 +18,7 @@ export const AjSemestralModal = ({
   const [idfondo, setIdFondo] = useState("");
   const [anio, setAnio] = useState("");
   const [listaFondos, setlistaFondos] = useState<SelectValues[]>([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
 
   
@@ -39,7 +39,7 @@ export const AjSemestralModal = ({
         NUMOPERACION: 1,
         P_ANIO:anio,
         P_FONDO:idfondo,
-        P_USUARIO:user.id
+        P_USUARIO:user.Id
 
       };
       calculosServices.AjusteSemestralIndex(data).then((res) => {

@@ -1,11 +1,11 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box, Typography, Grid } from "@mui/material"
-import { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { AuthService } from "../../../services/AuthService";
-import { RESPONSE, UserInfo } from "../../../interfaces/user/UserInfo";
-import { getToken, getUser, setUser } from "../../../services/localStorage";
-import { Toast } from "../../../helpers/Toast";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { Toast } from "../../../helpers/Toast";
+import { USUARIORESPONSE, UserInfo } from "../../../interfaces/user/UserInfo";
+import { AuthService } from "../../../services/AuthService";
+import { getToken, getUser, setUser } from "../../../services/localStorage";
 export function DialogCambiarImagen({
     open,
     handleClose,
@@ -17,7 +17,7 @@ export function DialogCambiarImagen({
     imgData: string;
     imgTipo: string;
 }) {
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const user: USUARIORESPONSE= JSON.parse(String(getUser()));
     const [uploadFile, setUploadFile] = useState("");
     const [newImage, setNewImage] = useState(Object);
     const [openDialogConfirmacion, setOpenDialogConfirmacion] = useState(false);
@@ -35,7 +35,7 @@ export function DialogCambiarImagen({
         formData.append("NUMOPERACION", "1");
         formData.append("TIPO", "/FOTOPERFIL/");
         formData.append("IMAGEN", newImage, nombreArchivo);
-        formData.append("CHUSER", user.id);
+        formData.append("CHUSER", user.Id);
         formData.append("TOKEN", JSON.parse(String(getToken())));
 
 
@@ -49,7 +49,7 @@ export function DialogCambiarImagen({
                 });
                 let data = {
                     NUMOPERACION: 1,
-                    ID: user.id,
+                    ID: user.Id,
                 };
                 AuthService.adminUser(data).then((res2) => {
                     const us: UserInfo = res2;
@@ -70,7 +70,7 @@ export function DialogCambiarImagen({
         formData.append("NUMOPERACION", "2");
         formData.append("TIPO", "/FOTOPERFIL/");
         // formData.append("IMAGEN", newImage, nombreArchivo);
-        formData.append("CHUSER", user.id);
+        formData.append("CHUSER", user.Id);
         formData.append("TOKEN", JSON.parse(String(getToken())));
 
 
@@ -84,7 +84,7 @@ export function DialogCambiarImagen({
                 });
                 let data = {
                     NUMOPERACION: 1,
-                    ID: user.id,
+                    ID: user.Id,
                 };
                 AuthService.adminUser(data).then((res2) => {
                     const us: UserInfo = res2;

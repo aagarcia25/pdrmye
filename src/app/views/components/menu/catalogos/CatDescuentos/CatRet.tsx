@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Swal from 'sweetalert2';
 import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { PERMISO, USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { CatalogosServices } from '../../../../../services/catalogosServices';
 import { getPermisos, getUser } from '../../../../../services/localStorage';
 import MUIXDataGrid from '../../../MUIXDataGrid';
@@ -69,11 +69,11 @@ export const CatRet = () => {
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-          const user: RESPONSE = JSON.parse(String(getUser()));
+          const user: USUARIORESPONSE= JSON.parse(String(getUser()));
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.row.id,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           CatalogosServices.IndexCatRetenciones(data).then((res) => {

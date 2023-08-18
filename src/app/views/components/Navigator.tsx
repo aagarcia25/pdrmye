@@ -12,8 +12,8 @@ import ListItemText from "@mui/material/ListItemText";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/img/logo.svg";
-import { menus } from "../../interfaces/menu/menu";
 import { getMenus } from "../../services/localStorage";
+import { menus } from "../../interfaces/user/UserInfo";
 
 
 export default function Navigator(props: DrawerProps, logoFijo: any) {
@@ -75,82 +75,78 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
 
 
 
-            {
+          {
 
-              list.map((item, indexx) => {
+list.map((item, indexx) => {
+  return (
+   
+    (item?.item?.length !== 0) ?
 
-                return (
+      <div key={indexx} >
+        <ListItemButton sx={{ bgcolor: open === indexx ? 'rgba(195, 165, 117)' : 'rgba(255, 255, 255, 0.291)' }} key={indexx} onClick={() => handleClick(indexx)} >
+          <ListItemText key={indexx} primary={
+            <Tooltip title={item.Descripcion}>
+              <Typography variant="caption" sx={{ fontFamily: "sans-serif", fontWeight: "800" }} gutterBottom>
+                {item.Menu}
+              </Typography>
+            </Tooltip>
+          } />
 
-                  (item?.items?.length !== 0) ?
+          {open === indexx ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
 
-                    <div key={indexx} >
-                      <ListItemButton sx={{ bgcolor: open === indexx ? 'rgba(195, 165, 117)' : 'rgba(255, 255, 255, 0.291)' }} key={indexx} onClick={() => handleClick(indexx)} >
-                        <ListItemIcon>
-                          {/* <SendIcon /> */}
-                        </ListItemIcon>
-
-                        <ListItemText key={indexx} primary={
-                          <Tooltip title={item.Descripcion}>
-                            <Typography variant="caption" sx={{ fontFamily: "sans-serif", fontWeight: "800" }} gutterBottom>
-                              {item.Menu}
-                            </Typography>
-                          </Tooltip>
-                        } />
-
-                        {open === indexx ? <ExpandLess /> : <ExpandMore />}
-                      </ListItemButton>
-
-                      {
-                        item?.items?.map((subitem, index) => {
-                          return (
-                            <Collapse key={index} in={open === indexx} timeout="auto" unmountOnExit>
-                              <List sx={{ borderRadius: "1" }} key={index} component="div" disablePadding>
-                                <Divider />
-                                <ListItemButton className="itemMenu" key={index} onClick={() => consulta(subitem.Path)} sx={{ pl: 4 }}>
-                                  <ListItemText key={index} primary={
-                                    <>
-                                      <Tooltip title={subitem.Descripcion}>
-                                        <Typography variant="h5" className="menu-Typography"  gutterBottom>
-                                          {" >  " + subitem.Menu}
-                                        </Typography>
-                                      </Tooltip>
-                                    </>
-                                  } />
-                                </ListItemButton>
-                                <Divider />
-                              </List>
-                            </Collapse>
-                          );
-                        })
-                      }
+        {
+          item?.item?.map((subitem, index) => {
+            return (
+              <Collapse key={index} in={open === indexx} timeout="auto" unmountOnExit>
+                <List sx={{ borderRadius: "1" }} key={index} component="div" disablePadding>
+                  <Divider />
+                  <ListItemButton className="itemMenu" key={index} onClick={() => consulta(subitem.Path)} sx={{ pl: 4 }}>
+                    <ListItemText key={index} primary={
+                      <>
+                        <Tooltip title={subitem.Descripcion}>
+                          <Typography variant="h5" className="menu-Typography"  gutterBottom>
+                            {" >  " + subitem.Menu}
+                          </Typography>
+                        </Tooltip>
+                      </>
+                    } />
+                  </ListItemButton>
+                  <Divider />
+                </List>
+              </Collapse>
+            );
+          })
+        }
 
 
-                    </div>
+      </div>
 
-                    :
-                    // SOLO IMPRIME EL BOTON CUANDO NO TIENE HIJOS RELACIONADOS
-                    <div key={Math.random()}>
-                      <ListItemButton onClick={() => navigate(item.Path)}  >
-                        <ListItemIcon>
-                          <SendIcon />
-                        </ListItemIcon>
-                        <ListItemText key={Math.random()} primary={
-                          <Tooltip title={item.Descripcion}>
-                            < Typography className="menu-Typography" variant="h4" component="h2" sx={{ fontFamily: "sans-serif" }} gutterBottom>
-                              {item.Menu}
-                            </Typography>
-                          </Tooltip>
+      :
+      // SOLO IMPRIME EL BOTON CUANDO NO TIENE HIJOS RELACIONADOS
+      <div key={Math.random()}>
+        <ListItemButton onClick={() => navigate(item.Path)}  >
+          <ListItemIcon>
+            <SendIcon />
+          </ListItemIcon>
+          <ListItemText key={Math.random()} primary={
+            <Tooltip title={item.Descripcion}>
+              < Typography className="menu-Typography" variant="h4" component="h2" sx={{ fontFamily: "sans-serif" }} gutterBottom>
+                {item.Menu}
+              </Typography>
+            </Tooltip>
 
 
-                        } />
-                      </ListItemButton>
-                      <Divider key={Math.random()} absolute />
-                    </div>
-                );
+          } />
+        </ListItemButton>
+        <Divider key={Math.random()} absolute />
+      </div>
+  );
 
-              })
+})
 
-            }
+}
+
 
           </List>
         </div>

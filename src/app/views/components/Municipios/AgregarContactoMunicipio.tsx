@@ -1,22 +1,22 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { AlertS } from "../../../helpers/AlertS";
-import { CatalogosServices } from "../../../services/catalogosServices";
-import { Toast } from "../../../helpers/Toast";
-import { getToken, getUser } from "../../../services/localStorage";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { AlertS } from "../../../helpers/AlertS";
+import { Toast } from "../../../helpers/Toast";
 import { ValidaSesion } from "../../../services/UserServices";
-import { VisaulizarImagen } from "../componentes/VisaulizarImagen";
-import { TextFieldFormatoMoneda } from "../componentes/TextFieldFormatoMoneda";
+import { CatalogosServices } from "../../../services/catalogosServices";
+import { getDatosAdicionales, getToken, getUser } from "../../../services/localStorage";
 import SliderProgress from "../SliderProgress";
+import { TextFieldFormatoMoneda } from "../componentes/TextFieldFormatoMoneda";
+import { VisaulizarImagen } from "../componentes/VisaulizarImagen";
+import { ResponseDataAdicional, USUARIORESPONSE } from '../../../interfaces/user/UserInfo';
 
 
 const AgregarContactoMunicipio = () => {
 
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const user: USUARIORESPONSE= JSON.parse(String(getUser()));
     const [primerInicio, setPrimerInicio] = useState(true);
     const [openSlider, setOpenSlider] = useState(true);
     const [uploadFile, setUploadFile] = useState("");
@@ -49,13 +49,13 @@ const AgregarContactoMunicipio = () => {
     const [actualizarDatos, setActualizaaDatos] = useState(true)
     const formData = new FormData();
 
-
+    const DA: ResponseDataAdicional = JSON.parse(String(getDatosAdicionales()));
     const consulta = () => {
         
-        if (user?.MUNICIPIO[0]?.id) {
+        if (DA.MUNICIPIO[0].id) {
             setOpenSlider(true);
             formData.append("NUMOPERACION", "4");
-            formData.append("IDMUNICIPIO", user?.MUNICIPIO[0]?.id);
+            formData.append("IDMUNICIPIO", DA.MUNICIPIO[0]?.id);
             CatalogosServices.municipioInformacion(formData).then((res) => {
                 if (res.SUCCESS) {
 
@@ -123,8 +123,8 @@ const AgregarContactoMunicipio = () => {
         var TOKEN = JSON.parse(String(getToken()));
         formData.append("NUMOPERACION", nuevoRegistro ? "1" : "2");
         formData.append("CHID", id)
-        formData.append("CHUSER", user.id);
-        formData.append("IDMUNICIPIO", user.MUNICIPIO[0].id);
+        formData.append("CHUSER", user.Id);
+        formData.append("IDMUNICIPIO", DA.MUNICIPIO[0].id);
         formData.append("MUNICIPIO", municipio);
         formData.append("TESORERO", tesorero);
         formData.append("RESPONSABLE", responsable);

@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { RESPONSE, PERMISO } from "../../../interfaces/user/UserInfo";
-import { getUser, getPermisos } from "../../../services/localStorage";
-import Slider from "../Slider";
 import {
   Button,
   Grid,
   InputAdornment,
   TextField,
-  ToggleButton,
-  ToggleButtonGroup,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
-import SelectFrag from "../Fragmentos/SelectFrag";
-import { CatalogosServices } from "../../../services/catalogosServices";
+import { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
-import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import { PERMISO, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../services/localStorage";
+import SelectFrag from "../Fragmentos/SelectFrag";
+import Slider from "../Slider";
 import ModalForm from "../componentes/ModalForm";
+import { UserServices } from "../../../services/UserServices";
 
 export const ORGDetail =
   ({
@@ -28,7 +25,7 @@ export const ORGDetail =
       idrow: string;
       handleClose : Function;
     }) => {
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const user: USUARIORESPONSE= JSON.parse(String(getUser()));
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [openSlider, setOpenSlider] = useState(true);
     const [ures, setURes] = useState<SelectValues[]>([]);
@@ -52,21 +49,35 @@ export const ORGDetail =
 
     const loadFilter = (tipo: number) => {
       let data = { NUMOPERACION: tipo };
+
+
+      if (tipo === 26) {
+      UserServices.uresponsables(data).then((res) => {
+        console.log(res);
+       if (res?.status === 200) {
+        console.log(res);
+       } else if (res.status === 401) {
+        setURes([]);
+       }
+     });
+    }else {
       CatalogosServices.SelectIndex(data).then((res) => {
-        if (tipo === 26) {
-          setURes(res.RESPONSE);
-          setOpenSlider(false);
-        } else if (tipo === 28) {
+        if (tipo === 28) {
           setListConceptos(res.RESPONSE);
         }
       });
+    }
+
+
+      
     };
 
     const handleDetalle = (data: any) => { };
 
     useEffect(() => {
-      loadFilter(28);
+     
       loadFilter(26);
+      loadFilter(28);
     }, []);
 
     return (
@@ -228,7 +239,7 @@ export const ORGDetail =
                   id="Clasificador11"
                   variant="outlined"
                   size="small"
-                  label="Proy / Programa"
+                  label="Proyecto/Programa"
 
                 />
               </Grid>

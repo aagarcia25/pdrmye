@@ -8,7 +8,7 @@ import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import {  getPermisos, getUser } from "../../../../../services/localStorage";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
@@ -21,7 +21,7 @@ export const Umas = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const [conUmas, setUmas] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
@@ -50,7 +50,7 @@ export const Umas = () => {
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.row.id,
-            CHUSER: user.id
+            CHUSER: user.Id
           };
           //console.log(data);
 
@@ -148,7 +148,7 @@ export const Umas = () => {
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id
             };
             //console.log(data);
 
@@ -161,7 +161,7 @@ export const Umas = () => {
 
                 consulta({
                   NUMOPERACION: 4,
-                  CHUSER: user.id
+                  CHUSER: user.Id
                 });
 
               } else {

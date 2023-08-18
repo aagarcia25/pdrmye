@@ -1,3 +1,5 @@
+import { Fingerprint } from "@mui/icons-material";
+import PersonIcon from "@mui/icons-material/Person";
 import {
   Box,
   Button,
@@ -6,14 +8,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { COLOR } from "../../styles/colors";
-import PersonIcon from "@mui/icons-material/Person";
-import { Fingerprint } from "@mui/icons-material";
-import { RESPONSE } from "../../interfaces/user/UserInfo";
-import { getToken, getUser } from "../../services/localStorage";
+import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import { UserLogin } from "../../interfaces/user/User";
-import jwt_decode from "jwt-decode";
+import { USUARIORESPONSE } from "../../interfaces/user/UserInfo";
+import { getToken, getUser } from "../../services/localStorage";
+import { COLOR } from "../../styles/colors";
 
 
 
@@ -40,7 +40,7 @@ export function BloqueoSesion({
       setName(decoded.NombreUsuario);
 
     } else {
-      const user: RESPONSE = JSON.parse(String(getUser() === "undefined" || getUser() === undefined ? null : getUser()));
+      const user: USUARIORESPONSE = JSON.parse(String(getUser() === "undefined" || getUser() === undefined ? null : getUser()));
       setApellMat(user?.ApellidoMaterno);
       setApellPat(user?.ApellidoPaterno);
       setName(user?.Nombre);

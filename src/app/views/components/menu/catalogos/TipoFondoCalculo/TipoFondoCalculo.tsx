@@ -6,7 +6,7 @@ import Slider from "../../../Slider";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import {
   Box,
   IconButton,
@@ -28,7 +28,7 @@ const TipoFondoCalculo = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [dataTipoFondo, setDataTipoFondo] = useState([]);
   const [slideropen, setslideropen] = useState(false);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -79,7 +79,7 @@ const TipoFondoCalculo = () => {
     let data = {
       NUMOPERACION: tipoOperacion,
       DESCRIPCION: tipoCalculo,
-      CHUSER: user.id,
+      CHUSER: user.Id,
       CHID: v.id
     };
 
@@ -120,7 +120,7 @@ const TipoFondoCalculo = () => {
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.id,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           CatalogosServices.TipoFondosCalculo(data).then((res) => {
@@ -170,7 +170,7 @@ const TipoFondoCalculo = () => {
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id
             };
 
             CatalogosServices.TipoFondosCalculo(data).then((res) => {

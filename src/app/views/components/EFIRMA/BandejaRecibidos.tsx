@@ -1,9 +1,8 @@
-import React from 'react'
-import {TablaDocs } from '@jbcecapmex/pakfirma';
-import { RESPONSE } from '../../../interfaces/user/UserInfo';
+import { TablaDocs } from '@jbcecapmex/pakfirma';
+import { USUARIORESPONSE } from '../../../interfaces/user/UserInfo';
 import { getToken, getUser } from '../../../services/localStorage';
 export const BandejaRecibidos = () => {
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
 
   return (
@@ -13,7 +12,7 @@ export const BandejaRecibidos = () => {
        IdTipoBandeja={'ac49701a-bdc8-11ed-afa1-0242ac120002'} 
        PathEnvia={'../enviar/'}
        jwtToken={String(getToken()).replace(/["']/g, "")}
-       IdCentral={String(user.idUsuarioCentral)}
+       IdCentral={String(user.Id)}
        IdApp="973ecf89-38ff-11ed-aed0-040300000000" 
     />  
 </div>

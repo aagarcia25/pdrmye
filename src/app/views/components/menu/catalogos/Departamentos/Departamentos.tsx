@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
-import { GridColDef } from '@mui/x-data-grid'
-import { CatalogosServices } from '../../../../../services/catalogosServices'
-import { getPermisos, getUser } from '../../../../../services/localStorage';
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { GridColDef } from '@mui/x-data-grid';
+import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
-import { DepartamentosModal } from './DepartamentosModal';
-import ButtonsAdd from '../Utilerias/ButtonsAdd';
-import BotonesAcciones from '../../../componentes/BotonesAcciones';
+import { PERMISO, USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { CatalogosServices } from '../../../../../services/catalogosServices';
+import { getPermisos, getUser } from '../../../../../services/localStorage';
 import MUIXDataGrid from '../../../MUIXDataGrid';
+import BotonesAcciones from '../../../componentes/BotonesAcciones';
+import ButtonsAdd from '../Utilerias/ButtonsAdd';
+import { DepartamentosModal } from './DepartamentosModal';
 
 export const Departamentos = () => {
 
@@ -67,12 +67,12 @@ export const Departamentos = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         //console.log(v);
-        const user: RESPONSE = JSON.parse(String(getUser()));
+        const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id,
+          CHUSER: user.Id,
         };
         //console.log(data);
 

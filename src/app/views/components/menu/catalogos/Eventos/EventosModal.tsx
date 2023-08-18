@@ -1,29 +1,25 @@
 
-import React, { useEffect, useState } from "react";
 import {
-  Dialog,
   Box,
-  TextField,
-  IconButton,
+  Button,
   Container,
   Grid,
-  Tooltip,
-  Button,
-
+  IconButton,
+  TextField,
+  Tooltip
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
 
-import { AlertS } from "../../../../../helpers/AlertS";
-import { Toast } from "../../../../../helpers/Toast";
-import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipios, getPermisos, getToken, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
-import { PhotoCamera } from "@mui/icons-material";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import ModalForm from "../../../componentes/ModalForm";
-import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { LocalizationProvider, StaticTimePicker } from "@mui/lab";
 import Swal from "sweetalert2";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
+import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getMunicipios, getPermisos, getToken, getUser, setMunicipios, validaLocalStorage } from "../../../../../services/localStorage";
+import ModalForm from "../../../componentes/ModalForm";
 import { VisaulizarImagen } from "../../../componentes/VisaulizarImagen";
 
 
@@ -69,7 +65,7 @@ const EventosModal = ({
   const [NewImagePreview, setNewImagePreviw] = useState<File>();
   const [cleanUp, setCleanUp] = useState<boolean>(false);
   const [editImage, setEditImage] = useState<boolean>(false);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
   // const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-07'));
 
@@ -101,7 +97,7 @@ const EventosModal = ({
       formData.append("DESCRIPCION", descripcion);
       formData.append("FECHAINICIO", inicioEvento);
       formData.append("FECHAFIN", finEvento);
-      formData.append("CHUSER", user.id);
+      formData.append("CHUSER", user.Id);
       formData.append("TOKEN", JSON.parse(String(getToken())));
 
       CatalogosServices.eventos(formData).then((res) => {

@@ -1,18 +1,17 @@
 import {
-  DialogContent,
-  TextField,
+  Box,
   Button,
   Grid,
-  Box,
+  TextField
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
-import ModalForm from "../../../componentes/ModalForm";
 import Slider from "../../../Slider";
+import ModalForm from "../../../componentes/ModalForm";
 
 const TipoFondoCalculoModal = ({
   modo,
@@ -46,7 +45,7 @@ const TipoFondoCalculoModal = ({
   // const [value, setValue] = React.useState<string>();
   // const [value, setValue] = React.useState<string>();
 
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
   const [slideropen, setslideropen] = useState(true);
 
@@ -110,7 +109,7 @@ const TipoFondoCalculoModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         DESCRIPCION: descripcion,
         NUMPROYECTO: numProyecto,
         CONCEPTOEGRESO: conceptoEgreso,

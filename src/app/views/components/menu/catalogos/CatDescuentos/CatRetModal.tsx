@@ -1,9 +1,8 @@
 import { Box, Button, Dialog, DialogActions, Grid, TextField } from '@mui/material';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
-import { RESPONSE } from '../../../../../interfaces/user/UserInfo';
-import { AuthService } from '../../../../../services/AuthService';
+import { USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { CatalogosServices } from '../../../../../services/catalogosServices';
 import { getUser } from '../../../../../services/localStorage';
 import ModalForm from '../../../componentes/ModalForm';
@@ -29,7 +28,7 @@ export const CatRetModal = ({
     const [claveAuxiliar, setClaveAuxiliar] = useState("");
 
      
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   
  
   
@@ -45,7 +44,7 @@ export const CatRetModal = ({
         let data = {
           NUMOPERACION: tipo,
           CHID: id,
-          CHUSER: user.id,
+          CHUSER: user.Id,
           CLAVERETENCION: claveRetencion,
           DESCRIPCION:descripcion,
           RETENCION:retencion,

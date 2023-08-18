@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import { AlertS } from "../../helpers/AlertS";
 import { Toast } from "../../helpers/Toast";
-import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../interfaces/user/UserInfo";
 import { CalendarioService } from "../../services/calendarioService";
 import { getUser } from "../../services/localStorage";
 import { COLOR } from "../../styles/colors";
@@ -50,7 +50,7 @@ const CalendarCModal = ({
 
   //CAMPOS
   const [id, setId] = useState("");
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [nombreEvento, setNombreEvento] = useState<string>("");
   const [finEvento, setFinEvento] = useState(Fecha_min);
   const [inicioEvento, setInicioEvento] = useState(Fecha_min);
@@ -69,13 +69,12 @@ const CalendarCModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
-        MODIFICADOPOR: user.id,
+        CHUSER: user.Id,
+        MODIFICADOPOR: user.Id,
         NOMBREEVENTO: nombreEvento,
         INICIOEVENTO: inicioEvento,
         FINEVENTO: finEvento,
-        ASIGNADOA: user?.id,
-        DEPARTAMENTO: user?.idDepartamento,
+        ASIGNADOA: user?.Id,
       };
 
       handleRequest(data);

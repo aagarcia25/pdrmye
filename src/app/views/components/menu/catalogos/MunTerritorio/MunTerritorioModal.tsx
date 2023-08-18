@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
@@ -31,7 +31,7 @@ const MunTerritorioModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [territorio, setTerritorio] = useState<number>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [IdMunicipio, setIdMunicipio] = useState<object>();
 
 
@@ -46,7 +46,7 @@ const MunTerritorioModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         KM2: territorio,

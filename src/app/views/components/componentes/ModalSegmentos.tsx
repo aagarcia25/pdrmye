@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Tooltip } from '@mui/material';
-import { RESPONSE } from '../../../interfaces/user/UserInfo';
-import { getUser } from '../../../services/localStorage';
+import { useEffect, useState } from 'react';
 import { AlertS } from '../../../helpers/AlertS';
+import { USUARIORESPONSE } from '../../../interfaces/user/UserInfo';
 import { CatalogosServices } from '../../../services/catalogosServices';
+import { getUser } from '../../../services/localStorage';
 
 export const ModalSegmentos = ({
     vrows,
@@ -14,7 +14,7 @@ export const ModalSegmentos = ({
   }) => {
 
     const [numeroOperacion, SetNumeroOperacion] = useState<string>();
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const user: USUARIORESPONSE= JSON.parse(String(getUser()));
     const [title, setTitle] = useState<string>();
     const [label, setLabel] = useState<string>();
     const [proveedor, setProveedor] = useState<string>();
@@ -40,7 +40,7 @@ export const ModalSegmentos = ({
         
           const formData = new FormData();
           formData.append("IDPA",vrows.id,);
-          formData.append("CHUSER", user.id);
+          formData.append("CHUSER", user.Id);
           formData.append("TOTAL", String(numeroOperacion));
           formData.append("tipo", "segmentaOperacion");
           CatalogosServices.migraData(formData).then((res) => {

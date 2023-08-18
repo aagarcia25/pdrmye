@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Grid, Typography } from '@mui/material'
 import { GridColDef, GridSelectionModel } from '@mui/x-data-grid'
-import { getMenus, getPermisos, getUser } from '../../../../../services/localStorage'
-import { CatalogosServices } from '../../../../../services/catalogosServices'
-import { messages } from '../../../../styles'
+import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
+import { AlertS } from "../../../../../helpers/AlertS"
 import { Toast } from '../../../../../helpers/Toast'
-import { AlertS } from "../../../../../helpers/AlertS";
-import Slider from "../../../Slider";
-import MunPoblacionModal from './MunPoblacionModal'
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import SelectFrag from '../../../Fragmentos/SelectFrag'
-import { fanios } from "../../../../../share/loadAnios";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
-import BotonesAcciones from '../../../componentes/BotonesAcciones'
+import SelectValues from "../../../../../interfaces/Select/SelectValues"
+import { PERMISO, USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { CatalogosServices } from '../../../../../services/catalogosServices'
+import { getPermisos, getUser } from '../../../../../services/localStorage'
+import { fanios } from "../../../../../share/loadAnios"
+import { messages } from '../../../../styles'
 import MUIXDataGridMun from '../../../MUIXDataGridMun'
-import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
+import Slider from "../../../Slider"
+import BotonesAcciones from '../../../componentes/BotonesAcciones'
+import NombreCatalogo from '../../../componentes/NombreCatalogo'
+import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
+import MunPoblacionModal from './MunPoblacionModal'
 
 
 export const MunPoblacion = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [update, setUpdate] = useState(false);
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -32,9 +30,7 @@ export const MunPoblacion = () => {
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [modo, setModo] = useState("");
-  const [nombreMenu, setNombreMenu] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  const menu: MENU[] = JSON.parse(String(getMenus()));
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
@@ -112,7 +108,7 @@ export const MunPoblacion = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id
         };
         //console.log(data);
 
@@ -180,7 +176,7 @@ export const MunPoblacion = () => {
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id
             };
             //console.log(data);
 
@@ -193,7 +189,7 @@ export const MunPoblacion = () => {
 
                 consulta({
                   NUMOPERACION: 4,
-                  CHUSER: user.id,
+                  CHUSER: user.Id,
                   ANIO: filterAnio,
                 });
 
@@ -270,14 +266,6 @@ export const MunPoblacion = () => {
     downloadplantilla();
     setAnios(fanios());
 
-    menu.map((item: MENU) => {
-      item.items.map((itemsMenu: ITEMS) => {
-        if (String(itemsMenu.ControlInterno) === "MUNPO") {
-          setNombreMenu(itemsMenu.Menu);
-        }
-      });
-    });
-
     permisos.map((item: PERMISO) => {
 
       if (item.ControlInterno === "MUNPO") {
@@ -308,14 +296,7 @@ export const MunPoblacion = () => {
     <div style={{ height: 600, width: "100%", }}>
       <Slider open={slideropen}></Slider>
 
-      <Grid container
-        sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography variant='h3'>
-            {nombreMenu}
-          </Typography>
-        </Grid>
-      </Grid>
+      <NombreCatalogo controlInterno={"MUNPO"} />
 
       <ButtonsMunicipio
         url={plantilla}

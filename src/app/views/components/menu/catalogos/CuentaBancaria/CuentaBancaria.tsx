@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { MUNICIPIO, PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { MUNICIPIO, PERFILES, PERMISO, ResponseDataAdicional, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipio, getPermisos, getUser } from "../../../../../services/localStorage";
+import { getDatosAdicionales, getMunicipio, getPerfiles, getPermisos, getUser } from "../../../../../services/localStorage";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import ModalAlert from "../../../componentes/ModalAlert";
@@ -31,7 +31,10 @@ export const CuentaBancaria = ({
 
 
   const [slideropen, setslideropen] = useState(true);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  
+  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
+  const DA: ResponseDataAdicional = JSON.parse(String(getDatosAdicionales()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -65,7 +68,7 @@ export const CuentaBancaria = ({
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.row.id,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           CatalogosServices.CuentaBancaria(data).then((res) => {
@@ -93,7 +96,7 @@ export const CuentaBancaria = ({
       let data = {
         NUMOPERACION: 5,
         CHID: v.data.row.id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         IDESTATUS: est,
         COMENTARIOS: v.texto
       };
@@ -174,7 +177,7 @@ export const CuentaBancaria = ({
             }
             
             {
-              ((v.row.EstatusDescripcion === "INICIO" || v.row.ControlInterno === "DAMOP_REGRESADO") && (user.DEPARTAMENTOS[0]?.NombreCorto === "MUN" && user.PERFILES[0]?.Referencia === "MUN") ? (
+              ((v.row.EstatusDescripcion === "INICIO" || v.row.ControlInterno === "DAMOP_REGRESADO") && (user.controlinternodependencia === "MUN" && PER[0]?.Referencia === "MUN") ? (
                 <>
                   <Tooltip title="Enviar a Validación">
                     <IconButton color="info" onClick={() => handlevalidar(v)}>
@@ -193,7 +196,7 @@ export const CuentaBancaria = ({
                 "")
             }
             {
-              ((v.row.ControlInterno === "DAMOP_REVISION") && (user.DEPARTAMENTOS[0]?.NombreCorto === "DAMOP" && user.PERFILES[0]?.Referencia === "ANA") ? (
+              ((v.row.ControlInterno === "DAMOP_REVISION") && (user.controlinternodependencia === "DAMOP" && PER[0]?.Referencia === "ANA") ? (
 
                 <>
                   <Tooltip title="Revisar">
@@ -273,7 +276,7 @@ export const CuentaBancaria = ({
   const consulta = () => {
 
     let data = {
-      CHUSER: idmunicipio !== "" ? idmunicipio : user.MUNICIPIO[0]?.id,
+      CHUSER: idmunicipio !== "" ? idmunicipio : DA.MUNICIPIO[0]?.id,
       NUMOPERACION: idmunicipio !== "" ? 6 : 4,
 
     };

@@ -6,13 +6,12 @@ import { useEffect, useState } from "react";
 import Swal from 'sweetalert2';
 import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from '../../../../../helpers/Toast';
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { PERMISO, USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { CatalogosServices } from '../../../../../services/catalogosServices';
 import { getPermisos, getUser } from '../../../../../services/localStorage';
 import UsuarioResponsable from "../../../DAMOP/UsuarioResponsable";
 import MUIXDataGrid from '../../../MUIXDataGrid';
 import BotonesAcciones from '../../../componentes/BotonesAcciones';
-import ModalForm from "../../../componentes/ModalForm";
 import { CuentaBancaria } from "../CuentaBancaria/CuentaBancaria";
 import ButtonsAdd from '../Utilerias/ButtonsAdd';
 import { CATORGModal } from "./CATORGModal";
@@ -26,7 +25,7 @@ export const CATORG = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
@@ -137,7 +136,7 @@ export const CATORG = () => {
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.row.id,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           CatalogosServices.Organismos(data).then((res) => {

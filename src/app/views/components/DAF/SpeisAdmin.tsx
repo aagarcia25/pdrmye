@@ -10,10 +10,10 @@ import IconeXML from '../../../assets/img/xmlLogo.svg';
 import { AlertS } from '../../../helpers/AlertS';
 import { base64ToArrayBuffer } from '../../../helpers/Files';
 import { Toast } from '../../../helpers/Toast';
-import { PERMISO, RESPONSE, SPEIS } from '../../../interfaces/user/UserInfo';
+import { PERFILES, PERMISO, SPEIS, USUARIORESPONSE } from '../../../interfaces/user/UserInfo';
 import { DAFServices } from '../../../services/DAFServices';
 import { MunServices } from '../../../services/MunServices';
-import { getPermisos, getToken, getUser } from '../../../services/localStorage';
+import { getPerfiles, getPermisos, getToken, getUser } from '../../../services/localStorage';
 import MUIXDataGridMun from '../MUIXDataGridMun';
 import SliderProgress from '../SliderProgress';
 import ModalForm from '../componentes/ModalForm';
@@ -25,26 +25,21 @@ import ButtonsAdd from '../menu/catalogos/Utilerias/ButtonsAdd';
 
 const SpeisAdmin = ({
     handleClose,
-    handleAccion,
     vrows,
     modo
 }: {
     handleClose: Function;
-    handleAccion: Function;
     vrows: any;
     modo: string
 }) => {
 
-    const [documentPDF, setDocumentPDF] = useState<string>();
-    const [filePDF, setFilePDF] = useState<File>();
 
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+    const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
     const [agregar, setAgregar] = useState<boolean>(false);
     const [agregarCFDI, setAgregarCFDI] = useState<boolean>(false);
     const [PERMISOVerSpei, setPERMISOVerSpei] = useState<boolean>(false);
-    const [PERMISOAgregCfdi, setPERMISOAgregCfdi] = useState<boolean>(false);
     const [permisoDescargarSpei, setPermisoDescargarSpei] = useState<boolean>(false);
-    const [editar, setEditar] = useState<boolean>(false);
     const [eliminar, setEliminar] = useState<boolean>(false);
     const [eliminarCFDI, setEliminarCFDI] = useState<boolean>(false);
     const [addSpei, setAddSpei] = useState<boolean>(false);
@@ -52,20 +47,16 @@ const SpeisAdmin = ({
     const [slideropen, setslideropen] = useState(false);
     const [TipoDeArchivoPDF, setTipoDeArchivoPDF] = useState(false);
     const [URLruta, setURLRuta] = useState<string>("");
-    const [ruta, setRuta] = useState<string>("");
-    const [name, setName] = useState<string>("");
-    const [anchoAcciones, setAnchoAcciones] = useState<number>(0);
     const [nameSpei, setNameSpei] = useState<string>("");
     const [speiFile, setSpeiFile] = useState(Object);
     const [speis, setSpeis] = useState([]);
     const [fileValid, setFileValid] = useState<boolean>(false);
-    const [mensajeError, setMensajeError] = useState<string>("Solo Archivos PDF");
 
 
 
 
 
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
 
     const columns: GridColDef[] = [
@@ -90,10 +81,8 @@ const SpeisAdmin = ({
                                 </IconButton>
                             </Tooltip>
                             : ""}
-                        {/* {user.DEPARTAMENTOS[0].NombreCorto === "DAF" ? */}
 
                         {permisoDescargarSpei
-                            // && v.row.Nombre.slice(-3).toUpperCase() === "PDF"
                             ?
                             <Tooltip title={"Descargar Archivo"}>
                                 <IconButton onClick={() => handleDescargarSpei(v)}>
@@ -298,7 +287,7 @@ const SpeisAdmin = ({
         formData.append("NUMOPERACION", "3");
         formData.append("TIPO", "SPEI");
         formData.append("CHID", data.id);
-        formData.append("CHUSER", user.id);
+        formData.append("CHUSER", user.Id);
         formData.append("REGISTROS", speis[1] ? "1" : "0");
         formData.append("TOKEN", JSON.parse(String(getToken())));
 
@@ -351,7 +340,7 @@ const SpeisAdmin = ({
         formData.append("TIPO", modo);
         formData.append("NUMOPERACION", numOp);
         formData.append("IDPROV", vrows.id);
-        formData.append("CHUSER", user.id);
+        formData.append("CHUSER", user.Id);
         formData.append("TOKEN", JSON.parse(String(getToken())));
 
         DAFServices.SpeiAdministracion(formData).then((res) => {
@@ -505,7 +494,6 @@ const SpeisAdmin = ({
                     ancho = ancho + 50;
                 }
             }
-            setAnchoAcciones(ancho)
         });
     }, []);
     return (
@@ -523,7 +511,7 @@ const SpeisAdmin = ({
                         </Typography>
                     </Grid>
 
-              { user?.PERFILES[0]?.Referencia === "MUN" || user?.PERFILES[0]?.Referencia === "ORG" ?
+              { PER[0]?.Referencia === "MUN" || PER[0]?.Referencia === "ORG" ?
 ""
 
                   :

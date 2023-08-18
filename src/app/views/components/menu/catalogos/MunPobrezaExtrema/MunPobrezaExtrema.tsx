@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
-import { porcentage } from '../../CustomToolbar'
-import { CatalogosServices } from '../../../../../services/catalogosServices'
+import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
+import { AlertS } from "../../../../../helpers/AlertS"
 import { Toast } from '../../../../../helpers/Toast'
-import { AlertS } from "../../../../../helpers/AlertS";
-import Slider from "../../../Slider";
-import { fanios } from "../../../../../share/loadAnios";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import SelectValues from "../../../../../interfaces/Select/SelectValues"
+import { PERMISO, USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { getPermisos, getUser } from '../../../../../services/localStorage'
-import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
-import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
-import BotonesAcciones from '../../../componentes/BotonesAcciones'
+import { fanios } from "../../../../../share/loadAnios"
 import MUIXDataGridMun from '../../../MUIXDataGridMun'
+import Slider from "../../../Slider"
+import BotonesAcciones from '../../../componentes/BotonesAcciones'
+import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
+import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
 
 import NombreCatalogo from '../../../componentes/NombreCatalogo'
 
@@ -27,7 +26,7 @@ export const MunPobrezaExtrema = () => {
   const [PobrezaExtrema, setPobrezaExtrema] = useState([]);
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [nombreMenu, setNombreMenu] = useState("");
   const [editar, setEditar] = useState<boolean>(false);
@@ -117,7 +116,7 @@ export const MunPobrezaExtrema = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id
         };
 
 
@@ -185,7 +184,7 @@ export const MunPobrezaExtrema = () => {
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id
             };
 
             CatalogosServices.munpobrezaext(data).then((res) => {
@@ -197,7 +196,7 @@ export const MunPobrezaExtrema = () => {
 
                 consulta({
                   NUMOPERACION: 4,
-                  CHUSER: user.id,
+                  CHUSER: user.Id,
                   ANIO: filterAnio,
 
                 });

@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import { AlertS } from "../../../../../helpers/AlertS"
 import { Toast } from '../../../../../helpers/Toast'
 import SelectValues from "../../../../../interfaces/Select/SelectValues"
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { PERMISO, USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { getPermisos, getUser } from '../../../../../services/localStorage'
 import { fanios } from "../../../../../share/loadAnios"
@@ -20,7 +20,7 @@ import ButtonsMunicipio from '../../catalogos/Utilerias/ButtonsMunicipio'
 
 const IsnRecaudacion = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [update, setUpdate] = useState(false);
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -116,7 +116,7 @@ const IsnRecaudacion = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id
         };
 
         CatalogosServices.indexISN(data).then((res) => {
@@ -154,7 +154,7 @@ const IsnRecaudacion = () => {
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
       formData.append("inputfile", file, "inputfile.xlxs");
-      formData.append("CHUSER", user.id);
+      formData.append("CHUSER", user.Id);
       formData.append("tipo", "MUNISNRECAUDACION");
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
@@ -179,7 +179,7 @@ const IsnRecaudacion = () => {
           let data = {
            NUMOPERACION: 5,
            OBJS: selectionModel,
-           CHUSER: user.id
+           CHUSER: user.Id
           };
           //console.log(data);
   
@@ -238,7 +238,7 @@ const IsnRecaudacion = () => {
           let data = {
             NUMOPERACION: 5,
             OBJS: selectionModel,
-            CHUSER: user.id
+            CHUSER: user.Id
           };
           CatalogosServices.indexISN(data).then((res) => {
             if (res.SUCCESS) {
@@ -274,7 +274,7 @@ const IsnRecaudacion = () => {
     setslideropen(true);
     let data = {
       NUMOPERACION: NUMOPERACION,
-      CHUSER: user.id,
+      CHUSER: user.Id,
       ANIO: ANIO
     };
 

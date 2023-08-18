@@ -4,16 +4,16 @@ import { useEffect, useState } from 'react'
 import Swal from "sweetalert2"
 import { AlertS } from "../../../../../helpers/AlertS"
 import { Toast } from "../../../../../helpers/Toast"
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { PERMISO, USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { getPermisos, getToken, getUser } from '../../../../../services/localStorage'
 import MUIXDataGrid from '../../../MUIXDataGrid'
 import Slider from '../../../Slider'
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import NombreCatalogo from '../../../componentes/NombreCatalogo'
+import { VisaulizarImagen } from '../../../componentes/VisaulizarImagen'
 import ButtonsAdd from '../Utilerias/ButtonsAdd'
 import EventosModal from './EventosModal'
-import { VisaulizarImagen } from '../../../componentes/VisaulizarImagen'
 
 
 
@@ -25,7 +25,7 @@ export const Eventos = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [conEventos, setEventos] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -106,7 +106,7 @@ export const Eventos = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id,
+          CHUSER: user.Id,
           TOKEN:JSON.parse(String(getToken()))
 
         };
@@ -164,7 +164,7 @@ export const Eventos = () => {
   const consulta = () => {
     let data = ({
       NUMOPERACION: 4,
-      CHUSER: user.id
+      CHUSER: user.Id
     })
     CatalogosServices.eventos(data).then((res) => {
       if (res.SUCCESS) {

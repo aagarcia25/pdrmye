@@ -12,7 +12,7 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 import { fmeses } from "../../../../../share/loadMeses";
 
@@ -34,7 +34,7 @@ const InflacionMesModal = ({
   const [anio, setAnio] = useState<number>();
   const [mes, setMes] = useState<string>("");
   const [inflacion, setInflacion] = useState<number>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [meses, setMeses] = useState<SelectValues[]>([]);
 
 
@@ -56,7 +56,7 @@ const InflacionMesModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: anio,
         MES: mes,
         INFLACION: inflacion,

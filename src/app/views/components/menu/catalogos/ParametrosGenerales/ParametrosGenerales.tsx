@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
-import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { GridColDef } from "@mui/x-data-grid";
-import { messages } from "../../../../styles";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
+import { ITEMS,  PERMISO, USUARIORESPONSE, menus } from "../../../../../interfaces/user/UserInfo";
 import { ParametroServices } from "../../../../../services/ParametroServices";
-import { ParametrosGeneralesModal } from "./ParametrosGeneralesModal";
-import ButtonsAdd from "../Utilerias/ButtonsAdd";
-import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
-import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
+import { messages } from "../../../../styles";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import { ParametrosGeneralesModal } from "./ParametrosGeneralesModal";
 
 
 export const ParametrosGenerales = () => {
@@ -25,10 +24,9 @@ export const ParametrosGenerales = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const menu: MENU[] = JSON.parse(String(getMenus()));
+  const menu: menus[] = JSON.parse(String(getMenus()));
   const [nombreMenu, setNombreMenu] = useState("");
 
-  //console.log("parametroGeneral", parametroGeneral);
 
   const columns: GridColDef[] = [
     {
@@ -100,12 +98,12 @@ export const ParametrosGenerales = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         //console.log(v);
-        const user: RESPONSE = JSON.parse(String(getUser()));
+        const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id,
+          CHUSER: user.Id,
         };
         //console.log(data);
 
@@ -152,7 +150,7 @@ export const ParametrosGenerales = () => {
 
 
     permisos.map((item: PERMISO) => {
-      menu.map((item: MENU) => {
+      menu.map((item: any) => {
         item.items.map((itemsMenu: ITEMS) => {
           if (String(itemsMenu.ControlInterno) === "PG") {
             setNombreMenu(itemsMenu.Menu);

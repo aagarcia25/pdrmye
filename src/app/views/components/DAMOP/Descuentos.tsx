@@ -24,7 +24,7 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
 import { Toast } from "../../../helpers/Toast";
 import { default as SelectValues, default as SelectValuesCatRetenciones } from "../../../interfaces/Select/SelectValues";
-import { RESPONSE, getDescuentos } from "../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE, getDescuentos } from "../../../interfaces/user/UserInfo";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { getUser } from "../../../services/localStorage";
@@ -52,7 +52,7 @@ export const Descuentos = ({
   permisoAgregarDescuento: boolean;
 }) => {
   // CAMPOS DE LOS FORMULARIOS
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [id, setId] = useState("");
 
   const [dataRow, setdataRow] = useState([]);
@@ -253,7 +253,7 @@ export const Descuentos = ({
         let data = {
           NUMOPERACION: 2,
           CHID: v.row.id,
-          CHUSER: user.id,
+          CHUSER: user.Id,
         }
         DPCPServices.setDescuentos(data).then((res) => {
           if (res.SUCCESS) {
@@ -309,11 +309,11 @@ export const Descuentos = ({
               NUMOPERACION: !editarRegistro ? 1 : 3,
               CHID: dt.row.id,
               IDDESCUENTO: idRegistro,
-              CHUSER: user.id,
+              CHUSER: user.Id,
               IDMUN: dt.row.idmunicipio,
               TIPO: value === "Anticipo" ? 1 : 2,
               NUMOP: numOperacion,
-              IDURES: user.idUResp,
+              IDURES: user.IdUnidadResponsable,
               IDDIVISA: dt.row.idDivisa,
               DESPARCIAL: desPar,
               TOTAL: ((desPar !== undefined ? Number(desPar) : 0) + Number(otrosCar)),

@@ -1,7 +1,7 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { getUser } from "../../../services/localStorage";
 const BotonesAPD = ({
   handleAccion,
@@ -10,7 +10,7 @@ const BotonesAPD = ({
   handleAccion: Function;
   eliminar: boolean;
 }) => {
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
 
   return (

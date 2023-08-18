@@ -10,7 +10,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import ModalForm from "../../../componentes/ModalForm";
@@ -33,7 +33,7 @@ const MunPoblacionProyeccionModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [poblacion, setPoblacion] = useState<number>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [municipio, setMunicipio] = useState("");
   const [mun, setMun] = useState<SelectValues[]>([]);
@@ -49,7 +49,7 @@ const MunPoblacionProyeccionModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         POB: poblacion,

@@ -9,7 +9,7 @@ import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
 import Swal from "sweetalert2";
 import MunTerritorioModal from "./MunTerritorioModal";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import { Box } from "@mui/material";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
@@ -24,7 +24,7 @@ export const MunTerritorio = () => {
   const [data, setData] = useState({});
   const [territorio, setTerritorio] = useState([]);
   const [slideropen, setslideropen] = useState(false);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -115,7 +115,7 @@ export const MunTerritorio = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id
         };
         //console.log(data);
 
@@ -189,7 +189,7 @@ export const MunTerritorio = () => {
           let data = {
            NUMOPERACION: 5,
            OBJS: selectionModel,
-           CHUSER: user.id
+           CHUSER: user.Id
           };
           //console.log(data);
   
@@ -230,7 +230,7 @@ export const MunTerritorio = () => {
   const consulta = () => {
     let dat = ({
       NUMOPERACION: 4,
-      CHUSER: user.id
+      CHUSER: user.Id
     })
     CatalogosServices.munterritorio(dat).then((res) => {
       setTerritorio(res.RESPONSE);

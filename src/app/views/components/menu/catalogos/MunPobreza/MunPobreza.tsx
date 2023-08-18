@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from 'react'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
-import { porcentage } from '../../CustomToolbar'
-import { CatalogosServices } from '../../../../../services/catalogosServices'
-import { messages } from '../../../../styles'
+import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
+import { AlertS } from "../../../../../helpers/AlertS"
 import { Toast } from '../../../../../helpers/Toast'
-import { AlertS } from "../../../../../helpers/AlertS";
-import MunPobrezaModal from './MunPobrezaModal'
-import Slider from "../../../Slider";
-import { fanios } from "../../../../../share/loadAnios";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import SelectValues from "../../../../../interfaces/Select/SelectValues"
+import { PERMISO, USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { getPermisos, getUser } from '../../../../../services/localStorage'
-import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
-import BotonesAcciones from '../../../componentes/BotonesAcciones'
+import { fanios } from "../../../../../share/loadAnios"
+import { messages } from '../../../../styles'
 import MUIXDataGridMun from '../../../MUIXDataGridMun'
+import Slider from "../../../Slider"
+import BotonesAcciones from '../../../componentes/BotonesAcciones'
 import NombreCatalogo from '../../../componentes/NombreCatalogo'
+import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
+import MunPobrezaModal from './MunPobrezaModal'
 
 export const MunPobreza = () => {
 
@@ -26,7 +25,7 @@ export const MunPobreza = () => {
   const [dataMunPobreza, setDataMunPobreza] = useState([]);
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -109,7 +108,7 @@ export const MunPobreza = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id
         };
         //console.log(data);
 
@@ -180,7 +179,7 @@ export const MunPobreza = () => {
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id
             };
 
             CatalogosServices.munpobreza(data).then((res) => {
@@ -192,7 +191,7 @@ export const MunPobreza = () => {
 
                 consulta({
                   NUMOPERACION: 4,
-                  CHUSER: user.id,
+                  CHUSER: user.Id,
                   ANIO: filterAnio,
                 });
 

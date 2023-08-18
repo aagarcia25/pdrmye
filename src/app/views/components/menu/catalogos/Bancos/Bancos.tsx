@@ -1,15 +1,15 @@
-import { Grid, IconButton,  Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { messages } from "../../../../styles";
-import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import { BancosModal } from "./BancosModal";
 
@@ -19,7 +19,7 @@ export const Bancos = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const [bancos, setBancos] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
 
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -46,7 +46,7 @@ export const Bancos = () => {
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.row.id,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           CatalogosServices.Bancos(data).then((res) => {

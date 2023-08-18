@@ -12,6 +12,13 @@ export class UserServices {
         return post('verify', data);
     }
 
+    public static async userAppDetail(data: any) {
+        return await post('userapp-detail', data);
+    }
+
+    public static async uresponsables(data: any) {
+        return await post('uresponsables', data);
+    }
 
 
     public static async userDetail(data: any) {

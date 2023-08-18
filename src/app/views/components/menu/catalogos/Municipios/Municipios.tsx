@@ -1,27 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { GridColDef } from "@mui/x-data-grid";
-import Slider from "../../../Slider";
-import { getMenus, getMunicipio, getPermisos, getUser } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { messages } from "../../../../styles";
-import Swal from "sweetalert2";
-import { Toast } from "../../../../../helpers/Toast";
-import MunicipiosModal from "./MunicipiosModal";
-import { MUNICIPIO, PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import BotonesAcciones from "../../../componentes/BotonesAcciones";
-import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
-import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
-import FideicomisoConfig from "./FideicomisoConfig";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import { CuentaBancaria } from "../CuentaBancaria/CuentaBancaria";
-import ModalForm from "../../../componentes/ModalForm";
+import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
+import { Grid, IconButton, Tooltip } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
-import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
-import NombreCatalogo from "../../../componentes/NombreCatalogo";
-import MUIXDataGridMun from "../../../MUIXDataGridMun";
-import { clearScreenDown } from "readline";
+import { Toast } from "../../../../../helpers/Toast";
+import { ITEMS,  MUNICIPIO, PERMISO, USUARIORESPONSE, menus } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getMenus, getMunicipio, getPermisos, getUser } from "../../../../../services/localStorage";
 import UsuarioResponsable from "../../../DAMOP/UsuarioResponsable";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import Slider from "../../../Slider";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import { CuentaBancaria } from "../CuentaBancaria/CuentaBancaria";
+import FideicomisoConfig from "./FideicomisoConfig";
+import MunicipiosModal from "./MunicipiosModal";
 
 
 
@@ -49,10 +45,10 @@ export const Municipios = () => {
   const [plantilla, setPlantilla] = useState("");
   const [fideicomiso, setFideicomiso] = useState<boolean>(false);
   const [slideropen, setslideropen] = useState(false);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
-  const menu: MENU[] = JSON.parse(String(getMenus()));
+  const item: menus[] = JSON.parse(String(getMenus()));
 
 
 
@@ -178,12 +174,12 @@ export const Municipios = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        const user: RESPONSE = JSON.parse(String(getUser()));
+        const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id,
+          CHUSER: user.Id,
         };
 
         CatalogosServices.municipios(data).then((res) => {
@@ -251,13 +247,13 @@ export const Municipios = () => {
 
   useEffect(() => {
 
-    menu.map((item: MENU) => {
-      item.items.map((itemsMenu: ITEMS) => {
+ 
+      item.map((itemsMenu: any) => {
         if (String(itemsMenu.ControlInterno) === "MUNICIPIOS") {
           setNombreMenu(itemsMenu.Menu);
         }
       });
-    });
+ 
     mun.map((item: MUNICIPIO) => {
 
       setNombreMenu(item.Nombre);

@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
@@ -36,7 +36,7 @@ export const DepartamentosModal = ({
   const [nombreCorto, setNombreCorto] = useState<String>();
   const [descripcion, setDescripcion] = useState<String>();
   const [responsable, setResponsable] = useState<String>("");
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
   const handleSend = () => {
     if (!nombreCorto || !descripcion || !responsable || responsable == "") {
@@ -48,7 +48,7 @@ export const DepartamentosModal = ({
     } else {
       let data = {
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         NUMOPERACION: tipo,
         NOMBRECORTO: nombreCorto,
         DESCRIPCION: descripcion,

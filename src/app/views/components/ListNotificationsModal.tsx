@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { AlertS } from "../../helpers/AlertS";
 import { Toast } from "../../helpers/Toast";
 import SelectValues from "../../interfaces/Select/SelectValues";
-import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../interfaces/user/UserInfo";
 import { MailServices } from "../../services/MailServices";
 import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
@@ -42,7 +42,7 @@ const ListNotificationsModal = ({
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   ////////////////////////////
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [encabezado, setEncabezado] = useState<string>();
   const [mensaje, setMensaje] = useState<string>();
   const [newEncabezado, setNewEncabezado] = useState<string>();
@@ -61,7 +61,7 @@ const ListNotificationsModal = ({
 
     let data = {
       NUMOPERACION: tipo,
-      CHUSER: user.id,
+      CHUSER: user.Id,
       CHID: id,
 
     };
@@ -98,7 +98,7 @@ const ListNotificationsModal = ({
     else {
       let data = {
         NUMOPERACION: 1,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         DELETED: 0,
         VISTO: 0,
         ENCABEZADO: newEncabezado,
@@ -145,7 +145,7 @@ const ListNotificationsModal = ({
   const loadSelectUser = () => {
     let data = {
       NUMOPERACION: 1,
-      CHUSER: user.id
+      CHUSER: user.Id
     };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (res.SUCCESS) {

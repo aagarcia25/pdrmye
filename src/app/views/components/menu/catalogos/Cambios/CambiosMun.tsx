@@ -1,27 +1,24 @@
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box, Button, Card, CardContent, Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
-import { Toast } from "../../../../../helpers/Toast";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import MUIXDataGrid from "../../../MUIXDataGrid";
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import { MunicipioCambios, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getUser } from "../../../../../services/localStorage";
-import ModalForm from "../../../componentes/ModalForm";
-import { AlertS } from "../../../../../helpers/AlertS";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { MunicipioCambios, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getUser } from "../../../../../services/localStorage";
+import MUIXDataGrid from "../../../MUIXDataGrid";
 import ComentarioModal from "../../../componentes/ComentarioModal";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import NombreCatalogo from "../../../componentes/NombreCatalogo";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { TooltipPersonalizado } from "../../../componentes/CustomizedTooltips";
-import React from "react";
+import ModalForm from "../../../componentes/ModalForm";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
 
 const CambiosMun = () => {
     // CAMPOS DE LOS FORMULARIOS
     const [bitacoraAjustes, setBitacoraAjustes] = useState([]);
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const user: USUARIORESPONSE= JSON.parse(String(getUser()));
     const [openModal, setOpenModal] = useState<boolean>(false);
     // const [tablas, setTablas] =useState<SelectValues[]>([]);
 
@@ -78,9 +75,6 @@ const CambiosMun = () => {
                         </>
                           {
                             (
-                                // (user.DEPARTAMENTOS[0].NombreCorto === "CPH"
-                                //     && user.PERFILES[0].Referencia === "COOR"
-                                // ) && 
                                 (v.row.Aplicado === 0 && v.row.deleted === "0") ? (
                                     <>
                                         <Tooltip title="Atender Solicitud">
@@ -219,7 +213,7 @@ const CambiosMun = () => {
                     CatalogosServices.BitacoraAjustes({
                         NUMOPERACION: v === "autorizar" ? 2 : 3,
                         CHID: idCambio,
-                        CHUSER: user.id,
+                        CHUSER: user.Id,
                         COMENTARIO: comentario
                     }).then((res) => {
                         if (res.SUCCESS) {

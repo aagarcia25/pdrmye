@@ -8,9 +8,9 @@ import { GridColDef } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { AlertS } from '../../../helpers/AlertS';
-import { PERMISO, RESPONSE } from '../../../interfaces/user/UserInfo';
+import { PERFILES, PERMISO, USUARIORESPONSE } from '../../../interfaces/user/UserInfo';
 import { CatalogosServices } from '../../../services/catalogosServices';
-import { getPermisos, getUser } from '../../../services/localStorage';
+import { getPerfiles, getPermisos, getUser } from '../../../services/localStorage';
 import MUIXDataGrid from '../MUIXDataGrid';
 import { ComentariosRecursosModal } from '../Municipios/ComentariosRecursosModal';
 import Slider from '../Slider';
@@ -36,7 +36,9 @@ const Op = () => {
   var hoy = new Date()
 
   const [data, setData] = useState({});
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  
+  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -54,24 +56,24 @@ const Op = () => {
   ///////////////////////////////////////////
   const consulta = () => {
 
-    if (user.DEPARTAMENTOS[0].NombreCorto === "DAMOP") {
-      CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
+    if (user.controlinternodependencia === "DAMOP") {
+      CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.Id }).then((res) => {
         setDepartamento("DAMOP")
 
         setSolicitud(res.RESPONSE);
         //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
-    } else if (user.DEPARTAMENTOS[0].NombreCorto === "DPCP") {
-      CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.id }).then((res) => {
+    } else if (user.controlinternodependencia === "DPCP") {
+      CatalogosServices.SolicitudesInfo({ NUMOPERACION: 6, CHUSER: user.Id }).then((res) => {
         setDepartamento("DPCP")
         setSolicitud(res.RESPONSE);
         //console.log(res.RESPONSE)
         setOpenSlider(false);
       });
-    } else if (user.DEPARTAMENTOS[0].NombreCorto === "MUN") {
+    } else if (user.controlinternodependencia === "MUN") {
 
-      CatalogosServices.SolicitudesInfo({ NUMOPERACION: 4, CHUSER: user.id }).then((res) => {
+      CatalogosServices.SolicitudesInfo({ NUMOPERACION: 4, CHUSER: user.Id }).then((res) => {
         setDepartamento("MUN")
         setSolicitud(res.RESPONSE);
         //console.log(res.RESPONSE)
@@ -189,7 +191,7 @@ const Op = () => {
       let d = {
         NUMOPERACION: 5,
         CHID: data.id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ESTATUS: estatus,
         Comentario: data?.row?.Comentario,
         ANIO:hoy.getFullYear(),
@@ -262,7 +264,7 @@ const Op = () => {
 let d = {
   NUMOPERACION: 8,
   CHID: v.id,
-  CHUSER: user.id,
+  CHUSER: user.Id,
 };
 
 Swal.fire({
@@ -310,12 +312,7 @@ Swal.fire({
   };
 
   useEffect(() => {
-    //console.log(hoy.getMonth() + "  " + hoy.getFullYear());
-    setPerfil(user.PERFILES[0].Referencia);
-    //console.log(permisos.map)
-    //console.log("departamento  " + user.DEPARTAMENTOS[0].NombreCorto)
-    //console.log("perfil " + user.PERFILES[0].Referencia)
-    setPerfil(user.PERFILES[0].Referencia);
+    setPerfil(PER[0].Referencia);
 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "SOLIANT") {
