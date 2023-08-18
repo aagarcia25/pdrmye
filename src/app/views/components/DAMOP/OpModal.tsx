@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import validator from 'validator';
 import { AlertS } from '../../../helpers/AlertS';
 import { Toast } from '../../../helpers/Toast';
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { CatalogosServices } from '../../../services/catalogosServices';
 import { getUser } from "../../../services/localStorage";
 import MUIXDataGridSimple from '../MUIXDataGridSimple';
@@ -35,7 +35,7 @@ export const OpModal = (
     const [urlDoc, setUrlDoc] = useState("");
     const [sizeFile, setSizeFile] = useState<boolean>();
     const [openSlider, setOpenSlider] = useState(false);
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const user: USUARIORESPONSE= JSON.parse(String(getUser()));
     const [nameNewDoc, setNameNewDoc] = useState<string>();
     const [concepto, setConcepto] = useState<string>();
     const [totalError, setTotalError] = useState<string>();
@@ -77,7 +77,7 @@ export const OpModal = (
             let d = {
                 CHID: data.id,
                 NUMOPERACION: modo == "editar" ? 9 : 1,
-                CHUSER: user.id,
+                CHUSER: user.Id,
                 CONCEPTO: concepto,
                 TOTAL: total,
                 ESTATUS: modo === "editar" ? "MUN_ACT" : "MUN_INICIO",

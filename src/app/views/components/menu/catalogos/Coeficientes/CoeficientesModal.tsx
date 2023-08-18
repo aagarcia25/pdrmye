@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 
@@ -35,7 +35,7 @@ const CoeficientesModal = ({
   const [vigente, setVigente] = useState(false);
   const [descripcion, setDescripcion] = useState("");
   const [checked, setChecked] = useState(true);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
 
 
@@ -100,7 +100,7 @@ const CoeficientesModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         VIGENTE: vigente,
         DESCRIPCION: descripcion,
       };

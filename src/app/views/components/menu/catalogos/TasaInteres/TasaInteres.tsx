@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
 import { GridColDef, GridColTypeDef } from '@mui/x-data-grid'
-import { getUser } from '../../../../../services/localStorage'
+import { useEffect, useState } from 'react'
+import { USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo'
 import { CatalogosServices } from '../../../../../services/catalogosServices'
+import { getUser } from '../../../../../services/localStorage'
 import { messages } from '../../../../styles'
 import MUIXDataGrid from '../../../MUIXDataGrid'
-import { RESPONSE } from '../../../../../interfaces/user/UserInfo'
 
 export const TasaInteres = () => {
 
@@ -23,7 +23,7 @@ export const TasaInteres = () => {
     valueFormatter: ({ value }) => currencyFormatter.format(value / 100),
     cellClassName: 'font-tabular-nums',
   };
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [tasa, setTasa] = useState([]);
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true, description: messages.dataTableColum.id },
@@ -38,7 +38,7 @@ export const TasaInteres = () => {
     CHID: "",
     NUMANIO: "",
     NUMTOTALPOB: "",
-    CHUSER: user.id
+    CHUSER: user.Id
   })
 
 

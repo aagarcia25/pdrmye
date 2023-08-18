@@ -1,3 +1,4 @@
+import CalculateIcon from "@mui/icons-material/Calculate";
 import {
   Alert,
   Grid,
@@ -8,16 +9,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { AlertS } from "../../../../helpers/AlertS";
-import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
-import CalculateIcon from "@mui/icons-material/Calculate";
-import { RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../interfaces/user/UserInfo";
+import { ArticulosServices } from "../../../../services/ArticulosServices";
+import { CatalogosServices } from "../../../../services/catalogosServices";
 import { getUser } from "../../../../services/localStorage";
 import Slider from "../../Slider";
-import { ArticulosServices } from "../../../../services/ArticulosServices";
-import Swal from "sweetalert2";
-import { CatalogosServices } from "../../../../services/catalogosServices";
-import { isNull } from "util";
+import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
 
 const Art14m = ({
   titulo,
@@ -28,7 +27,7 @@ const Art14m = ({
   onClickBack: Function;
   tipo: Number;
 }) => {
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [slideropen, setslideropen] = useState(true);
   const [importe, setImporte] = useState<Array<number>>([]);
   const [importeDistri, setimporteDistri] = useState<Array<number>>([]);
@@ -65,7 +64,7 @@ const Art14m = ({
     } else {
       let data = {
         CLAVE: tipo,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: 2022,
         IMPORTE: monto,
       };

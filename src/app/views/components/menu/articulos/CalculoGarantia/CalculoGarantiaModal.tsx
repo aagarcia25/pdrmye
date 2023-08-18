@@ -1,7 +1,7 @@
 import { Box, Button, Container, Dialog, DialogActions, DialogContent, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
 import { calculosServices } from "../../../../../services/calculosServices";
 import { Toast } from "../../../../../helpers/Toast";
@@ -29,7 +29,7 @@ export const CalculoGarantiaModal = ({
   const [municipios, setMunicipios] = useState([]);
   const [claveFondo, setClaveFondo] = useState("");
   const [fondos, setFondos] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
   const municipiosC = () => {
     let data = { NUMOPERACION: 4 };
@@ -59,7 +59,7 @@ export const CalculoGarantiaModal = ({
     } else {
       let data = {
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         NUMOPERACION: tipo,
         ANIO: anio,
         CLAVEFONDO: claveFondo,

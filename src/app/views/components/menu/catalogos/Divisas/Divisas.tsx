@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Button, Grid, TextField, Tooltip, Typography, } from '@mui/material'
+import { Box, Button, Grid, TextField, Tooltip } from '@mui/material'
 import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
-import { CatalogosServices } from '../../../../../services/catalogosServices'
-import { messages } from '../../../../styles'
+import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
+import { AlertS } from "../../../../../helpers/AlertS"
 import { Toast } from '../../../../../helpers/Toast'
-import { AlertS } from "../../../../../helpers/AlertS";
-import Slider from "../../../Slider";
-import MUIXDataGrid from '../../../MUIXDataGrid'
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { PERMISO, USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo'
+import { CatalogosServices } from '../../../../../services/catalogosServices'
 import { getPermisos, getUser } from '../../../../../services/localStorage'
+import { messages } from '../../../../styles'
+import MUIXDataGrid from '../../../MUIXDataGrid'
+import Slider from "../../../Slider"
 import BotonesAcciones from '../../../componentes/BotonesAcciones'
-import ButtonsAdd from '../Utilerias/ButtonsAdd'
 import ModalForm from '../../../componentes/ModalForm'
 import NombreCatalogo from '../../../componentes/NombreCatalogo'
+import ButtonsAdd from '../Utilerias/ButtonsAdd'
 
 export const Divisas = () => {
 
@@ -23,7 +23,7 @@ export const Divisas = () => {
     const [data, setData] = useState({});
     const [divisas, setDivisas] = useState([]);
     const [slideropen, setslideropen] = useState(false);
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const user: USUARIORESPONSE= JSON.parse(String(getUser()));
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [editar, setEditar] = useState<boolean>(false);
     const [agregar, setAgregar] = useState<boolean>(false);
@@ -140,7 +140,7 @@ export const Divisas = () => {
 
                     let data = {
                         NUMOPERACION: tipoOperacion === 1 ? 1 : 2,
-                        CHUSER: user.id,
+                        CHUSER: user.Id,
                         CHID: idDivisa,
                         NOMBRECORTO: nombreCorto,
                         NOMBRE: nombre,
@@ -190,7 +190,7 @@ export const Divisas = () => {
                 let data = {
                     NUMOPERACION: 3,
                     CHID: v.row.id,
-                    CHUSER: user.id
+                    CHUSER: user.Id
                 };
                 //console.log(data);
 

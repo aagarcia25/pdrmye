@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
 import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
-import { FPG, PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import { FPG, PERMISO, USUARIORESPONSE } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
 import { getPermisos, getUser } from "../../../../services/localStorage";
 import MUIXDataGridMun from "../../MUIXDataGridMun";
@@ -44,7 +44,7 @@ export const Fpg = () => {
   const [idDetalle, setIdDetalle] = useState("");
   const [nombreMenu, setNombreMenu] = useState("");
   const [sumaTotal, setSumaTotal] = useState<Number>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
 
   const closeTraz = (v: any) => {
@@ -248,7 +248,7 @@ export const Fpg = () => {
 
     let data = {
       IDCALCULO: row.id,
-      CHUSER: user.id,
+      CHUSER: user.Id,
       CLAVE: row.row.Clave,
       ANIO: row.row.Anio,
       MES: row.row.nummes,

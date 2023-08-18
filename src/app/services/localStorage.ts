@@ -6,7 +6,10 @@
 //TOKEN
 export const setToken = (user: any) => localStorage.setItem('token', JSON.stringify(user));
 export const getToken = () => localStorage.getItem('token');
-
+//IDAPP
+export const setIdApp = (data: any) => localStorage.setItem('idapp', JSON.stringify(data));
+export const getIdApp = () => localStorage.getItem('idapp');
+//RFTOKEN
 export const setRfToken = (user: any) => localStorage.setItem('Rftoken', JSON.stringify(user));
 export const getRfToken = () => localStorage.getItem('Rftoken');
 // USUARIOS
@@ -62,6 +65,7 @@ export const getItem = (item:string ) :string => {
  }
 
 
-
+ export const setDatosAdicionales = (DatosAdicionales: any) => localStorage.setItem('DatosAdicionales', JSON.stringify(DatosAdicionales));
+ export const getDatosAdicionales = () => localStorage.getItem('DatosAdicionales');
   
  

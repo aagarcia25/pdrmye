@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { getPermisos,  getUser, } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { messages } from "../../../../styles";
-import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
-import Slider from "../../../Slider";
-import { Toast } from "../../../../../helpers/Toast";
-import { AlertS } from "../../../../../helpers/AlertS";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import MunFacturacionModal from "./MunFacturacionModal";
-import { Moneda } from "../../CustomToolbar";
-import { fanios } from "../../../../../share/loadAnios";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser, } from "../../../../../services/localStorage";
+import { fanios } from "../../../../../share/loadAnios";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import Slider from "../../../Slider";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import { Moneda } from "../../CustomToolbar";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+import MunFacturacionModal from "./MunFacturacionModal";
 
 export const MunFacturacion = () => {
 
@@ -26,7 +25,7 @@ export const MunFacturacion = () => {
   const [Facturacion, setFacturacion] = useState([]);
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   // const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -126,7 +125,7 @@ export const MunFacturacion = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id
         };
         //console.log(data);
 
@@ -203,7 +202,7 @@ export const MunFacturacion = () => {
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id,
+              CHUSER: user.Id,
 
             };
             //console.log(data);
@@ -217,7 +216,7 @@ export const MunFacturacion = () => {
 
                 consulta({
                   NUMOPERACION: 4,
-                  CHUSER: user.id,
+                  CHUSER: user.Id,
                   ANIO: filterAnio,
                 });
 

@@ -1,11 +1,5 @@
-import { useEffect, useState } from "react";
-import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { Toast } from "../../../../../helpers/Toast";
-import { AlertS } from "../../../../../helpers/AlertS";
-import Swal from "sweetalert2";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import {
     Box,
     Grid,
@@ -14,13 +8,18 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import ModalForm from "../../../componentes/ModalForm";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SaveButton from "../../../componentes/SaveButton";
 import Title from "../../../componentes/Title";
-import MUIXDataGridMun from "../../../MUIXDataGridMun";
-import React from "react";
 import ButtonsMunBase from "../Utilerias/ButtonsMunBase";
 
 const AjustesCalculos = () => {
@@ -28,7 +27,7 @@ const AjustesCalculos = () => {
     const [open, setOpen] = useState(false);
     const [tipoOperacion, setTipoOperacion] = useState<number>(0);
     const [dataAjustes, setDataAjustes] = useState([]);
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const user: USUARIORESPONSE= JSON.parse(String(getUser()));
     const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
     const [agregar, setAgregar] = useState<boolean>(false);
     const [editar, setEditar] = useState<boolean>(false);
@@ -107,7 +106,7 @@ const AjustesCalculos = () => {
                 let data = {
                     NUMOPERACION: tipoOperacion,
                     DESCRIPCION: ajuste,
-                    CHUSER: user.id,
+                    CHUSER: user.Id,
                     CHID: idAjuste,
                     KEYS: keys,
                 };
@@ -156,7 +155,7 @@ const AjustesCalculos = () => {
                     let data = {
                         NUMOPERACION: 3,
                         CHID: v.data.id,
-                        CHUSER: user.id,
+                        CHUSER: user.Id,
                     };
 
                     CatalogosServices.AjustesIndex(data).then((res) => {
@@ -211,7 +210,7 @@ const AjustesCalculos = () => {
             }).then((result) => {
                 if (result.isConfirmed) {
                     let data = {
-                        CHUSER: user.id,
+                        CHUSER: user.Id,
                         CHID: idAjuste,
                         NUMOPERACION: tipoOperacion,
                         DESCRIPCION: ajuste,
@@ -263,7 +262,7 @@ const AjustesCalculos = () => {
                         let data = {
                             NUMOPERACION: 6,
                             OBJS: selectionModel,
-                            CHUSER: user.id
+                            CHUSER: user.Id
                         };
                         //console.log(data);
 

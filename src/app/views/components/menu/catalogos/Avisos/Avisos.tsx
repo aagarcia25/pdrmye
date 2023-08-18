@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Swal from "sweetalert2";
 import { AlertS } from '../../../../../helpers/AlertS';
 import { Toast } from "../../../../../helpers/Toast";
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { PERMISO, USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo';
 import { CatalogosServices } from '../../../../../services/catalogosServices';
 import { getPermisos, getUser } from '../../../../../services/localStorage';
 import MUIXDataGrid from '../../../MUIXDataGrid';
@@ -24,7 +24,7 @@ export const Avisos = () => {
   const [data, setData] = useState({});
   const [conAvisos, setAvisos] = useState([]);
   const [open, setOpen] = useState(false);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const columns: GridColDef[] = [
 
     { field: "id", hide: true,  },
@@ -86,7 +86,7 @@ export const Avisos = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: String(user.id)
+          CHUSER: String(user.Id)
         };
 
 
@@ -141,7 +141,7 @@ export const Avisos = () => {
     if (v === "save") {
       let data = {
         NUMOPERACION: 4,
-        CHUSER: String(user.id),
+        CHUSER: String(user.Id),
       };
       consulta(data);
 
@@ -172,7 +172,7 @@ export const Avisos = () => {
 
   let dat = ({
     NUMOPERACION: 4,
-    CHUSER: String(user.id)
+    CHUSER: String(user.Id)
   })
 
 

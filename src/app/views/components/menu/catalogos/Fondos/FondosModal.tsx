@@ -17,7 +17,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
@@ -69,7 +69,7 @@ const FondosModal = ({
   const [clasificador11, setClasificador11] = React.useState<string>();
 
 
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [slideropen, setslideropen] = useState(false);
 
   const handleChangeVigencia = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,7 +177,7 @@ const FondosModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         CLAVE: clave,
         DESCRIPCION: descripcion,
         APLICACALCULO: aplicaCalculo,

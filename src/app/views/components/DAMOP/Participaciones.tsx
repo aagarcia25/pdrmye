@@ -45,11 +45,11 @@ import { base64ToArrayBuffer, dowloandfile } from "../../../helpers/Files";
 import { Toast } from "../../../helpers/Toast";
 import { MigraData, resultmigracion } from "../../../interfaces/parametros/ParametrosGenerales";
 import SelectValues from "../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { PERFILES, PERMISO, ResponseDataAdicional, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { DAMOPServices } from "../../../services/DAMOPServices";
 import { DPCPServices } from "../../../services/DPCPServices";
-import { getPermisos, getToken, getUser } from "../../../services/localStorage";
+import { getDatosAdicionales, getPerfiles, getPermisos, getToken, getUser } from "../../../services/localStorage";
 import { ReportesServices } from "../../../services/ReportesServices";
 import { fanios } from "../../../share/loadAnios";
 import { fmeses } from "../../../share/loadMeses";
@@ -108,7 +108,10 @@ const Participaciones = () => {
   const [idMunicipio, setidMunicipio] = useState("");
   //Constantes para las columnas
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  
+  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
+  const DA: ResponseDataAdicional = JSON.parse(String(getDatosAdicionales()));
   const [plantilla, setPlantilla] = useState("");
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -192,7 +195,6 @@ const Participaciones = () => {
 
      ReportesServices.formatoSolicitud(body).then((res) => {
       if (res.SUCCESS) {
-      
         var bufferArray = base64ToArrayBuffer( String(res.RESPONSE) );
         var blobStore = new Blob([bufferArray], { type: "application/pdf" });
         var data = window.URL.createObjectURL(blobStore);
@@ -200,10 +202,6 @@ const Participaciones = () => {
         document.body.appendChild(link);
         link.href = data;
         link.download = body.P_NO +'_Solicitud.pdf';
-       // link.click();
-       // window.URL.revokeObjectURL(data);
-       // link.remove();
-
         window.open(link.href, "_blank");
         setslideropen(false);
         
@@ -843,7 +841,7 @@ const Participaciones = () => {
     let file = event?.target?.files?.[0] || "";
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlxs");
-    formData.append("CHUSER", user.id);
+    formData.append("CHUSER", user.Id);
     formData.append("tipo", "MigraOrganimos");
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
@@ -888,8 +886,8 @@ const Participaciones = () => {
       } else if (operacion === 25) {
         setEstatus(res.RESPONSE);
         setIdEstatus(
-          user?.DEPARTAMENTOS[0]?.NombreCorto ?
-            user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+          user.controlinternodependencia ?
+          user.controlinternodependencia === "ORG" || user.controlinternodependencia === "MUN" ?
               "" :
               res.RESPONSE[0].value :
             "");
@@ -970,7 +968,7 @@ const Participaciones = () => {
     let obj = {
       NUMOPERACION: numerooperacion,
       OBJS: selectionModel,
-      CHUSER: user.id,
+      CHUSER: user.Id,
       COMENTARIO: data,
       ESTATUS: "DPCP_INICIO",
     };
@@ -1016,7 +1014,7 @@ const Participaciones = () => {
     let file = event?.target?.files?.[0] || "";
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlxs");
-    formData.append("CHUSER", user.id);
+    formData.append("CHUSER", user.Id);
     formData.append("tipo", "updatePA");
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
@@ -1029,7 +1027,7 @@ const Participaciones = () => {
     let file = event?.target?.files?.[0] || "";
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlxs");
-    formData.append("CHUSER", user.id);
+    formData.append("CHUSER", user.Id);
     formData.append("tipo", "anticipoParticipaciones");
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
@@ -1042,7 +1040,7 @@ const Participaciones = () => {
     let file = event?.target?.files?.[0] || "";
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlxs");
-    formData.append("CHUSER", user.id);
+    formData.append("CHUSER", user.Id);
     formData.append("tipo", "prestamosParticipaciones");
     CatalogosServices.migraData(formData).then((res) => {
       setslideropen(false);
@@ -1064,7 +1062,7 @@ const Participaciones = () => {
         if (result.isConfirmed) {
           let data = {
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           AlertS.fire({
@@ -1130,7 +1128,7 @@ const Participaciones = () => {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           DPCPServices.MarcaMonex(data).then((res) => {
@@ -1175,7 +1173,7 @@ const Participaciones = () => {
         if (result.isConfirmed) {
           let data = {
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           DPCPServices.eliminarSolicitudes(data).then((res) => {
@@ -1225,7 +1223,7 @@ const Participaciones = () => {
         if (result.isConfirmed) {
           let data = {
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           AlertS.fire({
@@ -1282,7 +1280,7 @@ const Participaciones = () => {
 
           setslideropen(true);
           const formData = new FormData();
-          formData.append("CHUSER", user.id);
+          formData.append("CHUSER", user.Id);
           formData.append("IDESTATUS", idestatus);
           formData.append("MES", mes);
           formData.append("FONDO", String(idFondo[0].value));
@@ -1321,7 +1319,7 @@ const Participaciones = () => {
         if (result.isConfirmed) {
           let data = {
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           AlertS.fire({
@@ -1379,7 +1377,7 @@ const Participaciones = () => {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           AlertS.fire({
@@ -1433,7 +1431,7 @@ const Participaciones = () => {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           AlertS.fire({
@@ -1487,7 +1485,7 @@ const Participaciones = () => {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           AlertS.fire({
@@ -1541,7 +1539,7 @@ const Participaciones = () => {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           AlertS.fire({
@@ -1595,7 +1593,7 @@ const Participaciones = () => {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           AlertS.fire({
@@ -1649,7 +1647,7 @@ const Participaciones = () => {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           AlertS.fire({
@@ -1703,7 +1701,7 @@ const Participaciones = () => {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           AlertS.fire({
@@ -1758,7 +1756,7 @@ const Participaciones = () => {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           AlertS.fire({
@@ -1793,12 +1791,12 @@ const Participaciones = () => {
 
   const handleClick = () => {
 
-    if ((user?.MUNICIPIO?.length === 0 && user.DEPARTAMENTOS[0]?.NombreCorto === "MUN") || (user?.ORG?.length === 0 && user.DEPARTAMENTOS[0]?.NombreCorto === "ORG")) {
+    if ((DA?.MUNICIPIO?.length === 0 && user.controlinternodependencia === "MUN") || (DA?.ORG?.length === 0 && user.controlinternodependencia === "ORG")) {
       AlertS.fire({
         title:
-          String(user?.MUNICIPIO?.length === 0 && user.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+          String(DA?.MUNICIPIO?.length === 0 && user.controlinternodependencia === "MUN" ?
             "Sin Municipio asignado " : "234") +
-          String(user?.ORG?.length === 0 && user.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ?
+          String(DA?.ORG?.length === 0 && user.controlinternodependencia === "ORG" ?
             " Sin Organismo asignado" : "5677")
         ,
         // text: res.STRMESSAGE,
@@ -1857,14 +1855,14 @@ const Participaciones = () => {
       let data = {
         TIPO: 1,
         P_FONDO: idFondo.length > 0 ? idFondo : "",
-        P_IDMUNICIPIO: user.MUNICIPIO.length > 0 ? user.MUNICIPIO[0].id : idMunicipio === "false" ? "" : idMunicipio,
-        P_IDTIPO: user.MUNICIPIO.length > 0 || user.ORG.length > 0 || user.DEPARTAMENTOS[0]?.NombreCorto === "MUN" || user.DEPARTAMENTOS[0].NombreCorto === "ORG" ? "PROV" : idtipoFondo === "false" ? "" : idtipoFondo,
+     //   P_IDMUNICIPIO: user.MUNICIPIO.length > 0 ? user.MUNICIPIO[0].id : idMunicipio === "false" ? "" : idMunicipio,
+      //  P_IDTIPO: user.MUNICIPIO.length > 0 || user.ORG.length > 0 || DEP0]?.NombreCorto === "MUN" || user.controlinternodependencia === "ORG" ? "PROV" : idtipoFondo === "false" ? "" : idtipoFondo,
         P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
         P_IDESTATUS: idestatus === "false" ? "" : idestatus,
         P_IDMES: mes === "false" ? "" : mes,
-        P_IDORGANISMO: user?.ORG[0] ? user.ORG[0].id : idORG === "false" ? "" : idORG,
-        P_CHUSER: user.id,
-        P_GRUPO: user.DEPARTAMENTOS[0].NombreCorto,
+      //  P_IDORGANISMO: user?.ORG[0] ? user.ORG[0].id : idORG === "false" ? "" : idORG,
+        P_CHUSER: user.Id,
+        P_GRUPO: user.controlinternodependencia,
         P_ANIO: anio === "false" ? "" : anio, 
 
 
@@ -1872,10 +1870,6 @@ const Participaciones = () => {
       setslideropen(true);
       DPCPServices.GetParticipaciones(data).then((res) => {
         if (res.SUCCESS) {
-          // Toast.fire({
-          //   icon: "success",
-          //   title: "¡Consulta Exitosa!",
-          // });
           setData(res.RESPONSE);
           var sumatotal = 0;
           res.RESPONSE.map((item: any) => {
@@ -2046,15 +2040,15 @@ const Participaciones = () => {
 
 
           {SORGANISMOS ?
-            <Grid item xs={11.5} sm={6} md={4} lg={user?.DEPARTAMENTOS[0]?.NombreCorto ? user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ? 4 : 2 : 2}>
+            <Grid item xs={11.5} sm={6} md={4} lg={user.controlinternodependencia ? user.controlinternodependencia === "ORG" ? 4 : 2 : 2}>
 
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                {user?.DEPARTAMENTOS[0]?.NombreCorto ? user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ?
-                  user?.ORG[0].Descripcion
+                {user.controlinternodependencia ? user.controlinternodependencia === "ORG" ?
+                  DA?.ORG[0].Descripcion
                   : "Organismos"
                   : "Organismos"}
               </Typography>
-              {user?.DEPARTAMENTOS[0]?.NombreCorto ? user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" ?
+              {user.controlinternodependencia ? user.controlinternodependencia === "ORG" ?
                 "" :
                 <SelectFrag
                   value={idORG}
@@ -2088,8 +2082,8 @@ const Participaciones = () => {
 
           {STIPOSOLICITUD ?
             <Grid item xs={11.5} sm={6} md={4}
-              lg={user?.DEPARTAMENTOS[0]?.NombreCorto ?
-                user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+              lg={user.controlinternodependencia ?
+                user.controlinternodependencia === "ORG" || user.controlinternodependencia === "MUN" ?
                   4 :
                   2 : 2}>
               <Typography sx={{ fontFamily: "sans-serif" }}>Tipo De Solicitud :</Typography>
@@ -2106,8 +2100,8 @@ const Participaciones = () => {
             ""}
 
           {SFONDO ?
-            <Grid item xs={11.5} sm={6} md={4} lg={user?.DEPARTAMENTOS[0]?.NombreCorto ?
-              user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+            <Grid item xs={11.5} sm={6} md={4} lg={user.controlinternodependencia ?
+              user.controlinternodependencia === "ORG" || user.controlinternodependencia === "MUN" ?
                 4 :
                 2 : 2}>
 
@@ -2126,18 +2120,18 @@ const Participaciones = () => {
             ""}
 
           {SMUNICIPIO ?
-            <Grid item xs={11.5} sm={6} md={4} lg={user?.DEPARTAMENTOS[0]?.NombreCorto ? user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ? 4 : 2 : 2}>
+            <Grid item xs={11.5} sm={6} md={4} lg={user.controlinternodependencia ? user.controlinternodependencia === "MUN" ? 4 : 2 : 2}>
 
 
 
               <Typography sx={{ fontFamily: "sans-serif" }}>
-                {user?.DEPARTAMENTOS[0]?.NombreCorto ? user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
-                  user.MUNICIPIO[0].Nombre
+                {user.controlinternodependencia ? user.controlinternodependencia === "MUN" ?
+                  DA.MUNICIPIO[0].Nombre
                   : "Municipios"
                   : "Municipios"}
               </Typography>
 
-              {user?.DEPARTAMENTOS[0]?.NombreCorto ? user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+              {user.controlinternodependencia ? user.controlinternodependencia === "MUN" ?
                 "" :
                 <SelectFrag
                   value={idMunicipio}
@@ -2157,8 +2151,8 @@ const Participaciones = () => {
 
           {SANIO ?
             <Grid item xs={11.5} sm={6} md={4} lg={
-              user?.DEPARTAMENTOS[0]?.NombreCorto ?
-                user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+              user.controlinternodependencia ?
+                user.controlinternodependencia === "ORG" || user.controlinternodependencia === "MUN" ?
                   4 :
                   2 : 2}>
               <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
@@ -2177,8 +2171,8 @@ const Participaciones = () => {
              
           {SMES ?
             <Grid item xs={11.5} sm={6} md={4} lg={
-              user?.DEPARTAMENTOS[0]?.NombreCorto ?
-                user?.DEPARTAMENTOS[0]?.NombreCorto === "ORG" || user?.DEPARTAMENTOS[0]?.NombreCorto === "MUN" ?
+              user.controlinternodependencia ?
+                user.controlinternodependencia === "ORG" || user.controlinternodependencia === "MUN" ?
                   4 :
                   2 : 2}>
               <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
@@ -2418,7 +2412,7 @@ const Participaciones = () => {
 
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          {user.DEPARTAMENTOS[0].NombreCorto === "ORG" || user.DEPARTAMENTOS[0].NombreCorto === "MUN" ?
+          {user.controlinternodependencia === "ORG" || user.controlinternodependencia === "MUN" ?
             "" :
             <Grid item xs={2} sm={2} md={2} lg={2}>
 
@@ -2567,7 +2561,7 @@ const Participaciones = () => {
           <MUIXDataGridGeneral
             modulo={nombreExport}
             handleBorrar={handleBorrarMasivo}
-            columns={user.DEPARTAMENTOS[0]?.NombreCorto === 'MUN' || user.DEPARTAMENTOS[0]?.NombreCorto === 'ORG'  ?  columnasMunicipio : columnsParticipaciones}
+            columns={user.controlinternodependencia === 'MUN' || user.controlinternodependencia === 'ORG'  ?  columnasMunicipio : columnsParticipaciones}
             rows={data} controlInterno={""}
             multiselect={true} />
         </Grid>
@@ -2575,7 +2569,7 @@ const Participaciones = () => {
 
 
       </Grid>
-      {openModalVerSpei ? <SpeisAdmin handleClose={handleClose} handleAccion={handleAccion} vrows={vrows} modo={modoSpeiCfdi} /> : ""}
+      {openModalVerSpei ? <SpeisAdmin handleClose={handleClose}  vrows={vrows} modo={modoSpeiCfdi} /> : ""}
       {openCheque ? <ModalCheque tipo={tipo} handleClose={handleclose} vrows={vrows} /> : ""}
       {openSegmento ? <ModalSegmentos handleClose={handleclose} vrows={vrows} /> : ""}
       {openTraz ? <TrazabilidadSolicitud dt={{ TIPO: 4, SP: idSolicitud, }} open={openTraz} handleClose={handleclose} /> : ""}

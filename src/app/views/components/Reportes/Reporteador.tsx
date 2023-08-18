@@ -1,35 +1,29 @@
 import {
   Button,
-  Divider,
   Grid,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   MenuItem,
   MenuList,
   Tooltip,
   Typography,
 } from "@mui/material";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../helpers/AlertS";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { IReportes } from "../../../interfaces/menu/menu";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
-import { ReportesServices } from "../../../services/ReportesServices";
+import { USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { getUser } from "../../../services/localStorage";
+import { getHeaderInfoReporte } from "../../../services/tokenCreator";
 import { fanios } from "../../../share/loadAnios";
 import { fmeses } from "../../../share/loadMeses";
 import SelectFrag from "../Fragmentos/SelectFrag";
 import SliderProgress from "../SliderProgress";
 import { Titulo } from "../menu/catalogos/Utilerias/AgregarCalculoUtil/Titulo";
-import { getHeaderInfoReporte } from "../../../services/tokenCreator";
-import axios from "axios";
 
 export const Reporteador = () => {
   const [openSlider, setOpenSlider] = useState(true);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [tipoExportacion, setTipoExportacion] = useState<string>("");
   const [listaReportes, setListaReportes] = useState<IReportes[]>([]);
   const [tipoExportacionSelect, setTipoExportacionSelect] = useState<
@@ -80,8 +74,8 @@ export const Reporteador = () => {
       const params = {
         P_ANIO: anio,
         P_MES: mes,
-        P_ID_ORGANISMO:idORG,
-        P_PERIODO:idtrimestre
+        P_ID_ORGANISMO: idORG,
+        P_PERIODO: idtrimestre,
       };
 
       let data = {
@@ -153,7 +147,7 @@ export const Reporteador = () => {
   useEffect(() => {
     setMeses(fmeses());
     setAnios(fanios());
-    consultaReportes({ CHID: user.idUsuarioCentral, TIPO: 5 });
+    consultaReportes({ P_DEPENDENCIA: user.controlinternodependencia });
   }, []);
 
   useEffect(() => {
@@ -278,7 +272,6 @@ export const Reporteador = () => {
                 md={12}
                 lg={12}
               >
-
                 <Grid item xs={12} sm={12} md={3} lg={3}>
                   <SelectFrag
                     value={anio}
@@ -321,7 +314,6 @@ export const Reporteador = () => {
                 md={12}
                 lg={12}
               >
-                
                 <Grid item xs={12} sm={12} md={3} lg={3}>
                   <SelectFrag
                     value={anio}
@@ -343,7 +335,6 @@ export const Reporteador = () => {
                     disabled={false}
                   />
                 </Grid>
-
 
                 <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
 
@@ -466,7 +457,6 @@ export const Reporteador = () => {
           </Grid> */}
           </Grid>
         </Grid>
-
       </Grid>
     </div>
   );

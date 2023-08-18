@@ -30,7 +30,7 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
 import { Toast } from "../../../helpers/Toast";
 import SelectValues from "../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { DAFServices } from "../../../services/DAFServices";
 import { DPCPServices } from "../../../services/DPCPServices";
@@ -73,7 +73,7 @@ const AsigPago = () => {
   const [numOrdenPago, setNumOrdenPago] = useState("");
   //Constantes para las columnas
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   ///// Modal de Administración de Speis
@@ -112,7 +112,7 @@ const AsigPago = () => {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           DAFServices.MarcarPagado(data).then((res) => {
@@ -405,7 +405,7 @@ const AsigPago = () => {
               formData.append("FILE", item.Archivo);
               formData.append("NUMOPERACION", "1");
               formData.append("IDPROV", item.Registro.id);
-              formData.append("CHUSER", user.id);
+              formData.append("CHUSER", user.Id);
               formData.append("TIPO", "SPEI");
               formData.append("TOKEN", JSON.parse(String(getToken())));
               let p = axios.post(
@@ -734,7 +734,6 @@ const AsigPago = () => {
       {openSpeis ? (
         <SpeisAdmin
           handleClose={handleclose}
-          handleAccion={handleAccion}
           vrows={vrows}
           modo={"SPEI"}
         />

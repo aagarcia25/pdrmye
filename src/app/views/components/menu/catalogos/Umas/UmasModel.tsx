@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
 import {
-  TextField,
-  Grid,
   Button,
+  Grid,
+  TextField,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 
 const UmasModel = ({
@@ -28,7 +28,7 @@ const UmasModel = ({
   const [diario, setDiario] = useState("");
   const [mensual, setMensual] = useState("");
   const [anual, setAnual] = useState("");
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
 
   const handleSend = () => {
@@ -42,7 +42,7 @@ const UmasModel = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: anio,
         DIARIO: diario,
         MENSUAL: mensual,

@@ -12,7 +12,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 
 const InflacionAnioModal = ({
@@ -32,7 +32,7 @@ const InflacionAnioModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [inflacion, setInflacion] = useState("");
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
 
   const handleSend = () => {
@@ -46,7 +46,7 @@ const InflacionAnioModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: anio,
         INFLACION: inflacion,
       };

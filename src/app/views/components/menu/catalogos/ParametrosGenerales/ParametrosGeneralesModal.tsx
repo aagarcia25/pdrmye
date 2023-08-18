@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
 import { ParametroServices } from "../../../../../services/ParametroServices";
 import ModalForm from "../../../componentes/ModalForm";
@@ -34,7 +34,7 @@ export const ParametrosGeneralesModal = ({
   const [referencia, setReferencia] = useState("");
 
 
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
   const handleSend = () => {
     if (nombre === "" || valor === "" || referencia=== ""|| descripcion==="") {
@@ -45,7 +45,7 @@ export const ParametrosGeneralesModal = ({
       });
     } else {
       let data = {
-        CHUSER:user.id,
+        CHUSER:user.Id,
         CHID:id,
         NUMOPERACION: tipo,
         NOMBRE: nombre,

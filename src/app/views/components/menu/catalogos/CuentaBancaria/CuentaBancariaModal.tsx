@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getToken, getUser } from "../../../../../services/localStorage";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
@@ -38,7 +38,7 @@ export const CuentaBancariaModal = ({
   const [numeroCuentaCoded, setNumeroCuentaCoded] = useState<string>("");
   const [nombreCuenta, setNombreCuenta] = useState("");
   const [clabeBancaria, setClabeBancaria] = useState("");
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [idBancos, setIdBancos] = useState("");
   const [bancos, setBancos] = useState<SelectValues[]>([]);
   const [comentarios, setComentarios] = useState("");
@@ -136,7 +136,7 @@ export const CuentaBancariaModal = ({
       formData.append("TOKEN", JSON.parse(String(getToken())));
       formData.append("NUMOPERACION", String(tipo));
       formData.append("CHID", id);
-      formData.append("CHUSER", String(user.id));
+      formData.append("CHUSER", String(user.Id));
       formData.append("IDBANCOS", String(idBancos));
       formData.append("NUMEROCUENTA", (numeroCuenta));
       formData.append("NOMBRECUENTA", nombreCuenta);

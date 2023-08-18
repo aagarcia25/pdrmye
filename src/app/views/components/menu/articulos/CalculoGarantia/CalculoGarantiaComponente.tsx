@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../../services/calculosServices";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
@@ -30,7 +30,7 @@ export const CalculoGarantiaComponente = () => {
   const [nombreMenu, setNombreMenu] = useState("");
   const [plantilla, setPlantilla] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [anios, setAnios] = useState<SelectValues[]>([]);
 
     // VARIABLES PARA LOS FILTROS
@@ -131,12 +131,12 @@ export const CalculoGarantiaComponente = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         //console.log(v);
-        const user: RESPONSE = JSON.parse(String(getUser()));
+        const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id,
+          CHUSER: user.Id,
         };
         //console.log(data);
 
@@ -173,7 +173,7 @@ export const CalculoGarantiaComponente = () => {
       const formData = new FormData();
       formData.append("inputfile", file, "inputfile.xlsx");
       formData.append("tipo", "CalculoGarantia");
-      formData.append("CHUSER", user.id);
+      formData.append("CHUSER", user.Id);
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
         if (res.SUCCESS) {
@@ -213,7 +213,7 @@ export const CalculoGarantiaComponente = () => {
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id
             };
 
             calculosServices.CalculoGarantia(data).then((res) => {

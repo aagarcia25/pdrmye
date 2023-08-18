@@ -15,10 +15,12 @@ import { GridSelectionModel } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
+import { base64ToArrayBuffer } from '../../../helpers/Files';
 import { Toast } from "../../../helpers/Toast";
 import SelectValues from "../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { DPCPServices } from "../../../services/DPCPServices";
+import { ReportesServices } from '../../../services/ReportesServices';
 import { SireService } from "../../../services/SireService";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../services/localStorage";
@@ -29,8 +31,6 @@ import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import Slider from "../Slider";
 import NombreCatalogo from "../componentes/NombreCatalogo";
 import { Moneda } from "../menu/CustomToolbar";
-import { ReportesServices } from '../../../services/ReportesServices';
-import { base64ToArrayBuffer } from '../../../helpers/Files';
 const AsigPresupuestal = () => {
   const [slideropen, setslideropen] = useState(false);
   //MODAL
@@ -47,7 +47,7 @@ const AsigPresupuestal = () => {
   const [idMunicipio, setidMunicipio] = useState("");
   //Constantes para las columnas
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
@@ -269,7 +269,7 @@ const AsigPresupuestal = () => {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
           // console.log(data);
 
@@ -372,7 +372,7 @@ const AsigPresupuestal = () => {
       let file = event?.target?.files?.[0] || "";
       const formData = new FormData();
       formData.append("inputfile", file, "inputfile.xlxs");
-      formData.append("CHUSER", user.id);
+      formData.append("CHUSER", user.Id);
       formData.append("tipo", "asignapresupuesto");
       formData.append("CHMES", mes);
       CatalogosServices.migraData(formData).then((res) => {

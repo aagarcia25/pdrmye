@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getPermisos, getUser, } from "../../../../../services/localStorage";
 import { messages } from "../../../../styles";
@@ -21,7 +21,7 @@ const TipoFondo = () => {
   const [dataTipoFondo, setDataTipoFondo] = useState([]);
   const [slideropen, setslideropen] = useState(false);
   const [vrows, setVrows] = useState({});
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -98,7 +98,7 @@ const TipoFondo = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id
         };
         //console.log(data);
 

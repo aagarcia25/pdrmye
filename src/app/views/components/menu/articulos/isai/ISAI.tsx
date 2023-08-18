@@ -11,7 +11,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import MUIXDataGrid from "../../../MUIXDataGrid";
@@ -26,7 +26,7 @@ const ISAI = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [dataTipoFondo, setDataTipoFondo] = useState([]);
   const [slideropen, setslideropen] = useState(true);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -124,7 +124,7 @@ const ISAI = () => {
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlxs");
     formData.append("NUMOPERACION", "1");
-    formData.append("CHUSER",  user.id);
+    formData.append("CHUSER",  user.Id);
     CatalogosServices.MUNISAI(formData).then((res) => {
       setslideropen(false);
       consulta(5);

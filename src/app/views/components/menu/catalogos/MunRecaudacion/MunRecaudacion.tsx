@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
-import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
-import Slider from "../../../Slider";
-import { Toast } from "../../../../../helpers/Toast";
-import { AlertS } from "../../../../../helpers/AlertS";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import MunRecaudacionModal from "./MunRecaudacionModal";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { PERMISO, USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo';
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { fanios } from "../../../../../share/loadAnios";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
-import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import Slider from "../../../Slider";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 import { Moneda } from "../../CustomToolbar";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+import MunRecaudacionModal from "./MunRecaudacionModal";
 
 export const MunRecaudacion = () => {
   const [open, setOpen] = useState(false);
@@ -23,14 +22,13 @@ export const MunRecaudacion = () => {
   const [data, setData] = useState({});
   const [Facturacion, setFacturacion] = useState([]);
   const [slideropen, setslideropen] = useState(false);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [modo, setModo] = useState("");
   const [nombreMenu, setNombreMenu] = useState("");
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  const menu: MENU[] = JSON.parse(String(getMenus()));
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
   const [anios, setAnios] = useState<SelectValues[]>([]);
@@ -122,7 +120,7 @@ export const MunRecaudacion = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id
         };
 
         CatalogosServices.munrecaudacion(data).then((res) => {
@@ -192,7 +190,7 @@ export const MunRecaudacion = () => {
           let data = {
            NUMOPERACION: 5,
            OBJS: selectionModel,
-           CHUSER: user.id
+           CHUSER: user.Id
           };
   
           CatalogosServices.munrecaudacion(data).then((res) => {
@@ -204,7 +202,7 @@ export const MunRecaudacion = () => {
   
               consulta({
                 NUMOPERACION: 4,
-                CHUSER: user.id
+                CHUSER: user.Id
               });
   
             } else {
@@ -254,13 +252,7 @@ export const MunRecaudacion = () => {
 
 
   useEffect(() => {
-    menu.map((item: MENU) => {
-      item.items.map((itemsMenu: ITEMS) => {
-        if (String(itemsMenu.ControlInterno) === "MUNRECAU") {
-          setNombreMenu(itemsMenu.Menu);
-        }
-      });
-    });
+ 
     permisos.map((item: PERMISO) => {
       if (String(item.ControlInterno) === "MUNRECAU") {
 

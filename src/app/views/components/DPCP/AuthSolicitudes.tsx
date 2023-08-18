@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import SendIcon from "@mui/icons-material/Send";
 import {
   Button,
   Checkbox,
@@ -14,29 +16,26 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
-import SendIcon from "@mui/icons-material/Send";
 import { esES as coreEsES } from "@mui/material/locale";
 import {
   GridSelectionModel,
   esES as gridEsES,
 } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
 import { Toast } from "../../../helpers/Toast";
 import SelectValues from "../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../services/localStorage";
+import { fanios } from "../../../share/loadAnios";
+import { fmeses } from "../../../share/loadMeses";
 import SelectFrag from "../Fragmentos/SelectFrag";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import Slider from "../Slider";
 import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
-import { fmeses } from "../../../share/loadMeses";
-import { fanios } from "../../../share/loadAnios";
 
 
 
@@ -57,7 +56,7 @@ const AuthSolicitudes = () => {
   const [tipomunicipio, settipomunicipio] = useState("");
   const [idMunicipio, setidMunicipio] = useState("");
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [authSol, setAuthSol] = useState(false);
@@ -171,7 +170,7 @@ const AuthSolicitudes = () => {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           DPCPServices.AuthSolicitudPago(data).then((res) => {

@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import CloseIcon from '@mui/icons-material/Close';
 import { Box, Dialog, DialogContent, DialogTitle, Grid, TextField, ToggleButton, Tooltip } from "@mui/material";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { AlertS } from "../../../helpers/AlertS";
+import { USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
+import { CatalogosServices } from '../../../services/catalogosServices';
 import { getUser } from "../../../services/localStorage";
 import Slider from "../Slider";
-import { CatalogosServices } from '../../../services/catalogosServices';
-import CloseIcon from '@mui/icons-material/Close';
-import { AlertS } from "../../../helpers/AlertS";
 
 
 
@@ -30,7 +30,7 @@ export const ComentariosRecursosModal = (
         }
 ) => {
     const [openSlider, setOpenSlider] = useState(false);
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const user: USUARIORESPONSE= JSON.parse(String(getUser()));
     const [comentarios, setComentarios] = useState<string>();
     var hoy = new Date()
     const perfiles = [
@@ -51,7 +51,7 @@ export const ComentariosRecursosModal = (
             let d = {
                 NUMOPERACION: 5,
                 CHID: data.id,
-                CHUSER: user.id,
+                CHUSER: user.Id,
                 ESTATUS: accion?.estatus,
                 Comentario: comentarios,
                 ANIO: hoy.getFullYear(),
@@ -91,7 +91,7 @@ export const ComentariosRecursosModal = (
                 let d = {
                     NUMOPERACION: 5,
                     CHID: data.id,
-                    CHUSER: user.id,
+                    CHUSER: user.Id,
                     ESTATUS: accion?.estatus,
                     Comentario: comentarios,
                     ANIO: hoy.getFullYear(),

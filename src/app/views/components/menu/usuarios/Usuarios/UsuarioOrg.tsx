@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {
   Button,
   DialogContent,
@@ -9,17 +9,17 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridColDef } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
+import { AlertS } from "../../../../../helpers/AlertS";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AuthService } from "../../../../../services/AuthService";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getUser } from "../../../../../services/localStorage";
+import SelectFragMulti from "../../../Fragmentos/SelectFragMulti";
 import MUIXDataGridSimple from "../../../MUIXDataGridSimple";
 import Slider from "../../../Slider";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import SelectFragMulti from "../../../Fragmentos/SelectFragMulti";
 import ModalForm from "../../../componentes/ModalForm";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import { getUser } from "../../../../../services/localStorage";
-import { AlertS } from "../../../../../helpers/AlertS";
 const UsuarioOrg = ({
   handleClose,
   dt,
@@ -34,7 +34,7 @@ const UsuarioOrg = ({
   const [idOrg, setIdOrg] = useState<SelectValues[]>([]);
   const [organismos, setOrganismos] = useState<[]>([]);
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
 
   const columns: GridColDef[] = [

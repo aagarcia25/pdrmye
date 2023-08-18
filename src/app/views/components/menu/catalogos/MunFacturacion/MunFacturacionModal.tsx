@@ -12,7 +12,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import { municipiosc } from "../../../../../share/loadMunicipios";
 import ModalForm from "../../../componentes/ModalForm";
@@ -38,7 +38,7 @@ const MunFacturacionModal = ({
   const [idMunicipio, setIdMunicipio] = useState<string>("");
   const [idMun, setIdMun] = useState<string>();
   const [municipio, setMunicipio] = useState<string>("");
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [mun, setMun] = useState<SelectValues[]>([]);
 
 
@@ -53,7 +53,7 @@ const MunFacturacionModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: anio,
         IDMUNICIPIO: idMunicipio,
         FACTURACION: fac,

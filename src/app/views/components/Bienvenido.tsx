@@ -80,7 +80,7 @@ export default function Bienvenido({ user }: { user: any }) {
   useEffect(() => {
     consulta({
       NUMOPERACION: 5,
-      CHUSER: user.id
+      CHUSER: user.Id
     });
   }, []);
 

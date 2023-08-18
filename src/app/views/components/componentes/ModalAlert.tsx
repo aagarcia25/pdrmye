@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
 import {
   Button,
   Grid,
   Typography,
 } from "@mui/material";
-import { AlertS } from "../../../helpers/AlertS";
-import ModalForm from "./ModalForm";
-import { getMunicipio, getUser } from "../../../services/localStorage";
-import { MUNICIPIO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { AlertS } from "../../../helpers/AlertS";
+import { MUNICIPIO, PERFILES, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
+import { getMunicipio, getPerfiles, getUser } from "../../../services/localStorage";
+import ModalForm from "./ModalForm";
 
 const ModalAlert = ({
   accion,
@@ -26,8 +26,9 @@ const ModalAlert = ({
   vrows: any;
 }) => {
 
-  const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  
+  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
   const [mensaje, setMensaje] = useState<string>();
   const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
   const [nombreMun, setnombreMun] = useState("");
@@ -108,12 +109,12 @@ const ModalAlert = ({
             />
           </Grid>
 
-          {(user.DEPARTAMENTOS[0].NombreCorto === "MUN" && user.PERFILES[0].Referencia === "MUN") ?
+          {(user.controlinternodependencia === "MUN" && PER[0].Referencia === "MUN") ?
             < Grid item xs={4} sm={3} md={2} lg={1}>
               <Button className="actualizar" onClick={() => validacion("DAMOP_REVISION")}>Enviar</Button>
             </Grid>
             : ""}
-          {(user.DEPARTAMENTOS[0].NombreCorto === "DAMOP" && user.PERFILES[0].Referencia === "ANA") ?
+          {(user.controlinternodependencia === "DAMOP" && PER[0].Referencia === "ANA") ?
             <>
               < Grid item xs={4} sm={3} md={3} lg={3}>
                 <Button className="actualizar" onClick={() => validacion("DAMOP_AUTORIZADO")}>Autorizar</Button>

@@ -9,7 +9,7 @@ import {
   Grid,
 } from "@mui/material";
 import { getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -43,7 +43,7 @@ const MunFacturacionModal = ({
   const [artF1, setArtF1] = useState("");
   const [artF2, setArtF2] = useState("");
   const [artF3, setArtF3] = useState("");
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   //Valores de chequeo de los Switch
 
 
@@ -127,7 +127,7 @@ const MunFacturacionModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         NOMBRE: nombre,
         CLAVEESTADO: claveEstado,
         MAM: mam,

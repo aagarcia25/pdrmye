@@ -1,37 +1,36 @@
-import { useEffect, useState } from "react";
 import {
-    TextField,
-    Grid,
     Box,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
     Button,
-    Tooltip,
-    IconButton,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
     FormControl,
+    Grid,
+    IconButton,
+    TextField,
+    Tooltip,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import Select from 'react-select';
 
-import ModalForm from "../componentes/ModalForm";
-import { CatalogosServices } from "../../../services/catalogosServices";
-import { AlertS } from "../../../helpers/AlertS";
-import { IndexPaRetenciones, RESPONSE } from "../../../interfaces/user/UserInfo";
-import { getUser } from "../../../services/localStorage";
-import { Toast } from "../../../helpers/Toast";
-import SelectFrag from "../Fragmentos/SelectFrag";
-import SelectValues from "../../../interfaces/Select/SelectValues";
-import SelectValuesCatRetenciones from "../../../interfaces/Select/SelectValues";
-import { DPCPServices } from "../../../services/DPCPServices";
-import { GridColDef } from "@mui/x-data-grid";
-import MUIXDataGrid from "../MUIXDataGrid";
-import ButtonsAdd from "../menu/catalogos/Utilerias/ButtonsAdd";
 import CloseIcon from "@mui/icons-material/Close";
-import Swal from "sweetalert2";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import { currencyFormatter, Moneda } from "../menu/CustomToolbar";
+import { GridColDef } from "@mui/x-data-grid";
+import Swal from "sweetalert2";
+import { AlertS } from "../../../helpers/AlertS";
+import { Toast } from "../../../helpers/Toast";
+import { default as SelectValues, default as SelectValuesCatRetenciones } from "../../../interfaces/Select/SelectValues";
+import { IndexPaRetenciones, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
+import { DPCPServices } from "../../../services/DPCPServices";
+import { CatalogosServices } from "../../../services/catalogosServices";
+import { getUser } from "../../../services/localStorage";
+import SelectFrag from "../Fragmentos/SelectFrag";
+import MUIXDataGrid from "../MUIXDataGrid";
+import ModalForm from "../componentes/ModalForm";
+import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
+import ButtonsAdd from "../menu/catalogos/Utilerias/ButtonsAdd";
 
 
 export const Retenciones = ({
@@ -50,7 +49,7 @@ export const Retenciones = ({
     permisoEliminarRetencion: boolean;
 }) => {
     // CAMPOS DE LOS FORMULARIOS
-    const user: RESPONSE = JSON.parse(String(getUser()));
+    const user: USUARIORESPONSE= JSON.parse(String(getUser()));
     const [idPA, setIdPA] = useState("");
 
     const [idReg, setIdReg] = useState("");
@@ -246,7 +245,7 @@ export const Retenciones = ({
                     let data = {
                         IDREG: idReg,
                         NUMOPERACION: editar?3: 1,
-                        CHUSER: user.id,
+                        CHUSER: user.Id,
                         IDMUNICIPIO: dt?.row?.idmunicipio,
                         TIPO: numOperacion,
                         IDPA: dt?.row?.id,

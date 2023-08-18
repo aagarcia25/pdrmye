@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
-import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
-import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import { getPermisos, getUser } from "../../../../../services/localStorage";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import Swal from "sweetalert2";
-import { Toast } from "../../../../../helpers/Toast";
-import { AlertS } from "../../../../../helpers/AlertS";
-import FondosModal from "./FondosModal";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import FondosView from "./FondosView";
-import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
-import FondosTipoView from "./FondosTipoView";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { Box, Grid, IconButton, Tooltip } from "@mui/material";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
-import React from "react";
-import ButtonsMunBase from "../Utilerias/ButtonsMunBase";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import ButtonsMunBase from "../Utilerias/ButtonsMunBase";
+import FondosModal from "./FondosModal";
+import FondosTipoView from "./FondosTipoView";
+import FondosView from "./FondosView";
 const Fondos = () => {
 
   const [modo, setModo] = useState("");
@@ -24,7 +23,7 @@ const Fondos = () => {
   const [openView, setOpenView] = useState(false);
   const [openViewAjustes, setOpenViewAjustes] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [vrows, setVrows] = useState({});
   const [fondos, setFondos] = useState([]);
   const [nombreMenu, setNombreMenu] = useState("");
@@ -161,7 +160,7 @@ const Fondos = () => {
             let data = {
               NUMOPERACION: 7,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id
             };
             //console.log(data);
 
@@ -217,7 +216,7 @@ const Fondos = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id
         };
         //console.log(data);
 

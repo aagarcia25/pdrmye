@@ -2,11 +2,10 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import {
   Box,
   Container,
-  Dialog,
   Grid,
   IconButton,
   TextField,
-  Tooltip,
+  Tooltip
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import PdfLogo from "../../../../../../app/assets/img/PDF_file_icon.svg";
@@ -15,9 +14,11 @@ import docxLogo from "../../../../../../app/assets/img/docx_Logo.png";
 import PptxLogo from "../../../../../../app/assets/img/pptx_Logo.png";
 import xlsxLogo from "../../../../../../app/assets/img/xlsx_Logo.png";
 import { AlertS } from "../../../../../helpers/AlertS";
+import { base64ToArrayBuffer } from "../../../../../helpers/Files";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { ValidaSesion } from "../../../../../services/UserServices";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {
   getMunicipios,
@@ -27,10 +28,8 @@ import {
   setMunicipios,
   validaLocalStorage,
 } from "../../../../../services/localStorage";
-import ModalForm from "../../../componentes/ModalForm";
-import { ValidaSesion } from "../../../../../services/UserServices";
-import { base64ToArrayBuffer } from "../../../../../helpers/Files";
 import SliderProgress from "../../../SliderProgress";
+import ModalForm from "../../../componentes/ModalForm";
 
 const AvisosModal = ({
   open,
@@ -81,7 +80,7 @@ const AvisosModal = ({
   const [Avisos, setAvisos] = useState("");
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
 
@@ -123,7 +122,7 @@ const AvisosModal = ({
     formData.append("DESCRIPCION", String(descripcion));
     formData.append("FECHAINICIO", String(inicioEvento));
     formData.append("FECHAFIN", String(finEvento));
-    formData.append("CHUSER", String(user.id));
+    formData.append("CHUSER", String(user.Id));
 
     if (
       inicioEvento === null ||

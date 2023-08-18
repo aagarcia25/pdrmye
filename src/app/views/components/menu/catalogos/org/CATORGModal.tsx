@@ -12,7 +12,7 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 
 export const CATORGModal = ({
@@ -43,7 +43,7 @@ export const CATORGModal = ({
   const [Clasificador09, setClasificador09] = useState("");
   const [Clasificador10, setClasificador10] = useState("");
   const [Clasificador11, setClasificador11] = useState("");
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
 
   const handleSend = () => {
@@ -62,7 +62,7 @@ export const CATORGModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         DESCRIPCION: Descripcion,
         ClavePSIREGOB: ClavePSIREGOB,
         ClaveDSIREGOB: ClaveDSIREGOB,

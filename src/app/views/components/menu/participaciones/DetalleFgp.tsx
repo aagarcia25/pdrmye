@@ -1,25 +1,41 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CachedIcon from "@mui/icons-material/Cached";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import InsightsIcon from "@mui/icons-material/Insights";
-import { Box, Dialog, Grid, ToggleButton, ToggleButtonGroup, Tooltip, } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  Grid,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
-import { FPGDetalle, PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import {
+  FPGDetalle,
+  PERFILES,
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
-import { getPermisos, getUser } from "../../../../services/localStorage";
+import {
+  getPerfiles,
+  getPermisos,
+  getUser,
+} from "../../../../services/localStorage";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
 import Trazabilidad from "../../Trazabilidad";
 import ModalCalculos from "../../componentes/ModalCalculos";
 import { Moneda, currencyFormatter } from "../CustomToolbar";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
-import CachedIcon from '@mui/icons-material/Cached';
 
 const DetalleFgp = ({
   idCalculo,
@@ -34,24 +50,20 @@ const DetalleFgp = ({
   handleClose: Function;
   clave: string;
 }) => {
-  // Dire
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
+  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
   const [status, setStatus] = useState<SelectValues>();
-  const [perfil, setPerfil] = useState<SelectValues>();
-  const [direccion, setDireccion] = useState<SelectValues>();
   const [responsable, setResponsable] = useState<SelectValues>();
   const [openSlider, setOpenSlider] = useState(true);
   const [estatusDestino, setEstatusDestino] = useState("");
   const [perfilDestino, setperfilDestino] = useState("");
   const [area, setArea] = useState("");
   const [sumaTotal, setSumaTotal] = useState<Number>();
-
   const [anio, setAnio] = useState("");
   const [mes, setMes] = useState("");
   const [nummes, setNumMes] = useState<Number>();
   const [tipoCalculo, setTipoCalculo] = useState("");
-
 
   //Permisos
   const [data, setData] = useState([]);
@@ -140,7 +152,7 @@ const DetalleFgp = ({
           setTipoAccion("Favor de ingresar un comentario para la Autorización");
           setEstatusDestino("CPH_REG_ANA");
           setperfilDestino("VAL");
-          setArea("CPH")
+          setArea("CPH");
           setOpenModal(true);
           break;
 
@@ -154,21 +166,19 @@ const DetalleFgp = ({
     setOpenSlider(true);
 
     if (!perfilDestino || !data.mensaje) {
-
       AlertS.fire({
         title: "Verifique Los Campos",
         icon: "error",
       });
-    }
-    else {
+    } else {
       let obj = {
         CHID: idCalculo,
         ESTATUS_DESTINO: estatusDestino,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         TEXTO: data.mensaje,
         PERFIL_DESTINO: perfilDestino,
         CHUSERASIGNADO: data.usuario,
-        AREA: area
+        AREA: area,
       };
 
       calculosServices.indexCalculo(obj).then((res) => {
@@ -194,7 +204,7 @@ const DetalleFgp = ({
   const ReCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
-      CHUSER: user.id
+      CHUSER: user.Id,
     };
 
     Swal.fire({
@@ -205,7 +215,7 @@ const DetalleFgp = ({
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
-      color: 'rgb(175, 140, 85)',
+      color: "rgb(175, 140, 85)",
     }).then((result) => {
       if (result.isConfirmed) {
         calculosServices.ReCalculo(data).then((res) => {
@@ -230,7 +240,7 @@ const DetalleFgp = ({
   const BorraCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
-      CHUSER: user.id,
+      CHUSER: user.Id,
       CLAVE: clave,
       ANIO: anio,
       MES: nummes,
@@ -244,7 +254,7 @@ const DetalleFgp = ({
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
-      color: 'rgb(175, 140, 85)',
+      color: "rgb(175, 140, 85)",
     }).then((result) => {
       if (result.isConfirmed) {
         calculosServices.BorraCalculo(data).then((res) => {
@@ -265,6 +275,7 @@ const DetalleFgp = ({
       }
     });
   };
+
   const EstatusCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -281,38 +292,7 @@ const DetalleFgp = ({
       }
     });
   };
-  const getPerfilCalculo = () => {
-    let data = {
-      IDCALCULO: idDetalle,
-    };
-    calculosServices.getPerfilCalculo(data).then((res) => {
-      if (res.SUCCESS) {
-        setPerfil(res.RESPONSE[0]);
-      } else {
-        AlertS.fire({
-          title: "¡Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
-  const getAreaCalculo = () => {
-    let data = {
-      IDCALCULO: idDetalle,
-    };
-    calculosServices.getAreaCalculo(data).then((res) => {
-      if (res.SUCCESS) {
-        setDireccion(res.RESPONSE[0]);
-      } else {
-        AlertS.fire({
-          title: "¡Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
+
   const getResponsable = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -320,10 +300,10 @@ const DetalleFgp = ({
     calculosServices.getResponsable(data).then((res) => {
       if (res.SUCCESS) {
         setResponsable(res.RESPONSE[0]);
-      }else if(res.RESPONSE[0] === null || res.RESPONSE[0] === ""){
+      } else if (res.RESPONSE[0] === null || res.RESPONSE[0] === "") {
         AlertS.fire({
           title: "¡Error!",
-          text: "No se ha asignado a un responsable",//res.STRMESSAGE,
+          text: "No se ha asignado a un responsable", //res.STRMESSAGE,
           icon: "error",
         });
       }
@@ -385,6 +365,7 @@ const DetalleFgp = ({
       }
     });
   };
+
   const consulta = (data: any) => {
     calculosServices.calculosInfodetalle(data).then((res) => {
       if (res.SUCCESS) {
@@ -395,8 +376,8 @@ const DetalleFgp = ({
         setData(res.RESPONSE);
         var sumatotal = 0;
         res.RESPONSE.map((item: FPGDetalle) => {
-          sumatotal = sumatotal + Number(item.total)
-          setSumaTotal(sumatotal)
+          sumatotal = sumatotal + Number(item.total);
+          setSumaTotal(sumatotal);
         });
       } else {
         AlertS.fire({
@@ -410,10 +391,8 @@ const DetalleFgp = ({
   };
 
   const init = (data: any) => {
-
     calculosServices.calculosdetail(data).then((res) => {
       if (res.SUCCESS) {
-      // console.log(res.RESPONSE[0])
         setNumMes(Number(res.RESPONSE[0].nummes));
         setAnio(res.RESPONSE[0].anio);
         setMes(res.RESPONSE[0].mes);
@@ -425,12 +404,17 @@ const DetalleFgp = ({
           icon: "error",
         });
       }
-      
     });
   };
 
   const columns = [
-    { field: "id", headerName: "Identificador", width: 150, hide: true  , hideable:false },
+    {
+      field: "id",
+      headerName: "Identificador",
+      width: 150,
+      hide: true,
+      hideable: false,
+    },
 
     {
       field: "ClaveEstado",
@@ -451,68 +435,7 @@ const DetalleFgp = ({
       description: "Mensual",
       ...Moneda,
     },
-    // {
-    //   hide: true  , 
-    //   field: "PrimerAjuste",
-    //   headerName: "Primer Ajuste",
-    //   width: 200,
-    //   description: "Primer Ajuste",
-    //   ...Moneda,
-    // },
-    // {
-    //   hide: sa ? false : true,
-    //   field: "SegundoAjuste",
-    //   headerName: "Segundo Ajuste",
-    //   width: 150,
-    //   description: "Segundo Ajuste",
-    //   ...Moneda,
 
-    // },
-    // {
-    //   hide: ta ? false : true,
-    //   field: "TercerAjuste",
-    //   headerName: "Tercer Ajuste",
-    //   width: 150,
-    //   description: "Tercer Ajuste",
-    //   ...Moneda,
-
-    // },
-    // {
-    //   hide: ca ? false : true,
-    //   field: "CuartoAjuste",
-    //   headerName: "Cuarto Ajuste",
-    //   width: 150,
-    //   description: "Cuarto Ajuste",
-    //   ...Moneda,
-
-    // },
-    // {
-    //   hide: ad ? false : true,
-    //   field: "AjusteAnual",
-    //   headerName: "Ajuste Anual",
-    //   width: 150,
-    //   description: "Ajuste Anual",
-    //   ...Moneda,
-
-    // },
-    // {
-    //   hide: as ? false : true,
-    //   field: "AjusteSemestral",
-    //   headerName: "Ajuste Semestral",
-    //   width: 150,
-    //   description: "Ajuste Semestral",
-    //   ...Moneda,
-
-    // },
-    // {
-    //   hide: aa ? false : true,
-    //   field: "AjusteDefinitivo",
-    //   headerName: "Ajuste Definitivo",
-    //   width: 150,
-    //   description: "Ajuste Definitivo",
-    //   ...Moneda,
-
-    // },
     {
       hide: ae ? false : true,
       field: "AjusteEstatal",
@@ -520,35 +443,8 @@ const DetalleFgp = ({
       width: 150,
       description: "Ajuste Estatal",
       ...Moneda,
-
     },
-    // {
-    //   hide: rf ? false : true,
-    //   field: "CompensacionFEIF",
-    //   headerName: "Compensación FEIF",
-    //   width: 150,
-    //   description: "Compensación FEIF",
-    //   ...Moneda,
 
-    // },
-    // {
-    //   hide: cf ? false : true,
-    //   field: "RetencionFEIF",
-    //   headerName: "Retención FEIF",
-    //   width: 150,
-    //   description: "Retención FEIF",
-    //   ...Moneda,
-
-    // },
-    // {
-    //   hide: af ? false : true,
-    //   field: "AjusteFofir",
-    //   headerName: "Ajuste FOFIR",
-    //   width: 150,
-    //   description: "Ajuste FOFIR",
-    //   ...Moneda,
-
-    // },
     {
       field: "total",
       headerName: "Total",
@@ -556,11 +452,8 @@ const DetalleFgp = ({
       description: "Total",
       ...Moneda,
       renderHeader: () => (
-        <>
-          {"Total: " + currencyFormatter.format(Number(sumaTotal))}
-        </>
+        <>{"Total: " + currencyFormatter.format(Number(sumaTotal))}</>
       ),
-
     },
   ];
   const EstablecePermisos = () => {
@@ -582,9 +475,9 @@ const DetalleFgp = ({
         if (String(item.Referencia) === "EDIT") {
           //  setEditar(true);
         }
-       // if (String(item.Referencia) === "RECALCULAR") {
-           setrecalcular(true);
-      //  }
+        if (String(item.Referencia) === "RECALCULAR") {
+          setrecalcular(true);
+        }
       }
     });
   };
@@ -592,15 +485,11 @@ const DetalleFgp = ({
   useEffect(() => {
     EstablecePermisos();
     EstatusCalculo();
-    getPerfilCalculo();
-    getAreaCalculo();
     getResponsable();
-    init({ P_ID: idDetalle })
+    init({ P_ID: idDetalle });
     columnas({ IDCALCULOTOTAL: idDetalle });
     consulta({ IDCALCULOTOTAL: idDetalle });
-    
   }, []);
-
 
   return (
     <div>
@@ -614,7 +503,9 @@ const DetalleFgp = ({
               handleClose={handleClose}
               handleAccion={Fnworkflow}
               perfil={perfilDestino}
-              area={area} visibleselect={visibleselect}            />
+              area={area}
+              visibleselect={visibleselect}
+            />
           ) : (
             ""
           )}
@@ -672,7 +563,12 @@ const DetalleFgp = ({
             spacing={1}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <Grid item container xs={6} sx={{ alignItems: "center", justifyContent: "center" }}>
+            <Grid
+              item
+              container
+              xs={6}
+              sx={{ alignItems: "center", justifyContent: "center" }}
+            >
               <label className="subtitulo">
                 {"*" + tipoCalculo + "*"}
                 <br />
@@ -690,23 +586,17 @@ const DetalleFgp = ({
                 Estatus del Cálculo: {status?.label} <br />
               </label>
               <label>
-                Perfil Asignado: {perfil?.label} <br />
-              </label>
-              <label>
-                Área Asignada: {direccion?.label} <br />
-              </label>
-              <label>
                 Asignado a: {responsable?.label} <br />
               </label>
             </Grid>
           </Grid>
 
-          <Box sx={{ height: 600, width: "100%", }}>
+          <Box sx={{ height: 600, width: "100%" }}>
             <Box>
               <ToggleButtonGroup>
                 <Tooltip title={"Regresar"}>
                   <ToggleButton
-                  className="regresar"
+                    className="regresar"
                     value="check"
                     onClick={() => handleAcciones(1)}
                   >
@@ -717,7 +607,7 @@ const DetalleFgp = ({
                 {recalcular ? (
                   <Tooltip title={"Generar Recálculo"}>
                     <ToggleButton
-                    className="aceptar"
+                      className="aceptar"
                       value="check"
                       onClick={() => ReCalculo()}
                     >
@@ -728,11 +618,10 @@ const DetalleFgp = ({
                   ""
                 )}
 
-
                 {verTrazabilidad ? (
                   <Tooltip title={"Ver Trazabilidad"}>
                     <ToggleButton
-                    className="aceptar"
+                      className="aceptar"
                       value="check"
                       onClick={() => handleAcciones(2)}
                     >
@@ -743,57 +632,47 @@ const DetalleFgp = ({
                   ""
                 )}
 
-
-
-                {
-                  autorizar &&
-                    user.id === responsable?.value &&
-                    direccion?.value === "CPH" &&
-                    perfil?.value === "ANA" &&
-                    user.PERFILES[0].Referencia === "ANA" ? (
-                    <Tooltip title={"Enviar a Validación"}>
-                      <ToggleButton
+                {autorizar &&
+                user.Id === responsable?.value &&
+                user.controlinternodependencia === "CPH" &&
+                PER[0].Referencia === "ANA" ? (
+                  <Tooltip title={"Enviar a Validación"}>
+                    <ToggleButton
                       className="aceptar"
-                        value="check"
-                        onClick={() => handleAcciones(3)}
-                      >
-                        <DoneAllIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
-
-
-                {
-                  autorizar &&
-                    user.id === responsable?.value &&
-                    direccion?.value === "CPH" &&
-                    perfil?.value === "VAL" &&
-                    user.PERFILES[0].Referencia === "VAL" ? (
-                    <Tooltip title={"Enviar a Coordinador"}>
-                      <ToggleButton
-                       className="aceptar"
-                        value="check"
-                        onClick={() => handleAcciones(4)}
-                      >
-                        <DoneAllIcon />
-                      </ToggleButton>
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
-
-
+                      value="check"
+                      onClick={() => handleAcciones(3)}
+                    >
+                      <DoneAllIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
 
                 {autorizar &&
-                  user.id === responsable?.value &&
-                  direccion?.value === "CPH" &&
-                  perfil?.value === "COOR" &&
-                  user.PERFILES[0].Referencia === "COOR" ? (
+                user.Id === responsable?.value &&
+                user.controlinternodependencia === "CPH" &&
+                PER[0].Referencia === "VAL" ? (
+                  <Tooltip title={"Enviar a Coordinador"}>
+                    <ToggleButton
+                      className="aceptar"
+                      value="check"
+                      onClick={() => handleAcciones(4)}
+                    >
+                      <DoneAllIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
+
+                {autorizar &&
+                user.Id === responsable?.value &&
+                user.controlinternodependencia === "CPH" &&
+                PER[0].Referencia === "COOR" ? (
                   <Tooltip title={"Enviar a DAMOP"}>
                     <ToggleButton
-                     className="aceptar"
+                      className="aceptar"
                       value="check"
                       onClick={() => handleAcciones(5)}
                     >
@@ -805,13 +684,12 @@ const DetalleFgp = ({
                 )}
 
                 {cancelar &&
-                  user.id === responsable?.value &&
-                  direccion?.value === "CPH" &&
-                  perfil?.value === "ANA" &&
-                  user.PERFILES[0].Referencia === "ANA" ? (
+                user.Id === responsable?.value &&
+                user.controlinternodependencia === "CPH" &&
+                PER[0].Referencia === "ANA" ? (
                   <Tooltip title={"Cancelar"}>
                     <ToggleButton
-                     className="regresar"
+                      className="regresar"
                       value="check"
                       onClick={() => handleAcciones(6)}
                     >
@@ -823,13 +701,12 @@ const DetalleFgp = ({
                 )}
 
                 {cancelar &&
-                  user.id === responsable?.value &&
-                  direccion?.value === "CPH" &&
-                  perfil?.value === "VAL" &&
-                  user.PERFILES[0].Referencia === "VAL" ? (
+                user.Id === responsable?.value &&
+                user.controlinternodependencia === "CPH" &&
+                PER[0].Referencia === "VAL" ? (
                   <Tooltip title={"Regresar a Analista"}>
                     <ToggleButton
-                     className="regresar"
+                      className="regresar"
                       value="check"
                       onClick={() => handleAcciones(7)}
                     >
@@ -841,13 +718,12 @@ const DetalleFgp = ({
                 )}
 
                 {cancelar &&
-                  user.id === responsable?.value &&
-                  direccion?.value === "CPH" &&
-                  perfil?.value === "COOR" &&
-                  user.PERFILES[0].Referencia === "COOR" ? (
+                user.Id === responsable?.value &&
+                user.controlinternodependencia === "CPH" &&
+                PER[0].Referencia === "COOR" ? (
                   <Tooltip title={"Regresar a Validador"}>
                     <ToggleButton
-                    className="regresar"
+                      className="regresar"
                       value="check"
                       onClick={() => handleAcciones(8)}
                     >
@@ -857,10 +733,13 @@ const DetalleFgp = ({
                 ) : (
                   ""
                 )}
-
               </ToggleButtonGroup>
             </Box>
-            <MUIXDataGrid columns={columns} rows={data} modulo={nombreFondo+" "+tipoCalculo+"-"+mes+"-"+anio } />
+            <MUIXDataGrid
+              columns={columns}
+              rows={data}
+              modulo={nombreFondo + " " + tipoCalculo + "-" + mes + "-" + anio}
+            />
           </Box>
         </Dialog>
       </Box>

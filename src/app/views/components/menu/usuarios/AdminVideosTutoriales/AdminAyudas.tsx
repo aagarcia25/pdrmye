@@ -1,38 +1,36 @@
-import { useEffect, useState } from "react";
 import {
-  TextField,
-  Button,
-  Grid,
-  Typography,
   BottomNavigation,
   BottomNavigationAction,
   Box,
-  Tooltip,
-  IconButton,
-  RadioGroup,
+  Button,
   FormControlLabel,
+  Grid,
+  IconButton,
   Radio,
+  RadioGroup,
+  TextField,
+  Tooltip,
+  Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 
-import { AlertS } from "../../../../../helpers/AlertS";
-import { Toast } from "../../../../../helpers/Toast";
-import { AuthService } from "../../../../../services/AuthService";
-import { getToken, getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import ModalForm from "../../../componentes/ModalForm";
-import SelectFrag from "../../../Fragmentos/SelectFrag";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
-import SliderProgress from "../../../SliderProgress";
-import Swal from "sweetalert2";
-import { ValidaSesion } from "../../../../../services/UserServices";
-import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import HelpIcon from '@mui/icons-material/Help';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import MUIXDataGrid from "../../../MUIXDataGrid";
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import { GridColDef } from "@mui/x-data-grid";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
+import Swal from "sweetalert2";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
+import SelectValues from "../../../../../interfaces/Select/SelectValues";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { AuthService } from "../../../../../services/AuthService";
+import { ValidaSesion } from "../../../../../services/UserServices";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getToken, getUser } from "../../../../../services/localStorage";
+import SelectFrag from "../../../Fragmentos/SelectFrag";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import SliderProgress from "../../../SliderProgress";
 
 const AdminAyudas = ({
   IdMenu,
@@ -50,7 +48,7 @@ const AdminAyudas = ({
 
   // CAMPOS DE LOS FORMULARIOS
 
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [menus, setMenus] = useState<SelectValues[]>([]);
   const [idMenu, setIdMenu] = useState(IdMenu);
   const [openCarga, setOpenCarga] = useState(false);
@@ -122,7 +120,7 @@ const AdminAyudas = ({
     formData.append("VIDEO", newVideo, nombreArchivo);
     formData.append("PREGUNTA", pregunta);
     formData.append("TIPO", valueDepartamento === "ext" ? "1" : "2");
-    formData.append("CHUSER", user.id);
+    formData.append("CHUSER", user.Id);
     formData.append("CHID", idMenu);
     formData.append("NAME", nombreArchivo);
     formData.append("TOKEN", JSON.parse(String(getToken())));
@@ -238,7 +236,7 @@ const AdminAyudas = ({
 
     let data = {
       NUMOPERACION: 3,
-      CHUSER: user.id,
+      CHUSER: user.Id,
       CHID: idMenu,
       PREGUNTA: pregunta,
       RESPUESTA: respuesta,

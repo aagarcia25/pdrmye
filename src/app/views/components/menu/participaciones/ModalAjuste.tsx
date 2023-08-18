@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { Box,  Button,  Grid, IconButton,  Typography } from "@mui/material";
-import SelectValues from "../../../../interfaces/Select/SelectValues";
-import { CatalogosServices } from "../../../../services/catalogosServices";
-import SelectFrag from "../../Fragmentos/SelectFrag";
-import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { RESPONSE } from "../../../../interfaces/user/UserInfo";
-import { getUser } from "../../../../services/localStorage";
-import { Toast } from "../../../../helpers/Toast";
+import { Box, Button, Grid, IconButton, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
-import { calculosServices } from "../../../../services/calculosServices";
-import Slider from "../../Slider";
+import { Toast } from "../../../../helpers/Toast";
+import SelectValues from "../../../../interfaces/Select/SelectValues";
+import { USUARIORESPONSE } from "../../../../interfaces/user/UserInfo";
 import { ParametroServices } from "../../../../services/ParametroServices";
+import { calculosServices } from "../../../../services/calculosServices";
+import { CatalogosServices } from "../../../../services/catalogosServices";
+import { getUser } from "../../../../services/localStorage";
+import SelectFrag from "../../Fragmentos/SelectFrag";
+import Slider from "../../Slider";
 import { TextFieldFormatoMoneda } from "../../componentes/TextFieldFormatoMoneda";
+import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
 
 const ModalAjuste = ({
   idCalculo,
@@ -26,7 +26,7 @@ const ModalAjuste = ({
   onClickBack: Function;
 }) => {
 
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [year, setyear] = useState<number>();
   //LLENADO DE FILTRO
   const [mes, setMeses] = useState<SelectValues[]>([]);
@@ -96,7 +96,7 @@ const ModalAjuste = ({
     formData.append("inputfile", file, "inputfile.xlsx");
     formData.append("tipo", "CalculoAjuste");
     formData.append("FONDO", clave);
-    formData.append("CHUSER", user.id);
+    formData.append("CHUSER", user.Id);
     formData.append("IMPORTE", String(monto));
     formData.append("IDCALCULO", idCalculo);
     formData.append("IDAJUSTE", String(idAjustes));

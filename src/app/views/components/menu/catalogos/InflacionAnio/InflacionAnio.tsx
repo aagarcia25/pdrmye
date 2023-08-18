@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { fanios } from "../../../../../share/loadAnios";
@@ -26,7 +26,7 @@ const InflacionAnio = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const [dataInflacionAnio, setDataInflacionAnio] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -126,7 +126,7 @@ const InflacionAnio = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id
         };
         //console.log(data);
 

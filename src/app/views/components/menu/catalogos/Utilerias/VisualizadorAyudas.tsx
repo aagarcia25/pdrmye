@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { ValidaSesion } from '../../../../../services/UserServices';
-import { ITEMS, MENU, RESPONSE, RESPONSEGUIARAPIDA, RESPONSEPREGUNTASFRECUENTES, RESPONSEVIDEOS } from '../../../../../interfaces/user/UserInfo';
-import { getMenus, getToken, getUser } from '../../../../../services/localStorage';
-import { CatalogosServices } from '../../../../../services/catalogosServices';
-import { base64ToArrayBuffer } from '../../../../../helpers/Files';
-import { AlertS } from '../../../../../helpers/AlertS';
-import { AuthService } from '../../../../../services/AuthService';
-import { Box, Dialog, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import CloseIcon from "@mui/icons-material/Close";
+import { Box, Dialog, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { AlertS } from '../../../../../helpers/AlertS';
+import { base64ToArrayBuffer } from '../../../../../helpers/Files';
+import { ValidaSesion } from '../../../../../services/UserServices';
+import { CatalogosServices } from '../../../../../services/catalogosServices';
+import { getToken } from '../../../../../services/localStorage';
 import SliderProgress from '../../../SliderProgress';
 
 export const VisualizadorAyudas = (

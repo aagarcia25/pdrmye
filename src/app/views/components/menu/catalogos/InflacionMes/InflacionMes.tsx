@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { fanios } from "../../../../../share/loadAnios";
@@ -27,7 +27,7 @@ const InflacionMes = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const [dataInflacionMes, setDataInflacionMes] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -122,7 +122,7 @@ const InflacionMes = () => {
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id
             };
            
 
@@ -159,7 +159,7 @@ const InflacionMes = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id
         };
 
         CatalogosServices.inflacionMes(data).then((res) => {

@@ -26,7 +26,7 @@ import { AlertS } from "../../../helpers/AlertS";
 import { Toast } from "../../../helpers/Toast";
 import { indexCabecera, indexDetalle } from "../../../interfaces/Damop/ResponseDAMOP";
 import SelectValues from "../../../interfaces/Select/SelectValues";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { DAMOPServices } from "../../../services/DAMOPServices";
 import { getUser } from "../../../services/localStorage";
@@ -64,7 +64,7 @@ export const ORGHeader = ({
 
   const dataCab: indexCabecera = dataCabecera?.row;
   const theme = createTheme(coreEsES, gridEsES);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
 
   const [openSlider, setOpenSlider] = useState(true);
   //Constantes para llenar los select
@@ -193,7 +193,7 @@ export const ORGHeader = ({
 
     let data = {
       NUMOPERACION: editarDetalle ? 2 : 1,
-      CHUSER: user.id,
+      CHUSER: user.Id,
       CHID: dataCab?.id ? dataCab?.id : "",
       DESCRIPCION: String(descripcion).trim(),
       importe: importe,
@@ -249,7 +249,7 @@ export const ORGHeader = ({
   const handleBorrarDetalle = (v: any) => {
     let data = {
       NUMOPERACION: 3,
-      CHUSER: user.id,
+      CHUSER: user.Id,
       IDDETALLE: v.row.id,
       IDORG: v.row.idORG
     }
@@ -309,7 +309,7 @@ export const ORGHeader = ({
     let data = {
       CHID: dataCab?.id ? dataCab?.id : "",
       NUMOPERACION: modo === "Ver" ? 2 : 1,
-      CHUSER: user.id,
+      CHUSER: user.Id,
       IDORGANISMO: idProveedor,
       CONCHEQUE: conCheque,
       OBSERVACIONES: String(observaciones).trim(),

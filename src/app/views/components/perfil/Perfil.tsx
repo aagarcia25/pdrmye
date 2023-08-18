@@ -1,3 +1,7 @@
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import PersonIcon from "@mui/icons-material/Person";
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -8,19 +12,14 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
-import { getUser, setToken } from "../../../services/localStorage";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
-import PersonIcon from "@mui/icons-material/Person";
-import { DialogCambiarImagen } from "./DialogCambiarImagen";
-import { Toast } from "../../../helpers/Toast";
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import React from "react";
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { UserServices } from "../../../services/UserServices";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { Toast } from "../../../helpers/Toast";
+import { USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
+import { UserServices } from "../../../services/UserServices";
+import { getUser, setToken } from "../../../services/localStorage";
 import { Blanco } from "../../../styles/imagen";
+import { DialogCambiarImagen } from "./DialogCambiarImagen";
 
 export const Perfil = (
   {
@@ -33,9 +32,7 @@ export const Perfil = (
     imgTipo: string;
   }
 ) => {
-  const user: RESPONSE = (JSON.parse(String(getUser())));
-  // const [responseStorage, setResponseStorage] = useState<RESPONSESTORAGE>();
-
+  const user: USUARIORESPONSE = (JSON.parse(String(getUser())));
   const [openDialog, setOpenDialog] = useState(false)
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
@@ -107,7 +104,7 @@ export const Perfil = (
         if (result.isConfirmed) {
 
           let dat = {
-            IdUsuario: user.id,
+            IdUsuario: user.Id,
             ContrasenaNueva: password,
           };
 
@@ -232,7 +229,7 @@ export const Perfil = (
                     Departamento:
                   </Typography>
                   <Typography variant="h6" className="DatosSecundariosPerfil">
-                    {user.DEPARTAMENTOS[0]?.Descripcion} </Typography>
+                    {user.Dependencia} </Typography>
 
                 </Grid>
                 <Grid item xs={12}>

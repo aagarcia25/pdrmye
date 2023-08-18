@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Tooltip } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { AlertS } from '../../../helpers/AlertS';
+import { USUARIORESPONSE } from '../../../interfaces/user/UserInfo';
 import { DPCPServices } from '../../../services/DPCPServices';
-import { RESPONSE } from '../../../interfaces/user/UserInfo';
 import { getUser } from '../../../services/localStorage';
 
 
@@ -18,7 +18,7 @@ export const ModalCheque = ({
 
 
   const [numeroOperacion, SetNumeroOperacion] = useState<string>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [title, setTitle] = useState<string>();
   const [label, setLabel] = useState<string>();
   const [proveedor, setProveedor] = useState<string>();
@@ -64,7 +64,7 @@ export const ModalCheque = ({
       let data = {
         NUMOPERACION: tipo,
         ID: vrows.id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         OPERACION: numeroOperacion
       };
 

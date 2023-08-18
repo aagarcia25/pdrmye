@@ -5,9 +5,9 @@ import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { PERFILES, USUARIORESPONSE } from "../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../services/catalogosServices";
-import { getUser } from "../../services/localStorage";
+import { getPerfiles, getUser } from "../../services/localStorage";
 import ListNotificationsModal from "./ListNotificationsModal";
 import MUIXDataGridMun from "./MUIXDataGridMun";
 
@@ -25,7 +25,8 @@ export const ListNotification = () => {
   const [remitente, setRemitente] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState<number>(8);
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
   const [open, setOpen] = useState(false);
   const [nombreMenu, setNombreMenu] = useState("");
 
@@ -113,7 +114,7 @@ export const ListNotification = () => {
 
       CatalogosServices.Notificaciones({
         NUMOPERACION: 6,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         CHID:v.row.id
       }).then((res) => {
        
@@ -136,7 +137,7 @@ export const ListNotification = () => {
     setTipoOperacion(v);
     let dat = {
       NUMOPERACION: v,
-      CHUSER: user.id,
+      CHUSER: user.Id,
     };
     CatalogosServices.Notificaciones(dat).then((res) => {
       setNotificacion(res.RESPONSE);
@@ -148,7 +149,7 @@ export const ListNotification = () => {
     setModo("MessageSend");
     let data = {
       NUMOPERACION: v,
-      CHUSER: user.id,
+      CHUSER: user.Id,
     };
     CatalogosServices.Notificaciones(data).then((res) => {
       setNotificacion(res.RESPONSE);
@@ -160,7 +161,7 @@ export const ListNotification = () => {
     setModo("ViewMessage");
     let dat = {
       NUMOPERACION: v,
-      CHUSER: user.id,
+      CHUSER: user.Id,
     };
     CatalogosServices.Notificaciones(dat).then((res) => {
       setNotificacion(res.RESPONSE);
@@ -178,7 +179,7 @@ export const ListNotification = () => {
       setModo("ViewMessage");
       let dat = {
         NUMOPERACION: Number(v),
-        CHUSER: user.id,
+        CHUSER: user.Id,
       };
       CatalogosServices.Notificaciones(dat).then((res) => {
         setNotificacion(res.RESPONSE);
@@ -194,10 +195,10 @@ export const ListNotification = () => {
   };
 
   useEffect(() => {
-    setPerfil(user.PERFILES[0].Referencia);
+    setPerfil(PER[0].Referencia);
     let dat = {
       NUMOPERACION: 8,
-      CHUSER: user.id,
+      CHUSER: user.Id,
     };
 
     CatalogosServices.Notificaciones(dat).then((res) => {

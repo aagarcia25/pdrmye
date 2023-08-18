@@ -1,3 +1,4 @@
+import SendIcon from "@mui/icons-material/Send";
 import { Button, Grid, Typography } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import React, { useEffect, useState } from 'react';
@@ -5,7 +6,7 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
 import { Toast } from "../../../helpers/Toast";
 import SelectValues from "../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../services/calculosServices";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../services/localStorage";
@@ -16,14 +17,13 @@ import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import Slider from "../Slider";
 import { Moneda } from "../menu/CustomToolbar";
 import ButtonsMunicipio2 from "../menu/catalogos/Utilerias/ButtonsMunicipio2";
-import SendIcon from "@mui/icons-material/Send";
 
 
 
 export const PEF = () => {
   const [slideropen, setslideropen] = useState(true);
   const [rows, setrows] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
 
@@ -115,7 +115,7 @@ export const PEF = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id,
+          CHUSER: user.Id,
         };
         calculosServices.handlepef(data).then((res) => {
           if (res.SUCCESS) {
@@ -148,7 +148,7 @@ export const PEF = () => {
       const formData = new FormData();
       formData.append("inputfile", file, "inputfile.xlsx");
       formData.append("tipo", "pef");
-      formData.append("CHUSER", user.id);
+      formData.append("CHUSER", user.Id);
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
         if (res.SUCCESS) {
@@ -188,7 +188,7 @@ export const PEF = () => {
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id
             };
 
             calculosServices.handlepef(data).then((res) => {
