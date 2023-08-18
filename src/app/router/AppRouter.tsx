@@ -38,7 +38,6 @@ import { CatTP } from "../views/components/menu/catalogos/CatTiposDePago/CatTP";
 import { ClasificadorSP } from "../views/components/menu/catalogos/ClasificadorSP/ClasificadorSP";
 import { Coeficientes } from "../views/components/menu/catalogos/Coeficientes/Coeficientes";
 import { CuentaBancaria } from "../views/components/menu/catalogos/CuentaBancaria/CuentaBancaria";
-import { Departamentos } from "../views/components/menu/catalogos/Departamentos/Departamentos";
 import { Divisas } from "../views/components/menu/catalogos/Divisas/Divisas";
 import { Eventos } from "../views/components/menu/catalogos/Eventos/Eventos";
 import Fondos from "../views/components/menu/catalogos/Fondos/Fondos";
@@ -134,10 +133,6 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         />
         <Route path="/inicio/catalogos/avisos" element={<Avisos />} />
         <Route path="/inicio/catalogos/eventos" element={<Eventos />} />
-        <Route
-          path="/inicio/catalogos/departamentos"
-          element={<Departamentos />}
-        />
         <Route path="/inicio/catalogos/tipoFondo" element={<TipoFondo />} />
         <Route
           path="/inicio/catalogos/TipoFondoCalculo"
