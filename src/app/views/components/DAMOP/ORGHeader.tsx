@@ -1,9 +1,9 @@
 import AddIcon from "@mui/icons-material/Add";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import CleaningServicesOutlinedIcon from '@mui/icons-material/CleaningServicesOutlined';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import CleaningServicesOutlinedIcon from "@mui/icons-material/CleaningServicesOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import {
@@ -16,15 +16,23 @@ import {
   IconButton,
   TextField,
   ThemeProvider,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
-import { DataGrid, esES as gridEsES, GridSelectionModel, GridToolbar, } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  esES as gridEsES,
+  GridSelectionModel,
+  GridToolbar,
+} from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
 import { Toast } from "../../../helpers/Toast";
-import { indexCabecera, indexDetalle } from "../../../interfaces/Damop/ResponseDAMOP";
+import {
+  indexCabecera,
+  indexDetalle,
+} from "../../../interfaces/Damop/ResponseDAMOP";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../services/catalogosServices";
@@ -35,7 +43,7 @@ import { TextFieldFormatoMoneda } from "../componentes/TextFieldFormatoMoneda";
 import SelectFrag from "../Fragmentos/SelectFrag";
 import { currencyFormatter, Moneda } from "../menu/CustomToolbar";
 import Slider from "../Slider";
-
+import { UserServices } from "../../../services/UserServices";
 
 export const ORGHeader = ({
   dataCabecera,
@@ -44,7 +52,7 @@ export const ORGHeader = ({
   editCabecera,
   permisoAgregarDetalle,
   permisoEliminarDetalleCabecera,
-  permisoEditarDetalleCabecera
+  permisoEditarDetalleCabecera,
 }: {
   dataCabecera: any;
   modo: string;
@@ -53,34 +61,34 @@ export const ORGHeader = ({
   permisoAgregarDetalle: boolean;
   permisoEliminarDetalleCabecera: boolean;
   permisoEditarDetalleCabecera: boolean;
-
 }) => {
-
   const [values, setValues] = useState({
-    textmask: '(100) 000-0000',
-    numberformat: '1320',
+    textmask: "(100) 000-0000",
+    numberformat: "1320",
   });
-
 
   const dataCab: indexCabecera = dataCabecera?.row;
   const theme = createTheme(coreEsES, gridEsES);
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const [openSlider, setOpenSlider] = useState(true);
   //Constantes para llenar los select
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
   const [sumaTotalDetalle, setSumaTotalDetalle] = useState<Number>(0);
 
   const [ures, setURes] = useState<SelectValues[]>([]);
   const [provedores, setProvedores] = useState<SelectValues[]>([]);
   const [conceptosCheque, setConceptosCheque] = useState<SelectValues[]>([]);
   const [cuentasBancarias, setCuentasBancarias] = useState<SelectValues[]>([]);
-  const [beneficiariosFideicomisos, setBeneficiariosFideicomisos] = useState<SelectValues[]>([]);
+  const [beneficiariosFideicomisos, setBeneficiariosFideicomisos] = useState<
+    SelectValues[]
+  >([]);
   const [modoDetalle, setModoDetalle] = useState<string>("");
-  const [proyecto, setProyecto] = useState<string>('');
+  const [proyecto, setProyecto] = useState<string>("");
   const [totalHeader, setTotalHeader] = useState<string>("0");
-  const [numCuenta, setNumCuenta] = useState<string>('');
-  const [observaciones, setObservaciones] = useState<string>('');
+  const [numCuenta, setNumCuenta] = useState<string>("");
+  const [observaciones, setObservaciones] = useState<string>("");
   const [HHeader, setHHeader] = useState<boolean>(true);
   const [HCancel, setHCancel] = useState<boolean>(true);
   const [HSave, setHSave] = useState<boolean>(true);
@@ -93,16 +101,14 @@ export const ORGHeader = ({
   const [regGuardado, SetRegGuardado] = useState<boolean>(false);
   const [openAgregarDetalle, setOpenAgregarDetalle] = useState<boolean>(false);
 
-
   // Constantes para los campos
-  const [idUResp, setidUResp] = useState('');
-  const [idTipoSolicitud, setIdTipoSolicitud] = useState('');
+  const [idUResp, setidUResp] = useState("");
+  const [idTipoSolicitud, setIdTipoSolicitud] = useState("");
   const [idProveedor, setidProveedor] = useState("");
   const [conCheque, setConCheque] = useState("");
   const [idCuentaBancaria, setIdCuentaBancaria] = useState("");
-  const [idBeneficiariosFideicomisos, setIdBeneficiariosFideicomisos] = useState("");
-
-
+  const [idBeneficiariosFideicomisos, setIdBeneficiariosFideicomisos] =
+    useState("");
 
   //Constantes para las columnas
   const [data, setData] = useState([]);
@@ -112,7 +118,6 @@ export const ORGHeader = ({
   const [listConceptos, setListConceptos] = useState<SelectValues[]>([]);
   const [tipoSol, setTipoSol] = useState<SelectValues[]>([]);
 
-
   const [verDetalle, setVerDetalle] = useState<boolean>(false);
   const [idClaveConcepto, setIdClaveConcepto] = useState<string>("");
   const [idDetalleCabecera, setIdDetalleCabecera] = useState<string>("");
@@ -120,17 +125,18 @@ export const ORGHeader = ({
   const [importe, setImporte] = useState<number>(0);
 
   const [descripcion, setDescripcion] = useState<string>();
-  const [adminDetalle, setAdminDetalle] = useState<string>('');
-  const [funcionalDetalle, setFuncionalDetalle] = useState<string>('');
-  const [programaticoDetalle, setProgramaticoDetalle] = useState<string>('');
-  const [objGastoDetalle, setObjGastoDetalle] = useState<string>('');
-  const [tipoGastoDetalle, setTipoGastoDetalle] = useState<string>('');
-  const [fuenteFinanDetalle, setFuenteFinanDetalle] = useState<string>('');
-  const [ramoDetalle, setRamoDetalle] = useState<string>('');
-  const [anioDetalle, setAnioDetalle] = useState<string>('');
-  const [controlInternoDetalle, setControlInternoDetalle] = useState<string>('');
-  const [AreaGeoDetalle, setAreaGeoDetalle] = useState<string>('');
-  const [proyProgramaDetalle, setProyProgramDetalle] = useState<string>('');
+  const [adminDetalle, setAdminDetalle] = useState<string>("");
+  const [funcionalDetalle, setFuncionalDetalle] = useState<string>("");
+  const [programaticoDetalle, setProgramaticoDetalle] = useState<string>("");
+  const [objGastoDetalle, setObjGastoDetalle] = useState<string>("");
+  const [tipoGastoDetalle, setTipoGastoDetalle] = useState<string>("");
+  const [fuenteFinanDetalle, setFuenteFinanDetalle] = useState<string>("");
+  const [ramoDetalle, setRamoDetalle] = useState<string>("");
+  const [anioDetalle, setAnioDetalle] = useState<string>("");
+  const [controlInternoDetalle, setControlInternoDetalle] =
+    useState<string>("");
+  const [AreaGeoDetalle, setAreaGeoDetalle] = useState<string>("");
+  const [proyProgramaDetalle, setProyProgramDetalle] = useState<string>("");
 
   /////////////////////////////// banderas de detalles para edicion
   const [editarDetalle, setEditarDetalle] = useState<boolean>(false);
@@ -144,7 +150,7 @@ export const ORGHeader = ({
     setHHeader(false);
     setHCancel(false);
     setHSave(false);
-  }
+  };
 
   const handleEditarDetalles = () => {
     setModoDetalle("Editar");
@@ -153,13 +159,12 @@ export const ORGHeader = ({
     setDetalleAgregar(false);
     setAgregarDetalle(false);
     setDetalleLimpiar(false);
-
-  }
+  };
 
   const handleCancelarCambiosDetalle = () => {
     setEditarDetalle(false);
     handleDetallesCabecera(dataDetalles);
-  }
+  };
 
   const handleFilterChange1 = (v: string) => {
     setidUResp(v);
@@ -171,7 +176,7 @@ export const ORGHeader = ({
 
   const handleFilterChange2 = (v: string) => {
     setidProveedor(v);
-    loadFilter(34, v)
+    loadFilter(34, v);
   };
 
   const handleChangeCptoEgreso = (v: string) => {
@@ -190,7 +195,6 @@ export const ORGHeader = ({
   };
 
   const handleAgregarDetalle = () => {
-
     let data = {
       NUMOPERACION: editarDetalle ? 2 : 1,
       CHUSER: user.Id,
@@ -210,9 +214,8 @@ export const ORGHeader = ({
       Clasificador11: proyProgramaDetalle,
       ConceptoEgreso: idClaveConcepto,
       IDDETALLE: idDetalleCabecera,
-      IDORG: idOrg
-
-    }
+      IDORG: idOrg,
+    };
     Swal.fire({
       icon: "warning",
       title: "Guardar cambios de registro actual",
@@ -221,7 +224,7 @@ export const ORGHeader = ({
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
-      color: 'rgb(175, 140, 85)',
+      color: "rgb(175, 140, 85)",
     }).then(async (result) => {
       if (result.isConfirmed) {
         DAMOPServices.indexDetalle(data).then((res) => {
@@ -251,8 +254,8 @@ export const ORGHeader = ({
       NUMOPERACION: 3,
       CHUSER: user.Id,
       IDDETALLE: v.row.id,
-      IDORG: v.row.idORG
-    }
+      IDORG: v.row.idORG,
+    };
 
     Swal.fire({
       icon: "warning",
@@ -262,7 +265,7 @@ export const ORGHeader = ({
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
-      color: 'rgb(175, 140, 85)',
+      color: "rgb(175, 140, 85)",
     }).then(async (result) => {
       if (result.isConfirmed) {
         DAMOPServices.indexDetalle(data).then((res) => {
@@ -288,7 +291,6 @@ export const ORGHeader = ({
   };
 
   const handleCancelarCambios = () => {
-
     setOpenAgregarDetalle(false);
     setidUResp(dataCab.IdUres);
     setidProveedor(dataCab.IdOrg ? dataCab.IdOrg : dataCab.idmunicipio);
@@ -296,7 +298,9 @@ export const ORGHeader = ({
     setNumCuenta(dataCab.Cuenta);
     setObservaciones(dataCab.Observaciones);
     setTotalHeader(dataCab.total);
-    setConCheque(dataCab.IdConCheque ? dataCab.IdConCheque : dataCab.ConceptoCheque);
+    setConCheque(
+      dataCab.IdConCheque ? dataCab.IdConCheque : dataCab.ConceptoCheque
+    );
     setHEdit(false);
     setHHeader(true);
     setHCancel(true);
@@ -318,8 +322,8 @@ export const ORGHeader = ({
       CUENTA: idCuentaBancaria,
       TIPOSOLICITUD: idTipoSolicitud,
       CLAVEBENEFICIARIO: idBeneficiariosFideicomisos,
-      ESTATUS: "DAMOP_ORG_ING_OP"
-    }
+      ESTATUS: "DAMOP_ORG_ING_OP",
+    };
 
     Swal.fire({
       icon: "warning",
@@ -329,7 +333,7 @@ export const ORGHeader = ({
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
-      color: 'rgb(175, 140, 85)',
+      color: "rgb(175, 140, 85)",
     }).then(async (result) => {
       if (result.isConfirmed) {
         DAMOPServices.indexCabecera(data).then((res) => {
@@ -351,14 +355,13 @@ export const ORGHeader = ({
         });
       }
     });
-
   };
 
   const handleDetallesCabecera = (v: any) => {
     setModoDetalle("Ver");
     setDetalleAgregar(true);
     setDetalleLimpiar(true);
-    setDetalleEditar(false)
+    setDetalleEditar(false);
 
     setDataDetalles(v);
     handleAgregarDetalles();
@@ -379,14 +382,13 @@ export const ORGHeader = ({
     setVerDetalle(true);
     setIdDetalleCabecera(v.row.id);
     setIdOrg(v.row.idORG);
-
   };
 
   const handleAgregarDetalles = () => {
     setModoDetalle("Agregar");
     // setEditarDetalle(true)
-    setDetalleAgregar(false)
-    setDetalleLimpiar(false)
+    setDetalleAgregar(false);
+    setDetalleLimpiar(false);
     setOpenAgregarDetalle(true);
     setidUResp(dataCab.IdUres);
     setidProveedor(dataCab.IdOrg ? dataCab.IdOrg : dataCab.idmunicipio);
@@ -400,12 +402,9 @@ export const ORGHeader = ({
     setHCancel(true);
     setHSave(true);
     setHAdd(false);
-
-
   };
 
   const handleCloseAñadirDetalle = () => {
-
     setOpenAgregarDetalle(false);
     setIdClaveConcepto("");
     setImporte(0);
@@ -424,11 +423,9 @@ export const ORGHeader = ({
     setVerDetalle(false);
     setEditarDetalle(false);
     // handleCancelarCambiosDetalle();
-
   };
 
   const handleLimpiarCamposDetalle = () => {
-
     if (modoDetalle === "Editar") {
       setDescripcion("");
       if (dataCab.orden < 16) {
@@ -453,8 +450,6 @@ export const ORGHeader = ({
       setAreaGeoDetalle("");
       setProyProgramDetalle("");
     }
-
-
   };
 
   const handleLimpiarCamposHeader = () => {
@@ -464,48 +459,43 @@ export const ORGHeader = ({
       setIdCuentaBancaria("");
       setIdBeneficiariosFideicomisos("");
       setIdTipoSolicitud("");
-
-
     } else {
       setIdTipoSolicitud("");
-      setidUResp('');
+      setidUResp("");
       setidProveedor("");
       setProyecto("");
       setNumCuenta("");
       setConCheque("");
       setObservaciones("");
       setAgregarDetalle(false);
-      setLimpiar(false)
+      setLimpiar(false);
     }
-
   };
 
   const Consulta = () => {
     var sumatotal = 0;
     // sumatotal = sumatotal + (Number(dataCab.total)===0 && String(Number(dataCab.total))==="NaN"?0:Number(dataCab.total));
-    DAMOPServices.indexDetalle({ NUMOPERACION: 4, IDORG: dataCab?.id }).then((res) => {
-      if (res.SUCCESS) {
+    DAMOPServices.indexDetalle({ NUMOPERACION: 4, IDORG: dataCab?.id }).then(
+      (res) => {
+        if (res.SUCCESS) {
+          setData(res.RESPONSE);
 
-        setData(res.RESPONSE)
-
-        res.RESPONSE.map((item: indexDetalle) => {
-          sumatotal = sumatotal + Number(item.importe)
-          setSumaTotalDetalle(sumatotal)
-        });
-        if (res.RESPONSE.length === 0) {
-          setSumaTotalDetalle(sumatotal)
+          res.RESPONSE.map((item: indexDetalle) => {
+            sumatotal = sumatotal + Number(item.importe);
+            setSumaTotalDetalle(sumatotal);
+          });
+          if (res.RESPONSE.length === 0) {
+            setSumaTotalDetalle(sumatotal);
+          }
+        } else {
+          AlertS.fire({
+            title: "¡Error!",
+            text: "¡Error!",
+            icon: "error",
+          });
         }
-
-      } else {
-        AlertS.fire({
-          title: "¡Error!",
-          text: "¡Error!",
-          icon: "error",
-        });
       }
-    });
-
-
+    );
   };
 
   const columnsParticipaciones = [
@@ -521,17 +511,25 @@ export const ORGHeader = ({
         return (
           <Box>
             <Tooltip title={"Ver Detalles"}>
-              <IconButton value="check" onClick={() => handleDetallesCabecera(v)}>
+              <IconButton
+                value="check"
+                onClick={() => handleDetallesCabecera(v)}
+              >
                 <MenuBookIcon />
               </IconButton>
             </Tooltip>
-            {dataCab.orden < 16 && permisoEliminarDetalleCabecera ?
+            {dataCab.orden < 16 && permisoEliminarDetalleCabecera ? (
               <Tooltip title={"Eliminar"}>
-                <IconButton value="check" onClick={() => handleBorrarDetalle(v)}>
+                <IconButton
+                  value="check"
+                  onClick={() => handleBorrarDetalle(v)}
+                >
                   <DeleteForeverOutlinedIcon />
                 </IconButton>
-              </Tooltip> : ""
-            }
+              </Tooltip>
+            ) : (
+              ""
+            )}
           </Box>
         );
       },
@@ -550,7 +548,10 @@ export const ORGHeader = ({
       ...Moneda,
       renderHeader: () => (
         <>
-          {"Total: " + (sumaTotalDetalle === undefined ? "0" : currencyFormatter.format(Number(sumaTotalDetalle)))}
+          {"Total: " +
+            (sumaTotalDetalle === undefined
+              ? "0"
+              : currencyFormatter.format(Number(sumaTotalDetalle)))}
         </>
       ),
     },
@@ -562,7 +563,12 @@ export const ORGHeader = ({
       renderCell: (v: any) => {
         return (
           <>
-            {(listConceptos.find(({ value }) => value === v.row.ConceptoEgreso)?.label ? listConceptos.find(({ value }) => value === v.row.ConceptoEgreso)?.label : "")}
+            {listConceptos.find(({ value }) => value === v.row.ConceptoEgreso)
+              ?.label
+              ? listConceptos.find(
+                  ({ value }) => value === v.row.ConceptoEgreso
+                )?.label
+              : ""}
           </>
         );
       },
@@ -646,47 +652,50 @@ export const ORGHeader = ({
     // if (dataCab) {
     let data = {
       NUMOPERACION: tipo,
-      CHID: modo === "Nuevo" ? "" : dataCab.idmunicipio ? dataCab.idmunicipio : dataCab.IdOrg
+      CHID:
+        modo === "Nuevo"
+          ? ""
+          : dataCab.idmunicipio
+          ? dataCab.idmunicipio
+          : dataCab.IdOrg,
     };
-    CatalogosServices.SelectIndex(idMunOrg ?
-      {
-        NUMOPERACION: tipo,
-        CHID: idMunOrg
-      }
-      :
-      data
+    CatalogosServices.SelectIndex(
+      idMunOrg
+        ? {
+            NUMOPERACION: tipo,
+            CHID: idMunOrg,
+          }
+        : data
     ).then((res) => {
       if (tipo === 26) {
-        setURes(res.RESPONSE);
+        UserServices.uresponsables(data).then((res) => {
+          if (res?.status === 200) {
+            setURes(res);
+          } else if (res.status === 401) {
+            setURes([]);
+          }
+        });
       } else if (tipo === 32) {
         setProvedores(res.RESPONSE);
         setOpenSlider(false);
       } else if (tipo === 29) {
         setConceptosCheque(res.RESPONSE);
-      }
-      else if (tipo === 30) {
+      } else if (tipo === 30) {
         setListConceptos(res.RESPONSE);
-      }
-      else if (tipo === 24) {
+      } else if (tipo === 24) {
         setTipoSol(res.RESPONSE);
-      }
-      else if (tipo === 34) {
+      } else if (tipo === 34) {
         setCuentasBancarias(res.RESPONSE);
-      }
-      else if (tipo === 41) {
+      } else if (tipo === 41) {
         setBeneficiariosFideicomisos(res.RESPONSE);
       }
-
-
     });
 
     // }
-
   };
 
   const handleChange = (value: number) => {
     setImporte(value);
-
   };
 
   useEffect(() => {
@@ -701,8 +710,10 @@ export const ORGHeader = ({
       setHAdd(true);
     }
     if (modo === "Ver") {
-      setIdCuentaBancaria(dataCab.cuentabancaria ? dataCab.cuentabancaria : "")
-      setIdBeneficiariosFideicomisos(dataCab.ClaveBeneficiario ? dataCab.ClaveBeneficiario : "")
+      setIdCuentaBancaria(dataCab.cuentabancaria ? dataCab.cuentabancaria : "");
+      setIdBeneficiariosFideicomisos(
+        dataCab.ClaveBeneficiario ? dataCab.ClaveBeneficiario : ""
+      );
       setidUResp(dataCab.IdUres ? dataCab.IdUres : dataCab.Uresp);
       setidProveedor(dataCab.idmunicipio);
       setProyecto(dataCab.NumProyecto);
@@ -712,7 +723,13 @@ export const ORGHeader = ({
       setConCheque(dataCab.IdConCheque);
       setHEdit(false);
       setIdTipoSolicitud(String(dataCab.TipoSolicitud));
-      setIdCuentaBancaria(dataCab.cuentabancaria ? dataCab.cuentabancaria : dataCab.Cuenta ? dataCab.Cuenta : "");
+      setIdCuentaBancaria(
+        dataCab.cuentabancaria
+          ? dataCab.cuentabancaria
+          : dataCab.Cuenta
+          ? dataCab.Cuenta
+          : ""
+      );
     }
     loadFilter(29, "");
     loadFilter(26, "");
@@ -722,80 +739,95 @@ export const ORGHeader = ({
     loadFilter(34, "");
     loadFilter(24, "");
     loadFilter(41, "");
-
-
   }, [agregarDetalle]);
 
   return (
-
     <ModalForm title={"Cabecera de Aportaciones"} handleClose={handleClose}>
       <Slider open={openSlider}></Slider>
 
-      <Grid container  >
-
-        <Grid container paddingBottom={1} >
+      <Grid container>
+        <Grid container paddingBottom={1}>
           <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
-
             <ButtonGroup size="large">
-
-              <Button onClick={() => handleEditar()} color={!HEdit ? "info" : "inherit"}
-                disabled={HEdit || dataCab.orden !== 1 || !editCabecera} >
+              <Button
+                onClick={() => handleEditar()}
+                color={!HEdit ? "info" : "inherit"}
+                disabled={HEdit || dataCab.orden !== 1 || !editCabecera}
+              >
                 <Tooltip title="Editar Cabecera">
                   <ModeEditOutlineIcon />
                 </Tooltip>
               </Button>
 
-              <Button onClick={() => handleGuardarSolicitud()} color={!HSave
-                ? "success" : "inherit"}
+              <Button
+                onClick={() => handleGuardarSolicitud()}
+                color={!HSave ? "success" : "inherit"}
                 disabled={
-                  regGuardado
-                  || HSave
-                  || idUResp === ""
-                  || idUResp === "false"
-                  || idProveedor === ""
-                  || idProveedor === "false"
-                  || proyecto === ""
-                  || String(Number(proyecto)) === "NaN"
-                  || conCheque === ""
-                  || conCheque === "false"
-                  || agregarDetalle
-                  || idTipoSolicitud === ""
-                  || idTipoSolicitud === "false"
-                  || idCuentaBancaria === ""
-                  || idCuentaBancaria === "false"
-                } >
+                  regGuardado ||
+                  HSave ||
+                  idUResp === "" ||
+                  idUResp === "false" ||
+                  idProveedor === "" ||
+                  idProveedor === "false" ||
+                  proyecto === "" ||
+                  String(Number(proyecto)) === "NaN" ||
+                  conCheque === "" ||
+                  conCheque === "false" ||
+                  agregarDetalle ||
+                  idTipoSolicitud === "" ||
+                  idTipoSolicitud === "false" ||
+                  idCuentaBancaria === "" ||
+                  idCuentaBancaria === "false"
+                }
+              >
                 <Tooltip title="Grabar Cambios">
                   <CheckBoxIcon />
                 </Tooltip>
-              </Button  >
+              </Button>
 
-              <Button onClick={() => handleCancelarCambios()} color={!HCancel ? "error" : "inherit"} disabled={HCancel || regGuardado || modo === "Nuevo"} >
+              <Button
+                onClick={() => handleCancelarCambios()}
+                color={!HCancel ? "error" : "inherit"}
+                disabled={HCancel || regGuardado || modo === "Nuevo"}
+              >
                 <Tooltip title="Cancelar Cambios">
                   <CancelPresentationIcon />
                 </Tooltip>
-              </Button  >
+              </Button>
 
-              <Button onClick={() => handleLimpiarCamposHeader()} color={!HCancel ? "warning" : "inherit"} disabled={HCancel || regGuardado} >
+              <Button
+                onClick={() => handleLimpiarCamposHeader()}
+                color={!HCancel ? "warning" : "inherit"}
+                disabled={HCancel || regGuardado}
+              >
                 <Tooltip title="Limpiar Campos de Cabecera">
                   <CleaningServicesOutlinedIcon />
                 </Tooltip>
-              </Button  >
+              </Button>
             </ButtonGroup>
-
-
           </Grid>
         </Grid>
 
-        <Grid container justifyContent="space-between" paddingBottom={2} rowSpacing={2}
-          sx={{ bgcolor: (!regGuardado || !agregarDetalle ? "rgb(255, 255, 255) " : "rgba(225, 225, 225, 0.264) "), }}>
-
-
-          <Grid item xs={12} sm={12} md={5.8} lg={4} paddingTop={2} >
+        <Grid
+          container
+          justifyContent="space-between"
+          paddingBottom={2}
+          rowSpacing={2}
+          sx={{
+            bgcolor:
+              !regGuardado || !agregarDetalle
+                ? "rgb(255, 255, 255) "
+                : "rgba(225, 225, 225, 0.264) ",
+          }}
+        >
+          <Grid item xs={12} sm={12} md={5.8} lg={4} paddingTop={2}>
             <br />
-            <label className="textoNormal">{"Número de operación: " + (dataCab?.NumOper ? dataCab?.NumOper : "")}</label>
+            <label className="textoNormal">
+              {"Número de operación: " +
+                (dataCab?.NumOper ? dataCab?.NumOper : "")}
+            </label>
           </Grid>
           <Grid item xs={12} sm={12} md={5.8} lg={3.8}>
-
             <label className="textoNormal">Beneficiario:</label>
 
             <SelectFrag
@@ -804,12 +836,13 @@ export const ORGHeader = ({
               onInputChange={handleBeneficiariosFideicomisos}
               placeholder={"Seleccione Beneficiario"}
               label={""}
-              disabled={HHeader || agregarDetalle || regGuardado || dataCab.orden !== 1}
+              disabled={
+                HHeader || agregarDetalle || regGuardado || dataCab.orden !== 1
+              }
             />
           </Grid>
 
           <Grid item xs={12} sm={12} md={5.8} lg={3.8}>
-
             <label className="textoNormal">U.Resp:</label>
 
             <SelectFrag
@@ -818,11 +851,11 @@ export const ORGHeader = ({
               onInputChange={handleFilterChange1}
               placeholder={"Seleccione U.Resp"}
               label={""}
-              disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
+              disabled={
+                HHeader || agregarDetalle || regGuardado || modo === "Ver"
+              }
             />
           </Grid>
-
-
 
           <Grid item xs={12} sm={12} md={5.8} lg={3.8}>
             <label className="textoNormal">Proveedor:</label>
@@ -833,7 +866,10 @@ export const ORGHeader = ({
               onInputChange={handleFilterChange2}
               placeholder={"Seleccione Proveedor"}
               label={""}
-              disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"} />
+              disabled={
+                HHeader || agregarDetalle || regGuardado || modo === "Ver"
+              }
+            />
           </Grid>
           <Grid item xs={12} sm={5.5} md={5.8} lg={2}>
             <label className="textoNormal">Tipo de solicitud:</label>
@@ -843,7 +879,9 @@ export const ORGHeader = ({
               onInputChange={handleTipoSolicitud}
               placeholder={"Seleccione tipo de Solicitud"}
               label={""}
-              disabled={HHeader || agregarDetalle || regGuardado || dataCab.orden !== 1}
+              disabled={
+                HHeader || agregarDetalle || regGuardado || dataCab.orden !== 1
+              }
             />
           </Grid>
 
@@ -857,14 +895,14 @@ export const ORGHeader = ({
               variant="outlined"
               type="text"
               onChange={(v) => setProyecto(v.target.value)}
-              disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
+              disabled={
+                HHeader || agregarDetalle || regGuardado || modo === "Ver"
+              }
               inputProps={{ maxLength: 7 }}
               error={String(Number(proyecto)) === "NaN"}
               size="small"
-
             />
           </Grid>
-
 
           <Grid item xs={12} sm={5.5} md={5.8} lg={2}>
             <label className="textoNormal">Total:</label>
@@ -877,7 +915,6 @@ export const ORGHeader = ({
               disabled
               size="small"
               inputProps={{ maxLength: 7 }}
-
             />
           </Grid>
 
@@ -889,20 +926,25 @@ export const ORGHeader = ({
               onInputChange={handleFilterChange3}
               placeholder={"Seleccione Concepto"}
               label={""}
-              disabled={HHeader || agregarDetalle || regGuardado || modo === "Ver"}
+              disabled={
+                HHeader || agregarDetalle || regGuardado || modo === "Ver"
+              }
             />
           </Grid>
-          {dataCab?.Anio && dataCab?.Mes ?
-            <Grid item xs={12} sm={3} lg={1} paddingTop={3} paddingBottom={3} >
+          {dataCab?.Anio && dataCab?.Mes ? (
+            <Grid item xs={12} sm={3} lg={1} paddingTop={3} paddingBottom={3}>
               <label className="textoNormal">{"Año: " + dataCab?.Anio}</label>
               <br />
               <label className="textoNormal">{"Mes: " + dataCab?.Mes}</label>
             </Grid>
-            : ""
-          }
+          ) : (
+            ""
+          )}
 
-          <Grid item xs={12} sm={8.8} md={8.8} lg={5} >
-            <Tooltip title={"Muestra las cuentas bancarias que tenga disonibles"}>
+          <Grid item xs={12} sm={8.8} md={8.8} lg={5}>
+            <Tooltip
+              title={"Muestra las cuentas bancarias que tenga disonibles"}
+            >
               <label className="textoNormal">No. de Cuenta:</label>
             </Tooltip>
             <SelectFrag
@@ -910,8 +952,20 @@ export const ORGHeader = ({
               options={cuentasBancarias}
               onInputChange={handleFilterChange4}
               placeholder={"Seleccione Cuenta Bancaria"}
-              label={modo === "Nuevo" && cuentasBancarias.length !== 0 ? "Seleccione Cuenta Bancaria" : idCuentaBancaria !== "" && modo === "Ver" ? "" : "Sin Cuenta Bancaria Asignada"}
-              disabled={HHeader || agregarDetalle || regGuardado || cuentasBancarias.length === 0 || dataCab.orden !== 1}
+              label={
+                modo === "Nuevo" && cuentasBancarias.length !== 0
+                  ? "Seleccione Cuenta Bancaria"
+                  : idCuentaBancaria !== "" && modo === "Ver"
+                  ? ""
+                  : "Sin Cuenta Bancaria Asignada"
+              }
+              disabled={
+                HHeader ||
+                agregarDetalle ||
+                regGuardado ||
+                cuentasBancarias.length === 0 ||
+                dataCab.orden !== 1
+              }
             />
             {/* ////////////////////////////////////////// */}
 
@@ -927,7 +981,7 @@ export const ORGHeader = ({
               /> */}
             {/* ///////////////////////////////////////////////// */}
           </Grid>
-          <Grid item xs={12} lg={5.7} >
+          <Grid item xs={12} lg={5.7}>
             <label className="textoNormal">Observaciones:</label>
 
             <TextField
@@ -938,118 +992,154 @@ export const ORGHeader = ({
               multiline
               rows={3}
               onChange={(v) => setObservaciones(v.target.value)}
-              disabled={HHeader || agregarDetalle || regGuardado || dataCab.orden !== 1}
+              disabled={
+                HHeader || agregarDetalle || regGuardado || dataCab.orden !== 1
+              }
               inputProps={{ maxLength: 300 }}
             />
           </Grid>
-
         </Grid>
 
-        {modo === "Ver" ?
-
+        {modo === "Ver" ? (
           <Grid container boxShadow={10} borderRadius={1}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-
-              <Grid item container direction="row" justifyContent="space-between" xs={12} paddingTop={1} paddingBottom={1}>
-                {!openAgregarDetalle ?
-
+              <Grid
+                item
+                container
+                direction="row"
+                justifyContent="space-between"
+                xs={12}
+                paddingTop={1}
+                paddingBottom={1}
+              >
+                {!openAgregarDetalle ? (
                   <Button
                     color="success"
                     disabled={
-                      !((dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP") && permisoAgregarDetalle)
-                      || openAgregarDetalle
-                      || dataCab.orden >= 16}
-
-                    className={(!((dataCab.estatusCI === "DAMOP_INI" || dataCab.estatusCI === "DAMOP_ORG_ING_OP") && permisoAgregarDetalle)
-                      || openAgregarDetalle
-                      || dataCab.orden >= 16) ? "" : "guardarOrgCabecera"
-
+                      !(
+                        (dataCab.estatusCI === "DAMOP_INI" ||
+                          dataCab.estatusCI === "DAMOP_ORG_ING_OP") &&
+                        permisoAgregarDetalle
+                      ) ||
+                      openAgregarDetalle ||
+                      dataCab.orden >= 16
                     }
-                    value="check" onClick={() => handleAgregarDetalles()}>
+                    className={
+                      !(
+                        (dataCab.estatusCI === "DAMOP_INI" ||
+                          dataCab.estatusCI === "DAMOP_ORG_ING_OP") &&
+                        permisoAgregarDetalle
+                      ) ||
+                      openAgregarDetalle ||
+                      dataCab.orden >= 16
+                        ? ""
+                        : "guardarOrgCabecera"
+                    }
+                    value="check"
+                    onClick={() => handleAgregarDetalles()}
+                  >
                     <Tooltip title="Agregar detalle">
                       <AddIcon />
                     </Tooltip>
-                  </Button >
-
-                  : ""}
-                {openAgregarDetalle ?
+                  </Button>
+                ) : (
+                  ""
+                )}
+                {openAgregarDetalle ? (
                   <>
                     <Grid item xs={4} sm={4} md={4} lg={4}>
                       <ButtonGroup size="large">
-                        {
-                          !openAgregarDetalle || verDetalle ?
+                        {!openAgregarDetalle || verDetalle ? (
+                          <Button
+                            onClick={() => handleEditarDetalles()}
+                            color="info"
+                            disabled={
+                              !(
+                                (dataCab.estatusCI === "DAMOP_INI" ||
+                                  dataCab.estatusCI === "DAMOP_ORG_ING_OP") &&
+                                permisoEditarDetalleCabecera
+                              ) ||
+                              DetalleEditar ||
+                              dataCab.orden >= 16
+                            }
+                          >
+                            <Tooltip title="Editar Detalle">
+                              <ModeEditOutlineIcon />
+                            </Tooltip>
+                          </Button>
+                        ) : (
+                          ""
+                        )}
 
-                            <Button onClick={() => handleEditarDetalles()} color="info"
-                              disabled={
-                                !((dataCab.estatusCI === "DAMOP_INI"
-                                  || dataCab.estatusCI === "DAMOP_ORG_ING_OP") && permisoEditarDetalleCabecera)
-                                || DetalleEditar
-                                || dataCab.orden >= 16} >
-                              <Tooltip title="Editar Detalle">
-                                <ModeEditOutlineIcon />
-                              </Tooltip>
-                            </Button>
-
-                            : ""
-                        }
-
-
-                        <Button onClick={() => handleAgregarDetalle()} color="success"
+                        <Button
+                          onClick={() => handleAgregarDetalle()}
+                          color="success"
                           disabled={
                             // !editarDetalle ||
                             !DetalleEditar ||
                             DetalleAgregar ||
+                            String(Number(importe)) === "NaN" ||
+                            String(descripcion).trim() === "" ||
+                            idClaveConcepto === "" ||
+                            idClaveConcepto === "false" ||
+                            importe < 0 ||
+                            adminDetalle === "" ||
+                            funcionalDetalle === "" ||
+                            programaticoDetalle === "" ||
+                            objGastoDetalle === "" ||
+                            tipoGastoDetalle === "" ||
+                            fuenteFinanDetalle === "" ||
+                            ramoDetalle === "" ||
+                            anioDetalle === "" ||
+                            controlInternoDetalle === "" ||
+                            AreaGeoDetalle === "" ||
+                            proyProgramaDetalle === "" ||
                             String(Number(importe)) === "NaN"
-                            || String(descripcion).trim() === ""
-                            || idClaveConcepto === ""
-                            || idClaveConcepto === "false"
-                            || importe < 0
-                            || adminDetalle === ""
-                            || funcionalDetalle === ""
-                            || programaticoDetalle === ""
-                            || objGastoDetalle === ""
-                            || tipoGastoDetalle === ""
-                            || fuenteFinanDetalle === ""
-                            || ramoDetalle === ""
-                            || anioDetalle === ""
-                            || controlInternoDetalle === ""
-                            || AreaGeoDetalle === ""
-                            || proyProgramaDetalle === ""
-                            || String(Number(importe)) === "NaN"
-                          } >
+                          }
+                        >
                           <Tooltip title="Grabar Cambios">
                             <CheckBoxIcon />
                           </Tooltip>
-                        </Button  >
+                        </Button>
 
-                        {modoDetalle === "Agregar" ? "" :
+                        {modoDetalle === "Agregar" ? (
+                          ""
+                        ) : (
                           <Tooltip title="Cancelar Cambios">
-                            <Button onClick={() => handleCancelarCambiosDetalle()} color="error"  >
+                            <Button
+                              onClick={() => handleCancelarCambiosDetalle()}
+                              color="error"
+                            >
                               <CancelPresentationIcon />
-                            </Button  >
+                            </Button>
                           </Tooltip>
-                        }
+                        )}
 
-
-                        <Button onClick={() => handleLimpiarCamposDetalle()} color="warning"
-                          disabled={!DetalleEditar || DetalleLimpiar}>
+                        <Button
+                          onClick={() => handleLimpiarCamposDetalle()}
+                          color="warning"
+                          disabled={!DetalleEditar || DetalleLimpiar}
+                        >
                           <Tooltip title="Limpiar Campos de Detalle">
                             <CleaningServicesOutlinedIcon />
                           </Tooltip>
-                        </Button  >
+                        </Button>
                       </ButtonGroup>
-
-
                     </Grid>
                     <Grid item xs={6} sm={4} md={4} lg={4}>
                       <label className="Titulo">Agregar Detalle</label>
-
                     </Grid>
                   </>
-                  : ""}
+                ) : (
+                  ""
+                )}
 
-
-                <Button disabled={!openAgregarDetalle} className="cerrar" value="check" onClick={() => handleCloseAñadirDetalle()}>
+                <Button
+                  disabled={!openAgregarDetalle}
+                  className="cerrar"
+                  value="check"
+                  onClick={() => handleCloseAñadirDetalle()}
+                >
                   <Tooltip title="Cerrar administració de detalle">
                     <CloseOutlinedIcon />
                   </Tooltip>
@@ -1057,10 +1147,9 @@ export const ORGHeader = ({
               </Grid>
               <Divider />
 
-              {!openAgregarDetalle ?
-                <div style={{ height: "50vh", width: "100%", }}>
-
-                  <ThemeProvider theme={theme} >
+              {!openAgregarDetalle ? (
+                <div style={{ height: "50vh", width: "100%" }}>
+                  <ThemeProvider theme={theme}>
                     <DataGrid
                       columns={columnsParticipaciones}
                       rows={data}
@@ -1073,7 +1162,8 @@ export const ORGHeader = ({
                       getRowHeight={() => "auto"}
                       components={{ Toolbar: GridToolbar }}
                       sx={{
-                        fontFamily: "Poppins,sans-serif", fontWeight: '500',
+                        fontFamily: "Poppins,sans-serif",
+                        fontWeight: "500",
                         fontSize: "12px",
                         "& .super-app.negative": {
                           color: "rgb(84, 3, 3)",
@@ -1097,7 +1187,8 @@ export const ORGHeader = ({
                       selectionModel={selectionModel}
                       localeText={{
                         noRowsLabel: "No se ha encontrado datos.",
-                        noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+                        noResultsOverlayLabel:
+                          "No se ha encontrado ningún resultado",
                         toolbarColumns: "Columnas",
                         toolbarExport: "Exportar",
                         toolbarColumnsLabel: "Seleccionar columnas",
@@ -1106,65 +1197,72 @@ export const ORGHeader = ({
                         toolbarFiltersTooltipHide: "Quitar filtros",
                         toolbarFiltersTooltipShow: "Ver filtros",
                         toolbarQuickFilterPlaceholder: "Buscar",
-                        toolbarExportCSV: 'Descargar como CSV',
-                        toolbarExportPrint: 'Imprimir',
+                        toolbarExportCSV: "Descargar como CSV",
+                        toolbarExportPrint: "Imprimir",
                         checkboxSelectionSelectRow: "Filas seleccionadas",
-                        checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
-                        errorOverlayDefaultLabel: 'Ha ocurrido un error.',
+                        checkboxSelectionSelectAllRows:
+                          "Seleccionar todas las filas",
+                        errorOverlayDefaultLabel: "Ha ocurrido un error.",
                         footerRowSelected: (count) =>
-                          count > 1 ?
-                            `${count.toLocaleString()} filas seleccionadas`
-                            :
-                            `${count.toLocaleString()} fila seleccionada`,
-                        footerTotalRows: 'Filas Totales:',
-                        columnMenuLabel: 'Menú',
-                        columnMenuShowColumns: 'Mostrar columnas',
-                        columnMenuFilter: 'Filtro',
-                        columnMenuHideColumn: 'Ocultar',
-                        columnMenuUnsort: 'Desordenar',
-                        columnMenuSortAsc: 'Ordenar ASC',
-                        columnMenuSortDesc: 'Ordenar DESC',
+                          count > 1
+                            ? `${count.toLocaleString()} filas seleccionadas`
+                            : `${count.toLocaleString()} fila seleccionada`,
+                        footerTotalRows: "Filas Totales:",
+                        columnMenuLabel: "Menú",
+                        columnMenuShowColumns: "Mostrar columnas",
+                        columnMenuFilter: "Filtro",
+                        columnMenuHideColumn: "Ocultar",
+                        columnMenuUnsort: "Desordenar",
+                        columnMenuSortAsc: "Ordenar ASC",
+                        columnMenuSortDesc: "Ordenar DESC",
                         columnHeaderFiltersTooltipActive: (count) =>
-                          count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
-                        columnHeaderFiltersLabel: 'Mostrar filtros',
-                        columnHeaderSortIconLabel: 'Ordenar',
+                          count > 1
+                            ? `${count} filtros activos`
+                            : `${count} filtro activo`,
+                        columnHeaderFiltersLabel: "Mostrar filtros",
+                        columnHeaderSortIconLabel: "Ordenar",
                       }}
                     />
                   </ThemeProvider>
                 </div>
-                :
-
+              ) : (
                 <div>
                   <Slider open={openSlider}></Slider>
 
                   <Grid container spacing={1} padding={0} paddingTop={6}>
-                    <Grid container justifyContent="space-around" paddingLeft={1.5}>
+                    <Grid
+                      container
+                      justifyContent="space-around"
+                      paddingLeft={1.5}
+                    >
                       <Grid item xs={12} sm={10} md={5.8} lg={5}>
-                        <label className="textoNormal">Cpto de egreso:</label>  <br />
-
+                        <label className="textoNormal">Cpto de egreso:</label>{" "}
+                        <br />
                         <SelectFrag
                           value={idClaveConcepto}
                           options={listConceptos}
                           onInputChange={handleChangeCptoEgreso}
                           placeholder={"Seleccione Cpto de"}
-                          label={""} disabled={verDetalle}
+                          label={""}
+                          disabled={verDetalle}
                         />
-                        <label className="textoNormal">Parcial a Pagar:</label>  <br />
-
+                        <label className="textoNormal">Parcial a Pagar:</label>{" "}
+                        <br />
                         <TextFieldFormatoMoneda
                           valor={importe}
                           handleSetValor={handleChange}
                           disable={
-                            verDetalle && !editarDetalle || dataCab.orden >= 16
+                            (verDetalle && !editarDetalle) ||
+                            dataCab.orden >= 16
                           }
-                          error={String(Number(importe)) === "NaN"} modo={"moneda"}
+                          error={String(Number(importe)) === "NaN"}
+                          modo={"moneda"}
                         />
-
-
                       </Grid>
 
                       <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <label className="textoNormal">Descripción:</label>   <br />
+                        <label className="textoNormal">Descripción:</label>{" "}
+                        <br />
                         <TextField
                           required
                           fullWidth
@@ -1174,14 +1272,20 @@ export const ORGHeader = ({
                           value={descripcion}
                           onChange={(v) => setDescripcion(v.target.value)}
                           style={{ width: "100%" }}
-                          disabled={verDetalle && !editarDetalle || dataCab.orden >= 16} // no se edita la descripción del detalle cuando está en estatus Autorizar OP
-
+                          disabled={
+                            (verDetalle && !editarDetalle) ||
+                            dataCab.orden >= 16
+                          } // no se edita la descripción del detalle cuando está en estatus Autorizar OP
                         />
                       </Grid>
                     </Grid>
 
-                    <Grid container spacing={1} paddingBottom={5} paddingLeft={1.5}>
-
+                    <Grid
+                      container
+                      spacing={1}
+                      paddingBottom={5}
+                      paddingLeft={1.5}
+                    >
                       <Grid item xs={12}>
                         <label className="Titulo">Clasificadores:</label>
                         <br />
@@ -1198,7 +1302,6 @@ export const ORGHeader = ({
                           value={adminDetalle}
                           onChange={(v) => setAdminDetalle(v.target.value)}
                           disabled={verDetalle}
-
                         />
                       </Grid>
                       <Grid item xs={12} sm={4} md={3} lg={2}>
@@ -1214,7 +1317,6 @@ export const ORGHeader = ({
                           value={funcionalDetalle}
                           onChange={(v) => setFuncionalDetalle(v.target.value)}
                           disabled={verDetalle}
-
                         />
                       </Grid>
                       <Grid item xs={12} sm={4} md={3} lg={2}>
@@ -1228,9 +1330,10 @@ export const ORGHeader = ({
                           size="small"
                           fullWidth
                           value={programaticoDetalle}
-                          onChange={(v) => setProgramaticoDetalle(v.target.value)}
+                          onChange={(v) =>
+                            setProgramaticoDetalle(v.target.value)
+                          }
                           disabled={verDetalle}
-
                         />
                       </Grid>
                       <Grid item xs={12} sm={4} md={3} lg={2}>
@@ -1246,7 +1349,6 @@ export const ORGHeader = ({
                           value={objGastoDetalle}
                           fullWidth
                           disabled={verDetalle}
-
                         />
                       </Grid>
                       <Grid item xs={12} sm={4} md={3} lg={2}>
@@ -1262,11 +1364,12 @@ export const ORGHeader = ({
                           value={tipoGastoDetalle}
                           onChange={(v) => setTipoGastoDetalle(v.target.value)}
                           disabled={verDetalle}
-
                         />
                       </Grid>
                       <Grid item xs={12} sm={4} md={3} lg={2}>
-                        <label className="textoNormal">Fuente de financiamiento:</label>
+                        <label className="textoNormal">
+                          Fuente de financiamiento:
+                        </label>
                         <br />
 
                         <TextField
@@ -1276,9 +1379,10 @@ export const ORGHeader = ({
                           size="small"
                           fullWidth
                           value={fuenteFinanDetalle}
-                          onChange={(v) => setFuenteFinanDetalle(v.target.value)}
+                          onChange={(v) =>
+                            setFuenteFinanDetalle(v.target.value)
+                          }
                           disabled={verDetalle}
-
                         />
                       </Grid>
                       <Grid item xs={12} sm={4} md={3} lg={2}>
@@ -1294,11 +1398,9 @@ export const ORGHeader = ({
                           value={ramoDetalle}
                           onChange={(v) => setRamoDetalle(v.target.value)}
                           disabled={verDetalle}
-
                         />
                       </Grid>
                       <Grid item xs={12} sm={4} md={3} lg={2}>
-
                         <label className="textoNormal">Año:</label>
                         <br />
                         <TextField
@@ -1310,7 +1412,6 @@ export const ORGHeader = ({
                           fullWidth
                           onChange={(v) => setAnioDetalle(v.target.value)}
                           disabled={verDetalle}
-
                         />
                       </Grid>
                       <Grid item xs={12} sm={4} md={3} lg={2}>
@@ -1323,9 +1424,10 @@ export const ORGHeader = ({
                           size="small"
                           fullWidth
                           value={controlInternoDetalle}
-                          onChange={(v) => setControlInternoDetalle(v.target.value)}
+                          onChange={(v) =>
+                            setControlInternoDetalle(v.target.value)
+                          }
                           disabled={verDetalle}
-
                         />
                       </Grid>
                       <Grid item xs={12} sm={4} md={3} lg={2}>
@@ -1353,13 +1455,13 @@ export const ORGHeader = ({
                           variant="outlined"
                           size="small"
                           value={proyProgramaDetalle}
-                          onChange={(v) => setProyProgramDetalle(v.target.value)}
+                          onChange={(v) =>
+                            setProyProgramDetalle(v.target.value)
+                          }
                           fullWidth
                           disabled={verDetalle}
-
                         />
                       </Grid>
-
                     </Grid>
                     {/* {openAgregarDetalle && !verDetalle ?
                         <Grid paddingTop={6}
@@ -1393,21 +1495,15 @@ export const ORGHeader = ({
                         </Grid>
                         : ""
                       } */}
-
                   </Grid>
-
                 </div>
-
-              }
-
-
+              )}
             </Grid>
           </Grid>
-          :
-          ""}
-
+        ) : (
+          ""
+        )}
       </Grid>
     </ModalForm>
-
-  )
-}
+  );
+};
