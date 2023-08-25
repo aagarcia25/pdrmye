@@ -51,3 +51,12 @@ export const getHeaderInfoReporte = async function () {
       },
     };
   };
+
+  export const getdatafiles= async function () {
+  return {
+    headers: {
+    'Content-Type': 'application/json', 
+    'responseType': 'blob'
+    },
+  };
+};
