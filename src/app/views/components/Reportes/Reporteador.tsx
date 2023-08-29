@@ -9,12 +9,16 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../helpers/AlertS";
+import { base64ToArrayBuffer } from "../../../helpers/Files";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { IReportes } from "../../../interfaces/menu/menu";
 import { USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { getUser } from "../../../services/localStorage";
-import { getHeaderInfoReporte } from "../../../services/tokenCreator";
+import {
+  getFormDataHeader,
+  getdatafiles,
+} from "../../../services/tokenCreator";
 import { fanios } from "../../../share/loadAnios";
 import { fmeses } from "../../../share/loadMeses";
 import SelectFrag from "../Fragmentos/SelectFrag";
@@ -71,31 +75,38 @@ export const Reporteador = () => {
     }
 
     if (flag) {
-      const params = {
+      let data = {
+        CHID: reporte?.id,
+        FORMATO: tipoExportacion,
+        AUXILIAR: reporte?.Auxiliar,
         P_ANIO: anio,
         P_MES: mes,
         P_ID_ORGANISMO: idORG,
         P_PERIODO: idtrimestre,
       };
 
-      let data = {
-        CHID: reporte?.id,
-        FORMATO: tipoExportacion,
-        PARAMETROS: params,
-      };
-
       try {
-        let header = getHeaderInfoReporte();
+        let config = {
+          method: "post",
+          maxBodyLength: Infinity,
+          url: process.env.REACT_APP_APPLICATION_BASE_URL + "handleReport",
+          headers: {
+            "Content-Type": "application/json",
+            responseType: "blob",
+          },
+          data: data,
+        };
+
         axios
-          .post(
-            process.env.REACT_APP_APPLICATION_BASE_URL + "handleReport",
-            data,
-            { responseType: "blob" }
-          )
+          .request(config)
           .then((response) => {
-            const blobStore = new Blob([response.data], {
-              type: "application/" + tipoExportacion,
+            var bufferArray = base64ToArrayBuffer(
+              String(response.data.RESPONSE)
+            );
+            var blobStore = new Blob([bufferArray], {
+              type: "application/*",
             });
+
             const link = document.createElement("a");
             link.href = window.URL.createObjectURL(blobStore);
             link.download = reporte?.Nombre + "." + tipoExportacion;
@@ -103,12 +114,8 @@ export const Reporteador = () => {
             setOpenSlider(false);
           })
           .catch((error) => {
-            setOpenSlider(false);
             console.log(error);
-            AlertS.fire({
-              title: "Error en la Generación de Reporte",
-              icon: "warning",
-            });
+            setOpenSlider(false);
           });
       } catch (err: any) {
         setOpenSlider(false);
@@ -133,6 +140,10 @@ export const Reporteador = () => {
   };
 
   const handleReporte = (data: IReportes) => {
+    setMes("");
+    setIdtrimestre("");
+    setAnio("");
+    setTipoExportacion("");
     setReporte(data);
   };
 
@@ -160,302 +171,197 @@ export const Reporteador = () => {
     <div>
       <SliderProgress open={openSlider} mensaje={"Generando Reporte"} />
       <Titulo name={"Módulo de Generación de Reportes"}></Titulo>
-      <Grid container sx={{ justifyContent: "center" }}>
-        <Grid container item xs={12} md={3} lg={3} sx={{ textAlign: "center" }}>
-          <Typography variant="h5" paddingBottom={2}>
-            Listado de Reportes
-          </Typography>
-
-          <MenuList>
-            {listaReportes.map((item, index) => (
-              <Tooltip title={item.Descripcion}>
-                <MenuItem
-                  className="menu-Typography-report"
-                  onClick={() => handleReporte(item)}
-                >
-                  {item.Nombre}
-                </MenuItem>
-              </Tooltip>
-            ))}
-          </MenuList>
+      <Grid
+        container
+        direction="row"
+        justifyContent="flex-start"
+        alignItems="flex-start"
+      >
+        <Grid container item xs={12} sm={12} md={12} lg={4}>
+          Listado de Reportes
+        </Grid>
+        <Grid container item xs={12} sm={12} md={12} lg={5}>
+          <Typography>Exportar</Typography>
+          {reporte !== undefined ? (
+            <>
+              <Grid container item xs={12} sm={12} md={12} lg={12}>
+                <Grid item xs={12} sm={12} md={12} lg={6}>
+                  <SelectFrag
+                    value={tipoExportacion}
+                    options={tipoExportacionSelect}
+                    onInputChange={handleSelectTipoExportacion}
+                    placeholder={""}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+              </Grid>
+            </>
+          ) : (
+            ""
+          )}
+        </Grid>
+        <Grid container item xs={12} sm={12} md={12} lg={1}></Grid>
+        <Grid container item xs={12} sm={12} md={12} lg={2}>
+          {reporte !== undefined ? (
+            <>
+              <Button
+                className="guardar"
+                color="info"
+                onClick={() => handleGenerar()}
+              >
+                {"Generar"}
+              </Button>
+            </>
+          ) : (
+            ""
+          )}
+        </Grid>
+      </Grid>
+      <Grid
+        container
+        direction="row"
+        justifyContent="flex-start"
+        alignItems="flex-start"
+      >
+        <Grid container item xs={12} sm={12} md={12} lg={4}>
+          <div className="center-col" style={{ height: 400 }}>
+            <MenuList>
+              {listaReportes.map((item, index) => (
+                <Tooltip title={item.Descripcion}>
+                  <MenuItem
+                    className="menu-Typography-report"
+                    onClick={() => handleReporte(item)}
+                  >
+                    {item.Nombre}
+                  </MenuItem>
+                </Tooltip>
+              ))}
+            </MenuList>
+          </div>
         </Grid>
 
-        <Grid container item xs={12} md={1} lg={1} sx={{ textAlign: "center" }}>
-          <Grid container item xs={12} sm={12} md={12} lg={12}>
-            <Typography variant="h5" paddingBottom={2}>
-              Exportar
-            </Typography>
-            {reporte !== undefined ? (
-              <>
-                <Grid container item xs={12} sm={12} md={12} lg={12}>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <SelectFrag
-                      value={tipoExportacion}
-                      options={tipoExportacionSelect}
-                      onInputChange={handleSelectTipoExportacion}
-                      placeholder={""}
-                      label={""}
-                      disabled={false}
-                    />
-                  </Grid>
-                </Grid>
-              </>
-            ) : (
-              ""
-            )}
-          </Grid>
-
-          <Grid container item xs={12} sm={12} md={12} lg={12}>
-            {reporte !== undefined ? (
-              <>
-                <Button
-                  className="guardar"
-                  color="info"
-                  onClick={() => handleGenerar()}
-                >
-                  {"Generar"}
-                </Button>
-              </>
-            ) : (
-              ""
-            )}
-          </Grid>
-        </Grid>
-
-        <Grid container item xs={12} md={8} lg={8} sx={{ textAlign: "center" }}>
-          {/* GRID PÁRA CADA FILTRO POR SECCION TODAS DE 4 */}
-          <Grid container item xs={12} sm={12} md={12} lg={12}>
-            <Typography variant="h5" paddingLeft={2}>
-              Filtros
-            </Typography>
-
-            {reporte?.Auxiliar == "CPH_01" ? (
-              <Grid
-                paddingTop={3}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={anio}
-                    options={anios}
-                    onInputChange={handleFilterChangeAnio}
-                    placeholder={"Seleccione Año"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+        <Grid container item xs={12} sm={12} md={12} lg={8}>
+          {reporte?.Auxiliar == "CPH_01" ? (
+            <Grid
+              paddingTop={1}
+              container
+              spacing={2}
+              paddingLeft={2}
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+            >
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <SelectFrag
+                  value={anio}
+                  options={anios}
+                  onInputChange={handleFilterChangeAnio}
+                  placeholder={"Seleccione Año"}
+                  label={""}
+                  disabled={false}
+                />
               </Grid>
-            ) : (
-              ""
-            )}
 
-            {reporte?.Auxiliar == "CPH_02" ? (
-              <Grid
-                paddingTop={3}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={anio}
-                    options={anios}
-                    onInputChange={handleFilterChangeAnio}
-                    placeholder={"Seleccione Año"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
+              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
 
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={idtrimestre}
-                    options={trimestreList}
-                    onInputChange={handleFilterChangetrimeste}
-                    placeholder={"Seleccione Trimestre"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              </Grid>
-            ) : (
-              ""
-            )}
-
-            {reporte?.Auxiliar == "CPH_03" ? (
-              <Grid
-                paddingTop={3}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={anio}
-                    options={anios}
-                    onInputChange={handleFilterChangeAnio}
-                    placeholder={"Seleccione Año"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={mes}
-                    options={meses}
-                    onInputChange={handleSelectMes}
-                    placeholder={"Seleccione Mes"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              </Grid>
-            ) : (
-              ""
-            )}
-
-            {reporte?.Auxiliar == "ORG_01" ? (
-              <Grid
-                paddingTop={3}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={idORG}
-                    options={organismos}
-                    onInputChange={handleFiltroORG}
-                    placeholder={"Seleccione Organismos"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={anio}
-                    options={anios}
-                    onInputChange={handleFilterChangeAnio}
-                    placeholder={"Seleccione Año"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              </Grid>
-            ) : (
-              ""
-            )}
-
-            {reporte?.Auxiliar == "ORG_02" ? (
-              <Grid
-                paddingTop={3}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={idORG}
-                    options={organismos}
-                    onInputChange={handleFiltroORG}
-                    placeholder={"Seleccione Organismos"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={anio}
-                    options={anios}
-                    onInputChange={handleFilterChangeAnio}
-                    placeholder={"Seleccione Año"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={idtrimestre}
-                    options={trimestreList}
-                    onInputChange={handleFilterChangetrimeste}
-                    placeholder={"Seleccione Trimestre"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              </Grid>
-            ) : (
-              ""
-            )}
-
-            {/* <Grid container item xs={12} sm={12} md={12} lg={12}>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              ds
+              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
             </Grid>
+          ) : (
+            ""
+          )}
 
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              sds
+          {reporte?.Auxiliar == "CPH_02" ? (
+            <Grid
+              paddingTop={3}
+              container
+              spacing={2}
+              paddingLeft={2}
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+            >
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <SelectFrag
+                  value={anio}
+                  options={anios}
+                  onInputChange={handleFilterChangeAnio}
+                  placeholder={"Seleccione Año"}
+                  label={""}
+                  disabled={false}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <SelectFrag
+                  value={idtrimestre}
+                  options={trimestreList}
+                  onInputChange={handleFilterChangetrimeste}
+                  placeholder={"Seleccione Trimestre"}
+                  label={""}
+                  disabled={false}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+
+              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
             </Grid>
+          ) : (
+            ""
+          )}
 
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              ds
+          {reporte?.Auxiliar == "CPH_03" ||
+          reporte?.Auxiliar == "CPH_04" ||
+          reporte?.Auxiliar == "CPH_08" ||
+          reporte?.Auxiliar == "CPH_13" ||
+          reporte?.Auxiliar == "CPH_14" ||
+          reporte?.Auxiliar == "CPH_15" ||
+          reporte?.Auxiliar == "CPH_07" ? (
+            <Grid
+              paddingTop={3}
+              container
+              spacing={2}
+              paddingLeft={2}
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+            >
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <SelectFrag
+                  value={anio}
+                  options={anios}
+                  onInputChange={handleFilterChangeAnio}
+                  placeholder={"Seleccione Año"}
+                  label={""}
+                  disabled={false}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <SelectFrag
+                  value={mes}
+                  options={meses}
+                  onInputChange={handleSelectMes}
+                  placeholder={"Seleccione Mes"}
+                  label={""}
+                  disabled={false}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+
+              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
             </Grid>
-
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              ds
-            </Grid>
-
-          </Grid> */}
-          </Grid>
+          ) : (
+            ""
+          )}
         </Grid>
       </Grid>
     </div>
