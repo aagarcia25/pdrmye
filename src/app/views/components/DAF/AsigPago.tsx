@@ -1,5 +1,5 @@
 import ApprovalIcon from "@mui/icons-material/Approval";
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
@@ -18,12 +18,10 @@ import {
   OutlinedInput,
   ToggleButton,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
-import {
-  esES as gridEsES, GridSelectionModel
-} from "@mui/x-data-grid";
+import { esES as gridEsES, GridSelectionModel } from "@mui/x-data-grid";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -50,7 +48,8 @@ import SpeisAdmin from "./SpeisAdmin";
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
   //MODAL
   //Constantes para llenar los select
   const [meses, setMeses] = useState<SelectValues[]>([]);
@@ -73,7 +72,7 @@ const AsigPago = () => {
   const [numOrdenPago, setNumOrdenPago] = useState("");
   //Constantes para las columnas
   const [data, setData] = useState([]);
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   ///// Modal de Administración de Speis
@@ -89,7 +88,6 @@ const AsigPago = () => {
   const [openTraz, setOpenTraz] = useState(false);
   const [idSolicitud, setIdSolicitud] = useState<string>();
 
-
   const handlePagado = () => {
     if (selectionModel.length === 0) {
       AlertS.fire({
@@ -100,14 +98,14 @@ const AsigPago = () => {
     } else {
       Swal.fire({
         icon: "warning",
-        title: "Solo se Procesaran los Registros en estatus Pendiente subir SPEI",
+        title:
+          "Solo se Procesaran los Registros en estatus Pendiente subir SPEI",
         text: selectionModel.length + " Elementos Seleccionados",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
         cancelButtonText: "Cancelar",
       }).then(async (result) => {
-
         if (result.isConfirmed) {
           let data = {
             NUMOPERACION: 1,
@@ -134,11 +132,7 @@ const AsigPago = () => {
             }
           });
         }
-
-
       });
-
-
     }
   };
 
@@ -168,7 +162,7 @@ const AsigPago = () => {
     setOpenTraz(false);
   };
 
-  const handleAccion = (data: any) => { };
+  const handleAccion = (data: any) => {};
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -218,8 +212,11 @@ const AsigPago = () => {
       },
     },
     {
-      field: "a2", headerName: "Estatus", width: 150,
-      description: "Solo se puede cargar un archivo en forma masiva si esta en Estatus Pendiente subir SPEI"
+      field: "a2",
+      headerName: "Estatus",
+      width: 150,
+      description:
+        "Solo se puede cargar un archivo en forma masiva si esta en Estatus Pendiente subir SPEI",
     },
     {
       field: "a3",
@@ -342,13 +339,15 @@ const AsigPago = () => {
       let counfiles = event?.target?.files?.length;
       //Recorremos los registros de la busqueda
 
-
       rows.map((item: any, index) => {
         for (let i = 0; i < Number(counfiles); i++) {
           let file = event?.target?.files?.[i] || "";
           let namefile = event?.target?.files?.[i].name || "";
 
-          if (item.a2.includes("Pendiente subir SPEI") ||  item.a2.includes("Pagado")    ) {
+          if (
+            item.a2.includes("Pendiente subir SPEI") ||
+            item.a2.includes("Pagado")
+          ) {
             if (namefile.includes(item.a3)) {
               rows = rows.filter((items) => !item);
               encontrados.push({ Archivo: file, Registro: item });
@@ -358,15 +357,8 @@ const AsigPago = () => {
           } else {
             fueradesstatus.push(item.a3);
           }
-
         }
-
       });
-
-
-
-
-
 
       let a2 = noencontrados.filter((elemento, index) => {
         return noencontrados.indexOf(elemento) === index;
@@ -410,7 +402,7 @@ const AsigPago = () => {
               formData.append("TOKEN", JSON.parse(String(getToken())));
               let p = axios.post(
                 process.env.REACT_APP_APPLICATION_BASE_URL +
-                "SpeiAdministracion",
+                  "SpeiAdministracion",
                 formData,
                 {
                   headers: {
@@ -485,7 +477,7 @@ const AsigPago = () => {
       }
     });
   };
-  
+
   const handleBorrar = (v: any) => {
     setSelectionModel(v);
   };
@@ -499,19 +491,19 @@ const AsigPago = () => {
     loadFilter(17);
 
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "DAFADMINPAG") {
-        if (String(item.Referencia) === "TRAZASPEIDAF") {
+      if (String(item.Menu) === "DAFADMINPAG") {
+        if (String(item.ControlInterno) === "TRAZASPEIDAF") {
           setVerTrazabilidad(true);
         }
-        if (String(item.Referencia) === "POLIZASPEIDAF") {
+        if (String(item.ControlInterno) === "POLIZASPEIDAF") {
           setAgregarPoliza(true);
         }
 
-        if (String(item.Referencia) === "DAFSUBIRSPEI") {
+        if (String(item.ControlInterno) === "DAFSUBIRSPEI") {
           setSubirSpeis(true);
         }
-        if(String(item.Referencia) === "DAFPAGASPEI"){
-           setPagaRegistro(true);
+        if (String(item.ControlInterno) === "DAFPAGASPEI") {
+          setPagaRegistro(true);
         }
       }
     });
@@ -524,7 +516,7 @@ const AsigPago = () => {
         <Grid container spacing={1} padding={2}>
           <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
             <Grid container sx={{ justifyContent: "center" }}>
-              <Grid className="Titulo" container item xs={12} >
+              <Grid className="Titulo" container item xs={12}>
                 <Typography variant="h4" paddingBottom={2}>
                   Módulo de Administración Financiera
                 </Typography>
@@ -534,7 +526,9 @@ const AsigPago = () => {
 
           <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
             <Grid item xs={12} sm={6} md={3} lg={2}>
-              <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
+              <Typography sx={{ fontFamily: "sans-serif" }}>
+                Estatus:
+              </Typography>
               <SelectFrag
                 value={idestatus}
                 options={estatus}
@@ -560,17 +554,17 @@ const AsigPago = () => {
                   inputProps={{ maxLength: 10 }}
                   endAdornment={
                     <InputAdornment position="end">
-
                       <IconButton
                         aria-label="toggle password visibility"
                         onClick={() => setNumOrdenPago("")}
                         edge="end"
                         disabled={!numOrdenPago}
-                      >  <Tooltip title={"Limpiar campo"}>
+                      >
+                        {" "}
+                        <Tooltip title={"Limpiar campo"}>
                           <ClearOutlinedIcon />
                         </Tooltip>
                       </IconButton>
-
                     </InputAdornment>
                   }
                   error={String(Number(numOrdenPago)) === "NaN"}
@@ -651,7 +645,6 @@ const AsigPago = () => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
-         
             {subirSpeis ? (
               <>
                 <TooltipPersonalizado
@@ -681,11 +674,7 @@ const AsigPago = () => {
                       <FileUploadIcon />
                     </IconButton>
                   </ToggleButton>
-
-
                 </TooltipPersonalizado>
-
-
               </>
             ) : (
               ""
@@ -709,34 +698,31 @@ const AsigPago = () => {
                       size="small"
                       onClick={() => handlePagado()}
                     >
-                     
-                  <AttachMoneyIcon />
+                      <AttachMoneyIcon />
                     </IconButton>
                   </ToggleButton>
                 </TooltipPersonalizado>
-
-
               </>
             ) : (
               ""
-            )} 
-
+            )}
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <MUIXDataGridGeneral
               modulo={"DistribucionDaf"}
-              handleBorrar={handleBorrar} columns={columnsParticipaciones} rows={data} controlInterno={"DAFADMINPAG"} multiselect={true} />
+              handleBorrar={handleBorrar}
+              columns={columnsParticipaciones}
+              rows={data}
+              controlInterno={"DAFADMINPAG"}
+              multiselect={true}
+            />
           </Grid>
         </Grid>
       </div>
 
       {openSpeis ? (
-        <SpeisAdmin
-          handleClose={handleclose}
-          vrows={vrows}
-          modo={"SPEI"}
-        />
+        <SpeisAdmin handleClose={handleclose} vrows={vrows} modo={"SPEI"} />
       ) : (
         ""
       )}

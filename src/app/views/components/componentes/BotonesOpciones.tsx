@@ -8,7 +8,7 @@ import InsightsIcon from "@mui/icons-material/Insights";
 import SendIcon from "@mui/icons-material/Send";
 import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 import { PERFILES, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
-import { getPerfiles, getUser } from "../../../services/localStorage";
+import { getUser } from "../../../services/localStorage";
 
 const BotonesOpciones = ({
   estatus,
@@ -31,10 +31,8 @@ const BotonesOpciones = ({
   perfil: string;
   area: string;
 }) => {
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
-  
-  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
-  
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
+
   return (
     <div>
       <Box>
@@ -55,13 +53,12 @@ const BotonesOpciones = ({
             ""
           )}
 
-          {(autorizar 
-           &&             estatus === "INICIO" 
-           &&     PER[0].Referencia === perfil) ||
-         
-           (autorizar &&
+          {/* {(autorizar &&
+            estatus === "INICIO" &&
+        //    PER[0].Referencia === perfil) ||
+          (autorizar &&
             estatus === "ENVIADO" &&
-            PER[0].Referencia === perfil &&
+        //    PER[0].Referencia === perfil &&
             area === user.controlinternodependencia) ? (
             <Tooltip title={"Autorizar"}>
               <ToggleButton value="check" onClick={() => handleAccion(2)}>
@@ -70,11 +67,10 @@ const BotonesOpciones = ({
             </Tooltip>
           ) : (
             ""
-          )}
+          )} */}
 
-          {cancelar &&
-          estatus === "INICIO" &&
-          PER[0].Referencia === "ANA" ? (
+          {cancelar && estatus === "INICIO" ? (
+            //  &&          PER[0].Referencia === "ANA"
             <Tooltip title={"Cancelar"}>
               <ToggleButton value="check" onClick={() => handleAccion(3)}>
                 <CancelPresentationIcon />
@@ -84,7 +80,7 @@ const BotonesOpciones = ({
             ""
           )}
 
-          {cancelar &&
+          {/* {cancelar &&
           estatus === "ENVIADO" &&
           PER[0].Referencia === perfil &&
           perfil === "COOR" &&
@@ -96,11 +92,11 @@ const BotonesOpciones = ({
             </Tooltip>
           ) : (
             ""
-          )}
+          )} */}
 
           {cancelar &&
           estatus === "ENVIADO" &&
-          PER[0].Referencia === perfil &&
+          //  PER[0].Referencia === perfil &&
           perfil === "DIR" ? (
             <Tooltip title={"Regresar a Coordinador"}>
               <ToggleButton value="check" onClick={() => handleAccion(8)}>
@@ -111,15 +107,17 @@ const BotonesOpciones = ({
             ""
           )}
 
-          {(enviar &&
+          {/* {(enviar &&
             estatus === "AUTORIZADO" &&
-            PER[0].Referencia === perfil) ||
+          //  PER[0].Referencia === perfil) ||
           (enviar &&
             estatus === "AUTORIZADO" &&
-            PER[0].Referencia === perfil) ||
+          //  PER[0].Referencia === perfil) ||
           (enviar &&
-            estatus === "AUTORIZADO" &&
-            PER[0].Referencia === perfil) ? (
+            estatus === "AUTORIZADO" 
+            //   PER[0].Referencia === perfil
+          ) 
+         ? (
             <Tooltip title={"Enviar"}>
               <ToggleButton value="check" onClick={() => handleAccion(4)}>
                 <SendIcon />
@@ -127,12 +125,12 @@ const BotonesOpciones = ({
             </Tooltip>
           ) : (
             ""
-          )}
+          )} */}
 
           {presupuesto &&
           estatus === "ENVIADO" &&
-          area === user.controlinternodependencia &&
-          PER[0].Referencia === perfil ? (
+          area === user.controlinternodependencia ? (
+            //  PER[0].Referencia === perfil
             <Tooltip title={"Asignar Presupuesto Global"}>
               <ToggleButton value="check" onClick={() => handleAccion(6)}>
                 <AttachMoneyIcon />
@@ -144,8 +142,8 @@ const BotonesOpciones = ({
 
           {presupuesto &&
           estatus === "ENVIADO" &&
-          area === user.controlinternodependencia &&
-          PER[0].Referencia === perfil ? (
+          area === user.controlinternodependencia ? (
+            //  PER[0].Referencia === perfil
             <Tooltip title={"Finalizar"}>
               <ToggleButton value="check" onClick={() => handleAccion(9)}>
                 <EastIcon />

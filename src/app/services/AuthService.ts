@@ -117,7 +117,7 @@ export class AuthService {
     }
     public static async AdminAyudas(data: any) {
         console.log(data);
-        return await postDocument('AdminAyudas', data);
+        return await post('AdminAyudas', data);
     }
 
     /*

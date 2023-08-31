@@ -25,11 +25,7 @@ import {
   USUARIORESPONSE,
 } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
-import {
-  getPerfiles,
-  getPermisos,
-  getUser,
-} from "../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../services/localStorage";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
 import Trazabilidad from "../../Trazabilidad";
@@ -52,7 +48,6 @@ const DetalleFgp = ({
 }) => {
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
   const [status, setStatus] = useState<SelectValues>();
   const [responsable, setResponsable] = useState<SelectValues>();
   const [openSlider, setOpenSlider] = useState(true);
@@ -458,24 +453,24 @@ const DetalleFgp = ({
   ];
   const EstablecePermisos = () => {
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === String(clave).replace(/\s/g, "")) {
-        if (String(item.Referencia) === "AUT") {
+      if (String(item.Menu) === String(clave).replace(/\s/g, "")) {
+        if (String(item.ControlInterno) === "AUT") {
           setAutorizar(true);
         }
-        if (String(item.Referencia) === "CANC") {
+        if (String(item.ControlInterno) === "CANC") {
           setCancelar(true);
         }
-        if (String(item.Referencia) === "TRAZA") {
+        if (String(item.ControlInterno) === "TRAZA") {
           setVerTrazabilidad(true);
         }
 
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) === "ELIM") {
           // setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) === "EDIT") {
           //  setEditar(true);
         }
-        if (String(item.Referencia) === "RECALCULAR") {
+        if (String(item.ControlInterno) === "RECALCULAR") {
           setrecalcular(true);
         }
       }
@@ -634,8 +629,8 @@ const DetalleFgp = ({
 
                 {autorizar &&
                 user.Id === responsable?.value &&
-                user.controlinternodependencia === "CPH" &&
-                PER[0].Referencia === "ANA" ? (
+                user.controlinternodependencia === "CPH" ? (
+                  //  PER[0].Referencia === "ANA"
                   <Tooltip title={"Enviar a Validación"}>
                     <ToggleButton
                       className="aceptar"
@@ -651,8 +646,8 @@ const DetalleFgp = ({
 
                 {autorizar &&
                 user.Id === responsable?.value &&
-                user.controlinternodependencia === "CPH" &&
-                PER[0].Referencia === "VAL" ? (
+                user.controlinternodependencia === "CPH" ? (
+                  //PER[0].Referencia === "VAL"
                   <Tooltip title={"Enviar a Coordinador"}>
                     <ToggleButton
                       className="aceptar"
@@ -668,8 +663,8 @@ const DetalleFgp = ({
 
                 {autorizar &&
                 user.Id === responsable?.value &&
-                user.controlinternodependencia === "CPH" &&
-                PER[0].Referencia === "COOR" ? (
+                user.controlinternodependencia === "CPH" ? (
+                  // PER[0].Referencia === "COOR"
                   <Tooltip title={"Enviar a DAMOP"}>
                     <ToggleButton
                       className="aceptar"
@@ -685,8 +680,8 @@ const DetalleFgp = ({
 
                 {cancelar &&
                 user.Id === responsable?.value &&
-                user.controlinternodependencia === "CPH" &&
-                PER[0].Referencia === "ANA" ? (
+                user.controlinternodependencia === "CPH" ? (
+                  //  PER[0].Referencia === "ANA"
                   <Tooltip title={"Cancelar"}>
                     <ToggleButton
                       className="regresar"
@@ -702,8 +697,8 @@ const DetalleFgp = ({
 
                 {cancelar &&
                 user.Id === responsable?.value &&
-                user.controlinternodependencia === "CPH" &&
-                PER[0].Referencia === "VAL" ? (
+                user.controlinternodependencia === "CPH" ? (
+                  //  PER[0].Referencia === "VAL"
                   <Tooltip title={"Regresar a Analista"}>
                     <ToggleButton
                       className="regresar"
@@ -719,8 +714,8 @@ const DetalleFgp = ({
 
                 {cancelar &&
                 user.Id === responsable?.value &&
-                user.controlinternodependencia === "CPH" &&
-                PER[0].Referencia === "COOR" ? (
+                user.controlinternodependencia === "CPH" ? (
+                  //  PER[0].Referencia === "COOR"
                   <Tooltip title={"Regresar a Validador"}>
                     <ToggleButton
                       className="regresar"

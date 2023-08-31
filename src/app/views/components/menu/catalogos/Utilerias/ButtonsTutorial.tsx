@@ -31,7 +31,6 @@ import { ValidaSesion } from "../../../../../services/UserServices";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {
   getMenus,
-  getPerfiles,
   getToken,
   getUser,
 } from "../../../../../services/localStorage";
@@ -60,7 +59,6 @@ const ButtonsTutorial = ({
   const [modoVisualizacion, setModoVisualizacion] = useState<string>("");
   const list: menus[] = JSON.parse(String(getMenus()));
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
-  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
   const [slideropen, setslideropen] = useState(false);
   const [openMenu, setOpenMenu] = useState(-1);
   const [URLVideo, setURLVideo] = useState<string>("");
@@ -84,6 +82,8 @@ const ButtonsTutorial = ({
     };
     AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS) {
+        console.log("resultado de obtener guias");
+        console.log(res.SUCCESS);
         setDataVideos(res.RESPONSE);
       } else {
       }
@@ -228,29 +228,25 @@ const ButtonsTutorial = ({
                                   </div>
                                 </Grid>
 
-                                {PER[0].Referencia === "ADMIN" ? (
-                                  <Grid key={Math.random()} item xs={2}>
-                                    <div
+                                <Grid key={Math.random()} item xs={2}>
+                                  <div
+                                    key={Math.random()}
+                                    className="div-BotonesVideos"
+                                  >
+                                    <IconButton
                                       key={Math.random()}
-                                      className="div-BotonesVideos"
+                                      className="VerVideos"
+                                      onClick={() =>
+                                        handleClickDelet(
+                                          datos?.RutaVideo,
+                                          route
+                                        )
+                                      }
                                     >
-                                      <IconButton
-                                        key={Math.random()}
-                                        className="VerVideos"
-                                        onClick={() =>
-                                          handleClickDelet(
-                                            datos?.RutaVideo,
-                                            route
-                                          )
-                                        }
-                                      >
-                                        <DeleteForeverIcon />
-                                      </IconButton>
-                                    </div>
-                                  </Grid>
-                                ) : (
-                                  ""
-                                )}
+                                      <DeleteForeverIcon />
+                                    </IconButton>
+                                  </div>
+                                </Grid>
                               </Grid>
                             );
                           })}
@@ -273,20 +269,17 @@ const ButtonsTutorial = ({
             </TooltipPersonalizado>
           </Grid>
         )}
-        {PER[0].Referencia === "ADMIN" ? (
-          <Grid item xs={5}>
-            <Tooltip title="Cargar Video Tutorial">
-              <IconButton
-                className="ControlVideosHeader"
-                onClick={handleClickOpenCarga}
-              >
-                <UploadIcon className="IconoDentroBoton" />
-              </IconButton>
-            </Tooltip>
-          </Grid>
-        ) : (
-          ""
-        )}
+
+        <Grid item xs={5}>
+          <Tooltip title="Cargar Video Tutorial">
+            <IconButton
+              className="ControlVideosHeader"
+              onClick={handleClickOpenCarga}
+            >
+              <UploadIcon className="IconoDentroBoton" />
+            </IconButton>
+          </Tooltip>
+        </Grid>
 
         {dataGuiaRapida.length === 0 ? (
           ""

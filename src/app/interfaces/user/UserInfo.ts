@@ -41,7 +41,6 @@ export interface ROLE {
 
 export interface PERMISO {
     ControlInterno: string;
-    Referencia: string;
     Menu: string;
 
 }

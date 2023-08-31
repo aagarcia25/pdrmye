@@ -5,7 +5,7 @@ import {
   Grid,
   IconButton,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import PdfLogo from "../../../../../../app/assets/img/PDF_file_icon.svg";
@@ -17,7 +17,10 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { base64ToArrayBuffer } from "../../../../../helpers/Files";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
-import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
 import { ValidaSesion } from "../../../../../services/UserServices";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {
@@ -80,7 +83,7 @@ const AvisosModal = ({
   const [Avisos, setAvisos] = useState("");
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
 
@@ -219,8 +222,8 @@ const AvisosModal = ({
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "AVISOS") {
-        if (String(item.Referencia) === "EDIT") {
+      if (String(item.Menu) === "AVISOS") {
+        if (String(item.ControlInterno) === "EDIT") {
           setEditar(true);
         }
       }
@@ -242,7 +245,7 @@ const AvisosModal = ({
 
   return (
     <ModalForm title={modoModal} handleClose={handleClose}>
-       <SliderProgress open={slideropen}/>
+      <SliderProgress open={slideropen} />
       {modoModal === "Agregar Aviso" ? (
         <Box component={Grid} container boxShadow={3} xs={12} md={12}>
           <Box component={Grid} xs={12} md={3}></Box>

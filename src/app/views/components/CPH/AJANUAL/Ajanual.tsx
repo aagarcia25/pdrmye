@@ -178,11 +178,11 @@ export const Ajanual = () => {
     handleClick();
 
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "AJUSTESEMESTRAL") {
-        if (String(item.Referencia) === "AGREGAR") {
+      if (String(item.Menu) === "AJUSTESEMESTRAL") {
+        if (String(item.ControlInterno) === "AGREGAR") {
           setagregar(true);
         }
-        if (String(item.Referencia) === "ELIMINAR") {
+        if (String(item.ControlInterno) === "ELIMINAR") {
           setEliminar(true);
         }
       }

@@ -25,7 +25,6 @@ import {
   setMenus,
   setMunicipios,
   setPerfilFoto,
-  setPerfiles,
   setPermisos,
   setRfToken,
   setRoles,
@@ -138,7 +137,6 @@ function App() {
         console.log(res.data.data);
         setUser(res.data.data);
         setRoles(res.data.roles[0]);
-        setPerfiles(res.data.perfiles[0]);
         setMenus(res.data.menus[0]);
         setPermisos(
           res.data.permisos[0] == undefined ? [] : res.data.permisos[0]
