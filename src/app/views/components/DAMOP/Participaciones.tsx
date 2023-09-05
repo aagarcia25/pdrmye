@@ -261,7 +261,7 @@ const Participaciones = () => {
           if (res.SUCCESS) {
             handleClose();
             //   console.log(res.RESPONSE[0])
-            if (res.RESPONSE[0].Respuesta === 200) {
+            if (res.RESPONSE[0].Respuesta == 200) {
               Toast.fire({
                 icon: "success",
                 title: "Operación Realizada!",
@@ -519,7 +519,7 @@ const Participaciones = () => {
               </IconButton>
             </Tooltip>
 
-            {ELIMINA && v.row.Integrado === 1 ? (
+            {ELIMINA && v.row.Integrado == 1 ? (
               <IconButton
                 value="check"
                 onClick={() => handleBorrarSolicitud(v)}
@@ -532,8 +532,7 @@ const Participaciones = () => {
               ""
             )}
 
-            {verSegmentar &&
-            String(v.row.estatus) === "Ingresando Operación" ? (
+            {verSegmentar && String(v.row.estatus) == "Ingresando Operación" ? (
               <Tooltip title={"Segmentar Operación"}>
                 <IconButton value="check" onClick={() => handleVerSegmentos(v)}>
                   <SegmentIcon />
@@ -556,8 +555,7 @@ const Participaciones = () => {
               ""
             )}
 
-            {(String(v.row.estatus) === "Ingresando Operación" &&
-              cargarPlant) ||
+            {(String(v.row.estatus) == "Ingresando Operación" && cargarPlant) ||
             permisoAgregarNumeroSolicitud ? (
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
@@ -602,7 +600,7 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {String(v.row.estatusCI) === "DAMOP_INI" ? (
+            {String(v.row.estatusCI) == "DAMOP_INI" ? (
               <Tooltip title="Administrar Descuentos">
                 <IconButton onClick={() => handleDescuento(v)}>
                   <AddIcon />
@@ -625,7 +623,7 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {String(v.row.estatusCI) === "DAMOP_INI" ? (
+            {String(v.row.estatusCI) == "DAMOP_INI" ? (
               <>
                 <Tooltip title="Admistrar Retenciones">
                   <IconButton onClick={() => handleRetenciones(v)}>
@@ -826,7 +824,7 @@ const Participaciones = () => {
       width: 80,
       description: "Monex",
       renderCell: (v: any) => {
-        return <>{v.row.Monex === 1 ? "SI" : "NO"}</>;
+        return <>{v.row.Monex == 1 ? "SI" : "NO"}</>;
       },
     },
     {
@@ -873,30 +871,30 @@ const Participaciones = () => {
     setslideropen(true);
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 31) {
+      if (operacion == 31) {
         setFondos(res.RESPONSE);
         setslideropen(false);
-      } else if (operacion === 5) {
+      } else if (operacion == 5) {
         setMunicipios(res.RESPONSE);
         setslideropen(false);
-      } else if (operacion === 17) {
+      } else if (operacion == 17) {
         setslideropen(false);
         setTiposFondo(res.RESPONSE);
-      } else if (operacion === 24) {
+      } else if (operacion == 24) {
         setTiposSolicitud(res.RESPONSE);
         setslideropen(false);
-      } else if (operacion === 25) {
+      } else if (operacion == 25) {
         setEstatus(res.RESPONSE);
         setIdEstatus(
           getcontrolInternoEntidad()
-            ? getcontrolInternoEntidad() === "ORG" ||
-              getcontrolInternoEntidad() === "MUN"
+            ? getcontrolInternoEntidad() == "ORG" ||
+              getcontrolInternoEntidad() == "MUN"
               ? ""
               : res.RESPONSE[0].value
             : ""
         );
         setslideropen(false);
-      } else if (operacion === 38) {
+      } else if (operacion == 38) {
         setOrganismos(res.RESPONSE);
         setslideropen(false);
       }
@@ -926,9 +924,9 @@ const Participaciones = () => {
 
   const handleFilterChange3 = (v: string) => {
     setNombreMunicipio(
-      municipio.find(({ value }) => value === v)?.label === undefined
+      municipio.find(({ value }) => value == v)?.label == undefined
         ? ""
-        : String(municipio.find(({ value }) => value === v)?.label)
+        : String(municipio.find(({ value }) => value == v)?.label)
     );
     setidMunicipio(v);
     setIntOperaciones(true);
@@ -942,9 +940,9 @@ const Participaciones = () => {
   };
   const handleSelectMes = (data: any) => {
     setNombreMes(
-      meses.find(({ value }) => value === data)?.label === undefined
+      meses.find(({ value }) => value == data)?.label == undefined
         ? ""
-        : String(meses.find(({ value }) => value === data)?.label)
+        : String(meses.find(({ value }) => value == data)?.label)
     );
     setMes(data);
   };
@@ -1058,7 +1056,7 @@ const Participaciones = () => {
   };
 
   const Disitribuir = () => {
-    if (selectionModel.length === 1) {
+    if (selectionModel.length == 1) {
       Swal.fire({
         icon: "info",
         title: "Distribucion",
@@ -1114,7 +1112,7 @@ const Participaciones = () => {
   };
 
   const handleMonex = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -1345,7 +1343,7 @@ const Participaciones = () => {
   };
 
   const SolicitudOrdenPago = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -1399,7 +1397,7 @@ const Participaciones = () => {
   };
 
   const handleFinalizarParticipacion = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -1453,7 +1451,7 @@ const Participaciones = () => {
   };
 
   const handleTranEgreso = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -1507,7 +1505,7 @@ const Participaciones = () => {
   };
 
   const handleAuthParticipacion = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -1561,7 +1559,7 @@ const Participaciones = () => {
   };
 
   const handleFinEgreso = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -1615,7 +1613,7 @@ const Participaciones = () => {
   };
 
   const handleAutEgresos = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -1669,7 +1667,7 @@ const Participaciones = () => {
   };
 
   const handleGenNumOrdenPago = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -1723,7 +1721,7 @@ const Participaciones = () => {
   };
 
   const handleValEgresos = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -1778,18 +1776,18 @@ const Participaciones = () => {
 
   const handleClick = () => {
     if (
-      (DA?.MUNICIPIO?.length === 0 && getcontrolInternoEntidad() === "MUN") ||
-      (DA?.ORG?.length === 0 && getcontrolInternoEntidad() === "ORG")
+      (DA?.MUNICIPIO?.length == 0 && getcontrolInternoEntidad() == "MUN") ||
+      (DA?.ORG?.length == 0 && getcontrolInternoEntidad() == "ORG")
     ) {
       AlertS.fire({
         title:
           String(
-            DA?.MUNICIPIO?.length === 0 && getcontrolInternoEntidad() === "MUN"
+            DA?.MUNICIPIO?.length == 0 && getcontrolInternoEntidad() == "MUN"
               ? "Sin Municipio asignado "
               : "234"
           ) +
           String(
-            DA?.ORG?.length === 0 && getcontrolInternoEntidad() === "ORG"
+            DA?.ORG?.length == 0 && getcontrolInternoEntidad() == "ORG"
               ? " Sin Organismo asignado"
               : "5677"
           ),
@@ -1800,9 +1798,9 @@ const Participaciones = () => {
       if (nombreFondo !== "" || nombreMunicipio !== "" || nombreMes !== "") {
         setNombreExport(
           String(
-            (nombreFondo === "" ? "" : nombreFondo) +
-              (nombreMunicipio === "" ? "" : " " + nombreMunicipio) +
-              (nombreMes === "" ? "" : " " + nombreMes)
+            (nombreFondo == "" ? "" : nombreFondo) +
+              (nombreMunicipio == "" ? "" : " " + nombreMunicipio) +
+              (nombreMes == "" ? "" : " " + nombreMes)
           ).trim()
         );
       } else {
@@ -1813,49 +1811,49 @@ const Participaciones = () => {
         setIntOperaciones(false);
       }
 
-      if (idestatus === "a2d2adfc-8e12-11ed-a98c-040300000000") {
+      if (idestatus == "a2d2adfc-8e12-11ed-a98c-040300000000") {
         SETDAMOP_INI(true);
-      } else if (idestatus === "d117049e-8e12-11ed-a98c-040300000000") {
+      } else if (idestatus == "d117049e-8e12-11ed-a98c-040300000000") {
         SETDAMOP_FSE(true);
-      } else if (idestatus === "e0f0d317-8e12-11ed-a98c-040300000000") {
+      } else if (idestatus == "e0f0d317-8e12-11ed-a98c-040300000000") {
         SETDAMOP_ASE(true);
-      } else if (idestatus === "ef68291d-8e12-11ed-a98c-040300000000") {
+      } else if (idestatus == "ef68291d-8e12-11ed-a98c-040300000000") {
         SETDAMOP_TE(true);
-      } else if (idestatus === "fe7fae95-8e12-11ed-a98c-040300000000") {
+      } else if (idestatus == "fe7fae95-8e12-11ed-a98c-040300000000") {
         SETDAMOP_AE(true);
-      } else if (idestatus === "0c1b887e-8e13-11ed-a98c-040300000000") {
+      } else if (idestatus == "0c1b887e-8e13-11ed-a98c-040300000000") {
         SETDAMOP_FE(true);
-      } else if (idestatus === "1a7d41ed-8e13-11ed-a98c-040300000000") {
+      } else if (idestatus == "1a7d41ed-8e13-11ed-a98c-040300000000") {
         SETDAMOP_VE(true);
-      } else if (idestatus === "2a879241-8e13-11ed-a98c-040300000000") {
+      } else if (idestatus == "2a879241-8e13-11ed-a98c-040300000000") {
         SETDAMOP_GSE(true);
-      } else if (idestatus === "399a2ffe-8e13-11ed-a98c-040300000000") {
+      } else if (idestatus == "399a2ffe-8e13-11ed-a98c-040300000000") {
         SETDAMOP_ASP(true);
-      } else if (idestatus === "4a5cf61b-8e13-11ed-a98c-040300000000") {
+      } else if (idestatus == "4a5cf61b-8e13-11ed-a98c-040300000000") {
         SETDAMOP_FRA(true);
-      } else if (idestatus === "596e5f1e-8e13-11ed-a98c-040300000000") {
+      } else if (idestatus == "596e5f1e-8e13-11ed-a98c-040300000000") {
         SETDAMOP_ARA(true);
-      } else if (idestatus === "67d9cdb6-8e13-11ed-a98c-040300000000") {
+      } else if (idestatus == "67d9cdb6-8e13-11ed-a98c-040300000000") {
         SETDAMOP_FINALIZADO(true);
-      } else if (idestatus === "e6fd8a34-9073-11ed-a98c-040300000000") {
+      } else if (idestatus == "e6fd8a34-9073-11ed-a98c-040300000000") {
         SETDAMOP_PFI(true);
-      } else if (idestatus === "f747b03c-9073-11ed-a98c-040300000000") {
+      } else if (idestatus == "f747b03c-9073-11ed-a98c-040300000000") {
         SETDAMOP_PAUT(true);
-      } else if (idestatus === "b825e8af-91e8-11ed-a912-705a0f328da6") {
+      } else if (idestatus == "b825e8af-91e8-11ed-a912-705a0f328da6") {
         SETDAF_SPEI(true);
       }
       let data = {
         TIPO: 1,
         P_FONDO: idFondo.length > 0 ? idFondo : "",
-        //   P_IDMUNICIPIO: user.MUNICIPIO.length > 0 ? user.MUNICIPIO[0].id : idMunicipio === "false" ? "" : idMunicipio,
-        //  P_IDTIPO: user.MUNICIPIO.length > 0 || user.ORG.length > 0 || DEP0]?.NombreCorto === "MUN" || getcontrolInternoEntidad() === "ORG" ? "PROV" : idtipoFondo === "false" ? "" : idtipoFondo,
-        P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
-        P_IDESTATUS: idestatus === "false" ? "" : idestatus,
-        P_IDMES: mes === "false" ? "" : mes,
-        //  P_IDORGANISMO: user?.ORG[0] ? user.ORG[0].id : idORG === "false" ? "" : idORG,
+        //   P_IDMUNICIPIO: user.MUNICIPIO.length > 0 ? user.MUNICIPIO[0].id : idMunicipio == "false" ? "" : idMunicipio,
+        //  P_IDTIPO: user.MUNICIPIO.length > 0 || user.ORG.length > 0 || DEP0]?.NombreCorto == "MUN" || getcontrolInternoEntidad() == "ORG" ? "PROV" : idtipoFondo == "false" ? "" : idtipoFondo,
+        P_IDTIPOSOL: idtipoSolicitud == "false" ? "" : idtipoSolicitud,
+        P_IDESTATUS: idestatus == "false" ? "" : idestatus,
+        P_IDMES: mes == "false" ? "" : mes,
+        //  P_IDORGANISMO: user?.ORG[0] ? user.ORG[0].id : idORG == "false" ? "" : idORG,
         P_CHUSER: user.Id,
         P_GRUPO: getcontrolInternoEntidad(),
-        P_ANIO: anio === "false" ? "" : anio,
+        P_ANIO: anio == "false" ? "" : anio,
       };
       setslideropen(true);
       DPCPServices.GetParticipaciones(data).then((res) => {
@@ -1906,83 +1904,83 @@ const Participaciones = () => {
       loadFilter(24);
       loadFilter(38);
       permisos.map((item: PERMISO) => {
-        if (String(item.ControlInterno) === "PARTMUN") {
-          if (String(item.ControlInterno) === "AGREGPLANT") {
+        if (String(item.ControlInterno) == "PARTMUN") {
+          if (String(item.ControlInterno) == "AGREGPLANT") {
             setCargarPlant(true);
-          } else if (String(item.ControlInterno) === "DESCPLANT") {
+          } else if (String(item.ControlInterno) == "DESCPLANT") {
             setDescPlant(true);
-          } else if (String(item.ControlInterno) === "DISFIDE") {
+          } else if (String(item.ControlInterno) == "DISFIDE") {
             setDisFide(true);
-          } else if (String(item.ControlInterno) === "TRAZASPEIDAF") {
+          } else if (String(item.ControlInterno) == "TRAZASPEIDAF") {
             ancho = ancho + 50;
             setVerTrazabilidad(true);
-          } else if (String(item.ControlInterno) === "SEGM") {
+          } else if (String(item.ControlInterno) == "SEGM") {
             ancho = ancho + 50;
             setVerSegmentar(true);
-          } else if (String(item.ControlInterno) === "ASIGNAOBS") {
+          } else if (String(item.ControlInterno) == "ASIGNAOBS") {
             ancho = ancho + 50;
             setasignaObservacion(true);
-          } else if (String(item.ControlInterno) === "CGPRESTAMO") {
+          } else if (String(item.ControlInterno) == "CGPRESTAMO") {
             ancho = ancho + 50;
             setCargaPrestamos(true);
-          } else if (String(item.ControlInterno) === "AG_REGISTRO") {
+          } else if (String(item.ControlInterno) == "AG_REGISTRO") {
             ancho = ancho + 50;
             //setCargaPrestamos(true);
-          } else if (String(item.ControlInterno) === "CG_PLANTILLA_ORG") {
+          } else if (String(item.ControlInterno) == "CG_PLANTILLA_ORG") {
             ancho = ancho + 50;
             setCG_PLANTILLA_ORG(true);
-          } else if (String(item.ControlInterno) === "INTEGRAR_OPERACION") {
+          } else if (String(item.ControlInterno) == "INTEGRAR_OPERACION") {
             ancho = ancho + 50;
             setINTEGRAR_OPERACION(true);
-          } else if (String(item.ControlInterno) === "INTEGRACION_MASIVA") {
+          } else if (String(item.ControlInterno) == "INTEGRACION_MASIVA") {
             ancho = ancho + 50;
             setINTEGRACION_MASIVA(true);
-          } else if (String(item.ControlInterno) === "UNIFICACION") {
+          } else if (String(item.ControlInterno) == "UNIFICACION") {
             ancho = ancho + 50;
             setUNIFICACION(true);
-          } else if (String(item.ControlInterno) === "SORGANISMOS") {
+          } else if (String(item.ControlInterno) == "SORGANISMOS") {
             setSORGANISMOS(true);
-          } else if (String(item.ControlInterno) === "SESTATUS") {
+          } else if (String(item.ControlInterno) == "SESTATUS") {
             setSESTATUS(true);
-          } else if (String(item.ControlInterno) === "STIPOSOLICITUD") {
+          } else if (String(item.ControlInterno) == "STIPOSOLICITUD") {
             setSTIPOSOLICITUD(true);
-          } else if (String(item.ControlInterno) === "SFONDO") {
+          } else if (String(item.ControlInterno) == "SFONDO") {
             setSFONDO(true);
-          } else if (String(item.ControlInterno) === "SMUNICIPIO") {
+          } else if (String(item.ControlInterno) == "SMUNICIPIO") {
             setSMUNICIPIO(true);
-          } else if (String(item.ControlInterno) === "SMES") {
+          } else if (String(item.ControlInterno) == "SMES") {
             setSMES(true);
-          } else if (String(item.ControlInterno) === "ELIMINA") {
+          } else if (String(item.ControlInterno) == "ELIMINA") {
             setELIMINA(true);
-          } else if (String(item.ControlInterno) === "ELIMINAMASIVO") {
+          } else if (String(item.ControlInterno) == "ELIMINAMASIVO") {
             setELIMINAMASIVO(true);
-          } else if (String(item.ControlInterno) === "INSERTAREG") {
+          } else if (String(item.ControlInterno) == "INSERTAREG") {
             setINSERTAREG(true);
-          } else if (String(item.ControlInterno) === "EDITCAB") {
+          } else if (String(item.ControlInterno) == "EDITCAB") {
             setEditCabecera(true);
-          } else if (String(item.ControlInterno) === "AGREGDETALLE") {
+          } else if (String(item.ControlInterno) == "AGREGDETALLE") {
             setPermisoAgregarDetalle(true);
-          } else if (String(item.ControlInterno) === "AGREGRETEN") {
+          } else if (String(item.ControlInterno) == "AGREGRETEN") {
             setPermisoAgregarRetencion(true);
-          } else if (String(item.ControlInterno) === "EDITRETENCION") {
+          } else if (String(item.ControlInterno) == "EDITRETENCION") {
             setPermisoEditarRetencion(true);
-          } else if (String(item.ControlInterno) === "DELETERETEN") {
+          } else if (String(item.ControlInterno) == "DELETERETEN") {
             setPermisoEliminarRetencion(true);
-          } else if (String(item.ControlInterno) === "ELIMDETCABECERA") {
+          } else if (String(item.ControlInterno) == "ELIMDETCABECERA") {
             setPermisoEliminarDetalleCabecera(true);
-          } else if (String(item.ControlInterno) === "EDITARDETALLECABECERA") {
+          } else if (String(item.ControlInterno) == "EDITARDETALLECABECERA") {
             setPermisoEditarDetalleCabecera(true);
-          } else if (String(item.ControlInterno) === "ELIMDESC") {
+          } else if (String(item.ControlInterno) == "ELIMDESC") {
             setPermisoEliminarDescuento(true);
-          } else if (String(item.ControlInterno) === "EDITDESC") {
+          } else if (String(item.ControlInterno) == "EDITDESC") {
             setPermisoEditarDescuento(true);
-          } else if (String(item.ControlInterno) === "AGREGDESC") {
+          } else if (String(item.ControlInterno) == "AGREGDESC") {
             setPermisoAgregarDescuento(true);
-          } else if (String(item.ControlInterno) === "ASIGNANUMEROORDENPAGO") {
+          } else if (String(item.ControlInterno) == "ASIGNANUMEROORDENPAGO") {
             setPermisoAgregarNumeroSolicitud(true);
-          } else if (String(item.ControlInterno) === "MARCAMONEX") {
+          } else if (String(item.ControlInterno) == "MARCAMONEX") {
             setMarcaMonex(true);
-          } else if (String(item.ControlInterno) === "SANIO") {
+          } else if (String(item.ControlInterno) == "SANIO") {
             setSANIO(true);
           }
         }
@@ -2033,7 +2031,7 @@ const Participaciones = () => {
               md={4}
               lg={
                 getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() === "ORG"
+                  ? getcontrolInternoEntidad() == "ORG"
                     ? 4
                     : 2
                   : 2
@@ -2041,13 +2039,13 @@ const Participaciones = () => {
             >
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 {getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() === "ORG"
+                  ? getcontrolInternoEntidad() == "ORG"
                     ? DA?.ORG[0].Descripcion
                     : "Organismos"
                   : "Organismos"}
               </Typography>
               {getcontrolInternoEntidad() ? (
-                getcontrolInternoEntidad() === "ORG" ? (
+                getcontrolInternoEntidad() == "ORG" ? (
                   ""
                 ) : (
                   <SelectFrag
@@ -2093,8 +2091,8 @@ const Participaciones = () => {
               md={4}
               lg={
                 getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() === "ORG" ||
-                    getcontrolInternoEntidad() === "MUN"
+                  ? getcontrolInternoEntidad() == "ORG" ||
+                    getcontrolInternoEntidad() == "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2124,8 +2122,8 @@ const Participaciones = () => {
               md={4}
               lg={
                 getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() === "ORG" ||
-                    getcontrolInternoEntidad() === "MUN"
+                  ? getcontrolInternoEntidad() == "ORG" ||
+                    getcontrolInternoEntidad() == "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2153,7 +2151,7 @@ const Participaciones = () => {
               md={4}
               lg={
                 getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() === "MUN"
+                  ? getcontrolInternoEntidad() == "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2161,14 +2159,14 @@ const Participaciones = () => {
             >
               <Typography sx={{ fontFamily: "sans-serif" }}>
                 {getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() === "MUN"
+                  ? getcontrolInternoEntidad() == "MUN"
                     ? DA.MUNICIPIO[0].Nombre
                     : "Municipios"
                   : "Municipios"}
               </Typography>
 
               {getcontrolInternoEntidad() ? (
-                getcontrolInternoEntidad() === "MUN" ? (
+                getcontrolInternoEntidad() == "MUN" ? (
                   ""
                 ) : (
                   <SelectFrag
@@ -2196,8 +2194,8 @@ const Participaciones = () => {
               md={4}
               lg={
                 getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() === "ORG" ||
-                    getcontrolInternoEntidad() === "MUN"
+                  ? getcontrolInternoEntidad() == "ORG" ||
+                    getcontrolInternoEntidad() == "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2225,8 +2223,8 @@ const Participaciones = () => {
               md={4}
               lg={
                 getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() === "ORG" ||
-                    getcontrolInternoEntidad() === "MUN"
+                  ? getcontrolInternoEntidad() == "ORG" ||
+                    getcontrolInternoEntidad() == "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2299,15 +2297,13 @@ const Participaciones = () => {
             {INTEGRAR_OPERACION ? (
               <ToggleButton
                 value="check"
-                disabled={data.length === 0 || intOperaciones}
+                disabled={data.length == 0 || intOperaciones}
                 onClick={() => integrarOperaciones()}
               >
                 <Tooltip title={"Integrar Operaciones"}>
                   <CallMergeIcon
                     color={
-                      data.length === 0 || intOperaciones
-                        ? "inherit"
-                        : "primary"
+                      data.length == 0 || intOperaciones ? "inherit" : "primary"
                     }
                   />
                 </Tooltip>
@@ -2462,14 +2458,14 @@ const Participaciones = () => {
               <ToggleButton
                 value="check"
                 disabled={
-                  data.length === 0 || intOperaciones || idMunicipio.length < 6
+                  data.length == 0 || intOperaciones || idMunicipio.length < 6
                 }
                 onClick={() => unificarSolicitudes()}
               >
                 <Tooltip title={"Unificar Registros"}>
                   <CloseFullscreenIcon
                     color={
-                      data.length === 0 ||
+                      data.length == 0 ||
                       intOperaciones ||
                       idMunicipio.length < 6
                         ? "inherit"
@@ -2485,8 +2481,8 @@ const Participaciones = () => {
         </Grid>
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          {getcontrolInternoEntidad() === "ORG" ||
-          getcontrolInternoEntidad() === "MUN" ? (
+          {getcontrolInternoEntidad() == "ORG" ||
+          getcontrolInternoEntidad() == "MUN" ? (
             ""
           ) : (
             <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -2637,8 +2633,8 @@ const Participaciones = () => {
             modulo={nombreExport}
             handleBorrar={handleBorrarMasivo}
             columns={
-              getcontrolInternoEntidad() === "MUN" ||
-              getcontrolInternoEntidad() === "ORG"
+              getcontrolInternoEntidad() == "MUN" ||
+              getcontrolInternoEntidad() == "ORG"
                 ? columnasMunicipio
                 : columnsParticipaciones
             }

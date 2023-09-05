@@ -98,12 +98,12 @@ export const MunFacturacion = () => {
   ];
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setData(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   };
@@ -177,7 +177,7 @@ export const MunFacturacion = () => {
   };
 
   const handleUpload = (data: any) => {
-    if (data.tipo === 1) {
+    if (data.tipo == 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -198,7 +198,7 @@ export const MunFacturacion = () => {
           });
         }
       });
-    } else if (data.tipo === 2) {
+    } else if (data.tipo == 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -278,12 +278,12 @@ export const MunFacturacion = () => {
     setAnios(fanios());
 
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "MUNFA") {
+      if (String(item.Menu) == "MUNFA") {
         setNombreMenu(item.Menu);
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }

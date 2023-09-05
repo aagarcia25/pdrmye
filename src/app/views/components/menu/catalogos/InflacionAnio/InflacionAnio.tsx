@@ -92,12 +92,12 @@ const InflacionAnio = () => {
   ];
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   };
@@ -173,14 +173,14 @@ const InflacionAnio = () => {
   useEffect(() => {
     setAnios(fanios());
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "INFANIO") {
-        if (String(item.ControlInterno) === "AGREG") {
+      if (String(item.Menu) == "INFANIO") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }

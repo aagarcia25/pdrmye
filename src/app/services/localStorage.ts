@@ -46,7 +46,7 @@ export const setlogin = (data: any) => {
 };
 export const getlogin = () => localStorage.getItem('login');
 export const islogin = (): boolean => {
-  return getlogin() ===  'true' ? true : false;
+  return getlogin() ==  'true' ? true : false;
 };
 
 

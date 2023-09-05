@@ -93,7 +93,7 @@ function App() {
     setlogin(false);
     setAcceso(false);
     Swal.fire({
-      icon: icon === "info" ? "info" : "warning",
+      icon: icon == "info" ? "info" : "warning",
       title: title,
       text: text,
       showDenyButton: false,
@@ -126,7 +126,7 @@ function App() {
 
     UserServices.userAppDetail(data).then((res) => {
       console.log(res);
-      if (res?.status === 200) {
+      if (res?.status == 200) {
         AuthService.adminUser({ NUMOPERACION: 1, ID: id }).then(
           (objresponse) => {
             const dataadicional: ResponseDataAdicional = objresponse.RESPONSE;
@@ -159,7 +159,7 @@ function App() {
         setOpenSlider(false);
         setAcceso(true);
         setlogin(true);
-      } else if (res.status === 401) {
+      } else if (res.status == 401) {
         setOpenSlider(false);
         setlogin(false);
         setAcceso(false);
@@ -167,7 +167,7 @@ function App() {
     });
 
     /*
-      if (String(us.RESPONSE) === "PrimerInicio") {
+      if (String(us.RESPONSE) == "PrimerInicio") {
         Swal.fire({
           icon: "info",
           title: 'Bienvenid@',
@@ -201,8 +201,8 @@ function App() {
         GetImage("/FOTOPERFIL/", us?.RESPONSE?.RutaFoto);
 
       }else if (us.SUCCESS) {
-        mensaje('', 'Información', us.STRMESSAGE==="Exito"?"":us.STRMESSAGE + " Contactar Al Departamento Correspondiente");
-      }else if (us.SUCCESS === false && !us.RESPONSE) {
+        mensaje('', 'Información', us.STRMESSAGE=="Exito"?"":us.STRMESSAGE + " Contactar Al Departamento Correspondiente");
+      }else if (us.SUCCESS == false && !us.RESPONSE) {
         Swal.fire({
           icon: "info",
           title: 'Bienvenid@',
@@ -216,7 +216,7 @@ function App() {
             ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN))
           }
         });
-      }else if (us.SUCCESS === false && us.RESPONSE) {
+      }else if (us.SUCCESS == false && us.RESPONSE) {
         Swal.fire({
           icon: "info",
           title: us.RESPONSE,
@@ -235,7 +235,7 @@ function App() {
 
   const verificatoken = (primerInicio: boolean) => {
     UserServices.verify({}).then((res) => {
-      if (res?.status === 200) {
+      if (res?.status == 200) {
         setUserName(res.data.data.NombreUsuario);
         buscaUsuario(res.data.data.IdUsuario);
         setBloqueoStatus(false);
@@ -244,7 +244,7 @@ function App() {
           var ventana = window.self;
           ventana.location.reload();
         }
-      } else if (res.status === 401) {
+      } else if (res.status == 401) {
         setOpenSlider(false);
         setlogin(false);
         setAcceso(false);
@@ -263,17 +263,17 @@ function App() {
     };
     setOpenSlider(true);
     UserServices.login(data).then((res) => {
-      if (res.status === 200) {
+      if (res.status == 200) {
         setContraseñaValida(true);
         setToken(res.data.token);
         setRfToken(res.data.refreshToken);
         var ventana = window.self;
         ventana.location.reload();
 
-        if (!getUser() || getUser() === undefined) {
+        if (!getUser() || getUser() == undefined) {
           verificatoken(false);
         }
-      } else if (res.status === 401) {
+      } else if (res.status == 401) {
         setContraseñaValida(false);
         Swal.fire({
           title: res.data.msg,
@@ -315,7 +315,7 @@ function App() {
       jwt !== null &&
       refjwt !== null &&
       !acceso &&
-      bloqueoStatus === undefined
+      bloqueoStatus == undefined
     ) {
       const decoded: UserLogin = jwt_decode(String(jwt));
       if ((decoded.exp - Date.now() / 1000) / 60 > 1) {
@@ -345,7 +345,7 @@ function App() {
     if (
       !jwt &&
       !refjwt &&
-      bloqueoStatus === undefined &&
+      bloqueoStatus == undefined &&
       !acceso &&
       !login &&
       getToken() &&

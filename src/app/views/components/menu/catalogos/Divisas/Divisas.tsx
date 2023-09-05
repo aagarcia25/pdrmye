@@ -104,7 +104,7 @@ export const Divisas = () => {
   ];
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setOpen(true);
       setData(v.data);
@@ -148,7 +148,7 @@ export const Divisas = () => {
       Swal.fire({
         icon: "info",
         title:
-          tipoOperacion === 1
+          tipoOperacion == 1
             ? "¿Agregar Divisa o Tipo de Cambio?"
             : "¿Editar Divisa o Tipo de Cambio?",
         showDenyButton: true,
@@ -158,7 +158,7 @@ export const Divisas = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           let data = {
-            NUMOPERACION: tipoOperacion === 1 ? 1 : 2,
+            NUMOPERACION: tipoOperacion == 1 ? 1 : 2,
             CHUSER: user.Id,
             CHID: idDivisa,
             NOMBRECORTO: nombreCorto,
@@ -173,7 +173,7 @@ export const Divisas = () => {
               Toast.fire({
                 icon: "success",
                 title:
-                  tipoOperacion === 1
+                  tipoOperacion == 1
                     ? "¡Registro Agregado!"
                     : "¡Registro Editado!",
               });
@@ -247,7 +247,7 @@ export const Divisas = () => {
   };
 
   const handleFilterChange = (v: string) => {
-    if (v === null) {
+    if (v == null) {
       let data = {
         NUMOPERACION: 4,
       };
@@ -267,17 +267,17 @@ export const Divisas = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "DIVISAS") {
+      if (String(item.Menu) == "DIVISAS") {
         //console.log(item)
         setNombreMenu(item.Menu);
 
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
       }
@@ -399,11 +399,11 @@ export const Divisas = () => {
               <Grid item md={12} sx={{ textAlign: "center" }}>
                 <Tooltip title="Agregar">
                   <Button
-                    className={tipoOperacion === 1 ? "guardar" : "actualizar"}
+                    className={tipoOperacion == 1 ? "guardar" : "actualizar"}
                     value="check"
                     onClick={() => handleNuevo()}
                   >
-                    {tipoOperacion === 1 ? "Guardar" : "Actualizar"}
+                    {tipoOperacion == 1 ? "Guardar" : "Actualizar"}
                   </Button>
                 </Tooltip>
               </Grid>

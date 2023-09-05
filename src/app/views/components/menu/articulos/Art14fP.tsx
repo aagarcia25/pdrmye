@@ -94,7 +94,7 @@ export const Art14fP = () => {
       description: "Activo",
       width: 150,
       renderCell: (v) => {
-        return v.row.deleted === "0" ? "SI" : "NO";
+        return v.row.deleted == "0" ? "SI" : "NO";
       },
     },
   ];
@@ -114,12 +114,12 @@ export const Art14fP = () => {
     setstep(0);
     permisos.map((item: PERMISO) => {
       if (
-        String(item.ControlInterno) === "ART14F1" ||
-        String(item.ControlInterno) === "ART14F2" ||
-        String(item.ControlInterno) === "ART14F3"
+        String(item.ControlInterno) == "ART14F1" ||
+        String(item.ControlInterno) == "ART14F2" ||
+        String(item.ControlInterno) == "ART14F3"
       ) {
         //console.log(item);
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
       }
@@ -146,9 +146,9 @@ export const Art14fP = () => {
               <Typography variant="h3">
                 {tipo == 1
                   ? "Artículo 14 F I"
-                  : tipo === 2
+                  : tipo == 2
                   ? "Artículo 14 F II"
-                  : tipo === 3
+                  : tipo == 3
                   ? "Artículo 14 F III"
                   : ""}
               </Typography>
@@ -177,9 +177,9 @@ export const Art14fP = () => {
             modulo={
               tipo == 1
                 ? "Articulo_14_FI"
-                : tipo === 2
+                : tipo == 2
                 ? "Articulo_14_FII"
-                : tipo === 3
+                : tipo == 3
                 ? "Articulo_14_FIII"
                 : ""
             }
@@ -194,9 +194,9 @@ export const Art14fP = () => {
           titulo={
             tipo == 1
               ? "Artículo 14 F I"
-              : tipo === 2
+              : tipo == 2
               ? "Artículo 14 F II"
-              : tipo === 3
+              : tipo == 3
               ? "Artículo 14 F III"
               : ""
           }

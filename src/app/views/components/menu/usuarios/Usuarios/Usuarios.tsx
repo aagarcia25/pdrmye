@@ -83,12 +83,12 @@ const Usuarios = () => {
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    if (newValue === "2") {
+    if (newValue == "2") {
       let dataAppId = {
         NUMOPERACION: 5,
         NOMBRE: "AppID",
       };
-      // if (PER[0]?.Referencia === "ADMIN") {
+      // if (PER[0]?.Referencia == "ADMIN") {
       ParametroServices.ParametroGeneralesIndex(dataAppId).then((resAppId) => {
         UserServices.solicitudesapp(
           "IdUsuario=" + user.Id + "&IdApp=" + resAppId?.RESPONSE?.Valor
@@ -116,7 +116,7 @@ const Usuarios = () => {
           }
         );
       }*/
-    } else if (newValue === "1") {
+    } else if (newValue == "1") {
       consulta();
     }
     setValue(newValue);
@@ -193,7 +193,7 @@ const Usuarios = () => {
         return (
           <Box>
             {
-              Estatus.find(({ estatus }) => Number(estatus) === v.row.Estatus)
+              Estatus.find(({ estatus }) => Number(estatus) == v.row.Estatus)
                 ?.accion
             }
           </Box>
@@ -237,7 +237,7 @@ const Usuarios = () => {
         return (
           <Box>
             {
-              Estatus.find(({ estatus }) => Number(estatus) === v.row.Estatus)
+              Estatus.find(({ estatus }) => Number(estatus) == v.row.Estatus)
                 ?.accion
             }
           </Box>
@@ -336,12 +336,12 @@ const Usuarios = () => {
               <Typography
                 variant="h5"
                 className={
-                  v.row.EstaActivo === "1"
+                  v.row.EstaActivo == "1"
                     ? "label-UsuariosEnabled"
                     : "label-UsuariosDisabled"
                 }
               >
-                {v.row.EstaActivo === "1" ? "Activo" : "Inactivo"}
+                {v.row.EstaActivo == "1" ? "Activo" : "Inactivo"}
               </Typography>
             </Grid>
           </Grid>
@@ -445,20 +445,20 @@ const Usuarios = () => {
     ValidaSesion();
 
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "USUARIOS") {
-        if (String(item.ControlInterno) === "AGREG") {
+      if (String(item.Menu) == "USUARIOS") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
-        if (String(item.ControlInterno) === "CONFIGROL") {
+        if (String(item.ControlInterno) == "CONFIGROL") {
           setConfigRol(true);
         }
-        if (String(item.ControlInterno) === "CONFIGORG") {
+        if (String(item.ControlInterno) == "CONFIGORG") {
           setConfigOrg(true);
         }
       }
@@ -522,7 +522,7 @@ const Usuarios = () => {
             <MUIXDataGrid
               columns={columnsSolicitud}
               /*   rows={
-                PER[0]?.Referencia === "ADMIN"
+                PER[0]?.Referencia == "ADMIN"
                   ? dataSolicitud
                   : dataSolicitudNoAdmin
               }*/

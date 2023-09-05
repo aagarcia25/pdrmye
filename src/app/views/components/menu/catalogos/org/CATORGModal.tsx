@@ -43,11 +43,13 @@ export const CATORGModal = ({
   const [Clasificador09, setClasificador09] = useState("");
   const [Clasificador10, setClasificador10] = useState("");
   const [Clasificador11, setClasificador11] = useState("");
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
-
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const handleSend = () => {
-    if (!Descripcion || !ClavePSIREGOB || !ClaveDSIREGOB /*
+    if (
+      !Descripcion ||
+      !ClavePSIREGOB ||
+      !ClaveDSIREGOB /*
       || !Clasificador01 
       || !Clasificador01 || !Clasificador02 || !Clasificador03 || !Clasificador04 
       || !Clasificador05 || !Clasificador06 || !Clasificador07 || !Clasificador08
@@ -86,10 +88,10 @@ export const CATORGModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
 
       editar(data);
@@ -103,7 +105,6 @@ export const CATORGModal = ({
           icon: "success",
           title: "¡Registro Agregado!",
         });
-
       } else {
         AlertS.fire({
           title: "¡Error!",
@@ -132,7 +133,7 @@ export const CATORGModal = ({
   };
 
   useEffect(() => {
-    if (dt === "") {
+    if (dt == "") {
       //console.log(dt);
     } else {
       setId(dt?.row?.id);
@@ -154,233 +155,231 @@ export const CATORGModal = ({
   }, [dt]);
 
   return (
-      <ModalForm title={tipo === 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose} >
-        <Box boxShadow={3}>
-          <Grid container direction="row" justifyContent="space-between" alignItems="center" sx={{ padding: "2%" }}  >
-
-            <Grid item alignItems="center" justifyContent="center" xs={5.8}>
+    <ModalForm
+      title={tipo == 1 ? "Agregar Registro" : "Editar Registro"}
+      handleClose={handleClose}
+    >
+      <Box boxShadow={3}>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ padding: "2%" }}
+        >
+          <Grid item alignItems="center" justifyContent="center" xs={5.8}>
+            <TextField
+              required
+              margin="dense"
+              id="Descripcion"
+              label="Descripción"
+              value={Descripcion}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setDescripcion(v.target.value)}
+              error={!Descripcion}
+              inputProps={{ maxLength: 500 }}
+            />
 
             <TextField
-                required
-                margin="dense"
-                id="Descripcion"
-                label="Descripción"
-                value={Descripcion}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setDescripcion(v.target.value)}
-                error={!Descripcion}
-                inputProps={{ maxLength: 500 }}
-              />
+              margin="dense"
+              id="ClavePSIREGOB"
+              label="Clave Proveedor"
+              value={ClavePSIREGOB}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClavePSIREGOB(v.target.value)}
+              error={!ClavePSIREGOB}
+              inputProps={{ maxLength: 10 }}
+            />
 
-              <TextField
-                
-                margin="dense"
-                id="ClavePSIREGOB"
-                label="Clave Proveedor"
-                value={ClavePSIREGOB}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClavePSIREGOB(v.target.value)}
-                error={!ClavePSIREGOB}
-                inputProps={{ maxLength: 10 }}
-              />
+            <TextField
+              margin="dense"
+              id="ClaveDSIREGOB"
+              label="Clave Deudor"
+              value={ClaveDSIREGOB}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClaveDSIREGOB(v.target.value)}
+              error={!ClaveDSIREGOB}
+              inputProps={{ maxLength: 10 }}
+            />
 
-              <TextField
-                
-                margin="dense"
-                id="ClaveDSIREGOB"
-                label="Clave Deudor"
-                value={ClaveDSIREGOB}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClaveDSIREGOB(v.target.value)}
-                error={!ClaveDSIREGOB }
-                inputProps={{ maxLength: 10 }}
-              />
+            <TextField
+              margin="dense"
+              id="Clasificador01"
+              label="Clasificador01"
+              value={Clasificador01}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClasificador01(v.target.value)}
+              error={Clasificador01 == "" ? true : false}
+              inputProps={{ maxLength: 50 }}
+            />
 
-              <TextField
-                
-                margin="dense"
-                id="Clasificador01"
-                label="Clasificador01"
-                value={Clasificador01}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClasificador01(v.target.value)}
-                error={Clasificador01 === "" ? true : false}
-                inputProps={{ maxLength: 50 }}
-              />
+            <TextField
+              margin="dense"
+              id="Clasificador02"
+              label="Clasificador02"
+              value={Clasificador02}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClasificador02(v.target.value)}
+              error={Clasificador02 == "" ? true : false}
+              inputProps={{ maxLength: 50 }}
+            />
 
-              <TextField
-                
-                margin="dense"
-                id="Clasificador02"
-                label="Clasificador02"
-                value={Clasificador02}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClasificador02(v.target.value)}
-                error={Clasificador02 === "" ? true : false}
-                inputProps={{ maxLength: 50 }}
-              />
+            <TextField
+              margin="dense"
+              id="Clasificador03"
+              label="Clasificador03"
+              value={Clasificador03}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClasificador03(v.target.value)}
+              error={Clasificador03 == "" ? true : false}
+              inputProps={{ maxLength: 50 }}
+            />
 
-              <TextField
-                
-                margin="dense"
-                id="Clasificador03"
-                label="Clasificador03"
-                value={Clasificador03}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClasificador03(v.target.value)}
-                error={Clasificador03 === "" ? true : false}
-                inputProps={{ maxLength: 50 }}
-              />
-
-              <TextField
-                
-                margin="dense"
-                id="Clasificador04"
-                label="Clasificador04"
-                value={Clasificador04}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClasificador04(v.target.value)}
-                error={Clasificador04 === "" ? true : false}
-                inputProps={{ maxLength: 50 }}
-              />
-
-
-            </Grid>
-
-
-            <Grid item alignItems="center" justifyContent="center" xs={5.8}>
-
-              
-
-              <TextField
-                required
-                margin="dense"
-                id="Clasificador05"
-                label="Clasificador05"
-                value={Clasificador05}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClasificador05(v.target.value)}
-                error={Clasificador05 === "" ? true : false}
-                inputProps={{ maxLength: 50 }}
-              />
-
-              <TextField
-                required
-                margin="dense"
-                id="Clasificador06"
-                label="Clasificador06"
-                value={Clasificador06}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClasificador06(v.target.value)}
-                error={Clasificador06 === "" ? true : false}
-                inputProps={{ maxLength: 50 }}
-              />
-
-              <TextField
-                required
-                margin="dense"
-                id="Clasificador07"
-                label="Clasificador07"
-                value={Clasificador07}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClasificador07(v.target.value)}
-                error={Clasificador07 === "" ? true : false}
-                inputProps={{ maxLength: 50 }}
-              />
-
-              <TextField
-                required
-                margin="dense"
-                id="Clasificador08"
-                label="Clasificador08"
-                value={Clasificador08}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClasificador08(v.target.value)}
-                error={Clasificador08 === "" ? true : false}
-                inputProps={{ maxLength: 50 }}
-              />
-
-              <TextField
-                required
-                margin="dense"
-                id="Clasificador09"
-                label="Clasificador09"
-                value={Clasificador09}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClasificador09(v.target.value)}
-                error={Clasificador09 === "" ? true : false}
-                inputProps={{ maxLength: 50 }}
-              />
-
-              <TextField
-                required
-                margin="dense"
-                id="Clasificador10"
-                label="Clasificador10"
-                value={Clasificador10}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClasificador10(v.target.value)}
-                error={Clasificador10 === "" ? true : false}
-                inputProps={{ maxLength: 50 }}
-              />
-
-              <TextField
-                required
-                margin="dense"
-                id="Clasificador11"
-                label="Clasificador11"
-                value={Clasificador11}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(v) => setClasificador11(v.target.value)}
-                error={Clasificador11 === "" ? true : false}
-                inputProps={{ maxLength: 50 }}
-              />
-
-
-
-            </Grid>
-
-
-            <Grid item alignItems="center" justifyContent="center" xs={4}></Grid>
-            <Grid item alignItems="center" justifyContent="center" xs={12} height={40}></Grid>
-            <Grid item alignItems="center" justifyContent="center" xs={5}></Grid>
-            <Grid item alignItems="center" justifyContent="center" xs={2}>
-              <button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()} >
-                {tipo === 1 ? "Agregar" : "Editar"}
-              </button>
-            </Grid>
-
+            <TextField
+              margin="dense"
+              id="Clasificador04"
+              label="Clasificador04"
+              value={Clasificador04}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClasificador04(v.target.value)}
+              error={Clasificador04 == "" ? true : false}
+              inputProps={{ maxLength: 50 }}
+            />
           </Grid>
-        </Box>
-      </ModalForm>
-  );
 
+          <Grid item alignItems="center" justifyContent="center" xs={5.8}>
+            <TextField
+              required
+              margin="dense"
+              id="Clasificador05"
+              label="Clasificador05"
+              value={Clasificador05}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClasificador05(v.target.value)}
+              error={Clasificador05 == "" ? true : false}
+              inputProps={{ maxLength: 50 }}
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="Clasificador06"
+              label="Clasificador06"
+              value={Clasificador06}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClasificador06(v.target.value)}
+              error={Clasificador06 == "" ? true : false}
+              inputProps={{ maxLength: 50 }}
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="Clasificador07"
+              label="Clasificador07"
+              value={Clasificador07}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClasificador07(v.target.value)}
+              error={Clasificador07 == "" ? true : false}
+              inputProps={{ maxLength: 50 }}
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="Clasificador08"
+              label="Clasificador08"
+              value={Clasificador08}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClasificador08(v.target.value)}
+              error={Clasificador08 == "" ? true : false}
+              inputProps={{ maxLength: 50 }}
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="Clasificador09"
+              label="Clasificador09"
+              value={Clasificador09}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClasificador09(v.target.value)}
+              error={Clasificador09 == "" ? true : false}
+              inputProps={{ maxLength: 50 }}
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="Clasificador10"
+              label="Clasificador10"
+              value={Clasificador10}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClasificador10(v.target.value)}
+              error={Clasificador10 == "" ? true : false}
+              inputProps={{ maxLength: 50 }}
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="Clasificador11"
+              label="Clasificador11"
+              value={Clasificador11}
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setClasificador11(v.target.value)}
+              error={Clasificador11 == "" ? true : false}
+              inputProps={{ maxLength: 50 }}
+            />
+          </Grid>
+
+          <Grid item alignItems="center" justifyContent="center" xs={4}></Grid>
+          <Grid
+            item
+            alignItems="center"
+            justifyContent="center"
+            xs={12}
+            height={40}
+          ></Grid>
+          <Grid item alignItems="center" justifyContent="center" xs={5}></Grid>
+          <Grid item alignItems="center" justifyContent="center" xs={2}>
+            <button
+              className={tipo == 1 ? "guardar" : "actualizar"}
+              onClick={() => handleSend()}
+            >
+              {tipo == 1 ? "Agregar" : "Editar"}
+            </button>
+          </Grid>
+        </Grid>
+      </Box>
+    </ModalForm>
+  );
 };

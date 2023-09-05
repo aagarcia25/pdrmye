@@ -97,12 +97,12 @@ export const MunPobProyeccion = () => {
     },
   ];
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setData(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   };
@@ -179,7 +179,7 @@ export const MunPobProyeccion = () => {
   };
 
   const handleUpload = (data: any) => {
-    if (data.tipo === 1) {
+    if (data.tipo == 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -188,7 +188,7 @@ export const MunPobProyeccion = () => {
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
       });
-    } else if (data.tipo === 2) {
+    } else if (data.tipo == 2) {
       //console.log("borrado de toda la tabla")
       //console.log(selectionModel)
 
@@ -265,12 +265,12 @@ export const MunPobProyeccion = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "MUNPROYEC") {
-        if (String(item.ControlInterno) === "ELIM") {
+      if (String(item.Menu) == "MUNPROYEC") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
 
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }

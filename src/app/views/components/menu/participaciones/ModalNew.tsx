@@ -74,7 +74,7 @@ const ModalNew = ({
 
   const handleNewFile = (event: any) => {
     setFile(event?.target?.files?.[0] || "");
-    if (event.target.files.length === 0) {
+    if (event.target.files.length == 0) {
     } else {
       setNameNewDoc(event.target!.files[0]!.name);
     }
@@ -150,7 +150,7 @@ const ModalNew = ({
 
   const handleChange = (value: number) => {
     setMonto(Number(value));
-    if (Number(value) === 0) {
+    if (Number(value) == 0) {
       setCzero(true);
     } else {
       setCzero(false);
@@ -159,24 +159,24 @@ const ModalNew = ({
 
   const handleSend = () => {
     if (
-      clave === "ICV" ||
-      clave === "HIDROCARBUROS" ||
-      clave === "FOINMUN" ||
-      clave === "ISN100" ||
-      clave === "PREDIAL"
+      clave == "ICV" ||
+      clave == "HIDROCARBUROS" ||
+      clave == "FOINMUN" ||
+      clave == "ISN100" ||
+      clave == "PREDIAL"
     ) {
       icv();
-    } else if (clave === "ISR SALARIOS") {
+    } else if (clave == "ISR SALARIOS") {
       isrnomina();
     } else {
       if (
-        monto === null ||
-        ieja === null ||
-        idmes === null ||
-        idTipoCalculo === null ||
-        idmes === "false" ||
-        idTipoCalculo === "false" ||
-        derecho === null
+        monto == null ||
+        ieja == null ||
+        idmes == null ||
+        idTipoCalculo == null ||
+        idmes == "false" ||
+        idTipoCalculo == "false" ||
+        derecho == null
       ) {
         AlertS.fire({
           title: "¡Error!",
@@ -222,15 +222,15 @@ const ModalNew = ({
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion, CHID: clave };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 2) {
+      if (operacion == 2) {
         setMeses(res.RESPONSE);
-      } else if (operacion === 15) {
+      } else if (operacion == 15) {
         setTipoCalculo(res.RESPONSE);
-      } else if (operacion === 23) {
+      } else if (operacion == 23) {
         setversionCalculo(res.RESPONSE);
         setIdVersionCalculo(res.RESPONSE[0]["value"]);
         setslideropen(false);
-      } else if (operacion === 35) {
+      } else if (operacion == 35) {
         setversionCalculo(res.RESPONSE);
         setIdVersionCalculo(res.RESPONSE[0]["value"]);
         setslideropen(false);
@@ -251,7 +251,7 @@ const ModalNew = ({
     loadFilter(2);
     loadFilter(15);
 
-    if (clave === "FFM30") {
+    if (clave == "FFM30") {
       loadFilter(23);
     } else {
       loadFilter(35);
@@ -369,7 +369,7 @@ const ModalNew = ({
           md={12}
           sx={{
             justifyContent: "center",
-            display: clave === "FFM30" || clave === "FGP" ? "block" : "none",
+            display: clave == "FFM30" || clave == "FGP" ? "block" : "none",
           }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
@@ -438,7 +438,7 @@ const ModalNew = ({
           md={12}
           sx={{
             justifyContent: "center",
-            display: clave === "FOSEGMUN" ? "block" : "none",
+            display: clave == "FOSEGMUN" ? "block" : "none",
           }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
@@ -515,12 +515,12 @@ const ModalNew = ({
           sx={{
             justifyContent: "center",
             display:
-              clave === "ICV" ||
-              clave === "ISN100" ||
-              clave === "PREDIAL" ||
-              clave === "HIDROCARBUROS" ||
-              clave === "FOINMUN" ||
-              clave === "ISR SALARIOS"
+              clave == "ICV" ||
+              clave == "ISN100" ||
+              clave == "PREDIAL" ||
+              clave == "HIDROCARBUROS" ||
+              clave == "FOINMUN" ||
+              clave == "ISR SALARIOS"
                 ? "block"
                 : "none",
           }}
@@ -570,10 +570,10 @@ const ModalNew = ({
           <Button
             className="enviar-mensaje"
             disabled={
-              idmes === "false" ||
-              idmes === "" ||
-              idTipoCalculo === "false" ||
-              idTipoCalculo === ""
+              idmes == "false" ||
+              idmes == "" ||
+              idTipoCalculo == "false" ||
+              idTipoCalculo == ""
             }
             onClick={() => handleSend()}
             fullWidth

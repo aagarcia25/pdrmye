@@ -40,8 +40,8 @@ const MUIXDataGridGeneral = ({
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === controlInterno) {
-        if (String(item.ControlInterno) === "ELIMMAS") {
+      if (String(item.Menu) == controlInterno) {
+        if (String(item.ControlInterno) == "ELIMMAS") {
           setelimasiva(true);
         }
       }
@@ -90,10 +90,10 @@ const MUIXDataGridGeneral = ({
             },
           }}
           // isRowSelectable={(params) => (
-          // params.row.NumCheque === null
-          // ||params.row.NumEgreso===null
-          // ||params.row.NumRequerimientoAnt===null||
-          // params.row.NumOrdenPago === null
+          // params.row.NumCheque == null
+          // ||params.row.NumEgreso==null
+          // ||params.row.NumRequerimientoAnt==null||
+          // params.row.NumOrdenPago == null
           //  )}
           checkboxSelection={elimasiva || multiselect}
           onSelectionModelChange={(newSelectionModel: any) => {

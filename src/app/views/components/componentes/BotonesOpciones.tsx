@@ -55,12 +55,12 @@ const BotonesOpciones = ({
           )}
 
           {/* {(autorizar &&
-            estatus === "INICIO" &&
-        //    PER[0].Referencia === perfil) ||
+            estatus == "INICIO" &&
+        //    PER[0].Referencia == perfil) ||
           (autorizar &&
-            estatus === "ENVIADO" &&
-        //    PER[0].Referencia === perfil &&
-            area === getcontrolInternoEntidad()) ? (
+            estatus == "ENVIADO" &&
+        //    PER[0].Referencia == perfil &&
+            area == getcontrolInternoEntidad()) ? (
             <Tooltip title={"Autorizar"}>
               <ToggleButton value="check" onClick={() => handleAccion(2)}>
                 <DoneAllIcon />
@@ -70,8 +70,8 @@ const BotonesOpciones = ({
             ""
           )} */}
 
-          {cancelar && estatus === "INICIO" ? (
-            //  &&          PER[0].Referencia === "ANA"
+          {cancelar && estatus == "INICIO" ? (
+            //  &&          PER[0].Referencia == "ANA"
             <Tooltip title={"Cancelar"}>
               <ToggleButton value="check" onClick={() => handleAccion(3)}>
                 <CancelPresentationIcon />
@@ -82,10 +82,10 @@ const BotonesOpciones = ({
           )}
 
           {/* {cancelar &&
-          estatus === "ENVIADO" &&
-          PER[0].Referencia === perfil &&
-          perfil === "COOR" &&
-          area === getcontrolInternoEntidad() ? (
+          estatus == "ENVIADO" &&
+          PER[0].Referencia == perfil &&
+          perfil == "COOR" &&
+          area == getcontrolInternoEntidad() ? (
             <Tooltip title={"Regresar a Analista"}>
               <ToggleButton value="check" onClick={() => handleAccion(7)}>
                 <CompareArrowsIcon />
@@ -96,9 +96,9 @@ const BotonesOpciones = ({
           )} */}
 
           {cancelar &&
-          estatus === "ENVIADO" &&
-          //  PER[0].Referencia === perfil &&
-          perfil === "DIR" ? (
+          estatus == "ENVIADO" &&
+          //  PER[0].Referencia == perfil &&
+          perfil == "DIR" ? (
             <Tooltip title={"Regresar a Coordinador"}>
               <ToggleButton value="check" onClick={() => handleAccion(8)}>
                 <CompareArrowsIcon />
@@ -109,14 +109,14 @@ const BotonesOpciones = ({
           )}
 
           {/* {(enviar &&
-            estatus === "AUTORIZADO" &&
-          //  PER[0].Referencia === perfil) ||
+            estatus == "AUTORIZADO" &&
+          //  PER[0].Referencia == perfil) ||
           (enviar &&
-            estatus === "AUTORIZADO" &&
-          //  PER[0].Referencia === perfil) ||
+            estatus == "AUTORIZADO" &&
+          //  PER[0].Referencia == perfil) ||
           (enviar &&
-            estatus === "AUTORIZADO" 
-            //   PER[0].Referencia === perfil
+            estatus == "AUTORIZADO" 
+            //   PER[0].Referencia == perfil
           ) 
          ? (
             <Tooltip title={"Enviar"}>
@@ -129,9 +129,9 @@ const BotonesOpciones = ({
           )} */}
 
           {presupuesto &&
-          estatus === "ENVIADO" &&
-          area === getcontrolInternoEntidad() ? (
-            //  PER[0].Referencia === perfil
+          estatus == "ENVIADO" &&
+          area == getcontrolInternoEntidad() ? (
+            //  PER[0].Referencia == perfil
             <Tooltip title={"Asignar Presupuesto Global"}>
               <ToggleButton value="check" onClick={() => handleAccion(6)}>
                 <AttachMoneyIcon />
@@ -142,9 +142,9 @@ const BotonesOpciones = ({
           )}
 
           {presupuesto &&
-          estatus === "ENVIADO" &&
-          area === getcontrolInternoEntidad() ? (
-            //  PER[0].Referencia === perfil
+          estatus == "ENVIADO" &&
+          area == getcontrolInternoEntidad() ? (
+            //  PER[0].Referencia == perfil
             <Tooltip title={"Finalizar"}>
               <ToggleButton value="check" onClick={() => handleAccion(9)}>
                 <EastIcon />

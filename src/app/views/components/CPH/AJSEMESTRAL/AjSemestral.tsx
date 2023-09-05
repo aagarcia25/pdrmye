@@ -184,11 +184,11 @@ export const AjSemestral = () => {
     handleClick();
 
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "AJUSTESEMESTRAL") {
-        if (String(item.ControlInterno) === "AGREGAR") {
+      if (String(item.Menu) == "AJUSTESEMESTRAL") {
+        if (String(item.ControlInterno) == "AGREGAR") {
           setagregar(true);
         }
-        if (String(item.ControlInterno) === "ELIMINAR") {
+        if (String(item.ControlInterno) == "ELIMINAR") {
           setEliminar(true);
         }
       }

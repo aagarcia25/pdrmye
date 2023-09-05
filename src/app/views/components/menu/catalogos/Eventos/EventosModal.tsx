@@ -94,14 +94,14 @@ const EventosModal = ({
   const handleUpload = () => {
     setslideropen(true);
     if (
-      finEvento === "" ||
-      inicioEvento === "" ||
-      descripcion === "" ||
-      nameEvent === "" ||
-      finEvento === undefined ||
-      inicioEvento === undefined ||
-      descripcion === undefined ||
-      nameEvent === undefined
+      finEvento == "" ||
+      inicioEvento == "" ||
+      descripcion == "" ||
+      nameEvent == "" ||
+      finEvento == undefined ||
+      inicioEvento == undefined ||
+      descripcion == undefined ||
+      nameEvent == undefined
     ) {
       Swal.fire("!Falta información , revisar los campos!", "", "warning");
     } else {
@@ -146,12 +146,12 @@ const EventosModal = ({
   };
   const handleNewImage = (event: any) => {
     let file = event.target!.files[0]!;
-    if (event.target.files.length === 0) {
+    if (event.target.files.length == 0) {
     } else {
       setNameNewImage(event.target!.files[0]!.name);
     }
 
-    if (file && file.type.substr(0, 5) === "image") {
+    if (file && file.type.substr(0, 5) == "image") {
       setNewImagePreviw(file);
       setCleanUp(true);
       setEditImage(true);
@@ -163,10 +163,10 @@ const EventosModal = ({
     setNewImage(file);
   };
   const handleRequest = (data: any) => {
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
       editar(data);
     }
@@ -174,7 +174,7 @@ const EventosModal = ({
 
   const handleModo = (modo: string) => {
     setModoModal(modo);
-    if (modo === "Evento") {
+    if (modo == "Evento") {
       setInicioEvento("");
       setNameEvent("");
       setFinEvento("");
@@ -216,9 +216,9 @@ const EventosModal = ({
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "EVENTOS") {
+      if (String(item.Menu) == "EVENTOS") {
         //console.log(item)
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }
@@ -254,7 +254,7 @@ const EventosModal = ({
     <ModalForm title={modoModal} handleClose={handleClose}>
       <Grid container item xs={12} justifyContent="center" paddingBottom={2}>
         {" "}
-        {modoModal === "Evento" || modoModal === "Editar" ? (
+        {modoModal == "Evento" || modoModal == "Editar" ? (
           <div className="containerVisualizaImagenEvento">
             <VisaulizarImagen ubicacion={"/EVENTOS/"} name={urlImage} />
           </div>
@@ -262,9 +262,9 @@ const EventosModal = ({
           ""
         )}
       </Grid>
-      {modoModal === "Agregar Evento" ||
-      modoModal === "Evento" ||
-      modoModal === "Editar" ? (
+      {modoModal == "Agregar Evento" ||
+      modoModal == "Evento" ||
+      modoModal == "Editar" ? (
         <Grid container item xs={12} justifyContent="center">
           <Box boxShadow={3} padding="1%">
             <Container maxWidth="sm">
@@ -288,7 +288,7 @@ const EventosModal = ({
                     <Grid item container justifyContent="center" xs={12}>
                       <Tooltip
                         title={
-                          modoModal === "Evento"
+                          modoModal == "Evento"
                             ? ""
                             : "Click para cargar una imagen"
                         }
@@ -297,7 +297,7 @@ const EventosModal = ({
                           <input
                             id="imagencargada"
                             accept="image/*"
-                            disabled={modoModal === "Evento"}
+                            disabled={modoModal == "Evento"}
                             onChange={(v) => {
                               handleNewImage(v);
                             }}
@@ -321,8 +321,7 @@ const EventosModal = ({
                                 borderRadius: "15",
                               }}
                             />
-                          ) : modoModal === "Evento" ||
-                            modoModal === "Editar" ? (
+                          ) : modoModal == "Evento" || modoModal == "Editar" ? (
                             ""
                           ) : (
                             // <img id="imagen" src={urlImage} style={{ width: '100%', height: '100%', objectFit: "scale-down" }} />
@@ -377,7 +376,7 @@ const EventosModal = ({
                           required
                           type="datetime-local"
                           value={inicioEvento}
-                          disabled={modoModal === "Evento"}
+                          disabled={modoModal == "Evento"}
                           min={inicioEventoMin}
                           max={finEventoMax}
                           onChange={handleFechaInicio}
@@ -395,7 +394,7 @@ const EventosModal = ({
                             id="datetime-finaliza"
                             required
                             value={finEvento}
-                            disabled={modoModal === "Evento"}
+                            disabled={modoModal == "Evento"}
                             type="datetime-local"
                             min={inicioEvento}
                             onChange={handleFechaFin}
@@ -413,11 +412,11 @@ const EventosModal = ({
                     margin="dense"
                     type="string"
                     fullWidth
-                    value={modoModal === "Evento" ? nameEvent : nameEvent}
-                    disabled={modoModal === "Evento"}
+                    value={modoModal == "Evento" ? nameEvent : nameEvent}
+                    disabled={modoModal == "Evento"}
                     variant="standard"
                     onChange={(v) => setNameEvent(v.target.value)}
-                    error={nameEvent === "" ? true : false}
+                    error={nameEvent == "" ? true : false}
                   />
                   <label>Descripción</label>
                   <TextField
@@ -425,13 +424,13 @@ const EventosModal = ({
                     required
                     margin="dense"
                     id="anio"
-                    value={modoModal === "Evento" ? descripcion : descripcion}
-                    disabled={modoModal === "Evento"}
+                    value={modoModal == "Evento" ? descripcion : descripcion}
+                    disabled={modoModal == "Evento"}
                     type="string"
                     fullWidth
                     variant="standard"
                     onChange={(v) => setDescripcion(v.target.value)}
-                    error={descripcion === "" ? true : false}
+                    error={descripcion == "" ? true : false}
                   />
                 </Box>
 
@@ -444,7 +443,7 @@ const EventosModal = ({
                     flexDirection: "row-reverse",
                   }}
                 >
-                  {modoModal === "Evento" ? (
+                  {modoModal == "Evento" ? (
                     Date.parse(inicioEventoMin) >= Date.parse(inicioEvento) ? (
                       ""
                     ) : (

@@ -45,17 +45,17 @@ export const ORGDetail = ({
   const loadFilter = (tipo: number) => {
     let data = { NUMOPERACION: tipo };
 
-    if (tipo === 26) {
+    if (tipo == 26) {
       UserServices.uresponsables(data).then((res) => {
-        if (res?.status === 200) {
+        if (res?.status == 200) {
           setURes(res);
-        } else if (res.status === 401) {
+        } else if (res.status == 401) {
           setURes([]);
         }
       });
     } else {
       CatalogosServices.SelectIndex(data).then((res) => {
-        if (tipo === 28) {
+        if (tipo == 28) {
           setListConceptos(res.RESPONSE);
         }
       });

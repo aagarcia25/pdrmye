@@ -97,8 +97,8 @@ const AjustesCalculos = () => {
   ];
 
   const handlesave = () => {
-    if (tipoOperacion === 1) {
-      if (ajuste === "" || keys === "") {
+    if (tipoOperacion == 1) {
+      if (ajuste == "" || keys == "") {
         AlertS.fire({
           title: "Revise los Campos!",
           icon: "error",
@@ -128,20 +128,20 @@ const AjustesCalculos = () => {
         });
       }
     }
-    if (tipoOperacion === 2) {
+    if (tipoOperacion == 2) {
       handleEditar();
     }
   };
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 2) {
+    if (v.tipo == 2) {
       setTipoOperacion(2);
       setVrows(v.data);
       setAjuste(v?.data?.Descripcion);
       setKeys(v?.data?.keys);
       setIdAjuste(v?.data?.id);
       setOpen(true);
-    } else if (v.tipo === 3) {
+    } else if (v.tipo == 3) {
       Swal.fire({
         icon: "question",
         title: "¿Estás seguro de eliminar este registro?",
@@ -190,7 +190,7 @@ const AjustesCalculos = () => {
     setOpen(false);
   };
   const handleEditar = () => {
-    if (ajuste === "" || keys === "") {
+    if (ajuste == "" || keys == "") {
       AlertS.fire({
         title: "Revise los Campos!",
         icon: "error",
@@ -235,14 +235,14 @@ const AjustesCalculos = () => {
     }
   };
   const handleOpen = (accion: any) => {
-    if (accion === 1) {
+    if (accion == 1) {
       setTipoOperacion(1);
       setAjuste("");
       setVrows([]);
       setKeys("");
       setOpen(true);
     }
-    if (accion === 2) {
+    if (accion == 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -310,15 +310,15 @@ const AjustesCalculos = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "AJUSTECALC") {
+      if (String(item.Menu) == "AJUSTECALC") {
         setNombreMenu(item.Menu);
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }
@@ -354,9 +354,7 @@ const AjustesCalculos = () => {
 
       {open ? (
         <ModalForm
-          title={
-            tipoOperacion === 1 ? "Agregar Registro" : "Modificar Registro"
-          }
+          title={tipoOperacion == 1 ? "Agregar Registro" : "Modificar Registro"}
           handleClose={handleClose}
         >
           <Grid
@@ -383,7 +381,7 @@ const AjustesCalculos = () => {
                 fullWidth
                 variant="standard"
                 onChange={(v) => setAjuste(v.target.value)}
-                error={ajuste === "" ? true : false}
+                error={ajuste == "" ? true : false}
               />
             </Grid>
 
@@ -400,7 +398,7 @@ const AjustesCalculos = () => {
                 fullWidth
                 variant="standard"
                 onChange={(v) => setKeys(v.target.value)}
-                error={keys === "" ? true : false}
+                error={keys == "" ? true : false}
               />
             </Grid>
 

@@ -32,11 +32,10 @@ const InflacionAnioModal = ({
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [inflacion, setInflacion] = useState("");
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
-
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const handleSend = () => {
-    if (anio === "" || inflacion === "") {
+    if (anio == "" || inflacion == "") {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Completar los Campos",
@@ -57,10 +56,10 @@ const InflacionAnioModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
       editar(data);
     }
@@ -101,7 +100,7 @@ const InflacionAnioModal = ({
   };
 
   useEffect(() => {
-    if (dt === "") {
+    if (dt == "") {
       //console.log(dt);
     } else {
       setId(dt?.row?.id);
@@ -111,56 +110,77 @@ const InflacionAnioModal = ({
   }, [dt]);
 
   return (
-
-      <ModalForm title={modo} handleClose={handleClose}>
+    <ModalForm title={modo} handleClose={handleClose}>
       <DialogContent>
+        <Grid
+          container
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Grid item xs={4} sm={3} md={4} lg={4}>
+            <TextField
+              margin="dense"
+              required
+              id="anio"
+              label="Año"
+              value={anio}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setAnio(v.target.value)}
+              error={anio == "" ? true : false}
+            />
 
-      <Grid container sx={{ mt: "2vh", width: "100%",height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
-          <Grid item xs={4} sm={3} md={4} lg={4} >
-    
-          <TextField
-            
-            margin="dense"
-            required
-            id="anio"
-            label="Año"
-            value={anio}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setAnio(v.target.value)}
-            error={anio === "" ? true : false}
-          />
-
-          <TextField
-            margin="dense"
-            required
-            id="inflacion"
-            label="Inflación"
-            value={inflacion}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(v) => setInflacion(v.target.value)}
-            error={inflacion === "" ? true : false}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">%</InputAdornment>
-              ),
-            }}
-          />
-                </Grid>
+            <TextField
+              margin="dense"
+              required
+              id="inflacion"
+              label="Inflación"
+              value={inflacion}
+              type="number"
+              fullWidth
+              variant="standard"
+              onChange={(v) => setInflacion(v.target.value)}
+              error={inflacion == "" ? true : false}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">%</InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
         </Grid>
       </DialogContent>
 
       <DialogActions>
-      <Grid container sx={{ mt: "2vh", width: "100%",height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
-          <Grid item xs={4} sm={3} md={2} lg={1} >
-            <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+        <Grid
+          container
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Grid item xs={4} sm={3} md={2} lg={1}>
+            <Button
+              className={tipo == 1 ? "guardar" : "actualizar"}
+              onClick={() => handleSend()}
+            >
+              {tipo == 1 ? "Guardar" : "Actualizar"}
+            </Button>
           </Grid>
         </Grid>
       </DialogActions>
-      </ ModalForm>
+    </ModalForm>
   );
 };
 

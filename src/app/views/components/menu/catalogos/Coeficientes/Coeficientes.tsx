@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  IconButton,
-} from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { getUser } from "../../../../../services/localStorage";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -17,17 +14,13 @@ import MUIXDataGrid from "../../../MUIXDataGrid";
 import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 
 export const Coeficientes = () => {
-
-
-
   //   VALORES POR DEFAULT
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [dataCoeficientes, setDataCoeficientes] = useState([]);
   const [vrows, setVrows] = useState({});
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
-
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Id", hide: true, width: 250 },
@@ -37,16 +30,13 @@ export const Coeficientes = () => {
       headerName: "Vigente",
       width: 150,
       renderCell: (v) => {
-        return (
-          <Box>
-            {v.row.Vigente === 1 ? 'Vigente' : 'No Vigente'}
-          </Box>
-        );
+        return <Box>{v.row.Vigente == 1 ? "Vigente" : "No Vigente"}</Box>;
       },
     },
 
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -69,7 +59,7 @@ export const Coeficientes = () => {
   const handleClose = () => {
     setOpen(false);
     let data = {
-      NUMOPERACION: 4
+      NUMOPERACION: 4,
     };
     consulta(data);
   };
@@ -79,7 +69,6 @@ export const Coeficientes = () => {
     setTipoOperacion(1);
     setModo("Agregar Registro");
     setOpen(true);
-
   };
 
   const handleEdit = (v: any) => {
@@ -88,7 +77,6 @@ export const Coeficientes = () => {
     setModo("Editar Registro");
     setOpen(true);
     setVrows(v);
-
   };
 
   const handleDelete = (v: any) => {
@@ -101,11 +89,10 @@ export const Coeficientes = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.Id
+          CHUSER: user.Id,
         };
         //console.log(data);
 
@@ -116,13 +103,10 @@ export const Coeficientes = () => {
               title: "¡Registro Eliminado!",
             });
 
-
             let data = {
-              NUMOPERACION: 4
+              NUMOPERACION: 4,
             };
             consulta(data);
-
-
           } else {
             AlertS.fire({
               title: "¡Error!",
@@ -136,7 +120,6 @@ export const Coeficientes = () => {
       }
     });
   };
-
 
   const consulta = (data: any) => {
     CatalogosServices.coeficientes(data).then((res) => {
@@ -156,22 +139,25 @@ export const Coeficientes = () => {
     });
   };
 
-
   useEffect(() => {
     let data = {
-      NUMOPERACION: 4
+      NUMOPERACION: 4,
     };
     consulta(data);
   }, []);
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-
-     <ButtonsAdd handleOpen={handleOpen} agregar={false} />
-      <CoeficientesModal open={open} modo={modo} tipo={tipoOperacion} handleClose={handleClose} dt={vrows} />
+      <ButtonsAdd handleOpen={handleOpen} agregar={false} />
+      <CoeficientesModal
+        open={open}
+        modo={modo}
+        tipo={tipoOperacion}
+        handleClose={handleClose}
+        dt={vrows}
+      />
 
       <MUIXDataGrid columns={columns} rows={dataCoeficientes} />
-
     </div>
   );
 };

@@ -145,15 +145,11 @@ export default function Header(props: HeaderProps) {
                   src={
                     "data:" +
                     String(
-                      props.imgTipo === "undefined"
-                        ? Blanco.Tipo
-                        : props.imgTipo
+                      props.imgTipo == "undefined" ? Blanco.Tipo : props.imgTipo
                     ) +
                     ";base64," +
                     String(
-                      props.imgData === "undefined"
-                        ? Blanco.Data
-                        : props.imgData
+                      props.imgData == "undefined" ? Blanco.Data : props.imgData
                     )
                   }
                 />
@@ -259,10 +255,10 @@ export default function Header(props: HeaderProps) {
   };
 
   function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === "Tab") {
+    if (event.key == "Tab") {
       event.preventDefault();
       setOpen(false);
-    } else if (event.key === "Escape") {
+    } else if (event.key == "Escape") {
       setOpen(false);
     }
   }
@@ -270,7 +266,7 @@ export default function Header(props: HeaderProps) {
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
-    if (prevOpen.current === true && open === false) {
+    if (prevOpen.current == true && open == false) {
       anchorRef.current!.focus();
     }
 
@@ -466,13 +462,13 @@ export default function Header(props: HeaderProps) {
                               src={
                                 "data:" +
                                 String(
-                                  props.imgData === "undefined"
+                                  props.imgData == "undefined"
                                     ? Blanco.Tipo
                                     : props.imgTipo
                                 ) +
                                 ";base64," +
                                 String(
-                                  props.imgData === "undefined"
+                                  props.imgData == "undefined"
                                     ? Blanco.Data
                                     : props.imgData
                                 )

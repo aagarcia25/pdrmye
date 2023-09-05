@@ -1,9 +1,4 @@
-import {
-  Box,
-  Button,
-  Grid,
-  TextField
-} from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
@@ -45,10 +40,9 @@ const TipoFondoCalculoModal = ({
   // const [value, setValue] = React.useState<string>();
   // const [value, setValue] = React.useState<string>();
 
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const [slideropen, setslideropen] = useState(true);
-
 
   const agregar = (data: any) => {
     CatalogosServices.TipoFondosCalculo(data).then((res) => {
@@ -88,18 +82,17 @@ const TipoFondoCalculoModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
       editar(data);
     }
   };
 
   const handleSend = () => {
-    if (!descripcion || String(Number(conceptoEgreso)) === "NaN") {
+    if (!descripcion || String(Number(conceptoEgreso)) == "NaN") {
       AlertS.fire({
         title: "",
         text: "Favor de Completar los Campos",
@@ -125,7 +118,6 @@ const TipoFondoCalculoModal = ({
         CLASIFICADOR10: clasificador10,
         CLASIFICADOR11: clasificador11,
         CLASIFICACIONOP: clasificacionOP,
-
       };
 
       handleRequest(data);
@@ -134,7 +126,7 @@ const TipoFondoCalculoModal = ({
 
   useEffect(() => {
     setslideropen(true);
-    if (dt === "") {
+    if (dt == "") {
     } else {
       setId(dt?.row?.id);
       setDescripcion(dt?.row?.Descripcion);
@@ -152,7 +144,7 @@ const TipoFondoCalculoModal = ({
       setClasificador10(dt?.row?.Clasificador10);
       setClasificador11(dt?.row?.Clasificador11);
       setClasificacionOP(dt?.row?.ClasificacionOP);
-      setslideropen(false)
+      setslideropen(false);
     }
   }, [dt]);
 
@@ -160,13 +152,22 @@ const TipoFondoCalculoModal = ({
     <div>
       <Slider open={slideropen}></Slider>
       <ModalForm title={modo} handleClose={handleClose}>
-
-        <Grid item xs={11} sm={11} md={11} lg={11} >
-          <Box display="flex" flexWrap="wrap" boxShadow={2} sx={{ padding: "2%" }}>
-            <Grid container sx={{ paddingRight: "2%", paddingLeft: "2%" }}  >
-
-              <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}  >
-
+        <Grid item xs={11} sm={11} md={11} lg={11}>
+          <Box
+            display="flex"
+            flexWrap="wrap"
+            boxShadow={2}
+            sx={{ padding: "2%" }}
+          >
+            <Grid container sx={{ paddingRight: "2%", paddingLeft: "2%" }}>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={6}
+                sx={{ paddingRight: "2%", paddingLeft: "2%" }}
+              >
                 <Grid item xs={12}>
                   <TextField
                     InputLabelProps={{ shrink: true }}
@@ -200,7 +201,6 @@ const TipoFondoCalculoModal = ({
                     fullWidth
                     variant="standard"
                     onChange={(v) => setNumProyecto(v.target.value)}
-
                   />
                   <TextField
                     InputLabelProps={{ shrink: true }}
@@ -213,7 +213,9 @@ const TipoFondoCalculoModal = ({
                     fullWidth
                     variant="standard"
                     onChange={(v) => setConceptoEgreso(v.target.value)}
-                    error={!conceptoEgreso || String(Number(conceptoEgreso)) === "NaN"}
+                    error={
+                      !conceptoEgreso || String(Number(conceptoEgreso)) == "NaN"
+                    }
                   />
                   <TextField
                     InputLabelProps={{ shrink: true }}
@@ -259,14 +261,17 @@ const TipoFondoCalculoModal = ({
                     variant="standard"
                     onChange={(v) => setClasificador04(v.target.value)}
                   />
-
                 </Grid>
-
               </Grid>
 
-              <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}   >
-
-
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={6}
+                sx={{ paddingRight: "2%", paddingLeft: "2%" }}
+              >
                 <TextField
                   InputLabelProps={{ shrink: true }}
                   margin="dense"
@@ -356,15 +361,13 @@ const TipoFondoCalculoModal = ({
                   fullWidth
                   variant="standard"
                   onChange={(v) => setClasificacionOP(v.target.value)}
-
-
                 />
-
               </Grid>
             </Grid>
           </Box>
         </Grid>
-        <Grid container
+        <Grid
+          container
           sx={{
             mt: "2vh",
             width: "100%",
@@ -374,9 +377,13 @@ const TipoFondoCalculoModal = ({
             flexDirection: "row",
           }}
         >
-          <Grid item xs={4} sm={3} md={2} lg={1}
-          >
-            <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+          <Grid item xs={4} sm={3} md={2} lg={1}>
+            <Button
+              className={tipo == 1 ? "guardar" : "actualizar"}
+              onClick={() => handleSend()}
+            >
+              {tipo == 1 ? "Guardar" : "Actualizar"}
+            </Button>
           </Grid>
         </Grid>
       </ModalForm>

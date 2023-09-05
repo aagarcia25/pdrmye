@@ -32,7 +32,7 @@ const ModalAlert = ({
   const [nombreMun, setnombreMun] = useState("");
 
   const validacion = (est: string) => {
-    if (mensaje === "" || mensaje === null) {
+    if (mensaje == "" || mensaje == null) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de llenar el campo Comentarios*",
@@ -40,10 +40,10 @@ const ModalAlert = ({
       });
     } else {
       Swal.fire({
-        icon: est === "DAMOP_REGRESADO" ? "error" : "success",
+        icon: est == "DAMOP_REGRESADO" ? "error" : "success",
         title: "Enviar",
         text:
-          est === "DAMOP_REGRESADO"
+          est == "DAMOP_REGRESADO"
             ? "Desea Regresar La Solicitud"
             : "Desea Autorizar La Cuenta",
         showDenyButton: false,
@@ -113,8 +113,8 @@ const ModalAlert = ({
             />
           </Grid>
 
-          {getcontrolInternoEntidad() === "MUN" ? (
-            // PER[0].Referencia === "MUN"
+          {getcontrolInternoEntidad() == "MUN" ? (
+            // PER[0].Referencia == "MUN"
             <Grid item xs={4} sm={3} md={2} lg={1}>
               <Button
                 className="actualizar"
@@ -126,8 +126,8 @@ const ModalAlert = ({
           ) : (
             ""
           )}
-          {getcontrolInternoEntidad() === "DAMOP" ? (
-            //  PER[0].Referencia === "ANA"
+          {getcontrolInternoEntidad() == "DAMOP" ? (
+            //  PER[0].Referencia == "ANA"
             <>
               <Grid item xs={4} sm={3} md={3} lg={3}>
                 <Button

@@ -101,13 +101,13 @@ export const Fpg = () => {
                 <InfoIcon />
               </IconButton>
             </Tooltip>
-            {agregarajuste && String(v.row.estatus) === "Inicio" ? (
+            {agregarajuste && String(v.row.estatus) == "Inicio" ? (
               <Tooltip title="Agregar Ajuste">
                 <IconButton
                   onClick={() => handleAjuste(v)}
                   disabled={
-                    String(v.row.Clave) === "FISM" &&
-                    String(v.row.Clave) === "FORTAMUN"
+                    String(v.row.Clave) == "FISM" &&
+                    String(v.row.Clave) == "FORTAMUN"
                   }
                 >
                   <AttachMoneyIcon />
@@ -286,18 +286,18 @@ export const Fpg = () => {
     setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
       if (
-        String(item.ControlInterno) === String(params.fondo).replace(/\s/g, "")
+        String(item.ControlInterno) == String(params.fondo).replace(/\s/g, "")
       ) {
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "TRAZA") {
+        if (String(item.ControlInterno) == "TRAZA") {
           setVerTrazabilidad(true);
         }
-        if (String(item.ControlInterno) === "AAJUSTE") {
+        if (String(item.ControlInterno) == "AAJUSTE") {
           setAgregarAjuste(true);
         }
-        if (String(item.ControlInterno) === "CCALCULO") {
+        if (String(item.ControlInterno) == "CCALCULO") {
           setCancelar(true);
         }
       }
@@ -360,7 +360,7 @@ export const Fpg = () => {
         ""
       )}
 
-      {step === 0 ? (
+      {step == 0 ? (
         <div style={{ height: 600, width: "100%" }}>
           <Grid
             container
@@ -405,7 +405,7 @@ export const Fpg = () => {
         ""
       )}
 
-      {step === 1 ? (
+      {step == 1 ? (
         <ModalNew
           clave={objfondo?.Clave || ""}
           titulo={objfondo?.Descripcion || ""}
@@ -417,7 +417,7 @@ export const Fpg = () => {
         ""
       )}
 
-      {step === 2 ? (
+      {step == 2 ? (
         <ModalAjuste
           idCalculo={idDetalle}
           clave={objfondo?.Clave || ""}

@@ -29,7 +29,7 @@ export const AjanualModal = ({ handleClose }: { handleClose: Function }) => {
   };
 
   const validacion = () => {
-    if (anio === "" || idfondo === null) {
+    if (anio == "" || idfondo == null) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de llenar los Campos*",
@@ -63,7 +63,7 @@ export const AjanualModal = ({ handleClose }: { handleClose: Function }) => {
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 31) {
+      if (operacion == 31) {
         setlistaFondos(res.RESPONSE);
       }
     });
@@ -93,7 +93,7 @@ export const AjanualModal = ({ handleClose }: { handleClose: Function }) => {
                   fullWidth
                   variant="standard"
                   onChange={(v) => setAnio(v.target.value)}
-                  error={anio === "" ? true : false}
+                  error={anio == "" ? true : false}
                 />
               </Grid>
             </Grid>

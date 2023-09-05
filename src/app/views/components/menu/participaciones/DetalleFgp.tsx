@@ -83,9 +83,9 @@ const DetalleFgp = ({
   // MANEJO DE ACCIONES
   const handleAcciones = (v: any) => {
     setOpenSlider(true);
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       //console.log(v);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
     } else {
       switch (v) {
         case 1: //Regresar
@@ -287,7 +287,7 @@ const DetalleFgp = ({
     calculosServices.getResponsable(data).then((res) => {
       if (res.SUCCESS) {
         setResponsable(res.RESPONSE[0]);
-      } else if (res.RESPONSE[0] === null || res.RESPONSE[0] === "") {
+      } else if (res.RESPONSE[0] == null || res.RESPONSE[0] == "") {
         AlertS.fire({
           title: "¡Error!",
           text: "No se ha asignado a un responsable", //res.STRMESSAGE,
@@ -389,24 +389,24 @@ const DetalleFgp = ({
   ];
   const EstablecePermisos = () => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === String(clave).replace(/\s/g, "")) {
-        if (String(item.ControlInterno) === "AUT") {
+      if (String(item.Menu) == String(clave).replace(/\s/g, "")) {
+        if (String(item.ControlInterno) == "AUT") {
           setAutorizar(true);
         }
-        if (String(item.ControlInterno) === "CANC") {
+        if (String(item.ControlInterno) == "CANC") {
           setCancelar(true);
         }
-        if (String(item.ControlInterno) === "TRAZA") {
+        if (String(item.ControlInterno) == "TRAZA") {
           setVerTrazabilidad(true);
         }
 
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           // setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           //  setEditar(true);
         }
-        if (String(item.ControlInterno) === "RECALCULAR") {
+        if (String(item.ControlInterno) == "RECALCULAR") {
           setrecalcular(true);
         }
       }
@@ -562,7 +562,7 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {autorizar && user.Id === responsable?.value && fase == 1 ? (
+                {autorizar && user.Id == responsable?.value && fase == 1 ? (
                   <Tooltip title={"Enviar a Validación"}>
                     <ToggleButton
                       className="aceptar"
@@ -576,7 +576,7 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {autorizar && user.Id === responsable?.value && fase == 2 ? (
+                {autorizar && user.Id == responsable?.value && fase == 2 ? (
                   <Tooltip title={"Enviar a Coordinador"}>
                     <ToggleButton
                       className="aceptar"
@@ -590,7 +590,7 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {autorizar && user.Id === responsable?.value && fase == 3 ? (
+                {autorizar && user.Id == responsable?.value && fase == 3 ? (
                   <Tooltip title={"Enviar a DAMOP"}>
                     <ToggleButton
                       className="aceptar"
@@ -604,7 +604,7 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {cancelar && user.Id === responsable?.value && fase == 1 ? (
+                {cancelar && user.Id == responsable?.value && fase == 1 ? (
                   <Tooltip title={"Cancelar"}>
                     <ToggleButton
                       className="aceptar"
@@ -618,7 +618,7 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {cancelar && user.Id === responsable?.value && fase == 2 ? (
+                {cancelar && user.Id == responsable?.value && fase == 2 ? (
                   <Tooltip title={"Regresar a Analista"}>
                     <ToggleButton
                       className="aceptar"
@@ -632,7 +632,7 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {cancelar && user.Id === responsable?.value && fase == 3 ? (
+                {cancelar && user.Id == responsable?.value && fase == 3 ? (
                   <Tooltip title={"Regresar a Validador"}>
                     <ToggleButton
                       className="aceptar"

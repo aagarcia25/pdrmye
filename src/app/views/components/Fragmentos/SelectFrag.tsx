@@ -1,6 +1,6 @@
-import { FormControl } from '@mui/material';
-import Select from 'react-select';
-import SelectValues from '../../../interfaces/Select/SelectValues'
+import { FormControl } from "@mui/material";
+import Select from "react-select";
+import SelectValues from "../../../interfaces/Select/SelectValues";
 
 const SelectFrag = ({
   value,
@@ -8,57 +8,53 @@ const SelectFrag = ({
   onInputChange,
   placeholder,
   label,
-  disabled
+  disabled,
 }: {
-  value: string,
-  options: SelectValues[],
-  onInputChange: Function,
-  placeholder: string,
-  label: string,
-  disabled: boolean
-}
-
-) => {
+  value: string;
+  options: SelectValues[];
+  onInputChange: Function;
+  placeholder: string;
+  label: string;
+  disabled: boolean;
+}) => {
   return (
-    <FormControl sx={{ width: "100%" }}  >
+    <FormControl sx={{ width: "100%" }}>
       <Select
         aria-label={"Presione enter para seleccionar"}
-        noOptionsMessage={()=>"Sin opciones"}
-        value={value != "" ? options.find(element => element.value === value) : []}
+        noOptionsMessage={() => "Sin opciones"}
+        value={
+          value != "" ? options.find((element) => element.value == value) : []
+        }
         options={options}
         defaultValue={[]}
         isDisabled={disabled}
         isClearable={true}
         isSearchable={true}
         backspaceRemovesValue={true}
-        onChange={(v) => (v === null) ?
-          onInputChange(String(disabled))
-          :
-          onInputChange(v.value)
+        onChange={(v) =>
+          v == null ? onInputChange(String(disabled)) : onInputChange(v.value)
         }
-        placeholder={(label !== "") ? label : placeholder}
+        placeholder={label !== "" ? label : placeholder}
         theme={(theme) => ({
           ...theme,
           borderRadius: 0,
           colors: {
             ...theme.colors,
-            primary25: 'rgb(175, 140, 85)',
-            primary: 'rgb(175, 140, 85)',
+            primary25: "rgb(175, 140, 85)",
+            primary: "rgb(175, 140, 85)",
           },
         })}
-
         styles={{
           menu: (base) => ({
-            position: 'absolute',
-            paddingLeft: '1rem',
+            position: "absolute",
+            paddingLeft: "1rem",
             zIndex: 500,
-            ...base
+            ...base,
           }),
-
         }}
       />
     </FormControl>
-  )
-}
+  );
+};
 
-export default SelectFrag
+export default SelectFrag;

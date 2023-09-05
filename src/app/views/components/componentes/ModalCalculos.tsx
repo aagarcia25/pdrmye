@@ -12,16 +12,15 @@ const ModalCalculos = ({
   area,
   handleClose,
   handleAccion,
-  visibleselect
+  visibleselect,
 }: {
   tipo: string;
   perfil: string;
   area: string;
   handleClose: Function;
   handleAccion: Function;
-  visibleselect:Number
+  visibleselect: Number;
 }) => {
-  
   const [mensaje, setMensaje] = useState<string>();
   const [openSlider, setOpenSlider] = useState(false);
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
@@ -30,59 +29,50 @@ const ModalCalculos = ({
   const loadSelectUser = () => {
     let data = {
       NUMOPERACION: 18,
-      AREA:area ,
-      PERFIL:perfil
+      AREA: area,
+      PERFIL: perfil,
     };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (res.SUCCESS) {
         setUsuarioSelect(res.RESPONSE);
         setOpenSlider(false);
-      } 
+      }
     });
   };
 
-
-  
   const handleSelectUser = (e: any) => {
     setChuserDestin(e);
   };
-
-
 
   useEffect(() => {
     loadSelectUser();
   }, []);
 
-
   return (
     <div>
       <ModalForm title={tipo} handleClose={handleClose}>
-      <Slider open={openSlider}></Slider>
+        <Slider open={openSlider}></Slider>
 
-
-      {visibleselect === 1 ? (
-        <>
+        {visibleselect == 1 ? (
+          <>
             <Grid item xs={12}>
-            <h3> Asignar a :</h3>
-          </Grid>
-          <Grid item xs={12}>
-          <SelectFrag
-                  value={chuserDestin}
-                  options={usuarioSelect}
-                  onInputChange={handleSelectUser}
-                  placeholder={"Seleccionar Usuario"}
-                  label={""}
-                  disabled={false}
-                />
-          </Grid>
+              <h3> Asignar a :</h3>
+            </Grid>
+            <Grid item xs={12}>
+              <SelectFrag
+                value={chuserDestin}
+                options={usuarioSelect}
+                onInputChange={handleSelectUser}
+                placeholder={"Seleccionar Usuario"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
           </>
-            
-          ) : (
-            ""
-          )}
+        ) : (
+          ""
+        )}
 
-
-     
         <Grid
           container
           spacing={1}
@@ -108,8 +98,6 @@ const ModalCalculos = ({
             />
           </Grid>
 
-        
-
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <Grid
               container
@@ -117,12 +105,14 @@ const ModalCalculos = ({
               justifyContent="center"
               alignItems="center"
             >
-                <Button
-                  className="actualizar"
-                  onClick={() => handleAccion({mensaje:mensaje,usuario:chuserDestin})}
-                >
-                  Guardar
-                </Button>
+              <Button
+                className="actualizar"
+                onClick={() =>
+                  handleAccion({ mensaje: mensaje, usuario: chuserDestin })
+                }
+              >
+                Guardar
+              </Button>
             </Grid>
           </Grid>
         </Grid>

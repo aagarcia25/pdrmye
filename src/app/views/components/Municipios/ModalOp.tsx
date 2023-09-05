@@ -1,6 +1,13 @@
-import { useState } from 'react'
-import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
-import { AlertS } from '../../../helpers/AlertS';
+import { useState } from "react";
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+} from "@mui/material";
+import { AlertS } from "../../../helpers/AlertS";
 
 const ModalOp = ({
   handleClose,
@@ -11,20 +18,19 @@ const ModalOp = ({
   handleAccion: Function;
   vrows: any;
 }) => {
-
   const [mensaje, setMensaje] = useState<string>();
 
   const validacion = () => {
-    if (mensaje === "" || mensaje === null) {
+    if (mensaje == "" || mensaje == null) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de llenar el campo Comentarios*",
         icon: "error",
       });
     } else {
-      handleAccion({ data: vrows, texto: mensaje })
+      handleAccion({ data: vrows, texto: mensaje });
     }
-  }
+  };
 
   return (
     <div>
@@ -45,34 +51,24 @@ const ModalOp = ({
                   style={{ width: "100%" }}
                 />
               </Grid>
-
             </Grid>
-
           </DialogContent>
 
-
           <DialogActions>
-            <button
-              className="guardar"
-              onClick={() => validacion()}
-            >
+            <button className="guardar" onClick={() => validacion()}>
               Autorizar
             </button>
-            <button
-              className="cerrar"
-              onClick={() => validacion()}
-            >
+            <button className="cerrar" onClick={() => validacion()}>
               Rechazar
             </button>
             <button className="salir" onClick={() => handleClose()}>
               Salir
             </button>
           </DialogActions>
-
         </Dialog>
       </Box>
     </div>
-  )
-}
+  );
+};
 
-export default ModalOp
+export default ModalOp;
