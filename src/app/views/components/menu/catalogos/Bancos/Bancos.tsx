@@ -35,7 +35,7 @@ export const Bancos = () => {
       setModo("Editar Registro");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       Swal.fire({
         icon: "question",
         title: "¿Estás seguro de eliminar este registro?",
@@ -136,15 +136,15 @@ export const Bancos = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "BANCOS") {
+      if (String(item.Menu) == "BANCOS") {
         //console.log(item);
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }

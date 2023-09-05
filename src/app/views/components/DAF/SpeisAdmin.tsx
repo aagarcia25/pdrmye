@@ -79,14 +79,13 @@ const SpeisAdmin = ({
       renderCell: (v) => {
         return (
           <Box>
-            {PERMISOVerSpei &&
-            v.row.Nombre.slice(-3).toUpperCase() === "PDF" ? (
+            {PERMISOVerSpei && v.row.Nombre.slice(-3).toUpperCase() == "PDF" ? (
               <Tooltip title={"Ver Documento"}>
                 <IconButton onClick={() => handleVerSpei(v)}>
                   <img
                     className="iconButton"
                     src={
-                      v.row.Nombre.slice(-3).toUpperCase() === "PDF"
+                      v.row.Nombre.slice(-3).toUpperCase() == "PDF"
                         ? IconSPEIPDF
                         : IconeXML
                     }
@@ -103,7 +102,7 @@ const SpeisAdmin = ({
                   <img
                     className="iconButton"
                     src={
-                      v.row.Nombre.slice(-3).toUpperCase() === "PDF"
+                      v.row.Nombre.slice(-3).toUpperCase() == "PDF"
                         ? IconSPEIPDFDown
                         : IconeXML
                     }
@@ -114,7 +113,7 @@ const SpeisAdmin = ({
               ""
             )}
 
-            {eliminar && modo === "SPEI" ? (
+            {eliminar && modo == "SPEI" ? (
               <Tooltip title={"Eliminar Archivo"}>
                 <IconButton onClick={() => handleDeleteSpei(v)}>
                   <DeleteIcon />
@@ -124,7 +123,7 @@ const SpeisAdmin = ({
               ""
             )}
 
-            {eliminarCFDI && modo === "CFDI" ? (
+            {eliminarCFDI && modo == "CFDI" ? (
               <Tooltip title={"Eliminar Archivo"}>
                 <IconButton onClick={() => handleDeleteSpei(v)}>
                   <DeleteIcon />
@@ -167,7 +166,7 @@ const SpeisAdmin = ({
     name: string,
     descargar: boolean
   ) {
-    if (data === "undefined") {
+    if (data == "undefined") {
       setslideropen(false);
       AlertS.fire({
         text: "Archivo no encontrado ",
@@ -201,11 +200,11 @@ const SpeisAdmin = ({
     let file = event.target!.files[0]!;
     if (
       event.target.files.length !== 0 &&
-      (event.target!.files[0]!.name.slice(-3).toUpperCase() === "PDF" ||
-        event.target!.files[0]!.name.slice(-4).toUpperCase() === "XML")
+      (event.target!.files[0]!.name.slice(-3).toUpperCase() == "PDF" ||
+        event.target!.files[0]!.name.slice(-4).toUpperCase() == "XML")
     ) {
       if (Number(event.target!.files[0]!.size) / 1024 <= 3072) {
-        if (modo === "CFDI") {
+        if (modo == "CFDI") {
           setNameSpei(event.target!.files[0]!.name);
           setSpeiFile(file);
           setFileValid(true);
@@ -219,7 +218,7 @@ const SpeisAdmin = ({
             setFileValid(true);
             setslideropen(false);
           });
-        } else if (speis.length === 0) {
+        } else if (speis.length == 0) {
           setNameSpei(event.target!.files[0]!.name);
           setSpeiFile(file);
           setFileValid(true);
@@ -253,7 +252,7 @@ const SpeisAdmin = ({
         title: "Atención",
         text:
           event.target!.files[0]!.name.slice(-3).toUpperCase() !== "PDF" &&
-          modo === "SPEI"
+          modo == "SPEI"
             ? "Archivo invalido. Solo Extensiones PDF"
             : "Nombre incorrecto",
         icon: "info",
@@ -269,7 +268,7 @@ const SpeisAdmin = ({
   const handleVerSpei = (v: any) => {
     setslideropen(true);
     // {
-    if (v.row.Nombre.slice(-3).toUpperCase() === "PDF") {
+    if (v.row.Nombre.slice(-3).toUpperCase() == "PDF") {
       setTipoDeArchivoPDF(true);
     } else {
       setTipoDeArchivoPDF(false);
@@ -412,7 +411,7 @@ const SpeisAdmin = ({
 
   const consulta = () => {
     setslideropen(true);
-    if (modo === "SPEI") {
+    if (modo == "SPEI") {
       DAFServices.SpeiAdministracion({
         NUMOPERACION: 4,
         P_IDPROV: vrows.id,
@@ -433,7 +432,7 @@ const SpeisAdmin = ({
       });
     }
 
-    if (modo === "CFDI") {
+    if (modo == "CFDI") {
       MunServices.CfdiAdministracion({
         NUMOPERACION: 4,
         P_IDPA: vrows.id,
@@ -457,36 +456,36 @@ const SpeisAdmin = ({
     var ancho = 0;
     permisos.map((item: PERMISO) => {
       if (
-        String(item.ControlInterno) === "DAFADMINPAG" ||
-        String(item.ControlInterno) === "PARTMUN"
+        String(item.ControlInterno) == "DAFADMINPAG" ||
+        String(item.ControlInterno) == "PARTMUN"
       ) {
-        if (String(item.ControlInterno) === "AGREGSPEI") {
+        if (String(item.ControlInterno) == "AGREGSPEI") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIMSPEI") {
+        if (String(item.ControlInterno) == "ELIMSPEI") {
           setEliminar(true);
           ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) === "ELIMCFDI") {
+        if (String(item.ControlInterno) == "ELIMCFDI") {
           setEliminarCFDI(true);
           ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) === "DESCARGARSPEI") {
+        if (String(item.ControlInterno) == "DESCARGARSPEI") {
           setPermisoDescargarSpei(true);
           ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) === "VERSPEI") {
+        if (String(item.ControlInterno) == "VERSPEI") {
           setPERMISOVerSpei(true);
           ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) === "AGREGCFDI") {
+        if (String(item.ControlInterno) == "AGREGCFDI") {
           setAgregarCFDI(true);
         }
-        if (String(item.ControlInterno) === "VERCFDI") {
+        if (String(item.ControlInterno) == "VERCFDI") {
           setPERMISOVerSpei(true);
           ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) === "DESCARGARCFDI") {
+        if (String(item.ControlInterno) == "DESCARGARCFDI") {
           setPERMISOVerSpei(true);
           ancho = ancho + 50;
         }
@@ -510,8 +509,8 @@ const SpeisAdmin = ({
             </Typography>
           </Grid>
 
-          {getcontrolInternoEntidad() === "MUN" ||
-          getcontrolInternoEntidad() === "ORG" ? (
+          {getcontrolInternoEntidad() == "MUN" ||
+          getcontrolInternoEntidad() == "ORG" ? (
             ""
           ) : (
             <Grid item xs={12} md={6} lg={4}>
@@ -537,7 +536,7 @@ const SpeisAdmin = ({
           <ButtonsAdd
             handleOpen={handleAgregarSpei}
             agregar={
-              agregar || (modo === "CFDI" && agregarCFDI)
+              agregar || (modo == "CFDI" && agregarCFDI)
               //  && (user.MUNICIPIO.length > 0 || user.ORG.length > 0)
             }
           />
@@ -585,7 +584,7 @@ const SpeisAdmin = ({
               </Grid>
               <Grid item xs={12}>
                 <h3>
-                  {modo === "CFDI"
+                  {modo == "CFDI"
                     ? "Solo Extensiones PDF, XLS Y XLSX"
                     : "Solo Extensiones PDF"}
                 </h3>

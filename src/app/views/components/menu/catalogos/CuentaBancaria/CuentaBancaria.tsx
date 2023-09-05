@@ -57,11 +57,11 @@ export const CuentaBancaria = ({
   const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
 
   const handleAccion = (v: any, est: string) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       Swal.fire({
         icon: "question",
         title: "¿Estás seguro de eliminar este registro?",
@@ -97,7 +97,7 @@ export const CuentaBancaria = ({
           Swal.fire("No se realizaron cambios", "", "info");
         }
       });
-    } else if (v.tipo === 3) {
+    } else if (v.tipo == 3) {
       let data = {
         NUMOPERACION: 5,
         CHID: v.data.row.id,
@@ -165,7 +165,7 @@ export const CuentaBancaria = ({
               </IconButton>
             </Tooltip>
 
-            {v.row.ControlInterno === "DAMOP_AUTORIZADO" ? (
+            {v.row.ControlInterno == "DAMOP_AUTORIZADO" ? (
               <>
                 <BotonesAcciones
                   handleAccion={handleAccion}
@@ -178,10 +178,10 @@ export const CuentaBancaria = ({
               ""
             )}
 
-            {(v.row.EstatusDescripcion === "INICIO" ||
-              v.row.ControlInterno === "DAMOP_REGRESADO") &&
-            getcontrolInternoEntidad() === "MUN" ? (
-              //PER[0]?.Referencia === "MUN"
+            {(v.row.EstatusDescripcion == "INICIO" ||
+              v.row.ControlInterno == "DAMOP_REGRESADO") &&
+            getcontrolInternoEntidad() == "MUN" ? (
+              //PER[0]?.Referencia == "MUN"
               <>
                 <Tooltip title="Enviar a Validación">
                   <IconButton color="info" onClick={() => handlevalidar(v)}>
@@ -199,9 +199,9 @@ export const CuentaBancaria = ({
             ) : (
               ""
             )}
-            {v.row.ControlInterno === "DAMOP_REVISION" &&
-            getcontrolInternoEntidad() === "DAMOP" ? (
-              //PER[0]?.Referencia === "ANA"
+            {v.row.ControlInterno == "DAMOP_REVISION" &&
+            getcontrolInternoEntidad() == "DAMOP" ? (
+              //PER[0]?.Referencia == "ANA"
               <>
                 <Tooltip title="Revisar">
                   <IconButton color="info" onClick={() => handlevalidar(v)}>
@@ -327,18 +327,18 @@ export const CuentaBancaria = ({
       });
     }
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "CUENTABANCARIA") {
+      if (String(item.Menu) == "CUENTABANCARIA") {
         //console.log(item);
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "CONSCUENTAS") {
+        if (String(item.ControlInterno) == "CONSCUENTAS") {
           setConsCuentas(true);
         }
       }

@@ -101,12 +101,12 @@ export const MunRecaudacion = () => {
   ];
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setData(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   };
@@ -173,7 +173,7 @@ export const MunRecaudacion = () => {
   };
 
   const handleUpload = (data: any) => {
-    if (data.tipo === 1) {
+    if (data.tipo == 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -194,7 +194,7 @@ export const MunRecaudacion = () => {
           });
         }
       });
-    } else if (data.tipo === 2) {
+    } else if (data.tipo == 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -266,11 +266,11 @@ export const MunRecaudacion = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "MUNRECAU") {
-        if (String(item.ControlInterno) === "ELIM") {
+      if (String(item.Menu) == "MUNRECAU") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }

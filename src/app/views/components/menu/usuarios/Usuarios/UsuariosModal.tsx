@@ -23,7 +23,7 @@ const UsuariosModal = ({
 }) => {
   const RfToken = () => {
     UserServices.refreshToken().then((resAppRfToken) => {
-      if (resAppRfToken?.status === 200) {
+      if (resAppRfToken?.status == 200) {
         setToken(resAppRfToken?.data.token);
       } else {
         Swal.fire({
@@ -48,7 +48,7 @@ const UsuariosModal = ({
     console.log(dt);
     ValidaSesion();
     UserServices.verify({}).then((resAppLogin) => {
-      if (resAppLogin.status === 401) {
+      if (resAppLogin.status == 401) {
         RfToken();
       }
     });

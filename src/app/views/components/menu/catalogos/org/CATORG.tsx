@@ -186,7 +186,7 @@ export const CATORG = () => {
   };
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
@@ -269,22 +269,22 @@ export const CATORG = () => {
   useEffect(() => {
     var ancho = 0;
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "CATORG") {
+      if (String(item.Menu) == "CATORG") {
         //console.log(item)
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
-        if (String(item.ControlInterno) === "VUSUARIOR") {
+        if (String(item.ControlInterno) == "VUSUARIOR") {
           setVisualizarUsuarioResponsable(true);
           ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) === "VIEWCC") {
+        if (String(item.ControlInterno) == "VIEWCC") {
           setViewCC(true);
           ancho = ancho + 50;
         }

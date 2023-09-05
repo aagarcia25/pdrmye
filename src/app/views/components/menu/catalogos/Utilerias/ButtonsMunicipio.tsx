@@ -59,17 +59,17 @@ const ButtonsMunicipio = ({
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === controlInterno) {
-        if (String(item.ControlInterno) === "AGREG") {
+      if (String(item.Menu) == controlInterno) {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "CARGPLAN") {
+        if (String(item.ControlInterno) == "CARGPLAN") {
           setCargarPlantilla(true);
         }
-        if (String(item.ControlInterno) === "DESPLAN") {
+        if (String(item.ControlInterno) == "DESPLAN") {
           setDescargarPlantilla(true);
         }
-        if (String(item.ControlInterno) === "ELIMMAS") {
+        if (String(item.ControlInterno) == "ELIMMAS") {
           setelimasiva(true);
         }
       }
@@ -155,14 +155,14 @@ const ButtonsMunicipio = ({
           </ToggleButtonGroup>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          {value === "na" ? (
+          {value == "na" ? (
             ""
           ) : (
             <FormControl sx={{ width: "100%" }}>
               <Select
                 value={
                   value != null
-                    ? options.find((element) => element.value === value)
+                    ? options.find((element) => element.value == value)
                     : []
                 }
                 options={options}
@@ -172,7 +172,7 @@ const ButtonsMunicipio = ({
                 backspaceRemovesValue={true}
                 //styles={styles}
                 onChange={(v) =>
-                  v === null
+                  v == null
                     ? onInputChange(String(disabled))
                     : onInputChange(v.value)
                 }

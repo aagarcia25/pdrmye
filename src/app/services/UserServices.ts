@@ -57,7 +57,7 @@ export const ValidaSesion = () => {
     const decoded: UserLogin = jwt_decode(String(getToken()));
     if (((decoded.exp - (Date.now() / 1000)) / 60) < 5) {
         UserServices.refreshToken().then((resAppLogin) => {
-            if (resAppLogin.status === 200) {
+            if (resAppLogin.status == 200) {
                 setToken(resAppLogin.data?.token);
                 // onClickChangePassword();
                 return ("Sesion Refrescada")

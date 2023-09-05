@@ -180,7 +180,7 @@ const AsigPresupuestal = () => {
   const descargaPlantilla = () => {
     setslideropen(true);
 
-    if (idFondo === null || idFondo === "" || idFondo === "false") {
+    if (idFondo == null || idFondo == "" || idFondo == "false") {
       AlertS.fire({
         title: "¡Error!",
         text: "Es Necesario el Filtro de Fondo",
@@ -188,7 +188,7 @@ const AsigPresupuestal = () => {
       });
     }
 
-    if (mes === null || mes === "" || mes === "false") {
+    if (mes == null || mes == "" || mes == "false") {
       AlertS.fire({
         title: "¡Error!",
         text: "Es Necesario el Filtro de Mes",
@@ -196,7 +196,7 @@ const AsigPresupuestal = () => {
       });
     }
 
-    if (anio === null || anio === "" || anio === "false") {
+    if (anio == null || anio == "" || anio == "false") {
       AlertS.fire({
         title: "¡Error!",
         text: "Es Necesario el Filtro de Año",
@@ -205,9 +205,9 @@ const AsigPresupuestal = () => {
     }
 
     let data = {
-      P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_MES: mes === "false" ? "" : mes,
-      P_ANIO: anio === "false" ? "" : anio,
+      P_FONDO: idFondo == "false" ? "" : idFondo,
+      P_MES: mes == "false" ? "" : mes,
+      P_ANIO: anio == "false" ? "" : anio,
     };
 
     console.log(data);
@@ -238,7 +238,7 @@ const AsigPresupuestal = () => {
     });
   };
   const verificaPresupuesto = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -291,11 +291,11 @@ const AsigPresupuestal = () => {
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 31) {
+      if (operacion == 31) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 32) {
+      } else if (operacion == 32) {
         setMunicipios(res.RESPONSE);
-      } else if (operacion === 17) {
+      } else if (operacion == 17) {
         setTipos(res.RESPONSE);
         setslideropen(false);
       }
@@ -322,11 +322,11 @@ const AsigPresupuestal = () => {
 
     let data = {
       TIPO: 5,
-      P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      P_IDTIPO: idtipo === "false" ? "" : idtipo,
-      P_IDMES: mes === "false" ? "" : mes,
-      P_IDANIO: mes === "false" ? "" : anio,
+      P_FONDO: idFondo == "false" ? "" : idFondo,
+      P_IDMUNICIPIO: idMunicipio == "false" ? "" : idMunicipio,
+      P_IDTIPO: idtipo == "false" ? "" : idtipo,
+      P_IDMES: mes == "false" ? "" : mes,
+      P_IDANIO: mes == "false" ? "" : anio,
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
@@ -357,8 +357,8 @@ const AsigPresupuestal = () => {
     loadFilter(17);
     // handleClick();
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "DPCPPRES") {
-        if (String(item.ControlInterno) === "CPRESUPUESTO") {
+      if (String(item.Menu) == "DPCPPRES") {
+        if (String(item.ControlInterno) == "CPRESUPUESTO") {
           setCargarPlant(true);
         }
       }

@@ -32,13 +32,13 @@ export const Umas = () => {
   const [nombreMenu, setNombreMenu] = useState("");
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       //console.log(v)
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       Swal.fire({
         icon: "info",
         title: "¿Solicita la eliminación?",
@@ -124,8 +124,8 @@ export const Umas = () => {
   };
 
   const handleUpload = (data: any) => {
-    if (data.tipo === 1) {
-    } else if (data.tipo === 2) {
+    if (data.tipo == 1) {
+    } else if (data.tipo == 2) {
       //console.log("borrado de toda la tabla")
       //console.log(selectionModel)
 
@@ -195,15 +195,15 @@ export const Umas = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "UMAS") {
+      if (String(item.Menu) == "UMAS") {
         setNombreMenu(item.Menu);
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }

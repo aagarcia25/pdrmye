@@ -58,7 +58,7 @@ export const ListNotification = () => {
               </IconButton>
             </Tooltip>
 
-            {modo === "ViewMessage" || modo === "viewMessageReading" ? (
+            {modo == "ViewMessage" || modo == "viewMessageReading" ? (
               <Tooltip title={"Ir A"}>
                 <IconButton onClick={() => goa(v)}>
                   <DoubleArrowIcon />
@@ -83,14 +83,14 @@ export const ListNotification = () => {
       headerName: "Remitente",
       description: "Remitente",
       width: 300,
-      hide: modo === "MessageSend",
+      hide: modo == "MessageSend",
     },
     {
       field: "destinatario",
       headerName: "Destinatario",
       description: "Destinatario",
       width: 300,
-      hide: modo === "viewMessageReading" || modo === "ViewMessage",
+      hide: modo == "viewMessageReading" || modo == "ViewMessage",
     },
     {
       field: "Encabezado",
@@ -117,7 +117,7 @@ export const ListNotification = () => {
 
   const viewMessageModal = (v: any) => {
     setTipoOperacion(6);
-    if (v.row.Visto === "0") {
+    if (v.row.Visto == "0") {
       setDestinatario(v.row.destinatario);
       setRemitente(v.row.origen);
     }
@@ -180,13 +180,13 @@ export const ListNotification = () => {
   };
 
   const handleClose = (v: string) => {
-    if (v === "9") {
+    if (v == "9") {
       setModo("MessageSend");
       setOpen(false);
       viewMessageSend(9);
     }
 
-    if (v === "8") {
+    if (v == "8") {
       setModo("ViewMessage");
       let dat = {
         NUMOPERACION: Number(v),
@@ -197,10 +197,10 @@ export const ListNotification = () => {
       });
       setOpen(false);
     }
-    if (v === "cerrar") {
+    if (v == "cerrar") {
       setOpen(false);
     }
-    if (v === "7") {
+    if (v == "7") {
       setOpen(false);
     }
   };
@@ -287,7 +287,7 @@ export const ListNotification = () => {
           >
             <Button
               className={
-                modo === "ViewMessage"
+                modo == "ViewMessage"
                   ? "notificacionesSelected"
                   : "notificaciones"
               }
@@ -299,7 +299,7 @@ export const ListNotification = () => {
             {perfil != "MUN" ? (
               <Button
                 className={
-                  modo === "MessageSend"
+                  modo == "MessageSend"
                     ? "notificacionesSelected"
                     : "notificaciones"
                 }
@@ -314,7 +314,7 @@ export const ListNotification = () => {
 
             <Button
               className={
-                modo === "viewMessageReading"
+                modo == "viewMessageReading"
                   ? "notificacionesSelected"
                   : "notificaciones"
               }

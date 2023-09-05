@@ -14,10 +14,10 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import HelpIcon from '@mui/icons-material/Help';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import HelpIcon from "@mui/icons-material/Help";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import { GridColDef } from "@mui/x-data-grid";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
@@ -37,18 +37,17 @@ const AdminAyudas = ({
   modo,
   handleClose,
   tipo,
-  dt
+  dt,
 }: {
   IdMenu: string;
   modo: string;
   tipo: number;
-  handleClose: Function,
-  dt: any
+  handleClose: Function;
+  dt: any;
 }) => {
-
   // CAMPOS DE LOS FORMULARIOS
 
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [menus, setMenus] = useState<SelectValues[]>([]);
   const [idMenu, setIdMenu] = useState(IdMenu);
   const [openCarga, setOpenCarga] = useState(false);
@@ -58,68 +57,67 @@ const AdminAyudas = ({
   const [respuesta, setRespuesta] = useState("");
   const [pregunta, setPregunta] = useState("");
   const [videoPreview, setVideoPreview] = useState("");
-  const [value, setValue] = useState('');
-  const [valueDepartamento, setValueDepartamento] = useState('');
+  const [value, setValue] = useState("");
+  const [valueDepartamento, setValueDepartamento] = useState("");
   const [preguntas, setPreguntas] = useState([]);
 
-
   function enCambioFile(event: any) {
-    setslideropen(true)
-    if (event?.target?.files[0] && event.target.files[0].type.split("/")[0] === "video") {
+    setslideropen(true);
+    if (
+      event?.target?.files[0] &&
+      event.target.files[0].type.split("/")[0] == "video"
+    ) {
       setNombreArchivo(event?.target?.value?.split("\\")[2]);
       let file = event?.target!?.files[0]!;
       setVideoPreview(URL.createObjectURL(event.target.files[0]));
       setNewVideo(file);
       setslideropen(false);
-    }
-
-    else if (event?.target?.files[0] && event.target.files[0].type === "application/pdf") {
+    } else if (
+      event?.target?.files[0] &&
+      event.target.files[0].type == "application/pdf"
+    ) {
       setNombreArchivo(event?.target?.value?.split("\\")[2]);
       let file = event?.target!?.files[0]!;
       setVideoPreview(URL.createObjectURL(event.target.files[0]));
       setNewVideo(file);
       setslideropen(false);
-    }
-    else {
+    } else {
       Swal.fire("¡No es un archivo valido!", "", "warning");
-      setslideropen(false)
+      setslideropen(false);
     }
     setslideropen(false);
-
   }
   const handleSend = () => {
     setOpenCarga(true);
-
   };
 
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 42) {
+      if (operacion == 42) {
         setMenus(res.RESPONSE);
-        if (value === "pregunta") {
-          consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "4")
+        if (value == "pregunta") {
+          consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "4");
         }
-        if (value === "guia") {
-          consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "11");
+        if (value == "guia") {
+          consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "11");
         }
-        if (value === "video") {
-          consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "12");
+        if (value == "video") {
+          consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "12");
         }
       }
     });
   };
 
-
   const SaveVideo = (cerrar: boolean) => {
     ValidaSesion();
     setVideoPreview("");
-    setslideropen(true)
+    setslideropen(true);
     const formData = new FormData();
-    formData.append("NUMOPERACION", value === "video" ? "1" : "2");
+    formData.append("NUMOPERACION", value == "video" ? "1" : "2");
     formData.append("VIDEO", newVideo, nombreArchivo);
     formData.append("PREGUNTA", pregunta);
-    formData.append("TIPO", valueDepartamento === "ext" ? "1" : "2");
+    formData.append("TIPO", valueDepartamento == "ext" ? "1" : "2");
     formData.append("CHUSER", user.Id);
     formData.append("CHID", idMenu);
     formData.append("NAME", nombreArchivo);
@@ -135,14 +133,14 @@ const AdminAyudas = ({
           handleClose();
         } else {
           handleLimpiaCampos();
-          if (value === "pregunta") {
-            consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "4")
+          if (value == "pregunta") {
+            consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "4");
           }
-          if (value === "guia") {
-            consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "11");
+          if (value == "guia") {
+            consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "11");
           }
-          if (value === "video") {
-            consulta(IdMenu ? IdMenu : idMenu === "false" ? "" : idMenu, "12");
+          if (value == "video") {
+            consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "12");
           }
         }
 
@@ -168,16 +166,16 @@ const AdminAyudas = ({
   };
 
   const consulta = (idMenu: string, numOp: string) => {
-    setslideropen(true)
+    setslideropen(true);
 
     let data = {
       NUMOPERACION: numOp,
-      CHID: idMenu === "false" ? "" : idMenu
-    }
+      CHID: idMenu == "false" ? "" : idMenu,
+    };
 
     AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS || res.RESPONSE) {
-        setPreguntas(res.RESPONSE)
+        setPreguntas(res.RESPONSE);
         setslideropen(false);
       }
       if (!res.SUCCESS) {
@@ -192,29 +190,27 @@ const AdminAyudas = ({
     // handleClose();
   };
 
-
-
   const handleBorrarRegistro = (id: string) => {
     ValidaSesion();
-    setslideropen(true)
+    setslideropen(true);
 
     let data = {
       NUMOPERACION: 13,
       CHID: id,
-      TOKEN: JSON.parse(String(getToken()))
-    }
+      TOKEN: JSON.parse(String(getToken())),
+    };
 
     AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS || res.RESPONSE) {
-        if (value === "pregunta") {
+        if (value == "pregunta") {
           consulta(IdMenu ? IdMenu : idMenu, "4");
         }
 
-        if (value === "video") {
+        if (value == "video") {
           consulta(IdMenu ? IdMenu : idMenu, "12");
         }
 
-        if (value === "guia") {
+        if (value == "guia") {
           consulta(IdMenu ? IdMenu : idMenu, "11");
         }
       }
@@ -230,9 +226,8 @@ const AdminAyudas = ({
     // handleClose();
   };
 
-
   const SavePreguntasFrecuentes = (cerrar: boolean) => {
-    setslideropen(true)
+    setslideropen(true);
 
     let data = {
       NUMOPERACION: 3,
@@ -240,8 +235,8 @@ const AdminAyudas = ({
       CHID: idMenu,
       PREGUNTA: pregunta,
       RESPUESTA: respuesta,
-      TIPO: valueDepartamento === "ext" ? "1" : "2"
-    }
+      TIPO: valueDepartamento == "ext" ? "1" : "2",
+    };
     AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS || res.RESPONSE) {
         Toast.fire({
@@ -274,8 +269,6 @@ const AdminAyudas = ({
     // handleClose();
   };
 
-
-
   const columnsGuia: GridColDef[] = [
     { field: "id", hide: true, hideable: false },
     {
@@ -298,27 +291,33 @@ const AdminAyudas = ({
       },
     },
     { field: "Menu", headerName: "Menú", description: "Menú", width: 250 },
-    { field: "Pregunta", headerName: "Pregunta", description: "Pregunta", width: 600 },
     {
-      field: "RutaGuia", headerName: "Nombre Guía", description: "Nombre Guía", width: 800,
+      field: "Pregunta",
+      headerName: "Pregunta",
+      description: "Pregunta",
+      width: 600,
     },
     {
-      field: "Departamento", headerName: "Departamento", description: "Departamento", width: 200,
+      field: "RutaGuia",
+      headerName: "Nombre Guía",
+      description: "Nombre Guía",
+      width: 800,
+    },
+    {
+      field: "Departamento",
+      headerName: "Departamento",
+      description: "Departamento",
+      width: 200,
       renderCell: (v: any) => {
         return (
           <>
-            {
-              v.row.Departamento === "1" ?
-                "Externo: Municipio u Organismo" :
-                "Area Interna"
-
-            }
+            {v.row.Departamento == "1"
+              ? "Externo: Municipio u Organismo"
+              : "Area Interna"}
           </>
-
         );
       },
     },
-
   ];
   const columnsVideo: GridColDef[] = [
     { field: "id", hide: true, hideable: false },
@@ -342,27 +341,29 @@ const AdminAyudas = ({
       },
     },
     { field: "Menu", headerName: "Menú", description: "Menú", width: 250 },
-    { field: "NombreOriginalVideo", headerName: "Nombre Video", description: "Nombre Video", width: 600 },
     {
-      field: "Departamento", headerName: "Departamento", description: "Departamento", width: 200,
+      field: "NombreOriginalVideo",
+      headerName: "Nombre Video",
+      description: "Nombre Video",
+      width: 600,
+    },
+    {
+      field: "Departamento",
+      headerName: "Departamento",
+      description: "Departamento",
+      width: 200,
       renderCell: (v: any) => {
         return (
           <>
-            {
-              v.row.Departamento === "1" ?
-                "Externo: Municipio Organismo" :
-                "Area Interna"
-            }
+            {v.row.Departamento == "1"
+              ? "Externo: Municipio Organismo"
+              : "Area Interna"}
           </>
-
         );
       },
     },
-
-
-
-
-  ]; const columnsPreguntas: GridColDef[] = [
+  ];
+  const columnsPreguntas: GridColDef[] = [
     { field: "id", hide: true, hideable: false },
     {
       field: "Acciones",
@@ -384,36 +385,44 @@ const AdminAyudas = ({
       },
     },
     { field: "Menu", headerName: "Menú", description: "Menú", width: 250 },
-    { field: "Pregunta", headerName: "Pregunta", description: "Pregunta", width: 600 },
     {
-      field: "Texto", headerName: "Respuesta", description: "Respuesta", width: 800,
+      field: "Pregunta",
+      headerName: "Pregunta",
+      description: "Pregunta",
+      width: 600,
     },
     {
-      field: "Departamento", headerName: "Departamento", description: "Departamento", width: 200,
+      field: "Texto",
+      headerName: "Respuesta",
+      description: "Respuesta",
+      width: 800,
+    },
+    {
+      field: "Departamento",
+      headerName: "Departamento",
+      description: "Departamento",
+      width: 200,
       renderCell: (v: any) => {
         return (
           <>
-            {
-              v.row.Departamento === "1" ?
-                "Externo: Municipio Organismo" :
-                "Area Interna"
-            }
+            {v.row.Departamento == "1"
+              ? "Externo: Municipio Organismo"
+              : "Area Interna"}
           </>
-
         );
       },
     },
   ];
   const handleFilterChange2 = (v: string) => {
     setIdMenu(v);
-    if (value === "pregunta") {
-      consulta(IdMenu ? IdMenu : v === "false" ? "" : v, "4")
+    if (value == "pregunta") {
+      consulta(IdMenu ? IdMenu : v == "false" ? "" : v, "4");
     }
-    if (value === "guia") {
-      consulta(IdMenu ? IdMenu : v === "false" ? "" : v, "11");
+    if (value == "guia") {
+      consulta(IdMenu ? IdMenu : v == "false" ? "" : v, "11");
     }
-    if (value === "video") {
-      consulta(IdMenu ? IdMenu : v === "false" ? "" : v, "12");
+    if (value == "video") {
+      consulta(IdMenu ? IdMenu : v == "false" ? "" : v, "12");
     }
   };
 
@@ -430,11 +439,12 @@ const AdminAyudas = ({
     setValue(newValue);
     handleLimpiaCampos();
   };
-  const handleChangeDepartamento = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChangeDepartamento = (
+    event: React.SyntheticEvent,
+    newValue: string
+  ) => {
     setValueDepartamento(newValue);
   };
-
-
 
   const agregar = (data: any) => {
     AuthService.rolesindex(data).then((res) => {
@@ -443,7 +453,6 @@ const AdminAyudas = ({
           icon: "success",
           title: "¡Registro Agregado!",
         });
-
       } else {
         AlertS.fire({
           title: "¡Error!",
@@ -454,42 +463,54 @@ const AdminAyudas = ({
     });
   };
   useEffect(() => {
-    if (value === "pregunta") {
+    if (value == "pregunta") {
       consulta(IdMenu ? IdMenu : idMenu, "4");
     }
 
-    if (value === "video") {
+    if (value == "video") {
       consulta(IdMenu ? IdMenu : idMenu, "12");
     }
 
-    if (value === "guia") {
+    if (value == "guia") {
       consulta(IdMenu ? IdMenu : idMenu, "11");
     }
     loadFilter(42);
-    if (dt?.length === 0) {
+    if (dt?.length == 0) {
     } else {
-      setNombreArchivo(dt?.row?.nombreOriginal)
-      if (modo === "Carga Videos") {
+      setNombreArchivo(dt?.row?.nombreOriginal);
+      if (modo == "Carga Videos") {
       }
     }
-
   }, [dt, value]);
 
   return (
     // <ModalForm title={modo} handleClose={handleClose}>
     <Grid container paddingLeft={1} paddingRight={1}>
       <SliderProgress open={slideropen} />
-      <Grid container item xs={12} md={6} direction="row" justifyContent="center" alignItems="center">
-        <BottomNavigation showLabels sx={{ width: 500, borderRadius: "10px", }} value={value} onChange={handleChange}>
+      <Grid
+        container
+        item
+        xs={12}
+        md={6}
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <BottomNavigation
+          showLabels
+          sx={{ width: 500, borderRadius: "10px" }}
+          value={value}
+          onChange={handleChange}
+        >
           <BottomNavigationAction
             label="Videos de ayuda"
             value="video"
-            icon={< OndemandVideoIcon />}
+            icon={<OndemandVideoIcon />}
           />
           <BottomNavigationAction
             label="Guia Rapida"
             value="guia"
-            icon={< MenuBookIcon />}
+            icon={<MenuBookIcon />}
           />
           <BottomNavigationAction
             label="Preguntas Frecuentes"
@@ -497,10 +518,15 @@ const AdminAyudas = ({
             icon={<HelpIcon />}
           />
         </BottomNavigation>
-
-
       </Grid>
-      <Grid paddingTop={1} container item xs={12} md={6} justifyContent="center">
+      <Grid
+        paddingTop={1}
+        container
+        item
+        xs={12}
+        md={6}
+        justifyContent="center"
+      >
         <RadioGroup
           row
           aria-labelledby="demo-controlled-radio-buttons-group"
@@ -508,16 +534,25 @@ const AdminAyudas = ({
           value={valueDepartamento}
           onChange={handleChangeDepartamento}
         >
-          <FormControlLabel value="ext" control={<Radio />} label="Organismo o Municipio" />
-          <FormControlLabel value="int" control={<Radio />} label="Departamentos internos" />
+          <FormControlLabel
+            value="ext"
+            control={<Radio />}
+            label="Organismo o Municipio"
+          />
+          <FormControlLabel
+            value="int"
+            control={<Radio />}
+            label="Departamentos internos"
+          />
         </RadioGroup>
       </Grid>
-      <Grid container
+      <Grid
+        container
         direction="row"
         justifyContent="space-between"
-        alignItems="center" >
-
-        <Grid item xs={12} md={6.5} lg={8.2} >
+        alignItems="center"
+      >
+        <Grid item xs={12} md={6.5} lg={8.2}>
           <Typography variant="h6">Menú</Typography>
           <SelectFrag
             value={IdMenu ? IdMenu : idMenu}
@@ -525,165 +560,218 @@ const AdminAyudas = ({
             onInputChange={handleFilterChange2}
             placeholder={"Seleccione Menú"}
             label={"Seleccione Menú"}
-            disabled={!(!IdMenu)}
+            disabled={!!IdMenu}
           />
-
         </Grid>
-        <Grid item xs={12} md={5.5} lg={3.8} container
+        <Grid
+          item
+          xs={12}
+          md={5.5}
+          lg={3.8}
+          container
           direction="row"
           justifyContent="space-around"
-          alignItems="center" paddingTop={3}  >
-
-          {value !== "pregunta" ?
+          alignItems="center"
+          paddingTop={3}
+        >
+          {value !== "pregunta" ? (
             <Button
               hidden
-              disabled={modo === "Editar Nombre Video" || !value}
+              disabled={modo == "Editar Nombre Video" || !value}
               component="label"
               className="cancelar"
-
             >
               Seleccionar {value}
               <input
                 hidden
                 // id="imagencargada"
-                accept={value === "video" ? "video/*" : "application/pdf"}
-                onChange={(v) => { enCambioFile(v) }}
-                type="file" />
+                accept={value == "video" ? "video/*" : "application/pdf"}
+                onChange={(v) => {
+                  enCambioFile(v);
+                }}
+                type="file"
+              />
             </Button>
-            : ""}
+          ) : (
+            ""
+          )}
 
-          {value === "video" ?
+          {value == "video" ? (
             <>
-
               <Button
                 disabled={
-                  !idMenu || idMenu === "false" || !nombreArchivo || !newVideo || !valueDepartamento
+                  !idMenu ||
+                  idMenu == "false" ||
+                  !nombreArchivo ||
+                  !newVideo ||
+                  !valueDepartamento
                 }
                 className="guardar"
-                onClick={() => SaveVideo(false)} >Guardar
+                onClick={() => SaveVideo(false)}
+              >
+                Guardar
               </Button>
-              {IdMenu ?
+              {IdMenu ? (
                 <Button
                   disabled={
-                    !idMenu || idMenu === "false" || !nombreArchivo || !newVideo || !valueDepartamento
+                    !idMenu ||
+                    idMenu == "false" ||
+                    !nombreArchivo ||
+                    !newVideo ||
+                    !valueDepartamento
                   }
                   className="guardar"
-                  onClick={() => SaveVideo(true)} >Guardar y cerrar
+                  onClick={() => SaveVideo(true)}
+                >
+                  Guardar y cerrar
                 </Button>
-                : ""}
+              ) : (
+                ""
+              )}
             </>
-            : ""}
+          ) : (
+            ""
+          )}
 
-          {value === "guia" ?
+          {value == "guia" ? (
             <>
               <Button
                 disabled={
-                  !idMenu || idMenu === "false"
-                  || !nombreArchivo || !pregunta || !newVideo || !valueDepartamento
+                  !idMenu ||
+                  idMenu == "false" ||
+                  !nombreArchivo ||
+                  !pregunta ||
+                  !newVideo ||
+                  !valueDepartamento
                 }
                 className="guardar"
-                onClick={() => SaveVideo(false)} >Guardar
+                onClick={() => SaveVideo(false)}
+              >
+                Guardar
               </Button>
-              {IdMenu ?
+              {IdMenu ? (
                 <Button
                   disabled={
-                    !idMenu || idMenu === "false"
-                    || !nombreArchivo || !pregunta || !newVideo || !valueDepartamento
+                    !idMenu ||
+                    idMenu == "false" ||
+                    !nombreArchivo ||
+                    !pregunta ||
+                    !newVideo ||
+                    !valueDepartamento
                   }
                   className="guardar"
-                  onClick={() => SaveVideo(true)} >Guardar y cerrar
-                </Button> : ""
-              }
-
-            </>
-            : ""}
-
-          {value === "pregunta" ?
-            <>
-
-              <Button
-                disabled={
-                  !idMenu || idMenu === "false" || !valueDepartamento
-                  || !pregunta || !respuesta
-                }
-                className="guardar"
-                onClick={() => SavePreguntasFrecuentes(false)} >Guardar
-              </Button>
-              {IdMenu ?
-                <Button
-                  disabled={
-                    !idMenu || idMenu === "false" || !valueDepartamento
-                    || !pregunta || !respuesta
-                  }
-                  className="guardar"
-                  onClick={() => SavePreguntasFrecuentes(true)} >Guardar y cerrar
+                  onClick={() => SaveVideo(true)}
+                >
+                  Guardar y cerrar
                 </Button>
-                : ""}
+              ) : (
+                ""
+              )}
             </>
-            : ""}
+          ) : (
+            ""
+          )}
 
+          {value == "pregunta" ? (
+            <>
+              <Button
+                disabled={
+                  !idMenu ||
+                  idMenu == "false" ||
+                  !valueDepartamento ||
+                  !pregunta ||
+                  !respuesta
+                }
+                className="guardar"
+                onClick={() => SavePreguntasFrecuentes(false)}
+              >
+                Guardar
+              </Button>
+              {IdMenu ? (
+                <Button
+                  disabled={
+                    !idMenu ||
+                    idMenu == "false" ||
+                    !valueDepartamento ||
+                    !pregunta ||
+                    !respuesta
+                  }
+                  className="guardar"
+                  onClick={() => SavePreguntasFrecuentes(true)}
+                >
+                  Guardar y cerrar
+                </Button>
+              ) : (
+                ""
+              )}
+            </>
+          ) : (
+            ""
+          )}
         </Grid>
       </Grid>
 
-      {value === "video" || value === "guia" ?
+      {value == "video" || value == "guia" ? (
         <>
           <Grid container>
             <Grid>
-              <Typography variant='h6'>Nombre del archivo: </Typography>
+              <Typography variant="h6">Nombre del archivo: </Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField
-
                 margin="dense"
                 id="nombreEvento"
                 value={nombreArchivo}
                 fullWidth
                 variant="outlined"
-                size='small'
+                size="small"
                 onChange={(v) => setNombreArchivo(v.target.value)}
                 sx={{ paddingBottom: "10px" }}
               />
             </Grid>
           </Grid>
-          {value === "guia" ?
+          {value == "guia" ? (
             <Grid container>
-              <Grid >
-                <Typography variant='h6'>Pregunta / Titulo de guia: </Typography>
+              <Grid>
+                <Typography variant="h6">
+                  Pregunta / Titulo de guia:{" "}
+                </Typography>
               </Grid>
               <Grid item xs={12}>
                 <TextField
-
                   margin="dense"
                   id="nombreEvento"
                   value={pregunta}
                   fullWidth
                   variant="outlined"
-                  size='small'
+                  size="small"
                   onChange={(v) => setPregunta(v.target.value)}
                   sx={{ paddingBottom: "10px" }}
                 />
               </Grid>
-            </Grid> : ""
-          }
+            </Grid>
+          ) : (
+            ""
+          )}
         </>
-        : ""}
+      ) : (
+        ""
+      )}
 
-      {value === "pregunta" ?
+      {value == "pregunta" ? (
         <>
-
           <Grid container>
             <Grid>
-              <Typography variant='h6'>Pregunta</Typography>
+              <Typography variant="h6">Pregunta</Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField
-
                 margin="dense"
                 id="nombreEvento"
                 value={pregunta}
                 fullWidth
                 variant="outlined"
-                size='small'
+                size="small"
                 onChange={(v) => setPregunta(v.target.value)}
                 sx={{ paddingBottom: "10px" }}
               />
@@ -692,7 +780,7 @@ const AdminAyudas = ({
 
           <Grid container>
             <Grid>
-              <Typography variant='h6'>Respuesta</Typography>
+              <Typography variant="h6">Respuesta</Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -701,7 +789,7 @@ const AdminAyudas = ({
                 value={respuesta}
                 fullWidth
                 variant="outlined"
-                size='small'
+                size="small"
                 onChange={(v) => setRespuesta(v.target.value)}
                 sx={{ paddingBottom: "10px" }}
               />
@@ -711,55 +799,58 @@ const AdminAyudas = ({
             <MUIXDataGrid columns={columnsPreguntas} rows={preguntas} />
           </Grid>
         </>
-        : ""
-      }
+      ) : (
+        ""
+      )}
 
-      {value === "video" || value === "guia" ?
+      {value == "video" || value == "guia" ? (
         <Grid container>
-
           <Grid item xs={12}>
-            <MUIXDataGrid columns={value === "video" ? columnsVideo : columnsGuia} rows={preguntas} />
+            <MUIXDataGrid
+              columns={value == "video" ? columnsVideo : columnsGuia}
+              rows={preguntas}
+            />
           </Grid>
-          <div className='containerModalCargarVideos'>
-
-            <div className='containerPreVisualizarVideo'>
-              <Grid container
+          <div className="containerModalCargarVideos">
+            <div className="containerPreVisualizarVideo">
+              <Grid
+                container
                 direction="column"
                 justifyContent="center"
-                alignItems="center" >
-
-                <Grid className='contenedorDeReproductorVideo' item xs={12}>
-                  {value === "video" ?
+                alignItems="center"
+              >
+                <Grid className="contenedorDeReproductorVideo" item xs={12}>
+                  {value == "video" ? (
                     <video
                       loop
                       autoPlay
                       width={"100%"}
                       height={"100%"}
-                      hidden={modo === "Editar Nombre Video" || videoPreview?.length === 0}
+                      hidden={
+                        modo == "Editar Nombre Video" ||
+                        videoPreview?.length == 0
+                      }
                       src={videoPreview}
                       id="videoPlayer"
                       controls
-                    /> :
+                    />
+                  ) : (
                     <object
                       className="responsive-iframe"
                       data={videoPreview}
-                      type="text/html">
-                    </object>
-                  }
+                      type="text/html"
+                    ></object>
+                  )}
                 </Grid>
               </Grid>
             </div>
           </div>
-
         </Grid>
-
-        : ""
-      }
-
-
+      ) : (
+        ""
+      )}
     </Grid>
     // </ModalForm>
-
   );
 };
 export default AdminAyudas;

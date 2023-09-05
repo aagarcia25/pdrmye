@@ -187,12 +187,12 @@ const TipoFondoCalculo = () => {
   };
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setVrows(v.data);
       setOpen(true);
       setModo("Editar Registro");
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       Swal.fire({
         icon: "question",
         title: "¿Estás seguro de eliminar este registro?",
@@ -231,7 +231,7 @@ const TipoFondoCalculo = () => {
   };
 
   const handleOpen = (accion: any) => {
-    if (accion === 1) {
+    if (accion == 1) {
       setTipoOperacion(1);
       setOpen(true);
       setTipoCalculo("");
@@ -239,7 +239,7 @@ const TipoFondoCalculo = () => {
       setModo("Nuevo Registro");
     }
 
-    if (accion === 2) {
+    if (accion == 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -321,18 +321,18 @@ const TipoFondoCalculo = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "TIPOCALCULO") {
+      if (String(item.Menu) == "TIPOCALCULO") {
         setNombreMenu(item.Menu);
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
-        if (String(item.ControlInterno) === "ELIMMAS") {
+        if (String(item.ControlInterno) == "ELIMMAS") {
           setEliminarMasivo(true);
         }
       }

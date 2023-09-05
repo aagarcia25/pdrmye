@@ -47,17 +47,17 @@ const ButtonsMunicipio2 = ({
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === controlInterno) {
-        if (String(item.ControlInterno) === "AGREG") {
+      if (String(item.Menu) == controlInterno) {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "CARGPLAN") {
+        if (String(item.ControlInterno) == "CARGPLAN") {
           setCargarPlantilla(true);
         }
-        if (String(item.ControlInterno) === "DESPLAN") {
+        if (String(item.ControlInterno) == "DESPLAN") {
           setDescargarPlantilla(true);
         }
-        if (String(item.ControlInterno) === "ELIMMAS") {
+        if (String(item.ControlInterno) == "ELIMMAS") {
           setelimasiva(true);
         }
       }

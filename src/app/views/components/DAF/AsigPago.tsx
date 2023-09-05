@@ -89,7 +89,7 @@ const AsigPago = () => {
   const [idSolicitud, setIdSolicitud] = useState<string>();
 
   const handlePagado = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -183,7 +183,7 @@ const AsigPago = () => {
             </Tooltip>
 
             {agregarPoliza ? (
-              String(v.row.NumCheque) === "null" ? (
+              String(v.row.NumCheque) == "null" ? (
                 <Tooltip title="Agregar Póliza de Pago">
                   <IconButton onClick={() => handlecheque(v)}>
                     <ApprovalIcon />
@@ -282,13 +282,13 @@ const AsigPago = () => {
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 31) {
+      if (operacion == 31) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 32) {
+      } else if (operacion == 32) {
         setMunicipios(res.RESPONSE);
-      } else if (operacion === 17) {
+      } else if (operacion == 17) {
         setTipos(res.RESPONSE);
-      } else if (operacion === 36) {
+      } else if (operacion == 36) {
         setEstatus(res.RESPONSE);
       }
     });
@@ -312,9 +312,9 @@ const AsigPago = () => {
 
   const handleSelectMes = (data: any) => {
     setNombreMes(
-      meses.find(({ value }) => value === data)?.label === undefined
+      meses.find(({ value }) => value == data)?.label == undefined
         ? ""
-        : String(meses.find(({ value }) => value === data)?.label)
+        : String(meses.find(({ value }) => value == data)?.label)
     );
 
     setMes(data);
@@ -329,7 +329,7 @@ const AsigPago = () => {
     let fueradesstatus: any[] = [];
     let rows = data;
 
-    if (rows.length === 0) {
+    if (rows.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de realizar la búsqueda de Registros, primero",
@@ -361,14 +361,14 @@ const AsigPago = () => {
       });
 
       let a2 = noencontrados.filter((elemento, index) => {
-        return noencontrados.indexOf(elemento) === index;
+        return noencontrados.indexOf(elemento) == index;
       });
 
       let a1 = encontrados.filter((elemento, index) => {
-        return encontrados.indexOf(elemento) === index;
+        return encontrados.indexOf(elemento) == index;
       });
       let html = "";
-      if (a1.length === 0) {
+      if (a1.length == 0) {
         AlertS.fire({
           text: "Sin coincidencia con algun número de Solicitud, Verifique Nombre y Estatus ",
           icon: "warning",
@@ -452,10 +452,10 @@ const AsigPago = () => {
     let data = {
       TIPO: 4,
       P_FONDO: idFondo.length > 0 ? idFondo : "",
-      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      P_IDESTATUS: idestatus === "false" ? "" : idestatus,
-      P_IDMES: mes === "false" ? "" : mes,
-      P_IDANIO: anio === "false" ? "" : anio,
+      P_IDMUNICIPIO: idMunicipio == "false" ? "" : idMunicipio,
+      P_IDESTATUS: idestatus == "false" ? "" : idestatus,
+      P_IDMES: mes == "false" ? "" : mes,
+      P_IDANIO: anio == "false" ? "" : anio,
       P_SOLICITUDPAGO: numOrdenPago ? numOrdenPago : "",
       P_MOSTRARTODOS: checked,
     };
@@ -491,18 +491,18 @@ const AsigPago = () => {
     loadFilter(17);
 
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "DAFADMINPAG") {
-        if (String(item.ControlInterno) === "TRAZASPEIDAF") {
+      if (String(item.Menu) == "DAFADMINPAG") {
+        if (String(item.ControlInterno) == "TRAZASPEIDAF") {
           setVerTrazabilidad(true);
         }
-        if (String(item.ControlInterno) === "POLIZASPEIDAF") {
+        if (String(item.ControlInterno) == "POLIZASPEIDAF") {
           setAgregarPoliza(true);
         }
 
-        if (String(item.ControlInterno) === "DAFSUBIRSPEI") {
+        if (String(item.ControlInterno) == "DAFSUBIRSPEI") {
           setSubirSpeis(true);
         }
-        if (String(item.ControlInterno) === "DAFPAGASPEI") {
+        if (String(item.ControlInterno) == "DAFPAGASPEI") {
           setPagaRegistro(true);
         }
       }
@@ -567,7 +567,7 @@ const AsigPago = () => {
                       </IconButton>
                     </InputAdornment>
                   }
-                  error={String(Number(numOrdenPago)) === "NaN"}
+                  error={String(Number(numOrdenPago)) == "NaN"}
                 />
               </FormControl>
             </Grid>

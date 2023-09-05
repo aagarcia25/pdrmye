@@ -312,7 +312,7 @@ export const ORGHeader = ({
   const handleGuardarSolicitud = () => {
     let data = {
       CHID: dataCab?.id ? dataCab?.id : "",
-      NUMOPERACION: modo === "Ver" ? 2 : 1,
+      NUMOPERACION: modo == "Ver" ? 2 : 1,
       CHUSER: user.Id,
       IDORGANISMO: idProveedor,
       CONCHEQUE: conCheque,
@@ -426,12 +426,12 @@ export const ORGHeader = ({
   };
 
   const handleLimpiarCamposDetalle = () => {
-    if (modoDetalle === "Editar") {
+    if (modoDetalle == "Editar") {
       setDescripcion("");
       if (dataCab.orden < 16) {
         setImporte(0);
       }
-    } else if (modoDetalle === "Agregar") {
+    } else if (modoDetalle == "Agregar") {
       // setListConceptos("");
       setIdClaveConcepto("");
       setIdDetalleCabecera("");
@@ -453,7 +453,7 @@ export const ORGHeader = ({
   };
 
   const handleLimpiarCamposHeader = () => {
-    if (modo === "Ver") {
+    if (modo == "Ver") {
       setNumCuenta("");
       setObservaciones("");
       setIdCuentaBancaria("");
@@ -474,7 +474,7 @@ export const ORGHeader = ({
 
   const Consulta = () => {
     var sumatotal = 0;
-    // sumatotal = sumatotal + (Number(dataCab.total)===0 && String(Number(dataCab.total))==="NaN"?0:Number(dataCab.total));
+    // sumatotal = sumatotal + (Number(dataCab.total)==0 && String(Number(dataCab.total))=="NaN"?0:Number(dataCab.total));
     DAMOPServices.indexDetalle({ NUMOPERACION: 4, IDORG: dataCab?.id }).then(
       (res) => {
         if (res.SUCCESS) {
@@ -484,7 +484,7 @@ export const ORGHeader = ({
             sumatotal = sumatotal + Number(item.importe);
             setSumaTotalDetalle(sumatotal);
           });
-          if (res.RESPONSE.length === 0) {
+          if (res.RESPONSE.length == 0) {
             setSumaTotalDetalle(sumatotal);
           }
         } else {
@@ -549,7 +549,7 @@ export const ORGHeader = ({
       renderHeader: () => (
         <>
           {"Total: " +
-            (sumaTotalDetalle === undefined
+            (sumaTotalDetalle == undefined
               ? "0"
               : currencyFormatter.format(Number(sumaTotalDetalle)))}
         </>
@@ -563,11 +563,10 @@ export const ORGHeader = ({
       renderCell: (v: any) => {
         return (
           <>
-            {listConceptos.find(({ value }) => value === v.row.ConceptoEgreso)
+            {listConceptos.find(({ value }) => value == v.row.ConceptoEgreso)
               ?.label
-              ? listConceptos.find(
-                  ({ value }) => value === v.row.ConceptoEgreso
-                )?.label
+              ? listConceptos.find(({ value }) => value == v.row.ConceptoEgreso)
+                  ?.label
               : ""}
           </>
         );
@@ -653,7 +652,7 @@ export const ORGHeader = ({
     let data = {
       NUMOPERACION: tipo,
       CHID:
-        modo === "Nuevo"
+        modo == "Nuevo"
           ? ""
           : dataCab.idmunicipio
           ? dataCab.idmunicipio
@@ -667,26 +666,26 @@ export const ORGHeader = ({
           }
         : data
     ).then((res) => {
-      if (tipo === 26) {
+      if (tipo == 26) {
         UserServices.uresponsables(data).then((res) => {
-          if (res?.status === 200) {
+          if (res?.status == 200) {
             setURes(res);
-          } else if (res.status === 401) {
+          } else if (res.status == 401) {
             setURes([]);
           }
         });
-      } else if (tipo === 32) {
+      } else if (tipo == 32) {
         setProvedores(res.RESPONSE);
         setOpenSlider(false);
-      } else if (tipo === 29) {
+      } else if (tipo == 29) {
         setConceptosCheque(res.RESPONSE);
-      } else if (tipo === 30) {
+      } else if (tipo == 30) {
         setListConceptos(res.RESPONSE);
-      } else if (tipo === 24) {
+      } else if (tipo == 24) {
         setTipoSol(res.RESPONSE);
-      } else if (tipo === 34) {
+      } else if (tipo == 34) {
         setCuentasBancarias(res.RESPONSE);
-      } else if (tipo === 41) {
+      } else if (tipo == 41) {
         setBeneficiariosFideicomisos(res.RESPONSE);
       }
     });
@@ -700,7 +699,7 @@ export const ORGHeader = ({
 
   useEffect(() => {
     Consulta();
-    if (modo === "Nuevo") {
+    if (modo == "Nuevo") {
       // setOpenSlider(false);
       setLimpiar(true);
       setHHeader(false);
@@ -709,7 +708,7 @@ export const ORGHeader = ({
       setHEdit(true);
       setHAdd(true);
     }
-    if (modo === "Ver") {
+    if (modo == "Ver") {
       setIdCuentaBancaria(dataCab.cuentabancaria ? dataCab.cuentabancaria : "");
       setIdBeneficiariosFideicomisos(
         dataCab.ClaveBeneficiario ? dataCab.ClaveBeneficiario : ""
@@ -765,19 +764,19 @@ export const ORGHeader = ({
                 disabled={
                   regGuardado ||
                   HSave ||
-                  idUResp === "" ||
-                  idUResp === "false" ||
-                  idProveedor === "" ||
-                  idProveedor === "false" ||
-                  proyecto === "" ||
-                  String(Number(proyecto)) === "NaN" ||
-                  conCheque === "" ||
-                  conCheque === "false" ||
+                  idUResp == "" ||
+                  idUResp == "false" ||
+                  idProveedor == "" ||
+                  idProveedor == "false" ||
+                  proyecto == "" ||
+                  String(Number(proyecto)) == "NaN" ||
+                  conCheque == "" ||
+                  conCheque == "false" ||
                   agregarDetalle ||
-                  idTipoSolicitud === "" ||
-                  idTipoSolicitud === "false" ||
-                  idCuentaBancaria === "" ||
-                  idCuentaBancaria === "false"
+                  idTipoSolicitud == "" ||
+                  idTipoSolicitud == "false" ||
+                  idCuentaBancaria == "" ||
+                  idCuentaBancaria == "false"
                 }
               >
                 <Tooltip title="Grabar Cambios">
@@ -788,7 +787,7 @@ export const ORGHeader = ({
               <Button
                 onClick={() => handleCancelarCambios()}
                 color={!HCancel ? "error" : "inherit"}
-                disabled={HCancel || regGuardado || modo === "Nuevo"}
+                disabled={HCancel || regGuardado || modo == "Nuevo"}
               >
                 <Tooltip title="Cancelar Cambios">
                   <CancelPresentationIcon />
@@ -852,7 +851,7 @@ export const ORGHeader = ({
               placeholder={"Seleccione U.Resp"}
               label={""}
               disabled={
-                HHeader || agregarDetalle || regGuardado || modo === "Ver"
+                HHeader || agregarDetalle || regGuardado || modo == "Ver"
               }
             />
           </Grid>
@@ -867,7 +866,7 @@ export const ORGHeader = ({
               placeholder={"Seleccione Proveedor"}
               label={""}
               disabled={
-                HHeader || agregarDetalle || regGuardado || modo === "Ver"
+                HHeader || agregarDetalle || regGuardado || modo == "Ver"
               }
             />
           </Grid>
@@ -896,10 +895,10 @@ export const ORGHeader = ({
               type="text"
               onChange={(v) => setProyecto(v.target.value)}
               disabled={
-                HHeader || agregarDetalle || regGuardado || modo === "Ver"
+                HHeader || agregarDetalle || regGuardado || modo == "Ver"
               }
               inputProps={{ maxLength: 7 }}
-              error={String(Number(proyecto)) === "NaN"}
+              error={String(Number(proyecto)) == "NaN"}
               size="small"
             />
           </Grid>
@@ -927,7 +926,7 @@ export const ORGHeader = ({
               placeholder={"Seleccione Concepto"}
               label={""}
               disabled={
-                HHeader || agregarDetalle || regGuardado || modo === "Ver"
+                HHeader || agregarDetalle || regGuardado || modo == "Ver"
               }
             />
           </Grid>
@@ -953,9 +952,9 @@ export const ORGHeader = ({
               onInputChange={handleFilterChange4}
               placeholder={"Seleccione Cuenta Bancaria"}
               label={
-                modo === "Nuevo" && cuentasBancarias.length !== 0
+                modo == "Nuevo" && cuentasBancarias.length !== 0
                   ? "Seleccione Cuenta Bancaria"
-                  : idCuentaBancaria !== "" && modo === "Ver"
+                  : idCuentaBancaria !== "" && modo == "Ver"
                   ? ""
                   : "Sin Cuenta Bancaria Asignada"
               }
@@ -963,7 +962,7 @@ export const ORGHeader = ({
                 HHeader ||
                 agregarDetalle ||
                 regGuardado ||
-                cuentasBancarias.length === 0 ||
+                cuentasBancarias.length == 0 ||
                 dataCab.orden !== 1
               }
             />
@@ -977,7 +976,7 @@ export const ORGHeader = ({
                 onChange={(v) => setNumCuenta(v.target.value)}
                 disabled={HHeader || agregarDetalle || regGuardado}
                 inputProps={{ maxLength: 18 }}
-                error={String(Number(numCuenta)) === "NaN"}
+                error={String(Number(numCuenta)) == "NaN"}
               /> */}
             {/* ///////////////////////////////////////////////// */}
           </Grid>
@@ -1000,7 +999,7 @@ export const ORGHeader = ({
           </Grid>
         </Grid>
 
-        {modo === "Ver" ? (
+        {modo == "Ver" ? (
           <Grid container boxShadow={10} borderRadius={1}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
               <Grid
@@ -1017,8 +1016,8 @@ export const ORGHeader = ({
                     color="success"
                     disabled={
                       !(
-                        (dataCab.estatusCI === "DAMOP_INI" ||
-                          dataCab.estatusCI === "DAMOP_ORG_ING_OP") &&
+                        (dataCab.estatusCI == "DAMOP_INI" ||
+                          dataCab.estatusCI == "DAMOP_ORG_ING_OP") &&
                         permisoAgregarDetalle
                       ) ||
                       openAgregarDetalle ||
@@ -1026,8 +1025,8 @@ export const ORGHeader = ({
                     }
                     className={
                       !(
-                        (dataCab.estatusCI === "DAMOP_INI" ||
-                          dataCab.estatusCI === "DAMOP_ORG_ING_OP") &&
+                        (dataCab.estatusCI == "DAMOP_INI" ||
+                          dataCab.estatusCI == "DAMOP_ORG_ING_OP") &&
                         permisoAgregarDetalle
                       ) ||
                       openAgregarDetalle ||
@@ -1055,8 +1054,8 @@ export const ORGHeader = ({
                             color="info"
                             disabled={
                               !(
-                                (dataCab.estatusCI === "DAMOP_INI" ||
-                                  dataCab.estatusCI === "DAMOP_ORG_ING_OP") &&
+                                (dataCab.estatusCI == "DAMOP_INI" ||
+                                  dataCab.estatusCI == "DAMOP_ORG_ING_OP") &&
                                 permisoEditarDetalleCabecera
                               ) ||
                               DetalleEditar ||
@@ -1078,23 +1077,23 @@ export const ORGHeader = ({
                             // !editarDetalle ||
                             !DetalleEditar ||
                             DetalleAgregar ||
-                            String(Number(importe)) === "NaN" ||
-                            String(descripcion).trim() === "" ||
-                            idClaveConcepto === "" ||
-                            idClaveConcepto === "false" ||
+                            String(Number(importe)) == "NaN" ||
+                            String(descripcion).trim() == "" ||
+                            idClaveConcepto == "" ||
+                            idClaveConcepto == "false" ||
                             importe < 0 ||
-                            adminDetalle === "" ||
-                            funcionalDetalle === "" ||
-                            programaticoDetalle === "" ||
-                            objGastoDetalle === "" ||
-                            tipoGastoDetalle === "" ||
-                            fuenteFinanDetalle === "" ||
-                            ramoDetalle === "" ||
-                            anioDetalle === "" ||
-                            controlInternoDetalle === "" ||
-                            AreaGeoDetalle === "" ||
-                            proyProgramaDetalle === "" ||
-                            String(Number(importe)) === "NaN"
+                            adminDetalle == "" ||
+                            funcionalDetalle == "" ||
+                            programaticoDetalle == "" ||
+                            objGastoDetalle == "" ||
+                            tipoGastoDetalle == "" ||
+                            fuenteFinanDetalle == "" ||
+                            ramoDetalle == "" ||
+                            anioDetalle == "" ||
+                            controlInternoDetalle == "" ||
+                            AreaGeoDetalle == "" ||
+                            proyProgramaDetalle == "" ||
+                            String(Number(importe)) == "NaN"
                           }
                         >
                           <Tooltip title="Grabar Cambios">
@@ -1102,7 +1101,7 @@ export const ORGHeader = ({
                           </Tooltip>
                         </Button>
 
-                        {modoDetalle === "Agregar" ? (
+                        {modoDetalle == "Agregar" ? (
                           ""
                         ) : (
                           <Tooltip title="Cancelar Cambios">
@@ -1255,7 +1254,7 @@ export const ORGHeader = ({
                             (verDetalle && !editarDetalle) ||
                             dataCab.orden >= 16
                           }
-                          error={String(Number(importe)) === "NaN"}
+                          error={String(Number(importe)) == "NaN"}
                           modo={"moneda"}
                         />
                       </Grid>
@@ -1470,22 +1469,22 @@ export const ORGHeader = ({
                             <Button value="check"
                               hidden
                               disabled={
-                                idClaveConcepto === ""
-                                || idClaveConcepto === "false"
-                                || importe === ""
-                                || descripcion === ""
-                                || adminDetalle === ""
-                                || funcionalDetalle === ""
-                                || programaticoDetalle === ""
-                                || objGastoDetalle === ""
-                                || tipoGastoDetalle === ""
-                                || fuenteFinanDetalle === ""
-                                || ramoDetalle === ""
-                                || anioDetalle === ""
-                                || controlInternoDetalle === ""
-                                || AreaGeoDetalle === ""
-                                || proyProgramaDetalle === ""
-                                || String(Number(importe)) === "NaN"
+                                idClaveConcepto == ""
+                                || idClaveConcepto == "false"
+                                || importe == ""
+                                || descripcion == ""
+                                || adminDetalle == ""
+                                || funcionalDetalle == ""
+                                || programaticoDetalle == ""
+                                || objGastoDetalle == ""
+                                || tipoGastoDetalle == ""
+                                || fuenteFinanDetalle == ""
+                                || ramoDetalle == ""
+                                || anioDetalle == ""
+                                || controlInternoDetalle == ""
+                                || AreaGeoDetalle == ""
+                                || proyProgramaDetalle == ""
+                                || String(Number(importe)) == "NaN"
                                 || verDetalle
                               }
                               onClick={handleAgregarDetalle} className={"guardar"}>

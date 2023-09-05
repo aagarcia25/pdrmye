@@ -158,15 +158,15 @@ const AuthSolicitudes = () => {
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 12) {
+      if (operacion == 12) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 32) {
+      } else if (operacion == 32) {
         setMunicipios(res.RESPONSE);
-      } else if (operacion === 17) {
+      } else if (operacion == 17) {
         setTipo(res.RESPONSE);
-      } else if (operacion === 46) {
+      } else if (operacion == 46) {
         setTipos(res.RESPONSE);
-      } else if (operacion === 47) {
+      } else if (operacion == 47) {
         setClasificaciones(res.RESPONSE);
         setslideropen(false);
       }
@@ -200,7 +200,7 @@ const AuthSolicitudes = () => {
   };
 
   const SolicitudOrdenPago = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -249,15 +249,15 @@ const AuthSolicitudes = () => {
   const handleClick = () => {
     let data = {
       TIPO: 3,
-      P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      P_IDTIPO: idtipo === "false" ? "" : idtipo,
+      P_FONDO: idFondo == "false" ? "" : idFondo,
+      P_IDMUNICIPIO: idMunicipio == "false" ? "" : idMunicipio,
+      P_IDTIPO: idtipo == "false" ? "" : idtipo,
       P_SOLICITUDPAGO: numOrdenPago ? numOrdenPago : "",
       P_MOSTRARTODOS: checked,
-      P_MUNICIPIO: tipomunicipio === "false" ? "" : tipomunicipio,
-      P_IDMES: mes === "false" ? "" : mes,
-      P_ANIO: anio === "false" ? "" : anio,
-      P_IDCLASIFICACION: clasificacion === "false" ? "" : clasificacion,
+      P_MUNICIPIO: tipomunicipio == "false" ? "" : tipomunicipio,
+      P_IDMES: mes == "false" ? "" : mes,
+      P_ANIO: anio == "false" ? "" : anio,
+      P_IDCLASIFICACION: clasificacion == "false" ? "" : clasificacion,
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
@@ -297,8 +297,8 @@ const AuthSolicitudes = () => {
     handleClick();
 
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "DPCPAUTHSOL") {
-        if (String(item.ControlInterno) === "AUTHSOL") {
+      if (String(item.Menu) == "DPCPAUTHSOL") {
+        if (String(item.ControlInterno) == "AUTHSOL") {
           setAuthSol(true);
         }
       }
@@ -361,7 +361,7 @@ const AuthSolicitudes = () => {
                     </Tooltip>
                   </InputAdornment>
                 }
-                error={String(Number(numOrdenPago)) === "NaN"}
+                error={String(Number(numOrdenPago)) == "NaN"}
               />
             </FormControl>
           </Grid>

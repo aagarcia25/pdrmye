@@ -103,7 +103,7 @@ const Fondos = () => {
       description: "Aplica Cálculo",
       width: 120,
       renderCell: (v) => {
-        return <Box>{v.row.AplicaCalculo === 1 ? "SI" : "No"}</Box>;
+        return <Box>{v.row.AplicaCalculo == 1 ? "SI" : "No"}</Box>;
       },
     },
     {
@@ -112,7 +112,7 @@ const Fondos = () => {
       description: "Vigente",
       width: 100,
       renderCell: (v) => {
-        return <Box>{v.row.Vigente === 1 ? "SI" : "No"}</Box>;
+        return <Box>{v.row.Vigente == 1 ? "SI" : "No"}</Box>;
       },
     },
     {
@@ -121,7 +121,7 @@ const Fondos = () => {
       description: "Estatal",
       width: 100,
       renderCell: (v) => {
-        return <Box>{v.row.Estatal === 1 ? "SI" : "No"}</Box>;
+        return <Box>{v.row.Estatal == 1 ? "SI" : "No"}</Box>;
       },
     },
     {
@@ -130,7 +130,7 @@ const Fondos = () => {
       description: "Federal",
       width: 100,
       renderCell: (v) => {
-        return <Box>{v.row.Federal === 1 ? "SI" : "No"}</Box>;
+        return <Box>{v.row.Federal == 1 ? "SI" : "No"}</Box>;
       },
     },
     { field: "idtipo", hide: true },
@@ -246,12 +246,12 @@ const Fondos = () => {
     { field: "Orden	", hide: true },
   ];
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   };
@@ -274,13 +274,13 @@ const Fondos = () => {
   };
 
   const handleOpen = (accion: any) => {
-    if (accion === 1) {
+    if (accion == 1) {
       setTipoOperacion(1);
       setModo("Agregar Registro");
       setOpen(true);
       setVrows("");
     }
-    if (accion === 2) {
+    if (accion == 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -396,19 +396,19 @@ const Fondos = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "FONDOS") {
+      if (String(item.Menu) == "FONDOS") {
         setNombreMenu(item.Menu);
         //console.log(item.Menu)
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
-        if (String(item.ControlInterno) === "VIS") {
+        if (String(item.ControlInterno) == "VIS") {
           setView(true);
         }
       }

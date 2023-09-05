@@ -53,12 +53,12 @@ export const Perfil = ({
 
   const RfToken = () => {
     UserServices.verify({}).then((res) => {
-      if (res.status === 200) {
+      if (res.status == 200) {
         setTokenValid(true);
         // onClickChangePassword();
-      } else if (res.status === 401) {
+      } else if (res.status == 401) {
         UserServices.refreshToken().then((resAppLogin) => {
-          if (resAppLogin.status === 200) {
+          if (resAppLogin.status == 200) {
             setTokenValid(true);
             setToken(resAppLogin.data?.token);
             // onClickChangePassword();
@@ -99,8 +99,8 @@ export const Perfil = ({
           if (tokenValid) {
             UserServices.changepassword(dat).then((res) => {
               if (
-                res.status === 200 &&
-                res.data.message === "Cambio de contraseña exitoso!"
+                res.status == 200 &&
+                res.data.message == "Cambio de contraseña exitoso!"
               ) {
                 Swal.fire("¡Cambio de Contraseña exitoso!", "", "success");
                 setPassword("");
@@ -156,7 +156,7 @@ export const Perfil = ({
       </Grid>
 
       <Grid container>
-        {value === "general" ? (
+        {value == "general" ? (
           <Grid
             container
             sx={{ justifyContent: "center", borderRadius: "10px" }}
@@ -195,11 +195,9 @@ export const Perfil = ({
                       }}
                       src={
                         "data:" +
-                        String(
-                          imgTipo === "undefined" ? Blanco.Data : imgTipo
-                        ) +
+                        String(imgTipo == "undefined" ? Blanco.Data : imgTipo) +
                         ";base64," +
-                        String(imgData === "undefined" ? Blanco.Data : imgData)
+                        String(imgData == "undefined" ? Blanco.Data : imgData)
                       }
                     />
                   ) : (
@@ -330,7 +328,7 @@ export const Perfil = ({
         ) : (
           ""
         )}
-        {value === "password" ? (
+        {value == "password" ? (
           <Grid
             container
             paddingTop="5%"

@@ -142,15 +142,15 @@ const ISAI = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "ISAI") {
+      if (String(item.Menu) == "ISAI") {
         setNombreMenu(item.Menu);
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }
@@ -171,7 +171,7 @@ const ISAI = () => {
         style={{
           height: 600,
           width: "100%",
-          display: modo === 0 ? "block" : "none",
+          display: modo == 0 ? "block" : "none",
         }}
       >
         <Box>
@@ -196,7 +196,7 @@ const ISAI = () => {
         style={{
           height: 600,
           width: "100%",
-          display: modo === 1 ? "block" : "none",
+          display: modo == 1 ? "block" : "none",
         }}
       >
         <Box>

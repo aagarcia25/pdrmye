@@ -13,7 +13,7 @@ const NombreCatalogo = ({ controlInterno }: { controlInterno: string }) => {
   useEffect(() => {
     menu.map((item: any) => {
       item.item.map((itemsMenu: ITEMS) => {
-        if (String(itemsMenu.ControlInterno) === controlInterno) {
+        if (String(itemsMenu.ControlInterno) == controlInterno) {
           setNombreMenu(itemsMenu.Menu);
           setDesMenu(itemsMenu.Descripcion);
         }

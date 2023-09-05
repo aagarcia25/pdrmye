@@ -73,10 +73,10 @@ const ButtonsTutorial = ({
   const handleObtenerVideos = (idmenu: string) => {
     let data = {
       CHID: idmenu,
-      NUMOPERACION: getcontrolInternoEntidad() === "DTI" ? 12 : 9,
+      NUMOPERACION: getcontrolInternoEntidad() == "DTI" ? 12 : 9,
       TIPO:
-        getcontrolInternoEntidad() === "ORG" ||
-        getcontrolInternoEntidad() === "MUN"
+        getcontrolInternoEntidad() == "ORG" ||
+        getcontrolInternoEntidad() == "MUN"
           ? 1
           : 2,
     };
@@ -98,16 +98,16 @@ const ButtonsTutorial = ({
       CHID: idmenu,
       NUMOPERACION: numOperacion,
       TIPO:
-        getcontrolInternoEntidad() === "ORG" ||
-        getcontrolInternoEntidad() === "MUN"
+        getcontrolInternoEntidad() == "ORG" ||
+        getcontrolInternoEntidad() == "MUN"
           ? 1
           : 2,
     };
     AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS) {
-        if (numOperacion === 7 || numOperacion === 10) {
+        if (numOperacion == 7 || numOperacion == 10) {
           setDataPreguntasFrecuentes(res.RESPONSE);
-        } else if (numOperacion === 8 || numOperacion === 11) {
+        } else if (numOperacion == 8 || numOperacion == 11) {
           setDataGuiaRapida(res.RESPONSE);
         }
       } else {
@@ -115,7 +115,7 @@ const ButtonsTutorial = ({
     });
   };
   const handleClick = (x: number) => {
-    openMenu === x ? setOpenMenu(-1) : setOpenMenu(x);
+    openMenu == x ? setOpenMenu(-1) : setOpenMenu(x);
   };
 
   const handleClickOpenCarga = () => {
@@ -128,11 +128,11 @@ const ButtonsTutorial = ({
     handleObtenerVideos(idMenu);
     handleObtenerPreguntasFrecuentes(
       idMenu,
-      getcontrolInternoEntidad() === "DTI" ? 10 : 7
+      getcontrolInternoEntidad() == "DTI" ? 10 : 7
     );
     handleObtenerPreguntasFrecuentes(
       idMenu,
-      getcontrolInternoEntidad() === "DTI" ? 11 : 8
+      getcontrolInternoEntidad() == "DTI" ? 11 : 8
     );
   };
 
@@ -147,7 +147,7 @@ const ButtonsTutorial = ({
       item.item.map((itemsMenu: ITEMS) => {
         console.log(itemsMenu);
         if (
-          String(itemsMenu.Path) ===
+          String(itemsMenu.Path) ==
           window.location.href
             .slice(window.location.href.indexOf("#") + 1)
             .replace(/%20/g, " ")
@@ -156,11 +156,11 @@ const ButtonsTutorial = ({
           handleObtenerVideos(itemsMenu.Id);
           handleObtenerPreguntasFrecuentes(
             itemsMenu.Id,
-            getcontrolInternoEntidad() === "DTI" ? 10 : 7
+            getcontrolInternoEntidad() == "DTI" ? 10 : 7
           );
           handleObtenerPreguntasFrecuentes(
             itemsMenu.Id,
-            getcontrolInternoEntidad() === "DTI" ? 11 : 8
+            getcontrolInternoEntidad() == "DTI" ? 11 : 8
           );
         }
       });
@@ -178,7 +178,7 @@ const ButtonsTutorial = ({
         justifyContent="center"
         alignItems="center"
       >
-        {dataVideos.length === 0 ? (
+        {dataVideos.length == 0 ? (
           ""
         ) : (
           <Grid item xs={5}>
@@ -191,7 +191,7 @@ const ButtonsTutorial = ({
                       Videos de ayuda
                     </Typography>
                     <Grid container className="containerVideosLista">
-                      {dataVideos.length === 0
+                      {dataVideos.length == 0
                         ? ""
                         : dataVideos.map((datos) => {
                             return (
@@ -259,7 +259,7 @@ const ButtonsTutorial = ({
                 className="ControlVideosHeader"
                 onClick={() =>
                   handleClickOpen(
-                    dataVideos.length === 1 ? dataVideos[0]?.RutaVideo : "",
+                    dataVideos.length == 1 ? dataVideos[0]?.RutaVideo : "",
                     "video"
                   )
                 }
@@ -281,7 +281,7 @@ const ButtonsTutorial = ({
           </Tooltip>
         </Grid>
 
-        {dataGuiaRapida.length === 0 ? (
+        {dataGuiaRapida.length == 0 ? (
           ""
         ) : (
           <>
@@ -302,7 +302,7 @@ const ButtonsTutorial = ({
                         Guía Rapida
                       </Typography>
                       <Grid container className="containerVideosLista">
-                        {dataGuiaRapida.length === 0
+                        {dataGuiaRapida.length == 0
                           ? ""
                           : dataGuiaRapida.map((datos) => {
                               return (
@@ -360,7 +360,7 @@ const ButtonsTutorial = ({
             </Grid>
           </>
         )}
-        {dataPreguntasFrecuentes.length === 0 ? (
+        {dataPreguntasFrecuentes.length == 0 ? (
           ""
         ) : (
           <>
@@ -375,7 +375,7 @@ const ButtonsTutorial = ({
                         Preguntas frecuentes
                       </Typography>
                       <Grid container className="containerVideosLista">
-                        {dataPreguntasFrecuentes.length === 0
+                        {dataPreguntasFrecuentes.length == 0
                           ? ""
                           : dataPreguntasFrecuentes.map((datos, indexx) => {
                               return (
@@ -390,7 +390,7 @@ const ButtonsTutorial = ({
                                     <ListItemButton
                                       sx={{
                                         bgcolor:
-                                          openMenu === indexx
+                                          openMenu == indexx
                                             ? "rgba(195, 165, 117)"
                                             : "rgba(255, 255, 255, 0.291)",
                                       }}
@@ -412,13 +412,13 @@ const ButtonsTutorial = ({
                                           </Typography>
                                         }
                                       />
-                                      {/* {openMenu === indexx ? <ExpandLess /> : <ExpandMore />} */}
+                                      {/* {openMenu == indexx ? <ExpandLess /> : <ExpandMore />} */}
                                     </ListItemButton>
                                   </Grid>
                                   <Grid container item xs={12} paddingLeft={2}>
                                     <Collapse
                                       key={indexx}
-                                      in={openMenu === indexx}
+                                      in={openMenu == indexx}
                                       timeout="auto"
                                       unmountOnExit
                                     >

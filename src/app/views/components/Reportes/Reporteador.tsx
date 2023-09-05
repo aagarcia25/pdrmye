@@ -64,7 +64,7 @@ export const Reporteador = () => {
   const handleGenerar = () => {
     setOpenSlider(true);
     let flag = true;
-    if (tipoExportacion === "") {
+    if (tipoExportacion == "") {
       AlertS.fire({
         title: "Es obligatorio el tipo de exportación",
         icon: "warning",
@@ -126,12 +126,12 @@ export const Reporteador = () => {
   const loadFilter = (tipo: number) => {
     let data = { NUMOPERACION: tipo, CHID: reporte?.id };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (tipo === 43) {
+      if (tipo == 43) {
         setTipoExportacionSelect(res.RESPONSE);
-      } else if (tipo === 38) {
+      } else if (tipo == 38) {
         setOrganismos(res.RESPONSE);
         setOpenSlider(false);
-      } else if (tipo === 44) {
+      } else if (tipo == 44) {
         setTrimestreList(res.RESPONSE);
         setOpenSlider(false);
       }

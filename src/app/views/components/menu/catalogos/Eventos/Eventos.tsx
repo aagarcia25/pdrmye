@@ -112,7 +112,7 @@ export const Eventos = () => {
     },
   ];
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       if (Date.parse(v.data.row.FechaInicio) >= Date.parse(Fecha_min)) {
         setTipoOperacion(2);
         setModo("Editar");
@@ -125,7 +125,7 @@ export const Eventos = () => {
           "warning"
         );
       }
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleBorrar(v.data);
     }
   };
@@ -208,15 +208,15 @@ export const Eventos = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "EVENTOS") {
+      if (String(item.Menu) == "EVENTOS") {
         //console.log(item)
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }

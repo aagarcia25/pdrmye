@@ -169,7 +169,7 @@ export const Municipios = () => {
       description: "Área Metropolitana",
       width: 100,
       renderCell: (v) => {
-        return v.row.MAM === 1 ? "SI" : "NO";
+        return v.row.MAM == 1 ? "SI" : "NO";
       },
     },
     {
@@ -178,7 +178,7 @@ export const Municipios = () => {
       description: "Descentralizado",
       width: 100,
       renderCell: (v) => {
-        return v.row.Descentralizado === 1 ? "SI" : "NO";
+        return v.row.Descentralizado == 1 ? "SI" : "NO";
       },
     },
     {
@@ -187,7 +187,7 @@ export const Municipios = () => {
       description: "ARTF1",
       width: 100,
       renderCell: (v) => {
-        return v.row.ArtF1 === "1" ? "SI" : "NO";
+        return v.row.ArtF1 == "1" ? "SI" : "NO";
       },
     },
     {
@@ -196,7 +196,7 @@ export const Municipios = () => {
       description: "ARTF2",
       width: 100,
       renderCell: (v) => {
-        return v.row.ArtF2 === "1" ? "SI" : "NO";
+        return v.row.ArtF2 == "1" ? "SI" : "NO";
       },
     },
     {
@@ -205,18 +205,18 @@ export const Municipios = () => {
       description: "ARTF3",
       width: 100,
       renderCell: (v) => {
-        return v.row.ArtF3 === "1" ? "SI" : "NO";
+        return v.row.ArtF3 == "1" ? "SI" : "NO";
       },
     },
   ];
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
       setData(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
   };
@@ -291,7 +291,7 @@ export const Municipios = () => {
   };
 
   const handleUpload = (data: any) => {
-    if (data.tipo === 1) {
+    if (data.tipo == 1) {
     }
   };
 
@@ -322,7 +322,7 @@ export const Municipios = () => {
 
   useEffect(() => {
     item.map((itemsMenu: any) => {
-      if (String(itemsMenu.ControlInterno) === "MUNICIPIOS") {
+      if (String(itemsMenu.ControlInterno) == "MUNICIPIOS") {
         setNombreMenu(itemsMenu.Menu);
       }
     });
@@ -331,25 +331,25 @@ export const Municipios = () => {
       setNombreMenu(item.Nombre);
     });
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "MUNICIPIOS") {
+      if (String(item.Menu) == "MUNICIPIOS") {
         setNombreMenu(item.Menu);
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
-        if (String(item.ControlInterno) === "FIDE") {
+        if (String(item.ControlInterno) == "FIDE") {
           setFideicomiso(true);
         }
-        if (String(item.ControlInterno) === "VIEWCC") {
+        if (String(item.ControlInterno) == "VIEWCC") {
           setViewCC(true);
         }
 
-        if (String(item.ControlInterno) === "VIEWUR") {
+        if (String(item.ControlInterno) == "VIEWUR") {
           setViewUR(true);
         }
       }

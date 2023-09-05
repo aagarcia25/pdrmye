@@ -130,7 +130,6 @@ export const PEF = () => {
   };
 
   const handleEdit = (v: any) => {
-    //console.log(v);
     setTipoOperacion(2);
     setVrows(v);
   };
@@ -172,7 +171,7 @@ export const PEF = () => {
   };
 
   const handleUpload = (data: any) => {
-    if (data.tipo === 1) {
+    if (data.tipo == 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -196,7 +195,7 @@ export const PEF = () => {
           });
         }
       });
-    } else if (data.tipo === 2) {
+    } else if (data.tipo == 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -252,10 +251,10 @@ export const PEF = () => {
 
     let data = {
       NUMOPERACION: 4,
-      P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      P_MES: mes === "false" ? "" : mes,
-      P_ANIO: anio === "false" ? "" : anio,
+      P_FONDO: idFondo == "false" ? "" : idFondo,
+      P_IDMUNICIPIO: idMunicipio == "false" ? "" : idMunicipio,
+      P_MES: mes == "false" ? "" : mes,
+      P_ANIO: anio == "false" ? "" : anio,
     };
 
     calculosServices.handlepef(data).then((res) => {
@@ -280,7 +279,7 @@ export const PEF = () => {
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 31) {
+      if (operacion == 31) {
         setFondos(res.RESPONSE);
       }
     });
@@ -292,15 +291,15 @@ export const PEF = () => {
     loadFilter(31);
 
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) === "PEF") {
+      if (String(item.Menu) == "PEF") {
         setNombreMenu(item.Menu);
-        if (String(item.ControlInterno) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }
