@@ -1,5 +1,4 @@
 import ApartmentIcon from "@mui/icons-material/Apartment";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import DoneIcon from "@mui/icons-material/Done";
@@ -14,7 +13,6 @@ import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import {
-  PERFILES,
   PERMISO,
   USUARIORESPONSE,
 } from "../../../../../interfaces/user/UserInfo";
@@ -27,7 +25,6 @@ import {
 } from "../../../../../services/UserServices";
 import {
   getIdApp,
-  getPerfiles,
   getPermisos,
   getUser,
 } from "../../../../../services/localStorage";
@@ -47,13 +44,12 @@ const Usuarios = () => {
   const [tipoOperacion, setTipoOperacion] = useState("");
   const [dt, setDt] = useState({});
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
 
-  const [agregar, setAgregar] = useState<boolean>(false);
-  const [editar, setEditar] = useState<boolean>(false);
-  const [eliminar, setEliminar] = useState<boolean>(false);
-  const [configRol, setConfigRol] = useState<boolean>(false);
-  const [configOrg, setConfigOrg] = useState<boolean>(false);
+  const [agregar, setAgregar] = useState<boolean>(true);
+  const [editar, setEditar] = useState<boolean>(true);
+  const [eliminar, setEliminar] = useState<boolean>(true);
+  const [configRol, setConfigRol] = useState<boolean>(true);
+  const [configOrg, setConfigOrg] = useState<boolean>(true);
   const [dataSolicitudNoAdmin, setDataSolicitudNoAdmin] = useState<
     DatDAMOPSol[]
   >([]);
@@ -92,18 +88,16 @@ const Usuarios = () => {
         NUMOPERACION: 5,
         NOMBRE: "AppID",
       };
-      if (PER[0]?.Referencia === "ADMIN") {
-        ParametroServices.ParametroGeneralesIndex(dataAppId).then(
-          (resAppId) => {
-            UserServices.solicitudesapp(
-              "IdUsuario=" + user.Id + "&IdApp=" + resAppId?.RESPONSE?.Valor
-            ).then((res) => {
-              const sol: Datum[] = res.data.data;
-              setDataSolicitud(sol);
-            });
-          }
-        );
-      } else {
+      // if (PER[0]?.Referencia === "ADMIN") {
+      ParametroServices.ParametroGeneralesIndex(dataAppId).then((resAppId) => {
+        UserServices.solicitudesapp(
+          "IdUsuario=" + user.Id + "&IdApp=" + resAppId?.RESPONSE?.Valor
+        ).then((res) => {
+          const sol: Datum[] = res.data.data;
+          setDataSolicitud(sol);
+        });
+      });
+      /*  } else {
         AuthService.adminUser({ NUMOPERACION: 11, CHUSER: user?.Id }).then(
           (res) => {
             if (res.SUCCESS) {
@@ -121,14 +115,14 @@ const Usuarios = () => {
             }
           }
         );
-      }
+      }*/
     } else if (newValue === "1") {
       consulta();
     }
     setValue(newValue);
   };
 
-  const handleOpen = () => {
+  const handleOpen = (v: any) => {
     setTipoOperacion("ALTA");
     setDt("");
     setOpenNew(true);
@@ -451,20 +445,20 @@ const Usuarios = () => {
     ValidaSesion();
 
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "USUARIOS") {
-        if (String(item.Referencia) === "AGREG") {
+      if (String(item.Menu) === "USUARIOS") {
+        if (String(item.ControlInterno) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) === "EDIT") {
           setEditar(true);
         }
-        if (String(item.Referencia) === "CONFIGROL") {
+        if (String(item.ControlInterno) === "CONFIGROL") {
           setConfigRol(true);
         }
-        if (String(item.Referencia) === "CONFIGORG") {
+        if (String(item.ControlInterno) === "CONFIGORG") {
           setConfigOrg(true);
         }
       }
@@ -526,16 +520,12 @@ const Usuarios = () => {
           </TabPanel>
           <TabPanel value="2">
             <MUIXDataGrid
-              columns={
-                PER[0]?.Referencia === "ADMIN"
-                  ? columnsSolicitud
-                  : columnsSolicitudNoAdmin
-              }
-              rows={
+              columns={columnsSolicitud}
+              /*   rows={
                 PER[0]?.Referencia === "ADMIN"
                   ? dataSolicitud
                   : dataSolicitudNoAdmin
-              }
+              }*/
             />
           </TabPanel>
         </TabContext>

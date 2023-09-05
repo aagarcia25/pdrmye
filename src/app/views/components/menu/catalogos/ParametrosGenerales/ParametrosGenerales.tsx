@@ -3,16 +3,24 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { ITEMS,  PERMISO, USUARIORESPONSE, menus } from "../../../../../interfaces/user/UserInfo";
+import {
+  ITEMS,
+  PERMISO,
+  USUARIORESPONSE,
+  menus,
+} from "../../../../../interfaces/user/UserInfo";
 import { ParametroServices } from "../../../../../services/ParametroServices";
-import { getMenus, getPermisos, getUser } from "../../../../../services/localStorage";
+import {
+  getMenus,
+  getPermisos,
+  getUser,
+} from "../../../../../services/localStorage";
 import { messages } from "../../../../styles";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import { ParametrosGeneralesModal } from "./ParametrosGeneralesModal";
-
 
 export const ParametrosGenerales = () => {
   const [parametroGeneral, setParametroGeneral] = useState([]);
@@ -27,7 +35,6 @@ export const ParametrosGenerales = () => {
   const menu: menus[] = JSON.parse(String(getMenus()));
   const [nombreMenu, setNombreMenu] = useState("");
 
-
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -37,24 +44,54 @@ export const ParametrosGenerales = () => {
       description: messages.dataTableColum.id,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
       width: 150,
       renderCell: (v) => {
         return (
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+          <BotonesAcciones
+            handleAccion={handleAccion}
+            row={v}
+            editar={editar}
+            eliminar={eliminar}
+          ></BotonesAcciones>
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación",width: 200,},
-    { field: "CreadoP",       headerName: "Creado Por",     description: "Creado Por",    width: 200, },
-    { field: "Nombre",        headerName: "Nombre",         description: "Nombre",        width: 360,},
-    { field: "Valor",         headerName: "Valor",          description: "Valor",         width: 250, },
-    { field: "slug",          headerName: "Referencia",     description: "Referencia",    width: 250, },
-    { field: "Descripcion",   headerName: "Descripción",    description: "Descripción",   width: 450,},
-
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creación",
+      description: "Fecha Creación",
+      width: 200,
+    },
+    {
+      field: "CreadoP",
+      headerName: "Creado Por",
+      description: "Creado Por",
+      width: 200,
+    },
+    {
+      field: "Nombre",
+      headerName: "Nombre",
+      description: "Nombre",
+      width: 360,
+    },
+    { field: "Valor", headerName: "Valor", description: "Valor", width: 250 },
+    {
+      field: "slug",
+      headerName: "Referencia",
+      description: "Referencia",
+      width: 250,
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripción",
+      description: "Descripción",
+      width: 450,
+    },
   ];
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
@@ -63,21 +100,17 @@ export const ParametrosGenerales = () => {
       setOpen(true);
       setVrows(v.data);
       // console.log(v.data);
-
     } else if (v.tipo === 2) {
       handleDelete(v.data);
     }
-  }
-
+  };
 
   const handleClose = () => {
     setOpen(false);
     consulta({ NUMOPERACION: 4 });
   };
 
-  const handleBorrar = () => {
-
-  };
+  const handleBorrar = () => {};
 
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
@@ -85,7 +118,6 @@ export const ParametrosGenerales = () => {
     setOpen(true);
     setVrows("");
   };
-
 
   const handleDelete = (v: any) => {
     Swal.fire({
@@ -98,7 +130,7 @@ export const ParametrosGenerales = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         //console.log(v);
-        const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+        const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
         let data = {
           NUMOPERACION: 3,
@@ -147,8 +179,6 @@ export const ParametrosGenerales = () => {
   };
 
   useEffect(() => {
-
-
     permisos.map((item: PERMISO) => {
       menu.map((item: any) => {
         item.items.map((itemsMenu: ITEMS) => {
@@ -160,23 +190,23 @@ export const ParametrosGenerales = () => {
 
       if (String(item.ControlInterno) === "PG") {
         //console.log(item)
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.ControlInterno) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) === "EDIT") {
           setEditar(true);
         }
       }
     });
-    consulta({ NUMOPERACION: 4 })
+    consulta({ NUMOPERACION: 4 });
   }, []);
 
   return (
     <div style={{ height: 600, width: "100%" }}>
-      {open ?
+      {open ? (
         <ParametrosGeneralesModal
           open={open}
           modo={modo}
@@ -184,10 +214,18 @@ export const ParametrosGenerales = () => {
           handleClose={handleClose}
           dt={vrows}
         />
-        : ""}
+      ) : (
+        ""
+      )}
       <NombreCatalogo controlInterno={"PG"} />
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGridMun columns={columns} rows={parametroGeneral} modulo={nombreMenu.toUpperCase().replace(' ', '_')} handleBorrar={handleBorrar} controlInterno={"PG"}/>
+      <MUIXDataGridMun
+        columns={columns}
+        rows={parametroGeneral}
+        modulo={nombreMenu.toUpperCase().replace(" ", "_")}
+        handleBorrar={handleBorrar}
+        controlInterno={"PG"}
+      />
     </div>
   );
 };

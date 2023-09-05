@@ -435,17 +435,14 @@ export default function Header(props: HeaderProps) {
                         {user.Puesto}
                       </Typography>
                     </Grid>
-
                     <Grid
                       container
-                      item
-                      xs={12}
-                      sm={12}
-                      direction="row"
                       justifyContent="flex-end"
                       alignItems="center"
                     >
-                      <Typography color="black">{user.Dependencia}</Typography>
+                      <Typography variant="h6" className="TextoHeader">
+                        {user.Entidad}
+                      </Typography>
                     </Grid>
                   </Grid>
                 </Grid>

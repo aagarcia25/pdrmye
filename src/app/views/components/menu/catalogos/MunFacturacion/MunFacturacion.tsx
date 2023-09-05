@@ -4,9 +4,12 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getPermisos, getUser, } from "../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { fanios } from "../../../../../share/loadAnios";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import Slider from "../../../Slider";
@@ -17,7 +20,6 @@ import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import MunFacturacionModal from "./MunFacturacionModal";
 
 export const MunFacturacion = () => {
-
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -25,51 +27,75 @@ export const MunFacturacion = () => {
   const [Facturacion, setFacturacion] = useState([]);
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   // const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-
-
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
-
 
   const columns: GridColDef[] = [
     {
       field: "id",
       hide: true,
-      hideable:false
-    },  {
-      field: "acciones", disableExport: true,
+      hideable: false,
+    },
+    {
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
       width: 100,
       renderCell: (v) => {
         return (
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
+          <BotonesAcciones
+            handleAccion={handleAccion}
+            row={v}
+            editar={editar}
+            eliminar={eliminar}
+          ></BotonesAcciones>
         );
       },
     },
     {
       field: "idmunicipio",
-      hide: true, 
-       hideable:false,
+      hide: true,
+      hideable: false,
     },
-  
-    { field: "FechaCreacion", headerName: "Fecha Creación",description: "Fecha Creación", width: 180 },
-    { field: "ClaveEstado",   headerName: "Clave Estado",  description: "Clave Estado",   width: 100 },
-    { field: "Nombre",        headerName: "Municipio",     description: "Municipio",      width: 220 },
-    { field: "Anio",          headerName: "Año",           description: "Año",            width: 150 },
-    { field: "Facturacion",   headerName: "Facturado",     description: "Facturado",      width: 150, ...Moneda}
 
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creación",
+      description: "Fecha Creación",
+      width: 180,
+    },
+    {
+      field: "ClaveEstado",
+      headerName: "Clave Estado",
+      description: "Clave Estado",
+      width: 100,
+    },
+    {
+      field: "Nombre",
+      headerName: "Municipio",
+      description: "Municipio",
+      width: 220,
+    },
+    { field: "Anio", headerName: "Año", description: "Año", width: 150 },
+    {
+      field: "Facturacion",
+      headerName: "Facturado",
+      description: "Facturado",
+      width: 150,
+      ...Moneda,
+    },
   ];
-
 
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
@@ -80,19 +106,15 @@ export const MunFacturacion = () => {
     } else if (v.tipo === 2) {
       handleDelete(v.data);
     }
-  }
-
+  };
 
   const handleClose = (v: string) => {
-
     setOpen(false);
     let data = {
       NUMOPERACION: 4,
       ANIO: filterAnio,
     };
     consulta(data);
-
-
   };
 
   const handleOpen = (v: any) => {
@@ -109,7 +131,6 @@ export const MunFacturacion = () => {
     setData(v);
   };
 
-
   const handleDelete = (v: any) => {
     Swal.fire({
       icon: "question",
@@ -125,7 +146,7 @@ export const MunFacturacion = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.Id
+          CHUSER: user.Id,
         };
         //console.log(data);
 
@@ -141,7 +162,6 @@ export const MunFacturacion = () => {
               ANIO: filterAnio,
             };
             consulta(data);
-
           } else {
             AlertS.fire({
               title: "¡Error!",
@@ -150,17 +170,13 @@ export const MunFacturacion = () => {
             });
           }
         });
-
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
     });
   };
 
-
-
   const handleUpload = (data: any) => {
-
     if (data.tipo === 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
@@ -181,13 +197,8 @@ export const MunFacturacion = () => {
             icon: "error",
           });
         }
-
-
-
       });
-    }
-    else if (data.tipo === 2) {
-
+    } else if (data.tipo === 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -198,12 +209,10 @@ export const MunFacturacion = () => {
           denyButtonText: `Cancelar`,
         }).then((result) => {
           if (result.isConfirmed) {
-
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
               CHUSER: user.Id,
-
             };
             //console.log(data);
 
@@ -219,7 +228,6 @@ export const MunFacturacion = () => {
                   CHUSER: user.Id,
                   ANIO: filterAnio,
                 });
-
               } else {
                 AlertS.fire({
                   title: "¡Error!",
@@ -228,7 +236,6 @@ export const MunFacturacion = () => {
                 });
               }
             });
-
           } else if (result.isDenied) {
             Swal.fire("No se realizaron cambios", "", "info");
           }
@@ -242,7 +249,6 @@ export const MunFacturacion = () => {
       }
     }
   };
-
 
   const consulta = (data: any) => {
     CatalogosServices.munfacturacion(data).then((res) => {
@@ -263,24 +269,21 @@ export const MunFacturacion = () => {
       setFilterAnio(v);
       consulta(data);
     } else {
-      consulta({ NUMOPERACION: 4,ANIO: "",});
+      consulta({ NUMOPERACION: 4, ANIO: "" });
       setFilterAnio("");
-
     }
   };
-
-  
 
   useEffect(() => {
     setAnios(fanios());
 
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "MUNFA") {
+      if (String(item.Menu) === "MUNFA") {
         setNombreMenu(item.Menu);
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) === "EDIT") {
           setEditar(true);
         }
       }
@@ -299,12 +302,23 @@ export const MunFacturacion = () => {
 
       <ButtonsMunicipio
         url={"MUNICIPIO_FACTURACION.xlsx"}
-        handleUpload={handleUpload} controlInterno={"MUNFA"}
-        value={''}
+        handleUpload={handleUpload}
+        controlInterno={"MUNFA"}
+        value={""}
         options={anios}
         onInputChange={handleFilterChange}
-        placeholder={"Seleccione Año"} label={""} disabled={false} handleOpen={handleOpen} />
-      < MUIXDataGridMun columns={columns} rows={Facturacion} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNFA"} />
+        placeholder={"Seleccione Año"}
+        label={""}
+        disabled={false}
+        handleOpen={handleOpen}
+      />
+      <MUIXDataGridMun
+        columns={columns}
+        rows={Facturacion}
+        handleBorrar={handleBorrar}
+        modulo={nombreMenu.toUpperCase().replace(" ", "_")}
+        controlInterno={"MUNFA"}
+      />
 
       {open ? (
         <MunFacturacionModal
@@ -317,7 +331,6 @@ export const MunFacturacion = () => {
       ) : (
         ""
       )}
-
     </div>
   );
 };

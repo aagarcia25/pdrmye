@@ -5,7 +5,10 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../../services/calculosServices";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
@@ -29,30 +32,30 @@ export const CalculoGarantiaComponente = () => {
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
   const [plantilla, setPlantilla] = useState("");
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [anios, setAnios] = useState<SelectValues[]>([]);
 
-    // VARIABLES PARA LOS FILTROS
-    const [filterAnio, setFilterAnio] = useState("");
-    //funciones
+  // VARIABLES PARA LOS FILTROS
+  const [filterAnio, setFilterAnio] = useState("");
+  //funciones
 
-    const handleFilterChange = (v: string) => {
-      setFilterAnio(v);
-  
-      let data = {
-        NUMOPERACION: 4,
-        ANIO: v,
-      };
-      if (v !== "false") {
-        setFilterAnio(v);
-        consulta(data);
-      } else {
-        consulta({ NUMOPERACION: 4,ANIO: "",});
-        setFilterAnio("");
-  
-      }
+  const handleFilterChange = (v: string) => {
+    setFilterAnio(v);
+
+    let data = {
+      NUMOPERACION: 4,
+      ANIO: v,
     };
+    if (v !== "false") {
+      setFilterAnio(v);
+      consulta(data);
+    } else {
+      consulta({ NUMOPERACION: 4, ANIO: "" });
+      setFilterAnio("");
+    }
+  };
 
   const columns: GridColDef[] = [
     {
@@ -64,32 +67,69 @@ export const CalculoGarantiaComponente = () => {
       hide: true,
     },
     {
-
-      field: "acciones", disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
       width: 100,
       renderCell: (v) => {
         return (
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-
+          <BotonesAcciones
+            handleAccion={handleAccion}
+            row={v}
+            editar={editar}
+            eliminar={eliminar}
+          ></BotonesAcciones>
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación",      description: "Fecha Creación",       width: 180 },
-    { field: "ClaveEstado",   headerName: "Clave Estado",        description: "Clave Estado",         width: 150 },
-    { field: "Nombre",        headerName: "Municipio",           description: "Municipio",            width: 250 },
-    { field: "clave",         headerName: "Clave Fondo",         description: "Clave Fondo",          width: 100 },
-    { field: "Descripcion",   headerName: "Descripción de fondo",description: "Descripción de fondo", width: 420 },
-    { field: "Anio",          headerName: "Año",                 description: "Año",                  width: 120 },
-    { field: "Garantia",      headerName: "Garantía",            description: "Garantía",             width: 250,  }, 
-    { field: "Distribucion",  headerName: "Distribución",        description: "Distribución",         width: 150 },
-
-
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creación",
+      description: "Fecha Creación",
+      width: 180,
+    },
+    {
+      field: "ClaveEstado",
+      headerName: "Clave Estado",
+      description: "Clave Estado",
+      width: 150,
+    },
+    {
+      field: "Nombre",
+      headerName: "Municipio",
+      description: "Municipio",
+      width: 250,
+    },
+    {
+      field: "clave",
+      headerName: "Clave Fondo",
+      description: "Clave Fondo",
+      width: 100,
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripción de fondo",
+      description: "Descripción de fondo",
+      width: 420,
+    },
+    { field: "Anio", headerName: "Año", description: "Año", width: 120 },
+    {
+      field: "Garantia",
+      headerName: "Garantía",
+      description: "Garantía",
+      width: 250,
+    },
+    {
+      field: "Distribucion",
+      headerName: "Distribución",
+      description: "Distribución",
+      width: 150,
+    },
   ];
   const handleAccion = (v: any) => {
-    if (v.tipo = 1) {
+    if ((v.tipo = 1)) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
@@ -97,8 +137,7 @@ export const CalculoGarantiaComponente = () => {
     } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
-  }
-
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -131,7 +170,7 @@ export const CalculoGarantiaComponente = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         //console.log(v);
-        const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+        const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
         let data = {
           NUMOPERACION: 3,
@@ -166,7 +205,6 @@ export const CalculoGarantiaComponente = () => {
   };
 
   const handleUpload = (data: any) => {
-
     if (data.tipo === 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
@@ -182,7 +220,6 @@ export const CalculoGarantiaComponente = () => {
             icon: "success",
             title: "Carga Exitosa!",
           });
-
         } else {
           consulta({ NUMOPERACION: 4 });
           AlertS.fire({
@@ -191,14 +228,8 @@ export const CalculoGarantiaComponente = () => {
             icon: "error",
           });
         }
-
-
-
       });
-    }
-    else if (data.tipo === 2) {
-
-
+    } else if (data.tipo === 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -209,11 +240,10 @@ export const CalculoGarantiaComponente = () => {
           denyButtonText: `Cancelar`,
         }).then((result) => {
           if (result.isConfirmed) {
-
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.Id
+              CHUSER: user.Id,
             };
 
             calculosServices.CalculoGarantia(data).then((res) => {
@@ -232,7 +262,6 @@ export const CalculoGarantiaComponente = () => {
                 });
               }
             });
-
           } else if (result.isDenied) {
             Swal.fire("No se realizaron cambios", "", "info");
           }
@@ -245,7 +274,6 @@ export const CalculoGarantiaComponente = () => {
         });
       }
     }
-
   };
 
   const handleBorrar = (v: any) => {
@@ -274,17 +302,17 @@ export const CalculoGarantiaComponente = () => {
   useEffect(() => {
     setAnios(fanios());
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "CA") {
+      if (String(item.Menu) === "CA") {
         //console.log(item)
 
         setNombreMenu(item.Menu);
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.ControlInterno) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) === "EDIT") {
           setEditar(true);
         }
       }
@@ -293,30 +321,36 @@ export const CalculoGarantiaComponente = () => {
   }, []);
 
   return (
-
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
-      <Grid container
-        sx={{ justifyContent: "center" }}>
+      <Grid container sx={{ justifyContent: "center" }}>
         <Grid item xs={10} sx={{ textAlign: "center" }}>
-        <Tooltip title="Cálculo que garantiza a los municipios recibir mínimo el mísmo monto del año anterior, y no menos">
-          <Typography variant='h3'>
-            {nombreMenu}
-          </Typography>
-        </Tooltip>
+          <Tooltip title="Cálculo que garantiza a los municipios recibir mínimo el mísmo monto del año anterior, y no menos">
+            <Typography variant="h3">{nombreMenu}</Typography>
+          </Tooltip>
         </Grid>
       </Grid>
-
 
       {/* <ButtonsAdd handleOpen={handleOpen} agregar={agregar} /> */}
       <ButtonsMunicipio
         url={"PLANTILLA DE CARGA DE GARANTIA.xlsx"}
-        handleUpload={handleUpload} controlInterno={"CA"}
+        handleUpload={handleUpload}
+        controlInterno={"CA"}
         options={anios}
         onInputChange={handleFilterChange}
-        placeholder={"Seleccione Año"} label={''} disabled={false}
-        value={filterAnio} handleOpen={handleOpen}/>
-      < MUIXDataGridMun columns={columns} rows={calculoGarantia} handleBorrar={handleBorrar} modulo={"Garantia"} controlInterno={"CA"} />
+        placeholder={"Seleccione Año"}
+        label={""}
+        disabled={false}
+        value={filterAnio}
+        handleOpen={handleOpen}
+      />
+      <MUIXDataGridMun
+        columns={columns}
+        rows={calculoGarantia}
+        handleBorrar={handleBorrar}
+        modulo={"Garantia"}
+        controlInterno={"CA"}
+      />
     </div>
   );
 };

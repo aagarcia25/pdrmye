@@ -1,18 +1,20 @@
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Grid, IconButton, Tooltip, Typography, } from '@mui/material';
-import { GridColDef } from '@mui/x-data-grid';
-import { useEffect, useState } from 'react';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { AlertS } from '../../../../../helpers/AlertS';
+import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { PERMISO, USUARIORESPONSE } from '../../../../../interfaces/user/UserInfo';
-import { CatalogosServices } from '../../../../../services/catalogosServices';
-import { getPermisos, getUser } from '../../../../../services/localStorage';
-import MUIXDataGrid from '../../../MUIXDataGrid';
-import BotonesAcciones from '../../../componentes/BotonesAcciones';
-import ButtonsAdd from '../Utilerias/ButtonsAdd';
-import AvisosModal from './AvisosModal';
-
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import ButtonsAdd from "../Utilerias/ButtonsAdd";
+import AvisosModal from "./AvisosModal";
 
 export const Avisos = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -24,24 +26,33 @@ export const Avisos = () => {
   const [data, setData] = useState({});
   const [conAvisos, setAvisos] = useState([]);
   const [open, setOpen] = useState(false);
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const columns: GridColDef[] = [
-
-    { field: "id", hide: true,  },
+    { field: "id", hide: true },
     {
-      field: "acciones", disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
       width: 150,
       renderCell: (v) => {
         return (
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar} ></BotonesAcciones>
+          <BotonesAcciones
+            handleAccion={handleAccion}
+            row={v}
+            editar={editar}
+            eliminar={eliminar}
+          ></BotonesAcciones>
         );
       },
     },
     {
-      field: "Documento", headerName: "Documento", description: "Documento",  width: 100, renderCell: (v) => {
+      field: "Documento",
+      headerName: "Documento",
+      description: "Documento",
+      width: 100,
+      renderCell: (v) => {
         return (
           <Box>
             <Tooltip title="Visualizar">
@@ -51,15 +62,40 @@ export const Avisos = () => {
             </Tooltip>
           </Box>
         );
-      }
+      },
     },
-    { field: "fechaInicio",     headerName: "Fecha",          description: "Fecha", width: 200 },
-    { field: "FechaFin",        headerName: "Expiración",     description: "Expiración",      width: 200 },
-    { field: "Nombre",          headerName: "Nombre",         description: "Nombre",          width: 250 },
-    { field: "Descripcion",     headerName: "Descripción",    description: "Descripción",     width: 500, },
-    { field: "NombreDocumento", headerName: "Documento",description: "Documento", hide: true, width: 150, },
+    {
+      field: "fechaInicio",
+      headerName: "Fecha",
+      description: "Fecha",
+      width: 200,
+    },
+    {
+      field: "FechaFin",
+      headerName: "Expiración",
+      description: "Expiración",
+      width: 200,
+    },
+    {
+      field: "Nombre",
+      headerName: "Nombre",
+      description: "Nombre",
+      width: 250,
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripción",
+      description: "Descripción",
+      width: 500,
+    },
+    {
+      field: "NombreDocumento",
+      headerName: "Documento",
+      description: "Documento",
+      hide: true,
+      width: 150,
+    },
   ];
-
 
   const handleAccion = (v: any) => {
     if (v.tipo === 1) {
@@ -70,10 +106,9 @@ export const Avisos = () => {
     } else if (v.tipo === 2) {
       handleBorrar(v.data);
     }
-  }
+  };
 
   const handleBorrar = (v: any) => {
-
     Swal.fire({
       icon: "question",
       title: "¿Estás seguro de eliminar este registro?",
@@ -86,9 +121,8 @@ export const Avisos = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: String(user.Id)
+          CHUSER: String(user.Id),
         };
-
 
         CatalogosServices.avisos(data).then((res) => {
           if (res.SUCCESS) {
@@ -99,7 +133,6 @@ export const Avisos = () => {
 
             let data = {
               NUMOPERACION: 4,
-
             };
             consulta(data);
           } else {
@@ -110,32 +143,24 @@ export const Avisos = () => {
             });
           }
         });
-
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
-
-
     });
   };
-
 
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
     setModo("Agregar Aviso");
     setOpen(true);
     //setData(v);
-
   };
   const handleVisualizar = (v: any) => {
     setTipoOperacion(2);
     setModo("Aviso");
     setOpen(true);
     setData(v);
-
   };
-
-
 
   const handleClose = (v: string) => {
     if (v === "save") {
@@ -144,11 +169,9 @@ export const Avisos = () => {
         CHUSER: String(user.Id),
       };
       consulta(data);
-
     }
 
     setOpen(false);
-
   };
 
   const consulta = (data: any) => {
@@ -169,24 +192,22 @@ export const Avisos = () => {
     });
   };
 
-
-  let dat = ({
+  let dat = {
     NUMOPERACION: 4,
-    CHUSER: String(user.Id)
-  })
-
+    CHUSER: String(user.Id),
+  };
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "AVISOS") {
+      if (String(item.Menu) === "AVISOS") {
         //console.log(item)
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.ControlInterno) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) === "EDIT") {
           setEditar(true);
         }
       }
@@ -194,13 +215,11 @@ export const Avisos = () => {
     CatalogosServices.avisos(dat).then((res) => {
       setAvisos(res.RESPONSE);
     });
-
   }, []);
 
-
-  return (   
+  return (
     <>
-    {open ? (
+      {open ? (
         <AvisosModal
           open={open}
           modo={modo}
@@ -212,22 +231,25 @@ export const Avisos = () => {
         ""
       )}
 
-    <div style={{ height: 600, width: "100%", paddingTop: "2%", paddingLeft: "1%", paddingRight: "1%" }} >
-      <Grid container justifyContent="space-between">
-        <Grid item md={12} textAlign="center" >
-          <Typography variant="h3" >
-            {"Avisos"}
-          </Typography>
+      <div
+        style={{
+          height: 600,
+          width: "100%",
+          paddingTop: "2%",
+          paddingLeft: "1%",
+          paddingRight: "1%",
+        }}
+      >
+        <Grid container justifyContent="space-between">
+          <Grid item md={12} textAlign="center">
+            <Typography variant="h3">{"Avisos"}</Typography>
+          </Grid>
         </Grid>
-      </Grid>
 
-      <Box>
-      </Box>
-      <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      <MUIXDataGrid columns={columns} rows={conAvisos} />
-    </div>
+        <Box></Box>
+        <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+        <MUIXDataGrid columns={columns} rows={conAvisos} />
+      </div>
     </>
-
-  )
-}
-
+  );
+};

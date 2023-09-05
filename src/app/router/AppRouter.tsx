@@ -8,7 +8,6 @@ import { AjSemestral } from "../views/components/CPH/AJSEMESTRAL/AjSemestral";
 import { PEF } from "../views/components/CPH/PEF";
 import CalendarC from "../views/components/CalendarC";
 import AsigPago from "../views/components/DAF/AsigPago";
-import Op from "../views/components/DAMOP/Op";
 import Participaciones from "../views/components/DAMOP/Participaciones";
 import AsigPresupuestal from "../views/components/DPCP/AsigPresupuestal";
 import AuthSolicitudes from "../views/components/DPCP/AuthSolicitudes";
@@ -262,10 +261,6 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         <Route
           path="/inicio/agregarcontactomunicipio"
           element={log ? <AgregarContactoMunicipio /> : <AuthRouter />}
-        />
-        <Route
-          path="/inicio/listado/op"
-          element={log ? <Op /> : <AuthRouter />}
         />
         {/* SECCION MUNICIPIOS */}
 

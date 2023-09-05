@@ -14,11 +14,10 @@ import SelectValues from "../../../interfaces/Select/SelectValues";
 import { IReportes } from "../../../interfaces/menu/menu";
 import { USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../services/catalogosServices";
-import { getUser } from "../../../services/localStorage";
 import {
-  getFormDataHeader,
-  getdatafiles,
-} from "../../../services/tokenCreator";
+  getUser,
+  getcontrolInternoEntidad,
+} from "../../../services/localStorage";
 import { fanios } from "../../../share/loadAnios";
 import { fmeses } from "../../../share/loadMeses";
 import SelectFrag from "../Fragmentos/SelectFrag";
@@ -158,7 +157,7 @@ export const Reporteador = () => {
   useEffect(() => {
     setMeses(fmeses());
     setAnios(fanios());
-    consultaReportes({ P_DEPENDENCIA: user.controlinternodependencia });
+    consultaReportes({ P_DEPENDENCIA: getcontrolInternoEntidad() });
   }, []);
 
   useEffect(() => {

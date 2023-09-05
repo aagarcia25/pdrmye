@@ -19,7 +19,6 @@ import React, { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import {
   ITEMS,
-  PERFILES,
   RESPONSEGUIARAPIDA,
   RESPONSEPREGUNTASFRECUENTES,
   RESPONSEVIDEOS,
@@ -31,9 +30,9 @@ import { ValidaSesion } from "../../../../../services/UserServices";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {
   getMenus,
-  getPerfiles,
   getToken,
   getUser,
+  getcontrolInternoEntidad,
 } from "../../../../../services/localStorage";
 import SliderProgress from "../../../SliderProgress";
 import { TooltipPersonalizado } from "../../../componentes/CustomizedTooltips";
@@ -60,7 +59,6 @@ const ButtonsTutorial = ({
   const [modoVisualizacion, setModoVisualizacion] = useState<string>("");
   const list: menus[] = JSON.parse(String(getMenus()));
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
-  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
   const [slideropen, setslideropen] = useState(false);
   const [openMenu, setOpenMenu] = useState(-1);
   const [URLVideo, setURLVideo] = useState<string>("");
@@ -75,15 +73,17 @@ const ButtonsTutorial = ({
   const handleObtenerVideos = (idmenu: string) => {
     let data = {
       CHID: idmenu,
-      NUMOPERACION: user.controlinternodependencia === "DTI" ? 12 : 9,
+      NUMOPERACION: getcontrolInternoEntidad() === "DTI" ? 12 : 9,
       TIPO:
-        user.controlinternodependencia === "ORG" ||
-        user.controlinternodependencia === "MUN"
+        getcontrolInternoEntidad() === "ORG" ||
+        getcontrolInternoEntidad() === "MUN"
           ? 1
           : 2,
     };
     AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS) {
+        console.log("resultado de obtener guias");
+        console.log(res.SUCCESS);
         setDataVideos(res.RESPONSE);
       } else {
       }
@@ -98,8 +98,8 @@ const ButtonsTutorial = ({
       CHID: idmenu,
       NUMOPERACION: numOperacion,
       TIPO:
-        user.controlinternodependencia === "ORG" ||
-        user.controlinternodependencia === "MUN"
+        getcontrolInternoEntidad() === "ORG" ||
+        getcontrolInternoEntidad() === "MUN"
           ? 1
           : 2,
     };
@@ -128,11 +128,11 @@ const ButtonsTutorial = ({
     handleObtenerVideos(idMenu);
     handleObtenerPreguntasFrecuentes(
       idMenu,
-      user.controlinternodependencia === "DTI" ? 10 : 7
+      getcontrolInternoEntidad() === "DTI" ? 10 : 7
     );
     handleObtenerPreguntasFrecuentes(
       idMenu,
-      user.controlinternodependencia === "DTI" ? 11 : 8
+      getcontrolInternoEntidad() === "DTI" ? 11 : 8
     );
   };
 
@@ -156,11 +156,11 @@ const ButtonsTutorial = ({
           handleObtenerVideos(itemsMenu.Id);
           handleObtenerPreguntasFrecuentes(
             itemsMenu.Id,
-            user.controlinternodependencia === "DTI" ? 10 : 7
+            getcontrolInternoEntidad() === "DTI" ? 10 : 7
           );
           handleObtenerPreguntasFrecuentes(
             itemsMenu.Id,
-            user.controlinternodependencia === "DTI" ? 11 : 8
+            getcontrolInternoEntidad() === "DTI" ? 11 : 8
           );
         }
       });
@@ -228,29 +228,25 @@ const ButtonsTutorial = ({
                                   </div>
                                 </Grid>
 
-                                {PER[0].Referencia === "ADMIN" ? (
-                                  <Grid key={Math.random()} item xs={2}>
-                                    <div
+                                <Grid key={Math.random()} item xs={2}>
+                                  <div
+                                    key={Math.random()}
+                                    className="div-BotonesVideos"
+                                  >
+                                    <IconButton
                                       key={Math.random()}
-                                      className="div-BotonesVideos"
+                                      className="VerVideos"
+                                      onClick={() =>
+                                        handleClickDelet(
+                                          datos?.RutaVideo,
+                                          route
+                                        )
+                                      }
                                     >
-                                      <IconButton
-                                        key={Math.random()}
-                                        className="VerVideos"
-                                        onClick={() =>
-                                          handleClickDelet(
-                                            datos?.RutaVideo,
-                                            route
-                                          )
-                                        }
-                                      >
-                                        <DeleteForeverIcon />
-                                      </IconButton>
-                                    </div>
-                                  </Grid>
-                                ) : (
-                                  ""
-                                )}
+                                      <DeleteForeverIcon />
+                                    </IconButton>
+                                  </div>
+                                </Grid>
                               </Grid>
                             );
                           })}
@@ -273,20 +269,17 @@ const ButtonsTutorial = ({
             </TooltipPersonalizado>
           </Grid>
         )}
-        {PER[0].Referencia === "ADMIN" ? (
-          <Grid item xs={5}>
-            <Tooltip title="Cargar Video Tutorial">
-              <IconButton
-                className="ControlVideosHeader"
-                onClick={handleClickOpenCarga}
-              >
-                <UploadIcon className="IconoDentroBoton" />
-              </IconButton>
-            </Tooltip>
-          </Grid>
-        ) : (
-          ""
-        )}
+
+        <Grid item xs={5}>
+          <Tooltip title="Cargar Video Tutorial">
+            <IconButton
+              className="ControlVideosHeader"
+              onClick={handleClickOpenCarga}
+            >
+              <UploadIcon className="IconoDentroBoton" />
+            </IconButton>
+          </Tooltip>
+        </Grid>
 
         {dataGuiaRapida.length === 0 ? (
           ""

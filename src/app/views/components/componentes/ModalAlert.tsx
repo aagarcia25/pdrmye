@@ -1,13 +1,13 @@
-import {
-  Button,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
-import { MUNICIPIO, PERFILES, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
-import { getMunicipio, getPerfiles, getUser } from "../../../services/localStorage";
+import { MUNICIPIO, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
+import {
+  getMunicipio,
+  getUser,
+  getcontrolInternoEntidad,
+} from "../../../services/localStorage";
 import ModalForm from "./ModalForm";
 
 const ModalAlert = ({
@@ -25,15 +25,13 @@ const ModalAlert = ({
   handleAccion: Function;
   vrows: any;
 }) => {
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
-  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
-  
-  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
   const [mensaje, setMensaje] = useState<string>();
   const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
   const [nombreMun, setnombreMun] = useState("");
 
-  const validacion = (est:string) => {
+  const validacion = (est: string) => {
     if (mensaje === "" || mensaje === null) {
       AlertS.fire({
         title: "¡Error!",
@@ -42,45 +40,37 @@ const ModalAlert = ({
       });
     } else {
       Swal.fire({
-        icon: est==="DAMOP_REGRESADO"? "error":"success",
+        icon: est === "DAMOP_REGRESADO" ? "error" : "success",
         title: "Enviar",
-        text: est==="DAMOP_REGRESADO"? "Desea Regresar La Solicitud":"Desea Autorizar La Cuenta",
+        text:
+          est === "DAMOP_REGRESADO"
+            ? "Desea Regresar La Solicitud"
+            : "Desea Autorizar La Cuenta",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
         cancelButtonText: "Cancelar",
-    }).then((result) => {
+      }).then((result) => {
         if (result.isConfirmed) {
-              handleAccion({ data: vrows, texto: mensaje, tipo: accion },est)
-      
+          handleAccion({ data: vrows, texto: mensaje, tipo: accion }, est);
         }
         if (result.isDenied) {
         }
-    });
-
-      
-     
+      });
     }
-
-  }
+  };
   useEffect(() => {
-
     mun?.map((item: MUNICIPIO) => {
       setnombreMun(item.Nombre);
     });
-
-
-
   }, []);
-
-
 
   return (
     <div>
-
       <ModalForm title={tipo} handleClose={handleClose}>
-     
-        <Grid container spacing={1}
+        <Grid
+          container
+          spacing={1}
           sx={{
             mt: "2vh",
             width: "100%",
@@ -90,12 +80,26 @@ const ModalAlert = ({
             flexDirection: "row",
           }}
         >
-           <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-              <Typography
-                sx={{ textAlign: "center", fontFamily: "MontserratMedium", fontSize: "3vw", color: "#000000", }}>
-                Municipio: {nombreMun}
-              </Typography>
-            </Grid>
+          <Grid
+            item
+            sm={12}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography
+              sx={{
+                textAlign: "center",
+                fontFamily: "MontserratMedium",
+                fontSize: "3vw",
+                color: "#000000",
+              }}
+            >
+              Municipio: {nombreMun}
+            </Typography>
+          </Grid>
           <Grid item xs={12}>
             <h3> Comentarios:</h3>
           </Grid>
@@ -109,28 +113,45 @@ const ModalAlert = ({
             />
           </Grid>
 
-          {(user.controlinternodependencia === "MUN" && PER[0].Referencia === "MUN") ?
-            < Grid item xs={4} sm={3} md={2} lg={1}>
-              <Button className="actualizar" onClick={() => validacion("DAMOP_REVISION")}>Enviar</Button>
+          {getcontrolInternoEntidad() === "MUN" ? (
+            // PER[0].Referencia === "MUN"
+            <Grid item xs={4} sm={3} md={2} lg={1}>
+              <Button
+                className="actualizar"
+                onClick={() => validacion("DAMOP_REVISION")}
+              >
+                Enviar
+              </Button>
             </Grid>
-            : ""}
-          {(user.controlinternodependencia === "DAMOP" && PER[0].Referencia === "ANA") ?
+          ) : (
+            ""
+          )}
+          {getcontrolInternoEntidad() === "DAMOP" ? (
+            //  PER[0].Referencia === "ANA"
             <>
-              < Grid item xs={4} sm={3} md={3} lg={3}>
-                <Button className="actualizar" onClick={() => validacion("DAMOP_AUTORIZADO")}>Autorizar</Button>
+              <Grid item xs={4} sm={3} md={3} lg={3}>
+                <Button
+                  className="actualizar"
+                  onClick={() => validacion("DAMOP_AUTORIZADO")}
+                >
+                  Autorizar
+                </Button>
               </Grid>
-              < Grid item xs={4} sm={3} md={3} lg={3}>
-                <Button className="regresar" onClick={() => validacion("DAMOP_REGRESADO")}>Regresar</Button>
+              <Grid item xs={4} sm={3} md={3} lg={3}>
+                <Button
+                  className="regresar"
+                  onClick={() => validacion("DAMOP_REGRESADO")}
+                >
+                  Regresar
+                </Button>
               </Grid>
             </>
-            : ""}
-
+          ) : (
+            ""
+          )}
         </Grid>
-
-
       </ModalForm>
-
-    </div >
+    </div>
   );
 };
 

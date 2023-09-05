@@ -25,12 +25,12 @@ import {
   setMenus,
   setMunicipios,
   setPerfilFoto,
-  setPerfiles,
   setPermisos,
   setRfToken,
   setRoles,
   setToken,
   setUser,
+  setcontrolInternoEntidad,
   validaLocalStorage,
 } from "./app/services/localStorage";
 import { BloqueoSesion } from "./app/views/components/BloqueoSesion";
@@ -130,15 +130,19 @@ function App() {
         AuthService.adminUser({ NUMOPERACION: 1, ID: id }).then(
           (objresponse) => {
             const dataadicional: ResponseDataAdicional = objresponse.RESPONSE;
-            console.log(dataadicional);
             setDatosAdicionales(dataadicional);
+          }
+        );
+
+        AuthService.controlinterno({ P_ID: res.data.data.IdEntidad }).then(
+          (obj) => {
+            setcontrolInternoEntidad(obj.RESPONSE[0].ControlInterno);
           }
         );
 
         console.log(res.data.data);
         setUser(res.data.data);
         setRoles(res.data.roles[0]);
-        setPerfiles(res.data.perfiles[0]);
         setMenus(res.data.menus[0]);
         setPermisos(
           res.data.permisos[0] == undefined ? [] : res.data.permisos[0]

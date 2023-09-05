@@ -2,7 +2,9 @@
 
 //BLOQUEO DE PANTALLA
 
-
+//CONTROLINTERNO
+export const setcontrolInternoEntidad = (CCI: any) => localStorage.setItem('CCI', JSON.stringify(CCI));
+export const getcontrolInternoEntidad = () => localStorage.getItem('CCI');
 //TOKEN
 export const setToken = (user: any) => localStorage.setItem('token', JSON.stringify(user));
 export const getToken = () => localStorage.getItem('token');
@@ -24,9 +26,6 @@ export const getRoles = () => localStorage.getItem('roles');
 // MENUS
 export const setMenus = (menus: any) => localStorage.setItem('menus', JSON.stringify(menus));
 export const getMenus = () => localStorage.getItem('menus');
-// PERFIL
-export const setPerfiles = (perfiles: any) => localStorage.setItem('perfiles', JSON.stringify(perfiles));
-export const getPerfiles = () => localStorage.getItem('perfiles');
 //// foto perfil
 export const setPerfilFoto = (perfiles: any) => localStorage.setItem('perfilFoto', JSON.stringify(perfiles));
 export const getPerfilFoto = () => localStorage.getItem('perfilFoto');

@@ -45,6 +45,7 @@ const UsuariosModal = ({
   };
 
   useEffect(() => {
+    console.log(dt);
     ValidaSesion();
     UserServices.verify({}).then((resAppLogin) => {
       if (resAppLogin.status === 401) {
@@ -61,7 +62,9 @@ const UsuariosModal = ({
             "?jwt=" +
             JSON.parse(String(getToken())) +
             "&IdApp=" +
-            JSON.parse(String(getIdApp()))
+            JSON.parse(String(getIdApp())) +
+            "&idUsuarioModificado=" +
+            String(getidusuario(dt.Id))
           }
           baseURL={String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN)}
         />
@@ -71,3 +74,8 @@ const UsuariosModal = ({
 };
 
 export default UsuariosModal;
+
+function getidusuario(Id: any) {
+  console.log(Id);
+  return Id;
+}

@@ -14,14 +14,11 @@ import React, { useEffect, useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
-import {
-  PERFILES,
-  USUARIORESPONSE,
-} from "../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../interfaces/user/UserInfo";
 import { ParametroServices } from "../../../../services/ParametroServices";
 import { calculosServices } from "../../../../services/calculosServices";
 import { CatalogosServices } from "../../../../services/catalogosServices";
-import { getPerfiles, getUser } from "../../../../services/localStorage";
+import { getUser } from "../../../../services/localStorage";
 import SelectFrag from "../../Fragmentos/SelectFrag";
 import Slider from "../../Slider";
 import { TooltipPersonalizado } from "../../componentes/CustomizedTooltips";
@@ -42,7 +39,6 @@ const ModalNew = ({
   resetSelect: string;
 }) => {
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
-  const PER: PERFILES[] = JSON.parse(String(getPerfiles()));
   const [year, setyear] = useState<number>();
   const [slideropen, setslideropen] = useState(true);
   //LLENADO DE FILTRO
@@ -200,8 +196,8 @@ const ModalNew = ({
           DERECHO: derecho,
           IDVERSION: idVersionCalculo,
           P_DIST: disti ? 1 : 0,
-          VIDAREA: user.controlinternodependencia,
-          VIDPERFIL: PER[0].Referencia,
+          //  VIDAREA: getcontrolInternoEntidad(),
+          //  VIDPERFIL: PER[0].Referencia,
         };
 
         calculosServices.CalculoPrincipalindex(data).then((res) => {
