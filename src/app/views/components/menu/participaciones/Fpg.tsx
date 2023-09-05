@@ -39,7 +39,7 @@ export const Fpg = () => {
   const [idtrazabilidad, setIdtrazabilidad] = useState("");
   const [openDetalles, setOpenDetalles] = useState(false);
   const [clave, setClave] = useState("");
-  const [agregar, setAgregar] = useState<boolean>(true);
+  const [agregar, setAgregar] = useState<boolean>(false);
   const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
 
