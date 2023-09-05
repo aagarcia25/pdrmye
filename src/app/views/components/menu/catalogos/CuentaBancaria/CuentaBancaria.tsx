@@ -8,7 +8,6 @@ import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import {
   MUNICIPIO,
-  PERFILES,
   PERMISO,
   ResponseDataAdicional,
   USUARIORESPONSE,
@@ -19,6 +18,7 @@ import {
   getMunicipio,
   getPermisos,
   getUser,
+  getcontrolInternoEntidad,
 } from "../../../../../services/localStorage";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
@@ -180,7 +180,7 @@ export const CuentaBancaria = ({
 
             {(v.row.EstatusDescripcion === "INICIO" ||
               v.row.ControlInterno === "DAMOP_REGRESADO") &&
-            user.controlinternodependencia === "MUN" ? (
+            getcontrolInternoEntidad() === "MUN" ? (
               //PER[0]?.Referencia === "MUN"
               <>
                 <Tooltip title="Enviar a Validación">
@@ -200,7 +200,7 @@ export const CuentaBancaria = ({
               ""
             )}
             {v.row.ControlInterno === "DAMOP_REVISION" &&
-            user.controlinternodependencia === "DAMOP" ? (
+            getcontrolInternoEntidad() === "DAMOP" ? (
               //PER[0]?.Referencia === "ANA"
               <>
                 <Tooltip title="Revisar">

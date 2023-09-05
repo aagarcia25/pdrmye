@@ -1,5 +1,4 @@
 import ApartmentIcon from "@mui/icons-material/Apartment";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import DoneIcon from "@mui/icons-material/Done";
@@ -14,7 +13,6 @@ import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import {
-  PERFILES,
   PERMISO,
   USUARIORESPONSE,
 } from "../../../../../interfaces/user/UserInfo";

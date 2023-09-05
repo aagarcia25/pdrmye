@@ -14,10 +14,7 @@ import React, { useEffect, useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
-import {
-  PERFILES,
-  USUARIORESPONSE,
-} from "../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../interfaces/user/UserInfo";
 import { ParametroServices } from "../../../../services/ParametroServices";
 import { calculosServices } from "../../../../services/calculosServices";
 import { CatalogosServices } from "../../../../services/catalogosServices";
@@ -199,7 +196,7 @@ const ModalNew = ({
           DERECHO: derecho,
           IDVERSION: idVersionCalculo,
           P_DIST: disti ? 1 : 0,
-          //  VIDAREA: user.controlinternodependencia,
+          //  VIDAREA: getcontrolInternoEntidad(),
           //  VIDPERFIL: PER[0].Referencia,
         };
 

@@ -2,12 +2,12 @@ import { Button, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
+import { MUNICIPIO, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import {
-  MUNICIPIO,
-  PERFILES,
-  USUARIORESPONSE,
-} from "../../../interfaces/user/UserInfo";
-import { getMunicipio, getUser } from "../../../services/localStorage";
+  getMunicipio,
+  getUser,
+  getcontrolInternoEntidad,
+} from "../../../services/localStorage";
 import ModalForm from "./ModalForm";
 
 const ModalAlert = ({
@@ -113,7 +113,7 @@ const ModalAlert = ({
             />
           </Grid>
 
-          {user.controlinternodependencia === "MUN" ? (
+          {getcontrolInternoEntidad() === "MUN" ? (
             // PER[0].Referencia === "MUN"
             <Grid item xs={4} sm={3} md={2} lg={1}>
               <Button
@@ -126,7 +126,7 @@ const ModalAlert = ({
           ) : (
             ""
           )}
-          {user.controlinternodependencia === "DAMOP" ? (
+          {getcontrolInternoEntidad() === "DAMOP" ? (
             //  PER[0].Referencia === "ANA"
             <>
               <Grid item xs={4} sm={3} md={3} lg={3}>

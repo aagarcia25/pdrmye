@@ -19,7 +19,6 @@ import React, { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import {
   ITEMS,
-  PERFILES,
   RESPONSEGUIARAPIDA,
   RESPONSEPREGUNTASFRECUENTES,
   RESPONSEVIDEOS,
@@ -33,6 +32,7 @@ import {
   getMenus,
   getToken,
   getUser,
+  getcontrolInternoEntidad,
 } from "../../../../../services/localStorage";
 import SliderProgress from "../../../SliderProgress";
 import { TooltipPersonalizado } from "../../../componentes/CustomizedTooltips";
@@ -73,10 +73,10 @@ const ButtonsTutorial = ({
   const handleObtenerVideos = (idmenu: string) => {
     let data = {
       CHID: idmenu,
-      NUMOPERACION: user.controlinternodependencia === "DTI" ? 12 : 9,
+      NUMOPERACION: getcontrolInternoEntidad() === "DTI" ? 12 : 9,
       TIPO:
-        user.controlinternodependencia === "ORG" ||
-        user.controlinternodependencia === "MUN"
+        getcontrolInternoEntidad() === "ORG" ||
+        getcontrolInternoEntidad() === "MUN"
           ? 1
           : 2,
     };
@@ -98,8 +98,8 @@ const ButtonsTutorial = ({
       CHID: idmenu,
       NUMOPERACION: numOperacion,
       TIPO:
-        user.controlinternodependencia === "ORG" ||
-        user.controlinternodependencia === "MUN"
+        getcontrolInternoEntidad() === "ORG" ||
+        getcontrolInternoEntidad() === "MUN"
           ? 1
           : 2,
     };
@@ -128,11 +128,11 @@ const ButtonsTutorial = ({
     handleObtenerVideos(idMenu);
     handleObtenerPreguntasFrecuentes(
       idMenu,
-      user.controlinternodependencia === "DTI" ? 10 : 7
+      getcontrolInternoEntidad() === "DTI" ? 10 : 7
     );
     handleObtenerPreguntasFrecuentes(
       idMenu,
-      user.controlinternodependencia === "DTI" ? 11 : 8
+      getcontrolInternoEntidad() === "DTI" ? 11 : 8
     );
   };
 
@@ -156,11 +156,11 @@ const ButtonsTutorial = ({
           handleObtenerVideos(itemsMenu.Id);
           handleObtenerPreguntasFrecuentes(
             itemsMenu.Id,
-            user.controlinternodependencia === "DTI" ? 10 : 7
+            getcontrolInternoEntidad() === "DTI" ? 10 : 7
           );
           handleObtenerPreguntasFrecuentes(
             itemsMenu.Id,
-            user.controlinternodependencia === "DTI" ? 11 : 8
+            getcontrolInternoEntidad() === "DTI" ? 11 : 8
           );
         }
       });

@@ -17,15 +17,17 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
-import { columnasCal } from "../../../../interfaces/calculos/columnasCal";
 import {
   FPGDetalle,
-  PERFILES,
   PERMISO,
   USUARIORESPONSE,
 } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
-import { getPermisos, getUser } from "../../../../services/localStorage";
+import {
+  getPermisos,
+  getUser,
+  getcontrolInternoEntidad,
+} from "../../../../services/localStorage";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
 import Trazabilidad from "../../Trazabilidad";
@@ -59,30 +61,20 @@ const DetalleFgp = ({
   const [mes, setMes] = useState("");
   const [nummes, setNumMes] = useState<Number>();
   const [tipoCalculo, setTipoCalculo] = useState("");
-
+  const [fase, setFase] = useState<Number>();
   //Permisos
   const [data, setData] = useState([]);
-  const [autorizar, setAutorizar] = useState<boolean>(false);
-  const [cancelar, setCancelar] = useState<boolean>(false);
-  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
-  const [recalcular, setrecalcular] = useState<boolean>(false);
+  const [autorizar, setAutorizar] = useState<boolean>(true);
+  const [cancelar, setCancelar] = useState<boolean>(true);
+  const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(true);
+  const [recalcular, setrecalcular] = useState<boolean>(true);
   //Modals
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [tipoAccion, setTipoAccion] = useState("");
   //Columnas
   const [visibleselect, setvisibleselect] = useState<Number>(0);
-  const [pa, setPa] = useState(false);
-  const [sa, setSa] = useState(false);
-  const [ta, setTa] = useState(false);
-  const [ca, setCa] = useState(false);
-  const [ad, setAd] = useState(false);
-  const [as, setAs] = useState(false);
-  const [aa, setAa] = useState(false);
-  const [rf, setRf] = useState(false);
-  const [cf, setCf] = useState(false);
-  const [ae, setAe] = useState(false);
-  const [af, setAf] = useState(false);
+
   const closeTraz = () => {
     setOpenSlider(false);
     setOpenTrazabilidad(false);
@@ -305,62 +297,6 @@ const DetalleFgp = ({
     });
   };
 
-  const columnas = (data: any) => {
-    calculosServices.getColumns(data).then((res) => {
-      if (res.SUCCESS) {
-        const cl: columnasCal[] = res.RESPONSE;
-        cl?.map((item) => {
-          //console.log(item.keys);
-          switch (item.keys) {
-            case 0:
-              break;
-            case 1:
-              setPa(true);
-              break;
-            case 2:
-              setSa(true);
-              break;
-            case 3:
-              setTa(true);
-              break;
-            case 4:
-              setCa(true);
-              break;
-            case 5:
-              setAd(true);
-              break;
-            case 6:
-              setAa(true);
-              break;
-            case 7:
-              setAs(true);
-              break;
-            case 8:
-              setRf(true);
-              break;
-            case 9:
-              setCf(true);
-              break;
-            case 10:
-              setAe(true);
-              break;
-            case 11:
-              setAf(true);
-              break;
-            default:
-              break;
-          }
-        });
-      } else {
-        AlertS.fire({
-          title: "¡Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
-      }
-    });
-  };
-
   const consulta = (data: any) => {
     calculosServices.calculosInfodetalle(data).then((res) => {
       if (res.SUCCESS) {
@@ -392,6 +328,7 @@ const DetalleFgp = ({
         setAnio(res.RESPONSE[0].anio);
         setMes(res.RESPONSE[0].mes);
         setTipoCalculo(res.RESPONSE[0].tipocalculo);
+        setFase(res.RESPONSE[0].Fase);
       } else {
         AlertS.fire({
           title: "¡Error!",
@@ -432,7 +369,6 @@ const DetalleFgp = ({
     },
 
     {
-      hide: ae ? false : true,
       field: "AjusteEstatal",
       headerName: "Ajuste Estatal",
       width: 150,
@@ -482,7 +418,6 @@ const DetalleFgp = ({
     EstatusCalculo();
     getResponsable();
     init({ P_ID: idDetalle });
-    columnas({ IDCALCULOTOTAL: idDetalle });
     consulta({ IDCALCULOTOTAL: idDetalle });
   }, []);
 
@@ -591,7 +526,7 @@ const DetalleFgp = ({
               <ToggleButtonGroup>
                 <Tooltip title={"Regresar"}>
                   <ToggleButton
-                    className="regresar"
+                    className="aceptar"
                     value="check"
                     onClick={() => handleAcciones(1)}
                   >
@@ -627,10 +562,7 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {autorizar &&
-                user.Id === responsable?.value &&
-                user.controlinternodependencia === "CPH" ? (
-                  //  PER[0].Referencia === "ANA"
+                {autorizar && user.Id === responsable?.value && fase == 1 ? (
                   <Tooltip title={"Enviar a Validación"}>
                     <ToggleButton
                       className="aceptar"
@@ -644,10 +576,7 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {autorizar &&
-                user.Id === responsable?.value &&
-                user.controlinternodependencia === "CPH" ? (
-                  //PER[0].Referencia === "VAL"
+                {autorizar && user.Id === responsable?.value && fase == 2 ? (
                   <Tooltip title={"Enviar a Coordinador"}>
                     <ToggleButton
                       className="aceptar"
@@ -661,10 +590,7 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {autorizar &&
-                user.Id === responsable?.value &&
-                user.controlinternodependencia === "CPH" ? (
-                  // PER[0].Referencia === "COOR"
+                {autorizar && user.Id === responsable?.value && fase == 3 ? (
                   <Tooltip title={"Enviar a DAMOP"}>
                     <ToggleButton
                       className="aceptar"
@@ -678,13 +604,10 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {cancelar &&
-                user.Id === responsable?.value &&
-                user.controlinternodependencia === "CPH" ? (
-                  //  PER[0].Referencia === "ANA"
+                {cancelar && user.Id === responsable?.value && fase == 1 ? (
                   <Tooltip title={"Cancelar"}>
                     <ToggleButton
-                      className="regresar"
+                      className="aceptar"
                       value="check"
                       onClick={() => handleAcciones(6)}
                     >
@@ -695,13 +618,10 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {cancelar &&
-                user.Id === responsable?.value &&
-                user.controlinternodependencia === "CPH" ? (
-                  //  PER[0].Referencia === "VAL"
+                {cancelar && user.Id === responsable?.value && fase == 2 ? (
                   <Tooltip title={"Regresar a Analista"}>
                     <ToggleButton
-                      className="regresar"
+                      className="aceptar"
                       value="check"
                       onClick={() => handleAcciones(7)}
                     >
@@ -712,13 +632,10 @@ const DetalleFgp = ({
                   ""
                 )}
 
-                {cancelar &&
-                user.Id === responsable?.value &&
-                user.controlinternodependencia === "CPH" ? (
-                  //  PER[0].Referencia === "COOR"
+                {cancelar && user.Id === responsable?.value && fase == 3 ? (
                   <Tooltip title={"Regresar a Validador"}>
                     <ToggleButton
-                      className="regresar"
+                      className="aceptar"
                       value="check"
                       onClick={() => handleAcciones(8)}
                     >

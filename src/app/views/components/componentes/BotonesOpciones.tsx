@@ -2,13 +2,14 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
 import EastIcon from "@mui/icons-material/East";
 import InsightsIcon from "@mui/icons-material/Insights";
-import SendIcon from "@mui/icons-material/Send";
 import { Box, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
-import { PERFILES, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
-import { getUser } from "../../../services/localStorage";
+import { USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
+import {
+  getUser,
+  getcontrolInternoEntidad,
+} from "../../../services/localStorage";
 
 const BotonesOpciones = ({
   estatus,
@@ -59,7 +60,7 @@ const BotonesOpciones = ({
           (autorizar &&
             estatus === "ENVIADO" &&
         //    PER[0].Referencia === perfil &&
-            area === user.controlinternodependencia) ? (
+            area === getcontrolInternoEntidad()) ? (
             <Tooltip title={"Autorizar"}>
               <ToggleButton value="check" onClick={() => handleAccion(2)}>
                 <DoneAllIcon />
@@ -84,7 +85,7 @@ const BotonesOpciones = ({
           estatus === "ENVIADO" &&
           PER[0].Referencia === perfil &&
           perfil === "COOR" &&
-          area === user.controlinternodependencia ? (
+          area === getcontrolInternoEntidad() ? (
             <Tooltip title={"Regresar a Analista"}>
               <ToggleButton value="check" onClick={() => handleAccion(7)}>
                 <CompareArrowsIcon />
@@ -129,7 +130,7 @@ const BotonesOpciones = ({
 
           {presupuesto &&
           estatus === "ENVIADO" &&
-          area === user.controlinternodependencia ? (
+          area === getcontrolInternoEntidad() ? (
             //  PER[0].Referencia === perfil
             <Tooltip title={"Asignar Presupuesto Global"}>
               <ToggleButton value="check" onClick={() => handleAccion(6)}>
@@ -142,7 +143,7 @@ const BotonesOpciones = ({
 
           {presupuesto &&
           estatus === "ENVIADO" &&
-          area === user.controlinternodependencia ? (
+          area === getcontrolInternoEntidad() ? (
             //  PER[0].Referencia === perfil
             <Tooltip title={"Finalizar"}>
               <ToggleButton value="check" onClick={() => handleAccion(9)}>

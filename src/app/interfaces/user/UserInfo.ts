@@ -152,10 +152,7 @@ export interface ITEMS {
     subitems: any[];
 }
 
-export interface PERFILES {
-    Descripcion: string;
-    Referencia: string;
-}
+
 
 export interface MUNICIPIO {
     id: string;
@@ -202,41 +199,34 @@ export interface ResponseDataAdicional {
   }
 
 export interface USUARIORESPONSE {
-    Id: string
-    Nombre: string
-    ApellidoPaterno: string
-    ApellidoMaterno: string
-    NombreUsuario: string
-    CorreoElectronico: string
-    Puesto: string
-    Curp: string
-    Rfc: string
-    Telefono: string
-    Ext: string
-    Celular: string
-    IdTipoUsuario: string
-    TipoUsuario: string
-    EstaActivo: number
-    PuedeFirmar: number
-    UltimoInicioDeSesion: string
-    Deleted: number
-    IdApp: string
-    Aplicacion: string
-    IdUnidadResponsable: any
-    ClaveUResponsable: any
-    UnidadResponsable: any
-    IdDependencia: string
-    Dependencia: string
-    IdTipoDependencia: string
-    controlinternodependencia: string
-    TipoDependencia: string
-    IdSecretaria: string
-    NombreCortoSecretaria: any
-    Secretaria: any
-    Acceso: any
-    RutaFoto:any
-    perfil: string
-	perfilReferencia: string
+     Id: string
+  Nombre: string
+  ApellidoPaterno: string
+  ApellidoMaterno: string
+  NombreUsuario: string
+  CorreoElectronico: string
+  Puesto: string
+  CURP: string
+  RFC: string
+  Telefono: string
+  Ext: string
+  Celular: string
+  IdTipoUsuario: string
+  TipoUsuario: string
+  EstaActivo: number
+  PuedeFirmar: number
+  UltimoInicioDeSesion: string
+  Deleted: number
+  IdApp: string
+  Aplicacion: string
+  IdEntidad: string
+  Entidad: string
+  ControlInternoEntidad: any
+  IdEntidadPerteneceA: any
+  EntidadPerteneceA: any
+  IdTipoEntidad: string
+  TipoEntidad: string
+  RutaFoto: string
 }
 export interface UserInfo {
     NUMCODE: number;

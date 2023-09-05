@@ -5,7 +5,7 @@ import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PERFILES, USUARIORESPONSE } from "../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import ListNotificationsModal from "./ListNotificationsModal";

@@ -2,7 +2,9 @@
 
 //BLOQUEO DE PANTALLA
 
-
+//CONTROLINTERNO
+export const setcontrolInternoEntidad = (CCI: any) => localStorage.setItem('CCI', JSON.stringify(CCI));
+export const getcontrolInternoEntidad = () => localStorage.getItem('CCI');
 //TOKEN
 export const setToken = (user: any) => localStorage.setItem('token', JSON.stringify(user));
 export const getToken = () => localStorage.getItem('token');

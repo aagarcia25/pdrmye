@@ -20,14 +20,18 @@ import { AlertS } from "../../../helpers/AlertS";
 import { base64ToArrayBuffer } from "../../../helpers/Files";
 import { Toast } from "../../../helpers/Toast";
 import {
-  PERFILES,
   PERMISO,
   SPEIS,
   USUARIORESPONSE,
 } from "../../../interfaces/user/UserInfo";
 import { DAFServices } from "../../../services/DAFServices";
 import { MunServices } from "../../../services/MunServices";
-import { getPermisos, getToken, getUser } from "../../../services/localStorage";
+import {
+  getPermisos,
+  getToken,
+  getUser,
+  getcontrolInternoEntidad,
+} from "../../../services/localStorage";
 import MUIXDataGridMun from "../MUIXDataGridMun";
 import SliderProgress from "../SliderProgress";
 import ModalForm from "../componentes/ModalForm";
@@ -506,7 +510,8 @@ const SpeisAdmin = ({
             </Typography>
           </Grid>
 
-          {/* {PER[0]?.Referencia === "MUN" || PER[0]?.Referencia === "ORG" ? (
+          {getcontrolInternoEntidad() === "MUN" ||
+          getcontrolInternoEntidad() === "ORG" ? (
             ""
           ) : (
             <Grid item xs={12} md={6} lg={4}>
@@ -517,7 +522,7 @@ const SpeisAdmin = ({
                 {vrows.row.a3}
               </Typography>
             </Grid>
-          )} */}
+          )}
 
           <Grid item xs={12} md={6} lg={4}>
             <Typography variant="h5" className="DatosSpeiCfdiTitulo">

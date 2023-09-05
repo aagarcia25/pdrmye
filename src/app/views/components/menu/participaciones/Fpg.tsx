@@ -39,7 +39,7 @@ export const Fpg = () => {
   const [idtrazabilidad, setIdtrazabilidad] = useState("");
   const [openDetalles, setOpenDetalles] = useState(false);
   const [clave, setClave] = useState("");
-  const [agregar, setAgregar] = useState<boolean>(false);
+  const [agregar, setAgregar] = useState<boolean>(true);
   const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
 
@@ -146,12 +146,6 @@ export const Fpg = () => {
       width: 180,
       description: "Fecha Creación",
     },
-    /*{
-      field: "Clave",
-      headerName: "Clave",
-      width: 150,
-      description: "Clave Fondo",
-    },*/
     {
       field: "Descripcion",
       headerName: "Descripción",

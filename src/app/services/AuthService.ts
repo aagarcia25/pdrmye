@@ -1,12 +1,15 @@
 import { User } from "../interfaces/user/User";
-import { USUARIORESPONSE } from "../interfaces/user/UserInfo";
-import { post, postDocument, postEasy } from "./apiService";
-import { getToken, getUser } from "./localStorage";
+import { post, postEasy } from "./apiService";
+import { getToken } from "./localStorage";
 
 export class AuthService {
 
 
 
+    
+     public static controlinterno(data: any) {
+        return post('controlinterno', data);
+    }
 
     public static getUsuarioDepartamento(data: any) {
         return post('getUsuarioDepartamento', data);
@@ -27,9 +30,6 @@ export class AuthService {
         return post('UsuarioPerfil', data);
     }
 
-    public static perfilindex(data: any) {
-        return post('perfilindex', data);
-    }
 
     public static adminUser(data: any) {
         return post('Usuariosindex', data);

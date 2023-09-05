@@ -49,7 +49,6 @@ import {
 } from "../../../interfaces/parametros/ParametrosGenerales";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import {
-  PERFILES,
   PERMISO,
   ResponseDataAdicional,
   USUARIORESPONSE,
@@ -58,6 +57,7 @@ import { CatalogosServices } from "../../../services/catalogosServices";
 import { DAMOPServices } from "../../../services/DAMOPServices";
 import { DPCPServices } from "../../../services/DPCPServices";
 import {
+  getcontrolInternoEntidad,
   getDatosAdicionales,
   getPermisos,
   getToken,
@@ -144,7 +144,7 @@ const Participaciones = () => {
   const [SMUNICIPIO, setSMUNICIPIO] = useState<boolean>(false);
   const [SMES, setSMES] = useState<boolean>(false);
   const [SANIO, setSANIO] = useState<boolean>(false);
-  const [CG_PLANTILLA_ORG, setCG_PLANTILLA_ORG] = useState<boolean>(false);
+  const [CG_PLANTILLA_ORG, setCG_PLANTILLA_ORG] = useState<boolean>(true);
   const [INTEGRAR_OPERACION, setINTEGRAR_OPERACION] = useState<boolean>(false);
   const [INTEGRACION_MASIVA, setINTEGRACION_MASIVA] = useState<boolean>(false);
   const [UNIFICACION, setUNIFICACION] = useState<boolean>(false);
@@ -809,6 +809,12 @@ const Participaciones = () => {
       description: "Clasificación de Solicitud de Pago",
     },
     {
+      field: "FechadePago",
+      headerName: "Fecha de Pago",
+      width: 100,
+      description: "Fecha de Pago",
+    },
+    {
       field: "Divisa",
       headerName: "Divisa",
       width: 80,
@@ -882,9 +888,9 @@ const Participaciones = () => {
       } else if (operacion === 25) {
         setEstatus(res.RESPONSE);
         setIdEstatus(
-          user.controlinternodependencia
-            ? user.controlinternodependencia === "ORG" ||
-              user.controlinternodependencia === "MUN"
+          getcontrolInternoEntidad()
+            ? getcontrolInternoEntidad() === "ORG" ||
+              getcontrolInternoEntidad() === "MUN"
               ? ""
               : res.RESPONSE[0].value
             : ""
@@ -1772,20 +1778,18 @@ const Participaciones = () => {
 
   const handleClick = () => {
     if (
-      (DA?.MUNICIPIO?.length === 0 &&
-        user.controlinternodependencia === "MUN") ||
-      (DA?.ORG?.length === 0 && user.controlinternodependencia === "ORG")
+      (DA?.MUNICIPIO?.length === 0 && getcontrolInternoEntidad() === "MUN") ||
+      (DA?.ORG?.length === 0 && getcontrolInternoEntidad() === "ORG")
     ) {
       AlertS.fire({
         title:
           String(
-            DA?.MUNICIPIO?.length === 0 &&
-              user.controlinternodependencia === "MUN"
+            DA?.MUNICIPIO?.length === 0 && getcontrolInternoEntidad() === "MUN"
               ? "Sin Municipio asignado "
               : "234"
           ) +
           String(
-            DA?.ORG?.length === 0 && user.controlinternodependencia === "ORG"
+            DA?.ORG?.length === 0 && getcontrolInternoEntidad() === "ORG"
               ? " Sin Organismo asignado"
               : "5677"
           ),
@@ -1844,13 +1848,13 @@ const Participaciones = () => {
         TIPO: 1,
         P_FONDO: idFondo.length > 0 ? idFondo : "",
         //   P_IDMUNICIPIO: user.MUNICIPIO.length > 0 ? user.MUNICIPIO[0].id : idMunicipio === "false" ? "" : idMunicipio,
-        //  P_IDTIPO: user.MUNICIPIO.length > 0 || user.ORG.length > 0 || DEP0]?.NombreCorto === "MUN" || user.controlinternodependencia === "ORG" ? "PROV" : idtipoFondo === "false" ? "" : idtipoFondo,
+        //  P_IDTIPO: user.MUNICIPIO.length > 0 || user.ORG.length > 0 || DEP0]?.NombreCorto === "MUN" || getcontrolInternoEntidad() === "ORG" ? "PROV" : idtipoFondo === "false" ? "" : idtipoFondo,
         P_IDTIPOSOL: idtipoSolicitud === "false" ? "" : idtipoSolicitud,
         P_IDESTATUS: idestatus === "false" ? "" : idestatus,
         P_IDMES: mes === "false" ? "" : mes,
         //  P_IDORGANISMO: user?.ORG[0] ? user.ORG[0].id : idORG === "false" ? "" : idORG,
         P_CHUSER: user.Id,
-        P_GRUPO: user.controlinternodependencia,
+        P_GRUPO: getcontrolInternoEntidad(),
         P_ANIO: anio === "false" ? "" : anio,
       };
       setslideropen(true);
@@ -2028,22 +2032,22 @@ const Participaciones = () => {
               sm={6}
               md={4}
               lg={
-                user.controlinternodependencia
-                  ? user.controlinternodependencia === "ORG"
+                getcontrolInternoEntidad()
+                  ? getcontrolInternoEntidad() === "ORG"
                     ? 4
                     : 2
                   : 2
               }
             >
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                {user.controlinternodependencia
-                  ? user.controlinternodependencia === "ORG"
+                {getcontrolInternoEntidad()
+                  ? getcontrolInternoEntidad() === "ORG"
                     ? DA?.ORG[0].Descripcion
                     : "Organismos"
                   : "Organismos"}
               </Typography>
-              {user.controlinternodependencia ? (
-                user.controlinternodependencia === "ORG" ? (
+              {getcontrolInternoEntidad() ? (
+                getcontrolInternoEntidad() === "ORG" ? (
                   ""
                 ) : (
                   <SelectFrag
@@ -2088,9 +2092,9 @@ const Participaciones = () => {
               sm={6}
               md={4}
               lg={
-                user.controlinternodependencia
-                  ? user.controlinternodependencia === "ORG" ||
-                    user.controlinternodependencia === "MUN"
+                getcontrolInternoEntidad()
+                  ? getcontrolInternoEntidad() === "ORG" ||
+                    getcontrolInternoEntidad() === "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2119,9 +2123,9 @@ const Participaciones = () => {
               sm={6}
               md={4}
               lg={
-                user.controlinternodependencia
-                  ? user.controlinternodependencia === "ORG" ||
-                    user.controlinternodependencia === "MUN"
+                getcontrolInternoEntidad()
+                  ? getcontrolInternoEntidad() === "ORG" ||
+                    getcontrolInternoEntidad() === "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2148,23 +2152,23 @@ const Participaciones = () => {
               sm={6}
               md={4}
               lg={
-                user.controlinternodependencia
-                  ? user.controlinternodependencia === "MUN"
+                getcontrolInternoEntidad()
+                  ? getcontrolInternoEntidad() === "MUN"
                     ? 4
                     : 2
                   : 2
               }
             >
               <Typography sx={{ fontFamily: "sans-serif" }}>
-                {user.controlinternodependencia
-                  ? user.controlinternodependencia === "MUN"
+                {getcontrolInternoEntidad()
+                  ? getcontrolInternoEntidad() === "MUN"
                     ? DA.MUNICIPIO[0].Nombre
                     : "Municipios"
                   : "Municipios"}
               </Typography>
 
-              {user.controlinternodependencia ? (
-                user.controlinternodependencia === "MUN" ? (
+              {getcontrolInternoEntidad() ? (
+                getcontrolInternoEntidad() === "MUN" ? (
                   ""
                 ) : (
                   <SelectFrag
@@ -2191,9 +2195,9 @@ const Participaciones = () => {
               sm={6}
               md={4}
               lg={
-                user.controlinternodependencia
-                  ? user.controlinternodependencia === "ORG" ||
-                    user.controlinternodependencia === "MUN"
+                getcontrolInternoEntidad()
+                  ? getcontrolInternoEntidad() === "ORG" ||
+                    getcontrolInternoEntidad() === "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2220,9 +2224,9 @@ const Participaciones = () => {
               sm={6}
               md={4}
               lg={
-                user.controlinternodependencia
-                  ? user.controlinternodependencia === "ORG" ||
-                    user.controlinternodependencia === "MUN"
+                getcontrolInternoEntidad()
+                  ? getcontrolInternoEntidad() === "ORG" ||
+                    getcontrolInternoEntidad() === "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2481,8 +2485,8 @@ const Participaciones = () => {
         </Grid>
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          {user.controlinternodependencia === "ORG" ||
-          user.controlinternodependencia === "MUN" ? (
+          {getcontrolInternoEntidad() === "ORG" ||
+          getcontrolInternoEntidad() === "MUN" ? (
             ""
           ) : (
             <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -2633,8 +2637,8 @@ const Participaciones = () => {
             modulo={nombreExport}
             handleBorrar={handleBorrarMasivo}
             columns={
-              user.controlinternodependencia === "MUN" ||
-              user.controlinternodependencia === "ORG"
+              getcontrolInternoEntidad() === "MUN" ||
+              getcontrolInternoEntidad() === "ORG"
                 ? columnasMunicipio
                 : columnsParticipaciones
             }

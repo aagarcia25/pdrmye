@@ -30,6 +30,7 @@ import {
   setRoles,
   setToken,
   setUser,
+  setcontrolInternoEntidad,
   validaLocalStorage,
 } from "./app/services/localStorage";
 import { BloqueoSesion } from "./app/views/components/BloqueoSesion";
@@ -129,8 +130,13 @@ function App() {
         AuthService.adminUser({ NUMOPERACION: 1, ID: id }).then(
           (objresponse) => {
             const dataadicional: ResponseDataAdicional = objresponse.RESPONSE;
-            console.log(dataadicional);
             setDatosAdicionales(dataadicional);
+          }
+        );
+
+        AuthService.controlinterno({ P_ID: res.data.data.IdEntidad }).then(
+          (obj) => {
+            setcontrolInternoEntidad(obj.RESPONSE[0].ControlInterno);
           }
         );
 
