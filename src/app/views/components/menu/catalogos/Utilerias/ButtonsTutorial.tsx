@@ -68,10 +68,11 @@ const ButtonsTutorial = ({
   const handleObtenerVideos = (idmenu: string) => {
     let data = {
       CHID: idmenu,
-      NUMOPERACION: getcontrolInternoEntidad() == "DTI" ? 12 : 9,
+      NUMOPERACION:
+        JSON.parse(String(getcontrolInternoEntidad())) == "DTI" ? 12 : 9,
       TIPO:
-        getcontrolInternoEntidad() == "ORG" ||
-        getcontrolInternoEntidad() == "MUN"
+        JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ||
+        JSON.parse(String(getcontrolInternoEntidad())) == "MUN"
           ? 1
           : 2,
     };
@@ -93,8 +94,8 @@ const ButtonsTutorial = ({
       CHID: idmenu,
       NUMOPERACION: numOperacion,
       TIPO:
-        getcontrolInternoEntidad() == "ORG" ||
-        getcontrolInternoEntidad() == "MUN"
+        JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ||
+        JSON.parse(String(getcontrolInternoEntidad())) == "MUN"
           ? 1
           : 2,
     };
@@ -123,11 +124,11 @@ const ButtonsTutorial = ({
     handleObtenerVideos(idMenu);
     handleObtenerPreguntasFrecuentes(
       idMenu,
-      getcontrolInternoEntidad() == "DTI" ? 10 : 7
+      JSON.parse(String(getcontrolInternoEntidad())) == "DTI" ? 10 : 7
     );
     handleObtenerPreguntasFrecuentes(
       idMenu,
-      getcontrolInternoEntidad() == "DTI" ? 11 : 8
+      JSON.parse(String(getcontrolInternoEntidad())) == "DTI" ? 11 : 8
     );
   };
 
@@ -151,11 +152,11 @@ const ButtonsTutorial = ({
           handleObtenerVideos(itemsMenu.Id);
           handleObtenerPreguntasFrecuentes(
             itemsMenu.Id,
-            getcontrolInternoEntidad() == "DTI" ? 10 : 7
+            JSON.parse(String(getcontrolInternoEntidad())) == "DTI" ? 10 : 7
           );
           handleObtenerPreguntasFrecuentes(
             itemsMenu.Id,
-            getcontrolInternoEntidad() == "DTI" ? 11 : 8
+            JSON.parse(String(getcontrolInternoEntidad())) == "DTI" ? 11 : 8
           );
         }
       });
