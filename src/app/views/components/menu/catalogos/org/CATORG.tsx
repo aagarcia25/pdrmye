@@ -269,7 +269,7 @@ export const CATORG = () => {
   useEffect(() => {
     var ancho = 0;
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "CATORG") {
+      if (String(item.menu) == "CATORG") {
         //console.log(item)
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);

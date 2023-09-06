@@ -142,8 +142,8 @@ const ISAI = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "ISAI") {
-        setNombreMenu(item.Menu);
+      if (String(item.menu) == "ISAI") {
+        setNombreMenu(item.menu);
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

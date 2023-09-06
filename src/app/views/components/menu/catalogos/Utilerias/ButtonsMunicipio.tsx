@@ -59,7 +59,7 @@ const ButtonsMunicipio = ({
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == controlInterno) {
+      if (String(item.menu) == controlInterno) {
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

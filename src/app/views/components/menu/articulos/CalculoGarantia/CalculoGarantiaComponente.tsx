@@ -302,10 +302,10 @@ export const CalculoGarantiaComponente = () => {
   useEffect(() => {
     setAnios(fanios());
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "CA") {
+      if (String(item.menu) == "CA") {
         //console.log(item)
 
-        setNombreMenu(item.Menu);
+        setNombreMenu(item.menu);
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

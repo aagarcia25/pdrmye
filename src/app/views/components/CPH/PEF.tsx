@@ -291,8 +291,8 @@ export const PEF = () => {
     loadFilter(31);
 
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "PEF") {
-        setNombreMenu(item.Menu);
+      if (String(item.menu) == "PEF") {
+        setNombreMenu(item.menu);
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

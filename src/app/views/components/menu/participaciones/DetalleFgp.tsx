@@ -385,7 +385,7 @@ const DetalleFgp = ({
   ];
   const EstablecePermisos = () => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == String(clave).replace(/\s/g, "")) {
+      if (String(item.menu) == String(clave).replace(/\s/g, "")) {
         if (String(item.ControlInterno) == "AUT") {
           setAutorizar(true);
         }

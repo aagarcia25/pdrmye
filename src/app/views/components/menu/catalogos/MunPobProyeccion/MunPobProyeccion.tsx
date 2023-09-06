@@ -265,7 +265,7 @@ export const MunPobProyeccion = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "MUNPROYEC") {
+      if (String(item.menu) == "MUNPROYEC") {
         if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }

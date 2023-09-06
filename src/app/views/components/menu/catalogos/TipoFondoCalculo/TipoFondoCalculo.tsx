@@ -321,8 +321,8 @@ const TipoFondoCalculo = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "TIPOCALCULO") {
-        setNombreMenu(item.Menu);
+      if (String(item.menu) == "TIPOCALCULO") {
+        setNombreMenu(item.menu);
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

@@ -445,7 +445,7 @@ const Usuarios = () => {
     ValidaSesion();
 
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "USUARIOS") {
+      if (String(item.menu) == "USUARIOS") {
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

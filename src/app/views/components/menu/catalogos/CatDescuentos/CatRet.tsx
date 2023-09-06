@@ -155,7 +155,7 @@ export const CatRet = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "CATRETEN") {
+      if (String(item.menu) == "CATRETEN") {
         //console.log(item)
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);

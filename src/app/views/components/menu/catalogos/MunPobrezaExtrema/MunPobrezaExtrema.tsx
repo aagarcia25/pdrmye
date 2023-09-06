@@ -258,8 +258,8 @@ export const MunPobrezaExtrema = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "MUNPOEX") {
-        setNombreMenu(item.Menu);
+      if (String(item.menu) == "MUNPOEX") {
+        setNombreMenu(item.menu);
         if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
