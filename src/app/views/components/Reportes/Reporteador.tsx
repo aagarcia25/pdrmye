@@ -157,7 +157,9 @@ export const Reporteador = () => {
   useEffect(() => {
     setMeses(fmeses());
     setAnios(fanios());
-    consultaReportes({ P_DEPENDENCIA: getcontrolInternoEntidad() });
+    consultaReportes({
+      P_DEPENDENCIA: JSON.parse(String(getcontrolInternoEntidad())),
+    });
   }, []);
 
   useEffect(() => {
