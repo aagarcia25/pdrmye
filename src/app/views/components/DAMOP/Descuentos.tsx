@@ -242,17 +242,6 @@ export const Descuentos = ({
             sumaRet = sumaRet + Number(item.total);
           }
         });
-        // }
-        // if (v == "remove") {
-        //   res.RESPONSE.map((item: getDescuentos) => {
-        //     if (item.Tipo == "1") {
-        //       sumaDes = sumaDes - Number(item.total)
-        //     }
-        //     else if (item.Tipo == "2") {
-        //       sumaRet = sumaRet - Number(item.total)
-        //     }
-        //   });
-        // }
         res.RESPONSE.map((item: getDescuentos) => {
           sumatotal = sumatotal + Number(item.total);
           setSumaTotal(sumatotal);
