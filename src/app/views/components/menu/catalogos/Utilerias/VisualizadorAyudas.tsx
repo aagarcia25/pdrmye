@@ -7,11 +7,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { AlertS } from "../../../../../helpers/AlertS";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { base64ToArrayBuffer } from "../../../../../helpers/Files";
 import { ValidaSesion } from "../../../../../services/UserServices";
-import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getToken } from "../../../../../services/localStorage";
 import SliderProgress from "../../../SliderProgress";
 
@@ -24,13 +23,11 @@ export const VisualizadorAyudas = ({
   modo: string;
   handleclose: Function;
 }) => {
-  const [open, setOpen] = React.useState(false);
   const [archivoUrl, setArchivoUrl] = useState<string>("");
   const [modoVisualizacion, setModoVisualizacion] = useState<string>("");
   const [slideropen, setslideropen] = useState(false);
 
   const handleClickOpen = (URLVideo: string, modo: string) => {
-    // setslideropen(true);
     let data = {
       TOKEN: JSON.parse(String(getToken())),
       RUTA: modo == "video" ? "/VIDEOS/TUTORIALES/" : "/GUIAS/",
@@ -41,28 +38,43 @@ export const VisualizadorAyudas = ({
       ValidaSesion();
       setslideropen(true);
       setModoVisualizacion(modo);
-      CatalogosServices.obtenerDoc(data).then((res) => {
-        // setslideropen(true);
-        if (res.SUCCESS) {
-          var bufferArray = base64ToArrayBuffer(res.RESPONSE.RESPONSE.FILE);
-          var blobStore = new Blob([bufferArray], {
-            type: res.RESPONSE.RESPONSE.TIPO,
-          });
-          var data = window.URL.createObjectURL(blobStore);
-          var link = document.createElement("a");
-          document.body.appendChild(link);
-          link.href = data;
-          setArchivoUrl(link.href);
-          setslideropen(false);
-        } else {
-          setslideropen(false);
 
-          AlertS.fire({
-            title: "Algo Fallo, Recargue la página!",
-            icon: "error",
+      try {
+        let config = {
+          method: "post",
+          maxBodyLength: Infinity,
+          url: process.env.REACT_APP_APPLICATION_BASE_URL + "obtenerDoc",
+          headers: {
+            "Content-Type": "application/json",
+            responseType: "blob",
+          },
+          data: data,
+        };
+
+        axios
+          .request(config)
+          .then((response) => {
+            var bufferArray = base64ToArrayBuffer(
+              response.data.RESPONSE.RESPONSE.FILE
+            );
+            var blobStore = new Blob([bufferArray], {
+              type: response.data.RESPONSE.RESPONSE.TIPO,
+            });
+            var data = window.URL.createObjectURL(blobStore);
+            var link = document.createElement("a");
+            document.body.appendChild(link);
+            link.href = data;
+            setArchivoUrl(link.href);
+            setslideropen(false);
+          })
+          .catch((error) => {
+            console.log(error);
+            setslideropen(false);
           });
-        }
-      });
+      } catch (err: any) {
+        setslideropen(false);
+        console.log(err);
+      }
     }
   };
 
@@ -79,7 +91,6 @@ export const VisualizadorAyudas = ({
     >
       <div>
         <SliderProgress open={slideropen} />
-        {/* <ModalForm title={'Visualizar'} handleClose={handleClose}> */}
         <Grid
           container
           className="HeaderModal"
@@ -137,8 +148,6 @@ export const VisualizadorAyudas = ({
             ></object>
           )}
         </div>
-
-        {/* </ModalForm> */}
       </div>
     </Dialog>
   );
