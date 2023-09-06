@@ -171,12 +171,12 @@ const ModalNew = ({
     } else {
       if (
         monto == null ||
-        ieja == null ||
+        //   ieja == null ||
         idmes == null ||
         idTipoCalculo == null ||
         idmes == "false" ||
-        idTipoCalculo == "false" ||
-        derecho == null
+        idTipoCalculo == "false"
+        //      derecho == null
       ) {
         AlertS.fire({
           title: "¡Error!",
