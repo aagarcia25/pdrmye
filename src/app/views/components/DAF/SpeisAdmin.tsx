@@ -509,8 +509,8 @@ const SpeisAdmin = ({
             </Typography>
           </Grid>
 
-          {getcontrolInternoEntidad() == "MUN" ||
-          getcontrolInternoEntidad() == "ORG" ? (
+          {JSON.parse(String(getcontrolInternoEntidad())) == "MUN" ||
+          JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ? (
             ""
           ) : (
             <Grid item xs={12} md={6} lg={4}>

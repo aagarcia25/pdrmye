@@ -886,9 +886,9 @@ const Participaciones = () => {
       } else if (operacion == 25) {
         setEstatus(res.RESPONSE);
         setIdEstatus(
-          getcontrolInternoEntidad()
-            ? getcontrolInternoEntidad() == "ORG" ||
-              getcontrolInternoEntidad() == "MUN"
+          JSON.parse(String(getcontrolInternoEntidad()))
+            ? JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ||
+              JSON.parse(String(getcontrolInternoEntidad())) == "MUN"
               ? ""
               : res.RESPONSE[0].value
             : ""
@@ -1776,18 +1776,22 @@ const Participaciones = () => {
 
   const handleClick = () => {
     if (
-      (DA?.MUNICIPIO?.length == 0 && getcontrolInternoEntidad() == "MUN") ||
-      (DA?.ORG?.length == 0 && getcontrolInternoEntidad() == "ORG")
+      (DA?.MUNICIPIO?.length == 0 &&
+        JSON.parse(String(getcontrolInternoEntidad())) == "MUN") ||
+      (DA?.ORG?.length == 0 &&
+        JSON.parse(String(getcontrolInternoEntidad())) == "ORG")
     ) {
       AlertS.fire({
         title:
           String(
-            DA?.MUNICIPIO?.length == 0 && getcontrolInternoEntidad() == "MUN"
+            DA?.MUNICIPIO?.length == 0 &&
+              JSON.parse(String(getcontrolInternoEntidad())) == "MUN"
               ? "Sin Municipio asignado "
               : "234"
           ) +
           String(
-            DA?.ORG?.length == 0 && getcontrolInternoEntidad() == "ORG"
+            DA?.ORG?.length == 0 &&
+              JSON.parse(String(getcontrolInternoEntidad())) == "ORG"
               ? " Sin Organismo asignado"
               : "5677"
           ),
@@ -1846,13 +1850,13 @@ const Participaciones = () => {
         TIPO: 1,
         P_FONDO: idFondo.length > 0 ? idFondo : "",
         //   P_IDMUNICIPIO: user.MUNICIPIO.length > 0 ? user.MUNICIPIO[0].id : idMunicipio == "false" ? "" : idMunicipio,
-        //  P_IDTIPO: user.MUNICIPIO.length > 0 || user.ORG.length > 0 || DEP0]?.NombreCorto == "MUN" || getcontrolInternoEntidad() == "ORG" ? "PROV" : idtipoFondo == "false" ? "" : idtipoFondo,
+        //  P_IDTIPO: user.MUNICIPIO.length > 0 || user.ORG.length > 0 || DEP0]?.NombreCorto == "MUN" || JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ? "PROV" : idtipoFondo == "false" ? "" : idtipoFondo,
         P_IDTIPOSOL: idtipoSolicitud == "false" ? "" : idtipoSolicitud,
         P_IDESTATUS: idestatus == "false" ? "" : idestatus,
         P_IDMES: mes == "false" ? "" : mes,
         //  P_IDORGANISMO: user?.ORG[0] ? user.ORG[0].id : idORG == "false" ? "" : idORG,
         P_CHUSER: user.Id,
-        P_GRUPO: getcontrolInternoEntidad(),
+        P_GRUPO: JSON.parse(String(getcontrolInternoEntidad())),
         P_ANIO: anio == "false" ? "" : anio,
       };
       setslideropen(true);
@@ -2030,22 +2034,22 @@ const Participaciones = () => {
               sm={6}
               md={4}
               lg={
-                getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() == "ORG"
+                JSON.parse(String(getcontrolInternoEntidad()))
+                  ? JSON.parse(String(getcontrolInternoEntidad())) == "ORG"
                     ? 4
                     : 2
                   : 2
               }
             >
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                {getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() == "ORG"
+                {JSON.parse(String(getcontrolInternoEntidad()))
+                  ? JSON.parse(String(getcontrolInternoEntidad())) == "ORG"
                     ? DA?.ORG[0].Descripcion
                     : "Organismos"
                   : "Organismos"}
               </Typography>
-              {getcontrolInternoEntidad() ? (
-                getcontrolInternoEntidad() == "ORG" ? (
+              {JSON.parse(String(getcontrolInternoEntidad())) ? (
+                JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ? (
                   ""
                 ) : (
                   <SelectFrag
@@ -2090,9 +2094,9 @@ const Participaciones = () => {
               sm={6}
               md={4}
               lg={
-                getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() == "ORG" ||
-                    getcontrolInternoEntidad() == "MUN"
+                JSON.parse(String(getcontrolInternoEntidad()))
+                  ? JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ||
+                    JSON.parse(String(getcontrolInternoEntidad())) == "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2121,9 +2125,9 @@ const Participaciones = () => {
               sm={6}
               md={4}
               lg={
-                getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() == "ORG" ||
-                    getcontrolInternoEntidad() == "MUN"
+                JSON.parse(String(getcontrolInternoEntidad()))
+                  ? JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ||
+                    JSON.parse(String(getcontrolInternoEntidad())) == "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2150,23 +2154,23 @@ const Participaciones = () => {
               sm={6}
               md={4}
               lg={
-                getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() == "MUN"
+                JSON.parse(String(getcontrolInternoEntidad()))
+                  ? JSON.parse(String(getcontrolInternoEntidad())) == "MUN"
                     ? 4
                     : 2
                   : 2
               }
             >
               <Typography sx={{ fontFamily: "sans-serif" }}>
-                {getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() == "MUN"
+                {JSON.parse(String(getcontrolInternoEntidad()))
+                  ? JSON.parse(String(getcontrolInternoEntidad())) == "MUN"
                     ? DA.MUNICIPIO[0].Nombre
                     : "Municipios"
                   : "Municipios"}
               </Typography>
 
-              {getcontrolInternoEntidad() ? (
-                getcontrolInternoEntidad() == "MUN" ? (
+              {JSON.parse(String(getcontrolInternoEntidad())) ? (
+                JSON.parse(String(getcontrolInternoEntidad())) == "MUN" ? (
                   ""
                 ) : (
                   <SelectFrag
@@ -2193,9 +2197,9 @@ const Participaciones = () => {
               sm={6}
               md={4}
               lg={
-                getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() == "ORG" ||
-                    getcontrolInternoEntidad() == "MUN"
+                JSON.parse(String(getcontrolInternoEntidad()))
+                  ? JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ||
+                    JSON.parse(String(getcontrolInternoEntidad())) == "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2222,9 +2226,9 @@ const Participaciones = () => {
               sm={6}
               md={4}
               lg={
-                getcontrolInternoEntidad()
-                  ? getcontrolInternoEntidad() == "ORG" ||
-                    getcontrolInternoEntidad() == "MUN"
+                JSON.parse(String(getcontrolInternoEntidad()))
+                  ? JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ||
+                    JSON.parse(String(getcontrolInternoEntidad())) == "MUN"
                     ? 4
                     : 2
                   : 2
@@ -2481,8 +2485,8 @@ const Participaciones = () => {
         </Grid>
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-          {getcontrolInternoEntidad() == "ORG" ||
-          getcontrolInternoEntidad() == "MUN" ? (
+          {JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ||
+          JSON.parse(String(getcontrolInternoEntidad())) == "MUN" ? (
             ""
           ) : (
             <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -2633,8 +2637,8 @@ const Participaciones = () => {
             modulo={nombreExport}
             handleBorrar={handleBorrarMasivo}
             columns={
-              getcontrolInternoEntidad() == "MUN" ||
-              getcontrolInternoEntidad() == "ORG"
+              JSON.parse(String(getcontrolInternoEntidad())) == "MUN" ||
+              JSON.parse(String(getcontrolInternoEntidad())) == "ORG"
                 ? columnasMunicipio
                 : columnsParticipaciones
             }

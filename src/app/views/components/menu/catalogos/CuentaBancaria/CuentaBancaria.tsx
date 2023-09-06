@@ -180,7 +180,7 @@ export const CuentaBancaria = ({
 
             {(v.row.EstatusDescripcion == "INICIO" ||
               v.row.ControlInterno == "DAMOP_REGRESADO") &&
-            getcontrolInternoEntidad() == "MUN" ? (
+            JSON.parse(String(getcontrolInternoEntidad())) == "MUN" ? (
               //PER[0]?.Referencia == "MUN"
               <>
                 <Tooltip title="Enviar a Validación">
@@ -200,7 +200,7 @@ export const CuentaBancaria = ({
               ""
             )}
             {v.row.ControlInterno == "DAMOP_REVISION" &&
-            getcontrolInternoEntidad() == "DAMOP" ? (
+            JSON.parse(String(getcontrolInternoEntidad())) == "DAMOP" ? (
               //PER[0]?.Referencia == "ANA"
               <>
                 <Tooltip title="Revisar">

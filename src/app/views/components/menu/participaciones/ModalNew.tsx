@@ -196,8 +196,6 @@ const ModalNew = ({
           DERECHO: derecho,
           IDVERSION: idVersionCalculo,
           P_DIST: disti ? 1 : 0,
-          //  VIDAREA: getcontrolInternoEntidad(),
-          //  VIDPERFIL: PER[0].Referencia,
         };
 
         calculosServices.CalculoPrincipalindex(data).then((res) => {

@@ -23,11 +23,7 @@ import {
   USUARIORESPONSE,
 } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
-import {
-  getPermisos,
-  getUser,
-  getcontrolInternoEntidad,
-} from "../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../services/localStorage";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
 import Trazabilidad from "../../Trazabilidad";

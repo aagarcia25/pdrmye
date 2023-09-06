@@ -113,7 +113,7 @@ const ModalAlert = ({
             />
           </Grid>
 
-          {getcontrolInternoEntidad() == "MUN" ? (
+          {JSON.parse(String(getcontrolInternoEntidad())) == "MUN" ? (
             // PER[0].Referencia == "MUN"
             <Grid item xs={4} sm={3} md={2} lg={1}>
               <Button
@@ -126,7 +126,7 @@ const ModalAlert = ({
           ) : (
             ""
           )}
-          {getcontrolInternoEntidad() == "DAMOP" ? (
+          {JSON.parse(String(getcontrolInternoEntidad())) == "DAMOP" ? (
             //  PER[0].Referencia == "ANA"
             <>
               <Grid item xs={4} sm={3} md={3} lg={3}>
