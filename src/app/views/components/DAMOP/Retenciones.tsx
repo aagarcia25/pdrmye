@@ -386,7 +386,6 @@ export const Retenciones = ({
   };
 
   useEffect(() => {
-    // setSumaDescuentos(Number(dt.row.Descuentos) + Number(dt.row.RecAdeudos));
     setNumOperacionOp([
       {
         value: "1",
@@ -403,7 +402,6 @@ export const Retenciones = ({
     CatalogosServices.IndexCatRetenciones(data).then((res) => {
       if (res.SUCCESS) {
         setclaveRetencionOp(res.RESPONSE);
-        // handleClose();
       } else {
         AlertS.fire({
           title: "¡Error!",
