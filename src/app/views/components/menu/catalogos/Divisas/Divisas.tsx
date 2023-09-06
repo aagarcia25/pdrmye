@@ -267,9 +267,9 @@ export const Divisas = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "DIVISAS") {
+      if (String(item.menu) == "DIVISAS") {
         //console.log(item)
-        setNombreMenu(item.Menu);
+        setNombreMenu(item.menu);
 
         if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);

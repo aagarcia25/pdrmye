@@ -396,8 +396,8 @@ const Fondos = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "FONDOS") {
-        setNombreMenu(item.Menu);
+      if (String(item.menu) == "FONDOS") {
+        setNombreMenu(item.menu);
         //console.log(item.Menu)
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);

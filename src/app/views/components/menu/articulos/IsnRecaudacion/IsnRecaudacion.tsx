@@ -320,8 +320,8 @@ const IsnRecaudacion = () => {
   useEffect(() => {
     setAnios(fanios());
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "ISNR") {
-        setNombreMenu(item.Menu);
+      if (String(item.menu) == "ISNR") {
+        setNombreMenu(item.menu);
 
         if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);

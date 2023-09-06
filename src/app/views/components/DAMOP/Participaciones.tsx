@@ -1908,7 +1908,7 @@ const Participaciones = () => {
       loadFilter(24);
       loadFilter(38);
       permisos.map((item: PERMISO) => {
-        if (String(item.Menu) == "PARTMUN") {
+        if (String(item.menu) == "PARTMUN") {
           if (String(item.ControlInterno) == "AGREGPLANT") {
             setCargarPlant(true);
           } else if (String(item.ControlInterno) == "DESCPLANT") {

@@ -331,8 +331,8 @@ export const Municipios = () => {
       setNombreMenu(item.Nombre);
     });
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "MUNICIPIOS") {
-        setNombreMenu(item.Menu);
+      if (String(item.menu) == "MUNICIPIOS") {
+        setNombreMenu(item.menu);
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

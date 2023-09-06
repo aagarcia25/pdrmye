@@ -20,7 +20,7 @@ const AccionesGrid = ({
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == controlInterno) {
+      if (String(item.menu) == controlInterno) {
         //console.log(item)
         if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);

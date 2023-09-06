@@ -151,7 +151,7 @@ const TipoFondo = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "MUNICIPIOS") {
+      if (String(item.menu) == "MUNICIPIOS") {
         //console.log(item)
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);

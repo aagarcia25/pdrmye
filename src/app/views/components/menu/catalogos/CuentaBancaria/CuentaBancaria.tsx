@@ -327,7 +327,7 @@ export const CuentaBancaria = ({
       });
     }
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "CUENTABANCARIA") {
+      if (String(item.menu) == "CUENTABANCARIA") {
         //console.log(item);
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);

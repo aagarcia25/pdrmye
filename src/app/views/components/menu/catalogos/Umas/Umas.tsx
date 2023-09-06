@@ -195,8 +195,8 @@ export const Umas = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "UMAS") {
-        setNombreMenu(item.Menu);
+      if (String(item.menu) == "UMAS") {
+        setNombreMenu(item.menu);
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

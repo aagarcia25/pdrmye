@@ -266,7 +266,7 @@ export const MunRecaudacion = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "MUNRECAU") {
+      if (String(item.menu) == "MUNRECAU") {
         if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }

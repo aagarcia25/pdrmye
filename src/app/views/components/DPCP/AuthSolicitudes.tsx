@@ -297,7 +297,7 @@ const AuthSolicitudes = () => {
     handleClick();
 
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "DPCPAUTHSOL") {
+      if (String(item.menu) == "DPCPAUTHSOL") {
         if (String(item.ControlInterno) == "AUTHSOL") {
           setAuthSol(true);
         }

@@ -278,8 +278,8 @@ export const MunFacturacion = () => {
     setAnios(fanios());
 
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "MUNFA") {
-        setNombreMenu(item.Menu);
+      if (String(item.menu) == "MUNFA") {
+        setNombreMenu(item.menu);
         if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
