@@ -1,12 +1,15 @@
 import { User } from "../interfaces/user/User";
-import { RESPONSE } from "../interfaces/user/UserInfo";
-import { post, postDocument, postEasy } from "./apiService";
-import { getToken, getUser } from "./localStorage";
+import { post, postEasy } from "./apiService";
+import { getToken } from "./localStorage";
 
 export class AuthService {
 
 
 
+    
+     public static controlinterno(data: any) {
+        return post('controlinterno', data);
+    }
 
     public static getUsuarioDepartamento(data: any) {
         return post('getUsuarioDepartamento', data);
@@ -27,9 +30,6 @@ export class AuthService {
         return post('UsuarioPerfil', data);
     }
 
-    public static perfilindex(data: any) {
-        return post('perfilindex', data);
-    }
 
     public static adminUser(data: any) {
         return post('Usuariosindex', data);
@@ -116,21 +116,22 @@ export class AuthService {
         return await post('SaveImagen', data);
     }
     public static async AdminAyudas(data: any) {
-        return await postDocument('AdminAyudas', data);
+        console.log(data);
+        return await post('AdminAyudas', data);
     }
 
-    
+    /*
     public static async GetImagenProfile(tipo: string,nameImagen:string) {
-        const user: RESPONSE = JSON.parse(String(getUser()));
+        const user: USUARIORESPONSE= JSON.parse(String(getUser()));
         const formData = new FormData();
-        formData.append("CHUSER", user.id);
+        formData.append("CHUSER", user.Id);
         formData.append("TOKEN", JSON.parse(String(getToken())));
         formData.append("TIPO", tipo);
         formData.append("IMG", nameImagen);
 
 
         return await post('GetImagenProfile', formData);
-    }
+    }*/
 
     public static async GetImagen(ruta: string,nameImagen:string) {
         const formData = new FormData();

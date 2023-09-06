@@ -1,3 +1,4 @@
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import {
   Box,
   Button,
@@ -5,23 +6,21 @@ import {
   CardActions,
   CardContent,
   Grid,
-  Paper,
-  Typography,
+  Typography
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../../helpers/AlertS";
 import { Toast } from "../../../helpers/Toast";
-import { RESPONSE } from "../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { getUser } from "../../../services/localStorage";
 import ListNotificationsModal from "../ListNotificationsModal";
 import Slider from "../Slider";
-import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 
 
 const ContactoMunicipios = () => {
 
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [dato, setDato] = useState<Array<IData>>([])
   const [mostrar, setMostrar] = useState(false)
   const [open, setOpen] = useState(false)
@@ -209,7 +208,7 @@ setOpen(false);
 
       </Box>
       {open?
-      <ListNotificationsModal open={open} modo={"NewMessage"} tipo={1} handleClose={handleClose} dt={true} destinatario={String(idDestinatario)} remitente={user.id}/>
+      <ListNotificationsModal open={open} modo={"NewMessage"} tipo={1} handleClose={handleClose} dt={true} destinatario={String(idDestinatario)} remitente={user.Id}/>
       :""}
     </div>
   );

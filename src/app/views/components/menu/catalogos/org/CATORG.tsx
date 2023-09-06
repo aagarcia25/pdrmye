@@ -1,24 +1,23 @@
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
-import { GridColDef } from '@mui/x-data-grid';
+import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import Swal from 'sweetalert2';
-import { AlertS } from '../../../../../helpers/AlertS';
-import { Toast } from '../../../../../helpers/Toast';
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
-import { CatalogosServices } from '../../../../../services/catalogosServices';
-import { getPermisos, getUser } from '../../../../../services/localStorage';
+import Swal from "sweetalert2";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import UsuarioResponsable from "../../../DAMOP/UsuarioResponsable";
-import MUIXDataGrid from '../../../MUIXDataGrid';
-import BotonesAcciones from '../../../componentes/BotonesAcciones';
-import ModalForm from "../../../componentes/ModalForm";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import { CuentaBancaria } from "../CuentaBancaria/CuentaBancaria";
-import ButtonsAdd from '../Utilerias/ButtonsAdd';
+import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import { CATORGModal } from "./CATORGModal";
-
-
-
 
 export const CATORG = () => {
   const [data, setData] = useState([]);
@@ -26,13 +25,14 @@ export const CATORG = () => {
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-  const [visualizarUsuarioResponsable, setVisualizarUsuarioResponsable] = useState<boolean>(false);
+  const [visualizarUsuarioResponsable, setVisualizarUsuarioResponsable] =
+    useState<boolean>(false);
   const [viewCC, setViewCC] = useState<boolean>(false);
   const [id, setId] = useState("");
   const [anchoAcciones, setAnchoAcciones] = useState<number>(0);
@@ -44,16 +44,15 @@ export const CATORG = () => {
   const [idOrg, setIdOrg] = useState("");
   const [nombreOrg, setNombreOrg] = useState("");
 
-
-
   const columns: GridColDef[] = [
     { field: "id", hide: true },
     {
-      field: "acciones", disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
-      width: 100 + anchoAcciones ,
+      width: 100 + anchoAcciones,
       renderCell: (v) => {
         return (
           <>
@@ -61,7 +60,8 @@ export const CATORG = () => {
               handleAccion={handleAccion}
               row={v}
               editar={editar}
-              eliminar={eliminar} />
+              eliminar={eliminar}
+            />
 
             {visualizarUsuarioResponsable ? (
               <Tooltip title={"Visualizar Usuario Responsable"}>
@@ -76,7 +76,7 @@ export const CATORG = () => {
             {viewCC ? (
               <Tooltip title={"Visualizar CuentaBancaria"}>
                 <IconButton onClick={() => handleCC(v)}>
-                <AccountBalanceWalletIcon />
+                  <AccountBalanceWalletIcon />
                 </IconButton>
               </Tooltip>
             ) : (
@@ -86,22 +86,90 @@ export const CATORG = () => {
         );
       },
     },
-    { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 450 },
-    { field: "ClavePSIREGOB", headerName: "Clave Proveedor SIREGOB ", description: "Clave Proveedor SIREGOB ", width: 300 },
-    { field: "ClaveDSIREGOB", headerName: "Clave Deudor SIREGOB", description: "Clave Deudor SIREGOB", width: 300 },
-    { field: "Clasificador01", headerName: "Clasificador 01", description: "Clasificador 01", width: 300 },
-    { field: "Clasificador02", headerName: "Clasificador 02", description: "Clasificador 02", width: 300 },
-    { field: "Clasificador03", headerName: "Clasificador 03", description: "Clasificador 03", width: 300 },
-    { field: "Clasificador04", headerName: "Clasificador 04", description: "Clasificador 04", width: 300 },
-    { field: "Clasificador05", headerName: "Clasificador 05", description: "Clasificador 05", width: 300 },
-    { field: "Clasificador06", headerName: "Clasificador 06", description: "Clasificador 06", width: 300 },
-    { field: "Clasificador07", headerName: "Clasificador 07", description: "Clasificador 07", width: 300 },
-    { field: "Clasificador08", headerName: "Clasificador 08", description: "Clasificador 08", width: 300 },
-    { field: "Clasificador09", headerName: "Clasificador 09", description: "Clasificador 09", width: 300 },
-    { field: "Clasificador10", headerName: "Clasificador 10", description: "Clasificador 10", width: 300 },
-    { field: "Clasificador11", headerName: "Clasificador 11", description: "Clasificador 11", width: 300 },
-
-
+    {
+      field: "Descripcion",
+      headerName: "Descripción",
+      description: "Descripción",
+      width: 450,
+    },
+    {
+      field: "ClavePSIREGOB",
+      headerName: "Clave Proveedor SIREGOB ",
+      description: "Clave Proveedor SIREGOB ",
+      width: 300,
+    },
+    {
+      field: "ClaveDSIREGOB",
+      headerName: "Clave Deudor SIREGOB",
+      description: "Clave Deudor SIREGOB",
+      width: 300,
+    },
+    {
+      field: "Clasificador01",
+      headerName: "Clasificador 01",
+      description: "Clasificador 01",
+      width: 300,
+    },
+    {
+      field: "Clasificador02",
+      headerName: "Clasificador 02",
+      description: "Clasificador 02",
+      width: 300,
+    },
+    {
+      field: "Clasificador03",
+      headerName: "Clasificador 03",
+      description: "Clasificador 03",
+      width: 300,
+    },
+    {
+      field: "Clasificador04",
+      headerName: "Clasificador 04",
+      description: "Clasificador 04",
+      width: 300,
+    },
+    {
+      field: "Clasificador05",
+      headerName: "Clasificador 05",
+      description: "Clasificador 05",
+      width: 300,
+    },
+    {
+      field: "Clasificador06",
+      headerName: "Clasificador 06",
+      description: "Clasificador 06",
+      width: 300,
+    },
+    {
+      field: "Clasificador07",
+      headerName: "Clasificador 07",
+      description: "Clasificador 07",
+      width: 300,
+    },
+    {
+      field: "Clasificador08",
+      headerName: "Clasificador 08",
+      description: "Clasificador 08",
+      width: 300,
+    },
+    {
+      field: "Clasificador09",
+      headerName: "Clasificador 09",
+      description: "Clasificador 09",
+      width: 300,
+    },
+    {
+      field: "Clasificador10",
+      headerName: "Clasificador 10",
+      description: "Clasificador 10",
+      width: 300,
+    },
+    {
+      field: "Clasificador11",
+      headerName: "Clasificador 11",
+      description: "Clasificador 11",
+      width: 300,
+    },
   ];
 
   const handleUR = (v: any) => {
@@ -113,13 +181,12 @@ export const CATORG = () => {
 
   const handleCC = (v: any) => {
     setId(v.row.id);
-    setNombreProv(v.row.Descripcion)
+    setNombreProv(v.row.Descripcion);
     setOpenCC(true);
-
   };
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
@@ -137,7 +204,7 @@ export const CATORG = () => {
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.row.id,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           CatalogosServices.Organismos(data).then((res) => {
@@ -171,10 +238,7 @@ export const CATORG = () => {
     setOpenUR(false);
     setOpenCC(false);
     consulta({ NUMOPERACION: 4 });
-
-
   };
-
 
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
@@ -202,31 +266,30 @@ export const CATORG = () => {
     });
   };
 
-
   useEffect(() => {
     var ancho = 0;
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "CATORG") {
+      if (String(item.Menu) == "CATORG") {
         //console.log(item)
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
-        if (String(item.Referencia) === "VUSUARIOR") {
+        if (String(item.ControlInterno) == "VUSUARIOR") {
           setVisualizarUsuarioResponsable(true);
           ancho = ancho + 50;
         }
-        if (String(item.Referencia) === "VIEWCC") {
+        if (String(item.ControlInterno) == "VIEWCC") {
           setViewCC(true);
           ancho = ancho + 50;
         }
       }
-      setAnchoAcciones(ancho)
+      setAnchoAcciones(ancho);
     });
     consulta({ NUMOPERACION: 4 });
   }, []);
@@ -234,7 +297,12 @@ export const CATORG = () => {
   return (
     <div style={{ height: 600, width: "100%", padding: "1%" }}>
       {openUR ? (
-        <UsuarioResponsable handleClose={handleClose} id={idOrg} nombre={nombreOrg} tipo={"ORG"} />
+        <UsuarioResponsable
+          handleClose={handleClose}
+          id={idOrg}
+          nombre={nombreOrg}
+          tipo={"ORG"}
+        />
       ) : (
         ""
       )}
@@ -251,23 +319,24 @@ export const CATORG = () => {
       )}
 
       <Grid container justifyContent="space-between">
-        <Grid item md={12} textAlign="center" >
-          <Typography variant="h3" >
-            {"Organismos"}
-          </Typography>
+        <Grid item md={12} textAlign="center">
+          <Typography variant="h3">{"Organismos"}</Typography>
         </Grid>
       </Grid>
-
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
       {openCC ? (
         // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
-          <CuentaBancaria idmunicipio={id} municipio={nombreProv} handleCloseModal={handleClose} fullScrean={true} ></CuentaBancaria>
-
+        <CuentaBancaria
+          idmunicipio={id}
+          municipio={nombreProv}
+          handleCloseModal={handleClose}
+          fullScrean={true}
+        ></CuentaBancaria>
       ) : (
         ""
       )}
     </div>
-  )
-}
+  );
+};

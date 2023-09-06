@@ -5,7 +5,10 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { fanios } from "../../../../../share/loadAnios";
@@ -18,15 +21,13 @@ import { porcentage } from "../../CustomToolbar";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import InflacionAnioModal from "./InflacionAnioModal";
 
-
 const InflacionAnio = () => {
-
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const [dataInflacionAnio, setDataInflacionAnio] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -49,12 +50,10 @@ const InflacionAnio = () => {
       setFilterAnio(v);
       consulta(data);
     } else {
-      consulta({ NUMOPERACION: 4, ANIO: "", });
+      consulta({ NUMOPERACION: 4, ANIO: "" });
       setFilterAnio("");
-
     }
   };
-
 
   const columns: GridColDef[] = [
     {
@@ -65,41 +64,48 @@ const InflacionAnio = () => {
       description: messages.dataTableColum.id,
     },
     {
-      field: "acciones", disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
       width: 100,
       renderCell: (v) => {
         return (
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-
+          <BotonesAcciones
+            handleAccion={handleAccion}
+            row={v}
+            editar={editar}
+            eliminar={eliminar}
+          ></BotonesAcciones>
         );
       },
     },
     { field: "Anio", headerName: "Año", description: "Año", width: 150 },
-    { field: "Inflacion", headerName: "Inflación", description: "Inflación", width: 150, ...porcentage },
-
+    {
+      field: "Inflacion",
+      headerName: "Inflación",
+      description: "Inflación",
+      width: 150,
+      ...porcentage,
+    },
   ];
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
-  }
-
-  const handleBorrar = () => {
-
   };
+
+  const handleBorrar = () => {};
   const handleClose = () => {
     setOpen(false);
-    consulta({ NUMOPERACION: 4 })
-
+    consulta({ NUMOPERACION: 4 });
   };
 
   const handleOpen = (v: any) => {
@@ -108,8 +114,6 @@ const InflacionAnio = () => {
     setOpen(true);
     setVrows("");
   };
-
-
 
   const handleDelete = (v: any) => {
     Swal.fire({
@@ -126,7 +130,7 @@ const InflacionAnio = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id,
         };
         //console.log(data);
 
@@ -138,7 +142,6 @@ const InflacionAnio = () => {
             });
 
             consulta({ NUMOPERACION: 4 });
-
           } else {
             AlertS.fire({
               title: "¡Error!",
@@ -147,7 +150,6 @@ const InflacionAnio = () => {
             });
           }
         });
-
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
@@ -168,23 +170,22 @@ const InflacionAnio = () => {
     });
   };
 
-
   useEffect(() => {
     setAnios(fanios());
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "INFANIO") {
-        if (String(item.Referencia) === "AGREG") {
+      if (String(item.Menu) == "INFANIO") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }
     });
-    consulta({ NUMOPERACION: 4 })
+    consulta({ NUMOPERACION: 4 });
   }, []);
 
   return (
@@ -202,30 +203,34 @@ const InflacionAnio = () => {
       )}
 
       <NombreCatalogo controlInterno={"INFANIO"} />
-      <Grid item xs={12} container  justifyContent={"space-between"}>
-        <Grid item xs={2}>  <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+      <Grid item xs={12} container justifyContent={"space-between"}>
+        <Grid item xs={2}>
+          {" "}
+          <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
         </Grid>
-        <Grid item xs={2}>  <SelectFrag
-          value={plantilla}
-          options={anios}
-          onInputChange={handleFilterChange}
-          placeholder={"Seleccione Año"}
-          label={""}
-          disabled={false}
-        /> 
+        <Grid item xs={2}>
+          {" "}
+          <SelectFrag
+            value={plantilla}
+            options={anios}
+            onInputChange={handleFilterChange}
+            placeholder={"Seleccione Año"}
+            label={""}
+            disabled={false}
+          />
         </Grid>
-       
-
       </Grid>
       <div style={{ height: 600, width: "100%" }}>
-        <MUIXDataGridMun columns={columns} rows={dataInflacionAnio} modulo={"INFANIO"} handleBorrar={handleBorrar} controlInterno={"INFANIO"} />
-
-
+        <MUIXDataGridMun
+          columns={columns}
+          rows={dataInflacionAnio}
+          modulo={"INFANIO"}
+          handleBorrar={handleBorrar}
+          controlInterno={"INFANIO"}
+        />
       </div>
-
     </>
+  );
+};
 
-  )
-}
-
-export default InflacionAnio
+export default InflacionAnio;

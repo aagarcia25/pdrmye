@@ -1,5 +1,5 @@
-import Select from 'react-select'
-import SelectValues from '../../../interfaces/Select/SelectValues'
+import Select from "react-select";
+import SelectValues from "../../../interfaces/Select/SelectValues";
 
 const SelectFragLogin = ({
   value,
@@ -7,57 +7,51 @@ const SelectFragLogin = ({
   onInputChange,
   placeholder,
   label,
-  disabled
+  disabled,
 }: {
-  value:string,
-  options: SelectValues[],
-  onInputChange: Function,
-  placeholder: string,
-  label: string,
-  disabled:boolean
+  value: string;
+  options: SelectValues[];
+  onInputChange: Function;
+  placeholder: string;
+  label: string;
+  disabled: boolean;
 }) => {
-
-
-
-
-
   return (
     <div>
-
-
       <Select
-        value ={value !== null ?options.find(element => element.value === value) :[]}
+        value={
+          value !== null
+            ? options.find((element) => element.value == value)
+            : []
+        }
         options={options}
         isDisabled={disabled}
         isClearable={true}
         isSearchable={true}
         backspaceRemovesValue={true}
-        onChange={
-          (v) => (v === null) ?
-          onInputChange(String(disabled))
-            :
-            onInputChange(v)
+        onChange={(v) =>
+          v == null ? onInputChange(String(disabled)) : onInputChange(v)
         }
-        placeholder={(label != "") ? label : placeholder}
+        placeholder={label != "" ? label : placeholder}
         theme={(theme) => ({
           ...theme,
           borderRadius: 0,
           colors: {
             ...theme.colors,
-            primary25: '#41b883',
-            primary: 'rgb(175, 140, 85)',
+            primary25: "#41b883",
+            primary: "rgb(175, 140, 85)",
           },
         })}
         styles={{
           menu: (base) => ({
-            position: 'fixed',
+            position: "fixed",
             zIndex: 500,
             ...base,
-          })
+          }),
         }}
       />
     </div>
-  )
-}
+  );
+};
 
-export default SelectFragLogin
+export default SelectFragLogin;

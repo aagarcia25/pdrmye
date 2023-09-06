@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useEffect, useState } from "react";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
@@ -8,12 +7,14 @@ import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import Swal from "sweetalert2";
 import { Toast } from "../../../../../helpers/Toast";
 import { AlertS } from "../../../../../helpers/AlertS";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
-import {  getPermisos, getUser } from "../../../../../services/localStorage";
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
-
 
 export const Umas = () => {
   const [modo, setModo] = useState("");
@@ -21,8 +22,9 @@ export const Umas = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const [conUmas, setUmas] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -30,13 +32,13 @@ export const Umas = () => {
   const [nombreMenu, setNombreMenu] = useState("");
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       //console.log(v)
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       Swal.fire({
         icon: "info",
         title: "¿Solicita la eliminación?",
@@ -46,11 +48,10 @@ export const Umas = () => {
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.row.id,
-            CHUSER: user.id
+            CHUSER: user.Id,
           };
           //console.log(data);
 
@@ -62,7 +63,6 @@ export const Umas = () => {
               });
 
               consulta({ NUMOPERACION: 4 });
-
             } else {
               AlertS.fire({
                 title: "¡Error!",
@@ -71,13 +71,12 @@ export const Umas = () => {
               });
             }
           });
-
         } else if (result.isDenied) {
           Swal.fire("No se realizaron cambios", "", "info");
         }
       });
     }
-  }
+  };
 
   const columns: GridColDef[] = [
     {
@@ -85,7 +84,8 @@ export const Umas = () => {
       hide: true,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -96,7 +96,8 @@ export const Umas = () => {
             handleAccion={handleAccion}
             row={v}
             editar={editar}
-            eliminar={eliminar} />
+            eliminar={eliminar}
+          />
         );
       },
     },
@@ -104,13 +105,11 @@ export const Umas = () => {
     { field: "Diario", headerName: "Diario", width: 150 },
     { field: "Mensual", headerName: "Mensual", width: 150 },
     { field: "Anual", headerName: "Anual", width: 150 },
-
   ];
 
   const handleClose = () => {
     setOpen(false);
-    consulta({ NUMOPERACION: 4 })
-
+    consulta({ NUMOPERACION: 4 });
   };
 
   const handleOpen = (v: any) => {
@@ -124,13 +123,9 @@ export const Umas = () => {
     setSelectionModel(v);
   };
 
-
   const handleUpload = (data: any) => {
-
-    if (data.tipo === 1) {
-
-    }
-    else if (data.tipo === 2) {
+    if (data.tipo == 1) {
+    } else if (data.tipo == 2) {
       //console.log("borrado de toda la tabla")
       //console.log(selectionModel)
 
@@ -144,11 +139,10 @@ export const Umas = () => {
           denyButtonText: `Cancelar`,
         }).then((result) => {
           if (result.isConfirmed) {
-
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id,
             };
             //console.log(data);
 
@@ -161,9 +155,8 @@ export const Umas = () => {
 
                 consulta({
                   NUMOPERACION: 4,
-                  CHUSER: user.id
+                  CHUSER: user.Id,
                 });
-
               } else {
                 AlertS.fire({
                   title: "¡Error!",
@@ -172,7 +165,6 @@ export const Umas = () => {
                 });
               }
             });
-
           } else if (result.isDenied) {
             Swal.fire("No se realizaron cambios", "", "info");
           }
@@ -184,10 +176,7 @@ export const Umas = () => {
           confirmButtonText: "Aceptar",
         });
       }
-
-
     }
-
   };
 
   const consulta = (data: any) => {
@@ -204,27 +193,22 @@ export const Umas = () => {
     });
   };
 
-
-
-
   useEffect(() => {
-
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "UMAS") {
+      if (String(item.Menu) == "UMAS") {
         setNombreMenu(item.Menu);
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
-
       }
     });
-    consulta({ NUMOPERACION: 4 })
+    consulta({ NUMOPERACION: 4 });
   }, []);
 
   return (
@@ -242,7 +226,13 @@ export const Umas = () => {
       <NombreCatalogo controlInterno={"UMAS"} />
 
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
-      < MUIXDataGridMun columns={columns} rows={conUmas} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"UMAS"} />
+      <MUIXDataGridMun
+        columns={columns}
+        rows={conUmas}
+        handleBorrar={handleBorrar}
+        modulo={nombreMenu.toUpperCase().replace(" ", "_")}
+        controlInterno={"UMAS"}
+      />
     </div>
   );
 };

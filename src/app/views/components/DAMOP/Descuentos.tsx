@@ -1,6 +1,6 @@
 import CloseIcon from "@mui/icons-material/Close";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
   Button,
@@ -16,15 +16,21 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import Radio from '@mui/material/Radio';
+import Radio from "@mui/material/Radio";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import Select from 'react-select';
+import Select from "react-select";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
 import { Toast } from "../../../helpers/Toast";
-import { default as SelectValues, default as SelectValuesCatRetenciones } from "../../../interfaces/Select/SelectValues";
-import { RESPONSE, getDescuentos } from "../../../interfaces/user/UserInfo";
+import {
+  default as SelectValues,
+  default as SelectValuesCatRetenciones,
+} from "../../../interfaces/Select/SelectValues";
+import {
+  USUARIORESPONSE,
+  getDescuentos,
+} from "../../../interfaces/user/UserInfo";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { getUser } from "../../../services/localStorage";
@@ -39,10 +45,7 @@ export const Descuentos = ({
   dt,
   permisoEliminarDescuento,
   permisoEditarDescuento,
-  permisoAgregarDescuento
-
-
-
+  permisoAgregarDescuento,
 }: {
   handleClose: Function;
   tipo: number;
@@ -52,7 +55,7 @@ export const Descuentos = ({
   permisoAgregarDescuento: boolean;
 }) => {
   // CAMPOS DE LOS FORMULARIOS
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [id, setId] = useState("");
 
   const [dataRow, setdataRow] = useState([]);
@@ -71,7 +74,9 @@ export const Descuentos = ({
   const [sumDes, setSumDes] = useState<number>(0);
   const [sumret, setSumRet] = useState<number>(0);
   const [sumaTotal, setSumaTotal] = useState<Number>();
-  const [claveRetencionOp, setclaveRetencionOp] = useState<SelectValuesCatRetenciones[]>([]);
+  const [claveRetencionOp, setclaveRetencionOp] = useState<
+    SelectValuesCatRetenciones[]
+  >([]);
   const [claveRet, setClaveRet] = useState("");
   const [descRet, setDescRet] = useState("");
   const [ValRet, setValRet] = useState("");
@@ -89,63 +94,95 @@ export const Descuentos = ({
       renderCell: (v: any) => {
         return (
           <Box>
-            {permisoEliminarDescuento ?
-
+            {permisoEliminarDescuento ? (
               <Tooltip title="Eliminar Descuento">
                 <IconButton onClick={() => handleEliminarDescuento(v)}>
                   <DeleteForeverIcon />
                 </IconButton>
               </Tooltip>
-
-              : ""}
-            {permisoEditarDescuento ?
+            ) : (
+              ""
+            )}
+            {permisoEditarDescuento ? (
               <Tooltip title="Editar Descuento">
                 <IconButton onClick={() => handleOpen(true, v)}>
                   <EditIcon />
                 </IconButton>
               </Tooltip>
-              : ""
-            }
-
+            ) : (
+              ""
+            )}
           </Box>
         );
       },
     },
     {
-      field: "Tipo", headerName: "Tipo", description: "Tipo", width: 200,
+      field: "Tipo",
+      headerName: "Tipo",
+      description: "Tipo",
+      width: 200,
       renderCell: (v) => {
         return (
           <Box>
-            {v.row.Tipo === "1" ? "Descuentos" : "Recuperacion de Adeudos"}
+            {v.row.Tipo == "1" ? "Descuentos" : "Recuperacion de Adeudos"}
           </Box>
         );
       },
     },
-    { field: "NumOperacion", headerName: "Num De Operación", description: "Numero De Operación", width: 200 },
     {
-      field: "ParcialDescuento", headerName: "Descuento Parcial", description: "Descuento Parcial", width: 200, ...Moneda
+      field: "NumOperacion",
+      headerName: "Num De Operación",
+      description: "Numero De Operación",
+      width: 200,
     },
     {
-      field: "OtrosCargos", headerName: "Otros Cargos", description: "Otros Cargos", width: 200, ...Moneda
+      field: "ParcialDescuento",
+      headerName: "Descuento Parcial",
+      description: "Descuento Parcial",
+      width: 200,
+      ...Moneda,
     },
     {
-      field: "total", headerName: "Total", description: "Total", width: 200, ...Moneda,
+      field: "OtrosCargos",
+      headerName: "Otros Cargos",
+      description: "Otros Cargos",
+      width: 200,
+      ...Moneda,
+    },
+    {
+      field: "total",
+      headerName: "Total",
+      description: "Total",
+      width: 200,
+      ...Moneda,
       renderHeader: () => (
         <>
-          {"Total: " + (sumaTotal === undefined ? "0" : currencyFormatter.format(Number(sumaTotal)))}
+          {"Total: " +
+            (sumaTotal == undefined
+              ? "0"
+              : currencyFormatter.format(Number(sumaTotal)))}
         </>
       ),
     },
-    { field: "cveRetencion", headerName: "Retención CVE", description: "Retención CVE", width: 150, },
-    { field: "DescripcionDescuento", headerName: "Descripción De Descuento", description: "Descripción De Descuento", width: 500, },
-
+    {
+      field: "cveRetencion",
+      headerName: "Retención CVE",
+      description: "Retención CVE",
+      width: 150,
+    },
+    {
+      field: "DescripcionDescuento",
+      headerName: "Descripción De Descuento",
+      description: "Descripción De Descuento",
+      width: 500,
+    },
   ];
 
   const handleRequest = (data: any) => {
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
 
       editar(data);
@@ -189,41 +226,39 @@ export const Descuentos = ({
   const consulta = (v: string) => {
     let data = {
       CHID: dt.row.id,
-    }
+    };
 
     DPCPServices.getDescuentos(data).then((res) => {
       if (res.SUCCESS) {
-        setdataRow(res.RESPONSE)
+        setdataRow(res.RESPONSE);
         var sumaDes = 0;
         var sumaRet = 0;
         var sumatotal = 0;
-        // if (v === "add") {
+        // if (v == "add") {
         res.RESPONSE.map((item: getDescuentos) => {
-          if (item.Tipo === "1") {
-            sumaDes = sumaDes + Number(item.total)
+          if (item.Tipo == "1") {
+            sumaDes = sumaDes + Number(item.total);
+          } else if (item.Tipo == "2") {
+            sumaRet = sumaRet + Number(item.total);
           }
-          else if (item.Tipo === "2") {
-            sumaRet = sumaRet + Number(item.total)
-          }
-
         });
         // }
-        // if (v === "remove") {
+        // if (v == "remove") {
         //   res.RESPONSE.map((item: getDescuentos) => {
-        //     if (item.Tipo === "1") {
+        //     if (item.Tipo == "1") {
         //       sumaDes = sumaDes - Number(item.total)
         //     }
-        //     else if (item.Tipo === "2") {
+        //     else if (item.Tipo == "2") {
         //       sumaRet = sumaRet - Number(item.total)
         //     }
         //   });
         // }
         res.RESPONSE.map((item: getDescuentos) => {
-          sumatotal = sumatotal + Number(item.total)
-          setSumaTotal(sumatotal)
+          sumatotal = sumatotal + Number(item.total);
+          setSumaTotal(sumatotal);
         });
-        if (res.RESPONSE.length === 0) {
-          setSumaTotal(sumatotal)
+        if (res.RESPONSE.length == 0) {
+          setSumaTotal(sumatotal);
         }
 
         setSumDes(sumaDes);
@@ -249,21 +284,20 @@ export const Descuentos = ({
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-
         let data = {
           NUMOPERACION: 2,
           CHID: v.row.id,
-          CHUSER: user.id,
-        }
+          CHUSER: user.Id,
+        };
         DPCPServices.setDescuentos(data).then((res) => {
           if (res.SUCCESS) {
-            setValue("")
+            setValue("");
             setOtrosCar("0");
             setDesPar("0");
-            setComentariosDes("")
+            setComentariosDes("");
             consulta("remove");
 
-            setSumDes(sumDes - Number(v.row.total))
+            setSumDes(sumDes - Number(v.row.total));
 
             Toast.fire({
               icon: "success",
@@ -282,18 +316,28 @@ export const Descuentos = ({
   };
 
   const handleAplicarDescuento = () => {
-    if (value.length < 1
-      || desPar === "0"
-      || numOperacion === ""
-      || numOperacion === "false"
-      || ((desPar !== undefined ? Number(desPar) : 0) + (otrosCar !== undefined ? Number(otrosCar) : 0)) === 0) {
+    if (
+      value.length < 1 ||
+      desPar == "0" ||
+      numOperacion == "" ||
+      numOperacion == "false" ||
+      (desPar !== undefined ? Number(desPar) : 0) +
+        (otrosCar !== undefined ? Number(otrosCar) : 0) ==
+        0
+    ) {
       AlertS.fire({
         title: "¡Error!",
         text: "Verificar Campos",
         icon: "error",
       });
     } else {
-      if ((Number(dt.row.total) - (sumret + sumDes)) - ((desPar !== undefined ? Number(desPar) : 0) + (otrosCar !== undefined ? Number(otrosCar) : 0)) >= 0) {
+      if (
+        Number(dt.row.total) -
+          (sumret + sumDes) -
+          ((desPar !== undefined ? Number(desPar) : 0) +
+            (otrosCar !== undefined ? Number(otrosCar) : 0)) >=
+        0
+      ) {
         Swal.fire({
           icon: "warning",
           title: "Solicitar",
@@ -304,23 +348,23 @@ export const Descuentos = ({
           cancelButtonText: "Cancelar",
         }).then(async (result) => {
           if (result.isConfirmed) {
-
             let data = {
               NUMOPERACION: !editarRegistro ? 1 : 3,
               CHID: dt.row.id,
               IDDESCUENTO: idRegistro,
-              CHUSER: user.id,
+              CHUSER: user.Id,
               IDMUN: dt.row.idmunicipio,
-              TIPO: value === "Anticipo" ? 1 : 2,
+              TIPO: value == "Anticipo" ? 1 : 2,
               NUMOP: numOperacion,
-              IDURES: user.idUResp,
+              //  IDURES: user.IdUnidadResponsable,
               IDDIVISA: dt.row.idDivisa,
               DESPARCIAL: desPar,
-              TOTAL: ((desPar !== undefined ? Number(desPar) : 0) + Number(otrosCar)),
+              TOTAL:
+                (desPar !== undefined ? Number(desPar) : 0) + Number(otrosCar),
               OTROSCARGOS: otrosCar,
-              CVERET: value === "Anticipo" ? "" : idRetencion,
-              DESCRIPCION: ComentariosDes
-            }
+              CVERET: value == "Anticipo" ? "" : idRetencion,
+              DESCRIPCION: ComentariosDes,
+            };
 
             DPCPServices.setDescuentos(data).then((res) => {
               if (res.SUCCESS) {
@@ -353,8 +397,6 @@ export const Descuentos = ({
           showDenyButton: false,
           confirmButtonText: "Aceptar",
         });
-
-
       }
     }
   };
@@ -377,111 +419,99 @@ export const Descuentos = ({
       setDesPar(data.row.ParcialDescuento);
       setNumOperacion(data.row.NumOperacion);
       setComentariosDes(data.row.DescripcionDescuento);
-      setValue(data.row.Tipo === "1" ? "Anticipo" : "RecuperacionAdeudos");
+      setValue(data.row.Tipo == "1" ? "Anticipo" : "RecuperacionAdeudos");
       setIdRegistro(data.row.id);
-
     } else {
       setOpenModalDes(true);
     }
   };
 
   const handleCloseModal = () => {
-    setValue("")
+    setValue("");
     setOpenModalDes(false);
     setEditarRegistro(false);
     setOtrosCar("0");
     setDesPar("0");
-    setComentariosDes("")
+    setComentariosDes("");
     setNumOperacion("");
     setCveReten("");
     setClaveRet("");
-    setDescRet("")
+    setDescRet("");
   };
-
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
     setOtrosCar("0");
     setDesPar("0");
-    setComentariosDes("")
+    setComentariosDes("");
     handleSelectNumOp("false");
     handleSelectCveRet("");
     setNumOperacion("");
-
-
   };
 
   const onInputChange = (v: any) => {
-    if (v === "") {
+    if (v == "") {
       setClaveRet("");
       setDescRet("");
       setValRet("");
-      setIdRetencion("")
-
-
+      setIdRetencion("");
     } else {
       setClaveRet(v.value);
       setDescRet(v.Descripcion);
       setValRet(v.retencion);
-      setIdRetencion(v.id)
+      setIdRetencion(v.id);
     }
-
   };
   useEffect(() => {
     setNumOperacionOp([
       {
-        "value": "1515",
-        "label": "Tipo 1515"
+        value: "1515",
+        label: "Tipo 1515",
       },
       {
-        "value": "25252",
-        "label": "Tipo 25252"
+        value: "25252",
+        label: "Tipo 25252",
       },
       {
-        "value": "1252515",
-        "label": "Tipo 1252515"
+        value: "1252515",
+        label: "Tipo 1252515",
       },
       {
-        "value": "15252515",
-        "label": "Tipo 15252515"
+        value: "15252515",
+        label: "Tipo 15252515",
       },
       {
-        "value": "252588",
-        "label": "Tipo 252588"
-      }
-    ]
-    )
+        value: "252588",
+        label: "Tipo 252588",
+      },
+    ]);
     setCveRetenOp([
       {
-        "value": "3553",
-        "label": "Tipo 3553"
+        value: "3553",
+        label: "Tipo 3553",
       },
       {
-        "value": "35356",
-        "label": "Tipo 35356"
+        value: "35356",
+        label: "Tipo 35356",
       },
       {
-        "value": "2344565",
-        "label": "Tipo 2344565"
+        value: "2344565",
+        label: "Tipo 2344565",
       },
       {
-        "value": "666544",
-        "label": "Tipo 666544"
+        value: "666544",
+        label: "Tipo 666544",
       },
       {
-        "value": "976866",
-        "label": "Tipo 976866"
-      }
-    ]
-
-
-    )
+        value: "976866",
+        label: "Tipo 976866",
+      },
+    ]);
     consulta("add");
 
-    if (dt === "") {
+    if (dt == "") {
     } else {
       setId(dt?.row?.id);
-
     }
     CatalogosServices.IndexCatRetenciones({ NUMOPERACION: 5 }).then((res) => {
       if (res.SUCCESS) {
@@ -498,7 +528,6 @@ export const Descuentos = ({
   }, [dt]);
 
   return (
-
     <>
       <ModalForm title={"Edición de Descuentos"} handleClose={handleClose}>
         <Grid container>
@@ -512,28 +541,34 @@ export const Descuentos = ({
               <br />
               {" Total Bruto: $" + Number(dt.row.total).toLocaleString("es-US")}
               <br />
-              {"Recuperación Adeudos:  $" + Number(sumret).toLocaleString("es-US")}
+              {"Recuperación Adeudos:  $" +
+                Number(sumret).toLocaleString("es-US")}
               <br />
               {"Descuentos: $" + Number(sumDes).toLocaleString("es-US")}
               <br />
-              {"Retenciones: $" + (Number(dt.row.Retenciones).toLocaleString("es-US"))}
+              {"Retenciones: $" +
+                Number(dt.row.Retenciones).toLocaleString("es-US")}
               <br />
-              {"Total Neto: $" + (Number(dt.row.total) - (sumret + sumDes)).toLocaleString("es-US")}
+              {"Total Neto: $" +
+                (Number(dt.row.total) - (sumret + sumDes)).toLocaleString(
+                  "es-US"
+                )}
               <br />
               {/* {"Tipo de Solcitud: " + dt.row.TipoSolicitud} */}
               {/* <br /> */}
             </label>
           </Grid>
 
-          <Grid item>
-
-          </Grid>
+          <Grid item></Grid>
         </Grid>
-        <ButtonsAdd handleOpen={() => handleOpen(false, null)} agregar={permisoAgregarDescuento} />
+        <ButtonsAdd
+          handleOpen={() => handleOpen(false, null)}
+          agregar={permisoAgregarDescuento}
+        />
         <MUIXDataGrid columns={columns} rows={dataRow} />
       </ModalForm>
 
-      {openModalDes ?
+      {openModalDes ? (
         <Dialog open={openModalDes}>
           <Grid container justifyContent="space-between">
             <DialogTitle>Edición de Descuentos</DialogTitle>
@@ -568,11 +603,17 @@ export const Descuentos = ({
                 />
               </RadioGroup>
             </Grid>
-            <Grid container >
+            <Grid container>
               <Grid item xs={6}>
                 <Grid>
                   <label>Numero: </label>
-                  <label>{value === "" ? "" : value === "Anticipo" ? "Proveedor" : "Deudor"}</label>
+                  <label>
+                    {value == ""
+                      ? ""
+                      : value == "Anticipo"
+                      ? "Proveedor"
+                      : "Deudor"}
+                  </label>
                 </Grid>
 
                 <TextField
@@ -580,18 +621,23 @@ export const Descuentos = ({
                   disabled
                   margin="dense"
                   id="Proveedor"
-                  // label={value === "" ? "" : value === "Anticipo" ? "Proveedor" : "Deudor"}
-                  value={value === "" ? "" : value === "Anticipo" ? dt.row.Proveedor : dt.row.Deudor}
+                  // label={value == "" ? "" : value == "Anticipo" ? "Proveedor" : "Deudor"}
+                  value={
+                    value == ""
+                      ? ""
+                      : value == "Anticipo"
+                      ? dt.row.Proveedor
+                      : dt.row.Deudor
+                  }
                   type="text"
                   variant="outlined"
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
               <Grid item xs={6}>
-
-                {value === "RecuperacionAdeudos" ?
+                {value == "RecuperacionAdeudos" ? (
                   <Grid item xs={11.99}>
-                    <label > Num. Operación</label>
+                    <label> Num. Operación</label>
 
                     <TextField
                       required
@@ -604,13 +650,12 @@ export const Descuentos = ({
                       onChange={(v) => setNumOperacion(v.target.value)}
                       inputProps={{ maxLength: 11 }}
                       InputLabelProps={{ shrink: true }}
-                      error={String(Number(numOperacion)) === "NaN"}
+                      error={String(Number(numOperacion)) == "NaN"}
                     />
                   </Grid>
-                  :
+                ) : (
                   <>
-                    <label > Num. Operación</label>
-
+                    <label> Num. Operación</label>
 
                     <TextField
                       required
@@ -623,15 +668,11 @@ export const Descuentos = ({
                       onChange={(v) => setNumOperacion(v.target.value)}
                       inputProps={{ maxLength: 11 }}
                       InputLabelProps={{ shrink: true }}
-                      error={String(Number(numOperacion)) === "NaN"}
+                      error={String(Number(numOperacion)) == "NaN"}
                     />
                   </>
-                }
-
-
+                )}
               </Grid>
-
-
             </Grid>
             <Grid container>
               <Grid item xs={6}>
@@ -659,10 +700,8 @@ export const Descuentos = ({
                   value={dt.row.Divisa}
                   type="text"
                   variant="outlined"
-
                   InputLabelProps={{ shrink: true }}
                 />
-
               </Grid>
             </Grid>
 
@@ -670,7 +709,7 @@ export const Descuentos = ({
               <Grid item xs={4}>
                 <label>Descuento Parcial</label>
                 <TextField
-                  disabled={value === ""}
+                  disabled={value == ""}
                   required
                   margin="dense"
                   id="Proveedor"
@@ -681,15 +720,13 @@ export const Descuentos = ({
                   onChange={(v) => setDesPar(v.target.value)}
                   InputLabelProps={{ shrink: true }}
                   inputProps={{ maxLength: 30 }}
-                  error={String(Number(desPar)) === "NaN"}
-
+                  error={String(Number(desPar)) == "NaN"}
                 />
-
               </Grid>
               <Grid item xs={4}>
                 <label>Otros Cargos</label>
                 <TextField
-                  disabled={value === "" || value === "Anticipo"}
+                  disabled={value == "" || value == "Anticipo"}
                   required
                   margin="dense"
                   id="Proveedor"
@@ -698,10 +735,8 @@ export const Descuentos = ({
                   variant="outlined"
                   onChange={(v) => setOtrosCar(v.target.value)}
                   InputLabelProps={{ shrink: true }}
-                  error={String(Number(otrosCar)) === "NaN"}
+                  error={String(Number(otrosCar)) == "NaN"}
                   inputProps={{ maxLength: 30 }}
-
-
                 />
               </Grid>
               <Grid item xs={4}>
@@ -712,7 +747,10 @@ export const Descuentos = ({
                   margin="dense"
                   id="Proveedor"
                   // label="Descuento Total"
-                  value={(desPar !== undefined ? Number(desPar) : 0) + Number(otrosCar)}
+                  value={
+                    (desPar !== undefined ? Number(desPar) : 0) +
+                    Number(otrosCar)
+                  }
                   type="number"
                   variant="outlined"
                   InputLabelProps={{ shrink: true }}
@@ -720,49 +758,54 @@ export const Descuentos = ({
               </Grid>
             </Grid>
 
-            {value === "RecuperacionAdeudos" ?
+            {value == "RecuperacionAdeudos" ? (
               <Grid container item xs={10} paddingBottom={2}>
-                <label > Cve. Retención</label>
+                <label> Cve. Retención</label>
                 {/* <SelectFrag
-                  value={value === "RecuperacionAdeudos" ? cveReten : ""}
+                  value={value == "RecuperacionAdeudos" ? cveReten : ""}
                   options={cveRetenOp}
                   onInputChange={handleSelectCveRet}
                   placeholder={"Cve. Retención"}
                   label={"Cve. Retención"}
                   disabled={value !== "RecuperacionAdeudos"}
                 /> */}
-                <FormControl sx={{ width: "100%" }}   >
+                <FormControl sx={{ width: "100%" }}>
                   <Select
-                    value={claveRetencionOp.find(element => element.value === claveRet)}
+                    value={claveRetencionOp.find(
+                      (element) => element.value == claveRet
+                    )}
                     options={claveRetencionOp}
-                    isDisabled={numOperacion === "" || numOperacion === "false" || String(Number(numOperacion)) === "NaN"}
+                    isDisabled={
+                      numOperacion == "" ||
+                      numOperacion == "false" ||
+                      String(Number(numOperacion)) == "NaN"
+                    }
                     isClearable={true}
                     isSearchable={true}
                     backspaceRemovesValue={true}
-                    onChange={(v) => (v === null) ?
-                      onInputChange("")
-                      :
-                      onInputChange(v)
+                    onChange={(v) =>
+                      v == null ? onInputChange("") : onInputChange(v)
                     }
-                    placeholder={(descRet !== "") ? descRet : ""}
+                    placeholder={descRet !== "" ? descRet : ""}
                     styles={{
                       menu: (base) => ({
-                        position: 'absolute',
-                        paddingLeft: '1rem',
+                        position: "absolute",
+                        paddingLeft: "1rem",
                         zIndex: 500,
-                        ...base
-                      })
+                        ...base,
+                      }),
                     }}
                   />
                 </FormControl>
-
               </Grid>
-              : ""}
+            ) : (
+              ""
+            )}
 
             <Grid container>
-              <label > Descripción del Descuento  *Opcional*</label>
+              <label> Descripción del Descuento *Opcional*</label>
               <TextField
-                disabled={value === ""}
+                disabled={value == ""}
                 margin="dense"
                 id="Proveedor"
                 value={ComentariosDes}
@@ -779,26 +822,31 @@ export const Descuentos = ({
             </Grid>
           </DialogContent>
           <DialogActions>
-            <Button className="guardar"
+            <Button
+              className="guardar"
               disabled={
-                value.length < 1
-                || desPar === "0"
-                || numOperacion === ""
-                || numOperacion === "false"
-                || ((desPar !== undefined ? Number(desPar) : 0) + (otrosCar !== undefined ? Number(otrosCar) : 0)) === 0
-                || (value === "RecuperacionAdeudos" ? !claveRet : false)
-                || String(Number(desPar)) === "NaN"
-                || String(Number(numOperacion)) === "NaN"
-                || String(Number(otrosCar)) === "NaN"
-                || String(Number(claveRet)) === "NaN"}
-              onClick={handleAplicarDescuento}>Aplicar</Button>
+                value.length < 1 ||
+                desPar == "0" ||
+                numOperacion == "" ||
+                numOperacion == "false" ||
+                (desPar !== undefined ? Number(desPar) : 0) +
+                  (otrosCar !== undefined ? Number(otrosCar) : 0) ==
+                  0 ||
+                (value == "RecuperacionAdeudos" ? !claveRet : false) ||
+                String(Number(desPar)) == "NaN" ||
+                String(Number(numOperacion)) == "NaN" ||
+                String(Number(otrosCar)) == "NaN" ||
+                String(Number(claveRet)) == "NaN"
+              }
+              onClick={handleAplicarDescuento}
+            >
+              Aplicar
+            </Button>
           </DialogActions>
         </Dialog>
-        :
+      ) : (
         ""
-      }
-
-
+      )}
     </>
   );
 };

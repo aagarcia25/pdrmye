@@ -2,11 +2,16 @@
 
 //BLOQUEO DE PANTALLA
 
-
+//CONTROLINTERNO
+export const setcontrolInternoEntidad = (CCI: any) => localStorage.setItem('CCI', JSON.stringify(CCI));
+export const getcontrolInternoEntidad = () => localStorage.getItem('CCI');
 //TOKEN
 export const setToken = (user: any) => localStorage.setItem('token', JSON.stringify(user));
 export const getToken = () => localStorage.getItem('token');
-
+//IDAPP
+export const setIdApp = (data: any) => localStorage.setItem('idapp', JSON.stringify(data));
+export const getIdApp = () => localStorage.getItem('idapp');
+//RFTOKEN
 export const setRfToken = (user: any) => localStorage.setItem('Rftoken', JSON.stringify(user));
 export const getRfToken = () => localStorage.getItem('Rftoken');
 // USUARIOS
@@ -21,9 +26,6 @@ export const getRoles = () => localStorage.getItem('roles');
 // MENUS
 export const setMenus = (menus: any) => localStorage.setItem('menus', JSON.stringify(menus));
 export const getMenus = () => localStorage.getItem('menus');
-// PERFIL
-export const setPerfiles = (perfiles: any) => localStorage.setItem('perfiles', JSON.stringify(perfiles));
-export const getPerfiles = () => localStorage.getItem('perfiles');
 //// foto perfil
 export const setPerfilFoto = (perfiles: any) => localStorage.setItem('perfilFoto', JSON.stringify(perfiles));
 export const getPerfilFoto = () => localStorage.getItem('perfilFoto');
@@ -44,7 +46,7 @@ export const setlogin = (data: any) => {
 };
 export const getlogin = () => localStorage.getItem('login');
 export const islogin = (): boolean => {
-  return getlogin() ===  'true' ? true : false;
+  return getlogin() ==  'true' ? true : false;
 };
 
 
@@ -62,6 +64,7 @@ export const getItem = (item:string ) :string => {
  }
 
 
-
+ export const setDatosAdicionales = (DatosAdicionales: any) => localStorage.setItem('DatosAdicionales', JSON.stringify(DatosAdicionales));
+ export const getDatosAdicionales = () => localStorage.getItem('DatosAdicionales');
   
  

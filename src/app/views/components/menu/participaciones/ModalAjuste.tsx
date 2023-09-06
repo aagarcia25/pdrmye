@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { Box,  Button,  Grid, IconButton,  Typography } from "@mui/material";
-import SelectValues from "../../../../interfaces/Select/SelectValues";
-import { CatalogosServices } from "../../../../services/catalogosServices";
-import SelectFrag from "../../Fragmentos/SelectFrag";
-import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { RESPONSE } from "../../../../interfaces/user/UserInfo";
-import { getUser } from "../../../../services/localStorage";
-import { Toast } from "../../../../helpers/Toast";
+import { Box, Button, Grid, IconButton, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
-import { calculosServices } from "../../../../services/calculosServices";
-import Slider from "../../Slider";
+import { Toast } from "../../../../helpers/Toast";
+import SelectValues from "../../../../interfaces/Select/SelectValues";
+import { USUARIORESPONSE } from "../../../../interfaces/user/UserInfo";
 import { ParametroServices } from "../../../../services/ParametroServices";
+import { calculosServices } from "../../../../services/calculosServices";
+import { CatalogosServices } from "../../../../services/catalogosServices";
+import { getUser } from "../../../../services/localStorage";
+import SelectFrag from "../../Fragmentos/SelectFrag";
+import Slider from "../../Slider";
 import { TextFieldFormatoMoneda } from "../../componentes/TextFieldFormatoMoneda";
+import { BtnRegresar } from "../catalogos/Utilerias/AgregarCalculoUtil/BtnRegresar";
 
 const ModalAjuste = ({
   idCalculo,
@@ -25,8 +25,7 @@ const ModalAjuste = ({
   titulo: string;
   onClickBack: Function;
 }) => {
-
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [year, setyear] = useState<number>();
   //LLENADO DE FILTRO
   const [mes, setMeses] = useState<SelectValues[]>([]);
@@ -47,36 +46,32 @@ const ModalAjuste = ({
   const parametros = () => {
     let data = {
       NUMOPERACION: 5,
-      NOMBRE: "ANIO_OPERACION"
-    }
+      NOMBRE: "ANIO_OPERACION",
+    };
     ParametroServices.ParametroGeneralesIndex(data).then((res) => {
       setyear(Number(res.RESPONSE.Valor));
     });
-
   };
 
   const handleNewFile = (event: any) => {
     setFile(event?.target?.files?.[0] || "");
-    if (event.target.files.length === 0) {
+    if (event.target.files.length == 0) {
     } else {
       setNameNewDoc(event.target!.files[0]!.name);
     }
   };
 
-
   const handleSelect01 = (v: SelectValues) => {
     setIdAjustes(String(v));
     if (String(v) !== "") {
-
       let data = {
         NUMOPERACION: 5,
-        CHID: String(v)
+        CHID: String(v),
       };
       CatalogosServices.AjustesIndex(data).then((res) => {
         if (res.SUCCESS) {
           //console.log(res.RESPONSE);
           setLabelAjuste(Number(res.RESPONSE.keys));
-
         } else {
           AlertS.fire({
             title: "¡Error!",
@@ -96,7 +91,7 @@ const ModalAjuste = ({
     formData.append("inputfile", file, "inputfile.xlsx");
     formData.append("tipo", "CalculoAjuste");
     formData.append("FONDO", clave);
-    formData.append("CHUSER", user.id);
+    formData.append("CHUSER", user.Id);
     formData.append("IMPORTE", String(monto));
     formData.append("IDCALCULO", idCalculo);
     formData.append("IDAJUSTE", String(idAjustes));
@@ -121,36 +116,35 @@ const ModalAjuste = ({
 
   const handleSend = () => {
     // AJUSTE ESTATAL
-    if (labelAjuste === 10) {
+    if (labelAjuste == 10) {
       AjusteEstatal();
-    } else if (labelAjuste === 9) {
+    } else if (labelAjuste == 9) {
       AjusteEstatal();
-    } else if (labelAjuste === 8) {
+    } else if (labelAjuste == 8) {
       AjusteEstatal();
     }
-
-
   };
 
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion, CHID: clave, CLAVE: clave };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 2) {
+      if (operacion == 2) {
         setMeses(res.RESPONSE);
-      } else if (operacion === 15) {
+      } else if (operacion == 15) {
         setTipoCalculo(res.RESPONSE);
-      } else if (operacion === 3) {
+      } else if (operacion == 3) {
         setAjustes(res.RESPONSE);
       }
-
     });
   };
 
   const loadInfoCalculo = () => {
     let data = { CHID: idCalculo };
     calculosServices.infoCalculo(data).then((res) => {
-      let mesDescripcion = mes.find(el => el.value === res.RESPONSE.Mes);
-      let tipoDescripcion = tipoCalculo.find(el => el.value === res.RESPONSE.idtipo);
+      let mesDescripcion = mes.find((el) => el.value == res.RESPONSE.Mes);
+      let tipoDescripcion = tipoCalculo.find(
+        (el) => el.value == res.RESPONSE.idtipo
+      );
       setIdmes(mesDescripcion);
       setIdTipoCalculo(tipoDescripcion);
       setslideropen(false);
@@ -158,9 +152,8 @@ const ModalAjuste = ({
   };
 
   const handleChange = (value: number) => {
-    setMonto(Number(value))
+    setMonto(Number(value));
   };
-
 
   useEffect(() => {
     parametros();
@@ -174,7 +167,6 @@ const ModalAjuste = ({
   useEffect(() => {
     loadInfoCalculo();
   }, [tipoCalculo]);
-
 
   return (
     <div>
@@ -219,8 +211,6 @@ const ModalAjuste = ({
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 {idmes?.label}
               </Typography>
-
-
             </Grid>
             <Grid item xs={4} sm={4} md={4}></Grid>
           </Grid>
@@ -262,12 +252,14 @@ const ModalAjuste = ({
           </Grid>
         </Grid>
 
-
-
-        <Grid item xs={12} sm={12} md={12}
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
           sx={{
             justifyContent: "center",
-            display: clave !== 'ICV' ? 'block' : 'none'
+            display: clave !== "ICV" ? "block" : "none",
           }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
@@ -281,23 +273,27 @@ const ModalAjuste = ({
                 disable={false}
                 valor={0}
                 handleSetValor={handleChange}
-                error={!monto} modo={"moneda"} />
-
+                error={!monto}
+                modo={"moneda"}
+              />
             </Grid>
           </Grid>
         </Grid>
 
-
-
-
-        <Grid item xs={12} sm={12} md={12}
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
           sx={{
             justifyContent: "center",
-            display: labelAjuste === 10 || labelAjuste === 9 || labelAjuste === 8 ? 'block' : 'none'
+            display:
+              labelAjuste == 10 || labelAjuste == 9 || labelAjuste == 8
+                ? "block"
+                : "none",
           }}
         >
-
-          <Grid container spacing={0} >
+          <Grid container spacing={0}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Cargar Archivo:
@@ -305,7 +301,7 @@ const ModalAjuste = ({
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
               <IconButton
-              className="aceptar"
+                className="aceptar"
                 aria-label="upload picture"
                 component="label"
                 size="large"
@@ -329,25 +325,25 @@ const ModalAjuste = ({
           </Grid>
         </Grid>
 
-
-
-
-      <Grid item xs={9} sm={9} md={1} sx={{ textAlign: "center" }}>
-        <Button className="aceptar"
-                    disabled={
-                      // !monto
-                      // || 
-                      idAjustes === "" || idAjustes==="false"
-                    }
-                    onClick={() => handleSend()}
-                    color="primary" fullWidth variant="contained"> <Typography color="white"> Calcular </Typography>
-                  </Button>
+        <Grid item xs={9} sm={9} md={1} sx={{ textAlign: "center" }}>
+          <Button
+            className="aceptar"
+            disabled={
+              // !monto
+              // ||
+              idAjustes == "" || idAjustes == "false"
+            }
+            onClick={() => handleSend()}
+            color="primary"
+            fullWidth
+            variant="contained"
+          >
+            {" "}
+            <Typography color="white"> Calcular </Typography>
+          </Button>
         </Grid>
-
-
-
-    </Grid>
-    </div >
+      </Grid>
+    </div>
   );
 };
 

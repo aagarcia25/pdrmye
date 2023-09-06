@@ -66,7 +66,7 @@ export const Ajanual = () => {
           P_FONDO: v.row.id,
         };
 
-        calculosServices.AjusteSemestralIndex(data).then((res) => {
+        calculosServices.AjusteAnualIndex(data).then((res) => {
           if (res.SUCCESS) {
             AlertS.fire({
               title: res.RESPONSE,
@@ -155,7 +155,7 @@ export const Ajanual = () => {
     let data = {
       NUMOPERACION: 2,
     };
-    calculosServices.AjusteSemestralIndex(data).then((res) => {
+    calculosServices.AjusteAnualIndex(data).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({
           icon: "success",
@@ -178,56 +178,54 @@ export const Ajanual = () => {
     handleClick();
 
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "AJUSTESEMESTRAL") {
-        if (String(item.Referencia) === "AGREGAR") {
+      if (String(item.Menu) == "AJUSTESEMESTRAL") {
+        if (String(item.ControlInterno) == "AGREGAR") {
           setagregar(true);
         }
-        if (String(item.Referencia) === "ELIMINAR") {
+        if (String(item.ControlInterno) == "ELIMINAR") {
           setEliminar(true);
         }
       }
     });
   }, []);
 
-
-
   return (
     <>
-    {openModal ? <AjanualModal handleClose={handleclose} /> : ""}
-    {openDetail ? <ADetail handleClose={handleclose} row={vrows} /> : ""}
-     
-    <Grid container spacing={1} padding={2}>
-           <Slider open={slideropen}></Slider>
-          <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
-            <Grid container sx={{ justifyContent: "center" }}>
-              <Grid className="Titulo" container item xs={12}>
-                <Typography variant="h4" paddingBottom={2}>
-                  Ajuste Anual
-                </Typography>
-              </Grid>
+      {openModal ? <AjanualModal handleClose={handleclose} /> : ""}
+      {openDetail ? <ADetail handleClose={handleclose} row={vrows} /> : ""}
+
+      <Grid container spacing={1} padding={2}>
+        <Slider open={slideropen}></Slider>
+        <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
+          <Grid container sx={{ justifyContent: "center" }}>
+            <Grid className="Titulo" container item xs={12}>
+              <Typography variant="h4" paddingBottom={2}>
+                Ajuste Anual
+              </Typography>
             </Grid>
           </Grid>
+        </Grid>
 
-          {agregar ? (
-            <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-              <Tooltip title="Generar">
-                <ToggleButton
-                  className="enviar-mensaje"
-                  value="check"
-                  onClick={() => handleVersion()}
-                >
-                  <AutoModeIcon />
-                </ToggleButton>
-              </Tooltip>
-            </ToggleButtonGroup>
-          ) : (
-            ""
-          )}
+        {agregar ? (
+          <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+            <Tooltip title="Generar">
+              <ToggleButton
+                className="enviar-mensaje"
+                value="check"
+                onClick={() => handleVersion()}
+              >
+                <AutoModeIcon />
+              </ToggleButton>
+            </Tooltip>
+          </ToggleButtonGroup>
+        ) : (
+          ""
+        )}
 
-          <Grid item xs={12} sm={12} md={12} lg={12}>
-            <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
-          </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={12}>
+          <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
+        </Grid>
       </Grid>
- </>
- );
+    </>
+  );
 };

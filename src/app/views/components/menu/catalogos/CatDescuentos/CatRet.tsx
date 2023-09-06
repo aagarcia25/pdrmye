@@ -1,17 +1,18 @@
-
-
-import { GridColDef } from '@mui/x-data-grid';
+import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import Swal from 'sweetalert2';
-import { AlertS } from '../../../../../helpers/AlertS';
-import { Toast } from '../../../../../helpers/Toast';
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo';
-import { CatalogosServices } from '../../../../../services/catalogosServices';
-import { getPermisos, getUser } from '../../../../../services/localStorage';
-import MUIXDataGrid from '../../../MUIXDataGrid';
-import BotonesAcciones from '../../../componentes/BotonesAcciones';
+import Swal from "sweetalert2";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { Toast } from "../../../../../helpers/Toast";
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import MUIXDataGrid from "../../../MUIXDataGrid";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import NombreCatalogo from "../../../componentes/NombreCatalogo";
-import ButtonsAdd from '../Utilerias/ButtonsAdd';
+import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import { CatRetModal } from "./CatRetModal";
 
 export const CatRet = () => {
@@ -28,7 +29,8 @@ export const CatRet = () => {
   const columns: GridColDef[] = [
     { field: "id", hide: true },
     {
-      field: "acciones", disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -39,21 +41,39 @@ export const CatRet = () => {
             handleAccion={handleAccion}
             row={v}
             editar={editar}
-            eliminar={eliminar} />
+            eliminar={eliminar}
+          />
         );
       },
     },
-    { field: "ClaveRetencion", headerName: "Clave Retención", description: "Clave Retención", width: 300 },
-    { field: "Retencion", headerName: "Retención", description: "Retención", width: 300 },
-    { field: "ClaveAuxiliar", headerName: "Clave Auxiliar", description: "Clave Auxiliar", width: 300 },
-    { field: "Descripcion", headerName: "Descripción", description: "Descripción", width: 450 },
-
-
-
+    {
+      field: "ClaveRetencion",
+      headerName: "Clave Retención",
+      description: "Clave Retención",
+      width: 300,
+    },
+    {
+      field: "Retencion",
+      headerName: "Retención",
+      description: "Retención",
+      width: 300,
+    },
+    {
+      field: "ClaveAuxiliar",
+      headerName: "Clave Auxiliar",
+      description: "Clave Auxiliar",
+      width: 300,
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripción",
+      description: "Descripción",
+      width: 450,
+    },
   ];
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       //console.log(v);
       setTipoOperacion(2);
       setModo("Editar Registro");
@@ -69,11 +89,11 @@ export const CatRet = () => {
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-          const user: RESPONSE = JSON.parse(String(getUser()));
+          const user: USUARIORESPONSE = JSON.parse(String(getUser()));
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.row.id,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           CatalogosServices.IndexCatRetenciones(data).then((res) => {
@@ -105,7 +125,6 @@ export const CatRet = () => {
   const handleClose = () => {
     setOpen(false);
     consulta({ NUMOPERACION: 4 });
-
   };
 
   const handleOpen = (v: any) => {
@@ -134,22 +153,19 @@ export const CatRet = () => {
     });
   };
 
-
   useEffect(() => {
-
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "CATRETEN") {
+      if (String(item.Menu) == "CATRETEN") {
         //console.log(item)
-        if (String(item.Referencia) === "AGREG") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
-
       }
     });
     consulta({ NUMOPERACION: 4 });
@@ -173,5 +189,5 @@ export const CatRet = () => {
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
       <MUIXDataGrid columns={columns} rows={data} />
     </div>
-  )
-}
+  );
+};

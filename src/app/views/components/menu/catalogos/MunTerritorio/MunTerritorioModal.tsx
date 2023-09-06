@@ -1,42 +1,34 @@
-import {
-  Box,
-  Button,
-  Grid,
-  InputAdornment,
-  TextField,
-} from "@mui/material";
+import { Box, Button, Grid, InputAdornment, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
-
 
 const MunTerritorioModal = ({
   open,
   modo,
   handleClose,
   tipo,
-  dt
+  dt,
 }: {
   open: boolean;
   modo: string;
   tipo: number;
-  handleClose: Function,
-  dt: any
+  handleClose: Function;
+  dt: any;
 }) => {
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState("");
   const [territorio, setTerritorio] = useState<number>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [IdMunicipio, setIdMunicipio] = useState<object>();
 
-
   const handleSend = () => {
-    if (territorio === null) {
+    if (territorio == null) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Completar los Campos",
@@ -46,13 +38,10 @@ const MunTerritorioModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: anio,
         IDMUNICIPIO: IdMunicipio,
         KM2: territorio,
-
-
-
       };
 
       handleRequest(data);
@@ -60,20 +49,17 @@ const MunTerritorioModal = ({
     }
   };
 
-
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
 
       editar(data);
     }
   };
-
-
 
   const agregar = (data: any) => {
     CatalogosServices.munterritorio(data).then((res) => {
@@ -82,7 +68,6 @@ const MunTerritorioModal = ({
           icon: "success",
           title: "¡Registro Agregado!",
         });
-
       } else {
         AlertS.fire({
           title: "¡Error!",
@@ -110,34 +95,25 @@ const MunTerritorioModal = ({
     });
   };
 
-
-
   useEffect(() => {
-  
-
-    if (dt === '') {
+    if (dt == "") {
       //console.log(dt)
-
     } else {
-      setId(dt?.row?.id)
-      setAnio(dt?.row?.Anio)
-      setTerritorio(dt?.row?.Km2)
-      setIdMunicipio(dt?.row?.idmunicipio)
+      setId(dt?.row?.id);
+      setAnio(dt?.row?.Anio);
+      setTerritorio(dt?.row?.Km2);
+      setIdMunicipio(dt?.row?.idmunicipio);
       //console.log(dt)
     }
-
-  
-
 
     //console.log(dt)
   }, [dt]);
 
-
-
   return (
     <div>
       <ModalForm title={modo} handleClose={handleClose}>
-        <Grid container
+        <Grid
+          container
           sx={{
             mt: "2vh",
             width: "100%",
@@ -146,12 +122,11 @@ const MunTerritorioModal = ({
             alignItems: "center",
             flexDirection: "row",
           }}
-
         >
           <Grid item xs={7} sm={8} md={8} lg={8}>
-          <Box>
-          <label className="Titulo">{dt?.row?.Nombre}</label>
-          </Box>
+            <Box>
+              <label className="Titulo">{dt?.row?.Nombre}</label>
+            </Box>
           </Grid>
           <Grid item xs={7} sm={8} md={8} lg={8}>
             <TextField
@@ -164,7 +139,7 @@ const MunTerritorioModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setTerritorio(Number(v.target.value))}
-              error={territorio === null ? true : false}
+              error={territorio == null ? true : false}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start"></InputAdornment>
@@ -173,7 +148,8 @@ const MunTerritorioModal = ({
             />
           </Grid>
 
-          <Grid container
+          <Grid
+            container
             sx={{
               mt: "2vh",
               width: "100%",
@@ -183,17 +159,18 @@ const MunTerritorioModal = ({
               flexDirection: "row",
             }}
           >
-            <Grid item xs={4} sm={3} md={2} lg={1}
-            >
-              <Button className={tipo===1?"guardar":"actualizar"} onClick={() => handleSend()}>{tipo===1?"Guardar":"Actualizar"}</Button>
+            <Grid item xs={4} sm={3} md={2} lg={1}>
+              <Button
+                className={tipo == 1 ? "guardar" : "actualizar"}
+                onClick={() => handleSend()}
+              >
+                {tipo == 1 ? "Guardar" : "Actualizar"}
+              </Button>
             </Grid>
           </Grid>
         </Grid>
-
       </ModalForm>
     </div>
-
-
   );
 };
 

@@ -1,5 +1,5 @@
 import ApprovalIcon from "@mui/icons-material/Approval";
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
@@ -18,19 +18,17 @@ import {
   OutlinedInput,
   ToggleButton,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
-import {
-  esES as gridEsES, GridSelectionModel
-} from "@mui/x-data-grid";
+import { esES as gridEsES, GridSelectionModel } from "@mui/x-data-grid";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
 import { Toast } from "../../../helpers/Toast";
 import SelectValues from "../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { DAFServices } from "../../../services/DAFServices";
 import { DPCPServices } from "../../../services/DPCPServices";
@@ -50,7 +48,8 @@ import SpeisAdmin from "./SpeisAdmin";
 const AsigPago = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
   //MODAL
   //Constantes para llenar los select
   const [meses, setMeses] = useState<SelectValues[]>([]);
@@ -73,7 +72,7 @@ const AsigPago = () => {
   const [numOrdenPago, setNumOrdenPago] = useState("");
   //Constantes para las columnas
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   ///// Modal de Administración de Speis
@@ -89,9 +88,8 @@ const AsigPago = () => {
   const [openTraz, setOpenTraz] = useState(false);
   const [idSolicitud, setIdSolicitud] = useState<string>();
 
-
   const handlePagado = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -100,19 +98,19 @@ const AsigPago = () => {
     } else {
       Swal.fire({
         icon: "warning",
-        title: "Solo se Procesaran los Registros en estatus Pendiente subir SPEI",
+        title:
+          "Solo se Procesaran los Registros en estatus Pendiente subir SPEI",
         text: selectionModel.length + " Elementos Seleccionados",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Aceptar",
         cancelButtonText: "Cancelar",
       }).then(async (result) => {
-
         if (result.isConfirmed) {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           DAFServices.MarcarPagado(data).then((res) => {
@@ -134,11 +132,7 @@ const AsigPago = () => {
             }
           });
         }
-
-
       });
-
-
     }
   };
 
@@ -168,7 +162,7 @@ const AsigPago = () => {
     setOpenTraz(false);
   };
 
-  const handleAccion = (data: any) => { };
+  const handleAccion = (data: any) => {};
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -189,7 +183,7 @@ const AsigPago = () => {
             </Tooltip>
 
             {agregarPoliza ? (
-              String(v.row.NumCheque) === "null" ? (
+              String(v.row.NumCheque) == "null" ? (
                 <Tooltip title="Agregar Póliza de Pago">
                   <IconButton onClick={() => handlecheque(v)}>
                     <ApprovalIcon />
@@ -218,8 +212,11 @@ const AsigPago = () => {
       },
     },
     {
-      field: "a2", headerName: "Estatus", width: 150,
-      description: "Solo se puede cargar un archivo en forma masiva si esta en Estatus Pendiente subir SPEI"
+      field: "a2",
+      headerName: "Estatus",
+      width: 150,
+      description:
+        "Solo se puede cargar un archivo en forma masiva si esta en Estatus Pendiente subir SPEI",
     },
     {
       field: "a3",
@@ -285,13 +282,13 @@ const AsigPago = () => {
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 31) {
+      if (operacion == 31) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 32) {
+      } else if (operacion == 32) {
         setMunicipios(res.RESPONSE);
-      } else if (operacion === 17) {
+      } else if (operacion == 17) {
         setTipos(res.RESPONSE);
-      } else if (operacion === 36) {
+      } else if (operacion == 36) {
         setEstatus(res.RESPONSE);
       }
     });
@@ -315,9 +312,9 @@ const AsigPago = () => {
 
   const handleSelectMes = (data: any) => {
     setNombreMes(
-      meses.find(({ value }) => value === data)?.label === undefined
+      meses.find(({ value }) => value == data)?.label == undefined
         ? ""
-        : String(meses.find(({ value }) => value === data)?.label)
+        : String(meses.find(({ value }) => value == data)?.label)
     );
 
     setMes(data);
@@ -332,7 +329,7 @@ const AsigPago = () => {
     let fueradesstatus: any[] = [];
     let rows = data;
 
-    if (rows.length === 0) {
+    if (rows.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de realizar la búsqueda de Registros, primero",
@@ -342,13 +339,15 @@ const AsigPago = () => {
       let counfiles = event?.target?.files?.length;
       //Recorremos los registros de la busqueda
 
-
       rows.map((item: any, index) => {
         for (let i = 0; i < Number(counfiles); i++) {
           let file = event?.target?.files?.[i] || "";
           let namefile = event?.target?.files?.[i].name || "";
 
-          if (item.a2.includes("Pendiente subir SPEI") ||  item.a2.includes("Pagado")    ) {
+          if (
+            item.a2.includes("Pendiente subir SPEI") ||
+            item.a2.includes("Pagado")
+          ) {
             if (namefile.includes(item.a3)) {
               rows = rows.filter((items) => !item);
               encontrados.push({ Archivo: file, Registro: item });
@@ -358,25 +357,18 @@ const AsigPago = () => {
           } else {
             fueradesstatus.push(item.a3);
           }
-
         }
-
       });
 
-
-
-
-
-
       let a2 = noencontrados.filter((elemento, index) => {
-        return noencontrados.indexOf(elemento) === index;
+        return noencontrados.indexOf(elemento) == index;
       });
 
       let a1 = encontrados.filter((elemento, index) => {
-        return encontrados.indexOf(elemento) === index;
+        return encontrados.indexOf(elemento) == index;
       });
       let html = "";
-      if (a1.length === 0) {
+      if (a1.length == 0) {
         AlertS.fire({
           text: "Sin coincidencia con algun número de Solicitud, Verifique Nombre y Estatus ",
           icon: "warning",
@@ -405,12 +397,12 @@ const AsigPago = () => {
               formData.append("FILE", item.Archivo);
               formData.append("NUMOPERACION", "1");
               formData.append("IDPROV", item.Registro.id);
-              formData.append("CHUSER", user.id);
+              formData.append("CHUSER", user.Id);
               formData.append("TIPO", "SPEI");
               formData.append("TOKEN", JSON.parse(String(getToken())));
               let p = axios.post(
                 process.env.REACT_APP_APPLICATION_BASE_URL +
-                "SpeiAdministracion",
+                  "SpeiAdministracion",
                 formData,
                 {
                   headers: {
@@ -460,10 +452,10 @@ const AsigPago = () => {
     let data = {
       TIPO: 4,
       P_FONDO: idFondo.length > 0 ? idFondo : "",
-      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      P_IDESTATUS: idestatus === "false" ? "" : idestatus,
-      P_IDMES: mes === "false" ? "" : mes,
-      P_IDANIO: anio === "false" ? "" : anio,
+      P_IDMUNICIPIO: idMunicipio == "false" ? "" : idMunicipio,
+      P_IDESTATUS: idestatus == "false" ? "" : idestatus,
+      P_IDMES: mes == "false" ? "" : mes,
+      P_IDANIO: anio == "false" ? "" : anio,
       P_SOLICITUDPAGO: numOrdenPago ? numOrdenPago : "",
       P_MOSTRARTODOS: checked,
     };
@@ -485,7 +477,7 @@ const AsigPago = () => {
       }
     });
   };
-  
+
   const handleBorrar = (v: any) => {
     setSelectionModel(v);
   };
@@ -499,19 +491,19 @@ const AsigPago = () => {
     loadFilter(17);
 
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "DAFADMINPAG") {
-        if (String(item.Referencia) === "TRAZASPEIDAF") {
+      if (String(item.Menu) == "DAFADMINPAG") {
+        if (String(item.ControlInterno) == "TRAZASPEIDAF") {
           setVerTrazabilidad(true);
         }
-        if (String(item.Referencia) === "POLIZASPEIDAF") {
+        if (String(item.ControlInterno) == "POLIZASPEIDAF") {
           setAgregarPoliza(true);
         }
 
-        if (String(item.Referencia) === "DAFSUBIRSPEI") {
+        if (String(item.ControlInterno) == "DAFSUBIRSPEI") {
           setSubirSpeis(true);
         }
-        if(String(item.Referencia) === "DAFPAGASPEI"){
-           setPagaRegistro(true);
+        if (String(item.ControlInterno) == "DAFPAGASPEI") {
+          setPagaRegistro(true);
         }
       }
     });
@@ -524,7 +516,7 @@ const AsigPago = () => {
         <Grid container spacing={1} padding={2}>
           <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
             <Grid container sx={{ justifyContent: "center" }}>
-              <Grid className="Titulo" container item xs={12} >
+              <Grid className="Titulo" container item xs={12}>
                 <Typography variant="h4" paddingBottom={2}>
                   Módulo de Administración Financiera
                 </Typography>
@@ -534,7 +526,9 @@ const AsigPago = () => {
 
           <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
             <Grid item xs={12} sm={6} md={3} lg={2}>
-              <Typography sx={{ fontFamily: "sans-serif" }}>Estatus:</Typography>
+              <Typography sx={{ fontFamily: "sans-serif" }}>
+                Estatus:
+              </Typography>
               <SelectFrag
                 value={idestatus}
                 options={estatus}
@@ -560,20 +554,20 @@ const AsigPago = () => {
                   inputProps={{ maxLength: 10 }}
                   endAdornment={
                     <InputAdornment position="end">
-
                       <IconButton
                         aria-label="toggle password visibility"
                         onClick={() => setNumOrdenPago("")}
                         edge="end"
                         disabled={!numOrdenPago}
-                      >  <Tooltip title={"Limpiar campo"}>
+                      >
+                        {" "}
+                        <Tooltip title={"Limpiar campo"}>
                           <ClearOutlinedIcon />
                         </Tooltip>
                       </IconButton>
-
                     </InputAdornment>
                   }
-                  error={String(Number(numOrdenPago)) === "NaN"}
+                  error={String(Number(numOrdenPago)) == "NaN"}
                 />
               </FormControl>
             </Grid>
@@ -651,7 +645,6 @@ const AsigPago = () => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
-         
             {subirSpeis ? (
               <>
                 <TooltipPersonalizado
@@ -681,11 +674,7 @@ const AsigPago = () => {
                       <FileUploadIcon />
                     </IconButton>
                   </ToggleButton>
-
-
                 </TooltipPersonalizado>
-
-
               </>
             ) : (
               ""
@@ -709,35 +698,31 @@ const AsigPago = () => {
                       size="small"
                       onClick={() => handlePagado()}
                     >
-                     
-                  <AttachMoneyIcon />
+                      <AttachMoneyIcon />
                     </IconButton>
                   </ToggleButton>
                 </TooltipPersonalizado>
-
-
               </>
             ) : (
               ""
-            )} 
-
+            )}
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <MUIXDataGridGeneral
               modulo={"DistribucionDaf"}
-              handleBorrar={handleBorrar} columns={columnsParticipaciones} rows={data} controlInterno={"DAFADMINPAG"} multiselect={true} />
+              handleBorrar={handleBorrar}
+              columns={columnsParticipaciones}
+              rows={data}
+              controlInterno={"DAFADMINPAG"}
+              multiselect={true}
+            />
           </Grid>
         </Grid>
       </div>
 
       {openSpeis ? (
-        <SpeisAdmin
-          handleClose={handleclose}
-          handleAccion={handleAccion}
-          vrows={vrows}
-          modo={"SPEI"}
-        />
+        <SpeisAdmin handleClose={handleclose} vrows={vrows} modo={"SPEI"} />
       ) : (
         ""
       )}

@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  TextField,
-  InputAdornment,
-  Grid,
-  Button,
-} from "@mui/material";
+import { Box, TextField, InputAdornment, Grid, Button } from "@mui/material";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
 
@@ -18,30 +12,23 @@ const MunPoblacionModal = ({
   modo,
   handleClose,
   tipo,
-  dt
+  dt,
 }: {
   open: boolean;
   modo: string;
   tipo: number;
-  handleClose: Function,
-  dt: any
+  handleClose: Function;
+  dt: any;
 }) => {
-
-
-
-
   // CAMPOS DE LOS FORMULARIOS
   const [id, setId] = useState("");
   const [anio, setAnio] = useState<number>();
   const [poblacion, setPoblacion] = useState<number>();
   const [munSeleccionado, setMunSeleccionado] = useState<string>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
-
-
-
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const handleSend = () => {
-    if (poblacion === null || anio === null) {
+    if (poblacion == null || anio == null) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Completar los Campos",
@@ -51,7 +38,7 @@ const MunPoblacionModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: anio,
         IDMUNICIPIO: munSeleccionado,
         TOTALPOBLACION: poblacion,
@@ -62,21 +49,17 @@ const MunPoblacionModal = ({
     }
   };
 
-
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
 
       editar(data);
-
     }
   };
-
-
 
   const agregar = (data: any) => {
     CatalogosServices.munpoblacion(data).then((res) => {
@@ -85,7 +68,6 @@ const MunPoblacionModal = ({
           icon: "success",
           title: "¡Registro Agregado!",
         });
-
       } else {
         AlertS.fire({
           title: "¡Error!",
@@ -113,31 +95,22 @@ const MunPoblacionModal = ({
     });
   };
 
- 
   useEffect(() => {
-
-    if (dt === '') {
+    if (dt == "") {
       //console.log(dt)
-
     } else {
-      setId(dt?.row?.id)
-      setAnio(dt?.row?.Anio)
-      setPoblacion(dt?.row?.totalPob)
-      setMunSeleccionado(dt?.row?.idmunicipio)
-
+      setId(dt?.row?.id);
+      setAnio(dt?.row?.Anio);
+      setPoblacion(dt?.row?.totalPob);
+      setMunSeleccionado(dt?.row?.idmunicipio);
     }
-
   }, [dt]);
 
-
-
   return (
-
-
-
     <div>
       <ModalForm title={modo} handleClose={handleClose}>
-        <Grid container
+        <Grid
+          container
           sx={{
             mt: "2vh",
             width: "100%",
@@ -146,9 +119,7 @@ const MunPoblacionModal = ({
             alignItems: "center",
             flexDirection: "row",
           }}
-
         >
-
           <Grid item xs={12} sm={8} md={8} lg={7}>
             <Box>
               <label className="Titulo">{dt?.row?.Nombre}</label>
@@ -165,16 +136,14 @@ const MunPoblacionModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setAnio(Number(v.target.value))}
-              error={anio === null ? true : false}
+              error={anio == null ? true : false}
               InputProps={{
-                readOnly: tipo === 1 ? false : true,
-
+                readOnly: tipo == 1 ? false : true,
               }}
             />
           </Grid>
 
           <Grid item xs={12} sm={8} md={8} lg={8}>
-
             <TextField
               margin="dense"
               required
@@ -185,7 +154,7 @@ const MunPoblacionModal = ({
               fullWidth
               variant="standard"
               onChange={(v) => setPoblacion(Number(v.target.value))}
-              error={poblacion === null ? true : false}
+              error={poblacion == null ? true : false}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start"></InputAdornment>
@@ -194,7 +163,8 @@ const MunPoblacionModal = ({
             />
           </Grid>
 
-          <Grid container
+          <Grid
+            container
             sx={{
               mt: "2vh",
               width: "100%",
@@ -204,21 +174,19 @@ const MunPoblacionModal = ({
               flexDirection: "row",
             }}
           >
-            <Grid item xs={5} sm={3} md={2} lg={1}
-            >
-              <Button 
-              disabled={!poblacion||!anio}
-              className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+            <Grid item xs={5} sm={3} md={2} lg={1}>
+              <Button
+                disabled={!poblacion || !anio}
+                className={tipo == 1 ? "guardar" : "actualizar"}
+                onClick={() => handleSend()}
+              >
+                {tipo == 1 ? "Guardar" : "Actualizar"}
+              </Button>
             </Grid>
           </Grid>
         </Grid>
-
       </ModalForm>
     </div>
-
-
-
-
   );
 };
 

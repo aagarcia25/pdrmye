@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  TextField,
-  InputAdornment,
-  Button,
-  Grid,
-} from "@mui/material";
+import { TextField, InputAdornment, Button, Grid } from "@mui/material";
 
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
@@ -12,11 +7,9 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
 import SelectFrag from "../../../Fragmentos/SelectFrag";
 import { getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 import { fmeses } from "../../../../../share/loadMeses";
-
-
 
 const InflacionMesModal = ({
   modo,
@@ -34,19 +27,15 @@ const InflacionMesModal = ({
   const [anio, setAnio] = useState<number>();
   const [mes, setMes] = useState<string>("");
   const [inflacion, setInflacion] = useState<number>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [meses, setMeses] = useState<SelectValues[]>([]);
-
-
-
-
 
   const handleSelectMes = (data: any) => {
     setMes(data);
   };
 
   const handleSend = () => {
-    if (mes === null || inflacion === null || anio === null) {
+    if (mes == null || inflacion == null || anio == null) {
       AlertS.fire({
         title: "¡Uno o más campos vacíos!",
         text: "Revisar los Campos",
@@ -56,7 +45,7 @@ const InflacionMesModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: anio,
         MES: mes,
         INFLACION: inflacion,
@@ -68,10 +57,10 @@ const InflacionMesModal = ({
 
   const handleRequest = (data: any) => {
     //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
       editar(data);
     }
@@ -116,10 +105,8 @@ const InflacionMesModal = ({
   useEffect(() => {
     setMeses(fmeses());
 
-
-    if (dt === "") {
+    if (dt == "") {
     } else {
-
       setId(dt?.row?.id);
       setAnio(dt?.row?.Anio);
       setMes(dt?.row?.Mes);
@@ -128,11 +115,17 @@ const InflacionMesModal = ({
   }, [dt]);
 
   return (
-
     <ModalForm title={modo} handleClose={handleClose}>
-      <Grid container sx={{ width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
-        <Grid item xs={4} sm={3} md={4} lg={4} >
-
+      <Grid
+        container
+        sx={{
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+        }}
+      >
+        <Grid item xs={4} sm={3} md={4} lg={4}>
           <TextField
             required
             margin="dense"
@@ -143,9 +136,9 @@ const InflacionMesModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setAnio(Number(v.target.value))}
-            error={anio === null ? true : false}
+            error={anio == null ? true : false}
             InputProps={{
-              readOnly: tipo === 1 ? false : true,
+              readOnly: tipo == 1 ? false : true,
               inputMode: "numeric",
             }}
           />
@@ -155,7 +148,7 @@ const InflacionMesModal = ({
             onInputChange={handleSelectMes}
             placeholder={"Seleccione Mes"}
             label={""}
-            disabled={modo==="Editar"?true:false}
+            disabled={modo == "Editar" ? true : false}
           />
 
           <TextField
@@ -168,7 +161,7 @@ const InflacionMesModal = ({
             fullWidth
             variant="standard"
             onChange={(v) => setInflacion(Number(v.target.value))}
-            error={inflacion === null ? true : false}
+            error={inflacion == null ? true : false}
             InputProps={{
               endAdornment: <InputAdornment position="start">%</InputAdornment>,
             }}
@@ -176,12 +169,27 @@ const InflacionMesModal = ({
         </Grid>
       </Grid>
 
-      <Grid container sx={{ mt: "2vh", width: "100%", height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }} >
-        <Grid item xs={4} sm={3} md={2} lg={1} >
-          <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+      <Grid
+        container
+        sx={{
+          mt: "2vh",
+          width: "100%",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+        }}
+      >
+        <Grid item xs={4} sm={3} md={2} lg={1}>
+          <Button
+            className={tipo == 1 ? "guardar" : "actualizar"}
+            onClick={() => handleSend()}
+          >
+            {tipo == 1 ? "Guardar" : "Actualizar"}
+          </Button>
         </Grid>
       </Grid>
-    </ ModalForm>
+    </ModalForm>
   );
 };
 

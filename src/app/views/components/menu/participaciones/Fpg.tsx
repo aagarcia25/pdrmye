@@ -10,7 +10,11 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
 import { fondoinfo } from "../../../../interfaces/calculos/fondoinfo";
-import { FPG, PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
+import {
+  FPG,
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
 import { getPermisos, getUser } from "../../../../services/localStorage";
 import MUIXDataGridMun from "../../MUIXDataGridMun";
@@ -44,8 +48,7 @@ export const Fpg = () => {
   const [idDetalle, setIdDetalle] = useState("");
   const [nombreMenu, setNombreMenu] = useState("");
   const [sumaTotal, setSumaTotal] = useState<Number>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const closeTraz = (v: any) => {
     setOpenTrazabilidad(false);
@@ -54,8 +57,6 @@ export const Fpg = () => {
     setIdtrazabilidad(v.row.id);
     setOpenTrazabilidad(true);
   };
-
-
 
   const handleOpen = (v: any) => {
     setstep(1);
@@ -75,13 +76,12 @@ export const Fpg = () => {
 
   const handleDetalle = (v: any) => {
     setIdtrazabilidad(v.row.id);
-    setClave(v.row.Clave)
+    setClave(v.row.Clave);
     setIdDetalle(String(v.row.id));
     setMes(v.row.nummes + "," + v.row.Mes);
-    setTipoCalculo(v.row.Tipo)
+    setTipoCalculo(v.row.Tipo);
     setOpenDetalles(true);
     setAnio(Number(v.row.Anio));
-
   };
 
   const columns: GridColDef[] = [
@@ -101,13 +101,13 @@ export const Fpg = () => {
                 <InfoIcon />
               </IconButton>
             </Tooltip>
-            {agregarajuste && String(v.row.estatus) === "Inicio" ? (
+            {agregarajuste && String(v.row.estatus) == "Inicio" ? (
               <Tooltip title="Agregar Ajuste">
                 <IconButton
                   onClick={() => handleAjuste(v)}
                   disabled={
-                    String(v.row.Clave) === "FISM" &&
-                    String(v.row.Clave) === "FORTAMUN"
+                    String(v.row.Clave) == "FISM" &&
+                    String(v.row.Clave) == "FORTAMUN"
                   }
                 >
                   <AttachMoneyIcon />
@@ -139,7 +139,6 @@ export const Fpg = () => {
           </Box>
         );
       },
-
     },
     {
       field: "FechaCreacion",
@@ -147,12 +146,6 @@ export const Fpg = () => {
       width: 180,
       description: "Fecha Creación",
     },
-    /*{
-      field: "Clave",
-      headerName: "Clave",
-      width: 150,
-      description: "Clave Fondo",
-    },*/
     {
       field: "Descripcion",
       headerName: "Descripción",
@@ -185,11 +178,11 @@ export const Fpg = () => {
       ...Moneda,
       renderHeader: (v) => (
         <>
-
-          {v.field ? "Total: " + currencyFormatter.format(Number(sumaTotal)) : ""}
+          {v.field
+            ? "Total: " + currencyFormatter.format(Number(sumaTotal))
+            : ""}
         </>
       ),
-
     },
     {
       field: "estatus",
@@ -225,11 +218,11 @@ export const Fpg = () => {
         setdata(res.RESPONSE);
         var sumatotal = 0;
         res.RESPONSE.map((item: FPG) => {
-          sumatotal = sumatotal + Number(item.Total)
-          setSumaTotal(sumatotal)
+          sumatotal = sumatotal + Number(item.Total);
+          setSumaTotal(sumatotal);
         });
         if (!res.RESPONSE[0]) {
-          setSumaTotal(0)
+          setSumaTotal(0);
         }
         setslideropen(false);
       } else {
@@ -244,16 +237,13 @@ export const Fpg = () => {
   };
 
   const BorraCalculo = (row: any) => {
-
-
     let data = {
       IDCALCULO: row.id,
-      CHUSER: user.id,
+      CHUSER: user.Id,
       CLAVE: row.row.Clave,
       ANIO: row.row.Anio,
       MES: row.row.nummes,
     };
-
 
     Swal.fire({
       icon: "question",
@@ -263,7 +253,7 @@ export const Fpg = () => {
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
-      color: 'rgb(175, 140, 85)',
+      color: "rgb(175, 140, 85)",
     }).then((result) => {
       if (result.isConfirmed) {
         calculosServices.BorraCalculo(data).then((res) => {
@@ -273,11 +263,8 @@ export const Fpg = () => {
               title: "Borrado Exitoso!",
             });
 
-
             consultafondo({ FONDO: params.fondo });
             consulta({ FONDO: params.fondo });
-
-
           } else {
             AlertS.fire({
               title: "¡Error!",
@@ -290,9 +277,7 @@ export const Fpg = () => {
     });
   };
 
-  const handleBorrar = () => {
-
-  };
+  const handleBorrar = () => {};
 
   let params = useParams();
 
@@ -300,35 +285,33 @@ export const Fpg = () => {
     setstep(0);
     setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
-
-      if (String(item.ControlInterno) === String(params.fondo).replace(/\s/g, "")) {
-        if (String(item.Referencia) === "AGREG") {
+      if (
+        String(item.ControlInterno) == String(params.fondo).replace(/\s/g, "")
+      ) {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "TRAZA") {
+        if (String(item.ControlInterno) == "TRAZA") {
           setVerTrazabilidad(true);
         }
-        if (String(item.Referencia) === "AAJUSTE") {
+        if (String(item.ControlInterno) == "AAJUSTE") {
           setAgregarAjuste(true);
         }
-        if (String(item.Referencia) === "CCALCULO") {
+        if (String(item.ControlInterno) == "CCALCULO") {
           setCancelar(true);
         }
       }
     });
 
-
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
-
-
   }, [params.fondo, nombreMenu]);
 
   const query = new URLSearchParams(useLocation().search);
   useEffect(() => {
     setstep(0);
     const jwt = query.get("id");
-    if (String(jwt) != null && String(jwt) != 'null' && String(jwt) != "") {
+    if (String(jwt) != null && String(jwt) != "null" && String(jwt) != "") {
       setIdtrazabilidad(String(jwt));
       setIdDetalle(String(jwt));
       setClave(String(params.fondo));
@@ -349,25 +332,23 @@ export const Fpg = () => {
         ""
       )}
 
-      <Grid container
-        sx={{ justifyContent: "center" }}>
+      <Grid container sx={{ justifyContent: "center" }}>
         <Grid item xs={12} sm={10} sx={{ textAlign: "center" }}>
-          <TooltipPersonalizado title={
-            <React.Fragment>
-              <Typography variant="h6" className="h6-justify">
-                {objfondo?.Comentarios}
-              </Typography>
-            </React.Fragment>
-          }>
-            <Typography variant="h3">
-              {objfondo?.Descripcion}
-            </Typography>
+          <TooltipPersonalizado
+            title={
+              <React.Fragment>
+                <Typography variant="h6" className="h6-justify">
+                  {objfondo?.Comentarios}
+                </Typography>
+              </React.Fragment>
+            }
+          >
+            <Typography variant="h3">{objfondo?.Descripcion}</Typography>
           </TooltipPersonalizado>
-
         </Grid>
       </Grid>
 
-      {openDetalles ?
+      {openDetalles ? (
         <DetalleFgp
           idCalculo={idtrazabilidad}
           nombreFondo={objfondo?.Descripcion || "" + objfondo?.Tipo}
@@ -375,43 +356,77 @@ export const Fpg = () => {
           handleClose={handleClose}
           clave={clave}
         />
-        : ""}
+      ) : (
+        ""
+      )}
 
-      {step === 0 ?
+      {step == 0 ? (
         <div style={{ height: 600, width: "100%" }}>
-          <Grid container sx={{ display: "flex", alignItems: "center", justifyContent: "center", }} >
-            <Grid item xs={12} sx={{ display: "flex", alignItems: "left", justifyContent: "left", }}>
+          <Grid
+            container
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                alignItems: "left",
+                justifyContent: "left",
+              }}
+            >
               <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
             </Grid>
 
-            <Grid item xs={12} sx={{
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}>
-              <MUIXDataGridMun columns={columns} rows={data} modulo={nombreMenu} handleBorrar={handleBorrar} controlInterno={String(params.fondo).replace(/\s/g, "")} />
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <MUIXDataGridMun
+                columns={columns}
+                rows={data}
+                modulo={nombreMenu}
+                handleBorrar={handleBorrar}
+                controlInterno={String(params.fondo).replace(/\s/g, "")}
+              />
             </Grid>
           </Grid>
         </div>
-        : ""}
+      ) : (
+        ""
+      )}
 
-
-      {step === 1 ?
+      {step == 1 ? (
         <ModalNew
           clave={objfondo?.Clave || ""}
           titulo={objfondo?.Descripcion || ""}
-          onClickBack={handleClose} resetNum={0} resetSelect={""} />
-        : ""}
+          onClickBack={handleClose}
+          resetNum={0}
+          resetSelect={""}
+        />
+      ) : (
+        ""
+      )}
 
-      {step === 2 ?
+      {step == 2 ? (
         <ModalAjuste
           idCalculo={idDetalle}
           clave={objfondo?.Clave || ""}
           titulo={objfondo?.Descripcion || ""}
           onClickBack={handleClose}
         />
-        : ""}
-
+      ) : (
+        ""
+      )}
     </>
   );
 };
-
-
