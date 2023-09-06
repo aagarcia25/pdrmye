@@ -553,7 +553,10 @@ const SpeisAdmin = ({
       </ModalForm>
 
       {addSpei ? (
-        <ModalForm title={"Agregar " + modo} handleClose={handleCloseModal}>
+        <ModalForm
+          title={"Agregar " + modo + " " + vrows.row.a3}
+          handleClose={handleCloseModal}
+        >
           <DialogContent dividers={true}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
@@ -585,7 +588,7 @@ const SpeisAdmin = ({
               <Grid item xs={12}>
                 <h3>
                   {modo == "CFDI"
-                    ? "Solo Extensiones PDF, XLS Y XLSX"
+                    ? "Solo Extensiones PDF, XML"
                     : "Solo Extensiones PDF"}
                 </h3>
               </Grid>
