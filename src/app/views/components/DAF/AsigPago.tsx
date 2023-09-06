@@ -491,7 +491,7 @@ const AsigPago = () => {
     loadFilter(17);
 
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "DAFADMINPAG") {
+      if (String(item.menu) == "DAFADMINPAG") {
         if (String(item.ControlInterno) == "TRAZASPEIDAF") {
           setVerTrazabilidad(true);
         }

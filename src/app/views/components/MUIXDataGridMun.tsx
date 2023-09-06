@@ -44,8 +44,8 @@ const MUIXDataGridMun = ({
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == controlInterno) {
-        if (String(item.Menu) == "ELIMMAS") {
+      if (String(item.menu) == controlInterno) {
+        if (String(item.menu) == "ELIMMAS") {
           setelimasiva(true);
         }
       }

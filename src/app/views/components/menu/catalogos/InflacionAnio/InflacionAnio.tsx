@@ -173,7 +173,7 @@ const InflacionAnio = () => {
   useEffect(() => {
     setAnios(fanios());
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "INFANIO") {
+      if (String(item.menu) == "INFANIO") {
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

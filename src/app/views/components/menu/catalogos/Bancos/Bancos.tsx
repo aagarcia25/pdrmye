@@ -136,7 +136,7 @@ export const Bancos = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "BANCOS") {
+      if (String(item.menu) == "BANCOS") {
         //console.log(item);
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);

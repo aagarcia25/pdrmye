@@ -357,7 +357,7 @@ const AsigPresupuestal = () => {
     loadFilter(17);
     // handleClick();
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "DPCPPRES") {
+      if (String(item.menu) == "DPCPPRES") {
         if (String(item.ControlInterno) == "CPRESUPUESTO") {
           setCargarPlant(true);
         }

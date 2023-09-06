@@ -222,7 +222,7 @@ const AvisosModal = ({
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "AVISOS") {
+      if (String(item.menu) == "AVISOS") {
         if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }

@@ -217,9 +217,9 @@ const InflacionMes = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "INFMES") {
+      if (String(item.menu) == "INFMES") {
         //console.log(item)
-        setNombreMenu(item.Menu);
+        setNombreMenu(item.menu);
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

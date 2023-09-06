@@ -255,7 +255,7 @@ export const MunPobreza = () => {
     setAnios(fanios());
 
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "MUNPOBREZA") {
+      if (String(item.menu) == "MUNPOBREZA") {
         //console.log(item)
         if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);

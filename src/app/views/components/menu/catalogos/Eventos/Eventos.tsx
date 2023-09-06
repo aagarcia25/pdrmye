@@ -208,7 +208,7 @@ export const Eventos = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "EVENTOS") {
+      if (String(item.menu) == "EVENTOS") {
         //console.log(item)
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);

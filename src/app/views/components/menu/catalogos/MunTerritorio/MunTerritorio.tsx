@@ -245,8 +245,8 @@ export const MunTerritorio = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.Menu) == "MUNTERR") {
-        setNombreMenu(item.Menu);
+      if (String(item.menu) == "MUNTERR") {
+        setNombreMenu(item.menu);
         if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
