@@ -22,7 +22,6 @@ import {
   RESPONSEGUIARAPIDA,
   RESPONSEPREGUNTASFRECUENTES,
   RESPONSEVIDEOS,
-  USUARIORESPONSE,
   menus,
 } from "../../../../../interfaces/user/UserInfo";
 import { AuthService } from "../../../../../services/AuthService";
@@ -31,7 +30,6 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {
   getMenus,
   getToken,
-  getUser,
   getcontrolInternoEntidad,
 } from "../../../../../services/localStorage";
 import SliderProgress from "../../../SliderProgress";
@@ -55,10 +53,7 @@ const ButtonsTutorial = ({
     Array<RESPONSEGUIARAPIDA>
   >([]);
   const [idMenu, setIdMenu] = useState<string>("");
-  const [archivoUrl, setArchivoUrl] = useState<string>("");
-  const [modoVisualizacion, setModoVisualizacion] = useState<string>("");
   const list: menus[] = JSON.parse(String(getMenus()));
-  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [slideropen, setslideropen] = useState(false);
   const [openMenu, setOpenMenu] = useState(-1);
   const [URLVideo, setURLVideo] = useState<string>("");
