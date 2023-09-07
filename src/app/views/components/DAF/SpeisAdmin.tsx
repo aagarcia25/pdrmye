@@ -201,7 +201,7 @@ const SpeisAdmin = ({
     if (
       event.target.files.length !== 0 &&
       (event.target!.files[0]!.name.slice(-3).toUpperCase() == "PDF" ||
-        event.target!.files[0]!.name.slice(-4).toUpperCase() == "XML")
+        event.target!.files[0]!.name.slice(-3).toUpperCase() == "XML")
     ) {
       if (Number(event.target!.files[0]!.size) / 1024 <= 3072) {
         if (modo == "CFDI") {
