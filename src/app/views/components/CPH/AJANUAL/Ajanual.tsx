@@ -31,7 +31,6 @@ export const Ajanual = () => {
   const [data, setData] = useState([]);
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  ///// Modal de Administración de Speis
   const [openModal, setOpenModal] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
 

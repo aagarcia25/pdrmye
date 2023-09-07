@@ -456,7 +456,7 @@ const SpeisAdmin = ({
     var ancho = 0;
     permisos.map((item: PERMISO) => {
       if (
-        String(item.ControlInterno) == "DAFADMINPAG" ||
+        String(item.menu) == "DAFADMINPAG" ||
         String(item.ControlInterno) == "PARTMUN"
       ) {
         if (String(item.ControlInterno) == "AGREGSPEI") {

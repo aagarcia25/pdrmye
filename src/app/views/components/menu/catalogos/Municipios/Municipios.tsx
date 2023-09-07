@@ -321,15 +321,6 @@ export const Municipios = () => {
   };
 
   useEffect(() => {
-    item.map((itemsMenu: any) => {
-      if (String(itemsMenu.ControlInterno) == "MUNICIPIOS") {
-        setNombreMenu(itemsMenu.Menu);
-      }
-    });
-
-    mun.map((item: MUNICIPIO) => {
-      setNombreMenu(item.Nombre);
-    });
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == "MUNICIPIOS") {
         setNombreMenu(item.menu);

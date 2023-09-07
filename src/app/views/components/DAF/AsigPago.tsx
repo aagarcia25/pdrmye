@@ -75,7 +75,6 @@ const AsigPago = () => {
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  ///// Modal de Administración de Speis
   const [openSpeis, setOpenSpeis] = useState(false);
   const [openCheque, setOpenCheque] = useState(false);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
