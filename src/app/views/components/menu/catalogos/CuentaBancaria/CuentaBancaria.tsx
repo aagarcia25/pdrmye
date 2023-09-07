@@ -318,17 +318,17 @@ export const CuentaBancaria = ({
     const digestHex = digestMessage(text);
 
     ////////////////
-
+    /*
     if (!mun[0]) {
       setnombreMun(municipio);
     } else {
       mun.map((item: MUNICIPIO) => {
         setnombreMun(item.Nombre);
       });
-    }
+    }*/
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == "CUENTABANCARIA") {
-        //console.log(item);
+        setnombreMun(item.menu);
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
