@@ -11,7 +11,6 @@ import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { ArticulosServices } from "../../../../services/ArticulosServices";
-import { getUser } from "../../../../services/localStorage";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
 import { Moneda } from "../CustomToolbar";
@@ -19,13 +18,10 @@ import { Moneda } from "../CustomToolbar";
 export const Art14f = () => {
   const navigate = useNavigate();
   const [slideropen, setslideropen] = useState(false);
-  const user = getUser();
   const [data, setData] = useState([]);
   const [tipo, setTipo] = useState<Number>(0);
   const [deleted, setDeleted] = useState<string>();
   const [version, setVersion] = useState<string>();
-
-  let columns: GridColDef[] = [];
 
   const handleBack = (v: any) => {
     navigate(`/inicio/articulos/art14f/${tipo}`);
