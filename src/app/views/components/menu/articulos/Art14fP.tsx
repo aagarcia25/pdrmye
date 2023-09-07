@@ -114,9 +114,9 @@ export const Art14fP = () => {
     setstep(0);
     permisos.map((item: PERMISO) => {
       if (
-        String(item.ControlInterno) == "ART14F1" ||
-        String(item.ControlInterno) == "ART14F2" ||
-        String(item.ControlInterno) == "ART14F3"
+        String(item.menu) == "ART14F1" ||
+        String(item.menu) == "ART14F2" ||
+        String(item.menu) == "ART14F3"
       ) {
         //console.log(item);
         if (String(item.ControlInterno) == "AGREG") {
