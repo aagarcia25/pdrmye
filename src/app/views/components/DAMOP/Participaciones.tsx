@@ -21,6 +21,7 @@ import PolylineIcon from "@mui/icons-material/Polyline";
 import PrintIcon from "@mui/icons-material/Print";
 import SegmentIcon from "@mui/icons-material/Segment";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import {
   Box,
   Button,
@@ -79,6 +80,8 @@ import Slider from "../Slider";
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 import { Descuentos } from "./Descuentos";
 import { Retenciones } from "./Retenciones";
+import axios from "axios";
+import { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
 const Participaciones = () => {
   ///////////////modal de adminisracion Spei cfdi
   const [modoSpeiCfdi, setModoSpeiCfdi] = useState("");
@@ -1774,6 +1777,130 @@ const Participaciones = () => {
     }
   };
 
+  const ProcesaSPeis = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let encontrados: any[] = [];
+    let noencontrados: any[] = [];
+    let fueradesstatus: any[] = [];
+    let rows = data;
+
+    if (rows.length == 0) {
+      AlertS.fire({
+        title: "¡Error!",
+        text: "Favor de realizar la búsqueda de Registros, primero",
+        icon: "error",
+      });
+    } else {
+      let counfiles = event?.target?.files?.length;
+      //Recorremos los registros de la busqueda
+
+      rows.map((item: any, index) => {
+        for (let i = 0; i < Number(counfiles); i++) {
+          let file = event?.target?.files?.[i] || "";
+          let namefile = event?.target?.files?.[i].name || "";
+
+          if (
+            item.estatus.includes("Pendiente subir CFDI") ||
+            item.estatus.includes("SPEI y CFDI Cargados")
+          ) {
+            if (namefile.includes(item.a3)) {
+              rows = rows.filter((items) => !item);
+              encontrados.push({ Archivo: file, Registro: item });
+            } else {
+              noencontrados.push(item.a3);
+            }
+          } else {
+            fueradesstatus.push(item.a3);
+          }
+        }
+      });
+
+      let a2 = noencontrados.filter((elemento, index) => {
+        return noencontrados.indexOf(elemento) == index;
+      });
+
+      let a1 = encontrados.filter((elemento, index) => {
+        return encontrados.indexOf(elemento) == index;
+      });
+      let html = "";
+      if (a1.length == 0) {
+        AlertS.fire({
+          text: "Sin coincidencia con algun número de Solicitud, Verifique Nombre y Estatus ",
+          icon: "warning",
+        });
+      } else {
+        html =
+          "Archivos Encontrados <b>" + a1.length + " de  " + counfiles + "</b>";
+        html = html + "<br>";
+        html = html + "¿Desea procesarlos?";
+        let count = 0;
+        Swal.fire({
+          icon: "info",
+          title: "Infomación",
+          footer: "Esta operación puede demorar un poco",
+          html: html,
+          showDenyButton: false,
+          showCancelButton: true,
+          confirmButtonText: "Aceptar",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setslideropen(true);
+            let peticiones: any[] = [];
+            encontrados.map((item: any) => {
+              const formData = new FormData();
+              formData.append("FILE", item.Archivo);
+              formData.append("NUMOPERACION", "1");
+              formData.append("IDPROV", item.Registro.id);
+              formData.append("CHUSER", user.Id);
+              formData.append("TIPO", "CFDI");
+              formData.append("TOKEN", JSON.parse(String(getToken())));
+              let p = axios.post(
+                process.env.REACT_APP_APPLICATION_BASE_URL +
+                  "SpeiAdministracion",
+                formData,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "Access-Control-Allow-Origin": "*",
+                  },
+                }
+              );
+              peticiones.push(p);
+            });
+
+            axios.all(peticiones).then((resposeArr) => {
+              resposeArr.map((item) => {
+                if (item.data.SUCCESS) {
+                  count++;
+                } else {
+                  count--;
+                }
+              });
+
+              Swal.fire({
+                icon: "success",
+                title: "Información",
+                text: "registros procesados " + count,
+                confirmButtonText: "Ok",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  handleClick();
+                }
+              });
+            });
+          } else {
+            AlertS.fire({
+              title: "Información",
+              text: "Operación Cancelada",
+              icon: "error",
+            });
+          }
+        });
+      }
+    }
+  };
+
   const handleClick = () => {
     if (
       (DA?.MUNICIPIO?.length == 0 &&
@@ -2261,6 +2388,41 @@ const Participaciones = () => {
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
           <ToggleButtonGroup>
+            {true ? (
+              <>
+                <TooltipPersonalizado
+                  title={
+                    <React.Fragment>
+                      <Typography color="inherit">Cargar CFDI's</Typography>
+                      {"Solo se puede cargar en forma masiva si el Estatus es "}
+                      <b>{"Pendiente subir CFDI ó SPEI y CFDI Cargados"}</b>
+                    </React.Fragment>
+                  }
+                >
+                  <ToggleButton value="check">
+                    <IconButton
+                      color="primary"
+                      aria-label="upload documento"
+                      component="label"
+                      size="small"
+                    >
+                      <input
+                        multiple
+                        hidden
+                        accept=".pdf,.xml"
+                        type="file"
+                        value=""
+                        onChange={(v) => ProcesaSPeis(v)}
+                      />
+                      <FileUploadIcon />
+                    </IconButton>
+                  </ToggleButton>
+                </TooltipPersonalizado>
+              </>
+            ) : (
+              ""
+            )}
+
             {INSERTAREG ? (
               <Tooltip title="Agregar Registro">
                 <ToggleButton
