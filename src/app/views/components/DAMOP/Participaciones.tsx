@@ -147,7 +147,7 @@ const Participaciones = () => {
   const [SMUNICIPIO, setSMUNICIPIO] = useState<boolean>(false);
   const [SMES, setSMES] = useState<boolean>(false);
   const [SANIO, setSANIO] = useState<boolean>(false);
-  const [CG_PLANTILLA_ORG, setCG_PLANTILLA_ORG] = useState<boolean>(true);
+  const [CG_PLANTILLA_ORG, setCG_PLANTILLA_ORG] = useState<boolean>(false);
   const [INTEGRAR_OPERACION, setINTEGRAR_OPERACION] = useState<boolean>(false);
   const [INTEGRACION_MASIVA, setINTEGRACION_MASIVA] = useState<boolean>(false);
   const [UNIFICACION, setUNIFICACION] = useState<boolean>(false);
