@@ -23,6 +23,7 @@ import { fmeses } from "../../../share/loadMeses";
 import SelectFrag from "../Fragmentos/SelectFrag";
 import SliderProgress from "../SliderProgress";
 import { Titulo } from "../menu/catalogos/Utilerias/AgregarCalculoUtil/Titulo";
+import { TextFieldFormatoMoneda } from "../componentes/TextFieldFormatoMoneda";
 
 export const Reporteador = () => {
   const [openSlider, setOpenSlider] = useState(true);
@@ -39,9 +40,14 @@ export const Reporteador = () => {
   const [anio, setAnio] = useState<string>("");
   const [organismos, setOrganismos] = useState<SelectValues[]>([]);
   const [idORG, setIdORG] = useState("");
+  const [total, setTotal] = useState<number>();
 
   const [trimestreList, setTrimestreList] = useState<SelectValues[]>([]);
   const [idtrimestre, setIdtrimestre] = useState("");
+
+  const handleChange = (value: number) => {
+    setTotal(Number(value));
+  };
 
   const handleFiltroORG = (v: string) => {
     setIdORG(v);
@@ -82,6 +88,7 @@ export const Reporteador = () => {
         P_MES: mes,
         P_ID_ORGANISMO: idORG,
         P_PERIODO: idtrimestre,
+        P_TOTAL: total,
       };
 
       try {
@@ -139,6 +146,7 @@ export const Reporteador = () => {
   };
 
   const handleReporte = (data: IReportes) => {
+    setTotal(0);
     setMes("");
     setIdtrimestre("");
     setAnio("");
@@ -357,6 +365,45 @@ export const Reporteador = () => {
               </Grid>
 
               <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+
+              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+            </Grid>
+          ) : (
+            ""
+          )}
+
+          {reporte?.Auxiliar == "CPH_11" || reporte?.Auxiliar == "CPH_12" ? (
+            <Grid
+              paddingTop={1}
+              container
+              spacing={2}
+              paddingLeft={2}
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+            >
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <SelectFrag
+                  value={anio}
+                  options={anios}
+                  onInputChange={handleFilterChangeAnio}
+                  placeholder={"Seleccione Año"}
+                  label={""}
+                  disabled={false}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <TextFieldFormatoMoneda
+                  disable={false}
+                  valor={0}
+                  handleSetValor={handleChange}
+                  error={!total}
+                  modo={"moneda"}
+                />
+              </Grid>
 
               <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
             </Grid>
