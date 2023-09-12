@@ -366,9 +366,9 @@ const DetalleFgp = ({
 
     {
       field: "AjusteEstatal",
-      headerName: "Ajuste Estatal",
+      headerName: clave == "ISR SALARIOS" ? "Devoluciones" : "AjusteEstatal",
       width: 150,
-      description: "Ajuste Estatal",
+      description: clave == "ISR SALARIOS" ? "Devoluciones" : "AjusteEstatal",
       ...Moneda,
     },
 
