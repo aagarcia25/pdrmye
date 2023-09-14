@@ -90,6 +90,35 @@ const ModalNew = ({
     });
   };
 
+  const icv2 = () => {
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlsx");
+    formData.append("tipo", "ICV");
+    formData.append("CHUSER", user.Id);
+    formData.append("ANIO", String(year));
+    formData.append("MES", idmes);
+    formData.append("CLAVE", clave);
+    formData.append("TIPOCALCULO", idTipoCalculo);
+    formData.append("DIST", disti ? "1" : "0");
+    formData.append("IDVERSION", idVersionCalculo);
+    CatalogosServices.migraData(formData).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Carga Exitosa!",
+        });
+
+        onClickBack();
+      } else {
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
   const icv = () => {
     const formData = new FormData();
     formData.append("inputfile", file, "inputfile.xlsx");
@@ -159,7 +188,6 @@ const ModalNew = ({
 
   const handleSend = () => {
     if (
-      clave == "ICV" ||
       clave == "HIDROCARBUROS" ||
       clave == "FOINMUN" ||
       clave == "ISN100" ||
@@ -168,6 +196,8 @@ const ModalNew = ({
       icv();
     } else if (clave == "ISR SALARIOS") {
       isrnomina();
+    } else if (clave == "ICV") {
+      icv2();
     } else {
       if (
         monto == null ||
