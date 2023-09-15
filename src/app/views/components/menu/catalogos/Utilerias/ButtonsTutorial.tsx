@@ -138,8 +138,10 @@ const ButtonsTutorial = ({
 
   useEffect(() => {
     ValidaSesion();
+    console.log(list);
     list.map((item: any) => {
       item.item.map((itemsMenu: ITEMS) => {
+        console.log(itemsMenu);
         if (
           String(itemsMenu.Path) ==
           window.location.href

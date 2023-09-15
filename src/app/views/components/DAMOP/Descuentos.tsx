@@ -345,7 +345,7 @@ export const Descuentos = ({
               IDMUN: dt.row.idmunicipio,
               TIPO: value == "Anticipo" ? 1 : 2,
               NUMOP: numOperacion,
-              IDURES: "0405",
+              //  IDURES: user.IdUnidadResponsable,
               IDDIVISA: dt.row.idDivisa,
               DESPARCIAL: desPar,
               TOTAL:
