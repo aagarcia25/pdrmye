@@ -1806,7 +1806,7 @@ const Participaciones = () => {
               rows = rows.filter((items) => !item);
               encontrados.push({ Archivo: file, Registro: item });
             } else {
-              noencontrados.push(item.a3);
+              noencontrados.push(namefile);
             }
           } else {
             fueradesstatus.push(item.a3);
@@ -1821,17 +1821,24 @@ const Participaciones = () => {
       let a1 = encontrados.filter((elemento, index) => {
         return encontrados.indexOf(elemento) == index;
       });
+      let filesnoiden = a2.map((material) => material + "\n");
       let html = "";
       if (a1.length == 0) {
-        AlertS.fire({
-          text: "Sin coincidencia con algun número de Solicitud, Verifique Nombre y Estatus ",
+        Swal.fire({
           icon: "warning",
+          title:
+            "Sin coincidencia con algun número de Solicitud, Verifique Nombre y Estatus",
+          text: String(filesnoiden),
         });
       } else {
         html =
           "Archivos Encontrados <b>" + a1.length + " de  " + counfiles + "</b>";
         html = html + "<br>";
         html = html + "¿Desea procesarlos?";
+        html = html + "<br>";
+        html = html + "Archivos no encontrados";
+        html = html + "<br>";
+        html = html + String(filesnoiden);
         let count = 0;
         Swal.fire({
           icon: "info",
