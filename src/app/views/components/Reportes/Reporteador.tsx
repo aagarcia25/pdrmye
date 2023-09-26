@@ -54,6 +54,13 @@ export const Reporteador = () => {
   const [fondos, setFondos] = useState<[]>([]);
 
   const handleListReport = (v: string) => {
+    setdisableMes(false);
+    setdisableTrimestre(false);
+    setTotal(0);
+    setMes([]);
+    setIdtrimestre([]);
+    setAnio("");
+    setTipoExportacion("");
     setidReport(v);
     consultaReportes({
       P_DEPENDENCIA: JSON.parse(String(getcontrolInternoEntidad())),
@@ -267,15 +274,6 @@ export const Reporteador = () => {
         setFondos(res.RESPONSE);
       }
     });
-  };
-
-  const handleReporte = (data: IReportes) => {
-    setTotal(0);
-    setMes([]);
-    setIdtrimestre([]);
-    setAnio("");
-    setTipoExportacion("");
-    setReporte(data);
   };
 
   const consultaReportes = (data: any) => {
