@@ -6,8 +6,8 @@ import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { municipiosc } from "../../../../../share/loadMunicipios";
 import ModalForm from "../../../componentes/ModalForm";
+import { loadSelect } from "../../../../../share/loadSelect";
 
 const MunPoblacionProyeccionModal = ({
   open,
@@ -103,8 +103,19 @@ const MunPoblacionProyeccionModal = ({
     });
   };
 
+  const consumirLoadSelect = async (tipo: number) => {
+    try {
+      const result: SelectValues[] = await loadSelect(tipo);
+      if (tipo == 5) {
+        setMun(result);
+      }
+    } catch (error) {
+      console.error("Error al cargar datos:", error);
+    }
+  };
+
   useEffect(() => {
-    setMun(municipiosc());
+    consumirLoadSelect(5);
 
     if (dt == "") {
       //console.log(dt)

@@ -21,12 +21,9 @@ import {
 } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {
-  getMunicipios,
   getPermisos,
   getToken,
   getUser,
-  setMunicipios,
-  validaLocalStorage,
 } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
 import { VisaulizarImagen } from "../../../componentes/VisaulizarImagen";
@@ -77,19 +74,6 @@ const EventosModal = ({
   const [cleanUp, setCleanUp] = useState<boolean>(false);
   const [editImage, setEditImage] = useState<boolean>(false);
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
-
-  // const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-07'));
-
-  const municipiosc = () => {
-    let data = {};
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-    let m: Imunicipio[] = JSON.parse(getMunicipios() || "");
-    setValues(m);
-  };
 
   const handleUpload = () => {
     setslideropen(true);
@@ -223,7 +207,6 @@ const EventosModal = ({
         }
       }
     });
-    municipiosc();
     if (dt) {
       setId(dt?.row?.id);
       setDescripcion(dt?.row?.Descripcion);

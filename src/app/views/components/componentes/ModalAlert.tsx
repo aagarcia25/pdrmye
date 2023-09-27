@@ -2,10 +2,9 @@ import { Button, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
-import { MUNICIPIO, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
+import { ResponseDataAdicional } from "../../../interfaces/user/UserInfo";
 import {
-  getMunicipio,
-  getUser,
+  getDatosAdicionales,
   getcontrolInternoEntidad,
 } from "../../../services/localStorage";
 import ModalForm from "./ModalForm";
@@ -25,12 +24,9 @@ const ModalAlert = ({
   handleAccion: Function;
   vrows: any;
 }) => {
-  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
-
+  const DA: ResponseDataAdicional = JSON.parse(String(getDatosAdicionales()));
   const [mensaje, setMensaje] = useState<string>();
-  const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
   const [nombreMun, setnombreMun] = useState("");
-
   const validacion = (est: string) => {
     if (mensaje == "" || mensaje == null) {
       AlertS.fire({
@@ -60,9 +56,7 @@ const ModalAlert = ({
     }
   };
   useEffect(() => {
-    mun?.map((item: MUNICIPIO) => {
-      setnombreMun(item.Nombre);
-    });
+    setnombreMun(DA.MUNICIPIO[0].Nombre);
   }, []);
 
   return (
@@ -114,7 +108,6 @@ const ModalAlert = ({
           </Grid>
 
           {JSON.parse(String(getcontrolInternoEntidad())) == "MUN" ? (
-            // PER[0].Referencia == "MUN"
             <Grid item xs={4} sm={3} md={2} lg={1}>
               <Button
                 className="actualizar"
@@ -127,7 +120,6 @@ const ModalAlert = ({
             ""
           )}
           {JSON.parse(String(getcontrolInternoEntidad())) == "DAMOP" ? (
-            //  PER[0].Referencia == "ANA"
             <>
               <Grid item xs={4} sm={3} md={3} lg={3}>
                 <Button

@@ -694,7 +694,7 @@ const Participaciones = () => {
     {
       field: "Mes",
       headerName: "Mes",
-      width: 80,
+      width: 100,
       description: "Mes",
     },
     {
@@ -1980,11 +1980,16 @@ const Participaciones = () => {
       } else if (idestatus == "b825e8af-91e8-11ed-a912-705a0f328da6") {
         SETDAF_SPEI(true);
       }
+
       let data = {
         TIPO: 1,
         P_FONDO: idFondo.length > 0 ? idFondo : "",
-        P_IDMUNICIPIO: idMunicipio == "false" ? "" : idMunicipio,
-        //  P_IDTIPO: user.MUNICIPIO.length > 0 || user.ORG.length > 0 || DEP0]?.NombreCorto == "MUN" || JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ? "PROV" : idtipoFondo == "false" ? "" : idtipoFondo,
+        P_IDMUNICIPIO:
+          DA.MUNICIPIO.length == 1
+            ? DA.MUNICIPIO[0].id
+            : idMunicipio == "false"
+            ? ""
+            : idMunicipio,
         P_IDTIPOSOL: idtipoSolicitud == "false" ? "" : idtipoSolicitud,
         P_IDESTATUS: idestatus == "false" ? "" : idestatus,
         P_IDMES: mes == "false" ? "" : mes,
@@ -1992,6 +1997,8 @@ const Participaciones = () => {
         P_CHUSER: user.Id,
         P_GRUPO: JSON.parse(String(getcontrolInternoEntidad())),
         P_ANIO: anio == "false" ? "" : anio,
+        DEP: DA.MUNICIPIO.length == 1 ? "MUN" : "",
+        ORG: DA.ORG.length == 1 ? "ORG" : "",
       };
       setslideropen(true);
       DPCPServices.GetParticipaciones(data).then((res) => {
@@ -2015,7 +2022,12 @@ const Participaciones = () => {
 
       let dataDis = {
         TIPO: 2,
-        P_IDMUNICIPIO: idMunicipio,
+        P_IDMUNICIPIO:
+          DA.MUNICIPIO.length == 1
+            ? DA.MUNICIPIO[0].id
+            : idMunicipio == "false"
+            ? ""
+            : idMunicipio,
       };
 
       DPCPServices.GetParticipaciones(dataDis).then((res) => {
@@ -2041,6 +2053,7 @@ const Participaciones = () => {
       loadFilter(25);
       loadFilter(24);
       loadFilter(38);
+
       permisos.map((item: PERMISO) => {
         if (String(item.menu) == "PARTMUN") {
           if (String(item.ControlInterno) == "AGREGPLANT") {
