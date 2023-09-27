@@ -23,8 +23,6 @@ import {
   setDatosAdicionales,
   setIdApp,
   setMenus,
-  setMunicipios,
-  setPerfilFoto,
   setPermisos,
   setRfToken,
   setRoles,
@@ -48,7 +46,6 @@ function App() {
   const [openSlider, setOpenSlider] = useState(true);
   const [bloqueoStatus, setBloqueoStatus] = useState<boolean>();
   const [login, setlogin] = useState<boolean>(false);
-  const [userName, setUserName] = useState<string>();
   const [acceso, setAcceso] = useState(false);
   const [contrseñaValida, setContraseñaValida] = useState(true);
 
@@ -80,15 +77,6 @@ function App() {
     }
   };
 
-  const loadMunicipios = () => {
-    let data = { NUMOPERACION: 5 };
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.SelectIndex(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-  };
-
   const mensaje = (icon: string, title: string, text: string) => {
     setlogin(false);
     setAcceso(false);
@@ -109,14 +97,6 @@ function App() {
       }
     });
   };
-  /*
-  const GetImage = (tipo: string, nameImagen: string) => {
-    AuthService.GetImagenProfile(tipo,nameImagen).then((res) => {
-      if (res.SUCCESS) {
-        setPerfilFoto(res.RESPONSE.RESPONSE);
-      }
-    });
-  };*/
 
   const buscaUsuario = (id: string) => {
     let data = {
@@ -147,13 +127,10 @@ function App() {
         setPermisos(
           res.data.permisos[0] == undefined ? [] : res.data.permisos[0]
         );
-        setUserName(res.data.data.NombreUsuario);
 
-        loadMunicipios();
         loadMeses();
         loadAnios();
         parametros();
-        // GetImage("/FOTOPERFIL/", us?.RESPONSE?.RutaFoto);
 
         setBloqueoStatus(false);
         setOpenSlider(false);
@@ -165,78 +142,11 @@ function App() {
         setAcceso(false);
       }
     });
-
-    /*
-      if (String(us.RESPONSE) == "PrimerInicio") {
-        Swal.fire({
-          icon: "info",
-          title: 'Bienvenid@',
-          text: 'Su cuenta Se Confirmo Correctamente',
-          showDenyButton: false,
-          showCancelButton: false,
-          confirmButtonText: "Aceptar",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            var ventana = window.self;
-            ventana.location.reload();
-          }
-        });
-
-      }else if (us.SUCCESS && String(us.RESPONSE) !== "PrimerInicio") {
-        setRoles(us.RESPONSE.ROLES);
-        setPermisos(us.RESPONSE.PERMISOS);
-        setMenus(us.RESPONSE.MENUS);
-        setPerfiles(us.RESPONSE.PERFILES);
-        setDepartamento(us.RESPONSE.DEPARTAMENTOS);
-        setMunicipio(us.RESPONSE.MUNICIPIO);
-        setOrganismo(us.RESPONSE.ORG);
-        loadMunicipios();
-        loadMeses();
-        loadAnios();
-        parametros();
-        setOpenSlider(false);
-        setlogin(true);
-        setAcceso(true);
-        setBloqueoStatus(false);
-        GetImage("/FOTOPERFIL/", us?.RESPONSE?.RutaFoto);
-
-      }else if (us.SUCCESS) {
-        mensaje('', 'Información', us.STRMESSAGE=="Exito"?"":us.STRMESSAGE + " Contactar Al Departamento Correspondiente");
-      }else if (us.SUCCESS == false && !us.RESPONSE) {
-        Swal.fire({
-          icon: "info",
-          title: 'Bienvenid@',
-          text: us.STRMESSAGE,
-          showDenyButton: false,
-          showCancelButton: false,
-          confirmButtonText: "Aceptar",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            var ventana = window.self;
-            ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN))
-          }
-        });
-      }else if (us.SUCCESS == false && us.RESPONSE) {
-        Swal.fire({
-          icon: "info",
-          title: us.RESPONSE,
-          showDenyButton: false,
-          showCancelButton: false,
-          confirmButtonText: "Aceptar",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            var ventana = window.self;
-            ventana.location.replace(String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN));
-          }
-        });
-      }
-*/
   };
 
   const verificatoken = (primerInicio: boolean) => {
     UserServices.verify({}).then((res) => {
       if (res?.status == 200) {
-        setUserName(res.data.data.NombreUsuario);
         buscaUsuario(res.data.data.IdUsuario);
         setBloqueoStatus(false);
         setOpenSlider(false);

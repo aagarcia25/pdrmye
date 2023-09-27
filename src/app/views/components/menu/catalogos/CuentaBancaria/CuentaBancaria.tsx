@@ -15,7 +15,6 @@ import {
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {
   getDatosAdicionales,
-  getMunicipio,
   getPermisos,
   getUser,
   getcontrolInternoEntidad,
@@ -54,7 +53,6 @@ export const CuentaBancaria = ({
   const [vrows, setVrows] = useState({});
   const [cuentaBancaria, setCuentaBancaria] = useState([]);
   const [nombreMun, setnombreMun] = useState("");
-  const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
 
   const handleAccion = (v: any, est: string) => {
     if (v.tipo == 1) {
@@ -297,10 +295,7 @@ export const CuentaBancaria = ({
       }
     });
   };
-  const handleBorrar = () => {};
   /////////////////////////////////////////////////////
-
-  const text = "123456";
 
   async function digestMessage(message: string) {
     const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
@@ -314,18 +309,7 @@ export const CuentaBancaria = ({
 
   ///////////////////////////////////////////////
   useEffect(() => {
-    ////////////////////////
-    const digestHex = digestMessage(text);
-
-    ////////////////
-    /*
-    if (!mun[0]) {
-      setnombreMun(municipio);
-    } else {
-      mun.map((item: MUNICIPIO) => {
-        setnombreMun(item.Nombre);
-      });
-    }*/
+    console.log();
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == "CUENTABANCARIA") {
         setnombreMun(item.menu);
@@ -385,8 +369,8 @@ export const CuentaBancaria = ({
                 }}
               >
                 <Typography variant="h4">
-                  {idmunicipio !== ""
-                    ? "Municipio: " + nombreMun
+                  {DA.MUNICIPIO.length == 1
+                    ? "Municipio: " + DA.MUNICIPIO[0].Nombre
                     : "Cuentas Bancarias: " + nombreMun}
                 </Typography>
               </Grid>
@@ -410,8 +394,8 @@ export const CuentaBancaria = ({
               }}
             >
               <Typography variant="h4">
-                {idmunicipio !== ""
-                  ? "Municipio: " + nombreMun
+                {DA.MUNICIPIO.length == 1
+                  ? "Municipio: " + DA.MUNICIPIO[0].Nombre
                   : "Cuentas Bancarias: " + nombreMun}
               </Typography>
             </Grid>
