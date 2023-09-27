@@ -24,12 +24,9 @@ import {
 import { ValidaSesion } from "../../../../../services/UserServices";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {
-  getMunicipios,
   getPermisos,
   getToken,
   getUser,
-  setMunicipios,
-  validaLocalStorage,
 } from "../../../../../services/localStorage";
 import SliderProgress from "../../../SliderProgress";
 import ModalForm from "../../../componentes/ModalForm";
@@ -100,17 +97,6 @@ const AvisosModal = ({
     { extencion: ".JPG", imagen: previewDoc },
     { extencion: ".PNG", imagen: previewDoc },
   ];
-
-  const municipiosc = () => {
-    let data = {};
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-    let m: Imunicipio[] = JSON.parse(String(getMunicipios()));
-    setValues(m);
-  };
 
   const handleUpload = () => {
     setslideropen(true);
@@ -229,7 +215,6 @@ const AvisosModal = ({
       }
     });
 
-    municipiosc();
     if (dt == "") {
     } else {
       setId(dt?.row?.id);

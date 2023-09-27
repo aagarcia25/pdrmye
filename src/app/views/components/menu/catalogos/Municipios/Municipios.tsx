@@ -8,19 +8,11 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import {
-  ITEMS,
-  MUNICIPIO,
   PERMISO,
   USUARIORESPONSE,
-  menus,
 } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import {
-  getMenus,
-  getMunicipio,
-  getPermisos,
-  getUser,
-} from "../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import UsuarioResponsable from "../../../DAMOP/UsuarioResponsable";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import Slider from "../../../Slider";
@@ -33,10 +25,8 @@ import MunicipiosModal from "./MunicipiosModal";
 export const Municipios = () => {
   const [id, setId] = useState("");
   const [idMun, setIdMun] = useState("");
-
-  const [nombreMun, setNombreMun] = useState("");
-
   const [municipio, setMunicipio] = useState([]);
+  const [nombreMun, setNombreMun] = useState("");
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [agregar, setAgregar] = useState<boolean>(false);
@@ -53,10 +43,7 @@ export const Municipios = () => {
   const [plantilla, setPlantilla] = useState("");
   const [fideicomiso, setFideicomiso] = useState<boolean>(false);
   const [slideropen, setslideropen] = useState(false);
-  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
-  const item: menus[] = JSON.parse(String(getMenus()));
 
   const columns: GridColDef[] = [
     {
@@ -290,11 +277,6 @@ export const Municipios = () => {
     });
   };
 
-  const handleUpload = (data: any) => {
-    if (data.tipo == 1) {
-    }
-  };
-
   const consulta = (data: any) => {
     CatalogosServices.municipios(data).then((res) => {
       if (res.SUCCESS) {
@@ -402,7 +384,6 @@ export const Municipios = () => {
       )}
 
       {openCC ? (
-        // <MunicipiosCuentaBancaria handleClose={handleClose} dt={data} />
         <CuentaBancaria
           idmunicipio={id}
           municipio={nombreMun}

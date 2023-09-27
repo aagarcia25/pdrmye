@@ -1,20 +1,18 @@
-import { useEffect, useState } from "react";
 import {
   Box,
-  FormControl,
-  TextField,
-  InputAdornment,
-  Grid,
   Button,
+  FormControl,
+  Grid,
+  InputAdornment,
+  TextField,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
-import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
-import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { municipiosc } from "../../../../../share/loadMunicipios";
 import ModalForm from "../../../componentes/ModalForm";
 
 const MunFacturacionModal = ({
@@ -38,7 +36,6 @@ const MunFacturacionModal = ({
   const [idMun, setIdMun] = useState<string>();
   const [municipio, setMunicipio] = useState<string>("");
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
-  const [mun, setMun] = useState<SelectValues[]>([]);
 
   const handleSend = () => {
     if (fac == null || anio == null || idMunicipio == null) {
@@ -114,7 +111,6 @@ const MunFacturacionModal = ({
   };
 
   useEffect(() => {
-    setMun(municipiosc());
     if (dt == "") {
     } else {
       setId(dt?.row?.id);

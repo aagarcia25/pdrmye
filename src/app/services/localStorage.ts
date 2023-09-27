@@ -1,7 +1,3 @@
-
-
-//BLOQUEO DE PANTALLA
-
 //CONTROLINTERNO
 export const setcontrolInternoEntidad = (CCI: any) => localStorage.setItem('CCI', JSON.stringify(CCI));
 export const getcontrolInternoEntidad = () => localStorage.getItem('CCI');
@@ -32,13 +28,7 @@ export const getPerfilFoto = () => localStorage.getItem('perfilFoto');
 // DEPARTAMENTO
 export const setDepartamento = (departamento: any) => localStorage.setItem('departamento', JSON.stringify(departamento));
 export const getDepartamento = () => localStorage.getItem('departamento');
-// MUNICIPIO
-export const setMunicipio = (municipio: any) => localStorage.setItem('municipio', JSON.stringify(municipio));
-export const getMunicipio = () => localStorage.getItem('municipio');
 
-//// ORGANISMO
-export const setOrganismo = (organismo: any) => localStorage.setItem('organismo', JSON.stringify(organismo));
-export const getOrganismo = () => localStorage.getItem('organismo');
 
 //IDENTIFICAR QUE EL USUARIO YA ESTA LOGEADO
 export const setlogin = (data: any) => {
@@ -54,10 +44,7 @@ export const validaLocalStorage = (name: string): boolean => {
   return localStorage.getItem(name) ? true : false;
 };
 
-export const setMunicipios = (data: any) => {
-  localStorage.setItem('FiltroMunicipios', JSON.stringify(data));
-};
-export const getMunicipios = () => localStorage.getItem('FiltroMunicipios');
+
 
 export const getItem = (item:string ) :string => {
   return String(localStorage.getItem(item));
