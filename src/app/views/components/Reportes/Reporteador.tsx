@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, Grid } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../helpers/AlertS";
@@ -21,6 +21,7 @@ export const Reporteador = () => {
   const [openSlider, setOpenSlider] = useState(true);
   const [disableMes, setdisableMes] = useState(false);
   const [disableTrimestre, setdisableTrimestre] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
@@ -70,6 +71,10 @@ export const Reporteador = () => {
 
   const handleFilterChange2 = (v: SelectValues[]) => {
     setIdFondo(v);
+  };
+
+  const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
   };
 
   const handleChange = (value: number) => {
@@ -201,6 +206,7 @@ export const Reporteador = () => {
         P_MES: mes,
         P_FONDO: idFondo,
         P_TOTAL: total,
+        P_DIS: checked,
       };
 
       try {
@@ -366,7 +372,18 @@ export const Reporteador = () => {
                   )}
                 </Grid>
 
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <FormControlLabel
+                    label="Solo Distribución"
+                    control={
+                      <Checkbox
+                        checked={checked}
+                        onChange={handleCheckbox}
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                    }
+                  />
+                </Grid>
               </Grid>
 
               <Grid
