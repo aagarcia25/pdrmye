@@ -172,6 +172,13 @@ export const Reporteador = () => {
         });
         flag = false;
         setOpenSlider(false);
+      } else if (idFondo.length == 0) {
+        AlertS.fire({
+          title: "Es Necesario Seleccionar el Fondo",
+          icon: "warning",
+        });
+        flag = false;
+        setOpenSlider(false);
       } else if (idFondo.length > 1) {
         AlertS.fire({
           title: "Solo se Permite un Fondo para este reporte",
