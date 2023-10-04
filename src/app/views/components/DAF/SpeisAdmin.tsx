@@ -512,7 +512,7 @@ const SpeisAdmin = ({
             </Typography>
           </Grid>
 
-          {DA.ORG[0].length >= 1 || DA.MUNICIPIO[0].length >= 1 ? (
+          {DA.ORG.length >= 1 || DA.MUNICIPIO.length >= 1 ? (
             ""
           ) : (
             <Grid item xs={12} md={6} lg={4}>
