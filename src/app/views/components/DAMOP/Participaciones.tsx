@@ -428,11 +428,14 @@ const Participaciones = () => {
       width: 80,
       description: "Mes",
     },
+
     {
       field: "TipoSolicituds",
       headerName: "Tipo",
       width: 170,
       description: "Tipo de Solicitud",
+      hide: DA.ORG.length == 1 ? true : false,
+      hideable: false,
     },
 
     {
@@ -440,6 +443,8 @@ const Participaciones = () => {
       headerName: "Tipo Cálculo",
       description: "Tipo Cálculo",
       width: 150,
+      hide: DA.ORG.length == 1 ? true : false,
+      hideable: false,
     },
     {
       field: "a9",
