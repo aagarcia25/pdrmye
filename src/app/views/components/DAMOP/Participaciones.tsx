@@ -12,6 +12,7 @@ import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined
 import DriveFileMoveIcon from "@mui/icons-material/DriveFileMove";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import EditOffIcon from "@mui/icons-material/EditOff";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import InsightsIcon from "@mui/icons-material/Insights";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
@@ -21,7 +22,6 @@ import PolylineIcon from "@mui/icons-material/Polyline";
 import PrintIcon from "@mui/icons-material/Print";
 import SegmentIcon from "@mui/icons-material/Segment";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
 import {
   Box,
   Button,
@@ -37,6 +37,7 @@ import {
 } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 import { esES as gridEsES, GridSelectionModel } from "@mui/x-data-grid";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import IconCFDI from "../../../assets/img/CFDI.svg";
@@ -67,6 +68,7 @@ import {
 import { ReportesServices } from "../../../services/ReportesServices";
 import { fanios } from "../../../share/loadAnios";
 import { fmeses } from "../../../share/loadMeses";
+import { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
 import { ModalCheque } from "../componentes/ModalCheque";
 import ModalDAMOP from "../componentes/ModalDAMOP";
 import { ModalSegmentos } from "../componentes/ModalSegmentos";
@@ -80,8 +82,6 @@ import Slider from "../Slider";
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 import { Descuentos } from "./Descuentos";
 import { Retenciones } from "./Retenciones";
-import axios from "axios";
-import { TooltipPersonalizado } from "../componentes/CustomizedTooltips";
 const Participaciones = () => {
   ///////////////modal de adminisracion Spei cfdi
   const [modoSpeiCfdi, setModoSpeiCfdi] = useState("");
@@ -347,6 +347,121 @@ const Participaciones = () => {
     setModoSpeiCfdi(modo);
   };
 
+  const columnasOrganismos = [
+    { field: "id", hide: true, hideable: false },
+    {
+      field: "Operaciones",
+      disableExport: true,
+      headerName: "Operaciones",
+      description: "Operaciones",
+      sortable: false,
+      width: 200 + anchoAcciones,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            {verTrazabilidad ? (
+              <Tooltip title={"Ver Trazabilidad"}>
+                <IconButton
+                  value="check"
+                  onClick={() => handleVerTazabilidad(v)}
+                >
+                  <InsightsIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+            {v.row.orden > 13 ? (
+              <>
+                <Tooltip title="Ver Spei">
+                  <IconButton onClick={() => handleVerSpei(v, "SPEI")}>
+                    <img className="iconButton" src={IconSPEI} />
+                  </IconButton>
+                </Tooltip>
+              </>
+            ) : (
+              ""
+            )}
+            {v.row.orden > 13 ? (
+              <Tooltip title="Administrar CFDI">
+                <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
+                  <img className="iconButton" src={IconCFDI} />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Box>
+        );
+      },
+    },
+
+    {
+      field: "estatus",
+      headerName: "Estatus del pago",
+      description: "Estatus del pago",
+      width: 170,
+    },
+    {
+      field: "Anio",
+      headerName: "Ejercicio",
+      width: 100,
+      description: "Ejercicio",
+    },
+    {
+      field: "Mes",
+      headerName: "Mes",
+      width: 80,
+      description: "Mes",
+    },
+
+    {
+      field: "a9",
+      headerName: "Descripción",
+      description: "Descripción",
+      width: 250,
+    },
+    {
+      field: "total",
+      headerName: "Total Bruto",
+      width: 140,
+      description: "Total Bruto",
+      ...Moneda,
+    },
+    {
+      field: "Retenciones",
+      headerName: "Retenciones",
+      width: 120,
+      description: "Retenciones",
+      ...Moneda,
+    },
+    {
+      field: "RecAdeudos",
+      headerName: "Recaudación de Adeudos",
+      width: 160,
+      description: "Recaudación de Adeudos",
+      ...Moneda,
+    },
+    {
+      field: "Descuentos",
+      headerName: "Descuentos",
+      width: 100,
+      description: "Descuentos",
+      ...Moneda,
+    },
+    {
+      field: "a5",
+      headerName: "Total Neto",
+      width: 200,
+      description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
+      ...Moneda,
+      renderHeader: () => (
+        <>{"Total: " + currencyFormatter.format(Number(sumaTotal))}</>
+      ),
+    },
+  ];
+
   const columnasMunicipio = [
     { field: "id", hide: true, hideable: false },
     {
@@ -434,8 +549,6 @@ const Participaciones = () => {
       headerName: "Tipo",
       width: 170,
       description: "Tipo de Solicitud",
-      hide: DA.ORG.length == 1 ? true : false,
-      hideable: false,
     },
 
     {
@@ -443,8 +556,6 @@ const Participaciones = () => {
       headerName: "Tipo Cálculo",
       description: "Tipo Cálculo",
       width: 150,
-      hide: DA.ORG.length == 1 ? true : false,
-      hideable: false,
     },
     {
       field: "a9",
@@ -2822,9 +2933,11 @@ const Participaciones = () => {
             modulo={nombreExport}
             handleBorrar={handleBorrarMasivo}
             columns={
-              DA.MUNICIPIO.length == 1 || DA.ORG.length == 1
+              DA.MUNICIPIO.length == 0
+                ? columnsParticipaciones
+                : DA.MUNICIPIO.length >= 1
                 ? columnasMunicipio
-                : columnsParticipaciones
+                : columnasOrganismos
             }
             rows={data}
             controlInterno={""}
