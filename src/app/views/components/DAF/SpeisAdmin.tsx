@@ -21,6 +21,7 @@ import { base64ToArrayBuffer } from "../../../helpers/Files";
 import { Toast } from "../../../helpers/Toast";
 import {
   PERMISO,
+  ResponseDataAdicional,
   SPEIS,
   USUARIORESPONSE,
 } from "../../../interfaces/user/UserInfo";
@@ -47,6 +48,7 @@ const SpeisAdmin = ({
   vrows: any;
   modo: string;
 }) => {
+  const DA: ResponseDataAdicional = JSON.parse(String(getDatosAdicionales()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [agregarCFDI, setAgregarCFDI] = useState<boolean>(false);
@@ -509,8 +511,7 @@ const SpeisAdmin = ({
             </Typography>
           </Grid>
 
-          {JSON.parse(String(getcontrolInternoEntidad())) == "MUN" ||
-          JSON.parse(String(getcontrolInternoEntidad())) == "ORG" ? (
+          {DA.ORG[0].id >= 1 || DA.MUNICIPIO[0].id >= 1 ? (
             ""
           ) : (
             <Grid item xs={12} md={6} lg={4}>
