@@ -1987,7 +1987,9 @@ const Participaciones = () => {
         P_IDTIPOSOL: idtipoSolicitud == "false" ? "" : idtipoSolicitud,
         P_IDESTATUS: idestatus == "false" ? "" : idestatus,
         P_IDMES: mes == "false" ? "" : mes,
-        P_IDORGANISMO: idORG == "false" ? "" : idORG,
+        P_IDORGANISMO:
+          DA.ORG.length == 1 ? DA.ORG[0].id : idORG == "false" ? "" : idORG,
+
         P_CHUSER: user.Id,
         P_GRUPO: JSON.parse(String(getcontrolInternoEntidad())),
         P_ANIO: anio == "false" ? "" : anio,
