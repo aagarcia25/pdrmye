@@ -408,12 +408,6 @@ const Participaciones = () => {
       description: "Estatus del pago",
       width: 170,
     },
-    // {
-    //   field: "NumOper",
-    //   headerName: "Nº De Operación",
-    //   description: "Nº De Operación",
-    //   width: 110,
-    // },
     {
       field: "Anio",
       headerName: "Ejercicio",
@@ -911,7 +905,6 @@ const Participaciones = () => {
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
     setOpenModalVerSpei(false);
-    //handleClick();
   };
   const handleAccion = () => {};
 
@@ -2819,8 +2812,7 @@ const Participaciones = () => {
             modulo={nombreExport}
             handleBorrar={handleBorrarMasivo}
             columns={
-              JSON.parse(String(getcontrolInternoEntidad())) == "MUN" ||
-              JSON.parse(String(getcontrolInternoEntidad())) == "ORG"
+              DA.MUNICIPIO.length == 1 || DA.ORG.length == 1
                 ? columnasMunicipio
                 : columnsParticipaciones
             }
