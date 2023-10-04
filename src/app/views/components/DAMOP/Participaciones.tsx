@@ -359,11 +359,18 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            <Tooltip title={"Base de Cálculo"}>
-              <IconButton value="check" onClick={() => handleprintsolicitud(v)}>
-                <MenuBookIcon />
-              </IconButton>
-            </Tooltip>
+            {DA.MUNICIPIO.length == 1 ? (
+              <Tooltip title={"Base de Cálculo"}>
+                <IconButton
+                  value="check"
+                  onClick={() => handleprintsolicitud(v)}
+                >
+                  <MenuBookIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
             {verTrazabilidad ? (
               <Tooltip title={"Ver Trazabilidad"}>
