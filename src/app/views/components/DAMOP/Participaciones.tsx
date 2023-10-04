@@ -2933,7 +2933,7 @@ const Participaciones = () => {
             modulo={nombreExport}
             handleBorrar={handleBorrarMasivo}
             columns={
-              DA.MUNICIPIO.length == 0
+              DA.MUNICIPIO.length == 0 || DA.ORG.length == 0
                 ? columnsParticipaciones
                 : DA.MUNICIPIO.length >= 1
                 ? columnasMunicipio
