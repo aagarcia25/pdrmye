@@ -155,6 +155,7 @@ const Participaciones = () => {
   const [ELIMINAMASIVO, setELIMINAMASIVO] = useState<boolean>(false);
   const [INSERTAREG, setINSERTAREG] = useState<boolean>(false);
   const [editCabecera, setEditCabecera] = useState<boolean>(false);
+  const [MultiCFDI, setMultiCFDI] = useState<boolean>(false);
   const [permisoAgregarDetalle, setPermisoAgregarDetalle] =
     useState<boolean>(false);
   const [permisoAgregarRetencion, setPermisoAgregarRetencion] =
@@ -426,18 +427,7 @@ const Participaciones = () => {
       width: 170,
       description: "Tipo de Solicitud",
     },
-    // {
-    //   field: "ClaveEstado",
-    //   headerName: "Clave Estado",
-    //   width: 100,
-    //   description: "Clave Estado",
-    // },
-    // {
-    //   field: "Nombre",
-    //   headerName: "Proveedor",
-    //   width: 200,
-    //   description: "Proveedor",
-    // },
+
     {
       field: "tipocalculo",
       headerName: "Tipo Cálculo",
@@ -2126,6 +2116,8 @@ const Participaciones = () => {
             setMarcaMonex(true);
           } else if (String(item.ControlInterno) == "SANIO") {
             setSANIO(true);
+          } else if (String(item.ControlInterno) == "MULTICFDI") {
+            setMultiCFDI(true);
           }
         }
         setAnchoAcciones(ancho);
@@ -2401,7 +2393,7 @@ const Participaciones = () => {
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
           <ToggleButtonGroup>
-            {true ? (
+            {MultiCFDI ? (
               <>
                 <TooltipPersonalizado
                   title={
