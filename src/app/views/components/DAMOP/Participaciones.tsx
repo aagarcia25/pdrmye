@@ -1964,6 +1964,10 @@ const Participaciones = () => {
         SETDAF_SPEI(true);
       }
 
+      if (DA.MUNICIPIO.length == 1 || DA.ORG.length == 1) {
+        setIdEstatus("");
+      }
+
       let data = {
         TIPO: 1,
         P_FONDO: idFondo.length > 0 ? idFondo : "",
