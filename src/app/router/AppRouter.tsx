@@ -58,6 +58,8 @@ import AdminVideos from "../views/components/menu/usuarios/AdminVideosTutoriales
 import Usuarios from "../views/components/menu/usuarios/Usuarios/Usuarios";
 import { Perfil } from "../views/components/perfil/Perfil";
 import { AuthRouter } from "./AuthRouter";
+import { BandejaPorEnviar } from "../views/components/EFIRMA/BandejaPorEnviar";
+import { BandejaHistorico } from "../views/components/EFIRMA/BandejaHistorico";
 
 export const AppRouter = ({ login }: { login: boolean }) => {
   const log = login;
@@ -293,6 +295,8 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         <Route path="/efirm/config" element={<Configuracione />} />
         <Route path="/efirm/BandejaEnviados" element={<BandejaEnviados />} />
         <Route path="/efirm/BandejaRecibidos" element={<BandejaRecibidos />} />
+        <Route path="/efirm/BandejaPorEnviar" element={<BandejaPorEnviar />} />
+        <Route path="/efirm/BandejaHistorico" element={<BandejaHistorico />} />
 
         {/* /// Fin Firma Electronica */}
 
