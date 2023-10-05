@@ -162,10 +162,8 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                       primary={
                         <Tooltip title={item.Descripcion}>
                           <Typography
-                            className="menu-Typography"
-                            variant="h4"
-                            component="h2"
-                            sx={{ fontFamily: "sans-serif" }}
+                            variant="caption"
+                            sx={{ fontFamily: "sans-serif", fontWeight: "800" }}
                             gutterBottom
                           >
                             {item.Menu}
