@@ -60,6 +60,7 @@ import { Perfil } from "../views/components/perfil/Perfil";
 import { AuthRouter } from "./AuthRouter";
 import { BandejaPorEnviar } from "../views/components/EFIRMA/BandejaPorEnviar";
 import { BandejaHistorico } from "../views/components/EFIRMA/BandejaHistorico";
+import EnviarDocumento from "../views/components/EFIRMA/EnviarDocumento";
 
 export const AppRouter = ({ login }: { login: boolean }) => {
   const log = login;
@@ -297,6 +298,7 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         <Route path="/efirm/BandejaRecibidos" element={<BandejaRecibidos />} />
         <Route path="/efirm/BandejaPorEnviar" element={<BandejaPorEnviar />} />
         <Route path="/efirm/BandejaHistorico" element={<BandejaHistorico />} />
+        <Route path="/enviar/:IdDoc" element={<EnviarDocumento />} />
 
         {/* /// Fin Firma Electronica */}
 
