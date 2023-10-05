@@ -14,7 +14,8 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/img/logo.svg";
 import { getMenus } from "../../services/localStorage";
 import { menus } from "../../interfaces/user/UserInfo";
-
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 export default function Navigator(props: DrawerProps, logoFijo: any) {
   const { ...other } = props;
   const navigate = useNavigate();
@@ -103,7 +104,11 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                       }
                     />
 
-                    {open == indexx ? <ExpandLess /> : <ExpandMore />}
+                    {open == indexx ? (
+                      <ArrowDropUpIcon />
+                    ) : (
+                      <ArrowDropDownIcon />
+                    )}
                   </ListItemButton>
 
                   {item?.item?.map((subitem, index) => {
@@ -137,7 +142,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                                       className="menu-Typography"
                                       gutterBottom
                                     >
-                                      {" >  " + subitem.Menu}
+                                      {subitem.Menu}
                                     </Typography>
                                   </Tooltip>
                                 </>
@@ -154,9 +159,6 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
                 // SOLO IMPRIME EL BOTON CUANDO NO TIENE HIJOS RELACIONADOS
                 <div key={Math.random()}>
                   <ListItemButton onClick={() => navigate(item.Path)}>
-                    <ListItemIcon>
-                      <SendIcon />
-                    </ListItemIcon>
                     <ListItemText
                       key={Math.random()}
                       primary={
