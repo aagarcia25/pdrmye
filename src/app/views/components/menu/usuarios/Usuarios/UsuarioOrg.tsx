@@ -110,12 +110,10 @@ const UsuarioOrg = ({
   };
 
   const consulta = () => {
-    console.log(dt);
     let data = {
       CHID: dt?.Id,
       TIPO: 1,
     };
-    console.log(data);
     AuthService.usuarioOrg(data).then((res) => {
       setData(res.RESPONSE);
       setOpenSlider(false);

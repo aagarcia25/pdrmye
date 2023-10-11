@@ -72,7 +72,6 @@ export const Coeficientes = () => {
   };
 
   const handleEdit = (v: any) => {
-    //console.log(v);
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
@@ -94,7 +93,6 @@ export const Coeficientes = () => {
           CHID: v.row.id,
           CHUSER: user.Id,
         };
-        //console.log(data);
 
         CatalogosServices.coeficientes(data).then((res) => {
           if (res.SUCCESS) {

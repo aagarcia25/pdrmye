@@ -131,14 +131,11 @@ export const MunPobreza = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        //console.log(v);
-
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.Id,
         };
-        //console.log(data);
 
         CatalogosServices.munpobreza(data).then((res) => {
           if (res.SUCCESS) {
@@ -256,7 +253,6 @@ export const MunPobreza = () => {
 
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == "MUNPOBREZA") {
-        //console.log(item)
         if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }

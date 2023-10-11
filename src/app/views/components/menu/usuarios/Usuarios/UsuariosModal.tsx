@@ -45,7 +45,6 @@ const UsuariosModal = ({
   };
 
   useEffect(() => {
-    console.log(dt);
     ValidaSesion();
     UserServices.verify({}).then((resAppLogin) => {
       if (resAppLogin.status == 401) {
@@ -76,6 +75,5 @@ const UsuariosModal = ({
 export default UsuariosModal;
 
 function getidusuario(Id: any) {
-  console.log(Id);
   return Id;
 }

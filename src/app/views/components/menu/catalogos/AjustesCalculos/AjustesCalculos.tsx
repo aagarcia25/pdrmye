@@ -258,7 +258,6 @@ const AjustesCalculos = () => {
               OBJS: selectionModel,
               CHUSER: user.Id,
             };
-            //console.log(data);
 
             CatalogosServices.AjustesIndex(data).then((res) => {
               if (res.SUCCESS) {

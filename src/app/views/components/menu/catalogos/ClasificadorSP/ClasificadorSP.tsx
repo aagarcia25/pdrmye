@@ -63,7 +63,6 @@ export const ClasificadorSP = () => {
 
   const handleAccion = (v: any) => {
     if (v.tipo == 1) {
-      //console.log(v);
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
@@ -130,7 +129,6 @@ export const ClasificadorSP = () => {
           icon: "success",
           title: "¡Consulta Exitosa!",
         });
-        //console.log(res);
         setData(res.RESPONSE);
       } else {
         AlertS.fire({
@@ -145,7 +143,6 @@ export const ClasificadorSP = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == "CATCLASIFICACION") {
-        //console.log(item)
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

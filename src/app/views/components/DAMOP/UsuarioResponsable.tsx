@@ -113,7 +113,6 @@ const UsuarioResponsable = ({
 
     if (tipo == "MUN") {
       CatalogosServices.municipios(eliminar ? dataElim : data).then((res) => {
-        //console.log(res.RESPONSE);
         if (res.SUCCESS) {
           loadinfo();
           setNuevoRegistro(false);

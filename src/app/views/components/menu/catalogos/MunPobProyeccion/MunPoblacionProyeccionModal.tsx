@@ -56,7 +56,6 @@ const MunPoblacionProyeccionModal = ({
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -118,15 +117,12 @@ const MunPoblacionProyeccionModal = ({
     consumirLoadSelect(5);
 
     if (dt == "") {
-      //console.log(dt)
     } else {
       setId(dt?.row?.id);
       setAnio(dt?.row?.anio);
       setPoblacion(dt?.row?.Pob);
       setIdMunicipio(dt?.row?.idmunicipio);
       setMunicipio(dt?.row?.Nombre);
-
-      //console.log(dt)
     }
   }, [dt]);
 

@@ -143,7 +143,6 @@ const FondosModal = ({
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -212,7 +211,6 @@ const FondosModal = ({
 
     setTimeout(() => {
       if (dt == "") {
-        //console.log(dt);
       } else {
         setId(dt?.row?.id);
         setClave(dt?.row?.Clave);
