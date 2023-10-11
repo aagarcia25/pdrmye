@@ -296,7 +296,6 @@ const Fondos = () => {
               OBJS: selectionModel,
               CHUSER: user.Id,
             };
-            //console.log(data);
 
             CatalogosServices.fondos(data).then((res) => {
               if (res.SUCCESS) {
@@ -342,14 +341,11 @@ const Fondos = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        //console.log(v);
-
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.Id,
         };
-        //console.log(data);
 
         CatalogosServices.fondos(data).then((res) => {
           if (res.SUCCESS) {
@@ -398,7 +394,6 @@ const Fondos = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == "FONDOS") {
         setNombreMenu(item.menu);
-        //console.log(item.Menu)
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

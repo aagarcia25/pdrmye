@@ -200,7 +200,6 @@ export const Avisos = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == "AVISOS") {
-        //console.log(item)
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

@@ -99,7 +99,6 @@ export const ParametrosGenerales = () => {
       setModo("Editar");
       setOpen(true);
       setVrows(v.data);
-      // console.log(v.data);
     } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
@@ -129,7 +128,6 @@ export const ParametrosGenerales = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        //console.log(v);
         const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
         let data = {
@@ -137,7 +135,6 @@ export const ParametrosGenerales = () => {
           CHID: v.row.id,
           CHUSER: user.Id,
         };
-        //console.log(data);
 
         ParametroServices.ParametroGeneralesIndex(data).then((res) => {
           if (res.SUCCESS) {
@@ -167,7 +164,6 @@ export const ParametrosGenerales = () => {
     ParametroServices.ParametroGeneralesIndex(data).then((res) => {
       if (res.SUCCESS) {
         setParametroGeneral(res.RESPONSE);
-        //console.log("parametroGeneral consulta", parametroGeneral);
       } else {
         AlertS.fire({
           title: "¡Error!",
@@ -189,7 +185,6 @@ export const ParametrosGenerales = () => {
       });
 
       if (String(item.ControlInterno) == "PG") {
-        //console.log(item)
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

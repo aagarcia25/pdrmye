@@ -74,7 +74,6 @@ export const CatRet = () => {
 
   const handleAccion = (v: any) => {
     if (v.tipo == 1) {
-      //console.log(v);
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
@@ -141,7 +140,6 @@ export const CatRet = () => {
           icon: "success",
           title: "¡Consulta Exitosa!",
         });
-        //console.log(res);
         setData(res.RESPONSE);
       } else {
         AlertS.fire({
@@ -156,7 +154,6 @@ export const CatRet = () => {
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == "CATRETEN") {
-        //console.log(item)
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

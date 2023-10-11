@@ -49,7 +49,6 @@ const UmasModel = ({
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -97,7 +96,6 @@ const UmasModel = ({
 
   useEffect(() => {
     if (dt == "") {
-      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setAnio(dt?.row?.Anio);

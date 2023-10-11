@@ -143,11 +143,9 @@ const ListNotificationsModal = ({
 
   const handleSelectUser = (e: any) => {
     setChuserDestin(e);
-    //console.log(e);
   };
 
   useEffect(() => {
-    //console.log("data " + dt?.row);
     loadSelectUser();
     setChuserDestin(destinatario);
     if (dt == true) {

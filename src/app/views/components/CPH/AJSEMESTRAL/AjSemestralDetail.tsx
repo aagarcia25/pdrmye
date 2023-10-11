@@ -1,11 +1,6 @@
-import {
-  createTheme,
-  Grid
-} from "@mui/material";
+import { createTheme, Grid } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
-import {
-  esES as gridEsES
-} from "@mui/x-data-grid";
+import { esES as gridEsES } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
@@ -17,10 +12,10 @@ import Slider from "../../Slider";
 
 export const AjSemestralDetail = ({
   handleClose,
-  row
+  row,
 }: {
   handleClose: Function;
-  row :any;
+  row: any;
 }) => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
@@ -29,7 +24,9 @@ export const AjSemestralDetail = ({
   const columnsParticipaciones = [
     { field: "id", hide: true },
     {
-      field: "anio", headerName: "Año", width: 100,
+      field: "anio",
+      headerName: "Año",
+      width: 100,
     },
     {
       field: "nombre",
@@ -71,20 +68,14 @@ export const AjSemestralDetail = ({
       description: "Diferencia a descontar por Mes",
       ...Moneda,
     },
-    
   ];
 
-  
-
- 
   const handleClick = () => {
-    console.log(row)
     setslideropen(true);
     let data = {
       NUMOPERACION: 3,
-      P_IDANIO:row.row.anio,
-      P_FONDO:row.row.id
-
+      P_IDANIO: row.row.anio,
+      P_FONDO: row.row.id,
     };
     calculosServices.AjusteSemestralIndex(data).then((res) => {
       if (res.SUCCESS) {
@@ -104,31 +95,21 @@ export const AjSemestralDetail = ({
       }
     });
   };
-  
 
   useEffect(() => {
     handleClick();
-
   }, [row]);
 
   return (
     <>
-
-<ModalForm title={"Ajuste Semestral Detalle"} handleClose={handleClose}>
-<Slider open={slideropen}></Slider>
-<div>
+      <ModalForm title={"Ajuste Semestral Detalle"} handleClose={handleClose}>
+        <Slider open={slideropen}></Slider>
+        <div>
           <Grid item xs={12} sm={12} md={12} lg={12}>
-             <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
+            <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
           </Grid>
-      </div>
-</ModalForm>
-     
-
- 
-
-    
-     
+        </div>
+      </ModalForm>
     </>
   );
 };
-

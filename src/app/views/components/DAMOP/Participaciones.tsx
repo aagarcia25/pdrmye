@@ -264,7 +264,6 @@ const Participaciones = () => {
         DAMOPServices.DesintegraOperacion(data).then((res) => {
           if (res.SUCCESS) {
             handleClose();
-            //   console.log(res.RESPONSE[0])
             if (res.RESPONSE[0].Respuesta == 200) {
               Toast.fire({
                 icon: "success",

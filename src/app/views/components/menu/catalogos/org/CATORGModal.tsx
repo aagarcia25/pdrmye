@@ -87,7 +87,6 @@ export const CATORGModal = ({
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -134,7 +133,6 @@ export const CATORGModal = ({
 
   useEffect(() => {
     if (dt == "") {
-      //console.log(dt);
     } else {
       setId(dt?.row?.id);
       setDescripcion(dt?.row?.Descripcion);

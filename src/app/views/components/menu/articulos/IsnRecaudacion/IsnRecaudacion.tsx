@@ -42,7 +42,6 @@ const IsnRecaudacion = () => {
 
   const handleFilterChange = (v: string) => {
     setFilterAnio(v);
-    // console.log(v);
     if (v == "false") {
       consulta(4, "");
     } else {
@@ -185,64 +184,7 @@ const IsnRecaudacion = () => {
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
       });
-    } /*
-    else if (data.tipo == 2) {
-      //console.log("borrado de toda la tabla")
-      //console.log(selectionModel)
-
-      if(selectionModel.length!==0){
-      Swal.fire({
-        icon: "question",
-        title: selectionModel.length +" Registros Se Eliminaran!!",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Confirmar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-  
-          let data = {
-           NUMOPERACION: 5,
-           OBJS: selectionModel,
-           CHUSER: user.Id
-          };
-          //console.log(data);
-  
-          CatalogosServices.munpoblacion(data).then((res) => {
-            if (res.SUCCESS) {
-              Toast.fire({
-                icon: "success",
-                title: "Borrado!",
-              });
-  
-              consulta({
-                NUMOPERACION: 4,
-                ANIO: filterAnio,
-              });
-  
-            } else {
-              AlertS.fire({
-                title: "¡Error!",
-                text: res.STRMESSAGE,
-                icon: "error",
-              });
-            }
-          });
-  
-        } else if (result.isDenied) {
-          Swal.fire("No se realizaron cambios", "", "info");
-        }
-      });
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Seleccione Registros Para Borrar",
-        confirmButtonText: "Aceptar",
-      });
     }
-
-
-    }*/
   };
 
   const eliminacionMasiva = () => {

@@ -78,8 +78,6 @@ const ButtonsTutorial = ({
     };
     AuthService.AdminAyudas(data).then((res) => {
       if (res.SUCCESS) {
-        console.log("resultado de obtener guias");
-        console.log(res.SUCCESS);
         setDataVideos(res.RESPONSE);
       } else {
       }
