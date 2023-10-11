@@ -138,7 +138,6 @@ export const ListNotification = () => {
       P_ID: v.row.idCalculo,
     };
     CatalogosServices.getliga(dat).then((res) => {
-      // console.log(res.RESPONSE[0].route);
       navigate(res.RESPONSE[0].route + "?id=" + v.row.idCalculo);
     });
   };

@@ -108,7 +108,6 @@ export const CuentaBancariaModal = ({
 
   const handleSend = () => {
     setslideropen(true);
-    console.log(dt);
     if (
       tipo == 1
         ? !nombreCuenta ||

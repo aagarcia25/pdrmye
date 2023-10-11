@@ -76,14 +76,12 @@ export const CalculoGarantiaModal = ({
         IDMUNICIPIO: municipio,
         DELETED: 0,
       };
-      //console.log("data de modal", data);
       handleRequest(data);
       handleClose();
     }
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -100,14 +98,12 @@ export const CalculoGarantiaModal = ({
           icon: "success",
           title: "¡Registro Agregado!",
         });
-        //console.log("Sé pudo agregar");
       } else {
         AlertS.fire({
           title: "¡Error!",
           text: res.STRMESSAGE,
           icon: "error",
         });
-        //console.log("No se pudo agregar");
       }
     });
   };

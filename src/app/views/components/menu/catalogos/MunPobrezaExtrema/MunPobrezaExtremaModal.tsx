@@ -74,7 +74,6 @@ const MunPobrezaExtremaModal = ({
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -126,7 +125,6 @@ const MunPobrezaExtremaModal = ({
     municipiosc();
 
     if (dt == "") {
-      //console.log(dt)
     } else {
       setId(dt?.row?.id);
       setAnio(dt?.row?.Anio);
@@ -135,11 +133,6 @@ const MunPobrezaExtremaModal = ({
       setPorcentage(dt?.row?.Porcentaje);
       setCarenciaProm(dt?.row?.CarenciaProm);
     }
-
-    // let data = { NUMOPERACION: 5 };
-    // CatalogosServices.SelectIndex(data).then((res) => {
-    //   setMunicipios(res.RESPONSE);
-    // });
   }, [dt]);
   return (
     <div>

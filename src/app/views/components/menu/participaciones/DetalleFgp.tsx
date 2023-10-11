@@ -80,7 +80,6 @@ const DetalleFgp = ({
   const handleAcciones = (v: any) => {
     setOpenSlider(true);
     if (v.tipo == 1) {
-      //console.log(v);
     } else if (v.tipo == 2) {
     } else {
       switch (v) {

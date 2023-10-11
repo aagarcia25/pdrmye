@@ -152,7 +152,6 @@ export const CalculoGarantiaComponente = () => {
   };
 
   const handleEdit = (v: any) => {
-    //console.log(v);
     setTipoOperacion(2);
     setModo("Editar Registro");
     setOpen(true);
@@ -169,7 +168,6 @@ export const CalculoGarantiaComponente = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        //console.log(v);
         const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
         let data = {
@@ -177,7 +175,6 @@ export const CalculoGarantiaComponente = () => {
           CHID: v.row.id,
           CHUSER: user.Id,
         };
-        //console.log(data);
 
         calculosServices.CalculoGarantia(data).then((res) => {
           if (res.SUCCESS) {
@@ -303,8 +300,6 @@ export const CalculoGarantiaComponente = () => {
     setAnios(fanios());
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == "CA") {
-        //console.log(item)
-
         setNombreMenu(item.menu);
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);

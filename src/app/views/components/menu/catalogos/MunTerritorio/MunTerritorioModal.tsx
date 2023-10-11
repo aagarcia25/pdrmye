@@ -50,7 +50,6 @@ const MunTerritorioModal = ({
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
     if (tipo == 1) {
       //AGREGAR
       agregar(data);
@@ -97,16 +96,12 @@ const MunTerritorioModal = ({
 
   useEffect(() => {
     if (dt == "") {
-      //console.log(dt)
     } else {
       setId(dt?.row?.id);
       setAnio(dt?.row?.Anio);
       setTerritorio(dt?.row?.Km2);
       setIdMunicipio(dt?.row?.idmunicipio);
-      //console.log(dt)
     }
-
-    //console.log(dt)
   }, [dt]);
 
   return (

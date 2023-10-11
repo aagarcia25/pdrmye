@@ -153,7 +153,6 @@ const CalendarCModal = ({
 
   useEffect(() => {
     if (dt == "") {
-      //console.log("Modal dt", dt);
     } else {
       setId(dt?.id);
       setNombreEvento(dt?.title);

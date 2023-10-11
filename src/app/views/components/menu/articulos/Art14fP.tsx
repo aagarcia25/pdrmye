@@ -118,7 +118,6 @@ export const Art14fP = () => {
         String(item.menu) == "ART14F2" ||
         String(item.menu) == "ART14F3"
       ) {
-        //console.log(item);
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

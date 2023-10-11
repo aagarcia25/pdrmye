@@ -26,7 +26,6 @@ export function BloqueoSesion({
   const [name, setName] = useState("");
 
   useEffect(() => {
-    // console.log(getUser())
     const decoded: UserLogin = jwt_decode(String(getToken()));
     if (getUser() == null || getUser() == "undefined") {
       setApellMat("");

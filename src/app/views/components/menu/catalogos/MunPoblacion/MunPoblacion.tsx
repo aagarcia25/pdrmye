@@ -140,7 +140,6 @@ export const MunPoblacion = () => {
           CHID: v.row.id,
           CHUSER: user.Id,
         };
-        //console.log(data);
 
         CatalogosServices.munpoblacion(data).then((res) => {
           if (res.SUCCESS) {
@@ -179,9 +178,6 @@ export const MunPoblacion = () => {
         setslideropen(false);
       });
     } else if (data.tipo == 2) {
-      //console.log("borrado de toda la tabla")
-      //console.log(selectionModel)
-
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -197,7 +193,6 @@ export const MunPoblacion = () => {
               OBJS: selectionModel,
               CHUSER: user.Id,
             };
-            //console.log(data);
 
             CatalogosServices.munpoblacion(data).then((res) => {
               if (res.SUCCESS) {

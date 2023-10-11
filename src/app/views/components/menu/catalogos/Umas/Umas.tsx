@@ -33,7 +33,6 @@ export const Umas = () => {
 
   const handleAccion = (v: any) => {
     if (v.tipo == 1) {
-      //console.log(v)
       setTipoOperacion(2);
       setModo("Editar Registro");
       setOpen(true);
@@ -53,7 +52,6 @@ export const Umas = () => {
             CHID: v.data.row.id,
             CHUSER: user.Id,
           };
-          //console.log(data);
 
           CatalogosServices.umas(data).then((res) => {
             if (res.SUCCESS) {
@@ -126,9 +124,6 @@ export const Umas = () => {
   const handleUpload = (data: any) => {
     if (data.tipo == 1) {
     } else if (data.tipo == 2) {
-      //console.log("borrado de toda la tabla")
-      //console.log(selectionModel)
-
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -144,7 +139,6 @@ export const Umas = () => {
               OBJS: selectionModel,
               CHUSER: user.Id,
             };
-            //console.log(data);
 
             CatalogosServices.umas(data).then((res) => {
               if (res.SUCCESS) {

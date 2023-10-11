@@ -141,14 +141,11 @@ export const MunFacturacion = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        //console.log(v);
-
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
           CHUSER: user.Id,
         };
-        //console.log(data);
 
         CatalogosServices.munfacturacion(data).then((res) => {
           if (res.SUCCESS) {
@@ -214,7 +211,6 @@ export const MunFacturacion = () => {
               OBJS: selectionModel,
               CHUSER: user.Id,
             };
-            //console.log(data);
 
             CatalogosServices.munfacturacion(data).then((res) => {
               if (res.SUCCESS) {

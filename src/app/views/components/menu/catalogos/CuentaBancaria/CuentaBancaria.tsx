@@ -103,7 +103,6 @@ export const CuentaBancaria = ({
         IDESTATUS: est,
         COMENTARIOS: v.texto,
       };
-      //console.log(v);
 
       CatalogosServices.CuentaBancaria(data).then((res) => {
         if (res.SUCCESS) {
@@ -309,7 +308,6 @@ export const CuentaBancaria = ({
 
   ///////////////////////////////////////////////
   useEffect(() => {
-    console.log();
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == "CUENTABANCARIA") {
         setnombreMun(item.menu);

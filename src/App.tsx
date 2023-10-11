@@ -105,7 +105,6 @@ function App() {
     };
 
     UserServices.userAppDetail(data).then((res) => {
-      console.log(res);
       if (res?.status == 200) {
         AuthService.adminUser({ NUMOPERACION: 1, ID: id }).then(
           (objresponse) => {
@@ -120,7 +119,6 @@ function App() {
           }
         );
 
-        console.log(res.data.data);
         setUser(res.data.data);
         setRoles(res.data.roles[0]);
         setMenus(res.data.menus[0]);

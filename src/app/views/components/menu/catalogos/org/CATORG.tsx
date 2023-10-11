@@ -254,7 +254,6 @@ export const CATORG = () => {
           icon: "success",
           title: "¡Consulta Exitosa!",
         });
-        //console.log(res);
         setData(res.RESPONSE);
       } else {
         AlertS.fire({
@@ -270,7 +269,6 @@ export const CATORG = () => {
     var ancho = 0;
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == "CATORG") {
-        //console.log(item)
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }

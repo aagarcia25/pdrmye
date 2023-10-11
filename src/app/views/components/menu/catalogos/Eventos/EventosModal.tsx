@@ -201,7 +201,6 @@ const EventosModal = ({
   useEffect(() => {
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == "EVENTOS") {
-        //console.log(item)
         if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }

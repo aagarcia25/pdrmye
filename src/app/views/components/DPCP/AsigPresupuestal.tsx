@@ -210,8 +210,6 @@ const AsigPresupuestal = () => {
       P_ANIO: anio == "false" ? "" : anio,
     };
 
-    console.log(data);
-
     ReportesServices.requerimientoPresupuestal(data).then((res) => {
       if (res.SUCCESS) {
         var bufferArray = base64ToArrayBuffer(String(res.RESPONSE));
@@ -261,7 +259,6 @@ const AsigPresupuestal = () => {
             OBJS: selectionModel,
             CHUSER: user.Id,
           };
-          // console.log(data);
 
           SireService.ConsultaPresupuesto(data).then((res) => {
             if (res.SUCCESS) {
@@ -318,8 +315,6 @@ const AsigPresupuestal = () => {
     setMes(data);
   };
   const handleClick = () => {
-    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
-
     let data = {
       TIPO: 5,
       P_FONDO: idFondo == "false" ? "" : idFondo,
