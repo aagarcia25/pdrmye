@@ -248,6 +248,16 @@ const AgregarContactoMunicipio = () => {
     //Box padre
     <>
       <SliderProgress open={openSlider} />
+      <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
+        <Grid container sx={{ justifyContent: "center" }}>
+          <Grid className="Titulo" container item xs={12}>
+            <Typography variant="h4" paddingBottom={2}>
+              Información del Municipio
+            </Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+
       {editar ? (
         <Grid
           item
