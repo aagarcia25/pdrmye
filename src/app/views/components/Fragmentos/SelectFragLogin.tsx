@@ -38,7 +38,7 @@ const SelectFragLogin = ({
           borderRadius: 0,
           colors: {
             ...theme.colors,
-            primary25: "#41b883",
+            primary25: "rgb(175, 140, 85)",
             primary: "rgb(175, 140, 85)",
           },
         })}
