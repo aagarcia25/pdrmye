@@ -134,28 +134,7 @@ export default function Header(props: HeaderProps) {
                 "&:hover": { backgroundColor: COLOR.grisTarjetaBienvenido },
               }}
             >
-              {user.RutaFoto !== null || props.imgData !== "undefined" ? (
-                <img
-                  style={{
-                    objectFit: "scale-down",
-                    width: "100%",
-                    height: "100%",
-                  }}
-                  // src={"data:"+props.imgTipo+";base64," +props.imgData}
-                  src={
-                    "data:" +
-                    String(
-                      props.imgTipo == "undefined" ? Blanco.Tipo : props.imgTipo
-                    ) +
-                    ";base64," +
-                    String(
-                      props.imgData == "undefined" ? Blanco.Data : props.imgData
-                    )
-                  }
-                />
-              ) : (
-                <PersonIcon className="IconoDentroBoton" />
-              )}
+              <PersonIcon className="IconoDentroBoton" />
             </IconButton>
           </Tooltip>
         </>
@@ -182,9 +161,6 @@ export default function Header(props: HeaderProps) {
       ),
       name: "Calendario",
     },
-
-    /////////////////////
-
     {
       icon: (
         <>
@@ -241,8 +217,6 @@ export default function Header(props: HeaderProps) {
     "&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight": {},
   }));
 
-  ///////////////////////////////////
-
   const handleClose = (event: Event | React.SyntheticEvent) => {
     if (
       anchorRef.current &&
@@ -263,7 +237,6 @@ export default function Header(props: HeaderProps) {
     }
   }
 
-  // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
     if (prevOpen.current == true && open == false) {
@@ -346,7 +319,15 @@ export default function Header(props: HeaderProps) {
                     sx={{ top: "1%", bottom: 1, right: "10%" }}
                     icon={
                       <>
-                        {/* <div className="containerHeaderPerfilVistaMovil"> */}
+                        <Badge
+                          anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "left",
+                          }}
+                          badgeContent={cnotif}
+                          max={10}
+                          color="primary"
+                        ></Badge>
                         <Button
                           className="ButtonColorGenericoHeaderProfileMovil"
                           ref={anchorRef}
@@ -371,8 +352,6 @@ export default function Header(props: HeaderProps) {
                             src={logoNL}
                           />
                         </Button>
-
-                        {/* </div> */}
                       </>
                     }
                     onClose={handleCloseDial}
@@ -443,50 +422,60 @@ export default function Header(props: HeaderProps) {
                   </Grid>
                 </Grid>
                 <Grid item>
-                  <div className="containerBotonesHeaderPerfil">
-                    <Tooltip title="Haz click para ver más">
-                      <Button
-                        className="ButtonColorGenericoHeaderProfile"
-                        ref={anchorRef}
-                        id="composition-button"
-                        aria-controls={open ? "composition-menu" : undefined}
-                        aria-expanded={open ? "true" : undefined}
-                        aria-haspopup="true"
-                        onClick={handleToggle("left")}
-                        color="inherit"
-                      >
-                        {user.RutaFoto && props.imgData !== "undefined" ? (
-                          <>
-                            <img
-                              className="imgDentroDeHeaderInicio"
-                              src={
-                                "data:" +
-                                String(
-                                  props.imgData == "undefined"
-                                    ? Blanco.Tipo
-                                    : props.imgTipo
-                                ) +
-                                ";base64," +
-                                String(
-                                  props.imgData == "undefined"
-                                    ? Blanco.Data
-                                    : props.imgData
-                                )
-                              }
+                  <Badge
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    badgeContent={cnotif}
+                    max={10}
+                    color="primary"
+                  >
+                    <div className="containerBotonesHeaderPerfil">
+                      <Tooltip title="Haz click para ver más">
+                        <Button
+                          className="ButtonColorGenericoHeaderProfile"
+                          ref={anchorRef}
+                          id="composition-button"
+                          aria-controls={open ? "composition-menu" : undefined}
+                          aria-expanded={open ? "true" : undefined}
+                          aria-haspopup="true"
+                          onClick={handleToggle("left")}
+                          color="inherit"
+                        >
+                          {user.RutaFoto && props.imgData !== "undefined" ? (
+                            <>
+                              <img
+                                className="imgDentroDeHeaderInicio"
+                                src={
+                                  "data:" +
+                                  String(
+                                    props.imgData == "undefined"
+                                      ? Blanco.Tipo
+                                      : props.imgTipo
+                                  ) +
+                                  ";base64," +
+                                  String(
+                                    props.imgData == "undefined"
+                                      ? Blanco.Data
+                                      : props.imgData
+                                  )
+                                }
+                              />
+                            </>
+                          ) : (
+                            <PersonIcon
+                              sx={{
+                                width: "60%",
+                                height: "60%",
+                              }}
+                              className="IconoDentroBotonPerfil"
                             />
-                          </>
-                        ) : (
-                          <PersonIcon
-                            sx={{
-                              width: "60%",
-                              height: "60%",
-                            }}
-                            className="IconoDentroBotonPerfil"
-                          />
-                        )}
-                      </Button>
-                    </Tooltip>
-                  </div>
+                          )}
+                        </Button>
+                      </Tooltip>
+                    </div>
+                  </Badge>
                 </Grid>
                 <Popper
                   open={open}
@@ -509,14 +498,24 @@ export default function Header(props: HeaderProps) {
                             <MenuItem onClick={onConfigProfile}>
                               <IconButton onClick={onConfigProfile}>
                                 <ManageAccountsIcon className="IconoDentroBoton" />
-                              </IconButton>{" "}
+                              </IconButton>
                               Configuración de perfil
                             </MenuItem>
                             <MenuItem onClick={onNotification}>
-                              <IconButton onClick={onNotification}>
-                                <NotificationsNoneIcon className="IconoDentroBoton" />
-                              </IconButton>{" "}
-                              Mi Buzón
+                              <Badge
+                                anchorOrigin={{
+                                  vertical: "top",
+                                  horizontal: "left",
+                                }}
+                                badgeContent={cnotif}
+                                max={10}
+                                color="primary"
+                              >
+                                <IconButton onClick={onNotification}>
+                                  <NotificationsNoneIcon className="IconoDentroBoton" />
+                                </IconButton>
+                                Mi Buzón
+                              </Badge>
                             </MenuItem>
                             <MenuItem onClick={onOpenCalendar}>
                               <IconButton onClick={onOpenCalendar}>
