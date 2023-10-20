@@ -39,7 +39,7 @@ import SliderProgress from "../SliderProgress";
 import ModalForm from "../componentes/ModalForm";
 import { currencyFormatter } from "../menu/CustomToolbar";
 import ButtonsAdd from "../menu/catalogos/Utilerias/ButtonsAdd";
-
+import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
 const SpeisAdmin = ({
   handleClose,
   vrows,
@@ -67,7 +67,7 @@ const SpeisAdmin = ({
   const [speiFile, setSpeiFile] = useState(Object);
   const [speis, setSpeis] = useState([]);
   const [fileValid, setFileValid] = useState<boolean>(false);
-
+  const [verificaCFDI, setverificaCFDI] = useState<boolean>(true);
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const columns: GridColDef[] = [
@@ -149,10 +149,104 @@ const SpeisAdmin = ({
       field: "Nombre",
       headerName: "Nombre Documento",
       description: "Nombre Documento",
-      width: 650,
+      width: 400,
     },
   ];
 
+  const columnscfdi: GridColDef[] = [
+    { field: "id", hide: true, hideable: false },
+    {
+      field: "acciones",
+      disableExport: true,
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 200,
+      renderCell: (v) => {
+        return (
+          <Box>
+            {PERMISOVerSpei && v.row.Nombre.slice(-3).toUpperCase() == "PDF" ? (
+              <Tooltip title={"Ver Documento"}>
+                <IconButton onClick={() => handleVerSpei(v)}>
+                  <img
+                    className="iconButton"
+                    src={
+                      v.row.Nombre.slice(-3).toUpperCase() == "PDF"
+                        ? IconSPEIPDF
+                        : IconeXML
+                    }
+                  />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+            {permisoDescargarSpei ? (
+              <Tooltip title={"Descargar Archivo"}>
+                <IconButton onClick={() => handleDescargarSpei(v)}>
+                  <img
+                    className="iconButton"
+                    src={
+                      v.row.Nombre.slice(-3).toUpperCase() == "PDF"
+                        ? IconSPEIPDFDown
+                        : IconeXML
+                    }
+                  />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+            {eliminarCFDI && modo == "CFDI" ? (
+              <Tooltip title={"Eliminar Archivo"}>
+                <IconButton onClick={() => handleDeleteSpei(v)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+            {verificaCFDI ? (
+              <Tooltip title={"Verifica CFDI"}>
+                <IconButton onClick={() => handleDeleteSpei(v)}>
+                  <PublishedWithChangesIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Box>
+        );
+      },
+    },
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creación",
+      description: "Fecha Creación",
+      width: 180,
+    },
+    {
+      field: "Nombre",
+      headerName: "Nombre Documento",
+      description: "Nombre Documento",
+      width: 400,
+    },
+    {
+      field: "NombreAuditoria",
+      headerName: "Nombre Auditoria",
+      description: "Nombre Auditoria",
+      width: 400,
+    },
+    {
+      field: "Estatus",
+      headerName: "Estatus Documento",
+      description: "Estatus Documento",
+      width: 200,
+    },
+  ];
   const handleBorrarMasivo = (v: string) => {};
 
   const handleCloseModal = () => {
@@ -546,7 +640,7 @@ const SpeisAdmin = ({
             <MUIXDataGridMun
               modulo={""}
               handleBorrar={handleBorrarMasivo}
-              columns={columns}
+              columns={modo === "SPEI" ? columns : columnscfdi}
               rows={speis}
               controlInterno={""}
             />

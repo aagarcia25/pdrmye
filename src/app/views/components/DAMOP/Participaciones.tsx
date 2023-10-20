@@ -2329,7 +2329,7 @@ const Participaciones = () => {
             ""
           )}
 
-          {SESTATUS ? (
+          {true ? (
             <Grid item xs={11.5} sm={6} md={4} lg={2}>
               <Typography sx={{ fontFamily: "sans-serif" }}>
                 Estatus:
