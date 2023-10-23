@@ -383,7 +383,7 @@ const SpeisAdmin = ({
   const handleDeleteSpei = (data: any) => {
     const formData = new FormData();
     formData.append("NUMOPERACION", "3");
-    formData.append("TIPO", "SPEI");
+    formData.append("TIPO", modo);
     formData.append("CHID", data.id);
     formData.append("CHUSER", user.Id);
     formData.append("REGISTROS", speis[1] ? "1" : "0");
@@ -563,7 +563,7 @@ const SpeisAdmin = ({
           setEliminar(true);
           ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) == "ELIMCFDI") {
+        if (String(item.ControlInterno) == "ss") {
           setEliminarCFDI(true);
           ancho = ancho + 50;
         }
