@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 import DeleteIcon from "@mui/icons-material/Delete";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import {
@@ -7,6 +8,7 @@ import {
   DialogContent,
   Grid,
   IconButton,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -19,6 +21,7 @@ import IconeXML from "../../../assets/img/xmlLogo.svg";
 import { AlertS } from "../../../helpers/AlertS";
 import { base64ToArrayBuffer } from "../../../helpers/Files";
 import { Toast } from "../../../helpers/Toast";
+import { ICFDI } from "../../../interfaces/share/Share";
 import {
   PERMISO,
   ResponseDataAdicional,
@@ -26,20 +29,17 @@ import {
   USUARIORESPONSE,
 } from "../../../interfaces/user/UserInfo";
 import { DAFServices } from "../../../services/DAFServices";
-import { MunServices } from "../../../services/MunServices";
 import {
   getDatosAdicionales,
   getPermisos,
   getToken,
   getUser,
-  getcontrolInternoEntidad,
 } from "../../../services/localStorage";
 import MUIXDataGridMun from "../MUIXDataGridMun";
 import SliderProgress from "../SliderProgress";
 import ModalForm from "../componentes/ModalForm";
 import { currencyFormatter } from "../menu/CustomToolbar";
 import ButtonsAdd from "../menu/catalogos/Utilerias/ButtonsAdd";
-
 const SpeisAdmin = ({
   handleClose,
   vrows,
@@ -53,6 +53,7 @@ const SpeisAdmin = ({
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [agregarCFDI, setAgregarCFDI] = useState<boolean>(false);
+  const [VERIFICARCFDI, SETVERIFICARCFDI] = useState<boolean>(false);
   const [PERMISOVerSpei, setPERMISOVerSpei] = useState<boolean>(false);
   const [permisoDescargarSpei, setPermisoDescargarSpei] =
     useState<boolean>(false);
@@ -67,8 +68,50 @@ const SpeisAdmin = ({
   const [speiFile, setSpeiFile] = useState(Object);
   const [speis, setSpeis] = useState([]);
   const [fileValid, setFileValid] = useState<boolean>(false);
-
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
+  const [mensaje, setMensaje] = useState<string>();
+  const [vobj, setvobj] = useState<ICFDI>();
+
+  const handleVerificaSpei = (type: number, v: ICFDI) => {
+    console.log(mensaje);
+    let flag = false;
+    if (type === 1) {
+      flag = true;
+    } else {
+      if (mensaje === "" || mensaje === undefined) {
+        AlertS.fire({
+          title: "¡Error!",
+          text: "Es Obligatorio ingresar el detalle para hacer el rechazo de Documentos",
+          icon: "error",
+        });
+      } else {
+        flag = true;
+      }
+    }
+
+    if (flag) {
+      setslideropen(true);
+      DAFServices.SpeiAdministracion({
+        NUMOPERACION: 6,
+        CHID: v.id,
+        CHUSER: user.Id,
+        OBS: mensaje,
+        TIPO: type,
+      }).then((res) => {
+        if (res.SUCCESS) {
+          setslideropen(false);
+        } else {
+          AlertS.fire({
+            title: "¡Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+          setslideropen(false);
+        }
+        handleCloseModal();
+      });
+    }
+  };
 
   const columns: GridColDef[] = [
     { field: "id", hide: true, hideable: false },
@@ -149,10 +192,94 @@ const SpeisAdmin = ({
       field: "Nombre",
       headerName: "Nombre Documento",
       description: "Nombre Documento",
-      width: 650,
+      width: 400,
     },
   ];
 
+  const columnscfdi: GridColDef[] = [
+    { field: "id", hide: true, hideable: false },
+    {
+      field: "acciones",
+      disableExport: true,
+      headerName: "Acciones",
+      description: "Campo de Acciones",
+      sortable: false,
+      width: 200,
+      renderCell: (v) => {
+        return (
+          <Box>
+            {PERMISOVerSpei && v.row.Nombre.slice(-3).toUpperCase() == "PDF" ? (
+              <Tooltip title={"Ver Documento"}>
+                <IconButton onClick={() => handleVerSpei(v)}>
+                  <img
+                    className="iconButton"
+                    src={
+                      v.row.Nombre.slice(-3).toUpperCase() == "PDF"
+                        ? IconSPEIPDF
+                        : IconeXML
+                    }
+                  />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+            {permisoDescargarSpei ? (
+              <Tooltip title={"Descargar Archivo"}>
+                <IconButton onClick={() => handleDescargarSpei(v)}>
+                  <img
+                    className="iconButton"
+                    src={
+                      v.row.Nombre.slice(-3).toUpperCase() == "PDF"
+                        ? IconSPEIPDFDown
+                        : IconeXML
+                    }
+                  />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+            {eliminarCFDI && modo == "CFDI" ? (
+              <Tooltip title={"Eliminar Archivo"}>
+                <IconButton onClick={() => handleDeleteSpei(v)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Box>
+        );
+      },
+    },
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creación",
+      description: "Fecha Creación",
+      width: 180,
+    },
+    {
+      field: "Nombre",
+      headerName: "Nombre Documento",
+      description: "Nombre Documento",
+      width: 400,
+    },
+    {
+      field: "NombreAuditoria",
+      headerName: "Nombre Auditoria",
+      description: "Nombre Auditoria",
+      width: 400,
+    },
+    {
+      field: "Estatus",
+      headerName: "Estatus Documento",
+      description: "Estatus Documento",
+      width: 200,
+    },
+  ];
   const handleBorrarMasivo = (v: string) => {};
 
   const handleCloseModal = () => {
@@ -269,8 +396,8 @@ const SpeisAdmin = ({
   };
 
   const handleVerSpei = (v: any) => {
+    setvobj(v.row);
     setslideropen(true);
-    // {
     if (v.row.Nombre.slice(-3).toUpperCase() == "PDF") {
       setTipoDeArchivoPDF(true);
     } else {
@@ -278,7 +405,6 @@ const SpeisAdmin = ({
     }
     getfile(v.row.Nombre, v.row.Route, false);
     setslideropen(true);
-    // }
   };
 
   const handleDescargarSpei = (v: any) => {
@@ -289,7 +415,7 @@ const SpeisAdmin = ({
   const handleDeleteSpei = (data: any) => {
     const formData = new FormData();
     formData.append("NUMOPERACION", "3");
-    formData.append("TIPO", "SPEI");
+    formData.append("TIPO", modo);
     formData.append("CHID", data.id);
     formData.append("CHUSER", user.Id);
     formData.append("REGISTROS", speis[1] ? "1" : "0");
@@ -398,20 +524,6 @@ const SpeisAdmin = ({
     });
   };
 
-  const dataUrlToFile = async (
-    dataUrl: string,
-    fileName: string,
-    mimeType: string
-  ): Promise<Blob> => {
-    const binStr = dataUrl;
-    const len = binStr.length;
-    const arr = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      arr[i] = binStr.charCodeAt(i);
-    }
-    return new Blob([arr], { type: mimeType });
-  };
-
   const consulta = () => {
     setslideropen(true);
     if (modo == "SPEI") {
@@ -420,6 +532,7 @@ const SpeisAdmin = ({
         P_IDPROV: vrows.id,
         TOKEN: JSON.parse(String(getToken())),
         TPROV: vrows.row.a17,
+        TIPO: modo,
       }).then((res) => {
         if (res.SUCCESS) {
           setSpeis(res.RESPONSE);
@@ -436,9 +549,10 @@ const SpeisAdmin = ({
     }
 
     if (modo == "CFDI") {
-      MunServices.CfdiAdministracion({
+      DAFServices.SpeiAdministracion({
         NUMOPERACION: 4,
         P_IDPA: vrows.id,
+        TIPO: modo,
       }).then((res) => {
         if (res.SUCCESS) {
           setSpeis(res.RESPONSE);
@@ -456,45 +570,42 @@ const SpeisAdmin = ({
   };
   useEffect(() => {
     consulta();
-    var ancho = 0;
     permisos.map((item: PERMISO) => {
       if (
-        String(item.menu) == "DAFADMINPAG" ||
-        String(item.ControlInterno) == "PARTMUN"
+        String(item.menu) === "DAFADMINPAG" ||
+        String(item.ControlInterno) === "PARTMUN"
       ) {
-        if (String(item.ControlInterno) == "AGREGSPEI") {
+        if (String(item.ControlInterno) === "AGREGSPEI") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) == "ELIMSPEI") {
+        if (String(item.ControlInterno) === "ELIMSPEI") {
           setEliminar(true);
-          ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) == "ELIMCFDI") {
+        if (String(item.ControlInterno) === "ELIMCFDI") {
           setEliminarCFDI(true);
-          ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) == "DESCARGARSPEI") {
+        if (String(item.ControlInterno) === "DESCARGARSPEI") {
           setPermisoDescargarSpei(true);
-          ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) == "VERSPEI") {
+        if (String(item.ControlInterno) === "VERSPEI") {
           setPERMISOVerSpei(true);
-          ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) == "AGREGCFDI") {
+        if (String(item.ControlInterno) === "AGREGCFDI") {
           setAgregarCFDI(true);
         }
-        if (String(item.ControlInterno) == "VERCFDI") {
+        if (String(item.ControlInterno) === "VERCFDI") {
           setPERMISOVerSpei(true);
-          ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) == "DESCARGARCFDI") {
+        if (String(item.ControlInterno) === "DESCARGARCFDI") {
           setPERMISOVerSpei(true);
-          ancho = ancho + 50;
+        }
+        if (String(item.ControlInterno) === "VERIFICARCFDI") {
+          SETVERIFICARCFDI(true);
         }
       }
     });
   }, []);
+
   return (
     <>
       <ModalForm
@@ -537,16 +648,13 @@ const SpeisAdmin = ({
         <Box>
           <ButtonsAdd
             handleOpen={handleAgregarSpei}
-            agregar={
-              agregar || (modo == "CFDI" && agregarCFDI)
-              //  && (user.MUNICIPIO.length > 0 || user.ORG.length > 0)
-            }
+            agregar={agregar || (modo === "CFDI" && agregarCFDI)}
           />
           <Grid item xs={12}>
             <MUIXDataGridMun
               modulo={""}
               handleBorrar={handleBorrarMasivo}
-              columns={columns}
+              columns={modo === "SPEI" ? columns : columnscfdi}
               rows={speis}
               controlInterno={""}
             />
@@ -615,9 +723,39 @@ const SpeisAdmin = ({
         <ModalForm title={"Visualización"} handleClose={handleCloseModal}>
           <DialogContent dividers={true}>
             <Grid container spacing={1}>
-              <Grid item xs={12}>
-                {/* <h3>Nombre de archivo: {name}</h3> */}
-              </Grid>
+              {VERIFICARCFDI &&
+              vobj?.Estatus === "En Proceso de Verificación" &&
+              modo === "CFDI" ? (
+                <Grid container item xs={12}>
+                  <Grid item xs={12} sm={12} md={2} lg={2}>
+                    <Button
+                      className="guardar"
+                      onClick={() => handleVerificaSpei(1, vobj)}
+                    >
+                      Aceptar
+                    </Button>
+                    <Button
+                      className="actualizar"
+                      onClick={() => handleVerificaSpei(2, vobj)}
+                    >
+                      Rechazar
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12} sm={10} md={10} lg={10}>
+                    <TextField
+                      fullWidth
+                      label="Por favor, proporciona una descripción detallada del problema."
+                      id="fullWidth"
+                      multiline
+                      rows={4}
+                      onChange={(v) => setMensaje(v.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+              ) : (
+                ""
+              )}
+
               <Grid item container justifyContent="center" xs={12}>
                 <div className="ContainerVisualizacionSPEI">
                   <iframe
